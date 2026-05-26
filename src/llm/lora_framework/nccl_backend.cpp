@@ -117,10 +117,11 @@ bool NCCLBackend::allreduce([[maybe_unused]] std::vector<GPUTensor*>& tensors, [
 #ifdef THEMIS_ENABLE_NCCL
     cudaStream_t stream = static_cast<cudaStream_t>(cuda_stream_);
     
-    // Group API for efficient communication
-    ncclResult_t group_start_result = ncclGroupStart();
-    if (group_start_result != ncclSuccess) {
-        spdlog::error("NCCL group start failed: {}", ncclGetErrorString(group_start_result));
+    // Group API for efficient communication — REL-68: check ncclGroupStart return value
+    ncclResult_t group_start_err = ncclGroupStart();
+    if (group_start_err != ncclSuccess) {
+        spdlog::error("NCCL allreduce: ncclGroupStart failed: {}",
+                      ncclGetErrorString(group_start_err));
         return false;
     }
     
@@ -146,27 +147,32 @@ bool NCCLBackend::allreduce([[maybe_unused]] std::vector<GPUTensor*>& tensors, [
         
         if (result != ncclSuccess) {
             spdlog::error("NCCL allreduce failed: {}", ncclGetErrorString(result));
-            ncclResult_t group_end_result = ncclGroupEnd();
-            if (group_end_result != ncclSuccess) {
-                spdlog::error("NCCL group end failed after allreduce error: {}",
-                              ncclGetErrorString(group_end_result));
+            // REL-69: check ncclGroupEnd return value on early-exit path
+            ncclResult_t group_end_err = ncclGroupEnd();
+            if (group_end_err != ncclSuccess) {
+                spdlog::warn("NCCL allreduce early-exit: ncclGroupEnd failed: {}",
+                             ncclGetErrorString(group_end_err));
             }
             return false;
         }
     }
     
-    ncclResult_t group_end_result = ncclGroupEnd();
-    if (group_end_result != ncclSuccess) {
-        spdlog::error("NCCL group end failed: {}", ncclGetErrorString(group_end_result));
+    // REL-70: check ncclGroupEnd return value on success path
+    ncclResult_t group_end_err = ncclGroupEnd();
+    if (group_end_err != ncclSuccess) {
+        spdlog::error("NCCL allreduce: ncclGroupEnd failed: {}",
+                      ncclGetErrorString(group_end_err));
         return false;
     }
     
-    // Wait for completion
-    cudaError_t stream_sync_result = cudaStreamSynchronize(stream);
-    if (stream_sync_result != cudaSuccess) {
-        spdlog::error("NCCL stream synchronize failed: {}",
-                      cudaGetErrorString(stream_sync_result));
-        return false;
+    // Wait for completion — REL-10: check cudaStreamSynchronize return value
+    {
+        cudaError_t sync_err = cudaStreamSynchronize(stream);
+        if (sync_err != cudaSuccess) {
+            spdlog::error("NCCL allreduce stream sync failed: {}",
+                          cudaGetErrorString(sync_err));
+            return false;
+        }
     }
     
     // Average if requested
@@ -226,11 +232,14 @@ bool NCCLBackend::broadcast([[maybe_unused]] GPUTensor& tensor, [[maybe_unused]]
         return false;
     }
     
-    cudaError_t stream_sync_result = cudaStreamSynchronize(stream);
-    if (stream_sync_result != cudaSuccess) {
-        spdlog::error("NCCL broadcast stream synchronize failed: {}",
-                      cudaGetErrorString(stream_sync_result));
-        return false;
+    // REL-11: check cudaStreamSynchronize return value in broadcast
+    {
+        cudaError_t sync_err = cudaStreamSynchronize(stream);
+        if (sync_err != cudaSuccess) {
+            spdlog::error("NCCL broadcast stream sync failed: {}",
+                          cudaGetErrorString(sync_err));
+            return false;
+        }
     }
     return true;
 #else
@@ -268,10 +277,13 @@ void NCCLBackend::barrier() {
         spdlog::error("NCCL barrier allreduce failed: {}", ncclGetErrorString(result));
     }
     
-    cudaError_t stream_sync_result = cudaStreamSynchronize(stream);
-    if (stream_sync_result != cudaSuccess) {
-        spdlog::error("NCCL barrier stream synchronize failed: {}",
-                      cudaGetErrorString(stream_sync_result));
+    // REL-12: check cudaStreamSynchronize return value in barrier
+    {
+        cudaError_t sync_err = cudaStreamSynchronize(stream);
+        if (sync_err != cudaSuccess) {
+            spdlog::error("NCCL barrier stream sync failed: {}",
+                          cudaGetErrorString(sync_err));
+        }
     }
 #endif
 #endif
@@ -293,10 +305,10 @@ std::string NCCLBackend::get_version() {
 #ifdef THEMIS_ENABLE_CUDA
 #ifdef THEMIS_ENABLE_NCCL
     int version = 0;
-    ncclResult_t version_result = ncclGetVersion(&version);
-    if (version_result != ncclSuccess) {
-        spdlog::error("Failed to get NCCL version: {}", ncclGetErrorString(version_result));
-        return "Unknown (ncclGetVersion failed)";
+    ncclResult_t version_err = ncclGetVersion(&version);
+    if (version_err != ncclSuccess) {
+        spdlog::warn("Failed to query NCCL version: {}", ncclGetErrorString(version_err));
+        return "Unknown (query failed)";
     }
     int major = version / 10000;
     int minor = (version % 10000) / 100;
@@ -315,13 +327,15 @@ bool NCCLBackend::initialize_nccl() {
 #ifdef THEMIS_ENABLE_NCCL
     spdlog::info("Initializing NCCL backend (rank {}/{})", rank_, world_size_);
     
-    // Set device
+    // Set device — REL-13: check cudaSetDevice return value
     Device device = ctx_.get_device(rank_);
-    cudaError_t set_device_err = cudaSetDevice(device.id);
-    if (set_device_err != cudaSuccess) {
-        spdlog::error("Failed to set CUDA device {} for NCCL rank {}: {}",
-                      device.id, rank_, cudaGetErrorString(set_device_err));
-        return false;
+    {
+        cudaError_t set_err = cudaSetDevice(device.id);
+        if (set_err != cudaSuccess) {
+            spdlog::error("NCCL init: cudaSetDevice({}) failed: {}",
+                          device.id, cudaGetErrorString(set_err));
+            return false;
+        }
     }
     
     // Create CUDA stream
@@ -369,10 +383,9 @@ void NCCLBackend::cleanup_nccl() {
 #ifdef THEMIS_ENABLE_CUDA
 #ifdef THEMIS_ENABLE_NCCL
     if (nccl_comm_) {
-        ncclResult_t destroy_result = ncclCommDestroy(nccl_comm_);
-        if (destroy_result != ncclSuccess) {
-            spdlog::error("NCCLBackend cleanup: ncclCommDestroy failed: {}",
-                          ncclGetErrorString(destroy_result));
+        ncclResult_t destroy_err = ncclCommDestroy(nccl_comm_);
+        if (destroy_err != ncclSuccess) {
+            spdlog::warn("NCCL cleanup: ncclCommDestroy failed: {}", ncclGetErrorString(destroy_err));
         }
         nccl_comm_ = nullptr;
     }
@@ -380,8 +393,7 @@ void NCCLBackend::cleanup_nccl() {
     if (cuda_stream_) {
         cudaError_t destroy_err = cudaStreamDestroy(static_cast<cudaStream_t>(cuda_stream_));
         if (destroy_err != cudaSuccess) {
-            spdlog::error("NCCLBackend cleanup: cudaStreamDestroy failed: {}",
-                          cudaGetErrorString(destroy_err));
+            spdlog::warn("NCCL cleanup: cudaStreamDestroy failed: {}", cudaGetErrorString(destroy_err));
         }
         cuda_stream_ = nullptr;
     }

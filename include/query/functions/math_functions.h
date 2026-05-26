@@ -31,6 +31,7 @@ namespace functions {
  */
 class AbsFunction : public IFunction {
 public:
+    ~AbsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ABS",
@@ -54,6 +55,7 @@ public:
  */
 class CeilFunction : public IFunction {
 public:
+    ~CeilFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "CEIL",
@@ -77,6 +79,7 @@ public:
  */
 class FloorFunction : public IFunction {
 public:
+    ~FloorFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "FLOOR",
@@ -100,6 +103,7 @@ public:
  */
 class RoundFunction : public IFunction {
 public:
+    ~RoundFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ROUND",
@@ -137,6 +141,7 @@ public:
  */
 class SqrtFunction : public IFunction {
 public:
+    ~SqrtFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "SQRT",
@@ -162,6 +167,7 @@ public:
  */
 class PowFunction : public IFunction {
 public:
+    ~PowFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "POW",
@@ -188,6 +194,7 @@ public:
  */
 class LogFunction : public IFunction {
 public:
+    ~LogFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "LOG",
@@ -225,6 +232,7 @@ public:
  */
 class Log10Function : public IFunction {
 public:
+    ~Log10Function() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "LOG10",
@@ -250,6 +258,7 @@ public:
  */
 class ExpFunction : public IFunction {
 public:
+    ~ExpFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "EXP",
@@ -273,6 +282,7 @@ public:
  */
 class SinFunction : public IFunction {
 public:
+    ~SinFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "SIN",
@@ -293,6 +303,7 @@ public:
 
 class CosFunction : public IFunction {
 public:
+    ~CosFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "COS",
@@ -313,6 +324,7 @@ public:
 
 class TanFunction : public IFunction {
 public:
+    ~TanFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "TAN",
@@ -336,6 +348,7 @@ public:
  */
 class AsinFunction : public IFunction {
 public:
+    ~AsinFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ASIN",
@@ -358,6 +371,7 @@ public:
 
 class AcosFunction : public IFunction {
 public:
+    ~AcosFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ACOS",
@@ -380,6 +394,7 @@ public:
 
 class AtanFunction : public IFunction {
 public:
+    ~AtanFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ATAN",
@@ -400,6 +415,7 @@ public:
 
 class Atan2Function : public IFunction {
 public:
+    ~Atan2Function() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ATAN2",
@@ -426,6 +442,7 @@ public:
  */
 class DegreesFunction : public IFunction {
 public:
+    ~DegreesFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DEGREES",
@@ -446,6 +463,7 @@ public:
 
 class RadiansFunction : public IFunction {
 public:
+    ~RadiansFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "RADIANS",
@@ -469,6 +487,7 @@ public:
  */
 class PiFunction : public IFunction {
 public:
+    ~PiFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "PI",
@@ -494,6 +513,7 @@ public:
  */
 class RandomFunction : public IFunction {
 public:
+    ~RandomFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "RANDOM",
@@ -522,6 +542,7 @@ public:
  */
 class RandIntFunction : public IFunction {
 public:
+    ~RandIntFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "RAND_INT",
@@ -554,6 +575,7 @@ public:
  */
 class MinFunction : public IFunction {
 public:
+    ~MinFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "MIN",
@@ -593,6 +615,7 @@ public:
 
 class MaxFunction : public IFunction {
 public:
+    ~MaxFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "MAX",
@@ -635,6 +658,7 @@ public:
  */
 class SumFunction : public IFunction {
 public:
+    ~SumFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "SUM",
@@ -663,6 +687,7 @@ public:
  */
 class AvgFunction : public IFunction {
 public:
+    ~AvgFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "AVG",

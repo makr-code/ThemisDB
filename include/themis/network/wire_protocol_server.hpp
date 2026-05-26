@@ -284,37 +284,57 @@ using WireGraphTraversalFn = std::function<std::string(
  * @brief Register the AQL execution bridge for the Protobuf wire protocol.
  *
  * Thread-safe.  Pass nullptr to clear.  Registered once at server startup.
+ * @deprecated Use WireProtocolServer::setAqlQueryFn() for per-server wiring or
+ *             WireProtocolSession::setQueryAqlFn() for the process-global
+ *             Protobuf fallback hook.
  */
+[[deprecated("Use WireProtocolServer::setAqlQueryFn() or WireProtocolSession::setQueryAqlFn() instead.")]]
 void setWireAqlExecFn(WireAqlExecFn fn);
 
 /**
  * @brief Register the cursor next-page bridge for the Protobuf wire protocol.
  * Thread-safe.  Pass nullptr to clear.
+ * @deprecated Use WireProtocolServer::setCursorNextFn() instead.
  */
+[[deprecated("Use WireProtocolServer::setCursorNextFn() instead.")]]
 void setWireCursorNextFn(WireCursorNextFn fn);
 
 /**
  * @brief Register the cursor close bridge for the Protobuf wire protocol.
  * Thread-safe.  Pass nullptr to clear.
+ * @deprecated Use WireProtocolServer::setCursorCloseFn() instead.
  */
+[[deprecated("Use WireProtocolServer::setCursorCloseFn() instead.")]]
 void setWireCursorCloseFn(WireCursorCloseFn fn);
 
 /**
  * @brief Register the geospatial query bridge for the Protobuf wire protocol.
  * Thread-safe.  Pass nullptr to clear.
+ * @deprecated Use WireProtocolServer::setGeoQueryFn() for per-server wiring or
+ *             WireProtocolSession::setGeoQueryFn() for the process-global
+ *             Protobuf fallback hook.
  */
+[[deprecated("Use WireProtocolServer::setGeoQueryFn() or WireProtocolSession::setGeoQueryFn() instead.")]]
 void setWireGeoQueryFn(WireGeoQueryFn fn);
 
 /**
  * @brief Register the time-series query bridge for the Protobuf wire protocol.
  * Thread-safe.  Pass nullptr to clear.
+ * @deprecated Use WireProtocolServer::setTimeseriesQueryFn() for per-server
+ *             wiring or WireProtocolSession::setTimeseriesQueryFn() for the
+ *             process-global Protobuf fallback hook.
  */
+[[deprecated("Use WireProtocolServer::setTimeseriesQueryFn() or WireProtocolSession::setTimeseriesQueryFn() instead.")]]
 void setWireTSQueryFn(WireTSQueryFn fn);
 
 /**
  * @brief Register the graph traversal bridge for the Protobuf wire protocol.
  * Thread-safe.  Pass nullptr to clear.
+ * @deprecated Use WireProtocolServer::setGraphTraverseFn() for per-server
+ *             wiring or WireProtocolSession::setGraphTraverseFn() for the
+ *             process-global Protobuf fallback hook.
  */
+[[deprecated("Use WireProtocolServer::setGraphTraverseFn() or WireProtocolSession::setGraphTraverseFn() instead.")]]
 void setWireGraphTraversalFn(WireGraphTraversalFn fn);
 
 class WireProtocolSession : public std::enable_shared_from_this<WireProtocolSession> {
@@ -579,6 +599,7 @@ public:
 private:
     void async_accept();
     void handle_accept(std::shared_ptr<WireProtocolSession> session, const boost::system::error_code& error);
+    void bindSessionCallbacksLocked(WireProtocolSession& session) const;
     
     boost::asio::io_context& io_context_;
     acceptor_t acceptor_;

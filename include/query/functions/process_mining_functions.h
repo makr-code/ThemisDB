@@ -82,6 +82,7 @@ namespace functions {
  */
 class PmFindSimilarFunction : public IFunction {
 public:
+    ~PmFindSimilarFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PM_FIND_SIMILAR",
@@ -131,6 +132,7 @@ public:
  */
 class PmCompareIdealFunction : public IFunction {
 public:
+    ~PmCompareIdealFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PM_COMPARE_IDEAL",
@@ -170,6 +172,7 @@ public:
  */
 class PmHasPatternFunction : public IFunction {
 public:
+    ~PmHasPatternFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PM_HAS_PATTERN",
@@ -215,6 +218,7 @@ public:
  */
 class PmExtractLogFunction : public IFunction {
 public:
+    ~PmExtractLogFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PM_EXTRACT_LOG",
@@ -250,6 +254,7 @@ public:
  */
 class PmExtractTraceFunction : public IFunction {
 public:
+    ~PmExtractTraceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PM_EXTRACT_TRACE",
@@ -289,6 +294,7 @@ public:
  */
 class PmDiscoverProcessFunction : public IFunction {
 public:
+    ~PmDiscoverProcessFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PM_DISCOVER_PROCESS",
@@ -338,6 +344,7 @@ public:
  */
 class PmVariantsFunction : public IFunction {
 public:
+    ~PmVariantsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PM_VARIANTS",
@@ -383,6 +390,7 @@ public:
  */
 class PmLoadAdminModelFunction : public IFunction {
 public:
+    ~PmLoadAdminModelFunction() override = default;
     /**
      * @brief Injectable bridge for loading a YAML-backed administrative process model.
      *
@@ -443,6 +451,7 @@ private:
  */
 class PmListAdminModelsFunction : public IFunction {
 public:
+    ~PmListAdminModelsFunction() override = default;
     /**
      * @brief Injectable bridge for enumerating available administrative process models.
      *
@@ -494,6 +503,7 @@ private:
  */
 class PmConformanceFunction : public IFunction {
 public:
+    ~PmConformanceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PM_CONFORMANCE",
@@ -524,6 +534,7 @@ public:
  */
 class PmDeviationsFunction : public IFunction {
 public:
+    ~PmDeviationsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PM_DEVIATIONS",
@@ -555,6 +566,7 @@ public:
  */
 class PmBottlenecksFunction : public IFunction {
 public:
+    ~PmBottlenecksFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PM_BOTTLENECKS",
@@ -591,6 +603,7 @@ public:
  */
 class PmPredictEndFunction : public IFunction {
 public:
+    ~PmPredictEndFunction() override = default;
     /**
      * @brief Inject a process-end prediction backend.
      *
@@ -639,6 +652,7 @@ private:
  */
 class PmExportBpmnFunction : public IFunction {
 public:
+    ~PmExportBpmnFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PM_EXPORT_BPMN",

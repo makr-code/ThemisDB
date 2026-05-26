@@ -62,6 +62,7 @@ namespace functions {
  */
 class CountDistinctFunction : public IFunction {
 public:
+    ~CountDistinctFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "COUNT_DISTINCT",
@@ -92,6 +93,7 @@ public:
  */
 class GroupConcatFunction : public IFunction {
 public:
+    ~GroupConcatFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "GROUP_CONCAT",
@@ -133,6 +135,7 @@ public:
  */
 class CollectFunction : public IFunction {
 public:
+    ~CollectFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "COLLECT",
@@ -177,6 +180,7 @@ public:
  */
 class StddevFunction : public IFunction {
 public:
+    ~StddevFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "STDDEV",
@@ -216,6 +220,7 @@ public:
  */
 class StddevSampleFunction : public IFunction {
 public:
+    ~StddevSampleFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "STDDEV_SAMPLE",
@@ -255,6 +260,7 @@ public:
  */
 class VarianceFunction : public IFunction {
 public:
+    ~VarianceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VARIANCE",
@@ -294,6 +300,7 @@ public:
  */
 class MedianFunction : public IFunction {
 public:
+    ~MedianFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "MEDIAN",
@@ -334,6 +341,7 @@ public:
  */
 class PercentileFunction : public IFunction {
 public:
+    ~PercentileFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PERCENTILE",
@@ -381,6 +389,7 @@ public:
  */
 class CoalesceFunction : public IFunction {
 public:
+    ~CoalesceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "COALESCE",
@@ -418,6 +427,7 @@ public:
  */
 class NullIfFunction : public IFunction {
 public:
+    ~NullIfFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "NULLIF",
@@ -448,6 +458,7 @@ public:
  */
 class GreatestFunction : public IFunction {
 public:
+    ~GreatestFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "GREATEST",
@@ -486,6 +497,7 @@ public:
  */
 class LeastFunction : public IFunction {
 public:
+    ~LeastFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "LEAST",
@@ -524,6 +536,7 @@ public:
  */
 class IfFunction : public IFunction {
 public:
+    ~IfFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "IF",
@@ -557,6 +570,7 @@ public:
  */
 class InnerJoinFunction : public IFunction {
 public:
+    ~InnerJoinFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "INNER_JOIN",
@@ -620,6 +634,7 @@ public:
  */
 class LeftJoinFunction : public IFunction {
 public:
+    ~LeftJoinFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "LEFT_JOIN",
@@ -688,6 +703,7 @@ public:
  */
 class LookupFunction : public IFunction {
 public:
+    ~LookupFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "LOOKUP",
@@ -729,6 +745,7 @@ public:
  */
 class RowNumberFunction : public IFunction {
 public:
+    ~RowNumberFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ROW_NUMBER",
@@ -768,6 +785,7 @@ public:
  */
 class LagFunction : public IFunction {
 public:
+    ~LagFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "LAG",
@@ -824,6 +842,7 @@ public:
  */
 class LeadFunction : public IFunction {
 public:
+    ~LeadFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "LEAD",
@@ -880,6 +899,7 @@ public:
  */
 class RunningSumFunction : public IFunction {
 public:
+    ~RunningSumFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "RUNNING_SUM",
@@ -932,6 +952,7 @@ public:
  */
 class NtileFunction : public IFunction {
 public:
+    ~NtileFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "NTILE",

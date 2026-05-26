@@ -9,6 +9,13 @@ Ausgangslage (Rescan):
 - server: HIGH=14066, CRITICAL=396, TOTAL=17603
 - llm: HIGH=18885, CRITICAL=1414, TOTAL=23543
 
+## GitHub-Verknuepfung (P0 erstellt)
+- W1-S01 -> #5348
+- W1-S02 -> #5349
+- W1-L01 -> #5350
+- W1-L02 -> #5351
+- W1-L03 -> #5352
+
 ## Reihenfolge (strict priority)
 
 ## W1-S01 (P0)

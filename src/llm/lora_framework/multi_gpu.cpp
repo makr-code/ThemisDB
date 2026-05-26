@@ -156,12 +156,14 @@ void MultiGPUContext::synchronize_all() const {
     for (const auto& device : devices_) {
 #ifdef THEMIS_ENABLE_CUDA
         if (device.type == DeviceType::CUDA) {
-            cudaError_t set_device_err = cudaSetDevice(device.device_id);
-            if (set_device_err != cudaSuccess) {
+            // REL-34: check cudaSetDevice return value before synchronize
+            cudaError_t set_err = cudaSetDevice(device.device_id);
+            if (set_err != cudaSuccess) {
                 spdlog::warn("MultiGPUContext::synchronize_all: cudaSetDevice({}) failed: {}",
-                             device.device_id, cudaGetErrorString(set_device_err));
+                             device.device_id, cudaGetErrorString(set_err));
                 continue;
             }
+            // REL-62: check cudaDeviceSynchronize return value
             cudaError_t sync_err = cudaDeviceSynchronize();
             if (sync_err != cudaSuccess) {
                 spdlog::warn("MultiGPUContext::synchronize_all: cudaDeviceSynchronize({}) failed: {}",
@@ -171,12 +173,14 @@ void MultiGPUContext::synchronize_all() const {
 #endif
 #ifdef THEMIS_ENABLE_HIP
         if (device.type == DeviceType::HIP) {
-            hipError_t set_device_err = hipSetDevice(device.device_id);
-            if (set_device_err != hipSuccess) {
+            // REL-35: check hipSetDevice return value before synchronize
+            hipError_t set_err = hipSetDevice(device.device_id);
+            if (set_err != hipSuccess) {
                 spdlog::warn("MultiGPUContext::synchronize_all: hipSetDevice({}) failed: {}",
-                             device.device_id, hipGetErrorString(set_device_err));
+                             device.device_id, hipGetErrorString(set_err));
                 continue;
             }
+            // REL-63: check hipDeviceSynchronize return value
             hipError_t sync_err = hipDeviceSynchronize();
             if (sync_err != hipSuccess) {
                 spdlog::warn("MultiGPUContext::synchronize_all: hipDeviceSynchronize({}) failed: {}",
@@ -213,12 +217,13 @@ GPUTopology GPUTopology::detect(const std::vector<Device>& devices) {
                 }
                 
                 int can_access_peer = 0;
-                cudaError_t can_access_err = cudaDeviceCanAccessPeer(
+                // REL-36: capture and check cudaDeviceCanAccessPeer return value
+                cudaError_t cap_err = cudaDeviceCanAccessPeer(
                     &can_access_peer, devices[i].device_id, devices[j].device_id);
-                if (can_access_err != cudaSuccess) {
-                    spdlog::warn("GPUTopology::detect: cudaDeviceCanAccessPeer({}, {}) failed: {}",
+                if (cap_err != cudaSuccess) {
+                    spdlog::warn("GPUTopology: cudaDeviceCanAccessPeer({},{}) failed: {}",
                                  devices[i].device_id, devices[j].device_id,
-                                 cudaGetErrorString(can_access_err));
+                                 cudaGetErrorString(cap_err));
                     can_access_peer = 0;
                 }
                 
@@ -258,12 +263,13 @@ GPUTopology GPUTopology::detect(const std::vector<Device>& devices) {
                 }
                 
                 int can_access_peer = 0;
-                hipError_t can_access_err = hipDeviceCanAccessPeer(
+                // REL-37: capture and check hipDeviceCanAccessPeer return value
+                hipError_t cap_err = hipDeviceCanAccessPeer(
                     &can_access_peer, devices[i].device_id, devices[j].device_id);
-                if (can_access_err != hipSuccess) {
-                    spdlog::warn("GPUTopology::detect: hipDeviceCanAccessPeer({}, {}) failed: {}",
+                if (cap_err != hipSuccess) {
+                    spdlog::warn("GPUTopology: hipDeviceCanAccessPeer({},{}) failed: {}",
                                  devices[i].device_id, devices[j].device_id,
-                                 hipGetErrorString(can_access_err));
+                                 hipGetErrorString(cap_err));
                     can_access_peer = 0;
                 }
                 

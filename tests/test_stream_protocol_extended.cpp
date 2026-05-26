@@ -204,6 +204,34 @@ TEST_F(StreamProtocolExtendedTest, CompressionWithRandomData) {
     }
 }
 
+TEST_F(StreamProtocolExtendedTest, LZ4SupportMatchesBuildFlags) {
+    const std::vector<uint8_t> repetitive_data(4096, 0x5A);
+#ifdef THEMIS_HAS_LZ4
+    EXPECT_TRUE(StreamCompressor::isSupported(CompressionAlgorithm::LZ4));
+    const auto compressed = StreamCompressor::compress(repetitive_data, CompressionAlgorithm::LZ4);
+    EXPECT_LT(compressed.size(), repetitive_data.size());
+    const auto decompressed = StreamCompressor::decompress(
+        compressed, CompressionAlgorithm::LZ4, repetitive_data.size());
+    EXPECT_EQ(decompressed, repetitive_data);
+#else
+    EXPECT_FALSE(StreamCompressor::isSupported(CompressionAlgorithm::LZ4));
+#endif
+}
+
+TEST_F(StreamProtocolExtendedTest, ZstdSupportMatchesBuildFlags) {
+    const std::vector<uint8_t> repetitive_data(4096, 0x42);
+#ifdef THEMIS_HAS_ZSTD
+    EXPECT_TRUE(StreamCompressor::isSupported(CompressionAlgorithm::ZSTD));
+    const auto compressed = StreamCompressor::compress(repetitive_data, CompressionAlgorithm::ZSTD);
+    EXPECT_LT(compressed.size(), repetitive_data.size());
+    const auto decompressed = StreamCompressor::decompress(
+        compressed, CompressionAlgorithm::ZSTD, repetitive_data.size());
+    EXPECT_EQ(decompressed, repetitive_data);
+#else
+    EXPECT_FALSE(StreamCompressor::isSupported(CompressionAlgorithm::ZSTD));
+#endif
+}
+
 // ============================================================================
 // Encryption Tests  
 // ============================================================================

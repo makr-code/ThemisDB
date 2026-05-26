@@ -43,6 +43,17 @@ bool DistributedTrainer::initialize() {
         spdlog::warn("DistributedTrainer already initialized");
         return true;
     }
+
+    if (config_.world_size < 1) {
+        spdlog::error("DistributedTrainer initialization failed: invalid world_size={} (must be >= 1)",
+                      config_.world_size);
+        return false;
+    }
+
+    if (config_.rank < 0 || config_.rank >= config_.world_size) {
+        spdlog::error("Invalid rank: {} (world_size={})", config_.rank, config_.world_size);
+        return false;
+    }
     
     if (!is_distributed()) {
         spdlog::info("Single process mode (world_size=1), skipping initialization");
@@ -58,11 +69,6 @@ bool DistributedTrainer::initialize() {
     // Real implementation would initialize NCCL/Gloo/MPI here
     // For now, we just validate the configuration
     
-    if (config_.rank < 0 || config_.rank >= config_.world_size) {
-        spdlog::error("Invalid rank: {} (world_size={})", config_.rank, config_.world_size);
-        return false;
-    }
-
     if (!allreduce_cpu_fn_) {
         spdlog::error("DistributedTrainer initialization failed: world_size={} requires "
                       "setAllReduceCpuFn()", config_.world_size);

@@ -58,14 +58,14 @@ BpmnApiHandler::AuthContext BpmnApiHandler::extractAuthContext(
     }
     
     // Extract Authorization header
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         return ctx; // No token -> empty context
     }
     
     // Extract Bearer token
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(it->value().data(), it->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     if (!token) {
         return ctx; // Invalid token format -> empty context
@@ -93,15 +93,15 @@ std::optional<http::response<http::string_body>> BpmnApiHandler::requireAccess(
     }
 
     // Extract Authorization header
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         // No Authorization header -> 401 Unauthorized
         return makeErrorResponse(http::status::unauthorized, "Authentication required", req);
     }
 
     // Extract Bearer token
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(it->value().data(), it->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     if (!token) {
         // Malformed or missing Bearer token -> 401 Unauthorized

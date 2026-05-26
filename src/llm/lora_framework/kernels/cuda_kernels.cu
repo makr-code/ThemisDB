@@ -2,10 +2,10 @@
 
 #include "llm/lora_framework/cuda_kernels.h"
 #include "security/vram_secure_clear.h"
+#include <spdlog/spdlog.h>
 #include <cuda_runtime.h>
 #include <cublas_v2.h>
 #include <device_launch_parameters.h>
-#include <cstdio>
 
 namespace themis {
 namespace llm {
@@ -429,10 +429,10 @@ cudaError_t launch_check_inf_nan_kernel(
     err = cudaMemset(d_overflow, 0, sizeof(int));
     if (err != cudaSuccess) {
         security::VRAMSecureClear::secureClearCUDA(d_overflow, sizeof(int));
-        cudaError_t free_err = cudaFree(d_overflow);
+        const cudaError_t free_err = cudaFree(d_overflow);
         if (free_err != cudaSuccess) {
-            std::fprintf(stderr, "launch_check_inf_nan_kernel cleanup cudaFree failed: %s\n",
-                         cudaGetErrorString(free_err));
+            spdlog::error("checkInfNanCUDA cleanup cudaFree failed after cudaMemset error: {}",
+                          cudaGetErrorString(free_err));
         }
         return err;
     }
@@ -445,10 +445,10 @@ cudaError_t launch_check_inf_nan_kernel(
     err = cudaGetLastError();
     if (err != cudaSuccess) {
         security::VRAMSecureClear::secureClearCUDA(d_overflow, sizeof(int));
-        cudaError_t free_err = cudaFree(d_overflow);
+        const cudaError_t free_err = cudaFree(d_overflow);
         if (free_err != cudaSuccess) {
-            std::fprintf(stderr, "launch_check_inf_nan_kernel cleanup cudaFree failed: %s\n",
-                         cudaGetErrorString(free_err));
+            spdlog::error("checkInfNanCUDA cleanup cudaFree failed after kernel launch error: {}",
+                          cudaGetErrorString(free_err));
         }
         return err;
     }
@@ -459,12 +459,12 @@ cudaError_t launch_check_inf_nan_kernel(
     
     // Securely clear before freeing
     security::VRAMSecureClear::secureClearCUDA(d_overflow, sizeof(int));
-    cudaError_t free_err = cudaFree(d_overflow);
+    const cudaError_t free_err = cudaFree(d_overflow);
     if (free_err != cudaSuccess) {
-        std::fprintf(stderr, "launch_check_inf_nan_kernel cleanup cudaFree failed: %s\n",
-                     cudaGetErrorString(free_err));
+        spdlog::error("checkInfNanCUDA cleanup cudaFree failed after result copy: {}",
+                      cudaGetErrorString(free_err));
         if (err == cudaSuccess) {
-            err = free_err;
+            return free_err;
         }
     }
     

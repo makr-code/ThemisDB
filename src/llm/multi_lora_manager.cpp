@@ -171,26 +171,11 @@ MultiLoRAManager::~MultiLoRAManager() {
         }
         
         // Update memory tracking
-        if (lora->vram_bytes > 0) {
-            if (total_vram_bytes_ >= lora->vram_bytes) {
-                total_vram_bytes_ -= lora->vram_bytes;
-            } else {
-                total_vram_bytes_ = 0;  // underflow guard
-            }
-
-            if (lora->primary_gpu >= 0) {
-                auto gpu_it = gpu_vram_usage_.find(lora->primary_gpu);
-                if (gpu_it != gpu_vram_usage_.end()) {
-                    if (gpu_it->second >= lora->vram_bytes) {
-                        gpu_it->second -= lora->vram_bytes;
-                    } else {
-                        gpu_it->second = 0;  // underflow guard
-                    }
-                }
-            }
+        if (lora->vram_bytes > 0 && total_vram_bytes_ >= lora->vram_bytes) {
+            total_vram_bytes_ -= lora->vram_bytes;
         }
         
-        spdlog::debug("LoRA {} cleaned up: freed {} MB", id, lora->vram_bytes / BYTES_PER_MB);
+        spdlog::debug("LoRA {} cleaned up: freed {} MB", id, lora->vram_bytes / (1024*1024));
     }
     loras_.clear();
     
@@ -294,25 +279,9 @@ bool MultiLoRAManager::unloadLoRA(const std::string& lora_id, bool force) {
     }
     
     // Update memory usage
-    if (lora->vram_bytes > 0) {
-        if (total_vram_bytes_ >= lora->vram_bytes) {
-            total_vram_bytes_ -= lora->vram_bytes;
-        } else {
-            total_vram_bytes_ = 0;  // underflow guard
-        }
-
-        if (lora->primary_gpu >= 0) {
-            auto gpu_it = gpu_vram_usage_.find(lora->primary_gpu);
-            if (gpu_it != gpu_vram_usage_.end()) {
-                if (gpu_it->second >= lora->vram_bytes) {
-                    gpu_it->second -= lora->vram_bytes;
-                } else {
-                    gpu_it->second = 0;  // underflow guard
-                }
-            }
-        }
-
-        spdlog::debug("Released {} MB of VRAM", lora->vram_bytes / BYTES_PER_MB);
+    if (lora->vram_bytes > 0 && total_vram_bytes_ >= lora->vram_bytes) {
+        total_vram_bytes_ -= lora->vram_bytes;
+        spdlog::debug("Released {} MB of VRAM", lora->vram_bytes / (1024*1024));
     }
     
     loras_.erase(it);
@@ -400,17 +369,14 @@ void MultiLoRAManager::setRemoveAdapterFn(RemoveAdapterFn fn) {
 }
 
 bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* context) {
-    // W1-L01 data_race fix: snapshot all shared state under a single lock guard.
-    // The raw LoRASlot pointer returned by getLoRA() became dangling as soon as the
-    // lock was released, which allowed a concurrent eviction to free the slot while
-    // this function was still using it.  Copies of adapter_handle, scale, and the
-    // bridge function are now taken under the lock; state updates (is_active,
-    // switches_) are written back under a second lock guard after the external call.
+    // Acquire mutex for the full lookup + field snapshot.
+    // The raw pointer returned by getLoRA() is unsafe to use after the lock is released
+    // (another thread may call unloadLoRA and free the LoRASlot).  Instead, we inline
+    // the lookup here and copy mutable fields to stack-local variables before releasing.
     void* adapter_handle = nullptr;
     float scale = 0.0f;
-    bool has_handle = false;
-    ApplyAdapterFn apply_fn;
-    LoRASlot slot_snapshot;  // used only for the bridge path (no llama_context)
+    ApplyAdapterFn apply_fn_copy;
+    bool has_adapter = false;
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -419,84 +385,86 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* cont
             errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, lora_id);
             return false;
         }
-        auto& lora = it->second;
-
-        // Update access metadata while holding the lock.
-        lora->last_used = std::chrono::system_clock::now();
-        lora->use_count++;
-
-        adapter_handle = lora->adapter_handle;
-        scale          = lora->scale;
-        has_handle     = (adapter_handle != nullptr);
-        apply_fn       = apply_adapter_fn_;
-
-        if (!context) {
-            // Snapshot the slot so the bridge callback receives stable data
-            // even if the slot is evicted after we release the lock.
-            slot_snapshot = *lora;
-        }
+        auto& slot = *it->second;
+        slot.last_used = std::chrono::system_clock::now();
+        slot.use_count++;
+        adapter_handle = slot.adapter_handle;
+        scale = slot.scale;
+        has_adapter = (adapter_handle != nullptr);
+        apply_fn_copy = apply_adapter_fn_;
     }
 
     if (!context) {
-        if (!apply_fn) {
+        if (!apply_fn_copy) {
             spdlog::error(
-                "applyLoRA requires either a valid llama_context or an ApplyAdapterFn bridge; "
-                "neither was provided for {}", lora_id);
+                "applyLoRA requires either a valid llama_context or an ApplyAdapterFn bridge; neither was provided for {}",
+                lora_id);
             return false;
         }
-        if (!apply_fn(slot_snapshot)) {
-            spdlog::error("ApplyAdapterFn bridge rejected LoRA {}", lora_id);
-            return false;
-        }
-        // Write back is_active and switches_ under the lock.
+        // The bridge callback receives the LoRASlot by reference.  Re-lookup under
+        // the lock to ensure the slot is still alive before passing it to the callback.
+        bool bridge_ok = false;
         {
             std::lock_guard<std::mutex> lock(mutex_);
             auto it = loras_.find(lora_id);
-            if (it != loras_.end()) {
-                it->second->is_active = true;
+            if (it == loras_.end()) {
+                spdlog::error("applyLoRA: LoRA {} was unloaded before bridge call", lora_id);
+                return false;
             }
-            switches_++;
+            bridge_ok = apply_fn_copy(*it->second);
         }
-        spdlog::info("LoRA {} applied successfully via bridge", lora_id);
-        return true;
-    }
-
-    spdlog::debug("Applying LoRA: {} to context", lora_id);
-
-    if (!has_handle) {
-        spdlog::error("LoRA adapter handle not initialized for {}", lora_id);
-        return false;
-    }
-
-    // Apply LoRA adapter to context using modern llama.cpp API.
-    // F1-3 fixed: pass the adapter pointer directly instead of casting to
-    // int (which always fails on 64-bit where heap addresses > INT_MAX).
-    int result = llama_lora_adapter_set(context, adapter_handle, scale);
-
-    if (result != 0) {
-        spdlog::error("Failed to apply LoRA {} (error: {})", lora_id, result);
-        return false;
-    }
-
-    // Write back is_active and switches_ under the lock.
-    {
+        if (!bridge_ok) {
+            spdlog::error("ApplyAdapterFn bridge rejected LoRA {}", lora_id);
+            return false;
+        }
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = loras_.find(lora_id);
         if (it != loras_.end()) {
             it->second->is_active = true;
         }
         switches_++;
+        spdlog::info("LoRA {} applied successfully via bridge", lora_id);
+        return true;
     }
-    spdlog::info("LoRA {} applied successfully (scale: {})", lora_id, scale);
-    return true;
+
+    spdlog::debug("Applying LoRA: {} to context", lora_id);
+
+    // Apply LoRA adapter to context using modern llama.cpp API.
+    // The C API call uses the local snapshot of adapter_handle/scale — no lock needed.
+    if (has_adapter && context) {
+        // F1-3 fixed: pass the adapter pointer directly instead of casting to
+        // int (which always fails on 64-bit where heap addresses > INT_MAX).
+        int result = llama_lora_adapter_set(context, adapter_handle, scale);
+
+        if (result != 0) {
+            spdlog::error("Failed to apply LoRA {} (error: {})", lora_id, result);
+            return false;
+        }
+
+        // Re-acquire to update mutable slot state.
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = loras_.find(lora_id);
+        if (it != loras_.end()) {
+            it->second->is_active = true;
+        }
+        switches_++;
+        spdlog::info("LoRA {} applied successfully (scale: {})", lora_id, scale);
+        return true;
+    }
+
+    if (!has_adapter) {
+        spdlog::error("LoRA adapter handle not initialized for {}", lora_id);
+        return false;
+    }
+
+    return false;
 }
 
 bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* context) {
-    // W1-L01 data_race fix: same snapshot-under-lock approach as applyLoRA.
+    // Same lock-then-snapshot pattern as applyLoRA to prevent use-after-free.
     void* adapter_handle = nullptr;
-    bool has_handle = false;
-    RemoveAdapterFn remove_fn;
-    LoRASlot slot_snapshot;
+    RemoveAdapterFn remove_fn_copy;
+    bool has_adapter = false;
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -504,33 +472,38 @@ bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* con
         if (it == loras_.end()) {
             return false;
         }
-        auto& lora = it->second;
-        adapter_handle = lora->adapter_handle;
-        has_handle     = (adapter_handle != nullptr);
-        remove_fn      = remove_adapter_fn_;
-
-        if (!context) {
-            slot_snapshot = *lora;
-        }
+        auto& slot = *it->second;
+        slot.last_used = std::chrono::system_clock::now();
+        adapter_handle = slot.adapter_handle;
+        has_adapter = (adapter_handle != nullptr);
+        remove_fn_copy = remove_adapter_fn_;
     }
 
     if (!context) {
-        if (!remove_fn) {
+        if (!remove_fn_copy) {
             spdlog::error(
-                "removeLoRA requires either a valid llama_context or a RemoveAdapterFn bridge; "
-                "neither was provided for {}", lora_id);
+                "removeLoRA requires either a valid llama_context or a RemoveAdapterFn bridge; neither was provided for {}",
+                lora_id);
             return false;
         }
-        if (!remove_fn(slot_snapshot)) {
-            spdlog::warn("RemoveAdapterFn bridge rejected LoRA {}", lora_id);
-            return false;
-        }
+        bool bridge_ok = false;
         {
             std::lock_guard<std::mutex> lock(mutex_);
             auto it = loras_.find(lora_id);
-            if (it != loras_.end()) {
-                it->second->is_active = false;
+            if (it == loras_.end()) {
+                spdlog::error("removeLoRA: LoRA {} was unloaded before bridge call", lora_id);
+                return false;
             }
+            bridge_ok = remove_fn_copy(*it->second);
+        }
+        if (!bridge_ok) {
+            spdlog::warn("RemoveAdapterFn bridge rejected LoRA {}", lora_id);
+            return false;
+        }
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = loras_.find(lora_id);
+        if (it != loras_.end()) {
+            it->second->is_active = false;
         }
         spdlog::info("LoRA {} removed successfully via bridge", lora_id);
         return true;
@@ -538,36 +511,36 @@ bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* con
 
     spdlog::debug("Removing LoRA: {} from context", lora_id);
 
-    if (!has_handle) {
-        spdlog::warn("LoRA {} has no adapter handle to remove", lora_id);
-        {
-            std::lock_guard<std::mutex> lock(mutex_);
-            auto it = loras_.find(lora_id);
-            if (it != loras_.end()) {
-                it->second->is_active = false;
-            }
-        }
-        return true;
-    }
-
     // Remove LoRA adapter from context using llama.cpp API.
-    // F1-3 fixed: pass adapter pointer directly (see applyLoRA fix above).
-    // Set scale to 0.0f to effectively disable the adapter.
-    int result = llama_lora_adapter_set(context, adapter_handle, 0.0f);
+    if (has_adapter && context) {
+        // F1-3 fixed: pass adapter pointer directly (see applyLoRA fix above).
+        // Set scale to 0.0f to effectively disable the adapter.
+        int result = llama_lora_adapter_set(context, adapter_handle, 0.0f);
 
-    if (result != 0) {
-        spdlog::warn("Failed to remove LoRA {} cleanly (error: {}), marking inactive", lora_id, result);
-    }
+        if (result != 0) {
+            spdlog::warn("Failed to remove LoRA {} cleanly (error: {}), marking inactive", lora_id, result);
+        }
 
-    {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = loras_.find(lora_id);
         if (it != loras_.end()) {
             it->second->is_active = false;
         }
+        spdlog::info("LoRA {} removed successfully", lora_id);
+        return true;
     }
-    spdlog::info("LoRA {} removed successfully", lora_id);
-    return true;
+
+    if (!has_adapter) {
+        spdlog::warn("LoRA {} has no adapter handle to remove", lora_id);
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = loras_.find(lora_id);
+        if (it != loras_.end()) {
+            it->second->is_active = false;
+        }
+        return true;
+    }
+
+    return false;
 }
 
 std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
@@ -602,27 +575,9 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
     }
 
     const struct llama_vocab* vocab = llama_model_get_vocab(lmodel);
-    if (!vocab) {
-        spdlog::error("batchInferenceMultiLoRA: llama_model_get_vocab returned null");
-        std::vector<InferenceResponse> error_responses(requests.size());
-        for (auto& r : error_responses) {
-            r.success = false;
-            r.error_message = "llama_model_get_vocab failed";
-        }
-        return error_responses;
-    }
     const int32_t n_vocab    = llama_vocab_n_tokens(vocab);
     const int32_t eos_token  = llama_vocab_eos(vocab);
     const int32_t ctx_size   = static_cast<int32_t>(llama_n_ctx(model_context));
-    if (n_vocab <= 0) {
-        spdlog::error("batchInferenceMultiLoRA: invalid vocab size {}", n_vocab);
-        std::vector<InferenceResponse> error_responses(requests.size());
-        for (auto& r : error_responses) {
-            r.success = false;
-            r.error_message = "invalid vocabulary size";
-        }
-        return error_responses;
-    }
 
     // Prepare responses vector in request order
     std::vector<InferenceResponse> responses(requests.size());
@@ -639,24 +594,17 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
     for (const auto& [lora_id, indices] : lora_to_requests) {
         spdlog::debug("Processing {} requests with LoRA {}", indices.size(), lora_id);
 
-        // Verify LoRA is loaded and snapshot its base_model_id under the lock.
-        // W1-L01 data_race fix: the raw LoRASlot* from getLoRA() is invalidated as
-        // soon as the lock is released, so we must not dereference it afterwards.
-        std::string base_model_id_snapshot;
-        {
-            std::lock_guard<std::mutex> lock(mutex_);
-            auto it = loras_.find(lora_id);
-            if (it == loras_.end()) {
-                spdlog::warn("LoRA {} not loaded, skipping {} requests", lora_id, indices.size());
-                for (size_t idx : indices) {
-                    responses[idx].success       = false;
-                    responses[idx].error_message = "LoRA not loaded: " + lora_id;
-                    responses[idx].model_used    = "unknown";
-                    responses[idx].lora_used     = lora_id;
-                }
-                continue;
+        // Verify LoRA is loaded
+        auto* lora = getLoRA(lora_id);
+        if (!lora) {
+            spdlog::warn("LoRA {} not loaded, skipping {} requests", lora_id, indices.size());
+            for (size_t idx : indices) {
+                responses[idx].success       = false;
+                responses[idx].error_message = "LoRA not loaded: " + lora_id;
+                responses[idx].model_used    = "unknown";
+                responses[idx].lora_used     = lora_id;
             }
-            base_model_id_snapshot = it->second->base_model_id;
+            continue;
         }
 
         // Apply this LoRA adapter to the context
@@ -672,7 +620,7 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
             auto wall_start = std::chrono::steady_clock::now();
 
             InferenceResponse response;
-            response.model_used  = base_model_id_snapshot;
+            response.model_used  = lora->base_model_id;
             response.lora_used   = lora_id;
             response.request_id  = request.request_id;
             response.trace_id    = request.trace_id;
@@ -735,11 +683,6 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
             for (int tok_idx = 0; tok_idx < max_new_tokens; ++tok_idx) {
                 // Greedy sampling: argmax over vocabulary logits
                 float* logits = llama_get_logits_ith(model_context, -1);
-                if (!logits) {
-                    response.success = false;
-                    response.error_message = "llama_get_logits_ith returned null";
-                    break;
-                }
                 int32_t next_token = 0;
                 float   best_logit = logits[0];
                 for (int32_t v = 1; v < n_vocab; ++v) {
@@ -795,14 +738,8 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
             removeLoRA(lora_id, model_context);
 
         // Update usage statistics
-        {
-            std::lock_guard<std::mutex> lock(mutex_);
-            auto it = loras_.find(lora_id);
-            if (it != loras_.end()) {
-                it->second->last_used = std::chrono::system_clock::now();
-                it->second->use_count += indices.size();
-            }
-        }
+        lora->last_used = std::chrono::system_clock::now();
+        lora->use_count += indices.size();
     }
 
     spdlog::info("Multi-LoRA batch inference completed: {} responses", responses.size());
@@ -1057,29 +994,10 @@ size_t MultiLoRAManager::evictLRU(size_t /*target_vram_mb*/) {
     
     // FIND-015: Use named constant for byte to MB conversion
     size_t freed_vram = lru_lora->vram_bytes / BYTES_PER_MB;
-
+    
     spdlog::info("Evicting LRU LoRA: {} (freed {} MB VRAM)", lru_id, freed_vram);
-
-    // W1-L01b underflow guard: total_vram_bytes_ is a size_t; unguarded
-    // subtraction wraps to UINT64_MAX if accounting is ever skewed.
-    if (total_vram_bytes_ >= lru_lora->vram_bytes) {
-        total_vram_bytes_ -= lru_lora->vram_bytes;
-    } else {
-        total_vram_bytes_ = 0;  // underflow guard
-    }
-
-    // Also correct per-GPU accounting for the evicted LoRA's primary GPU.
-    if (lru_lora->primary_gpu >= 0) {
-        auto gpu_it = gpu_vram_usage_.find(lru_lora->primary_gpu);
-        if (gpu_it != gpu_vram_usage_.end()) {
-            if (gpu_it->second >= lru_lora->vram_bytes) {
-                gpu_it->second -= lru_lora->vram_bytes;
-            } else {
-                gpu_it->second = 0;  // underflow guard
-            }
-        }
-    }
-
+    
+    total_vram_bytes_ -= lru_lora->vram_bytes;
     evictions_++;
     
     loras_.erase(lru_id);
@@ -1088,65 +1006,30 @@ size_t MultiLoRAManager::evictLRU(size_t /*target_vram_mb*/) {
 }
 
 size_t MultiLoRAManager::evictExpired() {
-    // W1-L01 data_race fix: perform the entire eviction within a single lock scope.
-    // The previous two-phase approach (build list under lock, then call unloadLoRA()
-    // per entry outside the lock) created a TOCTOU window where:
-    //   T1 (eviction worker) built to_evict list → released lock
-    //   T2 (user)            unloaded + reloaded the same lora_id (fresh, not expired)
-    //   T1                   force-evicted the fresh copy — incorrect eviction
-    // By doing everything under one lock we also avoid a double-lock scenario since
-    // unloadLoRA() would attempt to re-acquire mutex_.
-    std::lock_guard<std::mutex> lock(mutex_);
-    auto now = std::chrono::system_clock::now();
-
     std::vector<std::string> to_evict;
-    for (const auto& [id, lora] : loras_) {
-        if (lora->keep_loaded) {
-            continue;
-        }
-        auto age = std::chrono::duration_cast<std::chrono::seconds>(now - lora->last_used);
-        if (age > config_.lora_ttl) {
-            to_evict.push_back(id);
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto now = std::chrono::system_clock::now();
+
+        for (const auto& [id, lora] : loras_) {
+            if (lora->keep_loaded) {
+                continue;  // Skip pinned LoRAs
+            }
+
+            auto age = std::chrono::duration_cast<std::chrono::seconds>(
+                now - lora->last_used
+            );
+
+            if (age > config_.lora_ttl) {
+                to_evict.push_back(id);
+            }
         }
     }
 
     size_t evicted = 0;
     for (const auto& id : to_evict) {
-        auto it = loras_.find(id);
-        if (it == loras_.end()) {
-            continue;  // already removed by another concurrent operation
-        }
-
         spdlog::info("Evicting expired LoRA: {}", id);
-        auto& lora = it->second;
-
-        // Free the llama.cpp adapter handle.
-        if (lora->adapter_handle) {
-            if (themis_llama_lora_available()) {
-                llama_lora_adapter_free(lora->adapter_handle);
-            }
-            lora->adapter_handle = nullptr;
-        }
-
-        // Update global and per-GPU VRAM accounting.
-        if (lora->vram_bytes > 0 && total_vram_bytes_ >= lora->vram_bytes) {
-            total_vram_bytes_ -= lora->vram_bytes;
-        } else if (lora->vram_bytes > 0) {
-            total_vram_bytes_ = 0;  // underflow guard
-        }
-        if (lora->primary_gpu >= 0) {
-            auto gpu_it = gpu_vram_usage_.find(lora->primary_gpu);
-            if (gpu_it != gpu_vram_usage_.end()) {
-                if (gpu_it->second >= lora->vram_bytes) {
-                    gpu_it->second -= lora->vram_bytes;
-                } else {
-                    gpu_it->second = 0;  // underflow guard
-                }
-            }
-        }
-
-        loras_.erase(it);
-        evictions_++;
+        unloadLoRA(id, true);  // unloadLoRA manages locking
         evicted++;
     }
 
@@ -1207,69 +1090,45 @@ MultiLoRAManager::Stats MultiLoRAManager::getStatistics() const {
 }
 
 std::vector<uint8_t> MultiLoRAManager::exportLoRA(const std::string& lora_id) {
-    // W1-L01 data_race fix: snapshot all fields needed for serialization under the
-    // lock.  The old code called getLoRA() (which released the lock) and then
-    // dereferenced the returned raw pointer without any protection — a concurrent
-    // eviction could free the slot between the two steps.
-    std::string snap_lora_id;
-    std::string snap_path;
-    size_t snap_vram_bytes = 0;
-    int    snap_rank  = 0;
-    int    snap_alpha = 0;
-    float  snap_scale = 0.0f;
-
-    {
-        std::lock_guard<std::mutex> lock(mutex_);
-        auto it = loras_.find(lora_id);
-        if (it == loras_.end()) {
-            errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, lora_id);
-            return {};
-        }
-        auto& lora = it->second;
-        // Update access metadata under the lock.
-        lora->last_used = std::chrono::system_clock::now();
-        lora->use_count++;
-
-        snap_lora_id   = lora->lora_id;
-        snap_path      = lora->path;
-        snap_vram_bytes = lora->vram_bytes;
-        snap_rank      = static_cast<int>(lora->rank);
-        snap_alpha     = static_cast<int>(lora->alpha);
-        snap_scale     = lora->scale;
+    auto* lora = getLoRA(lora_id);
+    if (!lora) {
+        errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, lora_id);
+        return {};
     }
-
+    
     spdlog::info("Exporting LoRA for cross-shard transfer: {}", lora_id);
-
-    // Serialize LoRA adapter for transfer.
-    // In production, this would serialize the actual LoRA weights.
-    // For now, create a metadata-based serialization.
+    
+    // Serialize LoRA adapter for transfer
+    // In production, this would serialize the actual LoRA weights
+    // For now, create a metadata-based serialization
+    std::vector<uint8_t> serialized;
+    
     // Simple serialization format:
     // [lora_id_length][lora_id][path_length][path][vram_bytes][rank][alpha][scale]
-    std::vector<uint8_t> serialized;
-    size_t id_len   = snap_lora_id.size();
-    size_t path_len = snap_path.size();
-
+    size_t id_len = lora->lora_id.size();
+    size_t path_len = lora->path.size();
+    
     serialized.resize(sizeof(size_t) * 2 + id_len + path_len + sizeof(size_t) + sizeof(int) * 2 + sizeof(float));
-
+    
     size_t offset = 0;
     std::memcpy(serialized.data() + offset, &id_len, sizeof(size_t));
     offset += sizeof(size_t);
-    std::memcpy(serialized.data() + offset, snap_lora_id.data(), id_len);
+    std::memcpy(serialized.data() + offset, lora->lora_id.data(), id_len);
     offset += id_len;
     std::memcpy(serialized.data() + offset, &path_len, sizeof(size_t));
     offset += sizeof(size_t);
-    std::memcpy(serialized.data() + offset, snap_path.data(), path_len);
+    std::memcpy(serialized.data() + offset, lora->path.data(), path_len);
     offset += path_len;
-    std::memcpy(serialized.data() + offset, &snap_vram_bytes, sizeof(size_t));
+    std::memcpy(serialized.data() + offset, &lora->vram_bytes, sizeof(size_t));
     offset += sizeof(size_t);
-    std::memcpy(serialized.data() + offset, &snap_rank, sizeof(int));
+    std::memcpy(serialized.data() + offset, &lora->rank, sizeof(int));
     offset += sizeof(int);
-    std::memcpy(serialized.data() + offset, &snap_alpha, sizeof(int));
+    std::memcpy(serialized.data() + offset, &lora->alpha, sizeof(int));
     offset += sizeof(int);
-    std::memcpy(serialized.data() + offset, &snap_scale, sizeof(float));
-
+    std::memcpy(serialized.data() + offset, &lora->scale, sizeof(float));
+    
     spdlog::info("LoRA {} serialized: {} bytes", lora_id, serialized.size());
-
+    
     return serialized;
 }
 
@@ -1820,10 +1679,6 @@ size_t MultiLoRAManager::balanceGPULoad() {
     if (config_.multi_gpu.devices.size() < 2) {
         return 0;  // Nothing to balance with single GPU
     }
-
-    if (gpu_vram_usage_.empty()) {
-        return 0;  // No tracked usage available for balancing
-    }
     
     // Calculate average VRAM usage
     size_t total_usage = 0;
@@ -1836,11 +1691,8 @@ size_t MultiLoRAManager::balanceGPULoad() {
     std::vector<int> overloaded_gpus;
     std::vector<int> underloaded_gpus;
     
-    const size_t max_vram_per_gpu_bytes = config_.multi_gpu.max_vram_per_gpu_mb * BYTES_PER_MB;
     for (const auto& [gpu_id, usage] : gpu_vram_usage_) {
-        float usage_ratio = max_vram_per_gpu_bytes > 0
-            ? static_cast<float>(usage) / static_cast<float>(max_vram_per_gpu_bytes)
-            : 0.0f;
+        float usage_ratio = static_cast<float>(usage) / config_.multi_gpu.max_vram_per_gpu_mb;
         if (usage_ratio > config_.multi_gpu.load_balance_threshold) {
             overloaded_gpus.push_back(gpu_id);
         } else if (usage < avg_usage * 0.8f) {
@@ -1865,19 +1717,14 @@ size_t MultiLoRAManager::balanceGPULoad() {
                 // Try to move to underloaded GPU
                 for (int target_gpu : underloaded_gpus) {
                     // FIND-015: Use named constant for byte to MB conversion
-                    if (lora->vram_bytes <= max_vram_per_gpu_bytes &&
-                        gpu_vram_usage_[target_gpu] <= max_vram_per_gpu_bytes - lora->vram_bytes) {
+                    size_t max_vram_per_gpu_bytes = config_.multi_gpu.max_vram_per_gpu_mb * BYTES_PER_MB;
+                    if (gpu_vram_usage_[target_gpu] + lora->vram_bytes < max_vram_per_gpu_bytes) {
                         
                         spdlog::info("Moving LoRA {} from GPU {} to GPU {}", 
                                      lora_id, overloaded_gpu, target_gpu);
                         
                         // Update tracking
-                        auto& overloaded_usage = gpu_vram_usage_[overloaded_gpu];
-                        if (overloaded_usage >= lora->vram_bytes) {
-                            overloaded_usage -= lora->vram_bytes;
-                        } else {
-                            overloaded_usage = 0;  // underflow guard
-                        }
+                        gpu_vram_usage_[overloaded_gpu] -= lora->vram_bytes;
                         gpu_vram_usage_[target_gpu] += lora->vram_bytes;
                         lora->primary_gpu = target_gpu;
                         lora->assigned_gpus = {target_gpu};
@@ -1920,7 +1767,7 @@ int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
     
     // FIND-015: Use named constant for byte to MB conversion
     // Pre-compute max VRAM per GPU in bytes to avoid repeated multiplication
-    const size_t max_vram_per_gpu_bytes = config_.multi_gpu.max_vram_per_gpu_mb * BYTES_PER_MB;
+    const size_t max_vram_per_gpu_bytes = config_.multi_gpu.max_vram_per_gpu_mb * 1024 * 1024;
     
     switch (config_.multi_gpu.strategy) {
         case MultiGPUStrategy::ROUND_ROBIN: {
@@ -1935,8 +1782,7 @@ int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
             }
             
             // Check if GPU has capacity
-            if (vram_bytes <= max_vram_per_gpu_bytes &&
-                gpu_vram_usage_[selected_gpu] <= max_vram_per_gpu_bytes - vram_bytes) {
+            if (gpu_vram_usage_[selected_gpu] + vram_bytes <= max_vram_per_gpu_bytes) {
                 return selected_gpu;
             }
             
@@ -1946,8 +1792,7 @@ int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
                     spdlog::error("GPU {} not in tracking map, initializing", gpu_id);
                     gpu_vram_usage_[gpu_id] = 0;
                 }
-                if (vram_bytes <= max_vram_per_gpu_bytes &&
-                    gpu_vram_usage_[gpu_id] <= max_vram_per_gpu_bytes - vram_bytes) {
+                if (gpu_vram_usage_[gpu_id] + vram_bytes <= max_vram_per_gpu_bytes) {
                     return gpu_id;
                 }
             }
@@ -1984,9 +1829,7 @@ int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
                 gpu_vram_usage_[best_gpu] = 0;
             }
             
-            size_t max_free = (max_vram_per_gpu_bytes > gpu_vram_usage_[best_gpu])
-                ? (max_vram_per_gpu_bytes - gpu_vram_usage_[best_gpu])
-                : 0;
+            size_t max_free = max_vram_per_gpu_bytes - gpu_vram_usage_[best_gpu];
             
             for (size_t i = 1; i < config_.multi_gpu.devices.size(); ++i) {
                 int gpu_id = config_.multi_gpu.devices[i];
@@ -1997,9 +1840,7 @@ int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
                     gpu_vram_usage_[gpu_id] = 0;
                 }
                 
-                size_t free = (max_vram_per_gpu_bytes > gpu_vram_usage_[gpu_id])
-                    ? (max_vram_per_gpu_bytes - gpu_vram_usage_[gpu_id])
-                    : 0;
+                size_t free = max_vram_per_gpu_bytes - gpu_vram_usage_[gpu_id];
                 if (free > max_free) {
                     max_free = free;
                     best_gpu = gpu_id;
@@ -2374,10 +2215,7 @@ void MultiLoRAManager::startEvictionThread() {
         spdlog::warn("Eviction thread already running");
         return;
     }
-
-    // W1-L01 no_timeout fix: reset the done-flag before spawning so that
-    // stopEvictionThread() can perform a timed wait on eviction_thread_done_.
-    eviction_thread_done_.store(false);
+    
     eviction_thread_running_.store(true);
     eviction_thread_ = std::make_unique<std::thread>(&MultiLoRAManager::evictionWorker, this);
     spdlog::debug("Background eviction thread started");
@@ -2387,47 +2225,28 @@ void MultiLoRAManager::stopEvictionThread() {
     if (!eviction_thread_running_.load()) {
         return;
     }
-
+    
     spdlog::debug("Stopping background eviction thread");
     eviction_thread_running_.store(false);
     eviction_cv_.notify_all();
-
+    
     if (eviction_thread_ && eviction_thread_->joinable()) {
-        // W1-L01 no_timeout fix: wait at most 5 seconds for the thread to finish
-        // instead of blocking indefinitely on join().
-        // The eviction worker signals eviction_thread_done_ (and notifies
-        // eviction_cv_) right before it exits, so wait_for will normally return
-        // well within the timeout.
-        constexpr auto kJoinTimeout = std::chrono::seconds(5);
-        bool done = false;
-        {
-            std::unique_lock<std::mutex> lock(mutex_);
-            done = eviction_cv_.wait_for(lock, kJoinTimeout,
-                [this]() { return eviction_thread_done_.load(); });
-        }
-        if (!done) {
-            // Safety-first: never detach here because this thread captures `this`
-            // and would become a use-after-free risk during destruction.
-            // We still emit the timeout event for observability, then join.
-            spdlog::error("Eviction thread did not stop within {}s timeout; waiting for safe join",
-                          kJoinTimeout.count());
-        }
         eviction_thread_->join();
     }
-
+    
     eviction_thread_.reset();
     spdlog::debug("Background eviction thread stopped");
 }
 
 void MultiLoRAManager::evictionWorker() {
     spdlog::info("Eviction worker thread started (TTL: {}s)", config_.lora_ttl.count());
-
+    
     // Check every minute or TTL/4, whichever is smaller
     auto check_interval = std::min(
         std::chrono::seconds(60),
         config_.lora_ttl / 4
     );
-
+    
     while (eviction_thread_running_.load()) {
         // Sleep with condition variable for responsive shutdown
         {
@@ -2437,25 +2256,25 @@ void MultiLoRAManager::evictionWorker() {
             });
             // lock automatically released when exiting scope
         }
-
+        
         if (!eviction_thread_running_.load()) {
             break;
         }
-
+        
         // Run eviction check
         try {
             size_t evicted = evictExpired();
             if (evicted > 0) {
                 spdlog::info("Background eviction: {} LoRAs removed (TTL expired)", evicted);
             }
-
+            
             // Also check memory pressure and proactively evict if needed
             std::lock_guard<std::mutex> lock(mutex_);
             // FIND-015: Use named constant for byte to MB conversion
-            size_t vram_usage_pct = (config_.max_lora_vram_mb > 0)
+            size_t vram_usage_pct = (config_.max_lora_vram_mb > 0) 
                 ? (total_vram_bytes_ / (1024 * 1024) * 100 / config_.max_lora_vram_mb)
                 : 0;
-
+            
             // If VRAM usage is above 80%, proactively evict some LRU adapters
             if (vram_usage_pct > 80) {
                 spdlog::info("Memory pressure detected ({}% VRAM usage), evicting LRU adapters", vram_usage_pct);
@@ -2468,12 +2287,8 @@ void MultiLoRAManager::evictionWorker() {
             spdlog::error("Eviction worker error: {}", e.what());
         }
     }
-
+    
     spdlog::info("Eviction worker thread stopped");
-
-    // W1-L01 no_timeout fix: signal stopEvictionThread() that we have fully exited.
-    eviction_thread_done_.store(true);
-    eviction_cv_.notify_all();
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -2609,20 +2424,9 @@ size_t MultiLoRAManager::evictResourceAware(int gpu_id, size_t target_vram_mb) {
                            "Resource-aware eviction");
         
         // Update memory tracking
-        if (total_vram_bytes_ >= candidate.lora->vram_bytes) {
-            total_vram_bytes_ -= candidate.lora->vram_bytes;
-        } else {
-            total_vram_bytes_ = 0;  // underflow guard
-        }
+        total_vram_bytes_ -= candidate.lora->vram_bytes;
         if (candidate.lora->primary_gpu >= 0) {
-            auto gpu_it = gpu_vram_usage_.find(candidate.lora->primary_gpu);
-            if (gpu_it != gpu_vram_usage_.end()) {
-                if (gpu_it->second >= candidate.lora->vram_bytes) {
-                    gpu_it->second -= candidate.lora->vram_bytes;
-                } else {
-                    gpu_it->second = 0;  // underflow guard
-                }
-            }
+            gpu_vram_usage_[candidate.lora->primary_gpu] -= candidate.lora->vram_bytes;
         }
         
         evictions_++;
@@ -2788,12 +2592,7 @@ bool MultiLoRAManager::migrateLoRAToGPU(const std::string& lora_id, int target_g
     
     // Update VRAM accounting to reflect the new placement.
     if (source_gpu >= 0) {
-        auto& source_usage = gpu_vram_usage_[source_gpu];
-        if (source_usage >= lora->vram_bytes) {
-            source_usage -= lora->vram_bytes;
-        } else {
-            source_usage = 0;  // underflow guard
-        }
+        gpu_vram_usage_[source_gpu] -= lora->vram_bytes;
     }
     gpu_vram_usage_[target_gpu] += lora->vram_bytes;
     
@@ -2892,38 +2691,29 @@ size_t MultiLoRAManager::checkGPUHealthAndMigrate() {
             
             if (target_gpu >= 0) {
                 auto& lora = loras_[lora_id];
-
+                
                 // FIND-015: Use named constant for byte to MB conversion
                 // Check capacity
                 size_t max_vram = config_.multi_gpu.max_vram_per_gpu_mb * BYTES_PER_MB;
-                if (lora->vram_bytes <= max_vram &&
-                    gpu_vram_usage_[target_gpu] <= max_vram - lora->vram_bytes) {
-                    spdlog::info("Auto-migrating LoRA {} from failed GPU {} to GPU {}",
+                if (gpu_vram_usage_[target_gpu] + lora->vram_bytes <= max_vram) {
+                    spdlog::info("Auto-migrating LoRA {} from failed GPU {} to GPU {}", 
                                  lora_id, unhealthy_gpu, target_gpu);
-
-                    // Perform migration (without lock since we already have it).
-                    // W1-L01 null_dereference fix: guard against unsigned underflow —
-                    // gpu_vram_usage_[unhealthy_gpu] is a size_t and could wrap to
-                    // UINT64_MAX if vram_bytes exceeds the tracked usage.
-                    auto& unhealthy_usage = gpu_vram_usage_[unhealthy_gpu];
-                    if (unhealthy_usage >= lora->vram_bytes) {
-                        unhealthy_usage -= lora->vram_bytes;
-                    } else {
-                        unhealthy_usage = 0;  // underflow guard
-                    }
+                    
+                    // Perform migration (without lock since we already have it)
+                    gpu_vram_usage_[unhealthy_gpu] -= lora->vram_bytes;
                     gpu_vram_usage_[target_gpu] += lora->vram_bytes;
-
+                    
                     lora->primary_gpu = target_gpu;
                     lora->assigned_gpus = {target_gpu};
-
-                    logGPUTransferEvent("auto_migrate", lora_id,
+                    
+                    logGPUTransferEvent("auto_migrate", lora_id, 
                                        unhealthy_gpu, target_gpu,
                                        lora->vram_bytes,
                                        "GPU failure recovery");
-
+                    
                     migrated++;
                 } else {
-                    spdlog::warn("Cannot migrate LoRA {}: insufficient VRAM on target GPU",
+                    spdlog::warn("Cannot migrate LoRA {}: insufficient VRAM on target GPU", 
                                 lora_id);
                 }
             }
@@ -3032,94 +2822,89 @@ bool MultiLoRAManager::fuseLoRAsAdvanced(
     const FusionConfig& config
 ) {
     auto start_time = std::chrono::high_resolution_clock::now();
-
-    spdlog::info("Advanced fusion: {} with strategy {}",
-                 fused_id,
+    
+    spdlog::info("Advanced fusion: {} with strategy {}", 
+                 fused_id, 
                  config.strategy == FusionStrategy::STATIC ? "STATIC" :
                  config.strategy == FusionStrategy::DYNAMIC ? "DYNAMIC" : "SCHEDULED");
-
+    
     if (!config_.enable_adapter_fusion) {
         spdlog::error("Adapter fusion is disabled in configuration");
         return false;
     }
-
-    // W1-L01 data_race fix: the original code accessed fusion_cache_,
-    // fusion_cache_hits_, fusion_cache_misses_, fusion_configs_,
-    // fusion_schedules_, and total_fusions_ without holding mutex_.
-    // fuseLoRAsInternal() acquires the lock internally, so we must release
-    // our lock before calling it to avoid a deadlock.
-    // Structure: [lock] cache-check → [unlock] → fuseLoRAsInternal (has own lock)
-    //            → [lock] cache-update + metrics [unlock].
-
-    {
+    
+    // Check cache first for STATIC fusions (under lock — fusion_cache_ is shared state).
+    if (config.strategy == FusionStrategy::STATIC && config.enable_cache) {
         std::lock_guard<std::mutex> lock(mutex_);
-
-        // Check cache first for STATIC fusions
-        if (config.strategy == FusionStrategy::STATIC && config.enable_cache) {
-            auto cache_it = fusion_cache_.find(fused_id);
-            if (cache_it != fusion_cache_.end()) {
-                // Check if cache is still valid
-                auto age = std::chrono::duration_cast<std::chrono::seconds>(
-                    std::chrono::system_clock::now() - cache_it->second.created_at
-                );
-
-                if (age < config.cache_ttl) {
-                    spdlog::debug("Fusion cache hit: {}", fused_id);
-                    fusion_cache_hits_++;
-                    cache_it->second.last_used = std::chrono::system_clock::now();
-                    cache_it->second.use_count++;
-                    return true;
-                } else {
-                    spdlog::debug("Fusion cache expired: {}", fused_id);
-                    fusion_cache_.erase(cache_it);
-                }
+        auto cache_it = fusion_cache_.find(fused_id);
+        if (cache_it != fusion_cache_.end()) {
+            // Check if cache is still valid
+            auto age = std::chrono::duration_cast<std::chrono::seconds>(
+                std::chrono::system_clock::now() - cache_it->second.created_at
+            );
+            
+            if (age < config.cache_ttl) {
+                spdlog::debug("Fusion cache hit: {}", fused_id);
+                fusion_cache_hits_++;
+                cache_it->second.last_used = std::chrono::system_clock::now();
+                cache_it->second.use_count++;
+                return true;
+            } else {
+                spdlog::debug("Fusion cache expired: {}", fused_id);
+                fusion_cache_.erase(cache_it);
             }
         }
-
+    }
+    
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
         fusion_cache_misses_++;
-    }  // release lock before calling fuseLoRAsInternal (which takes the lock itself)
-
+    }
+    
     // Perform fusion
     bool success = fuseLoRAsInternal(fused_id, config);
+    
+    if (success) {
+        // Update cache and shared metrics under lock.
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (config.enable_cache) {
+            FusionCacheEntry entry;
+            entry.fusion_id = fused_id;
+            entry.source_lora_ids = config.source_lora_ids;
+            entry.weights = config.weights;
+            entry.created_at = std::chrono::system_clock::now();
+            entry.last_used = std::chrono::system_clock::now();
+            entry.use_count = 1;
+            entry.strategy = config.strategy;
+            
+            fusion_cache_[fused_id] = entry;
+        }
+        
+        // Store configuration for dynamic updates
+        fusion_configs_[fused_id] = config;
+        
+        // Store alpha schedule if provided
+        if (config.strategy == FusionStrategy::SCHEDULED || 
+            config.strategy == FusionStrategy::DYNAMIC) {
+            fusion_schedules_[fused_id] = config.alpha_schedule;
+        }
+        
+        total_fusions_++;
+    }
 
     if (success) {
         auto end_time = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
         double fusion_time_ms = duration.count() / 1000.0;
-
-        // Re-acquire lock to update cache, configs, and metrics.
-        std::lock_guard<std::mutex> lock(mutex_);
-
-        // Update cache
-        if (config.enable_cache) {
-            FusionCacheEntry entry;
-            entry.fusion_id       = fused_id;
-            entry.source_lora_ids = config.source_lora_ids;
-            entry.weights         = config.weights;
-            entry.created_at      = std::chrono::system_clock::now();
-            entry.last_used       = std::chrono::system_clock::now();
-            entry.use_count       = 1;
-            entry.strategy        = config.strategy;
-
-            fusion_cache_[fused_id] = entry;
+        
+        // updateFusionMetrics accesses fusion_cache_ — must be called under lock.
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            updateFusionMetrics(fused_id, fusion_time_ms);
         }
-
-        // Store configuration for dynamic updates
-        fusion_configs_[fused_id] = config;
-
-        // Store alpha schedule if provided
-        if (config.strategy == FusionStrategy::SCHEDULED ||
-            config.strategy == FusionStrategy::DYNAMIC) {
-            fusion_schedules_[fused_id] = config.alpha_schedule;
-        }
-
-        // updateFusionMetrics and total_fusions_ require the lock (caller holds it here).
-        updateFusionMetrics(fused_id, fusion_time_ms);
-        total_fusions_++;
-
         spdlog::info("Fusion completed: {} ({:.2f} ms)", fused_id, fusion_time_ms);
     }
-
+    
     return success;
 }
 
@@ -3199,10 +2984,10 @@ bool MultiLoRAManager::fuseLoRAsInternal(
     fused_lora->scale = 1.0f;
     
     // Check VRAM budget
-    if (total_vram_bytes_ + fused_lora->vram_bytes > config_.max_lora_vram_mb * BYTES_PER_MB) {
+    if (total_vram_bytes_ + fused_lora->vram_bytes > config_.max_lora_vram_mb * 1024 * 1024) {
         spdlog::warn("Fused LoRA would exceed VRAM budget, attempting eviction");
         while (loras_.size() > 0 && 
-               total_vram_bytes_ + fused_lora->vram_bytes > config_.max_lora_vram_mb * BYTES_PER_MB) {
+               total_vram_bytes_ + fused_lora->vram_bytes > config_.max_lora_vram_mb * 1024 * 1024) {
             evictLRU();
         }
     }

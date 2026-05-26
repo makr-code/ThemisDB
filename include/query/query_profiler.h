@@ -138,6 +138,7 @@ public:
  */
 class QueryProfiler : public IQueryProfiler {
 public:
+    ~QueryProfiler() override = default;
     QueryProfiler() = default;
 
     void beginQuery(const std::string& query_text) override;
@@ -165,6 +166,7 @@ private:
  */
 class NullQueryProfiler : public IQueryProfiler {
 public:
+    ~NullQueryProfiler() override = default;
     void beginQuery(const std::string&) override {}
     void endQuery(size_t, bool) override {}
     void beginOperator(const std::string&) override {}

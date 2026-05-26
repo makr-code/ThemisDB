@@ -1919,13 +1919,23 @@ endif()
 # Themis Wire Protocol V1 unit tests (subset of AllTests)
 # Covers: WireV1Constants, WireFrameHeader, OpCode, MessageFlags,
 #         MessageDispatcher, WireProtocolSession, WireProtocolServer,
-#         WireProtocolConstants, WireProtocolV1ThemisAuth/Get/Put/Delete/
+#         WireProtocolConstants, DeprecatedWireSessionBridgeTest,
+#         WireProtocolV1ThemisAuth/Get/Put/Delete/
 #         Query/VectorSearch/GeoQuery/Timeseries/Bpmn/ErrorCodes
 #         (from test_themis_wire_protocol_server.cpp)
 add_test(NAME ThemisWireProtocolV1Tests
-    COMMAND themis_tests --gtest_filter=WireV1Constants*:WireFrameHeader*:OpCode*:MessageFlags*:MessageDispatcher*:WireProtocolSession*:WireProtocolServer*:WireProtocolConstants*:WireProtocolV1Themis*)
+    COMMAND themis_tests --gtest_filter=WireV1Constants*:WireFrameHeader*:OpCode*:MessageFlags*:MessageDispatcher*:WireProtocolSession*:WireProtocolServer*:WireProtocolConstants*:DeprecatedWireSessionBridgeTest*:WireProtocolV1Themis*)
 set_tests_properties(ThemisWireProtocolV1Tests PROPERTIES
     LABELS "wire;protocol;themis;unit"
+    TIMEOUT 60
+)
+
+# Deprecated free wire bridge API compatibility tests (subset of AllTests)
+# Covers: DeprecatedWireSessionBridgeTest.*
+add_test(NAME ThemisWireDeprecatedBridgeTests
+    COMMAND themis_tests --gtest_filter=DeprecatedWireSessionBridgeTest*)
+set_tests_properties(ThemisWireDeprecatedBridgeTests PROPERTIES
+    LABELS "wire;protocol;themis;deprecated;unit"
     TIMEOUT 60
 )
 
@@ -4923,6 +4933,74 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_pitr_manager_comprehensive.cpp")
     message(STATUS "  PITR Manager Comprehensive: point-in-time recovery, changefeed replay, snapshots, consistency")
 else()
     message(STATUS "PITR Manager comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_pitr_manager_comprehensive.cpp")
+endif()
+
+# Distributed Trainer Guard Focused Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_trainer_guard.cpp")
+    message(STATUS "Adding Distributed Trainer guard focused tests")
+
+    add_executable(test_distributed_trainer_guard
+        test_distributed_trainer_guard.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/lora_framework/distributed_trainer.cpp
+    )
+
+    target_include_directories(test_distributed_trainer_guard PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_distributed_trainer_guard PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_distributed_trainer_guard PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DistributedTrainerGuardFocusedTests COMMAND test_distributed_trainer_guard)
+
+    set_tests_properties(DistributedTrainerGuardFocusedTests PROPERTIES
+        LABELS "llm;lora;distributed;guard;focused;unit"
+        TIMEOUT 60
+    )
+endif()
+
+# Stream Protocol Extended Focused Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_stream_protocol_extended.cpp")
+    message(STATUS "Adding Stream Protocol extended focused tests")
+
+    add_executable(test_stream_protocol_extended_focused
+        test_stream_protocol_extended.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/stream_protocol.cpp
+    )
+
+    target_include_directories(test_stream_protocol_extended_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_stream_protocol_extended_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_stream_protocol_extended_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(
+        NAME StreamProtocolExtendedFocusedTests
+        COMMAND test_stream_protocol_extended_focused
+                --gtest_filter=StreamProtocolExtendedTest.LZ4CompressionDecompression:StreamProtocolExtendedTest.ZstdCompressionDecompression:StreamProtocolExtendedTest.CompressionWithRandomData:StreamProtocolExtendedTest.LZ4SupportMatchesBuildFlags:StreamProtocolExtendedTest.ZstdSupportMatchesBuildFlags
+    )
+
+    set_tests_properties(StreamProtocolExtendedFocusedTests PROPERTIES
+        LABELS "sharding;streaming;compression;lz4;zstd;focused;unit"
+        TIMEOUT 120
+    )
 endif()
 
 # Vector Index Comprehensive Tests

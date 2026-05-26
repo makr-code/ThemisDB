@@ -13,6 +13,7 @@
 #include "security/vram_secure_clear.h"
 #include <algorithm>
 #include <cstring>
+#include <memory>
 #include <stdexcept>
 #include <vector>
 #include <spdlog/spdlog.h>
@@ -456,11 +457,12 @@ bool VRAMAllocator::initialize_backend() {
         case acceleration::BackendType::VULKAN:
 #ifdef THEMIS_ENABLE_VULKAN
         {
-            auto vk_ctx = std::make_unique<VulkanAllocContext>();
-            if (!vk_init(vk_ctx.get(), pool_size_bytes_)) {
+            // REL-48: use RAII unique_ptr instead of raw new/delete for Vulkan context
+            auto vk_ctx_owner = std::make_unique<VulkanAllocContext>();
+            if (!vk_init(vk_ctx_owner.get(), pool_size_bytes_)) {
                 return false;
             }
-            backend_context_ = vk_ctx.release();
+            backend_context_ = vk_ctx_owner.release();
             return true;
         }
 #else
@@ -552,12 +554,7 @@ void VRAMAllocator::deallocate(void* ptr) {
                 return;
             }
             block.is_free = true;
-            if (allocated_bytes_ >= block.size) {
-                allocated_bytes_ -= block.size;
-            } else {
-                spdlog::warn("VRAMAllocator: allocated_bytes_ underflow detected; resetting to 0");
-                allocated_bytes_ = 0;
-            }
+            allocated_bytes_ -= block.size;
             
             // Periodically coalesce free blocks
             if (memory_pool_.size() > 100) {
@@ -669,9 +666,7 @@ VRAMAllocator::Stats VRAMAllocator::get_stats() const {
     Stats stats;
     stats.total_bytes = pool_size_bytes_;
     stats.allocated_bytes = allocated_bytes_;
-    stats.free_bytes = (pool_size_bytes_ >= allocated_bytes_)
-                         ? (pool_size_bytes_ - allocated_bytes_)
-                         : 0;  // underflow guard when pool is over-subscribed
+    stats.free_bytes = pool_size_bytes_ - allocated_bytes_;
     stats.peak_usage_bytes = peak_usage_bytes_;
     stats.allocation_count = memory_pool_.size();
     
@@ -800,10 +795,12 @@ void VRAMAllocator::release_backend_ptr_(void* ptr, size_t block_size) noexcept 
             if (block_size > 0) {
                 security::VRAMSecureClear::secureClearCUDA(ptr, block_size);
             }
+            // REL-64: check cudaFree return value in release_backend_ptr_
             {
                 cudaError_t free_err = cudaFree(ptr);
                 if (free_err != cudaSuccess) {
-                    spdlog::error("VRAMAllocator: cudaFree failed: {}", cudaGetErrorString(free_err));
+                    spdlog::error("VRAMAllocator::release_backend_ptr_: cudaFree failed: {}",
+                                  cudaGetErrorString(free_err));
                 }
             }
             break;
@@ -814,10 +811,12 @@ void VRAMAllocator::release_backend_ptr_(void* ptr, size_t block_size) noexcept 
             if (block_size > 0) {
                 security::VRAMSecureClear::secureClearHIP(ptr, block_size);
             }
+            // REL-65: check hipFree return value in release_backend_ptr_
             {
                 hipError_t free_err = hipFree(ptr);
                 if (free_err != hipSuccess) {
-                    spdlog::error("VRAMAllocator: hipFree failed: {}", hipGetErrorString(free_err));
+                    spdlog::error("VRAMAllocator::release_backend_ptr_: hipFree failed: {}",
+                                  hipGetErrorString(free_err));
                 }
             }
             break;

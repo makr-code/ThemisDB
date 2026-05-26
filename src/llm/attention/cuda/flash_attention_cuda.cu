@@ -1,9 +1,9 @@
 #include "llm/attention/cuda/flash_attention_cuda.h"
 #include <cuda_runtime.h>
 #include <cuda_fp16.h>
+#include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <cmath>
-#include <cstdio>
 
 namespace themis {
 namespace llm {
@@ -246,12 +246,11 @@ AttentionMemoryStats FlashAttentionCUDA::getMemoryStats() const {
     AttentionMemoryStats stats;
     
     // Query GPU memory
-    size_t free_mem = 0;
-    size_t total_mem = 0;
-    cudaError_t err = cudaMemGetInfo(&free_mem, &total_mem);
-    if (err != cudaSuccess) {
+    size_t free_mem, total_mem;
+    const cudaError_t mem_info_err = cudaMemGetInfo(&free_mem, &total_mem);
+    if (mem_info_err != cudaSuccess) {
         throw std::runtime_error(
-            std::string("Failed to query CUDA memory stats: ") + cudaGetErrorString(err)
+            std::string("CUDA memory query failed: ") + cudaGetErrorString(mem_info_err)
         );
     }
     
@@ -343,13 +342,11 @@ void FlashAttentionCUDA::allocateWorkspace() {
 
 void FlashAttentionCUDA::freeWorkspace() {
     if (d_workspace_) {
-        cudaError_t err = cudaFree(d_workspace_);
-        if (err != cudaSuccess) {
-            std::fprintf(
-                stderr,
-                "FlashAttentionCUDA::freeWorkspace cudaFree failed: %s\n",
-                cudaGetErrorString(err)
-            );
+        // REL-67: check cudaFree return value in freeWorkspace
+        cudaError_t free_err = cudaFree(d_workspace_);
+        if (free_err != cudaSuccess) {
+            spdlog::warn("FlashAttentionCUDA::freeWorkspace: cudaFree failed: {}",
+                         cudaGetErrorString(free_err));
         }
         d_workspace_ = nullptr;
     }

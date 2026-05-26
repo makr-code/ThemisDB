@@ -585,6 +585,13 @@ void launchFlashAttentionForward(
         batch_size, num_heads, seq_len, head_dim,
         scale, is_causal
     );
+    // REL-77: check kernel launch status
+    cudaError_t launch_err = cudaPeekAtLastError();
+    if (launch_err != cudaSuccess) {
+        spdlog::error("launchFlashAttentionForward: kernel launch failed: {}",
+                      cudaGetErrorString(launch_err));
+        return;
+    }
 }
 
 /**
@@ -609,21 +616,22 @@ void launchFlashAttentionBackward(
 ) {
     // Initialize gradients to zero
     size_t size = batch_size * num_heads * seq_len * head_dim * sizeof(float);
+    // REL-74..REL-76: check cudaMemsetAsync return values
     cudaError_t memset_err = cudaMemsetAsync(d_dQ, 0, size, stream);
     if (memset_err != cudaSuccess) {
-        spdlog::error("launchFlashAttentionBackward: cudaMemsetAsync(dQ) failed: {}",
+        spdlog::error("launchFlashAttentionBackward: cudaMemsetAsync(d_dQ) failed: {}",
                       cudaGetErrorString(memset_err));
         return;
     }
     memset_err = cudaMemsetAsync(d_dK, 0, size, stream);
     if (memset_err != cudaSuccess) {
-        spdlog::error("launchFlashAttentionBackward: cudaMemsetAsync(dK) failed: {}",
+        spdlog::error("launchFlashAttentionBackward: cudaMemsetAsync(d_dK) failed: {}",
                       cudaGetErrorString(memset_err));
         return;
     }
     memset_err = cudaMemsetAsync(d_dV, 0, size, stream);
     if (memset_err != cudaSuccess) {
-        spdlog::error("launchFlashAttentionBackward: cudaMemsetAsync(dV) failed: {}",
+        spdlog::error("launchFlashAttentionBackward: cudaMemsetAsync(d_dV) failed: {}",
                       cudaGetErrorString(memset_err));
         return;
     }
@@ -641,6 +649,13 @@ void launchFlashAttentionBackward(
         batch_size, num_heads, seq_len, head_dim,
         scale, is_causal
     );
+    // REL-78: check kernel launch status
+    cudaError_t launch_err = cudaPeekAtLastError();
+    if (launch_err != cudaSuccess) {
+        spdlog::error("launchFlashAttentionBackward: kernel launch failed: {}",
+                      cudaGetErrorString(launch_err));
+        return;
+    }
 }
 
 /**
@@ -667,6 +682,13 @@ void launchFusedQKVProjection(
         d_Q, d_K, d_V,
         batch_size, seq_len, hidden_dim
     );
+    // REL-79: check kernel launch status
+    cudaError_t launch_err = cudaPeekAtLastError();
+    if (launch_err != cudaSuccess) {
+        spdlog::error("launchFusedQKVProjection: kernel launch failed: {}",
+                      cudaGetErrorString(launch_err));
+        return;
+    }
 }
 
 /**
@@ -691,6 +713,13 @@ void launchFusedRoPE(
         batch_size, num_heads, seq_len, head_dim,
         rope_base
     );
+    // REL-80: check kernel launch status
+    cudaError_t launch_err = cudaPeekAtLastError();
+    if (launch_err != cudaSuccess) {
+        spdlog::error("launchFusedRoPE: kernel launch failed: {}",
+                      cudaGetErrorString(launch_err));
+        return;
+    }
 }
 
 /**
@@ -718,6 +747,13 @@ void launchFusedLayerNormLinear(
         d_ln_weight, d_ln_bias,
         batch_size, seq_len, hidden_dim, epsilon
     );
+    // REL-81: check kernel launch status
+    cudaError_t launch_err = cudaPeekAtLastError();
+    if (launch_err != cudaSuccess) {
+        spdlog::error("launchFusedLayerNormLinear: kernel launch failed: {}",
+                      cudaGetErrorString(launch_err));
+        return;
+    }
 }
 
 /**
@@ -745,6 +781,13 @@ void launchFusedGatedFFN(
         d_gate_weight, d_up_weight, d_down_weight,
         batch_size, seq_len, hidden_dim, intermediate_dim
     );
+    // REL-82: check kernel launch status
+    cudaError_t launch_err = cudaPeekAtLastError();
+    if (launch_err != cudaSuccess) {
+        spdlog::error("launchFusedGatedFFN: kernel launch failed: {}",
+                      cudaGetErrorString(launch_err));
+        return;
+    }
 }
 
 } // extern "C"

@@ -507,6 +507,31 @@ TEST_F(CloudBackupTest, WithoutMockModeFails) {
     setenv("THEMIS_CLOUD_BACKUP_MOCK", "1", 1);
 }
 
+TEST_F(CloudBackupTest, LegacyMockEnvDoesNotBypassMissingCallbacks) {
+    // Legacy environment-based success bypass must not be accepted anymore.
+    setenv("THEMIS_CLOUD_BACKUP_MOCK", "1", 1);
+
+    setS3UploadFn({});
+    setS3DownloadFn({});
+    setS3DeleteFn({});
+    setS3ListFn({});
+    setS3ExistsFn({});
+
+    CloudBackupConfig config;
+    config.provider = "s3";
+    config.s3_bucket = "test-bucket";
+    config.s3_region = "us-east-1";
+    config.local_backup_dir = local_backup_dir_.string();
+
+    coordinator_ = std::make_unique<CloudBackupCoordinator>(
+        cloud_agent_, backup_manager_, config
+    );
+
+    std::vector<std::string> shard_ids = {"shard1"};
+    bool success = coordinator_->createBackup("backup-legacy-mock-env", shard_ids);
+    EXPECT_FALSE(success);
+}
+
 // Test: Restore backup (mock mode)
 TEST_F(CloudBackupTest, RestoreBackupMockMode) {
     CloudBackupConfig config;

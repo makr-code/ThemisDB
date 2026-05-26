@@ -130,14 +130,14 @@ bool CacheAdminApiHandler::checkAuth(
         return true;  // Auth disabled – allow (dev/test mode)
     }
 
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         out = makeErrorResponse(http::status::unauthorized,
                                 "Missing Authorization header", req);
         return false;
     }
 
-    auto token = AuthMiddleware::extractBearerToken(std::string(it->value()));
+    auto token = AuthMiddleware::extractBearerToken(std::string(auth_header.data(), auth_header.size()));
     if (!token) {
         out = makeErrorResponse(http::status::unauthorized,
                                 "Invalid Authorization header", req);
@@ -159,6 +159,14 @@ bool CacheAdminApiHandler::checkAuth(
 
 // ---------------------------------------------------------------------------
 // Endpoint handlers
+//
+// Thread-safety note: all handlers in this class are invoked concurrently by
+// the HTTP server's worker-thread pool.  All calls on `cache_` below delegate
+// to AdaptiveQueryCache, which serialises its own state via internal mutexes
+// (l1_mutex_, l2_mutex_, l3_mutex_, tenant_mutex_, coordinator_mutex_).
+// No additional external lock is required in this handler class.
+// Static-analysis data-race alerts on cache_->method() calls are false
+// positives: AdaptiveQueryCache is designed as a thread-safe shared resource.
 // ---------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------
