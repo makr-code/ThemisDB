@@ -17,6 +17,17 @@ python tools/gap_audit_pipeline_v2.py
 
 ## ✅ Recent Remediation (2026-05-19)
 
+- **W1-S10 (2026-05-26) – `include/server/mcp_server.h`, `src/server/mcp_server.cpp`**
+  - MCP transport lifetime hardening: `StdioTransport`, `SseTransport`, and
+    `WebSocketTransport` now derive from `std::enable_shared_from_this` and
+    bind async `asio::post` / timer callbacks via `weak_ptr` locks instead of
+    raw `this` captures.
+  - Shutdown safety: stdio read-loop tasks and SSE/WebSocket keepalive/ping
+    timer handlers now fail closed when the transport object is no longer alive,
+    preventing callback-after-destruction races during stop/destructor teardown.
+  - Gap delta intent: reduce MCP transport lifecycle `use_after_free` /
+    async-callback lifetime findings while preserving transport behavior.
+
 - **W1-S09 (2026-05-26) – `include/server/mcp_server.h`, `src/server/mcp_server.cpp`**
   - MCP transport lifecycle hardening: `StdioTransport`, `SseTransport`, and
     `WebSocketTransport` now use atomic `is_running_` flags and idempotent

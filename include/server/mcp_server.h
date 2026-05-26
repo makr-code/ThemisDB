@@ -392,7 +392,7 @@ protected:
 /**
  * @brief stdio transport for Claude Desktop integration
  */
-class StdioTransport : public McpTransport {
+class StdioTransport : public McpTransport, public std::enable_shared_from_this<StdioTransport> {
 public:
     explicit StdioTransport(asio::io_context& io_context, int buffer_size = 4096);
     ~StdioTransport() override;
@@ -424,7 +424,7 @@ private:
 /**
  * @brief SSE transport for HTTP-based clients
  */
-class SseTransport : public McpTransport {
+class SseTransport : public McpTransport, public std::enable_shared_from_this<SseTransport> {
 public:
     explicit SseTransport(asio::io_context& io_context, int keepalive_ms = 30000);
     ~SseTransport() override;
@@ -453,7 +453,7 @@ private:
 /**
  * @brief WebSocket transport for bidirectional communication
  */
-class WebSocketTransport : public McpTransport {
+class WebSocketTransport : public McpTransport, public std::enable_shared_from_this<WebSocketTransport> {
 public:
     explicit WebSocketTransport(asio::io_context& io_context, int ping_interval_ms = 30000);
     ~WebSocketTransport() override;
