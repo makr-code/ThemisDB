@@ -17,6 +17,16 @@ python tools/gap_audit_pipeline_v2.py
 
 ## ✅ Recent Remediation (2026-05-19)
 
+- **W1-S04 (2026-05-26) – `src/server/websocket_session.cpp`**
+  - Back-pressure close robustness: `send()` / `sendBinary()` now detect the
+    `queue full + !writing_` state and explicitly dispatch a 1011 close on the
+    stream executor. This closes immediately when no in-flight write exists,
+    instead of relying solely on `onWrite()` (which never fires in that state).
+  - Thread-safety: immediate-close path now updates `close_due_to_backpressure_`
+    under `write_mutex_`, keeping flag mutations synchronized with `onWrite()`.
+  - Gap delta intent: eliminate stale-session edge case after back-pressure
+    saturation (`no_timeout`/lifecycle drift class in async close handling).
+
 - **W1-S03 (2026-05-26) – `src/server/websocket_session.cpp`, `include/server/websocket_session.h`**
   - Data-race fix: `active_` changed from `bool` to `std::atomic<bool>`. All reads now use
     `load(acquire)` via `isActive()`; all writes use `store(release)` or `exchange(acq_rel)`.
