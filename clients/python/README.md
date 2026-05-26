@@ -111,14 +111,29 @@ except ValueError:
 
 ### Isolation Levels
 
-ThemisDB supports two isolation levels:
+ThemisDB supports three isolation levels:
 
-- `READ_COMMITTED` (default) - Prevents dirty reads
-- `SNAPSHOT` - Provides a consistent snapshot of the database
+- `READ_COMMITTED` (default) – Prevents dirty reads. Non-repeatable reads and phantom
+  reads are possible.
+- `SNAPSHOT` – Provides a consistent snapshot of the database as of transaction start.
+
+  > ⚠️ **Write-skew and phantom-read anomalies are possible at SNAPSHOT isolation.**
+  > Two concurrent SNAPSHOT transactions that each read the same data and write
+  > disjoint keys can both commit even when their combined effect violates an
+  > application invariant (e.g. double-booking, over-withdrawal). Use `SERIALIZABLE`
+  > when strict correctness is required.
+
+- `SERIALIZABLE` – Full serializability via SSI / predicate locking. Prevents write
+  skew and phantom reads. May abort more transactions and has higher latency than
+  SNAPSHOT.
 
 ```python
 # Use SNAPSHOT isolation for repeatable reads
+# WARNING: write skew and phantom reads are possible at this level
 tx = client.begin_transaction(isolation_level="SNAPSHOT")
+
+# Use SERIALIZABLE to prevent write skew and phantom reads
+tx = client.begin_transaction(isolation_level="SERIALIZABLE")
 
 try:
     user1 = tx.get("relational", "users", "user1")

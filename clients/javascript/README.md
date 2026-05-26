@@ -79,8 +79,10 @@ const interactions = await client.listLlmInteractions({
 
 ```typescript
 // Begin transaction with isolation level
+// WARNING: SNAPSHOT isolation allows write-skew and phantom reads.
+// Use SERIALIZABLE to prevent these anomalies at the cost of more aborts.
 const tx = await client.beginTransaction({ 
-  isolationLevel: "SNAPSHOT" // or "READ_COMMITTED"
+  isolationLevel: "SNAPSHOT" // or "READ_COMMITTED" | "SERIALIZABLE"
 });
 
 // Operations within transaction

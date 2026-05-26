@@ -34,7 +34,7 @@ The Transaction module provides ThemisDB's ACID-compliant transaction management
 **In Scope:**
 - ACID transaction guarantees (Atomicity, Consistency, Isolation, Durability)
 - Session-based transaction lifecycle (begin → operations → commit/rollback)
-- Isolation levels: ReadCommitted (default), Snapshot (point-in-time consistency)
+- Isolation levels: ReadCommitted (default), Snapshot (point-in-time consistency), Serializable (SSI – prevents write skew and phantom reads)
 - MVCC via RocksDB native transactions
 - SAGA pattern for distributed transactions with compensating actions
 - Deadlock detection with configurable timeout
@@ -59,7 +59,7 @@ The Transaction module provides ThemisDB's ACID-compliant transaction management
 Core transaction coordinator providing ACID guarantees through RocksDB WriteBatch.
 
 **Features:**
-- **Isolation Levels**: ReadCommitted (default), Snapshot
+- **Isolation Levels**: ReadCommitted (default), Snapshot (⚠️ write skew possible — see [Isolation Level Selection](#isolation-level-selection)), Serializable (SSI)
 - **MVCC Support**: Multi-version concurrency control via RocksDB transactions
 - **Atomic Updates**: Single WriteBatch for all layers (relational, graph, vector, indexes)
 - **Deadlock Detection**: Background thread monitors lock wait graph
@@ -910,12 +910,26 @@ for (int batch = 0; batch < 1000; batch++) {
 **ReadCommitted:** Use for general OLTP workloads (fastest)
 **Snapshot:** Use for analytical queries and reports (consistent reads)
 
+> ⚠️ **Write-Skew / Phantom-Read Warning (SNAPSHOT):**
+> Two concurrent SNAPSHOT transactions can each read the same data, make disjoint writes, and both commit — even when their combined effect violates an application invariant. Classic examples: double-booking, over-withdrawal, on-call scheduling (doctors problem). Use `SERIALIZABLE` whenever your workload requires strict invariant enforcement.
+
+**SerializableSnapshot (SSI):** Use for strict ACID correctness — prevents write skew and phantom reads at the cost of more aborts and slightly higher latency.
+
 ```cpp
-// OLTP: frequent, small transactions
+// OLTP: frequent, small transactions (fast, but write-skew possible)
 auto txn = txn_mgr.begin(IsolationLevel::ReadCommitted);
 
 // Analytics: long-running, consistent reads
+// WARNING: write skew and phantom reads are possible at this level
 auto txn = txn_mgr.begin(IsolationLevel::Snapshot);
+
+// Strict correctness: prevents write skew and phantom reads
+auto txn = txn_mgr.begin(IsolationLevel::SERIALIZABLE);
+// On commit, a serialization conflict aborts the transaction:
+auto status = txn_mgr.commitTransaction(txn_id);
+if (!status.ok && status.message.find("Serialization") != std::string::npos) {
+    // Retry with exponential back-off
+}
 ```
 
 ### Deadlock Prevention
