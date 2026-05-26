@@ -33,6 +33,47 @@ python tools/gap_audit_pipeline_v2.py
 
 ---
 
+## ✅ Recent Remediation (2026-05-26 — W1-S05 data_race / iterator_invalidation batch)
+
+### `src/server/sse_connection_manager.cpp` + `include/server/sse_connection_manager.h`
+
+**1. Data race on `Connection::current_sequence` (W1-S05)**
+
+`backgroundPollTask()` read `conn->current_sequence` without holding `connections_mutex_`
+while the write (`c.current_sequence = std::max(...)`) happened under the write lock.
+Plain `uint64_t` is not safe to read/write concurrently.
+
+Fix: Changed `Connection::current_sequence` from `uint64_t` to `std::atomic<uint64_t>`
+in the header. Reads in the lock-free path now use `.load(std::memory_order_relaxed)`;
+writes inside the write-locked section use `.store()`.
+
+**2. Buffer-overflow bug when `drop_oldest_on_overflow == false` (W1-S05)**
+
+The event-buffering loop called `push_back` unconditionally after the capacity-limiting
+`while` loop. When `drop_oldest_on_overflow` is false the `while` loop exits early via
+`break`, but the subsequent `push_back` still executed, allowing `buffered_events` to
+grow beyond `max_buffered_events`. This also bumped `raw_buffered_events` without
+counting the excess towards `dropped_events`.
+
+Fix: Added an explicit post-loop capacity check. If the buffer is still at (or above) the
+limit after the `while` loop (i.e., `drop_oldest_on_overflow == false` and the buffer was
+full), the event is skipped and `dropped_events` / `total_dropped_events_` are incremented
+instead of pushing.
+
+**3. Racy pre-check on `buffered_events.size()` removed (W1-S05)**
+
+The old code did a lock-free `conn->buffered_events.size()` read at the top of the
+per-connection loop to short-circuit polling when the buffer was full. Because
+`std::vector::size()` is not atomic, this constituted a data race under the C++ memory
+model (concurrent read by poll task / write by the write-locked section).
+
+Fix: Removed the lock-free pre-check entirely. Correctness is fully maintained by the
+write-locked capacity check inside the event loop; the only effect of removal is that
+we may occasionally query the changefeed when the buffer is full and not dropping,
+which is an acceptable minor overhead.
+
+---
+
 ## 🚀 How to Use This Documentation
 
 Once generated, this file will contain:

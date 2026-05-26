@@ -383,6 +383,14 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
 - `aql_train_parser.cpp` TRAIN OUTPUT clause parsing (~line 715) — `tokenize(output_clause)[0]`
   replaced with a local `output_tokens` vector + empty-check guard before index 0 is accessed.
 
+**Status (v1.22.0-pre — W1-L06 uninitialized_access/overflow batch):** Integer-overflow guard added to `canAllocate`:
+- `gpu_memory_manager.cpp` `canAllocate()` (~line 759) — Added `size_t` overflow pre-checks
+  before computing `future_vram = total_vram_used_ + vram_bytes` and
+  `future_ram = total_ram_used_ + ram_bytes`.  Previously, a sufficiently large
+  `bytes` argument could wrap `size_t` and bypass the hard-limit guard, allowing an
+  OOM-condition allocation to proceed. Now returns `false` immediately on potential overflow.
+  Added `<limits>` include for `std::numeric_limits<size_t>::max()`.
+
 ---
 
 ## ✅ Acceptance Criteria (from Issue)

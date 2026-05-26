@@ -331,15 +331,10 @@ void SseConnectionManager::backgroundPollTask() {
         }
 
         for (auto& [id, conn] : active_conns) {
-            // If buffer is full, apply backpressure policy
-            if (conn->buffered_events.size() >= config_.max_buffered_events && !config_.drop_oldest_on_overflow) {
-                THEMIS_WARN("SSE connection {} buffer full, skipping poll", id);
-                continue;
-            }
-            
             // Query new events since last sequence — without holding connections_mutex_.
+            // current_sequence is atomic so the lock-free read is safe.
             Changefeed::ListOptions options;
-            options.from_sequence = conn->current_sequence;
+            options.from_sequence = conn->current_sequence.load(std::memory_order_relaxed);
             options.limit = 100;
             
             if (!conn->key_prefix.empty()) {
@@ -362,22 +357,26 @@ void SseConnectionManager::backgroundPollTask() {
             auto& c = *it->second;
 
             for (const auto& event : events) {
-                // Ensure capacity: drop oldest if configured
+                // Enforce capacity limit: drop oldest when configured, otherwise skip
+                // new events to preserve the hard max_buffered_events bound.
                 while (c.buffered_events.size() >= config_.max_buffered_events) {
-                    if (config_.drop_oldest_on_overflow) {
-                        if (!c.buffered_events.empty()) {
-                            c.buffered_events.erase(c.buffered_events.begin());
-                            if (!c.raw_buffered_events.empty()) {
-                                c.raw_buffered_events.erase(c.raw_buffered_events.begin());
-                            }
-                            c.dropped_events++;
-                            total_dropped_events_++;
-                        } else {
-                            break;
+                    if (config_.drop_oldest_on_overflow && !c.buffered_events.empty()) {
+                        c.buffered_events.erase(c.buffered_events.begin());
+                        if (!c.raw_buffered_events.empty()) {
+                            c.raw_buffered_events.erase(c.raw_buffered_events.begin());
                         }
+                        c.dropped_events++;
+                        total_dropped_events_++;
                     } else {
                         break;
                     }
+                }
+
+                // Skip event if buffer is still at capacity (drop_oldest_on_overflow==false).
+                if (c.buffered_events.size() >= config_.max_buffered_events) {
+                    c.dropped_events++;
+                    total_dropped_events_++;
+                    continue;
                 }
 
                 std::string sse_line = "id: " + std::to_string(event.sequence) + "\n";
@@ -385,7 +384,9 @@ void SseConnectionManager::backgroundPollTask() {
                 c.buffered_events.push_back(std::move(sse_line));
                 // Also buffer the raw event for pollRawEvents() / at-least-once tracking.
                 c.raw_buffered_events.push_back(event);
-                c.current_sequence = std::max(c.current_sequence, event.sequence);
+                c.current_sequence.store(
+                    std::max(c.current_sequence.load(std::memory_order_relaxed), event.sequence),
+                    std::memory_order_relaxed);
             }
         }
         

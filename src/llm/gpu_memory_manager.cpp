@@ -11,6 +11,7 @@
 
 #include "llm/gpu_memory_manager.h"
 #include <stdexcept>
+#include <limits>
 #include "utils/error_registry.h"
 #include "security/vram_secure_clear.h"
 #include <spdlog/spdlog.h>
@@ -758,7 +759,15 @@ size_t GPUMemoryManager::getFreeRAM() const {
 
 bool GPUMemoryManager::canAllocate(size_t vram_bytes, size_t ram_bytes) const {
     // Already locked by caller
-    
+
+    // Guard against size_t overflow before comparing against limits.
+    if (vram_bytes > 0 && total_vram_used_ > std::numeric_limits<size_t>::max() - vram_bytes) {
+        return false;
+    }
+    if (ram_bytes > 0 && total_ram_used_ > std::numeric_limits<size_t>::max() - ram_bytes) {
+        return false;
+    }
+
     size_t future_vram = total_vram_used_ + vram_bytes;
     size_t future_ram = total_ram_used_ + ram_bytes;
     
