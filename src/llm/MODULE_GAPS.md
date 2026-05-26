@@ -406,6 +406,16 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
   distinguish from races. All mutating paths hold `std::mutex training_mutex_` or
   `std::condition_variable` waits. No concrete unguarded shared-state write found on audit.
 
+**Status (v1.22.0-pre — W1-L03d scope follow-up):** Vulkan/DirectX kernel-interface
+scope hardened for smart-pointer lifetime safety:
+- `lora_framework/kernels/vulkan_kernels.cpp` — Removed `thread_local` fused-buffer cache
+  persistence in `launch_fused_lora_forward` and `launch_fused_lora_backward`; caches are now
+  per-call. This eliminates stale `VulkanBuffer` ownership across backend cleanup/re-init
+  cycles where cached buffers could outlive the original `VulkanContext`.
+- `lora_framework/kernels/directx_kernels.cpp` — Re-audited lock timeout coverage in scoped
+  launch and cache helpers; all global-state entry paths continue to use timed lock acquisition
+  (`lock_directx_state_or_throw`) with explicit timeout failure.
+
 ---
 
 ## ✅ Acceptance Criteria (from Issue)

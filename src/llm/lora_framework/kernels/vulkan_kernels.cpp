@@ -971,7 +971,7 @@ void launch_fused_lora_forward(
 
     VulkanComputePipeline* pipeline = get_pipeline("matmul", sizeof(MatmulPushConstants));
 
-    static thread_local FusedForwardBufferCache cache;
+    FusedForwardBufferCache cache;
     cache.ensure(
         &context,
         size_input,
@@ -1042,7 +1042,7 @@ void launch_fused_lora_backward(
     VulkanComputePipeline* matmul_pipeline = get_pipeline("matmul", sizeof(MatmulPushConstants));
     VulkanComputePipeline* elementwise_pipeline = get_pipeline("elementwise", sizeof(ElementwisePushConstants));
 
-    static thread_local FusedBackwardBufferCache cache;
+    FusedBackwardBufferCache cache;
     cache.ensure(
         &context,
         size_input,
