@@ -3,6 +3,7 @@
 #include <cuda_fp16.h>
 #include <stdexcept>
 #include <cmath>
+#include <iostream>
 
 namespace themis {
 namespace llm {
@@ -343,7 +344,11 @@ void FlashAttentionCUDA::allocateWorkspace() {
 
 void FlashAttentionCUDA::freeWorkspace() {
     if (d_workspace_) {
-        cudaFree(d_workspace_);
+        cudaError_t free_err = cudaFree(d_workspace_);
+        if (free_err != cudaSuccess) {
+            std::cerr << "FlashAttentionCUDA::freeWorkspace cudaFree failed: "
+                      << cudaGetErrorString(free_err) << std::endl;
+        }
         d_workspace_ = nullptr;
     }
 }

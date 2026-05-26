@@ -359,6 +359,13 @@ now checked with warning+fail-closed fallback
 (`lora_framework/nccl_backend.cpp`, `lora_framework/rccl_backend.cpp`,
 `gpu_memory_manager.cpp`, `mixed_precision_inference.cpp`).
 
+**Status (v1.21.0-pre — batch 37):** REL-75..REL-79 fixed — `launchFlashAttentionBackward`
+now validates all three `cudaMemsetAsync` gradient-initialization calls and aborts launch
+with explicit error output on failure (`kernel_fusion.cu`); NF4 quantization launcher now
+checks both `cudaMemsetAsync` and sync `cudaMemset` zero-init paths and returns failure
+immediately (`lora_framework/kernels/quantization_kernels.cu`); `FlashAttentionCUDA::freeWorkspace`
+now checks `cudaFree` and reports failures (`attention/cuda/flash_attention_cuda.cu`).
+
 ---
 
 ## 📋 Implementation Priority
