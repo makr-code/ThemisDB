@@ -17,6 +17,17 @@ python tools/gap_audit_pipeline_v2.py
 
 ## ✅ Recent Remediation (2026-05-19)
 
+- **W1-S08 (2026-05-26) – `include/server/mcp_server.h`, `src/server/mcp_server.cpp`, `src/server/voice_api_handler.cpp`**
+  - Concurrency hardening in MCP lifecycle: `McpServer::is_running_` and
+    `initialized_` are now atomic state flags; `start()` now uses
+    compare-exchange admission and `stop()` uses atomic exchange teardown to
+    prevent concurrent start/stop races from observing stale lifecycle state.
+  - Null-safety hardening in Voice API request dispatch: `handleRequest()` now
+    fail-closes with `503 Service Unavailable` when `voice_assistant_` is not
+    attached, preventing null-dereference paths across voice route handlers.
+  - Gap delta intent: reduce `data_race` findings in `mcp_server` lifecycle
+    paths and `null_dereference` findings in `voice_api_handler` request paths.
+
 - **W1-S07 (2026-05-26) – `src/server/import_api_handler.cpp`, `include/importers/importer_interface.h`**
   - Import-job registry hardening: added snapshot-oriented helpers on
     `ImportJobRegistry` (`getJsonSnapshot`, `getRunningAndJsonSnapshot`,

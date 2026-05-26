@@ -240,7 +240,8 @@ McpServer::~McpServer() {
 }
 
 void McpServer::start() {
-    if (is_running_) {
+    bool expected = false;
+    if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
         spdlog::warn("MCP Server already running");
         return;
     }
@@ -274,12 +275,11 @@ void McpServer::start() {
         spdlog::info("MCP WebSocket transport started");
     }
 
-    is_running_ = true;
     spdlog::info("MCP Server started successfully");
 }
 
 void McpServer::stop() {
-    if (!is_running_) {
+    if (!is_running_.exchange(false, std::memory_order_acq_rel)) {
         return;
     }
 
@@ -295,7 +295,6 @@ void McpServer::stop() {
         ws_transport_->stop();
     }
 
-    is_running_ = false;
     spdlog::info("MCP Server stopped");
 }
 
@@ -507,7 +506,7 @@ json McpServer::handleRequest(const json& request) {
 }
 
 json McpServer::handleInitialize(const json& params) {
-    initialized_ = true;
+    initialized_.store(true, std::memory_order_release);
     
     if (params.contains("clientInfo")) {
         client_info_ = params["clientInfo"].dump();
@@ -3120,4 +3119,3 @@ void WebSocketTransport::schedulePing() {
 } // namespace themis
 
 #endif // THEMIS_ENABLE_MCP
-

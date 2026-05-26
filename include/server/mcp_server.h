@@ -17,6 +17,7 @@
 #include <unordered_map>
 #include <queue>
 #include <mutex>
+#include <atomic>
 #include <nlohmann/json.hpp>
 #include <boost/asio.hpp>
 
@@ -118,7 +119,7 @@ public:
     // Lifecycle
     void start();
     void stop();
-    bool isRunning() const { return is_running_; }
+    bool isRunning() const { return is_running_.load(std::memory_order_acquire); }
 
     // Tool registration
     void registerTool(const std::string& name, const std::string& description,
@@ -235,7 +236,7 @@ private:
 private:
     asio::io_context& io_context_;
     Config config_;
-    bool is_running_ = false;
+    std::atomic<bool> is_running_{false};
 
     // Tool registry
     struct ToolInfo {
@@ -283,7 +284,7 @@ private:
     std::unique_ptr<themis::prompt_engineering::PromptManager> prompt_mgr_;
 
     // Session state
-    bool initialized_ = false;
+    std::atomic<bool> initialized_{false};
     std::string client_info_;
 
     // AI Orchestrator reference (optional – set via attachOrchestrator())
