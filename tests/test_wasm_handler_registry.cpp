@@ -328,6 +328,36 @@ TEST_F(WasmHandlerRegistryTest, HandleUpload_CustomCpuTimeLimitParsed) {
     EXPECT_EQ(body["config"]["entry_point"].get<std::string>(), "run");
 }
 
+TEST_F(WasmHandlerRegistryTest, HandleUpload_CpuTimeLimitClampedToMax) {
+    auto wasm = minimalWasmBytes();
+    json upload = json::parse(uploadJsonBody(wasm, "cpu-max"));
+    upload["cpu_time_ms"] = 120000;
+
+    auto req = makeRequest(http::verb::post,
+                           "/api/v1/functions/fn-cpu-max/wasm",
+                           upload.dump());
+    auto res = registry.handleUpload(req, "fn-cpu-max");
+
+    EXPECT_EQ(res.result(), http::status::created);
+    auto body = parseBody(res);
+    EXPECT_EQ(body["config"]["cpu_time_limit_ms"].get<uint64_t>(), 60000u);
+}
+
+TEST_F(WasmHandlerRegistryTest, HandleUpload_CpuTimeLimitZeroClampedToMin) {
+    auto wasm = minimalWasmBytes();
+    json upload = json::parse(uploadJsonBody(wasm, "cpu-min"));
+    upload["cpu_time_ms"] = 0;
+
+    auto req = makeRequest(http::verb::post,
+                           "/api/v1/functions/fn-cpu-min/wasm",
+                           upload.dump());
+    auto res = registry.handleUpload(req, "fn-cpu-min");
+
+    EXPECT_EQ(res.result(), http::status::created);
+    auto body = parseBody(res);
+    EXPECT_EQ(body["config"]["cpu_time_limit_ms"].get<uint64_t>(), 1u);
+}
+
 TEST_F(WasmHandlerRegistryTest, HandleUpload_RawBinaryBody_Returns201) {
     const auto wasm = minimalWasmBytes();
     const std::string raw_body(wasm.begin(), wasm.end());
