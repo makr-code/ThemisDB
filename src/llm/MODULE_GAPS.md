@@ -12,13 +12,13 @@
 | `oop_design` | ~~7961~~ **7960** | HIGH | OOP-01 fixed (W1-L04): `LLMPluginAdapter` missing override dtor; remaining: concrete class leaks, non-const accessors |
 | `uninitialized` | 5263 | HIGH | Struct/class member fields not initialised in constructor body (caught by static analysis; most are in GPU-backend conditional compilation paths) |
 | `type_conversion` | 1888 | MEDIUM | Implicit narrowing from `size_t`/`int64_t` to `int`; unsigned↔signed comparisons; float→int truncations |
-| `reliability` | ~~1637~~ **1598** | HIGH | 17 unchecked GPU API calls fixed in W1-L04 + 7 secondary-path checks in W1-L05 + 15 multi-GPU reliability fixes in W1-L06; remaining: Vulkan VkResult, llama_* |
+| `reliability` | ~~1637~~ **1597** | HIGH | 17 unchecked GPU API calls fixed in W1-L04 + 7 secondary-path checks in W1-L05 + 15 multi-GPU reliability fixes in W1-L06; remaining: Vulkan VkResult, llama_* |
 | `input_validation` | 929 | CRITICAL | Missing upper-bound checks on user-supplied sizes, ranks, and token counts before allocation |
 | `data_race` | ~~7~~ **0** | CRITICAL | ✅ **Resolved in W1-L02 + W1-L03** — See delta tables below |
 | `iterator_invalidation` | ~~1~~ **0** | HIGH | ✅ **Resolved in W1-L02** — `loss_history_` push_back race |
 | `no_timeout` | ~~2~~ **0** | HIGH | ✅ **Resolved in W1-L02 + W1-L03** — stopTraining polling; GPU fence INFINITE waits |
 | `smart_ptr_misuse` | ~~1~~ **0** | HIGH | ✅ **Resolved in W1-L03** — raw pointer escape from unique_ptr under lock |
-| **Total** | **19,788** | **CRITICAL** | W1-L02+W1-L03+W1-L04+W1-L05+W1-L06 reduced 53 findings |
+| **Total** | **19,787** | **CRITICAL** | W1-L02+W1-L03+W1-L04+W1-L05+W1-L06 reduced 53 findings |
 
 **Severity breakdown:** 🔴 CRITICAL 1466 | 🟠 HIGH 15975 | 🟡 MEDIUM 2397
 
@@ -372,6 +372,11 @@ guards `llama_get_logits_ith` before dereference (`multi_lora_manager.cpp`); `Ll
 generation/speculative loops now validate vocab handles/sizes and all logits pointers before
 sampling/probability access, and speculative validation now exits cleanly when no draft tokens
 are produced (`llama_wrapper.cpp`).
+
+**Status (v1.21.0-pre — batch 39):** REL-87 fixed — `VulkanContext::cleanup()` now checks
+`vkDeviceWaitIdle` and logs non-success results before continuing teardown; `wait_for_fence()`
+now logs non-timeout `vkWaitForFences` failures for diagnosable GPU-fence errors
+(`lora_framework/vulkan_context.cpp`).
 
 ---
 
