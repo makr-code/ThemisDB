@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Security — NL→AQL translation hardening
+
+- **`src/aql/llm_aql_handler.cpp`** — prompt-boundary guardrails tightened by rejecting schema delimiter escape markers (e.g. `### SCHEMA_END ###` variants) during prompt sanitization.
+- **`src/aql/llm_aql_handler.cpp`** — generated-query access checks are now enforced consistently across all NL→AQL flows (`translateNLToAQL`, `translateNLToAQLStreaming`, `translateNLToAQLWithExamples`) using `setCollectionAccessChecker(...)`.
+- **`tests/test_llm_aql_handler.cpp`** — regression coverage extended for delimiter-escape rejection, access-denied behavior (`LLMErrorCode::ACCESS_DENIED`) across all translation paths, and with-examples schema-scope parity checks.
+
 ### Reliability — Exception hardening (catch-all removal, batch 4)
 
 - **`server/http_server.cpp`** — 4 remaining `catch(...)` handlers replaced with typed
