@@ -67,6 +67,7 @@ private:
 
 class CQResultStreamImpl : public CQResultStream {
 public:
+    ~CQResultStreamImpl() override = default;
     explicit CQResultStreamImpl(std::shared_ptr<ResultQueue> queue);
 
     bool hasMore() const noexcept override;

@@ -239,8 +239,14 @@ bool MixedPrecisionInference::isSupported(PrecisionMode precision) {
         return false;
     }
     int major = 0, minor_ver = 0;
-    cudaDeviceGetAttribute(&major, cudaDevAttrComputeCapabilityMajor, dev);
-    cudaDeviceGetAttribute(&minor_ver, cudaDevAttrComputeCapabilityMinor, dev);
+    cudaError_t attr_err = cudaDeviceGetAttribute(&major, cudaDevAttrComputeCapabilityMajor, dev);
+    if (attr_err != cudaSuccess) {
+        return false;
+    }
+    attr_err = cudaDeviceGetAttribute(&minor_ver, cudaDevAttrComputeCapabilityMinor, dev);
+    if (attr_err != cudaSuccess) {
+        return false;
+    }
     const int sm = major * 10 + minor_ver;
 
     switch (precision) {

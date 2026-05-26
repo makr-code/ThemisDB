@@ -602,8 +602,9 @@ void PostgresSession::handleDescribe(char type, const std::string& name) {
                 // Non-SELECT query - send NoData
                 sendNoData();
             }
-        } catch (...) {
+        } catch (const std::exception& e) {
             // If parsing fails, send generic row description
+            std::cerr << "[PostgresSession] handleDescribe (statement): parse error: " << e.what() << "\n";
             std::vector<FieldDescription> fields = {
                 {"?column?", 0, 0, 25, -1, -1, 0}
             };
@@ -653,7 +654,8 @@ void PostgresSession::handleDescribe(char type, const std::string& name) {
             } else {
                 sendNoData();
             }
-        } catch (...) {
+        } catch (const std::exception& e) {
+            std::cerr << "[PostgresSession] handleDescribe (portal): parse error: " << e.what() << "\n";
             std::vector<FieldDescription> fields = {
                 {"?column?", 0, 0, 25, -1, -1, 0}
             };
@@ -1176,6 +1178,7 @@ void PostgresSession::doRead() {
                 
                 offset = 5; // Skip type and length
                 
+                try {
                 switch (messageType) {
                     case 'Q': { // Simple Query
                         std::string query(buffer_.data() + offset);
@@ -1324,6 +1327,10 @@ void PostgresSession::doRead() {
                     }
                     default:
                         break;
+                }
+                } catch (const std::exception& e) {
+                    std::cerr << "[PostgresSession] Message handler error (type='" << messageType << "'): " << e.what() << "\n";
+                    sendErrorResponse("ERROR", "XX000", std::string("Internal error: ") + e.what());
                 }
             }
             
@@ -1493,7 +1500,9 @@ void PostgresSession::handleSchemaQuery(const std::string& query) {
                             }
                         }
                     }
-                } catch (...) {}
+                } catch (const std::exception& e) {
+                    std::cerr << "[PostgresSession] pg_attribute query: document parse error: " << e.what() << "\n";
+                }
                 ++oid;
             }
             sendCommandComplete("SELECT " + std::to_string(total_cols));

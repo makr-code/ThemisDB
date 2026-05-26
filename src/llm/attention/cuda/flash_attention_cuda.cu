@@ -247,10 +247,10 @@ AttentionMemoryStats FlashAttentionCUDA::getMemoryStats() const {
     
     // Query GPU memory
     size_t free_mem, total_mem;
-    cudaError_t err = cudaMemGetInfo(&free_mem, &total_mem);
-    if (err != cudaSuccess) {
+    const cudaError_t mem_info_err = cudaMemGetInfo(&free_mem, &total_mem);
+    if (mem_info_err != cudaSuccess) {
         throw std::runtime_error(
-            std::string("Failed to query CUDA memory stats: ") + cudaGetErrorString(err)
+            std::string("CUDA memory query failed: ") + cudaGetErrorString(mem_info_err)
         );
     }
     
@@ -342,9 +342,11 @@ void FlashAttentionCUDA::allocateWorkspace() {
 
 void FlashAttentionCUDA::freeWorkspace() {
     if (d_workspace_) {
-        cudaError_t err = cudaFree(d_workspace_);
-        if (err != cudaSuccess) {
-            spdlog::warn("FlashAttentionCUDA::freeWorkspace cudaFree failed: {}", cudaGetErrorString(err));
+        // REL-67: check cudaFree return value in freeWorkspace
+        cudaError_t free_err = cudaFree(d_workspace_);
+        if (free_err != cudaSuccess) {
+            spdlog::warn("FlashAttentionCUDA::freeWorkspace: cudaFree failed: {}",
+                         cudaGetErrorString(free_err));
         }
         d_workspace_ = nullptr;
     }

@@ -98,8 +98,10 @@ public:
     
     /**
      * @brief Wait for GPU to complete all pending work
+     * @param timeout_ms Timeout in milliseconds
+     * @return true if the GPU completed within timeout
      */
-    void wait_for_gpu();
+    bool wait_for_gpu(uint32_t timeout_ms = 30000);
     
     /**
      * @brief Reset command list for new recording
@@ -108,8 +110,9 @@ public:
     
     /**
      * @brief Execute command list and wait for completion
+     * @param timeout_ms Timeout in milliseconds
      */
-    void execute_command_list();
+    void execute_command_list(uint32_t timeout_ms = 30000);
     
     /**
      * @brief Get GPU description string

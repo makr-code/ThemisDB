@@ -751,6 +751,7 @@ private:
     // This is returned by get_expression_evaluator() to break circular dependencies
     class QueryExpressionEvaluator : public IExpressionEvaluator {
     public:
+    ~QueryExpressionEvaluator() override = default;
         explicit QueryExpressionEvaluator(QueryEngine* engine) 
             : engine_(engine) {}
         

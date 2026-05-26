@@ -337,9 +337,18 @@ void MultiGPULoRATrainer::update_parameters(MultiGPULoRALayer& layer) {
             
 #ifdef THEMIS_ENABLE_CUDA
             if (device.type == DeviceType::CUDA && !gpu_update_successful) {
-                // Set the active CUDA device before launching the kernel
-                cudaSetDevice(device.id);
+                // Set the active CUDA device before launching the kernel — REL-19a
+                bool setdevice_ok = true;
+                {
+                    cudaError_t set_err = cudaSetDevice(device.id);
+                    if (set_err != cudaSuccess) {
+                        spdlog::warn("multi_gpu_trainer: cudaSetDevice({}) failed: {}; skipping GPU update for param {}",
+                                     device.id, cudaGetErrorString(set_err), j);
+                        setdevice_ok = false;
+                    }
+                }
                 
+                if (setdevice_ok) {
                 // Use CUDA kernel for efficient GPU-side update
                 void* param_ptr = params[j]->gpu_ptr();
                 void* grad_ptr = grads[j]->gpu_ptr();
@@ -363,14 +372,24 @@ void MultiGPULoRATrainer::update_parameters(MultiGPULoRALayer& layer) {
                 } else {
                     spdlog::warn("Invalid pointers for GPU {}, param {}, using CPU fallback", i, j);
                 }
+                } // setdevice_ok
             }
 #endif
 
 #ifdef THEMIS_ENABLE_HIP
             if (device.type == DeviceType::HIP && !gpu_update_successful) {
-                // Set the active HIP device before launching the kernel
-                hipSetDevice(device.id);
+                // Set the active HIP device before launching the kernel — REL-19b
+                bool setdevice_ok = true;
+                {
+                    hipError_t set_err = hipSetDevice(device.id);
+                    if (set_err != hipSuccess) {
+                        spdlog::warn("multi_gpu_trainer: hipSetDevice({}) failed: {}; skipping GPU update for param {}",
+                                     device.id, hipGetErrorString(set_err), j);
+                        setdevice_ok = false;
+                    }
+                }
                 
+                if (setdevice_ok) {
                 // Use HIP kernel for efficient GPU-side update
                 void* param_ptr = params[j]->gpu_ptr();
                 void* grad_ptr = grads[j]->gpu_ptr();
@@ -394,6 +413,7 @@ void MultiGPULoRATrainer::update_parameters(MultiGPULoRALayer& layer) {
                 } else {
                     spdlog::warn("Invalid pointers for GPU {}, param {}, using CPU fallback", i, j);
                 }
+                } // setdevice_ok
             }
 #endif
 

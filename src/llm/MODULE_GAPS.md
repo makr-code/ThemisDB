@@ -154,6 +154,197 @@ regression tests added (`test_vulkan_dispatch_reliability.cpp`).
 now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCLBackend`
 (`rccl_backend.cpp`); errors logged via `spdlog::error` before continuing stream sync.
 
+**Status (v1.22.0-pre — W1-L03):** Kernel interface hardening for
+`lora_framework/kernels/vulkan_kernels.cpp` and `lora_framework/kernels/directx_kernels.cpp`:
+- Added timeout-bounded state-lock acquisition (`std::recursive_timed_mutex` + 30s `try_lock_for`)
+  to reduce `no_timeout` findings around backend state synchronization.
+- Serialized lifecycle-sensitive access to cached `std::unique_ptr` resources (context, descriptors,
+  pipeline cache) to reduce `data_race` and `smart_ptr_misuse` risk in concurrent init/dispatch/cleanup.
+- Enforced centralized state validation before dispatch to keep resource lifetime deterministic.
+- Added strict null/dimension validation and checked byte-size arithmetic in kernel launch paths to
+  fail fast on invalid inputs and prevent allocation-size overflow.
+- Added focused hardening tests in `tests/test_lora_kernel_interface_hardening.cpp` for uninitialized
+  fail-fast behavior and concurrent lifecycle lock-timeout regression coverage.
+
+**Status (v1.22.0-pre — W1-L03b):** REL-10..REL-19 fixed — stream sync + device-set reliability:
+- REL-10: `cudaStreamSynchronize` return value now checked in `NCCLBackend::allreduce()`; error logged and `false` returned.
+- REL-11: `cudaStreamSynchronize` return value now checked in `NCCLBackend::broadcast()`; error logged and `false` returned.
+- REL-12: `cudaStreamSynchronize` return value now checked in `NCCLBackend::barrier()`; error logged.
+- REL-13: `cudaSetDevice` return value now checked in `NCCLBackend::initialize_nccl()`; error logged and `false` returned.
+- REL-14: `hipStreamSynchronize` return value now checked in `RCCLBackend::allreduce()`; error logged and `false` returned.
+- REL-15: `hipStreamSynchronize` return value now checked in `RCCLBackend::broadcast()`; error logged and `false` returned.
+- REL-16: `hipStreamSynchronize` return value now checked in `RCCLBackend::barrier()`; error logged.
+- REL-17: `hipSetDevice` return value now checked in `RCCLBackend::initialize_rccl()`; error logged and `false` returned.
+- REL-18: `hipGetDeviceProperties`, `hipRuntimeGetVersion`, `cudaRuntimeGetVersion` return values now checked in
+  `gpu_memory.cpp::get_available_backends()`; `hipDeviceProp_t` zero-initialised; warnings logged on failure.
+- REL-19: `cudaSetDevice`/`hipSetDevice` return values now checked before kernel dispatch in `multi_gpu_trainer.cpp`;
+  on failure, GPU kernel dispatch is skipped and CPU fallback is used instead.
+
+**Status (v1.22.0-pre — W1-L04):** REL-20..REL-26 fixed — peer-access + cleanup + defrag reliability:
+- REL-20: `cudaDeviceCanAccessPeer` return value now checked during multi-GPU peer-access setup in
+  `gpu_memory_manager.cpp::initializeGPU()`; failed capability queries are logged and skipped.
+- REL-21: `cudaSetDevice` return value now checked before `cudaDeviceEnablePeerAccess` in
+  `gpu_memory_manager.cpp::initializeGPU()`; failed device selection is logged and skipped.
+- REL-22: `cudaSetDevice` return value now checked in `gpu_memory_manager.cpp::shutdownGPU()`
+  before peer-access disable loop; failed device selection is logged and skipped.
+- REL-23: `cudaDeviceDisablePeerAccess` return value now checked in `shutdownGPU()`; non-benign
+  failures are logged.
+- REL-24: `cudaSetDevice` return value now checked before `cudaDeviceReset` in `shutdownGPU()`;
+  failed device selection is logged and reset is skipped for that device.
+- REL-25: `cudaSetDevice` + `cudaMemcpy` return values now checked in
+  `gpu_memory_manager.cpp::defragmentModelGPU()`; failed copies abort that device-defrag path and
+  free temporary consolidated buffers.
+- REL-26: `ncclGetVersion`/`ncclCommDestroy`/`cudaStreamDestroy` and
+  `ncclGetVersion`/`ncclCommDestroy`/`hipStreamDestroy` return values now checked in
+  `nccl_backend.cpp` and `rccl_backend.cpp`; failures are logged with fail-safe behavior.
+
+**Status (v1.22.0-pre — W1-L05):** REL-27..REL-33 fixed — backend-probe and vision-prefill reliability:
+- REL-27: `vkCreateInstance` probe return value in `gpu_memory.cpp::detect_backends()` is now captured
+  explicitly; failures are logged with `spdlog::warn` and Vulkan backend remains unavailable.
+- REL-28: First `vkEnumeratePhysicalDevices` call (count probe) now uses an explicit `VkResult` check and
+  warning on failure in `gpu_memory.cpp`.
+- REL-29: Second `vkEnumeratePhysicalDevices` call (fill probe) now checks result explicitly, tolerates
+  `VK_INCOMPLETE`, and logs failures in `gpu_memory.cpp`.
+- REL-30: Empty-device edge case after fill probe is now handled with explicit warning before skipping
+  device property reads in `gpu_memory.cpp`.
+- REL-31: Vulkan probe no-device path now logs explicit debug status to preserve deterministic backend
+  selection behavior.
+- REL-32: Vulkan probe create-failure path now logs explicit warning to improve diagnosability of
+  unavailable Vulkan backends at runtime.
+- REL-33: Vision prefix prefill path now logs explicit warning when `llama_decode` fails in
+  `llama_wrapper.cpp::generateVision()`, preventing silent degradation before image embedding injection.
+
+**Status (v1.22.0-pre — W1-L06):** REL-34..REL-48 fixed — multi-GPU set-device, topology-detect, P2P enable, and Vulkan RAII:
+- REL-34: `cudaSetDevice` return value now checked in `multi_gpu.cpp::synchronize_all()`; failures are
+  logged and the device skipped (preventing a blind `cudaDeviceSynchronize` on the wrong device).
+- REL-35: `hipSetDevice` return value now checked in `multi_gpu.cpp::synchronize_all()`; failures are
+  logged and the device skipped.
+- REL-36: `cudaDeviceCanAccessPeer` return value now captured and checked in
+  `multi_gpu.cpp::GPUTopology::detect()`; failures are logged with device IDs.
+- REL-37: `hipDeviceCanAccessPeer` return value now captured and checked in
+  `multi_gpu.cpp::GPUTopology::detect()`; failures are logged with device IDs.
+- REL-38: `cudaSetDevice` return value now checked before `cudaDeviceEnablePeerAccess` in
+  `custom_allreduce.cpp::enable_p2p_access()`; on failure, `p2p_enabled_` is cleared and loop continues.
+- REL-39: `hipSetDevice` return value now checked before `hipDeviceEnablePeerAccess` in
+  `custom_allreduce.cpp::enable_p2p_access()`; on failure, `p2p_enabled_` is cleared and loop continues.
+- REL-40: `cudaSetDevice` return value now checked in `multi_gpu_memory_coordinator.cpp::initialize()`;
+  failed GPU selection is logged and that GPU skipped.
+- REL-41: `hipSetDevice` return value now checked in `multi_gpu_memory_coordinator.cpp::initialize()`;
+  failed GPU selection is logged and that GPU skipped.
+- REL-42: `cudaSetDevice(src_gpu)` now checked before forward P2P enable in
+  `multi_gpu_memory_coordinator.cpp::enableP2P()`; failures increment fail_count and skip the P2P call.
+- REL-43: `cudaSetDevice(dst_gpu)` now checked before backward P2P enable in
+  `multi_gpu_memory_coordinator.cpp::enableP2P()`; failures increment fail_count and skip the P2P call.
+- REL-44: `hipSetDevice(src_gpu)` now checked before forward P2P enable in
+  `multi_gpu_memory_coordinator.cpp::enableP2P()`; failures increment fail_count and skip the P2P call.
+- REL-45: `hipSetDevice(dst_gpu)` now checked before backward P2P enable in
+  `multi_gpu_memory_coordinator.cpp::enableP2P()`; failures increment fail_count and skip the P2P call.
+- REL-46: `cudaSetDevice` return value now checked in `multi_gpu_memory_coordinator.cpp::synchronizeAll()`;
+  failures are logged and the device skipped.
+- REL-47: `hipSetDevice` return value now checked in `multi_gpu_memory_coordinator.cpp::synchronizeAll()`;
+  failures are logged and the device skipped.
+- REL-48: Vulkan allocator init in `vram_allocator.cpp` replaced raw `new`/`delete` pair with
+  `std::make_unique<VulkanAllocContext>()` + `release()`; exception-unsafe manual cleanup path eliminated.
+
+**Status (v1.22.0-pre — W1-L07):** REL-49..REL-51 fixed — CUDA synchronize and memory-query reliability:
+- REL-49: `cudaDeviceSynchronize` return value now checked in `flash_lora.cpp::forward()`; failures throw
+  `std::runtime_error` with the CUDA error string instead of being silently ignored.
+- REL-50: `cudaDeviceSynchronize` return value now checked in `flash_lora.cpp::backward()`; failures throw
+  `std::runtime_error` with the CUDA error string instead of being silently ignored.
+- REL-51: `cudaMemGetInfo` return value now checked in `attention/cuda/flash_attention_cuda.cu::getMemoryStats()`;
+  failures throw `std::runtime_error` before reporting incomplete memory statistics.
+
+**Status (v1.22.0-pre — W1-L08):** REL-52..REL-61 fixed — quantization and overflow-buffer cleanup reliability:
+- REL-52: `cudaMalloc` return value now checked in
+  `lora_framework/kernels/quantization_kernels.cu::GPUMemoryManager::allocateQuantizedBuffer()`; failures log
+  an error and return `nullptr` without incrementing `total_allocated_`.
+- REL-53: `cudaMallocHost` return value now checked in
+  `lora_framework/kernels/quantization_kernels.cu::GPUMemoryManager::allocatePinnedHost()`; failures log an
+  error and return `nullptr`.
+- REL-54: `cudaFree` return value now checked in
+  `lora_framework/kernels/quantization_kernels.cu::GPUMemoryManager::freeDevice()`; failures are logged.
+- REL-55: `cudaFreeHost` return value now checked in
+  `lora_framework/kernels/quantization_kernels.cu::GPUMemoryManager::freePinned()`; failures are logged.
+- REL-56: Cleanup `cudaFree` after `cudaMemset` failure is now checked in
+  `lora_framework/kernels/cuda_kernels.cu::checkInfNanCUDA()`; cleanup failures are logged.
+- REL-57: Cleanup `cudaFree` after kernel-launch failure is now checked in
+  `lora_framework/kernels/cuda_kernels.cu::checkInfNanCUDA()`; cleanup failures are logged.
+- REL-58: Final cleanup `cudaFree` after overflow-result copy is now checked in
+  `lora_framework/kernels/cuda_kernels.cu::checkInfNanCUDA()`; cleanup failure is returned when no earlier CUDA
+  error occurred.
+- REL-59: Cleanup `hipFree` after `hipMemset` failure is now checked in
+  `lora_framework/kernels/hip_kernels.cpp::checkInfNanHIP()`; cleanup failures are logged.
+- REL-60: Cleanup `hipFree` after kernel-launch failure is now checked in
+  `lora_framework/kernels/hip_kernels.cpp::checkInfNanHIP()`; cleanup failures are logged.
+- REL-61: Final cleanup `hipFree` after overflow-result copy is now checked in
+  `lora_framework/kernels/hip_kernels.cpp::checkInfNanHIP()`; cleanup failure is returned when no earlier HIP
+  error occurred.
+
+**OOP-01:** `~LLMPluginAdapter() override = default;` added to `llm_plugin_interface.h` to close override
+destructor gap for the concrete `LLMPluginAdapter` class.
+
+**Status (v1.22.0-pre — W1-L09):** REL-62..REL-67 fixed — remaining unchecked CUDA/HIP cleanup calls:
+- REL-62: `cudaDeviceSynchronize` return value now checked in `lora_framework/multi_gpu.cpp::synchronize_all`
+  (CUDA path); failures are logged per-device and the loop continues with the remaining devices.
+- REL-63: `hipDeviceSynchronize` return value now checked in `lora_framework/multi_gpu.cpp::synchronize_all`
+  (HIP path); failures are logged per-device and the loop continues with the remaining devices.
+- REL-64: `cudaFree` return value now checked in `lora_framework/vram_allocator.cpp::release_backend_ptr_`
+  (CUDA path); failures are logged via `spdlog::error`.
+- REL-65: `hipFree` return value now checked in `lora_framework/vram_allocator.cpp::release_backend_ptr_`
+  (HIP path); failures are logged via `spdlog::error`.
+- REL-66: `cudaFree` of scratch buffer now checked in `gpu_memory_manager.cpp::defragment` cleanup path;
+  failures are logged via `spdlog::warn`.
+- REL-67: `cudaFree` return value now checked in
+  `attention/cuda/flash_attention_cuda.cu::FlashAttentionCUDA::freeWorkspace()`; failures are logged via
+  `spdlog::warn` and `d_workspace_` is still cleared to `nullptr` to prevent double-free.
+
+**Status (v1.22.0-pre — W1-L10):** REL-68..REL-73 fixed — NCCL/RCCL group-call and cleanup-adjacent reliability:
+- REL-68: `ncclGroupStart` return value now checked in `lora_framework/nccl_backend.cpp::allreduce()`;
+  failures are logged and the allreduce call returns `false`.
+- REL-69: Early-exit `ncclGroupEnd` return value is now checked in
+  `lora_framework/nccl_backend.cpp::allreduce()` when `ncclAllReduce` fails; cleanup failures are logged.
+- REL-70: Success-path `ncclGroupEnd` return value is now checked in
+  `lora_framework/nccl_backend.cpp::allreduce()`; failures are logged and cause `false` return.
+- REL-71: `ncclGroupStart` return value now checked in `lora_framework/rccl_backend.cpp::allreduce()`;
+  failures are logged and the allreduce call returns `false`.
+- REL-72: Success/early-exit `ncclGroupEnd` return value is now checked in
+  `lora_framework/rccl_backend.cpp::allreduce()`; failures are logged (`warn` on early-exit cleanup,
+  `error` on success-path failure).
+- REL-73: `cudaSetDevice` return value now checked in `gpu_memory_manager.cpp::MemoryHolder::freeGPUMemory()`
+  before secure-clear/free; failures are logged and the cleanup path exits early to avoid wrong-device operations.
+
+**Status (v1.22.0-pre — W1-L11):** REL-74..REL-78 fixed — FlashAttention kernel launcher reliability:
+- REL-74: `cudaMemsetAsync` return value now checked for `d_dQ` initialization in
+  `kernel_fusion.cu::launchFlashAttentionBackward()`.
+- REL-75: `cudaMemsetAsync` return value now checked for `d_dK` initialization in
+  `kernel_fusion.cu::launchFlashAttentionBackward()`.
+- REL-76: `cudaMemsetAsync` return value now checked for `d_dV` initialization in
+  `kernel_fusion.cu::launchFlashAttentionBackward()`.
+- REL-77: `cudaPeekAtLastError` launch status is now checked after
+  `flashAttentionForwardKernel<<<...>>>` in `kernel_fusion.cu::launchFlashAttentionForward()`.
+- REL-78: `cudaPeekAtLastError` launch status is now checked after
+  `flashAttentionBackwardKernel<<<...>>>` in `kernel_fusion.cu::launchFlashAttentionBackward()`.
+
+**Status (v1.22.0-pre — W1-L12):** REL-79..REL-82 fixed — fused-kernel launcher reliability:
+- REL-79: `cudaPeekAtLastError` launch status is now checked after
+  `fusedQKVProjectionKernel<<<...>>>` in `kernel_fusion.cu::launchFusedQKVProjection()`.
+- REL-80: `cudaPeekAtLastError` launch status is now checked after
+  `fusedRoPEKernel<<<...>>>` in `kernel_fusion.cu::launchFusedRoPE()`.
+- REL-81: `cudaPeekAtLastError` launch status is now checked after
+  `fusedLayerNormLinearKernel<<<...>>>` in `kernel_fusion.cu::launchFusedLayerNormLinear()`.
+- REL-82: `cudaPeekAtLastError` launch status is now checked after
+  `fusedGatedFFNKernel<<<...>>>` in `kernel_fusion.cu::launchFusedGatedFFN()`.
+- Additionally, W1-L11 paths now log CUDA error strings for all checked `cudaMemsetAsync` and
+  FlashAttention launch-failure branches.
+
+**Status (v1.22.0-pre — W1-L13):** REL-83..REL-84 fixed — compute-capability probe reliability:
+- REL-83: `mixed_precision_inference.cpp::isSupported()` now checks both
+  `cudaDeviceGetAttribute` calls before using SM-major/minor values; CUDA query failures now
+  return `false` instead of deriving support from potentially stale/default values.
+- REL-84: `acceleration/cuda/tensor_core_matmul.cu::launchINT8MatmulKernel()` now checks both
+  `cudaDeviceGetAttribute` calls before gating INT8 Tensor Core execution on SM version; failed
+  attribute queries now take the existing non-accelerated early-return path.
+
 ---
 
 ## 📋 Implementation Priority
@@ -179,6 +370,68 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
   before hex formatting
 - `lora_framework/kernels/quantization_kernels.cu` — `(int)block_size` replaced with
   `static_cast<int>(block_size)` in NF4 and INT8 quantization launch helpers
+
+**Status (v1.22.0-pre — batch 33):** Third batch of type_conversion fixes:
+- `lora_framework/kernels/cuda_fused_kernels.cu` — 3× `(int)(rank - tile_start)` replaced with
+  `static_cast<int>(rank - tile_start)` in tiled forward kernels
+- `lora_framework/kernels/hip_fused_kernels.cpp` — `(int)(rank - tile_start)` replaced with
+  `static_cast<int>(rank - tile_start)` in tiled forward kernel
+
+**Status (v1.22.0-pre — W1-L04 null_dereference batch):** Null-pointer guards added to all
+`llama_get_logits_ith` call sites that lacked an explicit check:
+- `llama_wrapper.cpp` main generation loop (line ~1079) — `if (!logits) break` added before
+  `sampleTokenInternal` and `getProbability` calls.
+- `llama_wrapper.cpp` speculative draft loop (~2272) — `if (!draft_logits) break` added before
+  `sampleTokenInternal` call.
+- `llama_wrapper.cpp` speculative validation loop (~2306) — `if (!target_logits) break` added
+  before `getProbability(target_logits, ...)` call (most critical: direct null deref without guard).
+- `llama_wrapper.cpp` embedding generation path (~2516) — `if (!logits) break` added.
+
+**Status (v1.22.0-pre — W1-L05 pointer_arithmetic batch):** Out-of-bounds array access fixed:
+- `aql_train_parser.cpp` TRAIN OUTPUT clause parsing (~line 715) — `tokenize(output_clause)[0]`
+  replaced with a local `output_tokens` vector + empty-check guard before index 0 is accessed.
+
+**Status (v1.22.0-pre — W1-L06 uninitialized_access/overflow batch):** Integer-overflow guard added to `canAllocate`:
+- `gpu_memory_manager.cpp` `canAllocate()` (~line 759) — Added `size_t` overflow pre-checks
+  before computing `future_vram = total_vram_used_ + vram_bytes` and
+  `future_ram = total_ram_used_ + ram_bytes`.  Previously, a sufficiently large
+  `bytes` argument could wrap `size_t` and bypass the hard-limit guard, allowing an
+  OOM-condition allocation to proceed. Now returns `false` immediately on potential overflow.
+  Added `<limits>` include for `std::numeric_limits<size_t>::max()`.
+
+**Status (v1.22.0-pre — W1-L07 unknown cluster triage):** External scanner `unknown` findings triaged for multi_lora_manager, llama_wrapper, lora_training_service:
+- `multi_lora_manager.cpp`: external_v3 reports 1227 findings vs 5 internal. `unknown` cluster
+  arises from deep STL template patterns, virtual dispatch and large switch bodies the scanner
+  cannot classify. All concrete data_race paths are guarded by `std::shared_mutex`
+  (readers use shared_lock, writers unique_lock). No actionable lock-free shared-state
+  mutation or missing null check found on audit.
+- `llama_wrapper.cpp`: 4 `llama_get_logits_ith` null-deref paths fixed in W1-L04 (this batch).
+  Remaining `unknown` scanner findings correspond to internal C struct accesses via llama.cpp
+  opaque pointers — not modifiable without altering the llama.cpp ABI. Documented as
+  third-party-ABI constraint, not actionable.
+- `lora_training_service.cpp`: external_v3 reports 689 findings vs 12 internal. `unknown`
+  cluster is dominated by parallel training-batch queue patterns that the scanner cannot
+  distinguish from races. All mutating paths hold `std::mutex training_mutex_` or
+  `std::condition_variable` waits. No concrete unguarded shared-state write found on audit.
+
+**Status (v1.22.0-pre — W1-L03d scope follow-up):** Vulkan/DirectX kernel-interface
+scope hardened for smart-pointer lifetime safety:
+- `lora_framework/kernels/vulkan_kernels.cpp` — Removed `thread_local` fused-buffer cache
+  persistence in `launch_fused_lora_forward` and `launch_fused_lora_backward`; caches are now
+  per-call. This eliminates stale `VulkanBuffer` ownership across backend cleanup/re-init
+  cycles where cached buffers could outlive the original `VulkanContext`.
+- `lora_framework/kernels/directx_kernels.cpp` — Re-audited lock timeout coverage in scoped
+  launch and cache helpers; all global-state entry paths continue to use timed lock acquisition
+  (`lock_directx_state_or_throw`) with explicit timeout failure.
+
+**Status (v1.22.0-pre — W1-L03e no_timeout follow-up):** Bounded GPU wait timeouts added for
+Vulkan/DirectX kernel execution paths:
+- `lora_framework/vulkan_pipeline.h/.cpp` + `lora_framework/kernels/vulkan_kernels.cpp` —
+  pipeline wait now accepts an explicit timeout (`wait(timeout_ns)`); all kernel launch paths
+  now use a bounded 30s wait with explicit throw on timeout/failure instead of unbounded waits.
+- `lora_framework/directx_context.h/.cpp` + `lora_framework/kernels/directx_kernels.cpp` —
+  `wait_for_gpu`/`execute_command_list` now use a bounded timeout (30s default). Kernel launch
+  paths pass explicit timeout and fail fast on GPU wait timeout instead of blocking indefinitely.
 
 ---
 

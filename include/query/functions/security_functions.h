@@ -56,6 +56,7 @@ namespace functions {
  */
 class IsEmailFunction : public IFunction {
 public:
+    ~IsEmailFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "IS_EMAIL",
@@ -93,6 +94,7 @@ public:
  */
 class IsUrlFunction : public IFunction {
 public:
+    ~IsUrlFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "IS_URL",
@@ -127,6 +129,7 @@ public:
  */
 class IsUuidFunction : public IFunction {
 public:
+    ~IsUuidFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "IS_UUID",
@@ -163,6 +166,7 @@ public:
  */
 class IsIpFunction : public IFunction {
 public:
+    ~IsIpFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "IS_IP",
@@ -212,6 +216,7 @@ public:
  */
 class IsPhoneFunction : public IFunction {
 public:
+    ~IsPhoneFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "IS_PHONE",
@@ -258,6 +263,7 @@ public:
  */
 class IsIbanFunction : public IFunction {
 public:
+    ~IsIbanFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "IS_IBAN",
@@ -317,6 +323,7 @@ public:
  */
 class IsCreditCardFunction : public IFunction {
 public:
+    ~IsCreditCardFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "IS_CREDIT_CARD",
@@ -380,6 +387,7 @@ public:
  */
 class SanitizeFunction : public IFunction {
 public:
+    ~SanitizeFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "SANITIZE",
@@ -490,6 +498,7 @@ private:
  */
 class HasInjectionFunction : public IFunction {
 public:
+    ~HasInjectionFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "HAS_INJECTION",
@@ -586,6 +595,7 @@ public:
  */
 class MaskFunction : public IFunction {
 public:
+    ~MaskFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "MASK",
@@ -638,6 +648,7 @@ public:
  */
 class MaskEmailFunction : public IFunction {
 public:
+    ~MaskEmailFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "MASK_EMAIL",
@@ -697,6 +708,7 @@ public:
  */
 class MaskCreditCardFunction : public IFunction {
 public:
+    ~MaskCreditCardFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "MASK_CREDIT_CARD",
@@ -737,6 +749,7 @@ public:
  */
 class MaskIbanFunction : public IFunction {
 public:
+    ~MaskIbanFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "MASK_IBAN",
@@ -783,6 +796,7 @@ public:
  */
 class HashFunction : public IFunction {
 public:
+    ~HashFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "HASH",
@@ -843,6 +857,7 @@ private:
  */
 class ChecksumFunction : public IFunction {
 public:
+    ~ChecksumFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "CHECKSUM",
