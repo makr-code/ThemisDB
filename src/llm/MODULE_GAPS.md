@@ -172,6 +172,20 @@ Security-sensitive input validation gaps found by static analysis:
 
 ---
 
+### Addressed in W1-L07 (2026-05-26 — CUDA sync/memory-info reliability hardening)
+
+**Scope files:** `lora_framework/flash_lora.cpp`, `attention/cuda/flash_attention_cuda.cu`
+
+| Gap ID | Category | Finding | Fix | Impact |
+|--------|----------|---------|-----|--------|
+| W1-L07-REL-49 | `reliability` | `cudaDeviceSynchronize()` return value silently ignored at end of FlashLoRA forward pass | Captured return value and throw `std::runtime_error` on failure with CUDA error string | Prevents silent forward-path kernel/sync failures |
+| W1-L07-REL-50 | `reliability` | `cudaDeviceSynchronize()` return value silently ignored at end of FlashLoRA backward pass | Captured return value and throw `std::runtime_error` on failure with CUDA error string | Prevents silent backward-path kernel/sync failures |
+| W1-L07-REL-51 | `reliability` | `cudaMemGetInfo()` return value silently ignored in `FlashAttentionCUDA::getMemoryStats()` | Captured return value and throw `std::runtime_error` on failure with CUDA error string | Prevents silent GPU memory-telemetry failures |
+
+**Files modified:** `lora_framework/flash_lora.cpp`, `attention/cuda/flash_attention_cuda.cu`
+
+---
+
 ### Addressed in this PR (v1.20.0 / v1.20.1)
 
 | Gap | Fix | File |
@@ -273,6 +287,12 @@ regression tests added (`test_vulkan_dispatch_reliability.cpp`).
 **Status (v1.21.0-pre — batch 32):** REL-08..REL-09 fixed — `ncclAllReduce` return value
 now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCLBackend`
 (`rccl_backend.cpp`); errors logged via `spdlog::error` before continuing stream sync.
+
+**Status (v1.21.0-pre — batch 33):** REL-49..REL-51 fixed — both trailing
+`cudaDeviceSynchronize()` calls in `FlashLoRA::{forward,backward}` now checked and throw
+on failure (`flash_lora.cpp`); `cudaMemGetInfo()` in
+`FlashAttentionCUDA::getMemoryStats()` now checked and throws on failure
+(`attention/cuda/flash_attention_cuda.cu`).
 
 ---
 
