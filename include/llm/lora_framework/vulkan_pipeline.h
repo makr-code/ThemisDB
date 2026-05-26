@@ -97,8 +97,10 @@ public:
     
     /**
      * @brief Wait for pipeline execution to complete
+     * @param timeout_ns Timeout in nanoseconds
+     * @return true if completed within timeout
      */
-    void wait();
+    bool wait(uint64_t timeout_ns = 30000000000ULL);
     
     /**
      * @brief Check if pipeline is ready
@@ -207,7 +209,7 @@ public:
     bool bind_buffer(uint32_t, VulkanBuffer*) { return false; }
     bool set_push_constants(const void*, size_t) { return false; }
     bool dispatch(uint32_t, uint32_t, uint32_t) { return false; }
-    bool wait() { return false; }
+    bool wait(uint64_t = 0) { return false; }
 };
 
 } // namespace vulkan

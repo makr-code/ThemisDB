@@ -46,6 +46,7 @@ struct VulkanState {
 
 static VulkanState g_vulkan_state;
 constexpr auto kVulkanStateLockTimeout = std::chrono::seconds(30);
+constexpr uint64_t kVulkanKernelWaitTimeoutNs = 30000000000ULL;
 
 static std::unique_lock<std::recursive_timed_mutex> lock_vulkan_state_or_throw() {
     std::unique_lock<std::recursive_timed_mutex> lock(g_vulkan_state.mutex, std::defer_lock);
@@ -77,6 +78,12 @@ static size_t checked_float_bytes_2d(size_t rows, size_t cols, const char* conte
 static uint32_t checked_u32_size(size_t value, const char* context) {
     if (value > static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
         throw std::overflow_error(std::string(context) + ": value exceeds uint32 range");
+    }
+
+    static void wait_for_pipeline_or_throw(VulkanComputePipeline* pipeline, const char* context) {
+        if (!pipeline->wait(kVulkanKernelWaitTimeoutNs)) {
+            throw std::runtime_error(std::string(context) + ": timed out waiting for Vulkan kernel execution");
+        }
     }
     return static_cast<uint32_t>(value);
 }
@@ -503,7 +510,7 @@ void launch_matmul_shader(
         alpha);
     
     // Wait for completion
-    pipeline->wait();
+    wait_for_pipeline_or_throw(pipeline, "launch_matmul_shader");
     
     // Download result
     buf_C.download(C, size_C);
@@ -555,7 +562,7 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
     uint32_t groups = (size_u32 + 255u) / 256u;
     pipeline->dispatch(groups, 1, 1);
     
-    pipeline->wait();
+    wait_for_pipeline_or_throw(pipeline, "launch_add_shader");
     buf_C.download(C, byte_size);
 }
 
@@ -603,7 +610,7 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
     uint32_t groups = (size_u32 + 255u) / 256u;
     pipeline->dispatch(groups, 1, 1);
     
-    pipeline->wait();
+    wait_for_pipeline_or_throw(pipeline, "launch_multiply_shader");
     buf_C.download(C, byte_size);
 }
 
@@ -650,7 +657,7 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
     uint32_t groups = (size_u32 + 255u) / 256u;
     pipeline->dispatch(groups, 1, 1);
     
-    pipeline->wait();
+    wait_for_pipeline_or_throw(pipeline, "launch_relu_shader");
     buf_B.download(B, byte_size);
 }
 
@@ -698,7 +705,7 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
     uint32_t groups = (total_size_u32 + 255u) / 256u;
     pipeline->dispatch(groups, 1, 1);
     
-    pipeline->wait();
+    wait_for_pipeline_or_throw(pipeline, "launch_gelu_shader");
     buf_output.download(output, byte_size);
 }
 
@@ -761,7 +768,7 @@ void launch_lora_grad_A_shader(
     uint32_t groups_y = (K + 15) / 16;
     pipeline->dispatch(groups_x, groups_y, 1);
     
-    pipeline->wait();
+    wait_for_pipeline_or_throw(pipeline, "launch_softmax_shader");
     buf_grad_A.download(grad_A, size_grad_A);
 }
 
@@ -823,7 +830,7 @@ void launch_lora_grad_B_shader(
     uint32_t groups_y = (D + 15) / 16;
     pipeline->dispatch(groups_x, groups_y, 1);
     
-    pipeline->wait();
+    wait_for_pipeline_or_throw(pipeline, "launch_lora_forward_shader");
     buf_grad_B.download(grad_B, size_grad_B);
 }
 
@@ -878,7 +885,7 @@ void launch_embedding_lookup_shader(
     const uint32_t groups = (total_tokens_u32 + 255u) / 256u;
     pipeline->dispatch(groups, 1, 1);
 
-    pipeline->wait();
+    wait_for_pipeline_or_throw(pipeline, "launch_lora_backward_shader");
     buf_output.download(output, checked_mul_size(output_elems, sizeof(float), "launch_embedding_lookup_shader"));
 }
 
@@ -929,7 +936,7 @@ void launch_sequence_mean_shader(
     const uint32_t groups = (output_elems_u32 + 255u) / 256u;
     pipeline->dispatch(groups, 1, 1);
 
-    pipeline->wait();
+    wait_for_pipeline_or_throw(pipeline, "launch_lora_grad_A_shader");
     buf_output.download(output, checked_mul_size(output_elems, sizeof(float), "launch_sequence_mean_shader"));
 }
 
@@ -988,7 +995,7 @@ void launch_fused_lora_forward(
     dispatch_matmul_device(pipeline, *cache.buf_input, *cache.buf_B, *cache.buf_h, batch_u, rank_u, in_u, 1.0f);
     dispatch_matmul_device(pipeline, *cache.buf_h, *cache.buf_A, *cache.buf_output, batch_u, out_u, rank_u, scaling);
 
-    pipeline->wait();
+    wait_for_pipeline_or_throw(pipeline, "launch_lora_grad_B_shader");
     cache.buf_output->download(output, size_output);
 }
 
@@ -1067,7 +1074,7 @@ void launch_fused_lora_backward(
 
     // h = input @ B
     dispatch_matmul_device(matmul_pipeline, *cache.buf_input, *cache.buf_B, *cache.buf_h, batch_u, rank_u, in_u, 1.0f);
-    matmul_pipeline->wait();
+    wait_for_pipeline_or_throw(matmul_pipeline, "launch_fused_lora_backward: matmul(h)");
 
     // A^T and h^T
     dispatch_transpose_device(elementwise_pipeline, *cache.buf_A, *cache.buf_a_t, rank_u, out_u);
@@ -1075,7 +1082,7 @@ void launch_fused_lora_backward(
     // input^T and B^T
     dispatch_transpose_device(elementwise_pipeline, *cache.buf_input, *cache.buf_input_t, batch_u, in_u);
     dispatch_transpose_device(elementwise_pipeline, *cache.buf_B, *cache.buf_b_t, in_u, rank_u);
-    elementwise_pipeline->wait();
+    wait_for_pipeline_or_throw(elementwise_pipeline, "launch_fused_lora_backward: elementwise(transpose)");
 
     // grad_h = grad_output @ A^T * scaling
     dispatch_matmul_device(matmul_pipeline, *cache.buf_grad_output, *cache.buf_a_t, *cache.buf_grad_h, batch_u, rank_u, out_u, scaling);
@@ -1085,7 +1092,7 @@ void launch_fused_lora_backward(
     dispatch_matmul_device(matmul_pipeline, *cache.buf_input_t, *cache.buf_grad_h, *cache.buf_grad_B, in_u, rank_u, batch_u, 1.0f);
     // grad_input = grad_h @ B^T
     dispatch_matmul_device(matmul_pipeline, *cache.buf_grad_h, *cache.buf_b_t, *cache.buf_grad_input, batch_u, in_u, rank_u, 1.0f);
-    matmul_pipeline->wait();
+    wait_for_pipeline_or_throw(matmul_pipeline, "launch_fused_lora_backward: matmul(grads)");
 
     cache.buf_grad_A->download(grad_A, size_grad_A);
     cache.buf_grad_B->download(grad_B, size_grad_B);

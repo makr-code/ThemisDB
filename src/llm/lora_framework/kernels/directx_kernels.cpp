@@ -134,6 +134,7 @@ struct DirectXState {
 
 static DirectXState g_directx_state;
 constexpr auto kDirectXStateLockTimeout = std::chrono::seconds(30);
+constexpr uint32_t kDirectXKernelExecutionTimeoutMs = 30000;
 
 static std::unique_lock<std::recursive_timed_mutex> lock_directx_state_or_throw() {
     std::unique_lock<std::recursive_timed_mutex> lock(g_directx_state.mutex, std::defer_lock);
@@ -322,7 +323,7 @@ void launch_matmul_shader(
         pipeline->dispatch(thread_groups_x, thread_groups_y, 1);
         
         // Execute and wait
-        g_directx_state.context->execute_command_list();
+        g_directx_state.context->execute_command_list(kDirectXKernelExecutionTimeoutMs);
         
         // Download result
         buffer_C.download(C, size_C);
@@ -401,7 +402,7 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
         pipeline->dispatch(thread_groups, 1, 1);
         
         // Execute and wait
-        g_directx_state.context->execute_command_list();
+        g_directx_state.context->execute_command_list(kDirectXKernelExecutionTimeoutMs);
         
         // Download result
         buffer_C.download(C, byte_size);
@@ -468,7 +469,7 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
         uint32_t thread_groups = (size_u32 + 255u) / 256u;
         pipeline->dispatch(thread_groups, 1, 1);
         
-        g_directx_state.context->execute_command_list();
+        g_directx_state.context->execute_command_list(kDirectXKernelExecutionTimeoutMs);
         buffer_C.download(C, byte_size);
     }
     catch (const std::exception& e) {
@@ -533,7 +534,7 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
         uint32_t thread_groups = (size_u32 + 255u) / 256u;
         pipeline->dispatch(thread_groups, 1, 1);
         
-        g_directx_state.context->execute_command_list();
+        g_directx_state.context->execute_command_list(kDirectXKernelExecutionTimeoutMs);
         buffer_B.download(B, byte_size);
     }
     catch (const std::exception& e) {
@@ -599,7 +600,7 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
         uint32_t thread_groups = (size_u32 + 255u) / 256u;
         pipeline->dispatch(thread_groups, 1, 1);
         
-        g_directx_state.context->execute_command_list();
+        g_directx_state.context->execute_command_list(kDirectXKernelExecutionTimeoutMs);
         buffer_output.download(output, byte_size);
     }
     catch (const std::exception& e) {
@@ -701,7 +702,7 @@ void launch_lora_grad_A_shader(
         pipeline->dispatch(thread_groups_x, thread_groups_y, 1);
         
         // Execute and wait
-        g_directx_state.context->execute_command_list();
+        g_directx_state.context->execute_command_list(kDirectXKernelExecutionTimeoutMs);
         
         // Download result
         buffer_grad_A.download(grad_A, size_grad_A);
@@ -803,7 +804,7 @@ void launch_lora_grad_B_shader(
         pipeline->dispatch(thread_groups_x, thread_groups_y, 1);
         
         // Execute and wait
-        g_directx_state.context->execute_command_list();
+        g_directx_state.context->execute_command_list(kDirectXKernelExecutionTimeoutMs);
         
         // Download result
         buffer_grad_B.download(grad_B, size_grad_B);
@@ -884,7 +885,7 @@ void launch_embedding_lookup_shader(
         pipeline->dispatch(thread_groups, 1, 1);
         
         // Execute and wait
-        g_directx_state.context->execute_command_list();
+        g_directx_state.context->execute_command_list(kDirectXKernelExecutionTimeoutMs);
         
         // Download result
         buffer_output.download(output, output_bytes);
@@ -961,7 +962,7 @@ void launch_sequence_mean_shader(
         pipeline->dispatch(thread_groups, 1, 1);
         
         // Execute and wait
-        g_directx_state.context->execute_command_list();
+        g_directx_state.context->execute_command_list(kDirectXKernelExecutionTimeoutMs);
         
         // Download result
         buffer_output.download(output, output_bytes);

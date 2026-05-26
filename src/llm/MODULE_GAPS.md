@@ -416,6 +416,15 @@ scope hardened for smart-pointer lifetime safety:
   launch and cache helpers; all global-state entry paths continue to use timed lock acquisition
   (`lock_directx_state_or_throw`) with explicit timeout failure.
 
+**Status (v1.22.0-pre — W1-L03e no_timeout follow-up):** Bounded GPU wait timeouts added for
+Vulkan/DirectX kernel execution paths:
+- `lora_framework/vulkan_pipeline.h/.cpp` + `lora_framework/kernels/vulkan_kernels.cpp` —
+  pipeline wait now accepts an explicit timeout (`wait(timeout_ns)`); all kernel launch paths
+  now use a bounded 30s wait with explicit throw on timeout/failure instead of unbounded waits.
+- `lora_framework/directx_context.h/.cpp` + `lora_framework/kernels/directx_kernels.cpp` —
+  `wait_for_gpu`/`execute_command_list` now use a bounded timeout (30s default). Kernel launch
+  paths pass explicit timeout and fail fast on GPU wait timeout instead of blocking indefinitely.
+
 ---
 
 ## ✅ Acceptance Criteria (from Issue)
