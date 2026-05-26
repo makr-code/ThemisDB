@@ -279,6 +279,13 @@ now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCL
 - REL-115: `adaptive_vram_allocator.cpp` `allocateWithFragmentation()` now rejects null output pointers, zero-byte requests, and missing `impl_` before dereferencing internal state.
 - REL-116: `adaptive_vram_allocator.cpp` `handleOutOfMemory()` now guards `impl_` before accessing the active allocator.
 
+**Status (W1-L21):** REL-117..REL-121 fixed —
+- REL-117: `adaptive_vram_allocator.cpp` `calculateOptimalAllocation()` now validates `kv_cache_growth_factor` (finite and non-negative) and fail-closes invalid values before memory sizing.
+- REL-118: `adaptive_vram_allocator.cpp` now performs checked add/scale arithmetic for dynamic KV cache, subtotal, total, and pre-KV requirements to prevent `size_t` wraparound in planning paths.
+- REL-119: `adaptive_vram_allocator.cpp` static helpers `calculateKVCacheSizePerToken()`, `calculateModelSize()`, and `estimateActivationMemory()` now return fail-closed `0` on invalid/overflow inputs instead of relying on unchecked arithmetic.
+- REL-120: `adaptive_vram_allocator.cpp` `calculateDualModelAllocation()` now validates draft weight computation and returns an explicit invalid-plan result when draft sizing is not representable.
+- REL-121: `adaptive_vram_allocator.cpp` `calculateDualModelAllocation()` now guards combined target+draft `model_weights` / `total` accumulation with checked addition and fail-closes on overflow.
+
 ---
 
 ## 📋 Implementation Priority
