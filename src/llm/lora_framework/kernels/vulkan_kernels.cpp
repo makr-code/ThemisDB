@@ -344,10 +344,9 @@ bool is_vulkan_available() {
     return VulkanContext::is_available();
 }
 
-// Helper to get or create pipeline
-static VulkanComputePipeline* get_pipeline(const std::string& name, size_t push_constant_size) {
-    std::lock_guard<std::mutex> lock(g_vulkan_state.mutex);
-    
+// Internal helper: get or create pipeline (assumes caller holds g_vulkan_state.mutex).
+// Throws if not initialized or pipeline creation fails.
+static VulkanComputePipeline* get_pipeline_locked(const std::string& name, size_t push_constant_size) {
     if (!g_vulkan_state.initialized || !g_vulkan_state.context) {
         throw std::runtime_error("Vulkan not initialized. Call initialize_vulkan_lora() first.");
     }
@@ -376,6 +375,12 @@ static VulkanComputePipeline* get_pipeline(const std::string& name, size_t push_
         std::cerr << "Failed to create pipeline " << name << ": " << e.what() << std::endl;
         throw;
     }
+}
+
+// Public helper: get or create pipeline — acquires g_vulkan_state.mutex.
+static VulkanComputePipeline* get_pipeline(const std::string& name, size_t push_constant_size) {
+    std::lock_guard<std::mutex> lock(g_vulkan_state.mutex);
+    return get_pipeline_locked(name, push_constant_size);
 }
 
 static void dispatch_matmul_device(
@@ -432,12 +437,13 @@ void launch_matmul_shader(
     const float* A, const float* B, float* C,
     int M, int N, int K, float alpha) {
     
-    if (!g_vulkan_state.initialized) {
+    std::lock_guard<std::mutex> lock(g_vulkan_state.mutex);
+    if (!g_vulkan_state.initialized || !g_vulkan_state.context) {
         throw std::runtime_error("Vulkan not initialized");
     }
     
     // Get or create pipeline
-    VulkanComputePipeline* pipeline = get_pipeline("matmul", sizeof(MatmulPushConstants));
+    VulkanComputePipeline* pipeline = get_pipeline_locked("matmul", sizeof(MatmulPushConstants));
     
     // Create buffers
     size_t size_A = static_cast<size_t>(M) * static_cast<size_t>(K) * sizeof(float);
@@ -470,7 +476,8 @@ void launch_matmul_shader(
 }
 
 void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
-    if (!g_vulkan_state.initialized) {
+    std::lock_guard<std::mutex> lock(g_vulkan_state.mutex);
+    if (!g_vulkan_state.initialized || !g_vulkan_state.context) {
         throw std::runtime_error("Vulkan not initialized");
     }
     
@@ -489,7 +496,7 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
     pc.cols = 0;
     pc.scalar = 0;
     
-    VulkanComputePipeline* pipeline = get_pipeline("elementwise", sizeof(PushConstants));
+    VulkanComputePipeline* pipeline = get_pipeline_locked("elementwise", sizeof(PushConstants));
     
     size_t byte_size = size * sizeof(float);
     VulkanBuffer buf_A(g_vulkan_state.context.get(), byte_size, VulkanBuffer::Usage::DeviceLocal);
@@ -514,7 +521,8 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
 }
 
 void launch_multiply_shader(const float* A, const float* B, float* C, size_t size) {
-    if (!g_vulkan_state.initialized) {
+    std::lock_guard<std::mutex> lock(g_vulkan_state.mutex);
+    if (!g_vulkan_state.initialized || !g_vulkan_state.context) {
         throw std::runtime_error("Vulkan not initialized");
     }
     
@@ -532,7 +540,7 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
     pc.cols = 0;
     pc.scalar = 0;
     
-    VulkanComputePipeline* pipeline = get_pipeline("elementwise", sizeof(PushConstants));
+    VulkanComputePipeline* pipeline = get_pipeline_locked("elementwise", sizeof(PushConstants));
     
     size_t byte_size = size * sizeof(float);
     VulkanBuffer buf_A(g_vulkan_state.context.get(), byte_size, VulkanBuffer::Usage::DeviceLocal);
@@ -556,7 +564,8 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
 }
 
 void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_t size) {
-    if (!g_vulkan_state.initialized) {
+    std::lock_guard<std::mutex> lock(g_vulkan_state.mutex);
+    if (!g_vulkan_state.initialized || !g_vulkan_state.context) {
         throw std::runtime_error("Vulkan not initialized");
     }
     
@@ -572,9 +581,9 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
     pc.op = 4; // scalar multiply operation
     pc.rows = 0;
     pc.cols = 0;
-    pc.scalar_bits = *reinterpret_cast<const uint32_t*>(&scalar);
+    pc.scalar_bits = float_to_bits(scalar);
     
-    VulkanComputePipeline* pipeline = get_pipeline("elementwise", sizeof(PushConstants));
+    VulkanComputePipeline* pipeline = get_pipeline_locked("elementwise", sizeof(PushConstants));
     
     size_t byte_size = size * sizeof(float);
     VulkanBuffer buf_A(g_vulkan_state.context.get(), byte_size, VulkanBuffer::Usage::DeviceLocal);
@@ -597,7 +606,8 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
 }
 
 void launch_transpose_shader(const float* input, float* output, int rows, int cols) {
-    if (!g_vulkan_state.initialized) {
+    std::lock_guard<std::mutex> lock(g_vulkan_state.mutex);
+    if (!g_vulkan_state.initialized || !g_vulkan_state.context) {
         throw std::runtime_error("Vulkan not initialized");
     }
     
@@ -616,7 +626,7 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
     pc.cols = static_cast<uint32_t>(cols);
     pc.scalar = 0;
     
-    VulkanComputePipeline* pipeline = get_pipeline("elementwise", sizeof(PushConstants));
+    VulkanComputePipeline* pipeline = get_pipeline_locked("elementwise", sizeof(PushConstants));
     
     size_t byte_size = total_size * sizeof(float);
     VulkanBuffer buf_input(g_vulkan_state.context.get(), byte_size, VulkanBuffer::Usage::DeviceLocal);
@@ -642,7 +652,8 @@ void launch_lora_grad_A_shader(
     const float* h, const float* grad_output, float* grad_A,
     int M, int K, int N, float scaling) {
     
-    if (!g_vulkan_state.initialized) {
+    std::lock_guard<std::mutex> lock(g_vulkan_state.mutex);
+    if (!g_vulkan_state.initialized || !g_vulkan_state.context) {
         throw std::runtime_error("Vulkan not initialized");
     }
     
@@ -660,10 +671,10 @@ void launch_lora_grad_A_shader(
     pc.in_dim = 0; // Not used for grad_A
     pc.rank = static_cast<uint32_t>(K);
     pc.out_dim = static_cast<uint32_t>(N);
-    pc.scaling_bits = *reinterpret_cast<const uint32_t*>(&scaling);
+    pc.scaling_bits = float_to_bits(scaling);
     pc.compute_mode = 0; // grad_A computation
     
-    VulkanComputePipeline* pipeline = get_pipeline("gradient", sizeof(PushConstants));
+    VulkanComputePipeline* pipeline = get_pipeline_locked("gradient", sizeof(PushConstants));
     
     size_t size_h = M * K * sizeof(float);
     size_t size_grad_output = M * N * sizeof(float);
@@ -701,7 +712,8 @@ void launch_lora_grad_B_shader(
     const float* input, const float* grad_h, float* grad_B,
     int M, int D, int K) {
     
-    if (!g_vulkan_state.initialized) {
+    std::lock_guard<std::mutex> lock(g_vulkan_state.mutex);
+    if (!g_vulkan_state.initialized || !g_vulkan_state.context) {
         throw std::runtime_error("Vulkan not initialized");
     }
     
@@ -719,10 +731,10 @@ void launch_lora_grad_B_shader(
     pc.rank = static_cast<uint32_t>(K);
     pc.out_dim = 0; // Not used for grad_B
     float scaling = 1.0f;
-    pc.scaling_bits = *reinterpret_cast<const uint32_t*>(&scaling);
+    pc.scaling_bits = float_to_bits(scaling);
     pc.compute_mode = 1; // grad_B computation
     
-    VulkanComputePipeline* pipeline = get_pipeline("gradient", sizeof(PushConstants));
+    VulkanComputePipeline* pipeline = get_pipeline_locked("gradient", sizeof(PushConstants));
     
     size_t size_input = M * D * sizeof(float);
     size_t size_grad_h = M * K * sizeof(float);
@@ -763,14 +775,16 @@ void launch_embedding_lookup_shader(
     int seq_len,
     int hidden_dim,
     int vocab_size) {
-    if (!g_vulkan_state.initialized) {
-        throw std::runtime_error("Vulkan not initialized");
-    }
     if (!output || !token_ids || !embedding_weights) {
         throw std::invalid_argument("launch_embedding_lookup_shader received null pointer");
     }
     if (batch_size <= 0 || seq_len <= 0 || hidden_dim <= 0 || vocab_size <= 0) {
         throw std::invalid_argument("launch_embedding_lookup_shader received invalid dimensions");
+    }
+
+    std::lock_guard<std::mutex> lock(g_vulkan_state.mutex);
+    if (!g_vulkan_state.initialized || !g_vulkan_state.context) {
+        throw std::runtime_error("Vulkan not initialized");
     }
 
     struct PushConstants {
@@ -789,7 +803,7 @@ void launch_embedding_lookup_shader(
     const size_t output_elems = total_tokens * static_cast<size_t>(hidden_dim);
     const size_t embedding_elems = static_cast<size_t>(vocab_size) * static_cast<size_t>(hidden_dim);
 
-    VulkanComputePipeline* pipeline = get_pipeline("embedding_lookup", sizeof(PushConstants));
+    VulkanComputePipeline* pipeline = get_pipeline_locked("embedding_lookup", sizeof(PushConstants));
 
     VulkanBuffer buf_token_ids(g_vulkan_state.context.get(), total_tokens * sizeof(float), VulkanBuffer::Usage::DeviceLocal);
     VulkanBuffer buf_embedding_weights(g_vulkan_state.context.get(), embedding_elems * sizeof(float), VulkanBuffer::Usage::DeviceLocal);
@@ -816,14 +830,16 @@ void launch_sequence_mean_shader(
     int batch_size,
     int seq_len,
     int hidden_dim) {
-    if (!g_vulkan_state.initialized) {
-        throw std::runtime_error("Vulkan not initialized");
-    }
     if (!output || !input) {
         throw std::invalid_argument("launch_sequence_mean_shader received null pointer");
     }
     if (batch_size <= 0 || seq_len <= 0 || hidden_dim <= 0) {
         throw std::invalid_argument("launch_sequence_mean_shader received invalid dimensions");
+    }
+
+    std::lock_guard<std::mutex> lock(g_vulkan_state.mutex);
+    if (!g_vulkan_state.initialized || !g_vulkan_state.context) {
+        throw std::runtime_error("Vulkan not initialized");
     }
 
     struct PushConstants {
@@ -841,7 +857,7 @@ void launch_sequence_mean_shader(
     const size_t input_elems = static_cast<size_t>(batch_size) * static_cast<size_t>(seq_len) * static_cast<size_t>(hidden_dim);
     const size_t output_elems = static_cast<size_t>(batch_size) * static_cast<size_t>(hidden_dim);
 
-    VulkanComputePipeline* pipeline = get_pipeline("sequence_mean", sizeof(PushConstants));
+    VulkanComputePipeline* pipeline = get_pipeline_locked("sequence_mean", sizeof(PushConstants));
 
     VulkanBuffer buf_input(g_vulkan_state.context.get(), input_elems * sizeof(float), VulkanBuffer::Usage::DeviceLocal);
     VulkanBuffer buf_output(g_vulkan_state.context.get(), output_elems * sizeof(float), VulkanBuffer::Usage::DeviceLocal);
@@ -881,6 +897,11 @@ void launch_fused_lora_forward(
         throw std::overflow_error("launch_fused_lora_forward dimensions exceed int range");
     }
 
+    std::lock_guard<std::mutex> lock(g_vulkan_state.mutex);
+    if (!g_vulkan_state.initialized || !g_vulkan_state.context) {
+        throw std::runtime_error("Vulkan not initialized");
+    }
+
     const uint32_t batch_u = static_cast<uint32_t>(batch_size);
     const uint32_t in_u = static_cast<uint32_t>(in_dim);
     const uint32_t rank_u = static_cast<uint32_t>(rank);
@@ -892,7 +913,7 @@ void launch_fused_lora_forward(
     const size_t size_h = batch_size * rank * sizeof(float);
     const size_t size_output = batch_size * out_dim * sizeof(float);
 
-    VulkanComputePipeline* pipeline = get_pipeline("matmul", sizeof(MatmulPushConstants));
+    VulkanComputePipeline* pipeline = get_pipeline_locked("matmul", sizeof(MatmulPushConstants));
 
     static thread_local FusedForwardBufferCache cache;
     cache.ensure(
@@ -941,6 +962,11 @@ void launch_fused_lora_backward(
         throw std::overflow_error("launch_fused_lora_backward dimensions exceed int range");
     }
 
+    std::lock_guard<std::mutex> lock(g_vulkan_state.mutex);
+    if (!g_vulkan_state.initialized || !g_vulkan_state.context) {
+        throw std::runtime_error("Vulkan not initialized");
+    }
+
     const uint32_t batch_u = static_cast<uint32_t>(batch_size);
     const uint32_t in_u = static_cast<uint32_t>(in_dim);
     const uint32_t rank_u = static_cast<uint32_t>(rank);
@@ -960,8 +986,8 @@ void launch_fused_lora_backward(
     const size_t size_grad_B = in_dim * rank * sizeof(float);
     const size_t size_grad_input = batch_size * in_dim * sizeof(float);
 
-    VulkanComputePipeline* matmul_pipeline = get_pipeline("matmul", sizeof(MatmulPushConstants));
-    VulkanComputePipeline* elementwise_pipeline = get_pipeline("elementwise", sizeof(ElementwisePushConstants));
+    VulkanComputePipeline* matmul_pipeline = get_pipeline_locked("matmul", sizeof(MatmulPushConstants));
+    VulkanComputePipeline* elementwise_pipeline = get_pipeline_locked("elementwise", sizeof(ElementwisePushConstants));
 
     static thread_local FusedBackwardBufferCache cache;
     cache.ensure(

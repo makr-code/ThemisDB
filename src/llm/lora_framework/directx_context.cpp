@@ -263,14 +263,27 @@ void DirectXContext::wait_for_gpu() {
     }
     fence_value_++;
     
-    // Wait for fence to reach the signaled value
+    // Wait for fence to reach the signaled value.
+    // Use a 30-second timeout instead of INFINITE to prevent an unrecoverable
+    // GPU-hang stall from blocking the process forever.
     if (fence_->GetCompletedValue() < fence_to_wait) {
         hr = fence_->SetEventOnCompletion(fence_to_wait, fence_event_);
         if (FAILED(hr)) {
             std::cerr << "Failed to set fence event\n";
             return;
         }
-        WaitForSingleObject(fence_event_, INFINITE);
+        constexpr DWORD kGpuTimeoutMs = 30'000;
+        DWORD wait_result = WaitForSingleObject(fence_event_, kGpuTimeoutMs);
+        if (wait_result == WAIT_TIMEOUT) {
+            throw std::runtime_error(
+                "DirectXContext::wait_for_gpu(): GPU fence timed out after 30 s "
+                "— device may be lost");
+        }
+        if (wait_result != WAIT_OBJECT_0) {
+            throw std::runtime_error(
+                "DirectXContext::wait_for_gpu(): WaitForSingleObject failed "
+                "(WAIT_FAILED or WAIT_ABANDONED)");
+        }
     }
 }
 

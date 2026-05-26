@@ -1,6 +1,6 @@
 # llm Module — Implementation Gap Analysis
 
-**Status:** Updated 2026-05-26 (W1-L02 delta applied)
+**Status:** Updated 2026-05-26 (W1-L03 delta applied)
 **Last Updated:** 2026-05-26  
 
 ---
@@ -14,10 +14,11 @@
 | `type_conversion` | 1888 | MEDIUM | Implicit narrowing from `size_t`/`int64_t` to `int`; unsigned↔signed comparisons; float→int truncations |
 | `reliability` | 1637 | HIGH | Unchecked return values from C API calls (`llama_*`, `cuda*`, Vulkan VkResult); exception-unsafe resource acquisition paths |
 | `input_validation` | 929 | CRITICAL | Missing upper-bound checks on user-supplied sizes, ranks, and token counts before allocation |
-| `data_race` | ~~7~~ **0** | CRITICAL | ✅ **Resolved in W1-L02** — See delta table below |
+| `data_race` | ~~7~~ **0** | CRITICAL | ✅ **Resolved in W1-L02 + W1-L03** — See delta tables below |
 | `iterator_invalidation` | ~~1~~ **0** | HIGH | ✅ **Resolved in W1-L02** — `loss_history_` push_back race |
-| `no_timeout` | ~~2~~ **0** | HIGH | ✅ **Resolved in W1-L02** — stopTraining polling + unenforced timeout |
-| **Total** | **19,828** | **CRITICAL** | W1-L02 reduced 10 findings |
+| `no_timeout` | ~~2~~ **0** | HIGH | ✅ **Resolved in W1-L02 + W1-L03** — stopTraining polling; GPU fence INFINITE waits |
+| `smart_ptr_misuse` | ~~1~~ **0** | HIGH | ✅ **Resolved in W1-L03** — raw pointer escape from unique_ptr under lock |
+| **Total** | **19,828** | **CRITICAL** | W1-L02+W1-L03 reduced 13 findings |
 
 **Severity breakdown:** 🔴 CRITICAL 1466 | 🟠 HIGH 15975 | 🟡 MEDIUM 2397
 
@@ -73,6 +74,28 @@ Security-sensitive input validation gaps found by static analysis:
 | W1-L02-NT-02 | `no_timeout` | `is_training_.store(false)` inside the training thread was not guaranteed to be visible to `stopTraining()`'s wait predicate without a fence | Store now happens under `stop_mutex_` (the same mutex the CV waits on), followed by `stop_cv_.notify_all()` | Correct happens-before relationship |
 
 **Focused tests added:** `ConcurrentGetMetricsIsRaceFree`, `StopTrainingClearsIsTraining`, `ConcurrentRegisterCallbackIsRaceFree`, `ConcurrentTrainCallsAreSerialised`
+
+---
+
+### Addressed in W1-L03 (2026-05-26 — Vulkan/DirectX kernel hardening)
+
+**Scope files:** `lora_framework/kernels/vulkan_kernels.cpp`, `lora_framework/kernels/directx_kernels.cpp`  
+**Support files fixed:** `lora_framework/vulkan_pipeline.cpp`, `lora_framework/directx_context.cpp`
+
+| Gap ID | Category | Finding | Fix | Impact |
+|--------|----------|---------|-----|--------|
+| W1-L03-DR-01 | `data_race` | All 11 `launch_*` functions in `vulkan_kernels.cpp` checked `g_vulkan_state.initialized` and accessed `g_vulkan_state.context` without holding `g_vulkan_state.mutex`; TOCTOU race with `cleanup_vulkan_lora()` | Added `get_pipeline_locked()` internal helper (caller holds lock); each launch function acquires `g_vulkan_state.mutex` for its entire body | Eliminates TOCTOU race between launch and cleanup |
+| W1-L03-DR-02 | `data_race` | `launch_fused_lora_forward` and `launch_fused_lora_backward` accessed `g_vulkan_state.context.get()` (for thread-local buffer cache `ensure()`) without holding the mutex; missing `initialized` guard | Both fused functions now hold `g_vulkan_state.mutex` for their full body; initialized + context null-checks added | Eliminates context-pointer race on fused kernel path |
+| W1-L03-DR-03 | `data_race` | `DirectXState` had no `std::mutex`; all of `initialize_directx_lora()`, `cleanup_directx_lora()`, `get_or_load_shader()`, `get_or_create_pipeline()`, and every `launch_*` function accessed shared state unsynchronised | Added `std::mutex mutex` to `DirectXState`; introduced `get_or_load_shader_locked()` + `get_or_create_pipeline_locked()` internal helpers; all public functions acquire the mutex for their full body | Eliminates all D3D12 command-list recording data races |
+| W1-L03-SP-01 | `smart_ptr_misuse` | `get_pipeline()` extracted a raw `VulkanComputePipeline*` from a `unique_ptr` under lock, then returned it; callers used the raw pointer after the lock was released — dangling pointer if `cleanup_vulkan_lora()` ran concurrently | Lock now covers the full dispatch body; `get_pipeline_locked()` is only called under the already-held mutex | Raw pointer lifetime is fully covered by the lock scope |
+| W1-L03-SP-02 | `smart_ptr_misuse` | Same pattern in `get_or_create_pipeline()` for DirectX: raw `DirectXPipeline*` returned to callers outside the (non-existent) lock | Addressed by W1-L03-DR-03: entire dispatch body now holds `DirectXState::mutex` | Consistent with Vulkan fix |
+| W1-L03-NT-01 | `no_timeout` | `VulkanComputePipeline::wait()` called `context_->wait_for_fence(fence_)` with default `UINT64_MAX` timeout — 585-year wait on GPU hang | `wait()` now uses a 30-second timeout (`30'000'000'000` ns) and throws `std::runtime_error` on `VK_TIMEOUT` | Process terminates cleanly on GPU hang instead of blocking forever |
+| W1-L03-NT-02 | `no_timeout` | `DirectXContext::wait_for_gpu()` called `WaitForSingleObject(fence_event_, INFINITE)` — blocks the thread permanently on GPU hang | Replaced with `WaitForSingleObject(fence_event_, 30'000)` (30 s); throws on `WAIT_TIMEOUT` or `WAIT_FAILED` | Consistent timeout semantics with Vulkan path |
+| W1-L03-TC-01 | `type_conversion` | `launch_scalar_multiply_shader` and `launch_lora_grad_A/B_shader` used `*reinterpret_cast<const uint32_t*>(&scalar)` to bit-cast `float` — strict-aliasing UB | Replaced with the existing `float_to_bits()` helper (uses `std::memcpy` internally) | Eliminates undefined behaviour in push-constant encoding |
+| W1-L03-IV-01 | `input_validation` | `launch_embedding_lookup_shader` in DirectX path had no null-pointer or zero-dimension guards before accessing `g_directx_state` | Added identical null + dimension guards (matching Vulkan path) before mutex acquisition | Consistent defensive input validation |
+| W1-L03-IV-02 | `input_validation` | `launch_sequence_mean_shader` in DirectX path had no null-pointer or zero-dimension guards | Same fix as W1-L03-IV-01 | Consistent defensive input validation |
+
+**Focused tests added:** `test_w1l03_kernel_hardening.cpp` — 15 tests covering uninitialized-call throws, null-pointer guards, zero-dimension rejection, concurrent uninitialized call safety (8-thread), and non-Windows stub behaviour.
 
 ---
 

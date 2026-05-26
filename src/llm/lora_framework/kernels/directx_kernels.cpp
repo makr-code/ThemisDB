@@ -23,6 +23,7 @@
 #include <string>
 #include <iostream>
 #include <memory>
+#include <mutex>
 #include <unordered_map>
 #include <filesystem>
 #include <cstring>
@@ -52,8 +53,10 @@ static std::string get_shader_path(const std::string& shader_name) {
     return (fs::current_path() / "shaders" / "lora" / shader_name).string();
 }
 
-// Helper function to get or create shader
-static DirectXShader* get_or_load_shader(const std::string& shader_name) {
+// Internal helpers: assume caller holds g_directx_state.mutex.
+// These must not acquire the lock themselves (would deadlock).
+
+static DirectXShader* get_or_load_shader_locked(const std::string& shader_name) {
     auto& shader_cache = g_directx_state.shaders;
     
     // Check if already loaded
@@ -75,8 +78,7 @@ static DirectXShader* get_or_load_shader(const std::string& shader_name) {
     return shader_ptr;
 }
 
-// Helper function to get or create pipeline
-static DirectXPipeline* get_or_create_pipeline(
+static DirectXPipeline* get_or_create_pipeline_locked(
     const std::string& pipeline_name,
     const std::string& shader_name,
     uint32_t num_root_constants,
@@ -92,7 +94,7 @@ static DirectXPipeline* get_or_create_pipeline(
     }
     
     // Get shader
-    DirectXShader* shader = get_or_load_shader(shader_name);
+    DirectXShader* shader = get_or_load_shader_locked(shader_name);
     
     // Create pipeline
     auto pipeline = std::make_unique<DirectXPipeline>(
@@ -124,11 +126,17 @@ struct DirectXState {
     // Shader and pipeline cache
     std::unordered_map<std::string, std::unique_ptr<DirectXShader>> shaders;
     std::unordered_map<std::string, std::unique_ptr<DirectXPipeline>> pipelines;
+
+    // Mutex protecting all mutable fields above.
+    // All public functions must hold this lock for their entire body; D3D12
+    // command-list recording + submission is not thread-safe.
+    std::mutex mutex;
 };
 
 static DirectXState g_directx_state;
 
 bool initialize_directx_lora(int adapter_id) {
+    std::lock_guard<std::mutex> lock(g_directx_state.mutex);
     if (g_directx_state.initialized) {
         return true;
     }
@@ -170,6 +178,7 @@ bool initialize_directx_lora(int adapter_id) {
 }
 
 void cleanup_directx_lora() {
+    std::lock_guard<std::mutex> lock(g_directx_state.mutex);
     if (!g_directx_state.initialized) {
         return;
     }
@@ -209,13 +218,14 @@ void launch_matmul_shader(
     const float* A, const float* B, float* C,
     int M, int N, int K, float alpha) {
     
-    if (!g_directx_state.initialized) {
+    std::lock_guard<std::mutex> lock(g_directx_state.mutex);
+    if (!g_directx_state.initialized || !g_directx_state.context || !g_directx_state.descriptors) {
         throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
     }
     
     try {
         // Get or create pipeline
-        DirectXPipeline* pipeline = get_or_create_pipeline(
+        DirectXPipeline* pipeline = get_or_create_pipeline_locked(
             "matmul",
             "matmul.cso",
             4,  // num_root_constants (M, N, K, alpha)
@@ -283,13 +293,14 @@ void launch_matmul_shader(
 }
 
 void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
-    if (!g_directx_state.initialized) {
+    std::lock_guard<std::mutex> lock(g_directx_state.mutex);
+    if (!g_directx_state.initialized || !g_directx_state.context || !g_directx_state.descriptors) {
         throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
     }
     
     try {
         // Get or create pipeline
-        DirectXPipeline* pipeline = get_or_create_pipeline(
+        DirectXPipeline* pipeline = get_or_create_pipeline_locked(
             "elementwise",
             "elementwise.cso",
             5,  // num_root_constants (size, op, rows, cols, scalar)
@@ -356,13 +367,14 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
 }
 
 void launch_multiply_shader(const float* A, const float* B, float* C, size_t size) {
-    if (!g_directx_state.initialized) {
+    std::lock_guard<std::mutex> lock(g_directx_state.mutex);
+    if (!g_directx_state.initialized || !g_directx_state.context || !g_directx_state.descriptors) {
         throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
     }
     
     try {
         // Use elementwise pipeline with op=2 for multiply
-        DirectXPipeline* pipeline = get_or_create_pipeline(
+        DirectXPipeline* pipeline = get_or_create_pipeline_locked(
             "elementwise",
             "elementwise.cso",
             5, 1, 2
@@ -415,13 +427,14 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
 }
 
 void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_t size) {
-    if (!g_directx_state.initialized) {
+    std::lock_guard<std::mutex> lock(g_directx_state.mutex);
+    if (!g_directx_state.initialized || !g_directx_state.context || !g_directx_state.descriptors) {
         throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
     }
     
     try {
         // Use elementwise pipeline with op=4 for scalar multiply
-        DirectXPipeline* pipeline = get_or_create_pipeline(
+        DirectXPipeline* pipeline = get_or_create_pipeline_locked(
             "elementwise",
             "elementwise.cso",
             5, 1, 2
@@ -474,13 +487,14 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
 }
 
 void launch_transpose_shader(const float* input, float* output, int rows, int cols) {
-    if (!g_directx_state.initialized) {
+    std::lock_guard<std::mutex> lock(g_directx_state.mutex);
+    if (!g_directx_state.initialized || !g_directx_state.context || !g_directx_state.descriptors) {
         throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
     }
     
     try {
         // Use elementwise pipeline with op=5 for transpose
-        DirectXPipeline* pipeline = get_or_create_pipeline(
+        DirectXPipeline* pipeline = get_or_create_pipeline_locked(
             "elementwise",
             "elementwise.cso",
             5, 1, 2
@@ -537,13 +551,14 @@ void launch_lora_grad_A_shader(
     const float* h, const float* grad_output, float* grad_A,
     int M, int K, int N, float scaling) {
     
-    if (!g_directx_state.initialized) {
+    std::lock_guard<std::mutex> lock(g_directx_state.mutex);
+    if (!g_directx_state.initialized || !g_directx_state.context || !g_directx_state.descriptors) {
         throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
     }
     
     try {
         // Get or create pipeline
-        DirectXPipeline* pipeline = get_or_create_pipeline(
+        DirectXPipeline* pipeline = get_or_create_pipeline_locked(
             "gradient",
             "gradient.cso",
             6,  // num_root_constants (batch_size, in_dim, rank, out_dim, scaling, compute_mode)
@@ -634,13 +649,14 @@ void launch_lora_grad_B_shader(
     const float* input, const float* grad_h, float* grad_B,
     int M, int D, int K) {
     
-    if (!g_directx_state.initialized) {
+    std::lock_guard<std::mutex> lock(g_directx_state.mutex);
+    if (!g_directx_state.initialized || !g_directx_state.context || !g_directx_state.descriptors) {
         throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
     }
     
     try {
         // Get or create pipeline
-        DirectXPipeline* pipeline = get_or_create_pipeline(
+        DirectXPipeline* pipeline = get_or_create_pipeline_locked(
             "gradient",
             "gradient.cso",
             6, 3, 4
@@ -734,15 +750,23 @@ void launch_embedding_lookup_shader(
     int hidden_dim,
     int vocab_size) {
     
-    if (!g_directx_state.initialized) {
+    if (!output || !token_ids || !embedding_weights) {
+        throw std::invalid_argument("launch_embedding_lookup_shader received null pointer");
+    }
+    if (batch_size <= 0 || seq_len <= 0 || hidden_dim <= 0 || vocab_size <= 0) {
+        throw std::invalid_argument("launch_embedding_lookup_shader received invalid dimensions");
+    }
+
+    std::lock_guard<std::mutex> lock(g_directx_state.mutex);
+    if (!g_directx_state.initialized || !g_directx_state.context || !g_directx_state.descriptors) {
         throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
     }
     
     try {
         // Calculate sizes
-        size_t total_tokens = batch_size * seq_len;
-        size_t output_size = total_tokens * hidden_dim;
-        size_t embedding_matrix_size = vocab_size * hidden_dim;
+        size_t total_tokens = static_cast<size_t>(batch_size) * static_cast<size_t>(seq_len);
+        size_t output_size = total_tokens * static_cast<size_t>(hidden_dim);
+        size_t embedding_matrix_size = static_cast<size_t>(vocab_size) * static_cast<size_t>(hidden_dim);
         
         // Create buffers
         DirectXBuffer buffer_token_ids(g_directx_state.context.get(), total_tokens * sizeof(float), DirectXBuffer::Usage::DeviceLocal);
@@ -754,7 +778,7 @@ void launch_embedding_lookup_shader(
         buffer_embedding_weights.upload(embedding_weights, embedding_matrix_size * sizeof(float));
         
         // Get or create pipeline
-        DirectXPipeline* pipeline = get_or_create_pipeline(
+        DirectXPipeline* pipeline = get_or_create_pipeline_locked(
             "embedding_lookup",
             "embedding_lookup.hlsl",
             4,  // 4 uint constants
@@ -804,14 +828,22 @@ void launch_sequence_mean_shader(
     int seq_len,
     int hidden_dim) {
     
-    if (!g_directx_state.initialized) {
+    if (!output || !input) {
+        throw std::invalid_argument("launch_sequence_mean_shader received null pointer");
+    }
+    if (batch_size <= 0 || seq_len <= 0 || hidden_dim <= 0) {
+        throw std::invalid_argument("launch_sequence_mean_shader received invalid dimensions");
+    }
+
+    std::lock_guard<std::mutex> lock(g_directx_state.mutex);
+    if (!g_directx_state.initialized || !g_directx_state.context || !g_directx_state.descriptors) {
         throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
     }
     
     try {
         // Calculate sizes
-        size_t input_size = batch_size * seq_len * hidden_dim;
-        size_t output_size = batch_size * hidden_dim;
+        size_t input_size = static_cast<size_t>(batch_size) * static_cast<size_t>(seq_len) * static_cast<size_t>(hidden_dim);
+        size_t output_size = static_cast<size_t>(batch_size) * static_cast<size_t>(hidden_dim);
         
         // Create buffers
         DirectXBuffer buffer_input(g_directx_state.context.get(), input_size * sizeof(float), DirectXBuffer::Usage::DeviceLocal);
@@ -821,7 +853,7 @@ void launch_sequence_mean_shader(
         buffer_input.upload(input, input_size * sizeof(float));
         
         // Get or create pipeline
-        DirectXPipeline* pipeline = get_or_create_pipeline(
+        DirectXPipeline* pipeline = get_or_create_pipeline_locked(
             "sequence_mean",
             "sequence_mean.hlsl",
             4,  // 4 uint constants
