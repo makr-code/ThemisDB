@@ -467,10 +467,10 @@ bool MultiGPUMemoryCoordinator::enableP2P(const std::vector<int>& gpu_ids) {
                     spdlog::warn("  Failed to enable P2P: GPU {} -> GPU {} - {}", 
                                  dst_gpu, src_gpu, hipGetErrorString(p2p_err));
                     fail_count++;
-                } else {
-                    spdlog::warn("  P2P not supported: GPU {} -> GPU {}", dst_gpu, src_gpu);
-                    fail_count++;
                 }
+            } else {
+                spdlog::warn("  P2P not supported: GPU {} -> GPU {}", dst_gpu, src_gpu);
+                fail_count++;
             }
         }
     }
