@@ -898,10 +898,10 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             // Extrahiere einfache FILTER-Pr�dikate auf v/e im Format: FILTER v.<field> == <literal|funktion> oder FILTER e.<field> == <literal|funktion>
             struct SimplePred {
                 enum class Op { Eq, Neq, Lt, Lte, Gt, Gte };
-                char var; // 'v' oder 'e'
+                char var = '\0'; // 'v' or 'e'
                 std::string field;
-                nlohmann::json literal; // als JSON-Literal
-                Op op;
+                nlohmann::json literal; // as JSON literal
+                Op op = Op::Eq;
             };
             // Unterst�tzte Funktionsauswertung zur Reduktion auf Literale
             std::function<bool(std::shared_ptr<themis::query::Expression>, nlohmann::json&)> evalExprToLiteral;
