@@ -154,6 +154,14 @@ regression tests added (`test_vulkan_dispatch_reliability.cpp`).
 now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCLBackend`
 (`rccl_backend.cpp`); errors logged via `spdlog::error` before continuing stream sync.
 
+**Status (v1.22.0-pre — W1-L03):** Kernel interface hardening for
+`lora_framework/kernels/vulkan_kernels.cpp` and `lora_framework/kernels/directx_kernels.cpp`:
+- Added timeout-bounded state-lock acquisition (`std::recursive_timed_mutex` + 30s `try_lock_for`)
+  to reduce `no_timeout` findings around backend state synchronization.
+- Serialized lifecycle-sensitive access to cached `std::unique_ptr` resources (context, descriptors,
+  pipeline cache) to reduce `data_race` and `smart_ptr_misuse` risk in concurrent init/dispatch/cleanup.
+- Enforced centralized state validation before dispatch to keep resource lifetime deterministic.
+
 ---
 
 ## 📋 Implementation Priority

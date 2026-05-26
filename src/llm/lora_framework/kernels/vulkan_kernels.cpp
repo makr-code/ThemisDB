@@ -23,6 +23,7 @@
 #include <memory>
 #include <unordered_map>
 #include <mutex>
+#include <chrono>
 
 namespace themis {
 namespace lora {
@@ -40,10 +41,26 @@ struct VulkanState {
     std::unordered_map<std::string, std::unique_ptr<VulkanComputePipeline>> pipelines;
     
     // Mutex for thread safety
-    std::mutex mutex;
+    std::recursive_timed_mutex mutex;
 };
 
 static VulkanState g_vulkan_state;
+constexpr auto kVulkanStateLockTimeout = std::chrono::seconds(30);
+
+static std::unique_lock<std::recursive_timed_mutex> lock_vulkan_state_or_throw() {
+    std::unique_lock<std::recursive_timed_mutex> lock(g_vulkan_state.mutex, std::defer_lock);
+    if (!lock.try_lock_for(kVulkanStateLockTimeout)) {
+        throw std::runtime_error("Timeout while waiting for Vulkan kernel state lock");
+    }
+    return lock;
+}
+
+static VulkanContext& get_context_or_throw() {
+    if (!g_vulkan_state.initialized || !g_vulkan_state.context) {
+        throw std::runtime_error("Vulkan not initialized");
+    }
+    return *g_vulkan_state.context;
+}
 
 struct FusedForwardBufferCache {
     VulkanContext* context = nullptr;
@@ -282,7 +299,7 @@ static std::string get_shader_path(const std::string& shader_name) {
 }
 
 bool initialize_vulkan_lora(int device_id) {
-    std::lock_guard<std::mutex> lock(g_vulkan_state.mutex);
+    auto lock = lock_vulkan_state_or_throw();
     
     if (g_vulkan_state.initialized) {
         return true;
@@ -321,7 +338,7 @@ bool initialize_vulkan_lora(int device_id) {
 }
 
 void cleanup_vulkan_lora() {
-    std::lock_guard<std::mutex> lock(g_vulkan_state.mutex);
+    auto lock = lock_vulkan_state_or_throw();
     
     if (!g_vulkan_state.initialized) {
         return;
@@ -346,7 +363,7 @@ bool is_vulkan_available() {
 
 // Helper to get or create pipeline
 static VulkanComputePipeline* get_pipeline(const std::string& name, size_t push_constant_size) {
-    std::lock_guard<std::mutex> lock(g_vulkan_state.mutex);
+    auto lock = lock_vulkan_state_or_throw();
     
     if (!g_vulkan_state.initialized || !g_vulkan_state.context) {
         throw std::runtime_error("Vulkan not initialized. Call initialize_vulkan_lora() first.");
@@ -431,10 +448,8 @@ static void dispatch_transpose_device(
 void launch_matmul_shader(
     const float* A, const float* B, float* C,
     int M, int N, int K, float alpha) {
-    
-    if (!g_vulkan_state.initialized) {
-        throw std::runtime_error("Vulkan not initialized");
-    }
+    auto lock = lock_vulkan_state_or_throw();
+    VulkanContext& context = get_context_or_throw();
     
     // Get or create pipeline
     VulkanComputePipeline* pipeline = get_pipeline("matmul", sizeof(MatmulPushConstants));
@@ -444,9 +459,9 @@ void launch_matmul_shader(
     size_t size_B = static_cast<size_t>(K) * static_cast<size_t>(N) * sizeof(float);
     size_t size_C = static_cast<size_t>(M) * static_cast<size_t>(N) * sizeof(float);
     
-    VulkanBuffer buf_A(g_vulkan_state.context.get(), size_A, VulkanBuffer::Usage::DeviceLocal);
-    VulkanBuffer buf_B(g_vulkan_state.context.get(), size_B, VulkanBuffer::Usage::DeviceLocal);
-    VulkanBuffer buf_C(g_vulkan_state.context.get(), size_C, VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_A(&context, size_A, VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_B(&context, size_B, VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_C(&context, size_C, VulkanBuffer::Usage::DeviceLocal);
     
     // Upload data
     buf_A.upload(A, size_A);
@@ -470,9 +485,8 @@ void launch_matmul_shader(
 }
 
 void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
-    if (!g_vulkan_state.initialized) {
-        throw std::runtime_error("Vulkan not initialized");
-    }
+    auto lock = lock_vulkan_state_or_throw();
+    VulkanContext& context = get_context_or_throw();
     
     // Push constants for elementwise operation
     struct PushConstants {
@@ -492,9 +506,9 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
     VulkanComputePipeline* pipeline = get_pipeline("elementwise", sizeof(PushConstants));
     
     size_t byte_size = size * sizeof(float);
-    VulkanBuffer buf_A(g_vulkan_state.context.get(), byte_size, VulkanBuffer::Usage::DeviceLocal);
-    VulkanBuffer buf_B(g_vulkan_state.context.get(), byte_size, VulkanBuffer::Usage::DeviceLocal);
-    VulkanBuffer buf_C(g_vulkan_state.context.get(), byte_size, VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_A(&context, byte_size, VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_B(&context, byte_size, VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_C(&context, byte_size, VulkanBuffer::Usage::DeviceLocal);
     
     buf_A.upload(A, byte_size);
     buf_B.upload(B, byte_size);
@@ -514,9 +528,8 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
 }
 
 void launch_multiply_shader(const float* A, const float* B, float* C, size_t size) {
-    if (!g_vulkan_state.initialized) {
-        throw std::runtime_error("Vulkan not initialized");
-    }
+    auto lock = lock_vulkan_state_or_throw();
+    VulkanContext& context = get_context_or_throw();
     
     struct PushConstants {
         uint32_t size;
@@ -535,9 +548,9 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
     VulkanComputePipeline* pipeline = get_pipeline("elementwise", sizeof(PushConstants));
     
     size_t byte_size = size * sizeof(float);
-    VulkanBuffer buf_A(g_vulkan_state.context.get(), byte_size, VulkanBuffer::Usage::DeviceLocal);
-    VulkanBuffer buf_B(g_vulkan_state.context.get(), byte_size, VulkanBuffer::Usage::DeviceLocal);
-    VulkanBuffer buf_C(g_vulkan_state.context.get(), byte_size, VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_A(&context, byte_size, VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_B(&context, byte_size, VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_C(&context, byte_size, VulkanBuffer::Usage::DeviceLocal);
     
     buf_A.upload(A, byte_size);
     buf_B.upload(B, byte_size);
@@ -556,9 +569,8 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
 }
 
 void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_t size) {
-    if (!g_vulkan_state.initialized) {
-        throw std::runtime_error("Vulkan not initialized");
-    }
+    auto lock = lock_vulkan_state_or_throw();
+    VulkanContext& context = get_context_or_throw();
     
     struct PushConstants {
         uint32_t size;
@@ -577,8 +589,8 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
     VulkanComputePipeline* pipeline = get_pipeline("elementwise", sizeof(PushConstants));
     
     size_t byte_size = size * sizeof(float);
-    VulkanBuffer buf_A(g_vulkan_state.context.get(), byte_size, VulkanBuffer::Usage::DeviceLocal);
-    VulkanBuffer buf_B(g_vulkan_state.context.get(), byte_size, VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_A(&context, byte_size, VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_B(&context, byte_size, VulkanBuffer::Usage::DeviceLocal);
     
     buf_A.upload(A, byte_size);
     
@@ -597,9 +609,8 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
 }
 
 void launch_transpose_shader(const float* input, float* output, int rows, int cols) {
-    if (!g_vulkan_state.initialized) {
-        throw std::runtime_error("Vulkan not initialized");
-    }
+    auto lock = lock_vulkan_state_or_throw();
+    VulkanContext& context = get_context_or_throw();
     
     struct PushConstants {
         uint32_t size;
@@ -619,8 +630,8 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
     VulkanComputePipeline* pipeline = get_pipeline("elementwise", sizeof(PushConstants));
     
     size_t byte_size = total_size * sizeof(float);
-    VulkanBuffer buf_input(g_vulkan_state.context.get(), byte_size, VulkanBuffer::Usage::DeviceLocal);
-    VulkanBuffer buf_output(g_vulkan_state.context.get(), byte_size, VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_input(&context, byte_size, VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_output(&context, byte_size, VulkanBuffer::Usage::DeviceLocal);
     
     buf_input.upload(input, byte_size);
     
@@ -641,10 +652,8 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
 void launch_lora_grad_A_shader(
     const float* h, const float* grad_output, float* grad_A,
     int M, int K, int N, float scaling) {
-    
-    if (!g_vulkan_state.initialized) {
-        throw std::runtime_error("Vulkan not initialized");
-    }
+    auto lock = lock_vulkan_state_or_throw();
+    VulkanContext& context = get_context_or_throw();
     
     // Push constants for gradient computation
     struct PushConstants {
@@ -669,9 +678,9 @@ void launch_lora_grad_A_shader(
     size_t size_grad_output = M * N * sizeof(float);
     size_t size_grad_A = K * N * sizeof(float);
     
-    VulkanBuffer buf_h(g_vulkan_state.context.get(), size_h, VulkanBuffer::Usage::DeviceLocal);
-    VulkanBuffer buf_grad_output(g_vulkan_state.context.get(), size_grad_output, VulkanBuffer::Usage::DeviceLocal);
-    VulkanBuffer buf_grad_A(g_vulkan_state.context.get(), size_grad_A, VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_h(&context, size_h, VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_grad_output(&context, size_grad_output, VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_grad_A(&context, size_grad_A, VulkanBuffer::Usage::DeviceLocal);
     
     buf_h.upload(h, size_h);
     buf_grad_output.upload(grad_output, size_grad_output);
@@ -700,10 +709,8 @@ void launch_lora_grad_A_shader(
 void launch_lora_grad_B_shader(
     const float* input, const float* grad_h, float* grad_B,
     int M, int D, int K) {
-    
-    if (!g_vulkan_state.initialized) {
-        throw std::runtime_error("Vulkan not initialized");
-    }
+    auto lock = lock_vulkan_state_or_throw();
+    VulkanContext& context = get_context_or_throw();
     
     struct PushConstants {
         uint32_t batch_size;
@@ -728,9 +735,9 @@ void launch_lora_grad_B_shader(
     size_t size_grad_h = M * K * sizeof(float);
     size_t size_grad_B = D * K * sizeof(float);
     
-    VulkanBuffer buf_input(g_vulkan_state.context.get(), size_input, VulkanBuffer::Usage::DeviceLocal);
-    VulkanBuffer buf_grad_h(g_vulkan_state.context.get(), size_grad_h, VulkanBuffer::Usage::DeviceLocal);
-    VulkanBuffer buf_grad_B(g_vulkan_state.context.get(), size_grad_B, VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_input(&context, size_input, VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_grad_h(&context, size_grad_h, VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_grad_B(&context, size_grad_B, VulkanBuffer::Usage::DeviceLocal);
     
     buf_input.upload(input, size_input);
     buf_grad_h.upload(grad_h, size_grad_h);
@@ -763,9 +770,8 @@ void launch_embedding_lookup_shader(
     int seq_len,
     int hidden_dim,
     int vocab_size) {
-    if (!g_vulkan_state.initialized) {
-        throw std::runtime_error("Vulkan not initialized");
-    }
+    auto lock = lock_vulkan_state_or_throw();
+    VulkanContext& context = get_context_or_throw();
     if (!output || !token_ids || !embedding_weights) {
         throw std::invalid_argument("launch_embedding_lookup_shader received null pointer");
     }
@@ -791,9 +797,9 @@ void launch_embedding_lookup_shader(
 
     VulkanComputePipeline* pipeline = get_pipeline("embedding_lookup", sizeof(PushConstants));
 
-    VulkanBuffer buf_token_ids(g_vulkan_state.context.get(), total_tokens * sizeof(float), VulkanBuffer::Usage::DeviceLocal);
-    VulkanBuffer buf_embedding_weights(g_vulkan_state.context.get(), embedding_elems * sizeof(float), VulkanBuffer::Usage::DeviceLocal);
-    VulkanBuffer buf_output(g_vulkan_state.context.get(), output_elems * sizeof(float), VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_token_ids(&context, total_tokens * sizeof(float), VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_embedding_weights(&context, embedding_elems * sizeof(float), VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_output(&context, output_elems * sizeof(float), VulkanBuffer::Usage::DeviceLocal);
 
     buf_token_ids.upload(token_ids, total_tokens * sizeof(float));
     buf_embedding_weights.upload(embedding_weights, embedding_elems * sizeof(float));
@@ -816,9 +822,8 @@ void launch_sequence_mean_shader(
     int batch_size,
     int seq_len,
     int hidden_dim) {
-    if (!g_vulkan_state.initialized) {
-        throw std::runtime_error("Vulkan not initialized");
-    }
+    auto lock = lock_vulkan_state_or_throw();
+    VulkanContext& context = get_context_or_throw();
     if (!output || !input) {
         throw std::invalid_argument("launch_sequence_mean_shader received null pointer");
     }
@@ -843,8 +848,8 @@ void launch_sequence_mean_shader(
 
     VulkanComputePipeline* pipeline = get_pipeline("sequence_mean", sizeof(PushConstants));
 
-    VulkanBuffer buf_input(g_vulkan_state.context.get(), input_elems * sizeof(float), VulkanBuffer::Usage::DeviceLocal);
-    VulkanBuffer buf_output(g_vulkan_state.context.get(), output_elems * sizeof(float), VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_input(&context, input_elems * sizeof(float), VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_output(&context, output_elems * sizeof(float), VulkanBuffer::Usage::DeviceLocal);
 
     buf_input.upload(input, input_elems * sizeof(float));
     pipeline->bind_buffer(0, buf_input);
@@ -868,6 +873,8 @@ void launch_fused_lora_forward(
     size_t rank,
     size_t out_dim,
     float scaling) {
+    auto lock = lock_vulkan_state_or_throw();
+    VulkanContext& context = get_context_or_throw();
     if (!input || !B || !A || !output) {
         throw std::invalid_argument("launch_fused_lora_forward received null pointer");
     }
@@ -896,7 +903,7 @@ void launch_fused_lora_forward(
 
     static thread_local FusedForwardBufferCache cache;
     cache.ensure(
-        g_vulkan_state.context.get(),
+        &context,
         size_input,
         size_B,
         size_A,
@@ -928,6 +935,8 @@ void launch_fused_lora_backward(
     size_t rank,
     size_t out_dim,
     float scaling) {
+    auto lock = lock_vulkan_state_or_throw();
+    VulkanContext& context = get_context_or_throw();
     if (!input || !B || !A || !grad_output || !grad_A || !grad_B || !grad_input) {
         throw std::invalid_argument("launch_fused_lora_backward received null pointer");
     }
@@ -965,7 +974,7 @@ void launch_fused_lora_backward(
 
     static thread_local FusedBackwardBufferCache cache;
     cache.ensure(
-        g_vulkan_state.context.get(),
+        &context,
         size_input,
         size_B,
         size_A,

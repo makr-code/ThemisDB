@@ -26,6 +26,8 @@
 #include <unordered_map>
 #include <filesystem>
 #include <cstring>
+#include <mutex>
+#include <chrono>
 
 namespace themis {
 namespace lora {
@@ -54,6 +56,7 @@ static std::string get_shader_path(const std::string& shader_name) {
 
 // Helper function to get or create shader
 static DirectXShader* get_or_load_shader(const std::string& shader_name) {
+    auto lock = lock_directx_state_or_throw();
     auto& shader_cache = g_directx_state.shaders;
     
     // Check if already loaded
@@ -82,7 +85,8 @@ static DirectXPipeline* get_or_create_pipeline(
     uint32_t num_root_constants,
     uint32_t num_uavs,
     uint32_t num_srvs) {
-    
+    auto lock = lock_directx_state_or_throw();
+    ensure_directx_ready_or_throw();
     auto& pipeline_cache = g_directx_state.pipelines;
     
     // Check if already created
@@ -124,11 +128,28 @@ struct DirectXState {
     // Shader and pipeline cache
     std::unordered_map<std::string, std::unique_ptr<DirectXShader>> shaders;
     std::unordered_map<std::string, std::unique_ptr<DirectXPipeline>> pipelines;
+    std::recursive_timed_mutex mutex;
 };
 
 static DirectXState g_directx_state;
+constexpr auto kDirectXStateLockTimeout = std::chrono::seconds(30);
+
+static std::unique_lock<std::recursive_timed_mutex> lock_directx_state_or_throw() {
+    std::unique_lock<std::recursive_timed_mutex> lock(g_directx_state.mutex, std::defer_lock);
+    if (!lock.try_lock_for(kDirectXStateLockTimeout)) {
+        throw std::runtime_error("Timeout while waiting for DirectX kernel state lock");
+    }
+    return lock;
+}
+
+static void ensure_directx_ready_or_throw() {
+    if (!g_directx_state.initialized || !g_directx_state.context || !g_directx_state.descriptors) {
+        throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
+    }
+}
 
 bool initialize_directx_lora(int adapter_id) {
+    auto lock = lock_directx_state_or_throw();
     if (g_directx_state.initialized) {
         return true;
     }
@@ -170,6 +191,7 @@ bool initialize_directx_lora(int adapter_id) {
 }
 
 void cleanup_directx_lora() {
+    auto lock = lock_directx_state_or_throw();
     if (!g_directx_state.initialized) {
         return;
     }
@@ -208,10 +230,8 @@ bool is_directx_available() {
 void launch_matmul_shader(
     const float* A, const float* B, float* C,
     int M, int N, int K, float alpha) {
-    
-    if (!g_directx_state.initialized) {
-        throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
-    }
+    auto lock = lock_directx_state_or_throw();
+    ensure_directx_ready_or_throw();
     
     try {
         // Get or create pipeline
@@ -283,9 +303,8 @@ void launch_matmul_shader(
 }
 
 void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
-    if (!g_directx_state.initialized) {
-        throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
-    }
+    auto lock = lock_directx_state_or_throw();
+    ensure_directx_ready_or_throw();
     
     try {
         // Get or create pipeline
@@ -356,9 +375,8 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
 }
 
 void launch_multiply_shader(const float* A, const float* B, float* C, size_t size) {
-    if (!g_directx_state.initialized) {
-        throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
-    }
+    auto lock = lock_directx_state_or_throw();
+    ensure_directx_ready_or_throw();
     
     try {
         // Use elementwise pipeline with op=2 for multiply
@@ -415,9 +433,8 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
 }
 
 void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_t size) {
-    if (!g_directx_state.initialized) {
-        throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
-    }
+    auto lock = lock_directx_state_or_throw();
+    ensure_directx_ready_or_throw();
     
     try {
         // Use elementwise pipeline with op=4 for scalar multiply
@@ -474,9 +491,8 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
 }
 
 void launch_transpose_shader(const float* input, float* output, int rows, int cols) {
-    if (!g_directx_state.initialized) {
-        throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
-    }
+    auto lock = lock_directx_state_or_throw();
+    ensure_directx_ready_or_throw();
     
     try {
         // Use elementwise pipeline with op=5 for transpose
@@ -536,10 +552,8 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
 void launch_lora_grad_A_shader(
     const float* h, const float* grad_output, float* grad_A,
     int M, int K, int N, float scaling) {
-    
-    if (!g_directx_state.initialized) {
-        throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
-    }
+    auto lock = lock_directx_state_or_throw();
+    ensure_directx_ready_or_throw();
     
     try {
         // Get or create pipeline
@@ -633,10 +647,8 @@ void launch_lora_grad_A_shader(
 void launch_lora_grad_B_shader(
     const float* input, const float* grad_h, float* grad_B,
     int M, int D, int K) {
-    
-    if (!g_directx_state.initialized) {
-        throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
-    }
+    auto lock = lock_directx_state_or_throw();
+    ensure_directx_ready_or_throw();
     
     try {
         // Get or create pipeline
@@ -733,10 +745,8 @@ void launch_embedding_lookup_shader(
     int seq_len,
     int hidden_dim,
     int vocab_size) {
-    
-    if (!g_directx_state.initialized) {
-        throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
-    }
+    auto lock = lock_directx_state_or_throw();
+    ensure_directx_ready_or_throw();
     
     try {
         // Calculate sizes
@@ -803,10 +813,8 @@ void launch_sequence_mean_shader(
     int batch_size,
     int seq_len,
     int hidden_dim) {
-    
-    if (!g_directx_state.initialized) {
-        throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
-    }
+    auto lock = lock_directx_state_or_throw();
+    ensure_directx_ready_or_throw();
     
     try {
         // Calculate sizes
