@@ -418,7 +418,7 @@ private:
     int buffer_size_;
     std::vector<char> read_buffer_;
     std::string partial_message_;
-    bool is_running_ = false;
+    std::atomic<bool> is_running_{false};
 };
 
 /**
@@ -447,7 +447,7 @@ private:
     std::unordered_map<std::string, std::string> clients_; // client_id -> pending_data
     std::mutex clients_mutex_;
     asio::steady_timer keepalive_timer_;
-    bool is_running_ = false;
+    std::atomic<bool> is_running_{false};
 };
 
 /**
@@ -484,7 +484,7 @@ private:
     std::unordered_map<std::string, SessionData> sessions_; // session_id -> session_data
     std::mutex sessions_mutex_;
     asio::steady_timer ping_timer_;
-    bool is_running_ = false;
+    std::atomic<bool> is_running_{false};
 };
 
 } // namespace server

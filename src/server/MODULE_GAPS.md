@@ -17,6 +17,17 @@ python tools/gap_audit_pipeline_v2.py
 
 ## ✅ Recent Remediation (2026-05-19)
 
+- **W1-S09 (2026-05-26) – `include/server/mcp_server.h`, `src/server/mcp_server.cpp`**
+  - MCP transport lifecycle hardening: `StdioTransport`, `SseTransport`, and
+    `WebSocketTransport` now use atomic `is_running_` flags and idempotent
+    compare-exchange/exchange start-stop transitions instead of unsynchronized
+    plain `bool` state writes.
+  - Cross-thread access hardening: transport `send`, timer callbacks, and stdin
+    read loops now gate lifecycle checks via atomic loads/stores, removing
+    data-race-prone mixed-thread reads during shutdown and timer rescheduling.
+  - Gap delta intent: reduce `data_race` findings in MCP transport lifecycle
+    and async callback paths while preserving current transport semantics.
+
 - **W1-S08 (2026-05-26) – `include/server/mcp_server.h`, `src/server/mcp_server.cpp`, `src/server/voice_api_handler.cpp`**
   - Concurrency hardening in MCP lifecycle: `McpServer::is_running_` and
     `initialized_` are now atomic state flags; `start()` now uses

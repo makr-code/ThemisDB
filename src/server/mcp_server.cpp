@@ -2669,8 +2669,8 @@ StdioTransport::~StdioTransport() {
 }
 
 void StdioTransport::start() {
-    if (is_running_) return;
-    is_running_ = true;
+    bool expected = false;
+    if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) return;
     spdlog::info("MCP stdio transport started");
     
 #if defined(_WIN32) || defined(__unix__) || defined(__APPLE__)
@@ -2707,13 +2707,12 @@ void StdioTransport::start() {
 }
 
 void StdioTransport::stop() {
-    if (!is_running_) return;
-    is_running_ = false;
+    if (!is_running_.exchange(false, std::memory_order_acq_rel)) return;
     spdlog::info("MCP stdio transport stopped");
 }
 
 void StdioTransport::send(const json& message) {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     writeStdout(message.dump() + "\n");
 }
 
@@ -2727,7 +2726,7 @@ void StdioTransport::readStdin() {
             return;
         }
 
-        while (is_running_) {
+        while (is_running_.load(std::memory_order_acquire)) {
             // Check if data is available
             DWORD bytes_available = 0;
             BOOL peek_result = PeekNamedPipe(h_stdin, NULL, 0, NULL, &bytes_available, NULL);
@@ -2778,7 +2777,7 @@ void StdioTransport::readStdin() {
                     } catch (const json::parse_error&) {
                         // Incomplete JSON, wait for more input
                     }
-                } else if (!is_running_) {
+                } else if (!is_running_.load(std::memory_order_acquire)) {
                     break;
                 }
             } else if (bytes_available > 0) {
@@ -2804,7 +2803,7 @@ void StdioTransport::readStdin() {
                     }
                 } else {
                     // EOF on stdin
-                    is_running_ = false;
+                    is_running_.store(false, std::memory_order_release);
                     break;
                 }
             } else {
@@ -2816,7 +2815,7 @@ void StdioTransport::readStdin() {
 #elif defined(__unix__) || defined(__APPLE__)
     // POSIX implementation using select()
     asio::post(io_context_, [this]() {
-        while (is_running_) {
+        while (is_running_.load(std::memory_order_acquire)) {
             // Use select to check if stdin has data with timeout
             fd_set readfds;
             FD_ZERO(&readfds);
@@ -2851,7 +2850,7 @@ void StdioTransport::readStdin() {
                     }
                 } else {
                     // EOF on stdin
-                    is_running_ = false;
+                    is_running_.store(false, std::memory_order_release);
                     break;
                 }
             }
@@ -2880,8 +2879,8 @@ SseTransport::~SseTransport() {
 }
 
 void SseTransport::start() {
-    if (is_running_) return;
-    is_running_ = true;
+    bool expected = false;
+    if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) return;
     spdlog::info("MCP SSE transport started with {}ms keepalive interval", keepalive_ms_);
     
     // Start keepalive timer
@@ -2889,8 +2888,7 @@ void SseTransport::start() {
 }
 
 void SseTransport::stop() {
-    if (!is_running_) return;
-    is_running_ = false;
+    if (!is_running_.exchange(false, std::memory_order_acq_rel)) return;
     keepalive_timer_.cancel();
     
     // Clear all clients
@@ -2903,7 +2901,7 @@ void SseTransport::stop() {
 }
 
 void SseTransport::send(const json& message) {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     
     // Format as SSE event
     std::string event_data = "data: " + message.dump() + "\n\n";
@@ -2941,7 +2939,7 @@ std::string SseTransport::getClientData(const std::string& client_id) {
 }
 
 void SseTransport::sendKeepalive() {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     
     // Send SSE comment as keepalive
     std::string keepalive = ": keepalive\n\n";
@@ -2955,11 +2953,11 @@ void SseTransport::sendKeepalive() {
 }
 
 void SseTransport::scheduleKeepalive() {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     
     keepalive_timer_.expires_after(std::chrono::milliseconds(keepalive_ms_));
     keepalive_timer_.async_wait([this](const boost::system::error_code& ec) {
-        if (!ec && is_running_) {
+        if (!ec && is_running_.load(std::memory_order_acquire)) {
             sendKeepalive();
             scheduleKeepalive();
         }
@@ -2980,8 +2978,8 @@ WebSocketTransport::~WebSocketTransport() {
 }
 
 void WebSocketTransport::start() {
-    if (is_running_) return;
-    is_running_ = true;
+    bool expected = false;
+    if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) return;
     spdlog::info("MCP WebSocket transport started with {}ms ping interval", ping_interval_ms_);
     
     // Start ping timer
@@ -2989,8 +2987,7 @@ void WebSocketTransport::start() {
 }
 
 void WebSocketTransport::stop() {
-    if (!is_running_) return;
-    is_running_ = false;
+    if (!is_running_.exchange(false, std::memory_order_acq_rel)) return;
     ping_timer_.cancel();
     
     // Clear all sessions
@@ -3003,7 +3000,7 @@ void WebSocketTransport::stop() {
 }
 
 void WebSocketTransport::send(const json& message) {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     
     std::string msg_str = message.dump();
     
@@ -3018,7 +3015,7 @@ void WebSocketTransport::send(const json& message) {
 }
 
 void WebSocketTransport::sendToSession(const std::string& session_id, const json& message) {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     
     std::string msg_str = message.dump();
     
@@ -3057,7 +3054,7 @@ std::vector<std::string> WebSocketTransport::getPendingMessages(const std::strin
 }
 
 void WebSocketTransport::handleMessage(const std::string& session_id, const std::string& message) {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     
     try {
         json request = json::parse(message);
@@ -3083,7 +3080,7 @@ void WebSocketTransport::handleMessage(const std::string& session_id, const std:
 }
 
 void WebSocketTransport::sendPing() {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     
     // Send ping to all active sessions
     json ping_message = {
@@ -3104,11 +3101,11 @@ void WebSocketTransport::sendPing() {
 }
 
 void WebSocketTransport::schedulePing() {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     
     ping_timer_.expires_after(std::chrono::milliseconds(ping_interval_ms_));
     ping_timer_.async_wait([this](const boost::system::error_code& ec) {
-        if (!ec && is_running_) {
+        if (!ec && is_running_.load(std::memory_order_acquire)) {
             sendPing();
             schedulePing();
         }
