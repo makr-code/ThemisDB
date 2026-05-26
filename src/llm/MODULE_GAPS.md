@@ -298,6 +298,21 @@ destructor gap for the concrete `LLMPluginAdapter` class.
   `attention/cuda/flash_attention_cuda.cu::FlashAttentionCUDA::freeWorkspace()`; failures are logged via
   `spdlog::warn` and `d_workspace_` is still cleared to `nullptr` to prevent double-free.
 
+**Status (v1.22.0-pre — W1-L10):** REL-68..REL-73 fixed — NCCL/RCCL group-call and cleanup-adjacent reliability:
+- REL-68: `ncclGroupStart` return value now checked in `lora_framework/nccl_backend.cpp::allreduce()`;
+  failures are logged and the allreduce call returns `false`.
+- REL-69: Early-exit `ncclGroupEnd` return value is now checked in
+  `lora_framework/nccl_backend.cpp::allreduce()` when `ncclAllReduce` fails; cleanup failures are logged.
+- REL-70: Success-path `ncclGroupEnd` return value is now checked in
+  `lora_framework/nccl_backend.cpp::allreduce()`; failures are logged and cause `false` return.
+- REL-71: `ncclGroupStart` return value now checked in `lora_framework/rccl_backend.cpp::allreduce()`;
+  failures are logged and the allreduce call returns `false`.
+- REL-72: Success/early-exit `ncclGroupEnd` return value is now checked in
+  `lora_framework/rccl_backend.cpp::allreduce()`; failures are logged (`warn` on early-exit cleanup,
+  `error` on success-path failure).
+- REL-73: `cudaSetDevice` return value now checked in `gpu_memory_manager.cpp::MemoryHolder::freeGPUMemory()`
+  before secure-clear/free; failures are logged and the cleanup path exits early to avoid wrong-device operations.
+
 ---
 
 ## 📋 Implementation Priority

@@ -411,10 +411,14 @@ cudaError_t launch_quantize_nf4_kernel(
     int threads_per_block = min(static_cast<int>(block_size), 256);
     
     // Initialize output to zero
+    cudaError_t memset_err = cudaSuccess;
     if (stream) {
-        cudaMemsetAsync(output, 0, (num_elements + 1) / 2, stream);
+        memset_err = cudaMemsetAsync(output, 0, (num_elements + 1) / 2, stream);
     } else {
-        cudaMemset(output, 0, (num_elements + 1) / 2);
+        memset_err = cudaMemset(output, 0, (num_elements + 1) / 2);
+    }
+    if (memset_err != cudaSuccess) {
+        return memset_err;
     }
     
     if (stream) {

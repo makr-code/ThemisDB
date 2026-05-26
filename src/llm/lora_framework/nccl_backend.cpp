@@ -117,8 +117,13 @@ bool NCCLBackend::allreduce([[maybe_unused]] std::vector<GPUTensor*>& tensors, [
 #ifdef THEMIS_ENABLE_NCCL
     cudaStream_t stream = static_cast<cudaStream_t>(cuda_stream_);
     
-    // Group API for efficient communication
-    ncclGroupStart();
+    // Group API for efficient communication — REL-68: check ncclGroupStart return value
+    ncclResult_t group_start_err = ncclGroupStart();
+    if (group_start_err != ncclSuccess) {
+        spdlog::error("NCCL allreduce: ncclGroupStart failed: {}",
+                      ncclGetErrorString(group_start_err));
+        return false;
+    }
     
     for (auto* tensor : tensors) {
         if (!tensor || tensor->device().type != DeviceType::CUDA) {
@@ -142,12 +147,23 @@ bool NCCLBackend::allreduce([[maybe_unused]] std::vector<GPUTensor*>& tensors, [
         
         if (result != ncclSuccess) {
             spdlog::error("NCCL allreduce failed: {}", ncclGetErrorString(result));
-            ncclGroupEnd();
+            // REL-69: check ncclGroupEnd return value on early-exit path
+            ncclResult_t group_end_err = ncclGroupEnd();
+            if (group_end_err != ncclSuccess) {
+                spdlog::warn("NCCL allreduce early-exit: ncclGroupEnd failed: {}",
+                             ncclGetErrorString(group_end_err));
+            }
             return false;
         }
     }
     
-    ncclGroupEnd();
+    // REL-70: check ncclGroupEnd return value on success path
+    ncclResult_t group_end_err = ncclGroupEnd();
+    if (group_end_err != ncclSuccess) {
+        spdlog::error("NCCL allreduce: ncclGroupEnd failed: {}",
+                      ncclGetErrorString(group_end_err));
+        return false;
+    }
     
     // Wait for completion — REL-10: check cudaStreamSynchronize return value
     {

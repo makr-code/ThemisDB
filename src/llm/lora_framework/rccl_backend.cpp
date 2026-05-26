@@ -117,8 +117,13 @@ bool RCCLBackend::allreduce([[maybe_unused]] std::vector<GPUTensor*>& tensors, [
 #ifdef THEMIS_ENABLE_RCCL
     hipStream_t stream = static_cast<hipStream_t>(hip_stream_);
     
-    // Group API for efficient communication
-    ncclGroupStart();
+    // Group API for efficient communication — REL-71: check ncclGroupStart return value
+    ncclResult_t group_start_err = ncclGroupStart();
+    if (group_start_err != ncclSuccess) {
+        spdlog::error("RCCL allreduce: ncclGroupStart failed: {}",
+                      ncclGetErrorString(group_start_err));
+        return false;
+    }
     
     for (auto* tensor : tensors) {
         if (!tensor || tensor->device().type != DeviceType::HIP) {
@@ -142,12 +147,22 @@ bool RCCLBackend::allreduce([[maybe_unused]] std::vector<GPUTensor*>& tensors, [
         
         if (result != ncclSuccess) {
             spdlog::error("RCCL allreduce failed: {}", ncclGetErrorString(result));
-            ncclGroupEnd();
+            ncclResult_t group_end_err = ncclGroupEnd();
+            if (group_end_err != ncclSuccess) {
+                spdlog::warn("RCCL allreduce early-exit: ncclGroupEnd failed: {}",
+                             ncclGetErrorString(group_end_err));
+            }
             return false;
         }
     }
     
-    ncclGroupEnd();
+    // REL-72: check ncclGroupEnd return value on success path
+    ncclResult_t group_end_err = ncclGroupEnd();
+    if (group_end_err != ncclSuccess) {
+        spdlog::error("RCCL allreduce: ncclGroupEnd failed: {}",
+                      ncclGetErrorString(group_end_err));
+        return false;
+    }
     
     // Wait for completion — REL-14: check hipStreamSynchronize return value
     {
