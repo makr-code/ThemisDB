@@ -114,6 +114,30 @@ After each run, this file is updated with fresh analysis.
 
 ---
 
+## ✅ Recent Remediation (2026-05-26 — W1-S06 uncaught_exception batch)
+
+### `src/server/http3_session.cpp`
+
+**Uncaught exceptions in Boost.Asio async completion handlers**
+
+Three `async_wait` timer callbacks and the `async_receive_from` callback invoked
+`cleanupInactiveSessions()` / `onTimeout()` / `onReceive()` without any try-catch
+protection.  If any of those functions threw (e.g. `std::bad_alloc` from a container
+operation or ngtcp2 error handling), the exception would propagate out of the Asio
+handler, terminate `std::terminate`, and bring down the entire server process.
+
+Fixes applied:
+- Both `cleanup_timer_.async_wait` lambda bodies now wrap `cleanupInactiveSessions()`
+  in `try { … } catch (const std::exception& e) { THEMIS_ERROR(…) }`.
+- Both `idle_timer_.async_wait` lambda bodies now wrap `onTimeout()` in
+  `try { … } catch (const std::exception& e) { THEMIS_ERROR(…) }`.
+- `Http3Handler::onReceive()`: the entire non-error-code processing block is now
+  wrapped in `try { … } catch (const std::exception& e) { THEMIS_ERROR(…) }`,
+  ensuring `doAccept()` is always called at the end to keep the receive loop alive
+  even when a single-packet handler path throws.
+
+---
+
 **Format:** THEMIS_MODULE_GAPS_v1  
 **Generator:** ThemisDB Gap Audit Pipeline v2  
 **Auto-Generated:** Yes

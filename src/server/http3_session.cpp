@@ -127,7 +127,11 @@ void Http3Handler::start() {
     cleanup_timer_.expires_after(std::chrono::seconds(30));
     cleanup_timer_.async_wait([this](boost::system::error_code ec) {
         if (!ec) {
-            cleanupInactiveSessions();
+            try {
+                cleanupInactiveSessions();
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("HTTP/3 cleanup timer error: {}", e.what());
+            }
         }
     });
 }
@@ -156,56 +160,60 @@ void Http3Handler::onReceive(boost::system::error_code ec, std::size_t bytes_tra
         return;
     }
     
-    std::string session_key = remote_endpoint_.address().to_string() + ":" + 
-                              std::to_string(remote_endpoint_.port());
-    std::string client_ip   = remote_endpoint_.address().to_string();
-    
-    auto it = sessions_.find(session_key);
-    if (it != sessions_.end()) {
-        // Existing session – known IP:port
-        it->second->handlePacket(recv_buffer_.data(), bytes_transferred, remote_endpoint_);
-    } else {
-        // Try connection-ID-based lookup to handle connection migration:
-        // the client's IP or port may have changed but the QUIC CID is the same.
-        std::string cid_hex = extractConnectionId(recv_buffer_.data(), bytes_transferred);
-        if (!cid_hex.empty()) {
-            auto cid_it = cid_to_session_key_.find(cid_hex);
-            if (cid_it != cid_to_session_key_.end()) {
-                auto sess_it = sessions_.find(cid_it->second);
-                if (sess_it != sessions_.end()) {
-                    THEMIS_INFO("HTTP/3 connection migration detected: {} -> {}", cid_it->second, session_key);
-                    auto session = sess_it->second;
-                    // Notify session and re-index under the new address
-                    session->onPathMigration(remote_endpoint_);
-                    sessions_[session_key] = session;
-                    cid_to_session_key_[cid_hex] = session_key;
-                    sessions_.erase(sess_it);
-                    session->handlePacket(recv_buffer_.data(), bytes_transferred, remote_endpoint_);
-                    doAccept();
-                    return;
+    try {
+        std::string session_key = remote_endpoint_.address().to_string() + ":" + 
+                                  std::to_string(remote_endpoint_.port());
+        std::string client_ip   = remote_endpoint_.address().to_string();
+        
+        auto it = sessions_.find(session_key);
+        if (it != sessions_.end()) {
+            // Existing session – known IP:port
+            it->second->handlePacket(recv_buffer_.data(), bytes_transferred, remote_endpoint_);
+        } else {
+            // Try connection-ID-based lookup to handle connection migration:
+            // the client's IP or port may have changed but the QUIC CID is the same.
+            std::string cid_hex = extractConnectionId(recv_buffer_.data(), bytes_transferred);
+            if (!cid_hex.empty()) {
+                auto cid_it = cid_to_session_key_.find(cid_hex);
+                if (cid_it != cid_to_session_key_.end()) {
+                    auto sess_it = sessions_.find(cid_it->second);
+                    if (sess_it != sessions_.end()) {
+                        THEMIS_INFO("HTTP/3 connection migration detected: {} -> {}", cid_it->second, session_key);
+                        auto session = sess_it->second;
+                        // Notify session and re-index under the new address
+                        session->onPathMigration(remote_endpoint_);
+                        sessions_[session_key] = session;
+                        cid_to_session_key_[cid_hex] = session_key;
+                        sessions_.erase(sess_it);
+                        session->handlePacket(recv_buffer_.data(), bytes_transferred, remote_endpoint_);
+                        doAccept();
+                        return;
+                    }
                 }
             }
-        }
 
-        // Brand new QUIC connection
-        if (prod_cfg_.enable_http2_fallback &&
-            fallback_manager_.shouldFallbackToHttp2(client_ip)) {
-            THEMIS_INFO("HTTP/3 rejecting new QUIC from {} (HTTP/2 fallback active)", client_ip);
-            doAccept();
-            return;
-        }
+            // Brand new QUIC connection
+            if (prod_cfg_.enable_http2_fallback &&
+                fallback_manager_.shouldFallbackToHttp2(client_ip)) {
+                THEMIS_INFO("HTTP/3 rejecting new QUIC from {} (HTTP/2 fallback active)", client_ip);
+                doAccept();
+                return;
+            }
 
-        THEMIS_INFO("HTTP/3 new QUIC connection from {}", session_key);
-        
-        auto session = std::make_shared<Http3Session>(
-            socket_, remote_endpoint_, server_, ssl_ctx_, max_idle_timeout_ms_, prod_cfg_
-        );
-        sessions_[session_key] = session;
-        if (!cid_hex.empty()) {
-            cid_to_session_key_[cid_hex] = session_key;
+            THEMIS_INFO("HTTP/3 new QUIC connection from {}", session_key);
+            
+            auto session = std::make_shared<Http3Session>(
+                socket_, remote_endpoint_, server_, ssl_ctx_, max_idle_timeout_ms_, prod_cfg_
+            );
+            sessions_[session_key] = session;
+            if (!cid_hex.empty()) {
+                cid_to_session_key_[cid_hex] = session_key;
+            }
+            session->start();
+            session->handlePacket(recv_buffer_.data(), bytes_transferred, remote_endpoint_);
         }
-        session->start();
-        session->handlePacket(recv_buffer_.data(), bytes_transferred, remote_endpoint_);
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("HTTP/3 onReceive error: {}", e.what());
     }
     
     doAccept(); // Continue accepting
@@ -237,7 +245,11 @@ void Http3Handler::cleanupInactiveSessions() {
     cleanup_timer_.expires_after(std::chrono::seconds(30));
     cleanup_timer_.async_wait([this](boost::system::error_code ec) {
         if (!ec) {
-            cleanupInactiveSessions();
+            try {
+                cleanupInactiveSessions();
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("HTTP/3 cleanup timer error: {}", e.what());
+            }
         }
     });
 }
@@ -442,7 +454,11 @@ void Http3Session::start() {
     idle_timer_.expires_after(std::chrono::milliseconds(max_idle_timeout_ms_));
     idle_timer_.async_wait([this](boost::system::error_code ec) {
         if (!ec) {
-            onTimeout();
+            try {
+                onTimeout();
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("HTTP/3 idle timeout handler error: {}", e.what());
+            }
         }
     });
 }
@@ -474,7 +490,11 @@ void Http3Session::handlePacket(const uint8_t* data, size_t len, const udp::endp
     idle_timer_.expires_after(std::chrono::milliseconds(max_idle_timeout_ms_));
     idle_timer_.async_wait([this](boost::system::error_code ec) {
         if (!ec) {
-            onTimeout();
+            try {
+                onTimeout();
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("HTTP/3 idle timeout handler error: {}", e.what());
+            }
         }
     });
 }
