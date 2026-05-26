@@ -17,6 +17,12 @@ python tools/gap_audit_pipeline_v2.py
 
 ## ✅ Recent Remediation (2026-05-19)
 
+- **W1-S01 (2026-05-26) – `src/server/query_api_handler.cpp`**
+  - Data-race hardening: thread-safe access for runtime-injected `IndexRecommender`, `StatisticsCollector`, and masking policy snapshots in request paths.
+  - Timeout hardening: explicit timeout aborts added for traversal BFS and LET projection fallback prefix-scan paths (`timeout_ms`).
+  - Null-safety hardening: fail-closed `503 Service Unavailable` guards for missing core query dependencies (`storage`, `secondary_index`) and missing enhanced-query `llm_store`.
+  - Gap delta intent: reduce `data_race`, `no_timeout`, and `null_dereference` findings for `query_api_handler.cpp` in next server rescan.
+
 - Removed token-value logging from:
   - `src/server/auth_middleware.cpp` (`AuthMiddleware::authorize`)
   - `src/server/http_server.cpp` (`HttpServer::handlePiiDeleteByUuid`)

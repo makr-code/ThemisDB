@@ -13,6 +13,7 @@
 #include <memory>
 #include <string>
 #include <optional>
+#include <atomic>
 #include <boost/beast/http.hpp>
 #include <nlohmann/json.hpp>
 
@@ -145,7 +146,9 @@ public:
      * collector so that equality predicates are sorted by selectivity before
      * execution.  The pointer is non-owning; the caller manages lifetime.
      */
-    void setStatisticsCollector(StatisticsCollector* sc) noexcept { stats_collector_ = sc; }
+    void setStatisticsCollector(StatisticsCollector* sc) noexcept {
+        stats_collector_.store(sc, std::memory_order_release);
+    }
 
     /**
      * @brief Inject an IndexRecommender for access-pattern recording.
@@ -157,7 +160,9 @@ public:
      * The pointer is non-owning; the caller manages the lifetime.
      * Pass nullptr to disable recording.
      */
-    void setIndexRecommender(IndexRecommender* rec) noexcept { index_recommender_ = rec; }
+    void setIndexRecommender(IndexRecommender* rec) noexcept {
+        index_recommender_.store(rec, std::memory_order_release);
+    }
 
     /**
      * @brief Inject a QueryMaskingPolicy for dynamic PII masking of query results.
@@ -168,7 +173,7 @@ public:
      */
     void setQueryMaskingPolicy(
         std::shared_ptr<security::QueryMaskingPolicy> policy) noexcept {
-        masking_policy_ = std::move(policy);
+        std::atomic_store_explicit(&masking_policy_, std::move(policy), std::memory_order_release);
     }
 
 private:
@@ -183,8 +188,8 @@ private:
     std::shared_ptr<::themis::AuthMiddleware> auth_;
     bool feature_llm_query_enhancement_{false};
     bool feature_llm_store_{false};
-    IndexRecommender*   index_recommender_{nullptr};   ///< Optional; non-owning
-    StatisticsCollector* stats_collector_{nullptr};    ///< Optional; non-owning
+    std::atomic<IndexRecommender*> index_recommender_{nullptr};    ///< Optional; non-owning
+    std::atomic<StatisticsCollector*> stats_collector_{nullptr};   ///< Optional; non-owning
     std::shared_ptr<security::QueryMaskingPolicy> masking_policy_;  ///< Optional PII masking
 
     // Helper methods
