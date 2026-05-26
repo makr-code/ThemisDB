@@ -383,6 +383,14 @@ releases partial-initialization Vulkan resources (instance/device/command pool) 
 `initialized_` is still `false`; stale device selection handles are reset to null/default
 (`lora_framework/vulkan_context.cpp`).
 
+**Status (v1.21.0-pre — batch 41):** REL-89..REL-94 fixed — `LlamaWrapper`
+now fail-closes when `llama_model_get_vocab()` or `llama_get_model()` return null in
+`tokenizeInternal()`, `detokenizeInternal()`, speculative decoding, and draft-token
+generation; `synchronizeDraftToTarget()` now guards null draft memory handles before
+clearing the KV cache; `EmbeddingProvider::getEmbedding()` now returns an empty result
+when `llama_model_get_vocab()` is unavailable instead of passing a null vocab into
+`llama_tokenize()` (`llama_wrapper.cpp`, `lora_framework/embedding_provider.cpp`).
+
 ---
 
 ## 📋 Implementation Priority

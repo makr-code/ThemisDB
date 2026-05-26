@@ -1308,7 +1308,13 @@ ILLMPlugin::DraftTokensResult LlamaWrapper::generateDraftTokens(
     }
 
     const llama_vocab* vocab = llama_model_get_vocab(lmodel);
+    if (!vocab) {
+        throw std::runtime_error("llama_model_get_vocab returned null for draft token generation");
+    }
     const int32_t n_vocab = llama_vocab_n_tokens(vocab);
+    if (n_vocab <= 0) {
+        throw std::runtime_error("Invalid vocabulary size returned by llama_vocab_n_tokens");
+    }
     const llama_token eos_token = llama_vocab_eos(vocab);
     const size_t produced_vocab_size = static_cast<size_t>(n_vocab);
     if (vocab_size_hint > 0 && vocab_size_hint != produced_vocab_size) {
@@ -1757,6 +1763,9 @@ std::vector<llama_token> LlamaWrapper::tokenizeInternal(
     
     // Get vocab from model
     const llama_vocab* vocab = llama_model_get_vocab(model);
+    if (!vocab) {
+        throw std::runtime_error("llama_model_get_vocab returned null");
+    }
     
     // Allocate buffer for tokens (estimate: text length + special tokens)
     int32_t n_tokens_max = text.length() + (add_bos ? 1 : 0) + 8;
@@ -1805,7 +1814,13 @@ std::string LlamaWrapper::detokenizeInternal(
     
     // Get model and vocab from context
     const llama_model* model = llama_get_model(ctx);
+    if (!model) {
+        throw std::runtime_error("llama_get_model returned null");
+    }
     const llama_vocab* vocab = llama_model_get_vocab(model);
+    if (!vocab) {
+        throw std::runtime_error("llama_model_get_vocab returned null");
+    }
     
     std::string result;
     result.reserve(tokens.size() * 4);  // Rough estimate
@@ -2176,6 +2191,10 @@ void LlamaWrapper::synchronizeDraftToTarget(const std::vector<llama_token>& acce
     
     // Clear draft context and re-evaluate accepted tokens
     llama_memory_t mem = llama_get_memory(draft_context_);
+    if (!mem) {
+        spdlog::warn("Failed to synchronize draft model: llama_get_memory returned null");
+        return;
+    }
     llama_memory_clear(mem, true);
     
     llama_batch batch = llama_batch_get_one(
@@ -2255,7 +2274,13 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         // 3. Speculative generation loop
         std::vector<llama_token> generated_tokens;
         const llama_vocab* vocab = llama_model_get_vocab(target_model);
+        if (!vocab) {
+            throw std::runtime_error("llama_model_get_vocab returned null for target model");
+        }
         int32_t n_vocab = llama_vocab_n_tokens(vocab);
+        if (n_vocab <= 0) {
+            throw std::runtime_error("Invalid vocabulary size returned by llama_vocab_n_tokens");
+        }
         llama_token eos_token = llama_vocab_eos(vocab);
         
         bool max_tokens_capped = false;
