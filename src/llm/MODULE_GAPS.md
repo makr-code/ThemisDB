@@ -267,6 +267,12 @@ now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCL
 **Status (W1-L18):** REL-108 fixed —
 - REL-108: `llama_wrapper.cpp` `generateVision()` prompt-prefix prefill path used `if (llama_decode(...) == 0)` without explicit failure handling, silently continuing on decode failure. Fixed by handling the failure branch explicitly with warning logs and skipping image-embedding injection when prefix decode fails.
 
+**Status (W1-L19):** REL-109..REL-112 fixed —
+- REL-109: `lora_framework/vram_allocator.cpp` `init_backend()` Vulkan path used raw `new VulkanAllocContext()` + manual `delete` on failure; replaced with `std::make_unique<VulkanAllocContext>()` guard with `release()` on success, ensuring automatic cleanup if `vk_init()` returns false.
+- REL-110: `lora_framework/quantized_model.cpp` `QLoRALayer::backward()` used `A_->grad.reset(new Tensor(...))` / `B_->grad.reset(new Tensor(...))`; replaced with `A_->grad = std::make_unique<Tensor>(...)` / `B_->grad = std::make_unique<Tensor>(...)` to use the canonical make_unique idiom and avoid raw-new.
+- REL-111: `lora_framework/lora_layers.cpp` `LoRALayer::LoRALayer()` constructor now throws `std::invalid_argument` early if `in_dim`, `out_dim`, or `rank` is zero, preventing zero-size tensor allocations that would produce degenerate layers.
+- REL-112: `lora_framework/lora_layers.cpp` `AttentionLoRA::AttentionLoRA()` constructor now throws `std::invalid_argument` early if `dim` or `rank` is zero, consistent with REL-111 and the validation already present in the Vulkan kernel entry points.
+
 ---
 
 ## 📋 Implementation Priority
