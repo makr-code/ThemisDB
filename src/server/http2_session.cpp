@@ -103,6 +103,9 @@ Http2Session::Http2Session(
 }
 
 Http2Session::~Http2Session() {
+    boost::system::error_code ec;
+    read_timer_.cancel(ec);
+    write_timer_.cancel(ec);
     if (ng2_session_) {
         nghttp2_session_del(ng2_session_);
     }
@@ -247,8 +250,13 @@ void Http2Session::armReadTimer() {
     const uint32_t timeout_ms = server_->hot_request_timeout_ms_.load(std::memory_order_acquire);
     if (timeout_ms == 0) return;
     read_timer_.expires_after(std::chrono::milliseconds(timeout_ms));
-    read_timer_.async_wait([self = shared_from_this()](const boost::system::error_code& ec) {
+    const std::weak_ptr<Http2Session> weak_self = weak_from_this();
+    read_timer_.async_wait([weak_self](const boost::system::error_code& ec) {
         if (!ec) {
+            auto self = weak_self.lock();
+            if (!self) {
+                return;
+            }
             const uint32_t timeout = self->server_->hot_request_timeout_ms_.load(std::memory_order_relaxed);
             THEMIS_WARN("HTTP/2 handshake/read timeout ({}ms) - closing connection", timeout);
             boost::system::error_code close_ec;
@@ -272,8 +280,13 @@ void Http2Session::armWriteTimer() {
     const uint32_t timeout_ms = server_->hot_request_timeout_ms_.load(std::memory_order_acquire);
     if (timeout_ms == 0) return;
     write_timer_.expires_after(std::chrono::milliseconds(timeout_ms));
-    write_timer_.async_wait([self = shared_from_this()](const boost::system::error_code& ec) {
+    const std::weak_ptr<Http2Session> weak_self = weak_from_this();
+    write_timer_.async_wait([weak_self](const boost::system::error_code& ec) {
         if (!ec) {
+            auto self = weak_self.lock();
+            if (!self) {
+                return;
+            }
             const uint32_t timeout = self->server_->hot_request_timeout_ms_.load(std::memory_order_relaxed);
             THEMIS_WARN("HTTP/2 write timeout ({}ms) - closing connection", timeout);
             boost::system::error_code close_ec;
@@ -347,8 +360,6 @@ int Http2Session::onStreamCloseCallback(nghttp2_session* /*session*/, int32_t st
     // Process complete request
     self->processStream(stream_id);
     self->streams_.erase(stream_id);
-    // Release any in-flight response buffer for this stream (stub #298 RESOLVED).
-    self->response_buffers_.erase(stream_id);
     
     return 0;
 }

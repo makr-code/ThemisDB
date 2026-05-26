@@ -141,8 +141,6 @@ private:
     std::unordered_map<int32_t, StreamData> streams_;
     net::steady_timer read_timer_;  // handshake + read timeout guard
     net::steady_timer write_timer_; // write timeout guard
-    // Per-stream response buffers for RAII lifetime management (stub #298).
-    std::unordered_map<int32_t, std::shared_ptr<ResponseBuffer>> response_buffers_;
     
     uint32_t max_concurrent_streams_;
     uint32_t initial_window_size_;
@@ -152,6 +150,7 @@ private:
     std::set<int32_t> cdc_subscribed_streams_;
     mutable std::mutex push_mutex_;
     mutable std::mutex response_mutex_;
+    // Per-stream response buffers for RAII lifetime management (stub #298).
     std::unordered_map<int32_t, std::shared_ptr<ResponseBuffer>> response_buffers_;
 };
 
