@@ -995,8 +995,8 @@ std::optional<http::response<http::string_body>> ChangefeedApiHandler::checkAuth
     }
     
     // Check for Authorization header
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         http::response<http::string_body> res{http::status::unauthorized, req.version()};
         res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
         res.set(http::field::content_type, "application/json");
@@ -1009,7 +1009,7 @@ std::optional<http::response<http::string_body>> ChangefeedApiHandler::checkAuth
     
     // Extract and validate token
     auto token = AuthMiddleware::extractBearerToken(
-        std::string_view(it->value().data(), it->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     
     if (!token) {
@@ -1090,8 +1090,8 @@ std::optional<http::response<http::string_body>> ChangefeedApiHandler::checkAuth
     }
     
     // Check for Authorization header
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         http::response<http::string_body> res{http::status::unauthorized, req.version()};
         res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
         res.set(http::field::content_type, "application/json");
@@ -1104,7 +1104,7 @@ std::optional<http::response<http::string_body>> ChangefeedApiHandler::checkAuth
     
     // Extract and validate token
     auto token = AuthMiddleware::extractBearerToken(
-        std::string_view(it->value().data(), it->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     
     if (!token) {

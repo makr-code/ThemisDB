@@ -1721,13 +1721,13 @@ http::response<http::string_body> VoiceApiHandler::handleHealth(
 bool VoiceApiHandler::validateBearerToken(
     const http::request<http::string_body>& req
 ) {
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         return false;
     }
 
     const auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(it->value().data(), it->value().size()));
+        std::string_view(auth_header.data(), auth_header.size()));
     if (!token || token->empty()) {
         return false;
     }

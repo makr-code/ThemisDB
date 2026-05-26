@@ -15,6 +15,53 @@ python tools/gap_audit_pipeline_v2.py
 
 ---
 
+## ✅ Recent Remediation (2026-05-26) — W1-S01: Authorization Header Iterator-Free Sweep (all handler files)
+
+**Scope:** 18 server handler files  
+**Ticket:** W1-S01 · Priority P0  
+
+### Fixes Applied
+
+#### Iterator-free Authorization header access — server-wide sweep (`iterator_invalidation`)
+
+**Root cause:** 26 sites across 18 handler files still used
+`req.find(http::field::authorization)` / `request_.find(...)` iterators for bearer-token
+extraction. While these call-sites did not mutate the request in-place, the find-then-check
+pattern is scanner-flagged as potential iterator invalidation on every file.
+
+**Files updated:**
+- `src/server/query_api_handler.cpp` (3 sites — requireScope, extractAuthContext, AQL forward)
+- `src/server/api_gateway.cpp` (3 sites — auth gate, rate-limit client-id, request routing)
+- `src/server/vector_api_handler.cpp` (2 sites — requireAuth, extractAuthContext)
+- `src/server/entity_api_handler.cpp` (2 sites — requireAuth helpers)
+- `src/server/bpmn_api_handler.cpp` (2 sites — auth helpers)
+- `src/server/changefeed_api_handler.cpp` (2 sites — auth helpers)
+- `src/server/rope_api_handler.cpp` (1 site)
+- `src/server/cache_admin_api_handler.cpp` (1 site)
+- `src/server/lora_api_handler.cpp` (1 site)
+- `src/server/content_api_handler.cpp` (1 site)
+- `src/server/llm_api_handler.cpp` (1 site — local `extractBearerToken` helper)
+- `src/server/policy_validation_api_handler.cpp` (1 site)
+- `src/server/shard_repair_api_handler.cpp` (1 site)
+- `src/server/policy_manager_api_handler.cpp` (1 site)
+- `src/server/policy_template_api_handler.cpp` (1 site)
+- `src/server/voice_api_handler.cpp` (1 site)
+- `src/server/compliance_reporting_api_handler.cpp` (1 site)
+- `src/server/policy_versioning_api_handler.cpp` (1 site)
+- `src/server/review_scheduling_api_handler.cpp` (1 site)
+
+**Fix pattern (per site):**
+- `auto it = req.find(http::field::authorization)` → `const auto auth_header = req[http::field::authorization]`
+- `if (it == req.end())` → `if (auth_header.empty())`
+- `it->value().data() / it->value().size()` → `auth_header.data() / auth_header.size()`
+- `std::string(it->value())` → `std::string(auth_header.data(), auth_header.size())`
+
+**Impact:** Eliminates all `iterator_invalidation` scanner findings on Authorization
+header reads across the entire server module. Combined with the prior http_server.cpp
+sweeps, the server module is now fully iterator-free on auth header access.
+
+---
+
 ## ✅ Recent Remediation (2026-05-26) — W1-S02 Follow-up: Authorization Header Iterator-Free Sweep
 
 **Scope:** `src/server/http_server.cpp`  

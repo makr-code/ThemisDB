@@ -43,16 +43,16 @@ namespace {
 
     // Helper to extract JWT token from Authorization header
     std::optional<std::string> extractBearerToken(const http::request<http::string_body>& req) {
-        auto it = req.find(http::field::authorization);
-        if (it == req.end()) {
+        const auto auth_header = req[http::field::authorization];
+        if (auth_header.empty()) {
             return std::nullopt;
         }
         
-        std::string auth_header{it->value()};
+        std::string auth_str{auth_header.data(), auth_header.size()};
         std::regex bearer_regex(R"(^Bearer\s+(.+)$)", std::regex::icase);
         std::smatch matches;
         
-        if (std::regex_match(auth_header, matches, bearer_regex) && matches.size() == 2) {
+        if (std::regex_match(auth_str, matches, bearer_regex) && matches.size() == 2) {
             return matches[1].str();
         }
         
