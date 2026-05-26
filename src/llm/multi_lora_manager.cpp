@@ -2072,7 +2072,21 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
             // Extract rank/alpha from GGUF metadata if present.
             auto it_rank = meta.config.find("lora.rank");
             if (it_rank != meta.config.end()) {
-                try { lora->rank = std::stoi(it_rank->second); } catch (...) {}
+                try {
+                    int parsed_rank = std::stoi(it_rank->second);
+                    if (parsed_rank < static_cast<int>(MIN_LORA_RANK) ||
+                        parsed_rank > static_cast<int>(MAX_LORA_RANK)) {
+                        spdlog::warn("loadLoRAInternal: LoRA '{}' rank {} from GGUF metadata "
+                                     "is outside allowed bounds [{}, {}]; clamping",
+                                     lora_id, parsed_rank,
+                                     static_cast<int>(MIN_LORA_RANK),
+                                     static_cast<int>(MAX_LORA_RANK));
+                        parsed_rank = std::clamp(parsed_rank,
+                                                 static_cast<int>(MIN_LORA_RANK),
+                                                 static_cast<int>(MAX_LORA_RANK));
+                    }
+                    lora->rank = static_cast<size_t>(parsed_rank);
+                } catch (...) {}
             }
             auto it_alpha = meta.config.find("lora.alpha");
             if (it_alpha != meta.config.end()) {

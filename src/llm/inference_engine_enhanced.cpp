@@ -1390,6 +1390,19 @@ std::optional<InferenceResponse> InferenceEngineEnhanced::checkCache(
     // cache will then perform an exact-key match only.
     std::vector<float> embedding = computeEmbeddingForCache(request.prompt);
 
+    // IV-03: Validate embedding dimension consistency before passing to the
+    // cache index.  Typical LLM embeddings are at least 64-dimensional; a
+    // smaller vector indicates a corrupted or stub embedding that must not be
+    // fed into the HNSW similarity index (wrong dimensionality would silently
+    // corrupt similarity scores).  Fall back to exact-key matching only.
+    constexpr size_t MIN_EMBEDDING_DIM = 64;
+    if (!embedding.empty() && embedding.size() < MIN_EMBEDDING_DIM) {
+        spdlog::warn("checkCache: embedding dimension {} is below minimum {}; "
+                     "falling back to exact-key lookup",
+                     embedding.size(), MIN_EMBEDDING_DIM);
+        embedding.clear();
+    }
+
     // Use the prompt text as the cache key so exact lookups match identical prompts
     // and the HNSW index can find semantically similar ones.
     auto cached = prefix_cache_->get(request.prompt, embedding);
@@ -1424,6 +1437,15 @@ void InferenceEngineEnhanced::updateCache(
 
     // Compute real embedding for future similarity-based lookups
     std::vector<float> embedding = computeEmbeddingForCache(request.prompt);
+
+    // IV-03: Reject stub/corrupted embeddings (see checkCache for rationale).
+    constexpr size_t MIN_EMBEDDING_DIM = 64;
+    if (!embedding.empty() && embedding.size() < MIN_EMBEDDING_DIM) {
+        spdlog::warn("updateCache: embedding dimension {} is below minimum {}; "
+                     "storing without embedding (exact-key lookup only)",
+                     embedding.size(), MIN_EMBEDDING_DIM);
+        embedding.clear();
+    }
 
     std::vector<int> tokens = estimateTokenSequence(request.prompt);
 

@@ -68,6 +68,8 @@ public:
                                   std::shared_ptr<sharding::ShardTopology>  topology,
                                   const Config&                             config = {});
 
+    ~FederatedInferenceCoordinator() override = default;
+
     /**
      * @brief Inject a static shard registry for testing.
      *

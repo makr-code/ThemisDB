@@ -357,7 +357,7 @@ std::vector<float> EmbeddingProvider::extractEmbeddingFromTokens(
         batch.seq_id[i][0] = 0;
         batch.logits[i] = (i == llama_tokens.size() - 1) ? 1 : 0;  // Only last token needs logits
     }
-    batch.n_tokens = llama_tokens.size();
+    batch.n_tokens = static_cast<int32_t>(llama_tokens.size());
     
     // Decode to get embeddings
     int result = llama_decode(context_, batch);

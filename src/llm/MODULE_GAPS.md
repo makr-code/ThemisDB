@@ -47,10 +47,10 @@
 
 Security-sensitive input validation gaps found by static analysis:
 
-1. **LoRA rank bounds** — `config.min_rank` / `config.max_rank` enforced in `LoRASecurityValidator::validateMetadata()` but not double-checked in `MultiLoRAManager::loadLoRAInternal()` before allocation
-2. **Token count upper bounds** — `max_new_tokens` accepted from callers without enforcing `config_.n_ctx` ceiling in all inference paths
-3. **Embedding dimension consistency** — caller-supplied embedding vectors not validated against model's expected dimension before similarity computation in `KVCacheBuffer::checkCache()`
-4. **GGUF tensor size** — oversized-tensor rejection in `gguf_loader.cpp` covers the metadata phase but raw weight data size is not re-validated after decompression
+1. ~~**LoRA rank bounds**~~ — **Fixed (batch 43):** `loadLoRAInternal()` now clamps GGUF-extracted rank to `[MIN_LORA_RANK, MAX_LORA_RANK]` before assignment; out-of-range values are warned and clamped (`multi_lora_manager.cpp`).
+2. ~~**Token count upper bounds**~~ — **Fixed (batch 43):** Vision path in `LlamaWrapper::generate()` now applies `resolveMaxTokensWithContextCap()` before constructing the `VisionRequest`; `max_tokens` is capped to `config_.n_ctx` with a warning (`llama_wrapper.cpp`).
+3. ~~**Embedding dimension consistency**~~ — **Fixed (batch 43):** `InferenceEngineEnhanced::checkCache()` and `updateCache()` now reject embeddings with fewer than 64 dimensions (stub/corrupted) and fall back to exact-key lookup only (`inference_engine_enhanced.cpp`).
+4. ~~**GGUF tensor size**~~ — **Already fixed (IVB-04):** `getTensorData()` re-validates offset/size bounds immediately before copying raw bytes (`gguf_loader.cpp`).
 
 ---
 
@@ -102,7 +102,20 @@ Security-sensitive input validation gaps found by static analysis:
 
 ---
 
-### Addressed in W1-L04 (2026-05-26 — unchecked CUDA/HIP API return values + OOP-01)
+### Addressed in W1-L43 (2026-05-26 — CRITICAL input_validation closure + OOP-02 + TC-03)
+
+**Scope files:** `src/llm/multi_lora_manager.cpp`, `src/llm/llama_wrapper.cpp`, `src/llm/inference_engine_enhanced.cpp`, `include/llm/federated_inference_coordinator.h`, `src/llm/lora_framework/embedding_provider.cpp`
+
+| Gap ID | Category | Finding | Fix | Impact |
+|--------|----------|---------|-----|--------|
+| W1-L43-IV-01 | `input_validation` | GGUF-extracted LoRA rank stored in `lora->rank` without bounds check against `MIN_LORA_RANK`/`MAX_LORA_RANK`; malformed adapter metadata could inject an arbitrarily large rank, leading to oversized GPU allocations | After parsing rank via `std::stoi`, check against `[MIN_LORA_RANK, MAX_LORA_RANK]`; clamp with `spdlog::warn` (`multi_lora_manager.cpp`) | Prevents oversized LoRA adapter allocation from poisoned GGUF metadata |
+| W1-L43-IV-02 | `input_validation` | Vision inference path in `LlamaWrapper::generate()` forwarded `request.max_tokens` directly to `VisionRequest::max_tokens` without applying the context-window cap; a caller could supply an arbitrarily large token budget | Apply `resolveMaxTokensWithContextCap(request.max_tokens, config_.n_ctx, ...)` in the vision branch before constructing `VisionRequest` (`llama_wrapper.cpp`) | Consistent context ceiling in all generation code paths |
+| W1-L43-IV-03 | `input_validation` | `InferenceEngineEnhanced::checkCache()` and `updateCache()` passed embedding vectors to the HNSW similarity index without validating their dimensionality; stub/corrupted embeddings with < 64 dimensions would silently produce wrong cosine similarity scores | Added `MIN_EMBEDDING_DIM = 64` guard in both methods: if non-empty but under-dimensional, warn and clear the vector (fall back to exact-key lookup) (`inference_engine_enhanced.cpp`) | Prevents silent cache misclassification from dimensionality-mismatched embeddings |
+| W1-L43-OOP-02 | `oop_design` | `FederatedInferenceCoordinator` inherits `IFederatedInferenceBackend` (virtual dtor) but had no `~FederatedInferenceCoordinator() override` — deleting through the base pointer would leak owned resources | Added `~FederatedInferenceCoordinator() override = default;` (`include/llm/federated_inference_coordinator.h`) | Correct virtual destructor chain |
+| W1-L43-TC-03 | `type_conversion` | `batch.n_tokens = llama_tokens.size()` in `EmbeddingProvider::embed()` assigned `size_t` to `int32_t` without explicit cast — implicit narrowing conversion | Replaced with `static_cast<int32_t>(llama_tokens.size())` (`lora_framework/embedding_provider.cpp`) | Explicit narrowing; consistent with llama_batch API (`int32_t n_tokens`) |
+
+---
+
 
 **Scope files:** `lora_framework/nccl_backend.cpp`, `lora_framework/rccl_backend.cpp`, `gpu_memory_manager.cpp`, `lora_framework/multi_gpu_trainer.cpp`, `llm_plugin_interface.h`
 
@@ -297,6 +310,10 @@ concrete subclasses: `ConstantLR`, `LinearLR`, `CosineAnnealingLR`,
 (`lora_framework/lr_scheduler.h`); `NoOpFeedbackPlugin`, `BasicSpamDetectionPlugin`
 (`i_feedback_plugin.h`); `NullKVStateSerializer` (`kv_prefix_transfer_manager.h`).
 
+**Status (v1.21.0-pre — batch 43):** OOP-02 fixed — `FederatedInferenceCoordinator`
+(which implements `IFederatedInferenceBackend`) now declares
+`~FederatedInferenceCoordinator() override = default;` (`federated_inference_coordinator.h`).
+
 ### uninitialized (5263 gaps) — Target: v1.21.0
 
 Primarily in GPU-backend conditional compilation paths (`#ifdef THEMIS_ENABLE_CUDA` blocks):
@@ -438,11 +455,16 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
 - `lora_framework/kernels/quantization_kernels.cu` — `(int)block_size` replaced with
   `static_cast<int>(block_size)` in NF4 and INT8 quantization launch helpers
 
+**Status (v1.22.0-pre — batch 43):** TC-03 fixed — `batch.n_tokens = llama_tokens.size()` in
+`EmbeddingProvider::embed()` replaced with `static_cast<int32_t>(llama_tokens.size())` to match
+the `int32_t` field type declared by `llama_batch`
+(`lora_framework/embedding_provider.cpp`).
+
 ---
 
 ## ✅ Acceptance Criteria (from Issue)
 
-- [x] All CRITICAL gaps addressed (S0/S1/S2 security findings all fixed; LoRA validator integrated)
+- [x] All CRITICAL gaps addressed (S0/S1/S2 security findings all fixed; LoRA validator integrated; IV-01..03 fixed in batch 43)
 - [x] All HIGH gaps reviewed and prioritised (see above)
 - [x] Unit tests added (security validator integration tested via existing `test_lora_security` target)
 - [x] Code review completed
@@ -461,4 +483,4 @@ src/llm/MODULE_GAPS.md  ← You are here
 
 **Format:** THEMIS_MODULE_GAPS_v2  
 **Generator:** Manual + ThemisDB Gap Audit Pipeline v2 (`gap_scan_v3_llm.json`)  
-**Last Updated:** 2026-05-21
+**Last Updated:** 2026-05-26

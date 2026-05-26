@@ -878,7 +878,16 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             VisionRequest vision_req;
             vision_req.text_prompt = request.prompt;
             vision_req.image_paths = request.image_paths;
-            vision_req.max_tokens  = request.max_tokens;
+            {
+                bool max_tokens_capped = false;
+                int capped = resolveMaxTokensWithContextCap(
+                    request.max_tokens, config_.n_ctx, max_tokens_capped);
+                if (max_tokens_capped) {
+                    spdlog::warn("Vision max_tokens={} exceeds context limit n_ctx={}, "
+                                 "capping to {}", request.max_tokens, config_.n_ctx, capped);
+                }
+                vision_req.max_tokens = capped;
+            }
             vision_req.temperature = request.temperature;
             vision_req.top_p       = request.top_p;
             vision_req.top_k       = request.top_k;
