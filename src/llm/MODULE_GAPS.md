@@ -673,6 +673,35 @@ generation and adapter cleanup paths.
 | `llama_wrapper.cpp` implicit loader/LoRA manager assumptions | potential null-manager dereference | explicit loader guards + LoRA manager-gated paths |
 | `llama_wrapper.cpp` public API methods (`loadModel`, `unloadModel`, `getModelInfo`, `isModelLoaded`, `embed`, `getMemoryStats`, `getPerformanceStats`, `generateVision`) | unguarded `model_loader_` dereference | explicit null guard + fail-fast throw or graceful return |
 | `llama_wrapper.cpp` public API methods (`loadLoRA`, `unloadLoRA`, `listLoRAs`, `exportLoRA`, `importLoRA`, `getMemoryStats`, `getPerformanceStats`) | unguarded `lora_manager_` dereference | explicit null guard + warn + graceful return |
+| `sampleTokenInternal` — `n_vocab` sign before `reserve` / pointer loop | potential huge-alloc wrap | guarded `n_vocab > 0` check; throws |
+| `embed()` — `n_embd` sign before `embd + n_embd` pointer arithmetic | potential pointer underflow UB | guarded `n_embd > 0`; throws |
+| `generateRegular` / `generateSpeculative` / `generateDraftTokens` — 4× `n_vocab` post-assign | silent misuse of API return | guarded `n_vocab > 0` early throw |
+
+---
+
+## ✅ Recent Remediation (2026-05-27) — W1-L04 follow-up 2: Pointer-arithmetic / unsafe-cast guards
+
+**Scope:** `src/llm/llama_wrapper.cpp`  
+**Ticket:** W1-L04 · Priority P1
+
+### Fixes Applied
+
+Remaining scanner hotspots where signed integer results from llama API calls were used in unsafe pointer arithmetic or `size_t` casts without a positivity guard:
+
+- `sampleTokenInternal` — `n_vocab <= 0` guard added before `candidates.reserve(n_vocab)`; the cast `static_cast<size_t>(n_vocab)` is now only reached when `n_vocab > 0`, eliminating wrap-around allocation risk.
+- `embed()` — `n_embd <= 0` guard added after `llama_model_n_embd()`; `embd + n_embd` pointer arithmetic is now only reached when `n_embd > 0`, eliminating pointer underflow UB.
+- `generateRegular()` (primary path) — `n_vocab > 0` assertion after `llama_vocab_n_tokens()`; propagated as `throw` to prevent use of an invalid vocab in subsequent logits loops.
+- `generateDraftTokens()` — same guard before `static_cast<size_t>(n_vocab)` that produces `produced_vocab_size`.
+- `generateSpeculative()` (internal speculative loop) — same guard on target-model `n_vocab`.
+- `generate()` (secondary path for continuous-batching context) — same guard on `n_vocab`.
+
+### Gap Delta (W1-L04 follow-up 2)
+
+| Metric | Before | After |
+|---|---|---||
+| `sampleTokenInternal` unchecked `n_vocab` sign before `reserve` | potential huge-alloc / wrap | guarded; throws on invalid vocab |
+| `embed()` unchecked `n_embd` sign before pointer arithmetic | potential pointer underflow UB | guarded; throws on non-positive dim |
+| 4× generation-loop `n_vocab` without positivity check | silent misuse of API return | guarded with early throw |
 
 ---
 

@@ -1110,6 +1110,9 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             throw std::runtime_error("Failed to get model vocabulary");
         }
         int32_t n_vocab = llama_vocab_n_tokens(vocab);
+        if (n_vocab <= 0) {
+            throw std::runtime_error("Model returned non-positive vocabulary size");
+        }
         llama_token eos_token = llama_vocab_eos(vocab);
         
         // Time to first token
@@ -1360,6 +1363,9 @@ ILLMPlugin::DraftTokensResult LlamaWrapper::generateDraftTokens(
         throw std::runtime_error("Failed to get model vocabulary for draft generation");
     }
     const int32_t n_vocab = llama_vocab_n_tokens(vocab);
+    if (n_vocab <= 0) {
+        throw std::runtime_error("Model returned non-positive vocabulary size for draft generation");
+    }
     const llama_token eos_token = llama_vocab_eos(vocab);
     const size_t produced_vocab_size = static_cast<size_t>(n_vocab);
     if (vocab_size_hint > 0 && vocab_size_hint != produced_vocab_size) {
@@ -1486,6 +1492,9 @@ std::vector<float> LlamaWrapper::embed(const std::string& text) {
         
         // 5. Get embedding dimension
         int32_t n_embd = llama_model_n_embd(lmodel);
+        if (n_embd <= 0) {
+            throw std::runtime_error("Model reports non-positive embedding dimension");
+        }
         
         // 6. Copy embeddings to vector
         std::vector<float> embedding(embd, embd + n_embd);
@@ -1924,10 +1933,13 @@ llama_token LlamaWrapper::sampleTokenInternal(
     if (!ctx || !model || !logits) {
         throw std::runtime_error("Invalid parameters for sampling");
     }
+    if (n_vocab <= 0) {
+        throw std::runtime_error("Invalid n_vocab for sampling");
+    }
     
     // Build candidates array from logits
     std::vector<llama_token_data> candidates;
-    candidates.reserve(n_vocab);
+    candidates.reserve(static_cast<size_t>(n_vocab));
     
     for (llama_token token_id = 0; token_id < n_vocab; ++token_id) {
         candidates.push_back({token_id, logits[token_id], 0.0f});
@@ -2379,6 +2391,9 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
             throw std::runtime_error("Failed to get target model vocabulary");
         }
         int32_t n_vocab = llama_vocab_n_tokens(vocab);
+        if (n_vocab <= 0) {
+            throw std::runtime_error("Target model returned non-positive vocabulary size");
+        }
         llama_token eos_token = llama_vocab_eos(vocab);
         
         bool max_tokens_capped = false;
@@ -2663,6 +2678,9 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
             throw std::runtime_error("Failed to get model vocabulary");
         }
         int32_t n_vocab = llama_vocab_n_tokens(vocab);
+        if (n_vocab <= 0) {
+            throw std::runtime_error("Model returned non-positive vocabulary size");
+        }
         llama_token eos_token = llama_vocab_eos(vocab);
         
         // Phase 2: Collect token probabilities for knowledge gap detection
