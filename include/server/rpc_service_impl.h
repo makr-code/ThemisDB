@@ -252,6 +252,14 @@ private:
         const json& params,
         const std::optional<std::chrono::steady_clock::time_point>& deadline
     );
+    json handleGetIndexOperationsInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
+    json handleBatchUpdateInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
 };
 
 } // namespace rpc

@@ -1974,6 +1974,13 @@ json ThemisRPCService::handleUpdateEntity(const json& params) {
 }
 
 json ThemisRPCService::handleBatchUpdate(const json& params) {
+    return handleBatchUpdateInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleBatchUpdateInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         if (!params.contains("updates") || !params["updates"].is_array()) {
             return createError(
@@ -1998,8 +2005,17 @@ json ThemisRPCService::handleBatchUpdate(const json& params) {
         
         uint64_t timestamp = getCurrentTimestampNs();
         int count = 0;
+        size_t item_index = 0;
         
         for (const auto& update_item : updates_array) {
+            ++item_index;
+            if (shouldCheckDeadline(item_index) && isDeadlineExceeded(deadline)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during batch update"
+                );
+            }
+
             if (!update_item.contains("collection") || !update_item.contains("model") || 
                 !update_item.contains("uuid") || !update_item.contains("updates")) {
                 return createError(
@@ -2185,6 +2201,13 @@ json ThemisRPCService::handlePaginatedQueryInternal(
 }
 
 json ThemisRPCService::handleGetIndexOperations(const json& params) {
+    return handleGetIndexOperationsInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleGetIndexOperationsInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         // Get storage engine
         auto storage = storage_;
@@ -2205,7 +2228,15 @@ json ThemisRPCService::handleGetIndexOperations(const json& params) {
         }
 
         json indexes = json::array();
-        storage->scanPrefix(prefix, [&indexes](std::string_view /*key*/, std::string_view value) -> bool {
+        size_t scanned_keys = 0;
+        bool deadline_exceeded = false;
+
+        storage->scanPrefix(prefix, [&](std::string_view /*key*/, std::string_view value) -> bool {
+            ++scanned_keys;
+            if (shouldCheckDeadline(scanned_keys) && isDeadlineExceeded(deadline)) {
+                deadline_exceeded = true;
+                return false; // abort scan
+            }
             try {
                 json idx_meta = json::parse(value);
                 indexes.push_back(idx_meta);
@@ -2214,6 +2245,13 @@ json ThemisRPCService::handleGetIndexOperations(const json& params) {
             }
             return true; // continue scanning
         });
+
+        if (deadline_exceeded) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                "Request deadline exceeded during index operations scan"
+            );
+        }
 
         json result = {
             {"indexes", indexes},
@@ -2849,11 +2887,11 @@ json ThemisRPCService::dispatch(
         } else if (method == "update_entity") {
             return handleUpdateEntity(params);
         } else if (method == "batch_update") {
-            return handleBatchUpdate(params);
+            return handleBatchUpdateInternal(params, request_deadline);
         } else if (method == "paginated_query") {
             return handlePaginatedQueryInternal(params, request_deadline);
         } else if (method == "get_index_operations") {
-            return handleGetIndexOperations(params);
+            return handleGetIndexOperationsInternal(params, request_deadline);
         } else if (method == "aggregation_pipeline") {
             return handleAggregationPipelineInternal(params, request_deadline);
         } else if (method == "list_collections") {

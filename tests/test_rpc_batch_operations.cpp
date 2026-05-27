@@ -654,6 +654,66 @@ TEST_F(RPCBatchOperationsTest, DispatchTimesOutDuringTimeSeriesQueryScan) {
 }
 
 // ============================================================================
+// Deadline enforcement – get_index_operations and batch_update
+// ============================================================================
+
+TEST_F(RPCBatchOperationsTest, DispatchTimesOutDuringGetIndexOperationsScan) {
+    // Seed enough _idx_meta: keys to trigger the 256-iteration deadline check
+    for (int i = 0; i < 25000; ++i) {
+        std::string key = "_idx_meta:idx_col:" + std::to_string(i);
+        json meta = {
+            {"name", "idx_" + std::to_string(i)},
+            {"collection", "idx_col"},
+            {"field", "f"},
+            {"type", "btree"}
+        };
+        ASSERT_TRUE(db_->put(key, meta.dump()));
+    }
+
+    themis::plugins::rpc::RPCRequestContext ctx;
+    ctx.timestamp_ms = CurrentUnixMs() - 5;
+    ctx.metadata["x-timeout-ms"] = "10";
+
+    json resp = service_->dispatch(
+        "get_index_operations",
+        {{"collection", "idx_col"}},
+        ctx
+    );
+
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+}
+
+TEST_F(RPCBatchOperationsTest, DispatchTimesOutDuringBatchUpdateLoop) {
+    // Build a batch of 25000 update items with an already-expired deadline.
+    // The deadline check fires at item 256 (kDeadlineCheckInterval).
+    json updates = json::array();
+    for (int i = 0; i < 25000; ++i) {
+        updates.push_back({
+            {"collection", "batch_update_timeout"},
+            {"model", "M"},
+            {"uuid", "u-" + std::to_string(i)},
+            {"updates", {{"field", i}}}
+        });
+    }
+
+    themis::plugins::rpc::RPCRequestContext ctx;
+    ctx.timestamp_ms = CurrentUnixMs() - 5;
+    ctx.metadata["x-timeout-ms"] = "10";
+
+    json resp = service_->dispatch(
+        "batch_update",
+        {{"updates", updates}},
+        ctx
+    );
+
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+}
+
+// ============================================================================
 // Performance – batch vs. individual operations
 // ============================================================================
 

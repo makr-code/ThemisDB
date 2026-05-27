@@ -948,3 +948,15 @@ Findings addressed:
   `ThemisRPCService::dispatch()` now logs retry attempts for both typed and previously-unknown exceptions;
   unknown exceptions also derive their final `INTERNAL_ERROR` message from the active exception object
   when possible instead of always returning a fixed generic string.
+
+- **W1-S04 follow-up (2026-05-27) — deadline enforcement in `get_index_operations` and `batch_update` (`rpc_service_impl.cpp`):**
+  `handleGetIndexOperations` and `handleBatchUpdate` converted to wrapper + `Internal(params, deadline)`
+  variants following the pattern established for `aggregation_pipeline`, `list_collections`,
+  `get_collection_metadata`, `query`, `search`, `paginated_query`, and `timeseries_query`.
+  `handleGetIndexOperationsInternal` checks the deadline inside the `scanPrefix` callback (every 256
+  scanned index-metadata entries) and returns `QUERY_TIMEOUT` if the deadline is breached.
+  `handleBatchUpdateInternal` checks the deadline in the per-item read-modify-write loop (every 256
+  items) before issuing each `storage->get()`, returning `QUERY_TIMEOUT` on expiry without committing
+  any partial writes.  `dispatch()` now threads `request_deadline` into both via the Internal variants.
+  Added `DispatchTimesOutDuringGetIndexOperationsScan` and `DispatchTimesOutDuringBatchUpdateLoop` tests
+  to `tests/test_rpc_batch_operations.cpp`.
