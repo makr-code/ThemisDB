@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.3  
-**Last Updated:** 2026-05-21  
+**Last Updated:** 2026-05-26  
 **Scope:** Aggregated roadmap across all 65 modules in `src/` (Phase 1-5 Gap Analysis Complete)
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
@@ -35,6 +35,17 @@ Traceability rules:
 - `COPILOT_INSTRUCTIONS.md` defines AI/agent update rules for root-governance and release/versioning document consistency.
 - `FEATURE_ENHANCEMENT.md` is a generated maturity snapshot and is not the canonical planning backlog.
 
+### Root Documentation Sync (2026-05-26)
+
+Status: [x] completed
+
+- [x] Root markdown set reviewed and synchronized.
+- [x] Verification evidence refreshed for active wire/themis hardening path:
+  - `cmake --build --preset windows-release --target themis_tests --parallel 16`
+  - `themis_tests --gtest_filter=WireProtocolServer.SingleThreadedIoContextPrunesSessionsAfterDisconnect`
+  - `ctest --preset windows-release -R ThemisWireProtocolV1Tests --output-on-failure`
+- [x] Cross-document traceability ensured (`CHANGELOG.md`, `README.md`, `CTEST.md`).
+
 ---
 
 ## Documentation Quality Delta (2026-05-11)
@@ -60,26 +71,29 @@ Audit method:
 
 ---
 
-## Module Status Summary — Evidence-Based (from Phase 1-5 Gap Scanner v3 + Phase 1-6 Planning)
+## Module Status Summary — Evidence-Based (from Gap Scanner v3 + Rescan 2026-05-25)
 
-> ⚠️ **CRITICAL UPDATE (2026-05-19):** Phase 1-5 Extended Gap Analysis Complete! 155,631 total gaps detected across 13 scanner categories. Phase 5 (5 new scanners) contributed +99,694 gaps (178% increase from Phase 1-4). 65 modules scanned. Top producers: llm (19,838), server (16,183), sharding (9,296). **Phase 1-4 Improvements Planned (+12 patterns, Q3 2026)** and **Phase 6 Design Complete (5 new scanners, 8 weeks, Q3-Q4 2026)**. See comprehensive planning documentation in `ai_working/`:
+> ⚠️ **CRITICAL UPDATE (2026-05-25):** Latest gap-scan rescan reports **184,779 total gaps** across 27 scanner categories (CRITICAL 6,025 | HIGH 142,926 | MEDIUM 35,828 | Actionable 148,951). Delta vs prior 194,852 baseline: **-10,073 total** and **-5,753 critical**. 65 modules scanned.
+>
+> Historical Phase 1-5 snapshot remains relevant for trend comparisons: 155,631 total gaps across 13 categories (Phase 5 added +99,694 vs Phase 1-4).
+>
+> See comprehensive planning and rescan documentation in `ai_working/`:
 > - [PHASE_5_IMPLEMENTATION_COMPLETE.md](ai_working/PHASE_5_IMPLEMENTATION_COMPLETE.md) — Phase 1-5 delivery summary
 > - [PHASE_1_4_IMPROVEMENTS.md](ai_working/PHASE_1_4_IMPROVEMENTS.md) — +12 enhancement patterns (Q3 2026)
 > - [PHASE_6_SCANNER_DESIGN.md](ai_working/PHASE_6_SCANNER_DESIGN.md) — 5 new scanners with 48–55 patterns
 > - [IMPLEMENTATION_ROADMAP.md](ai_working/IMPLEMENTATION_ROADMAP.md) — Q3-Q4 2026 execution plan
 > - [EXECUTIVE_DASHBOARD.md](ai_working/EXECUTIVE_DASHBOARD.md) — Comprehensive summary with metrics & timelines
+> - [GAP_SCAN_RESCAN_REPORT_2026-05-25.md](ai_working/GAP_SCAN_RESCAN_REPORT_2026-05-25.md) — latest validated rescan delta
 > 
 > Also: [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md#code-quality-scanner-enhancements-phase-1-6--roadmap-update-2026-05-19) updated with Phase 1-4 improvements and Phase 6 scanner details.
 
-**Phase 1-5 Gap Scanner Results Summary (2026-05-19):**
-- Total gaps (Phase 1-5): **155,631** across 13 categories
-- CRITICAL: 9,404 | HIGH: 118,694 | MEDIUM: 27,533
-- Actionable (C+H): 128,098 (82.3%)
-- Estimated effort: 3,437.6 weeks to fix all gaps
+**Latest Gap Scanner Results Summary (Rescan 2026-05-25):**
+- Total gaps (current canonical snapshot): **184,779** across 27 categories
+- CRITICAL: 6,025 | HIGH: 142,926 | MEDIUM: 35,828
+- Actionable (C+H): 148,951
+- Delta vs 194,852 baseline: **-10,073 total**, **-5,753 critical**
 - Modules scanned: 65
-- Scanner suite: 13 active (8 Phase 1-4 + 5 Phase 5)
-- Phase 5 Contribution: +99,694 gaps (Type Conversion +15,930, Input Validation +8,266, Exception Safety +31,247, Uninitialized +27,563, OOP Design +16,688)
-- GitHub Integration: ✅ Complete (24 aggregated issues created)
+- Historical baseline retained: Phase 1-5 = 155,631 across 13 categories (for trend comparison)
 
 **Phase 1-4 Improvements Planned (Q3 2026):**
 - +12 new detection patterns across 3 scanners
@@ -94,21 +108,18 @@ Audit method:
 - Timeline: 8 weeks implementation + 1 week integration
 - Detailed design & sprint breakdown: [PHASE_6_SCANNER_DESIGN.md](ai_working/PHASE_6_SCANNER_DESIGN.md)
 
-**GitHub Aggregated Issues (reviewed 2026-05-21):**
-- [x] [Master Issue #5207](https://github.com/makr-code/ThemisDB/issues/5207) verlinkt und geprüft (**OPEN**)
-- [x] [13 Category Issues](https://github.com/makr-code/ThemisDB/issues?q=label%3Atype%3Abug+is%3Aopen+author%3Acopilot-gap-scanner) verlinkt und geprüft (Query-Link aktiv)
-- [x] [10 Top Module Issues](https://github.com/makr-code/ThemisDB/issues?q=P0-CRITICAL+is%3Aopen+Module) verlinkt und geprüft
-- [I] [#5221 LLM](https://github.com/makr-code/ThemisDB/issues/5221) — OPEN
-- [I] [#5222 SERVER](https://github.com/makr-code/ThemisDB/issues/5222) — OPEN
-- [I] [#5223 SHARDING](https://github.com/makr-code/ThemisDB/issues/5223) — OPEN
-- [I] [#5224 INDEX](https://github.com/makr-code/ThemisDB/issues/5224) — OPEN
-- [I] [#5225 QUERY](https://github.com/makr-code/ThemisDB/issues/5225) — OPEN
-- [I] [#5226 STORAGE](https://github.com/makr-code/ThemisDB/issues/5226) — OPEN
-- [I] [#5227 ANALYTICS](https://github.com/makr-code/ThemisDB/issues/5227) — OPEN
-- [I] [#5228 RAG](https://github.com/makr-code/ThemisDB/issues/5228) — OPEN
-- [I] [#5229 SECURITY](https://github.com/makr-code/ThemisDB/issues/5229) — OPEN
-- [I] [#5230 CONTENT](https://github.com/makr-code/ThemisDB/issues/5230) — OPEN
-- [x] Review-Status dokumentiert (Issue-Status/Checkboxen/Verlinkung synchronisiert)
+**GitHub Aggregated Issues (reviewed 2026-05-26):**
+- [x] Canonical Master Issue: [#5172](https://github.com/makr-code/ThemisDB/issues/5172) — **OPEN**
+- [x] Category issue wave (canonical): [#5184–#5194](https://github.com/makr-code/ThemisDB/issues?q=is%3Aissue+repo%3Amakr-code%2FThemisDB+is%3Aopen+%22518%22+OR+%22519%22+%22modules+%C3%97%22)
+- [x] P0 module wave (canonical): [#5195–#5201](https://github.com/makr-code/ThemisDB/issues?q=is%3Aissue+repo%3Amakr-code%2FThemisDB+is%3Aopen+%22%5BP0-CRITICAL%5D%22+%22Module%22)
+- [I] [#5195 LLM](https://github.com/makr-code/ThemisDB/issues/5195) — OPEN
+- [I] [#5196 SERVER](https://github.com/makr-code/ThemisDB/issues/5196) — OPEN
+- [I] [#5197 SHARDING](https://github.com/makr-code/ThemisDB/issues/5197) — OPEN
+- [I] [#5198 INDEX](https://github.com/makr-code/ThemisDB/issues/5198) — OPEN
+- [I] [#5199 QUERY](https://github.com/makr-code/ThemisDB/issues/5199) — OPEN
+- [I] [#5200 STORAGE](https://github.com/makr-code/ThemisDB/issues/5200) — OPEN
+- [I] [#5201 ANALYTICS](https://github.com/makr-code/ThemisDB/issues/5201) — OPEN
+- [x] Historical duplicates documented: #5183, #5206, #5207 (CLOSED); #5231 remains a separate wave and is not canonical for this roadmap baseline.
 
 **Review & Code-Audit (2026-05-21):**
 - [x] Roadmap-Link-/Issue-Review durchgeführt
@@ -1038,13 +1049,13 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 - 🟡 Phase 6 Extended Scanners: Designed (Q3-Q4 2026, 5 new scanners)
 - 📋 Module Hardening: Queued (Q3-Q4 2026, Tier 1: 25% gap reduction target)
 
-### Phase 1-5 Results Summary
-- **Total Gaps:** 155,631 across 13 scanner categories (8 Phase 1-4 + 5 Phase 5)
-- **Severity Distribution:** CRITICAL 9,404 (6.0%) | HIGH 118,694 (76.3%) | MEDIUM 27,533 (17.7%)
-- **Actionable (CRITICAL+HIGH):** 128,098 (82.3%)
-- **Scanner Suite:** 13 active (Phase 1-4: Security, Memory, Reliability, Concurrency, RAII, Container, Platform, Performance | Phase 5: Type Conversion, Input Validation, Exception Safety, Uninitialized, OOP Design)
-- **GitHub Integration:** 24 aggregated issues (1 Master #5207 + 13 Categories #5208–#5220 + 10 Modules #5221–#5230)
-- **Effort Estimate:** 3,437.6 weeks to fix all gaps (~66 weeks per module on average)
+### Phase 1-5 / Rescan Summary
+- **Historical Phase 1-5 Snapshot:** 155,631 gaps across 13 scanner categories (8 Phase 1-4 + 5 Phase 5)
+- **Current Rescan Snapshot (2026-05-25):** 184,779 gaps across 27 scanner categories
+- **Severity Distribution (current):** CRITICAL 6,025 | HIGH 142,926 | MEDIUM 35,828
+- **Actionable (CRITICAL+HIGH, current):** 148,951
+- **GitHub Integration (canonical set):** Master #5172 + Categories #5184–#5194 + P0 Modules #5195–#5201
+- **Note:** Older wave references (#5207, #5221–#5230) are retained only as historical duplicates.
 
 **Detailed Documentation:**
 - [PHASE_5_IMPLEMENTATION_COMPLETE.md](ai_working/PHASE_5_IMPLEMENTATION_COMPLETE.md)
@@ -1066,7 +1077,7 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 
 **Expected Results:**
 - Phase 1-4 Baseline: 31,720 → **33,920–34,920 gaps** (+2,200–3,200)
-- Phase 1-5 Total: 155,631 → **157,831–158,831 gaps** (+2,200–3,200)
+- Current Rescan Baseline: 184,779 → **186,979–187,979 gaps** (+2,200–3,200)
 - Key Targets: Top 10 modules (llm, server, sharding, index, query, storage, analytics, rag, security, content)
 
 **Detailed Design:** [PHASE_1_4_IMPROVEMENTS.md](ai_working/PHASE_1_4_IMPROVEMENTS.md)
@@ -1085,7 +1096,7 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 | — | **Phase 6 Total** | — | **48–55** | **~1,480** | — | — | **Week 1-9** |
 
 **Expected Results:**
-- Phase 1-6 Projection: 157,831–158,831 → **165,000–185,000 gaps** (+6,000–10,000, 20–30% additional)
+- Phase 1-6 Projection: 186,979–187,979 → **192,979–197,979 gaps** (+6,000–10,000)
 - Coverage increase: 18 scanners (Phase 1-4: 8 + Phase 5: 5 + Phase 6: 5)
 - All 65 modules re-scanned with full Phase 1-6 suite
 - Effort estimate: ~3,850–4,000 weeks to fix all gaps (Phase 1-6 total)
@@ -1256,3 +1267,7 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 - [src/ROADMAP.md](src/ROADMAP.md) — Module-level roadmap index
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) — Open enhancement and stub-replacement backlog
 - [FEATURE_ENHANCEMENT.md](FEATURE_ENHANCEMENT.md) — Generated code maturity analysis (reporting snapshot)
+
+---
+Zuletzt geprueft (Root-Sync): 2026-05-26
+

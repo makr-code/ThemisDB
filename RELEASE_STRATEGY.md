@@ -261,3 +261,7 @@ git push origin v1.9.1
 - keep pre-release tags explicit
 - keep package variants under one release
 - keep the process manual, short, and auditable
+
+---
+Zuletzt geprueft (Root-Sync): 2026-05-26
+

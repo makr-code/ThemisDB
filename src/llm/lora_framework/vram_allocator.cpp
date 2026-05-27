@@ -13,6 +13,7 @@
 #include "security/vram_secure_clear.h"
 #include <algorithm>
 #include <cstring>
+#include <memory>
 #include <stdexcept>
 #include <vector>
 #include <spdlog/spdlog.h>
@@ -456,12 +457,12 @@ bool VRAMAllocator::initialize_backend() {
         case acceleration::BackendType::VULKAN:
 #ifdef THEMIS_ENABLE_VULKAN
         {
-            auto* vk_ctx = new VulkanAllocContext();
-            if (!vk_init(vk_ctx, pool_size_bytes_)) {
-                delete vk_ctx;
+            // REL-48: use RAII unique_ptr instead of raw new/delete for Vulkan context
+            auto vk_ctx_owner = std::make_unique<VulkanAllocContext>();
+            if (!vk_init(vk_ctx_owner.get(), pool_size_bytes_)) {
                 return false;
             }
-            backend_context_ = vk_ctx;
+            backend_context_ = vk_ctx_owner.release();
             return true;
         }
 #else
@@ -794,7 +795,14 @@ void VRAMAllocator::release_backend_ptr_(void* ptr, size_t block_size) noexcept 
             if (block_size > 0) {
                 security::VRAMSecureClear::secureClearCUDA(ptr, block_size);
             }
-            cudaFree(ptr);
+            // REL-64: check cudaFree return value in release_backend_ptr_
+            {
+                cudaError_t free_err = cudaFree(ptr);
+                if (free_err != cudaSuccess) {
+                    spdlog::error("VRAMAllocator::release_backend_ptr_: cudaFree failed: {}",
+                                  cudaGetErrorString(free_err));
+                }
+            }
             break;
 #endif
 
@@ -803,7 +811,14 @@ void VRAMAllocator::release_backend_ptr_(void* ptr, size_t block_size) noexcept 
             if (block_size > 0) {
                 security::VRAMSecureClear::secureClearHIP(ptr, block_size);
             }
-            hipFree(ptr);
+            // REL-65: check hipFree return value in release_backend_ptr_
+            {
+                hipError_t free_err = hipFree(ptr);
+                if (free_err != hipSuccess) {
+                    spdlog::error("VRAMAllocator::release_backend_ptr_: hipFree failed: {}",
+                                  hipGetErrorString(free_err));
+                }
+            }
             break;
 #endif
 

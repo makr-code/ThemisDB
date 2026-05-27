@@ -712,7 +712,10 @@ std::shared_ptr<TrainAdapterStmt> AQLTrainParser::parseTrainAdapter(
     {
         std::string output_clause = extractClause(aql, "OUTPUT");
         if (!output_clause.empty()) {
-            stmt->output_path = stripQuotes(tokenize(output_clause)[0]);
+            auto output_tokens = tokenize(output_clause);
+            if (!output_tokens.empty()) {
+                stmt->output_path = stripQuotes(output_tokens[0]);
+            }
         }
     }
 

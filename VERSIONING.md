@@ -210,3 +210,7 @@ Pre-release versions are never considered "stable" for production use. Docker ta
 - [COPILOT_INSTRUCTIONS.md](COPILOT_INSTRUCTIONS.md) — AI/agent governance and documentation alignment rules
 - [ROADMAP.md](ROADMAP.md) — Canonical feature/milestone scope
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) — Canonical open enhancement backlog
+
+---
+Zuletzt geprueft (Root-Sync): 2026-05-26
+

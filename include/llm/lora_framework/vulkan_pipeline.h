@@ -96,9 +96,13 @@ public:
     void dispatch(uint32_t group_x, uint32_t group_y = 1, uint32_t group_z = 1);
     
     /**
-     * @brief Wait for pipeline execution to complete
+     * @brief Wait for pipeline execution to complete.
+     * @param timeout_ns Maximum time to wait in nanoseconds.
+     *   Defaults to 30 s, which is a safe upper bound for a single compute kernel.
+     *   Pass `UINT64_MAX` to wait indefinitely (discouraged — risks deadlock on GPU hang).
+     * @return true if completed within timeout, false on timeout/failure or missing fence.
      */
-    void wait();
+    bool wait(uint64_t timeout_ns = 30'000'000'000ULL);
     
     /**
      * @brief Check if pipeline is ready
@@ -207,7 +211,7 @@ public:
     bool bind_buffer(uint32_t, VulkanBuffer*) { return false; }
     bool set_push_constants(const void*, size_t) { return false; }
     bool dispatch(uint32_t, uint32_t, uint32_t) { return false; }
-    bool wait() { return false; }
+    bool wait(uint64_t = 0) { return false; }
 };
 
 } // namespace vulkan

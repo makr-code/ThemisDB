@@ -169,6 +169,7 @@ public:
      * Errors:
      * - INVALID_SEQUENCE: Target sequence is invalid or in the future
      * - BACKUP_FAILED: Auto-backup creation failed
+    * - WAL_REPLAY_INCOMPLETE: Required replay events are missing (truncated log)
      * - REPLAY_FAILED: Event replay failed
      */
     Status restoreToSequence(uint64_t target_sequence, const RestoreOptions& options);
@@ -291,7 +292,9 @@ private:
      * @brief Apply a single event in reverse
      * 
      * - PUT event → Delete the key
-     * - DELETE event → Restore previous value (requires value in event metadata)
+    * - DELETE event → Restore previous value (requires value or before_snapshot)
+    * 
+    * Fails closed when the previous value is unavailable.
      */
     Status applyEventReverse(const Changefeed::ChangeEvent& event);
 

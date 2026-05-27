@@ -26,6 +26,9 @@
 #include <unordered_map>
 #include <filesystem>
 #include <cstring>
+#include <mutex>
+#include <chrono>
+#include <limits>
 
 namespace themis {
 namespace lora {
@@ -54,6 +57,7 @@ static std::string get_shader_path(const std::string& shader_name) {
 
 // Helper function to get or create shader
 static DirectXShader* get_or_load_shader(const std::string& shader_name) {
+    auto lock = lock_directx_state_or_throw();
     auto& shader_cache = g_directx_state.shaders;
     
     // Check if already loaded
@@ -82,7 +86,8 @@ static DirectXPipeline* get_or_create_pipeline(
     uint32_t num_root_constants,
     uint32_t num_uavs,
     uint32_t num_srvs) {
-    
+    auto lock = lock_directx_state_or_throw();
+    ensure_directx_ready_or_throw();
     auto& pipeline_cache = g_directx_state.pipelines;
     
     // Check if already created
@@ -124,11 +129,48 @@ struct DirectXState {
     // Shader and pipeline cache
     std::unordered_map<std::string, std::unique_ptr<DirectXShader>> shaders;
     std::unordered_map<std::string, std::unique_ptr<DirectXPipeline>> pipelines;
+    std::recursive_timed_mutex mutex;
 };
 
 static DirectXState g_directx_state;
+constexpr auto kDirectXStateLockTimeout = std::chrono::seconds(30);
+constexpr uint32_t kDirectXKernelExecutionTimeoutMs = 30000;
+
+static std::unique_lock<std::recursive_timed_mutex> lock_directx_state_or_throw() {
+    std::unique_lock<std::recursive_timed_mutex> lock(g_directx_state.mutex, std::defer_lock);
+    if (!lock.try_lock_for(kDirectXStateLockTimeout)) {
+        throw std::runtime_error("Timeout while waiting for DirectX kernel state lock");
+    }
+    return lock;
+}
+
+static void ensure_directx_ready_or_throw() {
+    if (!g_directx_state.initialized || !g_directx_state.context || !g_directx_state.descriptors) {
+        throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
+    }
+}
+
+static size_t checked_mul_size(size_t lhs, size_t rhs, const char* context) {
+    if (lhs != 0 && rhs > (std::numeric_limits<size_t>::max() / lhs)) {
+        throw std::overflow_error(std::string(context) + ": size overflow");
+    }
+    return lhs * rhs;
+}
+
+static size_t checked_float_bytes_2d(size_t rows, size_t cols, const char* context) {
+    const size_t elems = checked_mul_size(rows, cols, context);
+    return checked_mul_size(elems, sizeof(float), context);
+}
+
+static uint32_t checked_u32_size(size_t value, const char* context) {
+    if (value > static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
+        throw std::overflow_error(std::string(context) + ": value exceeds uint32 range");
+    }
+    return static_cast<uint32_t>(value);
+}
 
 bool initialize_directx_lora(int adapter_id) {
+    auto lock = lock_directx_state_or_throw();
     if (g_directx_state.initialized) {
         return true;
     }
@@ -170,6 +212,7 @@ bool initialize_directx_lora(int adapter_id) {
 }
 
 void cleanup_directx_lora() {
+    auto lock = lock_directx_state_or_throw();
     if (!g_directx_state.initialized) {
         return;
     }
@@ -208,9 +251,13 @@ bool is_directx_available() {
 void launch_matmul_shader(
     const float* A, const float* B, float* C,
     int M, int N, int K, float alpha) {
-    
-    if (!g_directx_state.initialized) {
-        throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
+    auto lock = lock_directx_state_or_throw();
+    ensure_directx_ready_or_throw();
+    if (!A || !B || !C) {
+        throw std::invalid_argument("launch_matmul_shader received null pointer");
+    }
+    if (M <= 0 || N <= 0 || K <= 0) {
+        throw std::invalid_argument("launch_matmul_shader received invalid dimensions");
     }
     
     try {
@@ -224,9 +271,9 @@ void launch_matmul_shader(
         );
         
         // Create buffers
-        size_t size_A = M * K * sizeof(float);
-        size_t size_B = K * N * sizeof(float);
-        size_t size_C = M * N * sizeof(float);
+        size_t size_A = checked_float_bytes_2d(static_cast<size_t>(M), static_cast<size_t>(K), "launch_matmul_shader");
+        size_t size_B = checked_float_bytes_2d(static_cast<size_t>(K), static_cast<size_t>(N), "launch_matmul_shader");
+        size_t size_C = checked_float_bytes_2d(static_cast<size_t>(M), static_cast<size_t>(N), "launch_matmul_shader");
         
         DirectXBuffer buffer_A(g_directx_state.context.get(), size_A);
         DirectXBuffer buffer_B(g_directx_state.context.get(), size_B);
@@ -237,14 +284,20 @@ void launch_matmul_shader(
         buffer_B.upload(B, size_B);
         
         // Create descriptors
+        // Explicit null guard: descriptors is non-null when initialized==true; made explicit for static analysis.
+        if (!g_directx_state.descriptors) { throw std::runtime_error("DirectX: descriptor heap not initialized"); }
         g_directx_state.descriptors->reset();
         
+        const size_t elems_C = checked_mul_size(static_cast<size_t>(M), static_cast<size_t>(N), "launch_matmul_shader");
+        const size_t elems_A = checked_mul_size(static_cast<size_t>(M), static_cast<size_t>(K), "launch_matmul_shader");
+        const size_t elems_B = checked_mul_size(static_cast<size_t>(K), static_cast<size_t>(N), "launch_matmul_shader");
+
         uint32_t uav_C = g_directx_state.descriptors->create_uav(
-            buffer_C.resource(), M * N, sizeof(float));
+            buffer_C.resource(), checked_u32_size(elems_C, "launch_matmul_shader"), sizeof(float));
         uint32_t srv_A = g_directx_state.descriptors->create_srv(
-            buffer_A.resource(), M * K, sizeof(float));
+            buffer_A.resource(), checked_u32_size(elems_A, "launch_matmul_shader"), sizeof(float));
         uint32_t srv_B = g_directx_state.descriptors->create_srv(
-            buffer_B.resource(), K * N, sizeof(float));
+            buffer_B.resource(), checked_u32_size(elems_B, "launch_matmul_shader"), sizeof(float));
         
         // Set pipeline state
         g_directx_state.context->reset_command_list();
@@ -272,7 +325,7 @@ void launch_matmul_shader(
         pipeline->dispatch(thread_groups_x, thread_groups_y, 1);
         
         // Execute and wait
-        g_directx_state.context->execute_command_list();
+        g_directx_state.context->execute_command_list(kDirectXKernelExecutionTimeoutMs);
         
         // Download result
         buffer_C.download(C, size_C);
@@ -283,8 +336,13 @@ void launch_matmul_shader(
 }
 
 void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
-    if (!g_directx_state.initialized) {
-        throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
+    auto lock = lock_directx_state_or_throw();
+    ensure_directx_ready_or_throw();
+    if (!A || !B || !C) {
+        throw std::invalid_argument("launch_add_shader received null pointer");
+    }
+    if (size == 0) {
+        throw std::invalid_argument("launch_add_shader received invalid size");
     }
     
     try {
@@ -298,7 +356,7 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
         );
         
         // Create buffers
-        size_t byte_size = size * sizeof(float);
+        size_t byte_size = checked_mul_size(size, sizeof(float), "launch_add_shader");
         
         DirectXBuffer buffer_A(g_directx_state.context.get(), byte_size);
         DirectXBuffer buffer_B(g_directx_state.context.get(), byte_size);
@@ -309,14 +367,17 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
         buffer_B.upload(B, byte_size);
         
         // Create descriptors
+        // Explicit null guard: descriptors is non-null when initialized==true; made explicit for static analysis.
+        if (!g_directx_state.descriptors) { throw std::runtime_error("DirectX: descriptor heap not initialized"); }
         g_directx_state.descriptors->reset();
         
+        const uint32_t size_u32 = checked_u32_size(size, "launch_add_shader");
         uint32_t uav_C = g_directx_state.descriptors->create_uav(
-            buffer_C.resource(), static_cast<uint32_t>(size), sizeof(float));
+            buffer_C.resource(), size_u32, sizeof(float));
         uint32_t srv_A = g_directx_state.descriptors->create_srv(
-            buffer_A.resource(), static_cast<uint32_t>(size), sizeof(float));
+            buffer_A.resource(), size_u32, sizeof(float));
         uint32_t srv_B = g_directx_state.descriptors->create_srv(
-            buffer_B.resource(), static_cast<uint32_t>(size), sizeof(float));
+            buffer_B.resource(), size_u32, sizeof(float));
         
         // Set pipeline state
         g_directx_state.context->reset_command_list();
@@ -328,7 +389,7 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
             uint32_t rows;
             uint32_t cols;
             float scalar;
-        } constants = {static_cast<uint32_t>(size), 0, 0, 0, 0.0f};
+        } constants = {size_u32, 0, 0, 0, 0.0f};
         
         pipeline->set_root_constants(&constants, 5);
         
@@ -341,11 +402,11 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
         g_directx_state.context->command_list()->SetDescriptorHeaps(1, heaps);
         
         // Dispatch
-        uint32_t thread_groups = (static_cast<uint32_t>(size) + 255) / 256;
+        uint32_t thread_groups = (size_u32 + 255u) / 256u;
         pipeline->dispatch(thread_groups, 1, 1);
         
         // Execute and wait
-        g_directx_state.context->execute_command_list();
+        g_directx_state.context->execute_command_list(kDirectXKernelExecutionTimeoutMs);
         
         // Download result
         buffer_C.download(C, byte_size);
@@ -356,8 +417,13 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
 }
 
 void launch_multiply_shader(const float* A, const float* B, float* C, size_t size) {
-    if (!g_directx_state.initialized) {
-        throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
+    auto lock = lock_directx_state_or_throw();
+    ensure_directx_ready_or_throw();
+    if (!A || !B || !C) {
+        throw std::invalid_argument("launch_multiply_shader received null pointer");
+    }
+    if (size == 0) {
+        throw std::invalid_argument("launch_multiply_shader received invalid size");
     }
     
     try {
@@ -368,7 +434,7 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
             5, 1, 2
         );
         
-        size_t byte_size = size * sizeof(float);
+        size_t byte_size = checked_mul_size(size, sizeof(float), "launch_multiply_shader");
         
         DirectXBuffer buffer_A(g_directx_state.context.get(), byte_size);
         DirectXBuffer buffer_B(g_directx_state.context.get(), byte_size);
@@ -377,14 +443,17 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
         buffer_A.upload(A, byte_size);
         buffer_B.upload(B, byte_size);
         
+        // Explicit null guard: descriptors is non-null when initialized==true; made explicit for static analysis.
+        if (!g_directx_state.descriptors) { throw std::runtime_error("DirectX: descriptor heap not initialized"); }
         g_directx_state.descriptors->reset();
         
+        const uint32_t size_u32 = checked_u32_size(size, "launch_multiply_shader");
         uint32_t uav_C = g_directx_state.descriptors->create_uav(
-            buffer_C.resource(), static_cast<uint32_t>(size), sizeof(float));
+            buffer_C.resource(), size_u32, sizeof(float));
         uint32_t srv_A = g_directx_state.descriptors->create_srv(
-            buffer_A.resource(), static_cast<uint32_t>(size), sizeof(float));
+            buffer_A.resource(), size_u32, sizeof(float));
         uint32_t srv_B = g_directx_state.descriptors->create_srv(
-            buffer_B.resource(), static_cast<uint32_t>(size), sizeof(float));
+            buffer_B.resource(), size_u32, sizeof(float));
         
         g_directx_state.context->reset_command_list();
         
@@ -394,7 +463,7 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
             uint32_t rows;
             uint32_t cols;
             float scalar;
-        } constants = {static_cast<uint32_t>(size), 2, 0, 0, 0.0f};
+        } constants = {size_u32, 2, 0, 0, 0.0f};
         
         pipeline->set_root_constants(&constants, 5);
         pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));
@@ -403,10 +472,10 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
         ID3D12DescriptorHeap* heaps[] = {g_directx_state.descriptors->heap()};
         g_directx_state.context->command_list()->SetDescriptorHeaps(1, heaps);
         
-        uint32_t thread_groups = (static_cast<uint32_t>(size) + 255) / 256;
+        uint32_t thread_groups = (size_u32 + 255u) / 256u;
         pipeline->dispatch(thread_groups, 1, 1);
         
-        g_directx_state.context->execute_command_list();
+        g_directx_state.context->execute_command_list(kDirectXKernelExecutionTimeoutMs);
         buffer_C.download(C, byte_size);
     }
     catch (const std::exception& e) {
@@ -415,8 +484,13 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
 }
 
 void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_t size) {
-    if (!g_directx_state.initialized) {
-        throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
+    auto lock = lock_directx_state_or_throw();
+    ensure_directx_ready_or_throw();
+    if (!A || !B) {
+        throw std::invalid_argument("launch_scalar_multiply_shader received null pointer");
+    }
+    if (size == 0) {
+        throw std::invalid_argument("launch_scalar_multiply_shader received invalid size");
     }
     
     try {
@@ -427,7 +501,7 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
             5, 1, 2
         );
         
-        size_t byte_size = size * sizeof(float);
+        size_t byte_size = checked_mul_size(size, sizeof(float), "launch_scalar_multiply_shader");
         
         DirectXBuffer buffer_A(g_directx_state.context.get(), byte_size);
         DirectXBuffer buffer_B(g_directx_state.context.get(), byte_size);
@@ -436,14 +510,17 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
         
         buffer_A.upload(A, byte_size);
         
+        // Explicit null guard: descriptors is non-null when initialized==true; made explicit for static analysis.
+        if (!g_directx_state.descriptors) { throw std::runtime_error("DirectX: descriptor heap not initialized"); }
         g_directx_state.descriptors->reset();
         
+        const uint32_t size_u32 = checked_u32_size(size, "launch_scalar_multiply_shader");
         uint32_t uav_C = g_directx_state.descriptors->create_uav(
-            buffer_B.resource(), static_cast<uint32_t>(size), sizeof(float));
+            buffer_B.resource(), size_u32, sizeof(float));
         uint32_t srv_A = g_directx_state.descriptors->create_srv(
-            buffer_A.resource(), static_cast<uint32_t>(size), sizeof(float));
+            buffer_A.resource(), size_u32, sizeof(float));
         uint32_t srv_B = g_directx_state.descriptors->create_srv(
-            buffer_B_dummy.resource(), static_cast<uint32_t>(size), sizeof(float));
+            buffer_B_dummy.resource(), size_u32, sizeof(float));
         
         g_directx_state.context->reset_command_list();
         
@@ -453,7 +530,7 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
             uint32_t rows;
             uint32_t cols;
             float scalar_val;
-        } constants = {static_cast<uint32_t>(size), 4, 0, 0, scalar};
+        } constants = {size_u32, 4, 0, 0, scalar};
         
         pipeline->set_root_constants(&constants, 5);
         pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));
@@ -462,10 +539,10 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
         ID3D12DescriptorHeap* heaps[] = {g_directx_state.descriptors->heap()};
         g_directx_state.context->command_list()->SetDescriptorHeaps(1, heaps);
         
-        uint32_t thread_groups = (static_cast<uint32_t>(size) + 255) / 256;
+        uint32_t thread_groups = (size_u32 + 255u) / 256u;
         pipeline->dispatch(thread_groups, 1, 1);
         
-        g_directx_state.context->execute_command_list();
+        g_directx_state.context->execute_command_list(kDirectXKernelExecutionTimeoutMs);
         buffer_B.download(B, byte_size);
     }
     catch (const std::exception& e) {
@@ -474,8 +551,13 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
 }
 
 void launch_transpose_shader(const float* input, float* output, int rows, int cols) {
-    if (!g_directx_state.initialized) {
-        throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
+    auto lock = lock_directx_state_or_throw();
+    ensure_directx_ready_or_throw();
+    if (!input || !output) {
+        throw std::invalid_argument("launch_transpose_shader received null pointer");
+    }
+    if (rows <= 0 || cols <= 0) {
+        throw std::invalid_argument("launch_transpose_shader received invalid dimensions");
     }
     
     try {
@@ -486,8 +568,8 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
             5, 1, 2
         );
         
-        size_t size = rows * cols;
-        size_t byte_size = size * sizeof(float);
+        size_t size = checked_mul_size(static_cast<size_t>(rows), static_cast<size_t>(cols), "launch_transpose_shader");
+        size_t byte_size = checked_mul_size(size, sizeof(float), "launch_transpose_shader");
         
         DirectXBuffer buffer_input(g_directx_state.context.get(), byte_size);
         DirectXBuffer buffer_output(g_directx_state.context.get(), byte_size);
@@ -495,14 +577,17 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
         
         buffer_input.upload(input, byte_size);
         
+        // Explicit null guard: descriptors is non-null when initialized==true; made explicit for static analysis.
+        if (!g_directx_state.descriptors) { throw std::runtime_error("DirectX: descriptor heap not initialized"); }
         g_directx_state.descriptors->reset();
         
+        const uint32_t size_u32 = checked_u32_size(size, "launch_transpose_shader");
         uint32_t uav_C = g_directx_state.descriptors->create_uav(
-            buffer_output.resource(), static_cast<uint32_t>(size), sizeof(float));
+            buffer_output.resource(), size_u32, sizeof(float));
         uint32_t srv_A = g_directx_state.descriptors->create_srv(
-            buffer_input.resource(), static_cast<uint32_t>(size), sizeof(float));
+            buffer_input.resource(), size_u32, sizeof(float));
         uint32_t srv_B = g_directx_state.descriptors->create_srv(
-            buffer_dummy.resource(), static_cast<uint32_t>(size), sizeof(float));
+            buffer_dummy.resource(), size_u32, sizeof(float));
         
         g_directx_state.context->reset_command_list();
         
@@ -512,7 +597,7 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
             uint32_t rows;
             uint32_t cols;
             float scalar;
-        } constants = {static_cast<uint32_t>(size), 5, 
+        } constants = {size_u32, 5,
                        static_cast<uint32_t>(rows), static_cast<uint32_t>(cols), 0.0f};
         
         pipeline->set_root_constants(&constants, 5);
@@ -522,10 +607,10 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
         ID3D12DescriptorHeap* heaps[] = {g_directx_state.descriptors->heap()};
         g_directx_state.context->command_list()->SetDescriptorHeaps(1, heaps);
         
-        uint32_t thread_groups = (static_cast<uint32_t>(size) + 255) / 256;
+        uint32_t thread_groups = (size_u32 + 255u) / 256u;
         pipeline->dispatch(thread_groups, 1, 1);
         
-        g_directx_state.context->execute_command_list();
+        g_directx_state.context->execute_command_list(kDirectXKernelExecutionTimeoutMs);
         buffer_output.download(output, byte_size);
     }
     catch (const std::exception& e) {
@@ -536,9 +621,13 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
 void launch_lora_grad_A_shader(
     const float* h, const float* grad_output, float* grad_A,
     int M, int K, int N, float scaling) {
-    
-    if (!g_directx_state.initialized) {
-        throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
+    auto lock = lock_directx_state_or_throw();
+    ensure_directx_ready_or_throw();
+    if (!h || !grad_output || !grad_A) {
+        throw std::invalid_argument("launch_lora_grad_A_shader received null pointer");
+    }
+    if (M <= 0 || K <= 0 || N <= 0) {
+        throw std::invalid_argument("launch_lora_grad_A_shader received invalid dimensions");
     }
     
     try {
@@ -553,9 +642,9 @@ void launch_lora_grad_A_shader(
         
         // Create buffers
         // For grad_A: h is (M, K), grad_output is (M, N), output grad_A is (K, N)
-        size_t size_h = M * K * sizeof(float);
-        size_t size_grad_output = M * N * sizeof(float);
-        size_t size_grad_A = K * N * sizeof(float);
+        size_t size_h = checked_float_bytes_2d(static_cast<size_t>(M), static_cast<size_t>(K), "launch_lora_grad_A_shader");
+        size_t size_grad_output = checked_float_bytes_2d(static_cast<size_t>(M), static_cast<size_t>(N), "launch_lora_grad_A_shader");
+        size_t size_grad_A = checked_float_bytes_2d(static_cast<size_t>(K), static_cast<size_t>(N), "launch_lora_grad_A_shader");
         
         DirectXBuffer buffer_h(g_directx_state.context.get(), size_h);
         DirectXBuffer buffer_grad_output(g_directx_state.context.get(), size_grad_output);
@@ -571,23 +660,28 @@ void launch_lora_grad_A_shader(
         buffer_grad_output.upload(grad_output, size_grad_output);
         
         // Create descriptors
+        // Explicit null guard: descriptors is non-null when initialized==true; made explicit for static analysis.
+        if (!g_directx_state.descriptors) { throw std::runtime_error("DirectX: descriptor heap not initialized"); }
         g_directx_state.descriptors->reset();
         
+        const size_t elems_grad_A = checked_mul_size(static_cast<size_t>(K), static_cast<size_t>(N), "launch_lora_grad_A_shader");
+        const size_t elems_h = checked_mul_size(static_cast<size_t>(M), static_cast<size_t>(K), "launch_lora_grad_A_shader");
+        const size_t elems_grad_output = checked_mul_size(static_cast<size_t>(M), static_cast<size_t>(N), "launch_lora_grad_A_shader");
         uint32_t uav_grad_A = g_directx_state.descriptors->create_uav(
-            buffer_grad_A.resource(), K * N, sizeof(float));
+            buffer_grad_A.resource(), checked_u32_size(elems_grad_A, "launch_lora_grad_A_shader"), sizeof(float));
         uint32_t uav_grad_B = g_directx_state.descriptors->create_uav(
             buffer_dummy1.resource(), 1, sizeof(float));
         uint32_t uav_grad_input = g_directx_state.descriptors->create_uav(
             buffer_dummy2.resource(), 1, sizeof(float));
             
         uint32_t srv_input = g_directx_state.descriptors->create_srv(
-            buffer_h.resource(), M * K, sizeof(float));
+            buffer_h.resource(), checked_u32_size(elems_h, "launch_lora_grad_A_shader"), sizeof(float));
         uint32_t srv_B = g_directx_state.descriptors->create_srv(
-            buffer_h.resource(), M * K, sizeof(float));  // Reuse h as placeholder for B
+            buffer_h.resource(), checked_u32_size(elems_h, "launch_lora_grad_A_shader"), sizeof(float));  // Reuse h as placeholder for B
         uint32_t srv_A = g_directx_state.descriptors->create_srv(
             buffer_dummy3.resource(), 1, sizeof(float));
         uint32_t srv_grad_output = g_directx_state.descriptors->create_srv(
-            buffer_grad_output.resource(), M * N, sizeof(float));
+            buffer_grad_output.resource(), checked_u32_size(elems_grad_output, "launch_lora_grad_A_shader"), sizeof(float));
         
         // Set pipeline state
         g_directx_state.context->reset_command_list();
@@ -620,7 +714,7 @@ void launch_lora_grad_A_shader(
         pipeline->dispatch(thread_groups_x, thread_groups_y, 1);
         
         // Execute and wait
-        g_directx_state.context->execute_command_list();
+        g_directx_state.context->execute_command_list(kDirectXKernelExecutionTimeoutMs);
         
         // Download result
         buffer_grad_A.download(grad_A, size_grad_A);
@@ -633,9 +727,13 @@ void launch_lora_grad_A_shader(
 void launch_lora_grad_B_shader(
     const float* input, const float* grad_h, float* grad_B,
     int M, int D, int K) {
-    
-    if (!g_directx_state.initialized) {
-        throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
+    auto lock = lock_directx_state_or_throw();
+    ensure_directx_ready_or_throw();
+    if (!input || !grad_h || !grad_B) {
+        throw std::invalid_argument("launch_lora_grad_B_shader received null pointer");
+    }
+    if (M <= 0 || D <= 0 || K <= 0) {
+        throw std::invalid_argument("launch_lora_grad_B_shader received invalid dimensions");
     }
     
     try {
@@ -648,9 +746,9 @@ void launch_lora_grad_B_shader(
         
         // Create buffers
         // For grad_B: input is (M, D), grad_h is (M, K), output grad_B is (D, K)
-        size_t size_input = M * D * sizeof(float);
-        size_t size_grad_h = M * K * sizeof(float);
-        size_t size_grad_B = D * K * sizeof(float);
+        size_t size_input = checked_float_bytes_2d(static_cast<size_t>(M), static_cast<size_t>(D), "launch_lora_grad_B_shader");
+        size_t size_grad_h = checked_float_bytes_2d(static_cast<size_t>(M), static_cast<size_t>(K), "launch_lora_grad_B_shader");
+        size_t size_grad_B = checked_float_bytes_2d(static_cast<size_t>(D), static_cast<size_t>(K), "launch_lora_grad_B_shader");
         
         DirectXBuffer buffer_input(g_directx_state.context.get(), size_input);
         DirectXBuffer buffer_grad_h(g_directx_state.context.get(), size_grad_h);
@@ -666,23 +764,28 @@ void launch_lora_grad_B_shader(
         buffer_grad_h.upload(grad_h, size_grad_h);
         
         // Create descriptors
+        // Explicit null guard: descriptors is non-null when initialized==true; made explicit for static analysis.
+        if (!g_directx_state.descriptors) { throw std::runtime_error("DirectX: descriptor heap not initialized"); }
         g_directx_state.descriptors->reset();
         
         uint32_t uav_grad_A = g_directx_state.descriptors->create_uav(
             buffer_dummy1.resource(), 1, sizeof(float));
+        const size_t elems_grad_B = checked_mul_size(static_cast<size_t>(D), static_cast<size_t>(K), "launch_lora_grad_B_shader");
+        const size_t elems_input = checked_mul_size(static_cast<size_t>(M), static_cast<size_t>(D), "launch_lora_grad_B_shader");
+        const size_t elems_grad_h = checked_mul_size(static_cast<size_t>(M), static_cast<size_t>(K), "launch_lora_grad_B_shader");
         uint32_t uav_grad_B = g_directx_state.descriptors->create_uav(
-            buffer_grad_B.resource(), D * K, sizeof(float));
+            buffer_grad_B.resource(), checked_u32_size(elems_grad_B, "launch_lora_grad_B_shader"), sizeof(float));
         uint32_t uav_grad_input = g_directx_state.descriptors->create_uav(
             buffer_dummy2.resource(), 1, sizeof(float));
             
         uint32_t srv_input = g_directx_state.descriptors->create_srv(
-            buffer_input.resource(), M * D, sizeof(float));
+            buffer_input.resource(), checked_u32_size(elems_input, "launch_lora_grad_B_shader"), sizeof(float));
         uint32_t srv_B = g_directx_state.descriptors->create_srv(
             buffer_dummy3.resource(), 1, sizeof(float));
         uint32_t srv_A = g_directx_state.descriptors->create_srv(
             buffer_dummy3.resource(), 1, sizeof(float));
         uint32_t srv_grad_output = g_directx_state.descriptors->create_srv(
-            buffer_grad_h.resource(), M * K, sizeof(float));
+            buffer_grad_h.resource(), checked_u32_size(elems_grad_h, "launch_lora_grad_B_shader"), sizeof(float));
         
         // Set pipeline state
         g_directx_state.context->reset_command_list();
@@ -715,7 +818,7 @@ void launch_lora_grad_B_shader(
         pipeline->dispatch(thread_groups_x, thread_groups_y, 1);
         
         // Execute and wait
-        g_directx_state.context->execute_command_list();
+        g_directx_state.context->execute_command_list(kDirectXKernelExecutionTimeoutMs);
         
         // Download result
         buffer_grad_B.download(grad_B, size_grad_B);
@@ -733,25 +836,34 @@ void launch_embedding_lookup_shader(
     int seq_len,
     int hidden_dim,
     int vocab_size) {
-    
-    if (!g_directx_state.initialized) {
-        throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
+    auto lock = lock_directx_state_or_throw();
+    ensure_directx_ready_or_throw();
+    if (!output || !token_ids || !embedding_weights) {
+        throw std::invalid_argument("launch_embedding_lookup_shader received null pointer");
+    }
+    if (batch_size <= 0 || seq_len <= 0 || hidden_dim <= 0 || vocab_size <= 0) {
+        throw std::invalid_argument("launch_embedding_lookup_shader received invalid dimensions");
     }
     
     try {
         // Calculate sizes
-        size_t total_tokens = batch_size * seq_len;
-        size_t output_size = total_tokens * hidden_dim;
-        size_t embedding_matrix_size = vocab_size * hidden_dim;
+        size_t total_tokens = checked_mul_size(static_cast<size_t>(batch_size), static_cast<size_t>(seq_len), "launch_embedding_lookup_shader");
+        size_t output_size = checked_mul_size(total_tokens, static_cast<size_t>(hidden_dim), "launch_embedding_lookup_shader");
+        size_t embedding_matrix_size = checked_mul_size(static_cast<size_t>(vocab_size), static_cast<size_t>(hidden_dim), "launch_embedding_lookup_shader");
         
         // Create buffers
-        DirectXBuffer buffer_token_ids(g_directx_state.context.get(), total_tokens * sizeof(float), DirectXBuffer::Usage::DeviceLocal);
-        DirectXBuffer buffer_embedding_weights(g_directx_state.context.get(), embedding_matrix_size * sizeof(float), DirectXBuffer::Usage::DeviceLocal);
-        DirectXBuffer buffer_output(g_directx_state.context.get(), output_size * sizeof(float), DirectXBuffer::Usage::DeviceLocal);
+        const size_t token_bytes = checked_mul_size(total_tokens, sizeof(float), "launch_embedding_lookup_shader");
+        const size_t embedding_bytes = checked_mul_size(embedding_matrix_size, sizeof(float), "launch_embedding_lookup_shader");
+        const size_t output_bytes = checked_mul_size(output_size, sizeof(float), "launch_embedding_lookup_shader");
+        const uint32_t total_tokens_u32 = checked_u32_size(total_tokens, "launch_embedding_lookup_shader");
+
+        DirectXBuffer buffer_token_ids(g_directx_state.context.get(), token_bytes, DirectXBuffer::Usage::DeviceLocal);
+        DirectXBuffer buffer_embedding_weights(g_directx_state.context.get(), embedding_bytes, DirectXBuffer::Usage::DeviceLocal);
+        DirectXBuffer buffer_output(g_directx_state.context.get(), output_bytes, DirectXBuffer::Usage::DeviceLocal);
         
         // Upload data
-        buffer_token_ids.upload(token_ids, total_tokens * sizeof(float));
-        buffer_embedding_weights.upload(embedding_weights, embedding_matrix_size * sizeof(float));
+        buffer_token_ids.upload(token_ids, token_bytes);
+        buffer_embedding_weights.upload(embedding_weights, embedding_bytes);
         
         // Get or create pipeline
         DirectXPipeline* pipeline = get_or_create_pipeline(
@@ -783,14 +895,14 @@ void launch_embedding_lookup_shader(
         pipeline->bind_srv(1, buffer_embedding_weights);  // Embedding weights
         
         // Dispatch: each thread handles one token
-        uint32_t thread_groups = (static_cast<uint32_t>(total_tokens) + 255) / 256;
+        uint32_t thread_groups = (total_tokens_u32 + 255u) / 256u;
         pipeline->dispatch(thread_groups, 1, 1);
         
         // Execute and wait
-        g_directx_state.context->execute_command_list();
+        g_directx_state.context->execute_command_list(kDirectXKernelExecutionTimeoutMs);
         
         // Download result
-        buffer_output.download(output, output_size * sizeof(float));
+        buffer_output.download(output, output_bytes);
     }
     catch (const std::exception& e) {
         throw std::runtime_error(std::string("launch_embedding_lookup_shader failed: ") + e.what());
@@ -803,22 +915,33 @@ void launch_sequence_mean_shader(
     int batch_size,
     int seq_len,
     int hidden_dim) {
-    
-    if (!g_directx_state.initialized) {
-        throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
+    auto lock = lock_directx_state_or_throw();
+    ensure_directx_ready_or_throw();
+    if (!output || !input) {
+        throw std::invalid_argument("launch_sequence_mean_shader received null pointer");
+    }
+    if (batch_size <= 0 || seq_len <= 0 || hidden_dim <= 0) {
+        throw std::invalid_argument("launch_sequence_mean_shader received invalid dimensions");
     }
     
     try {
         // Calculate sizes
-        size_t input_size = batch_size * seq_len * hidden_dim;
-        size_t output_size = batch_size * hidden_dim;
+        size_t input_size = checked_mul_size(
+            checked_mul_size(static_cast<size_t>(batch_size), static_cast<size_t>(seq_len), "launch_sequence_mean_shader"),
+            static_cast<size_t>(hidden_dim),
+            "launch_sequence_mean_shader");
+        size_t output_size = checked_mul_size(static_cast<size_t>(batch_size), static_cast<size_t>(hidden_dim), "launch_sequence_mean_shader");
         
         // Create buffers
-        DirectXBuffer buffer_input(g_directx_state.context.get(), input_size * sizeof(float), DirectXBuffer::Usage::DeviceLocal);
-        DirectXBuffer buffer_output(g_directx_state.context.get(), output_size * sizeof(float), DirectXBuffer::Usage::DeviceLocal);
+        const size_t input_bytes = checked_mul_size(input_size, sizeof(float), "launch_sequence_mean_shader");
+        const size_t output_bytes = checked_mul_size(output_size, sizeof(float), "launch_sequence_mean_shader");
+        const uint32_t output_size_u32 = checked_u32_size(output_size, "launch_sequence_mean_shader");
+
+        DirectXBuffer buffer_input(g_directx_state.context.get(), input_bytes, DirectXBuffer::Usage::DeviceLocal);
+        DirectXBuffer buffer_output(g_directx_state.context.get(), output_bytes, DirectXBuffer::Usage::DeviceLocal);
         
         // Upload data
-        buffer_input.upload(input, input_size * sizeof(float));
+        buffer_input.upload(input, input_bytes);
         
         // Get or create pipeline
         DirectXPipeline* pipeline = get_or_create_pipeline(
@@ -849,14 +972,14 @@ void launch_sequence_mean_shader(
         pipeline->bind_srv(0, buffer_input);  // Input
         
         // Dispatch: each thread handles one output element
-        uint32_t thread_groups = (static_cast<uint32_t>(output_size) + 255) / 256;
+        uint32_t thread_groups = (output_size_u32 + 255u) / 256u;
         pipeline->dispatch(thread_groups, 1, 1);
         
         // Execute and wait
-        g_directx_state.context->execute_command_list();
+        g_directx_state.context->execute_command_list(kDirectXKernelExecutionTimeoutMs);
         
         // Download result
-        buffer_output.download(output, output_size * sizeof(float));
+        buffer_output.download(output, output_bytes);
     }
     catch (const std::exception& e) {
         throw std::runtime_error(std::string("launch_sequence_mean_shader failed: ") + e.what());

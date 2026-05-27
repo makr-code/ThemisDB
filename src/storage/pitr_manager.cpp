@@ -238,6 +238,10 @@ std::optional<uint64_t> PITRManager::findSequenceForTimestamp(int64_t timestamp_
 
 PITRManager::Status PITRManager::replayBackward(uint64_t from_sequence, uint64_t to_sequence,
                                                 const RestoreOptions& options) {
+    if (from_sequence <= to_sequence) {
+        return Status::Error("Invalid replay range: from_sequence must be greater than to_sequence");
+    }
+
     // Get events in range
     Changefeed::ListOptions list_opts;
     list_opts.from_sequence = to_sequence;
@@ -247,6 +251,19 @@ PITRManager::Status PITRManager::replayBackward(uint64_t from_sequence, uint64_t
     }
 
     auto events = changefeed_->listEvents(list_opts);
+
+    // Fail closed: PITR must not silently proceed with truncated WAL coverage
+    // unless the caller explicitly requested a replay cap.
+    if (options.max_events_to_replay == 0) {
+        const auto expected_events = from_sequence - to_sequence;
+        if (events.size() < expected_events) {
+            return Status::Error(
+                "WAL replay coverage incomplete: expected " +
+                std::to_string(expected_events) +
+                " event(s), found " + std::to_string(events.size()));
+        }
+    }
+
     progress_.total_events = events.size();
     progress_.events_processed = 0;
 
@@ -309,9 +326,22 @@ PITRManager::Status PITRManager::applyEventReverse(const Changefeed::ChangeEvent
 
         case Changefeed::ChangeEventType::EVENT_DELETE:
             // DELETE → PUT (restore the value)
-            // Note: This requires the previous value to be stored in metadata
-            // For now, we log a warning and skip
-            THEMIS_WARN("Cannot restore deleted key {} - previous value not available", event.key);
+            // Enforce strict recoverability: the previous value must be present
+            // either in value or in before_snapshot.
+            if (event.value.has_value()) {
+                if (!db_->put(event.key, *event.value)) {
+                    return Status::Error("Failed to restore deleted key from event value: " + event.key);
+                }
+                break;
+            }
+            if (event.before_snapshot.has_value()) {
+                if (!db_->put(event.key, *event.before_snapshot)) {
+                    return Status::Error("Failed to restore deleted key from before_snapshot: " + event.key);
+                }
+                break;
+            }
+            return Status::Error(
+                "Cannot reverse DELETE without previous value (key=" + event.key + ")");
             break;
 
         case Changefeed::ChangeEventType::EVENT_TRANSACTION_COMMIT:

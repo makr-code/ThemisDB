@@ -330,6 +330,40 @@ void WireProtocolSession::setGraphTraverseFn(GraphTraverseFn fn) {
     std::lock_guard<std::mutex> lock(s_bridge_mutex);
     s_graph_traverse_fn = std::move(fn);
 }
+
+namespace {
+
+struct ProtobufBootstrapState {
+    bool has_aql = false;
+    bool has_geo = false;
+    bool has_timeseries = false;
+    bool has_graph = false;
+
+    bool has_all_required() const {
+        return has_aql && has_geo && has_timeseries && has_graph;
+    }
+};
+
+ProtobufBootstrapState collectProtobufBootstrapState(
+    const WireProtocolSession::AqlQueryFn& aql_query_fn,
+    const WireProtocolSession::GeoQueryFn& geo_query_fn,
+    const WireProtocolSession::TimeseriesQueryFn& timeseries_query_fn,
+    const WireProtocolSession::GraphTraverseFn& graph_traverse_fn) {
+    auto state = ProtobufBootstrapState{};
+    state.has_aql = static_cast<bool>(aql_query_fn);
+    state.has_geo = static_cast<bool>(geo_query_fn);
+    state.has_timeseries = static_cast<bool>(timeseries_query_fn);
+    state.has_graph = static_cast<bool>(graph_traverse_fn);
+
+    std::lock_guard<std::mutex> lock(s_bridge_mutex);
+    state.has_aql = state.has_aql || static_cast<bool>(s_query_aql_fn);
+    state.has_geo = state.has_geo || static_cast<bool>(s_geo_query_fn);
+    state.has_timeseries = state.has_timeseries || static_cast<bool>(s_timeseries_query_fn);
+    state.has_graph = state.has_graph || static_cast<bool>(s_graph_traverse_fn);
+    return state;
+}
+
+} // anonymous namespace
 #endif  // THEMIS_WIRE_V1_PB_HEADER_FOUND
 
 // ============================================================================
@@ -931,7 +965,8 @@ void WireProtocolSession::handle_query_aql(const v1::QueryRequest& req) {
     if (!fn) {
         send_error(501,
             "AQL engine not wired to protobuf wire protocol session. "
-            "Use the HTTP REST API endpoint POST /api/v1/query instead.");
+            "Use the JSON wire protocol port (8766) or HTTP REST API "
+            "endpoint POST /api/v1/query instead.");
         return;
     }
     try {
@@ -976,7 +1011,8 @@ void WireProtocolSession::handle_query_aql(const v1::QueryRequest& req) {
 #else
     send_error(501,
         "AQL query execution is not yet integrated in the protobuf wire protocol. "
-        "Use the HTTP REST API endpoint POST /api/v1/query instead.");
+    "Use the JSON wire protocol port (8766) or HTTP REST API "
+    "endpoint POST /api/v1/query instead.");
 #endif
 }
 
@@ -1035,7 +1071,8 @@ void WireProtocolSession::handle_cursor_next(const v1::CursorNextRequest& req) {
 #else
     send_error(501,
         "Cursor pagination is not yet available on the protobuf wire port. "
-        "Use the HTTP REST API endpoint GET /api/v1/cursor/" +
+    "Use the JSON wire protocol port (8766) or HTTP REST API "
+    "endpoint GET /api/v1/cursor/" +
         sanitizeForMessage(req.cursor_id()) + " instead.");
 #endif
 }
@@ -1060,7 +1097,8 @@ void WireProtocolSession::handle_cursor_close(const v1::CursorCloseRequest& req)
 #else
     send_error(501,
         "Cursor management is not yet available on the protobuf wire port. "
-        "Use the HTTP REST API endpoint DELETE /api/v1/cursor/" +
+    "Use the JSON wire protocol port (8766) or HTTP REST API "
+    "endpoint DELETE /api/v1/cursor/" +
         sanitizeForMessage(req.cursor_id()) + " instead.");
 #endif
 }
@@ -1110,7 +1148,8 @@ void WireProtocolSession::handle_geo_query(
     if (!fn) {
         send_error(501,
             "Geospatial engine not wired to protobuf wire protocol session. "
-            "Use the HTTP REST API endpoint GET /api/v1/geo/query instead.");
+            "Use the JSON wire protocol port (8766) or HTTP REST API "
+            "endpoint GET /api/v1/geo/query instead.");
         return;
     }
     try {
@@ -1122,7 +1161,8 @@ void WireProtocolSession::handle_geo_query(
 #else
     send_error(501,
         "Geospatial query execution is not yet integrated in the protobuf wire protocol. "
-        "Use the HTTP REST API endpoint GET /api/v1/geo/query instead.");
+    "Use the JSON wire protocol port (8766) or HTTP REST API "
+    "endpoint GET /api/v1/geo/query instead.");
 #endif
 }
 
@@ -1315,7 +1355,8 @@ void WireProtocolSession::handle_graph_traverse(std::string_view raw_payload) {
     if (!fn) {
         send_error(501,
             "Graph traversal engine not wired to protobuf wire protocol session. "
-            "Use the HTTP REST API endpoint POST /api/v1/graph/traverse instead.");
+            "Use the JSON wire protocol port (8766) or HTTP REST API "
+            "endpoint POST /api/v1/graph/traverse instead.");
         return;
     }
     try {
@@ -1367,7 +1408,8 @@ void WireProtocolSession::handle_graph_traverse(std::string_view raw_payload) {
 #else
     send_error(501,
         "Graph traversal is not yet available on the protobuf wire port. "
-        "Use the HTTP REST API endpoint POST /api/v1/graph/traverse instead.");
+        "Use the JSON wire protocol port (8766) or HTTP REST API "
+        "endpoint POST /api/v1/graph/traverse instead.");
     [[maybe_unused]] auto _ = raw_payload;
 #endif
 }
@@ -1501,37 +1543,15 @@ WireProtocolServer::~WireProtocolServer() {
 void WireProtocolServer::start() {
 #if THEMIS_WIRE_V1_PB_HEADER_FOUND
     {
-        bool has_bridge_aql = false;
-        bool has_bridge_geo = false;
-        bool has_bridge_ts = false;
-        bool has_bridge_graph = false;
-        {
-            std::lock_guard<std::mutex> bridge_lock(g_wire_bridge_mutex);
-            has_bridge_aql = static_cast<bool>(g_wire_aql_exec_fn);
-            has_bridge_geo = static_cast<bool>(g_wire_geo_query_fn);
-            has_bridge_ts = static_cast<bool>(g_wire_ts_query_fn);
-            has_bridge_graph = static_cast<bool>(g_wire_graph_traversal_fn);
-        }
-
         std::lock_guard<std::mutex> lock(state_mutex_);
-        const bool has_aql = static_cast<bool>(aql_query_fn_) ||
-                             static_cast<bool>(s_query_aql_fn) ||
-                             has_bridge_aql;
-        const bool has_geo = static_cast<bool>(geo_query_fn_) ||
-                             static_cast<bool>(s_geo_query_fn) ||
-                             has_bridge_geo;
-        const bool has_ts = static_cast<bool>(timeseries_query_fn_) ||
-                            static_cast<bool>(s_timeseries_query_fn) ||
-                            has_bridge_ts;
-        const bool has_graph = static_cast<bool>(graph_traverse_fn_) ||
-                               static_cast<bool>(s_graph_traverse_fn) ||
-                               has_bridge_graph;
-        if (!has_aql || !has_geo || !has_ts || !has_graph) {
+        const auto bootstrap_state = collectProtobufBootstrapState(
+            aql_query_fn_, geo_query_fn_, timeseries_query_fn_, graph_traverse_fn_);
+        if (!bootstrap_state.has_all_required()) {
             std::cerr << "[WireV1] Start refused: missing required protobuf wire callbacks "
-                      << "(aql=" << has_aql
-                      << ", geo=" << has_geo
-                      << ", timeseries=" << has_ts
-                      << ", graph=" << has_graph << ")\n";
+                      << "(aql=" << bootstrap_state.has_aql
+                      << ", geo=" << bootstrap_state.has_geo
+                      << ", timeseries=" << bootstrap_state.has_timeseries
+                      << ", graph=" << bootstrap_state.has_graph << ")\n";
             return;
         }
     }
@@ -1609,20 +1629,25 @@ void WireProtocolServer::setGraphTraverseFn(WireProtocolSession::GraphTraverseFn
     graph_traverse_fn_ = std::move(fn);
 }
 
+void WireProtocolServer::bindSessionCallbacksLocked(WireProtocolSession& session) const {
+    session.aql_query_fn_ = aql_query_fn_;
+    session.cursor_next_fn_ = cursor_next_fn_;
+    session.cursor_close_fn_ = cursor_close_fn_;
+    session.geo_query_fn_ = geo_query_fn_;
+    session.timeseries_query_fn_ = timeseries_query_fn_;
+    session.graph_traverse_fn_ = graph_traverse_fn_;
+    session.set_engines(&engines_);
+}
+
 void WireProtocolServer::async_accept() {
     acceptor_.async_accept(
         [this](const error_code& ec, tcp::socket socket) {
             auto session = std::make_shared<WireProtocolSession>(
                 std::move(socket));
-            // Propagate injected engine fns to the new session (stub #281).
+            // Propagate the server bootstrap wiring to each accepted session.
             {
                 std::lock_guard<std::mutex> lock(state_mutex_);
-                session->aql_query_fn_        = aql_query_fn_;
-                session->cursor_next_fn_      = cursor_next_fn_;
-                session->cursor_close_fn_     = cursor_close_fn_;
-                session->geo_query_fn_        = geo_query_fn_;
-                session->timeseries_query_fn_ = timeseries_query_fn_;
-                session->graph_traverse_fn_   = graph_traverse_fn_;
+                bindSessionCallbacksLocked(*session);
             }
             handle_accept(session, ec);
         });

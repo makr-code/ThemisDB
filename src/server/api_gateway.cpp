@@ -130,9 +130,9 @@ http::response<http::string_body> APIGateway::handleRequest(
         // 1. Authentication check
         if (auth_ && auth_->isEnabled()) {
             bool auth_ok = false;
-            auto auth_header = req.find(http::field::authorization);
-            if (auth_header != req.end()) {
-                auto token = AuthMiddleware::extractBearerToken(auth_header->value());
+            const auto auth_header = req[http::field::authorization];
+            if (!auth_header.empty()) {
+                auto token = AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
                 if (token) {
                     auto result = auth_->validateToken(*token);
                     auth_ok = result.authorized;
@@ -500,9 +500,9 @@ bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
         std::string client_id = "anonymous";
         
         // Check if Authorization header exists for user-based rate limiting
-        auto auth_header = req.find(http::field::authorization);
-        if (auth_header != req.end()) {
-            std::string auth_value = std::string(auth_header->value());
+        const auto auth_header = req[http::field::authorization];
+        if (!auth_header.empty()) {
+            std::string auth_value = std::string(auth_header.data(), auth_header.size());
             
             // Extract JWT subject if possible (via AuthMiddleware)
             if (auth_ && auth_value.size() > 7 && auth_value.substr(0, 7) == "Bearer ") {
@@ -544,10 +544,10 @@ bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
     std::string client_id = "default";
     
     // Check if Authorization header exists
-    auto auth_header = req.find(http::field::authorization);
-    if (auth_header != req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (!auth_header.empty()) {
         // Use auth header as client ID
-        client_id = std::string(auth_header->value());
+        client_id = std::string(auth_header.data(), auth_header.size());
     } else {
         // Fall back to IP or other identifier
         client_id = ipClientId();

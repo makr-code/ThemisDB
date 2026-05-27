@@ -1480,3 +1480,7 @@ build if any discrepancies are found.
 ---
 
 *Last Updated: 2026-03-24 | Generated from codebase analysis*
+
+---
+Zuletzt geprueft (Root-Sync): 2026-05-26
+

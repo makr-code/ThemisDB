@@ -191,6 +191,16 @@ struct CrossShardTransactionConfig {
     std::string coordinator_id;                     // Actual coordinator node identifier
 };
 
+struct BackendRecoveryStats {
+    uint64_t pending_transactions = 0;
+    uint64_t snapshot_transactions_restored = 0;
+    uint64_t wal_entries_replayed = 0;
+    uint64_t stale_transactions_detected = 0;
+    uint64_t resume_candidates = 0;
+    uint64_t failed_operations = 0;
+    uint64_t in_doubt_transactions = 0;
+};
+
 /**
  * @brief Enhanced Cross-Shard Transaction Coordinator
  * 
@@ -279,8 +289,7 @@ public:
     /**
      * @brief Re-drive in-doubt transactions using the configured recovery backend.
      *
-     * Uses WAL+snapshot recovery when persistence is enabled; otherwise falls
-     * back to legacy file-log recovery.
+      * Uses WAL+snapshot recovery when the backend is available.
      *
      * This method is intended for startup recovery before new transactions are
      * accepted. If called during live traffic, the returned value is best-effort.
@@ -349,15 +358,14 @@ public:
      *
      * In the 3PC protocol, Phase 2 must instruct every participant to durably
      * persist its prepared state (PreCommit) before the coordinator proceeds to
-     * Phase 3 (Commit).  Without this RPC the coordinator is functionally
-     * equivalent to 2PC and does not achieve 3PC's non-blocking property.
+      * Phase 3 (Commit). Without this RPC, 3PC execution fails closed.
      *
      * When @p fn is non-null, execute3PC() calls it for each participant in
      * Phase 2 and aborts the transaction if any participant rejects.  This
      * activates the full 3PC non-blocking guarantee.
      *
-     * Pass @c nullptr to remove the callback (restores the 2PC-equivalent
-     * fallback and logs a warning per CST-6).
+      * Pass @c nullptr to remove the callback. Any later attempt to execute
+      * 3PC without a callback fails closed and aborts the transaction.
      *
      * **Exception safety**: The callback must not throw.  If it does, the
      * exception is caught by execute3PC(), treated as a NACK (i.e. the
@@ -463,19 +471,24 @@ private:
     );
     
     /**
-     * @brief Load pending transactions from durable storage
-     */
-    std::vector<CrossShardTransaction> loadPendingTransactions();
-    
-    /**
-     * @brief Recover coordinator state after failure
-     */
-    bool recoverFromFailure();
-    
-    /**
      * @brief Recover from WAL and snapshot (Phase 2.3.3)
      */
-    bool recoverFromWAL();
+    bool recoverFromWAL(BackendRecoveryStats* stats = nullptr);
+
+    struct RecoveryRunResult {
+        bool ok = false;
+        bool backend_available = false;
+        const char* backend = "WAL/snapshot";
+        uint64_t elapsed_ms = 0;
+        BackendRecoveryStats details;
+    };
+
+    /**
+     * @brief Run WAL/snapshot recovery and emit consistent telemetry.
+     * @param context Caller context used in diagnostics (e.g. "initialize").
+     * @return Structured recovery result for caller-side handling.
+     */
+    RecoveryRunResult runRecoveryBackend(const char* context);
     
     /**
      * @brief Create periodic snapshot of active transactions (Phase 2.3.3)

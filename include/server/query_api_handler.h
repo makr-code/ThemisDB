@@ -11,6 +11,7 @@
 #include "security/query_masking_policy.h"
 
 #include <memory>
+#include <mutex>
 #include <string>
 #include <optional>
 #include <atomic>
@@ -97,6 +98,12 @@ public:
      * @brief Handle POST /query request
      * 
      * Executes a structured query with filters, projections, and sorting.
+        * Supports optional request timeouts via `timeout_ms` in the request body.
+        *
+        * Timeout behavior:
+        * - `timeout_ms == 0`: no handler-level timeout enforcement
+        * - `timeout_ms > 0`: handler aborts long-running response materialization with HTTP 408
+        * - values above the server limit are rejected with HTTP 400
      * 
      * @param req HTTP request with query specification
      * @return HTTP response with query results

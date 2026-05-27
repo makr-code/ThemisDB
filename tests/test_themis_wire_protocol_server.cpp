@@ -208,18 +208,23 @@ static uint16_t reserve_loopback_port(boost::asio::io_context& ioc) {
     return acceptor.local_endpoint().port();
 }
 
-// Installs minimal non-throwing wire callbacks so start() passes fail-closed
-// callback validation in lifecycle tests.
-struct ScopedWireStartCallbacks {
-    ScopedWireStartCallbacks() {
+// The free setWire* bridge APIs are intentionally kept for compatibility
+// coverage and are explicitly deprecated in the public header.
+#if defined(_MSC_VER)
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+struct ScopedGenericWireBridgesOnly {
+    ScopedGenericWireBridgesOnly() {
         setWireAqlExecFn([](const std::string&, const std::string&) {
             return std::string{"{\"results\":[],\"has_more\":false}"};
-        });
-        setWireCursorNextFn([](const std::string&) {
-            return std::string{"{\"results\":[],\"has_more\":false}"};
-        });
-        setWireCursorCloseFn([](const std::string&) {
-            return true;
         });
         setWireGeoQueryFn([](const std::string&, double, double, double, int) {
             return std::string{"[]"};
@@ -231,6 +236,33 @@ struct ScopedWireStartCallbacks {
             return std::string{"[]"};
         });
 
+#if THEMIS_WIRE_V1_PB_HEADER_FOUND
+        WireProtocolSession::setQueryAqlFn({});
+        WireProtocolSession::setGeoQueryFn({});
+        WireProtocolSession::setTimeseriesQueryFn({});
+        WireProtocolSession::setGraphTraverseFn({});
+#endif
+    }
+
+    ~ScopedGenericWireBridgesOnly() {
+        setWireAqlExecFn({});
+        setWireGeoQueryFn({});
+        setWireTSQueryFn({});
+        setWireGraphTraversalFn({});
+
+#if THEMIS_WIRE_V1_PB_HEADER_FOUND
+        WireProtocolSession::setQueryAqlFn({});
+        WireProtocolSession::setGeoQueryFn({});
+        WireProtocolSession::setTimeseriesQueryFn({});
+        WireProtocolSession::setGraphTraverseFn({});
+#endif
+    }
+};
+
+// Installs minimal non-throwing wire callbacks so start() passes fail-closed
+// callback validation in lifecycle tests.
+struct ScopedWireStartCallbacks {
+    ScopedWireStartCallbacks() {
 #if THEMIS_WIRE_V1_PB_HEADER_FOUND
         // WireProtocolServer::start() now enforces protobuf callback presence.
         WireProtocolSession::setQueryAqlFn(
@@ -253,13 +285,6 @@ struct ScopedWireStartCallbacks {
     }
 
     ~ScopedWireStartCallbacks() {
-        setWireAqlExecFn({});
-        setWireCursorNextFn({});
-        setWireCursorCloseFn({});
-        setWireGeoQueryFn({});
-        setWireTSQueryFn({});
-        setWireGraphTraversalFn({});
-
     #if THEMIS_WIRE_V1_PB_HEADER_FOUND
         WireProtocolSession::setQueryAqlFn({});
         WireProtocolSession::setGeoQueryFn({});
@@ -471,6 +496,41 @@ TEST(WireProtocolServer, DoubleStart) {
     });
 }
 
+TEST(WireProtocolServer, GenericBridgesDoNotSatisfyProtobufBootstrap) {
+    using tcp = boost::asio::ip::tcp;
+
+    boost::asio::io_context server_ioc;
+    ScopedGenericWireBridgesOnly bridges;
+    const uint16_t port = reserve_loopback_port(server_ioc);
+    WireProtocolServer server(server_ioc, port);
+
+    server.start();
+    std::thread io_thread([&server_ioc]() {
+        server_ioc.run();
+    });
+
+    boost::asio::io_context client_ioc;
+    tcp::socket client(client_ioc);
+    client.connect(tcp::endpoint(boost::asio::ip::address_v4::loopback(), port));
+
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::milliseconds(150);
+    while (server.total_connections() != 0u &&
+           std::chrono::steady_clock::now() < deadline) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    }
+
+    EXPECT_EQ(server.total_connections(), 0u);
+    EXPECT_EQ(server.active_sessions(), 0u);
+
+    boost::system::error_code ec;
+    client.shutdown(tcp::socket::shutdown_both, ec);
+    client.close(ec);
+
+    server.stop();
+    server_ioc.stop();
+    io_thread.join();
+}
+
 TEST(WireProtocolServer, Sessions_Pruned_After_Disconnect) {
     using tcp = boost::asio::ip::tcp;
     constexpr int kConnectionCount = 100;
@@ -507,6 +567,46 @@ TEST(WireProtocolServer, Sessions_Pruned_After_Disconnect) {
     server.stop();
     server_ioc.stop();
     io_thread.join();
+}
+
+TEST(WireProtocolServer, SingleThreadedIoContextPrunesSessionsAfterDisconnect) {
+    using tcp = boost::asio::ip::tcp;
+
+    boost::asio::io_context server_ioc;
+    ScopedWireStartCallbacks callbacks;
+    const uint16_t port = reserve_loopback_port(server_ioc);
+    WireProtocolServer server(server_ioc, port);
+
+    server.start();
+
+    boost::asio::io_context client_ioc;
+    tcp::socket client(client_ioc);
+    client.connect(tcp::endpoint(boost::asio::ip::address_v4::loopback(), port));
+
+    const auto accept_deadline = std::chrono::steady_clock::now() + std::chrono::seconds(1);
+    while (server.total_connections() != 1u &&
+           std::chrono::steady_clock::now() < accept_deadline) {
+        server_ioc.poll();
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    }
+
+    EXPECT_EQ(server.total_connections(), 1u);
+    EXPECT_EQ(server.active_sessions(), 1u);
+
+    boost::system::error_code ec;
+    client.shutdown(tcp::socket::shutdown_both, ec);
+    client.close(ec);
+
+    const auto disconnect_deadline = std::chrono::steady_clock::now() + std::chrono::seconds(1);
+    while (server.active_sessions() != 0u &&
+           std::chrono::steady_clock::now() < disconnect_deadline) {
+        server_ioc.poll();
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    }
+
+    EXPECT_EQ(server.active_sessions(), 0u);
+
+    server.stop();
 }
 
 // ===========================================================================
@@ -918,10 +1018,10 @@ TEST(WireProtocolV1ThemisSanitize, AllControlCharsReplaced) {
 }
 
 // =============================================================================
-// WireProtocolSession injection bridge tests (stub #281)
+// Deprecated free bridge compatibility tests
 // =============================================================================
 
-TEST(WireSessionBridgeTest, SetAndClearAqlBridge) {
+TEST(DeprecatedWireSessionBridgeTest, SetAndClearAqlBridge) {
     bool called = false;
     setWireAqlExecFn([&called](const std::string& /*aql*/,
                                const std::string& /*ns*/) -> std::string {
@@ -932,7 +1032,7 @@ TEST(WireSessionBridgeTest, SetAndClearAqlBridge) {
     EXPECT_FALSE(called); // setter itself must not invoke the fn
 }
 
-TEST(WireSessionBridgeTest, SetAndClearCursorNextBridge) {
+TEST(DeprecatedWireSessionBridgeTest, SetAndClearCursorNextBridge) {
     setWireCursorNextFn([](const std::string& /*id*/) -> std::string {
         return R"({"batch":[]})";
     });
@@ -940,13 +1040,13 @@ TEST(WireSessionBridgeTest, SetAndClearCursorNextBridge) {
     SUCCEED();
 }
 
-TEST(WireSessionBridgeTest, SetAndClearCursorCloseBridge) {
+TEST(DeprecatedWireSessionBridgeTest, SetAndClearCursorCloseBridge) {
     setWireCursorCloseFn([](const std::string& /*id*/) -> bool { return true; });
     setWireCursorCloseFn(nullptr);
     SUCCEED();
 }
 
-TEST(WireSessionBridgeTest, SetAndClearGeoQueryBridge) {
+TEST(DeprecatedWireSessionBridgeTest, SetAndClearGeoQueryBridge) {
     setWireGeoQueryFn([](const std::string& /*collection*/, double /*lat*/,
                           double /*lon*/, double /*radius_m*/, int /*limit*/) -> std::string {
         return R"([])";
@@ -955,7 +1055,7 @@ TEST(WireSessionBridgeTest, SetAndClearGeoQueryBridge) {
     SUCCEED();
 }
 
-TEST(WireSessionBridgeTest, SetAndClearTSQueryBridge) {
+TEST(DeprecatedWireSessionBridgeTest, SetAndClearTSQueryBridge) {
     setWireTSQueryFn([](const std::string& /*collection*/,
                         int64_t /*start_ns*/, int64_t /*end_ns*/) -> std::string {
         return R"({"points":[]})";
@@ -964,7 +1064,7 @@ TEST(WireSessionBridgeTest, SetAndClearTSQueryBridge) {
     SUCCEED();
 }
 
-TEST(WireSessionBridgeTest, SetAndClearGraphTraversalBridge) {
+TEST(DeprecatedWireSessionBridgeTest, SetAndClearGraphTraversalBridge) {
     setWireGraphTraversalFn([](const std::string& /*collection*/,
                                const std::string& /*start_vertex*/,
                                int /*max_depth*/) -> std::string {
@@ -974,7 +1074,7 @@ TEST(WireSessionBridgeTest, SetAndClearGraphTraversalBridge) {
     SUCCEED();
 }
 
-TEST(WireSessionBridgeTest, NullptrClearIsIdempotent) {
+TEST(DeprecatedWireSessionBridgeTest, NullptrClearIsIdempotent) {
     // Clearing a not-yet-set bridge must not crash.
     setWireAqlExecFn(nullptr);
     setWireCursorNextFn(nullptr);
@@ -984,4 +1084,12 @@ TEST(WireSessionBridgeTest, NullptrClearIsIdempotent) {
     setWireGraphTraversalFn(nullptr);
     SUCCEED();
 }
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
 

@@ -153,16 +153,8 @@ public:
         THEMIS_INFO("S3 upload (placeholder): {} -> s3://{}/{}", local_path, bucket_, remote_path);
         THEMIS_WARN("Using placeholder S3 implementation - real SDK integration planned for v1.4.0");
         
-        // Placeholder behavior: return false to indicate SDK not integrated
-        // When AWS SDK is integrated, replace this with actual upload logic
-        // For testing/development only: set environment variable THEMIS_CLOUD_BACKUP_MOCK=1
-        // to simulate successful uploads
-        const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
-        if (mock_env && std::string(mock_env) == "1") {
-            THEMIS_INFO("Mock mode enabled - simulating successful upload");
-            return true;
-        }
-        
+        // Fail closed: placeholder providers must never report success without
+        // a real SDK-backed callback wired via setS3UploadFn().
         THEMIS_ERROR("S3 upload failed: AWS SDK not integrated");
         return false;
     }
@@ -187,9 +179,7 @@ public:
         // Purpose: Placeholder download path inside the S3 stub class (same stub block
         //          documented at the class-level STUB/SIMULATION NOTE above).
         // Activation: THEMIS_ENABLE_S3 not defined; same condition as upload().
-        // Production Delta: Returns false without contacting S3. Sets THEMIS_CLOUD_BACKUP_MOCK=1
-        //          to simulate a successful download (writes a marker file) for integration
-        //          testing without AWS credentials.
+        // Production Delta: Returns false without contacting S3.
         // Removal Plan: Same as upload() — replace with Aws::S3::Model::GetObjectRequest
         //          when aws-sdk-cpp[s3] is linked (-DTHEMIS_ENABLE_S3=ON).
         //          See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
@@ -202,17 +192,8 @@ public:
         THEMIS_INFO("S3 download (placeholder): s3://{}/{} -> {}", bucket_, remote_path, local_path);
         THEMIS_WARN("Using placeholder S3 implementation - real SDK integration planned for v1.4.0");
         
-        // Placeholder behavior: return false to indicate SDK not integrated
-        const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
-        if (mock_env && std::string(mock_env) == "1") {
-            THEMIS_INFO("Mock mode enabled - simulating successful download");
-            // Create empty file to simulate download
-            std::ofstream file(local_path);
-            file << "Mock backup file - replace with real AWS SDK integration\n";
-            file.close();
-            return true;
-        }
-        
+        // Fail closed: placeholder providers must never report success without
+        // a real SDK-backed callback wired via setS3DownloadFn().
         THEMIS_ERROR("S3 download failed: AWS SDK not integrated");
         return false;
     }
@@ -236,8 +217,8 @@ public:
         // Purpose: Keep cloud-backup deletion API callable before S3 SDK delete wiring
         //          is integrated in this provider path.
         // Activation: S3 provider active without injected SDK-backed delete callback.
-        // Production Delta: Delete logs a placeholder action and returns false
-        //                   (unless mock mode is enabled), so remote backup objects
+        // Production Delta: Delete logs a placeholder action and returns false,
+        //                   so remote backup objects
         //                   are not actually removed from S3-compatible storage.
         // Removal Plan: Integrate Aws::S3::DeleteObject (or injected delete bridge)
         //               for production deletion behavior.
@@ -246,12 +227,8 @@ public:
         THEMIS_INFO("S3 delete (placeholder): s3://{}/{}", bucket_, remote_path);
         THEMIS_WARN("Using placeholder S3 implementation - real SDK integration planned for v1.4.0");
         
-        const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
-        if (mock_env && std::string(mock_env) == "1") {
-            THEMIS_INFO("Mock mode enabled - simulating successful delete");
-            return true;
-        }
-        
+        // Fail closed: placeholder providers must never report success without
+        // a real SDK-backed callback wired via setS3DeleteFn().
         THEMIS_ERROR("S3 delete failed: AWS SDK not integrated");
         return false;
     }
@@ -368,8 +345,8 @@ public:
         // Purpose: Keep Azure upload call-flow available in builds without linked
         //          azure-storage-blobs-cpp client.
         // Activation: Azure provider selected while no SDK-backed upload bridge exists.
-        // Production Delta: Upload path logs placeholder behavior and returns false
-        //                   in non-mock mode, so no artifact is written to Azure.
+        // Production Delta: Upload path logs placeholder behavior and returns false,
+        //                   so no artifact is written to Azure.
         // Removal Plan: Integrate Azure Blob upload API
         //               (or injected upload callback) and propagate real status.
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
@@ -383,12 +360,8 @@ public:
                    local_path, account_name_, container_, remote_path);
         THEMIS_WARN("Using placeholder Azure implementation - real SDK integration planned for v1.4.0");
         
-        const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
-        if (mock_env && std::string(mock_env) == "1") {
-            THEMIS_INFO("Mock mode enabled - simulating successful upload");
-            return true;
-        }
-        
+        // Fail closed: placeholder providers must never report success without
+        // a real SDK-backed callback wired via setAzureUploadFn().
         THEMIS_ERROR("Azure upload failed: Azure SDK not integrated");
         return false;
     }
@@ -413,15 +386,8 @@ public:
                    account_name_, container_, remote_path, local_path);
         THEMIS_WARN("Using placeholder Azure implementation - real SDK integration planned for v1.4.0");
         
-        const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
-        if (mock_env && std::string(mock_env) == "1") {
-            THEMIS_INFO("Mock mode enabled - simulating successful download");
-            std::ofstream file(local_path);
-            file << "Mock backup file - replace with real Azure SDK integration\n";
-            file.close();
-            return true;
-        }
-        
+        // Fail closed: placeholder providers must never report success without
+        // a real SDK-backed callback wired via setAzureDownloadFn().
         THEMIS_ERROR("Azure download failed: Azure SDK not integrated");
         return false;
     }
@@ -444,12 +410,8 @@ public:
         THEMIS_INFO("Azure delete (placeholder): {}/{}/{}", account_name_, container_, remote_path);
         THEMIS_WARN("Using placeholder Azure implementation - real SDK integration planned for v1.4.0");
         
-        const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
-        if (mock_env && std::string(mock_env) == "1") {
-            THEMIS_INFO("Mock mode enabled - simulating successful delete");
-            return true;
-        }
-        
+        // Fail closed: placeholder providers must never report success without
+        // a real SDK-backed callback wired via setAzureDeleteFn().
         THEMIS_ERROR("Azure delete failed: Azure SDK not integrated");
         return false;
     }
@@ -563,8 +525,8 @@ public:
         // Purpose: Keep GCS upload call-flow available in builds without linked
         //          google-cloud-cpp storage client.
         // Activation: GCS provider selected while no SDK-backed upload bridge exists.
-        // Production Delta: Upload path logs placeholder behavior and returns false
-        //                   in non-mock mode, so no artifact is written to GCS.
+        // Production Delta: Upload path logs placeholder behavior and returns false,
+        //                   so no artifact is written to GCS.
         // Removal Plan: Integrate google::cloud::storage::Client::UploadFile
         //               (or injected upload callback) and propagate real status.
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
@@ -577,12 +539,8 @@ public:
         THEMIS_INFO("GCS upload (placeholder): {} -> gs://{}/{}", local_path, bucket_, remote_path);
         THEMIS_WARN("Using placeholder GCS implementation - real SDK integration planned for v1.4.0");
         
-        const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
-        if (mock_env && std::string(mock_env) == "1") {
-            THEMIS_INFO("Mock mode enabled - simulating successful upload");
-            return true;
-        }
-        
+        // Fail closed: placeholder providers must never report success without
+        // a real SDK-backed callback wired via setGCSUploadFn().
         THEMIS_ERROR("GCS upload failed: GCS SDK not integrated");
         return false;
     }
@@ -606,8 +564,8 @@ public:
         // STUB/SIMULATION NOTE (stub #316):
         // Purpose: Keep restore-path integration testable without a linked GCS SDK.
         // Activation: GCS provider selected while no SDK-backed download bridge exists.
-        // Production Delta: Download path logs placeholder behavior and returns false
-        //                   in non-mock mode, so restore flows cannot fetch remote
+        // Production Delta: Download path logs placeholder behavior and returns false,
+        //                   so restore flows cannot fetch remote
         //                   backup artifacts from GCS.
         // Removal Plan: Integrate google::cloud::storage::Client::DownloadToFile
         //               (or injected download callback) with error propagation.
@@ -616,15 +574,8 @@ public:
         THEMIS_INFO("GCS download (placeholder): gs://{}/{} -> {}", bucket_, remote_path, local_path);
         THEMIS_WARN("Using placeholder GCS implementation - real SDK integration planned for v1.4.0");
         
-        const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
-        if (mock_env && std::string(mock_env) == "1") {
-            THEMIS_INFO("Mock mode enabled - simulating successful download");
-            std::ofstream file(local_path);
-            file << "Mock backup file - replace with real GCS SDK integration\n";
-            file.close();
-            return true;
-        }
-        
+        // Fail closed: placeholder providers must never report success without
+        // a real SDK-backed callback wired via setGCSDownloadFn().
         THEMIS_ERROR("GCS download failed: GCS SDK not integrated");
         return false;
     }
@@ -648,22 +599,15 @@ public:
         // Purpose: Placeholder delete path inside the GCS stub class (same stub block
         //          documented at the class-level STUB/SIMULATION NOTE above).
         // Activation: THEMIS_ENABLE_GCS not defined; same condition as upload/download().
-        // Production Delta: Returns false without contacting GCS.  Set THEMIS_CLOUD_BACKUP_MOCK=1
-        //          to simulate a successful deletion for integration testing.
+        // Production Delta: Returns false without contacting GCS.
         // Removal Plan: Replace with google::cloud::storage::Client::DeleteObject() call
         //          when google-cloud-cpp[storage] is linked (-DTHEMIS_ENABLE_GCS=ON).
         //          See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         THEMIS_INFO("GCS delete (placeholder): gs://{}/{}", bucket_, remote_path);
         THEMIS_WARN("Using placeholder GCS implementation - real SDK integration planned for v1.4.0");
         
-        // Placeholder behavior: return false to indicate SDK not integrated
-        // In mock mode, simulate successful deletion
-        const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
-        if (mock_env && std::string(mock_env) == "1") {
-            THEMIS_INFO("Mock mode enabled - simulating successful delete");
-            return true;
-        }
-        
+        // Fail closed: placeholder providers must never report success without
+        // a real SDK-backed callback wired via setGCSDeleteFn().
         THEMIS_ERROR("GCS delete failed: GCS SDK not integrated");
         return false;
     }

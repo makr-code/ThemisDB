@@ -470,10 +470,11 @@ void VulkanComputePipeline::dispatch(uint32_t group_x, uint32_t group_y, uint32_
     }
 }
 
-void VulkanComputePipeline::wait() {
-    if (fence_ != VK_NULL_HANDLE) {
-        context_->wait_for_fence(fence_);
+bool VulkanComputePipeline::wait(uint64_t timeout_ns) {
+    if (fence_ == VK_NULL_HANDLE) {
+        return false;
     }
+    return context_->wait_for_fence(fence_, timeout_ns);
 }
 
 } // namespace vulkan
