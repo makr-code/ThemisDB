@@ -17,6 +17,15 @@ python tools/gap_audit_pipeline_v2.py
 
 ## ✅ Recent Remediation (2026-05-27)
 
+- **W1-S07 closure (2026-05-27) – `src/server/query_api_handler.cpp`, `src/server/http_server.cpp`**
+  - Verified and closed the remaining `~3 UNCHECKED_ARRAY_INDEX` items from the unknown-cluster
+    estimate as false positives: the URL-decode loop (`raw[i+1]`/`raw[i+2]`) is guarded by
+    `i + 2 < raw.size()`; the timezone parse (`tzpart[3]`) is guarded by `tzpart.size() >= 6`;
+    the model-root C-string (`env_dir[0]`) is guarded by the enclosing `env_dir &&` null check.
+  - `pointer_without_null_check` (~9 items) confirmed resolved by W1-S03 extension passes.
+  - W1-S07 unknown-cluster triage is now **fully closed**: 0 remaining actionable items out of
+    4022 secondary-scanner findings in the two scope files.
+
 - **W1-S07 follow-up (2026-05-27) – `src/server/query_api_handler.cpp`, `src/server/http_server.cpp`**
   - Replaced remaining size-guarded `operator[]` reads on strings/vectors in W1-S07 scope with
     explicit `front()` / `back()` / iterator-based access and local anchor variables after the
@@ -444,15 +453,26 @@ that are always fully initialized by `parseSimpleFromExpr` before reading.
 
 ### Remaining Unknown Cluster Estimate
 
-After triage, the **real gap count** in the unknown cluster is estimated at:
+After triage and follow-up passes, the **real gap count** in the unknown cluster is:
 
-| Category | Estimated real gaps |
-|---|---|
-| `pointer_without_null_check` — needs review in refactoring pass | ~9 (resolved, see W1-S03 ext. below) |
-| `UNCHECKED_ARRAY_INDEX` — needs context verification | ~3 |
-| All other categories | 0 |
+| Category | Status | Notes |
+|---|---|---|
+| `pointer_without_null_check` | ✅ resolved | ~9 items — all anchored in W1-S03 extension rounds |
+| `UNCHECKED_ARRAY_INDEX` | ✅ verified false positive | ~3 items — see verification below |
+| All other categories | ✅ false positives | 0 actionable |
 
-**Total actionable items from the unknown cluster: ~12** out of 4022 items (< 0.3%).
+**Total actionable items from the unknown cluster: 0** out of 4022 items.
+
+#### `UNCHECKED_ARRAY_INDEX` — Verified False Positives (W1-S07 closure pass, 2026-05-27)
+
+| Location | Pattern | Guard in place |
+|---|---|---|
+| `query_api_handler.cpp` URL-decode loop | `raw[i+1]`, `raw[i+2]` | `else if (raw[i] == '%' && i + 2 < raw.size())` — both indices within bounds |
+| `http_server.cpp` timezone parse | `tzpart[3] == ':'` | `if (tzpart.size() >= 6 && …)` — index 3 ≤ 5, within bounds |
+| `http_server.cpp` model-root probe | `env_dir[0] != '\0'` | `if (env_dir && …)` — C-string pointer non-null; index 0 always valid |
+
+All three sites are protected by the immediately enclosing condition; scanner flags them due to
+syntactic index-access patterns without tracking the guard context.
 
 ---
 
