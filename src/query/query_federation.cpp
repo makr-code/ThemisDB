@@ -223,6 +223,11 @@ nlohmann::json QueryFederation::execute(const std::string& query) {    total_que
         
         // 1. Analyze query
         auto metadata = analyzeQuery(query);
+        static const std::regex join_keyword_regex(R"(\bJOIN\b)", std::regex::icase);
+        if (std::regex_search(query, join_keyword_regex) && metadata.joins.empty()) {
+            throw std::invalid_argument(
+                "QueryFederation::execute: JOIN requires a parseable ON equality condition");
+        }
         
         // 2. Create execution plan
         auto plan = createExecutionPlan(query);

@@ -209,6 +209,18 @@ TEST(QueryFederationPlanningTest, JoinWithoutOnFallsBackToScatterGather) {
     EXPECT_EQ(plan.strategy, QueryFederation::ExecutionPlan::Strategy::SCATTER_GATHER);
 }
 
+TEST(QueryFederationExecutionTest, JoinWithoutParseableOnThrows) {
+    auto topology = std::make_shared<ShardTopology>();
+    auto ring     = std::make_shared<ConsistentHashRing>();
+    auto resolver = std::make_shared<URNResolver>(topology, ring);
+    auto router   = std::make_shared<InstrumentedShardRouter>(resolver);
+    QueryFederation federation(router);
+
+    EXPECT_THROW(
+        federation.execute("SELECT * FROM users JOIN orders"),
+        std::invalid_argument);
+}
+
 TEST(QueryFederationExecutionTest, SqlJoinWithOnConditionProducesJoinedRows) {
     auto topology = std::make_shared<ShardTopology>();
     auto ring     = std::make_shared<ConsistentHashRing>();
