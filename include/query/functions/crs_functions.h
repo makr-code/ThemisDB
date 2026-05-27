@@ -118,16 +118,16 @@ struct UTMZone {
  * @brief EPSG code mapping
  */
 struct EPSGDefinition {
-    int code;
+    int code = 0;
     std::string name;
     std::string type;           // "geographic" or "projected"
     Ellipsoid ellipsoid;
-    int utmZone;                // For UTM-based systems
-    bool utmNorth;
-    double centralMeridian;     // For other projections
-    double scaleFactor;
-    double falseEasting;
-    double falseNorthing;
+    int utmZone = 0;            // For UTM-based systems
+    bool utmNorth = false;
+    double centralMeridian = 0.0;     // For other projections
+    double scaleFactor = 1.0;
+    double falseEasting = 0.0;
+    double falseNorthing = 0.0;
 };
 
 // EPSG code database

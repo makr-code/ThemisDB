@@ -1,4 +1,4 @@
-<!-- Status: S0 fixed 2026-05-04 | S1 fixed 2026-05-04 | OI-05/OI-06 fixed 2026-05-26 | KL-01 closed 2026-05-26 | CCF-01..CCF-05 fixed 2026-05-27 | CQE-01..CQE-03 fixed 2026-05-27 | QE-arc-points-cast fixed 2026-05-27 | TC-01..TC-06 fixed 2026-05-27 | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S0 fixed 2026-05-04 | S1 fixed 2026-05-04 | OI-05/OI-06 fixed 2026-05-26 | KL-01 closed 2026-05-26 | CCF-01..CCF-05 fixed 2026-05-27 | CQE-01..CQE-03 fixed 2026-05-27 | QE-arc-points-cast fixed 2026-05-27 | TC-01..TC-06 fixed 2026-05-27 | UNINIT-01..UNINIT-11 fixed 2026-05-27 | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · SECURITY.md -->
 
 # Audit Record — Query Module
@@ -9,9 +9,9 @@
 |--------------|--------------------------------------------|
 | Module       | query                                      |
 | Source path  | `src/query/`                               |
-| Audit date   | 2026-04-21 (S0 fixes: 2026-05-04, S1 fixes: 2026-05-04, OI-05/OI-06: 2026-05-26, KL-01 closed: 2026-05-26, CCF-01..CCF-05 fixed: 2026-05-27, CQE-01..CQE-03 fixed: 2026-05-27, QE-arc-points-cast fixed: 2026-05-27, TC-01..TC-06 fixed: 2026-05-27) |
+| Audit date   | 2026-04-21 (S0 fixes: 2026-05-04, S1 fixes: 2026-05-04, OI-05/OI-06: 2026-05-26, KL-01 closed: 2026-05-26, CCF-01..CCF-05 fixed: 2026-05-27, CQE-01..CQE-03 fixed: 2026-05-27, QE-arc-points-cast fixed: 2026-05-27, TC-01..TC-06 fixed: 2026-05-27, UNINIT-01..UNINIT-11 fixed: 2026-05-27) |
 | Audited by   | Copilot (source code analysis)             |
-| Status       | ✅ All critical findings resolved — 0 S0, 0 S1, 0 critical OI open; KL-01 closed; CCF-01..CCF-05 closed; CQE-01..CQE-03 closed; QE-arc-points-cast closed; TC-01..TC-06 closed |
+| Status       | ✅ All critical findings resolved — 0 S0, 0 S1, 0 critical OI open; KL-01 closed; CCF-01..CCF-05 closed; CQE-01..CQE-03 closed; QE-arc-points-cast closed; TC-01..TC-06 closed; UNINIT-01..UNINIT-11 closed |
 
 > **2026-05-04:** QE-1 fixed (errors_mutex), QE-2 addressed, PA-1 fixed (depth limit 500 in
 > `parseExpression()`). See finding details below for confirmation.
@@ -59,6 +59,21 @@
 > `out_of_range` and `[0, 1000]` validation matching the AQL traversal depth limit.
 > TC-06: `AQLParser` traversal depth `stoi` — added try/catch for `std::out_of_range` so a
 > very-large integer literal no longer throws unexpectedly before the range guard fires.
+
+> **2026-05-27:** UNINIT-01..UNINIT-11 fixed — eleven uninitialized POD struct members across
+> query module headers (issue #5177 `uninitialized` category); all given in-class default
+> initializers:
+> UNINIT-01: `TraversalResult::depth` (`= 0`) in `query_engine.h`.
+> UNINIT-02: `VectorGeoResult::vector_distance` (`= 0.0f`) in `query_engine.h`.
+> UNINIT-03: `ContentGeoResult::bm25_score` (`= 0.0`) in `query_engine.h`.
+> UNINIT-04: `FilteredVectorSearchResult::vector_distance` (`= 0.0f`) in `query_engine.h`.
+> UNINIT-05: `RadiusVectorSearchResult::vector_distance` (`= 0.0f`) in `query_engine.h`.
+> UNINIT-06: `ContentSearchResult::bm25_score` (`= 0.0`) in `query_engine.h`.
+> UNINIT-07: `VectorGeoCostResult::{costSpatialFirst,costVectorFirst}` (`= 0.0`) in `query_optimizer.h`.
+> UNINIT-08: `ContentGeoCostResult::{costFulltextThenSpatial,costSpatialThenFulltext,chooseFulltextFirst}` (`= 0.0/false`) in `query_optimizer.h`.
+> UNINIT-09: `GraphPathCostResult::{estimatedExpandedVertices,estimatedTimeMs}` (`= 0.0`) in `query_optimizer.h`.
+> UNINIT-10: `VectorWorkloadPlan::{recommended_ef_search,recommended_k_overfetch,use_prefiltering}` and `GraphWorkloadPlan::{max_expansion_depth,use_bidirectional_search,enable_spatial_pruning,recommended_parallelism}` in `query_optimizer.h`.
+> UNINIT-11: `PlanChoice::estimated_cost` (`= 0.0`) and `NumaNode::{node_id,available_cores,memory_gb}` and `NumaPlacement::{preferred_numa_node,use_local_memory}` in `adaptive_optimizer.h`; `Centroid::{mean,weight}` (`= 0.0`) in `approximate_aggregator.h`; `QueryPlan::estimated_cost` (`= 0`) in `query_federation.h`; `EPSGDefinition::{code,utmZone,utmNorth,centralMeridian,scaleFactor,falseEasting,falseNorthing}` in `crs_functions.h`.
 
 ## Source File Inventory
 

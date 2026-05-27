@@ -63,7 +63,7 @@ enum class TraversalDirection { OUTBOUND, INBOUND, ANY };
 
 struct TraversalResult {
     std::string vertex_pk;
-    int depth;
+    int depth = 0;
     std::vector<std::string> path;   // Full path from start to this vertex
     std::vector<std::string> edges;  // Edge IDs traversed
     nlohmann::json vertex_data;      // Full vertex entity data
@@ -647,7 +647,7 @@ public:
     // Returns top-k vectors that satisfy spatial constraint
     struct VectorGeoResult {
         std::string pk;
-        float vector_distance;
+        float vector_distance = 0.0f;
         nlohmann::json entity;
     };
     Result<std::vector<VectorGeoResult>> executeVectorGeoQuery(
@@ -658,7 +658,7 @@ public:
     // Returns documents matching fulltext query within spatial constraint
     struct ContentGeoResult {
         std::string pk;
-        double bm25_score;
+        double bm25_score = 0.0;
         std::optional<double> geo_distance; // if boost_by_distance enabled
         nlohmann::json entity;
     };
@@ -670,7 +670,7 @@ public:
     // No spatial constraints (use VectorGeoQuery for geo+vector)
     struct FilteredVectorSearchResult {
         std::string pk;
-        float vector_distance;
+        float vector_distance = 0.0f;
         nlohmann::json entity;
     };
     Result<std::vector<FilteredVectorSearchResult>> executeFilteredVectorSearch(
@@ -681,7 +681,7 @@ public:
     // Returns all vectors within distance threshold (epsilon)
     struct RadiusVectorSearchResult {
         std::string pk;
-        float vector_distance;
+        float vector_distance = 0.0f;
         nlohmann::json entity;
     };
     Result<std::vector<RadiusVectorSearchResult>> executeRadiusVectorSearch(
@@ -692,7 +692,7 @@ public:
     // Returns documents matching fulltext query and metadata filters
     struct ContentSearchResult {
         std::string pk;
-        double bm25_score;
+        double bm25_score = 0.0;
         nlohmann::json entity;
     };
     Result<std::vector<ContentSearchResult>> executeContentSearch(

@@ -97,7 +97,7 @@ public:
         std::vector<std::string> target_shards;
         std::vector<std::string> sub_queries;
         std::string merge_operation;
-        uint64_t estimated_cost;
+        uint64_t estimated_cost = 0;
     };
     
     /**
