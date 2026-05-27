@@ -424,6 +424,21 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
   `ParseTrainAdapterKVDropoutAccepted`, `ParseTrainAdapterKVValidationSplitAccepted`,
   `ParseTrainAdapterKVMaxSeqLengthAccepted`.
 
+**Status (v1.22.0-pre — W1-L05 exception-handling batch):** JSON type-error propagation hardened:
+- `parseTrainingConfig()` `catch(...)` narrowed to `catch(const nlohmann::json::parse_error&)`:
+  a valid JSON object with wrong field types (e.g. `{"epochs": "bad"}`) now surfaces a clear
+  `std::invalid_argument` instead of silently falling through to KV parsing with defaults.
+- All `fromJSON` methods (`TrainStatementConfig`, `GraphContextConfig`, `VectorSimilarityConfig`,
+  `RelationalJoinConfig`, `AQLDistributedTrainingConfig`, `TrainAdapterStmt`, `DeployAdapterStmt`,
+  `VerifyAdapterStmt`, `ListAdaptersStmt`) now wrap field access with explicit `.get<T>()` and
+  translate `nlohmann::json::exception` into `std::invalid_argument` with field context.
+- `MultiModelEnrichment::fromJSON` now guards `relational_joins` iteration with `.is_array()` —
+  a non-array value is silently skipped instead of causing undefined iteration behaviour.
+- 5 tests added: `TrainStatementConfigFromJSONTypeMismatchThrows`,
+  `GraphContextConfigFromJSONTypeMismatchThrows`, `VectorSimilarityConfigFromJSONTypeMismatchThrows`,
+  `MultiModelEnrichmentFromJSONNonArrayRelationalJoinsIgnored`,
+  `ParseTrainAdapterJsonWithClauseTypeMismatchThrows`.
+
 **Status (v1.22.0-pre — W1-L06 uninitialized_access/overflow batch):** Integer-overflow guard added to `canAllocate`:
 - `gpu_memory_manager.cpp` `canAllocate()` (~line 759) — Added `size_t` overflow pre-checks
   before computing `future_vram = total_vram_used_ + vram_bytes` and

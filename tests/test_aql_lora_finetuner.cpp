@@ -672,6 +672,44 @@ TEST_F(AQLTrainParserTest, TrainAdapterStmtRoundTrip) {
     EXPECT_EQ(stmt2.config.base_model_name, stmt.config.base_model_name);
 }
 
+TEST_F(AQLTrainParserTest, TrainStatementConfigFromJSONTypeMismatchThrows) {
+    // "epochs" is a string instead of integer — fromJSON must throw a clear error
+    nlohmann::json j;
+    j["epochs"] = "not_an_int";
+    EXPECT_THROW({
+        TrainStatementConfig::fromJSON(j);
+    }, std::invalid_argument);
+}
+
+TEST_F(AQLTrainParserTest, GraphContextConfigFromJSONTypeMismatchThrows) {
+    nlohmann::json j;
+    j["max_depth"] = "deep";  // should be int
+    EXPECT_THROW({ GraphContextConfig::fromJSON(j); }, std::invalid_argument);
+}
+
+TEST_F(AQLTrainParserTest, VectorSimilarityConfigFromJSONTypeMismatchThrows) {
+    nlohmann::json j;
+    j["top_k"] = "ten";  // should be int
+    EXPECT_THROW({ VectorSimilarityConfig::fromJSON(j); }, std::invalid_argument);
+}
+
+TEST_F(AQLTrainParserTest, MultiModelEnrichmentFromJSONNonArrayRelationalJoinsIgnored) {
+    // relational_joins present but not an array — must be silently ignored (no crash)
+    nlohmann::json j;
+    j["relational_joins"] = "not_an_array";
+    MultiModelEnrichment e;
+    EXPECT_NO_THROW({ e = MultiModelEnrichment::fromJSON(j); });
+    EXPECT_TRUE(e.relational_joins.empty());
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterJsonWithClauseTypeMismatchThrows) {
+    // JSON WITH clause where "epochs" has wrong type — must surface as error, not silently use defaults
+    const std::string aql =
+        "TRAIN ADAPTER 'my-adapter' FROM training_data "
+        "WITH {\"base_model\": \"mistral-7b\", \"epochs\": \"bad\"}";
+    EXPECT_THROW({ parser_.parseTrainAdapter(aql); }, std::invalid_argument);
+}
+
 // ============================================================================
 // TrainingQueryBuilder Tests
 // ============================================================================

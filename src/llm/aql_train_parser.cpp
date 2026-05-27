@@ -159,29 +159,34 @@ nlohmann::json TrainStatementConfig::toJSON() const {
 }
 
 TrainStatementConfig TrainStatementConfig::fromJSON(const nlohmann::json& j) {
-    TrainStatementConfig cfg;
-    if (j.contains("base_model_name"))   cfg.base_model_name   = j["base_model_name"];
-    if (j.contains("sign_adapter"))      cfg.sign_adapter       = j["sign_adapter"];
-    if (j.contains("adapter_version"))   cfg.adapter_version    = j["adapter_version"];
-    if (j.contains("compress_manifest")) cfg.compress_manifest  = j["compress_manifest"];
-    if (j.contains("embed_safetensors")) cfg.embed_safetensors  = j["embed_safetensors"];
-    if (j.contains("validation_split"))  cfg.validation_split   = j["validation_split"];
-    if (j.contains("shuffle"))           cfg.shuffle            = j["shuffle"];
-    if (j.contains("random_seed"))       cfg.random_seed        = j["random_seed"];
-    if (j.contains("custom_metadata"))   cfg.custom_metadata    = j["custom_metadata"].get<std::map<std::string,std::string>>();
-    if (j.contains("quantization_type")) cfg.quantization_type  = static_cast<GGUFSTConfig::QuantizationType>(j["quantization_type"].get<int>());
-    if (j.contains("size_mode"))         cfg.size_mode          = static_cast<GGUFSTConfig::SizeMode>(j["size_mode"].get<int>());
-    // Base
-    if (j.contains("dataset_name"))      cfg.dataset_name       = j["dataset_name"];
-    if (j.contains("epochs"))            cfg.epochs             = j["epochs"];
-    if (j.contains("learning_rate"))     cfg.learning_rate      = j["learning_rate"];
-    if (j.contains("lora_rank"))         cfg.lora_rank          = j["lora_rank"];
-    if (j.contains("lora_alpha"))        cfg.lora_alpha         = j["lora_alpha"];
-    if (j.contains("lora_dropout"))      cfg.lora_dropout       = j["lora_dropout"];
-    if (j.contains("batch_size"))        cfg.batch_size         = j["batch_size"];
-    if (j.contains("max_seq_length"))    cfg.max_seq_length     = j["max_seq_length"];
-    if (j.contains("optimizer"))         cfg.optimizer          = j["optimizer"];
-    return cfg;
+    try {
+        TrainStatementConfig cfg;
+        if (j.contains("base_model_name"))   cfg.base_model_name   = j["base_model_name"].get<std::string>();
+        if (j.contains("sign_adapter"))      cfg.sign_adapter       = j["sign_adapter"].get<bool>();
+        if (j.contains("adapter_version"))   cfg.adapter_version    = j["adapter_version"].get<std::string>();
+        if (j.contains("compress_manifest")) cfg.compress_manifest  = j["compress_manifest"].get<bool>();
+        if (j.contains("embed_safetensors")) cfg.embed_safetensors  = j["embed_safetensors"].get<bool>();
+        if (j.contains("validation_split"))  cfg.validation_split   = j["validation_split"].get<double>();
+        if (j.contains("shuffle"))           cfg.shuffle            = j["shuffle"].get<bool>();
+        if (j.contains("random_seed"))       cfg.random_seed        = j["random_seed"].get<int>();
+        if (j.contains("custom_metadata"))   cfg.custom_metadata    = j["custom_metadata"].get<std::map<std::string,std::string>>();
+        if (j.contains("quantization_type")) cfg.quantization_type  = static_cast<GGUFSTConfig::QuantizationType>(j["quantization_type"].get<int>());
+        if (j.contains("size_mode"))         cfg.size_mode          = static_cast<GGUFSTConfig::SizeMode>(j["size_mode"].get<int>());
+        // Base
+        if (j.contains("dataset_name"))      cfg.dataset_name       = j["dataset_name"].get<std::string>();
+        if (j.contains("epochs"))            cfg.epochs             = j["epochs"].get<int>();
+        if (j.contains("learning_rate"))     cfg.learning_rate      = j["learning_rate"].get<double>();
+        if (j.contains("lora_rank"))         cfg.lora_rank          = j["lora_rank"].get<int>();
+        if (j.contains("lora_alpha"))        cfg.lora_alpha         = j["lora_alpha"].get<double>();
+        if (j.contains("lora_dropout"))      cfg.lora_dropout       = j["lora_dropout"].get<double>();
+        if (j.contains("batch_size"))        cfg.batch_size         = j["batch_size"].get<int>();
+        if (j.contains("max_seq_length"))    cfg.max_seq_length     = j["max_seq_length"].get<int>();
+        if (j.contains("optimizer"))         cfg.optimizer          = j["optimizer"].get<std::string>();
+        return cfg;
+    } catch (const nlohmann::json::exception& ex) {
+        throw std::invalid_argument(
+            std::string("AQLTrainParser: type error in TrainStatementConfig JSON: ") + ex.what());
+    }
 }
 
 // ============================================================================
@@ -198,12 +203,17 @@ nlohmann::json GraphContextConfig::toJSON() const {
 }
 
 GraphContextConfig GraphContextConfig::fromJSON(const nlohmann::json& j) {
-    GraphContextConfig cfg;
-    if (j.contains("relationships")) cfg.relationships = j["relationships"].get<std::vector<std::string>>();
-    if (j.contains("max_depth"))     cfg.max_depth     = j["max_depth"];
-    if (j.contains("direction"))     cfg.direction     = j["direction"];
-    if (j.contains("max_nodes"))     cfg.max_nodes     = j["max_nodes"];
-    return cfg;
+    try {
+        GraphContextConfig cfg;
+        if (j.contains("relationships")) cfg.relationships = j["relationships"].get<std::vector<std::string>>();
+        if (j.contains("max_depth"))     cfg.max_depth     = j["max_depth"].get<int>();
+        if (j.contains("direction"))     cfg.direction     = j["direction"].get<std::string>();
+        if (j.contains("max_nodes"))     cfg.max_nodes     = j["max_nodes"].get<int>();
+        return cfg;
+    } catch (const nlohmann::json::exception& ex) {
+        throw std::invalid_argument(
+            std::string("AQLTrainParser: type error in GraphContextConfig JSON: ") + ex.what());
+    }
 }
 
 // ============================================================================
@@ -220,12 +230,17 @@ nlohmann::json VectorSimilarityConfig::toJSON() const {
 }
 
 VectorSimilarityConfig VectorSimilarityConfig::fromJSON(const nlohmann::json& j) {
-    VectorSimilarityConfig cfg;
-    if (j.contains("field"))     cfg.field     = j["field"];
-    if (j.contains("threshold")) cfg.threshold = j["threshold"];
-    if (j.contains("top_k"))     cfg.top_k     = j["top_k"];
-    if (j.contains("metric"))    cfg.metric    = j["metric"];
-    return cfg;
+    try {
+        VectorSimilarityConfig cfg;
+        if (j.contains("field"))     cfg.field     = j["field"].get<std::string>();
+        if (j.contains("threshold")) cfg.threshold = j["threshold"].get<double>();
+        if (j.contains("top_k"))     cfg.top_k     = j["top_k"].get<int>();
+        if (j.contains("metric"))    cfg.metric    = j["metric"].get<std::string>();
+        return cfg;
+    } catch (const nlohmann::json::exception& ex) {
+        throw std::invalid_argument(
+            std::string("AQLTrainParser: type error in VectorSimilarityConfig JSON: ") + ex.what());
+    }
 }
 
 // ============================================================================
@@ -242,12 +257,17 @@ nlohmann::json RelationalJoinConfig::toJSON() const {
 }
 
 RelationalJoinConfig RelationalJoinConfig::fromJSON(const nlohmann::json& j) {
-    RelationalJoinConfig cfg;
-    if (j.contains("collection"))    cfg.collection    = j["collection"];
-    if (j.contains("local_field"))   cfg.local_field   = j["local_field"];
-    if (j.contains("foreign_field")) cfg.foreign_field = j["foreign_field"];
-    if (j.contains("join_type"))     cfg.join_type     = j["join_type"];
-    return cfg;
+    try {
+        RelationalJoinConfig cfg;
+        if (j.contains("collection"))    cfg.collection    = j["collection"].get<std::string>();
+        if (j.contains("local_field"))   cfg.local_field   = j["local_field"].get<std::string>();
+        if (j.contains("foreign_field")) cfg.foreign_field = j["foreign_field"].get<std::string>();
+        if (j.contains("join_type"))     cfg.join_type     = j["join_type"].get<std::string>();
+        return cfg;
+    } catch (const nlohmann::json::exception& ex) {
+        throw std::invalid_argument(
+            std::string("AQLTrainParser: type error in RelationalJoinConfig JSON: ") + ex.what());
+    }
 }
 
 // ============================================================================
@@ -268,7 +288,7 @@ MultiModelEnrichment MultiModelEnrichment::fromJSON(const nlohmann::json& j) {
     MultiModelEnrichment e;
     if (j.contains("graph_context"))     e.graph_context     = GraphContextConfig::fromJSON(j["graph_context"]);
     if (j.contains("vector_similarity")) e.vector_similarity = VectorSimilarityConfig::fromJSON(j["vector_similarity"]);
-    if (j.contains("relational_joins")) {
+    if (j.contains("relational_joins") && j["relational_joins"].is_array()) {
         for (const auto& jc : j["relational_joins"]) {
             e.relational_joins.push_back(RelationalJoinConfig::fromJSON(jc));
         }
@@ -291,13 +311,18 @@ nlohmann::json AQLDistributedTrainingConfig::toJSON() const {
 }
 
 AQLDistributedTrainingConfig AQLDistributedTrainingConfig::fromJSON(const nlohmann::json& j) {
-    AQLDistributedTrainingConfig cfg;
-    if (j.contains("enabled"))            cfg.enabled            = j["enabled"];
-    if (j.contains("sync_strategy"))      cfg.sync_strategy      = j["sync_strategy"];
-    if (j.contains("coordinator_shard"))  cfg.coordinator_shard  = j["coordinator_shard"];
-    if (j.contains("participant_shards")) cfg.participant_shards = j["participant_shards"].get<std::vector<std::string>>();
-    if (j.contains("sync_frequency"))     cfg.sync_frequency     = j["sync_frequency"];
-    return cfg;
+    try {
+        AQLDistributedTrainingConfig cfg;
+        if (j.contains("enabled"))            cfg.enabled            = j["enabled"].get<bool>();
+        if (j.contains("sync_strategy"))      cfg.sync_strategy      = j["sync_strategy"].get<std::string>();
+        if (j.contains("coordinator_shard"))  cfg.coordinator_shard  = j["coordinator_shard"].get<std::string>();
+        if (j.contains("participant_shards")) cfg.participant_shards = j["participant_shards"].get<std::vector<std::string>>();
+        if (j.contains("sync_frequency"))     cfg.sync_frequency     = j["sync_frequency"].get<int>();
+        return cfg;
+    } catch (const nlohmann::json::exception& ex) {
+        throw std::invalid_argument(
+            std::string("AQLTrainParser: type error in AQLDistributedTrainingConfig JSON: ") + ex.what());
+    }
 }
 
 // ============================================================================
@@ -316,14 +341,19 @@ nlohmann::json TrainAdapterStmt::toJSON() const {
 }
 
 TrainAdapterStmt TrainAdapterStmt::fromJSON(const nlohmann::json& j) {
-    TrainAdapterStmt s;
-    if (j.contains("adapter_id"))        s.adapter_id        = j["adapter_id"];
-    if (j.contains("source_collection")) s.source_collection = j["source_collection"];
-    if (j.contains("enrichment"))        s.enrichment        = MultiModelEnrichment::fromJSON(j["enrichment"]);
-    if (j.contains("config"))            s.config            = TrainStatementConfig::fromJSON(j["config"]);
-    if (j.contains("distributed"))       s.distributed       = AQLDistributedTrainingConfig::fromJSON(j["distributed"]);
-    if (j.contains("output_path"))       s.output_path       = j["output_path"];
-    return s;
+    try {
+        TrainAdapterStmt s;
+        if (j.contains("adapter_id"))        s.adapter_id        = j["adapter_id"].get<std::string>();
+        if (j.contains("source_collection")) s.source_collection = j["source_collection"].get<std::string>();
+        if (j.contains("enrichment"))        s.enrichment        = MultiModelEnrichment::fromJSON(j["enrichment"]);
+        if (j.contains("config"))            s.config            = TrainStatementConfig::fromJSON(j["config"]);
+        if (j.contains("distributed"))       s.distributed       = AQLDistributedTrainingConfig::fromJSON(j["distributed"]);
+        if (j.contains("output_path"))       s.output_path       = j["output_path"].get<std::string>();
+        return s;
+    } catch (const nlohmann::json::exception& ex) {
+        throw std::invalid_argument(
+            std::string("AQLTrainParser: type error in TrainAdapterStmt JSON: ") + ex.what());
+    }
 }
 
 nlohmann::json DeployAdapterStmt::toJSON() const {
@@ -337,13 +367,18 @@ nlohmann::json DeployAdapterStmt::toJSON() const {
 }
 
 DeployAdapterStmt DeployAdapterStmt::fromJSON(const nlohmann::json& j) {
-    DeployAdapterStmt s;
-    if (j.contains("adapter_id"))             s.adapter_id             = j["adapter_id"];
-    if (j.contains("target_shards"))          s.target_shards          = j["target_shards"].get<std::vector<std::string>>();
-    if (j.contains("strategy"))               s.strategy               = j["strategy"];
-    if (j.contains("validate_compatibility")) s.validate_compatibility = j["validate_compatibility"];
-    if (j.contains("verify_signature"))       s.verify_signature       = j["verify_signature"];
-    return s;
+    try {
+        DeployAdapterStmt s;
+        if (j.contains("adapter_id"))             s.adapter_id             = j["adapter_id"].get<std::string>();
+        if (j.contains("target_shards"))          s.target_shards          = j["target_shards"].get<std::vector<std::string>>();
+        if (j.contains("strategy"))               s.strategy               = j["strategy"].get<std::string>();
+        if (j.contains("validate_compatibility")) s.validate_compatibility = j["validate_compatibility"].get<bool>();
+        if (j.contains("verify_signature"))       s.verify_signature       = j["verify_signature"].get<bool>();
+        return s;
+    } catch (const nlohmann::json::exception& ex) {
+        throw std::invalid_argument(
+            std::string("AQLTrainParser: type error in DeployAdapterStmt JSON: ") + ex.what());
+    }
 }
 
 nlohmann::json VerifyAdapterStmt::toJSON() const {
@@ -356,12 +391,17 @@ nlohmann::json VerifyAdapterStmt::toJSON() const {
 }
 
 VerifyAdapterStmt VerifyAdapterStmt::fromJSON(const nlohmann::json& j) {
-    VerifyAdapterStmt s;
-    if (j.contains("adapter_id"))              s.adapter_id              = j["adapter_id"];
-    if (j.contains("check_signature"))         s.check_signature         = j["check_signature"];
-    if (j.contains("check_manifest"))          s.check_manifest          = j["check_manifest"];
-    if (j.contains("check_safetensors_match")) s.check_safetensors_match = j["check_safetensors_match"];
-    return s;
+    try {
+        VerifyAdapterStmt s;
+        if (j.contains("adapter_id"))              s.adapter_id              = j["adapter_id"].get<std::string>();
+        if (j.contains("check_signature"))         s.check_signature         = j["check_signature"].get<bool>();
+        if (j.contains("check_manifest"))          s.check_manifest          = j["check_manifest"].get<bool>();
+        if (j.contains("check_safetensors_match")) s.check_safetensors_match = j["check_safetensors_match"].get<bool>();
+        return s;
+    } catch (const nlohmann::json::exception& ex) {
+        throw std::invalid_argument(
+            std::string("AQLTrainParser: type error in VerifyAdapterStmt JSON: ") + ex.what());
+    }
 }
 
 nlohmann::json ListAdaptersStmt::toJSON() const {
@@ -375,13 +415,18 @@ nlohmann::json ListAdaptersStmt::toJSON() const {
 }
 
 ListAdaptersStmt ListAdaptersStmt::fromJSON(const nlohmann::json& j) {
-    ListAdaptersStmt s;
-    if (j.contains("base_model")) s.base_model = j["base_model"].get<std::string>();
-    if (j.contains("domain"))     s.domain     = j["domain"].get<std::string>();
-    if (j.contains("order_by"))   s.order_by   = j["order_by"];
-    if (j.contains("descending")) s.descending = j["descending"];
-    if (j.contains("limit"))      s.limit      = j["limit"];
-    return s;
+    try {
+        ListAdaptersStmt s;
+        if (j.contains("base_model")) s.base_model = j["base_model"].get<std::string>();
+        if (j.contains("domain"))     s.domain     = j["domain"].get<std::string>();
+        if (j.contains("order_by"))   s.order_by   = j["order_by"].get<std::string>();
+        if (j.contains("descending")) s.descending = j["descending"].get<bool>();
+        if (j.contains("limit"))      s.limit      = j["limit"].get<int>();
+        return s;
+    } catch (const nlohmann::json::exception& ex) {
+        throw std::invalid_argument(
+            std::string("AQLTrainParser: type error in ListAdaptersStmt JSON: ") + ex.what());
+    }
 }
 
 // ============================================================================
@@ -552,8 +597,8 @@ TrainStatementConfig AQLTrainParser::parseTrainingConfig(const std::string& with
         try {
             auto j = nlohmann::json::parse(content);
             return TrainStatementConfig::fromJSON(j);
-        } catch (...) {
-            // Fall through to key-value parsing
+        } catch (const nlohmann::json::parse_error&) {
+            // JSON syntax error — fall through to key-value parsing
             if (content.front() == '{' && content.back() == '}') {
                 content = themis::utils::trim(content.substr(1, content.size() - 2));
             }
