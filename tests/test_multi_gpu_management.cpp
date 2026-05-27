@@ -216,6 +216,24 @@ TEST(GPUMemoryManagerStatsEdgeCases, ZeroConfiguredVRAMAllGPUStatsKeepsUtilizati
     }
 }
 
+TEST(GPUMemoryManagerStatsEdgeCases, ZeroConfiguredCapacitiesKeepGlobalStatsBounded) {
+    GPUMemoryManager::Config config;
+    config.enable_multi_gpu = true;
+    config.gpu_devices = {0};
+    config.max_vram_bytes = 0;
+    config.max_ram_bytes = 0;
+
+    auto manager = std::make_shared<GPUMemoryManager>(config);
+    const auto stats = manager->getStats();
+
+    EXPECT_EQ(stats.total_vram_bytes, 0u);
+    EXPECT_EQ(stats.used_vram_bytes, 0u);
+    EXPECT_EQ(stats.free_vram_bytes, 0u);
+    EXPECT_EQ(stats.total_ram_bytes, 0u);
+    EXPECT_EQ(stats.used_ram_bytes, 0u);
+    EXPECT_EQ(stats.free_ram_bytes, 0u);
+}
+
 // ============================================================================
 // Adapter Load Balancer Tests
 // ============================================================================

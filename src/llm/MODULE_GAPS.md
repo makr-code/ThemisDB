@@ -417,6 +417,16 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
 - Added focused regression coverage in `tests/test_multi_gpu_management.cpp` for zero-VRAM config
   to keep per-GPU and all-GPU stats bounded and finite.
 
+**Status (v1.22.0-pre — W1-L06 OOM/stats math follow-up):** additional defensive arithmetic hardening in `gpu_memory_manager.cpp`:
+- OOM available-memory logging paths now use saturating availability math, avoiding unsigned underflow
+  when tracked usage exceeds configured capacity.
+- Per-GPU allocation capacity check now avoids `gpu_used + bytes` overflow by checking
+  `bytes > (max_vram_bytes - gpu_used)` after bound guard.
+- `getStats()` now clamps reported used bytes to configured totals and computes free bytes via
+  saturating subtraction for both VRAM and RAM.
+- Added focused global-stats regression test (`ZeroConfiguredCapacitiesKeepGlobalStatsBounded`) in
+  `tests/test_multi_gpu_management.cpp`.
+
 **Status (v1.22.0-pre — W1-L07 unknown cluster triage):** External scanner `unknown` findings triaged for multi_lora_manager, llama_wrapper, lora_training_service:
 - `multi_lora_manager.cpp`: external_v3 reports 1227 findings vs 5 internal. `unknown` cluster
   arises from deep STL template patterns, virtual dispatch and large switch bodies the scanner

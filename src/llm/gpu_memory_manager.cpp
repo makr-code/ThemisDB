@@ -174,6 +174,10 @@ inline float calculateUtilization(size_t used_vram, size_t max_vram_bytes) noexc
         : 0.0f;
 }
 
+inline size_t calculateAvailableBytes(size_t total_bytes, size_t used_bytes) noexcept {
+    return (used_bytes < total_bytes) ? (total_bytes - used_bytes) : 0;
+}
+
 inline size_t clampUsedVRAM(size_t used_vram, size_t max_vram_bytes) noexcept {
     return std::min(used_vram, max_vram_bytes);
 }
@@ -483,7 +487,8 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
     
     if (!canAllocate(bytes, 0)) {
         double bytes_mb = static_cast<double>(bytes) / (1024.0 * 1024.0);
-        double available_mb = static_cast<double>(config_.max_vram_bytes - total_vram_used_) / (1024.0 * 1024.0);
+        size_t available_bytes = calculateAvailableBytes(config_.max_vram_bytes, total_vram_used_);
+        double available_mb = static_cast<double>(available_bytes) / (1024.0 * 1024.0);
         spdlog::error("[{}] GPU OOM: requested {:.1f} MB, available {:.1f} MB", 
                       static_cast<int>(errors::ErrorCode::ERR_LLM_GPU_OOM), 
                       bytes_mb, available_mb);
@@ -1169,12 +1174,12 @@ GPUMemoryManager::Stats GPUMemoryManager::getStats() const {
     
     Stats stats;
     stats.total_vram_bytes = config_.max_vram_bytes;
-    stats.used_vram_bytes = total_vram_used_;
-    stats.free_vram_bytes = config_.max_vram_bytes - total_vram_used_;
+    stats.used_vram_bytes = clampUsedVRAM(total_vram_used_, stats.total_vram_bytes);
+    stats.free_vram_bytes = calculateAvailableBytes(stats.total_vram_bytes, total_vram_used_);
     
     stats.total_ram_bytes = config_.max_ram_bytes;
-    stats.used_ram_bytes = total_ram_used_;
-    stats.free_ram_bytes = config_.max_ram_bytes - total_ram_used_;
+    stats.used_ram_bytes = std::min(total_ram_used_, stats.total_ram_bytes);
+    stats.free_ram_bytes = calculateAvailableBytes(stats.total_ram_bytes, total_ram_used_);
     
     stats.num_models = allocations_.size();
     
@@ -1244,9 +1249,9 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes, i
     
     // Check per-GPU capacity
     size_t gpu_used = per_gpu_vram_used_[gpu_device_id];
-    if (gpu_used + bytes > config_.max_vram_bytes) {
+    if (gpu_used >= config_.max_vram_bytes || bytes > (config_.max_vram_bytes - gpu_used)) {
         size_t bytes_mb = bytes / (1024 * 1024);
-        size_t available_mb = (config_.max_vram_bytes - gpu_used) / (1024 * 1024);
+        size_t available_mb = calculateAvailableBytes(config_.max_vram_bytes, gpu_used) / (1024 * 1024);
         errors::logError(errors::ErrorCode::ERR_LLM_GPU_OOM, bytes_mb, available_mb);
         return nullptr;
     }
