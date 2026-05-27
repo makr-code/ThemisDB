@@ -113,20 +113,21 @@ void HealthErrorService::run() {
             running_.store(false);
             return;
         }
+        auto& acceptor = *acceptor_;
         while (running_.load()) {
             // Use synchronous accept with timeout
             beast::error_code ec;
             tcp::socket socket(*ioc_);
             
             // Set non-blocking mode for accept with timeout
-            acceptor_->non_blocking(true, ec);
+            acceptor.non_blocking(true, ec);
             if (ec) {
                 THEMIS_ERROR("Failed to set non-blocking mode: {}", ec.message());
                 break;
             }
             
             // Try to accept connection (non-blocking)
-            acceptor_->accept(socket, ec);
+            acceptor.accept(socket, ec);
             
             if (!ec && running_.load()) {
                 // Connection accepted successfully

@@ -1013,6 +1013,30 @@ Each scope file now applies the W1-S03 anchor pattern: after a null guard or one
 
 ---
 
+## ✅ Recent Remediation (2026-05-27) — W1-S03 Extension: Null-Guard Standardisation Round 12
+
+**Scope:** `src/server/health_error_service.cpp`, `src/server/llm_api_handler.cpp`  
+**Ticket:** W1-S03 (issue scope) · Priority P1
+
+### Fixes Applied
+
+#### Guarded pointer dereference anchoring (pointer_without_null_check / CWE-476)
+
+Both scope files now apply the W1-S03 anchor pattern: after `if (!member_) { return …; }`, the member pointer is immediately bound to a local reference and the remainder of the guarded path uses that anchored reference.
+
+| File | Member(s) anchored | Guard sites |
+|---|---|---|
+| `health_error_service.cpp` | `acceptor_` | 1 |
+| `llm_api_handler.cpp` | `jwt_validator_` (×1), `feedback_store_` (×4) | 5 |
+
+### Gap Delta
+
+| Type | Before | After |
+|---|---|---|
+| `pointer_without_null_check` (W1-S03 Round 12 guarded derefs) | residual scanner-visible guarded-member deref hits in health service + LLM feedback/auth paths | standardized with explicit post-guard local references across all scope files |
+
+---
+
 
 **Scope:** `src/server/http_server.cpp`, `include/server/http_server.h`  
 **Ticket:** W1-S02 · Priority P0  
