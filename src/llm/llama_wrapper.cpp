@@ -2157,6 +2157,13 @@ std::optional<LlamaWrapper::SpeculativeDecodingStats> LlamaWrapper::getSpeculati
 }
 
 float LlamaWrapper::getProbability(float* logits, llama_token token, int32_t n_vocab) {
+    if (!logits || n_vocab <= 0) {
+        return 0.0f;
+    }
+    if (token < 0 || token >= n_vocab) {
+        return 0.0f;
+    }
+
     // Find max logit for numerical stability
     float max_logit = -INFINITY;
     for (int32_t i = 0; i < n_vocab; ++i) {
@@ -2167,6 +2174,10 @@ float LlamaWrapper::getProbability(float* logits, llama_token token, int32_t n_v
     float sum_exp = 0.0f;
     for (int32_t i = 0; i < n_vocab; ++i) {
         sum_exp += std::exp(logits[i] - max_logit);
+    }
+
+    if (!std::isfinite(sum_exp) || sum_exp <= 0.0f) {
+        return 0.0f;
     }
     
     // Calculate probability for target token

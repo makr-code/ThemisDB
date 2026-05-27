@@ -623,6 +623,26 @@ handle usage and speculative decoding/logit processing loops.
 - Added strict model/context handle validation before image embedding injection in
   `generateVision`.
 
+#### 4. Follow-up hardening for probability/index handling (2026-05-27)
+
+**Root cause:** Remaining scanner hotspots in W1-L04 scope were tied to unchecked pointer/index
+inputs in `getProbability()` and int-range assumptions in speculative vocab arithmetic.
+
+**Fix:**
+- `LlamaWrapper::getProbability()` now returns a safe `0.0f` on null logits, invalid `n_vocab`,
+  out-of-range token IDs, or non-finite softmax denominators.
+- `InferenceEngineEnhanced::trySpeculativeGeneration()` now validates
+  `target_plugin`/`draft_plugin`/`speculative_decoder_` pointers up-front.
+- Oversized `vocab_size` metadata is clamped to a safe fallback (`32000`) before int modulo paths.
+
+### Gap Delta (W1-L04 follow-up)
+
+| Metric | Before | After |
+|---|---|---|
+| `llama_wrapper.cpp` unchecked logits/token bounds in probability path | 1 hotspot | 0 (guarded return path) |
+| `inference_engine_enhanced.cpp` speculative null-plugin/decoder precondition | implicit assumption | explicit guard + early return |
+| `inference_engine_enhanced.cpp` int-range risk in vocab modulo paths | potential overflow hotspot | bounded/fallback conversion |
+
 ---
 
 ## ✅ Recent Remediation (2026-05-26) — W1-L03: Vulkan/DirectX Kernel — Timeout + Null Guards
