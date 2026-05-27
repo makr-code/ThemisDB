@@ -177,7 +177,7 @@ http::response<http::string_body> GraphApiHandler::handleEdgeCreate(
             const std::string from = body_json.value("_from", std::string{});
             const std::string to   = body_json.value("_to",   std::string{});
             cs.addEdgeAdded(edge_id, from, to);
-            optimizer.onGraphChange(cs);
+            optimizer_->onGraphChange(cs);
         }
 
         return makeResponse(http::status::created, response.dump(), req);
@@ -256,7 +256,7 @@ http::response<http::string_body> GraphApiHandler::handleEdgeDelete(
         if (optimizer_) {
             themis::graph::GraphQueryOptimizer::GraphChangeSet cs;
             cs.addEdgeRemoved(edge_id, edge_from, edge_to);
-            optimizer.onGraphChange(cs);
+            optimizer_->onGraphChange(cs);
         }
 
         return makeResponse(http::status::ok, response.dump(), req);
@@ -282,7 +282,7 @@ http::response<http::string_body> GraphApiHandler::handleMetrics(
             "Graph optimizer not available", req);
     }
 
-    const auto& m = optimizer.getQueryMetrics();
+    const auto& m = optimizer_->getQueryMetrics();
     json response = {
         {"total_queries",           m.total_queries.load(std::memory_order_relaxed)},
         {"failed_queries",          m.failed_queries.load(std::memory_order_relaxed)},
@@ -317,7 +317,7 @@ http::response<http::string_body> GraphApiHandler::handleMetricsPrometheus(
             "Graph optimizer not available", req);
     }
 
-    const auto& m = optimizer.getQueryMetrics();
+    const auto& m = optimizer_->getQueryMetrics();
 
     // Build Prometheus text exposition format (text/plain; version=0.0.4)
     std::string body;
@@ -510,7 +510,7 @@ http::response<http::string_body> GraphApiHandler::handleIncrementalQueryRegiste
         auto handle_ptr =
             std::make_shared<themis::graph::GraphQueryOptimizer::IncrementalQueryHandle>(0);
 
-        auto handle = optimizer.registerIncrementalBFS(
+        auto handle = optimizer_->registerIncrementalBFS(
             start_vertex, max_depth, constraints,
             [this, handle_ptr](
                 const themis::graph::GraphQueryOptimizer::IncrementalQueryResult& result) {
@@ -523,7 +523,7 @@ http::response<http::string_body> GraphApiHandler::handleIncrementalQueryRegiste
 
         // Seed the result cache with the initial result (empty delta, full current).
         themis::graph::GraphQueryOptimizer::ExecutionStats init_stats;
-        auto init_bfs = optimizer.executeBFS(start_vertex, max_depth, constraints, &init_stats);
+        auto init_bfs = optimizer_->executeBFS(start_vertex, max_depth, constraints, &init_stats);
         std::vector<std::string> initial;
         if (init_bfs) initial = init_bfs.value();
 
@@ -592,7 +592,7 @@ http::response<http::string_body> GraphApiHandler::handleIncrementalQueryUnregis
             "Incremental query handle not found: " + handle_str, req);
     }
 
-    optimizer.unregisterIncrementalQuery(handle);
+    optimizer_->unregisterIncrementalQuery(handle);
     incremental_results_.erase(handle);
 
     span.setAttribute("graph.incremental_handle", static_cast<int64_t>(handle));
@@ -682,7 +682,7 @@ http::response<http::string_body> GraphApiHandler::handleCostModelCalibrate(
             "Graph optimizer not available", req);
     }
 
-    auto report = optimizer.calibrateFromHistory();
+    auto report = optimizer_->calibrateFromHistory();
 
     json algo_stats_json = json::object();
     for (const auto& [algo, stats] : report.algorithm_stats) {
@@ -727,7 +727,7 @@ http::response<http::string_body> GraphApiHandler::handleCostModelExport(
             "Graph optimizer not available", req);
     }
 
-    std::string model_json = optimizer.exportCostModel();
+    std::string model_json = optimizer_->exportCostModel();
     // Normalize legacy/empty exports to an object JSON so clients can round-trip
     // the payload without special-casing "null".
     auto parsed = json::parse(model_json, nullptr, false);
@@ -935,9 +935,9 @@ http::response<http::string_body> GraphApiHandler::handleQueryExplain(
 
             Result<themis::graph::GraphQueryOptimizer::OptimizationPlan> result;
             if (query_type == "shortest_path") {
-                result = optimizer.optimizeShortestPath(sv, ev, qc);
+                result = optimizer_->optimizeShortestPath(sv, ev, qc);
             } else {
-                result = optimizer.optimizeReachability(sv, ev, qc);
+                result = optimizer_->optimizeReachability(sv, ev, qc);
             }
 
             if (!result.has_value()) {
@@ -948,7 +948,7 @@ http::response<http::string_body> GraphApiHandler::handleQueryExplain(
             const auto& plan = result.value();
             span.setStatus(true);
             return makeResponse(http::status::ok,
-                planToJson(plan, optimizer.explainPlan(plan)).dump(), req);
+                planToJson(plan, optimizer_->explainPlan(plan)).dump(), req);
         }
 
         if (query_type == "k_hop") {
@@ -968,7 +968,7 @@ http::response<http::string_body> GraphApiHandler::handleQueryExplain(
             span.setAttribute("graph.start_vertex", sv);
             span.setAttribute("graph.k", static_cast<int64_t>(k));
 
-            auto result = optimizer.optimizeKHopNeighborhood(sv, k, qc);
+            auto result = optimizer_->optimizeKHopNeighborhood(sv, k, qc);
             if (!result.has_value()) {
                 span.setStatus(false, result.error().message());
                 return makeErrorResponse(http::status::internal_server_error,
@@ -977,7 +977,7 @@ http::response<http::string_body> GraphApiHandler::handleQueryExplain(
             const auto& plan = result.value();
             span.setStatus(true);
             return makeResponse(http::status::ok,
-                planToJson(plan, optimizer.explainPlan(plan)).dump(), req);
+                planToJson(plan, optimizer_->explainPlan(plan)).dump(), req);
         }
 
         if (query_type == "pattern_match") {
@@ -1003,7 +1003,7 @@ http::response<http::string_body> GraphApiHandler::handleQueryExplain(
             span.setAttribute("graph.pattern_vertices",
                 static_cast<int64_t>(pverts.size()));
 
-            auto result = optimizer.optimizePatternMatch(pverts, pedges, qc);
+            auto result = optimizer_->optimizePatternMatch(pverts, pedges, qc);
             if (!result.has_value()) {
                 span.setStatus(false, result.error().message());
                 return makeErrorResponse(http::status::internal_server_error,
@@ -1012,7 +1012,7 @@ http::response<http::string_body> GraphApiHandler::handleQueryExplain(
             const auto& plan = result.value();
             span.setStatus(true);
             return makeResponse(http::status::ok,
-                planToJson(plan, optimizer.explainPlan(plan)).dump(), req);
+                planToJson(plan, optimizer_->explainPlan(plan)).dump(), req);
         }
 
         if (query_type == "constrained_path") {
@@ -1060,7 +1060,7 @@ http::response<http::string_body> GraphApiHandler::handleQueryExplain(
                 }
             }
 
-            auto result = optimizer.explainConstrainedPath(sv, ev, pc);
+            auto result = optimizer_->explainConstrainedPath(sv, ev, pc);
             if (!result.has_value()) {
                 span.setStatus(false, result.error().message());
                 return makeErrorResponse(http::status::internal_server_error,
@@ -1069,7 +1069,7 @@ http::response<http::string_body> GraphApiHandler::handleQueryExplain(
             const auto& plan = result.value();
             span.setStatus(true);
             return makeResponse(http::status::ok,
-                planToJson(plan, optimizer.explainPlan(plan)).dump(), req);
+                planToJson(plan, optimizer_->explainPlan(plan)).dump(), req);
         }
 
         span.setStatus(false, "unknown query_type");

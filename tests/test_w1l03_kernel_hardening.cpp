@@ -148,27 +148,33 @@ TEST(DirectXKernelHardening, EmbeddingLookupNullCheckBeforeMutex) {
     // On non-Windows: the stub throws runtime_error, but the null check in
     // the Windows path should be hit before the mutex on Windows.
     // On non-Windows we just verify the stub throws cleanly.
+#ifdef _WIN32
     EXPECT_THROW(
         themis::lora::directx::launch_embedding_lookup_shader(
             nullptr, nullptr, nullptr, 1, 1, 8, 16),
-#ifdef _WIN32
-        std::invalid_argument
+        std::invalid_argument);
 #else
+    EXPECT_THROW(
+        themis::lora::directx::launch_embedding_lookup_shader(
+            nullptr, nullptr, nullptr, 1, 1, 8, 16),
         std::runtime_error
-#endif
     );
+#endif
 }
 
 TEST(DirectXKernelHardening, SequenceMeanNullCheckBeforeMutex) {
+#ifdef _WIN32
     EXPECT_THROW(
         themis::lora::directx::launch_sequence_mean_shader(
             nullptr, nullptr, 1, 4, 8),
-#ifdef _WIN32
-        std::invalid_argument
+        std::invalid_argument);
 #else
+    EXPECT_THROW(
+        themis::lora::directx::launch_sequence_mean_shader(
+            nullptr, nullptr, 1, 4, 8),
         std::runtime_error
-#endif
     );
+#endif
 }
 
 #ifdef _WIN32

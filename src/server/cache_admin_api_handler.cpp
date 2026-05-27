@@ -281,6 +281,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleEvictKey(
         return makeErrorResponse(http::status::service_unavailable,
                                  "Cache not available", req);
     }
+    auto& cache = *cache_;
 
     // Extract base64-encoded key from path: /v1/admin/cache/key/{encoded_key}
     std::string encoded = extractPathParam(std::string(req.target()),
@@ -467,6 +468,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleWarmup(
         return makeErrorResponse(http::status::service_unavailable,
                                  "Cache not available", req);
     }
+    auto& cache = *cache_;
 
     std::string log_path;
     size_t max_entries = 0;
@@ -540,6 +542,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleSnapshot(
         return makeErrorResponse(http::status::service_unavailable,
                                  "Cache not available", req);
     }
+    auto& cache = *cache_;
 
     std::string out_path;
 
@@ -625,6 +628,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleTenantStats(
         return makeErrorResponse(http::status::service_unavailable,
                                  "Cache not available", req);
     }
+    auto& cache = *cache_;
 
     // Extract tenant_id from: /v1/admin/cache/tenant/{tenant_id}/stats
     std::string_view target = req.target();
@@ -680,6 +684,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleUpdateTenantQuota(
         return makeErrorResponse(http::status::service_unavailable,
                                  "Cache not available", req);
     }
+    auto& cache = *cache_;
 
     // Extract tenant_id from: /v1/admin/cache/tenant/{tenant_id}/quota
     std::string_view target = req.target();

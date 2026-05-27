@@ -71,7 +71,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleTopologyGet(
     }
 
     try {
-        const auto shards = shard_topology.getAllShards();
+        const auto shards = shard_topology_->getAllShards();
         json result = json::array();
 
         for (const auto& s : shards) {
@@ -118,14 +118,14 @@ http::response<http::string_body> GeoTopologyApiHandler::handleRegionsGet(
     }
 
     try {
-        const auto regions = shard_topology.getRegions();
+        const auto regions = shard_topology_->getRegions();
         json result = json::array();
 
         for (const auto& region : regions) {
-            const auto all_shards     = shard_topology.getShardsInRegion(region);
-            const auto healthy_shards = shard_topology.getHealthyShardsInRegion(region);
+            const auto all_shards     = shard_topology_->getShardsInRegion(region);
+            const auto healthy_shards = shard_topology_->getHealthyShardsInRegion(region);
             const uint32_t majority   = static_cast<uint32_t>(all_shards.size() / 2 + 1);
-            const bool has_quorum     = shard_topology.regionHasQuorum(region, majority);
+            const bool has_quorum     = shard_topology_->regionHasQuorum(region, majority);
 
             json zones_arr = json::array();
             for (const auto& s : all_shards) {
@@ -171,17 +171,17 @@ http::response<http::string_body> GeoTopologyApiHandler::handleHealthGet(
     }
 
     try {
-        const auto regions      = shard_topology.getRegions();
-        const auto all_shards   = shard_topology.getAllShards();
-        const auto healthy_all  = shard_topology.getHealthyShards();
+        const auto regions      = shard_topology_->getRegions();
+        const auto all_shards   = shard_topology_->getAllShards();
+        const auto healthy_all  = shard_topology_->getHealthyShards();
 
         json failed_regions  = json::array();
         json degraded_regions = json::array();
         json healthy_regions  = json::array();
 
         for (const auto& region : regions) {
-            const auto all    = shard_topology.getShardsInRegion(region);
-            const auto health = shard_topology.getHealthyShardsInRegion(region);
+            const auto all    = shard_topology_->getShardsInRegion(region);
+            const auto health = shard_topology_->getHealthyShardsInRegion(region);
 
             if (all.empty()) continue;
 
@@ -262,7 +262,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleTopologyShardPost
 
         // Load existing shard info or create new entry
         sharding::ShardInfo info;
-        auto existing = shard_topology.getShard(shard_id);
+        auto existing = shard_topology_->getShard(shard_id);
         if (existing) {
             info = *existing;
         } else {
@@ -284,7 +284,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleTopologyShardPost
         if (j.contains("is_healthy") && j["is_healthy"].is_boolean())
             info.is_healthy = j["is_healthy"].get<bool>();
 
-        shard_topology.addShard(info);
+        shard_topology_->addShard(info);
 
         json response_body = {
             {"ok",       true},

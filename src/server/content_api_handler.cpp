@@ -93,6 +93,10 @@ http::response<http::string_body> ContentApiHandler::handleImport(
     const http::request<http::string_body>& req
 ) {
     try {
+        if (!content_manager_) {
+            return makeErrorResponse(http::status::service_unavailable, "ContentManager not initialized", req);
+        }
+        auto& content_manager = *content_manager_;
         auto body = nlohmann::json::parse(req.body());
         
         // Extract optional blob (can be base64 or raw string)
@@ -164,6 +168,10 @@ http::response<http::string_body> ContentApiHandler::handleGet(
     const http::request<http::string_body>& req
 ) {
     try {
+        if (!content_manager_) {
+            return makeErrorResponse(http::status::service_unavailable, "ContentManager not initialized", req);
+        }
+        auto& content_manager = *content_manager_;
         auto id = extractPathParam(std::string(req.target()), "/content/");
         if (id.empty()) return makeErrorResponse(http::status::bad_request, "Missing content id", req);
         auto meta = content_manager.getContentMeta(id);
@@ -178,6 +186,10 @@ http::response<http::string_body> ContentApiHandler::handleGetBlob(
     const http::request<http::string_body>& req
 ) {
     try {
+        if (!content_manager_) {
+            return makeErrorResponse(http::status::service_unavailable, "ContentManager not initialized", req);
+        }
+        auto& content_manager = *content_manager_;
         auto path = std::string(req.target());
         // path format: /content/{id}/blob
         auto prefix = std::string("/content/");
@@ -206,6 +218,10 @@ http::response<http::string_body> ContentApiHandler::handleGetChunks(
     const http::request<http::string_body>& req
 ) {
     try {
+        if (!content_manager_) {
+            return makeErrorResponse(http::status::service_unavailable, "ContentManager not initialized", req);
+        }
+        auto& content_manager = *content_manager_;
         auto path = std::string(req.target());
         // path format: /content/{id}/chunks
         auto prefix = std::string("/content/");
