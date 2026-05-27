@@ -240,6 +240,7 @@ http::response<http::string_body> BufferAPIHandler::handleGraphAddBuffered(
         return makeErrorResponse(http::status::service_unavailable,
                                 "Graph buffer not available", req);
     }
+    auto& graph_buffer = *graph_buffer_;
     
     try {
         auto body = json::parse(req.body());
@@ -265,9 +266,9 @@ http::response<http::string_body> BufferAPIHandler::handleGraphAddBuffered(
         PropertyGraphManager::Status status;
         
         if (type == "node") {
-            status = graph_buffer_->addNode(entity, graph_id);
+            status = graph_buffer.addNode(entity, graph_id);
         } else if (type == "edge") {
-            status = graph_buffer_->addEdge(entity, graph_id);
+            status = graph_buffer.addEdge(entity, graph_id);
         } else {
             return makeErrorResponse(http::status::bad_request,
                                     "Invalid type: must be 'node' or 'edge'", req);
@@ -279,7 +280,7 @@ http::response<http::string_body> BufferAPIHandler::handleGraphAddBuffered(
         }
         
         // Return success with stats
-        auto stats = graph_buffer_->getStats();
+        auto stats = graph_buffer.getStats();
         json response = {
             {"status", "buffered"},
             {"graph_id", graph_id},

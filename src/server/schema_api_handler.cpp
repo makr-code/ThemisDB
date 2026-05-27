@@ -1306,6 +1306,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetColumnLineage(
         return makeError(req, http::status::service_unavailable,
             "Column lineage tracker not available");
     }
+    auto& column_lineage_tracker = *column_lineage_tracker_;
 
     try {
         const std::string base    = "/api/v1/metadata/lineage/";
@@ -1328,7 +1329,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetColumnLineage(
                 return makeError(req, http::status::bad_request,
                     "Table name required");
             }
-            body = column_lineage_tracker_->exportTableLineage(rest);
+            body = column_lineage_tracker.exportTableLineage(rest);
         } else {
             // GET /api/v1/metadata/lineage/:table/:column
             std::string table_name  = rest.substr(0, sep);
@@ -1338,7 +1339,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetColumnLineage(
                     "Table and column name required");
             }
             themis::metadata::ColumnRef col{table_name, column_name};
-            body = column_lineage_tracker_->getColumnProvenance(col);
+            body = column_lineage_tracker.getColumnProvenance(col);
         }
 
         http::response<http::string_body> res{http::status::ok, req.version()};

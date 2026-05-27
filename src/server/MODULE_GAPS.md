@@ -1037,6 +1037,32 @@ Both scope files now apply the W1-S03 anchor pattern: after `if (!member_) { ret
 
 ---
 
+## ✅ Recent Remediation (2026-05-27) — W1-S03 Extension: Null-Guard Standardisation Round 13
+
+**Scope:** `src/server/buffer_api_handler.cpp`, `src/server/classification_api_handler.cpp`, `src/server/schema_api_handler.cpp`, `src/server/http_server.cpp`  
+**Ticket:** W1-S03 (issue scope) · Priority P1
+
+### Fixes Applied
+
+#### Guarded pointer dereference anchoring (pointer_without_null_check / CWE-476)
+
+All scope functions now apply the W1-S03 anchor pattern: after `if (!member_) { return …; }`, the member pointer is immediately bound to a local reference and the guarded path uses the anchored reference.
+
+| File | Member(s) anchored | Guard sites |
+|---|---|---|
+| `buffer_api_handler.cpp` | `graph_buffer_` | 1 |
+| `classification_api_handler.cpp` | `pii_detector_` | 2 |
+| `schema_api_handler.cpp` | `column_lineage_tracker_` | 1 |
+| `http_server.cpp` | `audit_api_` (×2), `secondary_index_` (×2) | 4 |
+
+### Gap Delta
+
+| Type | Before | After |
+|---|---|---|
+| `pointer_without_null_check` (W1-S03 Round 13 guarded derefs) | residual scanner-visible guarded-member deref hits in buffer/classification/schema/http search+audit paths | standardized with explicit post-guard local references across all scope files |
+
+---
+
 
 **Scope:** `src/server/http_server.cpp`, `include/server/http_server.h`  
 **Ticket:** W1-S02 · Priority P0  

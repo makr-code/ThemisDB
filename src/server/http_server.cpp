@@ -8669,6 +8669,7 @@ http::response<http::string_body> HttpServer::handleAuditQuery(
         if (!audit_api_) {
             return makeErrorResponse(http::status::service_unavailable, "Audit API not available", req);
         }
+        auto& audit_api = *audit_api_;
         auto params = parseQuery(std::string(req.target()));
         themis::server::AuditQueryFilter f;
         if (auto it = params.find("start"); it != params.end()) f.start_ts_ms = parseTimeMs(it->second);
@@ -8691,7 +8692,7 @@ http::response<http::string_body> HttpServer::handleAuditQuery(
                 if (f.page_size > 1000) f.page_size = 1000;
             } catch (...) {}
         }
-        auto result = audit_api_->queryAuditLogs(f);
+        auto result = audit_api.queryAuditLogs(f);
         return makeResponse(http::status::ok, result.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
@@ -8708,6 +8709,7 @@ http::response<http::string_body> HttpServer::handleAuditExportCsv(
         if (!audit_api_) {
             return makeErrorResponse(http::status::service_unavailable, "Audit API not available", req);
         }
+        auto& audit_api = *audit_api_;
         auto params = parseQuery(std::string(req.target()));
         themis::server::AuditQueryFilter f;
         if (auto it = params.find("start"); it != params.end()) f.start_ts_ms = parseTimeMs(it->second);
@@ -8731,7 +8733,7 @@ http::response<http::string_body> HttpServer::handleAuditExportCsv(
             } catch (...) {}
         }
 
-        auto csv = audit_api_->exportAuditLogsCsv(f);
+        auto csv = audit_api.exportAuditLogsCsv(f);
         http::response<http::string_body> res{http::status::ok, req.version()};
 #ifdef THEMIS_VERSION_STRING
         res.set(http::field::server, std::string("THEMIS/") + THEMIS_VERSION_STRING);
@@ -9998,6 +10000,7 @@ http::response<http::string_body> HttpServer::handleFulltextSearch(
 ) {
     try {
         if (!secondary_index_) return makeErrorResponse(http::status::service_unavailable, "IndexManager not initialized", req);
+        auto& secondary_index = *secondary_index_;
         
         json body = json::parse(req.body());
         
@@ -10018,13 +10021,13 @@ http::response<http::string_body> HttpServer::handleFulltextSearch(
         size_t limit = body.value("limit", 1000);
         
         // Check if fulltext index exists
-        if (!secondary_index_->hasFulltextIndex(table, column)) {
+        if (!secondary_index.hasFulltextIndex(table, column)) {
             return makeErrorResponse(http::status::bad_request, 
                 "No fulltext index on " + table + "." + column, req);
         }
         
         // Perform BM25-scored fulltext search
-        auto [status, results] = secondary_index_->scanFulltextWithScores(table, column, query, limit);
+        auto [status, results] = secondary_index.scanFulltextWithScores(table, column, query, limit);
         
         if (!status.ok) {
             return makeErrorResponse(http::status::internal_server_error, status.message, req);
@@ -10063,6 +10066,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
 ) {
     try {
         if (!secondary_index_) return makeErrorResponse(http::status::service_unavailable, "SecondaryIndexManager not initialized", req);
+        auto& secondary_index = *secondary_index_;
         if (!vector_index_) return makeErrorResponse(http::status::service_unavailable, "VectorIndexManager not initialized", req);
         
         json body = json::parse(req.body());
@@ -10085,12 +10089,12 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             std::string textQuery = body["text_query"];
             int textLimit = body.value("text_limit", 1000);
             
-            if (!secondary_index_->hasFulltextIndex(table, textColumn)) {
+            if (!secondary_index.hasFulltextIndex(table, textColumn)) {
                 return makeErrorResponse(http::status::bad_request, 
                     "No fulltext index on " + table + "." + textColumn, req);
             }
             
-            auto [textStatus, textRes] = secondary_index_->scanFulltextWithScores(table, textColumn, textQuery, textLimit);
+            auto [textStatus, textRes] = secondary_index.scanFulltextWithScores(table, textColumn, textQuery, textLimit);
             if (!textStatus.ok) {
                 return makeErrorResponse(http::status::internal_server_error, "Text search failed: " + textStatus.message, req);
             }
