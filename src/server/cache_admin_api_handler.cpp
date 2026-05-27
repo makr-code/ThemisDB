@@ -38,13 +38,34 @@ bool isLikelyValidBase64PathToken(std::string_view value) {
         return false;
     }
 
-    return std::all_of(value.begin(), value.end(), [](char ch) {
+    bool saw_padding = false;
+    size_t padding_count = 0;
+    for (char ch : value) {
         const unsigned char c = static_cast<unsigned char>(ch);
-        return (c >= 'A' && c <= 'Z') ||
-               (c >= 'a' && c <= 'z') ||
-               (c >= '0' && c <= '9') ||
-               c == '+' || c == '/' || c == '=' || c == '-' || c == '_';
-    });
+        if (c == '=') {
+            saw_padding = true;
+            ++padding_count;
+            if (padding_count > 2) {
+                return false;
+            }
+            continue;
+        }
+
+        if (saw_padding) {
+            // Padding is only valid at the end.
+            return false;
+        }
+
+        // Keep the encoded token in a single path segment.
+        if (!((c >= 'A' && c <= 'Z') ||
+              (c >= 'a' && c <= 'z') ||
+              (c >= '0' && c <= '9') ||
+              c == '+' || c == '-' || c == '_')) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 bool isValidCacheAdminFilePath(const std::string& value) {

@@ -210,6 +210,20 @@ TEST_F(CacheAdminApiHandlerTest, EvictKeyReturns400ForInvalidBase64Token) {
     EXPECT_EQ(res.result(), http::status::bad_request);
 }
 
+TEST_F(CacheAdminApiHandlerTest, EvictKeyReturns400ForSegmentSmugglingInToken) {
+    auto req = makeRequest(http::verb::delete_, "/v1/admin/cache/key/abcd/extra");
+    auto res = handler_->handleEvictKey(req);
+
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(CacheAdminApiHandlerTest, EvictKeyReturns400ForInvalidBase64PaddingPlacement) {
+    auto req = makeRequest(http::verb::delete_, "/v1/admin/cache/key/YWJj=Zg==");
+    auto res = handler_->handleEvictKey(req);
+
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
 // Regression test: evicting by fingerprint must also evict tenant-prefixed
 // entries stored under "tenant:{id}:{fingerprint}" in L1/L2.
 TEST_F(CacheAdminApiHandlerTest, EvictKeyAlsoEvictsTenantPrefixedEntry) {
