@@ -1105,7 +1105,21 @@ json ThemisRPCService::handleQueryInternal(
 }
 
 json ThemisRPCService::handleVectorSearch(const json& params) {
+    return handleVectorSearchInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleVectorSearchInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
+        if (isDeadlineExceeded(deadline)) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                "Request deadline exceeded before vector search execution"
+            );
+        }
+
         std::string collection(params.value("collection", ""));
         
         if (collection.empty()) {
@@ -1156,7 +1170,21 @@ json ThemisRPCService::handleVectorSearch(const json& params) {
 }
 
 json ThemisRPCService::handleGraphTraverse(const json& params) {
+    return handleGraphTraverseInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleGraphTraverseInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
+        if (isDeadlineExceeded(deadline)) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                "Request deadline exceeded before graph traversal execution"
+            );
+        }
+
         // Get storage engine
         auto storage = storage_;
         if (!storage) {
@@ -3148,9 +3176,9 @@ json ThemisRPCService::dispatch(
         } else if (method == "query") {
             return handleQueryInternal(params, request_deadline);
         } else if (method == "vector_search") {
-            return handleVectorSearch(params);
+            return handleVectorSearchInternal(params, request_deadline);
         } else if (method == "graph_traverse") {
-            return handleGraphTraverse(params);
+            return handleGraphTraverseInternal(params, request_deadline);
         } else if (method == "geo_query") {
             return handleGeoQueryInternal(params, request_deadline);
         } else if (method == "timeseries_query") {

@@ -977,3 +977,10 @@ Findings addressed:
   via their Internal variants. Added `DispatchTimesOutDuringBatchGetKeysLoop`,
   `DispatchTimesOutDuringBatchPutEntitiesLoop`, `DispatchTimesOutDuringBatchDeleteKeysLoop`, and
   `DispatchTimesOutDuringGeoQueryResultsLoop` tests to `tests/test_rpc_batch_operations.cpp`.
+
+- **W1-S04 follow-up (2026-05-27) — deadline threading consistency for `vector_search` and `graph_traverse` (`rpc_service_impl.cpp`):**
+  `handleVectorSearch` and `handleGraphTraverse` now follow the same wrapper + `Internal(params, deadline)`
+  shape used by other deadline-aware read handlers. `dispatch()` now passes `request_deadline` into both
+  Internal variants, and each Internal method returns `QUERY_TIMEOUT` when the request deadline is already
+  exceeded before execution starts. Added `VectorSearchInternalHonorsExpiredDeadline` and
+  `GraphTraverseInternalHonorsExpiredDeadline` tests in `tests/test_rpc_batch_operations.cpp`.

@@ -110,11 +110,19 @@ public:
      * @brief Handle vector search
      */
     json handleVectorSearch(const json& params);
+    json handleVectorSearchInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
     
     /**
      * @brief Handle graph traversal
      */
     json handleGraphTraverse(const json& params);
+    json handleGraphTraverseInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
     
     /**
      * @brief Handle geo query

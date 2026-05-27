@@ -850,6 +850,37 @@ TEST_F(RPCBatchOperationsTest, DispatchTimesOutDuringGeoQueryResultsLoop) {
               static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
 }
 
+TEST_F(RPCBatchOperationsTest, VectorSearchInternalHonorsExpiredDeadline) {
+    auto expired = std::chrono::steady_clock::time_point{};
+    json resp = service_->handleVectorSearchInternal(
+        {
+            {"collection", "vec_timeout"},
+            {"vector", json::array({0.1, 0.2, 0.3})}
+        },
+        std::make_optional(expired)
+    );
+
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+}
+
+TEST_F(RPCBatchOperationsTest, GraphTraverseInternalHonorsExpiredDeadline) {
+    auto expired = std::chrono::steady_clock::time_point{};
+    json resp = service_->handleGraphTraverseInternal(
+        {
+            {"start_vertex", "vertex-1"},
+            {"direction", "outbound"},
+            {"max_depth", 2}
+        },
+        std::make_optional(expired)
+    );
+
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+}
+
 // ============================================================================
 // Performance – batch vs. individual operations
 // ============================================================================
