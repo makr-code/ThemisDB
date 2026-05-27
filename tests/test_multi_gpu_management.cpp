@@ -234,6 +234,13 @@ TEST(GPUMemoryManagerPeerAccessValidation, PeerAccessDisabledByConfig) {
 TEST_F(GPUMemoryManagerMultiGPUTest, PeerAccessRejectsSameSourceAndDestinationGPU) {
     EXPECT_FALSE(memory_manager_->enablePeerAccess(0, 0));
     EXPECT_FALSE(memory_manager_->disablePeerAccess(1, 1));
+    EXPECT_FALSE(memory_manager_->canAccessPeer(2, 2));
+}
+
+TEST_F(GPUMemoryManagerMultiGPUTest, PeerAccessRejectsUnknownGPUs) {
+    EXPECT_FALSE(memory_manager_->enablePeerAccess(0, 99));
+    EXPECT_FALSE(memory_manager_->disablePeerAccess(99, 1));
+    EXPECT_FALSE(memory_manager_->canAccessPeer(99, 1));
 }
 
 TEST_F(GPUMemoryManagerMultiGPUTest, GetLeastLoadedGPU) {

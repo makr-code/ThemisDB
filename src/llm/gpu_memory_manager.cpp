@@ -1711,9 +1711,15 @@ bool GPUMemoryManager::canAccessPeer(int src_gpu, int dst_gpu) const {
     if (!config_.enable_peer_access) {
         return false;
     }
+
+    if (src_gpu == dst_gpu) {
+        spdlog::warn("Cannot query peer access: source and destination GPU are identical ({})", src_gpu);
+        return false;
+    }
     
     if (!isGPUAvailableNoLock(gpu_health_status_, src_gpu) ||
         !isGPUAvailableNoLock(gpu_health_status_, dst_gpu)) {
+        spdlog::warn("Cannot query peer access: GPU {} or {} not available", src_gpu, dst_gpu);
         return false;
     }
     
@@ -1722,6 +1728,8 @@ bool GPUMemoryManager::canAccessPeer(int src_gpu, int dst_gpu) const {
         int can_access = 0;
         cudaError_t err = cudaDeviceCanAccessPeer(&can_access, src_gpu, dst_gpu);
         if (err != cudaSuccess) {
+            spdlog::warn("cudaDeviceCanAccessPeer({} -> {}) failed: {}",
+                         src_gpu, dst_gpu, cudaGetErrorString(err));
             return false;
         }
         return can_access != 0;

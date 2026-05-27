@@ -549,6 +549,13 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
   restores the config value.
 - File-header counts updated: `Stubs=3, Gaps=30`.
 
+**Status (v1.22.0-pre — W1-L06 peer-query contract follow-up):** peer-access query semantics aligned with the rest of the API:
+- `gpu_memory_manager.cpp::canAccessPeer()` now rejects same-GPU requests (`src_gpu == dst_gpu`) instead of
+  treating them as implicitly peer-accessible in simulation mode.
+- `canAccessPeer()` now logs invalid/unavailable GPU inputs and failed `cudaDeviceCanAccessPeer` queries before
+  returning `false`, keeping diagnostics consistent with `enablePeerAccess()` / `disablePeerAccess()`.
+- `tests/test_multi_gpu_management.cpp` adds regression coverage for same-GPU and unknown-GPU peer-access queries.
+
 **Status (v1.22.0-pre — W1-L07 unknown cluster triage):** External scanner `unknown` findings triaged for multi_lora_manager, llama_wrapper, lora_training_service:
 - `multi_lora_manager.cpp`: external_v3 reports 1227 findings vs 5 internal. `unknown` cluster
   arises from deep STL template patterns, virtual dispatch and large switch bodies the scanner
