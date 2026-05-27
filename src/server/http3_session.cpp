@@ -141,13 +141,19 @@ void Http3Handler::start() {
 }
 
 void Http3Handler::stop() {
-    socket_.close();
-    cleanup_timer_.cancel();
+    boost::system::error_code ignored;
+    socket_.cancel(ignored);
+    socket_.close(ignored);
+    cleanup_timer_.cancel(ignored);
     sessions_.clear();
     THEMIS_INFO("HTTP/3 handler stopped");
 }
 
 void Http3Handler::doAccept() {
+    if (!socket_.is_open()) {
+        return;
+    }
+
     socket_.async_receive_from(
         boost::asio::buffer(recv_buffer_),
         remote_endpoint_,
@@ -159,6 +165,10 @@ void Http3Handler::doAccept() {
 
 void Http3Handler::onReceive(boost::system::error_code ec, std::size_t bytes_transferred) {
     if (ec) {
+        if (ec == boost::asio::error::operation_aborted ||
+            ec == boost::asio::error::bad_descriptor) {
+            return;
+        }
         THEMIS_ERROR("HTTP/3 UDP receive error: {}", ec.message());
         doAccept(); // Continue accepting
         return;

@@ -1424,6 +1424,27 @@ Fixes applied:
 
 ---
 
+## ✅ Recent Remediation (2026-05-27 — W1-S06 exception/timeouts follow-up)
+
+**Scope:** `src/server/llm_api_handler.cpp`, `src/server/http3_session.cpp`
+
+### Changes
+- `llm_api_handler.cpp`: replaced remaining silent `catch (...) {}` parsing sites
+  with typed exception handling and diagnostic logging (`max_tokens`, feedback `limit`,
+  request-body JSON parsing). `validateBearerToken()` and `/v1/models` list-model path
+  now log `std::exception::what()` and keep an explicit non-standard-exception fallback.
+- `http3_session.cpp`: hardened receive-loop shutdown edges (`stop()` now cancels +
+  closes socket with error-code overloads, `doAccept()` no-ops on closed socket,
+  `onReceive()` exits cleanly for `operation_aborted`/`bad_descriptor`).
+
+### Gap Delta (W1-S06 scope)
+| Type | Before | After |
+|---|---:|---:|
+| uncaught_exception (silent catch-all in `llm_api_handler.cpp`) | 5 | 0 |
+| no_timeout / async-lifecycle edge (`http3_session.cpp` accept loop stop path) | 2 | 0 |
+
+---
+
 ## ✅ Recent Remediation (2026-05-26 — W1-S07 unknown cluster triage)
 
 ### `src/server/query_api_handler.cpp` + `src/server/http_server.cpp`

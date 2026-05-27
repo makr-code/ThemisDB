@@ -453,7 +453,9 @@ http::response<http::string_body> LLMApiHandler::handleStreamInference(
             try {
                 int n = std::stoi(max_tokens_str);
                 if (n > 0 && n <= kMaxTokensLimit) max_tokens = n;
-            } catch (...) {}
+            } catch (const std::exception& e) {
+                THEMIS_DEBUG("LLMApiHandler: ignoring invalid max_tokens query parameter: {}", e.what());
+            }
         }
     }
 
@@ -1037,11 +1039,14 @@ bool LLMApiHandler::validateBearerToken(const http::request<http::string_body>& 
         auto claims = jwt_validator.parseAndValidate(*token);
         // Token is valid
         return true;
-    } catch (...) {
+    } catch (const std::exception& e) {
         // Token validation failed (expired, invalid signature, etc.).
         // Log at DEBUG level to avoid flooding logs with expected auth failures,
         // but provide a hook for diagnosing misconfigured tokens.
-        THEMIS_DEBUG("LLMApiHandler: JWT validation exception — treating token as invalid");
+        THEMIS_DEBUG("LLMApiHandler: JWT validation exception — treating token as invalid: {}", e.what());
+        return false;
+    } catch (...) {
+        THEMIS_DEBUG("LLMApiHandler: JWT validation threw non-standard exception — treating token as invalid");
         return false;
     }
 }
@@ -1088,7 +1093,7 @@ std::optional<json> LLMApiHandler::parseRequestBody(
         if (parsed.is_object()) {
             return parsed;
         }
-    } catch (...) {
+    } catch (const json::exception&) {
         return std::nullopt;
     }
     
@@ -1456,7 +1461,9 @@ http::response<http::string_body> LLMApiHandler::handleListFeedback(
             try {
                 limit = std::stoul(limit_str);
                 if (limit > 1000) limit = 1000; // Cap at 1000
-            } catch (...) {}
+            } catch (const std::exception& e) {
+                THEMIS_DEBUG("LLMApiHandler: ignoring invalid feedback limit query parameter: {}", e.what());
+            }
         }
         
         // Parse type filter
@@ -1710,10 +1717,12 @@ http::response<http::string_body> LLMApiHandler::handleOpenAIListModels(
                 {"owned_by", "themisdb"}
             });
         }
-    } catch (...) {
+    } catch (const std::exception& e) {
         // If listing fails, return an empty list rather than an error.
         // Log at WARN level so model enumeration failures can be diagnosed.
-        THEMIS_WARN("LLMApiHandler: handleOpenAIListModels: exception while listing models — returning empty list");
+        THEMIS_WARN("LLMApiHandler: handleOpenAIListModels: exception while listing models — returning empty list: {}", e.what());
+    } catch (...) {
+        THEMIS_WARN("LLMApiHandler: handleOpenAIListModels: non-standard exception while listing models — returning empty list");
     }
 
     json response_json{
