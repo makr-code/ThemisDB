@@ -1,4 +1,4 @@
-<!-- Status: S0 fixed 2026-05-04 | S1 fixed 2026-05-04 | OI-05/OI-06 fixed 2026-05-26 | KL-01 closed 2026-05-26 | CCF-01..CCF-05 fixed 2026-05-27 | CQE-01..CQE-03 fixed 2026-05-27 | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S0 fixed 2026-05-04 | S1 fixed 2026-05-04 | OI-05/OI-06 fixed 2026-05-26 | KL-01 closed 2026-05-26 | CCF-01..CCF-05 fixed 2026-05-27 | CQE-01..CQE-03 fixed 2026-05-27 | QE-arc-points-cast fixed 2026-05-27 | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · SECURITY.md -->
 
 # Audit Record — Query Module
@@ -9,9 +9,9 @@
 |--------------|--------------------------------------------|
 | Module       | query                                      |
 | Source path  | `src/query/`                               |
-| Audit date   | 2026-04-21 (S0 fixes: 2026-05-04, S1 fixes: 2026-05-04, OI-05/OI-06: 2026-05-26, KL-01 closed: 2026-05-26, CCF-01..CCF-05 fixed: 2026-05-27, CQE-01..CQE-03 fixed: 2026-05-27) |
+| Audit date   | 2026-04-21 (S0 fixes: 2026-05-04, S1 fixes: 2026-05-04, OI-05/OI-06: 2026-05-26, KL-01 closed: 2026-05-26, CCF-01..CCF-05 fixed: 2026-05-27, CQE-01..CQE-03 fixed: 2026-05-27, QE-arc-points-cast fixed: 2026-05-27) |
 | Audited by   | Copilot (source code analysis)             |
-| Status       | ✅ All critical findings resolved — 0 S0, 0 S1, 0 critical OI open; KL-01 closed; CCF-01..CCF-05 closed; CQE-01..CQE-03 closed |
+| Status       | ✅ All critical findings resolved — 0 S0, 0 S1, 0 critical OI open; KL-01 closed; CCF-01..CCF-05 closed; CQE-01..CQE-03 closed; QE-arc-points-cast closed |
 
 > **2026-05-04:** QE-1 fixed (errors_mutex), QE-2 addressed, PA-1 fixed (depth limit 500 in
 > `parseExpression()`). See finding details below for confirmation.
@@ -39,6 +39,12 @@
 > `inject_queue_` is now capped at `kMaxInjectQueueDepth` (100 000); excess entries drop the
 > oldest. CQE-03 fixed — `registerQuery()` rejects registration when `registry_` already holds
 > `kMaxRegisteredQueries` (1 000) queries.
+
+> **2026-05-27:** QE-arc-points-cast fixed — `ST_Buffer` `arc_points` parameter now calls
+> `std::clamp(qe_toNumber(*apRes), 3.0, 360.0)` before the `static_cast<int>` narrowing, eliminating
+> potential undefined behaviour when a user supplies an out-of-`int`-range floating-point value (e.g.
+> `1e300`).  Also changed `HybridVGConfig` JSON default values from `static_cast<int>` to
+> `static_cast<int64_t>` to avoid narrowing UB when stored config contains large integers.
 
 ## Source File Inventory
 
@@ -113,8 +119,9 @@
 | Parser recursion depth limit          | ✅ Complete   | `kMaxExprDepth=500` in `parseExpression`; `kMaxTraversalDepth=100` in `parseForClause` (PA-1 fixed 2026-05-04) |
 | Cross-cluster HTTP hardening          | ✅ Complete   | Response capped at 64 MiB (CCF-01); redirect hops limited to 3 (CCF-02); URL scheme validated (CCF-03); auth token CR/LF rejected (CCF-04); libcurl protocol/redirect protocols restricted to HTTP/HTTPS (CCF-05) — all fixed 2026-05-27 |
 | CQ engine memory safety               | ✅ Complete   | `tickOnce()` double-ownership fixed (CQE-01); `inject_queue_` capped at 100 K (CQE-02); registry capped at 1 000 queries (CQE-03) — all fixed 2026-05-27 |
+| Integer cast safety (geo functions)   | ✅ Complete   | `ST_Buffer` `arc_points` double→int narrowing UB fixed: `std::clamp` applied before cast; `HybridVGConfig` JSON defaults use `int64_t` — fixed 2026-05-27 |
 | Performance benchmarks                | ❌ Pending    | Vectorized + federated paths (Q2 2026)        |
-| Full security audit                   | ✅ All critical findings resolved | QE-1..QE-5 ✅, PA-1..PA-2 ✅, TR-1..TR-2 ✅, CCF-01..CCF-05 ✅, CQE-01..CQE-03 ✅ — see Findings section |
+| Full security audit                   | ✅ All critical findings resolved | QE-1..QE-5 ✅, PA-1..PA-2 ✅, TR-1..TR-2 ✅, CCF-01..CCF-05 ✅, CQE-01..CQE-03 ✅, QE-arc-points-cast ✅ — see Findings section |
 
 ## Findings
 

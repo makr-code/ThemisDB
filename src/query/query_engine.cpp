@@ -2007,10 +2007,10 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		if (args.size() == 3) {
 			auto apRes = evalArg(2);
 			if (!apRes) return apRes;
-			// Clamp arc_points to [3, 360]: backend already clamps < 3, but guard upper bound here.
-			arc_points = static_cast<int>(qe_toNumber(*apRes));
-			if (arc_points < 3) arc_points = 3;
-			if (arc_points > 360) arc_points = 360;
+			// Clamp the double to [3, 360] BEFORE narrowing to int so that out-of-range
+			// floating-point values (e.g. 1e300) cannot trigger undefined behaviour.
+			const double ap_d = std::clamp(qe_toNumber(*apRes), 3.0, 360.0);
+			arc_points = static_cast<int>(ap_d);
 		}
 		try {
 			const geo::GeometryInfo geom = geo::EWKBParser::parseGeoJSON(gRes->dump());
@@ -3824,10 +3824,10 @@ static HybridVGConfig loadHybridConfig_(RocksDBWrapper& db) {
 		auto result = db.get("config:hybrid_query");
 		if (result.has_value()) {
 			auto j = nlohmann::json::parse(result.value());
-			if (j.contains("vector_first_overfetch")) cfg.overfetch = (std::max)(static_cast<size_t>(1), static_cast<size_t>(j.value("vector_first_overfetch", static_cast<int>(cfg.overfetch))));
+			if (j.contains("vector_first_overfetch")) cfg.overfetch = (std::max)(static_cast<size_t>(1), static_cast<size_t>(j.value("vector_first_overfetch", static_cast<int64_t>(cfg.overfetch))));
 			if (j.contains("bbox_ratio_threshold")) cfg.bbox_ratio_threshold = (std::min)(1.0, (std::max)(0.0, j.value("bbox_ratio_threshold", cfg.bbox_ratio_threshold)));
-			if (j.contains("min_chunk_spatial_eval")) cfg.min_chunk_spatial_eval = (std::max)(static_cast<size_t>(16), static_cast<size_t>(j.value("min_chunk_spatial_eval", static_cast<int>(cfg.min_chunk_spatial_eval))));
-			if (j.contains("min_chunk_vector_bf")) cfg.min_chunk_vector_bf = (std::max)(static_cast<size_t>(64), static_cast<size_t>(j.value("min_chunk_vector_bf", static_cast<int>(cfg.min_chunk_vector_bf))));
+			if (j.contains("min_chunk_spatial_eval")) cfg.min_chunk_spatial_eval = (std::max)(static_cast<size_t>(16), static_cast<size_t>(j.value("min_chunk_spatial_eval", static_cast<int64_t>(cfg.min_chunk_spatial_eval))));
+			if (j.contains("min_chunk_vector_bf")) cfg.min_chunk_vector_bf = (std::max)(static_cast<size_t>(64), static_cast<size_t>(j.value("min_chunk_vector_bf", static_cast<int64_t>(cfg.min_chunk_vector_bf))));
 		}
 	} catch (...) {
 		// keep defaults
