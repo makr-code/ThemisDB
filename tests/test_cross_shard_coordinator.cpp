@@ -240,6 +240,37 @@ TEST_F(DistributedDeadlockDetectionTest, DetectsAndResolvesReportedCrossShardCyc
     EXPECT_GE(stats["deadlocked_transactions"].get<uint64_t>(), 1u);
 }
 
+TEST_F(DistributedDeadlockDetectionTest, VictimSelectionSkipsUpstreamNonCycleWaiter) {
+    ASSERT_TRUE(coordinator_->beginTransaction(
+        "txn-cycle-b", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator_->beginTransaction(
+        "txn-cycle-c", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator_->beginTransaction(
+        "txn-chain-head", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+
+    coordinator_->reportDistributedWait("txn-chain-head", "txn-cycle-b", "shard-A");
+    coordinator_->reportDistributedWait("txn-cycle-b", "txn-cycle-c", "shard-B");
+    coordinator_->reportDistributedWait("txn-cycle-c", "txn-cycle-b", "shard-C");
+
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
+    bool cycle_resolved = false;
+    while (std::chrono::steady_clock::now() < deadline) {
+        const auto state_b = coordinator_->getTransactionState("txn-cycle-b");
+        const auto state_c = coordinator_->getTransactionState("txn-cycle-c");
+        if ((state_b.has_value() && *state_b == TransactionState::ABORTED) ||
+            (state_c.has_value() && *state_c == TransactionState::ABORTED)) {
+            cycle_resolved = true;
+            break;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    }
+
+    ASSERT_TRUE(cycle_resolved);
+    const auto state_head = coordinator_->getTransactionState("txn-chain-head");
+    ASSERT_TRUE(state_head.has_value());
+    EXPECT_NE(*state_head, TransactionState::ABORTED);
+}
+
 TEST(CrossShardDeadlockGraphTest, IsDeadlockedRequiresCycleMembership) {
     auto consensus = std::make_shared<MockConsensusModule>();
     CrossShardTransactionConfig config;

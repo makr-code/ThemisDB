@@ -29,6 +29,7 @@
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <set>
+#include <unordered_map>
 #include <unordered_set>
 #include <fstream>
 #include <thread>
@@ -39,45 +40,77 @@ namespace themisdb {
 namespace sharding {
 
 namespace {
-bool isNodeInDirectedCycle(
+std::unordered_set<std::string> collectCycleNodes(
     const std::map<std::string, std::vector<std::string>>& graph,
-    const std::string& start_node
 ) {
-    auto start_it = graph.find(start_node);
-    if (start_it == graph.end()) {
-        return false;
-    }
+    std::unordered_set<std::string> cycle_nodes;
+    std::unordered_map<std::string, int> index;
+    std::unordered_map<std::string, int> lowlink;
+    std::vector<std::string> stack;
+    std::unordered_set<std::string> on_stack;
+    int next_index = 0;
 
-    std::unordered_set<std::string> visited;
-    visited.insert(start_node);
+    std::function<void(const std::string&)> strong_connect =
+        [&](const std::string& node) {
+        index[node] = next_index;
+        lowlink[node] = next_index;
+        ++next_index;
+        stack.push_back(node);
+        on_stack.insert(node);
 
-    std::function<bool(const std::string&)> dfs =
-        [&](const std::string& node) -> bool {
         auto it = graph.find(node);
-        if (it == graph.end()) {
-            return false;
+        if (it != graph.end()) {
+            for (const auto& neighbor : it->second) {
+                if (graph.find(neighbor) == graph.end()) {
+                    continue;
+                }
+                if (index.find(neighbor) == index.end()) {
+                    strong_connect(neighbor);
+                    lowlink[node] = std::min(lowlink[node], lowlink[neighbor]);
+                } else if (on_stack.count(neighbor) > 0) {
+                    lowlink[node] = std::min(lowlink[node], index[neighbor]);
+                }
+            }
         }
 
-        for (const auto& neighbor : it->second) {
-            if (neighbor == start_node) {
-                return true;
-            }
-            if (visited.insert(neighbor).second && dfs(neighbor)) {
-                return true;
+        if (lowlink[node] != index[node]) {
+            return;
+        }
+
+        std::vector<std::string> component;
+        while (!stack.empty()) {
+            const auto current = stack.back();
+            stack.pop_back();
+            on_stack.erase(current);
+            component.push_back(current);
+            if (current == node) {
+                break;
             }
         }
-        return false;
+
+        bool is_cycle_component = component.size() > 1;
+        if (!is_cycle_component && !component.empty()) {
+            const auto self_it = graph.find(component.front());
+            if (self_it != graph.end()) {
+                is_cycle_component = std::find(
+                    self_it->second.begin(),
+                    self_it->second.end(),
+                    component.front()) != self_it->second.end();
+            }
+        }
+
+        if (is_cycle_component) {
+            cycle_nodes.insert(component.begin(), component.end());
+        }
     };
 
-    for (const auto& neighbor : start_it->second) {
-        if (neighbor == start_node) {
-            return true;
-        }
-        if (visited.insert(neighbor).second && dfs(neighbor)) {
-            return true;
+    for (const auto& [node, _] : graph) {
+        if (index.find(node) == index.end()) {
+            strong_connect(node);
         }
     }
-    return false;
+
+    return cycle_nodes;
 }
 }  // namespace
 
@@ -988,7 +1021,8 @@ bool CrossShardTransactionCoordinator::isDeadlocked(
 ) const {
     // Build wait-for graph
     auto graph = buildWaitForGraph();
-    return isNodeInDirectedCycle(graph, transaction_id);
+    const auto cycle_nodes = collectCycleNodes(graph);
+    return cycle_nodes.count(transaction_id) > 0;
 }
 
 std::vector<CrossShardTransaction> CrossShardTransactionCoordinator::getActiveTransactions() const {
@@ -1813,13 +1847,9 @@ void CrossShardTransactionCoordinator::deadlockDetectionThread() {
             continue;  // No active transactions with potential conflicts
         }
         
-        std::vector<std::string> deadlocked_txns;
-
-        for (const auto& [node, _] : graph) {
-            if (isNodeInDirectedCycle(graph, node)) {
-                deadlocked_txns.push_back(node);
-            }
-        }
+        const auto cycle_nodes = collectCycleNodes(graph);
+        std::vector<std::string> deadlocked_txns(
+            cycle_nodes.begin(), cycle_nodes.end());
         
         if (!deadlocked_txns.empty()) {
             spdlog::warn("Deadlock detected involving {} transactions", 
