@@ -1358,7 +1358,6 @@ bool MultiLoRAManager::quantizeLoRA(LoRASlot* lora) {
             }
         }
 
-        size_t num_weights = weights.size();
         if (weights.empty()) {
             spdlog::warn("quantizeLoRA: empty weight vector for LoRA '{}', aborting", lora->lora_id);
             return false;

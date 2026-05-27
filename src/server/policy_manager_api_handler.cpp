@@ -156,7 +156,7 @@ http::response<http::string_body> PolicyManagerApiHandler::handleCreateRule(
         }
         
         // Check if rule already exists
-        if (policy_manager_->getRule(rule.id).has_value()) {
+        if (policy_manager.getRule(rule.id).has_value()) {
             return makeErrorResponse(http::status::conflict, "Rule already exists: " + rule.id, req);
         }
         
@@ -165,7 +165,7 @@ http::response<http::string_body> PolicyManagerApiHandler::handleCreateRule(
         rule.updated_at = rule.created_at;
         
         // Add rule
-        policy_manager_->addRule(rule);
+        policy_manager.addRule(rule);
         
         THEMIS_INFO("Created policy rule: {}", rule.id);
         

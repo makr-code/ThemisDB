@@ -51,7 +51,14 @@
 
 #if __has_include("themis_wire_v1.pb.h")
 #define THEMIS_WIRE_V1_PB_HEADER_FOUND 1
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4267)
+#endif
 #include "themis_wire_v1.pb.h"
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 #else
 #define THEMIS_WIRE_V1_PB_HEADER_FOUND 0
 namespace themis {

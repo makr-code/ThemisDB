@@ -22,8 +22,15 @@
 // This mirrors the pattern used by WalGrpcService / wal_grpc_service.cpp.
 #if __has_include("themisdb.grpc.pb.h")
 #  include <grpcpp/grpcpp.h>
+#  ifdef _MSC_VER
+#    pragma warning(push)
+#    pragma warning(disable : 4267)
+#  endif
 #  include "themisdb.grpc.pb.h"
 #  include "themisdb.pb.h"
+#  ifdef _MSC_VER
+#    pragma warning(pop)
+#  endif
 #  define THEMIS_HAS_API_GRPC 1
 #else
 #  define THEMIS_HAS_API_GRPC 0
