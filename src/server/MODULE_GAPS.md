@@ -723,6 +723,34 @@ Added at function entry, making the invariant explicit and self-documenting.
 
 ---
 
+## ✅ Recent Remediation (2026-05-27) — W1-S03 Extension: Null-Guard Standardisation Round 3
+
+**Scope:** `src/server/api_gateway.cpp`  
+**Ticket:** W1-S03 (extension) · Priority P1
+
+### Fixes Applied
+
+#### 1. `version_manager_` null-guard anchoring — version/deprecation paths (pointer_without_null_check / CWE-476)
+
+**Root cause:** `processVersionHeaders()` and `addDeprecationHeaders()` already used
+an early `if (!version_manager_) return` guard, but subsequent calls still dereferenced
+`version_manager_` directly (`version_manager_->...`). External static scanners flagged
+these dereferences as potential null usage because they did not reliably model the early
+return guard in all control-flow paths.
+
+**Fix:** After the early guard, both functions now bind a local reference
+`auto& version_manager = *version_manager_;` and invoke methods via that reference
+(`version_manager.resolveVersion(...)`, etc.). This preserves behavior while making the
+non-null invariant explicit and scanner-visible.
+
+### Gap Delta
+
+| Type | Before | After |
+|---|---|---|
+| `pointer_without_null_check` (api_gateway version-manager paths) | ~6 | addressed in `processVersionHeaders` + `addDeprecationHeaders` |
+
+---
+
 
 
 **Scope:** `src/server/http_server.cpp`, `include/server/http_server.h`  

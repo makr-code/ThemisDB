@@ -787,6 +787,7 @@ APIVersion APIGateway::processVersionHeaders(
             APIVersionConfig::CURRENT_PATCH
         };
     }
+    auto& version_manager = *version_manager_;
     
     // Check for version prefix in URL path first (e.g. "/v1/entities").
     // Strip query string before inspecting the path so that a target like
@@ -824,26 +825,26 @@ APIVersion APIGateway::processVersionHeaders(
     // API-Version header, resolve the best matching version within the range.
     APIVersion version;
     if (url_version_str) {
-        version = version_manager_->resolveVersion(*url_version_str);
+        version = version_manager.resolveVersion(*url_version_str);
         spdlog::debug("APIGateway: version resolved from URL path prefix: {}", version.toString());
     } else if (!version_header.empty()) {
-        version = version_manager_->resolveVersion(version_header);
+        version = version_manager.resolveVersion(version_header);
     } else {
         // Check Accept-API-Version range header as final fallback
         auto range_it = req.find(APIHeaders::ACCEPT_API_VERSION);
         if (range_it != req.end()) {
             auto range = APIVersionRange::parse(std::string(range_it->value()));
             if (range) {
-                version = version_manager_->resolveVersionRange(*range);
+                version = version_manager.resolveVersionRange(*range);
                 spdlog::debug("APIGateway: version resolved from Accept-API-Version range '{}': {}",
                               std::string(range_it->value()), version.toString());
             } else {
                 spdlog::warn("APIGateway: invalid Accept-API-Version range '{}', using current",
                              std::string(range_it->value()));
-                version = version_manager_->getCurrentVersion();
+                version = version_manager.getCurrentVersion();
             }
         } else {
-            version = version_manager_->resolveVersion("");
+            version = version_manager.resolveVersion("");
         }
     }
 
@@ -851,7 +852,7 @@ APIVersion APIGateway::processVersionHeaders(
     response.set(APIHeaders::API_VERSION, version.toString());
     
     // Check if version is supported
-    if (!version_manager_->isVersionSupported(version)) {
+    if (!version_manager.isVersionSupported(version)) {
         spdlog::warn("Unsupported API version requested: {}", version.toString());
         
         if (config_.enforce_version_check) {
@@ -871,6 +872,7 @@ void APIGateway::addDeprecationHeaders(
     if (!version_manager_) {
         return;
     }
+    auto& version_manager = *version_manager_;
     
     // Extract endpoint path — strip query string so ?page=1 doesn't break lookup
     std::string endpoint = std::string(req.target());
@@ -884,7 +886,7 @@ void APIGateway::addDeprecationHeaders(
     endpoint = stripVersionPrefix(endpoint);
     
     // Check if endpoint is deprecated
-    auto deprecation = version_manager_->getDeprecationInfo(endpoint, version);
+    auto deprecation = version_manager.getDeprecationInfo(endpoint, version);
     if (!deprecation) {
         return;
     }
@@ -1000,4 +1002,3 @@ std::string APIGateway::extractClientIp(
 }
 
 } // namespace themis::server
-
