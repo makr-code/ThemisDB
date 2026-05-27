@@ -398,6 +398,18 @@ TEST_F(AQLTrainParserTest, ParseTrainAdapterOutOfRangeRankThrowsClearError) {
     }
 }
 
+TEST_F(AQLTrainParserTest, ParseTrainAdapterRejectsNonPositiveBatchSize) {
+    const std::string aql = "TRAIN ADAPTER 'aql-v1' FROM training_pairs "
+                            "WITH { base_model: 'mistral-7b', rank: 8, alpha: 16, epochs: 3, learning_rate: 0.0003, batch_size: 0 }";
+    EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterRejectsNonPositiveMaxSeqLengthViaJsonWithClause) {
+    const std::string aql = "TRAIN ADAPTER 'aql-v1' FROM training_pairs "
+                            "WITH {\"base_model_name\":\"mistral-7b\",\"rank\":8,\"alpha\":16,\"epochs\":3,\"learning_rate\":0.0003,\"max_seq_length\":0}";
+    EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
+}
+
 // ─── parseDeployAdapter ──────────────────────────────────────────────────────
 
 TEST_F(AQLTrainParserTest, ParseDeployAdapterBasic) {
@@ -480,6 +492,12 @@ TEST_F(AQLTrainParserTest, ParseListAdaptersInvalidLimitThrows) {
 TEST_F(AQLTrainParserTest, ParseListAdaptersOverflowLimitThrows) {
     EXPECT_THROW(
         parser_.parseListAdapters("LIST ADAPTERS LIMIT 999999999999999999999"),
+        std::invalid_argument);
+}
+
+TEST_F(AQLTrainParserTest, ParseListAdaptersNonPositiveLimitThrows) {
+    EXPECT_THROW(
+        parser_.parseListAdapters("LIST ADAPTERS ORDER BY created_at DESC LIMIT 0"),
         std::invalid_argument);
 }
 

@@ -397,6 +397,8 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
   with explicit `std::invalid_argument` messages (instead of leaking raw `std::stoi/std::stod` errors).
 - `aql_train_parser.cpp` LIST ADAPTERS `LIMIT` parsing now uses the same checked integer parser and no
   longer accepts trailing garbage or silently swallows out-of-range parse failures.
+- `aql_train_parser.cpp` now enforces positive bounds for `LIST ADAPTERS LIMIT`, `batch_size`, and
+  `max_seq_length`, rejecting non-positive values with explicit validation errors.
 
 **Status (v1.22.0-pre — W1-L06 uninitialized_access/overflow batch):** Integer-overflow guard added to `canAllocate`:
 - `gpu_memory_manager.cpp` `canAllocate()` (~line 759) — Added `size_t` overflow pre-checks

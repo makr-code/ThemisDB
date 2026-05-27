@@ -525,6 +525,12 @@ void AQLTrainParser::validateConfig(const TrainStatementConfig& config) {
     if (config.lora_rank < 1 || config.lora_rank > 256) {
         throw std::invalid_argument("AQLTrainParser: lora_rank must be in [1, 256]");
     }
+    if (config.batch_size < 1) {
+        throw std::invalid_argument("AQLTrainParser: batch_size must be >= 1");
+    }
+    if (config.max_seq_length < 1) {
+        throw std::invalid_argument("AQLTrainParser: max_seq_length must be >= 1");
+    }
 }
 
 TrainStatementConfig AQLTrainParser::parseTrainingConfig(const std::string& with_clause) {
@@ -866,6 +872,9 @@ std::shared_ptr<ListAdaptersStmt> AQLTrainParser::parseListAdapters(
             auto tokens = tokenize(rest);
             if (!tokens.empty()) {
                 stmt->limit = parseIntegerValue(tokens[0], "limit");
+                if (stmt->limit < 1) {
+                    throw std::invalid_argument("AQLTrainParser: limit must be >= 1");
+                }
             }
         }
     }
