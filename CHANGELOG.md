@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **Root planning docs refreshed from latest gapscan + issue state (2026-05-26)**
+
+  - Root roadmap and future-enhancements planning now reference the latest
+    validated rescan snapshot (184,779 gaps; CRITICAL 6,025; HIGH 142,926;
+    MEDIUM 35,828; actionable 148,951).
+  - Canonical GitHub tracking set corrected to master #5172, category wave
+    #5184-#5194, and P0 module wave #5195-#5201.
+  - Older wave references (#5207, #5221-#5230) are retained as historical
+    duplicates only.
+
 - **wire/themis hardening + single-thread regression validation (2026-05-26)**
 
   - `WireProtocolServer` single-threaded `io_context` pruning behaviour is now

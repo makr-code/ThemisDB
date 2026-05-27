@@ -260,7 +260,9 @@ Per-module Gap Remediation issues (7-phase workflow model):
 | voice | [#5310](https://github.com/makr-code/ThemisDB/issues/5310) | 6 |
 | whisper | [#5311](https://github.com/makr-code/ThemisDB/issues/5311) | 6 |
 
-**Phase 1-5 Meta Scanner Issue:** [#5231](https://github.com/makr-code/ThemisDB/issues/5231) — 193,858 Security & Code Quality Gaps (all 65 modules)
+**Canonical Meta Scanner Issue:** [#5172](https://github.com/makr-code/ThemisDB/issues/5172) — Phase 1-5 baseline tracking (155,634 gaps).
+
+**Additional Wave (non-canonical for this roadmap baseline):** [#5231](https://github.com/makr-code/ThemisDB/issues/5231) — alternate 193,858 snapshot.
 
 ---
 
