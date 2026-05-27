@@ -3260,6 +3260,11 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 	span.setAttribute("query.start_node", q.start_node);
 	span.setAttribute("query.end_node", q.end_node);
 	span.setAttribute("query.max_depth", static_cast<int64_t>(q.max_depth));
+	constexpr size_t kMaxTraversalDepth = 100;
+	const size_t boundedDepth = std::min(q.max_depth, kMaxTraversalDepth);
+	const int bfsDepth = static_cast<int>(
+		std::min(boundedDepth, static_cast<size_t>(std::numeric_limits<int>::max())));
+	span.setAttribute("query.max_depth_effective", static_cast<int64_t>(boundedDepth));
 	
 	if (!graphIdx_) {
 		return Err<std::vector<std::vector<std::string>>>(ErrorCode::ERR_INDEX_NOT_FOUND, "GraphIndexManager nicht verfügbar");
@@ -3302,7 +3307,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			spatialSelectivity = (std::min)((std::max)(bboxArea / totalArea, 0.0), 1.0);
 		}
 	}
-	QueryOptimizer::GraphPathCostInput gci; gci.maxDepth = q.max_depth; gci.branchingFactor = static_cast<size_t>(std::ceil(branchingEstimate)); gci.hasSpatialConstraint = q.spatial_constraint.has_value(); gci.spatialSelectivity = spatialSelectivity;
+	QueryOptimizer::GraphPathCostInput gci; gci.maxDepth = boundedDepth; gci.branchingFactor = static_cast<size_t>(std::ceil(branchingEstimate)); gci.hasSpatialConstraint = q.spatial_constraint.has_value(); gci.spatialSelectivity = spatialSelectivity;
 	auto gcr = QueryOptimizer::estimateGraphPath(gci);
 	span.setAttribute("optimizer.graph.branching_estimate", static_cast<int64_t>(branchingEstimate));
 	span.setAttribute("optimizer.graph.expanded_estimate", static_cast<int64_t>(gcr.estimatedExpandedVertices));
@@ -3443,15 +3448,15 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 	std::string graphId = q.graph_id.empty() ? std::string("default") : q.graph_id;
 		
 		if (timestamp_ms.has_value()) {
-			auto [status, nodes] = graphIdx_->bfsAtTime(q.start_node, *timestamp_ms, static_cast<int>(q.max_depth));
+			auto [status, nodes] = graphIdx_->bfsAtTime(q.start_node, *timestamp_ms, bfsDepth);
 			st = status;
 			reachableNodes = std::move(nodes);
 		} else if (hasTypeFilter) {
-			auto [status, nodes] = graphIdx_->bfs(q.start_node, static_cast<int>(q.max_depth), q.edge_type, graphId);
+			auto [status, nodes] = graphIdx_->bfs(q.start_node, bfsDepth, q.edge_type, graphId);
 			st = status;
 			reachableNodes = std::move(nodes);
 		} else {
-			auto [status, nodes] = graphIdx_->bfs(q.start_node, static_cast<int>(q.max_depth));
+			auto [status, nodes] = graphIdx_->bfs(q.start_node, bfsDepth);
 			st = status;
 			reachableNodes = std::move(nodes);
 		}
@@ -4650,5 +4655,4 @@ query::QueryPlanNode QueryEngine::buildExplainPlan(const ConjunctiveQuery& q) co
 }
 
 } // namespace themis
-
 

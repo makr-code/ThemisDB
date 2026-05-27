@@ -271,6 +271,36 @@ TEST_F(CommunityDetectionTest, LabelPropagation_WithOptions) {
     EXPECT_TRUE(result.contains("communities"));
 }
 
+TEST_F(CommunityDetectionTest, LabelPropagation_HugeMaxIterationsOptionDoesNotOverflow) {
+    auto& reg = FunctionRegistry::instance();
+
+    json edges = json::array();
+    edges.push_back(makeEdge("A", "B"));
+    edges.push_back(makeEdge("B", "C"));
+
+    json options = json{
+        {"max_iterations", 1e300}
+    };
+
+    auto result = reg.call("LABEL_PROPAGATION_COMMUNITIES", {edges, options}, ctx);
+
+    EXPECT_TRUE(result.is_object());
+    EXPECT_TRUE(result.contains("communities"));
+}
+
+TEST_F(CommunityDetectionTest, LabelPropagation_HugeScalarMaxIterationsDoesNotOverflow) {
+    auto& reg = FunctionRegistry::instance();
+
+    json edges = json::array();
+    edges.push_back(makeEdge("A", "B"));
+    edges.push_back(makeEdge("B", "C"));
+
+    auto result = reg.call("LABEL_PROPAGATION_COMMUNITIES", {edges, json(1e300)}, ctx);
+
+    EXPECT_TRUE(result.is_object());
+    EXPECT_TRUE(result.contains("communities"));
+}
+
 // ============================================================================
 // Comparison Tests
 // ============================================================================

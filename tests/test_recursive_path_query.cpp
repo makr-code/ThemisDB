@@ -15,6 +15,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include <filesystem>
+#include <limits>
 
 using namespace themis;
 
@@ -205,6 +206,19 @@ TEST_F(RecursivePathQueryTest, MaxDepthLimit) {
     // May or may not find path depending on BFS implementation
     // This test verifies max_depth is respected
     ASSERT_TRUE(result.has_value()) << result.error().message();
+}
+
+TEST_F(RecursivePathQueryTest, MaxDepthHugeValueIsSafelyBounded) {
+    createLinearGraph();
+
+    RecursivePathQuery q;
+    q.start_node = "A";
+    q.max_depth = std::numeric_limits<size_t>::max();
+
+    auto result = engine->executeRecursivePathQuery(q);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    auto paths = std::move(*result);
+    EXPECT_GE(paths.size(), 1);
 }
 
 TEST_F(RecursivePathQueryTest, EmptyStartNode) {
