@@ -15,6 +15,7 @@
 #include <ngtcp2/ngtcp2_crypto.h>
 #include <boost/asio.hpp>
 #include <openssl/ssl.h>
+#include <atomic>
 #include <memory>
 #include <string>
 #include <functional>
@@ -241,6 +242,7 @@ private:
     void doAccept();
     void onReceive(boost::system::error_code ec, std::size_t bytes_transferred);
     void cleanupInactiveSessions();
+    void armCleanupTimer();
 
     /**
      * @brief Extract the QUIC destination-connection-ID from a raw UDP payload.
@@ -275,6 +277,7 @@ private:
     
     uint32_t max_idle_timeout_ms_;
     net::steady_timer cleanup_timer_;
+    std::atomic<bool> running_{false};
     Http3ProductionConfig prod_cfg_;
     Http3FallbackManager fallback_manager_;
 };

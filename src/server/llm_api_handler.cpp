@@ -93,88 +93,104 @@ void LLMApiHandler::setQueryEngine(std::shared_ptr<query::QueryEngine> query_eng
 http::response<http::string_body> LLMApiHandler::handleRequest(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleRequest");
-    
-    // Delegate to LoRAApiHandler for LoRA-specific paths
-    std::string_view target = req.target();
-    if (lora_handler_ && target.starts_with("/api/v1/llm/lora/")) {
-        return lora_handler_->handleRequest(req);
-    }
 
-    // OpenAI-compatible endpoints use API key auth via PolicyEngine, not JWT.
-    // Route them BEFORE the JWT gate so that OpenAI SDK clients (which send a
-    // plain API key, not a signed JWT) are not rejected by validateBearerToken().
-    auto method = req.method();
-    if (target == "/v1/chat/completions" && method == http::verb::post) {
-        return handleOpenAIChatCompletions(req);
-    } else if (target == "/v1/models" && method == http::verb::get) {
-        return handleOpenAIListModels(req);
-    }
+    try {
+        // Delegate to LoRAApiHandler for LoRA-specific paths
+        std::string_view target = req.target();
+        if (lora_handler_ && target.starts_with("/api/v1/llm/lora/")) {
+            return lora_handler_->handleRequest(req);
+        }
 
-    // Validate Bearer Token (JWT) authentication for all other LLM API endpoints
-    if (!validateBearerToken(req)) {
+        // OpenAI-compatible endpoints use API key auth via PolicyEngine, not JWT.
+        // Route them BEFORE the JWT gate so that OpenAI SDK clients (which send a
+        // plain API key, not a signed JWT) are not rejected by validateBearerToken().
+        auto method = req.method();
+        if (target == "/v1/chat/completions" && method == http::verb::post) {
+            return handleOpenAIChatCompletions(req);
+        } else if (target == "/v1/models" && method == http::verb::get) {
+            return handleOpenAIListModels(req);
+        }
+
+        // Validate Bearer Token (JWT) authentication for all other LLM API endpoints
+        if (!validateBearerToken(req)) {
+            return createErrorResponse(
+                http::status::unauthorized,
+                "Unauthorized",
+                "Valid Bearer Token required. Include 'Authorization: Bearer <token>' header."
+            );
+        }
+
+        // Route to appropriate handler based on path and method
+        if (target == "/api/v1/llm/inference" && method == http::verb::post) {
+            return handleInference(req);
+        } else if (target == "/api/v1/llm/rag" && method == http::verb::post) {
+            return handleRAG(req);
+        } else if (target == "/api/v1/llm/embed" && method == http::verb::post) {
+            return handleEmbed(req);
+        } else if (target == "/api/v1/llm/stream" && method == http::verb::get) {
+            return handleStreamInference(req);
+        } else if (target == "/api/v1/llm/models" && method == http::verb::get) {
+            return handleListModels(req);
+        } else if (target == "/api/v1/llm/models/load" && method == http::verb::post) {
+            return handleLoadModel(req);
+        } else if (target == "/api/v1/llm/models/unload" && method == http::verb::post) {
+            return handleUnloadModel(req);
+        } else if (target.starts_with("/api/v1/llm/models/") && method == http::verb::get) {
+            return handleModelInfo(req);
+        } else if (target == "/api/v1/llm/models/ingest" && method == http::verb::post) {
+            return handleIngestModel(req);
+        } else if (target == "/api/v1/llm/loras" && method == http::verb::get) {
+            return handleListLoRAs(req);
+        } else if (target == "/api/v1/llm/loras/load" && method == http::verb::post) {
+            return handleLoadLoRA(req);
+        } else if (target == "/api/v1/llm/loras/unload" && method == http::verb::post) {
+            return handleUnloadLoRA(req);
+        } else if (target == "/api/v1/llm/stats" && method == http::verb::get) {
+            return handleStats(req);
+        } else if (target == "/api/v1/llm/cache/stats" && method == http::verb::get) {
+            return handleCacheStats(req);
+        } else if (target == "/api/v1/llm/cache" && method == http::verb::delete_) {
+            return handleClearCache(req);
+        } else if (target == "/api/v1/llm/health" && method == http::verb::get) {
+            return handleHealth(req);
+        } else if (target == "/api/v1/llm/docs/query" && method == http::verb::post) {
+            return handleDocsQuery(req);
+        } else if (target == "/api/v1/llm/docs/config" && method == http::verb::post) {
+            return handleDocsConfig(req);
+        } else if (target == "/api/v1/llm/docs/troubleshoot" && method == http::verb::post) {
+            return handleDocsTroubleshoot(req);
+        } else if (target == "/api/v1/llm/feedback" && method == http::verb::post) {
+            return handleCreateFeedback(req);
+        } else if (target == "/api/v1/llm/feedback" && method == http::verb::get) {
+            return handleListFeedback(req);
+        } else if (target == "/api/v1/llm/feedback/stats" && method == http::verb::get) {
+            return handleFeedbackStats(req);
+        } else if (target.starts_with("/api/v1/llm/feedback/") && method == http::verb::get) {
+            return handleGetFeedback(req);
+        } else if (target == "/api/v1/llm/aql/explain/stream" && method == http::verb::post) {
+            return handleStreamExplainAql(req);
+        }
+
         return createErrorResponse(
-            http::status::unauthorized,
-            "Unauthorized",
-            "Valid Bearer Token required. Include 'Authorization: Bearer <token>' header."
+            http::status::not_found,
+            "Not Found",
+            "LLM API endpoint not found"
+        );
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("LLMApiHandler::handleRequest failed: {}", e.what());
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Internal Server Error",
+            "Failed to handle LLM API request"
+        );
+    } catch (...) {
+        THEMIS_ERROR("LLMApiHandler::handleRequest failed: non-standard exception");
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Internal Server Error",
+            "Failed to handle LLM API request"
         );
     }
-    
-    // Route to appropriate handler based on path and method
-    if (target == "/api/v1/llm/inference" && method == http::verb::post) {
-        return handleInference(req);
-    } else if (target == "/api/v1/llm/rag" && method == http::verb::post) {
-        return handleRAG(req);
-    } else if (target == "/api/v1/llm/embed" && method == http::verb::post) {
-        return handleEmbed(req);
-    } else if (target == "/api/v1/llm/stream" && method == http::verb::get) {
-        return handleStreamInference(req);
-    } else if (target == "/api/v1/llm/models" && method == http::verb::get) {
-        return handleListModels(req);
-    } else if (target == "/api/v1/llm/models/load" && method == http::verb::post) {
-        return handleLoadModel(req);
-    } else if (target == "/api/v1/llm/models/unload" && method == http::verb::post) {
-        return handleUnloadModel(req);
-    } else if (target.starts_with("/api/v1/llm/models/") && method == http::verb::get) {
-        return handleModelInfo(req);
-    } else if (target == "/api/v1/llm/models/ingest" && method == http::verb::post) {
-        return handleIngestModel(req);
-    } else if (target == "/api/v1/llm/loras" && method == http::verb::get) {
-        return handleListLoRAs(req);
-    } else if (target == "/api/v1/llm/loras/load" && method == http::verb::post) {
-        return handleLoadLoRA(req);
-    } else if (target == "/api/v1/llm/loras/unload" && method == http::verb::post) {
-        return handleUnloadLoRA(req);
-    } else if (target == "/api/v1/llm/stats" && method == http::verb::get) {
-        return handleStats(req);
-    } else if (target == "/api/v1/llm/cache/stats" && method == http::verb::get) {
-        return handleCacheStats(req);
-    } else if (target == "/api/v1/llm/cache" && method == http::verb::delete_) {
-        return handleClearCache(req);
-    } else if (target == "/api/v1/llm/health" && method == http::verb::get) {
-        return handleHealth(req);
-    } else if (target == "/api/v1/llm/docs/query" && method == http::verb::post) {
-        return handleDocsQuery(req);
-    } else if (target == "/api/v1/llm/docs/config" && method == http::verb::post) {
-        return handleDocsConfig(req);
-    } else if (target == "/api/v1/llm/docs/troubleshoot" && method == http::verb::post) {
-        return handleDocsTroubleshoot(req);
-    } else if (target == "/api/v1/llm/feedback" && method == http::verb::post) {
-        return handleCreateFeedback(req);
-    } else if (target == "/api/v1/llm/feedback" && method == http::verb::get) {
-        return handleListFeedback(req);
-    } else if (target == "/api/v1/llm/feedback/stats" && method == http::verb::get) {
-        return handleFeedbackStats(req);
-    } else if (target.starts_with("/api/v1/llm/feedback/") && method == http::verb::get) {
-        return handleGetFeedback(req);
-    } else if (target == "/api/v1/llm/aql/explain/stream" && method == http::verb::post) {
-        return handleStreamExplainAql(req);
-    }
-    
-    return createErrorResponse(
-        http::status::not_found,
-        "Not Found",
-        "LLM API endpoint not found"
-    );
 }
 
 http::response<http::string_body> LLMApiHandler::handleInference(

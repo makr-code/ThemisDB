@@ -1443,6 +1443,14 @@ Fixes applied:
 | uncaught_exception (silent catch-all in `llm_api_handler.cpp`) | 5 | 0 |
 | no_timeout / async-lifecycle edge (`http3_session.cpp` accept loop stop path) | 2 | 0 |
 
+### Follow-up (2026-05-27, W1-S06 scope continuation)
+- `llm_api_handler.cpp`: `LLMApiHandler::handleRequest()` now wraps full dispatch
+  in a top-level `try/catch` boundary and converts unexpected failures into a
+  deterministic `500 Internal Server Error` response with diagnostic logging.
+- `http3_session.cpp` + `http3_session.h`: introduced `Http3Handler::running_`
+  lifecycle gate and centralized timer arming (`armCleanupTimer()`) so cleanup
+  callbacks fail-close after `stop()` and cannot silently re-arm during teardown.
+
 ---
 
 ## ✅ Recent Remediation (2026-05-26 — W1-S07 unknown cluster triage)

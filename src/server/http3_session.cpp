@@ -121,28 +121,15 @@ SSL_CTX* Http3Handler::createSslContext(const std::string& cert_path,
 
 void Http3Handler::start() {
     THEMIS_INFO("HTTP/3 handler started, waiting for QUIC connections");
+    running_.store(true, std::memory_order_release);
     doAccept();
-    
-    // Start cleanup timer (every 30 seconds).
-    // Lifetime assumption: Http3Handler's io_context must be stopped (or this
-    // object's stop() must be called) before the handler is destroyed.  stop()
-    // cancels the timer; the async_wait callback checks the error code and will
-    // not call cleanupInactiveSessions() for operation_aborted completions.
-    cleanup_timer_.expires_after(std::chrono::seconds(30));
-    cleanup_timer_.async_wait([this](boost::system::error_code ec) {
-        if (!ec) {
-            try {
-                cleanupInactiveSessions();
-            } catch (const std::exception& e) {
-                THEMIS_ERROR("HTTP/3 cleanup timer error: {}", e.what());
-            } catch (...) {
-                THEMIS_ERROR("HTTP/3 cleanup timer error: non-standard exception");
-            }
-        }
-    });
+    armCleanupTimer();
 }
 
 void Http3Handler::stop() {
+    if (!running_.exchange(false, std::memory_order_acq_rel)) {
+        return;
+    }
     boost::system::error_code ignored;
     socket_.cancel(ignored);
     socket_.close(ignored);
@@ -152,7 +139,7 @@ void Http3Handler::stop() {
 }
 
 void Http3Handler::doAccept() {
-    if (!socket_.is_open()) {
+    if (!running_.load(std::memory_order_acquire) || !socket_.is_open()) {
         return;
     }
 
@@ -244,6 +231,34 @@ void Http3Handler::onReceive(boost::system::error_code ec, std::size_t bytes_tra
     
     doAccept(); // Continue accepting
 }
+void Http3Handler::armCleanupTimer() {
+    if (!running_.load(std::memory_order_acquire)) {
+        return;
+    }
+
+    // Start cleanup timer (every 30 seconds).
+    // stop() cancels pending waits and flips running_ so callbacks fail-close
+    // during teardown and do not re-arm cleanup.
+    cleanup_timer_.expires_after(std::chrono::seconds(30));
+    cleanup_timer_.async_wait([this](boost::system::error_code ec) {
+        if (ec || !running_.load(std::memory_order_acquire)) {
+            return;
+        }
+
+        try {
+            cleanupInactiveSessions();
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("HTTP/3 cleanup timer error: {}", e.what());
+        } catch (...) {
+            THEMIS_ERROR("HTTP/3 cleanup timer error: non-standard exception");
+        }
+
+        if (running_.load(std::memory_order_acquire)) {
+            armCleanupTimer();
+        }
+    });
+}
+
 void Http3Handler::cleanupInactiveSessions() {
     for (auto it = sessions_.begin(); it != sessions_.end(); ) {
         if (!it->second->isActive()) {
@@ -265,20 +280,6 @@ void Http3Handler::cleanupInactiveSessions() {
 
     // Sweep expired fallback entries
     fallback_manager_.purgeExpired();
-    
-    // Reschedule cleanup
-    cleanup_timer_.expires_after(std::chrono::seconds(30));
-    cleanup_timer_.async_wait([this](boost::system::error_code ec) {
-        if (!ec) {
-            try {
-                cleanupInactiveSessions();
-            } catch (const std::exception& e) {
-                THEMIS_ERROR("HTTP/3 cleanup timer error: {}", e.what());
-            } catch (...) {
-                THEMIS_ERROR("HTTP/3 cleanup timer error: non-standard exception");
-            }
-        }
-    });
 }
 
 // static
