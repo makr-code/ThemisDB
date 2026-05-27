@@ -549,6 +549,110 @@ TEST_F(RPCBatchOperationsTest, DispatchTimesOutDuringCollectionMetadataScan) {
               static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
 }
 
+TEST_F(RPCBatchOperationsTest, DispatchTimesOutDuringQueryScan) {
+    const std::string blob(512, 'z');
+    for (int i = 0; i < 25000; ++i) {
+        DirectPut("query_timeout", "M", "doc-" + std::to_string(i),
+                  {{"type", "beta"}, {"blob", blob}, {"i", i}});
+    }
+
+    themis::plugins::rpc::RPCRequestContext ctx;
+    ctx.timestamp_ms = CurrentUnixMs() - 5;
+    ctx.metadata["x-timeout-ms"] = "10";
+
+    json resp = service_->dispatch(
+        "query",
+        {
+            {"collection", "query_timeout"},
+            {"filter", {{"type", "beta"}}}
+        },
+        ctx
+    );
+
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+}
+
+TEST_F(RPCBatchOperationsTest, DispatchTimesOutDuringSearchScan) {
+    const std::string blob(512, 'z');
+    for (int i = 0; i < 25000; ++i) {
+        DirectPut("search_timeout", "M", "doc-" + std::to_string(i),
+                  {{"type", "gamma"}, {"blob", blob}, {"i", i}});
+    }
+
+    themis::plugins::rpc::RPCRequestContext ctx;
+    ctx.timestamp_ms = CurrentUnixMs() - 5;
+    ctx.metadata["x-timeout-ms"] = "10";
+
+    json resp = service_->dispatch(
+        "search",
+        {
+            {"collection", "search_timeout"},
+            {"filter", {{"type", "gamma"}}},
+            {"limit", 100}
+        },
+        ctx
+    );
+
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+}
+
+TEST_F(RPCBatchOperationsTest, DispatchTimesOutDuringPaginatedQueryScan) {
+    const std::string blob(512, 'z');
+    for (int i = 0; i < 25000; ++i) {
+        DirectPut("paginated_timeout", "M", "doc-" + std::to_string(i),
+                  {{"blob", blob}, {"i", i}});
+    }
+
+    themis::plugins::rpc::RPCRequestContext ctx;
+    ctx.timestamp_ms = CurrentUnixMs() - 5;
+    ctx.metadata["x-timeout-ms"] = "10";
+
+    json resp = service_->dispatch(
+        "paginated_query",
+        {
+            {"collection", "paginated_timeout"},
+            {"page_size", 50}
+        },
+        ctx
+    );
+
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+}
+
+TEST_F(RPCBatchOperationsTest, DispatchTimesOutDuringTimeSeriesQueryScan) {
+    const std::string blob(512, 'z');
+    int64_t base_ts = static_cast<int64_t>(CurrentUnixMs()) - 10000;
+    for (int i = 0; i < 25000; ++i) {
+        DirectPut("ts_timeout", "M", "event-" + std::to_string(i),
+                  {{"ts", base_ts + i}, {"blob", blob}, {"i", i}});
+    }
+
+    themis::plugins::rpc::RPCRequestContext ctx;
+    ctx.timestamp_ms = CurrentUnixMs() - 5;
+    ctx.metadata["x-timeout-ms"] = "10";
+
+    json resp = service_->dispatch(
+        "timeseries_query",
+        {
+            {"collection", "ts_timeout"},
+            {"start_ts", base_ts},
+            {"end_ts", base_ts + 30000},
+            {"limit", 1000}
+        },
+        ctx
+    );
+
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+}
+
 // ============================================================================
 // Performance – batch vs. individual operations
 // ============================================================================

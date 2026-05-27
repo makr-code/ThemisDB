@@ -919,3 +919,12 @@ Findings addressed:
   response paths in `try/catch` so exceptions cannot escape Asio handlers and trigger process termination.
   `ThemisRPCService::dispatch()` now treats unknown exceptions like typed exceptions for retryable methods:
   it consumes retry budget first and returns `INTERNAL_ERROR` only on final-attempt exhaustion.
+
+- **W1-S04 follow-up (2026-05-27) — deadline enforcement in query/search/paginated_query/timeseries_query scan handlers (`rpc_service_impl.cpp`):**
+  `handleQuery`, `handleSearch`, `handlePaginatedQuery`, and `handleTimeSeriesQuery` each refactored into
+  a public no-deadline wrapper and a new `*Internal(params, deadline)` variant. `dispatch()` now threads
+  `request_deadline` into all four via the Internal variants (matching the existing pattern for
+  `aggregation_pipeline`, `list_collections`, `get_collection_metadata`). Each scan loop increments a
+  `scanned_keys` counter and calls `shouldCheckDeadline` / `isDeadlineExceeded` every 256 iterations,
+  returning `QUERY_TIMEOUT` if the deadline is breached. Added four deadline-expiry tests to
+  `tests/test_rpc_batch_operations.cpp`.

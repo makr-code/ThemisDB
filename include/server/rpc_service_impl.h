@@ -236,6 +236,22 @@ private:
         const json& params,
         const std::optional<std::chrono::steady_clock::time_point>& deadline
     );
+    json handleQueryInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
+    json handleSearchInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
+    json handlePaginatedQueryInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
+    json handleTimeSeriesQueryInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
 };
 
 } // namespace rpc

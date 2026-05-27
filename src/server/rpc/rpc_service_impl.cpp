@@ -880,6 +880,13 @@ json ThemisRPCService::handleBatchDelete(const json& params) {
 }
 
 json ThemisRPCService::handleQuery(const json& params) {
+    return handleQueryInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleQueryInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         std::string aql;
         if (params.is_object()) {
@@ -939,10 +946,19 @@ json ThemisRPCService::handleQuery(const json& params) {
             auto& iter = iter_result.value();
             size_t matched_total = 0;
             size_t emitted = 0;
+            size_t scanned_keys = 0;
             json results = json::array();
 
             iter.Seek(prefix);
             while (iter.Valid()) {
+                ++scanned_keys;
+                if (shouldCheckDeadline(scanned_keys) && isDeadlineExceeded(deadline)) {
+                    return createError(
+                        themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                        "Request deadline exceeded during query collection scan"
+                    );
+                }
+
                 std::string key(iter.key());
                 if (key.substr(0, prefix.length()) != prefix) {
                     break;
@@ -1326,6 +1342,13 @@ json ThemisRPCService::handleGeoQuery(const json& params) {
 }
 
 json ThemisRPCService::handleTimeSeriesQuery(const json& params) {
+    return handleTimeSeriesQueryInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleTimeSeriesQueryInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         std::string collection(params.value("collection", ""));
         
@@ -1372,6 +1395,7 @@ json ThemisRPCService::handleTimeSeriesQuery(const json& params) {
         auto& iter = iter_result.value();
         json data_points = json::array();
         int count = 0;
+        size_t scanned_keys = 0;
 
         // Aggregation accumulators
         double agg_sum = 0.0;
@@ -1381,6 +1405,14 @@ json ThemisRPCService::handleTimeSeriesQuery(const json& params) {
 
         iter.Seek(prefix);
         while (iter.Valid() && count < limit) {
+            ++scanned_keys;
+            if (shouldCheckDeadline(scanned_keys) && isDeadlineExceeded(deadline)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during time series collection scan"
+                );
+            }
+
             std::string key(iter.key());
             if (key.substr(0, prefix.length()) != prefix) {
                 break;
@@ -1680,6 +1712,13 @@ json ThemisRPCService::handleAuthenticate(const json& params) {
 }
 
 json ThemisRPCService::handleSearch(const json& params) {
+    return handleSearchInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleSearchInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         std::string collection(params.value("collection", ""));
         
@@ -1721,10 +1760,19 @@ json ThemisRPCService::handleSearch(const json& params) {
         auto& iter = iter_result.value();
         json results = json::array();
         int count = 0;
+        size_t scanned_keys = 0;
         
         // Scan keys with prefix
         iter.Seek(prefix);
         while (iter.Valid() && count < limit) {
+            ++scanned_keys;
+            if (shouldCheckDeadline(scanned_keys) && isDeadlineExceeded(deadline)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during search collection scan"
+                );
+            }
+
             std::string key(iter.key());
             
             // Check if key still matches prefix
@@ -2010,6 +2058,13 @@ json ThemisRPCService::handleBatchUpdate(const json& params) {
 }
 
 json ThemisRPCService::handlePaginatedQuery(const json& params) {
+    return handlePaginatedQueryInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handlePaginatedQueryInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         std::string collection(params.value("collection", ""));
         
@@ -2063,8 +2118,17 @@ json ThemisRPCService::handlePaginatedQuery(const json& params) {
         
         // Collect page_size results
         int count = 0;
+        size_t scanned_keys = 0;
         std::string next_cursor;
         while (iter.Valid() && count < page_size) {
+            ++scanned_keys;
+            if (shouldCheckDeadline(scanned_keys) && isDeadlineExceeded(deadline)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during paginated query scan"
+                );
+            }
+
             std::string key(iter.key());
             
             // Check if key still matches prefix
@@ -2749,7 +2813,7 @@ json ThemisRPCService::dispatch(
         } else if (method == "batch_delete") {
             return handleBatchDelete(params);
         } else if (method == "query") {
-            return handleQuery(params);
+            return handleQueryInternal(params, request_deadline);
         } else if (method == "vector_search") {
             return handleVectorSearch(params);
         } else if (method == "graph_traverse") {
@@ -2757,7 +2821,7 @@ json ThemisRPCService::dispatch(
         } else if (method == "geo_query") {
             return handleGeoQuery(params);
         } else if (method == "timeseries_query") {
-            return handleTimeSeriesQuery(params);
+            return handleTimeSeriesQueryInternal(params, request_deadline);
         } else if (method == "transaction_begin") {
             return handleTransactionBegin(params);
         } else if (method == "transaction_commit") {
@@ -2769,7 +2833,7 @@ json ThemisRPCService::dispatch(
         } else if (method == "authenticate") {
             return handleAuthenticate(params);
         } else if (method == "search") {
-            return handleSearch(params);
+            return handleSearchInternal(params, request_deadline);
         } else if (method == "stats") {
             return handleStats(params);
         } else if (method == "update_entity") {
@@ -2777,7 +2841,7 @@ json ThemisRPCService::dispatch(
         } else if (method == "batch_update") {
             return handleBatchUpdate(params);
         } else if (method == "paginated_query") {
-            return handlePaginatedQuery(params);
+            return handlePaginatedQueryInternal(params, request_deadline);
         } else if (method == "get_index_operations") {
             return handleGetIndexOperations(params);
         } else if (method == "aggregation_pipeline") {
