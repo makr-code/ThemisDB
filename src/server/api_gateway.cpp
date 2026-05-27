@@ -128,20 +128,23 @@ http::response<http::string_body> APIGateway::handleRequest(
     
     try {
         // 1. Authentication check
-        if (auth_ && auth_->isEnabled()) {
-            bool auth_ok = false;
-            const auto auth_header = req[http::field::authorization];
-            if (!auth_header.empty()) {
-                auto token = AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
-                if (token) {
-                    auto result = auth_->validateToken(*token);
-                    auth_ok = result.authorized;
+        if (auth_) {
+            auto& auth = *auth_;
+            if (auth.isEnabled()) {
+                bool auth_ok = false;
+                const auto auth_header = req[http::field::authorization];
+                if (!auth_header.empty()) {
+                    auto token = AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
+                    if (token) {
+                        auto result = auth.validateToken(*token);
+                        auth_ok = result.authorized;
+                    }
                 }
-            }
-            if (!auth_ok) {
-                rate_limited_requests_++;
-                return makeErrorResponse(http::status::unauthorized,
-                                        "Authentication failed", req);
+                if (!auth_ok) {
+                    rate_limited_requests_++;
+                    return makeErrorResponse(http::status::unauthorized,
+                                            "Authentication failed", req);
+                }
             }
         }
         
@@ -503,6 +506,7 @@ bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
 
     // Prefer V2 rate limiter if available
     if (rate_limiter_v2_) {
+        auto& rate_limiter_v2 = *rate_limiter_v2_;
         // Extract client ID from request (prefer user ID from JWT)
         std::string client_id = "anonymous";
         
@@ -513,8 +517,9 @@ bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
             
             // Extract JWT subject if possible (via AuthMiddleware)
             if (auth_ && auth_value.size() > 7 && auth_value.substr(0, 7) == "Bearer ") {
+                auto& auth = *auth_;
                 std::string token = auth_value.substr(7);
-                auto ctx = auth_->extractContext(token);
+                auto ctx = auth.extractContext(token);
                 if (ctx && !ctx->user_id.empty()) {
                     client_id = ctx->user_id;  // Use JWT subject as client ID
                 } else {
@@ -539,13 +544,14 @@ bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
         auto priority = TokenBucketRateLimiter::Priority::NORMAL;
         // Future: Extract priority from JWT claims (e.g., ctx->premium = true)
         
-        return rate_limiter_v2_->allowRequest(client_id, 1, priority);
+        return rate_limiter_v2.allowRequest(client_id, 1, priority);
     }
     
     // Fallback to V1 rate limiter
     if (!rate_limiter_) {
         return true;
     }
+    auto& rate_limiter = *rate_limiter_;
     
     // Extract client ID from request (could be IP, user ID, etc.)
     std::string client_id = "default";
@@ -560,15 +566,16 @@ bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
         client_id = ipClientId();
     }
     
-    return rate_limiter_->allowRequest(client_id);
+    return rate_limiter.allowRequest(client_id);
 }
 
 bool APIGateway::checkLoadShedding(const http::request<http::string_body>& /*req*/) {
     if (!load_shedder_) {
         return true;
     }
+    auto& load_shedder = *load_shedder_;
     
-    return !load_shedder_->shouldReject(LoadShedder::Priority::NORMAL);
+    return !load_shedder.shouldReject(LoadShedder::Priority::NORMAL);
 }
 
 std::shared_ptr<sharding::CircuitBreaker> APIGateway::getCircuitBreaker(
