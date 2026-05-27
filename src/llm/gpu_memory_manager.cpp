@@ -214,6 +214,32 @@ inline bool isTrackedGpuNoLock(const std::vector<int>& available_gpus, int gpu_d
     return std::find(available_gpus.begin(), available_gpus.end(), gpu_device_id) != available_gpus.end();
 }
 
+inline std::vector<int> sanitizeGpuDeviceList(const std::vector<int>& requested_gpus,
+                                              std::optional<int> max_device_count = std::nullopt) {
+    std::vector<int> sanitized;
+    sanitized.reserve(requested_gpus.size());
+    std::unordered_set<int> seen;
+
+    for (int gpu_id : requested_gpus) {
+        if (gpu_id < 0) {
+            spdlog::warn("Ignoring invalid negative GPU id {}", gpu_id);
+            continue;
+        }
+        if (max_device_count.has_value() && gpu_id >= max_device_count.value()) {
+            spdlog::warn("GPU {} requested but only {} GPUs available, skipping",
+                         gpu_id, max_device_count.value());
+            continue;
+        }
+        if (!seen.insert(gpu_id).second) {
+            spdlog::warn("Ignoring duplicate GPU id {} in configuration", gpu_id);
+            continue;
+        }
+        sanitized.push_back(gpu_id);
+    }
+
+    return sanitized;
+}
+
 inline void cleanupRawAllocation(void* ptr,
                                  size_t bytes,
                                  detail::MemoryHolder::Type type,
@@ -367,15 +393,15 @@ void GPUMemoryManager::initializeGPU() {
         // Initialize multi-GPU support (v1.4.0)
         if (config_.enable_multi_gpu && !config_.gpu_devices.empty()) {
             spdlog::info("Initializing multi-GPU support with {} GPUs", config_.gpu_devices.size());
-            available_gpus_ = config_.gpu_devices;
-            
-            for (int gpu_id : config_.gpu_devices) {
-                // Check if GPU exists
-                if (gpu_id >= deviceCount) {
-                    spdlog::warn("GPU {} requested but only {} GPUs available, skipping", gpu_id, deviceCount);
-                    continue;
-                }
-                
+            available_gpus_ = sanitizeGpuDeviceList(config_.gpu_devices, deviceCount);
+
+            if (available_gpus_.empty()) {
+                spdlog::warn("No valid configured GPUs remain after validation, falling back to primary GPU {}",
+                             gpu_device_id_);
+                available_gpus_.push_back(gpu_device_id_);
+            }
+
+            for (int gpu_id : available_gpus_) {
                 per_gpu_vram_used_[gpu_id] = 0;
                 gpu_health_status_[gpu_id] = true;
                 spdlog::info("  GPU {} initialized", gpu_id);
@@ -443,9 +469,14 @@ void GPUMemoryManager::initializeGPU() {
     // Initialize multi-GPU support in simulation mode (v1.4.0)
     if (config_.enable_multi_gpu && !config_.gpu_devices.empty()) {
         spdlog::info("Initializing multi-GPU support (simulation) with {} GPUs", config_.gpu_devices.size());
-        available_gpus_ = config_.gpu_devices;
-        
-        for (int gpu_id : config_.gpu_devices) {
+        available_gpus_ = sanitizeGpuDeviceList(config_.gpu_devices);
+        if (available_gpus_.empty()) {
+            spdlog::warn("No valid configured GPUs remain after validation, falling back to primary GPU {}",
+                         gpu_device_id_);
+            available_gpus_.push_back(gpu_device_id_);
+        }
+
+        for (int gpu_id : available_gpus_) {
             per_gpu_vram_used_[gpu_id] = 0;
             gpu_health_status_[gpu_id] = true;
             spdlog::info("  GPU {} initialized (simulated)", gpu_id);
@@ -1560,6 +1591,9 @@ size_t GPUMemoryManager::getGPUVRAM(int gpu_device_id) const {
 
 size_t GPUMemoryManager::getFreeGPUVRAM(int gpu_device_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
+    if (!isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id)) {
+        return 0;
+    }
     size_t used = 0;
     auto it = per_gpu_vram_used_.find(gpu_device_id);
     if (it != per_gpu_vram_used_.end()) {
@@ -2080,6 +2114,12 @@ bool GPUMemoryManager::needsLoadRebalancing(float threshold) const {
 
 void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
     std::unique_lock<std::mutex> lock(mutex_);
+    if (!isTrackedGpuNoLock(available_gpus_, gpu_device_id) ||
+        !isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id)) {
+        spdlog::warn("updateGPUHealth: ignoring untracked GPU {}", gpu_device_id);
+        return;
+    }
+
     // This would typically query actual GPU hardware
 #ifdef THEMIS_ENABLE_CUDA
     if (gpu_available_) {
@@ -2134,6 +2174,11 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
         }
 
         lock.lock();
+        if (!isTrackedGpuNoLock(available_gpus_, gpu_device_id) ||
+            !isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id)) {
+            spdlog::warn("updateGPUHealth: dropping writeback for untracked GPU {}", gpu_device_id);
+            return;
+        }
         gpu_utilizations_[gpu_device_id] = utilization;
         gpu_temperatures_[gpu_device_id] = temperature.value_or(40.0f + (utilization * 0.35f));
         return;
@@ -2164,6 +2209,11 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
     }
 
     lock.lock();
+    if (!isTrackedGpuNoLock(available_gpus_, gpu_device_id) ||
+        !isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id)) {
+        spdlog::warn("updateGPUHealth: dropping writeback for untracked GPU {}", gpu_device_id);
+        return;
+    }
     gpu_utilizations_[gpu_device_id] = utilization;
     gpu_temperatures_[gpu_device_id] =
         measured_temperature.value_or(45.0f + (utilization * 0.4f));  // Simulated temp
@@ -2177,6 +2227,10 @@ void GPUMemoryManager::checkGPUHealth(int gpu_device_id) {
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
+        if (!isTrackedGpuNoLock(available_gpus_, gpu_device_id) ||
+            !isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id)) {
+            return;
+        }
         auto util_it = gpu_utilizations_.find(gpu_device_id);
         auto temp_it = gpu_temperatures_.find(gpu_device_id);
 

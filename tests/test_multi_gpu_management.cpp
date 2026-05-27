@@ -145,6 +145,39 @@ TEST_F(GPUMemoryManagerMultiGPUTest, MarkUnknownGPUUnhealthyDoesNotAffectTracked
     EXPECT_EQ(healthy_after.size(), healthy_before.size());
 }
 
+TEST(GPUMemoryManagerMultiGPUConfigValidation, FiltersDuplicateAndNegativeGPUIds) {
+    GPUMemoryManager::Config config;
+    config.enable_multi_gpu = true;
+    config.gpu_devices = {0, 0, -1};
+    config.max_vram_bytes = 24 * GB;
+
+    auto manager = std::make_shared<GPUMemoryManager>(config);
+    const auto available = manager->getAvailableGPUs();
+
+    ASSERT_EQ(available.size(), 1u);
+    EXPECT_EQ(available[0], 0);
+    EXPECT_TRUE(manager->isGPUAvailable(0));
+    EXPECT_FALSE(manager->isGPUAvailable(-1));
+}
+
+TEST(GPUMemoryManagerMultiGPUConfigValidation, FallsBackToPrimaryWhenAllConfiguredIdsInvalid) {
+    GPUMemoryManager::Config config;
+    config.enable_multi_gpu = true;
+    config.gpu_devices = {-1, -7};
+    config.max_vram_bytes = 24 * GB;
+
+    auto manager = std::make_shared<GPUMemoryManager>(config);
+    const auto available = manager->getAvailableGPUs();
+
+    ASSERT_EQ(available.size(), 1u);
+    EXPECT_EQ(available[0], 0);
+    EXPECT_TRUE(manager->isGPUAvailable(0));
+}
+
+TEST_F(GPUMemoryManagerMultiGPUTest, UnknownGPUReportsZeroFreeVRAM) {
+    EXPECT_EQ(memory_manager_->getFreeGPUVRAM(999), 0u);
+}
+
 TEST_F(GPUMemoryManagerMultiGPUTest, GetLeastLoadedGPU) {
     int least_loaded = memory_manager_->getLeastLoadedGPU();
     
