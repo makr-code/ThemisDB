@@ -3267,6 +3267,45 @@ else()
 endif()
 
 # ============================================================================
+# Changefeed SSE Writer Bridge Tests (W1-S05 follow-up 5)
+# Unit tests for ChangefeedApiHandler::setSseStreamWriterFn / clearSseStreamWriterFn.
+# Exercises Path A (async writer injection), exception fallthrough to Path B,
+# clear/replace semantics, and concurrent set/clear thread-safety.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_changefeed_sse_writer.cpp")
+    message(STATUS "Adding Changefeed SSE Writer Bridge tests (W1-S05 follow-up 5)")
+
+    add_executable(test_changefeed_sse_writer
+        test_changefeed_sse_writer.cpp
+    )
+
+    target_link_libraries(test_changefeed_sse_writer PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_changefeed_sse_writer PRIVATE
+        THEMIS_TEST_BUILD=1
+        $<$<BOOL:${THEMIS_ENABLE_SSE}>:THEMIS_ENABLE_SSE>
+    )
+
+    add_test(NAME ChangefeedSseWriterTests COMMAND test_changefeed_sse_writer)
+
+    set_tests_properties(ChangefeedSseWriterTests PROPERTIES
+        LABELS "sse;cdc;changefeed;writer-bridge;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Changefeed SSE Writer: Path A/B dispatch, clear/replace, exception fallthrough, thread-safety")
+else()
+    message(STATUS "Changefeed SSE Writer Bridge tests not found")
+endif()
+
+# ============================================================================
 # Cache Warmup Tests (Phase 3 - bulk warmup from query log / snapshot)
 # ============================================================================
 

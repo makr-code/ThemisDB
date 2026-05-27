@@ -17,6 +17,26 @@ python tools/gap_audit_pipeline_v2.py
 
 ## ✅ Recent Remediation (2026-05-27)
 
+- **W1-S05 follow-up 5 (2026-05-27) – `tests/test_changefeed_sse_writer.cpp`,
+  `tests/CMakeLists.txt`**
+  - Added a dedicated unit-test suite (`ChangefeedSseWriterTests`) covering the
+    `SseStreamWriterFn` bridge introduced in stub #305:
+    - **Path A dispatch**: verifies that a registered writer function is called for
+      `keep_alive=true` SSE requests when `THEMIS_ENABLE_SSE` is active.
+    - **Parameter forwarding**: verifies that `conn_id`, `max_duration`, `heartbeat_ms`,
+      and `max_events_per_poll` are passed through to the writer unchanged.
+    - **Clear semantics**: verifies `clearSseStreamWriterFn()` prevents subsequent
+      requests from calling the cleared writer.
+    - **Replace semantics**: verifies `setSseStreamWriterFn()` with a new function
+      discards the previously registered one immediately.
+    - **Exception fallthrough**: verifies that a writer throwing `std::runtime_error`
+      is caught by the handler and does not propagate to the caller; response is still
+      200 OK (Path B sync loop runs to completion).
+    - **Thread-safety**: concurrent `setSseStreamWriterFn` / `clearSseStreamWriterFn`
+      calls from two threads must not crash.
+  - Gap delta intent: close the zero-coverage gap for the SSE writer bridge — the last
+    open W1-S05 item after all prior follow-ups.
+
 - **W1-S05 follow-up 4 (2026-05-27) – `src/server/sse_connection_manager.cpp`,
   `src/server/http_server.cpp`**
   - `shutdown()` now resets `poll_timer_` (via `unique_ptr::reset()`) immediately after
