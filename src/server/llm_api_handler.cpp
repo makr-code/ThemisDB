@@ -1069,6 +1069,10 @@ bool LLMApiHandler::validateBearerToken(const http::request<http::string_body>& 
         // but provide a hook for diagnosing misconfigured tokens.
         THEMIS_DEBUG("LLMApiHandler: JWT validation exception — treating token as invalid: {}", e.what());
         return false;
+    } catch (...) {
+        // Preserve fail-closed auth semantics for non-std exceptions too.
+        THEMIS_DEBUG("LLMApiHandler: JWT validation non-standard exception — treating token as invalid");
+        return false;
     }
 }
 
@@ -1743,6 +1747,9 @@ http::response<http::string_body> LLMApiHandler::handleOpenAIListModels(
         // If listing fails, return an empty list rather than an error.
         // Log at WARN level so model enumeration failures can be diagnosed.
         THEMIS_WARN("LLMApiHandler: handleOpenAIListModels: exception while listing models — returning empty list: {}", e.what());
+    } catch (...) {
+        // Keep empty-list fallback behavior even for non-standard exceptions.
+        THEMIS_WARN("LLMApiHandler: handleOpenAIListModels: non-standard exception while listing models — returning empty list");
     }
 
     json response_json{

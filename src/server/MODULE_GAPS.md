@@ -1454,6 +1454,10 @@ Fixes applied:
   `catch (const std::exception&)` / `catch (...)` logging branches with local
   `logCurrentException(...)` helpers so all W1-S06 exception boundaries extract
   active exception details consistently while preserving existing fail-closed behavior.
+- `llm_api_handler.cpp`: restored explicit non-standard-exception fallback handling
+  on JWT token validation and `/v1/models` enumeration fallback paths so both stay
+  fail-closed / empty-list resilient without leaking non-standard exceptions into
+  top-level request dispatch.
 
 ---
 
