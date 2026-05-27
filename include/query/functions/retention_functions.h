@@ -1,11 +1,4 @@
 /*
-<<<<<<< HEAD
- * ThemisDB | File: retention_functions.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=4; TODO=0, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
-=======
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -22,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
->>>>>>> origin/develop
  */
 
 /**
@@ -302,15 +294,6 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext& ctx) const override {
-<<<<<<< HEAD
-        // ⚠️ SECURITY: Require non-empty user ID; downstream callers are responsible
-        // for ensuring only admin-privileged users reach this function.
-        if (ctx.userId().empty()) {
-            throw std::runtime_error("SCHEDULE_TASK: unauthenticated caller");
-        }
-
-=======
->>>>>>> origin/develop
         const auto& config = args[0];
         
         // Validate required fields
@@ -335,28 +318,6 @@ public:
             interval_ms = config["interval_ms"].get<int64_t>();
         }
 
-<<<<<<< HEAD
-        TaskScheduler* sched = ctx.getTaskScheduler();
-        if (!sched) {
-            // No scheduler wired — return a descriptive error rather than silent placeholder.
-            throw std::runtime_error("SCHEDULE_TASK: TaskScheduler not available in this context");
-        }
-
-        ScheduledTask task;
-        task.name      = name;
-        task.type      = (type == "aql")
-                             ? ScheduledTask::TaskType::AQL_QUERY
-                             : ScheduledTask::TaskType::FUNCTION;
-        task.aql_query = query;
-        task.interval  = interval;
-
-        std::string task_id = sched->registerTask(task);
-        return nlohmann::json{
-            {"status", "created"},
-            {"task_id", task_id},
-            {"name", name},
-            {"interval_ms", interval.count()}
-=======
         // Use injected TaskScheduler bridge when available
         if (const auto& fn = ctx.registerTaskFn()) {
             nlohmann::json task_config{
@@ -381,7 +342,6 @@ public:
             {"name",        name},
             {"interval_ms", interval_ms},
             {"note",        "Task scheduler not configured; inject via FunctionContext::setRegisterTaskFn()"}
->>>>>>> origin/develop
         };
     }
 };
@@ -410,29 +370,11 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& /*args*/,
                            const FunctionContext& ctx) const override {
-<<<<<<< HEAD
-        TaskScheduler* sched = ctx.getTaskScheduler();
-        if (!sched) {
-            return nlohmann::json::array();
-        }
-
-        nlohmann::json result = nlohmann::json::array();
-        for (const auto& task : sched->listTasks()) {
-            result.push_back(nlohmann::json{
-                {"task_id",     task.id},
-                {"name",        task.name},
-                {"interval_ms", task.interval.count()},
-                {"last_run_ms", task.last_run_ms}
-            });
-        }
-        return result;
-=======
         if (const auto& fn = ctx.listTasksFn()) {
             return fn();
         }
         // Fallback when no scheduler context is injected
         return nlohmann::json::array();
->>>>>>> origin/develop
     }
 };
 
@@ -462,28 +404,12 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext& ctx) const override {
-<<<<<<< HEAD
-        // ⚠️ SECURITY: Require authenticated caller.
-        if (ctx.userId().empty()) {
-            throw std::runtime_error("CANCEL_TASK: unauthenticated caller");
-        }
-        std::string taskId = args[0].get<std::string>();
-
-        TaskScheduler* sched = ctx.getTaskScheduler();
-        if (!sched) {
-            throw std::runtime_error("CANCEL_TASK: TaskScheduler not available in this context");
-        }
-
-        sched->unregisterTask(taskId);
-        return true;
-=======
         std::string taskId = args[0].get<std::string>();
         if (const auto& fn = ctx.cancelTaskFn()) {
             return fn(taskId);
         }
         // Fallback when no scheduler context is injected
         return false;
->>>>>>> origin/develop
     }
 };
 

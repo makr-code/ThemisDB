@@ -13,11 +13,7 @@
 #include <cctype>
 #include <future>
 #include <regex>
-<<<<<<< HEAD
-#include <thread>
 #include <unordered_set>
-=======
->>>>>>> origin/develop
 #include <spdlog/spdlog.h>
 #include <sstream>
 #include <stdexcept>
@@ -1712,9 +1708,7 @@ std::string LLMAQLHandler::translateNLToAQLWithExamples(const std::string &nl_qu
 
             // Log any structural issues from syntax highlighter
             AQLSyntaxHighlighter validator(/*use_ansi=*/false);
-<<<<<<< HEAD
-            logAnnotations(validator.annotateErrors(aql_query),
-                           nl_query, "translateNLToAQLWithExamples");
+            logAnnotations(validator.annotateErrors(aql_query), nl_query, "translateNLToAQLWithExamples");
             {
                 std::string scope_err =
                     checkGeneratedAQLCollectionScope(aql_query, schema_context);
@@ -1729,9 +1723,6 @@ std::string LLMAQLHandler::translateNLToAQLWithExamples(const std::string &nl_qu
                     throw LLMException(LLMErrorCode::ACCESS_DENIED, acl_err);
                 }
             }
-=======
-            logAnnotations(validator.annotateErrors(aql_query), nl_query, "translateNLToAQLWithExamples");
->>>>>>> origin/develop
 
             spdlog::debug("translateNLToAQLWithExamples: injected {} examples for query \"{}\"", injected_count,
                           nl_query.size() > 60 ? nl_query.substr(0, 60) + "..." : nl_query);

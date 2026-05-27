@@ -22,8 +22,7 @@ namespace themis {
     class GraphAnalytics;
     class SecondaryIndexManager;
     class ProcessMining;
-    class TaskScheduler;
-    struct ScheduledTask;
+
 }
 
 namespace themis {
@@ -217,11 +216,6 @@ public:
     void setProcessMining(themis::ProcessMining* pm) { process_mining_ = pm; }
     themis::ProcessMining* getProcessMining() const { return process_mining_; }
 
-<<<<<<< HEAD
-    // Task scheduler access (for SCHEDULE_TASK, LIST_SCHEDULED_TASKS, CANCEL_TASK)
-    void setTaskScheduler(themis::TaskScheduler* scheduler) { task_scheduler_ = scheduler; }
-    themis::TaskScheduler* getTaskScheduler() const { return task_scheduler_; }
-
     // Collection scan callback (for functions that query collections by filter)
     // Returns an array of matching document objects. An empty array on no match.
     using CollectionScanner = std::function<std::vector<nlohmann::json>(
@@ -235,7 +229,7 @@ public:
         if (collection_scanner_) return collection_scanner_(collection, predicate);
         return {};
     }
-=======
+
     // ── Administrative process-model registry (stub #283) ─────────────────────
 
     /**
@@ -332,7 +326,6 @@ public:
 
     /// @brief Access the injected task-cancellation function (may be empty).
     const CancelTaskFn& cancelTaskFn() const { return cancel_task_fn_; }
->>>>>>> origin/develop
 
 private:
     nlohmann::json current_doc_;
@@ -343,16 +336,12 @@ private:
     themis::GraphAnalytics* graph_analytics_ = nullptr;
     themis::SecondaryIndexManager* secondary_idx_mgr_ = nullptr;
     themis::ProcessMining* process_mining_ = nullptr;
-<<<<<<< HEAD
-    themis::TaskScheduler* task_scheduler_ = nullptr;
     CollectionScanner collection_scanner_;
-=======
     AdminModelLoadFn admin_model_load_fn_;
     AdminModelListFn admin_model_list_fn_;
     RegisterTaskFn register_task_fn_;
     ListTasksFn    list_tasks_fn_;
     CancelTaskFn   cancel_task_fn_;
->>>>>>> origin/develop
 };
 
 // ============================================================================

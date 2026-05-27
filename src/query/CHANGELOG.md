@@ -10,10 +10,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-<<<<<<< HEAD
+- Query catch-all hardening (Phase 22, 2026-05-19): replaced all remaining 51 `catch(...)`
+  handlers with typed `catch (const std::exception&)` across 7 files; zero catch-all handlers
+  remain in `src/query/*.cpp`.
 - Query security hardening batches completed: CCF-01..05, CQE-01..03, TC-01..15, REL-01..19, UNINIT-01..20, PERF-01..05, IV-01, REL-20..22, UNINIT-21, TC-16..19 (see `AUDIT.md`).
 - Clarified AQL parser concurrency guarantees: `AQLParser` is stateless and safe for shared-instance concurrent use.
 - Enabled fulltext AQL function registration in `registerBuiltinFunctions()` (`registerFulltextFunctions(registry)`), so FULLTEXT/PHRASE/FUZZY/NGRAM_MATCH/TOKENS/SOUNDEX/METAPHONE/DOUBLE_METAPHONE are now available at startup.
+
+### Fixed
+- **QUERY-REL-001 — Catch-all cleanup in `query_engine.cpp`**
+  - Replaced all remaining broad `catch (...)` handlers with typed
+    `catch (const std::exception&)` across expression evaluation, entity
+    deserialization paths, numeric conversion fallbacks, scan/join/group
+    processing, and spatial/text hybrid query branches.
+  - Runtime behavior is preserved: malformed payloads still follow existing
+    skip/fallback semantics, while exception handling is now explicit and typed.
 
 ### Fixed (2026-05-27 batch — REL-20..22, UNINIT-21, TC-16..19)
 - **REL-20** (`query_engine.cpp`): temporal filter `stoll()` on `valid_from`/`valid_to` user strings now wrapped in `parseTimestampMs` lambda returning `std::nullopt` on failure; prevents unhandled `std::invalid_argument`/`std::out_of_range` exceptions.
@@ -36,26 +47,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Added `AC5_SelectAlgo_OverflowSafeMemoryEstimate_GraceHash` regression test — verifies that near-`SIZE_MAX` build-row counts do not wrap and correctly trigger `GRACE_HASH_JOIN`.
 - Added `AC2_MergeJoin_IgnoresRowsWithMissingJoinKey` regression test — verifies rows without the join key are silently skipped in merge-join mode.
 
-
-=======
-- Query catch-all hardening (Phase 22, 2026-05-19): replaced all remaining 51 `catch(...)`
-  handlers with typed `catch (const std::exception&)` across 7 files; zero catch-all handlers
-  remain in `src/query/*.cpp`.
-- Security audit: injection prevention hardening and resource exhaustion edge cases
-- AQL parser thread-safety refactor (per-thread instances or mutex protection)
-- Enabled fulltext AQL function registration in `registerBuiltinFunctions()` (`registerFulltextFunctions(registry)`), so FULLTEXT/PHRASE/FUZZY/NGRAM_MATCH/TOKENS/SOUNDEX/METAPHONE/DOUBLE_METAPHONE are now available at startup.
-
-### Fixed
-- **QUERY-REL-001 — Catch-all cleanup in `query_engine.cpp`**
-  - Replaced all remaining broad `catch (...)` handlers with typed
-    `catch (const std::exception&)` across expression evaluation, entity
-    deserialization paths, numeric conversion fallbacks, scan/join/group
-    processing, and spatial/text hybrid query branches.
-  - Runtime behavior is preserved: malformed payloads still follow existing
-    skip/fallback semantics, while exception handling is now explicit and typed.
-
 ## [2.0.0] — 2026-04-27
->>>>>>> origin/develop
 
 ### Added
 - **Continuous Query Language (CQL) engine** (Phase 8.1–8.5) — production-grade standing-query support:
