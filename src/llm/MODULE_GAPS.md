@@ -507,6 +507,16 @@ model-loader access now uses guard-anchored local aliases across remaining issue
 - Gap delta intent: reduce residual scanner `unknown` findings caused by member-pointer
   guard/dereference separation without changing runtime behavior.
 
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 4):** Additional
+guard-anchored local aliases added in `llama_wrapper.cpp` optional-component hot paths:
+- Cache/scheduler helpers now snapshot optional members before dereference in one analysis scope:
+  `response_cache_` in `generate`, `prefix_cache_` in prefix-cache accessors, `batch_scheduler_`
+  in batch lifecycle/stat methods, and `grammar_cache_` in grammar cache lookups.
+- Vision paths now use local `vision_encoder` aliases after explicit readiness checks in
+  `initializeVisionEncoder` and `generateVision` image encode/injection loops.
+- Runtime behavior is unchanged; objective is scanner-friendly nullability anchoring inside issue
+  scope for measurable `unknown`-cluster reduction.
+
 **Status (v1.22.0-pre — W1-L03d scope follow-up):** Vulkan/DirectX kernel-interface
 scope hardened for smart-pointer lifetime safety:
 - `lora_framework/kernels/vulkan_kernels.cpp` — Removed `thread_local` fused-buffer cache

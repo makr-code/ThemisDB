@@ -935,9 +935,10 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     }
 #endif
     // Check response cache first (if enabled); key includes model_id to prevent cross-tenant leakage
-    if (response_cache_) {
+    auto* const response_cache = response_cache_.get();
+    if (response_cache) {
         const std::string cache_key = request.prompt + "|" + request.model_id;
-        auto cached_response = response_cache_->get(cache_key);
+        auto cached_response = response_cache->get(cache_key);
         if (cached_response) {
             spdlog::debug("Cache hit for prompt: {}", request.prompt.substr(0, 50));
             
@@ -2137,19 +2138,21 @@ std::string LlamaWrapper::formatStreamTokenAsSSE(const std::string& token, const
 
 std::optional<PrefixCacheStatistics> LlamaWrapper::getPrefixCacheStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    
-    if (!prefix_cache_) {
+
+    auto* const prefix_cache = prefix_cache_.get();
+    if (!prefix_cache) {
         return std::nullopt;
     }
-    
-    return prefix_cache_->getStatistics();
+
+    return prefix_cache->getStatistics();
 }
 
 void LlamaWrapper::clearPrefixCache() {
     std::lock_guard<std::mutex> lock(mutex_);
-    
-    if (prefix_cache_) {
-        prefix_cache_->clear();
+
+    auto* const prefix_cache = prefix_cache_.get();
+    if (prefix_cache) {
+        prefix_cache->clear();
         spdlog::info("Prefix cache cleared");
     }
 }
@@ -2841,8 +2844,13 @@ void LlamaWrapper::startBatchMode() {
         spdlog::info("Continuous Batch Scheduler initialized (vLLM-style)");
     }
     
+    auto* const batch_scheduler = batch_scheduler_.get();
+    if (!batch_scheduler) {
+        throw std::runtime_error("Batch scheduler initialization failed");
+    }
+
     // Start the scheduler
-    batch_scheduler_->start();
+    batch_scheduler->start();
     batch_mode_active_ = true;
     
     spdlog::info("Continuous batching mode started:");
@@ -2860,8 +2868,9 @@ void LlamaWrapper::stopBatchMode() {
         return;
     }
     
-    if (batch_scheduler_) {
-        batch_scheduler_->stop();
+    auto* const batch_scheduler = batch_scheduler_.get();
+    if (batch_scheduler) {
+        batch_scheduler->stop();
     }
     
     batch_mode_active_ = false;
@@ -2884,12 +2893,13 @@ std::string LlamaWrapper::submitBatchRequest(
         throw std::runtime_error("Batch mode not active. Call startBatchMode() first.");
     }
     
-    if (!batch_scheduler_) {
+    auto* const batch_scheduler = batch_scheduler_.get();
+    if (!batch_scheduler) {
         throw std::runtime_error("Batch scheduler not initialized");
     }
     
     // Submit request to scheduler
-    std::string request_id = batch_scheduler_->submitRequest(request, priority, callback);
+    std::string request_id = batch_scheduler->submitRequest(request, priority, callback);
     
     spdlog::debug("Batch request submitted: {} (priority: {})",
                   request_id, static_cast<int>(priority));
@@ -2900,11 +2910,12 @@ std::string LlamaWrapper::submitBatchRequest(
 std::optional<ContinuousBatchScheduler::Stats> LlamaWrapper::getBatchSchedulerStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    if (!batch_mode_active_ || !batch_scheduler_) {
+    auto* const batch_scheduler = batch_scheduler_.get();
+    if (!batch_mode_active_ || !batch_scheduler) {
         return std::nullopt;
     }
-    
-    return batch_scheduler_->getStats();
+
+    return batch_scheduler->getStats();
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -3030,8 +3041,9 @@ std::shared_ptr<Grammar> LlamaWrapper::getOrCreateGrammar(const InferenceRequest
     }
     
     // Check cache first
-    if (grammar_cache_ && config_.grammar_config.cache_grammars) {
-        auto cached = grammar_cache_->get(grammar_key);
+    auto* const grammar_cache = grammar_cache_.get();
+    if (grammar_cache && config_.grammar_config.cache_grammars) {
+        auto cached = grammar_cache->get(grammar_key);
         if (cached && cached->isValid()) {
             spdlog::debug("Using cached grammar: {}", grammar_key);
             return cached;
@@ -3048,8 +3060,8 @@ std::shared_ptr<Grammar> LlamaWrapper::getOrCreateGrammar(const InferenceRequest
     }
     
     // Cache for future use
-    if (grammar_cache_ && config_.grammar_config.cache_grammars) {
-        grammar_cache_->put(grammar_key, grammar);
+    if (grammar_cache && config_.grammar_config.cache_grammars) {
+        grammar_cache->put(grammar_key, grammar);
     }
     
     return grammar;
@@ -3072,14 +3084,19 @@ bool LlamaWrapper::initializeVisionEncoder() {
             1  // verbosity
         );
         
-        if (!vision_encoder_->isReady()) {
+        auto* const vision_encoder = vision_encoder_.get();
+        if (!vision_encoder) {
+            throw std::runtime_error("Vision encoder initialization failed");
+        }
+
+        if (!vision_encoder->isReady()) {
             throw std::runtime_error("Vision encoder initialization failed");
         }
         
         vision_enabled_ = true;
         spdlog::info("Vision encoder initialized successfully");
-        spdlog::info("  - Embedding dimension: {}", vision_encoder_->getEmbeddingDimension());
-        spdlog::info("  - Number of patches: {}", vision_encoder_->getNumPatches());
+        spdlog::info("  - Embedding dimension: {}", vision_encoder->getEmbeddingDimension());
+        spdlog::info("  - Number of patches: {}", vision_encoder->getNumPatches());
         
         return true;
     } catch (const std::exception& e) {
@@ -3160,9 +3177,14 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
         std::vector<std::vector<float>> image_embeddings;
         image_embeddings.reserve(image_paths.size());
         
+        auto* const vision_encoder = vision_encoder_.get();
+        if (!vision_encoder) {
+            throw std::runtime_error("Vision support not enabled. Configure clip_model_path and enable_vision=true");
+        }
+
         for (const auto& img_path : image_paths) {
             spdlog::debug("Encoding image: {}", img_path);
-            auto embeddings = vision_encoder_->encodeImage(img_path);
+            auto embeddings = vision_encoder->encodeImage(img_path);
             image_embeddings.push_back(std::move(embeddings));
         }
         
@@ -3226,10 +3248,10 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
                                                              ? vision_request.max_tokens : 512);
                         for (auto& emb_vec : image_embeddings) {
                             if (emb_vec.empty()) continue;
-                            int n_patches = vision_encoder_->getNumPatches();
+                            int n_patches = vision_encoder->getNumPatches();
                             if (n_patches <= 0) {
                                 n_patches = static_cast<int>(emb_vec.size()) /
-                                            vision_encoder_->getEmbeddingDimension();
+                                            vision_encoder->getEmbeddingDimension();
                             }
                             llava_image_embed embed_data;
                             embed_data.embed       = emb_vec.data();
