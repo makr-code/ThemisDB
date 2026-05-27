@@ -117,12 +117,15 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
         std::string str = args[0].get<std::string>();
-        size_t start = static_cast<size_t>(args[1].get<int64_t>());
+        // Guard against negative start: clamp to 0 before cast to size_t.
+        const int64_t rawStart = args[1].get<int64_t>();
+        size_t start = (rawStart <= 0) ? 0 : static_cast<size_t>(rawStart);
         
         if (start >= str.length()) return "";
         
         if (args.size() > 2) {
-            size_t len = static_cast<size_t>(args[2].get<int64_t>());
+            const int64_t rawLen = args[2].get<int64_t>();
+            size_t len = (rawLen <= 0) ? 0 : static_cast<size_t>(rawLen);
             return str.substr(start, len);
         }
         return str.substr(start);

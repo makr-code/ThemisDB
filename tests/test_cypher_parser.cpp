@@ -303,3 +303,27 @@ TEST(CypherParserFocusedTests, TranspileOrderByLimit) {
 TEST(CypherParserFocusedTests, MissingMatchIsError) {
     EXPECT_TRUE(parseError("RETURN n"));
 }
+
+// ============================================================================
+// Section 7 – Hop-count validation (issue #5177)
+// ============================================================================
+
+// Test 31: Valid variable-length relationship is accepted
+TEST(CypherParserFocusedTests, ValidHopRange) {
+    EXPECT_FALSE(parseError("MATCH (a)-[*1..3]->(b) RETURN a, b"));
+}
+
+// Test 32: Negative min_hops must be rejected
+TEST(CypherParserFocusedTests, NegativeMinHopsIsError) {
+    EXPECT_TRUE(parseError("MATCH (a)-[*-1..3]->(b) RETURN a, b"));
+}
+
+// Test 33: Hop count exceeding kMaxHops (1000) must be rejected
+TEST(CypherParserFocusedTests, ExcessiveHopCountIsError) {
+    EXPECT_TRUE(parseError("MATCH (a)-[*1..1001]->(b) RETURN a, b"));
+}
+
+// Test 34: Max hop equal to kMaxHops boundary (1000) is accepted
+TEST(CypherParserFocusedTests, HopCountAtBoundaryIsAccepted) {
+    EXPECT_FALSE(parseError("MATCH (a)-[*1..1000]->(b) RETURN a, b"));
+}

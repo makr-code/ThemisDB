@@ -1319,12 +1319,20 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 				"SUBSTRING expects string as first argument");
 		}
 		std::string sv = s->get<std::string>();
-		size_t startIdx = static_cast<size_t>(qe_toNumber(*st));
+		// Clamp negative/out-of-range doubles to [0, sv.size()] before narrowing to
+		// size_t; a raw static_cast of a negative double is implementation-defined UB.
+		const double startD = qe_toNumber(*st);
+		size_t startIdx = (startD <= 0.0) ? 0 :
+			(startD >= static_cast<double>(sv.size())) ? sv.size() :
+			static_cast<size_t>(startD);
 		if (startIdx >= sv.size()) return Ok(nlohmann::json(""));
 		if (args.size() == 3) {
 			auto lenRes = evalArg(2);
 			if (!lenRes) return lenRes;
-			size_t len = static_cast<size_t>(qe_toNumber(*lenRes));
+			const double lenD = qe_toNumber(*lenRes);
+			size_t len = (lenD <= 0.0) ? 0 :
+				(lenD >= static_cast<double>(sv.size())) ? sv.size() :
+				static_cast<size_t>(lenD);
 			return Ok(nlohmann::json(sv.substr(startIdx, len)));
 		}
 		return Ok(nlohmann::json(sv.substr(startIdx)));
@@ -3082,8 +3090,9 @@ apply_sort_limit:
 	
 	// Apply LIMIT if specified
 	if (limit) {
-		size_t offset = static_cast<size_t>(limit->offset);
-		size_t count = static_cast<size_t>(limit->count);
+		// Guard against negative int64_t values: cast to size_t only after clamping.
+		size_t offset = (limit->offset <= 0) ? 0 : static_cast<size_t>(limit->offset);
+		size_t count  = (limit->count  <= 0) ? 0 : static_cast<size_t>(limit->count);
 		if (offset >= results.size()) {
 			results.clear();
 		} else {

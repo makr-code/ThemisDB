@@ -1,4 +1,4 @@
-<!-- Status: S0 fixed 2026-05-04 | S1 fixed 2026-05-04 | OI-05/OI-06 fixed 2026-05-26 | KL-01 closed 2026-05-26 | CCF-01..CCF-05 fixed 2026-05-27 | CQE-01..CQE-03 fixed 2026-05-27 | QE-arc-points-cast fixed 2026-05-27 | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S0 fixed 2026-05-04 | S1 fixed 2026-05-04 | OI-05/OI-06 fixed 2026-05-26 | KL-01 closed 2026-05-26 | CCF-01..CCF-05 fixed 2026-05-27 | CQE-01..CQE-03 fixed 2026-05-27 | QE-arc-points-cast fixed 2026-05-27 | TC-01..TC-06 fixed 2026-05-27 | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · SECURITY.md -->
 
 # Audit Record — Query Module
@@ -9,9 +9,9 @@
 |--------------|--------------------------------------------|
 | Module       | query                                      |
 | Source path  | `src/query/`                               |
-| Audit date   | 2026-04-21 (S0 fixes: 2026-05-04, S1 fixes: 2026-05-04, OI-05/OI-06: 2026-05-26, KL-01 closed: 2026-05-26, CCF-01..CCF-05 fixed: 2026-05-27, CQE-01..CQE-03 fixed: 2026-05-27, QE-arc-points-cast fixed: 2026-05-27) |
+| Audit date   | 2026-04-21 (S0 fixes: 2026-05-04, S1 fixes: 2026-05-04, OI-05/OI-06: 2026-05-26, KL-01 closed: 2026-05-26, CCF-01..CCF-05 fixed: 2026-05-27, CQE-01..CQE-03 fixed: 2026-05-27, QE-arc-points-cast fixed: 2026-05-27, TC-01..TC-06 fixed: 2026-05-27) |
 | Audited by   | Copilot (source code analysis)             |
-| Status       | ✅ All critical findings resolved — 0 S0, 0 S1, 0 critical OI open; KL-01 closed; CCF-01..CCF-05 closed; CQE-01..CQE-03 closed; QE-arc-points-cast closed |
+| Status       | ✅ All critical findings resolved — 0 S0, 0 S1, 0 critical OI open; KL-01 closed; CCF-01..CCF-05 closed; CQE-01..CQE-03 closed; QE-arc-points-cast closed; TC-01..TC-06 closed |
 
 > **2026-05-04:** QE-1 fixed (errors_mutex), QE-2 addressed, PA-1 fixed (depth limit 500 in
 > `parseExpression()`). See finding details below for confirmation.
@@ -45,6 +45,20 @@
 > potential undefined behaviour when a user supplies an out-of-`int`-range floating-point value (e.g.
 > `1e300`).  Also changed `HybridVGConfig` JSON default values from `static_cast<int>` to
 > `static_cast<int64_t>` to avoid narrowing UB when stored config contains large integers.
+
+> **2026-05-27:** TC-01..TC-06 fixed — six type-conversion / input-validation gaps (issue #5177):
+> TC-01: `SUBSTRING startIdx/len` in `qe_evalExpr` — negative `double` cast to `size_t` is
+> implementation-defined UB; replaced with explicit clamp to `[0, sv.size()]`.
+> TC-02: `SubstringFunction::execute` in `string_functions.h` — same negative `int64_t`→`size_t` UB;
+> clamped to 0 for both start and length arguments.
+> TC-03: `LIMIT offset/count` in `query_engine.cpp` — negative `int64_t` → `size_t` UB; clamped to 0.
+> TC-04: `OptimizerCostModel::updateConstant` — negative `double` → `size_t` UB for
+> `gpu_row_threshold_low/high`, `cpu_batch_thread_low/high`, `msgpack_row_threshold`; guarded
+> with `std::max(value, 0.0)` before cast.
+> TC-05: `CypherParser` hop-count parsing — `stoi` without bounds check; added try/catch for
+> `out_of_range` and `[0, 1000]` validation matching the AQL traversal depth limit.
+> TC-06: `AQLParser` traversal depth `stoi` — added try/catch for `std::out_of_range` so a
+> very-large integer literal no longer throws unexpectedly before the range guard fires.
 
 ## Source File Inventory
 

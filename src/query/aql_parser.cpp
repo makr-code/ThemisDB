@@ -550,7 +550,13 @@ private:
             // BFS/DFS from being triggered with values like INT_MAX.
             static constexpr int kMaxTraversalDepth = 1000;
 
-            int minDepth = std::stoi(current().value);
+            int minDepth;
+            try {
+                minDepth = std::stoi(current().value);
+            } catch (const std::out_of_range&) {
+                throw std::runtime_error(
+                    "Graph traversal min depth '" + current().value + "' is out of integer range");
+            }
             if (minDepth < 0) {
                 throw std::runtime_error("Graph traversal min depth must be >= 0");
             }
@@ -564,7 +570,13 @@ private:
             if (!match(TokenType::INTEGER)) {
                 throw std::runtime_error("Expected max depth integer after '..'");
             }
-            int maxDepth = std::stoi(current().value);
+            int maxDepth;
+            try {
+                maxDepth = std::stoi(current().value);
+            } catch (const std::out_of_range&) {
+                throw std::runtime_error(
+                    "Graph traversal max depth '" + current().value + "' is out of integer range");
+            }
             if (maxDepth > kMaxTraversalDepth) {
                 throw std::runtime_error(
                     "Graph traversal max depth " + std::to_string(maxDepth) +

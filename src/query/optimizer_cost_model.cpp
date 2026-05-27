@@ -433,17 +433,17 @@ void OptimizerCostModel::updateConstant(const std::string& name, double value) {
     } else if (name == "networkLatency") {
         constants_.networkLatency = value;
     } else if (name == "gpu_row_threshold_low") {
-        constants_.gpu_row_threshold_low = static_cast<size_t>(value);
+        constants_.gpu_row_threshold_low = static_cast<size_t>(std::max(value, 0.0));
     } else if (name == "gpu_row_threshold_high") {
-        constants_.gpu_row_threshold_high = static_cast<size_t>(value);
+        constants_.gpu_row_threshold_high = static_cast<size_t>(std::max(value, 0.0));
     } else if (name == "vram_safety_factor") {
         constants_.vram_safety_factor = value;
     } else if (name == "cpu_batch_thread_low") {
-        constants_.cpu_batch_thread_low = static_cast<size_t>(value);
+        constants_.cpu_batch_thread_low = static_cast<size_t>(std::max(value, 0.0));
     } else if (name == "cpu_batch_thread_high") {
-        constants_.cpu_batch_thread_high = static_cast<size_t>(value);
+        constants_.cpu_batch_thread_high = static_cast<size_t>(std::max(value, 0.0));
     } else if (name == "msgpack_row_threshold") {
-        constants_.msgpack_row_threshold = static_cast<size_t>(value);
+        constants_.msgpack_row_threshold = static_cast<size_t>(std::max(value, 0.0));
     }
 }
 

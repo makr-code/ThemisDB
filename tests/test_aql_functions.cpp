@@ -66,6 +66,11 @@ TEST_F(AQLFunctionsTest, SubstringFunction) {
     
     EXPECT_EQ(reg.call("SUBSTRING", {"Hello World", 0, 5}, ctx), "Hello");
     EXPECT_EQ(reg.call("SUBSTRING", {"Hello World", 6}, ctx), "World");
+    // Negative start must clamp to 0 (issue #5177 — negative int64_t→size_t UB)
+    EXPECT_EQ(reg.call("SUBSTRING", {"Hello", -1}, ctx), "Hello");
+    EXPECT_EQ(reg.call("SUBSTRING", {"Hello", -3, 3}, ctx), "Hel");
+    // Negative length must return empty string
+    EXPECT_EQ(reg.call("SUBSTRING", {"Hello", 0, -1}, ctx), "");
 }
 
 TEST_F(AQLFunctionsTest, UpperLowerFunction) {

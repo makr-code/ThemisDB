@@ -549,16 +549,42 @@ struct CypherParser::Parser {
 
         // Variable-length: *min..max
         if (match(TokenType::STAR)) {
+            // Enforce an upper bound on hop counts to prevent BFS/DFS DoS.
+            static constexpr int kMaxHops = 1000;
             // min
             if (check(TokenType::INT_LIT)) {
-                rel.min_hops = std::stoi(current().value);
+                int hops;
+                try {
+                    hops = std::stoi(current().value);
+                } catch (const std::exception&) {
+                    throw CypherParseError{"Hop count out of integer range", current().position};
+                }
+                if (hops < 0 || hops > kMaxHops) {
+                    throw CypherParseError{
+                        "Cypher hop count " + current().value +
+                        " is out of valid range [0, " + std::to_string(kMaxHops) + "]",
+                        current().position};
+                }
+                rel.min_hops = hops;
                 ++cursor;
             }
             // ..
             if (check(TokenType::DOT) && peek().type == TokenType::DOT) {
                 cursor += 2;  // consume both dots
                 if (check(TokenType::INT_LIT)) {
-                    rel.max_hops = std::stoi(current().value);
+                    int hops;
+                    try {
+                        hops = std::stoi(current().value);
+                    } catch (const std::exception&) {
+                        throw CypherParseError{"Hop count out of integer range", current().position};
+                    }
+                    if (hops < 0 || hops > kMaxHops) {
+                        throw CypherParseError{
+                            "Cypher hop count " + current().value +
+                            " is out of valid range [0, " + std::to_string(kMaxHops) + "]",
+                            current().position};
+                    }
+                    rel.max_hops = hops;
                     ++cursor;
                 }
             }

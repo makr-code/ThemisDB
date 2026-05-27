@@ -426,3 +426,30 @@ TEST(StatisticsManagerTest, UpdateTableStatistics) {
     EXPECT_EQ(retrieved.rowCount, 50000);
     EXPECT_EQ(retrieved.pageCount, 500);
 }
+
+// ====================================================
+// updateConstant negative-value guard (issue #5177)
+// ====================================================
+
+TEST(OptimizerCostModelTest, UpdateConstantNegativeValueClampsToZero) {
+    OptimizerCostModel model;
+    // A negative value must clamp to 0 rather than wrap to SIZE_MAX (UB).
+    model.updateConstant("gpu_row_threshold_low",  -1.0);
+    model.updateConstant("gpu_row_threshold_high", -500.0);
+    model.updateConstant("cpu_batch_thread_low",   -2.0);
+    model.updateConstant("cpu_batch_thread_high",  -3.0);
+    model.updateConstant("msgpack_row_threshold",  -99.0);
+
+    const auto& c = model.getConstants();
+    EXPECT_EQ(c.gpu_row_threshold_low,  0u);
+    EXPECT_EQ(c.gpu_row_threshold_high, 0u);
+    EXPECT_EQ(c.cpu_batch_thread_low,   0u);
+    EXPECT_EQ(c.cpu_batch_thread_high,  0u);
+    EXPECT_EQ(c.msgpack_row_threshold,  0u);
+}
+
+TEST(OptimizerCostModelTest, UpdateConstantPositiveValueUnchanged) {
+    OptimizerCostModel model;
+    model.updateConstant("gpu_row_threshold_low", 10000.0);
+    EXPECT_EQ(model.getConstants().gpu_row_threshold_low, 10000u);
+}
