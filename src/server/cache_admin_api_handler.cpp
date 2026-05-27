@@ -114,6 +114,7 @@ CacheAdminApiHandler::CacheAdminApiHandler(
 
 void CacheAdminApiHandler::setSloMonitor(
     std::shared_ptr<themis::cache::CacheHitRateSloMonitor> monitor) {
+    std::lock_guard<std::mutex> lock(slo_monitor_mutex_);
     slo_monitor_ = std::move(monitor);
 }
 
@@ -225,8 +226,13 @@ http::response<http::string_body> CacheAdminApiHandler::handleStats(
         };
 
         // Latency percentiles from the SLO monitor (if one is attached)
-        if (slo_monitor_) {
-            auto status = slo_monitor_->getStatus();
+        std::shared_ptr<themis::cache::CacheHitRateSloMonitor> slo_monitor;
+        {
+            std::lock_guard<std::mutex> lock(slo_monitor_mutex_);
+            slo_monitor = slo_monitor_;
+        }
+        if (slo_monitor) {
+            auto status = slo_monitor->getStatus();
             if (status.contains("latency")) {
                 body["slo"] = status["latency"];
             }
@@ -747,5 +753,4 @@ http::response<http::string_body> CacheAdminApiHandler::handlePiiEvict(
 
 } // namespace server
 } // namespace themis
-
 

@@ -13,6 +13,7 @@
 #include "cache/cache_hit_rate_slo_monitor.h"
 
 #include <memory>
+#include <mutex>
 #include <string>
 #include <boost/beast/http.hpp>
 #include <nlohmann/json.hpp>
@@ -159,13 +160,14 @@ public:
      *        GET /v1/admin/cache/stats responses.
      *
      * May be nullptr (default) to omit the "slo" block from the response.
-     * Not thread-safe after construction; call before the handler processes requests.
+     * Thread-safe: updates are synchronized with request-time reads.
      */
     void setSloMonitor(std::shared_ptr<themis::cache::CacheHitRateSloMonitor> monitor);
 
 private:
     std::shared_ptr<AdaptiveQueryCache> cache_;
     std::shared_ptr<AuthMiddleware> auth_;
+    mutable std::mutex slo_monitor_mutex_;
     std::shared_ptr<themis::cache::CacheHitRateSloMonitor> slo_monitor_;
 
     // Returns false and fills `out` with a 401/403 response if auth fails.
@@ -194,4 +196,3 @@ private:
 
 } // namespace server
 } // namespace themis
-

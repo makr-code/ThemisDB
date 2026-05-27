@@ -115,6 +115,33 @@ TEST_F(CacheAdminApiHandlerTest, StatsCircuitBreakerInitiallyClosed) {
     EXPECT_EQ(body["circuit_breaker"]["state"], "CLOSED");
 }
 
+TEST_F(CacheAdminApiHandlerTest, StatsIncludesSloLatencyWhenMonitorAttached) {
+    auto monitor = std::make_shared<themis::cache::CacheHitRateSloMonitor>();
+    handler_->setSloMonitor(monitor);
+
+    auto req = makeRequest(http::verb::get, "/v1/admin/cache/stats");
+    auto res = handler_->handleStats(req);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    json body = json::parse(res.body());
+    ASSERT_TRUE(body.contains("slo"));
+    EXPECT_TRUE(body["slo"].contains("p50_ms"));
+    EXPECT_TRUE(body["slo"].contains("p95_ms"));
+    EXPECT_TRUE(body["slo"].contains("p99_ms"));
+}
+
+TEST_F(CacheAdminApiHandlerTest, StatsOmitsSloWhenMonitorDetached) {
+    handler_->setSloMonitor(std::make_shared<themis::cache::CacheHitRateSloMonitor>());
+    handler_->setSloMonitor(nullptr);
+
+    auto req = makeRequest(http::verb::get, "/v1/admin/cache/stats");
+    auto res = handler_->handleStats(req);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    json body = json::parse(res.body());
+    EXPECT_FALSE(body.contains("slo"));
+}
+
 // ---------------------------------------------------------------------------
 // Tests: GET /v1/admin/cache/circuit-breaker
 // ---------------------------------------------------------------------------
@@ -885,4 +912,3 @@ TEST_F(CacheAdminApiHandlerTest, PiiEvictPurgesTaggedCacheEntries) {
     EXPECT_FALSE(cache_->get(fp, tenant).has_value())
         << "entry must no longer be in cache after PII eviction";
 }
-
