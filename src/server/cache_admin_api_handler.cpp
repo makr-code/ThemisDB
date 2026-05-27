@@ -607,12 +607,13 @@ http::response<http::string_body> CacheAdminApiHandler::handleTenantStats(
                                  "Invalid path", req);
     }
     auto rest = target.substr(prefix.size());
-    auto slash = rest.rfind("/stats");
-    if (slash == std::string_view::npos) {
+    constexpr std::string_view suffix = "/stats";
+    if (rest.size() <= suffix.size() ||
+        rest.substr(rest.size() - suffix.size()) != suffix) {
         return makeErrorResponse(http::status::bad_request,
                                  "Path must end with /stats", req);
     }
-    std::string tenant_id(rest.substr(0, slash));
+    std::string tenant_id(rest.substr(0, rest.size() - suffix.size()));
     if (tenant_id.empty()) {
         return makeErrorResponse(http::status::bad_request,
                                  "Missing tenant_id path parameter", req);
@@ -660,12 +661,13 @@ http::response<http::string_body> CacheAdminApiHandler::handleUpdateTenantQuota(
         return makeErrorResponse(http::status::bad_request, "Invalid path", req);
     }
     auto rest = target.substr(prefix.size());
-    auto slash = rest.rfind("/quota");
-    if (slash == std::string_view::npos) {
+    constexpr std::string_view suffix = "/quota";
+    if (rest.size() <= suffix.size() ||
+        rest.substr(rest.size() - suffix.size()) != suffix) {
         return makeErrorResponse(http::status::bad_request,
                                  "Path must end with /quota", req);
     }
-    std::string tenant_id(rest.substr(0, slash));
+    std::string tenant_id(rest.substr(0, rest.size() - suffix.size()));
     if (tenant_id.empty()) {
         return makeErrorResponse(http::status::bad_request,
                                  "Missing tenant_id path parameter", req);
@@ -753,4 +755,3 @@ http::response<http::string_body> CacheAdminApiHandler::handlePiiEvict(
 
 } // namespace server
 } // namespace themis
-

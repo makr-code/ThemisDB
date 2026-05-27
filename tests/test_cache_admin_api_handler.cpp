@@ -543,6 +543,12 @@ TEST_F(CacheAdminApiHandlerTest, TenantStatsReturns400ForInvalidTenantId) {
     EXPECT_EQ(res.result(), http::status::bad_request);
 }
 
+TEST_F(CacheAdminApiHandlerTest, TenantStatsReturns400ForTrailingPathAfterStats) {
+    auto req = makeRequest(http::verb::get, "/v1/admin/cache/tenant/acme/stats/extra");
+    auto res = handler_->handleTenantStats(req);
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
 TEST_F(CacheAdminApiHandlerTest, TenantStatsReturnsCorrectMetrics) {
     const std::string tenant = "perf_tenant";
     std::string fp = cache_->generateFingerprint("SELECT perf", {}, tenant);
@@ -802,6 +808,14 @@ TEST_F(CacheAdminApiHandlerTest, UpdateTenantQuotaReturns400ForMissingTenantId) 
 TEST_F(CacheAdminApiHandlerTest, UpdateTenantQuotaReturns400ForInvalidTenantId) {
     auto req = makeRequest(http::verb::patch,
                            "/v1/admin/cache/tenant/../bad/quota",
+                           R"({"quota_bytes":1024})");
+    auto res = handler_->handleUpdateTenantQuota(req);
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(CacheAdminApiHandlerTest, UpdateTenantQuotaReturns400ForTrailingPathAfterQuota) {
+    auto req = makeRequest(http::verb::patch,
+                           "/v1/admin/cache/tenant/acme/quota/extra",
                            R"({"quota_bytes":1024})");
     auto res = handler_->handleUpdateTenantQuota(req);
     EXPECT_EQ(res.result(), http::status::bad_request);
