@@ -1,4 +1,4 @@
-<!-- Status: S0 fixed 2026-05-04 | S1 fixed 2026-05-04 | OI-05/OI-06 fixed 2026-05-26 | KL-01 closed 2026-05-26 | CCF-01..CCF-05 fixed 2026-05-27 | CQE-01..CQE-03 fixed 2026-05-27 | QE-arc-points-cast fixed 2026-05-27 | TC-01..TC-06 fixed 2026-05-27 | UNINIT-01..UNINIT-11 fixed 2026-05-27 | REL-01..REL-09 fixed 2026-05-27 | UNINIT-12..UNINIT-13 fixed 2026-05-27 | PERF-01..PERF-05 fixed 2026-05-27 | UNINIT-14..UNINIT-20 fixed 2026-05-27 | REL-10..REL-19 fixed 2026-05-27 | TC-07..TC-15 fixed 2026-05-27 | IV-01 fixed 2026-05-27 | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S0 fixed 2026-05-04 | S1 fixed 2026-05-04 | OI-05/OI-06 fixed 2026-05-26 | KL-01 closed 2026-05-26 | CCF-01..CCF-05 fixed 2026-05-27 | CQE-01..CQE-03 fixed 2026-05-27 | QE-arc-points-cast fixed 2026-05-27 | TC-01..TC-06 fixed 2026-05-27 | UNINIT-01..UNINIT-11 fixed 2026-05-27 | REL-01..REL-09 fixed 2026-05-27 | UNINIT-12..UNINIT-13 fixed 2026-05-27 | PERF-01..PERF-05 fixed 2026-05-27 | UNINIT-14..UNINIT-20 fixed 2026-05-27 | REL-10..REL-19 fixed 2026-05-27 | TC-07..TC-15 fixed 2026-05-27 | IV-01 fixed 2026-05-27 | PERF-06 fixed 2026-05-27 | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · SECURITY.md -->
 
 # Audit Record — Query Module
@@ -9,9 +9,9 @@
 |--------------|--------------------------------------------|
 | Module       | query                                      |
 | Source path  | `src/query/`                               |
-| Audit date   | 2026-04-21 (S0 fixes: 2026-05-04, S1 fixes: 2026-05-04, OI-05/OI-06: 2026-05-26, KL-01 closed: 2026-05-26, CCF-01..CCF-05 fixed: 2026-05-27, CQE-01..CQE-03 fixed: 2026-05-27, QE-arc-points-cast fixed: 2026-05-27, TC-01..TC-06 fixed: 2026-05-27, UNINIT-01..UNINIT-13 fixed: 2026-05-27, REL-01..REL-09 fixed: 2026-05-27, PERF-01..PERF-05 fixed: 2026-05-27, UNINIT-14..UNINIT-20 fixed: 2026-05-27, REL-10..REL-19 fixed: 2026-05-27, TC-07..TC-15 fixed: 2026-05-27, IV-01 fixed: 2026-05-27, regression tests added: 2026-05-27) |
+| Audit date   | 2026-04-21 (S0 fixes: 2026-05-04, S1 fixes: 2026-05-04, OI-05/OI-06: 2026-05-26, KL-01 closed: 2026-05-26, CCF-01..CCF-05 fixed: 2026-05-27, CQE-01..CQE-03 fixed: 2026-05-27, QE-arc-points-cast fixed: 2026-05-27, TC-01..TC-06 fixed: 2026-05-27, UNINIT-01..UNINIT-13 fixed: 2026-05-27, REL-01..REL-09 fixed: 2026-05-27, PERF-01..PERF-06 fixed: 2026-05-27, UNINIT-14..UNINIT-20 fixed: 2026-05-27, REL-10..REL-19 fixed: 2026-05-27, TC-07..TC-15 fixed: 2026-05-27, IV-01 fixed: 2026-05-27, regression tests added: 2026-05-27) |
 | Audited by   | Copilot (source code analysis)             |
-| Status       | ✅ All critical findings resolved — 0 S0, 0 S1, 0 critical OI open; KL-01 closed; CCF-01..CCF-05 closed; CQE-01..CQE-03 closed; QE-arc-points-cast closed; TC-01..TC-15 closed; UNINIT-01..UNINIT-20 closed; REL-01..REL-19 closed; PERF-01..PERF-05 closed; IV-01 closed; regression tests added for REL-10..19, TC-14..15, IV-01 |
+| Status       | ✅ All critical findings resolved — 0 S0, 0 S1, 0 critical OI open; KL-01 closed; CCF-01..CCF-05 closed; CQE-01..CQE-03 closed; QE-arc-points-cast closed; TC-01..TC-15 closed; UNINIT-01..UNINIT-20 closed; REL-01..REL-19 closed; PERF-01..PERF-06 closed; IV-01 closed; regression tests added for REL-10..19, TC-14..15, IV-01 |
 
 > **2026-05-04:** QE-1 fixed (errors_mutex), QE-2 addressed, PA-1 fixed (depth limit 500 in
 > `parseExpression()`). See finding details below for confirmation.
@@ -93,6 +93,22 @@
 > the Kronecker-product loop (mode_sizes already set via copy assignment).
 > PERF-05: `TensorContractionEngine::project` — `result.cores.reserve(d - 1)` and
 > `result.mode_sizes.reserve(d - 1)` before the branch that builds the projected TTTrain.
+
+> **2026-05-27:** PERF-06 fixed — seven more `reserve()` calls across four files
+> (issue #5177 `copy_overhead` category):
+> PERF-06a: `CypherParser::Tokenizer::tokenize` — `tokens.reserve(src.size())` before the main
+> scan loop in `cypher_parser.cpp`; mirrors the equivalent fix in `gremlin_parser.cpp`.
+> PERF-06b..f: `AdaptiveJoinExecutor` join result rows in `adaptive_join.cpp` — added
+> `result.rows.reserve()` before the output-append loop in five executors:
+>   `executeHashJoin` (probe_side.rowCount()), `executeMergeJoin` (min(left,right)),
+>   `executeNestedLoopJoin` (left.rowCount()), `executeIndexNestedLoopJoin` (left.rowCount()),
+>   `executeGraceHashJoin` (min(left,right)).
+> PERF-06g: `TensorContractionEngine::contractDense` — `free_a.reserve(sha.size())` and
+> `free_b.reserve(shb.size())` before the free-index filling loops in
+> `tensor_contraction_engine.cpp`; worst-case bounds are the full mode counts.
+> PERF-06h: `QueryPlanVisualizer::toTextImpl` attribute-indent loop in
+> `query_plan_visualizer.cpp` — replaced the `for (int i…) out += "    "` loop with a
+> single `out += std::string((depth + 1) * 4, ' ')` allocation.
 
 ## Source File Inventory
 
@@ -383,4 +399,4 @@ std::shared_ptr<Expression> parseUnary() {
 
 ---
 
-*All critical findings resolved — 0 S0, 0 S1, 0 S2 open. REL-20..22, UNINIT-21, TC-16..19 closed 2026-05-27.*
+*All critical findings resolved — 0 S0, 0 S1, 0 S2 open. REL-20..22, UNINIT-21, TC-16..19 closed 2026-05-27. PERF-06 closed 2026-05-27.*

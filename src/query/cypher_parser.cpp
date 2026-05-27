@@ -137,6 +137,7 @@ struct CypherParser::Lexer {
 
     std::vector<CypherParser::Token> tokenize() {
         std::vector<CypherParser::Token> tokens;
+        tokens.reserve(src.size());
 
         while (true) {
             skipWhitespace();

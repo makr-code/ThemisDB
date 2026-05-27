@@ -283,6 +283,7 @@ JoinResult AdaptiveJoinExecutor::executeHashJoin(const JoinSpec& spec,
     }
 
     // Probe phase: for each probe row, look up matching build rows.
+    result.rows.reserve(probe_side.rowCount());
     for (const auto& probe_row : probe_side.rows) {
         auto key_it = probe_row.find(probe_key);
         if (key_it == probe_row.end()) {
@@ -343,6 +344,7 @@ JoinResult AdaptiveJoinExecutor::executeMergeJoin(const JoinSpec& spec,
     // Classic merge join with equal-range matching.
     size_t li = 0, ri = 0;
     const size_t ln = left_ptrs.size(), rn = right_ptrs.size();
+    result.rows.reserve(std::min(ln, rn));
 
     while (li < ln && ri < rn) {
         const std::string& lk = [&]() -> const std::string& {
@@ -403,6 +405,7 @@ JoinResult AdaptiveJoinExecutor::executeNestedLoopJoin(const JoinSpec& spec,
                                                         const Table&    right) const {
     JoinResult result;
     result.algorithm_used = JoinAlgorithm::NESTED_LOOP_JOIN;
+    result.rows.reserve(left.rowCount());
 
     for (const auto& left_row : left.rows) {
         auto lk_it = left_row.find(spec.left_key);
@@ -445,6 +448,7 @@ JoinResult AdaptiveJoinExecutor::executeIndexNestedLoopJoin(
     }
 
     // For each left row, perform an O(1) index lookup.
+    result.rows.reserve(left.rowCount());
     for (const auto& left_row : left.rows) {
         auto lk_it = left_row.find(spec.left_key);
         if (lk_it == left_row.end()) continue;
@@ -474,6 +478,7 @@ JoinResult AdaptiveJoinExecutor::executeGraceHashJoin(const JoinSpec& spec,
                                                        const Table&    right) const {
     JoinResult result;
     result.algorithm_used = JoinAlgorithm::GRACE_HASH_JOIN;
+    result.rows.reserve(std::min(left.rowCount(), right.rowCount()));
 
     // Grace hash join: partition both sides on join key, then hash-join each
     // partition pair.  We use a fixed number of partitions proportional to

@@ -339,6 +339,8 @@ TTTrain TensorContractionEngine::contractModes(
     }
 
     std::vector<std::size_t> free_a, free_b;
+    free_a.reserve(sha.size());
+    free_b.reserve(shb.size());
     for (std::size_t k = 0; k < sha.size(); ++k)
         if (!contracted_a[k]) free_a.push_back(k);
     for (std::size_t k = 0; k < shb.size(); ++k)
