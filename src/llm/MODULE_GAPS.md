@@ -520,6 +520,16 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
 - CPU defragment replacement now removes only the original fragmented pointers (not all pinned/pageable
   entries by predicate), preserving non-target allocations during partial consolidation.
 
+**Status (v1.22.0-pre — W1-L06 health-availability semantics follow-up):** unhealthy GPUs remain tracked for health reporting:
+- `gpu_memory_manager.cpp` now separates “tracked GPU entry exists” from “GPU currently healthy” when
+  materializing `GPUStats`/`GPUHealth`, so `markGPUUnhealthy()` no longer suppresses health details via
+  early return paths.
+- `getGPUHealth()` and `getAllGPUHealth()` now continue returning detailed unhealthy-state metadata
+  (`is_healthy=false`, `last_error`, `error_count`) while preserving `is_available=true` for tracked
+  devices.
+- Added regression assertion in `tests/test_multi_gpu_management.cpp::MarkGPUUnhealthy` to ensure an
+  unhealthy GPU remains reported as available but unhealthy.
+
 **Status (v1.22.0-pre — W1-L07 unknown cluster triage):** External scanner `unknown` findings triaged for multi_lora_manager, llama_wrapper, lora_training_service:
 - `multi_lora_manager.cpp`: external_v3 reports 1227 findings vs 5 internal. `unknown` cluster
   arises from deep STL template patterns, virtual dispatch and large switch bodies the scanner

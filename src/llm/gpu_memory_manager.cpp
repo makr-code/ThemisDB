@@ -205,6 +205,11 @@ inline bool isGPUAvailableNoLock(const std::unordered_map<int, bool>& gpu_health
     return it->second;
 }
 
+inline bool isTrackedGpuHealthEntryNoLock(const std::unordered_map<int, bool>& gpu_health_status,
+                                          int gpu_device_id) noexcept {
+    return gpu_health_status.find(gpu_device_id) != gpu_health_status.end();
+}
+
 inline bool isTrackedGpuNoLock(const std::vector<int>& available_gpus, int gpu_device_id) noexcept {
     return std::find(available_gpus.begin(), available_gpus.end(), gpu_device_id) != available_gpus.end();
 }
@@ -1685,7 +1690,7 @@ GPUMemoryManager::GPUStats GPUMemoryManager::getGPUStats(int gpu_device_id) cons
     GPUStats stats = {};
     stats.device_id = gpu_device_id;
     
-    if (!isGPUAvailableNoLock(gpu_health_status_, gpu_device_id)) {
+    if (!isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id)) {
         return stats;
     }
     
@@ -1750,7 +1755,7 @@ std::vector<GPUMemoryManager::GPUStats> GPUMemoryManager::getAllGPUStats() const
         GPUStats stats = {};
         stats.device_id = gpu_id;
         
-        if (isGPUAvailableNoLock(gpu_health_status_, gpu_id)) {
+        if (isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_id)) {
             // Get VRAM stats
             stats.total_vram_bytes = config_.max_vram_bytes;
             stats.used_vram_bytes = 0;
@@ -1812,7 +1817,7 @@ GPUMemoryManager::GPUHealth GPUMemoryManager::getGPUHealth(int gpu_device_id) co
     
     GPUHealth health = {};
     health.device_id = gpu_device_id;
-    health.is_available = isGPUAvailableNoLock(gpu_health_status_, gpu_device_id);
+    health.is_available = isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id);
     
     if (!health.is_available) {
         return health;
@@ -1851,7 +1856,7 @@ std::vector<GPUMemoryManager::GPUHealth> GPUMemoryManager::getAllGPUHealth() con
         // Get health inline to avoid deadlock (mutex already locked)
         GPUHealth health = {};
         health.device_id = gpu_id;
-        health.is_available = isGPUAvailableNoLock(gpu_health_status_, gpu_id);
+        health.is_available = isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_id);
         
         if (health.is_available) {
             // Check if we have stored health data
@@ -1908,7 +1913,7 @@ void GPUMemoryManager::markGPUUnhealthy(int gpu_device_id, const std::string& re
     // Update health data
     GPUHealth health = {};
     health.device_id = gpu_device_id;
-    health.is_available = isGPUAvailableNoLock(gpu_health_status_, gpu_device_id);
+    health.is_available = isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id);
     health.is_healthy = false;
     health.last_error = reason;
     

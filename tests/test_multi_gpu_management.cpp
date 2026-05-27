@@ -105,6 +105,7 @@ TEST_F(GPUMemoryManagerMultiGPUTest, MarkGPUUnhealthy) {
     EXPECT_FALSE(memory_manager_->isGPUHealthy(1));
     
     auto health = memory_manager_->getGPUHealth(1);
+    EXPECT_TRUE(health.is_available);
     EXPECT_FALSE(health.is_healthy);
     EXPECT_EQ(health.last_error, "Test failure");
     EXPECT_GT(health.error_count, 0);
