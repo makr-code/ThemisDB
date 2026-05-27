@@ -1840,9 +1840,49 @@ void CrossShardTransactionCoordinator::deadlockDetectionThread() {
     while (running_.load()) {
         std::this_thread::sleep_for(config_.deadlock_detection_interval);
         
-        // Build wait-for graph
+        // Build wait-for graph from explicitly-reported push edges.
         auto graph = buildWaitForGraph();
-        
+
+        // Additionally, pull wait-for edges from all configured shard endpoints.
+        // This supplements the push-based reportDistributedWait() mechanism and
+        // enables detection of deadlocks involving shards that have not yet (or
+        // cannot) proactively report their local lock-wait state.
+        if (!config_.shard_endpoints.empty()) {
+            for (const auto& [shard_id, endpoint] : config_.shard_endpoints) {
+                themis::sharding::ShardRPCClient::Config rpc_cfg;
+                rpc_cfg.endpoint = endpoint;
+                rpc_cfg.shard_id = shard_id;
+                rpc_cfg.timeout_ms = static_cast<int>(
+                    config_.deadlock_detection_interval.count() / 2);
+                rpc_cfg.max_retries  = 1;
+                rpc_cfg.enable_circuit_breaker = false;
+
+                try {
+                    themis::sharding::ShardRPCClient client(rpc_cfg);
+                    const auto remote_edges = client.collectWaitForEdges();
+
+                    for (const auto& edge : remote_edges) {
+                        if (edge.waiting_transaction_id.empty() ||
+                            edge.blocking_transaction_id.empty() ||
+                            edge.waiting_transaction_id == edge.blocking_transaction_id) {
+                            continue;
+                        }
+                        graph[edge.waiting_transaction_id].push_back(
+                            edge.blocking_transaction_id);
+                        spdlog::trace(
+                            "Wait-for edge (polled from {}): {} -> {}",
+                            shard_id,
+                            edge.waiting_transaction_id,
+                            edge.blocking_transaction_id);
+                    }
+                } catch (const std::exception& ex) {
+                    spdlog::debug(
+                        "Deadlock polling from shard {} ({}) skipped: {}",
+                        shard_id, endpoint, ex.what());
+                }
+            }
+        }
+
         if (graph.empty()) {
             continue;  // No active transactions with potential conflicts
         }

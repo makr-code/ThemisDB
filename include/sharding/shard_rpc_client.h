@@ -192,6 +192,29 @@ public:
     bool ping();
 
     /**
+     * @brief A single directed wait-for edge returned by collectWaitForEdges().
+     *
+     * waiting_transaction_id is blocked by blocking_transaction_id on this shard.
+     */
+    struct WaitForEdge {
+        std::string waiting_transaction_id;
+        std::string blocking_transaction_id;
+    };
+
+    /**
+     * @brief Pull all active local wait-for edges from the remote shard.
+     *
+     * Used by the coordinator's deadlock-detection thread to build a
+     * cluster-wide wait-for graph that supplements edges explicitly reported
+     * via CrossShardTransactionCoordinator::reportDistributedWait().
+     *
+     * @return List of wait-for edges currently active on the remote shard.
+     *         Returns an empty list on RPC failure (fail-open: callers should
+     *         not abort transactions solely on the basis of a missing response).
+     */
+    std::vector<WaitForEdge> collectWaitForEdges();
+
+    /**
      * @brief Inject a custom response handler for the in-process simulation path.
      *
      * When set, @p handler is called by sendRequestInProcess() instead of the
@@ -290,6 +313,10 @@ private:
      * @brief Handle gRPC healthcheck request
      */
     nlohmann::json handleHealthCheckGrpc(
+        grpc::ClientContext& context
+    );
+
+    nlohmann::json handleCollectWaitForEdgesGrpc(
         grpc::ClientContext& context
     );
     

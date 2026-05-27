@@ -189,6 +189,14 @@ struct CrossShardTransactionConfig {
     // before constructing CrossShardTransactionCoordinator so that audit records
     // and snapshots carry the real node ID instead of a placeholder.
     std::string coordinator_id;                     // Actual coordinator node identifier
+
+    // Cluster-wide deadlock detection — shard endpoints to poll.
+    // Map of shard_id -> gRPC endpoint (e.g. "shard1" -> "shard1:50051").
+    // When non-empty, deadlockDetectionThread polls every endpoint once per
+    // deadlock_detection_interval to collect their local wait-for edges and
+    // merge them into the cluster-wide graph alongside any edges explicitly
+    // reported via reportDistributedWait().
+    std::map<std::string, std::string> shard_endpoints;
 };
 
 struct BackendRecoveryStats {

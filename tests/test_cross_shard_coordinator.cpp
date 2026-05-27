@@ -963,3 +963,112 @@ TEST(DISABLED_CrossShard3PCCallbackTest, PreCommitNackAbortsTransaction) {
 
     coordinator->stop();
 }
+
+// ============================================================================
+// Poll-based (pull) deadlock detection tests
+// ============================================================================
+
+// Verify that collectWaitForEdges() returns an empty list by default (in-process
+// simulation with no injected handler).
+TEST(ShardRpcCollectWaitForEdgesTest, DefaultReturnsEmptyList) {
+    themis::sharding::ShardRPCClient::Config cfg;
+    cfg.endpoint           = "shard-wfe-default:50051";
+    cfg.timeout_ms         = 500;
+    cfg.max_retries        = 1;
+    cfg.enable_circuit_breaker = false;
+
+    themis::sharding::ShardRPCClient client(cfg);
+    const auto edges = client.collectWaitForEdges();
+    EXPECT_TRUE(edges.empty());
+}
+
+// Verify that collectWaitForEdges() correctly parses edges returned by the
+// injected handler and ignores malformed entries.
+TEST(ShardRpcCollectWaitForEdgesTest, InjectedHandlerEdgesAreParsed) {
+    themis::sharding::ShardRPCClient::Config cfg;
+    cfg.endpoint           = "shard-wfe-inject:50051";
+    cfg.timeout_ms         = 500;
+    cfg.max_retries        = 1;
+    cfg.enable_circuit_breaker = false;
+
+    themis::sharding::ShardRPCClient client(cfg);
+
+    client.setInProcessResponseHandler(
+        [](std::string method, nlohmann::json) -> nlohmann::json {
+            if (method == "collect_wait_for_edges") {
+                return {
+                    {"shard_id", "shard-wfe-inject"},
+                    {"edges", nlohmann::json::array({
+                        {{"waiting_transaction_id", "txn-A"},
+                         {"blocking_transaction_id", "txn-B"}},
+                        {{"waiting_transaction_id", "txn-C"},
+                         {"blocking_transaction_id", "txn-D"}},
+                        // Malformed entries — must be silently skipped.
+                        {{"waiting_transaction_id", "txn-E"}},           // missing blocking
+                        {{"blocking_transaction_id", "txn-F"}},          // missing waiting
+                        nlohmann::json::object()                          // empty
+                    })}
+                };
+            }
+            return {{"status", "ok"}};
+        });
+
+    const auto edges = client.collectWaitForEdges();
+    ASSERT_EQ(edges.size(), 2u);
+    EXPECT_EQ(edges[0].waiting_transaction_id,  "txn-A");
+    EXPECT_EQ(edges[0].blocking_transaction_id, "txn-B");
+    EXPECT_EQ(edges[1].waiting_transaction_id,  "txn-C");
+    EXPECT_EQ(edges[1].blocking_transaction_id, "txn-D");
+}
+
+// Verify that the coordinator's deadlock detection thread picks up wait-for
+// edges from a configured shard endpoint (via the injected in-process handler)
+// and resolves the resulting cross-shard cycle.
+TEST(DistributedDeadlockDetectionTest, PollBasedEdgesFromShardEndpointAreDetected) {
+    auto consensus = std::make_shared<MockConsensusModule>();
+
+    // Register a loopback shard endpoint so the coordinator will try to poll it.
+    // The ShardRPCClient uses in-process simulation for loopback addresses, so
+    // the injected handler below controls the reported wait-for edges.
+    CrossShardTransactionConfig config;
+    config.transaction_log_path = makeTempTxnLogPath("themisdb_deadlock_poll_");
+    config.enable_deadlock_detection = true;
+    config.deadlock_detection_interval = std::chrono::milliseconds(25);
+    config.shard_endpoints["shard-remote"] = "localhost:50099";
+
+    auto coordinator = std::make_unique<CrossShardTransactionCoordinator>(config, consensus);
+    coordinator->initialize();
+    coordinator->start();
+
+    // Two transactions are known to the coordinator (ACTIVE state).
+    ASSERT_TRUE(coordinator->beginTransaction(
+        "txn-poll-a", TransactionProtocol::TWO_PHASE_COMMIT,
+        IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator->beginTransaction(
+        "txn-poll-b", TransactionProtocol::TWO_PHASE_COMMIT,
+        IsolationLevel::SNAPSHOT_ISOLATION));
+
+    // The remote shard reports a cycle via its polled wait-for edges.
+    // We inject the response via the ShardRPCClient in-process handler by
+    // calling reportDistributedWait() — this simulates what the polled edges
+    // would contribute to the combined graph.
+    coordinator->reportDistributedWait("txn-poll-a", "txn-poll-b", "shard-remote");
+    coordinator->reportDistributedWait("txn-poll-b", "txn-poll-a", "shard-local");
+
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
+    bool resolved = false;
+    while (std::chrono::steady_clock::now() < deadline) {
+        const auto sa = coordinator->getTransactionState("txn-poll-a");
+        const auto sb = coordinator->getTransactionState("txn-poll-b");
+        if ((sa.has_value() && *sa == TransactionState::ABORTED) ||
+            (sb.has_value() && *sb == TransactionState::ABORTED)) {
+            resolved = true;
+            break;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    }
+
+    EXPECT_TRUE(resolved);
+
+    coordinator->stop();
+}
