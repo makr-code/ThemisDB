@@ -223,14 +223,6 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
         );
     }
 
-    if (!voice_assistant_) {
-        return createErrorResponse(
-            http::status::service_unavailable,
-            "Service Unavailable",
-            "Voice assistant backend not available"
-        );
-    }
-
     // Extract path (without query string) and method
     std::string full_target = std::string(req.target());
     auto q_pos = full_target.find('?');
