@@ -63,7 +63,7 @@ Sharding is a database architecture pattern that involves breaking a database in
 - [x] Pluggable consensus framework supporting Raft, Gossip, and Paxos strategies
 - [x] ConsensusFactory – runtime strategy selection and configuration
 - [x] Cross-shard transaction coordinator with 2PC, 3PC, SAGA, and Percolator protocols
-- [x] Distributed deadlock detection (wait-for-graph cycle detection)
+- [x] Distributed deadlock detection (wait-for-graph cycle detection, configurable victim policy: YOUNGEST/OLDEST/RANDOM)
 - [x] Metadata sharding design and data-model documentation
 - [x] Architecture documentation and ADRs
 

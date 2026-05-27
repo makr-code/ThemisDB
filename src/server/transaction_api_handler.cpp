@@ -89,7 +89,7 @@ http::response<http::string_body> TransactionApiHandler::handleTransaction(
     //
     // Expected request body:
     // {
-    //   "isolation": "read_committed" | "snapshot",  // optional, default read_committed
+    //   "isolation": "read_committed" | "snapshot" | "serializable",  // optional, default read_committed
     //   "operations": [
     //     { "type": "put",    "table": "...", "key": "...", "data": { ... } },
     //     { "type": "delete", "table": "...", "key": "..." },

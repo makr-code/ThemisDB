@@ -157,6 +157,33 @@ public:
         
         return grpc::Status::OK;
     }
+
+    grpc::Status CollectWaitForEdges(
+        [[maybe_unused]] grpc::ServerContext* context,
+        [[maybe_unused]] const themis::sharding::proto::CollectWaitForEdgesRequest* request,
+        themis::sharding::proto::CollectWaitForEdgesResponse* response
+    ) override {
+        THEMIS_DEBUG("gRPC CollectWaitForEdges");
+
+        response->set_shard_id(listen_address_);
+
+        if (handler_) {
+            try {
+                const auto edges = handler_->onCollectWaitForEdges();
+                for (const auto& edge : edges) {
+                    auto* proto_edge = response->add_edges();
+                    proto_edge->set_waiting_transaction_id(edge.waiting_transaction_id);
+                    proto_edge->set_blocking_transaction_id(edge.blocking_transaction_id);
+                }
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("CollectWaitForEdges: onCollectWaitForEdges threw: {}", e.what());
+                return grpc::Status(grpc::StatusCode::INTERNAL, e.what());
+            }
+        }
+        // No handler: return an empty edge list (fail-open — no deadlock assumed).
+
+        return grpc::Status::OK;
+    }
     
     grpc::Status GetShardStatus(
         [[maybe_unused]] grpc::ServerContext* context,

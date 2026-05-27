@@ -6,6 +6,17 @@ Based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- **Distributed cross-shard deadlock detection** — cluster-wide wait-for graph with Tarjan's SCC cycle detection (issue #5396)
+  - `CrossShardTransactionCoordinator::deadlockDetectionThread` merges push edges (`reportDistributedWait`) and pull edges (`ShardRPCClient::collectWaitForEdges` per `shard_endpoints`) each `deadlock_detection_interval` (default: 1 s)
+  - Cycle detection via **Tarjan's SCC** algorithm — any SCC of size > 1 is a distributed deadlock
+  - One victim per independent cycle (avoids over-aborting non-overlapping concurrent cycles)
+  - Configurable victim policy via `DeadlockVictimPolicy`: `YOUNGEST` (default — long-running transactions complete first), `OLDEST`, `RANDOM`
+  - Unknown/stale polled edges filtered before cycle analysis to prevent false positives
+  - `deadlocked_transactions_` atomic counter for Prometheus alerting; `isDeadlocked()` query API
+  - `polled_wait_for_edge_collector` hook for deterministic unit tests without real network I/O
+  - `CollectWaitForEdges` RPC + `WaitForEdge` proto message in `proto/sharding/shard_rpc.proto`; served by `ShardRPCServer`
+  - Tests: push-based 2-cycle, pull-based injection, OLDEST policy, RANDOM policy, multi-cycle independent resolution, unknown-transaction edge filtering
+
 - **`HammingCoder`** — RAID-2 style shard-level error-correction coder (`include/sharding/redundancy_strategy.h`, `src/sharding/redundancy_strategy.cpp`)
   - Implements the generalised Hamming parity-bit assignment at block granularity using pure XOR (no Galois-Field arithmetic)
   - `HammingCoder::encode()`: systematic encoding; parity shard _p_ covers data shard _j_ when bit _p_ is set in the 1-based position (_j_+1)
