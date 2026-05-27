@@ -1508,11 +1508,13 @@ json McpServer::toolListIndexes(const json& args) {
 
 json McpServer::toolGetSchema(const json& args) {
     spdlog::info("MCP Tool 'get_schema' called");
-    
-    if (!db_) {
+
+    const bool database_connected = db_ && db_->isOpen();
+    if (!database_connected) {
         return {
             {"status", "error"},
-            {"message", "Database not attached"},
+            {"message", "Database not attached or not open"},
+            {"database_connected", false},
             {"nodes", json::array()},
             {"edges", json::array()},
             {"properties", json::object()}
@@ -1523,6 +1525,7 @@ json McpServer::toolGetSchema(const json& args) {
         return {
             {"status", "error"},
             {"message", "SchemaManager not initialized"},
+            {"database_connected", true},
             {"integration_level", "minimal"},
             {"nodes", json::array()},
             {"edges", json::array()},
@@ -1536,6 +1539,7 @@ json McpServer::toolGetSchema(const json& args) {
         
         // Add integration level indicator
         schema_json["integration_level"] = "full";
+        schema_json["database_connected"] = database_connected;
         
         return schema_json;
     } catch (const std::exception& e) {
@@ -1543,6 +1547,7 @@ json McpServer::toolGetSchema(const json& args) {
         return {
             {"status", "error"},
             {"message", std::string("Failed to retrieve schema: ") + e.what()},
+            {"database_connected", database_connected},
             {"integration_level", "full"},
             {"nodes", json::array()},
             {"edges", json::array()},
@@ -2569,12 +2574,12 @@ void McpServer::purgeExpiredApprovals() {
 // ============================================================================
 
 json McpServer::handleAiRollback(const std::string& snapshot_id) {
-    if (!db_) {
-        spdlog::warn("AI Safety ASL-10: rollback requested but database not attached");
+    if (!db_ || !db_->isOpen()) {
+        spdlog::warn("AI Safety ASL-10: rollback requested but database not attached/open");
         return {
             {"status",  "error"},
             {"error_code", "NO_DATABASE"},
-            {"message", "Database not attached"}
+            {"message", "Database not attached or not open"}
         };
     }
 

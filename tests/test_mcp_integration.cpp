@@ -524,6 +524,22 @@ TEST_F(MCPIntegrationTest, GetSchema) {
     
     // Should have integration_level = "full" since SchemaManager is attached
     EXPECT_TRUE(parsed.contains("integration_level"));
+    EXPECT_TRUE(parsed.contains("database_connected"));
+    EXPECT_TRUE(parsed["database_connected"]);
+}
+
+TEST_F(MCPIntegrationTest, GetSchemaWithClosedDatabaseReturnsError) {
+    db_->close();
+
+    json result = callTool("get_schema", json::object());
+
+    std::string result_text = result["result"]["content"][0]["text"];
+    json parsed = json::parse(result_text);
+
+    EXPECT_EQ(parsed["status"], "error");
+    EXPECT_TRUE(parsed.contains("database_connected"));
+    EXPECT_FALSE(parsed["database_connected"]);
+    EXPECT_TRUE(parsed.contains("message"));
 }
 
 // ============================================================================
