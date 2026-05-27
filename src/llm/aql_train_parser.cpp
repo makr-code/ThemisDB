@@ -525,11 +525,20 @@ void AQLTrainParser::validateConfig(const TrainStatementConfig& config) {
     if (config.lora_rank < 1 || config.lora_rank > 256) {
         throw std::invalid_argument("AQLTrainParser: lora_rank must be in [1, 256]");
     }
+    if (config.lora_alpha <= 0.0) {
+        throw std::invalid_argument("AQLTrainParser: lora_alpha must be > 0");
+    }
+    if (config.lora_dropout < 0.0 || config.lora_dropout >= 1.0) {
+        throw std::invalid_argument("AQLTrainParser: lora_dropout must be in [0, 1)");
+    }
     if (config.batch_size < 1) {
         throw std::invalid_argument("AQLTrainParser: batch_size must be >= 1");
     }
     if (config.max_seq_length < 1) {
         throw std::invalid_argument("AQLTrainParser: max_seq_length must be >= 1");
+    }
+    if (config.validation_split <= 0.0 || config.validation_split > 1.0) {
+        throw std::invalid_argument("AQLTrainParser: validation_split must be in (0, 1]");
     }
 }
 
@@ -585,6 +594,12 @@ GraphContextConfig AQLTrainParser::parseGraphContext(const std::string& args) {
             cfg.relationships.push_back(stripQuotes(themis::utils::trim(rel)));
         }
     }
+    if (cfg.max_depth < 1) {
+        throw std::invalid_argument("AQLTrainParser: max_depth must be >= 1");
+    }
+    if (cfg.max_nodes < 1) {
+        throw std::invalid_argument("AQLTrainParser: max_nodes must be >= 1");
+    }
     return cfg;
 }
 
@@ -595,6 +610,12 @@ VectorSimilarityConfig AQLTrainParser::parseVectorSimilarity(const std::string& 
     if (kv.count("threshold")) cfg.threshold = parseDoubleValue(kv["threshold"], "threshold");
     if (kv.count("top_k"))     cfg.top_k     = parseIntegerValue(kv["top_k"], "top_k");
     if (kv.count("metric"))    cfg.metric    = kv["metric"];
+    if (cfg.top_k < 1) {
+        throw std::invalid_argument("AQLTrainParser: top_k must be >= 1");
+    }
+    if (cfg.threshold < 0.0 || cfg.threshold > 1.0) {
+        throw std::invalid_argument("AQLTrainParser: threshold must be in [0, 1]");
+    }
     return cfg;
 }
 
@@ -807,6 +828,11 @@ std::shared_ptr<DeployAdapterStmt> AQLTrainParser::parseDeployAdapter(
         if (kv.count("strategy"))               stmt->strategy              = kv["strategy"];
         if (kv.count("validate_compatibility")) stmt->validate_compatibility = iequal(kv["validate_compatibility"], "true");
         if (kv.count("verify_signature"))       stmt->verify_signature       = iequal(kv["verify_signature"], "true");
+    }
+
+    if (stmt->target_shards.empty()) {
+        throw std::invalid_argument(
+            "AQLTrainParser: DEPLOY ADAPTER must specify at least one target shard");
     }
 
     return stmt;

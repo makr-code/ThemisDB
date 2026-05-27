@@ -501,6 +501,105 @@ TEST_F(AQLTrainParserTest, ParseListAdaptersNonPositiveLimitThrows) {
         std::invalid_argument);
 }
 
+// ─── validateConfig: lora_alpha / lora_dropout / validation_split ────────────
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterRejectsZeroLoraAlpha) {
+    const std::string aql =
+        "TRAIN ADAPTER 'a' FROM col WITH {\"base_model\":\"m\",\"epochs\":1,"
+        "\"learning_rate\":0.001,\"lora_rank\":8,\"lora_alpha\":0.0,"
+        "\"lora_dropout\":0.1,\"batch_size\":4,\"max_seq_length\":128,"
+        "\"validation_split\":0.1}";
+    EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterRejectsNegativeLoraDropout) {
+    const std::string aql =
+        "TRAIN ADAPTER 'a' FROM col WITH {\"base_model\":\"m\",\"epochs\":1,"
+        "\"learning_rate\":0.001,\"lora_rank\":8,\"lora_alpha\":16.0,"
+        "\"lora_dropout\":-0.1,\"batch_size\":4,\"max_seq_length\":128,"
+        "\"validation_split\":0.1}";
+    EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterRejectsLoraDropoutAtOne) {
+    const std::string aql =
+        "TRAIN ADAPTER 'a' FROM col WITH {\"base_model\":\"m\",\"epochs\":1,"
+        "\"learning_rate\":0.001,\"lora_rank\":8,\"lora_alpha\":16.0,"
+        "\"lora_dropout\":1.0,\"batch_size\":4,\"max_seq_length\":128,"
+        "\"validation_split\":0.1}";
+    EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterRejectsZeroValidationSplit) {
+    const std::string aql =
+        "TRAIN ADAPTER 'a' FROM col WITH {\"base_model\":\"m\",\"epochs\":1,"
+        "\"learning_rate\":0.001,\"lora_rank\":8,\"lora_alpha\":16.0,"
+        "\"lora_dropout\":0.1,\"batch_size\":4,\"max_seq_length\":128,"
+        "\"validation_split\":0.0}";
+    EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterRejectsValidationSplitAboveOne) {
+    const std::string aql =
+        "TRAIN ADAPTER 'a' FROM col WITH {\"base_model\":\"m\",\"epochs\":1,"
+        "\"learning_rate\":0.001,\"lora_rank\":8,\"lora_alpha\":16.0,"
+        "\"lora_dropout\":0.1,\"batch_size\":4,\"max_seq_length\":128,"
+        "\"validation_split\":1.5}";
+    EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
+}
+
+// ─── parseGraphContext bounds ─────────────────────────────────────────────────
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterRejectsZeroMaxDepth) {
+    const std::string aql =
+        "TRAIN ADAPTER 'a' FROM col "
+        "USING GRAPH_CONTEXT(max_depth = 0, direction = 'BOTH', max_nodes = 50) "
+        "WITH base_model = 'llama', epochs = 1, learning_rate = 0.001, rank = 8";
+    EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterRejectsZeroMaxNodes) {
+    const std::string aql =
+        "TRAIN ADAPTER 'a' FROM col "
+        "USING GRAPH_CONTEXT(max_depth = 2, direction = 'BOTH', max_nodes = 0) "
+        "WITH base_model = 'llama', epochs = 1, learning_rate = 0.001, rank = 8";
+    EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
+}
+
+// ─── parseVectorSimilarity bounds ────────────────────────────────────────────
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterRejectsZeroTopK) {
+    const std::string aql =
+        "TRAIN ADAPTER 'a' FROM col "
+        "USING VECTOR_SIMILARITY(field = 'emb', top_k = 0, threshold = 0.8) "
+        "WITH base_model = 'llama', epochs = 1, learning_rate = 0.001, rank = 8";
+    EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterRejectsNegativeThreshold) {
+    const std::string aql =
+        "TRAIN ADAPTER 'a' FROM col "
+        "USING VECTOR_SIMILARITY(field = 'emb', top_k = 5, threshold = -0.1) "
+        "WITH base_model = 'llama', epochs = 1, learning_rate = 0.001, rank = 8";
+    EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterRejectsThresholdAboveOne) {
+    const std::string aql =
+        "TRAIN ADAPTER 'a' FROM col "
+        "USING VECTOR_SIMILARITY(field = 'emb', top_k = 5, threshold = 1.1) "
+        "WITH base_model = 'llama', epochs = 1, learning_rate = 0.001, rank = 8";
+    EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
+}
+
+// ─── parseDeployAdapter empty shards ─────────────────────────────────────────
+
+TEST_F(AQLTrainParserTest, ParseDeployAdapterNoShardsThrows) {
+    EXPECT_THROW(
+        parser_.parseDeployAdapter("DEPLOY ADAPTER 'foo' TO WITH strategy = 'R'"),
+        std::invalid_argument);
+}
+
 // ─── JSON round-trip ─────────────────────────────────────────────────────────
 
 TEST_F(AQLTrainParserTest, TrainStatementConfigRoundTrip) {

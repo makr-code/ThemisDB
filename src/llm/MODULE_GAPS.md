@@ -400,6 +400,21 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
 - `aql_train_parser.cpp` now enforces positive bounds for `LIST ADAPTERS LIMIT`, `batch_size`, and
   `max_seq_length`, rejecting non-positive values with explicit validation errors.
 
+**Status (v1.22.0-pre — W1-L05 input_validation batch):** Remaining config/sub-config bounds added:
+- `aql_train_parser.cpp` `validateConfig()` now enforces:
+  - `lora_alpha > 0` (must be a positive scaling factor)
+  - `lora_dropout ∈ [0, 1)` (valid dropout probability range)
+  - `validation_split ∈ (0, 1]` (must be a non-zero fraction ≤ 1)
+- `aql_train_parser.cpp` `parseGraphContext()` now validates:
+  - `max_depth ≥ 1` (depth of zero or negative is not a valid traversal depth)
+  - `max_nodes ≥ 1` (at least one node must be included)
+- `aql_train_parser.cpp` `parseVectorSimilarity()` now validates:
+  - `top_k ≥ 1` (non-positive top-k is meaningless)
+  - `threshold ∈ [0, 1]` (similarity threshold must be a valid fraction)
+- `aql_train_parser.cpp` `parseDeployAdapter()` now rejects statements with no target shards
+  (missing quoted shard identifiers) with an explicit `std::invalid_argument`.
+- Regression tests added for all new validation paths in `tests/test_aql_lora_finetuner.cpp`.
+
 **Status (v1.22.0-pre — W1-L06 uninitialized_access/overflow batch):** Integer-overflow guard added to `canAllocate`:
 - `gpu_memory_manager.cpp` `canAllocate()` (~line 759) — Added `size_t` overflow pre-checks
   before computing `future_vram = total_vram_used_ + vram_bytes` and
