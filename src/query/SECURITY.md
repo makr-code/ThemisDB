@@ -22,7 +22,7 @@
 
 ### T2 — Resource Exhaustion
 - **Risk:** High — unbounded queries could exhaust memory, CPU, or I/O
-- **Mitigation:** Per-query limits enforced: max-rows, max-memory, timeout; `QueryFederation` caps join inputs/results, scatter-gather merges, aggregation shard/output payloads, and federated RAG accumulation via `max_result_size_bytes`; query cancellation via request ID (`query_canceller.cpp`); limits are mandatory and not caller-optional; `CrossClusterFederator` HTTP response capped at 64 MiB (CCF-01, 2026-05-27)
+- **Mitigation:** Per-query limits enforced: max-rows, max-memory, timeout; `QueryFederation` caps join inputs/results, scatter-gather merges, aggregation shard/output payloads, and federated RAG accumulation via `max_result_size_bytes`; query cancellation via request ID (`query_canceller.cpp`); limits are mandatory and not caller-optional; `CrossClusterFederator` HTTP response capped at 64 MiB (CCF-01, 2026-05-27); `ContinuousQueryEngineImpl` registry capped at 1 000 queries (CQE-03, 2026-05-27) and injection queue capped at 100 000 entries (CQE-02, 2026-05-27)
 - **Residual risk:** Low — limits are enforced in the execution engine; extreme edge cases under benchmark review
 
 ### T3 — Cross-Tenant Data Access

@@ -1,4 +1,4 @@
-<!-- Status: S0 fixed 2026-05-04 | S1 fixed 2026-05-04 | OI-05/OI-06 fixed 2026-05-26 | KL-01 closed 2026-05-26 | CCF-01..CCF-05 fixed 2026-05-27 | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S0 fixed 2026-05-04 | S1 fixed 2026-05-04 | OI-05/OI-06 fixed 2026-05-26 | KL-01 closed 2026-05-26 | CCF-01..CCF-05 fixed 2026-05-27 | CQE-01..CQE-03 fixed 2026-05-27 | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · SECURITY.md -->
 
 # Audit Record — Query Module
@@ -9,9 +9,9 @@
 |--------------|--------------------------------------------|
 | Module       | query                                      |
 | Source path  | `src/query/`                               |
-| Audit date   | 2026-04-21 (S0 fixes: 2026-05-04, S1 fixes: 2026-05-04, OI-05/OI-06: 2026-05-26, KL-01 closed: 2026-05-26, CCF-01..CCF-05 fixed: 2026-05-27) |
+| Audit date   | 2026-04-21 (S0 fixes: 2026-05-04, S1 fixes: 2026-05-04, OI-05/OI-06: 2026-05-26, KL-01 closed: 2026-05-26, CCF-01..CCF-05 fixed: 2026-05-27, CQE-01..CQE-03 fixed: 2026-05-27) |
 | Audited by   | Copilot (source code analysis)             |
-| Status       | ✅ All critical findings resolved — 0 S0, 0 S1, 0 critical OI open; KL-01 closed; CCF-01..CCF-05 closed |
+| Status       | ✅ All critical findings resolved — 0 S0, 0 S1, 0 critical OI open; KL-01 closed; CCF-01..CCF-05 closed; CQE-01..CQE-03 closed |
 
 > **2026-05-04:** QE-1 fixed (errors_mutex), QE-2 addressed, PA-1 fixed (depth limit 500 in
 > `parseExpression()`). See finding details below for confirmation.
@@ -33,6 +33,12 @@
 > CR/LF to block header-injection attempts in `Authorization` construction. CCF-05 fixed —
 > libcurl transport now restricts both request and redirect protocols to HTTP/HTTPS via
 > `CURLOPT_PROTOCOLS` and `CURLOPT_REDIR_PROTOCOLS`.
+> **2026-05-27:** CQE-01 fixed — `tickOnce()` aliased `entry.synopsis`/`entry.watermark` raw
+> pointers into a second `unique_ptr`, causing double-free on exception; replaced with
+> `std::move` + RAII `OwnershipGuard` that restores ownership unconditionally. CQE-02 fixed —
+> `inject_queue_` is now capped at `kMaxInjectQueueDepth` (100 000); excess entries drop the
+> oldest. CQE-03 fixed — `registerQuery()` rejects registration when `registry_` already holds
+> `kMaxRegisteredQueries` (1 000) queries.
 
 ## Source File Inventory
 
@@ -44,12 +50,17 @@
 | `aql_parser.cpp` | Full AQL grammar parser producing AST | ✅ Covered |
 | `aql_parser_json.cpp` | JSON serialization of AQL AST | ✅ Covered |
 | `aql_runner.cpp` | End-to-end AQL execution pipeline | ✅ Covered |
+| `aql_safety_validator.cpp` | AI Safety Layer: AQL read-only enforcer (mutation keyword scan) | ✅ Covered |
 | `aql_translator.cpp` | Cross-dialect normalization (SPARQL/SQL → AQL) | ✅ Covered |
+| `continuous_query_engine.cpp` | Continuous standing-query engine (register/drop/subscribe/tick loop) | ✅ Covered |
+| `continuous_query_planner.cpp` | ContinuousQueryPlanner: compiles ContinuousQuerySpec into ContinuousPlan | ✅ Covered |
+| `cq_watermark.cpp` | Event-time watermark tracking and late-event budget enforcement | ✅ Covered |
 | `cross_cluster_federation.cpp` | Cross-cluster federated AQL with cost estimation | ✅ Covered |
 | `cte_cache.cpp` | CTE result caching | ✅ Covered |
 | `cte_subquery.cpp` | CTE subquery evaluation | ✅ Covered |
 | `cypher_parser.cpp` | Cypher graph query parser → AQL translation | ✅ Covered |
 | `gremlin_parser.cpp` | Gremlin traversal parser → AQL translation | ✅ Covered |
+| `incremental_agg.cpp` | Incremental (add/remove) aggregation for sliding-window CQs | ✅ Covered |
 | `let_evaluator.cpp` | LET expression evaluation | ✅ Covered |
 | `materialized_cte.cpp` | Incremental view maintenance for materialized CTEs | ✅ Covered |
 | `materialized_view.cpp` | Materialized view creation, refresh, and invalidation | ✅ Covered |
@@ -73,11 +84,14 @@
 | `sparql_parser.cpp` | SPARQL parser → AQL translation | ✅ Covered |
 | `sql_parser.cpp` | SQL dialect parser → AQL translation | ✅ Covered |
 | `statistical_aggregator.cpp` | Statistical aggregation functions | ✅ Covered |
+| `synopsis_store.cpp` | In-memory ring-buffer synopsis store for continuous queries | ✅ Covered |
+| `tensor_aware_query_optimizer.cpp` | Tensor-function detection and cost rewrite in query plans | ✅ Covered |
+| `tensor_contraction_engine.cpp` | Tensor contraction execution engine | ✅ Covered |
 | `vectorized_execution.cpp` | Column-store batch processing with SIMD | ✅ Covered |
 | `window_evaluator.cpp` | Window function evaluation with frame semantics | ✅ Covered |
 | `workload_cache_strategy.cpp` | Workload-aware cache admission strategy | ✅ Covered |
 
-**Total: 38 source files**
+**Total: 46 source files**
 
 ## Test Coverage
 
@@ -98,8 +112,9 @@
 | AQLParser thread-safety               | ✅ Complete   | `AQLParser` is stateless — each call constructs a local `Parser`; safe for concurrent use without mutex (KL-01 closed 2026-05-26) |
 | Parser recursion depth limit          | ✅ Complete   | `kMaxExprDepth=500` in `parseExpression`; `kMaxTraversalDepth=100` in `parseForClause` (PA-1 fixed 2026-05-04) |
 | Cross-cluster HTTP hardening          | ✅ Complete   | Response capped at 64 MiB (CCF-01); redirect hops limited to 3 (CCF-02); URL scheme validated (CCF-03); auth token CR/LF rejected (CCF-04); libcurl protocol/redirect protocols restricted to HTTP/HTTPS (CCF-05) — all fixed 2026-05-27 |
+| CQ engine memory safety               | ✅ Complete   | `tickOnce()` double-ownership fixed (CQE-01); `inject_queue_` capped at 100 K (CQE-02); registry capped at 1 000 queries (CQE-03) — all fixed 2026-05-27 |
 | Performance benchmarks                | ❌ Pending    | Vectorized + federated paths (Q2 2026)        |
-| Full security audit                   | ✅ All critical findings resolved | QE-1..QE-5 ✅, PA-1..PA-2 ✅, TR-1..TR-2 ✅, CCF-01..CCF-05 ✅ — see Findings section |
+| Full security audit                   | ✅ All critical findings resolved | QE-1..QE-5 ✅, PA-1..PA-2 ✅, TR-1..TR-2 ✅, CCF-01..CCF-05 ✅, CQE-01..CQE-03 ✅ — see Findings section |
 
 ## Findings
 
@@ -187,6 +202,14 @@ std::shared_ptr<Expression> parseUnary() {
 | CCF-04 | `registerCluster()` in `cross_cluster_federation.cpp` | `auth_token` accepted CR/LF — attacker-controlled token could inject additional HTTP headers | ✅ fixed 2026-05-27 — rejects tokens containing `\\r` or `\\n` |
 | CCF-05 | `curlHttpPost()` in `cross_cluster_federation.cpp` | Redirects could still switch protocol family after first hop, expanding SSRF reach | ✅ fixed 2026-05-27 — `CURLOPT_PROTOCOLS` + `CURLOPT_REDIR_PROTOCOLS` restricted to HTTP/HTTPS |
 
+### S1 (continued) — ContinuousQueryEngine hardening
+
+| ID | Function | Description | Status |
+|----|----------|-------------|--------|
+| CQE-01 | `tickOnce()` in `continuous_query_engine.cpp` | Double-ownership: `state.synopsis` and `state.watermark` wrapped raw pointers already owned by `entry.synopsis`/`entry.watermark` — if `evaluate()` threw, the destructor of the local `state` would delete the objects a second time (double-free, UB) | ✅ fixed 2026-05-27 — replaced aliased `unique_ptr(raw)` with `std::move` + RAII `OwnershipGuard` that restores ownership on both normal and exception paths |
+| CQE-02 | `injectTuple()` in `continuous_query_engine.cpp` | Unbounded `inject_queue_` deque — a caller who invokes `injectTuple()` faster than the evaluation loop drains it causes unbounded memory growth | ✅ fixed 2026-05-27 — cap enforced at `kMaxInjectQueueDepth` (100 000); excess entries drop the oldest |
+| CQE-03 | `registerQuery()` in `continuous_query_engine.cpp` | No limit on the number of concurrently registered queries — repeated `registerQuery()` calls fill the `registry_` map without bound | ✅ fixed 2026-05-27 — `kMaxRegisteredQueries` (1 000) hard cap; returns `ERR_QUERY_INVALID` when full |
+
 ---
 
 ## Open Items
@@ -198,5 +221,6 @@ std::shared_ptr<Expression> parseUnary() {
 | ~~**OI-05**~~ | ~~**Add ACL check on collection name in all execute* methods (QE-2)**~~ | ✅ **Fixed 2026-05-26** — `collection_access_checker_` wired in `executeAndKeys`, `executeAndEntities`, `executeOrKeys`, `executeOrKeysWithFallback`, `executeAndKeysSequential`, `executeAndKeysWithFallback`, `executeVectorGeoQuery`, `executeContentGeoQuery` | ~~Critical~~ |
 | ~~**OI-06**~~ | ~~**Fix data race on `errors` vector in `executeAndKeys` (QE-1)**~~ | ✅ **Fixed** — `executeAndKeys` had `errors_mutex` since 2026-05-04; `executeOrKeys` data race (missing mutex) **fixed 2026-05-26** | ~~Critical~~ |
 | ~~**CCF-01..CCF-05**~~ | ~~**Cross-cluster federation HTTP hardening**~~ | ✅ **Fixed 2026-05-27** | ~~High~~ |
+| ~~**CQE-01..CQE-03**~~ | ~~**ContinuousQueryEngine memory-safety and resource-exhaustion hardening**~~ | ✅ **Fixed 2026-05-27** | ~~High~~ |
 | OI-02 | Performance benchmarks (vectorized, federated)               | Q2 2026 | High     |
 | OI-03 | Full security audit (injection, resource exhaustion)         | Q2 2026 | High     |

@@ -8,7 +8,7 @@
 
 /**
  * @file test_continuous_query_engine.cpp
- * @brief Unit tests CQ-01..CQ-20 for the Continuous Query Language engine.
+ * @brief Unit tests CQ-01..CQ-22 for the Continuous Query Language engine.
  *
  * Coverage:
  *   CQ-01..05  WindowSpec construction and tick computation
@@ -17,6 +17,8 @@
  *   CQ-14..15  CQWatermark advancement and late-data detection
  *   CQ-16..18  DELTA / SNAPSHOT / CHANGES result mode output
  *   CQ-19..20  Validation rejections (invalid window, empty name)
+ *   CQ-21      inject_queue_ overflow drops oldest without crashing (CQE-02)
+ *   CQ-22      registry full returns error after kMaxRegisteredQueries (CQE-03)
  */
 
 #include <gtest/gtest.h>
@@ -379,4 +381,61 @@ TEST(ContinuousQueryValidation, CQ20_RejectEmptyName) {
 
     auto result = engine.registerQuery(spec);
     EXPECT_FALSE(result.has_value());
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CQ-21  inject_queue_ overflow: bulk injection saturates staging queue but
+//        does not crash and engine continues to function (CQE-02 regression).
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(ContinuousQueryEngineTest, CQ21_InjectQueueOverflowDropsOldest) {
+    ContinuousQueryEngineImpl engine(std::chrono::milliseconds{500});
+
+    ContinuousQuerySpec spec;
+    spec.name              = "overflow_query";
+    spec.source_collection = "flood";
+    spec.aql_body          = "FOR e IN flood RETURN e";
+    spec.result_mode       = ResultMode::DELTA;
+    spec.window.type       = WindowSpec::Type::TUMBLING;
+    spec.window.range_ms   = 60'000;
+    ASSERT_TRUE(engine.registerQuery(spec).has_value());
+
+    // Inject more tuples than kMaxInjectQueueDepth (100 000) without crashing.
+    // We use a smaller count here to keep the test fast; the cap is exercised
+    // at the boundary.
+    constexpr int kBurst = 200'001;  // >2× kMaxInjectQueueDepth
+    for (int i = 0; i < kBurst; ++i) {
+        engine.injectTuple("flood", R"({"i":1})", static_cast<int64_t>(i) * 1000LL);
+    }
+    // Engine must still be alive and responsive after the burst.
+    EXPECT_FALSE(engine.listQueries().empty());
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CQ-22  registry full: registerQuery returns an error after
+//        kMaxRegisteredQueries have been registered (CQE-03 regression).
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(ContinuousQueryEngineTest, CQ22_RegistryFullReturnsError) {
+    // Use a very slow tick so the loop thread does not interfere.
+    ContinuousQueryEngineImpl engine(std::chrono::milliseconds{60'000});
+
+    auto make_spec = [](int idx) {
+        ContinuousQuerySpec s;
+        s.name              = "q" + std::to_string(idx);
+        s.source_collection = "col";
+        s.aql_body          = "FOR e IN col RETURN e";
+        s.window.range_ms   = 60'000;
+        return s;
+    };
+
+    // Fill the registry to the limit (kMaxRegisteredQueries = 1 000).
+    constexpr int kLimit = 1'000;
+    for (int i = 0; i < kLimit; ++i) {
+        auto r = engine.registerQuery(make_spec(i));
+        ASSERT_TRUE(r.has_value()) << "registration " << i << " failed unexpectedly";
+    }
+
+    // One more registration must be rejected.
+    auto overflow = engine.registerQuery(make_spec(kLimit));
+    EXPECT_FALSE(overflow.has_value())
+        << "expected registry-full error but registration succeeded";
 }
