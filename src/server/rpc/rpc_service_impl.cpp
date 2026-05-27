@@ -2821,10 +2821,12 @@ json ThemisRPCService::dispatch(
                 );
             }
         } catch (...) {
-            return createError(
-                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
-                "Unknown internal error during RPC dispatch"
-            );
+            if (!retryable_method || attempt == max_attempts) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                    "Unknown internal error during RPC dispatch"
+                );
+            }
         }
 
         const auto backoff = std::chrono::milliseconds(10 * attempt);

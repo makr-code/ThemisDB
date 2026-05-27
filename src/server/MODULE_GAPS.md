@@ -913,3 +913,9 @@ Findings addressed:
   PostgreSQL wire-session writes now arm a dedicated per-write timeout (`kWriteTimeout`, SQLSTATE `57014`)
   before each `asio::async_write` and cancel it on completion. Stalled response writes now fail closed
   with a structured timeout error and session stop instead of allowing indefinite write-side hangs.
+
+- **W1-S04 follow-up (2026-05-27) — async callback exception boundary hardening in `postgres_session.cpp` + retry consistency in `rpc_service_impl.cpp`:**
+  `PostgresSession` read-timeout, write-timeout, and write-completion async callbacks now wrap timeout/error
+  response paths in `try/catch` so exceptions cannot escape Asio handlers and trigger process termination.
+  `ThemisRPCService::dispatch()` now treats unknown exceptions like typed exceptions for retryable methods:
+  it consumes retry budget first and returns `INTERNAL_ERROR` only on final-attempt exhaustion.

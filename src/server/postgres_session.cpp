@@ -141,8 +141,16 @@ void PostgresSession::armReadTimeout() {
         if (ec || stopped_.load(std::memory_order_acquire)) {
             return;
         }
-        sendErrorResponse("ERROR", "57014", "Connection timed out while waiting for client message");
-        stop();
+        try {
+            sendErrorResponse("ERROR", "57014", "Connection timed out while waiting for client message");
+            stop();
+        } catch (const std::exception& e) {
+            std::cerr << "[PostgresSession] Read-timeout handler error: " << e.what() << "\n";
+            stop();
+        } catch (...) {
+            std::cerr << "[PostgresSession] Read-timeout handler unknown error\n";
+            stop();
+        }
     });
 }
 
@@ -158,8 +166,16 @@ void PostgresSession::armWriteTimeout() {
         if (ec || stopped_.load(std::memory_order_acquire)) {
             return;
         }
-        sendErrorResponse("ERROR", "57014", "Connection timed out while sending response");
-        stop();
+        try {
+            sendErrorResponse("ERROR", "57014", "Connection timed out while sending response");
+            stop();
+        } catch (const std::exception& e) {
+            std::cerr << "[PostgresSession] Write-timeout handler error: " << e.what() << "\n";
+            stop();
+        } catch (...) {
+            std::cerr << "[PostgresSession] Write-timeout handler unknown error\n";
+            stop();
+        }
     });
 }
 
@@ -1498,25 +1514,33 @@ void PostgresSession::doWrite() {
     armWriteTimeout();
     asio::async_write(socket_, asio::buffer(*message),
         [this, self, message](boost::beast::error_code ec, std::size_t /*bytes_transferred*/) {
-            cancelWriteTimeout();
-            if (ec || stopped_.load(std::memory_order_acquire)) {
-                stop();
-                return;
-            }
+            try {
+                cancelWriteTimeout();
+                if (ec || stopped_.load(std::memory_order_acquire)) {
+                    stop();
+                    return;
+                }
 
-            bool shouldContinue = false;
-            {
-                std::lock_guard<std::mutex> lock(writeMutex_);
-                if (!writeQueue_.empty()) {
-                    writeQueue_.pop_front();
+                bool shouldContinue = false;
+                {
+                    std::lock_guard<std::mutex> lock(writeMutex_);
+                    if (!writeQueue_.empty()) {
+                        writeQueue_.pop_front();
+                    }
+                    shouldContinue = !writeQueue_.empty();
+                    if (!shouldContinue) {
+                        writeInProgress_ = false;
+                    }
                 }
-                shouldContinue = !writeQueue_.empty();
-                if (!shouldContinue) {
-                    writeInProgress_ = false;
+                if (shouldContinue) {
+                    doWrite();
                 }
-            }
-            if (shouldContinue) {
-                doWrite();
+            } catch (const std::exception& e) {
+                std::cerr << "[PostgresSession] Write completion handler error: " << e.what() << "\n";
+                stop();
+            } catch (...) {
+                std::cerr << "[PostgresSession] Write completion handler unknown error\n";
+                stop();
             }
         });
 }
