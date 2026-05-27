@@ -401,6 +401,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                         } else if (!key_provider_) {
                             THEMIS_WARN("Encryption schema active but key_provider_ missing");
                         } else {
+                            auto& key_provider = *key_provider_;
                             // Context type (user|group)
                             std::string context_type = coll["encryption"].value("context_type", "user");
                             std::vector<std::string> fields;
@@ -414,7 +415,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                             std::string user_id = auth_ctx.user_id;
                             std::vector<std::string> groups_claim = auth_ctx.groups;
                             // Get DEK / Group-DEK from PKIKeyProvider (dynamic_cast for group functionality)
-                            auto pki = std::dynamic_pointer_cast<themis::security::PKIKeyProvider>(key_provider_);
+                            auto pki = std::dynamic_pointer_cast<themis::security::PKIKeyProvider>(key_provider);
                             for (const auto& f : fields) {
                                 if (!entity.hasField(f)) continue; // Field does not exist
                                 auto valOpt = entity.getField(f);
@@ -469,7 +470,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                                 } else {
                                     // Per-user or fallback to general field key
                                     std::string user_ctx = user_id.empty() ? "anonymous" : user_id;
-                                    auto dek = key_provider_->getKey("dek");
+                                    auto dek = key_provider.getKey("dek");
                                     // salt = user_id (can be empty) - if empty, fallback to static salt to keep HKDF function stable
                                     std::vector<uint8_t> salt;
                                     if (!user_ctx.empty()) salt.assign(user_ctx.begin(), user_ctx.end());

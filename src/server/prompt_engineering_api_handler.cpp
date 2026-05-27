@@ -83,6 +83,7 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleOptimize(
                 "SelfImprovementOrchestrator not available",
                 req);
         }
+        auto& orchestrator = *orchestrator_;
 
         auto body = nlohmann::json::parse(req.body());
         
@@ -97,7 +98,7 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleOptimize(
         }
 
         // Check if optimization should be triggered
-        if (!orchestrator_->shouldOptimize(prompt_id)) {
+        if (!orchestrator.shouldOptimize(prompt_id)) {
             nlohmann::json response;
             response["status"] = "skipped";
             response["message"] = "Prompt does not meet optimization criteria";
@@ -119,7 +120,7 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleOptimize(
             }
         }
 
-        auto result = orchestrator_->optimizePrompt(prompt_id, test_cases);
+        auto result = orchestrator.optimizePrompt(prompt_id, test_cases);
 
         nlohmann::json response;
         response["status"] = "success";
@@ -161,8 +162,9 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleListABTests
                 "SelfImprovementOrchestrator not available",
                 req);
         }
+        auto& orchestrator = *orchestrator_;
 
-        auto tests = orchestrator_->getActiveABTests();
+        auto tests = orchestrator.getActiveABTests();
         nlohmann::json response = nlohmann::json::array();
         
         for (const auto& test : tests) {
@@ -208,8 +210,9 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleGetABTest(
                 "SelfImprovementOrchestrator not available",
                 req);
         }
+        auto& orchestrator = *orchestrator_;
 
-        auto test = orchestrator_->getABTestResults(test_id);
+        auto test = orchestrator.getABTestResults(test_id);
         if (!test) {
             return makeErrorResponse(
                 http::status::not_found,
@@ -239,6 +242,7 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleSubmitFeedb
                 "FeedbackCollector not available",
                 req);
         }
+        auto& feedback_collector = *feedback_collector_;
 
         auto body = nlohmann::json::parse(req.body());
         
@@ -265,7 +269,7 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleSubmitFeedb
                 req);
         }
 
-        auto feedback_id = feedback_collector_->recordFeedback(
+        auto feedback_id = feedback_collector.recordFeedback(
             prompt_id,
             query,
             response_text,
@@ -368,8 +372,9 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleGetHistory(
                 "SelfImprovementOrchestrator not available",
                 req);
         }
+        auto& orchestrator = *orchestrator_;
 
-        auto history = orchestrator_->getOptimizationHistory(prompt_id);
+        auto history = orchestrator.getOptimizationHistory(prompt_id);
         nlohmann::json response = nlohmann::json::array();
         
         for (const auto& entry : history) {
@@ -415,9 +420,10 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleGetVersions
                 "PromptVersionControl not available",
                 req);
         }
+        auto& version_control = *version_control_;
 
         // Get version history
-        auto versions = version_control_->getHistory(prompt_id, "main", 100);
+        auto versions = version_control.getHistory(prompt_id, "main", 100);
         nlohmann::json response = nlohmann::json::array();
         
         for (const auto& version : versions) {
@@ -446,6 +452,7 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleRollback(
                 "SelfImprovementOrchestrator not available",
                 req);
         }
+        auto& orchestrator = *orchestrator_;
 
         auto body = nlohmann::json::parse(req.body());
         
@@ -458,7 +465,7 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleRollback(
                 req);
         }
 
-        auto result = orchestrator_->rollbackPrompt(prompt_id);
+        auto result = orchestrator.rollbackPrompt(prompt_id);
 
         nlohmann::json response;
         response["status"] = result ? "success" : "failed";
@@ -530,4 +537,3 @@ http::response<http::string_body> PromptEngineeringApiHandler::makeResponse(
 
 } // namespace server
 } // namespace themis
-

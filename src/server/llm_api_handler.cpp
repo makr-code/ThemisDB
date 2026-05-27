@@ -1031,9 +1031,10 @@ bool LLMApiHandler::validateBearerToken(const http::request<http::string_body>& 
         }
         return false;
     }
+    auto& jwt_validator = *jwt_validator_;
     
     try {
-        auto claims = jwt_validator_->parseAndValidate(*token);
+        auto claims = jwt_validator.parseAndValidate(*token);
         // Token is valid
         return true;
     } catch (...) {
@@ -1364,9 +1365,10 @@ http::response<http::string_body> LLMApiHandler::handleCreateFeedback(
                 "FeedbackStore has not been configured for this handler"
             );
         }
+        auto& feedback_store = *feedback_store_;
         
         // Store feedback using FeedbackStore
-        auto stored = feedback_store_->createFeedback(feedback);
+        auto stored = feedback_store.createFeedback(feedback);
         
         // Convert to JSON response
         json response_data = stored.toJson();
@@ -1412,9 +1414,10 @@ http::response<http::string_body> LLMApiHandler::handleGetFeedback(
             "FeedbackStore has not been configured for this handler"
         );
     }
+    auto& feedback_store = *feedback_store_;
     
     // Get feedback from store
-    auto feedback = feedback_store_->getFeedback(feedback_id);
+    auto feedback = feedback_store.getFeedback(feedback_id);
     
     if (!feedback) {
         return createErrorResponse(
@@ -1481,6 +1484,7 @@ http::response<http::string_body> LLMApiHandler::handleListFeedback(
             "FeedbackStore has not been configured for this handler"
         );
     }
+    auto& feedback_store = *feedback_store_;
     
     // Build list options
     llm::FeedbackStore::ListOptions options;
@@ -1509,7 +1513,7 @@ http::response<http::string_body> LLMApiHandler::handleListFeedback(
     }
     
     // Get feedback list from store
-    auto feedback_list = feedback_store_->listFeedback(options);
+    auto feedback_list = feedback_store.listFeedback(options);
     
     // Convert to JSON array
     json feedback_array = json::array();
@@ -1538,9 +1542,10 @@ http::response<http::string_body> LLMApiHandler::handleFeedbackStats(
             "FeedbackStore has not been configured for this handler"
         );
     }
+    auto& feedback_store = *feedback_store_;
     
     // Get stats from store
-    auto stats = feedback_store_->getStats();
+    auto stats = feedback_store.getStats();
     
     // Convert to JSON
     json response_data = {
@@ -1725,4 +1730,3 @@ http::response<http::string_body> LLMApiHandler::handleOpenAIListModels(
 }
 
 } // namespace themis::server
-

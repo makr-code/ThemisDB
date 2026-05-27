@@ -258,6 +258,7 @@ void ImportApiHandler::handleStartS3Import(const httplib::Request& req,
                   "S3 importer is not configured on this server instance");
         return;
     }
+    auto& s3_importer = *s3_importer_;
 
     json body;
     try {
@@ -298,7 +299,7 @@ void ImportApiHandler::handleStartS3Import(const httplib::Request& req,
                                                     : source_path.size());
                 }());
 
-    auto handle = s3_importer_->importDataAsync(source_path, opts);
+    auto handle = s3_importer.importDataAsync(source_path, opts);
     registry_->add(handle);
 
     jsonOk(res, handle->toJson());

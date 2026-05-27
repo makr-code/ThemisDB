@@ -46,7 +46,7 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleCoverageA
             return makeErrorResponse(http::status::service_unavailable, 
                 "ComplianceReporter not initialized", req);
         }
-        
+        auto& reporter = *reporter_;
         // Parse resources from request body if provided
         std::vector<std::string> resources;
         if (!req.body().empty()) {
@@ -60,7 +60,7 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleCoverageA
             }
         }
         
-        auto analysis = reporter_->analyzeCoverage(resources);
+        auto analysis = reporter.analyzeCoverage(resources);
         
         return makeResponse(http::status::ok, analysis.toJson().dump(2), req);
         
@@ -83,12 +83,12 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleComplianc
             return makeErrorResponse(http::status::service_unavailable, 
                 "ComplianceReporter not initialized", req);
         }
-        
+        auto& reporter = *reporter_;
         // Get framework from query parameter
         std::string url(req.target());
         auto framework = getQueryParam(url, "framework");
         
-        auto report = reporter_->generateComplianceReport(
+        auto report = reporter.generateComplianceReport(
             framework.value_or("")
         );
         
@@ -113,8 +113,8 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleGapAnalys
             return makeErrorResponse(http::status::service_unavailable, 
                 "ComplianceReporter not initialized", req);
         }
-        
-        auto gaps = reporter_->detectGaps();
+        auto& reporter = *reporter_;
+        auto gaps = reporter.detectGaps();
         
         nlohmann::json json_array = nlohmann::json::array();
         for (const auto& gap : gaps) {
@@ -147,7 +147,7 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleGenerateR
             return makeErrorResponse(http::status::service_unavailable, 
                 "ComplianceReporter not initialized", req);
         }
-        
+        auto& reporter = *reporter_;
         // Parse request body
         nlohmann::json body = nlohmann::json::parse(req.body());
         
@@ -157,14 +157,14 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleGenerateR
         }
         
         if (report_type == "summary") {
-            auto report = reporter_->generateSummaryReport();
+            auto report = reporter.generateSummaryReport();
             return makeResponse(http::status::ok, report.toJson().dump(2), req);
         } else if (report_type == "compliance") {
             std::string framework = body.value("framework", "");
-            auto report = reporter_->generateComplianceReport(framework);
+            auto report = reporter.generateComplianceReport(framework);
             return makeResponse(http::status::ok, report.toJson().dump(2), req);
         } else if (report_type == "risk") {
-            auto report = reporter_->generateRiskAssessmentReport();
+            auto report = reporter.generateRiskAssessmentReport();
             return makeResponse(http::status::ok, report.toJson().dump(2), req);
         } else if (report_type == "time_window") {
             // Parse time window bounds (Unix milliseconds).
@@ -208,7 +208,7 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleGenerateR
                 }
             }
 
-            auto report = reporter_->generateTimeWindowReport(
+            auto report = reporter.generateTimeWindowReport(
                 entries, window_start_ms, window_end_ms, framework);
             return makeResponse(http::status::ok, report.toJson().dump(2), req);
         } else {
@@ -236,7 +236,7 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleExportRep
             return makeErrorResponse(http::status::service_unavailable, 
                 "ComplianceReporter not initialized", req);
         }
-        
+        auto& reporter = *reporter_;
         // Get format from query parameter
         std::string url(req.target());
         auto format = getQueryParam(url, "format");
@@ -244,9 +244,9 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleExportRep
         
         // For this simplified implementation, generate a summary report
         // In a full implementation, you would retrieve the cached report by ID
-        auto report = reporter_->generateSummaryReport();
+        auto report = reporter.generateSummaryReport();
         
-        std::string exported = reporter_->exportReport(report, export_format);
+        std::string exported = reporter.exportReport(report, export_format);
         
         http::response<http::string_body> res{http::status::ok, req.version()};
         res.set(http::field::server, "ThemisDB");

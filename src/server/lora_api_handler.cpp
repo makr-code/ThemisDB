@@ -352,7 +352,7 @@ http::response<http::string_body> LoRAApiHandler::handleCreateAdapter(
         }
         
         // Create adapter through orchestrator (async)
-        std::string job_id = orchestrator_->createAdapter(
+        std::string job_id = orchestrator.createAdapter(
             adapter_id,
             training_data,
             hyperparams,
@@ -388,7 +388,7 @@ http::response<http::string_body> LoRAApiHandler::handleGetAdapter(
     }
     
     try {
-        auto adapter_info = orchestrator_->getAdapter(adapter_id);
+        auto adapter_info = orchestrator.getAdapter(adapter_id);
         
         if (!adapter_info) {
             return createErrorResponse(
@@ -441,7 +441,7 @@ http::response<http::string_body> LoRAApiHandler::handleUpdateAdapter(
         }
         
         // Update adapter through orchestrator (async)
-        std::string job_id = orchestrator_->updateAdapter(
+        std::string job_id = orchestrator.updateAdapter(
             adapter_id,
             training_data,
             true,  // incremental
@@ -449,7 +449,7 @@ http::response<http::string_body> LoRAApiHandler::handleUpdateAdapter(
         );
         
         // Get current version
-        std::string current_version = orchestrator_->getCurrentVersion(adapter_id);
+        std::string current_version = orchestrator.getCurrentVersion(adapter_id);
         
         // Parse version number and increment
         std::string new_version = "v1.1";  // Simplified versioning
@@ -495,7 +495,7 @@ http::response<http::string_body> LoRAApiHandler::handleDeleteAdapter(
             }
         }
         
-        bool success = orchestrator_->deleteAdapter(adapter_id, delete_all);
+        bool success = orchestrator.deleteAdapter(adapter_id, delete_all);
         
         if (!success) {
             return createErrorResponse(
@@ -573,7 +573,7 @@ http::response<http::string_body> LoRAApiHandler::handleListAdapters(
         }
         
         // Get adapters from orchestrator
-        auto all_adapters = orchestrator_->listAdapters(
+        auto all_adapters = orchestrator.listAdapters(
             base_model_filter.empty() ? std::nullopt : std::optional<std::string>(base_model_filter)
         );
         
@@ -638,7 +638,7 @@ http::response<http::string_body> LoRAApiHandler::handleLoadAdapter(
     
     try {
         // Trigger hot-load asynchronously; returns a job_id immediately.
-        std::string job_id = orchestrator_->loadAdapter(adapter_id, /*async=*/true);
+        std::string job_id = orchestrator.loadAdapter(adapter_id, /*async=*/true);
         
         json response_data = {
             {"adapter_id", adapter_id},
@@ -677,7 +677,7 @@ http::response<http::string_body> LoRAApiHandler::handleUnloadAdapter(
     }
     
     try {
-        bool success = orchestrator_->unloadAdapter(adapter_id, false);
+        bool success = orchestrator.unloadAdapter(adapter_id, false);
         
         if (!success) {
             return createErrorResponse(
@@ -722,11 +722,11 @@ http::response<http::string_body> LoRAApiHandler::handleAdapterStatus(
     }
     
     try {
-        bool is_loaded = orchestrator_->isLoaded(adapter_id);
+        bool is_loaded = orchestrator.isLoaded(adapter_id);
 
         // Calculate per-adapter memory from orchestrator.
         double memory_mb = 0.0;
-        auto adapter_opt = orchestrator_->getAdapter(adapter_id);
+        auto adapter_opt = orchestrator.getAdapter(adapter_id);
         if (adapter_opt.has_value()) {
             memory_mb = static_cast<double>(adapter_opt->memory_bytes) / (1024.0 * 1024.0);
         }
@@ -774,7 +774,7 @@ http::response<http::string_body> LoRAApiHandler::handleHotLoadStatus(
 
     try {
         // Find the most recent loading job for this adapter.
-        auto jobs = orchestrator_->listJobs();
+        auto jobs = orchestrator.listJobs();
         std::optional<llm::lora::LoRAOrchestrator::JobInfo> latest;
         for (const auto& job : jobs) {
             if (job.adapter_id == adapter_id &&
@@ -926,7 +926,7 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAStats(
     auto span = Tracer::startSpan("handleLoRAStats");
     
     try {
-        auto stats = orchestrator_->getStats();
+        auto stats = orchestrator.getStats();
         
         json response_data = {
             {"total_adapters", stats.value("total_adapters", 0)},
@@ -953,7 +953,7 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAHealth(
     auto span = Tracer::startSpan("handleLoRAHealth");
     
     try {
-        bool healthy = orchestrator_->healthCheck();
+        bool healthy = orchestrator.healthCheck();
         
         json response_data = {
             {"status", healthy ? "healthy" : "unhealthy"},
@@ -995,9 +995,10 @@ bool LoRAApiHandler::validateBearerToken(const http::request<http::string_body>&
         // Note: This is intentional. In production, JWT validation should always be configured.
         return false;
     }
+    auto& jwt_validator = *jwt_validator_;
     
     try {
-        auto claims = jwt_validator_->parseAndValidate(*token);
+        auto claims = jwt_validator.parseAndValidate(*token);
         // Token is valid
         return true;
     } catch (...) {
@@ -1141,7 +1142,7 @@ http::response<http::string_body> LoRAApiHandler::handleReceiveAdapter(
         }
         
         // Get consistency checker once for all validations
-        auto consistency_checker = orchestrator_->getConsistencyChecker();
+        auto consistency_checker = orchestrator.getConsistencyChecker();
         
         // Verify integrity checks if present
         if (body->contains("checksum")) {
@@ -1226,7 +1227,7 @@ http::response<http::string_body> LoRAApiHandler::handleReceiveAdapter(
         }
         
         // Store the adapter via storage service
-        auto storage_service = orchestrator_->getStorageService();
+        auto storage_service = orchestrator.getStorageService();
         if (!storage_service) {
             return createErrorResponse(
                 http::status::internal_server_error,
@@ -1285,6 +1286,7 @@ http::response<http::string_body> LoRAApiHandler::handleGetProvenance(
     if (!orchestrator_) {
         return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
     }
+    auto& orchestrator = *orchestrator_;
 
     std::string_view target = req.target();
     constexpr std::string_view suffix = "/provenance";
@@ -1297,7 +1299,7 @@ http::response<http::string_body> LoRAApiHandler::handleGetProvenance(
         return createErrorResponse(http::status::bad_request, "Missing adapter_id");
     }
 
-    auto prov_opt = orchestrator_->getProvenanceRecord(adapter_id);
+    auto prov_opt = orchestrator.getProvenanceRecord(adapter_id);
     if (!prov_opt) {
         return createErrorResponse(http::status::not_found,
                                    "Provenance record not found for adapter: " + adapter_id);
@@ -1314,6 +1316,7 @@ http::response<http::string_body> LoRAApiHandler::handleAttachProvenance(
     if (!orchestrator_) {
         return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
     }
+    auto& orchestrator = *orchestrator_;
 
     std::string_view target = req.target();
     constexpr std::string_view suffix = "/provenance";
@@ -1333,7 +1336,7 @@ http::response<http::string_body> LoRAApiHandler::handleAttachProvenance(
 
     try {
         const auto record = llm::lora::LoRAProvenanceRecord::fromJSON(*body_opt);
-        const bool ok = orchestrator_->attachProvenance(adapter_id, record);
+        const bool ok = orchestrator.attachProvenance(adapter_id, record);
         if (!ok) {
             return createErrorResponse(http::status::not_found,
                                        "Adapter not found: " + adapter_id);
@@ -1353,6 +1356,7 @@ http::response<http::string_body> LoRAApiHandler::handleGetAuditLog(
     if (!orchestrator_) {
         return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
     }
+    auto& orchestrator = *orchestrator_;
 
     std::string_view target = req.target();
     constexpr std::string_view suffix = "/audit";
@@ -1365,7 +1369,7 @@ http::response<http::string_body> LoRAApiHandler::handleGetAuditLog(
         return createErrorResponse(http::status::bad_request, "Missing adapter_id");
     }
 
-    const auto entries = orchestrator_->getInferenceAuditLog(adapter_id);
+    const auto entries = orchestrator.getInferenceAuditLog(adapter_id);
     json arr = json::array();
     for (const auto& e : entries) {
         arr.push_back(e.toJSON());
@@ -1385,6 +1389,7 @@ http::response<http::string_body> LoRAApiHandler::handleListSnapshots(
     if (!orchestrator_) {
         return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
     }
+    auto& orchestrator = *orchestrator_;
 
     std::string_view target = req.target();
     constexpr std::string_view suffix = "/snapshots";
@@ -1397,7 +1402,7 @@ http::response<http::string_body> LoRAApiHandler::handleListSnapshots(
         return createErrorResponse(http::status::bad_request, "Missing adapter_id");
     }
 
-    const auto snaps = orchestrator_->listAdapterSnapshots(adapter_id);
+    const auto snaps = orchestrator.listAdapterSnapshots(adapter_id);
     json arr = json::array();
     for (const auto& s : snaps) {
         arr.push_back(s.toJSON());
@@ -1417,6 +1422,7 @@ http::response<http::string_body> LoRAApiHandler::handleVerifyAuditChain(
     if (!orchestrator_) {
         return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
     }
+    auto& orchestrator = *orchestrator_;
 
     std::string_view target = req.target();
     constexpr std::string_view suffix = "/verify";
@@ -1429,7 +1435,7 @@ http::response<http::string_body> LoRAApiHandler::handleVerifyAuditChain(
         return createErrorResponse(http::status::bad_request, "Missing adapter_id");
     }
 
-    const bool intact = orchestrator_->verifyAuditChain(adapter_id);
+    const bool intact = orchestrator.verifyAuditChain(adapter_id);
     const http::status status = intact ? http::status::ok : http::status::conflict;
 
     return createJsonResponse(json{

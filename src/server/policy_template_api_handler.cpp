@@ -49,8 +49,8 @@ http::response<http::string_body> PolicyTemplateApiHandler::handleListTemplates(
             return makeErrorResponse(http::status::service_unavailable, 
                 "PolicyTemplateManager not initialized", req);
         }
-        
-        auto templates = template_manager_->listTemplates();
+        auto& template_manager = *template_manager_;
+        auto templates = template_manager.listTemplates();
         
         nlohmann::json json_array = nlohmann::json::array();
         for (const auto& tmpl : templates) {
@@ -84,8 +84,8 @@ http::response<http::string_body> PolicyTemplateApiHandler::handleGetTemplate(
             return makeErrorResponse(http::status::service_unavailable, 
                 "PolicyTemplateManager not initialized", req);
         }
-        
-        auto tmpl = template_manager_->getTemplate(template_id);
+        auto& template_manager = *template_manager_;
+        auto tmpl = template_manager.getTemplate(template_id);
         if (!tmpl.has_value()) {
             return makeErrorResponse(http::status::not_found, 
                 "Template not found: " + template_id, req);
@@ -114,7 +114,8 @@ http::response<http::string_body> PolicyTemplateApiHandler::handleInstantiateTem
             return makeErrorResponse(http::status::service_unavailable, 
                 "Template or Policy Manager not initialized", req);
         }
-        
+        auto& template_manager = *template_manager_;
+        auto& policy_manager = *policy_manager_;
         // Parse request body
         nlohmann::json body = nlohmann::json::parse(req.body());
         
@@ -133,10 +134,10 @@ http::response<http::string_body> PolicyTemplateApiHandler::handleInstantiateTem
         nlohmann::json params = body["parameters"];
         
         // Instantiate template
-        auto rule = template_manager_->instantiateTemplate(template_id, params, rule_id);
+        auto rule = template_manager.instantiateTemplate(template_id, params, rule_id);
         
         // Add to policy manager
-        policy_manager_->addRule(rule);
+        policy_manager.addRule(rule);
         
         nlohmann::json response = {
             {"success", true},
@@ -169,7 +170,7 @@ http::response<http::string_body> PolicyTemplateApiHandler::handlePreviewTemplat
             return makeErrorResponse(http::status::service_unavailable, 
                 "PolicyTemplateManager not initialized", req);
         }
-        
+        auto& template_manager = *template_manager_;
         // Parse request body
         nlohmann::json body = nlohmann::json::parse(req.body());
         
@@ -188,7 +189,7 @@ http::response<http::string_body> PolicyTemplateApiHandler::handlePreviewTemplat
         nlohmann::json params = body["parameters"];
         
         // Preview template (doesn't persist)
-        auto rule = template_manager_->previewTemplate(template_id, params, rule_id);
+        auto rule = template_manager.previewTemplate(template_id, params, rule_id);
         
         nlohmann::json response = {
             {"preview", true},

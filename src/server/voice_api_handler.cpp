@@ -141,6 +141,7 @@ VoiceApiHandler::VoiceApiHandler(
     if (!auth_) {
         auth_ = std::make_shared<themis::AuthMiddleware>();
     }
+    auto& auth = *auth_;
 
     const auto getEnv = [](const char* name) -> std::optional<std::string> {
         const char* value = std::getenv(name);
@@ -155,7 +156,7 @@ VoiceApiHandler::VoiceApiHandler(
         cfg.token = *token;
         cfg.user_id = "admin";
         cfg.scopes = {"admin", "data:read", "data:write", "metrics:read"};
-        auth_->addToken(cfg);
+        auth.addToken(cfg);
     }
 
     if (auto token = getEnv("THEMIS_TOKEN_READONLY")) {
@@ -163,7 +164,7 @@ VoiceApiHandler::VoiceApiHandler(
         cfg.token = *token;
         cfg.user_id = "readonly";
         cfg.scopes = {"data:read", "metrics:read"};
-        auth_->addToken(cfg);
+        auth.addToken(cfg);
     }
 
     if (auto token = getEnv("THEMIS_TOKEN_ANALYST")) {
@@ -171,7 +172,7 @@ VoiceApiHandler::VoiceApiHandler(
         cfg.token = *token;
         cfg.user_id = "analyst";
         cfg.scopes = {"data:read", "metrics:read"};
-        auth_->addToken(cfg);
+        auth.addToken(cfg);
     }
 
     if (auto jwks_url = getEnv("THEMIS_JWT_JWKS_URL")) {
@@ -195,7 +196,7 @@ VoiceApiHandler::VoiceApiHandler(
         jwt_cfg.require_audience_validation = !jwt_cfg.expected_audience.empty();
 
         try {
-            auth_->enableJWT(jwt_cfg);
+            auth.enableJWT(jwt_cfg);
         } catch (const std::exception& e) {
             THEMIS_WARN("VoiceApiHandler: failed to enable JWT validation: {}", e.what());
         }
@@ -220,14 +221,6 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
             http::status::unauthorized,
             "Unauthorized",
             "Invalid or missing Bearer token"
-        );
-    }
-
-    if (!voice_assistant_) {
-        return createErrorResponse(
-            http::status::service_unavailable,
-            "Service Unavailable",
-            "Voice assistant backend not available"
         );
     }
 
@@ -277,8 +270,9 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
     else if (path == "/api/v1/voice/macros" && method == http::verb::get) {
         return handleListMacros(req);
     }
-    else if (path.find("/api/v1/voice/macros/") == 0) {
-        std::string macro_id = path.substr(21);  // Length of "/api/v1/voice/macros/"
+    else if (path.rfind("/api/v1/voice/macros/", 0) == 0) {
+        static constexpr std::string_view kMacrosPrefix = "/api/v1/voice/macros/";
+        std::string macro_id = path.substr(kMacrosPrefix.size());
         if (macro_id.empty()) {
             return createErrorResponse(
                 http::status::bad_request, "Bad Request", "Missing macro ID");
@@ -297,9 +291,14 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
             return handleDeleteMacro(req, macro_id);
         }
     }
-    else if (path.find("/api/v1/voice/sessions/") == 0) {
+    else if (path.rfind("/api/v1/voice/sessions/", 0) == 0) {
+        static constexpr std::string_view kSessionsPrefix = "/api/v1/voice/sessions/";
         // Extract session ID
-        std::string session_id = path.substr(24);  // Length of "/api/v1/voice/sessions/"
+        std::string session_id = path.substr(kSessionsPrefix.size());
+        if (session_id.empty()) {
+            return createErrorResponse(
+                http::status::bad_request, "Bad Request", "Missing session ID");
+        }
         
         // Remove trailing segments
         auto slash_pos = session_id.find('/');
@@ -338,7 +337,7 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
     else if (path == "/api/v1/voice/recordings/search" && method == http::verb::get) {
         return handleSearchTranscripts(req);
     }
-    else if (path.find("/api/v1/voice/recordings/") == 0 && method == http::verb::get) {
+    else if (path.rfind("/api/v1/voice/recordings/", 0) == 0 && method == http::verb::get) {
         static constexpr std::string_view kRecordingsPrefix = "/api/v1/voice/recordings/";
         std::string record_id = path.substr(kRecordingsPrefix.size());
         if (record_id.empty()) {
@@ -366,7 +365,7 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
     else if (path == "/api/v1/voice/auth/profiles" && method == http::verb::get) {
         return handleAuthListProfiles(req);
     }
-    else if (path.find("/api/v1/voice/auth/profiles/") == 0 && method == http::verb::delete_) {
+    else if (path.rfind("/api/v1/voice/auth/profiles/", 0) == 0 && method == http::verb::delete_) {
         static constexpr std::string_view kAuthProfilesPrefix = "/api/v1/voice/auth/profiles/";
         std::string profile_id = path.substr(kAuthProfilesPrefix.size());
         if (profile_id.empty()) {
@@ -1751,8 +1750,9 @@ bool VoiceApiHandler::validateBearerToken(
     if (!auth_) {
         return false;
     }
+    auto& auth = *auth_;
 
-    const auto auth_result = auth_->validateToken(*token);
+    const auto auth_result = auth.validateToken(*token);
     return auth_result.authorized;
 }
 
@@ -1914,6 +1914,7 @@ std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl(const std::string& ur
     if (!http_client_pool_) {
         throw std::runtime_error("HTTP client pool is not initialized");
     }
+    auto& http_client_pool = *http_client_pool_;
     
     // SSRF Protection: Parse URL and validate host to prevent access to internal resources
     utils::URLComponents components;
@@ -1969,7 +1970,7 @@ std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl(const std::string& ur
     // Note: We use wait_for() with a timeout as an additional safety measure, even though
     // the HTTPClientPool has built-in timeouts (connect_timeout=10s, request_timeout=60s).
     // The std::async in HTTPClientPool::get() runs the request in a separate thread.
-    auto response_future = http_client_pool_->get(url);
+    auto response_future = http_client_pool.get(url);
     
     // Wait with timeout (70s = 10s connect + 60s request + 10s buffer)
     if (response_future.wait_for(std::chrono::seconds(70)) == std::future_status::timeout) {

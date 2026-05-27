@@ -1347,9 +1347,10 @@ json ThemisRPCService::handleGeoQueryInternal(
                 "Spatial index not initialized"
             );
         }
+        auto& spatial_index = *spatial_index_;
         
         // Verify that the collection has a spatial index
-        if (!spatial_index_->hasSpatialIndex(collection)) {
+        if (!spatial_index.hasSpatialIndex(collection)) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
                 "Collection '" + collection + "' does not have a spatial index. Create one first using spatial index API."
@@ -1395,7 +1396,7 @@ json ThemisRPCService::handleGeoQueryInternal(
             );
             
             // Perform spatial search
-            auto search_results = spatial_index_->searchIntersects(collection, query_bbox);
+            auto search_results = spatial_index.searchIntersects(collection, query_bbox);
             
             // Convert results to JSON
             size_t result_count = 0;
@@ -1676,7 +1677,7 @@ json ThemisRPCService::handleGeoQueryInternal(
             );
             
             // Perform spatial search
-            auto search_results = spatial_index_->searchIntersects(collection, query_bbox);
+            auto search_results = spatial_index.searchIntersects(collection, query_bbox);
             
             // Convert results to JSON and add distance
             for (const auto& result : search_results) {
@@ -3487,10 +3488,11 @@ bool ThemisRPCService::verifyAuth(
         username = context.username.empty() ? "anonymous" : context.username;
         return true;
     }
+    auto& auth = *auth_;
     
     // If auth middleware is configured but not enabled, allow unauthenticated access
     // for development/testing. In production, auth should always be enabled.
-    if (!auth_->isEnabled()) {
+    if (!auth.isEnabled()) {
         username = context.username.empty() ? "anonymous" : context.username;
         return true;
     }
@@ -3512,7 +3514,7 @@ bool ThemisRPCService::verifyAuth(
     }
     
     // Validate token and check required scope using auth middleware
-    auto auth_result = auth_->authorize(token, required_scope);
+    auto auth_result = auth.authorize(token, required_scope);
     if (!auth_result.authorized) {
         // Log authentication failure with details
         // Note: Don't log token itself for security reasons

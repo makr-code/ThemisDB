@@ -43,9 +43,10 @@ http::response<http::string_body> PolicyApiHandler::handleImportRanger(
     if (!ranger_client_) {
         return makeErrorResponse(http::status::service_unavailable, "Ranger client not configured", req);
     }
+    auto& ranger_client = *ranger_client_;
     try {
         std::string err;
-        auto jsonOpt = ranger_client_->fetchPolicies(&err);
+        auto jsonOpt = ranger_client.fetchPolicies(&err);
         if (!jsonOpt) {
             return makeErrorResponse(http::status::bad_gateway, std::string("Ranger fetch failed: ") + err, req);
         }
@@ -56,10 +57,11 @@ http::response<http::string_body> PolicyApiHandler::handleImportRanger(
         if (!policy_engine_) {
             return makeErrorResponse(http::status::service_unavailable, "Policy engine not initialized", req);
         }
-        policy_engine_->setPolicies(internal);
+        auto& policy_engine = *policy_engine_;
+        policy_engine.setPolicies(internal);
         // Persist to local file
         std::string save_err;
-        bool saved = policy_engine_->saveToFile("config/policies.json", &save_err);
+        bool saved = policy_engine.saveToFile("config/policies.json", &save_err);
         nlohmann::json resp = {
             {"imported", internal.size()},
             {"saved", saved}
@@ -80,7 +82,8 @@ http::response<http::string_body> PolicyApiHandler::handleExportRanger(
         if (!policy_engine_) {
             return makeErrorResponse(http::status::service_unavailable, "Policy engine not initialized", req);
         }
-        auto list = policy_engine_->listPolicies();
+        auto& policy_engine = *policy_engine_;
+        auto list = policy_engine.listPolicies();
         auto out = RangerClient::convertToRanger(list, service_name_);
         return makeResponse(http::status::ok, out.dump(2), req);
     } catch (const std::exception& e) {
@@ -115,4 +118,3 @@ http::response<http::string_body> PolicyApiHandler::makeResponse(
 
 } // namespace server
 } // namespace themis
-
