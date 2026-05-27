@@ -679,6 +679,33 @@ generation and adapter cleanup paths.
 
 ---
 
+## ✅ Recent Remediation (2026-05-27) — W1-L04 follow-up 3: Model-handle dereference anchoring
+
+**Scope:** `src/llm/llama_wrapper.cpp`
+**Ticket:** W1-L04 · Priority P1
+
+### Fixes Applied
+
+Additional W1-L04 null/pointer-hardening pass for llama runtime handle access:
+
+- Replaced direct `cached->model_handle` / `cached->context_handle` dereference chains with local handle anchoring before casts in:
+  - `generateRegular`
+  - `generateDraftTokens`
+  - `embed`
+  - `generateSpeculative`
+  - `generate` (continuous-batching path)
+- Applied the same anchoring pattern in the vision embedding injection path (`generateVision`) and made null-handle branching explicit before cast/use.
+- Kept behavior unchanged (same fallback/throw semantics), but made null invariants explicit at every cast boundary.
+
+### Gap Delta (W1-L04 follow-up 3)
+
+| Metric | Before | After |
+|---|---|---|
+| `llama_wrapper.cpp` model/context cast sites | repeated direct `cached->...` dereference at cast sites | dereference anchored to local checked handles before cast |
+| vision embedding injection path | mixed inline pointer checks/casts | explicit staged null-check → cast → use flow |
+
+---
+
 ## ✅ Recent Remediation (2026-05-27) — W1-L04 follow-up 2: Pointer-arithmetic / unsafe-cast guards
 
 **Scope:** `src/llm/llama_wrapper.cpp`  

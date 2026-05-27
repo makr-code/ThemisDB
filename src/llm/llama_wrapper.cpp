@@ -980,11 +980,13 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         throw std::runtime_error("Model failed to load");
     }
 
-    if (!cached->model_handle || !cached->context_handle) {
+    void* model_handle = cached->model_handle;
+    void* context_handle = cached->context_handle;
+    if (!model_handle || !context_handle) {
         throw std::runtime_error("Model/context handle is null after load");
     }
-    auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);
-    auto* lctx = reinterpret_cast<llama_context*>(cached->context_handle);
+    auto* lmodel = reinterpret_cast<llama_model*>(model_handle);
+    auto* lctx = reinterpret_cast<llama_context*>(context_handle);
     
     // Model and context must be loaded before inference
     if (!lmodel || !lctx) {
@@ -1337,11 +1339,13 @@ ILLMPlugin::DraftTokensResult LlamaWrapper::generateDraftTokens(
         throw std::runtime_error("Model failed to load for draft token generation");
     }
 
-    if (!cached->model_handle || !cached->context_handle) {
+    void* model_handle = cached->model_handle;
+    void* context_handle = cached->context_handle;
+    if (!model_handle || !context_handle) {
         throw std::runtime_error("Model/context handle is null for draft token generation");
     }
-    auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);
-    auto* lctx   = reinterpret_cast<llama_context*>(cached->context_handle);
+    auto* lmodel = reinterpret_cast<llama_model*>(model_handle);
+    auto* lctx   = reinterpret_cast<llama_context*>(context_handle);
     if (!lmodel || !lctx) {
         throw std::runtime_error("Model/context not initialized for draft token generation");
     }
@@ -1457,11 +1461,13 @@ std::vector<float> LlamaWrapper::embed(const std::string& text) {
         throw std::runtime_error("Model failed to load");
     }
     
-    if (!cached->model_handle || !cached->context_handle) {
+    void* model_handle = cached->model_handle;
+    void* context_handle = cached->context_handle;
+    if (!model_handle || !context_handle) {
         throw std::runtime_error("Model/context handle is null for embeddings");
     }
-    auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);
-    auto* lctx = reinterpret_cast<llama_context*>(cached->context_handle);
+    auto* lmodel = reinterpret_cast<llama_model*>(model_handle);
+    auto* lctx = reinterpret_cast<llama_context*>(context_handle);
     
     // Model and context must be loaded before computing embeddings
     if (!lmodel || !lctx) {
@@ -2321,12 +2327,14 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         throw std::runtime_error("Target model failed to load");
     }
     
-    if (!cached->model_handle || !cached->context_handle) {
+    void* target_model_handle = cached->model_handle;
+    void* target_context_handle = cached->context_handle;
+    if (!target_model_handle || !target_context_handle) {
         spdlog::warn("Speculative decoding model/context handles are null, falling back to regular generation");
         return generateRegular(request);
     }
-    auto* target_model = reinterpret_cast<llama_model*>(cached->model_handle);
-    auto* target_context = reinterpret_cast<llama_context*>(cached->context_handle);
+    auto* target_model = reinterpret_cast<llama_model*>(target_model_handle);
+    auto* target_context = reinterpret_cast<llama_context*>(target_context_handle);
     
     if (!target_model || !target_context || !draft_model_ || !draft_context_) {
         spdlog::warn("Speculative decoding prerequisites not met, falling back to regular generation");
@@ -2589,11 +2597,13 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         throw std::runtime_error("Model failed to load");
     }
 
-    if (!cached->model_handle || !cached->context_handle) {
+    void* model_handle = cached->model_handle;
+    void* context_handle = cached->context_handle;
+    if (!model_handle || !context_handle) {
         throw std::runtime_error("Model/context handle is null");
     }
-    auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);
-    auto* lctx = reinterpret_cast<llama_context*>(cached->context_handle);
+    auto* lmodel = reinterpret_cast<llama_model*>(model_handle);
+    auto* lctx = reinterpret_cast<llama_context*>(context_handle);
     
     // Model and context must be loaded before inference
     if (!lmodel || !lctx) {
@@ -3162,12 +3172,17 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
                 spdlog::warn("generateVision: model loader is not initialized; skipping embedding injection");
             } else {
                 auto* cached_m = model_loader_->getOrLoadModel(current_model_id_, current_model_path_);
-                if (cached_m && cached_m->context_handle && cached_m->model_handle) {
-                    auto* lctx = reinterpret_cast<llama_context*>(cached_m->context_handle);
-                    auto* lmodel = reinterpret_cast<llama_model*>(cached_m->model_handle);
-                    if (!lctx || !lmodel) {
+                if (cached_m) {
+                    void* context_handle = cached_m->context_handle;
+                    void* model_handle = cached_m->model_handle;
+                    if (!context_handle || !model_handle) {
                         spdlog::warn("generateVision: model/context handles are null; skipping embedding injection");
                     } else {
+                        auto* lctx = reinterpret_cast<llama_context*>(context_handle);
+                        auto* lmodel = reinterpret_cast<llama_model*>(model_handle);
+                        if (!lctx || !lmodel) {
+                            spdlog::warn("generateVision: model/context handles are null; skipping embedding injection");
+                        } else {
                         int n_past = 0;
 
                         // Tokenize and evaluate the prompt prefix (everything before the image
@@ -3208,9 +3223,10 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
                             }
                         }
 
-                        // Pass remaining text portion; the context is already positioned.
-                        // We use the raw generate() path which re-evaluates the full prompt,
-                        // but since context is pre-loaded the decode call handles only new tokens.
+                            // Pass remaining text portion; the context is already positioned.
+                            // We use the raw generate() path which re-evaluates the full prompt,
+                            // but since context is pre-loaded the decode call handles only new tokens.
+                        }
                     }
                 }
             } // model_loader_ != null
