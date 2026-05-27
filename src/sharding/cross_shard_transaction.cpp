@@ -36,6 +36,7 @@
 #include <chrono>
 #include <filesystem>
 #include <limits>
+#include <random>
 
 namespace themisdb {
 namespace sharding {
@@ -1958,22 +1959,45 @@ void CrossShardTransactionCoordinator::deadlockDetectionThread() {
 
             deadlocked_transactions_++;
 
-            // Select victim: choose the youngest transaction (most recent
-            // start time) from this cycle so long-running transactions are
-            // preserved where possible.
+            // Select deadlock victim according to configured policy.
             std::string victim_id;
-            std::chrono::system_clock::time_point latest_start;
-
+            std::vector<std::pair<std::string, std::chrono::system_clock::time_point>> candidates;
             {
                 std::lock_guard<std::mutex> lock(transactions_mutex_);
 
                 for (const auto& txn_id : deadlocked_txns) {
                     auto it = transactions_.find(txn_id);
                     if (it != transactions_.end()) {
-                        if (victim_id.empty() || it->second.start_time > latest_start) {
-                            victim_id = txn_id;
-                            latest_start = it->second.start_time;
-                        }
+                        candidates.emplace_back(txn_id, it->second.start_time);
+                    }
+                }
+            }
+
+            if (!candidates.empty()) {
+                switch (config_.deadlock_victim_policy) {
+                    case DeadlockVictimPolicy::YOUNGEST: {
+                        victim_id = std::max_element(
+                            candidates.begin(),
+                            candidates.end(),
+                            [](const auto& lhs, const auto& rhs) {
+                                return lhs.second < rhs.second;
+                            })->first;
+                        break;
+                    }
+                    case DeadlockVictimPolicy::OLDEST: {
+                        victim_id = std::min_element(
+                            candidates.begin(),
+                            candidates.end(),
+                            [](const auto& lhs, const auto& rhs) {
+                                return lhs.second < rhs.second;
+                            })->first;
+                        break;
+                    }
+                    case DeadlockVictimPolicy::RANDOM: {
+                        thread_local std::mt19937 rng{std::random_device{}()};
+                        std::uniform_int_distribution<size_t> dist(0, candidates.size() - 1);
+                        victim_id = candidates[dist(rng)].first;
+                        break;
                     }
                 }
             }

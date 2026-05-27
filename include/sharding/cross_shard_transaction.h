@@ -81,6 +81,12 @@ enum class TransactionState {
     UNKNOWN                // State unknown (coordinator failure)
 };
 
+enum class DeadlockVictimPolicy {
+    YOUNGEST,              // Abort most recently started txn in cycle
+    OLDEST,                // Abort longest-running txn in cycle
+    RANDOM                 // Abort random txn in cycle
+};
+
 /**
  * @brief Shard participant in a transaction
  */
@@ -177,6 +183,7 @@ struct CrossShardTransactionConfig {
     // Deadlock detection
     bool enable_deadlock_detection = true;
     std::chrono::milliseconds deadlock_detection_interval{1000};
+    DeadlockVictimPolicy deadlock_victim_policy = DeadlockVictimPolicy::YOUNGEST;
     
     // Transaction timeout
     std::chrono::milliseconds transaction_timeout{30000};

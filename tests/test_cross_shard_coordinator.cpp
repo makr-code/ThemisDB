@@ -405,6 +405,45 @@ TEST_F(DistributedDeadlockDetectionTest, VictimSelectionChoosesYoungestCycleMemb
     EXPECT_TRUE(resolved);
 }
 
+TEST(DistributedDeadlockDetectionPolicyTest, VictimSelectionChoosesOldestCycleMemberWhenConfigured) {
+    auto consensus = std::make_shared<MockConsensusModule>();
+    CrossShardTransactionConfig config;
+    config.transaction_log_path = makeTempTxnLogPath("themisdb_deadlock_oldest_");
+    config.enable_deadlock_detection = true;
+    config.deadlock_detection_interval = std::chrono::milliseconds(25);
+    config.deadlock_victim_policy = DeadlockVictimPolicy::OLDEST;
+
+    CrossShardTransactionCoordinator coordinator(config, consensus);
+    ASSERT_TRUE(coordinator.initialize());
+    ASSERT_TRUE(coordinator.start());
+
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-oldest-policy-old", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-oldest-policy-young", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+
+    coordinator.reportDistributedWait("txn-oldest-policy-old", "txn-oldest-policy-young", "shard-A");
+    coordinator.reportDistributedWait("txn-oldest-policy-young", "txn-oldest-policy-old", "shard-B");
+
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
+    bool resolved = false;
+    while (std::chrono::steady_clock::now() < deadline) {
+        const auto oldest = coordinator.getTransactionState("txn-oldest-policy-old");
+        const auto youngest = coordinator.getTransactionState("txn-oldest-policy-young");
+        if (oldest.has_value() && *oldest == TransactionState::ABORTED) {
+            ASSERT_TRUE(youngest.has_value());
+            EXPECT_NE(*youngest, TransactionState::ABORTED);
+            resolved = true;
+            break;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    }
+
+    EXPECT_TRUE(resolved);
+    coordinator.stop();
+}
+
 // ============================================================================
 // Calvin Protocol Tests
 // ============================================================================
