@@ -13,6 +13,7 @@
 #include <filesystem>
 #include <chrono>
 #include <string>
+#include <limits>
 
 using namespace themis;
 using namespace themis::server::rpc;
@@ -409,6 +410,30 @@ TEST_F(RPCBatchOperationsTest, DispatchAllowsRequestWithinGrpcDeadline) {
         std::chrono::system_clock::now().time_since_epoch()).count());
     ctx.timestamp_ms = now_ms;
     ctx.metadata["grpc-timeout"] = "5S";
+
+    json keys = json::array({KeySpec("d", "M", "k1")});
+    auto resp = service_->dispatch("batch_get", {{"keys", keys}}, ctx);
+    EXPECT_TRUE(resp.contains("result"));
+}
+
+TEST_F(RPCBatchOperationsTest, DispatchTreatsNegativeMsTimeoutAsExpiredDeadline) {
+    themis::plugins::rpc::RPCRequestContext ctx;
+    const auto now_ms = static_cast<uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count());
+    ctx.timestamp_ms = now_ms;
+    ctx.metadata["x-timeout-ms"] = "-1";
+
+    json keys = json::array({KeySpec("d", "M", "k1")});
+    auto resp = service_->dispatch("batch_get", {{"keys", keys}}, ctx);
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+}
+
+TEST_F(RPCBatchOperationsTest, DispatchDoesNotOverflowDeadlineArithmeticForFutureTimestamps) {
+    themis::plugins::rpc::RPCRequestContext ctx;
+    ctx.timestamp_ms = std::numeric_limits<uint64_t>::max() - 5;
+    ctx.metadata["request-timeout-ms"] = "10";
 
     json keys = json::array({KeySpec("d", "M", "k1")});
     auto resp = service_->dispatch("batch_get", {{"keys", keys}}, ctx);

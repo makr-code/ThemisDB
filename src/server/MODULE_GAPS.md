@@ -879,3 +879,11 @@ Findings addressed:
 - **rpc_service_impl.cpp `uncaught_exception` (line 1623):** `catch (...) { // Ignore }` in
   `handleGetStats` replaced with `catch (const std::exception& e)` that logs the error via
   `std::cerr`; `getStats()` failures are now observable in server logs.
+
+- **W1-S04 follow-up (2026-05-27) — timeout arithmetic hardening in `rpc_service_impl.cpp`:**
+  timeout headers `x-timeout-ms` and `request-timeout-ms` now normalize non-positive values to
+  immediate-expiry semantics (`0ms`) instead of allowing negative durations to bypass deadline checks.
+  Deadline evaluation now compares elapsed time (`now - timestamp`) to timeout budget instead of
+  performing direct unsigned addition (`timestamp + timeout`), preventing overflow-induced false
+  expirations for large/future timestamps. Coverage added in `tests/test_rpc_batch_operations.cpp`
+  for negative-millisecond header handling and overflow-safe future-timestamp dispatch.

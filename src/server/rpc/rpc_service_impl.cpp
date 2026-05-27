@@ -91,6 +91,18 @@ namespace {
         }
     }
 
+    std::optional<std::chrono::milliseconds> parseMillisHeaderValue(const std::string& value) {
+        try {
+            const long long parsed = std::stoll(value);
+            if (parsed <= 0) {
+                return std::chrono::milliseconds(0);
+            }
+            return std::chrono::milliseconds(parsed);
+        } catch (const std::exception&) {
+            return std::nullopt;
+        }
+    }
+
     std::optional<std::chrono::milliseconds> parseRequestTimeout(const themis::plugins::rpc::RPCRequestContext& context) {
         auto grpc_timeout_it = context.metadata.find("grpc-timeout");
         if (grpc_timeout_it != context.metadata.end()) {
@@ -99,20 +111,12 @@ namespace {
 
         auto ms_timeout_it = context.metadata.find("x-timeout-ms");
         if (ms_timeout_it != context.metadata.end()) {
-            try {
-                return std::chrono::milliseconds(std::stoll(ms_timeout_it->second));
-            } catch (const std::exception&) {
-                return std::nullopt;
-            }
+            return parseMillisHeaderValue(ms_timeout_it->second);
         }
 
         auto request_timeout_it = context.metadata.find("request-timeout-ms");
         if (request_timeout_it != context.metadata.end()) {
-            try {
-                return std::chrono::milliseconds(std::stoll(request_timeout_it->second));
-            } catch (const std::exception&) {
-                return std::nullopt;
-            }
+            return parseMillisHeaderValue(request_timeout_it->second);
         }
 
         return std::nullopt;
@@ -2489,9 +2493,18 @@ json ThemisRPCService::dispatch(
 ) {
     auto request_timeout = parseRequestTimeout(context);
     if (request_timeout.has_value() && context.timestamp_ms > 0) {
+        const auto timeout_count = request_timeout->count();
+        if (timeout_count <= 0) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                "Request deadline exceeded before dispatch"
+            );
+        }
+
         const auto now_ms = static_cast<uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now().time_since_epoch()).count());
-        if (now_ms >= context.timestamp_ms + static_cast<uint64_t>(request_timeout->count())) {
+        const auto elapsed_ms = (now_ms >= context.timestamp_ms) ? (now_ms - context.timestamp_ms) : 0;
+        if (elapsed_ms >= static_cast<uint64_t>(timeout_count)) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
                 "Request deadline exceeded before dispatch"
