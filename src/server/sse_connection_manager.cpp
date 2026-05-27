@@ -389,17 +389,25 @@ void SseConnectionManager::backgroundPollTask() {
             for (const auto& event : events) {
                 // Enforce capacity limit: drop oldest when configured, otherwise skip
                 // new events to preserve the hard max_buffered_events bound.
-                while (c.buffered_events.size() >= config_.max_buffered_events) {
-                    if (config_.drop_oldest_on_overflow && !c.buffered_events.empty()) {
-                        c.buffered_events.erase(c.buffered_events.begin());
-                        if (!c.raw_buffered_events.empty()) {
-                            c.raw_buffered_events.erase(c.raw_buffered_events.begin());
-                        }
-                        c.dropped_events++;
-                        total_dropped_events_++;
-                    } else {
-                        break;
+                if (config_.drop_oldest_on_overflow
+                    && c.buffered_events.size() >= config_.max_buffered_events
+                    && config_.max_buffered_events > 0) {
+                    const size_t overflow_count =
+                        c.buffered_events.size() - static_cast<size_t>(config_.max_buffered_events) + 1;
+                    c.buffered_events.erase(
+                        c.buffered_events.begin(),
+                        c.buffered_events.begin() + static_cast<std::ptrdiff_t>(overflow_count));
+
+                    const size_t raw_overflow_count =
+                        std::min(overflow_count, c.raw_buffered_events.size());
+                    if (raw_overflow_count > 0) {
+                        c.raw_buffered_events.erase(
+                            c.raw_buffered_events.begin(),
+                            c.raw_buffered_events.begin() + static_cast<std::ptrdiff_t>(raw_overflow_count));
                     }
+
+                    c.dropped_events += overflow_count;
+                    total_dropped_events_ += overflow_count;
                 }
 
                 // Skip event if buffer is still at capacity (drop_oldest_on_overflow==false).
@@ -424,19 +432,17 @@ void SseConnectionManager::backgroundPollTask() {
         THEMIS_ERROR("SSE background poll error: {}", e.what());
     }
     
-    // Schedule next poll
-    if (running_) {
-        std::lock_guard<std::mutex> timer_lock(poll_timer_mutex_);
-        if (poll_timer_) {
-            poll_timer_->expires_after(
-                std::chrono::milliseconds(config_.event_poll_interval_ms)
-            );
-            poll_timer_->async_wait([this](const boost::system::error_code& ec) {
-                if (!ec && running_) {
-                    backgroundPollTask();
-                }
-            });
-        }
+    // Schedule next poll.
+    std::lock_guard<std::mutex> timer_lock(poll_timer_mutex_);
+    if (running_ && poll_timer_) {
+        poll_timer_->expires_after(
+            std::chrono::milliseconds(config_.event_poll_interval_ms)
+        );
+        poll_timer_->async_wait([this](const boost::system::error_code& ec) {
+            if (!ec && running_) {
+                backgroundPollTask();
+            }
+        });
     }
 }
 

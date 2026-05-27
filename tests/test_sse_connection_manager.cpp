@@ -150,4 +150,30 @@ TEST_F(SseConnectionManagerTest, PollRawEventsAppliesEventTypeFilter) {
     }
 }
 
+TEST_F(SseConnectionManagerTest, DropOldestOverflowKeepsNewestRawEvents) {
+    themis::server::SseConnectionManager::ConnectionConfig cfg;
+    cfg.max_buffered_events = 2;
+    cfg.drop_oldest_on_overflow = true;
+    cfg.event_poll_interval_ms = 1000;
+
+    for (int i = 1; i <= 4; ++i) {
+        themis::Changefeed::ChangeEvent ev;
+        ev.type = themis::Changefeed::ChangeEventType::EVENT_PUT;
+        ev.key = "k" + std::to_string(i);
+        ev.value = R"({"v":1})";
+        changefeed_->recordEvent(ev);
+    }
+
+    themis::server::SseConnectionManager manager(changefeed_, ioc_, cfg);
+    const auto conn_id = manager.registerConnection(/*from_seq=*/0);
+
+    auto raw_events = manager.pollRawEvents(conn_id, 10);
+    ASSERT_EQ(raw_events.size(), 2u);
+    EXPECT_EQ(raw_events[0].key, "k3");
+    EXPECT_EQ(raw_events[1].key, "k4");
+
+    auto stats = manager.getStats();
+    EXPECT_EQ(stats.total_dropped_events, 2u);
+}
+
 } // namespace

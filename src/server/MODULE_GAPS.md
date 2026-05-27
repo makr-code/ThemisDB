@@ -42,6 +42,19 @@ python tools/gap_audit_pipeline_v2.py
   - Gap delta intent: reduce residual `iterator_invalidation` and `data_race`
     scanner noise in the W1-S05 SSE polling path while preserving runtime behavior.
 
+- **W1-S05 follow-up 2 (2026-05-27) – `src/server/sse_connection_manager.cpp`,
+  `tests/test_sse_connection_manager.cpp`**
+  - SSE overflow handling in `backgroundPollTask()` now evicts overflow entries in
+    bounded range erases instead of repeated `erase(begin)` loops, keeping drop-oldest
+    semantics but reducing iterator churn in the hot path.
+  - Next-poll scheduling now re-checks `running_` while holding `poll_timer_mutex_`
+    before arming `async_wait`, tightening the stop/schedule race window when the
+    last connection unregisters.
+  - Added regression test `DropOldestOverflowKeepsNewestRawEvents` to verify bounded
+    buffer behavior (newest events retained, dropped counter increments as expected).
+  - Gap delta intent: further reduce W1-S05 `data_race` / `iterator_invalidation`
+    scanner noise with behavior-preserving changes and explicit test coverage.
+
 - **W1-S12 (2026-05-26) – `include/server/postgres_session.h`, `src/server/postgres_session.cpp`**
   - PostgreSQL wire session concurrency hardening: lifecycle flags (`isAuthenticated_`,
     `inStartup_`, `copyInProgress_`, `transactionState_`) now use atomic state, and
