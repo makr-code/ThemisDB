@@ -385,3 +385,44 @@ TEST(GremlinTranspilerTest, ChainedTraversal) {
     EXPECT_NE(aql.find("FRIEND"), std::string::npos);
     EXPECT_NE(aql.find(".name"), std::string::npos);
 }
+
+// ============================================================================
+// GremlinParser – Numeric overflow guards (REL-19, issue #5177)
+// ============================================================================
+
+static bool gremlinParseError(const std::string& gremlin) {
+    GremlinParser parser;
+    auto result = parser.parse(gremlin);
+    return !result.has_value();
+}
+
+// limit() with out-of-range integer is rejected
+TEST(GremlinParserTest, LimitOverflowIsError) {
+    EXPECT_TRUE(gremlinParseError("g.V().hasLabel('User').limit(99999999999999999999)"));
+}
+
+// range() with an out-of-range start value is rejected
+TEST(GremlinParserTest, RangeStartOverflowIsError) {
+    EXPECT_TRUE(gremlinParseError("g.V().hasLabel('User').range(99999999999999999999, 10)"));
+}
+
+// range() with an out-of-range end value is rejected
+TEST(GremlinParserTest, RangeEndOverflowIsError) {
+    EXPECT_TRUE(gremlinParseError("g.V().hasLabel('User').range(0, 99999999999999999999)"));
+}
+
+// V() vertex-ID lookup with an out-of-range integer is rejected
+TEST(GremlinParserTest, VertexIdOverflowIsError) {
+    EXPECT_TRUE(gremlinParseError("g.V(99999999999999999999)"));
+}
+
+// Integer literal overflow in a has() predicate value is rejected
+TEST(GremlinParserTest, HasValueIntOverflowIsError) {
+    EXPECT_TRUE(gremlinParseError("g.V().has('age', 99999999999999999999)"));
+}
+
+// Valid limit / range are still accepted after adding the guard
+TEST(GremlinParserTest, ValidLimitAndRangeStillAccepted) {
+    EXPECT_FALSE(gremlinParseError("g.V().hasLabel('User').limit(10)"));
+    EXPECT_FALSE(gremlinParseError("g.V().hasLabel('User').range(0, 10)"));
+}

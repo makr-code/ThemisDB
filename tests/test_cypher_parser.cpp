@@ -327,3 +327,39 @@ TEST(CypherParserFocusedTests, ExcessiveHopCountIsError) {
 TEST(CypherParserFocusedTests, HopCountAtBoundaryIsAccepted) {
     EXPECT_FALSE(parseError("MATCH (a)-[*1..1000]->(b) RETURN a, b"));
 }
+
+// ============================================================================
+// Section 8 – Numeric overflow guards (REL-10..12, issue #5177)
+// ============================================================================
+
+// Test 35: SKIP with an integer value that exceeds int64 range is rejected
+TEST(CypherParserFocusedTests, SkipOverflowIsError) {
+    // "99999999999999999999" is larger than INT64_MAX → must be a parse error
+    EXPECT_TRUE(parseError("MATCH (n:User) RETURN n SKIP 99999999999999999999 LIMIT 10"));
+}
+
+// Test 36: LIMIT with an out-of-range integer is rejected
+TEST(CypherParserFocusedTests, LimitOverflowIsError) {
+    EXPECT_TRUE(parseError("MATCH (n:User) RETURN n LIMIT 99999999999999999999"));
+}
+
+// Test 37: Integer literal overflow in a WHERE expression is rejected
+TEST(CypherParserFocusedTests, IntLiteralOverflowIsError) {
+    EXPECT_TRUE(parseError("MATCH (n:User) WHERE n.id = 99999999999999999999 RETURN n"));
+}
+
+// Test 38: Float literal overflow in a WHERE expression is rejected
+TEST(CypherParserFocusedTests, FloatLiteralOverflowIsError) {
+    // 1e99999 exceeds double range and must be rejected
+    EXPECT_TRUE(parseError("MATCH (n:User) WHERE n.score = 1e99999 RETURN n"));
+}
+
+// Test 39: Hop count with an out-of-range integer is rejected
+TEST(CypherParserFocusedTests, HopCountOverflowIsError) {
+    EXPECT_TRUE(parseError("MATCH (a)-[*99999999999999999999..99999999999999999999]->(b) RETURN a, b"));
+}
+
+// Test 40: Valid SKIP/LIMIT are still accepted after adding the guard
+TEST(CypherParserFocusedTests, ValidSkipLimitStillAccepted) {
+    EXPECT_FALSE(parseError("MATCH (n:User) RETURN n SKIP 10 LIMIT 50"));
+}
