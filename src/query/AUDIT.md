@@ -1,4 +1,4 @@
-<!-- Status: S0 fixed 2026-05-04 | S1 fixed 2026-05-04 | OI-05/OI-06 fixed 2026-05-26 | KL-01 closed 2026-05-26 | CCF-01..CCF-03 fixed 2026-05-27 | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S0 fixed 2026-05-04 | S1 fixed 2026-05-04 | OI-05/OI-06 fixed 2026-05-26 | KL-01 closed 2026-05-26 | CCF-01..CCF-05 fixed 2026-05-27 | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · SECURITY.md -->
 
 # Audit Record — Query Module
@@ -9,9 +9,9 @@
 |--------------|--------------------------------------------|
 | Module       | query                                      |
 | Source path  | `src/query/`                               |
-| Audit date   | 2026-04-21 (S0 fixes: 2026-05-04, S1 fixes: 2026-05-04, OI-05/OI-06: 2026-05-26, KL-01 closed: 2026-05-26, CCF-01..CCF-03 fixed: 2026-05-27) |
+| Audit date   | 2026-04-21 (S0 fixes: 2026-05-04, S1 fixes: 2026-05-04, OI-05/OI-06: 2026-05-26, KL-01 closed: 2026-05-26, CCF-01..CCF-05 fixed: 2026-05-27) |
 | Audited by   | Copilot (source code analysis)             |
-| Status       | ✅ All critical findings resolved — 0 S0, 0 S1, 0 critical OI open; KL-01 closed; CCF-01..CCF-03 closed |
+| Status       | ✅ All critical findings resolved — 0 S0, 0 S1, 0 critical OI open; KL-01 closed; CCF-01..CCF-05 closed |
 
 > **2026-05-04:** QE-1 fixed (errors_mutex), QE-2 addressed, PA-1 fixed (depth limit 500 in
 > `parseExpression()`). See finding details below for confirmation.
@@ -29,6 +29,10 @@
 > (unlimited redirect hops) fixed — `CURLOPT_MAXREDIRS` set to 3. CCF-03 (no URL scheme
 > validation in `registerCluster`) fixed — rejects any `base_url` not starting with
 > `http://` or `https://`.
+> **2026-05-27:** CCF-04 fixed — `registerCluster` now rejects `auth_token` values containing
+> CR/LF to block header-injection attempts in `Authorization` construction. CCF-05 fixed —
+> libcurl transport now restricts both request and redirect protocols to HTTP/HTTPS via
+> `CURLOPT_PROTOCOLS` and `CURLOPT_REDIR_PROTOCOLS`.
 
 ## Source File Inventory
 
@@ -93,9 +97,9 @@
 | Tenant namespace isolation            | ✅ Complete   | `collection_access_checker_` enforced in all 8 `execute*` entry points (QE-2 fixed 2026-05-26) |
 | AQLParser thread-safety               | ✅ Complete   | `AQLParser` is stateless — each call constructs a local `Parser`; safe for concurrent use without mutex (KL-01 closed 2026-05-26) |
 | Parser recursion depth limit          | ✅ Complete   | `kMaxExprDepth=500` in `parseExpression`; `kMaxTraversalDepth=100` in `parseForClause` (PA-1 fixed 2026-05-04) |
-| Cross-cluster HTTP hardening          | ✅ Complete   | Response capped at 64 MiB (CCF-01); redirect hops limited to 3 (CCF-02); URL scheme validated in `registerCluster` (CCF-03) — all fixed 2026-05-27 |
+| Cross-cluster HTTP hardening          | ✅ Complete   | Response capped at 64 MiB (CCF-01); redirect hops limited to 3 (CCF-02); URL scheme validated (CCF-03); auth token CR/LF rejected (CCF-04); libcurl protocol/redirect protocols restricted to HTTP/HTTPS (CCF-05) — all fixed 2026-05-27 |
 | Performance benchmarks                | ❌ Pending    | Vectorized + federated paths (Q2 2026)        |
-| Full security audit                   | ✅ All critical findings resolved | QE-1..QE-5 ✅, PA-1..PA-2 ✅, TR-1..TR-2 ✅, CCF-01..CCF-03 ✅ — see Findings section |
+| Full security audit                   | ✅ All critical findings resolved | QE-1..QE-5 ✅, PA-1..PA-2 ✅, TR-1..TR-2 ✅, CCF-01..CCF-05 ✅ — see Findings section |
 
 ## Findings
 
@@ -180,6 +184,8 @@ std::shared_ptr<Expression> parseUnary() {
 | CCF-01 | `curlWriteCallback()` in `cross_cluster_federation.cpp` | Unbounded HTTP response buffer — a rogue cluster could stream GiBs into `std::string`, causing OOM | ✅ fixed 2026-05-27 — `ResponseAccumulator` caps at `kMaxResponseBytes` (64 MiB); returns 0 to abort |
 | CCF-02 | `curlHttpPost()` in `cross_cluster_federation.cpp` | `CURLOPT_FOLLOWLOCATION` set without `CURLOPT_MAXREDIRS` — unlimited redirect chain enables SSRF via redirect hop | ✅ fixed 2026-05-27 — `CURLOPT_MAXREDIRS` set to 3 |
 | CCF-03 | `registerCluster()` in `cross_cluster_federation.cpp` | No URL scheme validation — `file://`, `ftp://`, or internal network URLs accepted, enabling SSRF | ✅ fixed 2026-05-27 — rejects `base_url` not starting with `http://` or `https://` |
+| CCF-04 | `registerCluster()` in `cross_cluster_federation.cpp` | `auth_token` accepted CR/LF — attacker-controlled token could inject additional HTTP headers | ✅ fixed 2026-05-27 — rejects tokens containing `\\r` or `\\n` |
+| CCF-05 | `curlHttpPost()` in `cross_cluster_federation.cpp` | Redirects could still switch protocol family after first hop, expanding SSRF reach | ✅ fixed 2026-05-27 — `CURLOPT_PROTOCOLS` + `CURLOPT_REDIR_PROTOCOLS` restricted to HTTP/HTTPS |
 
 ---
 
@@ -191,6 +197,6 @@ std::shared_ptr<Expression> parseUnary() {
 | ~~**OI-04**~~ | ~~**Add recursion depth limit to all recursive-descent functions (PA-1)**~~ | ✅ **Fixed 2026-05-04** | ~~Critical~~ |
 | ~~**OI-05**~~ | ~~**Add ACL check on collection name in all execute* methods (QE-2)**~~ | ✅ **Fixed 2026-05-26** — `collection_access_checker_` wired in `executeAndKeys`, `executeAndEntities`, `executeOrKeys`, `executeOrKeysWithFallback`, `executeAndKeysSequential`, `executeAndKeysWithFallback`, `executeVectorGeoQuery`, `executeContentGeoQuery` | ~~Critical~~ |
 | ~~**OI-06**~~ | ~~**Fix data race on `errors` vector in `executeAndKeys` (QE-1)**~~ | ✅ **Fixed** — `executeAndKeys` had `errors_mutex` since 2026-05-04; `executeOrKeys` data race (missing mutex) **fixed 2026-05-26** | ~~Critical~~ |
-| ~~**CCF-01..CCF-03**~~ | ~~**Cross-cluster federation HTTP hardening**~~ | ✅ **Fixed 2026-05-27** | ~~High~~ |
+| ~~**CCF-01..CCF-05**~~ | ~~**Cross-cluster federation HTTP hardening**~~ | ✅ **Fixed 2026-05-27** | ~~High~~ |
 | OI-02 | Performance benchmarks (vectorized, federated)               | Q2 2026 | High     |
 | OI-03 | Full security audit (injection, resource exhaustion)         | Q2 2026 | High     |

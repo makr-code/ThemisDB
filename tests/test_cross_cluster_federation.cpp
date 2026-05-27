@@ -128,6 +128,16 @@ TEST(CrossClusterFederatorTest, RegisterHttpAndHttpsUrlAccepted) {
     EXPECT_EQ(fed.listClusters().size(), 2u);
 }
 
+TEST(CrossClusterFederatorTest, RegisterAuthTokenWithCrLfThrows) {
+    CrossClusterFederator fed;
+    for (const std::string& bad_token : {"abc\rdef", "abc\ndef", "abc\r\nx"}) {
+        ClusterEndpoint ep = makeEndpoint("c1", "https://c1:443");
+        ep.auth_token = bad_token;
+        EXPECT_THROW(fed.registerCluster(ep), std::invalid_argument)
+            << "expected throw for token with control chars";
+    }
+}
+
 // ════════════════════════════════════════════════════════════════════════════
 // Cost estimation tests
 // ════════════════════════════════════════════════════════════════════════════

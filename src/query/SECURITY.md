@@ -35,10 +35,10 @@
 - **Mitigation:** SPARQL and SQL inputs are fully parsed into an intermediate AST and translated to AQL; raw dialect strings are never executed; injection payloads do not survive AST round-trip
 - **Residual risk:** Low — translation is parse-then-emit; not string-splice
 
-### T5 — Cross-Cluster SSRF
+### T5 — Cross-Cluster SSRF / Header Injection
 - **Risk:** Medium — `CrossClusterFederator` dispatches HTTP requests to registered cluster endpoints; a compromised or misconfigured registration could target internal services
-- **Mitigation:** `registerCluster()` rejects `base_url` values not starting with `http://` or `https://` (CCF-03, 2026-05-27); redirect hops capped at 3 (CCF-02, 2026-05-27); SSL peer verification enforced (`CURLOPT_SSL_VERIFYPEER`)
-- **Residual risk:** Low — scheme validation blocks non-HTTP protocols; residual risk limited to `http://` URLs pointing to internal hosts (operational/network-policy concern)
+- **Mitigation:** `registerCluster()` rejects `base_url` values not starting with `http://` or `https://` (CCF-03, 2026-05-27) and rejects `auth_token` containing CR/LF to prevent header injection (CCF-04, 2026-05-27); redirect hops capped at 3 (CCF-02, 2026-05-27); libcurl request and redirect protocols restricted to HTTP/HTTPS only (`CURLOPT_PROTOCOLS`, `CURLOPT_REDIR_PROTOCOLS`, CCF-05, 2026-05-27); SSL peer verification enforced (`CURLOPT_SSL_VERIFYPEER`)
+- **Residual risk:** Low — non-HTTP schemes and CR/LF header injection are blocked at registration/transport layer; residual risk limited to operationally allowed HTTP(S) endpoints (network-policy concern)
 
 ## Known Limitations
 

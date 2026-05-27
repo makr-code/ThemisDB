@@ -102,6 +102,12 @@ void CrossClusterFederator::registerCluster(const ClusterEndpoint& endpoint) {
             "CrossClusterFederator: base_url must start with 'http://' or 'https://' "
             "for cluster '" + endpoint.cluster_id + "'");
     }
+    if (endpoint.auth_token.find('\r') != std::string::npos ||
+        endpoint.auth_token.find('\n') != std::string::npos) {
+        throw std::invalid_argument(
+            "CrossClusterFederator: auth_token must not contain CR/LF characters "
+            "for cluster '" + endpoint.cluster_id + "'");
+    }
 
     std::lock_guard<std::mutex> lock(registry_mutex_);
     clusters_[endpoint.cluster_id] = endpoint;
@@ -494,6 +500,8 @@ int CrossClusterFederator::curlHttpPost(const std::string& url,
                      static_cast<long>(body.size()));
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(curl, CURLOPT_MAXREDIRS, 3L);
+    curl_easy_setopt(curl, CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
+    curl_easy_setopt(curl, CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS,
                      static_cast<long>(timeout_ms));
     ResponseAccumulator acc{&response, kMaxResponseBytes};
@@ -526,4 +534,3 @@ int CrossClusterFederator::curlHttpPost(const std::string& url,
 }
 
 } // namespace themis::query
-
