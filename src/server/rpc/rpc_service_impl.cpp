@@ -117,6 +117,16 @@ namespace {
                code == static_cast<int>(themis::plugins::rpc::RPCErrorCode::RESOURCE_EXHAUSTED);
     }
 
+    std::string currentExceptionMessage(const std::string& fallback) {
+        try {
+            throw;
+        } catch (const std::exception& e) {
+            return e.what();
+        } catch (...) {
+            return fallback;
+        }
+    }
+
     std::optional<std::chrono::milliseconds> parseGrpcTimeout(const std::string& timeout) {
         if (timeout.size() < 2) {
             return std::nullopt;
@@ -2884,13 +2894,19 @@ json ThemisRPCService::dispatch(
                     e.what()
                 );
             }
+            std::cerr << "[ThemisRPCService] Retrying method '" << method << "' after exception"
+                      << " (attempt " << attempt << "/" << max_attempts << "): " << e.what() << "\n";
         } catch (...) {
+            const std::string error_message =
+                currentExceptionMessage("Unknown internal error during RPC dispatch");
             if (!retryable_method || attempt == max_attempts) {
                 return createError(
                     themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
-                    "Unknown internal error during RPC dispatch"
+                    error_message
                 );
             }
+            std::cerr << "[ThemisRPCService] Retrying method '" << method << "' after unknown exception"
+                      << " (attempt " << attempt << "/" << max_attempts << "): " << error_message << "\n";
         }
 
         const auto backoff = std::chrono::milliseconds(10 * attempt);

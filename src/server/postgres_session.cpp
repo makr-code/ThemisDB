@@ -79,6 +79,16 @@ namespace {
         // For all other types (text, varchar, etc.), escape and quote
         return "'" + escapeSQLString(param) + "'";
     }
+
+    void logCurrentException(const char* context) {
+        try {
+            throw;
+        } catch (const std::exception& e) {
+            std::cerr << "[PostgresSession] " << context << ": " << e.what() << "\n";
+        } catch (...) {
+            std::cerr << "[PostgresSession] " << context << ": unknown exception\n";
+        }
+    }
 }
 
 PostgresSession::PostgresSession(asio::ip::tcp::socket socket)
@@ -144,11 +154,8 @@ void PostgresSession::armReadTimeout() {
         try {
             sendErrorResponse("ERROR", "57014", "Connection timed out while waiting for client message");
             stop();
-        } catch (const std::exception& e) {
-            std::cerr << "[PostgresSession] Read-timeout handler error: " << e.what() << "\n";
-            stop();
         } catch (...) {
-            std::cerr << "[PostgresSession] Read-timeout handler unknown error\n";
+            logCurrentException("Read-timeout handler error");
             stop();
         }
     });
@@ -169,11 +176,8 @@ void PostgresSession::armWriteTimeout() {
         try {
             sendErrorResponse("ERROR", "57014", "Connection timed out while sending response");
             stop();
-        } catch (const std::exception& e) {
-            std::cerr << "[PostgresSession] Write-timeout handler error: " << e.what() << "\n";
-            stop();
         } catch (...) {
-            std::cerr << "[PostgresSession] Write-timeout handler unknown error\n";
+            logCurrentException("Write-timeout handler error");
             stop();
         }
     });
@@ -1539,7 +1543,7 @@ void PostgresSession::doWrite() {
                 std::cerr << "[PostgresSession] Write completion handler error: " << e.what() << "\n";
                 stop();
             } catch (...) {
-                std::cerr << "[PostgresSession] Write completion handler unknown error\n";
+                logCurrentException("Write completion handler error");
                 stop();
             }
         });

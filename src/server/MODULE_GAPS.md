@@ -941,3 +941,10 @@ Findings addressed:
   `scanned_keys` counter and calls `shouldCheckDeadline` / `isDeadlineExceeded` every 256 iterations,
   returning `QUERY_TIMEOUT` if the deadline is breached. Added four deadline-expiry tests to
   `tests/test_rpc_batch_operations.cpp`.
+
+- **W1-S04 follow-up (2026-05-27) — exception observability consistency in `postgres_session.cpp` + `rpc_service_impl.cpp`:**
+  `PostgresSession` timeout/write-completion callback catch blocks now route through a shared
+  `logCurrentException(...)` helper so non-`std::exception` failures are still captured consistently.
+  `ThemisRPCService::dispatch()` now logs retry attempts for both typed and previously-unknown exceptions;
+  unknown exceptions also derive their final `INTERNAL_ERROR` message from the active exception object
+  when possible instead of always returning a fixed generic string.
