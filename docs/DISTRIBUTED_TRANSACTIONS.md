@@ -21,6 +21,7 @@ ThemisDB's Distributed Transaction Coordinator implements a Two-Phase Commit (2P
 - ✅ **Parallel Execution**: Concurrent prepare/commit operations
 - ✅ **Fault Tolerance**: Handles participant failures gracefully
 - ✅ **Configurable Timeouts**: Customizable RPC and phase timeouts
+- ✅ **Cluster-Wide Deadlock Detection**: Distributed Wait-For Graph with cycle detection and victim abort
 
 ## Two-Phase Commit Protocol
 
@@ -457,9 +458,87 @@ curl -X POST http://localhost:8080/dtxn/commit \
 - [ ] Coordinator replication and failover
 - [ ] Participant health monitoring with heartbeat mechanism
 - [ ] Optimistic concurrency control
-- [ ] Distributed deadlock detection
+- [x] ~~Distributed deadlock detection~~ — implemented (see below)
 - [ ] Saga pattern support for long-running transactions
 - [ ] Circuit breaker pattern for participant health monitoring
+
+## Cluster-Wide Deadlock Detection
+
+`CrossShardTransactionCoordinator` implements a distributed Wait-For Graph (WFG) to detect
+circular lock-wait dependencies that span multiple shards.
+
+### Architecture
+
+```
+┌──────────────────────────────────────────────────────┐
+│            CrossShardTransactionCoordinator           │
+│                                                      │
+│  ┌──────────────┐   push edges    ┌──────────────┐   │
+│  │ reportDist-  │ ─────────────►  │  wait-for    │   │
+│  │ ributedWait  │                 │  graph       │   │
+│  └──────────────┘                 │  (in-memory) │   │
+│                                   └──────┬───────┘   │
+│  ┌──────────────┐   pull edges           │ SCC       │
+│  │ deadlock-    │ ─────────────►  ┌──────▼───────┐   │
+│  │ Detection-   │  (per-interval) │ cycle detect │   │
+│  │ Thread       │ ◄─ ShardRPC ─── │ + victim     │   │
+│  └──────────────┘    per shard    │   selection  │   │
+│                                   └──────────────┘   │
+└──────────────────────────────────────────────────────┘
+```
+
+### Configuration
+
+```cpp
+CrossShardTransactionConfig config;
+
+// Register shard endpoints to poll (shard_id → gRPC address)
+config.shard_endpoints["shard-1"] = "shard1.internal:50051";
+config.shard_endpoints["shard-2"] = "shard2.internal:50051";
+
+// How often to poll each shard and run cycle detection
+config.deadlock_detection_interval = std::chrono::milliseconds(500);
+
+auto coordinator = std::make_unique<CrossShardTransactionCoordinator>(config, consensus);
+```
+
+### Edge Sources
+
+**Push (explicit reporting):** any component that knows a transaction is waiting calls
+`coordinator.reportDistributedWait(waiting_txn_id, blocking_txn_id, shard_id)`.
+
+**Pull (periodic polling):** the background detection thread calls
+`ShardRPCClient::collectWaitForEdges()` on every endpoint in `shard_endpoints` once per
+`deadlock_detection_interval`.  The `CollectWaitForEdges` RPC is defined in
+`proto/sharding/shard_rpc.proto` and served by `ShardRPCServer`.
+
+Both edge sources are merged into the same in-memory WFG before cycle detection.
+
+### Deadlock Resolution
+
+1. Cycle detected via Tarjan's SCC algorithm.
+2. All transactions inside the SCC are identified as deadlocked.
+3. The **youngest** transaction (most recent `start_time`) is chosen as victim and aborted.
+   Younger transactions have invested less work; aborting them minimises wasted effort.
+4. Remaining transactions in the cycle become unblocked.
+
+### Testing Hook
+
+For deterministic unit tests or custom deployments, set
+`CrossShardTransactionConfig::polled_wait_for_edge_collector` to an `std::function`
+that returns `PolledWaitForEdge` vectors without making a real RPC:
+
+```cpp
+config.polled_wait_for_edge_collector =
+    [](const std::string& shard_id, const std::string& /*endpoint*/) {
+        if (shard_id == "shard-remote") {
+            return std::vector<CrossShardTransactionConfig::PolledWaitForEdge>{
+                {"txn-a", "txn-b"}
+            };
+        }
+        return {};
+    };
+```
 
 ## References
 

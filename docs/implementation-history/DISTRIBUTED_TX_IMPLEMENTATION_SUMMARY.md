@@ -190,7 +190,7 @@ part_cfg.max_active_txns    = 1000;
 - Three-Phase Commit (3PC) for non-blocking guarantee
 - Coordinator replication and failover
 - Optimistic concurrency control
-- Distributed deadlock detection
+- ~~Distributed deadlock detection~~ — **implemented** (cluster-wide WFG via `CrossShardTransactionCoordinator`; issue #5396)
 - Saga pattern for long-running transactions
 
 ---

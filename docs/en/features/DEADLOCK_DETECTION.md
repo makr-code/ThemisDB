@@ -2,7 +2,13 @@
 
 ## Overview
 
-ThemisDB includes built-in deadlock detection for transaction processing. The deadlock detector runs in a background thread and periodically scans for circular wait dependencies between transactions.
+ThemisDB includes built-in deadlock detection for transaction processing at two levels:
+
+- **Local deadlock detection** (`TransactionManager`): scans circular wait dependencies
+  within a single node in a background thread.
+- **Cluster-wide deadlock detection** (`CrossShardTransactionCoordinator`): builds a
+  distributed Wait-For Graph (WFG) across all shards and detects cycles that span shard
+  boundaries (see [Cluster-Wide Detection](#cluster-wide-cross-shard-deadlock-detection)).
 
 ## Architecture
 
@@ -219,10 +225,73 @@ void monitorDeadlocks() {
 ## Future Enhancements
 
 - [ ] Integration with RocksDB's native lock tracking
-- [ ] Configurable victim selection strategies (youngest, oldest, least resources)
+- [x] ~~Configurable victim selection strategies~~ — youngest-transaction strategy implemented
 - [ ] Deadlock prediction based on historical patterns
 - [ ] Visualization of wait-for graph in monitoring UI
 - [ ] Automatic retry of aborted transactions
+
+## Cluster-Wide (Cross-Shard) Deadlock Detection
+
+Deadlocks involving locks on **different shards** require a distributed Wait-For Graph.
+`CrossShardTransactionCoordinator` implements this via a pull+push hybrid approach.
+
+### How It Works
+
+1. **Push edges** — any component reports `coordinator.reportDistributedWait(waiter, blocker, shard_id)` when it knows a transaction is blocked.
+2. **Pull edges** — the background `deadlockDetectionThread` polls every endpoint in `config.shard_endpoints` via `ShardRPCClient::collectWaitForEdges()` once per `deadlock_detection_interval`.
+3. Both edge sources are merged into a single in-memory WFG.
+4. **Cycle detection** runs Tarjan's SCC algorithm; SCC size > 1 signals a deadlock.
+5. The **youngest** transaction in the cycle (most recent `start_time`) is selected as victim and aborted.
+
+### Configuration
+
+```cpp
+CrossShardTransactionConfig config;
+config.shard_endpoints["shard-1"] = "shard1.internal:50051";
+config.shard_endpoints["shard-2"] = "shard2.internal:50051";
+config.deadlock_detection_interval = std::chrono::milliseconds(500);
+
+auto coordinator = std::make_unique<CrossShardTransactionCoordinator>(config, consensus);
+coordinator->start();
+
+// When a transaction is blocked cross-shard, report the wait edge:
+coordinator->reportDistributedWait("txn-waiting", "txn-blocking", "shard-1");
+```
+
+### Statistics
+
+```cpp
+auto stats = coordinator->getStatistics();
+uint64_t count = stats["deadlocked_transactions"].get<uint64_t>();
+```
+
+### Example: Classic Cross-Shard Deadlock
+
+```
+T1 holds lock on Shard-A/key-X, waits for Shard-B/key-Y
+T2 holds lock on Shard-B/key-Y, waits for Shard-A/key-X
+
+WFG:  T1 → T2  (from Shard-A polling or push)
+      T2 → T1  (from Shard-B polling or push)
+
+Cycle [T1, T2] detected → youngest aborted → remaining transaction proceeds
+```
+
+### Testing Hook
+
+For deterministic tests, assign `config.polled_wait_for_edge_collector`:
+
+```cpp
+config.polled_wait_for_edge_collector =
+    [](const std::string& shard_id, const std::string&) {
+        if (shard_id == "shard-remote") {
+            return std::vector<CrossShardTransactionConfig::PolledWaitForEdge>{
+                {"txn-a", "txn-b"}
+            };
+        }
+        return {};
+    };
+```
 
 ## See Also
 
