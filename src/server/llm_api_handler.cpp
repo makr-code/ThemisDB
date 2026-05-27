@@ -31,6 +31,7 @@
 #include <regex>
 #include <iostream>
 #include <chrono>
+#include <exception>
 #include "utils/tracing.h"
 
 namespace themis::server {
@@ -57,6 +58,20 @@ namespace {
         }
         
         return std::nullopt;
+    }
+
+    void logCurrentException(const char* context) {
+        try {
+            auto ex = std::current_exception();
+            if (ex) {
+                std::rethrow_exception(ex);
+            }
+            THEMIS_ERROR("{}: unknown exception", context);
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("{}: {}", context, e.what());
+        } catch (...) {
+            THEMIS_ERROR("{}: non-standard exception", context);
+        }
     }
 }
 
@@ -176,15 +191,8 @@ http::response<http::string_body> LLMApiHandler::handleRequest(
             "Not Found",
             "LLM API endpoint not found"
         );
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("LLMApiHandler::handleRequest failed: {}", e.what());
-        return createErrorResponse(
-            http::status::internal_server_error,
-            "Internal Server Error",
-            "Failed to handle LLM API request"
-        );
     } catch (...) {
-        THEMIS_ERROR("LLMApiHandler::handleRequest failed: non-standard exception");
+        logCurrentException("LLMApiHandler::handleRequest failed");
         return createErrorResponse(
             http::status::internal_server_error,
             "Internal Server Error",

@@ -18,6 +18,7 @@
 #include <ngtcp2/ngtcp2_crypto_openssl.h>
 #include <cstring>
 #include <random>
+#include <exception>
 
 namespace themis {
 namespace server {
@@ -44,6 +45,20 @@ static uint64_t getTimestamp() {
     return std::chrono::duration_cast<std::chrono::nanoseconds>(
         std::chrono::steady_clock::now().time_since_epoch()
     ).count();
+}
+
+static void logCurrentException(const char* context) {
+    try {
+        auto ex = std::current_exception();
+        if (ex) {
+            std::rethrow_exception(ex);
+        }
+        THEMIS_ERROR("{}: unknown exception", context);
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("{}: {}", context, e.what());
+    } catch (...) {
+        THEMIS_ERROR("{}: non-standard exception", context);
+    }
 }
 
 // ============================================================================
@@ -223,10 +238,8 @@ void Http3Handler::onReceive(boost::system::error_code ec, std::size_t bytes_tra
             session->start();
             session->handlePacket(recv_buffer_.data(), bytes_transferred, remote_endpoint_);
         }
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("HTTP/3 onReceive error: {}", e.what());
     } catch (...) {
-        THEMIS_ERROR("HTTP/3 onReceive error: non-standard exception");
+        logCurrentException("HTTP/3 onReceive error");
     }
     
     doAccept(); // Continue accepting
@@ -247,10 +260,8 @@ void Http3Handler::armCleanupTimer() {
 
         try {
             cleanupInactiveSessions();
-        } catch (const std::exception& e) {
-            THEMIS_ERROR("HTTP/3 cleanup timer error: {}", e.what());
         } catch (...) {
-            THEMIS_ERROR("HTTP/3 cleanup timer error: non-standard exception");
+            logCurrentException("HTTP/3 cleanup timer error");
         }
 
         if (running_.load(std::memory_order_acquire)) {
@@ -484,10 +495,8 @@ void Http3Session::start() {
         if (!ec) {
             try {
                 onTimeout();
-            } catch (const std::exception& e) {
-                THEMIS_ERROR("HTTP/3 idle timeout handler error: {}", e.what());
             } catch (...) {
-                THEMIS_ERROR("HTTP/3 idle timeout handler error: non-standard exception");
+                logCurrentException("HTTP/3 idle timeout handler error");
             }
         }
     });
@@ -522,10 +531,8 @@ void Http3Session::handlePacket(const uint8_t* data, size_t len, const udp::endp
         if (!ec) {
             try {
                 onTimeout();
-            } catch (const std::exception& e) {
-                THEMIS_ERROR("HTTP/3 idle timeout handler error: {}", e.what());
             } catch (...) {
-                THEMIS_ERROR("HTTP/3 idle timeout handler error: non-standard exception");
+                logCurrentException("HTTP/3 idle timeout handler error");
             }
         }
     });

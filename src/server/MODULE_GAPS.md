@@ -1450,6 +1450,10 @@ Fixes applied:
 - `http3_session.cpp` + `http3_session.h`: introduced `Http3Handler::running_`
   lifecycle gate and centralized timer arming (`armCleanupTimer()`) so cleanup
   callbacks fail-close after `stop()` and cannot silently re-arm during teardown.
+- `llm_api_handler.cpp` + `http3_session.cpp`: replaced duplicated
+  `catch (const std::exception&)` / `catch (...)` logging branches with local
+  `logCurrentException(...)` helpers so all W1-S06 exception boundaries extract
+  active exception details consistently while preserving existing fail-closed behavior.
 
 ---
 
