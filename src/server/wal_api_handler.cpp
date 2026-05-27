@@ -74,6 +74,7 @@ http::response<http::string_body> WALApiHandler::handleApply(
     if (!wal_applier_) {
         return makeErrorResponse(http::status::service_unavailable, "WAL applier not configured", req);
     }
+    auto& wal_applier = *wal_applier_;
 
     nlohmann::json payload;
     try {
@@ -124,7 +125,7 @@ http::response<http::string_body> WALApiHandler::handleApply(
             std::string("Invalid WAL entry: ") + e.what(), req);
     }
 
-    auto result = wal_applier_->applyBatch(entries);
+    auto result = wal_applier.applyBatch(entries);
     auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
         std::chrono::steady_clock::now() - apply_start).count();
     recordLatency(elapsed_us);
@@ -219,4 +220,3 @@ bool WALApiHandler::timingSafeEqual(const std::string& a, const std::string& b) 
 
 } // namespace server
 } // namespace themis
-

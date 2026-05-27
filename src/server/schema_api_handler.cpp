@@ -1307,6 +1307,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetColumnLineage(
             "Column lineage tracker not available");
     }
     auto& column_lineage_tracker = *column_lineage_tracker_;
+    auto& column_lineage_tracker = *column_lineage_tracker_;
 
     try {
         const std::string base    = "/api/v1/metadata/lineage/";
@@ -1400,11 +1401,11 @@ http::response<http::string_body> SchemaApiHandler::handleRecordLineageDerivatio
                 body["transformation"].get<std::string>());
         }
 
-        column_lineage_tracker_->recordDerivation(std::move(entry));
+        column_lineage_tracker.recordDerivation(std::move(entry));
 
         json resp_body;
         resp_body["status"]      = "recorded";
-        resp_body["total_entries"] = column_lineage_tracker_->totalEntryCount();
+        resp_body["total_entries"] = column_lineage_tracker.totalEntryCount();
 
         http::response<http::string_body> res{http::status::created, req.version()};
         res.set(http::field::server, "ThemisDB");

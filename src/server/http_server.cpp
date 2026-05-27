@@ -12090,6 +12090,7 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
     if (!rate_limiter_) {
         return std::nullopt; // Rate limiting disabled
     }
+    auto& rate_limiter = *rate_limiter_;
     
     std::string client_ip = extractClientIP(req);
     std::string user_id;
@@ -12144,8 +12145,8 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
     }
 
     // Fallback to legacy rate limiter
-    if (!rate_limiter_->allowRequest(client_ip, user_id)) {
-        uint32_t retry_after = rate_limiter_->getRetryAfter(client_ip, user_id);
+    if (!rate_limiter.allowRequest(client_ip, user_id)) {
+        uint32_t retry_after = rate_limiter.getRetryAfter(client_ip, user_id);
         
         THEMIS_WARN("Rate limit exceeded: ip={}, user={}, retry_after={}s", 
             client_ip.empty() ? "<unknown>" : client_ip, 

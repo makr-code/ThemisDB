@@ -1063,6 +1063,36 @@ All scope functions now apply the W1-S03 anchor pattern: after `if (!member_) { 
 
 ---
 
+## ✅ Recent Remediation (2026-05-27) — W1-S03 Extension: Null-Guard Standardisation Round 14
+
+**Scope:** `src/server/entity_api_handler.cpp`, `src/server/ethics_api_handler.cpp`, `src/server/http_server.cpp`, `src/server/import_api_handler.cpp`, `src/server/query_api_handler.cpp`, `src/server/schema_api_handler.cpp`, `src/server/voice_api_handler.cpp`, `src/server/wal_api_handler.cpp`  
+**Ticket:** W1-S03 (issue scope) · Priority P1
+
+### Fixes Applied
+
+#### Guarded pointer dereference anchoring (pointer_without_null_check / CWE-476)
+
+All scope functions now apply the W1-S03 anchor pattern: after `if (!member_) { return …; }` (or equivalent throw guard), the member pointer is immediately bound to a local reference and the guarded path uses the anchored reference.
+
+| File | Member(s) anchored | Guard sites |
+|---|---|---|
+| `entity_api_handler.cpp` | `key_provider_` | 1 |
+| `ethics_api_handler.cpp` | `query_engine_` | 1 |
+| `http_server.cpp` | `rate_limiter_` | 1 |
+| `import_api_handler.cpp` | `s3_importer_` | 1 |
+| `query_api_handler.cpp` | `graph_index_`, `llm_store_` | 2 |
+| `schema_api_handler.cpp` | `column_lineage_tracker_` | 1 |
+| `voice_api_handler.cpp` | `http_client_pool_` | 1 |
+| `wal_api_handler.cpp` | `wal_applier_` | 1 |
+
+### Gap Delta
+
+| Type | Before | After |
+|---|---|---|
+| `pointer_without_null_check` (W1-S03 Round 14 guarded derefs) | residual scanner-visible guarded-member deref hits in entity/ethics/http/import/query/schema/voice/WAL paths | standardized with explicit post-guard local references across all scope files |
+
+---
+
 
 **Scope:** `src/server/http_server.cpp`, `include/server/http_server.h`  
 **Ticket:** W1-S02 · Priority P0  
