@@ -141,7 +141,6 @@ VoiceApiHandler::VoiceApiHandler(
     if (!auth_) {
         auth_ = std::make_shared<themis::AuthMiddleware>();
     }
-    auto& auth = *auth_;
 
     const auto getEnv = [](const char* name) -> std::optional<std::string> {
         const char* value = std::getenv(name);
@@ -156,7 +155,7 @@ VoiceApiHandler::VoiceApiHandler(
         cfg.token = *token;
         cfg.user_id = "admin";
         cfg.scopes = {"admin", "data:read", "data:write", "metrics:read"};
-        auth.addToken(cfg);
+        auth_->addToken(cfg);
     }
 
     if (auto token = getEnv("THEMIS_TOKEN_READONLY")) {
@@ -164,7 +163,7 @@ VoiceApiHandler::VoiceApiHandler(
         cfg.token = *token;
         cfg.user_id = "readonly";
         cfg.scopes = {"data:read", "metrics:read"};
-        auth.addToken(cfg);
+        auth_->addToken(cfg);
     }
 
     if (auto token = getEnv("THEMIS_TOKEN_ANALYST")) {
@@ -172,7 +171,7 @@ VoiceApiHandler::VoiceApiHandler(
         cfg.token = *token;
         cfg.user_id = "analyst";
         cfg.scopes = {"data:read", "metrics:read"};
-        auth.addToken(cfg);
+        auth_->addToken(cfg);
     }
 
     if (auto jwks_url = getEnv("THEMIS_JWT_JWKS_URL")) {
@@ -196,7 +195,7 @@ VoiceApiHandler::VoiceApiHandler(
         jwt_cfg.require_audience_validation = !jwt_cfg.expected_audience.empty();
 
         try {
-            auth.enableJWT(jwt_cfg);
+            auth_->enableJWT(jwt_cfg);
         } catch (const std::exception& e) {
             THEMIS_WARN("VoiceApiHandler: failed to enable JWT validation: {}", e.what());
         }

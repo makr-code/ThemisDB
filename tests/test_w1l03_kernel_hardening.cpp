@@ -125,6 +125,8 @@ TEST(VulkanKernelHardening, ConcurrentUninitializedCallsAreRaceFree) {
 // DirectX — non-Windows stub path always throws std::runtime_error
 // ---------------------------------------------------------------------------
 
+#if defined(THEMIS_ENABLE_DIRECTX)
+
 TEST(DirectXKernelHardening, IsDirectXAvailableReturnsFalseOnNonWindows) {
 #ifndef _WIN32
     EXPECT_FALSE(themis::lora::directx::is_directx_available());
@@ -234,5 +236,13 @@ TEST(DirectXKernelHardening, ConcurrentUninitializedCallsAreRaceFree) {
     EXPECT_EQ(unexpected.load(), 0);
 }
 #endif // _WIN32
+
+#else
+
+TEST(DirectXKernelHardening, DisabledWhenDirectXFeatureOff) {
+    GTEST_SKIP() << "DirectX LoRA kernels are disabled in this build";
+}
+
+#endif
 
 } // namespace

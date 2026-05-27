@@ -50,7 +50,7 @@ TEST(LoRAKernelInterfaceHardeningTest, VulkanConcurrentLifecycleNoLockTimeout) {
     EXPECT_FALSE(saw_lock_timeout.load(std::memory_order_relaxed));
 }
 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(THEMIS_ENABLE_DIRECTX)
 
 TEST(LoRAKernelInterfaceHardeningTest, DirectXInvalidInputRejectedBeforeDispatch) {
     if (!directx::is_directx_available()) {
@@ -95,12 +95,8 @@ TEST(LoRAKernelInterfaceHardeningTest, DirectXConcurrentLifecycleNoLockTimeout) 
 
 #else
 
-TEST(LoRAKernelInterfaceHardeningTest, DirectXFallbackStillFailsClosedOnNonWindows) {
-    std::array<float, 4> a{1.0f, 2.0f, 3.0f, 4.0f};
-    std::array<float, 4> b{0.0f, 0.0f, 0.0f, 0.0f};
-
-    EXPECT_FALSE(directx::initialize_directx_lora(0));
-    EXPECT_THROW(directx::launch_add_shader(a.data(), a.data(), b.data(), 4), std::runtime_error);
+TEST(LoRAKernelInterfaceHardeningTest, DirectXTestsDisabledWhenFeatureOff) {
+    GTEST_SKIP() << "DirectX LoRA kernels are disabled in this build";
 }
 
 #endif

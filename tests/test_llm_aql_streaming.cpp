@@ -240,7 +240,7 @@ TEST_F(LLMAQLStreamingTest, TranslateStreamingWithSchemaContext) {
 }
 
 TEST_F(LLMAQLStreamingTest, TranslateStreamingCollectionCheckerDenies_ThrowsAccessDenied) {
-    handler->setChatExecutor([](const std::vector<ChatMessage>&) -> std::string {
+    handler->setChatExecutor([](const std::vector<themis::llm::ChatMessage>&) -> std::string {
         return "FOR doc IN secrets RETURN doc";
     });
     handler->setCollectionAccessChecker([](const std::string& collection) {

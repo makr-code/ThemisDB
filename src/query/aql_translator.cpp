@@ -1818,9 +1818,12 @@ std::vector<ConjunctiveQuery> AQLTranslator::convertToDNF(
                 }
                 auto limitLiteral = std::static_pointer_cast<LiteralExpr>(funcCall->arguments[2]);
                 if (std::holds_alternative<int64_t>(limitLiteral->value)) {
-                    { int64_t _lv = std::get<int64_t>(limitLiteral->value);
-                      if (_lv < 0) return TranslationResult::Error("limit must be non-negative");
-                      limit = static_cast<size_t>(_lv); }
+                    int64_t limit_value = std::get<int64_t>(limitLiteral->value);
+                    if (limit_value < 0) {
+                        error = "FULLTEXT() limit must be non-negative";
+                        return {};
+                    }
+                    limit = static_cast<size_t>(limit_value);
                 } else {
                     error = "FULLTEXT() limit must be an integer";
                     return {};
