@@ -16,6 +16,7 @@
 
 #include <algorithm>
 #include <future>
+#include <limits>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -47,6 +48,10 @@ struct ResponseAccumulator {
 
 static size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb,
                                 void* userdata) {
+    if (size != 0 && nmemb > std::numeric_limits<size_t>::max() / size) {
+        spdlog::error("CrossClusterFederator: nmemb*size would overflow; aborting");
+        return 0;
+    }
     const size_t total = size * nmemb;
     auto* acc = static_cast<ResponseAccumulator*>(userdata);
     if (acc->received + total > acc->max_bytes) {

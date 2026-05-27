@@ -115,6 +115,9 @@ TTTrain TensorContractionEngine::slice(const TTTrain& train,
                 merged.r_left  = new_rl;
                 merged.n       = new_n;
                 merged.r_right = new_rr;
+                if (new_n != 0 && new_rr != 0 && new_rl > std::numeric_limits<std::size_t>::max() / new_n / new_rr) {
+                    throw std::overflow_error("TT-core merge: core dimension product overflows size_t");
+                }
                 merged.data.resize(new_rl * new_n * new_rr, 0.0f);
                 // merged[l, i, r] = sum_{m} ck[l, 0, m] * ck1[m, i, r]
                 for (std::size_t l = 0; l < new_rl; ++l)
@@ -166,6 +169,9 @@ TTTrain TensorContractionEngine::hadamardProduct(
         cr.r_left  = rl;
         cr.n       = n;
         cr.r_right = rr;
+        if (n != 0 && rr != 0 && rl > std::numeric_limits<std::size_t>::max() / n / rr) {
+            throw std::overflow_error("TT-core kron: core dimension product overflows size_t");
+        }
         cr.data.resize(rl * n * rr, 0.0f);
 
         // Kronecker product of core matrices for each physical index i

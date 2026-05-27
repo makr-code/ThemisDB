@@ -919,7 +919,11 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     }
                     auto distLiteral = std::static_pointer_cast<LiteralExpr>(funcCall->arguments[2]);
                     if (std::holds_alternative<int64_t>(distLiteral->value)) {
-                        maxDistance = static_cast<int>(std::get<int64_t>(distLiteral->value));
+                        const int64_t distVal = std::get<int64_t>(distLiteral->value);
+                        if (distVal < 0 || distVal > 1000) {
+                            return TranslationResult::Error("FUZZY() maxDistance must be between 0 and 1000");
+                        }
+                        maxDistance = static_cast<int>(distVal);
                     } else {
                         return TranslationResult::Error("FUZZY() maxDistance must be an integer");
                     }
@@ -933,7 +937,11 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     }
                     auto limitLiteral = std::static_pointer_cast<LiteralExpr>(funcCall->arguments[3]);
                     if (std::holds_alternative<int64_t>(limitLiteral->value)) {
-                        limit = static_cast<size_t>(std::get<int64_t>(limitLiteral->value));
+                        const int64_t limitVal = std::get<int64_t>(limitLiteral->value);
+                        if (limitVal < 0) {
+                            return TranslationResult::Error("FUZZY() limit must be non-negative");
+                        }
+                        limit = static_cast<size_t>(limitVal);
                     } else {
                         return TranslationResult::Error("FUZZY() limit must be an integer");
                     }

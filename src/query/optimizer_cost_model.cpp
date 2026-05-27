@@ -14,6 +14,7 @@
 #include "query/optimizer_cost_model.h"
 #include <algorithm>
 #include <cmath>
+#include <limits>
 #include <chrono>
 #include <thread>
 
@@ -216,7 +217,8 @@ OptimizerCostModel::JoinCost OptimizerCostModel::estimateHashJoin(
     size_t hashTableSize = leftRows * (hashKeySize + constants_.hashTablePointerSize);
     cost.memoryCost = calculateMemoryCost(hashTableSize);
     
-    cost.estimatedRows = static_cast<size_t>(leftRows * rightRows * selectivity);
+    const double estimatedD = static_cast<double>(leftRows) * static_cast<double>(rightRows) * selectivity;
+    cost.estimatedRows = estimatedD >= static_cast<double>(std::numeric_limits<size_t>::max()) ? std::numeric_limits<size_t>::max() : static_cast<size_t>(estimatedD);
     cost.totalCost = cost.cpuCost + cost.memoryCost;
     
     return cost;
@@ -243,7 +245,8 @@ OptimizerCostModel::JoinCost OptimizerCostModel::estimateSortMergeJoin(
     
     cost.cpuCost = leftSortCost + rightSortCost + mergeCost + constants_.joinOverhead;
     
-    cost.estimatedRows = static_cast<size_t>(leftRows * rightRows * selectivity);
+    const double estimatedD = static_cast<double>(leftRows) * static_cast<double>(rightRows) * selectivity;
+    cost.estimatedRows = estimatedD >= static_cast<double>(std::numeric_limits<size_t>::max()) ? std::numeric_limits<size_t>::max() : static_cast<size_t>(estimatedD);
     cost.totalCost = cost.cpuCost;
     
     return cost;

@@ -1,4 +1,4 @@
-<!-- Status: S0 fixed 2026-05-04 | S1 fixed 2026-05-04 | OI-05/OI-06 fixed 2026-05-26 | KL-01 closed 2026-05-26 | CCF-01..CCF-05 fixed 2026-05-27 | CQE-01..CQE-03 fixed 2026-05-27 | QE-arc-points-cast fixed 2026-05-27 | TC-01..TC-06 fixed 2026-05-27 | UNINIT-01..UNINIT-11 fixed 2026-05-27 | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S0 fixed 2026-05-04 | S1 fixed 2026-05-04 | OI-05/OI-06 fixed 2026-05-26 | KL-01 closed 2026-05-26 | CCF-01..CCF-05 fixed 2026-05-27 | CQE-01..CQE-03 fixed 2026-05-27 | QE-arc-points-cast fixed 2026-05-27 | TC-01..TC-06 fixed 2026-05-27 | UNINIT-01..UNINIT-11 fixed 2026-05-27 | REL-01..REL-09 fixed 2026-05-27 | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · SECURITY.md -->
 
 # Audit Record — Query Module
@@ -258,5 +258,22 @@ std::shared_ptr<Expression> parseUnary() {
 | ~~**OI-06**~~ | ~~**Fix data race on `errors` vector in `executeAndKeys` (QE-1)**~~ | ✅ **Fixed** — `executeAndKeys` had `errors_mutex` since 2026-05-04; `executeOrKeys` data race (missing mutex) **fixed 2026-05-26** | ~~Critical~~ |
 | ~~**CCF-01..CCF-05**~~ | ~~**Cross-cluster federation HTTP hardening**~~ | ✅ **Fixed 2026-05-27** | ~~High~~ |
 | ~~**CQE-01..CQE-03**~~ | ~~**ContinuousQueryEngine memory-safety and resource-exhaustion hardening**~~ | ✅ **Fixed 2026-05-27** | ~~High~~ |
+| ~~**REL-01..REL-09**~~ | ~~**Arithmetic overflow / type-cast safety (reliability batch)**~~ | ✅ **Fixed 2026-05-27** | ~~High~~ |
 | OI-02 | Performance benchmarks (vectorized, federated)               | Q2 2026 | High     |
 | OI-03 | Full security audit (injection, resource exhaustion)         | Q2 2026 | High     |
+
+---
+
+## REL batch — Arithmetic Overflow / Type-Cast Safety (2026-05-27)
+
+| ID | File | Line | Description | Status |
+|----|------|------|-------------|--------|
+| REL-01 | `adaptive_optimizer.cpp` | ~304 | `std::abs(static_cast<int>(left_rows - right_rows))`: unsigned subtraction wraps when `left < right`, then cast to `int` is UB | ✅ fixed — replaced with safe absolute-difference in `size_t` space, compared in `double` |
+| REL-02 | `optimizer_cost_model.cpp` | ~219 | `static_cast<size_t>(leftRows * rightRows * selectivity)` in `estimateHashJoin`: `leftRows * rightRows` is `size_t * size_t`, overflows before widening to `double` | ✅ fixed — widened to `double` first; clamped to `SIZE_MAX` before cast |
+| REL-03 | `optimizer_cost_model.cpp` | ~246 | Same overflow in `estimateSortMergeJoin` | ✅ fixed — same approach |
+| REL-04 | `tensor_contraction_engine.cpp` | ~120 | `merged.data.resize(new_rl * new_n * new_rr)`: triple `size_t` multiply can silently overflow before `resize`, causing undersized allocation | ✅ fixed — overflow guard throws `std::overflow_error` before the resize |
+| REL-05 | `tensor_contraction_engine.cpp` | ~171 | `cr.data.resize(rl * n * rr)`: same issue in Kronecker product path | ✅ fixed — same guard |
+| REL-06 | `cross_cluster_federation.cpp` | ~49 | `size * nmemb` in `curlWriteCallback`: multiplication may overflow `size_t` (adversarial server) | ✅ fixed — pre-multiplication overflow check added; returns 0 to abort libcurl |
+| REL-07 | `aql_translator.cpp` | ~922 | `static_cast<int>(std::get<int64_t>(distLiteral->value))` for `maxDistance`: no range check; values > `INT_MAX` or negative are UB/nonsensical | ✅ fixed — validated `[0, 1000]` before cast; returns parse error on violation |
+| REL-08 | `aql_translator.cpp` | ~939 | `static_cast<size_t>(std::get<int64_t>(limitLiteral->value))` for `limit`: negative `int64_t` wraps to huge `size_t` | ✅ fixed — validated non-negative before cast; returns parse error on negative value |
+| REL-09 | `fulltext_functions.cpp` | ~691 | `int total = static_cast<int>(ngrams1.size() + ngrams2.size())`: `size_t` sum truncated to `int`; used as float divisor | ✅ fixed — changed to `size_t totalSz`; division uses `static_cast<double>(totalSz)` |

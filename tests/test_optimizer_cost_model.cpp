@@ -453,3 +453,30 @@ TEST(OptimizerCostModelTest, UpdateConstantPositiveValueUnchanged) {
     model.updateConstant("gpu_row_threshold_low", 10000.0);
     EXPECT_EQ(model.getConstants().gpu_row_threshold_low, 10000u);
 }
+
+// ====================================================
+// REL-02/REL-03: estimatedRows overflow safety (issue #5177)
+// ====================================================
+
+TEST(OptimizerCostModelTest, HashJoinEstimatedRowsNoOverflowOnHugeInputs) {
+    OptimizerCostModel model;
+    // leftRows * rightRows would wrap around if computed as size_t*size_t.
+    const size_t hugeRows = std::numeric_limits<size_t>::max() / 2 + 1;
+    // With selectivity=1.0 the product exceeds SIZE_MAX — must clamp to SIZE_MAX.
+    auto cost = model.estimateHashJoin(hugeRows, hugeRows, 1.0);
+    EXPECT_EQ(cost.estimatedRows, std::numeric_limits<size_t>::max());
+}
+
+TEST(OptimizerCostModelTest, SortMergeJoinEstimatedRowsNoOverflowOnHugeInputs) {
+    OptimizerCostModel model;
+    const size_t hugeRows = std::numeric_limits<size_t>::max() / 2 + 1;
+    auto cost = model.estimateSortMergeJoin(hugeRows, hugeRows, 1.0);
+    EXPECT_EQ(cost.estimatedRows, std::numeric_limits<size_t>::max());
+}
+
+TEST(OptimizerCostModelTest, HashJoinEstimatedRowsNormalSelectivity) {
+    OptimizerCostModel model;
+    // 1000 * 2000 * 0.01 = 20 — no overflow, result must be accurate.
+    auto cost = model.estimateHashJoin(1000, 2000, 0.01);
+    EXPECT_EQ(cost.estimatedRows, 20u);
+}

@@ -313,3 +313,42 @@ TEST_F(TensorAQLFunctionTest, TCE22_TensorFunctionsRejectUnknownFieldPath) {
         reg.call("TENSOR_NORM", {json("doc.missing_tensor")}, ctx),
         std::invalid_argument);
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REL-04/REL-05: TT-core size overflow guards (issue #5177)
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(TensorContractionEngineOverflow, HadamardProductThrowsOnCoreOverflow) {
+    using namespace themis::storage;
+
+    // Construct two single-mode TTTrains where the resulting Kronecker core
+    // would be of size rl*n*rr that overflows size_t:
+    //   ca.r_left = hugeDim, cb.r_left = 1  → rl = hugeDim (no intermediate overflow)
+    //   ca.r_right = 1,      cb.r_right = 1 → rr = 1
+    //   n = 3
+    //   Guard: hugeDim > SIZE_MAX / 3 / 1 → throws before resize.
+    const std::size_t hugeDim = std::numeric_limits<std::size_t>::max() / 2 + 1;
+
+    TTTrain a, b;
+    a.mode_sizes = {3};
+    a.cores.resize(1);
+    a.cores[0].r_left  = hugeDim;
+    a.cores[0].n       = 3;
+    a.cores[0].r_right = 1;
+    // Metadata-only construction for the overflow test; data size is irrelevant
+    // because the guard throws before any data indexing.
+    a.cores[0].data.assign(3, 1.0f);
+
+    b.mode_sizes = {3};
+    b.cores.resize(1);
+    b.cores[0].r_left  = 1;
+    b.cores[0].n       = 3;
+    b.cores[0].r_right = 1;
+    b.cores[0].data.assign(3, 1.0f);
+
+    // hadamardProduct computes rl = hugeDim * 1 = hugeDim; n = 3; rr = 1.
+    // rl * n * rr = hugeDim * 3 overflows size_t — guard must throw.
+    EXPECT_THROW(
+        TensorContractionEngine::hadamardProduct(a, b),
+        std::overflow_error);
+}

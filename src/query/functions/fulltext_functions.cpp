@@ -688,10 +688,10 @@ public:
             }
         }
         
-        int total = static_cast<int>(ngrams1.size() + ngrams2.size());
-        if (total == 0) return 0.0;
+        const size_t totalSz = ngrams1.size() + ngrams2.size();
+        if (totalSz == 0) return 0.0;
         
-        return 2.0 * intersection / total;
+        return 2.0 * static_cast<double>(intersection) / static_cast<double>(totalSz);
     }
 };
 
