@@ -1,7 +1,7 @@
 /*
  * ThemisDB | File: process_functions.h | Version: 0.0.47
  * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Gap Summary: total=2; TODO=0, Stub=0, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
@@ -11,6 +11,7 @@
 #include "function_registry.h"
 #include <chrono>
 #include <cmath>
+#include <limits>
 
 namespace themis {
 namespace query {
@@ -82,16 +83,50 @@ public:
         const std::vector<nlohmann::json>& args,
         const FunctionContext& ctx
     ) const override {
-        // This is a stub - actual implementation would query _milestone_instances
-        // The full logic is shown in the documentation examples
+        std::string case_id = args[0].get<std::string>();
+        auto docs = ctx.scanCollection("_milestone_instances",
+            [&case_id](const nlohmann::json& doc) {
+                return doc.value("case_id", "") == case_id;
+            });
+
+        auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+
+        int reached = 0, pending = 0, overdue = 0, skipped = 0;
+        nlohmann::json next_milestone = nullptr;
+        int64_t next_due = std::numeric_limits<int64_t>::max();
+
+        for (const auto& doc : docs) {
+            std::string status = doc.value("status", "pending");
+            if (status == "reached")      ++reached;
+            else if (status == "skipped") ++skipped;
+            else if (status == "overdue" ||
+                     (status == "pending" && doc.value("due_date", int64_t{0}) < now_ms &&
+                      doc.value("due_date", int64_t{0}) > 0))
+                ++overdue;
+            else {
+                ++pending;
+                int64_t due = doc.value("due_date", int64_t{0});
+                if (due > 0 && due < next_due) {
+                    next_due = due;
+                    next_milestone = doc;
+                }
+            }
+        }
+
+        int total = reached + pending + overdue + skipped;
+        double progress = total > 0
+            ? 100.0 * reached / total
+            : 0.0;
+
         return nlohmann::json{
-            {"case_id", args[0]},
-            {"reached", 0},
-            {"pending", 0},
-            {"overdue", 0},
-            {"skipped", 0},
-            {"next", nullptr},
-            {"progress_percent", 0}
+            {"case_id",          case_id},
+            {"reached",          reached},
+            {"pending",          pending},
+            {"overdue",          overdue},
+            {"skipped",          skipped},
+            {"next",             next_milestone},
+            {"progress_percent", progress}
         };
     }
 };
@@ -121,11 +156,43 @@ public:
         const std::vector<nlohmann::json>& args,
         const FunctionContext& ctx
     ) const override {
+        std::string case_id = args[0].get<std::string>();
+        auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+
+        auto docs = ctx.scanCollection("_milestone_instances",
+            [&case_id](const nlohmann::json& doc) {
+                std::string st = doc.value("status", "pending");
+                return doc.value("case_id", "") == case_id &&
+                       (st == "pending" || st == "overdue");
+            });
+
+        // Find the pending milestone with the earliest due_date.
+        const nlohmann::json* nearest = nullptr;
+        int64_t nearest_due = std::numeric_limits<int64_t>::max();
+        for (const auto& doc : docs) {
+            int64_t due = doc.value("due_date", int64_t{0});
+            if (due > 0 && due < nearest_due) {
+                nearest_due = due;
+                nearest = &doc;
+            }
+        }
+
+        if (!nearest) {
+            return nlohmann::json{
+                {"milestone_id",    nullptr},
+                {"name",            nullptr},
+                {"due_date",        nullptr},
+                {"remaining_hours", nullptr}
+            };
+        }
+
+        double remaining_hours = (nearest_due - now_ms) / 3600000.0;
         return nlohmann::json{
-            {"milestone_id", nullptr},
-            {"name", nullptr},
-            {"due_date", nullptr},
-            {"remaining_hours", nullptr}
+            {"milestone_id",    nearest->value("milestone_id", "")},
+            {"name",            nearest->value("name", "")},
+            {"due_date",        nearest_due},
+            {"remaining_hours", remaining_hours}
         };
     }
 };
@@ -155,7 +222,31 @@ public:
         const std::vector<nlohmann::json>& args,
         const FunctionContext& ctx
     ) const override {
-        return nlohmann::json::array();
+        std::string filter_case;
+        if (!args.empty() && args[0].is_string()) {
+            filter_case = args[0].get<std::string>();
+        }
+
+        auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+
+        auto docs = ctx.scanCollection("_milestone_instances",
+            [&filter_case, now_ms](const nlohmann::json& doc) {
+                if (!filter_case.empty() && doc.value("case_id", "") != filter_case) {
+                    return false;
+                }
+                std::string st = doc.value("status", "pending");
+                if (st == "overdue") return true;
+                // Also treat pending milestones with a passed due_date as overdue.
+                int64_t due = doc.value("due_date", int64_t{0});
+                return st == "pending" && due > 0 && due < now_ms;
+            });
+
+        nlohmann::json result = nlohmann::json::array();
+        for (const auto& doc : docs) {
+            result.push_back(doc);
+        }
+        return result;
     }
 };
 

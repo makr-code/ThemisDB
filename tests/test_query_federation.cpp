@@ -9,6 +9,7 @@
 #include <gtest/gtest.h>
 
 #include <memory>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -60,6 +61,43 @@ public:
     int scatter_gather_call_count = 0;
 };
 
+class QueryResultShardRouter : public InstrumentedShardRouter {
+public:
+    using InstrumentedShardRouter::InstrumentedShardRouter;
+
+    nlohmann::json executeQuery(const std::string& /*query*/) override {
+        if (next_result_index_ >= queued_results_.size()) {
+            return nlohmann::json::array();
+        }
+        return queued_results_[next_result_index_++];
+    }
+
+    void queueResult(nlohmann::json result) {
+        queued_results_.push_back(std::move(result));
+    }
+
+private:
+    std::vector<nlohmann::json> queued_results_;
+    size_t next_result_index_ = 0;
+};
+
+class FederatedResultShardRouter : public InstrumentedShardRouter {
+public:
+    using InstrumentedShardRouter::InstrumentedShardRouter;
+
+    std::vector<ShardResult> scatterGather(const std::string& /*query*/) override {
+        scatter_gather_call_count++;
+        return queued_results_;
+    }
+
+    void queueShardResult(ShardResult result) {
+        queued_results_.push_back(std::move(result));
+    }
+
+private:
+    std::vector<ShardResult> queued_results_;
+};
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Test fixture: 3-shard cluster
 // ─────────────────────────────────────────────────────────────────────────────
@@ -97,6 +135,222 @@ protected:
     std::shared_ptr<InstrumentedShardRouter>  router;
     std::unique_ptr<QueryFederation>          fed;
 };
+
+TEST(QueryFederationConstructorValidationTest, NullRouter_DefaultConstructorThrows) {
+    std::shared_ptr<ShardRouter> null_router;
+    EXPECT_THROW((void)QueryFederation(null_router), std::invalid_argument);
+}
+
+TEST(QueryFederationConstructorValidationTest, NullRouter_ConfigConstructorThrows) {
+    std::shared_ptr<ShardRouter> null_router;
+    QueryFederation::Config cfg;
+    EXPECT_THROW((void)QueryFederation(null_router, cfg), std::invalid_argument);
+}
+
+TEST(QueryFederationConstructorValidationTest, NullRouter_ShardingManagerConstructorThrows) {
+    std::shared_ptr<ShardRouter> null_router;
+    auto& mgr = ShardingManager::GetInstance();
+    EXPECT_THROW((void)QueryFederation(null_router, mgr), std::invalid_argument);
+}
+
+TEST(QueryFederationConstructorValidationTest, NullRouter_ShardingManagerConfigConstructorThrows) {
+    std::shared_ptr<ShardRouter> null_router;
+    auto& mgr = ShardingManager::GetInstance();
+    QueryFederation::Config cfg;
+    EXPECT_THROW((void)QueryFederation(null_router, mgr, cfg), std::invalid_argument);
+}
+
+TEST(QueryFederationJoinValidationTest, InvalidLeftCollectionNameThrows) {
+    auto topology = std::make_shared<ShardTopology>();
+    auto ring     = std::make_shared<ConsistentHashRing>();
+    auto resolver = std::make_shared<URNResolver>(topology, ring);
+    auto router   = std::make_shared<InstrumentedShardRouter>(resolver);
+    QueryFederation federation(router);
+
+    EXPECT_THROW(
+        federation.executeJoin("users RETURN 1", "orders", "user_id"),
+        std::invalid_argument);
+}
+
+TEST(QueryFederationJoinValidationTest, InvalidRightCollectionNameThrows) {
+    auto topology = std::make_shared<ShardTopology>();
+    auto ring     = std::make_shared<ConsistentHashRing>();
+    auto resolver = std::make_shared<URNResolver>(topology, ring);
+    auto router   = std::make_shared<InstrumentedShardRouter>(resolver);
+    QueryFederation federation(router);
+
+    EXPECT_THROW(
+        federation.executeJoin("users", "orders FILTER 1==1", "user_id"),
+        std::invalid_argument);
+}
+
+TEST(QueryFederationJoinValidationTest, EmptyJoinConditionThrows) {
+    auto topology = std::make_shared<ShardTopology>();
+    auto ring     = std::make_shared<ConsistentHashRing>();
+    auto resolver = std::make_shared<URNResolver>(topology, ring);
+    auto router   = std::make_shared<InstrumentedShardRouter>(resolver);
+    QueryFederation federation(router);
+
+    EXPECT_THROW(
+        federation.executeJoin("users", "orders", "   \t"),
+        std::invalid_argument);
+}
+
+TEST(QueryFederationJoinValidationTest, JoinConditionWithoutEqualityOperatorThrows) {
+    auto topology = std::make_shared<ShardTopology>();
+    auto ring     = std::make_shared<ConsistentHashRing>();
+    auto resolver = std::make_shared<URNResolver>(topology, ring);
+    auto router   = std::make_shared<InstrumentedShardRouter>(resolver);
+    QueryFederation federation(router);
+
+    EXPECT_THROW(
+        federation.executeJoin("users", "orders", "user_id"),
+        std::invalid_argument);
+}
+
+TEST(QueryFederationPlanningTest, JoinWithoutOnFallsBackToScatterGather) {
+    auto topology = std::make_shared<ShardTopology>();
+    auto ring     = std::make_shared<ConsistentHashRing>();
+    auto resolver = std::make_shared<URNResolver>(topology, ring);
+    auto router   = std::make_shared<InstrumentedShardRouter>(resolver);
+    QueryFederation federation(router);
+
+    const auto plan = federation.createExecutionPlan(
+        "SELECT * FROM users JOIN orders");
+
+    EXPECT_EQ(plan.strategy, QueryFederation::ExecutionPlan::Strategy::SCATTER_GATHER);
+}
+
+TEST(QueryFederationExecutionTest, JoinWithoutParseableOnThrows) {
+    auto topology = std::make_shared<ShardTopology>();
+    auto ring     = std::make_shared<ConsistentHashRing>();
+    auto resolver = std::make_shared<URNResolver>(topology, ring);
+    auto router   = std::make_shared<InstrumentedShardRouter>(resolver);
+    QueryFederation federation(router);
+
+    EXPECT_THROW(
+        federation.execute("SELECT * FROM users JOIN orders"),
+        std::invalid_argument);
+}
+
+TEST(QueryFederationExecutionTest, SqlJoinWithOnConditionProducesJoinedRows) {
+    auto topology = std::make_shared<ShardTopology>();
+    auto ring     = std::make_shared<ConsistentHashRing>();
+    auto resolver = std::make_shared<URNResolver>(topology, ring);
+    auto router   = std::make_shared<QueryResultShardRouter>(resolver);
+
+    router->queueResult(nlohmann::json::array({
+        nlohmann::json{{"user_id", "u1"}, {"name", "alice"}}
+    }));
+    router->queueResult(nlohmann::json::array({
+        nlohmann::json{{"user_id", "u1"}, {"order_id", "o1"}}
+    }));
+
+    QueryFederation federation(router);
+    const auto result = federation.execute(
+        "SELECT * FROM users JOIN orders ON users.user_id = orders.user_id");
+
+    ASSERT_TRUE(result.is_array());
+    ASSERT_EQ(result.size(), 1u);
+    EXPECT_EQ(result[0]["users_user_id"], "u1");
+    EXPECT_EQ(result[0]["orders_order_id"], "o1");
+}
+
+TEST(QueryFederationJoinValidationTest, OversizedShuffleJoinInputThrows) {
+    auto topology = std::make_shared<ShardTopology>();
+    auto ring     = std::make_shared<ConsistentHashRing>();
+    auto resolver = std::make_shared<URNResolver>(topology, ring);
+    auto router   = std::make_shared<QueryResultShardRouter>(resolver);
+
+    QueryFederation::Config cfg;
+    cfg.max_result_size_bytes = 64;
+    cfg.broadcast_threshold_bytes = 1;
+
+    const std::string oversized_payload(128, 'x');
+    router->queueResult(nlohmann::json::array(
+        {nlohmann::json{{"user_id", "1"}, {"payload", oversized_payload}}}));
+
+    QueryFederation federation(router, cfg);
+
+    EXPECT_THROW(
+        federation.executeJoin("users", "orders", "users.user_id = orders.user_id"),
+        std::runtime_error);
+}
+
+TEST(QueryFederationExecutionLimitTest, OversizedMergedScatterGatherResultThrows) {
+    auto topology = std::make_shared<ShardTopology>();
+    auto ring     = std::make_shared<ConsistentHashRing>();
+    auto resolver = std::make_shared<URNResolver>(topology, ring);
+    auto router   = std::make_shared<FederatedResultShardRouter>(resolver);
+
+    QueryFederation::Config cfg;
+    cfg.max_result_size_bytes = 64;
+
+    const std::string oversized_payload(128, 'x');
+    ShardResult shard_result;
+    shard_result.shard_id = "shard-001";
+    shard_result.success = true;
+    shard_result.data = nlohmann::json::array(
+        {nlohmann::json{{"_key", "user-1"}, {"payload", oversized_payload}}});
+    router->queueShardResult(std::move(shard_result));
+
+    QueryFederation federation(router, cfg);
+
+    EXPECT_THROW(
+        federation.execute("FOR doc IN users RETURN doc"),
+        std::runtime_error);
+}
+
+TEST(QueryFederationExecutionLimitTest, OversizedAggregationShardResultThrows) {
+    auto topology = std::make_shared<ShardTopology>();
+    auto ring     = std::make_shared<ConsistentHashRing>();
+    auto resolver = std::make_shared<URNResolver>(topology, ring);
+    auto router   = std::make_shared<FederatedResultShardRouter>(resolver);
+
+    QueryFederation::Config cfg;
+    cfg.max_result_size_bytes = 64;
+
+    const std::string oversized_payload(128, 'x');
+    ShardResult shard_result;
+    shard_result.shard_id = "shard-001";
+    shard_result.success = true;
+    shard_result.data = nlohmann::json{
+        {"sum", 1},
+        {"payload", oversized_payload}
+    };
+    router->queueShardResult(std::move(shard_result));
+
+    QueryFederation federation(router, cfg);
+
+    EXPECT_THROW(
+        federation.executeAggregation("FOR doc IN users COLLECT WITH COUNT INTO length RETURN { length }"),
+        std::runtime_error);
+}
+
+TEST(QueryFederationExecutionLimitTest, SmallAggregationShardResultSucceeds) {
+    auto topology = std::make_shared<ShardTopology>();
+    auto ring     = std::make_shared<ConsistentHashRing>();
+    auto resolver = std::make_shared<URNResolver>(topology, ring);
+    auto router   = std::make_shared<FederatedResultShardRouter>(resolver);
+
+    QueryFederation::Config cfg;
+    cfg.max_result_size_bytes = 256;
+
+    ShardResult shard_result;
+    shard_result.shard_id = "shard-001";
+    shard_result.success = true;
+    shard_result.data = nlohmann::json{
+        {"sum", 3},
+        {"count", 1}
+    };
+    router->queueShardResult(std::move(shard_result));
+
+    QueryFederation federation(router, cfg);
+
+    EXPECT_EQ(
+        federation.executeAggregation("FOR doc IN users COLLECT AGGREGATE sum = SUM(doc.value) RETURN { sum }"),
+        (nlohmann::json{{"sum", 3}, {"count", 1}}));
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Point-lookup routes to exactly 1 shard
@@ -350,3 +604,31 @@ TEST(QueryFederationRAGTest, QF_RAG_05_BuildPromptContextContainsShardPrefixes) 
         << "Prompt context must include [Shard: shard-beta] prefix";
 }
 
+TEST(QueryFederationRAGTest, QF_RAG_06_OversizedShardInputThrows) {
+    auto topology = std::make_shared<sharding::ShardTopology>();
+    auto ring     = std::make_shared<sharding::ConsistentHashRing>();
+    auto resolver = std::make_shared<sharding::URNResolver>(topology, ring);
+    auto router   = std::make_shared<FederatedResultShardRouter>(resolver);
+
+    ShardResult shard_result;
+    shard_result.shard_id = "shard-001";
+    shard_result.success = true;
+    shard_result.data = nlohmann::json::object();
+    shard_result.data["docs"] = nlohmann::json::array({
+        nlohmann::json{
+            {"doc_id", "doc-1"},
+            {"content", std::string(128, 'x')},
+            {"score", 1.0}
+        }
+    });
+    router->queueShardResult(std::move(shard_result));
+
+    QueryFederation::Config cfg;
+    cfg.max_result_size_bytes = 64;
+    QueryFederation qf(router, cfg);
+    qf.setRAGMerger(std::make_shared<FederatedRAGMerger>());
+
+    EXPECT_THROW(
+        qf.executeFederatedRAGQuery("query"),
+        std::runtime_error);
+}

@@ -9,9 +9,11 @@
 #pragma once
 
 #include "query/functions/function_registry.h"
+#include <cstdint>
 #include <cmath>
 #include <random>
 #include <numeric>
+#include <limits>
 
 // Define M_PI if not available
 #ifndef M_PI
@@ -21,6 +23,14 @@
 namespace themis {
 namespace query {
 namespace functions {
+
+namespace {
+inline int clampRoundPrecision(int64_t rawPrecision) {
+    constexpr int64_t kMinPrecision = -308;
+    constexpr int64_t kMaxPrecision = 308;
+    return static_cast<int>(std::clamp(rawPrecision, kMinPrecision, kMaxPrecision));
+}
+} // namespace
 
 // ============================================================================
 // Math Functions
@@ -125,7 +135,7 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
         double num = toNumber(args[0]);
-        int precision = args.size() > 1 ? static_cast<int>(args[1].get<int64_t>()) : 0;
+        int precision = args.size() > 1 ? clampRoundPrecision(args[1].get<int64_t>()) : 0;
         
         if (precision == 0) {
             return std::round(num);
@@ -749,4 +759,3 @@ inline void registerMathFunctions(FunctionRegistry& reg) {
 } // namespace functions
 } // namespace query
 } // namespace themis
-

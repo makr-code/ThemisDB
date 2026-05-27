@@ -553,3 +553,35 @@ TEST_F(PmFunctionEngineTest, VariantsWithoutEngineReturnsEmptyArray) {
 }
 
 #endif // !_WIN32
+
+// ====================================================
+// REL-09: NGRAM_MATCH totalSz size-safety (issue #5177)
+// ====================================================
+
+TEST(NewAQLFunctionsTest, NgramMatchIdenticalStringsReturnOne) {
+    auto& reg = FunctionRegistry::instance();
+    FunctionContext ctx;
+    // Identical strings: all ngrams match → similarity must be exactly 1.0.
+    auto result = reg.call("NGRAM_MATCH", {json("hello"), json("hello")}, ctx);
+    ASSERT_TRUE(result.is_number());
+    EXPECT_DOUBLE_EQ(result.get<double>(), 1.0);
+}
+
+TEST(NewAQLFunctionsTest, NgramMatchCompletelyDifferentStringsReturnZero) {
+    auto& reg = FunctionRegistry::instance();
+    FunctionContext ctx;
+    // No common bigrams between "aaa" and "zzz".
+    auto result = reg.call("NGRAM_MATCH", {json("aaa"), json("zzz")}, ctx);
+    ASSERT_TRUE(result.is_number());
+    EXPECT_DOUBLE_EQ(result.get<double>(), 0.0);
+}
+
+TEST(NewAQLFunctionsTest, NgramMatchReturnValueInUnitRange) {
+    auto& reg = FunctionRegistry::instance();
+    FunctionContext ctx;
+    auto result = reg.call("NGRAM_MATCH", {json("machine"), json("matching")}, ctx);
+    ASSERT_TRUE(result.is_number());
+    double v = result.get<double>();
+    EXPECT_GE(v, 0.0);
+    EXPECT_LE(v, 1.0);
+}

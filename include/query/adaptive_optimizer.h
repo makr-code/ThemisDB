@@ -117,7 +117,7 @@ public:
         };
         
         Strategy strategy;
-        double estimated_cost;
+        double estimated_cost = 0.0;
         std::string description;
     };
     
@@ -261,16 +261,16 @@ public:
 class NumaAwareOptimizer {
 public:
     struct NumaNode {
-        int node_id;
-        size_t available_cores;
-        size_t memory_gb;
+        int node_id = 0;
+        size_t available_cores = 0;
+        size_t memory_gb = 0;
         std::vector<int> cpu_ids;
     };
     
     struct NumaPlacement {
-        int preferred_numa_node;
+        int preferred_numa_node = 0;
         std::vector<int> cpu_affinity;
-        bool use_local_memory;
+        bool use_local_memory = false;
     };
     
     /**

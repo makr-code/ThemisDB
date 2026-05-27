@@ -423,7 +423,7 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateLead(
     for (size_t i = 0; i < sortedIndices.size(); ++i) {
         int64_t leadIdx = static_cast<int64_t>(i) + offset;
         
-        if (leadIdx >= static_cast<int64_t>(sortedIndices.size())) {
+        if (leadIdx < 0 || leadIdx >= static_cast<int64_t>(sortedIndices.size())) {
             // Out of bounds → default
             results.push_back(defaultVal);
         } else {
@@ -500,7 +500,9 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateLastValue(
         } else if (frame.end.type == WindowFrameBound::BoundType::FOLLOWING) {
             // N FOLLOWING
             int64_t followIdx = static_cast<int64_t>(i) + frame.end.offset;
-            if (followIdx >= static_cast<int64_t>(sortedIndices.size())) {
+            if (followIdx < 0) {
+                followIdx = 0;
+            } else if (followIdx >= static_cast<int64_t>(sortedIndices.size())) {
                 followIdx = static_cast<int64_t>(sortedIndices.size()) - 1;
             }
             lastRowIdx = sortedIndices[static_cast<size_t>(followIdx)];

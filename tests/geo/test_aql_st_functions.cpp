@@ -793,6 +793,44 @@ TEST_F(STFunctionsTest, ST_Buffer_PolygonExpandMBR)
     EXPECT_DOUBLE_EQ(ring[4][0], -1.0); EXPECT_DOUBLE_EQ(ring[4][1], -1.0);
 }
 
+// Regression: out-of-range arc_points must be clamped before int cast (UB guard).
+// Passing 1e300 must not crash / exhibit UB; result must be a valid Polygon (clamped to 360).
+TEST_F(STFunctionsTest, ST_Buffer_ArcPoints_HugeValueClampsTo360)
+{
+    json point = callFunction("ST_Point", {0.0, 0.0});
+    // 1e300 is far outside int range — without the clamp this would be UB.
+    json buffered = callFunction("ST_Buffer", {point, 1.0, 1e300});
+    ASSERT_TRUE(buffered.is_object());
+    EXPECT_EQ(buffered["type"], "Polygon");
+}
+
+// Regression: negative arc_points must be clamped to 3 (lower bound).
+TEST_F(STFunctionsTest, ST_Buffer_ArcPoints_NegativeValueClampsTo3)
+{
+    json point = callFunction("ST_Point", {0.0, 0.0});
+    json buffered = callFunction("ST_Buffer", {point, 1.0, -1e300});
+    ASSERT_TRUE(buffered.is_object());
+    EXPECT_EQ(buffered["type"], "Polygon");
+}
+
+// Exact boundary: arc_points = 360 is the maximum allowed value.
+TEST_F(STFunctionsTest, ST_Buffer_ArcPoints_Boundary360)
+{
+    json point = callFunction("ST_Point", {0.0, 0.0});
+    json buffered = callFunction("ST_Buffer", {point, 1.0, 360.0});
+    ASSERT_TRUE(buffered.is_object());
+    EXPECT_EQ(buffered["type"], "Polygon");
+}
+
+// Exact boundary: arc_points = 3 is the minimum allowed value.
+TEST_F(STFunctionsTest, ST_Buffer_ArcPoints_Boundary3)
+{
+    json point = callFunction("ST_Point", {0.0, 0.0});
+    json buffered = callFunction("ST_Buffer", {point, 1.0, 3.0});
+    ASSERT_TRUE(buffered.is_object());
+    EXPECT_EQ(buffered["type"], "Polygon");
+}
+
 TEST_F(STFunctionsTest, ST_Union_PointPolygonMBR)
 {
     json p = callFunction("ST_Point", {0.0, 0.0});

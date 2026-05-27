@@ -524,7 +524,10 @@ private:
             if (!check(SPARQLTokenType::INT_LIT)) {
                 return parseError<SPARQLSelectStatement>("Expected integer after LIMIT");
             }
-            stmt.limit = std::stoll(current().value);
+            try { stmt.limit = std::stoll(current().value); }
+            catch (const std::exception&) {
+                throw std::runtime_error("SPARQL LIMIT value '" + current().value + "' is out of integer range");
+            }
             advance();
         }
 
@@ -534,7 +537,10 @@ private:
             if (!check(SPARQLTokenType::INT_LIT)) {
                 return parseError<SPARQLSelectStatement>("Expected integer after OFFSET");
             }
-            stmt.offset = std::stoll(current().value);
+            try { stmt.offset = std::stoll(current().value); }
+            catch (const std::exception&) {
+                throw std::runtime_error("SPARQL OFFSET value '" + current().value + "' is out of integer range");
+            }
             advance();
         }
 
@@ -581,13 +587,19 @@ private:
         } else if (check(SPARQLTokenType::INT_LIT)) {
             term.type           = SPARQLTermType::Literal;
             term.value          = current().value;
-            term.literal_value  = std::stoll(current().value);
+            try { term.literal_value  = std::stoll(current().value); }
+            catch (const std::exception&) {
+                throw std::runtime_error("Integer literal '" + current().value + "' is out of range");
+            }
             term.is_literal_value = true;
             advance();
         } else if (check(SPARQLTokenType::FLOAT_LIT)) {
             term.type           = SPARQLTermType::Literal;
             term.value          = current().value;
-            term.literal_value  = std::stod(current().value);
+            try { term.literal_value  = std::stod(current().value); }
+            catch (const std::exception&) {
+                throw std::runtime_error("Float literal '" + current().value + "' is out of range");
+            }
             term.is_literal_value = true;
             advance();
         } else if (check(SPARQLTokenType::TRUE_KW)) {
@@ -721,13 +733,19 @@ private:
         }
         if (check(SPARQLTokenType::INT_LIT)) {
             auto node  = std::make_shared<SPARQLLiteralExpr>();
-            node->value = std::stoll(current().value);
+            try { node->value = std::stoll(current().value); }
+            catch (const std::exception&) {
+                throw std::runtime_error("Integer literal '" + current().value + "' is out of range");
+            }
             advance();
             return Ok<std::shared_ptr<SPARQLExpr>>(std::move(node));
         }
         if (check(SPARQLTokenType::FLOAT_LIT)) {
             auto node  = std::make_shared<SPARQLLiteralExpr>();
-            node->value = std::stod(current().value);
+            try { node->value = std::stod(current().value); }
+            catch (const std::exception&) {
+                throw std::runtime_error("Float literal '" + current().value + "' is out of range");
+            }
             advance();
             return Ok<std::shared_ptr<SPARQLExpr>>(std::move(node));
         }
@@ -818,10 +836,15 @@ static std::string filterExprToAQL(const SPARQLExpr& expr,
 // ============================================================================
 
 Result<SPARQLASTNode> SPARQLParser::parse(const std::string& sparql_query) {
-    SPARQLLexer lexer(sparql_query);
-    auto tokens = lexer.tokenize();
-    SPARQLParserImpl impl(std::move(tokens));
-    return impl.parse();
+    try {
+        SPARQLLexer lexer(sparql_query);
+        auto tokens = lexer.tokenize();
+        SPARQLParserImpl impl(std::move(tokens));
+        return impl.parse();
+    } catch (const std::exception& e) {
+        return Err<SPARQLASTNode>(errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
+                                  std::string(e.what()));
+    }
 }
 
 // ============================================================================

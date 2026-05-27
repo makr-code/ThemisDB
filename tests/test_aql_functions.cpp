@@ -25,6 +25,7 @@
 #include "query/functions/relational_functions.h"
 #include "query/functions/file_functions.h"
 #include "query/functions/security_functions.h"
+#include <limits>
 
 using namespace themis::query::functions;
 
@@ -65,6 +66,11 @@ TEST_F(AQLFunctionsTest, SubstringFunction) {
     
     EXPECT_EQ(reg.call("SUBSTRING", {"Hello World", 0, 5}, ctx), "Hello");
     EXPECT_EQ(reg.call("SUBSTRING", {"Hello World", 6}, ctx), "World");
+    // Negative start must clamp to 0 (issue #5177 — negative int64_t→size_t UB)
+    EXPECT_EQ(reg.call("SUBSTRING", {"Hello", -1}, ctx), "Hello");
+    EXPECT_EQ(reg.call("SUBSTRING", {"Hello", -3, 3}, ctx), "Hel");
+    // Negative length must return empty string
+    EXPECT_EQ(reg.call("SUBSTRING", {"Hello", 0, -1}, ctx), "");
 }
 
 TEST_F(AQLFunctionsTest, UpperLowerFunction) {
@@ -146,6 +152,8 @@ TEST_F(AQLFunctionsTest, CeilFloorRoundFunction) {
     EXPECT_EQ(reg.call("FLOOR", {4.7}, ctx), 4);
     EXPECT_EQ(reg.call("ROUND", {4.5}, ctx), 5.0);
     EXPECT_EQ(reg.call("ROUND", {4.567, 2}, ctx), 4.57);
+    EXPECT_EQ(reg.call("ROUND", {1234.56, std::numeric_limits<int64_t>::lowest()}, ctx), 0.0);
+    EXPECT_DOUBLE_EQ(reg.call("ROUND", {1.5, std::numeric_limits<int64_t>::max()}, ctx).get<double>(), 1.5);
 }
 
 TEST_F(AQLFunctionsTest, SqrtPowFunction) {
@@ -676,6 +684,18 @@ TEST_F(AQLFunctionsTest, VectorUtilityFunctions) {
         1, 4
     }, ctx);
     EXPECT_EQ(slice, nlohmann::json::array({2.0, 3.0, 4.0}));
+
+    auto clampedSlice = reg.call("VECTOR_SLICE", {
+        nlohmann::json::array({1.0, 2.0, 3.0}),
+        -42, std::numeric_limits<int64_t>::max()
+    }, ctx);
+    EXPECT_EQ(clampedSlice, nlohmann::json::array({1.0, 2.0, 3.0}));
+
+    auto emptySlice = reg.call("VECTOR_SLICE", {
+        nlohmann::json::array({1.0, 2.0, 3.0}),
+        std::numeric_limits<int64_t>::max(), std::numeric_limits<int64_t>::max()
+    }, ctx);
+    EXPECT_TRUE(emptySlice.empty());
     
     auto concat = reg.call("VECTOR_CONCAT", {
         nlohmann::json::array({1.0, 2.0}),

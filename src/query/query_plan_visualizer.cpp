@@ -180,7 +180,7 @@ void QueryPlanVisualizer::toTextImpl(const QueryPlanNode& node, bool analyze,
 
     // Additional attributes
     for (const auto& attr : node.attributes) {
-        for (int i = 0; i <= depth; ++i) out += "    ";
+        out += std::string(static_cast<std::size_t>(depth + 1) * 4, ' ');
         out += attr + "\n";
     }
 

@@ -7,7 +7,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+<<<<<<< HEAD
+### Security / Reliability — Query module hardening (issue #5177)
+
+- **`src/query/cypher_parser.cpp`** — `stoll`/`stod` calls in `parseWith()` SKIP/LIMIT, `parseLiteralValue()`, and `parsePrimary()` wrapped in try-catch; malformed or out-of-range numeric literals rethrow as `CypherParseError` instead of propagating unhandled `std::out_of_range` / `std::invalid_argument` (REL-10..12).
+- **`src/query/sparql_parser.cpp`** — `stoll`/`stod` calls in `parseLimitOffset()` LIMIT/OFFSET, `parseTerm()`, and `parseExpr()` wrapped in try-catch; `SPARQLParser::parse()` gains outer try-catch converting all exceptions to `Err<>` (REL-13..15).
+- **`src/query/sql_parser.cpp`** — `stoll`/`stod` calls in `parseLimitOffset()` LIMIT/OFFSET and `parseExpr()`/`parseValue()` wrapped in try-catch; `SQLParser::parse()` gains outer try-catch (REL-16..17).
+- **`src/query/aql_parser.cpp`** — LIMIT and `parsePrimary()` INT_LIT/FLOAT_LIT `stoll`/`stod` calls (4 sites) wrapped in try-catch (REL-18).
+- **`src/query/gremlin_parser.cpp`** — `parseLiteralValue()` and `parseStep()` Limit/Range/`V()` (6 sites) wrapped in try-catch (REL-19).
+- **`src/query/window_evaluator.cpp`** — `leadIdx < 0` check added before `static_cast<size_t>` in LEAD evaluation to prevent negative-int wrapping; `followIdx < 0` clamped to 0 in LAST_VALUE FOLLOWING frame path (TC-14/15).
+- **`src/query/workload_cache_strategy.cpp`** — `classifyWorkload()` now early-returns `UNKNOWN` when `query_patterns_` is empty, eliminating division by zero on `total_patterns` (IV-01).
+- **Private member initialization** — 7 `int64_t`/`size_t` private members across `cq_watermark.h`, `continuous_query_engine_impl.h`, `synopsis_store.h`, `query_rewrite_rule.h`, `query_resource_limits.h` given NSDMI defaults (UNINIT-14..20).
+- **`tests/test_cypher_parser.cpp`** — 6 regression tests added: SKIP/LIMIT/integer/float literal overflow, hop-count overflow, valid-SKIP/LIMIT still accepted (REL-10..12 coverage).
+- **`tests/test_sparql_parser.cpp`** — 5 regression tests added: LIMIT/OFFSET/integer/float literal overflow, valid LIMIT/OFFSET still accepted (REL-13..15 coverage).
+- **`tests/test_sql_parser.cpp`** — 5 regression tests added: LIMIT/OFFSET/integer/float literal overflow, valid LIMIT/OFFSET still accepted (REL-16..17 coverage).
+- **`tests/test_gremlin_parser.cpp`** — 6 regression tests added: `limit()`/`range()` start/end/`V()` id/`has()` predicate overflow, valid limit/range still accepted (REL-19 coverage).
+- **`tests/test_workload_cache_strategy.cpp`** — 1 regression test added: `classifyWorkload()` with empty pattern map returns `UNKNOWN` (IV-01 coverage).
+- **`tests/test_window_functions.cpp`** — 3 regression tests added: LEAD with large negative offset (all null), LEAD with offset −1 (first row null, rest valid), LAST_VALUE with negative FOLLOWING frame offset (no crash, all results non-null) (TC-14/15 coverage).
+
+### Security — NL→AQL translation hardening
+
+- **`src/aql/llm_aql_handler.cpp`** — prompt-boundary guardrails tightened by rejecting schema delimiter escape markers (e.g. `### SCHEMA_END ###` variants) during prompt sanitization.
+- **`src/aql/llm_aql_handler.cpp`** — generated-query access checks are now enforced consistently across all NL→AQL flows (`translateNLToAQL`, `translateNLToAQLStreaming`, `translateNLToAQLWithExamples`) using `setCollectionAccessChecker(...)`.
+- **`tests/test_llm_aql_handler.cpp`** — regression coverage extended for delimiter-escape rejection, access-denied behavior (`LLMErrorCode::ACCESS_DENIED`) across all translation paths, and with-examples schema-scope parity checks.
+
+### Reliability — Exception hardening (catch-all removal, batch 4)
+=======
 ### Added
+>>>>>>> origin/develop
 
 - **Cluster-wide deadlock detection via distributed Wait-For Graph (issue #5396)**
 

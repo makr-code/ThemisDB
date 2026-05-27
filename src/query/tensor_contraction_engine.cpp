@@ -74,6 +74,8 @@ TTTrain TensorContractionEngine::slice(const TTTrain& train,
     TTTrain result;
     result.original_norm = train.original_norm;
     result.achieved_eps  = train.achieved_eps;
+    result.mode_sizes.reserve(train.order());
+    result.cores.reserve(train.order());
 
     for (std::size_t k = 0; k < train.order(); ++k) {
         if (k == dim) {
@@ -115,6 +117,9 @@ TTTrain TensorContractionEngine::slice(const TTTrain& train,
                 merged.r_left  = new_rl;
                 merged.n       = new_n;
                 merged.r_right = new_rr;
+                if (new_n != 0 && new_rr != 0 && new_rl > std::numeric_limits<std::size_t>::max() / new_n / new_rr) {
+                    throw std::overflow_error("TT-core merge: core dimension product overflows size_t");
+                }
                 merged.data.resize(new_rl * new_n * new_rr, 0.0f);
                 // merged[l, i, r] = sum_{m} ck[l, 0, m] * ck1[m, i, r]
                 for (std::size_t l = 0; l < new_rl; ++l)
@@ -152,6 +157,7 @@ TTTrain TensorContractionEngine::hadamardProduct(
     result.mode_sizes    = a.mode_sizes;
     result.original_norm = 0.0;  // not tracked for products
     result.achieved_eps  = std::max(a.achieved_eps, b.achieved_eps);
+    result.cores.reserve(a.order());
 
     for (std::size_t k = 0; k < a.order(); ++k) {
         const auto& ca = a.cores[k];
@@ -166,6 +172,9 @@ TTTrain TensorContractionEngine::hadamardProduct(
         cr.r_left  = rl;
         cr.n       = n;
         cr.r_right = rr;
+        if (n != 0 && rr != 0 && rl > std::numeric_limits<std::size_t>::max() / n / rr) {
+            throw std::overflow_error("TT-core kron: core dimension product overflows size_t");
+        }
         cr.data.resize(rl * n * rr, 0.0f);
 
         // Kronecker product of core matrices for each physical index i
@@ -231,6 +240,8 @@ TTTrain TensorContractionEngine::project(const TTTrain& train,
     result.achieved_eps  = train.achieved_eps;
 
     const std::size_t d = train.order();
+    result.cores.reserve(d - 1);
+    result.mode_sizes.reserve(d - 1);
 
     if (mode == 0) {
         // Absorb M (shape 1 × rr_k) into G_{1} from the left.
@@ -328,6 +339,8 @@ TTTrain TensorContractionEngine::contractModes(
     }
 
     std::vector<std::size_t> free_a, free_b;
+    free_a.reserve(sha.size());
+    free_b.reserve(shb.size());
     for (std::size_t k = 0; k < sha.size(); ++k)
         if (!contracted_a[k]) free_a.push_back(k);
     for (std::size_t k = 0; k < shb.size(); ++k)
