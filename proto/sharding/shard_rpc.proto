@@ -42,6 +42,11 @@ service ShardService {
     // Gossip Protocol
     rpc GossipExchange(GossipMessage) returns (GossipMessage);
 
+    // Distributed Deadlock Detection (v1.6)
+    // Pull all active local wait-for edges from a shard so the coordinator can
+    // build a cluster-wide wait-for graph and detect cross-shard cycles.
+    rpc CollectWaitForEdges(CollectWaitForEdgesRequest) returns (CollectWaitForEdgesResponse);
+
     // Shard Repair / Anti-Entropy (v1.5)
     // Trigger an asynchronous repair job for one shard (or all shards when
     // shard_id is empty). Returns immediately with a job_id for polling.
@@ -486,4 +491,26 @@ message RepairStatusResponse {
     string error                   = 7;   // Set when state == FAILED
     // Filled for scan jobs only
     repeated RepairShardEntry shard_reports = 8;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Distributed Deadlock Detection Messages  (v1.6)
+// ─────────────────────────────────────────────────────────────────────────────
+
+// A single directed wait-for edge: waiting_transaction_id waits for
+// blocking_transaction_id to release its lock(s) on this shard.
+message WaitForEdgeProto {
+    string waiting_transaction_id  = 1;
+    string blocking_transaction_id = 2;
+}
+
+// Request for the full set of active local wait-for edges on a shard.
+// No parameters are required — the shard returns all edges it is currently
+// tracking (ACTIVE and PREPARING transactions only).
+message CollectWaitForEdgesRequest {}
+
+// Response containing all active wait-for edges on the queried shard.
+message CollectWaitForEdgesResponse {
+    repeated WaitForEdgeProto edges = 1;
+    string shard_id                 = 2;  // ID of the responding shard
 }

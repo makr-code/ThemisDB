@@ -11,6 +11,8 @@
 #include <string>
 #include <memory>
 #include <cstdint>
+#include <vector>
+#include "sharding/shard_rpc_client.h"
 
 namespace themis::sharding {
 
@@ -89,6 +91,21 @@ public:
          * @return Health information
          */
         virtual HealthInfo onHealthCheck() = 0;
+
+        /**
+         * @brief Collect all active local wait-for edges for distributed deadlock detection.
+         *
+         * The coordinator calls this on every shard during each deadlock-detection
+         * cycle to build a cluster-wide wait-for graph.  Each entry in the returned
+         * vector represents a directed edge: @p waiting_transaction_id is blocked by
+         * @p blocking_transaction_id on this shard.
+         *
+         * Default implementation returns an empty list (no local lock waits known).
+         * Override in shards that maintain a local lock-wait state.
+         */
+        virtual std::vector<ShardRPCClient::WaitForEdge> onCollectWaitForEdges() {
+            return {};
+        }
     };
     
     /**

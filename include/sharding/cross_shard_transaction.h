@@ -81,6 +81,12 @@ enum class TransactionState {
     UNKNOWN                // State unknown (coordinator failure)
 };
 
+enum class DeadlockVictimPolicy {
+    YOUNGEST,              // Abort most recently started txn in cycle
+    OLDEST,                // Abort longest-running txn in cycle
+    RANDOM                 // Abort random txn in cycle
+};
+
 /**
  * @brief Shard participant in a transaction
  */
@@ -149,6 +155,11 @@ struct CrossShardTransaction {
  * @brief Configuration for cross-shard transactions
  */
 struct CrossShardTransactionConfig {
+    struct PolledWaitForEdge {
+        std::string waiting_transaction_id;
+        std::string blocking_transaction_id;
+    };
+
     TransactionProtocol default_protocol = TransactionProtocol::TWO_PHASE_COMMIT;
     IsolationLevel default_isolation = IsolationLevel::SNAPSHOT_ISOLATION;
     
@@ -172,6 +183,7 @@ struct CrossShardTransactionConfig {
     // Deadlock detection
     bool enable_deadlock_detection = true;
     std::chrono::milliseconds deadlock_detection_interval{1000};
+    DeadlockVictimPolicy deadlock_victim_policy = DeadlockVictimPolicy::YOUNGEST;
     
     // Transaction timeout
     std::chrono::milliseconds transaction_timeout{30000};
@@ -189,6 +201,22 @@ struct CrossShardTransactionConfig {
     // before constructing CrossShardTransactionCoordinator so that audit records
     // and snapshots carry the real node ID instead of a placeholder.
     std::string coordinator_id;                     // Actual coordinator node identifier
+
+    // Cluster-wide deadlock detection — shard endpoints to poll.
+    // Map of shard_id -> gRPC endpoint (e.g. "shard1" -> "shard1:50051").
+    // When non-empty, deadlockDetectionThread polls every endpoint once per
+    // deadlock_detection_interval to collect their local wait-for edges and
+    // merge them into the cluster-wide graph alongside any edges explicitly
+    // reported via reportDistributedWait().
+    std::map<std::string, std::string> shard_endpoints;
+
+    // Optional override used to collect per-shard wait-for edges during
+    // deadlock detection. Primarily intended for deterministic tests and
+    // custom deployments that do not use ShardRPCClient polling.
+    std::function<std::vector<PolledWaitForEdge>(
+        const std::string& shard_id,
+        const std::string& endpoint
+    )> polled_wait_for_edge_collector;
 };
 
 struct BackendRecoveryStats {
@@ -335,6 +363,24 @@ public:
      * @return true if deadlocked
      */
     bool isDeadlocked(const std::string& transaction_id) const;
+
+    /**
+     * @brief Report a distributed wait edge observed on a shard.
+     *
+     * Records that @p waiting_transaction_id is waiting for
+     * @p blocking_transaction_id on @p shard_id so the coordinator can build
+     * a cross-shard wait-for graph for deadlock detection.
+     */
+    void reportDistributedWait(
+        const std::string& waiting_transaction_id,
+        const std::string& blocking_transaction_id,
+        const std::string& shard_id
+    );
+
+    /**
+     * @brief Clear all distributed wait edges for a transaction.
+     */
+    void clearDistributedWaits(const std::string& transaction_id);
     
     /**
      * @brief Get active transactions
@@ -445,6 +491,14 @@ private:
         std::set<std::string>& visited,
         std::set<std::string>& rec_stack
     ) const;
+
+    /**
+     * @brief Remove all outgoing and incoming distributed wait edges
+     * for a finished transaction.
+     *
+     * Caller must hold transactions_mutex_.
+     */
+    void clearDistributedWaitEdgesLocked(const std::string& transaction_id);
     
     /**
      * @brief Execute compensations for SAGA transaction
@@ -511,6 +565,7 @@ private:
     // State
     mutable std::mutex transactions_mutex_;
     std::map<std::string, CrossShardTransaction> transactions_;
+    std::map<std::string, std::set<std::string>> distributed_wait_for_edges_;
     
     // Callbacks
     mutable std::mutex callbacks_mutex_;
@@ -672,4 +727,3 @@ private:
 
 } // namespace sharding
 } // namespace themisdb
-

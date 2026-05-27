@@ -2137,6 +2137,14 @@ void HttpServer::stop() {
         THEMIS_INFO("RocksDB closed cleanly");
     }
 
+    // Shut down the SSE manager before the io_context so that its internal
+    // poll_timer_ is cancelled and reset while the executor is still alive.
+    // (sse_manager_ is declared before ioc_ and would otherwise be destroyed
+    // after ioc_, accessing a dead executor in its destructor.)
+    if (sse_manager_) {
+        sse_manager_->shutdown();
+    }
+
     // Stop io_context
     ioc_.stop();
 
@@ -4806,6 +4814,12 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
         case Route::AdminStorageStatsGet: {
             // GET /v1/admin/storage/stats
+            // HS-1 fix: require admin privilege before exposing internal storage metrics.
+            if (auto auth_err = requireAccess(req, "admin", "admin.storage.stats",
+                                              "/v1/admin/storage/stats")) {
+                response = *auth_err;
+                break;
+            }
             // Returns RocksDB on-disk SST size and OS-level disk space metrics
             // for the storage path so admin tooling and quota logic can act on
             // real numbers instead of the previous hard-coded 0.

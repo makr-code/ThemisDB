@@ -7,8 +7,77 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Cluster-wide deadlock detection via distributed Wait-For Graph (issue #5396)**
+
+  `CrossShardTransactionCoordinator` now detects circular lock-wait dependencies that
+  span multiple shards — a class of deadlock previously undetectable within a single shard.
+
+  - **Pull-based edge collection**: `deadlockDetectionThread` polls every shard listed in
+    `CrossShardTransactionConfig::shard_endpoints` once per `deadlock_detection_interval`
+    via `ShardRPCClient::collectWaitForEdges()`.  The RPC counterpart
+    (`CollectWaitForEdges` / `WaitForEdgeProto`) is defined in
+    `proto/sharding/shard_rpc.proto` and served by `ShardRPCServer`.
+  - **Push-based edges** already reported via `reportDistributedWait()` are merged
+    into the same graph before cycle detection runs.
+  - **Cycle detection** uses Tarjan's SCC algorithm; all members of any strongly-connected
+    component of size > 1 are treated as deadlocked.
+  - **Victim selection** is configurable via `CrossShardTransactionConfig::deadlock_victim_policy`
+    (`DeadlockVictimPolicy::YOUNGEST` (default) — aborts the transaction with the most
+    recent `start_time`; `OLDEST` — aborts the earliest-started transaction; `RANDOM` —
+    selects an arbitrary member of the cycle).  One victim per independent SCC cycle is
+    chosen so that concurrent non-overlapping cycles are all resolved in a single detection
+    pass.
+  - **Testing hook**: `CrossShardTransactionConfig::polled_wait_for_edge_collector`
+    accepts an `std::function` that overrides RPC polling for deterministic unit tests
+    and custom deployments (see `PollBasedEdgesFromShardEndpointAreDetected` test).
+  - (`include/sharding/cross_shard_transaction.h`,
+    `src/sharding/cross_shard_transaction.cpp`,
+    `include/sharding/shard_rpc_client.h`,
+    `src/sharding/shard_rpc_client.cpp`,
+    `include/sharding/shard_rpc_server.h`,
+    `src/sharding/shard_rpc_server.cpp`,
+    `proto/sharding/shard_rpc.proto`,
+    `tests/test_cross_shard_coordinator.cpp`)
+
 ### Fixed
 
+- **W1-S05 server hardening: `SseConnectionManager` + `CacheAdminApiHandler` (2026-05-27)**
+
+  - **`SseConnectionManager` concurrency hardening (follow-ups 1–6)**
+    - `backgroundPollTask()` now snapshots connection poll inputs (`from_sequence`,
+      `key_prefix`, `event_types`) under `connections_mutex_` before the unlocked
+      `changefeed_->listEvents()` call, eliminating iterator-invalidation races on the
+      connection map.
+    - Overflow eviction switched to bounded range-erase (drop-oldest semantics) instead
+      of repeated `erase(begin)` loops; next-poll rescheduling re-checks `running_` under
+      `poll_timer_mutex_` before arming `async_wait`, tightening the stop/schedule race.
+    - Removed undeclared `pollEventsWithSequences()` (had a type-mismatch compile error);
+      implemented the public `pollEvents(conn_id, max_events)` declared in the header,
+      draining `buffered_events` and keeping `raw_buffered_events` in sync.
+    - `shutdown()` now resets `poll_timer_` via `unique_ptr::reset()` after `cancel()` to
+      make repeated shutdown calls safe; `HttpServer::stop()` now explicitly calls
+      `sse_manager_->shutdown()` before `ioc_.stop()` to prevent timer access on a
+      destroyed executor (latent use-after-free).
+    - Defensive null guards added across `unregisterConnection`, `pollEvents`,
+      `pollRawEvents`, `needsHeartbeat`, `recordHeartbeat`, and `shutdown` for stale/null
+      map entries (fail-closed rather than crash).
+    - `backgroundPollTask()` fail-closes with a warning when `changefeed_` is absent,
+      disabling the polling loop instead of dereferencing a null pointer.
+  - **`CacheAdminApiHandler` SLO monitor race** — `set`/`read` access to `slo_monitor_`
+    now synchronised via `slo_monitor_mutex_`; `/v1/admin/cache/stats` includes latency
+    SLO fields only when a monitor is attached.
+  - **`SseStreamWriterFn` bridge unit tests** — Added `ChangefeedSseWriterTests` suite
+    covering Path A dispatch, parameter forwarding, clear/replace semantics, exception
+    fallthrough (writer throws → handler catches, 200 OK returned), and thread-safety of
+    concurrent `setSseStreamWriterFn`/`clearSseStreamWriterFn` calls.
+  - **Regression tests** — Added `DropOldestOverflowKeepsNewestRawEvents` (overflow buffer
+    drop-oldest semantics) and `NullChangefeedDoesNotCrashPollingPaths` (null changefeed
+    safe operation).
+  - (`src/server/sse_connection_manager.cpp`, `src/server/http_server.cpp`,
+    `src/server/cache_admin_api_handler.cpp`, `tests/test_sse_connection_manager.cpp`,
+    `tests/test_changefeed_sse_writer.cpp`)
 - **Root planning docs refreshed from latest gapscan + issue state (2026-05-26)**
 
   - Root roadmap and future-enhancements planning now reference the latest

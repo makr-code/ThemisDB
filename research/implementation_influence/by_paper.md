@@ -1001,4 +1001,30 @@ This file lists all research sources alphabetically, showing which ThemisDB modu
 
 ---
 
+## Tarjan (1972) — Depth-First Search and Linear Graph Algorithms
+
+**Type:** Scientific Paper  
+**File:** [papers/tarjan_scc_1972.md](../papers/tarjan_scc_1972.md)  
+**ThemisDB Version:** v2.2.0+
+
+| Module | Status |
+|--------|--------|
+| `src/sharding/cross_shard_transaction.cpp` | ✅ Implemented |
+
+---
+
+## ADR-010 — Distributed Deadlock Detection via Wait-For Graph
+
+**Type:** Architecture Decision  
+**File:** [architecture_decisions/adr_010_distributed_deadlock_detection.md](../architecture_decisions/adr_010_distributed_deadlock_detection.md)  
+**ThemisDB Version:** v2.2.0+
+
+| Module | Status |
+|--------|--------|
+| `src/sharding/cross_shard_transaction.cpp` | ✅ Accepted |
+| `src/sharding/shard_rpc_client.cpp` | ✅ Accepted |
+| `src/sharding/shard_rpc_server.cpp` | ✅ Accepted |
+
+---
+
 *Last generated: see git log*

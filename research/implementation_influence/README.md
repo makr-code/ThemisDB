@@ -65,6 +65,8 @@ This is the authoritative cross-reference between research sources (papers, best
 | NIST SP 800-52 Rev 2 — TLS 1.3 Cipher Hardening | Best Practice | `src/server/` | v1.0.0+ | ✅ Adopted | [ref](../best_practices/tls13_cipher_hardening.md) |
 | Karger et al. (1997) — Consistent Hash Ring | Best Practice | `src/server/`, `src/sharding/` | v2.1.0 | ✅ Adopted | [ref](../best_practices/consistent_hash_ring.md) |
 | Austin Appleby — MurmurHash3 Sharding | Best Practice | `src/prompt_engineering/`, `src/sharding/` | v1.9.0 | ✅ Adopted | [ref](../best_practices/murmur_hash_deterministic_sharding.md) |
+| Tarjan (1972) — Depth-First Search and Linear Graph Algorithms | Paper | `src/sharding/` | v2.2.0 | ✅ Implemented | [ref](../papers/tarjan_scc_1972.md) |
+| ADR-010 — Centralised Distributed Deadlock Detection via WFG | Architecture Decision | `src/sharding/` | v2.2.0 | ✅ Accepted | [ref](../architecture_decisions/adr_010_distributed_deadlock_detection.md) |
 | FNV — FNV-1a 64-bit Checksums | Best Practice | `src/prompt_engineering/` | v2.0.0 | ✅ Adopted | [ref](../best_practices/fnv1a_checksums.md) |
 | CERT C MSC06-C — Secure Key Zeroing | Best Practice | `plugins/user_storage_encrypted/`, `src/security/` | v0.1.0 | ✅ Adopted | [ref](../best_practices/secure_key_zeroing.md) |
 | C++17 §30.6.5 — std::shared_mutex R/W Locks | Best Practice | `src/cache/`, `src/config/` | v1.8.0+ | ✅ Adopted | [ref](../best_practices/shared_mutex_read_write_locks.md) |
