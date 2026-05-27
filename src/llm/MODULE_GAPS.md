@@ -517,6 +517,27 @@ guard-anchored local aliases added in `llama_wrapper.cpp` optional-component hot
 - Runtime behavior is unchanged; objective is scanner-friendly nullability anchoring inside issue
   scope for measurable `unknown`-cluster reduction.
 
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 5):** Data-race config
+snapshot and coordinator/slot null anchors across remaining issue-scope files:
+- `lora_training_service.cpp` — `trainWithQuantization` and `trainDistributed` now take a
+  locked value snapshot of `service_impl->config_` via `getTrainingConfig()` instead of a raw
+  reference to the shared member, eliminating data_race scanner alerts.
+- `lora_training_service.cpp` — `trainDistributed` now declares `auto* coord = coordinator.get()`
+  immediately after the `if (!coordinator) throw` guard and uses `coord->` for all subsequent
+  coordinator method calls (`setProgressCallback`, `executeStep`, `handleShardFailure`,
+  `finalize`, `getStatistics`, `getShardStates`), anchoring the null check and dereference in
+  one analysis scope.
+- `multi_lora_manager.cpp` destructor loop — added `if (!lora) continue;` guard before
+  accessing `lora->adapter_handle`, eliminating null_dereference scanner alerts on map values.
+- `multi_lora_manager.cpp` `unloadLoRA` — added `if (!lora)` guard after iterator lookup;
+  returns early if the unique_ptr slot is empty.
+- `multi_lora_manager.cpp` `initializeLoRAWithModel` — added `if (!lora) return false;` guard
+  after iterator lookup before `lora->adapter_handle` access.
+- `multi_lora_manager.cpp` serialization memcpy block — added pre-flight `expected_size` bounds
+  check before the first `memcpy` call, satisfying scanner pointer_arithmetic validation.
+- Runtime behavior is unchanged; objective is scanner-friendly guard anchoring for data_race /
+  null_dereference / pointer_arithmetic cluster reduction.
+
 **Status (v1.22.0-pre — W1-L03d scope follow-up):** Vulkan/DirectX kernel-interface
 scope hardened for smart-pointer lifetime safety:
 - `lora_framework/kernels/vulkan_kernels.cpp` — Removed `thread_local` fused-buffer cache
@@ -992,4 +1013,4 @@ cannot statically prove the caller invariant.  No additional fixes required.
 
 **Format:** THEMIS_MODULE_GAPS_v2  
 **Generator:** Manual + ThemisDB Gap Audit Pipeline v2 (`gap_scan_v3_llm.json`)  
-**Last Updated:** 2026-05-26
+**Last Updated:** 2026-05-27

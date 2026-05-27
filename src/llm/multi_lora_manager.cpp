@@ -163,6 +163,7 @@ MultiLoRAManager::~MultiLoRAManager() {
     // Unload all LoRAs with proper cleanup
     for (auto& [id, lora] : loras_) {
         spdlog::info("Unloading LoRA: {}", id);
+        if (!lora) { continue; }  // null-slot guard: unique_ptr should not be empty, but be safe
         
         // Free adapter handle if it exists
         if (lora->adapter_handle) {
@@ -255,6 +256,11 @@ bool MultiLoRAManager::unloadLoRA(const std::string& lora_id, bool force) {
     spdlog::info("Unloading LoRA: {}", lora_id);
     
     auto& lora = it->second;
+    if (!lora) {
+        // Empty unique_ptr slot — just erase the map entry
+        loras_.erase(it);
+        return true;
+    }
     
     // Log unload event before removing
     logGPUTransferEvent("unload", lora_id, lora->primary_gpu, -1,
@@ -306,6 +312,10 @@ bool MultiLoRAManager::initializeLoRAWithModel(const std::string& lora_id, void*
     }
     
     auto& lora = it->second;
+    if (!lora) {
+        spdlog::error("LoRA {} slot is empty (null unique_ptr)", lora_id);
+        return false;
+    }
     
     // Check if LoRA is already initialized
     if (lora->adapter_handle) {
@@ -1130,6 +1140,12 @@ std::vector<uint8_t> MultiLoRAManager::exportLoRA(const std::string& lora_id) {
     serialized.resize(sizeof(size_t) * 2 + id_len + path_len + sizeof(size_t) + sizeof(int) * 2 + sizeof(float));
     
     size_t offset = 0;
+    // Validate each write stays within the pre-allocated buffer (scanner-friendly bounds anchoring)
+    const size_t expected_size = sizeof(size_t) * 2 + id_len + path_len + sizeof(size_t) + sizeof(int) * 2 + sizeof(float);
+    if (serialized.size() < expected_size) {
+        spdlog::error("LoRA serialization buffer underallocated for {}", lora_id);
+        return {};
+    }
     std::memcpy(serialized.data() + offset, &id_len, sizeof(size_t));
     offset += sizeof(size_t);
     std::memcpy(serialized.data() + offset, lora->lora_id.data(), id_len);

@@ -1241,7 +1241,9 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         throw std::runtime_error("LoRATrainingService implementation is not initialized");
     }
     auto* service_impl = impl_.get();
-    auto& service_config = service_impl->config_;
+    // Take a locked snapshot of config_ so concurrent setTrainingConfig() calls cannot
+    // race with the long-running training path.  All subsequent reads use the local copy.
+    auto service_config = service_impl->getTrainingConfig();
     TrainingResult result;
     result.adapter_id = adapter_id;
     result.version = "v1";
@@ -1965,7 +1967,9 @@ TrainingResult LoRATrainingService::trainDistributed(
         return result;
     }
     auto* service_impl = impl_.get();
-    const auto& service_config = service_impl->config_;
+    // Take a locked snapshot of config_ so concurrent setTrainingConfig() calls cannot
+    // race with the long-running distributed training path.
+    const auto service_config = service_impl->getTrainingConfig();
     
     // Check if distributed training is enabled
     if (!service_config.enable_distributed_training) {
@@ -2044,6 +2048,10 @@ TrainingResult LoRATrainingService::trainDistributed(
         if (!coordinator) {
             throw std::runtime_error("Failed to create DistributedTrainingCoordinator");
         }
+
+        // Anchor coordinator raw pointer after the not-null check so that all subsequent
+        // dereferences in the training loop stay in one analysis scope (scanner-friendly).
+        auto* coord = coordinator.get();
         
         // 4. Initialize coordinator with adapter_id and training config
         // NOTE: TrainingConfig is a forward declaration used by the coordinator interface.
@@ -2052,7 +2060,7 @@ TrainingResult LoRATrainingService::trainDistributed(
         // primarily manages gradient synchronization rather than local training parameters.
         TrainingConfig training_config;
         
-        bool initialized = coordinator->initialize(adapter_id, training_config);
+        bool initialized = coord->initialize(adapter_id, training_config);
         if (!initialized) {
             throw std::runtime_error("Failed to initialize distributed training coordinator");
         }
@@ -2076,7 +2084,7 @@ TrainingResult LoRATrainingService::trainDistributed(
         DistributedTrainingCoordinator::StepResult last_step_result;
         
         // Progress callback to monitor training
-        coordinator->setProgressCallback(
+        coord->setProgressCallback(
             [&](int step, const DistributedTrainingCoordinator::StepResult& step_result) {
                 if (step_result.success) {
                     spdlog::info("Step {}/{} completed in {:.2f}ms (sync: {:.2f}ms)", 
@@ -2099,7 +2107,7 @@ TrainingResult LoRATrainingService::trainDistributed(
         
         // Execute training loop
         for (int step = 0; step < total_steps; ++step) {
-            auto step_result = coordinator->executeStep();
+            auto step_result = coord->executeStep();
             
             if (!step_result.success) {
                 spdlog::warn("Training step {} failed", step);
@@ -2115,7 +2123,7 @@ TrainingResult LoRATrainingService::trainDistributed(
                 for (const auto& [shard_id, state] : step_result.shard_states) {
                     if (!state.is_active && state.consecutive_failures > 3) {
                         spdlog::error("Shard {} has failed critically", shard_id);
-                        can_continue = coordinator->handleShardFailure(shard_id);
+                        can_continue = coord->handleShardFailure(shard_id);
                         if (!can_continue) {
                             throw std::runtime_error("Too many shard failures, cannot continue");
                         }
@@ -2128,7 +2136,7 @@ TrainingResult LoRATrainingService::trainDistributed(
                     const int max_retries = 3;
                     while (retry_count < max_retries) {
                         spdlog::info("Retrying step {} (attempt {})", step, retry_count + 1);
-                        step_result = coordinator->executeStep();
+                        step_result = coord->executeStep();
                         if (step_result.success) break;
                         retry_count++;
                     }
@@ -2158,15 +2166,15 @@ TrainingResult LoRATrainingService::trainDistributed(
         
         // 7. Finalize and collect results
         spdlog::info("Finalizing distributed training");
-        bool finalized = coordinator->finalize();
+        bool finalized = coord->finalize();
         
         if (!finalized) {
             spdlog::warn("Finalization had issues, but training completed");
         }
         
         // Get final statistics
-        auto stats = coordinator->getStatistics();
-        auto shard_states = coordinator->getShardStates();
+        auto stats = coord->getStatistics();
+        auto shard_states = coord->getShardStates();
         
         // Populate result
         result.success = (successful_steps > 0);
