@@ -96,7 +96,9 @@ void SseConnectionManager::unregisterConnection(uint64_t conn_id) {
 
     auto removed = connections_.extract(conn_id);
     if (!removed.empty()) {
-        removed.mapped()->active.store(false, std::memory_order_relaxed);
+        if (removed.mapped()) {
+            removed.mapped()->active.store(false, std::memory_order_relaxed);
+        }
         total_disconnects_++;
 
         THEMIS_INFO("SSE connection unregistered: id={}", conn_id);
@@ -124,7 +126,8 @@ std::vector<std::string> SseConnectionManager::pollEvents(
     std::unique_lock<std::shared_mutex> lock(connections_mutex_);
 
     auto it = connections_.find(conn_id);
-    if (it == connections_.end() || !it->second->active) {
+    if (it == connections_.end() || !it->second
+        || !it->second->active.load(std::memory_order_relaxed)) {
         return {};
     }
 
@@ -192,7 +195,8 @@ std::vector<Changefeed::ChangeEvent> SseConnectionManager::pollRawEvents(
     std::unique_lock<std::shared_mutex> lock(connections_mutex_);
 
     auto it = connections_.find(conn_id);
-    if (it == connections_.end() || !it->second->active) {
+    if (it == connections_.end() || !it->second
+        || !it->second->active.load(std::memory_order_relaxed)) {
         return {};
     }
 
@@ -249,7 +253,7 @@ bool SseConnectionManager::needsHeartbeat(uint64_t conn_id) const {
     std::shared_lock<std::shared_mutex> lock(connections_mutex_);
 
     auto it = connections_.find(conn_id);
-    if (it == connections_.end()) {
+    if (it == connections_.end() || !it->second) {
         return false;
     }
 
@@ -264,7 +268,7 @@ void SseConnectionManager::recordHeartbeat(uint64_t conn_id) {
     std::unique_lock<std::shared_mutex> lock(connections_mutex_);
     
     auto it = connections_.find(conn_id);
-    if (it != connections_.end()) {
+    if (it != connections_.end() && it->second) {
         it->second->last_heartbeat = std::chrono::steady_clock::now();
         total_heartbeats_sent_++;
     }
@@ -289,7 +293,9 @@ void SseConnectionManager::shutdown() {
 
     std::unique_lock<std::shared_mutex> lock(connections_mutex_);
     for (auto& [id, conn] : connections_) {
-        conn->active = false;
+        if (conn) {
+            conn->active.store(false, std::memory_order_relaxed);
+        }
     }
     connections_.clear();
     lock.unlock();
@@ -308,6 +314,12 @@ void SseConnectionManager::shutdown() {
 
 void SseConnectionManager::backgroundPollTask() {
     if (!running_) {
+        return;
+    }
+
+    if (!changefeed_) {
+        THEMIS_WARN("SSE background poll skipped: changefeed unavailable");
+        running_ = false;
         return;
     }
     
@@ -330,7 +342,7 @@ void SseConnectionManager::backgroundPollTask() {
             std::shared_lock<std::shared_mutex> lock(connections_mutex_);
             active_conns.reserve(connections_.size());
             for (auto& [id, conn] : connections_) {
-                if (!conn->active) continue;
+                if (!conn || !conn->active.load(std::memory_order_relaxed)) continue;
                 // Backpressure: skip non-drop-oldest connections whose buffer is
                 // already full.  This read is safe here because we hold the
                 // connections_mutex_ shared lock; the write side (pollEventsWithSequences,
@@ -371,7 +383,7 @@ void SseConnectionManager::backgroundPollTask() {
             // Re-acquire write lock briefly to append events to the connection buffer.
             std::unique_lock<std::shared_mutex> lock(connections_mutex_);
             // Re-check active flag: the connection may have been unregistered while we polled.
-            if (!target.conn->active.load(std::memory_order_relaxed)) continue;
+            if (!target.conn || !target.conn->active.load(std::memory_order_relaxed)) continue;
             auto& c = *target.conn;
 
             for (const auto& event : events) {

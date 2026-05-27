@@ -76,6 +76,18 @@ TEST_F(SseConnectionManagerTest, UnregisterUnknownConnectionDoesNotChangeStats) 
     EXPECT_EQ(after.total_disconnects, before.total_disconnects);
 }
 
+TEST_F(SseConnectionManagerTest, NullChangefeedDoesNotCrashPollingPaths) {
+    themis::server::SseConnectionManager manager(/*changefeed=*/nullptr, ioc_);
+    const auto conn_id = manager.registerConnection(/*from_seq=*/0);
+
+    auto lines = manager.pollEvents(conn_id, 10);
+    auto raw = manager.pollRawEvents(conn_id, 10);
+
+    EXPECT_TRUE(lines.empty());
+    EXPECT_TRUE(raw.empty());
+    EXPECT_EQ(manager.getStats().active_connections, 1u);
+}
+
 TEST_F(SseConnectionManagerTest, ShutdownClearsAllConnectionsAndIsIdempotent) {
     themis::server::SseConnectionManager manager(changefeed_, ioc_);
     const auto conn_a = manager.registerConnection(/*from_seq=*/0);

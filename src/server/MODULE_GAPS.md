@@ -17,6 +17,21 @@ python tools/gap_audit_pipeline_v2.py
 
 ## ✅ Recent Remediation (2026-05-27)
 
+- **W1-S05 follow-up 6 (2026-05-27) – `src/server/sse_connection_manager.cpp`,
+  `tests/test_sse_connection_manager.cpp`**
+  - Added defensive null guards around connection-pointer dereferences in
+    `unregisterConnection`, `pollEvents`, `pollRawEvents`, `needsHeartbeat`,
+    `recordHeartbeat`, and `shutdown` so stale/null map entries fail closed
+    instead of crashing.
+  - `backgroundPollTask()` now fail-closes when `changefeed_` is missing:
+    emits a warning and disables the polling loop instead of dereferencing a
+    null changefeed pointer.
+  - Added regression test `NullChangefeedDoesNotCrashPollingPaths` to verify
+    null changefeed operation remains safe (`pollEvents`/`pollRawEvents` empty,
+    no crash).
+  - Gap delta intent: reduce residual in-scope null-dereference scanner noise
+    in the W1-S05 SSE manager secondary paths with behavior-preserving guards.
+
 - **W1-S05 follow-up 5 (2026-05-27) – `tests/test_changefeed_sse_writer.cpp`,
   `tests/CMakeLists.txt`**
   - Added a dedicated unit-test suite (`ChangefeedSseWriterTests`) covering the
