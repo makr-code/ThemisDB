@@ -174,6 +174,15 @@ inline float calculateUtilization(size_t used_vram, size_t max_vram_bytes) noexc
         : 0.0f;
 }
 
+inline bool isGPUAvailableNoLock(const std::unordered_map<int, bool>& gpu_health_status,
+                                 int gpu_device_id) noexcept {
+    auto it = gpu_health_status.find(gpu_device_id);
+    if (it == gpu_health_status.end()) {
+        return false;
+    }
+    return it->second;
+}
+
 inline std::optional<float> queryNvmlTemperatureCelsius(int gpu_device_id) {
 #if defined(THEMIS_ENABLE_CUDA) && defined(__linux__)
     using nvmlReturn_t = int;
@@ -1165,7 +1174,13 @@ GPUMemoryManager::Stats GPUMemoryManager::getStats() const {
     }
     stats.num_allocations = total_allocs;
     
-    stats.fragmentation_pct = getMemoryFragmentation();
+    size_t excess_allocations = total_allocs > stats.num_models
+        ? total_allocs - stats.num_models
+        : 0;
+    stats.fragmentation_pct = (stats.num_models > 0)
+        ? std::min(static_cast<size_t>(100),
+                   static_cast<size_t>((excess_allocations * 100) / stats.num_models))
+        : 0;
     
     return stats;
 }
@@ -1212,7 +1227,7 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes, i
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Verify GPU is available
-    if (!isGPUAvailable(gpu_device_id)) {
+    if (!isGPUAvailableNoLock(gpu_health_status_, gpu_device_id)) {
         spdlog::error("GPU {} is not available", gpu_device_id);
         return nullptr;
     }
@@ -1342,7 +1357,11 @@ size_t GPUMemoryManager::getGPUVRAM(int gpu_device_id) const {
 
 size_t GPUMemoryManager::getFreeGPUVRAM(int gpu_device_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    size_t used = getGPUVRAM(gpu_device_id);
+    size_t used = 0;
+    auto it = per_gpu_vram_used_.find(gpu_device_id);
+    if (it != per_gpu_vram_used_.end()) {
+        used = it->second;
+    }
     return used < config_.max_vram_bytes ? (config_.max_vram_bytes - used) : 0;
 }
 
@@ -1352,18 +1371,15 @@ std::vector<int> GPUMemoryManager::getAvailableGPUs() const {
 }
 
 bool GPUMemoryManager::isGPUAvailable(int gpu_device_id) const {
-    // Already locked by caller in most cases, but safe to lock again
-    auto it = gpu_health_status_.find(gpu_device_id);
-    if (it == gpu_health_status_.end()) {
-        return false;
-    }
-    return it->second;
+    std::lock_guard<std::mutex> lock(mutex_);
+    return isGPUAvailableNoLock(gpu_health_status_, gpu_device_id);
 }
 
 bool GPUMemoryManager::enablePeerAccess(int src_gpu, int dst_gpu) {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    if (!isGPUAvailable(src_gpu) || !isGPUAvailable(dst_gpu)) {
+    if (!isGPUAvailableNoLock(gpu_health_status_, src_gpu) ||
+        !isGPUAvailableNoLock(gpu_health_status_, dst_gpu)) {
         spdlog::error("Cannot enable peer access: GPU {} or {} not available", src_gpu, dst_gpu);
         return false;
     }
@@ -1401,7 +1417,8 @@ bool GPUMemoryManager::enablePeerAccess(int src_gpu, int dst_gpu) {
 bool GPUMemoryManager::disablePeerAccess(int src_gpu, int dst_gpu) {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    if (!isGPUAvailable(src_gpu) || !isGPUAvailable(dst_gpu)) {
+    if (!isGPUAvailableNoLock(gpu_health_status_, src_gpu) ||
+        !isGPUAvailableNoLock(gpu_health_status_, dst_gpu)) {
         return false;
     }
     
@@ -1432,7 +1449,8 @@ bool GPUMemoryManager::canAccessPeer(int src_gpu, int dst_gpu) const {
         return false;
     }
     
-    if (!isGPUAvailable(src_gpu) || !isGPUAvailable(dst_gpu)) {
+    if (!isGPUAvailableNoLock(gpu_health_status_, src_gpu) ||
+        !isGPUAvailableNoLock(gpu_health_status_, dst_gpu)) {
         return false;
     }
     
@@ -1469,7 +1487,7 @@ GPUMemoryManager::GPUStats GPUMemoryManager::getGPUStats(int gpu_device_id) cons
     GPUStats stats = {};
     stats.device_id = gpu_device_id;
     
-    if (!isGPUAvailable(gpu_device_id)) {
+    if (!isGPUAvailableNoLock(gpu_health_status_, gpu_device_id)) {
         return stats;
     }
     
@@ -1531,7 +1549,7 @@ std::vector<GPUMemoryManager::GPUStats> GPUMemoryManager::getAllGPUStats() const
         GPUStats stats = {};
         stats.device_id = gpu_id;
         
-        if (isGPUAvailable(gpu_id)) {
+        if (isGPUAvailableNoLock(gpu_health_status_, gpu_id)) {
             // Get VRAM stats
             stats.total_vram_bytes = config_.max_vram_bytes;
             stats.used_vram_bytes = 0;
@@ -1590,7 +1608,7 @@ GPUMemoryManager::GPUHealth GPUMemoryManager::getGPUHealth(int gpu_device_id) co
     
     GPUHealth health = {};
     health.device_id = gpu_device_id;
-    health.is_available = isGPUAvailable(gpu_device_id);
+    health.is_available = isGPUAvailableNoLock(gpu_health_status_, gpu_device_id);
     
     if (!health.is_available) {
         return health;
@@ -1629,7 +1647,7 @@ std::vector<GPUMemoryManager::GPUHealth> GPUMemoryManager::getAllGPUHealth() con
         // Get health inline to avoid deadlock (mutex already locked)
         GPUHealth health = {};
         health.device_id = gpu_id;
-        health.is_available = isGPUAvailable(gpu_id);
+        health.is_available = isGPUAvailableNoLock(gpu_health_status_, gpu_id);
         
         if (health.is_available) {
             // Check if we have stored health data
@@ -1677,7 +1695,7 @@ void GPUMemoryManager::markGPUUnhealthy(int gpu_device_id, const std::string& re
     // Update health data
     GPUHealth health = {};
     health.device_id = gpu_device_id;
-    health.is_available = isGPUAvailable(gpu_device_id);
+    health.is_available = isGPUAvailableNoLock(gpu_health_status_, gpu_device_id);
     health.is_healthy = false;
     health.last_error = reason;
     
@@ -1795,7 +1813,23 @@ bool GPUMemoryManager::needsLoadRebalancing(float threshold) const {
         return false;  // No need to rebalance with single GPU
     }
     
-    float avg_load = getAverageGPULoad();
+    float total_load = 0.0f;
+    int healthy_count = 0;
+    for (int gpu_id : available_gpus_) {
+        auto health_it = gpu_health_status_.find(gpu_id);
+        if (health_it == gpu_health_status_.end() || !health_it->second) {
+            continue;
+        }
+
+        size_t used_vram = 0;
+        auto vram_it = per_gpu_vram_used_.find(gpu_id);
+        if (vram_it != per_gpu_vram_used_.end()) {
+            used_vram = vram_it->second;
+        }
+        total_load += calculateUtilization(used_vram, config_.max_vram_bytes);
+        healthy_count++;
+    }
+    float avg_load = (healthy_count > 0) ? (total_load / healthy_count) : 0.0f;
     
     // Check if any GPU is significantly overloaded compared to average
     for (int gpu_id : available_gpus_) {
@@ -1822,6 +1856,7 @@ bool GPUMemoryManager::needsLoadRebalancing(float threshold) const {
 }
 
 void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
     // This would typically query actual GPU hardware
 #ifdef THEMIS_ENABLE_CUDA
     if (gpu_available_) {
@@ -1863,24 +1898,27 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
 
 void GPUMemoryManager::checkGPUHealth(int gpu_device_id) {
     updateGPUHealth(gpu_device_id);
-    
-    auto util_it = gpu_utilizations_.find(gpu_device_id);
-    auto temp_it = gpu_temperatures_.find(gpu_device_id);
-    
+
     bool is_healthy = true;
     std::string reason;
-    
-    // Check temperature
-    if (temp_it != gpu_temperatures_.end() && temp_it->second > 85.0f) {
-        is_healthy = false;
-        reason = "Temperature too high: " + std::to_string(temp_it->second) + "°C";
-    }
-    
-    // Check utilization
-    if (util_it != gpu_utilizations_.end() && util_it->second > 95.0f) {
-        is_healthy = false;
-        if (!reason.empty()) reason += "; ";
-        reason += "Utilization too high: " + std::to_string(util_it->second) + "%";
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto util_it = gpu_utilizations_.find(gpu_device_id);
+        auto temp_it = gpu_temperatures_.find(gpu_device_id);
+
+        // Check temperature
+        if (temp_it != gpu_temperatures_.end() && temp_it->second > 85.0f) {
+            is_healthy = false;
+            reason = "Temperature too high: " + std::to_string(temp_it->second) + "°C";
+        }
+
+        // Check utilization
+        if (util_it != gpu_utilizations_.end() && util_it->second > 95.0f) {
+            is_healthy = false;
+            if (!reason.empty()) reason += "; ";
+            reason += "Utilization too high: " + std::to_string(util_it->second) + "%";
+        }
     }
     
     if (is_healthy) {

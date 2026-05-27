@@ -399,6 +399,16 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
   OOM-condition allocation to proceed. Now returns `false` immediately on potential overflow.
   Added `<limits>` include for `std::numeric_limits<size_t>::max()`.
 
+**Status (v1.22.0-pre — W1-L06 lifecycle/race follow-up):** `gpu_memory_manager.cpp` lock/lifecycle hardening for race-sensitive API paths:
+- Removed three self-deadlock lock-reentry paths by avoiding nested mutex acquisition in
+  `getStats()`, `getFreeGPUVRAM()`, and `needsLoadRebalancing()` (all now compute under one lock scope).
+- Added synchronized public `isGPUAvailable()` access and switched lock-held internal callers to
+  a no-lock helper to keep thread-safe external reads without recursive-lock deadlocks.
+- Added lock guards for `updateGPUHealth()` / `checkGPUHealth()` map access to remove unguarded
+  reads/writes on health/utilization/temperature tracking state.
+- Gap delta (scope-local): 3 lock-reentry deadlock paths + 2 unguarded shared-state access paths
+  in `gpu_memory_manager.cpp` are now removed from this ticket scope.
+
 **Status (v1.22.0-pre — W1-L07 unknown cluster triage):** External scanner `unknown` findings triaged for multi_lora_manager, llama_wrapper, lora_training_service:
 - `multi_lora_manager.cpp`: external_v3 reports 1227 findings vs 5 internal. `unknown` cluster
   arises from deep STL template patterns, virtual dispatch and large switch bodies the scanner

@@ -160,6 +160,29 @@ TEST_F(GPUMemoryManagerMultiGPUTest, NeedsLoadRebalancing) {
     EXPECT_TRUE(needs_rebalancing || !needs_rebalancing);  // Just verify it doesn't crash
 }
 
+TEST_F(GPUMemoryManagerMultiGPUTest, PerGPUFreeVRAMTracksAllocations) {
+    void* ptr = memory_manager_->allocateGPU("model-gpu1", 512 * MB, 1);
+    ASSERT_NE(ptr, nullptr);
+
+    EXPECT_EQ(memory_manager_->getGPUVRAM(1), 512 * MB);
+    EXPECT_EQ(memory_manager_->getFreeGPUVRAM(1), (24 * GB) - (512 * MB));
+
+    EXPECT_TRUE(memory_manager_->freeGPU("model-gpu1", ptr));
+    EXPECT_EQ(memory_manager_->getGPUVRAM(1), 0u);
+}
+
+TEST_F(GPUMemoryManagerMultiGPUTest, GlobalStatsReflectGPUAllocation) {
+    void* ptr = memory_manager_->allocateGPU("stats-model", 256 * MB, 2);
+    ASSERT_NE(ptr, nullptr);
+
+    auto stats = memory_manager_->getStats();
+    EXPECT_EQ(stats.used_vram_bytes, 256 * MB);
+    EXPECT_EQ(stats.free_vram_bytes, (24 * GB) - (256 * MB));
+    EXPECT_GE(stats.num_allocations, 1u);
+
+    EXPECT_TRUE(memory_manager_->freeGPU("stats-model", ptr));
+}
+
 // ============================================================================
 // Adapter Load Balancer Tests
 // ============================================================================
@@ -416,4 +439,3 @@ TEST(MultiGPUIntegrationTest, HealthMonitoringWithFailover) {
     memory_manager->markGPUHealthy(0);
     EXPECT_TRUE(memory_manager->isGPUHealthy(0));
 }
-
