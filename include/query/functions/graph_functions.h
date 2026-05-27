@@ -14,6 +14,7 @@
 #include <queue>
 #include <stack>
 #include <algorithm>
+#include <cstdint>
 #include <limits>
 
 
@@ -516,7 +517,10 @@ public:
         return nlohmann::json{
             {"vertices", vertices},
             {"edges", nlohmann::json::array()}, // Edge details would require more context
-            {"distance", static_cast<int>(path.size() - 1)}
+            {"distance",
+             path.size() > static_cast<size_t>(std::numeric_limits<int64_t>::max())
+                 ? std::numeric_limits<int64_t>::max()
+                 : static_cast<int64_t>(path.size() - 1)}
         };
     }
 };
@@ -1311,4 +1315,3 @@ inline void registerGraphFunctions(FunctionRegistry& registry) {
 } // namespace functions
 } // namespace query
 } // namespace themis
-
