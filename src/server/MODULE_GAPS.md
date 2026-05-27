@@ -894,3 +894,10 @@ Findings addressed:
   `"1xS"` or `"10abc"` from being interpreted as valid deadlines. Unit conversion for `grpc-timeout`
   now uses saturating millisecond arithmetic to avoid overflow at large timeout values. Added tests
   in `tests/test_rpc_batch_operations.cpp` for malformed gRPC and millisecond timeout metadata.
+
+- **W1-S04 follow-up (2026-05-27) — malformed timeout fallback chain in `rpc_service_impl.cpp`:**
+  timeout metadata parsing now follows precedence with fallback (`grpc-timeout` → `x-timeout-ms` →
+  `request-timeout-ms`) when an earlier header exists but is malformed, instead of dropping timeout
+  enforcement entirely. Added `tests/test_rpc_batch_operations.cpp` coverage to verify malformed
+  `grpc-timeout` still enforces valid `x-timeout-ms`, and malformed `x-timeout-ms` still enforces
+  valid `request-timeout-ms`.

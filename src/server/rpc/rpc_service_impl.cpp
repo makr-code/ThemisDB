@@ -153,17 +153,26 @@ namespace {
     std::optional<std::chrono::milliseconds> parseRequestTimeout(const themis::plugins::rpc::RPCRequestContext& context) {
         auto grpc_timeout_it = context.metadata.find("grpc-timeout");
         if (grpc_timeout_it != context.metadata.end()) {
-            return parseGrpcTimeout(grpc_timeout_it->second);
+            const auto parsed = parseGrpcTimeout(grpc_timeout_it->second);
+            if (parsed.has_value()) {
+                return parsed;
+            }
         }
 
         auto ms_timeout_it = context.metadata.find("x-timeout-ms");
         if (ms_timeout_it != context.metadata.end()) {
-            return parseMillisHeaderValue(ms_timeout_it->second);
+            const auto parsed = parseMillisHeaderValue(ms_timeout_it->second);
+            if (parsed.has_value()) {
+                return parsed;
+            }
         }
 
         auto request_timeout_it = context.metadata.find("request-timeout-ms");
         if (request_timeout_it != context.metadata.end()) {
-            return parseMillisHeaderValue(request_timeout_it->second);
+            const auto parsed = parseMillisHeaderValue(request_timeout_it->second);
+            if (parsed.has_value()) {
+                return parsed;
+            }
         }
 
         return std::nullopt;
