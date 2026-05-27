@@ -35,10 +35,28 @@ namespace themis::query {
 namespace {
 
 #ifdef THEMIS_HAS_CURL
+// Maximum number of bytes accepted from a single cluster HTTP response.
+// Prevents a rogue or compromised cluster from exhausting server memory.
+static constexpr size_t kMaxResponseBytes = 64u * 1024u * 1024u; // 64 MiB
+
+struct ResponseAccumulator {
+    std::string* buffer;
+    size_t       max_bytes;
+    size_t       received{0};
+};
+
 static size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb,
                                 void* userdata) {
     const size_t total = size * nmemb;
-    static_cast<std::string*>(userdata)->append(ptr, total);
+    auto* acc = static_cast<ResponseAccumulator*>(userdata);
+    if (acc->received + total > acc->max_bytes) {
+        spdlog::error(
+            "CrossClusterFederator: response exceeds {} byte limit; aborting",
+            acc->max_bytes);
+        return 0; // returning != total causes libcurl to abort with CURLE_WRITE_ERROR
+    }
+    acc->buffer->append(ptr, total);
+    acc->received += total;
     return total;
 }
 #endif
@@ -76,6 +94,13 @@ void CrossClusterFederator::registerCluster(const ClusterEndpoint& endpoint) {
         throw std::invalid_argument(
             "CrossClusterFederator: base_url must not be empty for cluster '" +
             endpoint.cluster_id + "'");
+    }
+    const bool is_http  = endpoint.base_url.compare(0, 7,  "http://")  == 0;
+    const bool is_https = endpoint.base_url.compare(0, 8,  "https://") == 0;
+    if (!is_http && !is_https) {
+        throw std::invalid_argument(
+            "CrossClusterFederator: base_url must start with 'http://' or 'https://' "
+            "for cluster '" + endpoint.cluster_id + "'");
     }
 
     std::lock_guard<std::mutex> lock(registry_mutex_);
@@ -468,10 +493,12 @@ int CrossClusterFederator::curlHttpPost(const std::string& url,
     curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE,
                      static_cast<long>(body.size()));
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+    curl_easy_setopt(curl, CURLOPT_MAXREDIRS, 3L);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS,
                      static_cast<long>(timeout_ms));
+    ResponseAccumulator acc{&response, kMaxResponseBytes};
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &acc);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
 

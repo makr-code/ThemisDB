@@ -22,7 +22,7 @@
 
 ### T2 — Resource Exhaustion
 - **Risk:** High — unbounded queries could exhaust memory, CPU, or I/O
-- **Mitigation:** Per-query limits enforced: max-rows, max-memory, timeout; `QueryFederation` caps join inputs/results, scatter-gather merges, aggregation shard/output payloads, and federated RAG accumulation via `max_result_size_bytes`; query cancellation via request ID (`query_canceller.cpp`); limits are mandatory and not caller-optional
+- **Mitigation:** Per-query limits enforced: max-rows, max-memory, timeout; `QueryFederation` caps join inputs/results, scatter-gather merges, aggregation shard/output payloads, and federated RAG accumulation via `max_result_size_bytes`; query cancellation via request ID (`query_canceller.cpp`); limits are mandatory and not caller-optional; `CrossClusterFederator` HTTP response capped at 64 MiB (CCF-01, 2026-05-27)
 - **Residual risk:** Low — limits are enforced in the execution engine; extreme edge cases under benchmark review
 
 ### T3 — Cross-Tenant Data Access
@@ -34,6 +34,11 @@
 - **Risk:** Medium — translated dialects could carry injection payloads
 - **Mitigation:** SPARQL and SQL inputs are fully parsed into an intermediate AST and translated to AQL; raw dialect strings are never executed; injection payloads do not survive AST round-trip
 - **Residual risk:** Low — translation is parse-then-emit; not string-splice
+
+### T5 — Cross-Cluster SSRF
+- **Risk:** Medium — `CrossClusterFederator` dispatches HTTP requests to registered cluster endpoints; a compromised or misconfigured registration could target internal services
+- **Mitigation:** `registerCluster()` rejects `base_url` values not starting with `http://` or `https://` (CCF-03, 2026-05-27); redirect hops capped at 3 (CCF-02, 2026-05-27); SSL peer verification enforced (`CURLOPT_SSL_VERIFYPEER`)
+- **Residual risk:** Low — scheme validation blocks non-HTTP protocols; residual risk limited to `http://` URLs pointing to internal hosts (operational/network-policy concern)
 
 ## Known Limitations
 
