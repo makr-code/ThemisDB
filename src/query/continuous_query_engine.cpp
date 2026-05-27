@@ -16,6 +16,17 @@
 #include <chrono>
 #include <thread>
 
+namespace {
+/// Maximum number of concurrently registered continuous queries.
+/// Prevents unbounded registry growth under adversarial registerQuery() calls.
+static constexpr std::size_t kMaxRegisteredQueries = 1'000;
+
+/// Maximum depth of the tuple injection staging queue.
+/// Prevents unbounded memory growth when injectTuple() is called faster than
+/// the evaluation loop drains it.
+static constexpr std::size_t kMaxInjectQueueDepth = 100'000;
+} // anonymous namespace
+
 namespace themis {
 namespace query {
 
@@ -145,6 +156,12 @@ ContinuousQueryEngineImpl::registerQuery(ContinuousQuerySpec spec) {
     }
 
     std::lock_guard<std::mutex> lock(registry_mutex_);
+    if (registry_.size() >= kMaxRegisteredQueries) {
+        return Err<ContinuousQueryHandle>(
+            errors::ErrorCode::ERR_QUERY_INVALID,
+            "continuous query registry is full (max " +
+                std::to_string(kMaxRegisteredQueries) + ")");
+    }
     if (registry_.count(spec.name)) {
         return Err<ContinuousQueryHandle>(
             errors::ErrorCode::ERR_QUERY_INVALID,
@@ -222,6 +239,10 @@ void ContinuousQueryEngineImpl::injectTuple(const std::string& collection,
                                              const std::string& tuple,
                                              int64_t            event_ts) {
     std::lock_guard<std::mutex> lock(inject_mutex_);
+    if (inject_queue_.size() >= kMaxInjectQueueDepth) {
+        // Drop oldest entry to prevent unbounded memory growth
+        inject_queue_.pop_front();
+    }
     inject_queue_.push_back({collection, tuple, event_ts});
 }
 
@@ -263,21 +284,30 @@ void ContinuousQueryEngineImpl::tickOnce() {
     {
         std::lock_guard<std::mutex> lock(registry_mutex_);
         for (auto& [name, entry] : registry_) {
-            // Build a transient ContinuousQueryState view
+            // Build a transient ContinuousQueryState by temporarily
+            // transferring real ownership into state.  The RAII guard
+            // restores ownership unconditionally on exit (normal or exception),
+            // preventing double-free from aliased unique_ptr ownership.
             ContinuousQueryState state;
-            state.spec     = entry.spec;
-            state.info     = entry.info;
-            state.synopsis = std::unique_ptr<SynopsisStore>(entry.synopsis.get());
-            state.watermark = std::unique_ptr<CQWatermark>(entry.watermark.get());
+            state.spec      = entry.spec;
+            state.info      = entry.info;
+            state.synopsis  = std::move(entry.synopsis);
+            state.watermark = std::move(entry.watermark);
+
+            struct OwnershipGuard {
+                ContinuousQueryState& state;
+                QueryRegistryEntry&   entry;
+                ~OwnershipGuard() noexcept {
+                    entry.synopsis  = std::move(state.synopsis);
+                    entry.watermark = std::move(state.watermark);
+                }
+            } guard{state, entry};
 
             std::vector<CQResult> tick_results;
             entry.plan.evaluate(state, tick_results);
 
-            // Restore ownership (state held non-owning views)
-            (void)state.synopsis.release();
-            (void)state.watermark.release();
-
             entry.info = state.info;
+            // guard destructor restores entry.synopsis / entry.watermark here
 
             // Push results to all subscriber queues
             for (const auto& r : tick_results) {
@@ -288,6 +318,7 @@ void ContinuousQueryEngineImpl::tickOnce() {
 
             // For SNAPSHOT mode push current synopsis every tick
             if (entry.spec.result_mode == ResultMode::SNAPSHOT) {
+                // guard has already restored entry.synopsis at this point
                 auto snap = entry.synopsis->snapshot();
                 for (const auto& t : snap) {
                     CQResult r{t.payload, false};

@@ -30,6 +30,15 @@ namespace themisdb {
 namespace query {
 namespace functions {
 
+namespace {
+inline int clampPositiveIntFromDouble(double raw, int fallback, int maxValue = 1'000'000) {
+    if (!std::isfinite(raw)) {
+        return fallback;
+    }
+    return static_cast<int>(std::clamp(raw, 1.0, static_cast<double>(maxValue)));
+}
+} // namespace
+
 // ============================================================================
 // HYBRID_SEARCH - Combined vector and keyword search
 // ============================================================================
@@ -66,7 +75,9 @@ public:
             auto opts = args[4].as_object();
             if (opts.count("vectorWeight")) vectorWeight = opts["vectorWeight"].as_number();
             if (opts.count("textWeight")) textWeight = opts["textWeight"].as_number();
-            if (opts.count("limit")) limit = static_cast<int>(opts["limit"].as_number());
+            if (opts.count("limit")) {
+                limit = clampPositiveIntFromDouble(opts["limit"].as_number(), limit);
+            }
         }
         
         // Normalize weights
@@ -290,7 +301,9 @@ public:
         if (args.empty()) return JsonValue("");
         
         std::string text = args[0].as_string();
-        int maxLength = args.size() > 1 ? static_cast<int>(args[1].as_number()) : 100;
+        int maxLength = args.size() > 1
+            ? clampPositiveIntFromDouble(args[1].as_number(), 100)
+            : 100;
         
         // Placeholder: return first N characters
         // In production, this uses a summarization model
@@ -319,4 +332,3 @@ inline void registerAIMLFunctions(FunctionRegistry& registry) {
 } // namespace functions
 } // namespace query
 } // namespace themisdb
-

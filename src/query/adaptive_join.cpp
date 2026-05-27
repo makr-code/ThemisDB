@@ -23,6 +23,22 @@
 
 namespace themis {
 
+namespace {
+
+[[nodiscard]] const std::string* findKeyValue(const RowValue* row,
+                                              const std::string& key) noexcept {
+    if (row == nullptr) {
+        return nullptr;
+    }
+    const auto it = row->find(key);
+    if (it == row->end()) {
+        return nullptr;
+    }
+    return &it->second;
+}
+
+} // namespace
+
 // ============================================================================
 // joinAlgorithmName
 // ============================================================================
@@ -132,7 +148,12 @@ JoinAlgorithm AdaptiveJoinExecutor::selectAlgorithm(
     {
         // Estimate memory required to hold the smaller (build) side's hash table.
         const size_t build_rows = std::min(left_rows, right_rows);
-        const size_t estimated_memory = build_rows * stats.bytes_per_row;
+        const bool would_overflow =
+            (stats.bytes_per_row > 0) &&
+            (build_rows > (std::numeric_limits<size_t>::max() / stats.bytes_per_row));
+        const size_t estimated_memory =
+            would_overflow ? std::numeric_limits<size_t>::max()
+                           : (build_rows * stats.bytes_per_row);
         const double threshold = stats.grace_hash_threshold *
                                  static_cast<double>(stats.memory_budget_bytes);
         if (static_cast<double>(estimated_memory) > threshold) {
@@ -262,6 +283,7 @@ JoinResult AdaptiveJoinExecutor::executeHashJoin(const JoinSpec& spec,
     }
 
     // Probe phase: for each probe row, look up matching build rows.
+    result.rows.reserve(probe_side.rowCount());
     for (const auto& probe_row : probe_side.rows) {
         auto key_it = probe_row.find(probe_key);
         if (key_it == probe_row.end()) {
@@ -322,17 +344,18 @@ JoinResult AdaptiveJoinExecutor::executeMergeJoin(const JoinSpec& spec,
     // Classic merge join with equal-range matching.
     size_t li = 0, ri = 0;
     const size_t ln = left_ptrs.size(), rn = right_ptrs.size();
+    result.rows.reserve(std::min(ln, rn));
 
     while (li < ln && ri < rn) {
         const std::string& lk = [&]() -> const std::string& {
-            auto it = left_ptrs[li]->find(spec.left_key);
             static const std::string empty;
-            return (it != left_ptrs[li]->end()) ? it->second : empty;
+            const std::string* value = findKeyValue(left_ptrs[li], spec.left_key);
+            return value ? *value : empty;
         }();
         const std::string& rk = [&]() -> const std::string& {
-            auto it = right_ptrs[ri]->find(spec.right_key);
             static const std::string empty;
-            return (it != right_ptrs[ri]->end()) ? it->second : empty;
+            const std::string* value = findKeyValue(right_ptrs[ri], spec.right_key);
+            return value ? *value : empty;
         }();
 
         if (lk < rk) {
@@ -343,20 +366,25 @@ JoinResult AdaptiveJoinExecutor::executeMergeJoin(const JoinSpec& spec,
             // Equal: find the extents of the equal range on each side.
             size_t li_end = li, ri_end = ri;
             while (li_end < ln) {
-                auto it = left_ptrs[li_end]->find(spec.left_key);
-                if (it == left_ptrs[li_end]->end() || it->second != lk) break;
+                const std::string* value = findKeyValue(left_ptrs[li_end], spec.left_key);
+                if (!value || *value != lk) break;
                 ++li_end;
             }
             while (ri_end < rn) {
-                auto it = right_ptrs[ri_end]->find(spec.right_key);
-                if (it == right_ptrs[ri_end]->end() || it->second != rk) break;
+                const std::string* value = findKeyValue(right_ptrs[ri_end], spec.right_key);
+                if (!value || *value != rk) break;
                 ++ri_end;
             }
             // Cross-product of the equal range.
             for (size_t a = li; a < li_end; ++a) {
                 for (size_t b = ri; b < ri_end; ++b) {
-                    if (!spec.filter || spec.filter(*left_ptrs[a], *right_ptrs[b])) {
-                        result.rows.push_back(mergeRows(*left_ptrs[a], *right_ptrs[b]));
+                    const RowValue* left_row_ptr = left_ptrs[a];
+                    const RowValue* right_row_ptr = right_ptrs[b];
+                    if (left_row_ptr == nullptr || right_row_ptr == nullptr) {
+                        continue;
+                    }
+                    if (!spec.filter || spec.filter(*left_row_ptr, *right_row_ptr)) {
+                        result.rows.push_back(mergeRows(*left_row_ptr, *right_row_ptr));
                     }
                 }
             }
@@ -377,6 +405,7 @@ JoinResult AdaptiveJoinExecutor::executeNestedLoopJoin(const JoinSpec& spec,
                                                         const Table&    right) const {
     JoinResult result;
     result.algorithm_used = JoinAlgorithm::NESTED_LOOP_JOIN;
+    result.rows.reserve(left.rowCount());
 
     for (const auto& left_row : left.rows) {
         auto lk_it = left_row.find(spec.left_key);
@@ -419,6 +448,7 @@ JoinResult AdaptiveJoinExecutor::executeIndexNestedLoopJoin(
     }
 
     // For each left row, perform an O(1) index lookup.
+    result.rows.reserve(left.rowCount());
     for (const auto& left_row : left.rows) {
         auto lk_it = left_row.find(spec.left_key);
         if (lk_it == left_row.end()) continue;
@@ -427,6 +457,9 @@ JoinResult AdaptiveJoinExecutor::executeIndexNestedLoopJoin(
         if (bucket == index.end()) continue;
 
         for (const RowValue* right_row : bucket->second) {
+            if (right_row == nullptr) {
+                continue;
+            }
             if (!spec.filter || spec.filter(left_row, *right_row)) {
                 result.rows.push_back(mergeRows(left_row, *right_row));
             }
@@ -445,6 +478,7 @@ JoinResult AdaptiveJoinExecutor::executeGraceHashJoin(const JoinSpec& spec,
                                                        const Table&    right) const {
     JoinResult result;
     result.algorithm_used = JoinAlgorithm::GRACE_HASH_JOIN;
+    result.rows.reserve(std::min(left.rowCount(), right.rowCount()));
 
     // Grace hash join: partition both sides on join key, then hash-join each
     // partition pair.  We use a fixed number of partitions proportional to
@@ -492,6 +526,9 @@ JoinResult AdaptiveJoinExecutor::executeGraceHashJoin(const JoinSpec& spec,
             if (bucket == ht.end()) continue;
 
             for (const RowValue* right_row : bucket->second) {
+                if (right_row == nullptr) {
+                    continue;
+                }
                 if (!spec.filter || spec.filter(*left_row, *right_row)) {
                     result.rows.push_back(mergeRows(*left_row, *right_row));
                 }

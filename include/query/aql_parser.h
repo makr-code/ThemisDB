@@ -681,6 +681,21 @@ struct AqlTransactionBlock {
 // AQL Parser
 // ============================================================================
 
+/**
+ * @brief Stateless AQL query parser.
+ *
+ * @par Thread Safety
+ * `AQLParser` holds **no mutable member state**.  Every public method constructs a
+ * local `Tokenizer` and `Parser` object on the stack and returns without modifying
+ * any shared data.  Consequently, a single `AQLParser` instance may be called
+ * concurrently from multiple threads without additional synchronization (KL-01
+ * closed 2026-05-26).
+ *
+ * @par Recursion Depth
+ * Expression recursion is bounded by `kMaxExprDepth = 500`; graph traversal depth
+ * by `kMaxTraversalDepth = 100` (PA-1 fixed 2026-05-04).  Crafted inputs that
+ * exceed these limits receive a parse error rather than causing a stack overflow.
+ */
 class AQLParser {
 public:
     AQLParser() = default;

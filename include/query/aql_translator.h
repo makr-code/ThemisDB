@@ -114,7 +114,7 @@ public:
         struct CTEExecution {
             std::string name;                          // CTE name
             std::shared_ptr<query::Query> subquery;    // AST for execution
-            bool should_materialize;                   // Based on heuristic
+            bool should_materialize = false;           // Based on heuristic
         };
         std::vector<CTEExecution> ctes;                // CTEs to execute before main query
         

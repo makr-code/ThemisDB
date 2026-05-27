@@ -216,6 +216,13 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			"Table name cannot be empty"
 		);
 	}
+	// QE-2: enforce collection-level access control before any I/O
+	if (collection_access_checker_ && !collection_access_checker_(q.table, collection_access_caller_id_)) {
+		return Err<std::vector<std::string>>(
+			errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+			"Access denied for collection: " + q.table
+		);
+	}
 
 	// ── Primary-key fast path ──────────────────────────────────────────────
 	// When pk_eq is set the caller already knows the primary key.  Skip all
@@ -693,6 +700,14 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndEntities");
 	span.setAttribute("query.table", q.table);
 
+	// QE-2: enforce collection-level access control before any I/O
+	if (collection_access_checker_ && !collection_access_checker_(q.table, collection_access_caller_id_)) {
+		return Err<std::vector<BaseEntity>>(
+			errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+			"Access denied for collection: " + q.table
+		);
+	}
+
 	// ── Primary-key fast path ──────────────────────────────────────────────
 	// Avoid the double storage round-trip (executeAndKeys checks existence,
 	// then this method fetches the blob again).  With pk_eq set we do a single
@@ -827,22 +842,31 @@ QueryEngine::executeOrKeys(const DisjunctiveQuery& q) const {
 			"executeOrKeys: keine Disjunkte"
 		);
 	}
+	// QE-2: enforce collection-level access control before any I/O
+	if (collection_access_checker_ && !collection_access_checker_(q.table, collection_access_caller_id_)) {
+		return Err<std::vector<std::string>>(
+			ErrorCode::ERR_QUERY_ACCESS_DENIED,
+			"Access denied for collection: " + q.table
+		);
+	}
 
 	// Execute each disjunct (AND-block) and collect results
 	std::vector<std::vector<std::string>> all_lists(q.disjuncts.size());
+	std::mutex errors_mutex;
 	std::vector<std::string> errors;
 	errors.reserve(q.disjuncts.size());
 	tbb::task_group tg;
 
 	for (size_t i = 0; i < q.disjuncts.size(); ++i) {
 		const auto& disjunct = q.disjuncts[i];
-		tg.run([this, &disjunct, &all_lists, i, &errors]() {
+		tg.run([this, &disjunct, &all_lists, i, &errors, &errors_mutex]() {
 			auto child = Tracer::startSpan("or.disjunct.execute");
 			child.setAttribute("disjunct.eq_count", static_cast<int64_t>(disjunct.predicates.size()));
 			child.setAttribute("disjunct.range_count", static_cast<int64_t>(disjunct.rangePredicates.size()));
 			auto result = executeAndKeys(disjunct);
 			if (!result) {
 				THEMIS_ERROR("Parallel OR disjunct error: {}", result.error().context());
+				std::lock_guard<std::mutex> lk(errors_mutex);
 				errors.push_back(result.error().context());
 				child.setStatus(false, result.error().context());
 				return;
@@ -881,6 +905,13 @@ QueryEngine::executeOrKeysWithFallback(const DisjunctiveQuery& q, bool optimize)
 	}
 	if (q.disjuncts.empty()) {
 		return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT, "executeOrKeysWithFallback: keine Disjunkte");
+	}
+	// QE-2: enforce collection-level access control before any I/O
+	if (collection_access_checker_ && !collection_access_checker_(q.table, collection_access_caller_id_)) {
+		return Err<std::vector<std::string>>(
+			errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+			"Access denied for collection: " + q.table
+		);
 	}
 
 	std::vector<std::vector<std::string>> all_lists(q.disjuncts.size());
@@ -1054,6 +1085,13 @@ QueryEngine::executeAndKeysSequential(const std::string& table,
 	if (orderedPredicates.empty()) {
 		return Err<std::vector<std::string>>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, 
 			"executeAndKeysSequential: no predicates provided");
+	}
+	// QE-2: enforce collection-level access control before any I/O
+	if (collection_access_checker_ && !collection_access_checker_(table, collection_access_caller_id_)) {
+		return Err<std::vector<std::string>>(
+			ErrorCode::ERR_QUERY_ACCESS_DENIED,
+			"Access denied for collection: " + table
+		);
 	}
 
 	// Starte mit erster Liste
@@ -1292,12 +1330,20 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 				"SUBSTRING expects string as first argument");
 		}
 		std::string sv = s->get<std::string>();
-		size_t startIdx = static_cast<size_t>(qe_toNumber(*st));
+		// Clamp negative/out-of-range doubles to [0, sv.size()] before narrowing to
+		// size_t; a raw static_cast of a negative double is implementation-defined UB.
+		const double startD = qe_toNumber(*st);
+		size_t startIdx = (startD <= 0.0) ? 0 :
+			(startD >= static_cast<double>(sv.size())) ? sv.size() :
+			static_cast<size_t>(startD);
 		if (startIdx >= sv.size()) return Ok(nlohmann::json(""));
 		if (args.size() == 3) {
 			auto lenRes = evalArg(2);
 			if (!lenRes) return lenRes;
-			size_t len = static_cast<size_t>(qe_toNumber(*lenRes));
+			const double lenD = qe_toNumber(*lenRes);
+			size_t len = (lenD <= 0.0) ? 0 :
+				(lenD >= static_cast<double>(sv.size())) ? sv.size() :
+				static_cast<size_t>(lenD);
 			return Ok(nlohmann::json(sv.substr(startIdx, len)));
 		}
 		return Ok(nlohmann::json(sv.substr(startIdx)));
@@ -1980,10 +2026,10 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		if (args.size() == 3) {
 			auto apRes = evalArg(2);
 			if (!apRes) return apRes;
-			// Clamp arc_points to [3, 360]: backend already clamps < 3, but guard upper bound here.
-			arc_points = static_cast<int>(qe_toNumber(*apRes));
-			if (arc_points < 3) arc_points = 3;
-			if (arc_points > 360) arc_points = 360;
+			// Clamp the double to [3, 360] BEFORE narrowing to int so that out-of-range
+			// floating-point values (e.g. 1e300) cannot trigger undefined behaviour.
+			const double ap_d = std::clamp(qe_toNumber(*apRes), 3.0, 360.0);
+			arc_points = static_cast<int>(ap_d);
 		}
 		try {
 			const geo::GeometryInfo geom = geo::EWKBParser::parseGeoJSON(gRes->dump());
@@ -2275,6 +2321,13 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 	span.setAttribute("query.table", q.table);
 	span.setAttribute("query.eq_count", static_cast<int64_t>(q.predicates.size()));
 	span.setAttribute("query.range_count", static_cast<int64_t>(q.rangePredicates.size()));
+	// QE-2: enforce collection-level access control before any I/O
+	if (collection_access_checker_ && !collection_access_checker_(q.table, collection_access_caller_id_)) {
+		return Err<std::vector<std::string>>(
+			errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+			"Access denied for collection: " + q.table
+		);
+	}
 	// If no predicates at all, must do full scan
 	if (q.predicates.empty() && q.rangePredicates.empty() && !q.orderBy.has_value()) {
 		auto keys = fullScanAndFilter_(q);
@@ -3055,8 +3108,9 @@ apply_sort_limit:
 	
 	// Apply LIMIT if specified
 	if (limit) {
-		size_t offset = static_cast<size_t>(limit->offset);
-		size_t count = static_cast<size_t>(limit->count);
+		// Guard against negative int64_t values: cast to size_t only after clamping.
+		size_t offset = (limit->offset <= 0) ? 0 : static_cast<size_t>(limit->offset);
+		size_t count  = (limit->count  <= 0) ? 0 : static_cast<size_t>(limit->count);
 		if (offset >= results.size()) {
 			results.clear();
 		} else {
@@ -3235,6 +3289,11 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 	span.setAttribute("query.start_node", q.start_node);
 	span.setAttribute("query.end_node", q.end_node);
 	span.setAttribute("query.max_depth", static_cast<int64_t>(q.max_depth));
+	constexpr size_t kMaxTraversalDepth = 100;
+	const size_t boundedDepth = std::min(q.max_depth, kMaxTraversalDepth);
+	const int bfsDepth = static_cast<int>(
+		std::min(boundedDepth, static_cast<size_t>(std::numeric_limits<int>::max())));
+	span.setAttribute("query.max_depth_effective", static_cast<int64_t>(boundedDepth));
 	
 	if (!graphIdx_) {
 		return Err<std::vector<std::vector<std::string>>>(ErrorCode::ERR_INDEX_NOT_FOUND, "GraphIndexManager nicht verfügbar");
@@ -3277,7 +3336,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			spatialSelectivity = (std::min)((std::max)(bboxArea / totalArea, 0.0), 1.0);
 		}
 	}
-	QueryOptimizer::GraphPathCostInput gci; gci.maxDepth = q.max_depth; gci.branchingFactor = static_cast<size_t>(std::ceil(branchingEstimate)); gci.hasSpatialConstraint = q.spatial_constraint.has_value(); gci.spatialSelectivity = spatialSelectivity;
+	QueryOptimizer::GraphPathCostInput gci; gci.maxDepth = boundedDepth; gci.branchingFactor = static_cast<size_t>(std::ceil(branchingEstimate)); gci.hasSpatialConstraint = q.spatial_constraint.has_value(); gci.spatialSelectivity = spatialSelectivity;
 	auto gcr = QueryOptimizer::estimateGraphPath(gci);
 	span.setAttribute("optimizer.graph.branching_estimate", static_cast<int64_t>(branchingEstimate));
 	span.setAttribute("optimizer.graph.expanded_estimate", static_cast<int64_t>(gcr.estimatedExpandedVertices));
@@ -3290,16 +3349,27 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 		return Ok(std::vector<std::vector<std::string>>{}); // leere Pfadliste als Schutz vor Explosion
 	}
 	// Temporal filter setup
+	// REL-20: wrap stoll() calls in try/catch — valid_from/valid_to are user-supplied
+	// strings; malformed or out-of-range values must not propagate an unhandled exception.
+	auto parseTimestampMs = [](const std::string& s) -> std::optional<int64_t> {
+		try {
+			return std::stoll(s);
+		} catch (const std::exception&) {
+			return std::nullopt;
+		}
+	};
 	std::optional<int64_t> timestamp_ms;
 	if (q.valid_from.has_value() && q.valid_to.has_value()) {
-		// Use midpoint of time window as query timestamp
-		int64_t from = std::stoll(*q.valid_from);
-		int64_t to = std::stoll(*q.valid_to);
-		timestamp_ms = (from + to) / 2;
+		auto from = parseTimestampMs(*q.valid_from);
+		auto to   = parseTimestampMs(*q.valid_to);
+		if (from.has_value() && to.has_value()) {
+			// Use midpoint of time window as query timestamp
+			timestamp_ms = (*from + *to) / 2;
+		}
 	} else if (q.valid_from.has_value()) {
-		timestamp_ms = std::stoll(*q.valid_from);
+		timestamp_ms = parseTimestampMs(*q.valid_from);
 	} else if (q.valid_to.has_value()) {
-		timestamp_ms = std::stoll(*q.valid_to);
+		timestamp_ms = parseTimestampMs(*q.valid_to);
 	}
 	
 	std::vector<std::vector<std::string>> allPaths;
@@ -3418,15 +3488,15 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 	std::string graphId = q.graph_id.empty() ? std::string("default") : q.graph_id;
 		
 		if (timestamp_ms.has_value()) {
-			auto [status, nodes] = graphIdx_->bfsAtTime(q.start_node, *timestamp_ms, static_cast<int>(q.max_depth));
+			auto [status, nodes] = graphIdx_->bfsAtTime(q.start_node, *timestamp_ms, bfsDepth);
 			st = status;
 			reachableNodes = std::move(nodes);
 		} else if (hasTypeFilter) {
-			auto [status, nodes] = graphIdx_->bfs(q.start_node, static_cast<int>(q.max_depth), q.edge_type, graphId);
+			auto [status, nodes] = graphIdx_->bfs(q.start_node, bfsDepth, q.edge_type, graphId);
 			st = status;
 			reachableNodes = std::move(nodes);
 		} else {
-			auto [status, nodes] = graphIdx_->bfs(q.start_node, static_cast<int>(q.max_depth));
+			auto [status, nodes] = graphIdx_->bfs(q.start_node, bfsDepth);
 			st = status;
 			reachableNodes = std::move(nodes);
 		}
@@ -3805,10 +3875,10 @@ static HybridVGConfig loadHybridConfig_(RocksDBWrapper& db) {
 		auto result = db.get("config:hybrid_query");
 		if (result.has_value()) {
 			auto j = nlohmann::json::parse(result.value());
-			if (j.contains("vector_first_overfetch")) cfg.overfetch = (std::max)(static_cast<size_t>(1), static_cast<size_t>(j.value("vector_first_overfetch", static_cast<int>(cfg.overfetch))));
+			if (j.contains("vector_first_overfetch")) cfg.overfetch = (std::max)(static_cast<size_t>(1), static_cast<size_t>(j.value("vector_first_overfetch", static_cast<int64_t>(cfg.overfetch))));
 			if (j.contains("bbox_ratio_threshold")) cfg.bbox_ratio_threshold = (std::min)(1.0, (std::max)(0.0, j.value("bbox_ratio_threshold", cfg.bbox_ratio_threshold)));
-			if (j.contains("min_chunk_spatial_eval")) cfg.min_chunk_spatial_eval = (std::max)(static_cast<size_t>(16), static_cast<size_t>(j.value("min_chunk_spatial_eval", static_cast<int>(cfg.min_chunk_spatial_eval))));
-			if (j.contains("min_chunk_vector_bf")) cfg.min_chunk_vector_bf = (std::max)(static_cast<size_t>(64), static_cast<size_t>(j.value("min_chunk_vector_bf", static_cast<int>(cfg.min_chunk_vector_bf))));
+			if (j.contains("min_chunk_spatial_eval")) cfg.min_chunk_spatial_eval = (std::max)(static_cast<size_t>(16), static_cast<size_t>(j.value("min_chunk_spatial_eval", static_cast<int64_t>(cfg.min_chunk_spatial_eval))));
+			if (j.contains("min_chunk_vector_bf")) cfg.min_chunk_vector_bf = (std::max)(static_cast<size_t>(64), static_cast<size_t>(j.value("min_chunk_vector_bf", static_cast<int64_t>(cfg.min_chunk_vector_bf))));
 		}
 	} catch (...) {
 		// keep defaults
@@ -3854,6 +3924,14 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeVectorGeoQuery");
 	span.setAttribute("query.table", q.table);
 	span.setAttribute("query.k", static_cast<int64_t>(q.k));
+
+	// QE-2: enforce collection-level access control before any I/O
+	if (collection_access_checker_ && !collection_access_checker_(q.table, collection_access_caller_id_)) {
+		return Err<std::vector<VectorGeoResult>>(
+			errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+			"Access denied for collection: " + q.table
+		);
+	}
 
 	// Erweiterte Index-basierte Vorselektion (Equality, Range, Composite)
 	std::optional<std::vector<std::string>> indexPrefilter;
@@ -4344,6 +4422,14 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 	span.setAttribute("query.table", q.table);
 	span.setAttribute("query.fulltext", q.fulltext_query);
 
+	// QE-2: enforce collection-level access control before any I/O
+	if (collection_access_checker_ && !collection_access_checker_(q.table, collection_access_caller_id_)) {
+		return Err<std::vector<ContentGeoResult>>(
+			errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+			"Access denied for collection: " + q.table
+		);
+	}
+
 	std::vector<ContentGeoResult> results;
 	if (!q.spatial_filter) {
 		return Err<std::vector<ContentGeoResult>>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT, "Content+Geo query requires spatial_filter");
@@ -4616,5 +4702,4 @@ query::QueryPlanNode QueryEngine::buildExplainPlan(const ConjunctiveQuery& q) co
 }
 
 } // namespace themis
-
 

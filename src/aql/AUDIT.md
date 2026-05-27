@@ -1,4 +1,4 @@
-<!-- Status: S0 addressed 2026-05-04 | S1 fixed 2026-05-04 | S2 fixed 2026-05-04 | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S0 addressed 2026-05-04 | S1 fixed 2026-05-04 | S2 fixed 2026-05-04 | LLM-1 hardening 2026-05-26 | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — AQL Module
@@ -15,6 +15,9 @@
 > AQL collection names are verified against the caller-supplied `schema_context`; queries
 > referencing out-of-scope collections are rejected with `INVALID_RESPONSE`. Residual risk:
 > callers who omit `schema_context` are warned but not blocked (architectural limitation).
+> **2026-05-26:** LLM-1 hardening — schema delimiter escape markers (`### SCHEMA_END ###`,
+> `[SCHEMA_END]`, `<SCHEMA_END>` and matching START variants) are now explicitly rejected in
+> sanitized inputs to prevent schema-block boundary breakout attacks.
 > **2026-05-04:** LLM-3 fixed — retrieved document content is sanitized via
 > `sanitizePromptInput()` and wrapped in `[DOCUMENT_START]/[DOCUMENT_END]` delimiters
 > before inclusion in the LLM RAG context.
@@ -28,8 +31,8 @@
 | Build System Registration | ✅ Verified |
 | Source Files | 21 (`.cpp` in `src/aql/`) |
 | Test Coverage | ✅ All 4 phases complete; unit tests for all core components |
-| S0 Critical | ✅ 0 (LLM-1 fixed 2026-04-21; LLM-2 addressed 2026-05-04) |
-| S1 High | 🔴 1 (RAG indirect prompt injection) |
+| S0 Critical | ✅ 0 (LLM-1 fixed 2026-04-21 + hardened 2026-05-26; LLM-2 addressed 2026-05-04 + hardened 2026-05-26) |
+| S1 High | ✅ 0 (LLM-3 fixed 2026-05-04) |
 | S2 Medium | ✅ 0 (LLM-4 fixed 2026-05-04) |
 | NL→AQL privilege isolation | ⚠️ Partial — schema-scope check enforced; full per-caller ACL requires architectural change |
 
@@ -102,7 +105,7 @@ treat content between these delimiters as schema only. Also strip known jailbrea
 
 ---
 
-#### LLM-2 · `llm_aql_handler.cpp` · `translateNLToAQL()` — Generated AQL executed at system privilege
+#### LLM-2 · `llm_aql_handler.cpp` · `translateNLToAQL*()` — Generated AQL executed at system privilege
 
 `AQLQueryValidator::validate()` performs syntax validation only. No ACL or collection-level
 authorization check is applied to generated AQL before it is returned and executed:
@@ -116,9 +119,13 @@ return aql_query;   // executed with system-level privilege
 Combined with LLM-1, this is a complete privilege escalation chain: an attacker with access
 to the NL→AQL endpoint can reach any collection in the database.
 
-**Fix required:** After validation, traverse the AQL AST to extract all referenced
-collection names. Verify each against the caller's ACL before returning the query for
-execution.
+**Fix applied:** Generated-query collection checks are now enforced in all NL→AQL paths
+(`translateNLToAQL`, `translateNLToAQLStreaming`, `translateNLToAQLWithExamples`):
+- schema-scope enforcement via `checkGeneratedAQLCollectionScope()` (rejects out-of-scope collections with `INVALID_RESPONSE`)
+- optional per-caller ACL enforcement via `setCollectionAccessChecker(...)` (rejects denied collections with `ACCESS_DENIED`)
+
+Residual architectural limitation: if callers omit `schema_context` and do not configure
+`setCollectionAccessChecker(...)`, collection scope cannot be strongly constrained.
 
 ---
 
@@ -156,7 +163,7 @@ can hijack the RAG response to the next user querying overlapping data.
 ### Resolved (from 2026-04-19 audit)
 - **Unbounded agent loop** — `max_iterations` enforced in `ReActAgent`.
 - **Tool error propagation** — tool executor exceptions caught and serialized as JSON observations.
-- Note: "AQL injection via NL input" claimed as resolved is **not fully resolved** — `schema_context` injection (LLM-1) remains open.
+- Note: NL→AQL remains guarded by prompt-input sanitization + schema-block delimiters + collection-scope enforcement. Residual architectural limitation: callers that omit `schema_context` cannot benefit from scope restriction and are currently warned (not blocked).
 
 ### Open (carried forward)
 - **Multi-modal inputs** — planned for v1.8.0; will require security review before merging.

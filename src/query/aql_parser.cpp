@@ -550,7 +550,13 @@ private:
             // BFS/DFS from being triggered with values like INT_MAX.
             static constexpr int kMaxTraversalDepth = 1000;
 
-            int minDepth = std::stoi(current().value);
+            int minDepth;
+            try {
+                minDepth = std::stoi(current().value);
+            } catch (const std::out_of_range&) {
+                throw std::runtime_error(
+                    "Graph traversal min depth '" + current().value + "' is out of integer range");
+            }
             if (minDepth < 0) {
                 throw std::runtime_error("Graph traversal min depth must be >= 0");
             }
@@ -564,7 +570,13 @@ private:
             if (!match(TokenType::INTEGER)) {
                 throw std::runtime_error("Expected max depth integer after '..'");
             }
-            int maxDepth = std::stoi(current().value);
+            int maxDepth;
+            try {
+                maxDepth = std::stoi(current().value);
+            } catch (const std::out_of_range&) {
+                throw std::runtime_error(
+                    "Graph traversal max depth '" + current().value + "' is out of integer range");
+            }
             if (maxDepth > kMaxTraversalDepth) {
                 throw std::runtime_error(
                     "Graph traversal max depth " + std::to_string(maxDepth) +
@@ -683,7 +695,11 @@ private:
         if (!match(TokenType::INTEGER)) {
             throw std::runtime_error("Expected integer after LIMIT");
         }
-        int64_t first = std::stoll(current().value);
+        int64_t first;
+        try { first = std::stoll(current().value); }
+        catch (const std::exception&) {
+            throw std::runtime_error("LIMIT value '" + current().value + "' is out of integer range");
+        }
         advance();
         
         if (match(TokenType::COMMA)) {
@@ -691,7 +707,11 @@ private:
             if (!match(TokenType::INTEGER)) {
                 throw std::runtime_error("Expected integer after comma in LIMIT");
             }
-            int64_t second = std::stoll(current().value);
+            int64_t second;
+            try { second = std::stoll(current().value); }
+            catch (const std::exception&) {
+                throw std::runtime_error("LIMIT value '" + current().value + "' is out of integer range");
+            }
             advance();
             return std::make_shared<LimitNode>(first, second); // offset, count
         }
@@ -1017,12 +1037,20 @@ private:
             return std::make_shared<LiteralExpr>(value);
         }
         if (match(TokenType::INTEGER)) {
-            int64_t value = std::stoll(current().value);
+            int64_t value;
+            try { value = std::stoll(current().value); }
+            catch (const std::exception&) {
+                throw std::runtime_error("Integer literal '" + current().value + "' is out of range");
+            }
             advance();
             return std::make_shared<LiteralExpr>(value);
         }
         if (match(TokenType::FLOAT)) {
-            double value = std::stod(current().value);
+            double value;
+            try { value = std::stod(current().value); }
+            catch (const std::exception&) {
+                throw std::runtime_error("Float literal '" + current().value + "' is out of range");
+            }
             advance();
             return std::make_shared<LiteralExpr>(value);
         }

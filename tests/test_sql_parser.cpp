@@ -461,3 +461,40 @@ TEST(SQLTranspilerTest, StringEscaping) {
     EXPECT_NE(aql.find("FILTER"), std::string::npos);
     EXPECT_NE(aql.find("O'Brien"), std::string::npos);
 }
+
+// ============================================================================
+// SQLParser – Numeric overflow guards (REL-16..17, issue #5177)
+// ============================================================================
+
+static bool sqlParseError(const std::string& sql) {
+    SQLParser parser;
+    auto result = parser.parse(sql);
+    return !result.has_value();
+}
+
+// LIMIT with out-of-range integer is rejected
+TEST(SQLParserTest, LimitOverflowIsError) {
+    EXPECT_TRUE(sqlParseError("SELECT * FROM users LIMIT 99999999999999999999"));
+}
+
+// OFFSET with out-of-range integer is rejected
+TEST(SQLParserTest, OffsetOverflowIsError) {
+    EXPECT_TRUE(sqlParseError("SELECT * FROM users LIMIT 10 OFFSET 99999999999999999999"));
+}
+
+// Integer literal overflow in a WHERE expression is rejected
+TEST(SQLParserTest, IntLiteralOverflowInWhereIsError) {
+    EXPECT_TRUE(sqlParseError(
+        "SELECT * FROM users WHERE id = 99999999999999999999"));
+}
+
+// Float literal overflow in a WHERE expression is rejected
+TEST(SQLParserTest, FloatLiteralOverflowInWhereIsError) {
+    EXPECT_TRUE(sqlParseError(
+        "SELECT * FROM users WHERE score = 1e99999"));
+}
+
+// Valid LIMIT / OFFSET are still accepted after adding the guard
+TEST(SQLParserTest, ValidLimitOffsetStillAccepted) {
+    EXPECT_FALSE(sqlParseError("SELECT * FROM users LIMIT 100 OFFSET 50"));
+}

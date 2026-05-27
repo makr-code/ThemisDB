@@ -9,10 +9,12 @@
 #pragma once
 
 #include "function_registry.h"
+#include <cstddef>
 #include <cmath>
 #include <algorithm>
 #include <numeric>
 #include <random>
+#include <limits>
 
 
 
@@ -967,14 +969,20 @@ public:
         vector_helpers::validateVector(args[0], "VECTOR_SLICE");
         
         auto vec = vector_helpers::toVector(args[0]);
-        int start = args[1].get<int>();
-        int end = args.size() > 2 && !args[2].is_null() ? args[2].get<int>() : static_cast<int>(vec.size());
-        
+        const int64_t vec_size_i64 = static_cast<int64_t>(
+            std::min(vec.size(), static_cast<size_t>(std::numeric_limits<int64_t>::max())));
+        int64_t start = args[1].get<int64_t>();
+        int64_t end = args.size() > 2 && !args[2].is_null() ? args[2].get<int64_t>() : vec_size_i64;
+
         if (start < 0) start = 0;
-        if (end > static_cast<int>(vec.size())) end = static_cast<int>(vec.size());
+        if (end < 0) end = 0;
+        if (start > vec_size_i64) start = vec_size_i64;
+        if (end > vec_size_i64) end = vec_size_i64;
         if (start >= end) return nlohmann::json::array();
         
-        std::vector<double> result(vec.begin() + start, vec.begin() + end);
+        std::vector<double> result(
+            vec.begin() + static_cast<std::ptrdiff_t>(start),
+            vec.begin() + static_cast<std::ptrdiff_t>(end));
         return vector_helpers::fromVector(result);
     }
 };
@@ -1067,5 +1075,3 @@ inline void registerVectorFunctions(FunctionRegistry& registry) {
 } // namespace functions
 } // namespace query
 } // namespace themis
-
-

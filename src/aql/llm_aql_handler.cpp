@@ -13,6 +13,7 @@
 #include <cctype>
 #include <future>
 #include <regex>
+#include <unordered_set>
 #include <spdlog/spdlog.h>
 #include <sstream>
 #include <stdexcept>
@@ -191,6 +192,13 @@ void sanitizePromptInput(const std::string &input, const std::string &field_name
         "do anything now",
         "jailbreak",
         "dan mode",
+        // Schema-block escape markers (LLM-1 hard delimiter bypass attempt)
+        "### schema_start ###",
+        "### schema_end ###",
+        "[schema_start]",
+        "[schema_end]",
+        "<schema_start>",
+        "<schema_end>",
     };
 
     for (const auto &pattern : kInjectionPatterns) {
@@ -275,6 +283,62 @@ static std::string checkGeneratedAQLCollectionScope(const std::string &aql_query
     return {}; // All referenced collections are within schema scope.
 }
 
+// Extract collection names from common AQL data-access clauses.
+static std::unordered_set<std::string> extractReferencedCollectionsForAccessCheck(
+    const std::string& aql_query)
+{
+    std::unordered_set<std::string> collections;
+    const auto addMatches = [&](const std::regex& pattern) {
+        auto begin = std::sregex_iterator(aql_query.begin(), aql_query.end(), pattern);
+        const auto end = std::sregex_iterator{};
+        for (auto it = begin; it != end; ++it) {
+            collections.insert((*it)[1].str());
+        }
+    };
+
+    // FOR doc IN users
+    static const std::regex kForInPattern(
+        R"(\bFOR\s+\w+(?:\s*,\s*\w+){0,2}\s+IN\s+(\w+))",
+        std::regex_constants::icase
+    );
+    // REMOVE/UPDATE/REPLACE doc IN users
+    static const std::regex kMutateInPattern(
+        R"(\b(?:REMOVE|UPDATE|REPLACE)\s+\w+\s+IN\s+(\w+))",
+        std::regex_constants::icase
+    );
+    // INSERT doc INTO users
+    static const std::regex kInsertIntoPattern(
+        R"(\bINSERT\s+\w+\s+INTO\s+(\w+))",
+        std::regex_constants::icase
+    );
+    // UPSERT ... INTO users
+    static const std::regex kUpsertIntoPattern(
+        R"(\bUPSERT\b[\s\S]*?\bINTO\s+(\w+))",
+        std::regex_constants::icase
+    );
+
+    addMatches(kForInPattern);
+    addMatches(kMutateInPattern);
+    addMatches(kInsertIntoPattern);
+    addMatches(kUpsertIntoPattern);
+    return collections;
+}
+
+static std::string checkGeneratedAQLCollectionAccess(
+    const std::string& aql_query,
+    const std::function<bool(const std::string&)>& checker)
+{
+    if (!checker) return {};
+    const auto collections = extractReferencedCollectionsForAccessCheck(aql_query);
+    for (const auto& coll : collections) {
+        if (!checker(coll)) {
+            return "Generated AQL references collection '" + coll +
+                   "' which is denied by the collection access checker.";
+        }
+    }
+    return {};
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // AQLConversationSession
 // ─────────────────────────────────────────────────────────────────────────────
@@ -346,6 +410,9 @@ class LLMAQLHandler::Impl {
     // Post-generation AQL validation enforcement level
     TranslationValidationMode validation_mode_ = TranslationValidationMode::WARN_ONLY;
 
+    // Optional generated-query collection ACL checker (LLM-2 hardening).
+    std::function<bool(const std::string&)> collection_access_checker_;
+
     // Runtime-overridable validation limits (default = ValidationLimits constexprs)
     ValidationLimitsConfig validation_limits_{};
 
@@ -395,6 +462,12 @@ LLMAQLHandler::~LLMAQLHandler() = default;
 
 void LLMAQLHandler::setValidationMode(TranslationValidationMode mode) {
     impl_->validation_mode_ = mode;
+}
+
+void LLMAQLHandler::setCollectionAccessChecker(
+    std::function<bool(const std::string& collection_name)> checker
+) {
+    impl_->collection_access_checker_ = std::move(checker);
 }
 
 TranslationValidationMode LLMAQLHandler::getValidationMode() const {
@@ -1318,6 +1391,13 @@ std::string LLMAQLHandler::translateNLToAQL(const std::string &nl_query, const s
                     throw LLMException(LLMErrorCode::INVALID_RESPONSE, scope_err);
                 }
             }
+            {
+                std::string acl_err =
+                    checkGeneratedAQLCollectionAccess(aql_query, impl_->collection_access_checker_);
+                if (!acl_err.empty()) {
+                    throw LLMException(LLMErrorCode::ACCESS_DENIED, acl_err);
+                }
+            }
 
             return aql_query;
 
@@ -1409,6 +1489,13 @@ std::string LLMAQLHandler::translateNLToAQLStreaming(const std::string &nl_query
                 std::string scope_err = checkGeneratedAQLCollectionScope(aql_query, schema_context);
                 if (!scope_err.empty()) {
                     throw LLMException(LLMErrorCode::INVALID_RESPONSE, scope_err);
+                }
+            }
+            {
+                std::string acl_err =
+                    checkGeneratedAQLCollectionAccess(aql_query, impl_->collection_access_checker_);
+                if (!acl_err.empty()) {
+                    throw LLMException(LLMErrorCode::ACCESS_DENIED, acl_err);
                 }
             }
 
@@ -1622,6 +1709,20 @@ std::string LLMAQLHandler::translateNLToAQLWithExamples(const std::string &nl_qu
             // Log any structural issues from syntax highlighter
             AQLSyntaxHighlighter validator(/*use_ansi=*/false);
             logAnnotations(validator.annotateErrors(aql_query), nl_query, "translateNLToAQLWithExamples");
+            {
+                std::string scope_err =
+                    checkGeneratedAQLCollectionScope(aql_query, schema_context);
+                if (!scope_err.empty()) {
+                    throw LLMException(LLMErrorCode::INVALID_RESPONSE, scope_err);
+                }
+            }
+            {
+                std::string acl_err =
+                    checkGeneratedAQLCollectionAccess(aql_query, impl_->collection_access_checker_);
+                if (!acl_err.empty()) {
+                    throw LLMException(LLMErrorCode::ACCESS_DENIED, acl_err);
+                }
+            }
 
             spdlog::debug("translateNLToAQLWithExamples: injected {} examples for query \"{}\"", injected_count,
                           nl_query.size() > 60 ? nl_query.substr(0, 60) + "..." : nl_query);

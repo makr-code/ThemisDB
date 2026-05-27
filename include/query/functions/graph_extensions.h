@@ -37,6 +37,21 @@ namespace themis {
 namespace query {
 namespace functions {
 
+namespace {
+inline int clampIterationsFromJson(const nlohmann::json& value, int fallback = 100) {
+    if (!value.is_number()) {
+        return fallback;
+    }
+    const double raw = value.get<double>();
+    if (!std::isfinite(raw)) {
+        return fallback;
+    }
+    constexpr double kMinIterations = 1.0;
+    constexpr double kMaxIterations = 1'000'000.0;
+    return static_cast<int>(std::clamp(raw, kMinIterations, kMaxIterations));
+}
+} // namespace
+
 // ============================================================================
 // ALL_SHORTEST_PATHS - Find all shortest paths between two vertices
 // ============================================================================
@@ -885,9 +900,9 @@ public:
         int max_iterations = 100;
         if (args.size() > 1) {
             if (args[1].is_object() && args[1].contains("max_iterations")) {
-                max_iterations = static_cast<int>(args[1]["max_iterations"].get<double>());
+                max_iterations = clampIterationsFromJson(args[1]["max_iterations"], max_iterations);
             } else if (args[1].is_number()) {
-                max_iterations = static_cast<int>(args[1].get<double>());
+                max_iterations = clampIterationsFromJson(args[1], max_iterations);
             }
         }
 
@@ -979,4 +994,3 @@ inline void registerGraphExtensions(FunctionRegistry& registry) {
 } // namespace functions
 } // namespace query
 } // namespace themis
-
