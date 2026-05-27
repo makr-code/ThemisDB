@@ -20,10 +20,13 @@
 #include <sstream>
 #include <chrono>
 #include <algorithm>
+#include <charconv>
 #include <limits>
 #include <queue>
 #include <unordered_map>
 #include <unordered_set>
+#include <thread>
+#include <optional>
 
 // Define THEMIS_VERSION_STRING if not already defined
 #ifndef THEMIS_VERSION_STRING
@@ -39,6 +42,199 @@ namespace {
     constexpr double PI = 3.14159265358979323846;
     constexpr double DEG_TO_RAD = PI / 180.0;
     constexpr double EARTH_RADIUS_METERS = 6371000.0;
+    constexpr size_t kDeadlineCheckInterval = 256;
+
+    std::optional<long long> parseStrictPositiveInteger(const std::string& raw) {
+        if (raw.empty()) {
+            return std::nullopt;
+        }
+        long long parsed = 0;
+        const char* begin = raw.data();
+        const char* end = raw.data() + raw.size();
+        const auto [ptr, ec] = std::from_chars(begin, end, parsed);
+        if (ec != std::errc{} || ptr != end) {
+            return std::nullopt;
+        }
+        return parsed;
+    }
+
+    long long safeCeilDiv(long long value, long long divisor) {
+        if (value <= 0) {
+            return 0;
+        }
+        return 1 + ((value - 1) / divisor);
+    }
+
+    std::chrono::milliseconds clampMillisFromUnit(long long value, char unit) {
+        if (value <= 0) {
+            return std::chrono::milliseconds(0);
+        }
+
+        constexpr long long kMaxMs = std::numeric_limits<long long>::max();
+        auto saturatingMul = [](long long lhs, long long rhs) {
+            constexpr long long kMax = std::numeric_limits<long long>::max();
+            if (lhs > kMax / rhs) {
+                return kMax;
+            }
+            return lhs * rhs;
+        };
+
+        switch (unit) {
+            case 'H':
+                return std::chrono::milliseconds(saturatingMul(value, 3600000LL));
+            case 'M':
+                return std::chrono::milliseconds(saturatingMul(value, 60000LL));
+            case 'S':
+                return std::chrono::milliseconds(saturatingMul(value, 1000LL));
+            case 'm':
+                return std::chrono::milliseconds(std::min(value, kMaxMs));
+            case 'u':
+                return std::chrono::milliseconds(std::max(1LL, safeCeilDiv(value, 1000LL)));
+            case 'n':
+                return std::chrono::milliseconds(std::max(1LL, safeCeilDiv(value, 1000000LL)));
+            default:
+                return std::chrono::milliseconds(0);
+        }
+    }
+
+    bool isRetryableMethod(const std::string& method) {
+        static const std::unordered_set<std::string> retryable_methods = {
+            "get", "batch_get", "search", "query", "paginated_query",
+            "vector_search", "graph_traverse", "geo_query", "timeseries_query",
+            "get_index_operations", "list_collections", "get_collection_metadata",
+            "aggregation_pipeline", "health_check", "stats"
+        };
+        return retryable_methods.count(method) > 0;
+    }
+
+    bool isRetryableErrorResponse(const json& response) {
+        if (!response.contains("error") || !response["error"].is_object()) {
+            return false;
+        }
+        const int code = response["error"].value("code", -1);
+        return code == static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT) ||
+               code == static_cast<int>(themis::plugins::rpc::RPCErrorCode::SERVICE_UNAVAILABLE) ||
+               code == static_cast<int>(themis::plugins::rpc::RPCErrorCode::RESOURCE_EXHAUSTED);
+    }
+
+    std::string currentExceptionMessage(const std::string& fallback) {
+        try {
+            throw;
+        } catch (const std::exception& e) {
+            return e.what();
+        } catch (...) {
+            return fallback;
+        }
+    }
+
+    std::optional<std::chrono::milliseconds> parseGrpcTimeout(const std::string& timeout) {
+        if (timeout.size() < 2) {
+            return std::nullopt;
+        }
+
+        const char unit = timeout.back();
+        const auto value = parseStrictPositiveInteger(timeout.substr(0, timeout.size() - 1));
+        if (!value.has_value()) {
+            return std::nullopt;
+        }
+
+        switch (unit) {
+            case 'H':
+            case 'M':
+            case 'S':
+            case 'm':
+            case 'u':
+            case 'n':
+                return clampMillisFromUnit(*value, unit);
+            default: return std::nullopt;
+        }
+    }
+
+    std::optional<std::chrono::milliseconds> parseMillisHeaderValue(const std::string& value) {
+        const auto parsed = parseStrictPositiveInteger(value);
+        if (!parsed.has_value()) {
+            return std::nullopt;
+        }
+        if (*parsed <= 0) {
+            return std::chrono::milliseconds(0);
+        }
+        return std::chrono::milliseconds(*parsed);
+    }
+
+    std::optional<std::chrono::milliseconds> parseRequestTimeout(const themis::plugins::rpc::RPCRequestContext& context) {
+        auto grpc_timeout_it = context.metadata.find("grpc-timeout");
+        if (grpc_timeout_it != context.metadata.end()) {
+            const auto parsed = parseGrpcTimeout(grpc_timeout_it->second);
+            if (parsed.has_value()) {
+                return parsed;
+            }
+        }
+
+        auto ms_timeout_it = context.metadata.find("x-timeout-ms");
+        if (ms_timeout_it != context.metadata.end()) {
+            const auto parsed = parseMillisHeaderValue(ms_timeout_it->second);
+            if (parsed.has_value()) {
+                return parsed;
+            }
+        }
+
+        auto request_timeout_it = context.metadata.find("request-timeout-ms");
+        if (request_timeout_it != context.metadata.end()) {
+            const auto parsed = parseMillisHeaderValue(request_timeout_it->second);
+            if (parsed.has_value()) {
+                return parsed;
+            }
+        }
+
+        return std::nullopt;
+    }
+
+    using RequestDeadline = std::optional<std::chrono::steady_clock::time_point>;
+
+    RequestDeadline deriveRequestDeadline(
+        const themis::plugins::rpc::RPCRequestContext& context,
+        const std::optional<std::chrono::milliseconds>& request_timeout
+    ) {
+        if (!request_timeout.has_value() || context.timestamp_ms == 0) {
+            return std::nullopt;
+        }
+
+        const auto timeout_count = request_timeout->count();
+        if (timeout_count <= 0) {
+            return std::chrono::steady_clock::now();
+        }
+
+        const auto now_ms = static_cast<uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count());
+        const auto elapsed_ms = (now_ms >= context.timestamp_ms) ? (now_ms - context.timestamp_ms) : 0;
+        if (elapsed_ms >= static_cast<uint64_t>(timeout_count)) {
+            return std::chrono::steady_clock::now();
+        }
+
+        const auto remaining_ms = timeout_count - static_cast<long long>(elapsed_ms);
+        return std::chrono::steady_clock::now() + std::chrono::milliseconds(remaining_ms);
+    }
+
+    bool isDeadlineExceeded(const RequestDeadline& deadline) {
+        return deadline.has_value() && std::chrono::steady_clock::now() >= *deadline;
+    }
+
+    bool shouldCheckDeadline(size_t iterations) {
+        return iterations > 0 && (iterations % kDeadlineCheckInterval) == 0;
+    }
+
+    std::chrono::milliseconds remainingDeadlineBudget(const RequestDeadline& deadline) {
+        if (!deadline.has_value()) {
+            return std::chrono::milliseconds::max();
+        }
+
+        const auto now = std::chrono::steady_clock::now();
+        if (now >= *deadline) {
+            return std::chrono::milliseconds(0);
+        }
+
+        return std::chrono::duration_cast<std::chrono::milliseconds>(*deadline - now);
+    }
 }
 
 // Helper function to get timestamp in nanoseconds
@@ -53,6 +249,19 @@ static std::mutex transaction_mutex;
 static std::unordered_map<std::string, std::unique_ptr<RocksDBWrapper::TransactionWrapper>> active_transactions;
 
 json ThemisRPCService::handleGet(const json& params) {
+    return handleGetInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleGetInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
+    if (isDeadlineExceeded(deadline)) {
+        return createError(
+            themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+            "Request deadline exceeded before get execution"
+        );
+    }
     try {
         std::string model(params.value("model", ""));
         std::string collection(params.value("collection", ""));
@@ -117,6 +326,19 @@ json ThemisRPCService::handleGet(const json& params) {
 }
 
 json ThemisRPCService::handlePut(const json& params) {
+    return handlePutInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handlePutInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
+    if (isDeadlineExceeded(deadline)) {
+        return createError(
+            themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+            "Request deadline exceeded before put execution"
+        );
+    }
     try {
         std::string model(params.value("model", ""));
         std::string collection(params.value("collection", ""));
@@ -204,6 +426,19 @@ json ThemisRPCService::handlePut(const json& params) {
 }
 
 json ThemisRPCService::handleInsert(const json& params) {
+    return handleInsertInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleInsertInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
+    if (isDeadlineExceeded(deadline)) {
+        return createError(
+            themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+            "Request deadline exceeded before insert execution"
+        );
+    }
     try {
         std::string model(params.value("model", ""));
         std::string collection(params.value("collection", ""));
@@ -316,6 +551,13 @@ json ThemisRPCService::handleInsert(const json& params) {
 }
 
 json ThemisRPCService::handleDelete(const json& params) {
+    return handleDeleteInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleDeleteInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         std::string model(params.value("model", ""));
         std::string collection(params.value("collection", ""));
@@ -354,9 +596,10 @@ json ThemisRPCService::handleDelete(const json& params) {
         // Helper lambda: find direct children of an entity within its collection.
         // Child entities carry _parent_uuid (and optionally _parent_model /
         // _parent_collection) fields that point to their parent.
+        bool deadline_exceeded = false;
         auto find_children = [&](const std::string& p_collection,
-                                  const std::string& p_model,
-                                  const std::string& p_uuid) -> std::vector<std::string> {
+                                 const std::string& p_model,
+                                 const std::string& p_uuid) -> std::vector<std::string> {
             std::vector<std::string> children;
             std::string scan_prefix = p_collection + ":";
             std::string parent_key  = p_collection + ":" + p_model + ":" + p_uuid;
@@ -366,7 +609,13 @@ json ThemisRPCService::handleDelete(const json& params) {
 
             auto& iter = iter_result.value();
             iter.Seek(scan_prefix);
+            size_t scanned_keys = 0;
             while (iter.Valid()) {
+                ++scanned_keys;
+                if (shouldCheckDeadline(scanned_keys) && isDeadlineExceeded(deadline)) {
+                    deadline_exceeded = true;
+                    break;
+                }
                 std::string iter_key(iter.key());
                 if (iter_key.substr(0, scan_prefix.length()) != scan_prefix) break;
                 if (iter_key != parent_key) {
@@ -389,6 +638,12 @@ json ThemisRPCService::handleDelete(const json& params) {
 
         // Discover direct children of the target entity
         std::vector<std::string> direct_children = find_children(collection, model, uuid);
+        if (deadline_exceeded) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                "Request deadline exceeded during delete cascade scan"
+            );
+        }
 
         // Referential integrity: block deletion when children exist and cascade is off
         if (!direct_children.empty() && !cascade) {
@@ -410,7 +665,16 @@ json ThemisRPCService::handleDelete(const json& params) {
                 keys_to_delete.push_back(child_key);
             }
 
+            size_t bfs_visited = 0;
             while (!bfs_queue.empty()) {
+                ++bfs_visited;
+                if (shouldCheckDeadline(bfs_visited) && isDeadlineExceeded(deadline)) {
+                    return createError(
+                        themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                        "Request deadline exceeded during delete cascade traversal"
+                    );
+                }
+
                 std::string curr_key = bfs_queue.front();
                 bfs_queue.pop();
 
@@ -428,6 +692,12 @@ json ThemisRPCService::handleDelete(const json& params) {
                 std::string curr_uuid       = curr_key.substr(second_colon + 1);
 
                 auto grandchildren = find_children(curr_collection, curr_model, curr_uuid);
+                if (deadline_exceeded) {
+                    return createError(
+                        themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                        "Request deadline exceeded during delete cascade scan"
+                    );
+                }
                 for (const auto& gc_key : grandchildren) {
                     bfs_queue.push(gc_key);
                     keys_to_delete.push_back(gc_key);
@@ -436,8 +706,16 @@ json ThemisRPCService::handleDelete(const json& params) {
         }
 
         // Delete descendants in reverse BFS order (deepest level first)
+        size_t deleted_items = 0;
         int deleted_count = 0;
         for (auto it = keys_to_delete.rbegin(); it != keys_to_delete.rend(); ++it) {
+            ++deleted_items;
+            if (shouldCheckDeadline(deleted_items) && isDeadlineExceeded(deadline)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during delete cascade write"
+                );
+            }
             if (!storage->del(*it)) {
                 return createError(
                     themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
@@ -448,6 +726,12 @@ json ThemisRPCService::handleDelete(const json& params) {
         }
 
         // Delete the target entity itself
+        if (isDeadlineExceeded(deadline)) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                "Request deadline exceeded during delete write"
+            );
+        }
         if (!storage->del(key)) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
@@ -472,6 +756,13 @@ json ThemisRPCService::handleDelete(const json& params) {
 }
 
 json ThemisRPCService::handleBatchGet(const json& params) {
+    return handleBatchGetInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleBatchGetInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         if (!params.contains("keys") || !params["keys"].is_array()) {
             return createError(
@@ -494,7 +785,15 @@ json ThemisRPCService::handleBatchGet(const json& params) {
         std::vector<json> results_array;
         
         // Build keys list
+        size_t keys_built = 0;
         for (const auto& key_obj : keys_array) {
+            ++keys_built;
+            if (shouldCheckDeadline(keys_built) && isDeadlineExceeded(deadline)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during batch get"
+                );
+            }
             if (!key_obj.contains("collection") || !key_obj.contains("model") || !key_obj.contains("uuid")) {
                 return createError(
                     themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
@@ -512,6 +811,12 @@ json ThemisRPCService::handleBatchGet(const json& params) {
         
         // Build results
         for (size_t i = 0; i < values.size(); ++i) {
+            if (shouldCheckDeadline(i + 1) && isDeadlineExceeded(deadline)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during batch get results"
+                );
+            }
             json result_item;
             if (values[i].has_value()) {
                 // Parse JSON entity directly from vector<uint8_t>
@@ -551,6 +856,13 @@ json ThemisRPCService::handleBatchGet(const json& params) {
 }
 
 json ThemisRPCService::handleBatchPut(const json& params) {
+    return handleBatchPutInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleBatchPutInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         if (!params.contains("entities") || !params["entities"].is_array()) {
             return createError(
@@ -575,8 +887,16 @@ json ThemisRPCService::handleBatchPut(const json& params) {
         
         uint64_t timestamp = getCurrentTimestampNs();
         int count = 0;
+        size_t item_index = 0;
         
         for (const auto& item : entities_array) {
+            ++item_index;
+            if (shouldCheckDeadline(item_index) && isDeadlineExceeded(deadline)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during batch put"
+                );
+            }
             if (!item.contains("collection") || !item.contains("model") || 
                 !item.contains("uuid") || !item.contains("entity")) {
                 return createError(
@@ -634,6 +954,13 @@ json ThemisRPCService::handleBatchPut(const json& params) {
 }
 
 json ThemisRPCService::handleBatchDelete(const json& params) {
+    return handleBatchDeleteInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleBatchDeleteInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         if (!params.contains("keys") || !params["keys"].is_array()) {
             return createError(
@@ -654,8 +981,16 @@ json ThemisRPCService::handleBatchDelete(const json& params) {
 
         auto batch = storage->createWriteBatch();
         int count = 0;
+        size_t item_index = 0;
 
         for (const auto& key_obj : keys_array) {
+            ++item_index;
+            if (shouldCheckDeadline(item_index) && isDeadlineExceeded(deadline)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during batch delete"
+                );
+            }
             if (!key_obj.contains("collection") || !key_obj.contains("model") || !key_obj.contains("uuid")) {
                 return createError(
                     themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
@@ -694,6 +1029,13 @@ json ThemisRPCService::handleBatchDelete(const json& params) {
 }
 
 json ThemisRPCService::handleQuery(const json& params) {
+    return handleQueryInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleQueryInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         std::string aql;
         if (params.is_object()) {
@@ -753,10 +1095,19 @@ json ThemisRPCService::handleQuery(const json& params) {
             auto& iter = iter_result.value();
             size_t matched_total = 0;
             size_t emitted = 0;
+            size_t scanned_keys = 0;
             json results = json::array();
 
             iter.Seek(prefix);
             while (iter.Valid()) {
+                ++scanned_keys;
+                if (shouldCheckDeadline(scanned_keys) && isDeadlineExceeded(deadline)) {
+                    return createError(
+                        themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                        "Request deadline exceeded during query collection scan"
+                    );
+                }
+
                 std::string key(iter.key());
                 if (key.substr(0, prefix.length()) != prefix) {
                     break;
@@ -842,7 +1193,21 @@ json ThemisRPCService::handleQuery(const json& params) {
 }
 
 json ThemisRPCService::handleVectorSearch(const json& params) {
+    return handleVectorSearchInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleVectorSearchInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
+        if (isDeadlineExceeded(deadline)) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                "Request deadline exceeded before vector search execution"
+            );
+        }
+
         std::string collection(params.value("collection", ""));
         
         if (collection.empty()) {
@@ -893,7 +1258,21 @@ json ThemisRPCService::handleVectorSearch(const json& params) {
 }
 
 json ThemisRPCService::handleGraphTraverse(const json& params) {
+    return handleGraphTraverseInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleGraphTraverseInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
+        if (isDeadlineExceeded(deadline)) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                "Request deadline exceeded before graph traversal execution"
+            );
+        }
+
         // Get storage engine
         auto storage = storage_;
         if (!storage) {
@@ -935,8 +1314,232 @@ json ThemisRPCService::handleGraphTraverse(const json& params) {
 }
 
 json ThemisRPCService::handleGeoQuery(const json& params) {
+    return handleGeoQueryInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleGeoQueryInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         std::string collection(params.value("collection", ""));
+        
+        if (collection.empty()) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                "Missing required parameter: collection"
+            );
+        }
+        
+        // Get storage engine
+        auto storage = storage_;
+        if (!storage) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Database storage not initialized"
+            );
+        }
+        
+        // Check if spatial index is available
+        if (!spatial_index_) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Spatial index not initialized"
+            );
+        }
+        
+        // Verify that the collection has a spatial index
+        if (!spatial_index_->hasSpatialIndex(collection)) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                "Collection '" + collection + "' does not have a spatial index. Create one first using spatial index API."
+            );
+        }
+        
+        // Extract geo query parameters
+        std::string query_type(params.value("type", ""));  // within, near, intersects
+        
+        if (query_type.empty()) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                "Missing required parameter: type (within, near, intersects)"
+            );
+        }
+        
+        json results = json::array();
+        
+        // Handle different query types
+        if (query_type == "intersects" || query_type == "within") {
+            // Parse bounding box
+            if (!params.contains("bbox") || !params["bbox"].is_object()) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                    "Missing or invalid 'bbox' parameter. Expected: {minx, miny, maxx, maxy}"
+                );
+            }
+            
+            auto bbox_json = params["bbox"];
+            if (!bbox_json.contains("minx") || !bbox_json.contains("miny") ||
+                !bbox_json.contains("maxx") || !bbox_json.contains("maxy")) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                    "bbox must contain: minx, miny, maxx, maxy"
+                );
+            }
+            
+            geo::MBR query_bbox(
+                bbox_json["minx"].get<double>(),
+                bbox_json["miny"].get<double>(),
+                bbox_json["maxx"].get<double>(),
+                bbox_json["maxy"].get<double>()
+            );
+            
+            // Perform spatial search
+            auto search_results = spatial_index_->searchIntersects(collection, query_bbox);
+            
+            // Convert results to JSON
+            size_t result_count = 0;
+            for (const auto& result : search_results) {
+                ++result_count;
+                if (shouldCheckDeadline(result_count) && isDeadlineExceeded(deadline)) {
+                    return createError(
+                        themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                        "Request deadline exceeded during geo query results"
+                    );
+                }
+                json result_obj;
+                result_obj["primary_key"] = result.primary_key;
+                result_obj["mbr"] = {
+                    {"minx", result.mbr.minx},
+                    {"miny", result.mbr.miny},
+                    {"maxx", result.mbr.maxx},
+                    {"maxy", result.mbr.maxy}
+                };
+                if (result.z_min.has_value() && result.z_max.has_value()) {
+                    result_obj["z_min"] = result.z_min.value();
+                    result_obj["z_max"] = result.z_max.value();
+                }
+                results.push_back(result_obj);
+            }
+            
+        } else if (query_type == "near") {
+            // Parse center point and radius
+            if (!params.contains("center") || !params["center"].is_object()) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                    "Missing or invalid 'center' parameter. Expected: {lon, lat}"
+                );
+            }
+            
+            if (!params.contains("radius")) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                    "Missing 'radius' parameter (in meters)"
+                );
+            }
+            
+            auto center = params["center"];
+            if (!center.contains("lon") || !center.contains("lat")) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                    "center must contain: lon, lat"
+                );
+            }
+            
+            double lon = center["lon"].get<double>();
+            double lat = center["lat"].get<double>();
+            double radius = params["radius"].get<double>();
+            
+            // Create bounding box from center + radius
+            // Rough approximation: 1 degree latitude ≈ 111km
+            // 1 degree longitude varies by latitude
+            constexpr double METERS_PER_DEGREE_LAT = 111000.0;
+            double meters_per_degree_lon = METERS_PER_DEGREE_LAT * std::cos(lat * DEG_TO_RAD);
+            
+            double lat_delta = radius / METERS_PER_DEGREE_LAT;
+            double lon_delta = radius / meters_per_degree_lon;
+            
+            geo::MBR query_bbox(
+                lon - lon_delta,
+                lat - lat_delta,
+                lon + lon_delta,
+                lat + lat_delta
+            );
+            
+            // Perform spatial search
+            auto search_results = spatial_index_->searchIntersects(collection, query_bbox);
+            
+            // Convert results to JSON and add distance
+            size_t result_count = 0;
+            for (const auto& result : search_results) {
+                ++result_count;
+                if (shouldCheckDeadline(result_count) && isDeadlineExceeded(deadline)) {
+                    return createError(
+                        themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                        "Request deadline exceeded during geo query results"
+                    );
+                }
+                json result_obj;
+                result_obj["primary_key"] = result.primary_key;
+                result_obj["mbr"] = {
+                    {"minx", result.mbr.minx},
+                    {"miny", result.mbr.miny},
+                    {"maxx", result.mbr.maxx},
+                    {"maxy", result.mbr.maxy}
+                };
+                
+                // Calculate approximate distance from center to MBR centroid
+                double result_lon = (result.mbr.minx + result.mbr.maxx) / 2.0;
+                double result_lat = (result.mbr.miny + result.mbr.maxy) / 2.0;
+                
+                // Haversine formula for great circle distance
+                double lat1_rad = lat * DEG_TO_RAD;
+                double lat2_rad = result_lat * DEG_TO_RAD;
+                double dlat = (result_lat - lat) * DEG_TO_RAD;
+                double dlon = (result_lon - lon) * DEG_TO_RAD;
+                
+                double a = std::sin(dlat/2) * std::sin(dlat/2) +
+                          std::cos(lat1_rad) * std::cos(lat2_rad) *
+                          std::sin(dlon/2) * std::sin(dlon/2);
+                double c = 2 * std::atan2(std::sqrt(a), std::sqrt(1-a));
+                double distance = EARTH_RADIUS_METERS * c;
+                
+                result_obj["distance"] = distance;
+                
+                if (result.z_min.has_value() && result.z_max.has_value()) {
+                    result_obj["z_min"] = result.z_min.value();
+                    result_obj["z_max"] = result.z_max.value();
+                }
+                
+                // Only include results within the specified radius
+                if (distance <= radius) {
+                    results.push_back(result_obj);
+                }
+            }
+            
+        } else {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                "Invalid query type. Supported types: intersects, within, near"
+            );
+        }
+        
+        json result = {
+            {"results", results},
+            {"count", results.size()},
+            {"query_type", query_type},
+            {"collection", collection}
+        };
+        
+        return createSuccess(result);
+        
+    } catch (const std::exception& e) {
+        return createError(
+            themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+            e.what()
+        );
+    }
+}
         
         if (collection.empty()) {
             return createError(
@@ -1140,6 +1743,13 @@ json ThemisRPCService::handleGeoQuery(const json& params) {
 }
 
 json ThemisRPCService::handleTimeSeriesQuery(const json& params) {
+    return handleTimeSeriesQueryInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleTimeSeriesQueryInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         std::string collection(params.value("collection", ""));
         
@@ -1186,6 +1796,7 @@ json ThemisRPCService::handleTimeSeriesQuery(const json& params) {
         auto& iter = iter_result.value();
         json data_points = json::array();
         int count = 0;
+        size_t scanned_keys = 0;
 
         // Aggregation accumulators
         double agg_sum = 0.0;
@@ -1195,6 +1806,14 @@ json ThemisRPCService::handleTimeSeriesQuery(const json& params) {
 
         iter.Seek(prefix);
         while (iter.Valid() && count < limit) {
+            ++scanned_keys;
+            if (shouldCheckDeadline(scanned_keys) && isDeadlineExceeded(deadline)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during time series collection scan"
+                );
+            }
+
             std::string key(iter.key());
             if (key.substr(0, prefix.length()) != prefix) {
                 break;
@@ -1269,6 +1888,19 @@ json ThemisRPCService::handleTimeSeriesQuery(const json& params) {
 static uint64_t transaction_counter = 0;
 
 json ThemisRPCService::handleTransactionBegin(const json& params) {
+    return handleTransactionBeginInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleTransactionBeginInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
+    if (isDeadlineExceeded(deadline)) {
+        return createError(
+            themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+            "Request deadline exceeded before transaction_begin execution"
+        );
+    }
     try {
         // Get storage engine
         auto storage = storage_;
@@ -1317,6 +1949,19 @@ json ThemisRPCService::handleTransactionBegin(const json& params) {
 }
 
 json ThemisRPCService::handleTransactionCommit(const json& params) {
+    return handleTransactionCommitInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleTransactionCommitInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
+    if (isDeadlineExceeded(deadline)) {
+        return createError(
+            themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+            "Request deadline exceeded before transaction_commit execution"
+        );
+    }
     try {
         std::string tx_id;
         if (params.is_object()) {
@@ -1375,6 +2020,19 @@ json ThemisRPCService::handleTransactionCommit(const json& params) {
 }
 
 json ThemisRPCService::handleTransactionAbort(const json& params) {
+    return handleTransactionAbortInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleTransactionAbortInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
+    if (isDeadlineExceeded(deadline)) {
+        return createError(
+            themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+            "Request deadline exceeded before transaction_abort execution"
+        );
+    }
     try {
         std::string tx_id;
         if (params.is_object()) {
@@ -1494,6 +2152,13 @@ json ThemisRPCService::handleAuthenticate(const json& params) {
 }
 
 json ThemisRPCService::handleSearch(const json& params) {
+    return handleSearchInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleSearchInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         std::string collection(params.value("collection", ""));
         
@@ -1535,10 +2200,19 @@ json ThemisRPCService::handleSearch(const json& params) {
         auto& iter = iter_result.value();
         json results = json::array();
         int count = 0;
+        size_t scanned_keys = 0;
         
         // Scan keys with prefix
         iter.Seek(prefix);
         while (iter.Valid() && count < limit) {
+            ++scanned_keys;
+            if (shouldCheckDeadline(scanned_keys) && isDeadlineExceeded(deadline)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during search collection scan"
+                );
+            }
+
             std::string key(iter.key());
             
             // Check if key still matches prefix
@@ -1597,6 +2271,19 @@ json ThemisRPCService::handleSearch(const json& params) {
 }
 
 json ThemisRPCService::handleStats([[maybe_unused]] const json& params) {
+    return handleStatsInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleStatsInternal(
+    [[maybe_unused]] const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
+    if (isDeadlineExceeded(deadline)) {
+        return createError(
+            themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+            "Request deadline exceeded before stats execution"
+        );
+    }
     try {
         // Get storage engine
         auto storage = storage_;
@@ -1639,6 +2326,13 @@ json ThemisRPCService::handleStats([[maybe_unused]] const json& params) {
 }
 
 json ThemisRPCService::handleUpdateEntity(const json& params) {
+    return handleUpdateEntityInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleUpdateEntityInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         std::string model(params.value("model", ""));
         std::string collection(params.value("collection", ""));
@@ -1655,6 +2349,13 @@ json ThemisRPCService::handleUpdateEntity(const json& params) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
                 "Missing required parameter: updates"
+            );
+        }
+
+        if (isDeadlineExceeded(deadline)) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                "Request deadline exceeded during update entity"
             );
         }
         
@@ -1694,8 +2395,23 @@ json ThemisRPCService::handleUpdateEntity(const json& params) {
         
         // Apply updates (merge)
         json updates = params["updates"];
+        size_t updated_fields = 0;
         for (auto& [field, new_value] : updates.items()) {
+            ++updated_fields;
+            if (shouldCheckDeadline(updated_fields) && isDeadlineExceeded(deadline)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during update entity merge"
+                );
+            }
             entity[field] = new_value;
+        }
+
+        if (isDeadlineExceeded(deadline)) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                "Request deadline exceeded during update entity write"
+            );
         }
         
         // Update metadata
@@ -1730,6 +2446,13 @@ json ThemisRPCService::handleUpdateEntity(const json& params) {
 }
 
 json ThemisRPCService::handleBatchUpdate(const json& params) {
+    return handleBatchUpdateInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleBatchUpdateInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         if (!params.contains("updates") || !params["updates"].is_array()) {
             return createError(
@@ -1754,8 +2477,17 @@ json ThemisRPCService::handleBatchUpdate(const json& params) {
         
         uint64_t timestamp = getCurrentTimestampNs();
         int count = 0;
+        size_t item_index = 0;
         
         for (const auto& update_item : updates_array) {
+            ++item_index;
+            if (shouldCheckDeadline(item_index) && isDeadlineExceeded(deadline)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during batch update"
+                );
+            }
+
             if (!update_item.contains("collection") || !update_item.contains("model") || 
                 !update_item.contains("uuid") || !update_item.contains("updates")) {
                 return createError(
@@ -1824,6 +2556,13 @@ json ThemisRPCService::handleBatchUpdate(const json& params) {
 }
 
 json ThemisRPCService::handlePaginatedQuery(const json& params) {
+    return handlePaginatedQueryInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handlePaginatedQueryInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         std::string collection(params.value("collection", ""));
         
@@ -1877,8 +2616,17 @@ json ThemisRPCService::handlePaginatedQuery(const json& params) {
         
         // Collect page_size results
         int count = 0;
+        size_t scanned_keys = 0;
         std::string next_cursor;
         while (iter.Valid() && count < page_size) {
+            ++scanned_keys;
+            if (shouldCheckDeadline(scanned_keys) && isDeadlineExceeded(deadline)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during paginated query scan"
+                );
+            }
+
             std::string key(iter.key());
             
             // Check if key still matches prefix
@@ -1925,6 +2673,13 @@ json ThemisRPCService::handlePaginatedQuery(const json& params) {
 }
 
 json ThemisRPCService::handleGetIndexOperations(const json& params) {
+    return handleGetIndexOperationsInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleGetIndexOperationsInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         // Get storage engine
         auto storage = storage_;
@@ -1945,7 +2700,15 @@ json ThemisRPCService::handleGetIndexOperations(const json& params) {
         }
 
         json indexes = json::array();
-        storage->scanPrefix(prefix, [&indexes](std::string_view /*key*/, std::string_view value) -> bool {
+        size_t scanned_keys = 0;
+        bool deadline_exceeded = false;
+
+        storage->scanPrefix(prefix, [&](std::string_view /*key*/, std::string_view value) -> bool {
+            ++scanned_keys;
+            if (shouldCheckDeadline(scanned_keys) && isDeadlineExceeded(deadline)) {
+                deadline_exceeded = true;
+                return false; // abort scan
+            }
             try {
                 json idx_meta = json::parse(value);
                 indexes.push_back(idx_meta);
@@ -1954,6 +2717,13 @@ json ThemisRPCService::handleGetIndexOperations(const json& params) {
             }
             return true; // continue scanning
         });
+
+        if (deadline_exceeded) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                "Request deadline exceeded during index operations scan"
+            );
+        }
 
         json result = {
             {"indexes", indexes},
@@ -1976,6 +2746,13 @@ json ThemisRPCService::handleGetIndexOperations(const json& params) {
 }
 
 json ThemisRPCService::handleAggregationPipeline(const json& params) {
+    return handleAggregationPipelineInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleAggregationPipelineInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         std::string collection(params.value("collection", ""));
         
@@ -2017,9 +2794,18 @@ json ThemisRPCService::handleAggregationPipeline(const json& params) {
         
         auto& iter = iter_result.value();
         json documents = json::array();
+        size_t scanned_documents = 0;
         
         iter.Seek(prefix);
         while (iter.Valid()) {
+            ++scanned_documents;
+            if (shouldCheckDeadline(scanned_documents) && isDeadlineExceeded(deadline)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during aggregation collection scan"
+                );
+            }
+
             std::string key(iter.key());
             if (key.substr(0, prefix.length()) != prefix) {
                 break;
@@ -2049,7 +2835,16 @@ json ThemisRPCService::handleAggregationPipeline(const json& params) {
             if (stage_name == "$match") {
                 // Filter documents
                 json filtered = json::array();
+                size_t matched_documents = 0;
                 for (const auto& doc : results) {
+                    ++matched_documents;
+                    if (shouldCheckDeadline(matched_documents) && isDeadlineExceeded(deadline)) {
+                        return createError(
+                            themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                            "Request deadline exceeded during aggregation pipeline execution"
+                        );
+                    }
+
                     bool matches = true;
                     for (auto& [field, expected_value] : stage_spec.items()) {
                         if (!doc.contains(field) || doc[field] != expected_value) {
@@ -2087,7 +2882,16 @@ json ThemisRPCService::handleAggregationPipeline(const json& params) {
             } else if (stage_name == "$project") {
                 // Project fields
                 json projected = json::array();
+                size_t projected_documents = 0;
                 for (const auto& doc : results) {
+                    ++projected_documents;
+                    if (shouldCheckDeadline(projected_documents) && isDeadlineExceeded(deadline)) {
+                        return createError(
+                            themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                            "Request deadline exceeded during aggregation pipeline execution"
+                        );
+                    }
+
                     json proj_doc = json::object();
                     for (auto& [field, include] : stage_spec.items()) {
                         // Validate projection spec is boolean
@@ -2124,6 +2928,13 @@ json ThemisRPCService::handleAggregationPipeline(const json& params) {
 }
 
 json ThemisRPCService::handleListCollections([[maybe_unused]] const json& params) {
+    return handleListCollectionsInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleListCollectionsInternal(
+    [[maybe_unused]] const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         // Get storage engine
         auto storage = storage_;
@@ -2145,9 +2956,18 @@ json ThemisRPCService::handleListCollections([[maybe_unused]] const json& params
         
         auto& iter = iter_result.value();
         std::unordered_map<std::string, int> collections;
+        size_t scanned_keys = 0;
         
         iter.SeekToFirst();
         while (iter.Valid()) {
+            ++scanned_keys;
+            if (shouldCheckDeadline(scanned_keys) && isDeadlineExceeded(deadline)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during collection listing"
+                );
+            }
+
             std::string key(iter.key());
             
             // Parse key format: collection:model:uuid
@@ -2188,6 +3008,19 @@ json ThemisRPCService::handleListCollections([[maybe_unused]] const json& params
 }
 
 json ThemisRPCService::handleCreateIndex(const json& params) {
+    return handleCreateIndexInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleCreateIndexInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
+    if (isDeadlineExceeded(deadline)) {
+        return createError(
+            themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+            "Request deadline exceeded before create_index execution"
+        );
+    }
     try {
         std::string collection(params.value("collection", ""));
         std::string field(params.value("field", ""));
@@ -2248,6 +3081,19 @@ json ThemisRPCService::handleCreateIndex(const json& params) {
 }
 
 json ThemisRPCService::handleDropIndex(const json& params) {
+    return handleDropIndexInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleDropIndexInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
+    if (isDeadlineExceeded(deadline)) {
+        return createError(
+            themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+            "Request deadline exceeded before drop_index execution"
+        );
+    }
     try {
         std::string collection(params.value("collection", ""));
         std::string index_name(params.value("index_name", ""));
@@ -2304,6 +3150,13 @@ json ThemisRPCService::handleDropIndex(const json& params) {
 }
 
 json ThemisRPCService::handleGetCollectionMetadata(const json& params) {
+    return handleGetCollectionMetadataInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleGetCollectionMetadataInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         std::string collection(params.value("collection", ""));
         
@@ -2337,9 +3190,18 @@ json ThemisRPCService::handleGetCollectionMetadata(const json& params) {
         int document_count = 0;
         uint64_t total_size = 0;
         std::unordered_map<std::string, int> models;
+        size_t scanned_documents = 0;
         
         iter.Seek(prefix);
         while (iter.Valid()) {
+            ++scanned_documents;
+            if (shouldCheckDeadline(scanned_documents) && isDeadlineExceeded(deadline)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during collection metadata scan"
+                );
+            }
+
             std::string key(iter.key());
             if (key.substr(0, prefix.length()) != prefix) {
                 break;
@@ -2368,30 +3230,40 @@ json ThemisRPCService::handleGetCollectionMetadata(const json& params) {
             });
         }
         
+        json idx_array = json::array();
+        if (storage) {
+            std::string idx_prefix = "_idx_meta:" + collection + ":";
+            size_t scanned_index_metadata = 0;
+            bool deadline_exceeded = false;
+            storage->scanPrefix(
+                idx_prefix,
+                [&](std::string_view /*key*/, std::string_view value) -> bool {
+                    ++scanned_index_metadata;
+                    if (shouldCheckDeadline(scanned_index_metadata) && isDeadlineExceeded(deadline)) {
+                        deadline_exceeded = true;
+                        return false;
+                    }
+                    try {
+                        idx_array.push_back(json::parse(value));
+                    } catch (const json::exception&) {
+                        // Skip malformed index metadata entries
+                    }
+                    return true;
+                });
+            if (deadline_exceeded) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during collection metadata index scan"
+                );
+            }
+        }
+
         json result = {
             {"collection", collection},
             {"document_count", document_count},
             {"total_size_bytes", total_size},
             {"models", models_array},
-            {"indexes", [&] {
-                json idx_array = json::array();
-                // storage is validated non-null above (if (!storage) was already checked).
-                // The explicit guard here makes the invariant visible to static analysers
-                // that analyse the lambda body in isolation.
-                if (storage) {
-                    std::string idx_prefix = "_idx_meta:" + collection + ":";
-                    storage->scanPrefix(idx_prefix,
-                        [&idx_array](std::string_view /*key*/, std::string_view value) -> bool {
-                            try {
-                                idx_array.push_back(json::parse(value));
-                            } catch (const json::exception&) {
-                                // Skip malformed index metadata entries
-                            }
-                            return true;
-                        });
-                }
-                return idx_array;
-            }()}
+            {"indexes", idx_array}
         };
         
         return createSuccess(result);
@@ -2409,6 +3281,28 @@ json ThemisRPCService::dispatch(
     const json& params,
     const themis::plugins::rpc::RPCRequestContext& context
 ) {
+    auto request_timeout = parseRequestTimeout(context);
+    if (request_timeout.has_value() && context.timestamp_ms > 0) {
+        const auto timeout_count = request_timeout->count();
+        if (timeout_count <= 0) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                "Request deadline exceeded before dispatch"
+            );
+        }
+
+        const auto now_ms = static_cast<uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count());
+        const auto elapsed_ms = (now_ms >= context.timestamp_ms) ? (now_ms - context.timestamp_ms) : 0;
+        if (elapsed_ms >= static_cast<uint64_t>(timeout_count)) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                "Request deadline exceeded before dispatch"
+            );
+        }
+    }
+    const auto request_deadline = deriveRequestDeadline(context, request_timeout);
+
     // Authentication and authorization check (except for authenticate and health_check methods)
     if (method != "authenticate" && method != "health_check") {
         std::string username;
@@ -2458,70 +3352,128 @@ json ThemisRPCService::dispatch(
             );
         }
     }
-    
-    // Route to appropriate handler
-    if (method == "get") {
-        return handleGet(params);
-    } else if (method == "put") {
-        return handlePut(params);
-    } else if (method == "insert") {
-        return handleInsert(params);
-    } else if (method == "delete") {
-        return handleDelete(params);
-    } else if (method == "batch_get") {
-        return handleBatchGet(params);
-    } else if (method == "batch_put") {
-        return handleBatchPut(params);
-    } else if (method == "batch_delete") {
-        return handleBatchDelete(params);
-    } else if (method == "query") {
-        return handleQuery(params);
-    } else if (method == "vector_search") {
-        return handleVectorSearch(params);
-    } else if (method == "graph_traverse") {
-        return handleGraphTraverse(params);
-    } else if (method == "geo_query") {
-        return handleGeoQuery(params);
-    } else if (method == "timeseries_query") {
-        return handleTimeSeriesQuery(params);
-    } else if (method == "transaction_begin") {
-        return handleTransactionBegin(params);
-    } else if (method == "transaction_commit") {
-        return handleTransactionCommit(params);
-    } else if (method == "transaction_abort") {
-        return handleTransactionAbort(params);
-    } else if (method == "health_check") {
-        return handleHealthCheck(params);
-    } else if (method == "authenticate") {
-        return handleAuthenticate(params);
-    } else if (method == "search") {
-        return handleSearch(params);
-    } else if (method == "stats") {
-        return handleStats(params);
-    } else if (method == "update_entity") {
-        return handleUpdateEntity(params);
-    } else if (method == "batch_update") {
-        return handleBatchUpdate(params);
-    } else if (method == "paginated_query") {
-        return handlePaginatedQuery(params);
-    } else if (method == "get_index_operations") {
-        return handleGetIndexOperations(params);
-    } else if (method == "aggregation_pipeline") {
-        return handleAggregationPipeline(params);
-    } else if (method == "list_collections") {
-        return handleListCollections(params);
-    } else if (method == "create_index") {
-        return handleCreateIndex(params);
-    } else if (method == "drop_index") {
-        return handleDropIndex(params);
-    } else if (method == "get_collection_metadata") {
-        return handleGetCollectionMetadata(params);
-    } else {
+
+    auto dispatch_once = [&]() -> json {
+        if (method == "get") {
+            return handleGetInternal(params, request_deadline);
+        } else if (method == "put") {
+            return handlePutInternal(params, request_deadline);
+        } else if (method == "insert") {
+            return handleInsertInternal(params, request_deadline);
+        } else if (method == "delete") {
+            return handleDeleteInternal(params, request_deadline);
+        } else if (method == "batch_get") {
+            return handleBatchGetInternal(params, request_deadline);
+        } else if (method == "batch_put") {
+            return handleBatchPutInternal(params, request_deadline);
+        } else if (method == "batch_delete") {
+            return handleBatchDeleteInternal(params, request_deadline);
+        } else if (method == "query") {
+            return handleQueryInternal(params, request_deadline);
+        } else if (method == "vector_search") {
+            return handleVectorSearchInternal(params, request_deadline);
+        } else if (method == "graph_traverse") {
+            return handleGraphTraverseInternal(params, request_deadline);
+        } else if (method == "geo_query") {
+            return handleGeoQueryInternal(params, request_deadline);
+        } else if (method == "timeseries_query") {
+            return handleTimeSeriesQueryInternal(params, request_deadline);
+        } else if (method == "transaction_begin") {
+            return handleTransactionBeginInternal(params, request_deadline);
+        } else if (method == "transaction_commit") {
+            return handleTransactionCommitInternal(params, request_deadline);
+        } else if (method == "transaction_abort") {
+            return handleTransactionAbortInternal(params, request_deadline);
+        } else if (method == "health_check") {
+            return handleHealthCheck(params);
+        } else if (method == "authenticate") {
+            return handleAuthenticate(params);
+        } else if (method == "search") {
+            return handleSearchInternal(params, request_deadline);
+        } else if (method == "stats") {
+            return handleStatsInternal(params, request_deadline);
+        } else if (method == "update_entity") {
+            return handleUpdateEntityInternal(params, request_deadline);
+        } else if (method == "batch_update") {
+            return handleBatchUpdateInternal(params, request_deadline);
+        } else if (method == "paginated_query") {
+            return handlePaginatedQueryInternal(params, request_deadline);
+        } else if (method == "get_index_operations") {
+            return handleGetIndexOperationsInternal(params, request_deadline);
+        } else if (method == "aggregation_pipeline") {
+            return handleAggregationPipelineInternal(params, request_deadline);
+        } else if (method == "list_collections") {
+            return handleListCollectionsInternal(params, request_deadline);
+        } else if (method == "create_index") {
+            return handleCreateIndexInternal(params, request_deadline);
+        } else if (method == "drop_index") {
+            return handleDropIndexInternal(params, request_deadline);
+        } else if (method == "get_collection_metadata") {
+            return handleGetCollectionMetadataInternal(params, request_deadline);
+        }
+
         return createError(
             themis::plugins::rpc::RPCErrorCode::METHOD_NOT_FOUND,
             "Method not found: " + method
         );
+    };
+
+    const bool retryable_method = isRetryableMethod(method);
+    const int max_attempts = retryable_method ? 3 : 1;
+    for (int attempt = 1; attempt <= max_attempts; ++attempt) {
+        if (isDeadlineExceeded(request_deadline)) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                "Request deadline exceeded before dispatch retry"
+            );
+        }
+
+        try {
+            json response = dispatch_once();
+            if (!retryable_method || !isRetryableErrorResponse(response) || attempt == max_attempts) {
+                return response;
+            }
+        } catch (const std::exception& e) {
+            if (!retryable_method || attempt == max_attempts) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                    e.what()
+                );
+            }
+            std::cerr << "[ThemisRPCService] Retrying method '" << method << "' after exception"
+                      << " (attempt " << attempt << "/" << max_attempts << "): " << e.what() << "\n";
+        } catch (...) {
+            const std::string error_message =
+                currentExceptionMessage("Unknown internal error during RPC dispatch");
+            if (!retryable_method || attempt == max_attempts) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                    error_message
+                );
+            }
+            std::cerr << "[ThemisRPCService] Retrying method '" << method << "' after unknown exception"
+                      << " (attempt " << attempt << "/" << max_attempts << "): " << error_message << "\n";
+        }
+
+        const auto backoff = std::chrono::milliseconds(10 * attempt);
+        if (request_deadline.has_value()) {
+            const auto remaining = remainingDeadlineBudget(request_deadline);
+            if (remaining <= std::chrono::milliseconds(0)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded before dispatch retry"
+                );
+            }
+            std::this_thread::sleep_for(std::min(backoff, remaining));
+        } else {
+            std::this_thread::sleep_for(backoff);
+        }
     }
+
+    return createError(
+        themis::plugins::rpc::RPCErrorCode::SERVICE_UNAVAILABLE,
+        "Retry budget exhausted"
+    );
 }
 
 bool ThemisRPCService::verifyAuth(
@@ -2594,4 +3546,3 @@ json ThemisRPCService::createSuccess(const json& result) {
 } // namespace rpc
 } // namespace server
 } // namespace themis
-

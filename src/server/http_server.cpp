@@ -11211,6 +11211,17 @@ void HttpServer::Session::processRequest() {
             }
         }
 
+        // Inject the verified socket peer address so that extractClientIP can
+        // return a real IP for direct connections (no proxy headers present).
+        // Strip any client-supplied header first to prevent spoofing.
+        request_.erase("X-Themis-Peer-Addr");
+        try {
+            auto ep = socket_.remote_endpoint();
+            request_.set("X-Themis-Peer-Addr", ep.address().to_string());
+        } catch (const std::exception&) {
+            // Ignore: best-effort; rate limiting falls back to empty key.
+        }
+
         // Route request to appropriate handler
         response_ = server_->routeRequest(request_);
     } catch (const std::exception& e) {
@@ -11526,6 +11537,17 @@ void HttpServer::SslSession::processRequest() {
                 }
                 request_.target(rw.effective_path);
             }
+        }
+
+        // Inject the verified socket peer address so that extractClientIP can
+        // return a real IP for direct connections (no proxy headers present).
+        // Strip any client-supplied header first to prevent spoofing.
+        request_.erase("X-Themis-Peer-Addr");
+        try {
+            auto ep = stream_.lowest_layer().remote_endpoint();
+            request_.set("X-Themis-Peer-Addr", ep.address().to_string());
+        } catch (const std::exception&) {
+            // Ignore: best-effort; rate limiting falls back to empty key.
         }
 
         // Route request to appropriate handler
@@ -11978,25 +12000,19 @@ std::string HttpServer::extractClientIP(const http::request<http::string_body>& 
         }
         return xff;
     }
-    
+
     // Try X-Real-IP header
     if (req.find("X-Real-IP") != req.end()) {
         return std::string(req["X-Real-IP"]);
     }
-    
-    // STUB/SIMULATION NOTE:
-    // Purpose: Returns empty string when neither X-Forwarded-For nor X-Real-IP
-    //          header is present; the real socket remote_endpoint() extraction
-    //          requires passing the Boost.Beast session context into this helper,
-    //          which is not yet threaded through the call chain.
-    // Activation: Request has no proxy-forwarding headers.
-    // Production Delta: Rate limiter receives an empty client IP and cannot
-    //                   distinguish between different direct-connection clients;
-    //                   per-IP rate limiting is ineffective for direct connections.
-    // Removal Plan: Thread the Boost.Beast `tcp::socket::remote_endpoint()` into
-    //               this function (or pass `Session*` as an additional parameter)
-    //               and return `endpoint.address().to_string()`.  See
-    //               src/server/FUTURE_ENHANCEMENTS.md §HttpServer getClientIp.
+
+    // Fall back to the socket peer address injected by Session::processRequest /
+    // SslSession::processRequest.  The injection site strips any client-supplied
+    // value before setting it, so this header cannot be spoofed.
+    if (req.find("X-Themis-Peer-Addr") != req.end()) {
+        return std::string(req["X-Themis-Peer-Addr"]);
+    }
+
     return "";
 }
 

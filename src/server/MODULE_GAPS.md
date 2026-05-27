@@ -17,6 +17,18 @@ python tools/gap_audit_pipeline_v2.py
 
 ## ✅ Recent Remediation (2026-05-27)
 
+- **W1-S13 (2026-05-27) – `src/server/http_server.cpp`**
+  - Fixed `extractClientIP` STUB/SIMULATION: per-IP rate limiting was ineffective for
+    direct (non-proxied) connections because the function returned `""` when neither
+    `X-Forwarded-For` nor `X-Real-IP` was present.
+  - `Session::processRequest()` now erases any client-supplied `X-Themis-Peer-Addr`
+    header and injects the verified `tcp::socket::remote_endpoint().address()` before
+    calling `routeRequest`, preventing header spoofing.
+  - `SslSession::processRequest()` does the same via `stream_.lowest_layer().remote_endpoint()`.
+  - `extractClientIP` falls back to `X-Themis-Peer-Addr` after proxy headers, so direct
+    connections now get their real source IP for rate-limiting and audit logging.
+
+## ✅ Recent Remediation (2026-05-26)
 - **W1-S05 follow-up 6 (2026-05-27) – `src/server/sse_connection_manager.cpp`,
   `tests/test_sse_connection_manager.cpp`**
   - Added defensive null guards around connection-pointer dereferences in
@@ -614,6 +626,19 @@ this as a potential null dereference.
 explaining that `storage` was already validated above. The lambda now compiles as trivially
 safe from any analysis perspective.
 
+#### 4. Follow-up hardening (2026-05-27) — Timeout/Retry/Unknown-Exception
+
+- `postgres_session.cpp` now arms a per-read socket timeout (`kReadTimeout`, SQLSTATE `57014`)
+  and cancels it on successful reads, preventing idle connections from hanging indefinitely.
+- PostgreSQL message dispatch now also catches `catch (...)` and returns a structured
+  `XX000` protocol error instead of risking process-level termination on non-`std::exception`.
+- `rpc_service_impl.cpp::dispatch()` now:
+  - rejects already-expired requests from propagated timeout metadata (`grpc-timeout`,
+    `x-timeout-ms`, `request-timeout-ms`) with `RPCErrorCode::QUERY_TIMEOUT`;
+  - applies a bounded retry budget (max 3 attempts, short backoff) for retryable read methods
+    when receiving transient timeout/service-availability error codes;
+  - catches `std::exception` and `...` at dispatch level to avoid uncaught-exception crashes.
+
 ### Retry / Timeout Assessment
 
 | Component | Retry applicability | Timeout applicability |
@@ -626,7 +651,9 @@ safe from any analysis perspective.
 | Type | Before | After |
 |---|---|---|
 | pointer_arithmetic HIGH (postgres) | 18 | Reduced: 3 Execute/Describe/Close OOB guards added |
-| uncaught_exception HIGH (postgres) | 11 | Documented as properly caught at callers; error message improved |
+| uncaught_exception HIGH (postgres/rpc) | 11+ | Reduced: protocol/RPC dispatch now catches `std::exception` + `...` |
+| no_timeout HIGH (postgres/rpc) | n/a | Reduced: socket read timeout + propagated request-timeout pre-dispatch guard |
+| no_retry_logic MEDIUM (rpc) | n/a | Reduced: bounded retry budget for retryable read methods on transient errors |
 | null_dereference HIGH (rpc) | 2 | 1 storage lambda guard added; 1 already guarded (false positive documented) |
 
 ---
@@ -966,3 +993,122 @@ Findings addressed:
 - **rpc_service_impl.cpp `uncaught_exception` (line 1623):** `catch (...) { // Ignore }` in
   `handleGetStats` replaced with `catch (const std::exception& e)` that logs the error via
   `std::cerr`; `getStats()` failures are now observable in server logs.
+
+- **W1-S04 follow-up (2026-05-27) — timeout arithmetic hardening in `rpc_service_impl.cpp`:**
+  timeout headers `x-timeout-ms` and `request-timeout-ms` now normalize non-positive values to
+  immediate-expiry semantics (`0ms`) instead of allowing negative durations to bypass deadline checks.
+  Deadline evaluation now compares elapsed time (`now - timestamp`) to timeout budget instead of
+  performing direct unsigned addition (`timestamp + timeout`), preventing overflow-induced false
+  expirations for large/future timestamps. Coverage added in `tests/test_rpc_batch_operations.cpp`
+  for negative-millisecond header handling and overflow-safe future-timestamp dispatch.
+
+- **W1-S04 follow-up (2026-05-27) — strict timeout metadata parsing in `rpc_service_impl.cpp`:**
+  timeout parsers now use full-string numeric parsing (`std::from_chars`) for `grpc-timeout`,
+  `x-timeout-ms`, and `request-timeout-ms` values, preventing permissive partial parses such as
+  `"1xS"` or `"10abc"` from being interpreted as valid deadlines. Unit conversion for `grpc-timeout`
+  now uses saturating millisecond arithmetic to avoid overflow at large timeout values. Added tests
+  in `tests/test_rpc_batch_operations.cpp` for malformed gRPC and millisecond timeout metadata.
+
+- **W1-S04 follow-up (2026-05-27) — malformed timeout fallback chain in `rpc_service_impl.cpp`:**
+  timeout metadata parsing now follows precedence with fallback (`grpc-timeout` → `x-timeout-ms` →
+  `request-timeout-ms`) when an earlier header exists but is malformed, instead of dropping timeout
+  enforcement entirely. Added `tests/test_rpc_batch_operations.cpp` coverage to verify malformed
+  `grpc-timeout` still enforces valid `x-timeout-ms`, and malformed `x-timeout-ms` still enforces
+  valid `request-timeout-ms`.
+
+- **W1-S04 follow-up (2026-05-27) — mid-handler deadline enforcement in `rpc_service_impl.cpp`:**
+  dispatch now derives a remaining execution deadline from propagated timeout metadata and threads it
+  into long-running scan handlers. `aggregation_pipeline`, `list_collections`, and
+  `get_collection_metadata` now abort with `QUERY_TIMEOUT` if the deadline expires during large
+  iterator scans, and retry backoff no longer sleeps past the remaining request deadline. Added
+  `tests/test_rpc_batch_operations.cpp` coverage for aggregation and collection-metadata scan expiry.
+
+- **W1-S04 follow-up (2026-05-27) — write-phase timeout hardening in `postgres_session.cpp`:**
+  PostgreSQL wire-session writes now arm a dedicated per-write timeout (`kWriteTimeout`, SQLSTATE `57014`)
+  before each `asio::async_write` and cancel it on completion. Stalled response writes now fail closed
+  with a structured timeout error and session stop instead of allowing indefinite write-side hangs.
+
+- **W1-S04 follow-up (2026-05-27) — async callback exception boundary hardening in `postgres_session.cpp` + retry consistency in `rpc_service_impl.cpp`:**
+  `PostgresSession` read-timeout, write-timeout, and write-completion async callbacks now wrap timeout/error
+  response paths in `try/catch` so exceptions cannot escape Asio handlers and trigger process termination.
+  `ThemisRPCService::dispatch()` now treats unknown exceptions like typed exceptions for retryable methods:
+  it consumes retry budget first and returns `INTERNAL_ERROR` only on final-attempt exhaustion.
+
+- **W1-S04 follow-up (2026-05-27) — deadline enforcement in query/search/paginated_query/timeseries_query scan handlers (`rpc_service_impl.cpp`):**
+  `handleQuery`, `handleSearch`, `handlePaginatedQuery`, and `handleTimeSeriesQuery` each refactored into
+  a public no-deadline wrapper and a new `*Internal(params, deadline)` variant. `dispatch()` now threads
+  `request_deadline` into all four via the Internal variants (matching the existing pattern for
+  `aggregation_pipeline`, `list_collections`, `get_collection_metadata`). Each scan loop increments a
+  `scanned_keys` counter and calls `shouldCheckDeadline` / `isDeadlineExceeded` every 256 iterations,
+  returning `QUERY_TIMEOUT` if the deadline is breached. Added four deadline-expiry tests to
+  `tests/test_rpc_batch_operations.cpp`.
+
+- **W1-S04 follow-up (2026-05-27) — exception observability consistency in `postgres_session.cpp` + `rpc_service_impl.cpp`:**
+  `PostgresSession` timeout/write-completion callback catch blocks now route through a shared
+  `logCurrentException(...)` helper so non-`std::exception` failures are still captured consistently.
+  `ThemisRPCService::dispatch()` now logs retry attempts for both typed and previously-unknown exceptions;
+  unknown exceptions also derive their final `INTERNAL_ERROR` message from the active exception object
+  when possible instead of always returning a fixed generic string.
+
+- **W1-S04 follow-up (2026-05-27) — deadline enforcement in `get_index_operations` and `batch_update` (`rpc_service_impl.cpp`):**
+  `handleGetIndexOperations` and `handleBatchUpdate` converted to wrapper + `Internal(params, deadline)`
+  variants following the pattern established for `aggregation_pipeline`, `list_collections`,
+  `get_collection_metadata`, `query`, `search`, `paginated_query`, and `timeseries_query`.
+  `handleGetIndexOperationsInternal` checks the deadline inside the `scanPrefix` callback (every 256
+  scanned index-metadata entries) and returns `QUERY_TIMEOUT` if the deadline is breached.
+  `handleBatchUpdateInternal` checks the deadline in the per-item read-modify-write loop (every 256
+  items) before issuing each `storage->get()`, returning `QUERY_TIMEOUT` on expiry without committing
+  any partial writes.  `dispatch()` now threads `request_deadline` into both via the Internal variants.
+  Added `DispatchTimesOutDuringGetIndexOperationsScan` and `DispatchTimesOutDuringBatchUpdateLoop` tests
+  to `tests/test_rpc_batch_operations.cpp`.
+
+- **W1-S04 follow-up (2026-05-27) — deadline enforcement in `get_collection_metadata` index-metadata scan (`rpc_service_impl.cpp`):**
+  `handleGetCollectionMetadataInternal` now checks `request_deadline` while scanning `_idx_meta:{collection}:*`
+  entries (every 256 scanned index records) and aborts with `QUERY_TIMEOUT` if the deadline expires during
+  index metadata enumeration. Added `DispatchTimesOutDuringCollectionMetadataIndexScan` to
+  `tests/test_rpc_batch_operations.cpp` to cover deadline expiry in this nested scan path.
+
+- **W1-S04 follow-up (2026-05-27) — deadline enforcement in `batch_get`, `batch_put`, `batch_delete`, and `geo_query` (`rpc_service_impl.cpp`):**
+  Each of the four handlers was converted to a wrapper + `Internal(params, deadline)` variant following
+  the established W1-S04 pattern. `handleBatchGetInternal` checks `request_deadline` while building the
+  keys list and again during result-array construction. `handleBatchPutInternal` and
+  `handleBatchDeleteInternal` each check per 256 input items before staging the batch write/delete.
+  `handleGeoQueryInternal` checks per 256 spatial results returned by `searchIntersects` for both the
+  `intersects`/`within` and `near` code paths. `dispatch()` now threads `request_deadline` into all four
+  via their Internal variants. Added `DispatchTimesOutDuringBatchGetKeysLoop`,
+  `DispatchTimesOutDuringBatchPutEntitiesLoop`, `DispatchTimesOutDuringBatchDeleteKeysLoop`, and
+  `DispatchTimesOutDuringGeoQueryResultsLoop` tests to `tests/test_rpc_batch_operations.cpp`.
+
+- **W1-S04 follow-up (2026-05-27) — deadline threading consistency for `vector_search` and `graph_traverse` (`rpc_service_impl.cpp`):**
+  `handleVectorSearch` and `handleGraphTraverse` now follow the same wrapper + `Internal(params, deadline)`
+  shape used by other deadline-aware read handlers. `dispatch()` now passes `request_deadline` into both
+  Internal variants, and each Internal method returns `QUERY_TIMEOUT` when the request deadline is already
+  exceeded before execution starts. Added `VectorSearchInternalHonorsExpiredDeadline` and
+  `GraphTraverseInternalHonorsExpiredDeadline` tests in `tests/test_rpc_batch_operations.cpp`.
+
+- **W1-S04 follow-up (2026-05-27) — deadline enforcement for cascade delete traversal (`rpc_service_impl.cpp`):**
+  `handleDelete` now follows the same wrapper + `Internal(params, deadline)` pattern used by other
+  deadline-aware handlers. `dispatch()` now passes `request_deadline` into `handleDeleteInternal`, and
+  cascade delete child-scan/traversal/write loops now check deadlines in 256-item intervals, returning
+  `QUERY_TIMEOUT` when exceeded before destructive completion. Added
+  `DeleteInternalHonorsExpiredDeadlineDuringCascadeScan` in `tests/test_rpc_batch_operations.cpp`.
+
+- **W1-S04 follow-up (2026-05-27) — deadline threading for `update_entity` (`rpc_service_impl.cpp`):**
+  `handleUpdateEntity` now follows wrapper + `Internal(params, deadline)` parity with other
+  deadline-aware handlers. `dispatch()` now threads `request_deadline` into
+  `handleUpdateEntityInternal`, which fail-closes on already-expired deadlines, checks merge-loop
+  progress in 256-field intervals, and re-checks before the final write. Added
+  `UpdateEntityInternalHonorsExpiredDeadline` in `tests/test_rpc_batch_operations.cpp` to verify
+  timeout behavior and non-mutation on expired deadlines.
+
+- **W1-S04 follow-up (2026-05-27) — deadline threading for remaining single-op handlers (`rpc_service_impl.cpp`):**
+  All remaining handlers without deadline enforcement have been converted to the wrapper + `Internal(params, deadline)`
+  pattern: `handleGet`, `handlePut`, `handleInsert`, `handleTransactionBegin`, `handleTransactionCommit`,
+  `handleTransactionAbort`, `handleStats`, `handleCreateIndex`, `handleDropIndex`. Each Internal variant
+  performs a pre-execution `isDeadlineExceeded(deadline)` check and returns `QUERY_TIMEOUT` on expired
+  deadlines before touching storage. `dispatch()` now threads `request_deadline` into all of these Internal
+  variants, completing full deadline coverage across every dispatched RPC method (excluding `health_check`
+  and `authenticate` which are infrastructure methods exempt from user deadline enforcement). Added
+  `GetInternal`, `PutInternal`, `InsertInternal`, `TransactionBeginInternal`, `TransactionCommitInternal`,
+  `TransactionAbortInternal`, `StatsInternal`, `CreateIndexInternal`, and `DropIndexInternal`
+  `HonorsExpiredDeadline` tests in `tests/test_rpc_batch_operations.cpp`.
