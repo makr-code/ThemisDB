@@ -899,6 +899,39 @@ and dispatch through those references (`audit_logger_`, `orchestrator_`, `index_
 
 
 
+## ✅ Recent Remediation (2026-05-27) — W1-S03 Extension: Null-Guard Standardisation Round 8
+
+**Scope:** `src/server/sharding_metrics_handler.cpp`, `src/server/cache_api_handler.cpp`, `src/server/saga_api_handler.cpp`, `src/server/shard_repair_api_handler.cpp`, `src/server/review_scheduling_api_handler.cpp`, `src/server/prompt_api_handler.cpp`, `src/server/compliance_reporting_api_handler.cpp`, `src/server/policy_template_api_handler.cpp`, `src/server/policy_validation_api_handler.cpp`  
+**Ticket:** W1-S03 (issue scope) · Priority P1
+
+### Fixes Applied
+
+#### Guarded pointer dereference anchoring (pointer_without_null_check / CWE-476)
+
+All files follow the W1-S03 pattern: every `if (!member_) { return …; }` guard is now immediately followed by `auto& member = *member_;`, and all subsequent dispatches in the same function body go through the local reference.
+
+| File | Member(s) anchored | Guard sites |
+|---|---|---|
+| `sharding_metrics_handler.cpp` | `metrics_` (×2), `slo_monitor_` (×2), `repair_engine_` (×1) | 5 |
+| `cache_api_handler.cpp` | `semantic_cache_` (×3) | 3 |
+| `saga_api_handler.cpp` | `saga_logger_` (×4) | 4 |
+| `shard_repair_api_handler.cpp` | `repair_engine_` (×4) | 4 |
+| `review_scheduling_api_handler.cpp` | `scheduler_` (×5) | 5 |
+| `prompt_api_handler.cpp` | `prompt_manager_` (×4) | 4 |
+| `compliance_reporting_api_handler.cpp` | `reporter_` (×5) | 5 |
+| `policy_template_api_handler.cpp` | `template_manager_` (×3), `policy_manager_` (×1, combined guard) | 4 |
+| `policy_validation_api_handler.cpp` | `validator_` (×4) | 4 |
+
+### Gap Delta
+
+| Type | Before | After |
+|---|---|---|
+| `pointer_without_null_check` (W1-S03 Round 8 guarded derefs) | residual scanner-visible guarded-member deref hits across 9 handler files | standardized with explicit post-guard local references in all 9 files |
+
+---
+
+
+
 **Scope:** `src/server/http_server.cpp`, `include/server/http_server.h`  
 **Ticket:** W1-S02 · Priority P0  
 

@@ -41,7 +41,7 @@ http::response<http::string_body> PromptApiHandler::handlePost(
         if (!prompt_manager_) {
             return makeErrorResponse(http::status::service_unavailable, "PromptManager not available", req);
         }
-
+        auto& prompt_manager = *prompt_manager_;
         if (req.body().empty()) {
             return makeErrorResponse(http::status::bad_request, "Missing JSON body", req);
         }
@@ -56,7 +56,7 @@ http::response<http::string_body> PromptApiHandler::handlePost(
         if (body.contains("metadata")) t.metadata = body["metadata"];
         if (body.contains("active")) t.active = body.value("active", true);
 
-        auto created = prompt_manager_->createTemplate(std::move(t));
+        auto created = prompt_manager.createTemplate(std::move(t));
         return makeResponse(http::status::created, created.toJson().dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
@@ -72,8 +72,8 @@ http::response<http::string_body> PromptApiHandler::handleList(
         if (!prompt_manager_) {
             return makeErrorResponse(http::status::service_unavailable, "PromptManager not available", req);
         }
-
-        auto list = prompt_manager_->listTemplates();
+        auto& prompt_manager = *prompt_manager_;
+        auto list = prompt_manager.listTemplates();
         nlohmann::json out = nlohmann::json::array();
         for (const auto& t : list) {
             out.push_back(t.toJson());
@@ -93,14 +93,14 @@ http::response<http::string_body> PromptApiHandler::handleGet(
         if (!prompt_manager_) {
             return makeErrorResponse(http::status::service_unavailable, "PromptManager not available", req);
         }
-
+        auto& prompt_manager = *prompt_manager_;
         std::string path = std::string(req.target());
         auto id = extractPathParam(path, "/prompt_template/");
         if (id.empty()) {
             return makeErrorResponse(http::status::bad_request, "Missing template id", req);
         }
 
-        auto opt = prompt_manager_->getTemplate(id);
+        auto opt = prompt_manager.getTemplate(id);
         if (!opt.has_value()) {
             return makeErrorResponse(http::status::not_found, "Template not found", req);
         }
@@ -120,7 +120,7 @@ http::response<http::string_body> PromptApiHandler::handlePut(
         if (!prompt_manager_) {
             return makeErrorResponse(http::status::service_unavailable, "PromptManager not available", req);
         }
-
+        auto& prompt_manager = *prompt_manager_;
         std::string path = std::string(req.target());
         auto id = extractPathParam(path, "/prompt_template/");
         if (id.empty()) {
@@ -138,12 +138,12 @@ http::response<http::string_body> PromptApiHandler::handlePut(
         if (body.contains("metadata")) metadata = body["metadata"];
         if (body.contains("active")) active = body.value("active", true);
 
-        bool ok = prompt_manager_->updateTemplate(id, metadata, active);
+        bool ok = prompt_manager.updateTemplate(id, metadata, active);
         if (!ok) {
             return makeErrorResponse(http::status::not_found, "Template not found", req);
         }
 
-        auto updated_opt = prompt_manager_->getTemplate(id);
+        auto updated_opt = prompt_manager.getTemplate(id);
         nlohmann::json out = updated_opt ? updated_opt->toJson() : nlohmann::json::object();
         return makeResponse(http::status::ok, out.dump(), req);
     } catch (const std::exception& e) {

@@ -38,7 +38,7 @@ http::response<http::string_body> CacheApiHandler::handleQuery(
         span.setStatus(false, "cache_not_initialized");
         return makeErrorResponse(http::status::internal_server_error, "Semantic cache not initialized", req);
     }
-    
+    auto& semantic_cache = *semantic_cache_;
     try {
         nlohmann::json body = nlohmann::json::parse(req.body());
         
@@ -52,7 +52,7 @@ http::response<http::string_body> CacheApiHandler::handleQuery(
         
         span.setAttribute("prompt.length", static_cast<int64_t>(prompt.size()));
         
-        auto result = semantic_cache_->query(prompt, params);
+        auto result = semantic_cache.query(prompt, params);
         
         if (result) {
             // Cache hit
@@ -97,7 +97,7 @@ http::response<http::string_body> CacheApiHandler::handlePut(
         span.setStatus(false, "cache_not_initialized");
         return makeErrorResponse(http::status::internal_server_error, "Semantic cache not initialized", req);
     }
-    
+    auto& semantic_cache = *semantic_cache_;
     try {
         nlohmann::json body = nlohmann::json::parse(req.body());
         
@@ -115,7 +115,7 @@ http::response<http::string_body> CacheApiHandler::handlePut(
         span.setAttribute("prompt.length", static_cast<int64_t>(prompt.size()));
         span.setAttribute("response.length", static_cast<int64_t>(response.size()));
         
-        bool success = semantic_cache_->put(prompt, params, response, metadata, ttl_seconds);
+        bool success = semantic_cache.put(prompt, params, response, metadata, ttl_seconds);
         
         if (success) {
             nlohmann::json result = {
@@ -151,9 +151,9 @@ http::response<http::string_body> CacheApiHandler::handleStats(
         span.setStatus(false, "cache_not_initialized");
         return makeErrorResponse(http::status::internal_server_error, "Semantic cache not initialized", req);
     }
-    
+    auto& semantic_cache = *semantic_cache_;
     try {
-        auto stats = semantic_cache_->getStats();
+        auto stats = semantic_cache.getStats();
         nlohmann::json response = stats.toJson();
         
         span.setAttribute("cache.hit_count", static_cast<int64_t>(stats.hit_count));

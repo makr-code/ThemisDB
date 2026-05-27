@@ -42,8 +42,8 @@ http::response<http::string_body> PolicyValidationApiHandler::handleValidateRule
             return makeErrorResponse(http::status::service_unavailable, 
                 "PolicyValidator not initialized", req);
         }
-        
-        auto report = validator_->validateRuleset();
+        auto& validator = *validator_;
+        auto report = validator.validateRuleset();
         
         return makeResponse(http::status::ok, report.toJson().dump(2), req);
         
@@ -66,12 +66,12 @@ http::response<http::string_body> PolicyValidationApiHandler::handleValidateSing
             return makeErrorResponse(http::status::service_unavailable, 
                 "PolicyValidator not initialized", req);
         }
-        
+        auto& validator = *validator_;
         // Parse request body
         nlohmann::json body = nlohmann::json::parse(req.body());
         
         auto rule = themis::governance::PolicyRule::fromJson(body);
-        auto issues = validator_->validateSingleRule(rule);
+        auto issues = validator.validateSingleRule(rule);
         
         nlohmann::json response = {
             {"rule_id", rule.id},
@@ -100,8 +100,8 @@ http::response<http::string_body> PolicyValidationApiHandler::handleGetValidatio
             return makeErrorResponse(http::status::service_unavailable, 
                 "PolicyValidator not initialized", req);
         }
-        
-        auto report = validator_->validateRuleset();
+        auto& validator = *validator_;
+        auto report = validator.validateRuleset();
         
         return makeResponse(http::status::ok, report.toJson().dump(2), req);
         
@@ -124,8 +124,8 @@ http::response<http::string_body> PolicyValidationApiHandler::handleGetMetrics(
             return makeErrorResponse(http::status::service_unavailable, 
                 "PolicyValidator not initialized", req);
         }
-        
-        auto metrics = validator_->calculateEffectiveness();
+        auto& validator = *validator_;
+        auto metrics = validator.calculateEffectiveness();
         
         nlohmann::json json_array = nlohmann::json::array();
         for (const auto& metric : metrics) {
