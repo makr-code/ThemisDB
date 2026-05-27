@@ -11,6 +11,7 @@
 // Copyright (c) 2024 ThemisDB
 
 #include "acceleration/opencl_backend.h"
+#include <stdexcept>
 #include "acceleration/error_codes.h"
 #include "acceleration/error_context.h"
 #include <iostream>

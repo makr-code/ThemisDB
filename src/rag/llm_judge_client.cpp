@@ -18,6 +18,7 @@
  */
 
 #include "rag/llm_judge_client.h"
+#include <stdexcept>
 #include "llm/inference_engine_enhanced.h"
 #include "llm/llama_wrapper.h"
 #include "utils/logger.h"
@@ -236,8 +237,8 @@ std::string LLMJudgeClient::evaluate(const std::string& prompt) {
         llm::InferenceEngineEnhanced::EnhancedInferenceRequest request;
         request.base_request.prompt = prompt;
         request.base_request.max_tokens = impl_->config.max_tokens;
-        request.base_request.temperature = impl_->config.temperature;
-        request.base_request.top_p = 0.95;
+        request.base_request.temperature = static_cast<float>(impl_->config.temperature);
+        request.base_request.top_p = 0.95f;
         request.base_request.stop_sequences = impl_->config.stop_sequences;
         
         request.priority = impl_->config.priority;
@@ -290,8 +291,8 @@ std::vector<std::string> LLMJudgeClient::evaluateBatch(
             llm::InferenceEngineEnhanced::EnhancedInferenceRequest request;
             request.base_request.prompt = prompt;
             request.base_request.max_tokens = impl_->config.max_tokens;
-            request.base_request.temperature = impl_->config.temperature;
-            request.base_request.top_p = 0.95;
+            request.base_request.temperature = static_cast<float>(impl_->config.temperature);
+            request.base_request.top_p = 0.95f;
             request.base_request.stop_sequences = impl_->config.stop_sequences;
             
             request.priority = impl_->config.priority;
@@ -448,7 +449,7 @@ void LLMJudgeClient::parseEvaluationResponse(
             parsed.confidence = 0.5;  // Default
         }
         
-    } catch (const json::exception& e) {
+    } catch (const json::exception&) {
         // Fallback to simple parsing for non-JSON responses
         // Look for score
     size_t score_pos = response.find("\"score\"");

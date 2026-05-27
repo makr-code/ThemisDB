@@ -11,6 +11,7 @@
 // See include/themis/base/hot_reload_manager.h for the public API.
 
 #include "themis/base/hot_reload_manager.h"
+#include <stdexcept>
 
 #include <chrono>
 #include <shared_mutex>
@@ -23,11 +24,9 @@ namespace modules {
 // Constructor / Destructor
 // =============================================================================
 
-HotReloadManager::HotReloadManager()
-    : config_{}, stats_{} {}
+HotReloadManager::HotReloadManager() : config_{}, stats_{} {}
 
-HotReloadManager::HotReloadManager(const Config& config)
-    : config_(config), stats_{} {}
+HotReloadManager::HotReloadManager(const Config &config) : config_(config), stats_{} {}
 
 HotReloadManager::~HotReloadManager() = default;
 
@@ -35,13 +34,12 @@ HotReloadManager::~HotReloadManager() = default;
 // Module registration
 // =============================================================================
 
-void HotReloadManager::registerModule(const std::string& module_name,
-                                      ModuleLoader& loader) {
+void HotReloadManager::registerModule(const std::string &module_name, ModuleLoader &loader) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
 
-    auto& slot   = slots_[module_name];
-    slot.name    = module_name;
-    slot.loader  = &loader;
+    auto &slot  = slots_[module_name];
+    slot.name   = module_name;
+    slot.loader = &loader;
 
     // Record the current version if the module is already loaded.
     auto info = loader.getModuleInfo(module_name);
@@ -53,7 +51,7 @@ void HotReloadManager::registerModule(const std::string& module_name,
     spdlog::info("HotReloadManager: registered module '{}'", module_name);
 }
 
-void HotReloadManager::unregisterModule(const std::string& module_name) {
+void HotReloadManager::unregisterModule(const std::string &module_name) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     slots_.erase(module_name);
     spdlog::info("HotReloadManager: unregistered module '{}'", module_name);
@@ -63,21 +61,19 @@ void HotReloadManager::unregisterModule(const std::string& module_name) {
 // reloadModule – core hot-swap logic
 // =============================================================================
 
-HotReloadResult HotReloadManager::reloadModule(const std::string& module_name,
-                                                const std::string& new_path) {
+HotReloadResult HotReloadManager::reloadModule(const std::string &module_name, const std::string &new_path) {
     auto wall_start = std::chrono::steady_clock::now();
 
     HotReloadResult result;
     result.rollbackAvailable = false;
 
     // --- Validate registration under lock --------------------------------
-    ModuleSlot* slot_ptr = nullptr;
+    ModuleSlot *slot_ptr = nullptr;
     {
         std::unique_lock<std::shared_mutex> lock(mutex_);
         auto it = slots_.find(module_name);
         if (it == slots_.end()) {
-            result.errorMessage = "Module '" + module_name +
-                                  "' is not registered with HotReloadManager";
+            result.errorMessage = "Module '" + module_name + "' is not registered with HotReloadManager";
             spdlog::error("HotReloadManager::reloadModule: {}", result.errorMessage);
             stats_.totalReloads++;
             stats_.failedReloads++;
@@ -86,7 +82,7 @@ HotReloadResult HotReloadManager::reloadModule(const std::string& module_name,
         slot_ptr = &it->second;
     }
 
-    ModuleSlot& slot = *slot_ptr;
+    ModuleSlot &slot = *slot_ptr;
 
     if (!slot.loader) {
         result.errorMessage = "Module '" + module_name + "' has a null loader";
@@ -106,8 +102,7 @@ HotReloadResult HotReloadManager::reloadModule(const std::string& module_name,
     if (config_.preserveState) {
         saved_state = saveState(module_name);
         if (!saved_state.empty()) {
-            spdlog::debug("HotReloadManager: saved state for '{}' ({} bytes)",
-                          module_name, saved_state.size());
+            spdlog::debug("HotReloadManager: saved state for '{}' ({} bytes)", module_name, saved_state.size());
         }
     }
 
@@ -120,8 +115,7 @@ HotReloadResult HotReloadManager::reloadModule(const std::string& module_name,
 
     auto load_result = slot.loader->loadModule(new_path, new_module_key);
     if (!load_result.success) {
-        result.errorMessage = "Failed to load new binary '" + new_path +
-                              "': " + load_result.errorMessage;
+        result.errorMessage = "Failed to load new binary '" + new_path + "': " + load_result.errorMessage;
         spdlog::error("HotReloadManager::reloadModule: {}", result.errorMessage);
         // Old module is still live – do not unload.
         {
@@ -158,13 +152,11 @@ HotReloadResult HotReloadManager::reloadModule(const std::string& module_name,
     if (!final_result.success) {
         // Extremely unlikely but handle: new binary disappeared between the
         // two loads.  Attempt to reload the old binary from the backup path.
-        result.errorMessage = "Final load of new binary failed: " +
-                              final_result.errorMessage;
+        result.errorMessage = "Final load of new binary failed: " + final_result.errorMessage;
         spdlog::error("HotReloadManager::reloadModule: {}", result.errorMessage);
 
         if (!slot.current_path.empty()) {
-            spdlog::warn("HotReloadManager: attempting emergency restore of '{}'",
-                         slot.current_path);
+            spdlog::warn("HotReloadManager: attempting emergency restore of '{}'", slot.current_path);
             slot.loader->loadModule(slot.current_path, module_name);
         }
 
@@ -178,9 +170,9 @@ HotReloadResult HotReloadManager::reloadModule(const std::string& module_name,
 
     // --- Preserve backup for rollback ------------------------------------
     if (config_.enableRollback && !slot.current_path.empty()) {
-        slot.has_backup      = true;
-        slot.backup_path     = slot.current_path;
-        slot.backup_version  = slot.current_version;
+        slot.has_backup     = true;
+        slot.backup_path    = slot.current_path;
+        slot.backup_version = slot.current_version;
     }
 
     // --- Launch sandbox for the new module (if configured) ---------------
@@ -189,10 +181,10 @@ HotReloadResult HotReloadManager::reloadModule(const std::string& module_name,
     if (config_.sandboxConfig) {
         auto new_sandbox = std::make_unique<ModuleSandbox>(*config_.sandboxConfig);
         if (!new_sandbox->launch(module_name)) {
-            spdlog::warn("HotReloadManager: sandbox launch warning for '{}': {}",
-                         module_name, new_sandbox->lastError());
+            spdlog::warn("HotReloadManager: sandbox launch warning for '{}': {}", module_name,
+                         new_sandbox->lastError());
         }
-        for (const auto& w : new_sandbox->launchWarnings()) {
+        for (const auto &w : new_sandbox->launchWarnings()) {
             spdlog::debug("HotReloadManager: sandbox [{}]: {}", module_name, w);
         }
         slot.sandbox = std::move(new_sandbox);
@@ -206,8 +198,7 @@ HotReloadResult HotReloadManager::reloadModule(const std::string& module_name,
     if (config_.preserveState && !saved_state.empty()) {
         bool restored = restoreState(module_name, saved_state);
         if (!restored) {
-            spdlog::warn("HotReloadManager: state restore failed for '{}'",
-                         module_name);
+            spdlog::warn("HotReloadManager: state restore failed for '{}'", module_name);
         }
     }
 
@@ -215,12 +206,11 @@ HotReloadResult HotReloadManager::reloadModule(const std::string& module_name,
     notify(module_name, ReloadPhase::AFTER_LOAD);
 
     auto wall_end = std::chrono::steady_clock::now();
-    result.reloadDurationMs = static_cast<uint64_t>(
-        std::chrono::duration_cast<std::chrono::milliseconds>(
-            wall_end - wall_start).count());
+    result.reloadDurationMs
+        = static_cast<uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(wall_end - wall_start).count());
 
-    result.success          = true;
-    result.newVersion       = new_version.toString();
+    result.success           = true;
+    result.newVersion        = new_version.toString();
     result.rollbackAvailable = slot.has_backup;
 
     {
@@ -229,8 +219,7 @@ HotReloadResult HotReloadManager::reloadModule(const std::string& module_name,
         stats_.successfulReloads++;
     }
 
-    spdlog::info("HotReloadManager: '{}' hot-reloaded in {}ms ({} -> {})",
-                 module_name, result.reloadDurationMs,
+    spdlog::info("HotReloadManager: '{}' hot-reloaded in {}ms ({} -> {})", module_name, result.reloadDurationMs,
                  result.previousVersion, result.newVersion);
     return result;
 }
@@ -239,14 +228,14 @@ HotReloadResult HotReloadManager::reloadModule(const std::string& module_name,
 // rollback
 // =============================================================================
 
-HotReloadResult HotReloadManager::rollback(const std::string& module_name) {
+HotReloadResult HotReloadManager::rollback(const std::string &module_name) {
     auto wall_start = std::chrono::steady_clock::now();
 
     HotReloadResult result;
 
     // Validate registration and extract backup info under lock.
-    ModuleLoader* loader_ptr = nullptr;
-    std::string   backup_path;
+    ModuleLoader *loader_ptr = nullptr;
+    std::string backup_path;
     ModuleVersion backup_version;
     {
         std::unique_lock<std::shared_mutex> lock(mutex_);
@@ -258,19 +247,18 @@ HotReloadResult HotReloadManager::rollback(const std::string& module_name) {
             return result;
         }
 
-        ModuleSlot& slot = it->second;
+        ModuleSlot &slot = it->second;
 
         if (!slot.has_backup || slot.backup_path.empty()) {
-            result.errorMessage =
-                "No rollback available for module '" + module_name + "'";
+            result.errorMessage = "No rollback available for module '" + module_name + "'";
             spdlog::warn("HotReloadManager::rollback: {}", result.errorMessage);
             return result;
         }
 
         result.previousVersion = slot.current_version.toString();
-        loader_ptr    = slot.loader;
-        backup_path   = slot.backup_path;
-        backup_version = slot.backup_version;
+        loader_ptr             = slot.loader;
+        backup_path            = slot.backup_path;
+        backup_version         = slot.backup_version;
     }
 
     // Perform the unload/load outside the mutex to avoid holding the lock
@@ -279,8 +267,7 @@ HotReloadResult HotReloadManager::rollback(const std::string& module_name) {
 
     auto load_result = loader_ptr->loadModule(backup_path, module_name);
     if (!load_result.success) {
-        result.errorMessage = "Failed to restore backup binary '" +
-                              backup_path + "': " + load_result.errorMessage;
+        result.errorMessage = "Failed to restore backup binary '" + backup_path + "': " + load_result.errorMessage;
         spdlog::error("HotReloadManager::rollback: {}", result.errorMessage);
         return result;
     }
@@ -291,10 +278,10 @@ HotReloadResult HotReloadManager::rollback(const std::string& module_name) {
     if (config_.sandboxConfig) {
         rollback_sandbox = std::make_unique<ModuleSandbox>(*config_.sandboxConfig);
         if (!rollback_sandbox->launch(module_name)) {
-            spdlog::warn("HotReloadManager: sandbox launch warning for rollback '{}': {}",
-                         module_name, rollback_sandbox->lastError());
+            spdlog::warn("HotReloadManager: sandbox launch warning for rollback '{}': {}", module_name,
+                         rollback_sandbox->lastError());
         }
-        for (const auto& w : rollback_sandbox->launchWarnings()) {
+        for (const auto &w : rollback_sandbox->launchWarnings()) {
             spdlog::debug("HotReloadManager: sandbox rollback [{}]: {}", module_name, w);
         }
     }
@@ -304,10 +291,10 @@ HotReloadResult HotReloadManager::rollback(const std::string& module_name) {
         std::unique_lock<std::shared_mutex> lock(mutex_);
         auto it = slots_.find(module_name);
         if (it != slots_.end()) {
-            ModuleSlot& slot    = it->second;
-            slot.current_path   = backup_path;
+            ModuleSlot &slot     = it->second;
+            slot.current_path    = backup_path;
             slot.current_version = backup_version;
-            slot.has_backup     = false;
+            slot.has_backup      = false;
             slot.backup_path.clear();
             slot.backup_version = {};
             // Replacing sandbox drops the old one (auto-shutdown via ~ModuleSandbox).
@@ -320,16 +307,15 @@ HotReloadResult HotReloadManager::rollback(const std::string& module_name) {
     notify(module_name, ReloadPhase::ROLLBACK);
 
     auto wall_end = std::chrono::steady_clock::now();
-    result.reloadDurationMs = static_cast<uint64_t>(
-        std::chrono::duration_cast<std::chrono::milliseconds>(
-            wall_end - wall_start).count());
+    result.reloadDurationMs
+        = static_cast<uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(wall_end - wall_start).count());
 
     result.success           = true;
     result.newVersion        = backup_version.toString();
     result.rollbackAvailable = false;
 
-    spdlog::info("HotReloadManager: '{}' rolled back in {}ms (to {})",
-                 module_name, result.reloadDurationMs, result.newVersion);
+    spdlog::info("HotReloadManager: '{}' rolled back in {}ms (to {})", module_name, result.reloadDurationMs,
+                 result.newVersion);
     return result;
 }
 
@@ -337,8 +323,7 @@ HotReloadResult HotReloadManager::rollback(const std::string& module_name) {
 // Queries
 // =============================================================================
 
-std::optional<ModuleVersion> HotReloadManager::getCurrentVersion(
-    const std::string& module_name) const {
+std::optional<ModuleVersion> HotReloadManager::getCurrentVersion(const std::string &module_name) const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
 
     auto it = slots_.find(module_name);
@@ -346,15 +331,14 @@ std::optional<ModuleVersion> HotReloadManager::getCurrentVersion(
         return std::nullopt;
     }
 
-    const ModuleVersion& v = it->second.current_version;
+    const ModuleVersion &v = it->second.current_version;
     if (v.version.empty() && v.major == 0 && v.minor == 0 && v.patch == 0) {
-        return std::nullopt;  // Not yet loaded.
+        return std::nullopt; // Not yet loaded.
     }
     return v;
 }
 
-bool HotReloadManager::isRollbackAvailable(
-    const std::string& module_name) const {
+bool HotReloadManager::isRollbackAvailable(const std::string &module_name) const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
 
     auto it = slots_.find(module_name);
@@ -366,20 +350,18 @@ std::vector<std::string> HotReloadManager::registeredModules() const {
 
     std::vector<std::string> names;
     names.reserve(slots_.size());
-    for (const auto& [name, _] : slots_) {
+    for (const auto &[name, _] : slots_) {
         names.push_back(name);
     }
     return names;
 }
 
-std::optional<SandboxStats> HotReloadManager::getSandboxStats(
-    const std::string& module_name) const {
+std::optional<SandboxStats> HotReloadManager::getSandboxStats(const std::string &module_name) const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
 
     auto it = slots_.find(module_name);
     // Short-circuit: null check before isActive() to avoid null dereference.
-    if (it == slots_.end() || !it->second.sandbox ||
-        !it->second.sandbox->isActive()) {
+    if (it == slots_.end() || !it->second.sandbox || !it->second.sandbox->isActive()) {
         return std::nullopt;
     }
     return it->second.sandbox->stats();
@@ -427,7 +409,7 @@ void HotReloadManager::resetStats() {
 // Private helpers
 // =============================================================================
 
-void HotReloadManager::notify(const std::string& name, ReloadPhase phase) {
+void HotReloadManager::notify(const std::string &name, ReloadPhase phase) {
     // Capture callbacks under shared lock (read-only), then invoke outside
     // of lock to prevent re-entrancy deadlocks.
     std::vector<ReloadCallback> cbs;
@@ -435,10 +417,10 @@ void HotReloadManager::notify(const std::string& name, ReloadPhase phase) {
         std::shared_lock<std::shared_mutex> lock(mutex_);
         cbs = reload_cbs_;
     }
-    for (const auto& cb : cbs) {
+    for (const auto &cb : cbs) {
         try {
             cb(name, phase);
-        } catch (const std::exception& ex) {
+        } catch (const std::exception &ex) {
             spdlog::warn("HotReloadManager: reload callback threw: {}", ex.what());
         } catch (...) {
             spdlog::warn("HotReloadManager: reload callback threw unknown exception");
@@ -446,13 +428,15 @@ void HotReloadManager::notify(const std::string& name, ReloadPhase phase) {
     }
 }
 
-std::string HotReloadManager::saveState(const std::string& name) {
+std::string HotReloadManager::saveState(const std::string &name) {
     StateSaveCallback cb;
     {
         std::shared_lock<std::shared_mutex> lock(mutex_);
         cb = state_save_cb_;
     }
-    if (!cb) return {};
+    if (!cb) {
+        return {};
+    }
     try {
         auto state = cb(name);
         if (!state.empty()) {
@@ -460,20 +444,21 @@ std::string HotReloadManager::saveState(const std::string& name) {
             stats_.statesSaved++;
         }
         return state;
-    } catch (const std::exception& ex) {
+    } catch (const std::exception &ex) {
         spdlog::warn("HotReloadManager: state-save callback threw: {}", ex.what());
         return {};
     }
 }
 
-bool HotReloadManager::restoreState(const std::string& name,
-                                    const std::string& state) {
+bool HotReloadManager::restoreState(const std::string &name, const std::string &state) {
     StateRestoreCallback cb;
     {
         std::shared_lock<std::shared_mutex> lock(mutex_);
         cb = state_restore_cb_;
     }
-    if (!cb) return false;
+    if (!cb) {
+        return false;
+    }
     try {
         bool ok = cb(name, state);
         if (ok) {
@@ -481,15 +466,13 @@ bool HotReloadManager::restoreState(const std::string& name,
             stats_.statesRestored++;
         }
         return ok;
-    } catch (const std::exception& ex) {
-        spdlog::warn("HotReloadManager: state-restore callback threw: {}",
-                     ex.what());
+    } catch (const std::exception &ex) {
+        spdlog::warn("HotReloadManager: state-restore callback threw: {}", ex.what());
         return false;
     }
 }
 
-/*static*/ ModuleVersion HotReloadManager::versionFromLoader(
-    ModuleLoader& loader, const std::string& module_name) {
+/*static*/ ModuleVersion HotReloadManager::versionFromLoader(ModuleLoader &loader, const std::string &module_name) {
     auto info = loader.getModuleInfo(module_name);
     if (info.has_value()) {
         return ModuleVersion::fromMetadata(info->metadata);

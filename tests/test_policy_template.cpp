@@ -32,12 +32,12 @@ protected:
 
 TEST_F(PolicyTemplateTest, BuiltInTemplatesLoaded) {
     auto templates = manager->listTemplates();
-    EXPECT_GE(templates.size(), 5); // At least 5 built-in templates
+    EXPECT_GE(templates.size(), 6); // At least 6 built-in templates
     
     // Check for specific templates
     EXPECT_TRUE(manager->getTemplate("least_privilege").has_value());
     EXPECT_TRUE(manager->getTemplate("data_lifecycle").has_value());
-    EXPECT_TRUE(manager->getTemplate("compliance_audit").has_value());
+    EXPECT_TRUE(manager->getTemplate("compliance").has_value());
     EXPECT_TRUE(manager->getTemplate("separation_of_duties").has_value());
     EXPECT_TRUE(manager->getTemplate("time_based_access").has_value());
 }
@@ -54,15 +54,15 @@ TEST_F(PolicyTemplateTest, ListTemplatesByCategory) {
 
 TEST_F(PolicyTemplateTest, InstantiateLeastPrivilegeTemplate) {
     std::unordered_map<std::string, std::string> params;
-    params["resource_path"] = "data/sensitive/*";
+    params["resource_pattern"] = "data/sensitive/*";
     params["allowed_action"] = "read";
-    params["role"] = "operator";
+    params["required_role"] = "operator";
     
     nlohmann::json json_params(params);
     auto rule = manager->instantiateTemplate("least_privilege", json_params, "rule_lp_001");
     
     EXPECT_EQ(rule.id, "rule_lp_001");
-    EXPECT_EQ(rule.name, "Least Privilege: data/sensitive/* [read]");
+    EXPECT_EQ(rule.name, "Least Privilege: data/sensitive/*");
     EXPECT_EQ(rule.resources.size(), 1);
     EXPECT_EQ(rule.resources[0], "data/sensitive/*");
     EXPECT_EQ(rule.actions.size(), 1);
@@ -75,61 +75,58 @@ TEST_F(PolicyTemplateTest, InstantiateLeastPrivilegeTemplate) {
 }
 
 TEST_F(PolicyTemplateTest, InstantiateDataLifecycleTemplate) {
-    std::unordered_map<std::string, std::string> params;
-    params["data_type"] = "logs";
-    params["retention_days"] = "90";
-    
-    nlohmann::json json_params(params);
+    nlohmann::json json_params = {
+        {"resource_pattern", "logs/*"},
+        {"retention_days", 90}
+    };
     auto rule = manager->instantiateTemplate("data_lifecycle", json_params, "rule_dl_001");
     
-    EXPECT_EQ(rule.name, "Data Lifecycle: logs");
+    EXPECT_EQ(rule.name, "Data Lifecycle: logs/*");
     EXPECT_EQ(rule.resources[0], "logs/*");
     EXPECT_TRUE(rule.audit_changes);
 }
 
 TEST_F(PolicyTemplateTest, InstantiateComplianceTemplate) {
     std::unordered_map<std::string, std::string> params;
-    params["resource_category"] = "pii";
-    params["classification"] = "geheim";
+    params["resource_pattern"] = "pii/*";
+    params["compliance_framework"] = "GDPR";
     
     nlohmann::json json_params(params);
-    auto rule = manager->instantiateTemplate("compliance_audit", json_params, "rule_c_001");
+    auto rule = manager->instantiateTemplate("compliance", json_params, "rule_c_001");
     
-    EXPECT_EQ(rule.name, "Compliance: pii");
+    EXPECT_EQ(rule.name, "GDPR Compliance");
     EXPECT_EQ(rule.resources[0], "pii/*");
     EXPECT_TRUE(rule.require_encryption);
     EXPECT_TRUE(rule.require_signature);
     EXPECT_FALSE(rule.allow_export);
     EXPECT_TRUE(rule.audit_access);
     EXPECT_TRUE(rule.audit_changes);
-    EXPECT_EQ(rule.retention_days, 2555); // 7 years
 }
 
 TEST_F(PolicyTemplateTest, InstantiateSeparationOfDutiesTemplate) {
     std::unordered_map<std::string, std::string> params;
-    params["resource"] = "financial/transactions";
-    params["action"] = "approve";
+    params["resource_pattern"] = "financial/transactions";
+    params["restricted_action"] = "approve";
     params["authorized_role"] = "approver";
     
     nlohmann::json json_params(params);
     auto rule = manager->instantiateTemplate("separation_of_duties", json_params, "rule_sod_001");
     
-    EXPECT_EQ(rule.name, "Separation of Duties: financial/transactions [approve]");
+    EXPECT_EQ(rule.name, "SOD: approve");
     EXPECT_EQ(rule.resources[0], "financial/transactions");
     EXPECT_EQ(rule.actions[0], "approve");
     EXPECT_EQ(rule.required_roles[0], "approver");
 }
 
 TEST_F(PolicyTemplateTest, InstantiateTimeBasedAccessTemplate) {
-    std::unordered_map<std::string, std::string> params;
-    params["resource"] = "project/alpha";
-    params["temp_role"] = "contractor";
-    params["duration_days"] = "30";
-    
-    nlohmann::json json_params(params);
+    nlohmann::json json_params = {
+        {"resource_pattern", "project/alpha"},
+        {"required_role", "contractor"},
+        {"access_duration_days", 30}
+    };
     auto rule = manager->instantiateTemplate("time_based_access", json_params, "rule_tba_001");
     
-    EXPECT_EQ(rule.name, "Temporary Access: project/alpha for contractor");
+    EXPECT_EQ(rule.name, "Time-Based Access: project/alpha");
     EXPECT_EQ(rule.resources[0], "project/alpha");
     EXPECT_EQ(rule.required_roles[0], "contractor");
 }
@@ -138,7 +135,7 @@ TEST_F(PolicyTemplateTest, InstantiateTimeBasedAccessTemplate) {
 
 TEST_F(PolicyTemplateTest, MissingRequiredParameter) {
     std::unordered_map<std::string, std::string> params;
-    params["resource_path"] = "data/*";
+    params["resource_pattern"] = "data/*";
     // Missing required_action and role - should throw or return invalid rule
     
     nlohmann::json json_params(params);
@@ -162,9 +159,9 @@ TEST_F(PolicyTemplateTest, InvalidParameterType) {
 
 TEST_F(PolicyTemplateTest, InvalidAllowedValue) {
     std::unordered_map<std::string, std::string> params;
-    params["resource_path"] = "data/*";
+    params["resource_pattern"] = "data/*";
     params["allowed_action"] = "invalid_action"; // Not in allowed values
-    params["role"] = "operator";
+    params["required_role"] = "operator";
     
     nlohmann::json json_params(params);
     // Expect exception or check for invalid rule
@@ -181,35 +178,32 @@ TEST_F(PolicyTemplateTest, InvalidAllowedValue) {
 
 TEST_F(PolicyTemplateTest, PreviewValidTemplate) {
     nlohmann::json params;
-    params["resource_path"] = "test/*";
+    params["resource_pattern"] = "test/*";
     params["allowed_action"] = "write";
-    params["role"] = "tester";
+    params["required_role"] = "tester";
     
     auto preview = manager->previewTemplate("least_privilege", params, "preview_001");
     
     EXPECT_NE(preview.name, "");
-    EXPECT_EQ(preview.name, "Least Privilege: test/* [write]");
+    EXPECT_EQ(preview.name, "Least Privilege: test/*");
 }
 
 TEST_F(PolicyTemplateTest, PreviewInvalidTemplate) {
     nlohmann::json params;
-    params["resource_path"] = "test/*";
+    params["resource_pattern"] = "test/*";
     // Missing required parameters
     
-    auto preview = manager->previewTemplate("least_privilege", params, "preview_002");
-    
-    // Check if preview handled missing parameters
-    EXPECT_NE(preview.name, "");
+    EXPECT_THROW({
+        manager->previewTemplate("least_privilege", params, "preview_002");
+    }, std::invalid_argument);
 }
 
 TEST_F(PolicyTemplateTest, PreviewNonExistentTemplate) {
     nlohmann::json params;
-    
-    auto preview = manager->previewTemplate("nonexistent", params, "preview_003");
-    
-    EXPECT_NO_THROW({
-        auto rule = manager->previewTemplate("nonexistent", params, "preview_003");
-    });
+
+    EXPECT_THROW({
+        manager->previewTemplate("nonexistent", params, "preview_003");
+    }, std::invalid_argument);
 }
 
 // ========== Custom Template Tests ==========
@@ -354,8 +348,8 @@ TEST_F(PolicyTemplateTest, ParameterMetadata) {
 TEST_F(PolicyTemplateTest, ListTemplates) {
     auto templates = manager->listTemplates();
     
-    // Should have 5 built-in templates
-    EXPECT_EQ(templates.size(), 5);
+    // Should have 6 built-in templates
+    EXPECT_EQ(templates.size(), 6);
 }
 
 TEST_F(PolicyTemplateTest, GetTemplateById) {

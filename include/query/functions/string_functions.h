@@ -27,6 +27,7 @@ namespace functions {
  */
 class LengthFunction : public IFunction {
 public:
+    ~LengthFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "LENGTH",
@@ -60,6 +61,7 @@ public:
  */
 class ConcatFunction : public IFunction {
 public:
+    ~ConcatFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "CONCAT",
@@ -95,6 +97,7 @@ public:
  */
 class SubstringFunction : public IFunction {
 public:
+    ~SubstringFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "SUBSTRING",
@@ -137,6 +140,7 @@ public:
  */
 class UpperFunction : public IFunction {
 public:
+    ~UpperFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "UPPER",
@@ -164,6 +168,7 @@ public:
  */
 class LowerFunction : public IFunction {
 public:
+    ~LowerFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "LOWER",
@@ -191,6 +196,7 @@ public:
  */
 class TrimFunction : public IFunction {
 public:
+    ~TrimFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "TRIM",
@@ -227,6 +233,7 @@ public:
  */
 class LTrimFunction : public IFunction {
 public:
+    ~LTrimFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "LTRIM",
@@ -258,6 +265,7 @@ public:
  */
 class RTrimFunction : public IFunction {
 public:
+    ~RTrimFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "RTRIM",
@@ -289,6 +297,7 @@ public:
  */
 class SplitFunction : public IFunction {
 public:
+    ~SplitFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "SPLIT",
@@ -333,6 +342,7 @@ public:
  */
 class ContainsFunction : public IFunction {
 public:
+    ~ContainsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "CONTAINS",
@@ -361,6 +371,7 @@ public:
  */
 class StartsWithFunction : public IFunction {
 public:
+    ~StartsWithFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "STARTS_WITH",
@@ -389,6 +400,7 @@ public:
  */
 class EndsWithFunction : public IFunction {
 public:
+    ~EndsWithFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ENDS_WITH",
@@ -418,6 +430,7 @@ public:
  */
 class ReplaceFunction : public IFunction {
 public:
+    ~ReplaceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "REPLACE",
@@ -456,6 +469,7 @@ public:
  */
 class ReverseStringFunction : public IFunction {
 public:
+    ~ReverseStringFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "REVERSE",
@@ -483,6 +497,7 @@ public:
  */
 class RegexTestFunction : public IFunction {
 public:
+    ~RegexTestFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "REGEX_TEST",
@@ -512,6 +527,7 @@ public:
  */
 class RegexReplaceFunction : public IFunction {
 public:
+    ~RegexReplaceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "REGEX_REPLACE",
@@ -543,6 +559,7 @@ public:
  */
 class LevenshteinDistanceFunction : public IFunction {
 public:
+    ~LevenshteinDistanceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "LEVENSHTEIN_DISTANCE",

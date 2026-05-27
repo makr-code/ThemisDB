@@ -10,11 +10,12 @@
  */
 
 #include "server/grpc_web_proxy_handler.h"
-#include "utils/logger.h"
+#include <stdexcept>
 
 #include <nlohmann/json.hpp>
 #include <chrono>
 #include <mutex>
+#include <spdlog/spdlog.h>
 
 #ifdef THEMIS_ENABLE_GRPC
 #include <grpcpp/grpcpp.h>
@@ -149,9 +150,9 @@ GrpcWebProxyHandler::GrpcWebProxyHandler(Config config)
     // violates the principle of least privilege.  Set Config::cors_allow_origin
     // to a specific origin (e.g. "https://app.example.com") in production.
     if (config_.cors_allow_origin == "*") {
-        THEMIS_WARN("[SECURITY] GrpcWebProxy: cors_allow_origin='*' — any origin can read "
-                    "gRPC-Web responses. Configure a specific origin in production "
-                    "(GAP-012/CWE-346).");
+        spdlog::warn("[SECURITY] GrpcWebProxy: cors_allow_origin='*' - any origin can read "
+                     "gRPC-Web responses. Configure a specific origin in production "
+                     "(GAP-012/CWE-346).");
     }
 }
 

@@ -101,6 +101,7 @@ public:
 class MedianDetector : public ByzantineDetector {
 public:
     explicit MedianDetector(float threshold = 3.0f);
+    ~MedianDetector() override = default;
     
     DetectionResult detectByzantineShards(
         const std::map<std::string, std::vector<GradientTensor>>& shard_gradients
@@ -116,7 +117,7 @@ public:
     float getThreshold() const { return threshold_; }
     
 private:
-    float threshold_;  // Number of MAD for outlier detection (typically 2.5-3.5)
+    float threshold_ = 0.0f;  // Number of MAD for outlier detection (typically 2.5-3.5)
     
     // Helper methods
     float computeL2Norm(const std::vector<GradientTensor>& gradients) const;
@@ -132,6 +133,7 @@ private:
 class KrumDetector : public ByzantineDetector {
 public:
     explicit KrumDetector(int max_byzantine_shards = 1);
+    ~KrumDetector() override = default;
     
     DetectionResult detectByzantineShards(
         const std::map<std::string, std::vector<GradientTensor>>& shard_gradients
@@ -153,7 +155,7 @@ public:
     ) const;
     
 private:
-    int max_byzantine_shards_;  // f parameter: max number of Byzantine shards
+    int max_byzantine_shards_ = 0;  // f parameter: max number of Byzantine shards
     
     // Helper methods
     float computeDistance(
@@ -169,6 +171,7 @@ private:
 class BulyanDetector : public ByzantineDetector {
 public:
     explicit BulyanDetector(int max_byzantine_shards = 1);
+    ~BulyanDetector() override = default;
     
     DetectionResult detectByzantineShards(
         const std::map<std::string, std::vector<GradientTensor>>& shard_gradients
@@ -189,7 +192,7 @@ public:
     );
     
 private:
-    int max_byzantine_shards_;  // f parameter: max number of Byzantine shards
+    int max_byzantine_shards_ = 0;  // f parameter: max number of Byzantine shards
     KrumDetector krum_detector_;  // Use Krum for selection
     
     // Helper methods
@@ -209,6 +212,7 @@ public:
         float median_threshold = 3.0f,
         int max_byzantine_shards = 1
     );
+    ~EnsembleDetector() override = default;
     
     DetectionResult detectByzantineShards(
         const std::map<std::string, std::vector<GradientTensor>>& shard_gradients

@@ -8,18 +8,24 @@
 
 /**
  * @file storage/hierarchical_tucker_decomposer.h
- * @brief HierarchicalTuckerDecomposer — HOSVD-based HT tensor factorization.
+ * @brief HierarchicalTuckerDecomposer — HOSVD+HOOI HT tensor factorization.
  *
  * Implements the Hierarchical Tucker decomposition (Grasedyck 2010) of a dense
  * multi-dimensional tensor T ∈ ℝ^{n_0 × … × n_{d-1}} into an HTTrain.
  *
- * ## Algorithm (STUB #179 — HOSVD initialization, not HOOI)
+ * ## Algorithm (HOSVD initialization + HOOI refinement)
  *
  * 1. **HOSVD leaves**: for each mode k compute the truncated SVD of the mode-k
  *    unfolding T_(k) ∈ ℝ^{n_k × (N/n_k)} → U_k ∈ ℝ^{n_k × r_k}.
+ *    Delegated to `TensorTrainDecomposer::truncatedSVD()` (Golub-Reinsch).
  *
- * 2. **Tucker core**: G = T ×_0 U_0^T ×_1 U_1^T … ×_{d-1} U_{d-1}^T
- *    (multi-mode product; G ∈ ℝ^{r_0 × … × r_{d-1}}).
+ * 2. **HOOI refinement**: run alternating mode updates using projected
+ *    unfoldings until reconstruction error converges or the configured
+ *    tolerance is reached.
+ *
+ * 2b. **HOOI sweep**: Alternating optimization — for each mode k, compute
+ *     G(k) = T ×_{j≠k} U_j^T, update U_k via truncated SVD of the k-unfolding.
+ *     Repeat until ‖G‖_F converges (rel. change < 1e-6) or 20 iterations.
  *
  * 3. **HT transfer tensors** (top-down balanced binary split):
  *    Starting from the full Tucker core G (augmented with a trailing 1-dim to
@@ -34,10 +40,10 @@
  *    Recursion terminates at d_sub == 2 (leaf-pair: B = core) or
  *    d_sub == 1 (single leaf: U_effective = U_k · core).
  *
- * ## Stubs
- * - STUB #287: HOSVD initialization (not HOOI alternating optimization).
- * - STUB #288: Symmetric Jacobi EVD for truncated SVD
- *   (O(r³ · iter) Jacobi sweeps for the small Gram matrix; r ≤ max_rank).
+ * ## Resolved stubs
+ * - STUB #287 resolved: HOOI alternating optimization loop added (Step 2b).
+ * - STUB #288 resolved: `truncatedSVD()` now reuses
+ *   `TensorTrainDecomposer::truncatedSVD()` as the shared backend.
  */
 
 #pragma once
@@ -61,6 +67,11 @@ namespace storage {
 struct HTConfig {
     std::size_t max_rank = 16;  ///< Maximum rank per node (clamped to min(n_k, N/n_k))
     double      eps      = 0.01; ///< Relative reconstruction error tolerance
+
+    /// Maximum HOOI alternating-optimization iterations after HOSVD initialization.
+    /// Set to 0 to use HOSVD-only (lower quality but faster).  Default 20 iterations
+    /// are sufficient for convergence in most practical cases.
+    std::size_t max_hooi_iter = 20;
 };
 
 // ============================================================================
@@ -95,16 +106,10 @@ public:
      * @throws std::invalid_argument if data.size() != ∏ shape[k], d < 2, or any
      *         shape[k] == 0.
      *
-     * @note
-     * // STUB/SIMULATION NOTE (STUB #287):
-     * // Purpose: HOSVD-based HT initialization so that IHierarchicalTuckerIndex can
-     * //          be exercised before HOOI alternating optimization is available.
-     * // Activation: Always — no compile-time flag required.
-     * // Production Delta: HOSVD is a suboptimal initialization; HOOI iterations
-     * //   minimize ‖T − T̃‖_F to machine precision but require multiple tensor
-     * //   passes.  Reconstruction error may be up to ε·√d higher than optimal.
-     * // Removal Plan: Q2 2028 — add HOOI iteration loop after HOSVD initialization;
-     * //   iterate until ‖T − T̃‖_F / ‖T‖_F < eps or max_iter (default 20) reached.
+     * @note Stub #287 resolved: HOOI alternating optimization loop added after
+     * HOSVD initialization in `decompose()` (see `hierarchical_tucker_decomposer.cpp`,
+     * Step 2b).  Iterates until ‖G‖_F converges (rel. change < 1e-6) or 20 sweeps
+     * complete.  Long-term plan (Q2 2028): extend `ITensorIndex` to support HT directly.
      */
     std::pair<tensor::HTTrain, Stats>
     decompose(const std::vector<float>&        data,
@@ -127,19 +132,7 @@ private:
      * Returns U (m × r), S (r), Vt (r × n) where r is chosen such that
      * sigma[r] < delta (or r = max_rank if the threshold is never reached).
      *
-     * Uses symmetric Jacobi EVD on the smaller Gram matrix (A·A^T or A^T·A)
-     * for accuracy on dense float32 inputs.
-     *
-     * @note
-     * // STUB/SIMULATION NOTE (STUB #288):
-     * // Purpose: Provide a self-contained truncated SVD without linking LAPACK.
-     * // Activation: Always — no build flag required.
-     * // Production Delta: O(r³ · iter) Jacobi sweeps vs. O(m·n·r) LAPACK dgesdd.
-     * //   For max_rank ≤ 64 and small Gram matrices the cost is negligible.
-     * //   For large r or ill-conditioned matrices (high dynamic range), Golub-
-     * //   Reinsch bidiagonalization (as in TensorTrainDecomposer) is preferred.
-     * // Removal Plan: Q2 2028 — expose TensorTrainDecomposer::truncatedSVD() as a
-     * //   protected/friend static; reuse across all decomposers.
+     * Uses the shared `TensorTrainDecomposer::truncatedSVD()` backend.
      */
     static void truncatedSVD(
         const std::vector<float>&  mat,

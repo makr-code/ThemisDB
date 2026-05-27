@@ -18,6 +18,7 @@
 #define NOMINMAX
 #endif
 #include <winsock2.h>
+#include <stdexcept>
 #include <windows.h>
 #endif
 
@@ -274,12 +275,22 @@ HttpServer::HttpServer(
     , redundancy_manager_(std::move(redundancy_manager))
     , hash_ring_(std::move(hash_ring))
     , shard_topology_(std::move(shard_topology))
+    , request_timeout_ms_live_(config.request_timeout_ms)
     , ioc_(static_cast<int>(config_.num_threads))
     , acceptor_(ioc_)
     , start_time_(std::chrono::steady_clock::now())
 {
     THEMIS_INFO("HTTP Server created with {} threads on {}:{}", 
         config_.num_threads, config_.host, config_.port);
+
+    // Initialize hot-reloadable atomic shadows from initial config values.
+    // These are the only config fields written concurrently by POST /config
+    // (hot-reload) while worker threads may read them simultaneously.
+    request_timeout_ms_live_.store(config_.request_timeout_ms, std::memory_order_relaxed);
+    feature_semantic_cache_live_.store(config_.feature_semantic_cache, std::memory_order_relaxed);
+    feature_llm_store_live_.store(config_.feature_llm_store, std::memory_order_relaxed);
+    feature_cdc_live_.store(config_.feature_cdc, std::memory_order_relaxed);
+    feature_timeseries_live_.store(config_.feature_timeseries, std::memory_order_relaxed);
     
     // Initialize Spatial Index Manager (geo MVP)
     try {
@@ -646,9 +657,7 @@ HttpServer::HttpServer(
             // GAP-011 fixed: log only token length, never prefix/suffix bytes.
             THEMIS_INFO("Auth check after addToken: validateToken(token_len={}) -> authorized={} user_id='{}' reason='{}'",
                        cfg.token.size(), v.authorized, v.user_id, v.reason);
-        } catch (const std::exception& ex) {
-            THEMIS_WARN("Auth: validateToken after addToken failed: {}", ex.what());
-        }
+        } catch (...) {}
     }
     // Read-only token
     if (auto t = themis_get_env("THEMIS_TOKEN_READONLY")) {
@@ -2128,6 +2137,14 @@ void HttpServer::stop() {
         THEMIS_INFO("RocksDB closed cleanly");
     }
 
+    // Shut down the SSE manager before the io_context so that its internal
+    // poll_timer_ is cancelled and reset while the executor is still alive.
+    // (sse_manager_ is declared before ioc_ and would otherwise be destroyed
+    // after ioc_, accessing a dead executor in its destructor.)
+    if (sse_manager_) {
+        sse_manager_->shutdown();
+    }
+
     // Stop io_context
     ioc_.stop();
 
@@ -2247,39 +2264,72 @@ void HttpServer::onAccept(beast::error_code ec, tcp::socket socket) {
     if (ec) {
         THEMIS_ERROR("Accept error: {}", ec.message());
     } else {
+        bool connection_slot_reserved = false;
+
+        // W1-S02: reserve a connection slot atomically at admission to avoid
+        // accept-time races that can exceed max_connections under contention.
+        if (config_.max_connections > 0) {
+            uint64_t observed = active_connections_.load(std::memory_order_relaxed);
+            while (observed < config_.max_connections) {
+                if (active_connections_.compare_exchange_weak(
+                        observed,
+                        observed + 1,
+                        std::memory_order_acq_rel,
+                        std::memory_order_relaxed)) {
+                    connection_slot_reserved = true;
+                    break;
+                }
+            }
+        }
+
         // Enforce max_connections limit: close the socket immediately if exceeded
-        if (config_.max_connections > 0 &&
-            active_connections_.load(std::memory_order_relaxed) >= config_.max_connections) {
+        if (config_.max_connections > 0 && !connection_slot_reserved) {
             THEMIS_WARN("Max connections ({}) reached - rejecting new connection",
                 config_.max_connections);
             beast::error_code close_ec;
             socket.shutdown(tcp::socket::shutdown_both, close_ec);
             socket.close(close_ec);
         } else {
-            // Create new session for this connection.
-            // Lock briefly to get a stable reference to ssl_ctx_ (hot-reload may swap it).
-            if (config_.enable_tls) {
-                std::lock_guard<std::mutex> lock(ssl_ctx_mutex_);
-                if (ssl_ctx_) {
+            try {
+                // Create new session for this connection.
+                // Lock briefly to get a stable reference to ssl_ctx_ (hot-reload may swap it).
+                if (config_.enable_tls) {
+                    std::lock_guard<std::mutex> lock(ssl_ctx_mutex_);
+                    if (ssl_ctx_) {
 #ifdef THEMIS_ENABLE_HTTP2
-                    if (config_.enable_http2) {
-                        std::make_shared<Http2Session>(
-                            std::move(socket),
-                            *ssl_ctx_,
-                            this,
-                            config_.http2_max_concurrent_streams,
-                            config_.http2_initial_window_size
-                        )->start();
-                    } else {
-                        std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
-                    }
+                        if (config_.enable_http2) {
+                            Http2Handler::createSession(
+                                std::move(socket),
+                                *ssl_ctx_,
+                                this,
+                                config_.http2_max_concurrent_streams,
+                                config_.http2_initial_window_size,
+                                connection_slot_reserved
+                            )->start();
+                        } else {
+                            std::make_shared<SslSession>(
+                                std::move(socket), *ssl_ctx_, this, connection_slot_reserved)->start();
+                        }
 #else
-                    std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
+                        std::make_shared<SslSession>(
+                            std::move(socket), *ssl_ctx_, this, connection_slot_reserved)->start();
 #endif
+                        connection_slot_reserved = false; // counted by session dtor
+                    } else {
+                        THEMIS_WARN("TLS enabled but SSL context unavailable; rejecting new connection");
+                    }
+                } else {
+                    // Plain HTTP/1.1 without TLS
+                    std::make_shared<Session>(
+                        std::move(socket), this, connection_slot_reserved)->start();
+                    connection_slot_reserved = false; // counted by session dtor
                 }
-            } else {
-                // Plain HTTP/1.1 without TLS
-                std::make_shared<Session>(std::move(socket), this)->start();
+            } catch (const std::exception& ex) {
+                THEMIS_ERROR("Failed to start session: {}", ex.what());
+            }
+
+            if (connection_slot_reserved) {
+                active_connections_.fetch_sub(1, std::memory_order_release);
             }
         }
     }
@@ -3736,14 +3786,14 @@ http::response<http::string_body> HttpServer::routeRequest(
                 }
                 
                 // Check query quota for query endpoints
-                std::string path_only = target;
-                auto qpos = path_only.find('?');
-                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+                std::string quota_path = target;
+                auto qpos = quota_path.find('?');
+                if (qpos != std::string::npos) quota_path = quota_path.substr(0, qpos);
                 
                 // Use prefix match for /search/* to catch all search endpoints
-                bool is_query_endpoint = (path_only == "/query" || 
-                                         path_only.rfind("/search/", 0) == 0 ||
-                                         path_only.rfind("/api/aql", 0) == 0);
+                bool is_query_endpoint = (quota_path == "/query" || 
+                                         quota_path.rfind("/search/", 0) == 0 ||
+                                         quota_path.rfind("/api/aql", 0) == 0);
                 
                 if (is_query_endpoint) {
                     // Acquire query slot via RAII guard
@@ -3777,12 +3827,12 @@ http::response<http::string_body> HttpServer::routeRequest(
 
     // Early routing for Ethics AI API
     {
-        std::string path_only = target;
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (path_only.rfind("/ethics/", 0) == 0 || path_only.rfind("/api/ethics/", 0) == 0) {
+        std::string ethics_path = target;
+        auto qpos = ethics_path.find('?');
+        if (qpos != std::string::npos) ethics_path = ethics_path.substr(0, qpos);
+        if (ethics_path.rfind("/ethics/", 0) == 0 || ethics_path.rfind("/api/ethics/", 0) == 0) {
             // HS-12: Ethics routes require auth — check before any early dispatch.
-            if (auto auth_err = requireAccess(req, "ethics", "ethics.query", path_only)) {
+            if (auto auth_err = requireAccess(req, "ethics", "ethics.query", ethics_path)) {
                 return *auth_err;
             }
             if (ethics_api_) {
@@ -3800,13 +3850,13 @@ http::response<http::string_body> HttpServer::routeRequest(
 #if THEMIS_ENABLE_LLM
     // Early routing for core LLM API endpoints used by connector-mode tests.
     {
-        std::string path_only = target;
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+        std::string llm_path = target;
+        auto qpos = llm_path.find('?');
+        if (qpos != std::string::npos) llm_path = llm_path.substr(0, qpos);
 
-        if (path_only.rfind("/api/v1/llm/", 0) == 0) {
+        if (llm_path.rfind("/api/v1/llm/", 0) == 0) {
             // HS-4: LLM routes require auth — check before any payload parsing or dispatch.
-            if (auto auth_err = requireAccess(req, "llm", "llm", path_only)) {
+            if (auto auth_err = requireAccess(req, "llm", "llm", llm_path)) {
                 return *auth_err;
             }
             try {
@@ -4103,18 +4153,18 @@ http::response<http::string_body> HttpServer::routeRequest(
                         const std::string msg = e.what();
                         if (msg.find("No default LLM plugin available") != std::string::npos) {
                             if (themis::llm::createLlamaWrapper("llamacpp", "", json::object())) {
+                                themis::llm::RAGContext rag_context;
+                                rag_context.query = query;
+                                rag_context.collection_name = collection;
+                                rag_context.top_k = top_k;
+
+                                themis::llm::InferenceRequest llm_request;
+                                llm_request.prompt = query;
+                                llm_request.model_id = payload.value("model", std::string{"default"});
+                                llm_request.max_tokens = payload.value("max_tokens", 512);
+                                llm_request.temperature = static_cast<float>(payload.value("temperature", 0.7));
+
                                 try {
-                                    themis::llm::RAGContext rag_context;
-                                    rag_context.query = query;
-                                    rag_context.collection_name = collection;
-                                    rag_context.top_k = top_k;
-
-                                    themis::llm::InferenceRequest llm_request;
-                                    llm_request.prompt = query;
-                                    llm_request.model_id = payload.value("model", std::string{"default"});
-                                    llm_request.max_tokens = payload.value("max_tokens", 512);
-                                    llm_request.temperature = static_cast<float>(payload.value("temperature", 0.7));
-
                                     auto llm_response = plugin_mgr.generate(llm_request);
                                     const int documents_retrieved = !rag_context.documents.empty()
                                         ? static_cast<int>(rag_context.documents.size())
@@ -4127,7 +4177,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                                     auto response = makeResponse(http::status::ok, body.dump(), req);
                                     applyGovernanceHeaders(req, response);
                                     return response;
-                                } catch (...) {
+                                } catch (const std::exception&) {
                                     throw;
                                 }
                             }
@@ -4248,10 +4298,10 @@ http::response<http::string_body> HttpServer::routeRequest(
                 if (const char* tok_env = std::getenv("THEMIS_METRICS_TOKEN")) {
                     const std::string expected_tok{tok_env};
                     if (!expected_tok.empty()) {
-                        auto it = req.find(http::field::authorization);
-                        if (it != req.end()) {
+                        const auto auth_header = req[http::field::authorization];
+                        if (!auth_header.empty()) {
                             auto bearer = themis::AuthMiddleware::extractBearerToken(
-                                std::string_view(it->value().data(), it->value().size()));
+                                std::string_view(auth_header.data(), auth_header.size()));
                             token_ok = (bearer && *bearer == expected_tok);
                         }
                     }
@@ -4266,23 +4316,92 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = monitoring_api_->handleMetrics(req);
             break;
         }
-        case Route::MetricsHtml:
+        case Route::MetricsHtml: {
+            // W1-S11: Same localhost-or-metrics-token restriction as the Prometheus /metrics
+            // endpoint — the HTML view exposes the same data.
+            const std::string client_ip_mhtml = extractClientIP(req);
+            const bool from_loopback_mhtml = (client_ip_mhtml == "127.0.0.1" || client_ip_mhtml == "::1");
+            bool token_ok_mhtml = false;
+            if (const char* tok_env = std::getenv("THEMIS_METRICS_TOKEN")) {
+                const std::string expected_tok{tok_env};
+                if (!expected_tok.empty()) {
+                    auto it = req.find(http::field::authorization);
+                    if (it != req.end()) {
+                        auto bearer = themis::AuthMiddleware::extractBearerToken(
+                            std::string_view(it->value().data(), it->value().size()));
+                        token_ok_mhtml = (bearer && *bearer == expected_tok);
+                    }
+                }
+            }
+            if (!from_loopback_mhtml && !token_ok_mhtml) {
+                response = makeErrorResponse(http::status::forbidden,
+                    "Metrics HTML endpoint requires local access or valid THEMIS_METRICS_TOKEN", req);
+                break;
+            }
             response = monitoring_api_->handleMetricsHtml(req);
             break;
-        case Route::PluginMetrics:
-            // Delegate to MonitoringApiHandler for plugin metrics
+        }
+        case Route::PluginMetrics: {
+            // W1-S11: Same localhost-or-metrics-token restriction as the Prometheus /metrics
+            // endpoint — plugin metrics expose comparable operational data.
+            const std::string client_ip_pm = extractClientIP(req);
+            const bool from_loopback_pm = (client_ip_pm == "127.0.0.1" || client_ip_pm == "::1");
+            bool token_ok_pm = false;
+            if (const char* tok_env = std::getenv("THEMIS_METRICS_TOKEN")) {
+                const std::string expected_tok{tok_env};
+                if (!expected_tok.empty()) {
+                    auto it = req.find(http::field::authorization);
+                    if (it != req.end()) {
+                        auto bearer = themis::AuthMiddleware::extractBearerToken(
+                            std::string_view(it->value().data(), it->value().size()));
+                        token_ok_pm = (bearer && *bearer == expected_tok);
+                    }
+                }
+            }
+            if (!from_loopback_pm && !token_ok_pm) {
+                response = makeErrorResponse(http::status::forbidden,
+                    "Plugin metrics endpoint requires local access or valid THEMIS_METRICS_TOKEN", req);
+                break;
+            }
             response = monitoring_api_->handlePluginMetrics(req);
             break;
+        }
         case Route::ObservabilityAlertsGet:
+            // W1-S11: Observability alert list exposes internal alert state — require monitoring read.
+            if (auto auth_err = requireAccess(req, "monitoring:read", "monitoring.alerts.read",
+                                              "/api/v1/observability/alerts")) {
+                response = *auth_err;
+                break;
+            }
             response = monitoring_api_->handleObservabilityAlerts(req);
             break;
         case Route::ObservabilityAlertSilencePost:
+            // W1-S11: Silencing alerts is a write operation — require monitoring write.
+            if (auto auth_err = requireAccess(req, "monitoring:write", "monitoring.alerts.silence",
+                                              "/api/v1/observability/alerts/silence")) {
+                response = *auth_err;
+                break;
+            }
             response = monitoring_api_->handleObservabilityAlertSilence(req);
             break;
         case Route::ObservabilityHealthGet:
+            // W1-S11: Observability health exposes internal service config (endpoint URLs,
+            // connection state) — require monitoring read.
+            if (auto auth_err = requireAccess(req, "monitoring:read", "monitoring.health.read",
+                                              "/api/v1/observability/health")) {
+                response = *auth_err;
+                break;
+            }
             response = monitoring_api_->handleObservabilityHealth(req);
             break;
         case Route::LicenseStatusGet:
+            // W1-S11: License status exposes organization name, edition, and masked license key —
+            // require monitoring read access.
+            if (auto auth_err = requireAccess(req, "monitoring:read", "monitoring.license.read",
+                                              "/api/v1/license/status")) {
+                response = *auth_err;
+                break;
+            }
             response = monitoring_api_->handleLicenseStatus(req);
             break;
         case Route::WalApplyPost:
@@ -4299,9 +4418,19 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = handleConfig(req);
             break;
         case Route::AdminBackupPost:
+            // W1-S11: Backup creates a storage checkpoint — requires admin privilege.
+            if (auto auth_err = requireAccess(req, "admin", "admin", "/api/v1/admin/backup")) {
+                response = *auth_err;
+                break;
+            }
             response = admin_api_->handleBackup(req);
             break;
         case Route::AdminRestorePost:
+            // W1-S11: Restore replaces the live database — requires admin privilege.
+            if (auto auth_err = requireAccess(req, "admin", "admin", "/api/v1/admin/restore")) {
+                response = *auth_err;
+                break;
+            }
             response = admin_api_->handleRestore(req);
             break;
         case Route::EntitiesGet:
@@ -4664,6 +4793,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             auto nodes = sharding_manager_->GetAllNodes();
             json shards_arr = json::array();
+            shards_arr.get_ref<json::array_t&>().reserve(nodes.size());
             for (const auto& n : nodes) {
                 shards_arr.push_back({
                     {"node_id",      n.node_id},
@@ -4684,6 +4814,12 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
         case Route::AdminStorageStatsGet: {
             // GET /v1/admin/storage/stats
+            // HS-1 fix: require admin privilege before exposing internal storage metrics.
+            if (auto auth_err = requireAccess(req, "admin", "admin.storage.stats",
+                                              "/v1/admin/storage/stats")) {
+                response = *auth_err;
+                break;
+            }
             // Returns RocksDB on-disk SST size and OS-level disk space metrics
             // for the storage path so admin tooling and quota logic can act on
             // real numbers instead of the previous hard-coded 0.
@@ -4784,6 +4920,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             try {
                 auto modules = module_loader_->getAllLoadedModules();
                 json arr = json::array();
+                arr.get_ref<json::array_t&>().reserve(modules.size());
                 for (const auto& m : modules) {
                     arr.push_back({
                         {"name",            m.name},
@@ -5774,10 +5911,10 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::EncryptionSchemaGet:
             // Check access control before delegating
             if (auth_ && auth_->isEnabled()) {
-                std::string path_only = std::string(req.target());
-                auto qpos = path_only.find('?');
-                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-                if (auto resp = requireAccess(req, "config:read", "config.read", path_only)) {
+                std::string config_path = std::string(req.target());
+                auto qpos = config_path.find('?');
+                if (qpos != std::string::npos) config_path = config_path.substr(0, qpos);
+                if (auto resp = requireAccess(req, "config:read", "config.read", config_path)) {
                     response = *resp;
                     break;
                 }
@@ -5787,10 +5924,10 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::EncryptionSchemaPut:
             // Check access control before delegating
             if (auth_ && auth_->isEnabled()) {
-                std::string path_only = std::string(req.target());
-                auto qpos = path_only.find('?');
-                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-                if (auto resp = requireAccess(req, "config:write", "config.write", path_only)) {
+                std::string config_path = std::string(req.target());
+                auto qpos = config_path.find('?');
+                if (qpos != std::string::npos) config_path = config_path.substr(0, qpos);
+                if (auto resp = requireAccess(req, "config:write", "config.write", config_path)) {
                     response = *resp;
                     break;
                 }
@@ -5924,10 +6061,10 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::PoliciesImportRangerPost: {
             // Require admin scope + policy action
             if (auth_ && auth_->isEnabled()) {
-                std::string path_only = std::string(req.target());
-                auto qpos = path_only.find('?');
-                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-                if (auto resp = requireAccess(req, "admin", "admin", path_only)) {
+                std::string policy_path = std::string(req.target());
+                auto qpos = policy_path.find('?');
+                if (qpos != std::string::npos) policy_path = policy_path.substr(0, qpos);
+                if (auto resp = requireAccess(req, "admin", "admin", policy_path)) {
                     response = *resp;
                     break;
                 }
@@ -5943,10 +6080,10 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::PoliciesExportRangerGet: {
             // Require admin scope + policy action
             if (auth_ && auth_->isEnabled()) {
-                std::string path_only = std::string(req.target());
-                auto qpos = path_only.find('?');
-                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-                if (auto resp = requireAccess(req, "admin", "admin", path_only)) {
+                std::string policy_path = std::string(req.target());
+                auto qpos = policy_path.find('?');
+                if (qpos != std::string::npos) policy_path = policy_path.substr(0, qpos);
+                if (auto resp = requireAccess(req, "admin", "admin", policy_path)) {
                     response = *resp;
                     break;
                 }
@@ -6064,11 +6201,11 @@ http::response<http::string_body> HttpServer::routeRequest(
             // Extract gRPC method path from /grpc-web/<method>
             const std::string target_str{req.target()};
             const auto qpos = target_str.find('?');
-            const std::string path_only = (qpos != std::string::npos)
+            const std::string grpc_path = (qpos != std::string::npos)
                 ? target_str.substr(0, qpos) : target_str;
             // Strip /grpc-web prefix - resulting path is "/<package>.<Service>/<Method>"
             static constexpr std::string_view kGrpcWebPrefix{"/grpc-web"};
-            const std::string method_path = path_only.substr(kGrpcWebPrefix.size());
+            const std::string method_path = grpc_path.substr(kGrpcWebPrefix.size());
             response = grpc_web_proxy_->handlePost(req, method_path);
             break;
         }
@@ -6096,9 +6233,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             static constexpr std::string_view kFnPrefix{"/api/v1/functions/"};
             const std::string target_str{req.target()};
             const auto qpos = target_str.find('?');
-            const std::string path_only = (qpos != std::string::npos)
+            const std::string fn_path = (qpos != std::string::npos)
                 ? target_str.substr(0, qpos) : target_str;
-            std::string id = path_only.substr(kFnPrefix.size());
+            std::string id = fn_path.substr(kFnPrefix.size());
             // Strip trailing sub-resource segment if present
             for (const auto* suffix : {"/invoke", "/versions"}) {
                 const std::string_view sv{suffix};
@@ -6109,10 +6246,10 @@ http::response<http::string_body> HttpServer::routeRequest(
                 }
             }
             const auto route_method = req.method();
-            const bool has_invoke  = path_only.size() > 7 &&
-                path_only.substr(path_only.size() - 7) == "/invoke";
-            const bool has_versions = path_only.size() > 9 &&
-                path_only.substr(path_only.size() - 9) == "/versions";
+            const bool has_invoke  = fn_path.size() > 7 &&
+                fn_path.substr(fn_path.size() - 7) == "/invoke";
+            const bool has_versions = fn_path.size() > 9 &&
+                fn_path.substr(fn_path.size() - 9) == "/versions";
             if (has_invoke)
                 response = serverless_fn_handler_->handleInvoke(req, id);
             else if (has_versions)
@@ -6213,19 +6350,19 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::UdfGet: {
             static constexpr std::string_view kUdfPfx{"/api/v1/query/udfs/"};
-            std::string path_only = std::string(req.target());
-            if (auto qp = path_only.find('?'); qp != std::string::npos)
-                path_only = path_only.substr(0, qp);
-            std::string udf_name = path_only.substr(kUdfPfx.size());
+            std::string udf_path = std::string(req.target());
+            if (auto qp = udf_path.find('?'); qp != std::string::npos)
+                udf_path = udf_path.substr(0, qp);
+            std::string udf_name = udf_path.substr(kUdfPfx.size());
             response = udf_api_handler_->handleGet(req, udf_name);
             break;
         }
         case Route::UdfDelete: {
             static constexpr std::string_view kUdfPfx{"/api/v1/query/udfs/"};
-            std::string path_only = std::string(req.target());
-            if (auto qp = path_only.find('?'); qp != std::string::npos)
-                path_only = path_only.substr(0, qp);
-            std::string udf_name = path_only.substr(kUdfPfx.size());
+            std::string udf_path = std::string(req.target());
+            if (auto qp = udf_path.find('?'); qp != std::string::npos)
+                udf_path = udf_path.substr(0, qp);
+            std::string udf_name = udf_path.substr(kUdfPfx.size());
             response = udf_api_handler_->handleDelete(req, udf_name);
             break;
         }
@@ -6270,10 +6407,10 @@ http::response<http::string_body> HttpServer::routeRequest(
                 for (const auto& g : auth_ctx.groups) {
                     scheduler_ctx.roles.insert(g);
                 }
-                auto it = req.find(http::field::authorization);
-                if (it != req.end()) {
+                auto auth_header = req[http::field::authorization];
+                if (!auth_header.empty()) {
                     auto token = themis::AuthMiddleware::extractBearerToken(
-                        std::string_view(it->value().data(), it->value().size()));
+                        std::string_view(auth_header.data(), auth_header.size()));
                     if (token) {
                         auto authz = auth_->authorize(*token, "task:register");
                         if (authz.authorized) {
@@ -6455,10 +6592,10 @@ http::response<http::string_body> HttpServer::routeRequest(
                 for (const auto& g : auth_ctx.groups) {
                     scheduler_ctx.roles.insert(g);
                 }
-                auto it = req.find(http::field::authorization);
-                if (it != req.end()) {
+                auto auth_header = req[http::field::authorization];
+                if (!auth_header.empty()) {
                     auto token = themis::AuthMiddleware::extractBearerToken(
-                        std::string_view(it->value().data(), it->value().size()));
+                        std::string_view(auth_header.data(), auth_header.size()));
                     if (token) {
                         auto authz = auth_->authorize(*token, "task:execute");
                         if (authz.authorized) {
@@ -6912,8 +7049,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "Retention API not initialized", req);
                 break;
             }
-            std::string target = std::string(req.target());
-            std::string policy_name = target.substr(target.rfind('/') + 1);
+            std::string request_target = std::string(req.target());
+            std::string policy_name = request_target.substr(request_target.rfind('/') + 1);
             auto qpos = policy_name.find('?');
             if (qpos != std::string::npos) policy_name = policy_name.substr(0, qpos);
             if (policy_name.empty()) {
@@ -6976,9 +7113,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "SAGA API not initialized", req);
                 break;
             }
-            std::string target = std::string(req.target());
+            std::string request_target = std::string(req.target());
             static constexpr std::string_view kPrefix = "/api/saga/batches/";
-            std::string batch_id = target.substr(kPrefix.size());
+            std::string batch_id = request_target.substr(kPrefix.size());
             auto qpos = batch_id.find('?');
             if (qpos != std::string::npos) batch_id = batch_id.substr(0, qpos);
             if (batch_id.empty()) {
@@ -7002,9 +7139,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                 break;
             }
             // Extract batch_id from path /api/saga/batches/{id}/verify
-            std::string target = std::string(req.target());
+            std::string request_target = std::string(req.target());
             static constexpr std::string_view kVPrefix = "/api/saga/batches/";
-            std::string rest = target.substr(kVPrefix.size());
+            std::string rest = request_target.substr(kVPrefix.size());
             auto slash_pos = rest.find('/');
             std::string batch_id = (slash_pos != std::string::npos)
                 ? rest.substr(0, slash_pos) : rest;
@@ -7752,12 +7889,12 @@ http::response<http::string_body> HttpServer::handleSessionCreate(
         if (!session_api_) {
             return makeErrorResponse(http::status::service_unavailable, "Session management not available", req);
         }
-        auto it = req.find(http::field::authorization);
-        if (it == req.end()) {
+        const auto auth_header = req[http::field::authorization];
+        if (auth_header.empty()) {
             return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
         }
         auto token = themis::AuthMiddleware::extractBearerToken(
-            std::string_view(it->value().data(), it->value().size()));
+            std::string_view(auth_header.data(), auth_header.size()));
         if (!token) {
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
@@ -7797,12 +7934,12 @@ http::response<http::string_body> HttpServer::handleSessionList(
         if (!session_api_) {
             return makeErrorResponse(http::status::service_unavailable, "Session management not available", req);
         }
-        auto it = req.find(http::field::authorization);
-        if (it == req.end()) {
+        const auto auth_header = req[http::field::authorization];
+        if (auth_header.empty()) {
             return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
         }
         auto token = themis::AuthMiddleware::extractBearerToken(
-            std::string_view(it->value().data(), it->value().size()));
+            std::string_view(auth_header.data(), auth_header.size()));
         if (!token) {
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
@@ -7828,12 +7965,12 @@ http::response<http::string_body> HttpServer::handleSessionRevokeById(
         if (!session_api_) {
             return makeErrorResponse(http::status::service_unavailable, "Session management not available", req);
         }
-        auto it = req.find(http::field::authorization);
-        if (it == req.end()) {
+        const auto auth_header = req[http::field::authorization];
+        if (auth_header.empty()) {
             return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
         }
         auto token = themis::AuthMiddleware::extractBearerToken(
-            std::string_view(it->value().data(), it->value().size()));
+            std::string_view(auth_header.data(), auth_header.size()));
         if (!token) {
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
@@ -7859,12 +7996,12 @@ http::response<http::string_body> HttpServer::handleSessionRevokeOthers(
         if (!session_api_) {
             return makeErrorResponse(http::status::service_unavailable, "Session management not available", req);
         }
-        auto it = req.find(http::field::authorization);
-        if (it == req.end()) {
+        const auto auth_header = req[http::field::authorization];
+        if (auth_header.empty()) {
             return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
         }
         auto token = themis::AuthMiddleware::extractBearerToken(
-            std::string_view(it->value().data(), it->value().size()));
+            std::string_view(auth_header.data(), auth_header.size()));
         if (!token) {
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
@@ -8557,8 +8694,8 @@ std::optional<http::response<http::string_body>> HttpServer::enforceAuditRateLim
         if (audit_rate_limit_per_minute_ == 0) return std::nullopt;
         // Determine bucket key: Authorization header if present, else "anon"
         std::string key = std::string(route_key) + ":";
-        auto it = req.find(http::field::authorization);
-        if (it != req.end()) key += std::string(it->value()); else key += "anon";
+        const auto auth_header = req[http::field::authorization];
+        if (!auth_header.empty()) key += std::string(auth_header); else key += "anon";
         auto now = std::chrono::time_point_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now()).time_since_epoch().count();
         const uint64_t window_ms = 60ull * 1000ull;
@@ -8566,7 +8703,28 @@ std::optional<http::response<http::string_body>> HttpServer::enforceAuditRateLim
         uint32_t count = 0;
         {
             std::lock_guard<std::mutex> lk(audit_rate_mutex_);
-            auto& st = audit_rate_buckets_[key];
+            // W1-S02: amortised eviction of stale buckets to prevent unbounded map growth.
+            // Triggered on each access — erases entries whose window expired more than
+            // one full window ago (i.e., at least 2 × window_ms in the past).
+            if (audit_rate_buckets_.size() > 128) {
+                const uint64_t evict_cutoff = now - 2 * window_ms;
+                for (auto bucket_it = audit_rate_buckets_.begin();
+                     bucket_it != audit_rate_buckets_.end(); ) {
+                    if (bucket_it->second.window_start_ms < evict_cutoff) {
+                        bucket_it = audit_rate_buckets_.erase(bucket_it);
+                    } else {
+                        ++bucket_it;
+                    }
+                }
+            }
+            // Use try_emplace to make the insertion intent explicit and to avoid
+            // the iterator-invalidation risk that operator[] carries: operator[]
+            // inserts a default element when the key is absent, which can trigger
+            // a rehash and invalidate all existing iterators/references.
+            // try_emplace also inserts a default element if absent but the returned
+            // iterator is always stable within this locked section.
+            auto [it, inserted] = audit_rate_buckets_.try_emplace(key);
+            auto& st = it->second;
             if (now - st.window_start_ms >= window_ms) {
                 st.window_start_ms = now;
                 st.count = 0;
@@ -8647,7 +8805,10 @@ http::response<http::string_body> HttpServer::handleConfig(
             if (body.contains("request_timeout_ms")) {
                 auto timeout = body["request_timeout_ms"].get<uint32_t>();
                 if (timeout >= 1000 && timeout <= 300000) { // 1s - 5min range
+                    // Write via atomic to prevent data race: worker threads read
+                    // request_timeout_ms_live_ concurrently in armReadTimer().
                     config_.request_timeout_ms = timeout;
+                    request_timeout_ms_live_.store(timeout, std::memory_order_relaxed);
                     THEMIS_INFO("Hot-reload: request_timeout_ms set to {}", timeout);
                 } else {
                     return makeErrorResponse(http::status::bad_request, "request_timeout_ms must be 1000-300000", req);
@@ -8659,29 +8820,30 @@ http::response<http::string_body> HttpServer::handleConfig(
                 const auto& features = body["features"];
                 if (features.contains("semantic_cache")) {
                     bool enabled = features["semantic_cache"].get<bool>();
-                    config_.feature_semantic_cache = enabled;
+                    // Write via atomic to prevent data race with concurrent handler reads.
+                    feature_semantic_cache_live_.store(enabled, std::memory_order_relaxed);
                     THEMIS_INFO("Hot-reload: feature_semantic_cache set to {}", enabled);
                 }
                 if (features.contains("llm_store")) {
                     bool enabled = features["llm_store"].get<bool>();
-                    config_.feature_llm_store = enabled;
+                    feature_llm_store_live_.store(enabled, std::memory_order_relaxed);
                     THEMIS_INFO("Hot-reload: feature_llm_store set to {}", enabled);
                 }
                 if (features.contains("cdc")) {
                     bool enabled = features["cdc"].get<bool>();
-                    config_.feature_cdc = enabled;
+                    feature_cdc_live_.store(enabled, std::memory_order_relaxed);
                     THEMIS_INFO("Hot-reload: feature_cdc set to {}", enabled);
                 }
                 if (features.contains("timeseries")) {
                     bool enabled = features["timeseries"].get<bool>();
-                    config_.feature_timeseries = enabled;
+                    feature_timeseries_live_.store(enabled, std::memory_order_relaxed);
                     THEMIS_INFO("Hot-reload: feature_timeseries set to {}", enabled);
                 }
             }
             
             // 4) CDC Retention policy (auto-cleanup threshold)
             if (body.contains("cdc_retention_hours")) {
-                if (!config_.feature_cdc || !changefeed_) {
+                if (!feature_cdc_live_.load(std::memory_order_relaxed) || !changefeed_) {
                     return makeErrorResponse(http::status::bad_request, "CDC not enabled", req);
                 }
                 auto hours = body["cdc_retention_hours"].get<uint32_t>();
@@ -8705,13 +8867,13 @@ http::response<http::string_body> HttpServer::handleConfig(
             {"server", {
                 {"port", config_.port},
                 {"threads", config_.num_threads},
-                {"request_timeout_ms", config_.request_timeout_ms}
+                {"request_timeout_ms", request_timeout_ms_live_.load(std::memory_order_relaxed)}
             }},
             {"features", {
-                {"semantic_cache", config_.feature_semantic_cache},
-                {"llm_store", config_.feature_llm_store},
-                {"cdc", config_.feature_cdc},
-                {"timeseries", config_.feature_timeseries}
+                {"semantic_cache", feature_semantic_cache_live_.load(std::memory_order_relaxed)},
+                {"llm_store", feature_llm_store_live_.load(std::memory_order_relaxed)},
+                {"cdc", feature_cdc_live_.load(std::memory_order_relaxed)},
+                {"timeseries", feature_timeseries_live_.load(std::memory_order_relaxed)}
             }},
             {"rocksdb", {
                 {"db_path", storage_->getConfig().db_path},
@@ -8769,8 +8931,8 @@ std::optional<http::response<http::string_body>> HttpServer::requireScope(
 ) {
     if (!auth_ || !auth_->isEnabled()) return std::nullopt; // No auth configured
 
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         http::response<http::string_body> res{http::status::unauthorized, req.version()};
         res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
         res.set(http::field::content_type, "application/json");
@@ -8780,7 +8942,7 @@ std::optional<http::response<http::string_body>> HttpServer::requireScope(
     res.prepare_payload();
         return res;
     }
-    auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(it->value().data(), it->value().size()));
+    auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
     if (!token) {
         http::response<http::string_body> res{http::status::unauthorized, req.version()};
         res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -8828,8 +8990,8 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
     // 1) Scope-based authorization (if auth enabled)
     std::string user_id = "";
     if (auth_enabled) {
-        auto it = req.find(http::field::authorization);
-        if (it == req.end()) {
+        const auto auth_header = req[http::field::authorization];
+        if (auth_header.empty()) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
             res.set(http::field::content_type, "application/json");
@@ -8841,17 +9003,17 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
         }
         // Log Authorization header presence for this DELETE request
         try {
-            std::string auth_hdr = std::string(it->value());
+            std::string auth_hdr = std::string(auth_header);
             auto mask = [](const std::string& s) {
                 if (s.size() <= 8) return s;
                 return s.substr(0,4) + "..." + s.substr(s.size()-4);
             };
             THEMIS_INFO("handlePiiDeleteByUuid: Authorization header='{}'", mask(auth_hdr));
         } catch (...) {}
-        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(it->value().data(), it->value().size()));
+        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
         // Log presence of Authorization header for debugging (mask token)
         try {
-            std::string auth_hdr = std::string(it->value());
+            std::string auth_hdr = std::string(auth_header);
             auto mask = [](const std::string& s) {
                 if (s.size() <= 8) return s;
                 return s.substr(0,4) + "..." + s.substr(s.size()-4);
@@ -8875,19 +9037,13 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
                 try {
                     std::cerr << "[AUTH-DBG] validateToken -> authorized=" << (vres.authorized?"true":"false")
                               << " user_id='" << vres.user_id << "' reason='" << vres.reason << "'\n";
-                } catch (const std::exception& dbgEx) {
-                    THEMIS_WARN("AUTH-DBG write failed: {}", dbgEx.what());
-                }
-            } catch (const std::exception& exVal) {
-                THEMIS_WARN("requireAccess: validateToken threw: {}", exVal.what());
-            }
+                } catch (...) {}
+            } catch (...) {}
             auto ar = auth_->authorize(*token, required_scope);
             try {
                 std::cerr << "[AUTH-DBG] authorize -> authorized=" << (ar.authorized?"true":"false")
                           << " user_id='" << ar.user_id << "' reason='" << ar.reason << "'\n";
-            } catch (const std::exception& dbgEx2) {
-                THEMIS_WARN("AUTH-DBG authorize write failed: {}", dbgEx2.what());
-            }
+            } catch (...) {}
         if (!ar.authorized) {
             http::response<http::string_body> res{http::status::forbidden, req.version()};
             res.set(http::field::content_type, "application/json");
@@ -8916,9 +9072,7 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
         // Diagnostic: show user_id before policy check
         try {
             std::cerr << "[AUTH-DBG] before_policy_check -> user_id='" << user_id << "' action='" << action << "' resource='" << resource << "'\n";
-        } catch (const std::exception& dbgEx3) {
-            THEMIS_WARN("AUTH-DBG policy write failed: {}", dbgEx3.what());
-        }
+        } catch (...) {}
 
         // Extract client IP from headers (X-Forwarded-For or X-Real-IP)
         std::optional<std::string> client_ip;
@@ -8971,14 +9125,14 @@ HttpServer::AuthContext HttpServer::extractAuthContext(const http::request<http:
     }
     
     // Extract Authorization header
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         return ctx; // No token -> empty context
     }
     
     // Extract Bearer token
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(it->value().data(), it->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     if (!token) {
         return ctx; // Invalid token format -> empty context
@@ -9028,8 +9182,8 @@ http::response<http::string_body> HttpServer::handlePiiRevealByUuid(
     // Authorization: allow tokens with scope 'pii:reveal' OR 'admin'
     std::string user_id = "";
     if (auth_ && auth_->isEnabled()) {
-        auto it = req.find(http::field::authorization);
-        if (it == req.end()) {
+        const auto auth_header = req[http::field::authorization];
+        if (auth_header.empty()) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
             res.set(http::field::content_type, "application/json");
@@ -9039,7 +9193,7 @@ http::response<http::string_body> HttpServer::handlePiiRevealByUuid(
             res.prepare_payload();
             return res;
         }
-        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(it->value().data(), it->value().size()));
+        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
         if (!token) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -9151,8 +9305,8 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
     // Authorization: require pii:write or admin (erase is a write operation)
     std::string user_id;
     if (auth_ && auth_->isEnabled()) {
-        auto it = req.find(http::field::authorization);
-        if (it == req.end()) {
+        const auto auth_header = req[http::field::authorization];
+        if (auth_header.empty()) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
             res.set(http::field::content_type, "application/json");
@@ -9161,7 +9315,7 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
             res.prepare_payload();
             return res;
         }
-        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(it->value().data(), it->value().size()));
+        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
         if (!token) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -9171,20 +9325,14 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
             res.prepare_payload();
             return res;
         }
-        // Diagnostic: mask token and log authorize attempts
-        auto mask = [](std::string_view t) {
-            std::string s(t);
-            if (s.size() <= 8) return s;
-            return s.substr(0,4) + std::string("...") + s.substr(s.size()-4);
-        };
-        THEMIS_INFO("PII Delete: Authorization header present, token='{}', required_scope='pii:write'", mask(*token));
+        THEMIS_INFO("PII Delete: Authorization header present, required_scope='pii:write'");
         
         auto ar = auth_->authorize(*token, "pii:write");
-        THEMIS_INFO("PII Delete: authorize('pii:write') -> authorized={} user='{}' reason='{}'", ar.authorized, ar.user_id, ar.reason);
+        THEMIS_INFO("PII Delete: authorize('pii:write') -> authorized={}", ar.authorized);
         if (!ar.authorized) {
-            THEMIS_INFO("PII Delete: trying fallback authorize('admin') for token='{}'", mask(*token));
+            THEMIS_INFO("PII Delete: trying fallback authorize('admin')");
             ar = auth_->authorize(*token, "admin");
-            THEMIS_INFO("PII Delete: authorize('admin') -> authorized={} user='{}' reason='{}'", ar.authorized, ar.user_id, ar.reason);
+            THEMIS_INFO("PII Delete: authorize('admin') -> authorized={}", ar.authorized);
             if (!ar.authorized) {
                 http::response<http::string_body> res{http::status::forbidden, req.version()};
                 res.set(http::field::content_type, "application/json");
@@ -9385,7 +9533,7 @@ http::response<http::string_body> HttpServer::handlePiiExportCsv(
 http::response<http::string_body> HttpServer::handleLlmInteractionPost(
     const http::request<http::string_body>& req
 ) {
-    if (!config_.feature_llm_store) {
+    if (!feature_llm_store_live_.load(std::memory_order_relaxed)) {
         return makeErrorResponse(http::status::not_found, "Feature 'llm_store' disabled", req);
     }
     
@@ -9442,7 +9590,7 @@ http::response<http::string_body> HttpServer::handleLlmInteractionPost(
 http::response<http::string_body> HttpServer::handleLlmInteractionList(
     const http::request<http::string_body>& req
 ) {
-    if (!config_.feature_llm_store) {
+    if (!feature_llm_store_live_.load(std::memory_order_relaxed)) {
         return makeErrorResponse(http::status::not_found, "Feature 'llm_store' disabled", req);
     }
     
@@ -9513,7 +9661,7 @@ http::response<http::string_body> HttpServer::handleLlmInteractionList(
 http::response<http::string_body> HttpServer::handleLlmInteractionGet(
     const http::request<http::string_body>& req
 ) {
-    if (!config_.feature_llm_store) {
+    if (!feature_llm_store_live_.load(std::memory_order_relaxed)) {
         return makeErrorResponse(http::status::not_found, "Feature 'llm_store' disabled", req);
     }
     
@@ -9555,7 +9703,7 @@ http::response<http::string_body> HttpServer::handleLlmInteractionGet(
 http::response<http::string_body> HttpServer::handleLlmInteractionUpdateMetadata(
     const http::request<http::string_body>& req
 ) {
-    if (!config_.feature_llm_store) {
+    if (!feature_llm_store_live_.load(std::memory_order_relaxed)) {
         return makeErrorResponse(http::status::not_found, "Feature 'llm_store' disabled", req);
     }
     
@@ -9712,6 +9860,7 @@ http::response<http::string_body> HttpServer::handleGetContentChunks(
         auto id = path.substr(prefix.size(), pos - prefix.size());
         auto chunks = content_manager_->getContentChunks(id);
         json arr = json::array();
+        arr.get_ref<json::array_t&>().reserve(chunks.size());
         for (const auto& c : chunks) {
             json j = c.toJson();
             // For response size, omit full embedding by default
@@ -9743,6 +9892,7 @@ http::response<http::string_body> HttpServer::handleHybridSearch(
 
         auto results = content_manager_->searchWithExpansion(query, k, hops, filters);
         json resp = json::array();
+        resp.get_ref<json::array_t&>().reserve(results.size());
         for (const auto& [pk, score] : results) {
             resp.push_back({{"pk", pk}, {"score", score}});
         }
@@ -9797,6 +9947,7 @@ http::response<http::string_body> HttpServer::handleFulltextSearch(
         
         // Build response with scores
         json resp = json::array();
+        resp.get_ref<json::array_t&>().reserve(results.size());
         for (const auto& result : results) {
             resp.push_back({
                 {"pk", result.pk},
@@ -9872,6 +10023,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             }
             
             std::vector<float> vectorQuery;
+            vectorQuery.reserve(body["vector_query"].size());
             for (const auto& val : body["vector_query"]) {
                 if (val.is_number()) {
                     vectorQuery.push_back(val.get<float>());
@@ -9902,6 +10054,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             // Reciprocal Rank Fusion: score = sum(1 / (k + rank))
             int kRrf = body.value("k_rrf", 60);
             std::unordered_map<std::string, double> scores;
+            scores.reserve(textResults.size() + vectorResults.size());
             
             // Text contributions
             for (size_t i = 0; i < textResults.size(); ++i) {
@@ -9938,6 +10091,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             double vecRange = (vecMax - vecMin) > 1e-9 ? (vecMax - vecMin) : 1.0;
             
             std::unordered_map<std::string, double> scores;
+            scores.reserve(textResults.size() + vectorResults.size());
             
             // Text contributions
             for (const auto& res : textResults) {
@@ -10434,6 +10588,7 @@ http::response<http::string_body> HttpServer::handleCreateIndex(
                 return makeErrorResponse(http::status::bad_request, "'columns' must be a non-empty array of strings", req);
             }
             std::vector<std::string> columns;
+            columns.reserve(body["columns"].size());
             for (const auto& c : body["columns"]) {
                 columns.push_back(c.get<std::string>());
             }
@@ -10626,7 +10781,7 @@ void HttpServer::applyGovernanceHeaders(
     std::string ann = (vector_index_ ? std::string("allowed") : std::string("disabled"));
     std::string content_enc = "optional";
     std::string export_perm = "allowed";
-    std::string cache_perm = (config_.feature_semantic_cache ? std::string("allowed") : std::string("disabled"));
+    std::string cache_perm = (feature_semantic_cache_live_.load(std::memory_order_relaxed) ? std::string("allowed") : std::string("disabled"));
     std::string retention_days = "365";
     std::string redaction = "none";
 
@@ -10840,12 +10995,14 @@ void HttpServer::ensurePIIPseudonymizer() {
 // Session Implementation
 // ============================================================================
 
-HttpServer::Session::Session(tcp::socket socket, HttpServer* server)
+HttpServer::Session::Session(tcp::socket socket, HttpServer* server, bool connection_slot_reserved)
     : socket_(std::move(socket))
     , server_(server)
     , read_timer_(socket_.get_executor())
 {
-    server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
+    if (!connection_slot_reserved) {
+        server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
+    }
 }
 
 HttpServer::Session::~Session() {
@@ -10853,15 +11010,15 @@ HttpServer::Session::~Session() {
 }
 
 void HttpServer::Session::armReadTimer() {
-    if (server_->config_.request_timeout_ms == 0) return;
-    read_timer_.expires_after(
-        std::chrono::milliseconds(server_->config_.request_timeout_ms)
-    );
-    read_timer_.async_wait([self = shared_from_this()](beast::error_code ec) {
+    // Load the live (hot-reloadable) timeout atomically to prevent data race
+    // with the POST /config hot-reload path that writes request_timeout_ms_live_.
+    const uint32_t timeout_ms = server_->request_timeout_ms_live_.load(std::memory_order_relaxed);
+    if (timeout_ms == 0) return;
+    read_timer_.expires_after(std::chrono::milliseconds(timeout_ms));
+    read_timer_.async_wait([self = shared_from_this(), timeout_ms](beast::error_code ec) {
         if (!ec) {
             // Timer fired before I/O completed: cancel the pending socket operation
-            THEMIS_WARN("Request read timeout ({}ms) - closing connection",
-                self->server_->config_.request_timeout_ms);
+            THEMIS_WARN("Request I/O timeout ({}ms) - closing connection", timeout_ms);
             beast::error_code close_ec;
             self->socket_.shutdown(tcp::socket::shutdown_both, close_ec);
             if (close_ec) THEMIS_DEBUG("Session shutdown on timeout: {}", close_ec.message());
@@ -10973,8 +11130,8 @@ void HttpServer::Session::processRequest() {
             // via the WebSocket upgrade path.
             std::string ws_auth_token;
             if (server_->auth_ && server_->auth_->isEnabled()) {
-                auto auth_it = request_.find(http::field::authorization);
-                if (auth_it == request_.end()) {
+                const auto auth_header = request_[http::field::authorization];
+                if (auth_header.empty()) {
                     response_.result(http::status::unauthorized);
                     response_.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
                     response_.set(http::field::content_type, "application/json");
@@ -10985,7 +11142,7 @@ void HttpServer::Session::processRequest() {
                     return;
                 }
                 auto token = themis::AuthMiddleware::extractBearerToken(
-                    std::string_view(auth_it->value().data(), auth_it->value().size()));
+                    std::string_view(auth_header.data(), auth_header.size()));
                 if (!token) {
                     response_.result(http::status::unauthorized);
                     response_.set(http::field::content_type, "application/json");
@@ -11054,6 +11211,17 @@ void HttpServer::Session::processRequest() {
             }
         }
 
+        // Inject the verified socket peer address so that extractClientIP can
+        // return a real IP for direct connections (no proxy headers present).
+        // Strip any client-supplied header first to prevent spoofing.
+        request_.erase("X-Themis-Peer-Addr");
+        try {
+            auto ep = socket_.remote_endpoint();
+            request_.set("X-Themis-Peer-Addr", ep.address().to_string());
+        } catch (const std::exception&) {
+            // Ignore: best-effort; rate limiting falls back to empty key.
+        }
+
         // Route request to appropriate handler
         response_ = server_->routeRequest(request_);
     } catch (const std::exception& e) {
@@ -11075,7 +11243,12 @@ void HttpServer::Session::processRequest() {
 }
 
 void HttpServer::Session::doWrite() {
+    // Arm the I/O timeout for the write phase (same timer as read phase; read
+    // is already complete and the timer was cancelled in onRead before we get here).
+    armReadTimer();
     bool close = response_.need_eof();
+    // W1-S02: arm per-connection timeout for potentially blocking async writes.
+    armReadTimer();
     http::async_write(
         socket_,
         response_,
@@ -11092,7 +11265,9 @@ void HttpServer::Session::onWrite(
     beast::error_code ec,
     std::size_t bytes_transferred
 ) {
+    cancelReadTimer();  // Cancel the write-phase I/O timeout
     boost::ignore_unused(bytes_transferred);
+    cancelReadTimer();
 
     if (ec) {
         THEMIS_ERROR("Write error: {}", ec.message());
@@ -11113,12 +11288,14 @@ void HttpServer::Session::onWrite(
 // SSL Session Implementation
 // ============================================================================
 
-HttpServer::SslSession::SslSession(tcp::socket socket, boost::asio::ssl::context& ssl_ctx, HttpServer* server)
+HttpServer::SslSession::SslSession(tcp::socket socket, boost::asio::ssl::context& ssl_ctx, HttpServer* server, bool connection_slot_reserved)
     : stream_(std::move(socket), ssl_ctx)
     , server_(server)
     , read_timer_(stream_.get_executor())
 {
-    server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
+    if (!connection_slot_reserved) {
+        server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
+    }
 }
 
 HttpServer::SslSession::~SslSession() {
@@ -11126,14 +11303,14 @@ HttpServer::SslSession::~SslSession() {
 }
 
 void HttpServer::SslSession::armReadTimer() {
-    if (server_->config_.request_timeout_ms == 0) return;
-    read_timer_.expires_after(
-        std::chrono::milliseconds(server_->config_.request_timeout_ms)
-    );
-    read_timer_.async_wait([self = shared_from_this()](beast::error_code ec) {
+    // Load the live (hot-reloadable) timeout atomically to prevent data race
+    // with the POST /config hot-reload path that writes request_timeout_ms_live_.
+    const uint32_t timeout_ms = server_->request_timeout_ms_live_.load(std::memory_order_relaxed);
+    if (timeout_ms == 0) return;
+    read_timer_.expires_after(std::chrono::milliseconds(timeout_ms));
+    read_timer_.async_wait([self = shared_from_this(), timeout_ms](beast::error_code ec) {
         if (!ec) {
-            THEMIS_WARN("Request read timeout ({}ms) - closing TLS connection",
-                self->server_->config_.request_timeout_ms);
+            THEMIS_WARN("Request I/O timeout ({}ms) - closing TLS connection", timeout_ms);
             beast::error_code close_ec;
             self->stream_.lowest_layer().shutdown(tcp::socket::shutdown_both, close_ec);
             if (close_ec) THEMIS_DEBUG("SslSession shutdown on timeout: {}", close_ec.message());
@@ -11281,8 +11458,8 @@ void HttpServer::SslSession::processRequest() {
             // accepting the WebSocket handshake.
             std::string ws_auth_token;
             if (server_->auth_ && server_->auth_->isEnabled()) {
-                auto auth_it = request_.find(http::field::authorization);
-                if (auth_it == request_.end()) {
+                const auto auth_header = request_[http::field::authorization];
+                if (auth_header.empty()) {
                     response_.result(http::status::unauthorized);
                     response_.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
                     response_.set(http::field::content_type, "application/json");
@@ -11293,7 +11470,7 @@ void HttpServer::SslSession::processRequest() {
                     return;
                 }
                 auto token = themis::AuthMiddleware::extractBearerToken(
-                    std::string_view(auth_it->value().data(), auth_it->value().size()));
+                    std::string_view(auth_header.data(), auth_header.size()));
                 if (!token) {
                     response_.result(http::status::unauthorized);
                     response_.set(http::field::content_type, "application/json");
@@ -11362,6 +11539,17 @@ void HttpServer::SslSession::processRequest() {
             }
         }
 
+        // Inject the verified socket peer address so that extractClientIP can
+        // return a real IP for direct connections (no proxy headers present).
+        // Strip any client-supplied header first to prevent spoofing.
+        request_.erase("X-Themis-Peer-Addr");
+        try {
+            auto ep = stream_.lowest_layer().remote_endpoint();
+            request_.set("X-Themis-Peer-Addr", ep.address().to_string());
+        } catch (const std::exception&) {
+            // Ignore: best-effort; rate limiting falls back to empty key.
+        }
+
         // Route request to appropriate handler
         response_ = server_->routeRequest(request_);
         
@@ -11387,7 +11575,12 @@ void HttpServer::SslSession::processRequest() {
 }
 
 void HttpServer::SslSession::doWrite() {
+    // Arm the I/O timeout for the write phase (same timer as read/handshake phase;
+    // it was cancelled in onRead/onHandshake before we get here).
+    armReadTimer();
     bool close = response_.need_eof();
+    // W1-S02: arm per-connection timeout for potentially blocking TLS writes.
+    armReadTimer();
     http::async_write(
         stream_,
         response_,
@@ -11404,7 +11597,9 @@ void HttpServer::SslSession::onWrite(
     beast::error_code ec,
     std::size_t bytes_transferred
 ) {
+    cancelReadTimer();  // Cancel the write-phase I/O timeout
     boost::ignore_unused(bytes_transferred);
+    cancelReadTimer();
 
     if (ec) {
         THEMIS_ERROR("SSL write error: {}", ec.message());
@@ -11421,9 +11616,12 @@ void HttpServer::SslSession::onWrite(
 }
 
 void HttpServer::SslSession::doShutdown() {
+    // W1-S02: prevent indefinite async_shutdown hang on stalled peers.
+    armReadTimer();
     stream_.async_shutdown(
         beast::bind_front_handler(
             [self = shared_from_this()](beast::error_code ec) {
+                self->cancelReadTimer();
                 if (ec && ec != boost::asio::error::eof) {
                     THEMIS_ERROR("SSL shutdown error: {}", ec.message());
                 }
@@ -11802,25 +12000,19 @@ std::string HttpServer::extractClientIP(const http::request<http::string_body>& 
         }
         return xff;
     }
-    
+
     // Try X-Real-IP header
     if (req.find("X-Real-IP") != req.end()) {
         return std::string(req["X-Real-IP"]);
     }
-    
-    // STUB/SIMULATION NOTE:
-    // Purpose: Returns empty string when neither X-Forwarded-For nor X-Real-IP
-    //          header is present; the real socket remote_endpoint() extraction
-    //          requires passing the Boost.Beast session context into this helper,
-    //          which is not yet threaded through the call chain.
-    // Activation: Request has no proxy-forwarding headers.
-    // Production Delta: Rate limiter receives an empty client IP and cannot
-    //                   distinguish between different direct-connection clients;
-    //                   per-IP rate limiting is ineffective for direct connections.
-    // Removal Plan: Thread the Boost.Beast `tcp::socket::remote_endpoint()` into
-    //               this function (or pass `Session*` as an additional parameter)
-    //               and return `endpoint.address().to_string()`.  See
-    //               src/server/FUTURE_ENHANCEMENTS.md §HttpServer getClientIp.
+
+    // Fall back to the socket peer address injected by Session::processRequest /
+    // SslSession::processRequest.  The injection site strips any client-supplied
+    // value before setting it, so this header cannot be spoofed.
+    if (req.find("X-Themis-Peer-Addr") != req.end()) {
+        return std::string(req["X-Themis-Peer-Addr"]);
+    }
+
     return "";
 }
 
@@ -11921,6 +12113,7 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
 // ============================================================================
 std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints() const {
     std::vector<RegisteredEndpoint> endpoints;
+    endpoints.reserve(256);
 
     // ========== CORE ENDPOINTS (Always Available) ==========
     // Health & Status
@@ -12068,8 +12261,14 @@ std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints()
 
     // ========== FEATURE-CONDITIONAL ENDPOINTS ==========
 
+    // Snapshot live atomic values once to ensure consistency within this response.
+    const bool cap_semantic_cache = feature_semantic_cache_live_.load(std::memory_order_relaxed);
+    const bool cap_llm_store      = feature_llm_store_live_.load(std::memory_order_relaxed);
+    const bool cap_cdc            = feature_cdc_live_.load(std::memory_order_relaxed);
+    const bool cap_timeseries     = feature_timeseries_live_.load(std::memory_order_relaxed);
+
     // Semantic Cache (Sprint A)
-    if (config_.feature_semantic_cache) {
+    if (cap_semantic_cache) {
         endpoints.push_back({"POST", "/cache/query",          "Semantic cache lookup (beta)"});
         endpoints.push_back({"POST", "/cache/put",            "Semantic cache store (beta)"});
         endpoints.push_back({"GET",  "/cache/stats",          "Cache statistics (beta)"});
@@ -12088,7 +12287,7 @@ std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints()
     }
 
     // LLM Interaction Store (Sprint A)
-    if (config_.feature_llm_store) {
+    if (cap_llm_store) {
         endpoints.push_back({"POST", "/llm/interaction",        "Store LLM interaction"});
         endpoints.push_back({"GET",  "/llm/interaction",        "List LLM interactions"});
         endpoints.push_back({"GET",  "/llm/interaction/{id}",   "Get LLM interaction"});
@@ -12103,7 +12302,7 @@ std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints()
     endpoints.push_back({"PUT",  "/prompt_template/{id}",     "Update prompt template"});
 
     // Changefeed / CDC (Sprint A)
-    if (config_.feature_cdc) {
+    if (cap_cdc) {
         endpoints.push_back({"GET",  "/changefeed",            "Get changefeed events"});
         endpoints.push_back({"GET",  "/changefeed/stream",     "Stream CDC events (SSE)"});
         endpoints.push_back({"POST", "/changefeed/stream/ack", "Acknowledge CDC events"});
@@ -12157,7 +12356,7 @@ std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints()
     }
 
     // Time-Series Store (Sprint B)
-    if (config_.feature_timeseries) {
+    if (cap_timeseries) {
         endpoints.push_back({"POST", "/ts/put",                "Store time-series data"});
         endpoints.push_back({"POST", "/ts/query",              "Query time-series (beta)"});
         endpoints.push_back({"POST", "/ts/aggregate",          "Aggregate time-series (beta)"});
@@ -12914,4 +13113,3 @@ void HttpServer::setMcpServer(
 
 } // namespace server
 } // namespace themis
-

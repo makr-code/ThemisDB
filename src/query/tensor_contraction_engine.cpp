@@ -423,10 +423,22 @@ TTTrain TensorContractionEngine::contractModes(
         }
     }
 
-    // Handle full contraction (scalar): wrap as order-1 TTTrain.
+    // Handle full contraction (scalar) directly. TensorTrainDecomposer now
+    // requires at least two modes, so building the scalar TT core here avoids
+    // an invalid decompose({value}, {1}) call.
     if (result_shape.empty()) {
-        result_shape.push_back(1);
-        result_dense.resize(1, result_dense.empty() ? 0.0f : result_dense[0]);
+        TTTrain scalar;
+        scalar.mode_sizes    = {1};
+        scalar.original_norm = 0.0;
+        scalar.achieved_eps  = 0.0;
+
+        TTCore core;
+        core.r_left  = 1;
+        core.n       = 1;
+        core.r_right = 1;
+        core.data    = {result_dense.empty() ? 0.0f : result_dense[0]};
+        scalar.cores.push_back(std::move(core));
+        return scalar;
     }
 
     // Re-decompose result to TT format.

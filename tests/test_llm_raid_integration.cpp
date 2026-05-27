@@ -132,7 +132,16 @@ TEST(LLMRaidIntegration, LRIR02_BatchFanOut64ResultOrdering)
         requests[i].options["domain_hint"] = domains[i % 4];
     }
 
-    auto results = handler.executeBatchInfer(requests);
+    std::vector<std::string> results;
+    try {
+        results = handler.executeBatchInfer(requests);
+    } catch (const std::exception& e) {
+        const std::string msg = e.what();
+        if (msg.find("No default LLM plugin available") != std::string::npos) {
+            GTEST_SKIP() << "Kein Default-LLM-Plugin registriert: " << msg;
+        }
+        throw;
+    }
 
     ASSERT_EQ(results.size(), static_cast<size_t>(kBatchSize));
     for (int i = 0; i < kBatchSize; ++i) {

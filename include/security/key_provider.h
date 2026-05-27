@@ -6,7 +6,8 @@
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
-#pragma once
+#ifndef THEMIS_SECURITY_KEY_PROVIDER_H
+#define THEMIS_SECURITY_KEY_PROVIDER_H
 
 #include <cstdint>
 #include <map>
@@ -14,6 +15,7 @@
 #include <mutex>
 #include <stdexcept>
 #include <string>
+#include <tuple>
 #include <vector>
 #include "themis/base/interfaces/security_interface.h"
 
@@ -22,7 +24,7 @@ namespace themis {
 /**
  * @brief Status of an encryption key
  */
-enum class KeyStatus {
+enum class KeyStatus : std::uint8_t {
     ACTIVE,      // Key is active and can be used for encryption/decryption
     ROTATING,    // Key rotation in progress (dual-write mode)
     DEPRECATED,  // Key can decrypt old data but not encrypt new data
@@ -34,18 +36,11 @@ enum class KeyStatus {
  */
 struct KeyMetadata {
     std::string key_id;      // Logical key identifier (e.g., "user_pii")
-    uint32_t version;        // Key version for rotation (1, 2, 3, ...)
+    uint32_t version = 0;        // Key version for rotation (1, 2, 3, ...)
     std::string algorithm;   // Encryption algorithm (e.g., "AES-256-GCM")
-    int64_t created_at_ms;   // Timestamp when key was created
-    int64_t expires_at_ms;   // Expiry timestamp (0 = never expires)
-    KeyStatus status;        // Current status of the key
-    
-    KeyMetadata() 
-        : version(0)
-        , created_at_ms(0)
-        , expires_at_ms(0)
-        , status(KeyStatus::ACTIVE) 
-    {}
+    int64_t created_at_ms = 0;   // Timestamp when key was created
+    int64_t expires_at_ms = 0;   // Expiry timestamp (0 = never expires)
+    KeyStatus status = KeyStatus::ACTIVE;        // Current status of the key
 };
 
 /**
@@ -59,8 +54,8 @@ public:
         , version_(version)
     {}
     
-    const std::string& getKeyId() const { return key_id_; }
-    uint32_t getVersion() const { return version_; }
+    [[nodiscard]] const std::string& getKeyId() const { return key_id_; }
+    [[nodiscard]] uint32_t getVersion() const { return version_; }
     
 private:
     std::string key_id_;
@@ -78,16 +73,16 @@ public:
         , transient_(false)
     {}
 
-    KeyOperationException(const std::string& message, int http_code, const std::string& vault_message, bool transient)
-        : std::runtime_error(message)
+    KeyOperationException(std::string message, int http_code, std::string vault_message, bool transient)
+        : std::runtime_error(std::move(message))
         , http_code_(http_code)
-        , vault_message_(vault_message)
+        , vault_message_(std::move(vault_message))
         , transient_(transient)
     {}
 
-    int httpCode() const { return http_code_; }
-    const std::string& vaultMessage() const { return vault_message_; }
-    bool transient() const { return transient_; }
+    [[nodiscard]] int httpCode() const { return http_code_; }
+    [[nodiscard]] const std::string& vaultMessage() const { return vault_message_; }
+    [[nodiscard]] bool transient() const { return transient_; }
 private:
     int http_code_;
     std::string vault_message_;
@@ -130,16 +125,23 @@ private:
  */
 class KeyProvider : public virtual IKeyProvider {
 public:
-    virtual ~KeyProvider() = default;
+    KeyProvider() = default;
+    KeyProvider(const KeyProvider&) = default;
+    KeyProvider(KeyProvider&&) noexcept = default;
+    KeyProvider& operator=(const KeyProvider&) = default;
+    KeyProvider& operator=(KeyProvider&&) noexcept = default;
+    ~KeyProvider() override = default;
     
     // IKeyProvider interface implementation (with defaults)
     std::vector<uint8_t> get_key(const std::string& key_id) override {
-        return getKey(key_id);
+        auto key = getKey(key_id);
+        return key;
     }
     
     std::vector<uint8_t> rotate_key(const std::string& key_id) override {
-        rotateKey(key_id);
-        return getKey(key_id);
+        [[maybe_unused]] const uint32_t rotated_version = rotateKey(key_id);
+        auto key = getKey(key_id);
+        return key;
     }
     
     /**
@@ -150,7 +152,7 @@ public:
      * @throws KeyNotFoundException if key does not exist
      * @throws KeyOperationException if key is not in ACTIVE or DEPRECATED status
      */
-    [[nodiscard]] virtual std::vector<uint8_t> getKey(const std::string& key_id) = 0;
+    virtual std::vector<uint8_t> getKey(const std::string& key_id) = 0;
     
     /**
      * @brief Retrieve a specific version of an encryption key
@@ -163,7 +165,7 @@ public:
      * @throws KeyNotFoundException if key version does not exist
      * @throws KeyOperationException if key is DELETED
      */
-    [[nodiscard]] virtual std::vector<uint8_t> getKey(const std::string& key_id, uint32_t version) = 0;
+    virtual std::vector<uint8_t> getKey(const std::string& key_id, uint32_t version) = 0;
     
     /**
      * @brief Create a new version of a key (rotation)
@@ -179,7 +181,7 @@ public:
      * @return New key version number
      * @throws KeyOperationException if rotation fails
      */
-    [[nodiscard]] virtual uint32_t rotateKey(const std::string& key_id) = 0;
+    virtual uint32_t rotateKey(const std::string& key_id) = 0;
     
     /**
      * @brief List all available keys with metadata
@@ -191,7 +193,7 @@ public:
      * 
      * @return Vector of key metadata (all versions)
      */
-    [[nodiscard]] virtual std::vector<KeyMetadata> listKeys() = 0;
+    virtual std::vector<KeyMetadata> listKeys() = 0;
     
     /**
      * @brief Get metadata for a specific key
@@ -201,7 +203,7 @@ public:
      * @return Key metadata
      * @throws KeyNotFoundException if key does not exist
      */
-    [[nodiscard]] virtual KeyMetadata getKeyMetadata(const std::string& key_id, uint32_t version = 0) = 0;
+    virtual KeyMetadata getKeyMetadata(const std::string& key_id, uint32_t version = 0) = 0;
     
     /**
      * @brief Return the current (latest active) version number for a key.
@@ -215,12 +217,12 @@ public:
      * @return        Current active version number (≥ 1), or 0 if no version is found
      * @throws        KeyNotFoundException if the key does not exist at all
      */
-    [[nodiscard]] virtual uint32_t getCurrentVersion(const std::string& key_id) {
+    virtual uint32_t getCurrentVersion(const std::string& key_id) {
         // Default probe: walk up from version 1 until getKey(v+1) throws.
         uint32_t ver = 0;
         try {
             // Verify at least version 1 exists (throws KeyNotFoundException if key absent).
-            getKey(key_id, 1);
+            [[maybe_unused]] const auto probe = getKey(key_id, 1);
             ver = 1;
         } catch (...) {
             return 0;
@@ -228,12 +230,14 @@ public:
         // Walk higher until the version is not found.
         for (uint32_t v = 2; v <= 0xFFFFu; ++v) {
             try {
-                getKey(key_id, v);
+                [[maybe_unused]] const auto probe = getKey(key_id, v);
                 ver = v;
             } catch (...) {
                 break;
             }
+            ver = v;
         }
+
         return ver;
     }
 
@@ -257,7 +261,7 @@ public:
      * @param version Key version (0 = check if any version exists)
      * @return true if key exists, false otherwise
      */
-    [[nodiscard]] virtual bool hasKey(const std::string& key_id, uint32_t version = 0) = 0;
+    virtual bool hasKey(const std::string& key_id, uint32_t version = 0) = 0;
     
     /**
      * @brief Create a new key from raw bytes
@@ -270,7 +274,7 @@ public:
      * @return Key version number
      * @throws KeyOperationException if key creation fails
      */
-    [[nodiscard]] virtual uint32_t createKeyFromBytes(
+    virtual uint32_t createKeyFromBytes(
         const std::string& key_id,
         const std::vector<uint8_t>& key_bytes,
         const KeyMetadata& metadata = KeyMetadata()) = 0;
@@ -368,3 +372,5 @@ private:
 };
 
 }  // namespace themis
+
+#endif // THEMIS_SECURITY_KEY_PROVIDER_H

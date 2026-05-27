@@ -13,7 +13,7 @@ using namespace themis::security;
 
 class InputValidationTest : public ::testing::Test {
  protected:
-  // InputValidator is a static class; no instance needed
+  // InputValidator is a static utility class; no instance is required.
 };
 
 // ============================================================================
@@ -106,10 +106,15 @@ TEST_F(InputValidationTest, RejectsJsonWithNullBytes) {
 }
 
 TEST_F(InputValidationTest, RejectsJsonWithExcessiveNesting) {
-  // Build JSON with 25 levels of nesting (exceeds limit of 20)
-  std::string json = "{\"a\":{\"b\":{\"c\":{\"d\":{\"e\":{\"f\":{\"g\":{\"h\":{\"i\":{\"j\":{";
-  json += "\"k\":{\"l\":{\"m\":{\"n\":{\"o\":{\"p\":{\"q\":{\"r\":{\"s\":{\"t\":{\"u\":{\"v\":42";
-  json += "}}}}}}}}}}}}}}}}}}}}}}}}"; // Close 25 levels
+  // Build JSON with 25 levels of nesting (exceeds limit of 20).
+  std::string json;
+  for (int i = 0; i < 25; ++i) {
+    json += "{\"a\":";
+  }
+  json += "42";
+  for (int i = 0; i < 25; ++i) {
+    json += "}";
+  }
   
   auto result = InputValidator::validateJsonPayload(json);
   EXPECT_FALSE(result.is_valid);

@@ -73,6 +73,8 @@ public:
  */
 class BaseFeedbackPlugin : public FeedbackPlugin {
 public:
+    ~BaseFeedbackPlugin() override = default;
+
     bool validate(const Feedback& feedback) const override {
         // Basic validation: check required fields
         if (feedback.adapter_id.empty()) return false;
@@ -100,6 +102,7 @@ public:
  */
 class PrivacyFilterPlugin : public BaseFeedbackPlugin {
 public:
+    ~PrivacyFilterPlugin() override = default;
     void process(Feedback& feedback) override;
     std::string getName() const override { return "PrivacyFilterPlugin"; }
 };
@@ -109,6 +112,7 @@ public:
  */
 class ContentValidationPlugin : public BaseFeedbackPlugin {
 public:
+    ~ContentValidationPlugin() override = default;
     bool validate(const Feedback& feedback) const override;
     std::string getName() const override { return "ContentValidationPlugin"; }
     
@@ -133,6 +137,7 @@ public:
         : config_(config) {}
     
     TrainingTriggerPlugin() : TrainingTriggerPlugin(Config{}) {}
+    ~TrainingTriggerPlugin() override = default;
     
     bool onTrainingTrigger(const std::vector<Feedback>& batch) const override;
     std::string getName() const override { return "TrainingTriggerPlugin"; }
@@ -169,6 +174,7 @@ public:
         : config_(config) {}
     
     CacheAwareWeightingPlugin() : CacheAwareWeightingPlugin(Config{}) {}
+    ~CacheAwareWeightingPlugin() override = default;
     
     void process(Feedback& feedback) override;
     std::string getName() const override { return "CacheAwareWeightingPlugin"; }

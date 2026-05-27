@@ -35,26 +35,26 @@ public:
      */
     struct AdapterPlacement {
         std::string adapter_id;
-        int gpu_device_id;
-        size_t vram_bytes;
-        int priority;  // Higher = more important
-        bool is_pinned;  // Cannot be evicted
-        int64_t last_access_time_ms;
-        size_t access_count;
+        int gpu_device_id = 0;
+        size_t vram_bytes = 0;
+        int priority = 0;  // Higher = more important
+        bool is_pinned = false;  // Cannot be evicted
+        int64_t last_access_time_ms = 0;
+        size_t access_count = 0;
     };
     
     /**
      * @brief Load balancing statistics
      */
     struct LoadBalanceStats {
-        int num_adapters;
-        int num_gpus;
-        float average_gpu_load;
-        float max_gpu_load;
-        float min_gpu_load;
-        int num_migrations;
-        int num_evictions;
-        int64_t last_balance_time_ms;
+        int num_adapters = 0;
+        int num_gpus = 0;
+        float average_gpu_load = 0.0f;
+        float max_gpu_load = 0.0f;
+        float min_gpu_load = 0.0f;
+        int num_migrations = 0;
+        int num_evictions = 0;
+        int64_t last_balance_time_ms = 0;
     };
     
     /**

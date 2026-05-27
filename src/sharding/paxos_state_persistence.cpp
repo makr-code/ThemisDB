@@ -24,6 +24,49 @@ using json     = nlohmann::json;
 namespace themis {
 namespace sharding {
 
+namespace {
+
+ConsensusLogEntry buildConsensusEntryFromAcceptedValue(const std::string& value,
+                                                       uint64_t slot,
+                                                       uint64_t ballot_round) {
+    ConsensusLogEntry entry;
+    entry.index = slot;
+    entry.term = ballot_round;
+
+    const auto parsed = json::parse(value, nullptr, false);
+    if (!parsed.is_discarded() && parsed.is_object()) {
+        entry.operation = parsed.value("operation", std::string("paxos.accept"));
+        entry.data = parsed;
+    } else {
+        entry.operation = "paxos.accept";
+        entry.data = {
+            {"raw_value", value}
+        };
+    }
+
+    entry.data["accepted_round"] = ballot_round;
+    entry.data["slot"] = slot;
+    return entry;
+}
+
+std::string decodeAcceptedValueFromWalPayload(const json& payload) {
+    if (!payload.is_object()) {
+        return payload.dump();
+    }
+    if (payload.contains("data") && payload["data"].is_object()) {
+        const auto& data = payload["data"];
+        if (data.contains("raw_value") && data["raw_value"].is_string()) {
+            return data["raw_value"].get<std::string>();
+        }
+    }
+    if (payload.contains("operation") && payload["operation"].is_string()) {
+        return payload["operation"].get<std::string>();
+    }
+    return payload.dump();
+}
+
+} // namespace
+
 // ─────────────────────────────────────────────────────────────────────────────
 // DurableAcceptorState
 // ─────────────────────────────────────────────────────────────────────────────
@@ -123,7 +166,27 @@ void PaxosStatePersistence::replayWal(LSN from_lsn) {
             case PaxosWALEntryType::ACCEPT:
             case PaxosWALEntryType::ACCEPTED:
                 s.accepted_round = entry.round;
-                s.accepted_value = entry.data.dump();
+                if (entry.data.contains("value")) {
+                    const auto& logged_value = entry.data["value"];
+                    if (logged_value.is_object() &&
+                        logged_value.contains("data") &&
+                        logged_value["data"].is_object() &&
+                        logged_value["data"].contains("raw_command") &&
+                        logged_value["data"]["raw_command"].is_string())
+                    {
+                        s.accepted_value = logged_value["data"]["raw_command"].get<std::string>();
+                    } else if (logged_value.is_object() &&
+                               logged_value.contains("operation") &&
+                               logged_value["operation"].is_string())
+                    {
+                        // Backward-compatible recovery path for old records.
+                        s.accepted_value = logged_value["operation"].get<std::string>();
+                    } else {
+                        s.accepted_value = logged_value.dump();
+                    }
+                } else {
+                    s.accepted_value = entry.data.dump();
+                }
                 break;
             case PaxosWALEntryType::COMMIT:
                 s.is_committed = true;
@@ -185,25 +248,19 @@ bool PaxosStatePersistence::persistAccept(uint64_t slot,
     s.accepted_round = ballot_round;
     s.accepted_value = value;
 
-    // Populate ConsensusLogEntry with structured payload from the accepted value.
-    // If `value` is a JSON object, its `type` key becomes entry.operation and the
-    // full object is stored in entry.data for downstream replay tooling.
-    // Plain-string values fall back to the previous operation=value mapping.
     ConsensusLogEntry entry;
-    entry.term      = ballot_round;
+    entry.index = slot;
+    entry.term = ballot_round;
+    entry.operation = "PAXOS_ACCEPT_COMMAND";
     entry.timestamp = std::chrono::system_clock::now();
-    try {
-        auto parsed = nlohmann::json::parse(value);
-        if (parsed.is_object()) {
-            entry.operation = parsed.value("type", value);
-            entry.data      = std::move(parsed);
-        } else {
-            entry.operation = value;
-        }
-    } catch (const nlohmann::json::exception&) {
-        // Not JSON — treat entire value as the operation identifier.
-        entry.operation = value;
+
+    json payload = json::object();
+    payload["raw_command"] = value;
+    json parsed = json::parse(value, nullptr, false);
+    if (!parsed.is_discarded()) {
+        payload["parsed_command"] = std::move(parsed);
     }
+    entry.data = std::move(payload);
 
     LSN lsn = wal_->logAccept(slot, ballot_round, node_state_.node_id, entry);
     if (config_.sync_on_write) wal_->flush();
@@ -236,7 +293,9 @@ bool PaxosStatePersistence::persistCommit(uint64_t slot) {
 
     ConsensusLogEntry entry;
     if (slot_cache_.count(slot) && !slot_cache_[slot].accepted_value.empty()) {
-        entry.operation = slot_cache_[slot].accepted_value;
+        entry = buildConsensusEntryFromAcceptedValue(slot_cache_[slot].accepted_value,
+                                                     slot,
+                                                     slot_cache_[slot].accepted_round);
     }
     LSN lsn = wal_->logCommit(slot, entry);
     if (config_.sync_on_write) wal_->flush();
@@ -283,8 +342,9 @@ bool PaxosStatePersistence::forceCompact() {
         std::map<uint64_t, ConsensusLogEntry>     committed_log;
         for (const auto& [s, state] : slot_cache_) {
             if (state.is_committed) {
-                ConsensusLogEntry e;
-                e.operation = state.accepted_value;
+                auto e = buildConsensusEntryFromAcceptedValue(state.accepted_value,
+                                                              s,
+                                                              state.accepted_round);
                 committed_log[s] = e;
             }
         }

@@ -10,6 +10,7 @@
  */
 
 #include "server/reports_api_handler.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>

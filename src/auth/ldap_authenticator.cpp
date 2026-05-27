@@ -7,6 +7,7 @@
  */
 
 #include "auth/ldap_authenticator.h"
+#include <stdexcept>
 #include "auth/auth_audit_logger.h"
 #include "auth/ldap_connection_pool.h"
 #include "utils/audit_logger.h"

@@ -153,11 +153,14 @@ Parallel Factor: 18x faster with dedicated teams
 - gap_scan_v3_security/memory/reliability_aggregate.json
 - 60 per-module JSON files
 
-✅ **Python Tools** (6 files, 1,620 lines)
+✅ **Python Tools** (canonical scanner package + compatibility wrappers)
+- tools/scanners/orchestrator.py (canonical entrypoint)
+- tools/scanners/legacy.py (compat wrapper)
+- tools/scanners/contextual.py (compat wrapper)
 - gap_scanner_v3_security.py (210 lines)
 - gap_scanner_v3_memory.py (230 lines)
 - gap_scanner_v3_reliability.py (210 lines)
-- gap_scanner_v3.py (190 lines — orchestrator)
+- gap_scanner_v3.py (190 lines — compatibility/orchestrator wrapper)
 - github_issue_creator.py (380 lines)
 - gap_scanner_and_issues.py (400 lines)
 

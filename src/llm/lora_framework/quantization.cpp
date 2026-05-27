@@ -10,6 +10,7 @@
  */
 
 #include "llm/lora_framework/quantization.h"
+#include <stdexcept>
 
 #include <fmt/format.h>
 #include <exception>
@@ -424,3 +425,4 @@ void dequantize_block_params(const std::vector<uint8_t>& quantized_scales,
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

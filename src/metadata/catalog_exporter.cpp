@@ -13,6 +13,7 @@
 // Copyright (c) 2026 ThemisDB Contributors
 
 #include "metadata/catalog_exporter.h"
+#include <stdexcept>
 
 #include <curl/curl.h>
 #include <spdlog/spdlog.h>

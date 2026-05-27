@@ -7,6 +7,7 @@
  */
 
 #include "importers/mysql_importer.h"
+#include <stdexcept>
 #include "utils/hash_util.h"
 #include "importers/importer_common.h"
 #include "utils/logger.h"
@@ -1350,4 +1351,5 @@ namespace importers {
 REGISTER_IMPORTER_PLUGIN(MySQLImporterSchemePlugin)
 } // namespace importers
 } // namespace themis
+
 

@@ -10,6 +10,7 @@
  */
 
 #include "server/pii_api_handler.h"
+#include <stdexcept>
 
 #include <algorithm>
 #include <chrono>

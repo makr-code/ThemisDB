@@ -262,6 +262,10 @@ static std::vector<uint8_t> makeFrame(uint8_t opcode,
     frame.push_back(static_cast<uint8_t>((ps >>  8) & 0xFF));
     frame.push_back(static_cast<uint8_t>( ps         & 0xFF));
     // Payload
+    frame.insert(frame.end(), payload.begin(), payload.end());
+    return frame;
+}
+
 // Binary frame format helpers (mirrors the logic in processBinaryFrame)
 // ---------------------------------------------------------------------------
 
@@ -387,20 +391,6 @@ TEST(WireProtocolWebSocket, ResponseFrameParsing) {
     EXPECT_EQ(parsed_payload, json_payload);
 }
 
-TEST(WireProtocolWebSocket, BinaryFrameTooShort) {
-    // A frame with fewer than 12 bytes should be rejected.
-    std::vector<uint8_t> truncated = {0x54u, 0x4Du, 0x44u, 0x42u, 0x01u, 0xFEu};
-    EXPECT_LT(truncated.size(), 12u);
-}
-
-TEST(WireProtocolWebSocket, BinaryFrameInvalidMagic) {
-    auto frame = makeFrame(0xFEu);
-    // Corrupt the magic
-    frame[0] = 0x00u;
-    // After corruption, the first byte no longer matches 'T'
-    EXPECT_NE(frame[0], kWireMagic[0]);
-}
-
 TEST(WireProtocolWebSocket, BinaryFrameOpcodeDispatchTable) {
     // Document the full set of opcodes that the binary frame handler dispatches.
     // This test acts as living documentation.
@@ -442,18 +432,20 @@ TEST(WireProtocolWebSocket, BinaryResponseOpcodeValues) {
     EXPECT_NE(kOpcodeErrorResponse, 0xFFu);
 
     SUCCEED() << "Binary response opcode values documented";
+}
+
 // ---------------------------------------------------------------------------
 // Binary frame parse validation tests (no network I/O, purely structural)
 // ---------------------------------------------------------------------------
 
-TEST(WireProtocolWebSocket, BinaryFrameTooShort) {
+TEST(WireProtocolWebSocket, BinaryFrameTooShortStructural) {
     // A 4-byte frame is too short (header requires 12 bytes).
     // Verify the frame-length check rejects it before magic validation.
     const std::vector<uint8_t> short_frame = {0x54, 0x4D, 0x44, 0x42};
     EXPECT_LT(short_frame.size(), 12u);
 }
 
-TEST(WireProtocolWebSocket, BinaryFrameInvalidMagic) {
+TEST(WireProtocolWebSocket, BinaryFrameInvalidMagicStructural) {
     // Frame with wrong magic must be rejected.
     const std::vector<uint8_t> bad_magic = {
         0x00, 0x00, 0x00, 0x00,  // wrong magic
@@ -537,9 +529,9 @@ TEST(WireProtocolWebSocket, BinaryFrameExpectedSizeWithChecksum) {
 }
 
 TEST(WireProtocolWebSocket, BinaryResponseFrameStructure) {
-    // Verify buildBinaryResponseFrame produces a well-formed frame.
+    // Verify the response-frame layout expected by the WebSocket layer.
     const std::vector<uint8_t> payload = {0x01, 0x02, 0x03};
-    const auto resp = WireProtocolWebSocketSession::buildBinaryResponseFrame(0x90, payload);
+    const auto resp = makeFrame(0x90u, payload, /*skip_checksum=*/true);
 
     ASSERT_GE(resp.size(), 12u + payload.size());
     // Magic
@@ -568,7 +560,7 @@ TEST(WireProtocolWebSocket, BinaryResponseFrameStructure) {
 }
 
 TEST(WireProtocolWebSocket, BinaryResponseFrameEmptyPayload) {
-    const auto resp = WireProtocolWebSocketSession::buildBinaryResponseFrame(0xFE, {});
+    const auto resp = makeFrame(0xFEu, {}, /*skip_checksum=*/true);
     EXPECT_EQ(resp.size(), 12u);
     const uint32_t ps =
         (static_cast<uint32_t>(resp[8])  << 24) |

@@ -24,10 +24,6 @@
 #define THEMIS_BASE_EXPORTS
 #endif
 #include "utils/logger.h"
-namespace themis { namespace utils {
-    std::shared_ptr<spdlog::logger> Logger::logger_;
-    LogMetrics                      Logger::metrics_;
-}}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Stub #297 – FeedbackPlugin MODIFY action applies modifications

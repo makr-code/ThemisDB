@@ -108,6 +108,9 @@ http::response<http::string_body> ProfilingApiHandler::handle_get_queries(
     if (!get_query_param_int(std::string(req.target()), "limit", 100, limit)) {
         return make_error_response(http::status::bad_request, "invalid limit");
     }
+    if (limit < 0) {
+        return make_error_response(http::status::bad_request, "invalid limit");
+    }
     
     auto profiles = query_profiler_->get_all_profiles();
     
@@ -135,6 +138,9 @@ http::response<http::string_body> ProfilingApiHandler::handle_get_slow_queries(
     
     int threshold_ms = 1000;
     if (!get_query_param_int(std::string(req.target()), "threshold_ms", 1000, threshold_ms)) {
+        return make_error_response(http::status::bad_request, "invalid threshold_ms");
+    }
+    if (threshold_ms < 0) {
         return make_error_response(http::status::bad_request, "invalid threshold_ms");
     }
     
@@ -366,38 +372,41 @@ bool ProfilingApiHandler::get_query_param_int(const std::string& target,
         return true;
     }
 
-    auto query = std::string_view(target).substr(query_pos + 1);
-    while (!query.empty()) {
-        const auto amp_pos = query.find('&');
-        const auto token = query.substr(0, amp_pos);
+    const std::string query = target.substr(query_pos + 1);
+    size_t pos = 0;
+    bool found = false;
+    std::string value_str;
 
-        const auto eq_pos = token.find('=');
-        const auto key = token.substr(0, eq_pos);
-        if (key == param_name) {
-            if (eq_pos == std::string_view::npos || eq_pos + 1 >= token.size()) {
-                return false;
+    while (pos <= query.size()) {
+        const size_t amp = query.find('&', pos);
+        const size_t token_end = (amp == std::string::npos) ? query.size() : amp;
+        if (token_end > pos) {
+            const std::string token = query.substr(pos, token_end - pos);
+            const size_t eq = token.find('=');
+            const std::string key = (eq == std::string::npos) ? token : token.substr(0, eq);
+            if (key == param_name) {
+                value_str = (eq == std::string::npos) ? "" : token.substr(eq + 1);
+                found = true;
+                break;
             }
-
-            const auto value_view = token.substr(eq_pos + 1);
-            int parsed_value = 0;
-            const auto* begin = value_view.data();
-            const auto* end = value_view.data() + value_view.size();
-            const auto [ptr, ec] = std::from_chars(begin, end, parsed_value);
-            if (ec != std::errc{} || ptr != end || parsed_value < 0) {
-                return false;
-            }
-
-            value = parsed_value;
-            return true;
         }
-
-        if (amp_pos == std::string_view::npos) {
+        if (amp == std::string::npos) {
             break;
         }
-        query.remove_prefix(amp_pos + 1);
+        pos = amp + 1;
     }
 
-    return true;
+    if (!found) {
+        return true;
+    }
+
+    try {
+        value = std::stoi(value_str);
+        return true;
+    } catch (...) {
+        value = default_value;
+        return false;
+    }
 }
 
 } // namespace server

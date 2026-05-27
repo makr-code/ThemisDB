@@ -450,7 +450,7 @@ TEST_F(GPUIntegrationTest, BackendUnavailable_MemoryManagerFails) {
     if (!backend_->isAvailable()) {
         // Should not initialize memory manager
         // This is implementation-specific behavior
-        GTEST_SKIP() << "Backend unavailable";
+        GTEST_SKIP() << "capability:backend_runtime_available=false;reason=backend_unavailable";
     }
 }
 

@@ -293,3 +293,4 @@ NeuralSparseRetrieval::searchText(const std::string& query_text, size_t k) const
 }
 
 } // namespace themis
+

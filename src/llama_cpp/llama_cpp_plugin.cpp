@@ -10,6 +10,7 @@
  */
 
 #include "llama_cpp/llama_cpp_plugin.h"
+#include <stdexcept>
 #include "rag/rag_context_assembler.h"
 #include <algorithm>
 #include <chrono>

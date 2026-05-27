@@ -17,6 +17,7 @@
  */
 
 #include "rag/multi_step_rag.h"
+#include <stdexcept>
 #include "llm/context_window_budget.h"
 
 #include <algorithm>

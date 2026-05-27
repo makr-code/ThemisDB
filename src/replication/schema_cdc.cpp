@@ -10,6 +10,7 @@
  */
 
 #include "replication/schema_cdc.h"
+#include <stdexcept>
 
 #include <chrono>
 #include <memory>

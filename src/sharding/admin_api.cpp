@@ -149,6 +149,12 @@ nlohmann::json AdminAPI::handleRequest(const std::string& method,
 }
 
 bool AdminAPI::authorizeRequest(const std::string& operator_cert) {
+    // Test/development mode: signature verification is disabled, but an
+    // explicit non-empty operator identity is still required.
+    if (!config_.require_signatures) {
+        return !operator_cert.empty();
+    }
+
     if (operator_cert.empty()) {
         return false;
     }

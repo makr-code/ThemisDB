@@ -13,6 +13,7 @@
 // Licensed under MIT License
 
 #include "sharding/raft_log.h"
+#include <stdexcept>
 #include "utils/zstd_codec.h"
 #include <algorithm>
 #include <chrono>

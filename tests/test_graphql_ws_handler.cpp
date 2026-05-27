@@ -33,14 +33,16 @@
 #include <thread>
 
 using namespace themis::api;
+namespace gql = themis::graphql;
 using json = nlohmann::json;
+namespace graphql = themis::graphql;
 
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
 
-static graphql::Schema makeDefaultSchema() {
-    return graphql::ThemisSchemaBuilder::build();
+static gql::Schema makeDefaultSchema() {
+    return gql::ThemisSchemaBuilder::build();
 }
 
 // ---------------------------------------------------------------------------
@@ -48,12 +50,12 @@ static graphql::Schema makeDefaultSchema() {
 // ---------------------------------------------------------------------------
 
 TEST(QueryLimitsTest, DefaultMaxSubscriptions) {
-    auto limits = graphql::QueryLimits::defaults();
+    auto limits = gql::QueryLimits::defaults();
     EXPECT_EQ(limits.max_subscriptions, 10u);
 }
 
 TEST(QueryLimitsTest, PermissiveMaxSubscriptions) {
-    auto limits = graphql::QueryLimits::permissive();
+    auto limits = gql::QueryLimits::permissive();
     EXPECT_EQ(limits.max_subscriptions, 50u);
 }
 
@@ -65,7 +67,7 @@ class GraphQLWsHandlerTest : public ::testing::Test {
 protected:
     void SetUp() override {
         auto schema = makeDefaultSchema();
-        graphql::QueryLimits limits;
+        gql::QueryLimits limits;
         limits.max_subscriptions = 3; // small limit for tests
         handler = std::make_unique<GraphQLWsHandler>(std::move(schema), limits);
     }

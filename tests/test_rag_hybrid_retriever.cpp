@@ -95,43 +95,61 @@ TEST(HybridRetrieverConfig, DefaultConstructorIsValid) {
 }
 
 TEST(HybridRetrieverConfig, ValidCustomConfig) {
-    HybridRetrieverConfig cfg;
-    cfg.bm25_weight   = 0.4;
-    cfg.vector_weight = 0.6;
-    cfg.rrf_k         = 60.0;
-    cfg.top_k         = 5;
-    EXPECT_NO_THROW(HybridRetriever(cfg));
+    HybridRetrieverConfig cfg_valid;
+    cfg_valid.bm25_weight   = 0.4;
+    cfg_valid.vector_weight = 0.6;
+    cfg_valid.rrf_k         = 60.0;
+    cfg_valid.top_k         = 5;
+    EXPECT_NO_THROW({
+        HybridRetriever retriever{cfg_valid};
+        static_cast<void>(retriever);
+    });
 }
 
 TEST(HybridRetrieverConfig, NegativeBm25WeightThrows) {
-    HybridRetrieverConfig cfg;
-    cfg.bm25_weight = -0.1;
-    EXPECT_THROW(HybridRetriever(cfg), std::invalid_argument);
+    HybridRetrieverConfig cfg_neg_bm25;
+    cfg_neg_bm25.bm25_weight = -0.1;
+    EXPECT_THROW({
+        HybridRetriever retriever{cfg_neg_bm25};
+        static_cast<void>(retriever);
+    }, std::invalid_argument);
 }
 
 TEST(HybridRetrieverConfig, NegativeVectorWeightThrows) {
-    HybridRetrieverConfig cfg;
-    cfg.vector_weight = -0.1;
-    EXPECT_THROW(HybridRetriever(cfg), std::invalid_argument);
+    HybridRetrieverConfig cfg_neg_vector;
+    cfg_neg_vector.vector_weight = -0.1;
+    EXPECT_THROW({
+        HybridRetriever retriever{cfg_neg_vector};
+        static_cast<void>(retriever);
+    }, std::invalid_argument);
 }
 
 TEST(HybridRetrieverConfig, ZeroRrfKThrows) {
-    HybridRetrieverConfig cfg;
-    cfg.rrf_k = 0.0;
-    EXPECT_THROW(HybridRetriever(cfg), std::invalid_argument);
+    HybridRetrieverConfig cfg_zero_rrf;
+    cfg_zero_rrf.rrf_k = 0.0;
+    EXPECT_THROW({
+        HybridRetriever retriever{cfg_zero_rrf};
+        static_cast<void>(retriever);
+    }, std::invalid_argument);
 }
 
 TEST(HybridRetrieverConfig, NegativeRrfKThrows) {
-    HybridRetrieverConfig cfg;
-    cfg.rrf_k = -1.0;
-    EXPECT_THROW(HybridRetriever(cfg), std::invalid_argument);
+    HybridRetrieverConfig cfg_neg_rrf;
+    cfg_neg_rrf.rrf_k = -1.0;
+    EXPECT_THROW({
+        HybridRetriever retriever{cfg_neg_rrf};
+        static_cast<void>(retriever);
+    }, std::invalid_argument);
 }
 
 TEST(HybridRetrieverConfig, ZeroWeightsAreAllowed) {
-    HybridRetrieverConfig cfg;
-    cfg.bm25_weight   = 0.0;
-    cfg.vector_weight = 0.0;
-    EXPECT_NO_THROW(HybridRetriever(cfg));
+    HybridRetrieverConfig cfg_zero_weights;
+    cfg_zero_weights.bm25_weight   = 0.0;
+    cfg_zero_weights.vector_weight = 0.0;
+    EXPECT_NO_THROW({
+        HybridRetriever retriever{cfg_zero_weights};
+        static_cast<void>(retriever);
+    });
 }
 
 TEST(HybridRetrieverConfig, SetConfigUpdatesAndValidates) {
@@ -438,7 +456,10 @@ TEST(HybridRetrieverVectorizerIntegration, RetrieveWithVectorizerThrowsWithoutVe
     HybridRetriever retriever;
     const std::vector<RetrievedDocument> bm25 = {makeDoc("d1", "content", 0.5)};
     EXPECT_THROW(
-        retriever.retrieveWithVectorizer("q", bm25),
+        {
+            auto vectorized = retriever.retrieveWithVectorizer("q", bm25);
+            static_cast<void>(vectorized);
+        },
         std::runtime_error);
 }
 
@@ -447,7 +468,10 @@ TEST(HybridRetrieverVectorizerIntegration, RetrieveWithVectorizerThrowsWhenVecto
     retriever.setVectorizer(std::make_shared<TestVectorizer>());
     const std::vector<RetrievedDocument> bm25 = {makeDoc("d1", "content", 0.5)};
     EXPECT_THROW(
-        retriever.retrieveWithVectorizer("q", bm25),
+        {
+            auto vectorized = retriever.retrieveWithVectorizer("q", bm25);
+            static_cast<void>(vectorized);
+        },
         std::runtime_error);
 }
 
@@ -459,7 +483,10 @@ TEST(HybridRetrieverVectorizerIntegration, RetrieveWithVectorizerThrowsOnEmptyQu
 
     const std::vector<RetrievedDocument> bm25 = {makeDoc("d1", "content", 0.5)};
     EXPECT_THROW(
-        retriever.retrieveWithVectorizer("", bm25),
+        {
+            auto vectorized = retriever.retrieveWithVectorizer("", bm25);
+            static_cast<void>(vectorized);
+        },
         std::invalid_argument);
 }
 

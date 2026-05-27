@@ -134,9 +134,9 @@ public:
 
     // Get pool statistics
     struct PoolStats {
-        size_t total_buffers;
-        size_t available_buffers;
-        size_t acquired_buffers;
+        size_t total_buffers = 0;
+        size_t available_buffers = 0;
+        size_t acquired_buffers = 0;
     };
     PoolStats getPoolStats() const;
 

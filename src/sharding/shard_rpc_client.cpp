@@ -414,6 +414,33 @@ bool ShardRPCClient::ping() {
     }
 }
 
+std::vector<ShardRPCClient::WaitForEdge> ShardRPCClient::collectWaitForEdges() {
+    try {
+        auto response = sendRequest("collect_wait_for_edges", nlohmann::json::object());
+        std::vector<WaitForEdge> edges;
+        if (!response.contains("edges") || !response["edges"].is_array()) {
+            return edges;
+        }
+        for (const auto& edge : response["edges"]) {
+            if (!edge.contains("waiting_transaction_id") ||
+                !edge.contains("blocking_transaction_id")) {
+                continue;
+            }
+            const auto& waiting  = edge["waiting_transaction_id"];
+            const auto& blocking = edge["blocking_transaction_id"];
+            if (!waiting.is_string() || !blocking.is_string()) {
+                continue;
+            }
+            edges.push_back({waiting.get<std::string>(),
+                             blocking.get<std::string>()});
+        }
+        return edges;
+    } catch (const std::exception& e) {
+        THEMIS_WARN("collectWaitForEdges from {} failed: {}", impl_->config.endpoint, e.what());
+        return {};
+    }
+}
+
 bool ShardRPCClient::writeEntity(
     const std::string& collection,
     const std::string& uuid,
@@ -512,6 +539,8 @@ nlohmann::json ShardRPCClient::sendRequestGrpc(
                 result = handleWriteEntityGrpc(context, params);
             } else if (method == "ping") {
                 result = handleHealthCheckGrpc(context);
+            } else if (method == "collect_wait_for_edges") {
+                result = handleCollectWaitForEdgesGrpc(context);
             } else {
                 throw std::runtime_error("Unknown RPC method: " + method);
             }
@@ -757,6 +786,34 @@ nlohmann::json ShardRPCClient::handleWriteEntityGrpc(
     };
 }
 
+nlohmann::json ShardRPCClient::handleCollectWaitForEdgesGrpc(
+    grpc::ClientContext& context
+) {
+    themis::sharding::proto::CollectWaitForEdgesRequest request;
+    themis::sharding::proto::CollectWaitForEdgesResponse response;
+
+    grpc::Status status = impl_->stub->CollectWaitForEdges(&context, request, &response);
+
+    if (!status.ok()) {
+        if (isRetryableError(status.error_code())) {
+            throw std::runtime_error("CollectWaitForEdges failed: " + status.error_message());
+        }
+        throw NonRetryableRpcError(status.error_message());
+    }
+
+    auto edges_json = nlohmann::json::array();
+    for (const auto& edge : response.edges()) {
+        edges_json.push_back({
+            {"waiting_transaction_id",  edge.waiting_transaction_id()},
+            {"blocking_transaction_id", edge.blocking_transaction_id()}
+        });
+    }
+    return {
+        {"edges",    std::move(edges_json)},
+        {"shard_id", response.shard_id()}
+    };
+}
+
 bool ShardRPCClient::isRetryableError(grpc::StatusCode code) {
     // Categorize errors as retryable or non-retryable
     switch (code) {
@@ -877,6 +934,14 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
                 } else if (method == "ping") {
                     response = {
                         {"status", "ok"}
+                    };
+                } else if (method == "collect_wait_for_edges") {
+                    // In-process / single-node simulation: no local wait edges to report.
+                    // In a real multi-node deployment the gRPC path (handleCollectWaitForEdgesGrpc)
+                    // queries the shard's local lock-wait state.
+                    response = {
+                        {"edges",    nlohmann::json::array()},
+                        {"shard_id", impl_->config.shard_id}
                     };
                 } else {
                     throw std::runtime_error("Unknown RPC method: " + method);

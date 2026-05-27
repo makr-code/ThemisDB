@@ -7,12 +7,13 @@
  */
 
 #include "geo/geo_clustering.h"
-#include "geo/spatial_join.h"
 
 #include <algorithm>
 #include <cmath>
 #include <limits>
 #include <stdexcept>
+
+#include "geo/spatial_join.h"
 
 // GPU acceleration headers — included only when CUDA is available.
 #ifdef THEMIS_ENABLE_CUDA
@@ -23,15 +24,14 @@ namespace {
 /// Converts WGS-84 (lon, lat) to ECEF unit-sphere Cartesian (x, y, z).
 /// The ECEF chord distance in 3D approximates the geodesic distance well
 /// enough for cluster assignment (error < 0.5% for distances < 5000 km).
-static void wgs84ToEcef(double lon_deg, double lat_deg,
-                        float& x, float& y, float& z) noexcept {
+static void wgs84ToEcef(double lon_deg, double lat_deg, float &x, float &y, float &z) noexcept {
     constexpr double kPi = 3.14159265358979323846;
-    const double lon = lon_deg * kPi / 180.0;
-    const double lat = lat_deg * kPi / 180.0;
+    const double lon     = lon_deg * kPi / 180.0;
+    const double lat     = lat_deg * kPi / 180.0;
     const double cos_lat = std::cos(lat);
-    x = static_cast<float>(cos_lat * std::cos(lon));
-    y = static_cast<float>(cos_lat * std::sin(lon));
-    z = static_cast<float>(std::sin(lat));
+    x                    = static_cast<float>(cos_lat * std::cos(lon));
+    y                    = static_cast<float>(cos_lat * std::sin(lon));
+    z                    = static_cast<float>(std::sin(lat));
 }
 
 // ---------------------------------------------------------------------------
@@ -40,13 +40,12 @@ static void wgs84ToEcef(double lon_deg, double lat_deg,
 
 /// All-pairs Haversine adjacency kernel (n × n).
 /// Thread (i, j): result[i*n + j] = 1 if haversine(i,j) <= epsilon_m, else 0.
-__global__ void cuda_haversine_adjacency_kernel(
-    const double* lons, const double* lats,
-    uint8_t* adj, int n, double epsilon_m)
-{
+__global__ void cuda_haversine_adjacency_kernel(const double *lons, const double *lats, uint8_t *adj, int n,
+                                                double epsilon_m) {
     const int i = blockIdx.y * blockDim.y + threadIdx.y;
     const int j = blockIdx.x * blockDim.x + threadIdx.x;
-    if (i >= n || j >= n) return;
+    if (i >= n || j >= n)
+        return;
 
     const double dlon = (lons[j] - lons[i]) * (3.14159265358979323846 / 180.0);
     const double dlat = (lats[j] - lats[i]) * (3.14159265358979323846 / 180.0);
@@ -55,21 +54,16 @@ __global__ void cuda_haversine_adjacency_kernel(
 
     const double sin_dlat = sin(dlat * 0.5);
     const double sin_dlon = sin(dlon * 0.5);
-    const double a = sin_dlat * sin_dlat +
-                     cos(lat1) * cos(lat2) * sin_dlon * sin_dlon;
-    const double dist_m = 6371000.0 * 2.0 * asin(sqrt(a < 1.0 ? a : 1.0));
+    const double a        = sin_dlat * sin_dlat + cos(lat1) * cos(lat2) * sin_dlon * sin_dlon;
+    const double dist_m   = 6371000.0 * 2.0 * asin(sqrt(a < 1.0 ? a : 1.0));
 
     adj[i * n + j] = (dist_m <= epsilon_m) ? 1u : 0u;
 }
 
 /// Build GPU adjacency matrix for DBSCAN.
 /// Returns a host-side flat vector (n×n), or empty on failure/VRAM OOM.
-static std::vector<uint8_t> buildGpuAdjacency(
-    const std::vector<double>& lons,
-    const std::vector<double>& lats,
-    double epsilon_m,
-    std::size_t n)
-{
+static std::vector<uint8_t> buildGpuAdjacency(const std::vector<double> &lons, const std::vector<double> &lats,
+                                              double epsilon_m, std::size_t n) {
     std::vector<uint8_t> host_adj;
 
     const std::size_t coord_sz = n * sizeof(double);
@@ -80,11 +74,19 @@ static std::vector<uint8_t> buildGpuAdjacency(
     cudaError_t e;
 
     e = cudaMalloc(&d_lons, coord_sz);
-    if (e != cudaSuccess) return host_adj;
+    if (e != cudaSuccess)
+        return host_adj;
     e = cudaMalloc(&d_lats, coord_sz);
-    if (e != cudaSuccess) { cudaFree(d_lons); return host_adj; }
+    if (e != cudaSuccess) {
+        cudaFree(d_lons);
+        return host_adj;
+    }
     e = cudaMalloc(&d_adj, adj_sz);
-    if (e != cudaSuccess) { cudaFree(d_lons); cudaFree(d_lats); return host_adj; }
+    if (e != cudaSuccess) {
+        cudaFree(d_lons);
+        cudaFree(d_lats);
+        return host_adj;
+    }
 
     cudaMemcpy(d_lons, lons.data(), coord_sz, cudaMemcpyHostToDevice);
     cudaMemcpy(d_lats, lats.data(), coord_sz, cudaMemcpyHostToDevice);
@@ -125,7 +127,7 @@ struct LonLat {
     bool valid{false};
 };
 
-static LonLat extractLonLat(const GeometryInfo& g) noexcept {
+static LonLat extractLonLat(const GeometryInfo &g) noexcept {
     if (g.isPoint() && !g.coords.empty()) {
         return {g.coords[0].x, g.coords[0].y, true};
     }
@@ -136,11 +138,8 @@ static LonLat extractLonLat(const GeometryInfo& g) noexcept {
 // DBSCAN implementation
 // ---------------------------------------------------------------------------
 
-GeoClusterResult dbscanCluster(
-    const std::vector<GeometryInfo>& points,
-    const DbscanConfig& config,
-    [[maybe_unused]] const GpuClusteringConfig& gpu_cfg)
-{
+GeoClusterResult dbscanCluster(const std::vector<GeometryInfo> &points, const DbscanConfig &config,
+                               [[maybe_unused]] const GpuClusteringConfig &gpu_cfg) {
     const std::size_t n = points.size();
     GeoClusterResult result;
     result.labels.assign(n, kDbscanUnclassified);
@@ -189,7 +188,7 @@ GeoClusterResult dbscanCluster(
     auto regionQuery = [&](std::size_t i) -> std::vector<std::size_t> {
         std::vector<std::size_t> neighbours;
         if (use_gpu_adj) {
-            const uint8_t* row = gpu_adj.data() + i * n;
+            const uint8_t *row = gpu_adj.data() + i * n;
             for (std::size_t j = 0; j < n; ++j) {
                 if (coords[j].valid && row[j]) {
                     neighbours.push_back(j);
@@ -197,10 +196,10 @@ GeoClusterResult dbscanCluster(
             }
         } else {
             for (std::size_t j = 0; j < n; ++j) {
-                if (!coords[j].valid) continue;
-                const double dist = haversineDistanceM(
-                    coords[i].lon, coords[i].lat,
-                    coords[j].lon, coords[j].lat);
+                if (!coords[j].valid) {
+                    continue;
+                }
+                const double dist = haversineDistanceM(coords[i].lon, coords[i].lat, coords[j].lon, coords[j].lat);
                 if (dist <= config.epsilon_m) {
                     neighbours.push_back(j);
                 }
@@ -213,8 +212,12 @@ GeoClusterResult dbscanCluster(
 
     for (std::size_t i = 0; i < n; ++i) {
         // Skip already processed or invalid points.
-        if (result.labels[i] != kDbscanUnclassified) continue;
-        if (!coords[i].valid) continue;
+        if (result.labels[i] != kDbscanUnclassified) {
+            continue;
+        }
+        if (!coords[i].valid) {
+            continue;
+        }
 
         std::vector<std::size_t> neighbours = regionQuery(i);
 
@@ -231,7 +234,9 @@ GeoClusterResult dbscanCluster(
         std::vector<std::size_t> queue;
         queue.reserve(neighbours.size());
         for (std::size_t nb : neighbours) {
-            if (nb != i) queue.push_back(nb);
+            if (nb != i) {
+                queue.push_back(nb);
+            }
         }
 
         std::size_t qi = 0;
@@ -243,7 +248,9 @@ GeoClusterResult dbscanCluster(
                 result.labels[j] = cluster_id;
             }
 
-            if (result.labels[j] != kDbscanUnclassified) continue;
+            if (result.labels[j] != kDbscanUnclassified) {
+                continue;
+            }
 
             result.labels[j] = cluster_id;
 
@@ -251,8 +258,7 @@ GeoClusterResult dbscanCluster(
             if (j_neighbours.size() >= config.min_points) {
                 // j is a core point; add its unvisited neighbours.
                 for (std::size_t nb : j_neighbours) {
-                    if (result.labels[nb] == kDbscanUnclassified ||
-                        result.labels[nb] == kDbscanNoise) {
+                    if (result.labels[nb] == kDbscanUnclassified || result.labels[nb] == kDbscanNoise) {
                         queue.push_back(nb);
                     }
                 }
@@ -270,11 +276,8 @@ GeoClusterResult dbscanCluster(
 // k-means implementation
 // ---------------------------------------------------------------------------
 
-GeoClusterResult kmeansCluster(
-    const std::vector<GeometryInfo>& points,
-    const KMeansConfig& config,
-    [[maybe_unused]] const GpuClusteringConfig& gpu_cfg)
-{
+GeoClusterResult kmeansCluster(const std::vector<GeometryInfo> &points, const KMeansConfig &config,
+                               [[maybe_unused]] const GpuClusteringConfig &gpu_cfg) {
     const std::size_t n = points.size();
     GeoClusterResult result;
     result.labels.assign(n, -1);
@@ -290,7 +293,9 @@ GeoClusterResult kmeansCluster(
     valid_idx.reserve(n);
     for (std::size_t i = 0; i < n; ++i) {
         coords[i] = extractLonLat(points[i]);
-        if (coords[i].valid) valid_idx.push_back(i);
+        if (coords[i].valid) {
+            valid_idx.push_back(i);
+        }
     }
 
     const std::size_t valid_n = valid_idx.size();
@@ -299,17 +304,18 @@ GeoClusterResult kmeansCluster(
         throw std::invalid_argument("kmeansCluster: k must be >= 1");
     }
     if (config.k > valid_n) {
-        throw std::invalid_argument(
-            "kmeansCluster: k (" + std::to_string(config.k) +
-            ") exceeds number of valid points (" +
-            std::to_string(valid_n) + ")");
+        throw std::invalid_argument("kmeansCluster: k (" + std::to_string(config.k)
+                                    + ") exceeds number of valid points (" + std::to_string(valid_n) + ")");
     }
 
     // -----------------------------------------------------------------
     // Centroid initialisation
     // -----------------------------------------------------------------
 
-    struct Centroid { double lon; double lat; };
+    struct Centroid {
+        double lon;
+        double lat;
+    };
     std::vector<Centroid> centroids(config.k);
 
     if (config.seed == 0) {
@@ -320,7 +326,7 @@ GeoClusterResult kmeansCluster(
     } else {
         // k-means++ probabilistic seeding with a simple LCG PRNG.
         // LCG constants from Numerical Recipes.
-        uint64_t rng = config.seed;
+        uint64_t rng    = config.seed;
         auto nextDouble = [&]() -> double {
             rng = rng * 6364136223846793005ULL + 1442695040888963407ULL;
             return static_cast<double>(rng >> 33) / static_cast<double>(1ULL << 31);
@@ -328,7 +334,7 @@ GeoClusterResult kmeansCluster(
 
         // Choose the first centroid uniformly at random from valid points.
         std::size_t first = static_cast<std::size_t>(nextDouble() * valid_n) % valid_n;
-        centroids[0] = {coords[valid_idx[first]].lon, coords[valid_idx[first]].lat};
+        centroids[0]      = {coords[valid_idx[first]].lon, coords[valid_idx[first]].lat};
 
         // For each subsequent centroid, choose proportionally to squared distance
         // from the nearest already-chosen centroid.
@@ -338,16 +344,16 @@ GeoClusterResult kmeansCluster(
             // Update d2 for the newly added centroid c-1.
             double total = 0.0;
             for (std::size_t vi = 0; vi < valid_n; ++vi) {
-                const double dist = haversineDistanceM(
-                    coords[valid_idx[vi]].lon, coords[valid_idx[vi]].lat,
-                    centroids[c - 1].lon, centroids[c - 1].lat);
-                if (dist * dist < d2[vi]) d2[vi] = dist * dist;
+                const double dist = haversineDistanceM(coords[valid_idx[vi]].lon, coords[valid_idx[vi]].lat,
+                                                       centroids[c - 1].lon, centroids[c - 1].lat);
+                if (dist * dist < d2[vi])
+                    d2[vi] = dist * dist;
                 total += d2[vi];
             }
 
             // Sample next centroid proportionally to d2.
-            double threshold = nextDouble() * total;
-            double cumsum = 0.0;
+            double threshold   = nextDouble() * total;
+            double cumsum      = 0.0;
             std::size_t chosen = valid_n - 1; // fallback
             for (std::size_t vi = 0; vi < valid_n; ++vi) {
                 cumsum += d2[vi];
@@ -387,41 +393,48 @@ GeoClusterResult kmeansCluster(
     if (gpu_cfg.use_gpu) {
         do { // pseudo-loop for easy break-on-failure
             // Build ECEF float32 for points and centroids.
-            const int dim = 3;
+            const int dim       = 3;
             const std::size_t k = config.k;
             std::vector<float> point_ecef(valid_n * dim);
             std::vector<float> centroid_ecef(k * dim);
 
             for (std::size_t vi = 0; vi < valid_n; ++vi) {
-                wgs84ToEcef(coords[valid_idx[vi]].lon, coords[valid_idx[vi]].lat,
-                            point_ecef[vi*dim+0], point_ecef[vi*dim+1],
-                            point_ecef[vi*dim+2]);
+                wgs84ToEcef(coords[valid_idx[vi]].lon, coords[valid_idx[vi]].lat, point_ecef[vi * dim + 0],
+                            point_ecef[vi * dim + 1], point_ecef[vi * dim + 2]);
             }
             for (std::size_t c = 0; c < k; ++c) {
-                wgs84ToEcef(centroids[c].lon, centroids[c].lat,
-                            centroid_ecef[c*dim+0], centroid_ecef[c*dim+1],
-                            centroid_ecef[c*dim+2]);
+                wgs84ToEcef(centroids[c].lon, centroids[c].lat, centroid_ecef[c * dim + 0], centroid_ecef[c * dim + 1],
+                            centroid_ecef[c * dim + 2]);
             }
 
             // Allocate device memory.
             float *d_pts = nullptr, *d_ctr = nullptr;
-            [[maybe_unused]] float *d_dists = nullptr;
+            [[maybe_unused]] float *d_dists  = nullptr;
             [[maybe_unused]] uint32_t *d_idx = nullptr;
-            const size_t pts_sz  = valid_n * dim * sizeof(float);
-            const size_t ctr_sz  = k * dim * sizeof(float);
-            const size_t idx_sz  = valid_n * sizeof(uint32_t);
-            const size_t dist_sz = valid_n * sizeof(float);
+            const size_t pts_sz              = valid_n * dim * sizeof(float);
+            const size_t ctr_sz              = k * dim * sizeof(float);
+            const size_t idx_sz              = valid_n * sizeof(uint32_t);
+            const size_t dist_sz             = valid_n * sizeof(float);
 
-            if (cudaMalloc(&d_pts,   pts_sz)  != cudaSuccess) break;
-            if (cudaMalloc(&d_ctr,   ctr_sz)  != cudaSuccess) { cudaFree(d_pts); break; }
+            if (cudaMalloc(&d_pts, pts_sz) != cudaSuccess)
+                break;
+            if (cudaMalloc(&d_ctr, ctr_sz) != cudaSuccess) {
+                cudaFree(d_pts);
+                break;
+            }
             if (cudaMalloc(&d_dists, dist_sz) != cudaSuccess) {
-                cudaFree(d_pts); cudaFree(d_ctr); break;
+                cudaFree(d_pts);
+                cudaFree(d_ctr);
+                break;
             }
             if (cudaMalloc(&d_idx, idx_sz) != cudaSuccess) {
-                cudaFree(d_pts); cudaFree(d_ctr); cudaFree(d_dists); break;
+                cudaFree(d_pts);
+                cudaFree(d_ctr);
+                cudaFree(d_dists);
+                break;
             }
 
-            cudaMemcpy(d_pts, point_ecef.data(),    pts_sz, cudaMemcpyHostToDevice);
+            cudaMemcpy(d_pts, point_ecef.data(), pts_sz, cudaMemcpyHostToDevice);
             cudaMemcpy(d_ctr, centroid_ecef.data(), ctr_sz, cudaMemcpyHostToDevice);
 
             // Compute distance matrix d_pts [valid_n × dim] vs d_ctr [k × dim]:
@@ -450,8 +463,10 @@ GeoClusterResult kmeansCluster(
             // ANNKernelDispatch table in kernel_invocation.h via the BackendRegistry.
             // For now, free device memory and fall through to the CPU assignment step
             // which uses the same centroid_ecef data for consistency.
-            cudaFree(d_pts); cudaFree(d_ctr);
-            cudaFree(d_dists); cudaFree(d_idx);
+            cudaFree(d_pts);
+            cudaFree(d_ctr);
+            cudaFree(d_dists);
+            cudaFree(d_idx);
             // suppress warning
         } while (false);
     }
@@ -463,21 +478,19 @@ GeoClusterResult kmeansCluster(
     // Lloyd iterations
     // -----------------------------------------------------------------
 
-    std::vector<int>    cluster_labels(valid_n, 0);
+    std::vector<int> cluster_labels(valid_n, 0);
     std::vector<double> centroid_sum_lon(config.k, 0.0);
     std::vector<double> centroid_sum_lat(config.k, 0.0);
     std::vector<std::size_t> centroid_count(config.k, 0);
 
     for (std::size_t iter = 0; iter < config.max_iterations; ++iter) {
-
         // Assignment step: assign each valid point to the nearest centroid.
         for (std::size_t vi = 0; vi < valid_n; ++vi) {
             double best_dist = std::numeric_limits<double>::max();
-            int    best_c    = 0;
+            int best_c       = 0;
             for (std::size_t c = 0; c < config.k; ++c) {
-                const double dist = haversineDistanceM(
-                    coords[valid_idx[vi]].lon, coords[valid_idx[vi]].lat,
-                    centroids[c].lon, centroids[c].lat);
+                const double dist = haversineDistanceM(coords[valid_idx[vi]].lon, coords[valid_idx[vi]].lat,
+                                                       centroids[c].lon, centroids[c].lat);
                 if (dist < best_dist) {
                     best_dist = dist;
                     best_c    = static_cast<int>(c);
@@ -489,7 +502,7 @@ GeoClusterResult kmeansCluster(
         // Update step: recompute centroids as arithmetic mean of (lon, lat).
         std::fill(centroid_sum_lon.begin(), centroid_sum_lon.end(), 0.0);
         std::fill(centroid_sum_lat.begin(), centroid_sum_lat.end(), 0.0);
-        std::fill(centroid_count.begin(),   centroid_count.end(),   0);
+        std::fill(centroid_count.begin(), centroid_count.end(), 0);
 
         for (std::size_t vi = 0; vi < valid_n; ++vi) {
             const int c = cluster_labels[vi];
@@ -501,19 +514,23 @@ GeoClusterResult kmeansCluster(
         // Check convergence and update centroids.
         double max_shift = 0.0;
         for (std::size_t c = 0; c < config.k; ++c) {
-            if (centroid_count[c] == 0) continue; // empty cluster; keep old centroid
+            if (centroid_count[c] == 0) {
+                continue; // empty cluster; keep old centroid
+            }
 
             const double new_lon = centroid_sum_lon[c] / static_cast<double>(centroid_count[c]);
             const double new_lat = centroid_sum_lat[c] / static_cast<double>(centroid_count[c]);
 
-            const double shift = haversineDistanceM(
-                centroids[c].lon, centroids[c].lat, new_lon, new_lat);
-            if (shift > max_shift) max_shift = shift;
+            const double shift = haversineDistanceM(centroids[c].lon, centroids[c].lat, new_lon, new_lat);
+            if (shift > max_shift)
+                max_shift = shift;
 
             centroids[c] = {new_lon, new_lat};
         }
 
-        if (max_shift <= config.tolerance_m) break;
+        if (max_shift <= config.tolerance_m) {
+            break;
+        }
     }
 
     // Write labels back to result (index into original `points` array).
@@ -526,4 +543,3 @@ GeoClusterResult kmeansCluster(
 
 } // namespace geo
 } // namespace themis
-

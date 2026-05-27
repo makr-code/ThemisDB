@@ -7,6 +7,7 @@
  */
 
 #include "importers/schema_validator.h"
+#include <stdexcept>
 
 #include <algorithm>
 #include <cctype>

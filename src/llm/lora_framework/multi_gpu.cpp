@@ -152,20 +152,46 @@ Device MultiGPUContext::get_device(int rank) const {
 }
 
 void MultiGPUContext::synchronize_all() const {
+#if defined(THEMIS_ENABLE_CUDA) || defined(THEMIS_ENABLE_HIP)
     for (const auto& device : devices_) {
 #ifdef THEMIS_ENABLE_CUDA
         if (device.type == DeviceType::CUDA) {
-            cudaSetDevice(device.device_id);
-            cudaDeviceSynchronize();
+            // REL-34: check cudaSetDevice return value before synchronize
+            cudaError_t set_err = cudaSetDevice(device.device_id);
+            if (set_err != cudaSuccess) {
+                spdlog::warn("MultiGPUContext::synchronize_all: cudaSetDevice({}) failed: {}",
+                             device.device_id, cudaGetErrorString(set_err));
+                continue;
+            }
+            // REL-62: check cudaDeviceSynchronize return value
+            cudaError_t sync_err = cudaDeviceSynchronize();
+            if (sync_err != cudaSuccess) {
+                spdlog::warn("MultiGPUContext::synchronize_all: cudaDeviceSynchronize({}) failed: {}",
+                             device.device_id, cudaGetErrorString(sync_err));
+            }
         }
 #endif
 #ifdef THEMIS_ENABLE_HIP
         if (device.type == DeviceType::HIP) {
-            hipSetDevice(device.device_id);
-            hipDeviceSynchronize();
+            // REL-35: check hipSetDevice return value before synchronize
+            hipError_t set_err = hipSetDevice(device.device_id);
+            if (set_err != hipSuccess) {
+                spdlog::warn("MultiGPUContext::synchronize_all: hipSetDevice({}) failed: {}",
+                             device.device_id, hipGetErrorString(set_err));
+                continue;
+            }
+            // REL-63: check hipDeviceSynchronize return value
+            hipError_t sync_err = hipDeviceSynchronize();
+            if (sync_err != hipSuccess) {
+                spdlog::warn("MultiGPUContext::synchronize_all: hipDeviceSynchronize({}) failed: {}",
+                             device.device_id, hipGetErrorString(sync_err));
+            }
         }
 #endif
     }
+#else
+    static_cast<void>(devices_);
+#endif
 }
 
 GPUTopology GPUTopology::detect(const std::vector<Device>& devices) {
@@ -191,7 +217,15 @@ GPUTopology GPUTopology::detect(const std::vector<Device>& devices) {
                 }
                 
                 int can_access_peer = 0;
-                cudaDeviceCanAccessPeer(&can_access_peer, devices[i].device_id, devices[j].device_id);
+                // REL-36: capture and check cudaDeviceCanAccessPeer return value
+                cudaError_t cap_err = cudaDeviceCanAccessPeer(
+                    &can_access_peer, devices[i].device_id, devices[j].device_id);
+                if (cap_err != cudaSuccess) {
+                    spdlog::warn("GPUTopology: cudaDeviceCanAccessPeer({},{}) failed: {}",
+                                 devices[i].device_id, devices[j].device_id,
+                                 cudaGetErrorString(cap_err));
+                    can_access_peer = 0;
+                }
                 
                 if (can_access_peer) {
                     topology.has_pcie_p2p = true;
@@ -229,7 +263,15 @@ GPUTopology GPUTopology::detect(const std::vector<Device>& devices) {
                 }
                 
                 int can_access_peer = 0;
-                hipDeviceCanAccessPeer(&can_access_peer, devices[i].device_id, devices[j].device_id);
+                // REL-37: capture and check hipDeviceCanAccessPeer return value
+                hipError_t cap_err = hipDeviceCanAccessPeer(
+                    &can_access_peer, devices[i].device_id, devices[j].device_id);
+                if (cap_err != hipSuccess) {
+                    spdlog::warn("GPUTopology: hipDeviceCanAccessPeer({},{}) failed: {}",
+                                 devices[i].device_id, devices[j].device_id,
+                                 hipGetErrorString(cap_err));
+                    can_access_peer = 0;
+                }
                 
                 if (can_access_peer) {
                     topology.has_pcie_p2p = true;
@@ -251,4 +293,3 @@ GPUTopology GPUTopology::detect(const std::vector<Device>& devices) {
 } // namespace lora
 } // namespace llm
 } // namespace themis
-

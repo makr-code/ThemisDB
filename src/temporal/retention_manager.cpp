@@ -565,3 +565,4 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
 
 } // namespace temporal
 } // namespace themisdb
+

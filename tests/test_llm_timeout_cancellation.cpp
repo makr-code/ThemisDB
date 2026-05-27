@@ -436,15 +436,22 @@ TEST_F(AsyncEngineTimeoutCancelTest, DropOldestPolicyDropsLowestPriorityRequest)
     high_req.prompt = "high priority";
     auto h3 = engine.submit(high_req, 100);  // should succeed; h2 gets dropped
 
-    // h2 must resolve with an exception ("Request dropped").
-    bool h2_dropped = false;
-    try {
-        h2.get();  // result discarded; we only care about the exception
-    } catch (const std::runtime_error& e) {
-        h2_dropped = true;
-        spdlog::info("DROP_OLDEST test: h2 exception as expected: {}", e.what());
-    }
-    EXPECT_TRUE(h2_dropped);
+    // Depending on worker scheduling at submit time, either h1 or h2 can be
+    // the dropped low-priority request. Ensure at least one is dropped.
+    bool low_dropped = false;
+    auto mark_dropped = [&low_dropped](InferenceHandle& h) {
+        try {
+            h.get();  // result discarded; we only care about the exception
+        } catch (const std::runtime_error& e) {
+            low_dropped = true;
+            spdlog::info("DROP_OLDEST test: low-priority request dropped: {}", e.what());
+        }
+    };
+
+    mark_dropped(h1);
+    mark_dropped(h2);
+
+    EXPECT_TRUE(low_dropped);
 
     // h3 should eventually complete without throwing (queue had room after drop).
     bool h3_ok = false;
@@ -457,8 +464,6 @@ TEST_F(AsyncEngineTimeoutCancelTest, DropOldestPolicyDropsLowestPriorityRequest)
     EXPECT_TRUE(h3_ok);
 
     engine.shutdown();
-    // h1 may still be in flight — discard it
-    try { h1.get(); } catch (...) {}
 }
 
 // Test 9: DROP_OLDEST drops the request with strictly the lowest priority,
@@ -496,9 +501,24 @@ TEST_F(AsyncEngineTimeoutCancelTest, DropOldestTargetsLowestPriorityNotFIFO) {
     EXPECT_TRUE(low_dropped);
 
     engine.shutdown();
-    try { h_worker.get(); } catch (...) {}
-    try { h_high.get();   } catch (...) {}
-    try { h_new.get();    } catch (...) {}
+
+    auto consume_without_block = [](InferenceHandle& h) {
+        if (h.ready()) {
+            try { h.get(); } catch (...) {}
+            return;
+        }
+        h.cancel();
+        for (int i = 0; i < 50 && !h.ready(); ++i) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        }
+        if (h.ready()) {
+            try { h.get(); } catch (...) {}
+        }
+    };
+
+    consume_without_block(h_worker);
+    consume_without_block(h_high);
+    consume_without_block(h_new);
 }
 
 // ═══════════════════════════════════════════════════════════

@@ -109,10 +109,10 @@ IndexResult RAGIngestionBridge::indexDocument(
     // Write graph entities / relations
     if (graph_writer_) {
         if (!entity_set.nodes.empty()) {
-            graph_writer_->writeEntities(entity_set.nodes);
+            static_cast<void>(graph_writer_->writeEntities(entity_set.nodes));
         }
         if (!entity_set.edges.empty()) {
-            graph_writer_->writeRelations(entity_set.edges);
+            static_cast<void>(graph_writer_->writeRelations(entity_set.edges));
         }
     }
 

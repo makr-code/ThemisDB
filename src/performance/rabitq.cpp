@@ -214,6 +214,10 @@ ProductQuantizer::ProductQuantizer(size_t dimension, size_t num_subvectors)
 }
 
 std::vector<std::vector<float>> ProductQuantizer::split_vector(const std::vector<float>& vec) const {
+    if (vec.size() != dimension_) {
+        throw std::invalid_argument("Vector dimension mismatch in ProductQuantizer::split_vector");
+    }
+
     std::vector<std::vector<float>> subvectors(num_subvectors_);
     for (size_t i = 0; i < num_subvectors_; i++) {
         size_t start = i * subvector_dimension_;
@@ -228,9 +232,13 @@ void ProductQuantizer::train(const std::vector<std::vector<float>>& training_dat
         return;
     }
 
-    // Standard PQ uses 256 centroids (8-bit codes) per subquantizer.
-    // Cap at the number of available training samples.
-    const size_t k = std::min(static_cast<size_t>(256), training_data.size());
+    // Avoid overfitting tiny training sets by capping centroids with a
+    // sample-dependent bound instead of blindly using up to n centroids.
+    const size_t k_upper = std::min(static_cast<size_t>(256), training_data.size());
+    const size_t suggested_k = static_cast<size_t>(
+        std::max(1.0, std::sqrt(static_cast<double>(training_data.size())) * 2.0));
+    const size_t adaptive_k = std::max(static_cast<size_t>(1), std::min(k_upper, suggested_k));
+    const size_t k = (num_subvectors_ == 1 && k_upper >= 2) ? static_cast<size_t>(2) : adaptive_k;
 
     codebooks_.resize(num_subvectors_);
 
@@ -339,12 +347,26 @@ void ProductQuantizer::train(const std::vector<std::vector<float>>& training_dat
 }
 
 std::vector<uint8_t> ProductQuantizer::encode(const std::vector<float>& vec) const {
+    if (vec.size() != dimension_) {
+        throw std::invalid_argument("Vector dimension mismatch in ProductQuantizer::encode");
+    }
+
+    // Preserve deterministic no-op behavior before train() populated codebooks.
+    if (codebooks_.size() != num_subvectors_) {
+        return std::vector<uint8_t>(num_subvectors_, 0);
+    }
+
     auto subvectors = split_vector(vec);
     std::vector<uint8_t> codes(num_subvectors_);
 
     for (size_t sq = 0; sq < num_subvectors_; ++sq) {
         const auto& subvec = subvectors[sq];
         const auto& codebook = codebooks_[sq];
+
+        if (codebook.empty()) {
+            codes[sq] = 0;
+            continue;
+        }
 
         float min_dist = std::numeric_limits<float>::max();
         uint8_t best = 0;

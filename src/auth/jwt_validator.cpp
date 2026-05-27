@@ -7,72 +7,66 @@
  */
 
 #include "auth/jwt_validator.h"
-#include "auth/jwks_validator.h"
-#include "utils/hkdf_helper.h"
-#include "utils/openssl_deleter.h"
-#include "utils/logger.h"
-#include "utils/audit_logger.h"
-
-#include <openssl/evp.h>
-#include <openssl/rsa.h>
-#include <openssl/ec.h>
-#include <openssl/ecdsa.h>
-#include <openssl/pem.h>
-#include <openssl/bio.h>
-#include <openssl/buffer.h>
-#include <openssl/crypto.h>
-#include <openssl/sha.h>
-#include <openssl/bn.h>
-
-#include <curl/curl.h>
 
 #include <algorithm>
+#include <cstring>
+#include <curl/curl.h>
 #include <mutex>
+#include <openssl/bio.h>
+#include <openssl/bn.h>
+#include <openssl/buffer.h>
+#include <openssl/crypto.h>
+#include <openssl/ec.h>
+#include <openssl/ecdsa.h>
+#include <openssl/evp.h>
+#include <openssl/pem.h>
+#include <openssl/rsa.h>
+#include <openssl/sha.h>
 #include <sstream>
 #include <stdexcept>
-#include <cstring>
 #include <thread>
+
+#include "auth/jwks_validator.h"
+#include "utils/audit_logger.h"
+#include "utils/hkdf_helper.h"
+#include "utils/logger.h"
+#include "utils/openssl_deleter.h"
 
 namespace themis {
 namespace auth {
 
 namespace {
-size_t curlWriteToString(char* ptr, size_t size, size_t nmemb, void* userdata) {
+size_t curlWriteToString(char *ptr, size_t size, size_t nmemb, void *userdata) {
     auto total = size * nmemb;
-    auto* out = static_cast<std::string*>(userdata);
+    auto *out  = static_cast<std::string *>(userdata);
     out->append(ptr, total);
     return total;
 }
-}
+} // namespace
 
-JWTValidator::JWTValidator(const std::string& jwks_url)
+JWTValidator::JWTValidator(const std::string &jwks_url)
     : cfg_{JWTValidatorConfig{
-          .jwks_url                  = jwks_url,
-          .expected_issuer           = std::nullopt,
-          .expected_audience         = std::nullopt,
-          .cache_ttl                 = std::chrono::seconds(600),
-          .clock_skew                = std::chrono::seconds(60),
-          .require_issuer_validation  = false,
+          .jwks_url                    = jwks_url,
+          .expected_issuer             = std::nullopt,
+          .expected_audience           = std::nullopt,
+          .cache_ttl                   = std::chrono::seconds(600),
+          .clock_skew                  = std::chrono::seconds(60),
+          .require_issuer_validation   = false,
           .require_audience_validation = false,
-      }}
-    , jwks_url_(jwks_url)
-    , jwks_cache_time_(std::chrono::system_clock::time_point::min())
-    , worker_pool_(std::make_unique<AuthWorkerThreadPool>(
-          AuthWorkerThreadPool::kMinThreads,
-          AuthWorkerThreadPool::kMaxThreads))
-{}
+      }},
+      jwks_url_(jwks_url), jwks_cache_time_(std::chrono::system_clock::time_point::min()),
+      worker_pool_(std::make_unique<AuthWorkerThreadPool>(AuthWorkerThreadPool::kMinThreads,
+                                                          AuthWorkerThreadPool::kMaxThreads)) {}
 
-JWTValidator::JWTValidator(const JWTValidatorConfig& cfg)
-    : cfg_(cfg)
-    , jwks_url_(cfg.jwks_url)
-    , jwks_cache_time_(std::chrono::system_clock::time_point::min())
-    , worker_pool_(std::make_unique<AuthWorkerThreadPool>(
-          AuthWorkerThreadPool::kMinThreads,
-          AuthWorkerThreadPool::kMaxThreads))
-{
+JWTValidator::JWTValidator(const JWTValidatorConfig &cfg)
+    : cfg_(cfg), jwks_url_(cfg.jwks_url), jwks_cache_time_(std::chrono::system_clock::time_point::min()),
+      worker_pool_(std::make_unique<AuthWorkerThreadPool>(AuthWorkerThreadPool::kMinThreads,
+                                                          AuthWorkerThreadPool::kMaxThreads)) {
     // Normalize empty string values to nullopt so empty strings are treated as 'unset'
-    auto normalizeOptional = [](std::optional<std::string>& opt) {
-        if (opt.has_value() && opt->empty()) opt = std::nullopt;
+    auto normalizeOptional = [](std::optional<std::string> &opt) {
+        if (opt.has_value() && opt->empty()) {
+            opt = std::nullopt;
+        }
     };
     normalizeOptional(cfg_.expected_issuer);
     normalizeOptional(cfg_.expected_audience);
@@ -90,29 +84,38 @@ JWTValidator::JWTValidator(const JWTValidatorConfig& cfg)
     }
 }
 
-std::vector<uint8_t> JWTValidator::decodeBase64Url(const std::string& input) {
+std::vector<uint8_t> JWTValidator::decodeBase64Url(const std::string &input) {
     std::string base64 = input;
     std::replace(base64.begin(), base64.end(), '-', '+');
     std::replace(base64.begin(), base64.end(), '_', '/');
-    while (base64.size() % 4 != 0) base64 += '=';
-    
-    BIO* bmem = BIO_new_mem_buf(base64.data(), static_cast<int>(base64.size()));
-    if (!bmem) return {};
-    BIO* b64 = BIO_new(BIO_f_base64());
-    if (!b64) { BIO_free(bmem); return {}; }
-    auto bio = utils::BIOPtr(BIO_push(b64, bmem));  // BIO_push returns top of chain
+    while (base64.size() % 4 != 0) {
+        base64 += '=';
+    }
+
+    BIO *bmem = BIO_new_mem_buf(base64.data(), static_cast<int>(base64.size()));
+    if (!bmem) {
+        return {};
+    }
+    BIO *b64 = BIO_new(BIO_f_base64());
+    if (!b64) {
+        BIO_free(bmem);
+        return {};
+    }
+    auto bio = utils::BIOPtr(BIO_push(b64, bmem)); // BIO_push returns top of chain
     BIO_set_flags(bio.get(), BIO_FLAGS_BASE64_NO_NL);
-    
+
     std::vector<uint8_t> decoded(base64.size());
     int len = BIO_read(bio.get(), decoded.data(), static_cast<int>(decoded.size()));
-    if (len < 0) return {};
+    if (len < 0) {
+        return {};
+    }
     decoded.resize(len);
     return decoded;
 }
 
-std::string JWTValidator::decodeBase64UrlToString(const std::string& input) {
+std::string JWTValidator::decodeBase64UrlToString(const std::string &input) {
     auto bytes = decodeBase64Url(input);
-    return std::string(reinterpret_cast<const char*>(bytes.data()), bytes.size());
+    return std::string(reinterpret_cast<const char *>(bytes.data()), bytes.size());
 }
 
 nlohmann::json JWTValidator::fetchJWKS() {
@@ -147,12 +150,12 @@ nlohmann::json JWTValidator::fetchJWKS() {
     }
 
     struct ScopedRefreshReset final {
-        explicit ScopedRefreshReset(JWTValidator* v) : validator(v) {}
-        JWTValidator* const validator;
-        ScopedRefreshReset(const ScopedRefreshReset&) = delete;
-        ScopedRefreshReset& operator=(const ScopedRefreshReset&) = delete;
-        ScopedRefreshReset(ScopedRefreshReset&&) = delete;
-        ScopedRefreshReset& operator=(ScopedRefreshReset&&) = delete;
+        explicit ScopedRefreshReset(JWTValidator *v) : validator(v) {}
+        JWTValidator *const validator;
+        ScopedRefreshReset(const ScopedRefreshReset &)            = delete;
+        ScopedRefreshReset &operator=(const ScopedRefreshReset &) = delete;
+        ScopedRefreshReset(ScopedRefreshReset &&)                 = delete;
+        ScopedRefreshReset &operator=(ScopedRefreshReset &&)      = delete;
         ~ScopedRefreshReset() noexcept {
             std::lock_guard<std::mutex> refresh_lock(validator->jwks_refresh_mutex_);
             validator->jwks_refreshing_ = false;
@@ -167,28 +170,26 @@ nlohmann::json JWTValidator::fetchJWKS() {
 
     try {
         std::string response;
-        int attempt = 0;
+        int attempt        = 0;
         int retry_delay_ms = 100; // Start with 100 ms; doubles each attempt
-        CURLcode rc = CURLE_FAILED_INIT;
-        long http_code = 0;
+        CURLcode rc        = CURLE_FAILED_INIT;
+        long http_code     = 0;
 
         while (attempt < cfg_.jwks_max_retries) {
             attempt++;
             response.clear();
 
-            CURL* curl = curl_easy_init();
+            CURL *curl = curl_easy_init();
             if (!curl) {
                 utils::Logger::error("Failed to init curl for JWKS fetch");
             } else {
                 curl_easy_setopt(curl, CURLOPT_URL, jwks_url_.c_str());
                 curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteToString);
                 curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-                curl_easy_setopt(curl, CURLOPT_TIMEOUT,
-                                 static_cast<long>(cfg_.jwks_timeout_seconds));
-                curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT,
-                                 static_cast<long>(cfg_.jwks_timeout_seconds));
+                curl_easy_setopt(curl, CURLOPT_TIMEOUT, static_cast<long>(cfg_.jwks_timeout_seconds));
+                curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, static_cast<long>(cfg_.jwks_timeout_seconds));
 
-                CURLM* multi = curl_multi_init();
+                CURLM *multi = curl_multi_init();
                 if (!multi) {
                     curl_easy_cleanup(curl);
                     curl = nullptr;
@@ -200,10 +201,12 @@ nlohmann::json JWTValidator::fetchJWKS() {
                         curl = nullptr;
                     } else {
                         int still_running = 0;
-                        CURLMcode mc = CURLM_OK;
+                        CURLMcode mc      = CURLM_OK;
                         do {
                             mc = curl_multi_perform(multi, &still_running);
-                            if (mc != CURLM_OK) break;
+                            if (mc != CURLM_OK) {
+                                break;
+                            }
                             if (still_running) {
                                 curl_multi_wait(multi, nullptr, 0, 1000, nullptr);
                             }
@@ -211,11 +214,10 @@ nlohmann::json JWTValidator::fetchJWKS() {
 
                         // Read per-transfer result via curl_multi_info_read().
                         if (mc == CURLM_OK) {
-                            CURLMsg* msg = nullptr;
+                            CURLMsg *msg  = nullptr;
                             int msgs_left = 0;
                             while ((msg = curl_multi_info_read(multi, &msgs_left))) {
-                                if (msg->msg == CURLMSG_DONE &&
-                                    msg->easy_handle == curl) {
+                                if (msg->msg == CURLMSG_DONE && msg->easy_handle == curl) {
                                     rc = msg->data.result;
                                 }
                             }
@@ -235,10 +237,9 @@ nlohmann::json JWTValidator::fetchJWKS() {
             }
 
             if (attempt < cfg_.jwks_max_retries) {
-                utils::Logger::warn(
-                    "JWKS fetch attempt " + std::to_string(attempt) +
-                    " failed (HTTP " + std::to_string(http_code) +
-                    ", curl error " + std::to_string(rc) + "), retrying...");
+                utils::Logger::warn("JWKS fetch attempt " + std::to_string(attempt) + " failed (HTTP "
+                                    + std::to_string(http_code) + ", curl error " + std::to_string(rc)
+                                    + "), retrying...");
                 // Back-off: no lock held, so readers/validators remain unblocked.
                 std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));
                 retry_delay_ms *= 2;
@@ -246,13 +247,10 @@ nlohmann::json JWTValidator::fetchJWKS() {
         }
 
         if (rc != CURLE_OK || http_code != 200) {
-            utils::Logger::error(
-                "JWKS HTTP error after " + std::to_string(attempt) +
-                " attempts: HTTP " + std::to_string(http_code) +
-                ", curl error " + std::to_string(rc));
-            throw std::runtime_error(
-                "JWKS HTTP error: " + std::to_string(http_code) +
-                " (after " + std::to_string(attempt) + " attempts)");
+            utils::Logger::error("JWKS HTTP error after " + std::to_string(attempt) + " attempts: HTTP "
+                                 + std::to_string(http_code) + ", curl error " + std::to_string(rc));
+            throw std::runtime_error("JWKS HTTP error: " + std::to_string(http_code) + " (after "
+                                     + std::to_string(attempt) + " attempts)");
         }
 
         auto json = nlohmann::json::parse(response);
@@ -291,45 +289,56 @@ nlohmann::json JWTValidator::fetchJWKS() {
     return jwks_cache_;
 }
 
-const nlohmann::json* JWTValidator::findJwkForKid(const nlohmann::json& jwks, const std::string& kid) const {
-    if (!jwks.contains("keys")) return nullptr;
-    for (auto& k : jwks["keys"]) {
-        if (k.is_object() && k.value("kid", std::string()) == kid) return &k;
+const nlohmann::json *JWTValidator::findJwkForKid(const nlohmann::json &jwks, const std::string &kid) const {
+    if (!jwks.contains("keys")) {
+        return nullptr;
+    }
+    for (auto &k : jwks["keys"]) {
+        if (k.is_object() && k.value("kid", std::string()) == kid) {
+            return &k;
+        }
     }
     return nullptr;
 }
 
-bool JWTValidator::verifySignatureRS256(const std::string& header_payload,
-                                        const std::vector<uint8_t>& signature,
-                                        const nlohmann::json& jwk) {
+bool JWTValidator::verifySignatureRS256(const std::string &header_payload, const std::vector<uint8_t> &signature,
+                                        const nlohmann::json &jwk) {
     return verifySignatureRSA(header_payload, signature, jwk, "RS256");
 }
 
-bool JWTValidator::verifySignatureRSA(const std::string& header_payload,
-                                      const std::vector<uint8_t>& signature,
-                                      const nlohmann::json& jwk,
-                                      const std::string& alg) {
-    if (jwk.value("kty", "") != "RSA") return false;
+bool JWTValidator::verifySignatureRSA(const std::string &header_payload, const std::vector<uint8_t> &signature,
+                                      const nlohmann::json &jwk, const std::string &alg) {
+    if (jwk.value("kty", "") != "RSA") {
+        return false;
+    }
     auto n_b64 = jwk.value("n", "");
     auto e_b64 = jwk.value("e", "");
-    if (n_b64.empty() || e_b64.empty()) return false;
+    if (n_b64.empty() || e_b64.empty()) {
+        return false;
+    }
     auto n_bytes = decodeBase64Url(n_b64);
     auto e_bytes = decodeBase64Url(e_b64);
-    auto n = utils::BIGNUMPtr(BN_bin2bn(n_bytes.data(), (int)n_bytes.size(), nullptr));
-    auto e = utils::BIGNUMPtr(BN_bin2bn(e_bytes.data(), (int)e_bytes.size(), nullptr));
-    if (!n || !e) return false;
-    
+    auto n       = utils::BIGNUMPtr(BN_bin2bn(n_bytes.data(), (int)n_bytes.size(), nullptr));
+    auto e       = utils::BIGNUMPtr(BN_bin2bn(e_bytes.data(), (int)e_bytes.size(), nullptr));
+    if (!n || !e) {
+        return false;
+    }
+
     // Use EVP_PKEY directly instead of deprecated RSA_new()
     auto pkey = utils::make_evp_key();
-    if (!pkey) return false;
-    
+    if (!pkey) {
+        return false;
+    }
+
 #ifdef _MSC_VER
 #pragma warning(push)
-#pragma warning(disable: 4996)  // OpenSSL deprecated APIs
+#pragma warning(disable : 4996) // OpenSSL deprecated APIs
 #endif
     auto rsa = utils::make_rsa();
-    if (!rsa) return false;
-    
+    if (!rsa) {
+        return false;
+    }
+
     // RSA_set0_key takes ownership only on success, so we need to release after success
     if (RSA_set0_key(rsa.get(), n.get(), e.get(), nullptr) != 1) {
         // Failed - n and e will be cleaned up by unique_ptr
@@ -338,15 +347,17 @@ bool JWTValidator::verifySignatureRSA(const std::string& header_payload,
     // Success - RSA now owns n and e, so release them from unique_ptr
     n.release();
     e.release();
-    
-    if (EVP_PKEY_assign_RSA(pkey.get(), rsa.get()) != 1) return false;
+
+    if (EVP_PKEY_assign_RSA(pkey.get(), rsa.get()) != 1) {
+        return false;
+    }
     // Success - pkey now owns rsa, so release it from unique_ptr
     rsa.release();
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
     // Select digest based on algorithm (RS256 → SHA-256, RS384 → SHA-384, RS512 → SHA-512)
-    const EVP_MD* md = nullptr;
+    const EVP_MD *md = nullptr;
     if (alg == "RS256") {
         md = EVP_sha256();
     } else if (alg == "RS384") {
@@ -358,203 +369,266 @@ bool JWTValidator::verifySignatureRSA(const std::string& header_payload,
     }
     // Verify using EVP_DigestVerify with selected digest and PKCS#1 v1.5
     auto mctx = utils::make_evp_md_ctx();
-    if (!mctx) return false;
+    if (!mctx) {
+        return false;
+    }
     int ok = EVP_DigestVerifyInit(mctx.get(), nullptr, md, nullptr, pkey.get());
-    if (ok != 1) return false;
+    if (ok != 1) {
+        return false;
+    }
     ok = EVP_DigestVerifyUpdate(mctx.get(), header_payload.data(), header_payload.size());
-    if (ok != 1) return false;
+    if (ok != 1) {
+        return false;
+    }
     ok = EVP_DigestVerifyFinal(mctx.get(), signature.data(), signature.size());
     return ok == 1;
 }
 
-bool JWTValidator::verifySignatureES256(const std::string& header_payload,
-                                        const std::vector<uint8_t>& signature,
-                                        const nlohmann::json& jwk) {
+bool JWTValidator::verifySignatureES256(const std::string &header_payload, const std::vector<uint8_t> &signature,
+                                        const nlohmann::json &jwk) {
     return verifySignatureEC(header_payload, signature, jwk, "ES256");
 }
 
-bool JWTValidator::verifySignatureEC(const std::string& header_payload,
-                                     const std::vector<uint8_t>& signature,
-                                     const nlohmann::json& jwk,
-                                     const std::string& alg) {
+bool JWTValidator::verifySignatureEC(const std::string &header_payload, const std::vector<uint8_t> &signature,
+                                     const nlohmann::json &jwk, const std::string &alg) {
     // Verify ECDSA signature for ES256 (P-256/SHA-256), ES384 (P-384/SHA-384),
     // or ES512 (P-521/SHA-512).
     // JWK format: {"kty":"EC","crv":"P-256"|"P-384"|"P-521","x":"...","y":"..."}
-    if (jwk.value("kty", "") != "EC") return false;
+    if (jwk.value("kty", "") != "EC") {
+        return false;
+    }
     const std::string crv = jwk.value("crv", "");
 
     // Determine curve NID, expected coordinate size (bytes), and digest from alg.
-    int nid = 0;
+    int nid           = 0;
     size_t coord_size = 0;
-    const EVP_MD* md = nullptr;
+    const EVP_MD *md  = nullptr;
 
     if (alg == "ES256") {
-        if (crv != "P-256") return false;
-        nid = NID_X9_62_prime256v1;
+        if (crv != "P-256") {
+            return false;
+        }
+        nid        = NID_X9_62_prime256v1;
         coord_size = 32;
-        md = EVP_sha256();
+        md         = EVP_sha256();
     } else if (alg == "ES384") {
-        if (crv != "P-384") return false;
-        nid = NID_secp384r1;
+        if (crv != "P-384") {
+            return false;
+        }
+        nid        = NID_secp384r1;
         coord_size = 48;
-        md = EVP_sha384();
+        md         = EVP_sha384();
     } else if (alg == "ES512") {
-        if (crv != "P-521") return false;
-        nid = NID_secp521r1;
+        if (crv != "P-521") {
+            return false;
+        }
+        nid        = NID_secp521r1;
         coord_size = 66;
-        md = EVP_sha512();
+        md         = EVP_sha512();
     } else {
         return false;
     }
 
     auto x_b64 = jwk.value("x", "");
     auto y_b64 = jwk.value("y", "");
-    if (x_b64.empty() || y_b64.empty()) return false;
+    if (x_b64.empty() || y_b64.empty()) {
+        return false;
+    }
 
     auto x_bytes = decodeBase64Url(x_b64);
     auto y_bytes = decodeBase64Url(y_b64);
-    if (x_bytes.size() != coord_size || y_bytes.size() != coord_size) return false;
+    if (x_bytes.size() != coord_size || y_bytes.size() != coord_size) {
+        return false;
+    }
 
     // Build EC_KEY for the target curve.
-    using ECKeyPtr = std::unique_ptr<EC_KEY, decltype(&EC_KEY_free)>;
+    using ECKeyPtr   = std::unique_ptr<EC_KEY, decltype(&EC_KEY_free)>;
     using ECGroupPtr = std::unique_ptr<EC_GROUP, decltype(&EC_GROUP_free)>;
     using ECPointPtr = std::unique_ptr<EC_POINT, decltype(&EC_POINT_free)>;
 
     ECGroupPtr group(EC_GROUP_new_by_curve_name(nid), &EC_GROUP_free);
-    if (!group) return false;
+    if (!group) {
+        return false;
+    }
 
     ECKeyPtr ec_key(EC_KEY_new(), &EC_KEY_free);
-    if (!ec_key) return false;
-    if (EC_KEY_set_group(ec_key.get(), group.get()) != 1) return false;
+    if (!ec_key) {
+        return false;
+    }
+    if (EC_KEY_set_group(ec_key.get(), group.get()) != 1) {
+        return false;
+    }
 
     ECPointPtr pub_point(EC_POINT_new(group.get()), &EC_POINT_free);
-    if (!pub_point) return false;
+    if (!pub_point) {
+        return false;
+    }
 
     auto x_bn = utils::BIGNUMPtr(BN_bin2bn(x_bytes.data(), (int)x_bytes.size(), nullptr));
     auto y_bn = utils::BIGNUMPtr(BN_bin2bn(y_bytes.data(), (int)y_bytes.size(), nullptr));
-    if (!x_bn || !y_bn) return false;
+    if (!x_bn || !y_bn) {
+        return false;
+    }
 
-    if (EC_POINT_set_affine_coordinates_GFp(group.get(), pub_point.get(),
-                                            x_bn.get(), y_bn.get(), nullptr) != 1) return false;
-    if (EC_KEY_set_public_key(ec_key.get(), pub_point.get()) != 1) return false;
+    if (EC_POINT_set_affine_coordinates_GFp(group.get(), pub_point.get(), x_bn.get(), y_bn.get(), nullptr) != 1) {
+        return false;
+    }
+    if (EC_KEY_set_public_key(ec_key.get(), pub_point.get()) != 1) {
+        return false;
+    }
 
     // Set EC_KEY into EVP_PKEY
     auto pkey = utils::make_evp_key();
-    if (!pkey) return false;
-    if (EVP_PKEY_set1_EC_KEY(pkey.get(), ec_key.get()) != 1) return false;
+    if (!pkey) {
+        return false;
+    }
+    if (EVP_PKEY_set1_EC_KEY(pkey.get(), ec_key.get()) != 1) {
+        return false;
+    }
 
     // JWT ECDSA signature is raw (r || s) encoding (coord_size bytes each).
     // OpenSSL ECDSA_verify expects DER-encoded ECDSA_SIG.  Convert r||s → DER.
-    if (signature.size() != coord_size * 2) return false;
+    if (signature.size() != coord_size * 2) {
+        return false;
+    }
 
     using ECDSASIGPtr = std::unique_ptr<ECDSA_SIG, decltype(&ECDSA_SIG_free)>;
     ECDSASIGPtr ecdsa_sig(ECDSA_SIG_new(), &ECDSA_SIG_free);
-    if (!ecdsa_sig) return false;
+    if (!ecdsa_sig) {
+        return false;
+    }
 
-    auto r_bn = utils::BIGNUMPtr(BN_bin2bn(signature.data(),              (int)coord_size, nullptr));
+    auto r_bn = utils::BIGNUMPtr(BN_bin2bn(signature.data(), (int)coord_size, nullptr));
     auto s_bn = utils::BIGNUMPtr(BN_bin2bn(signature.data() + coord_size, (int)coord_size, nullptr));
-    if (!r_bn || !s_bn) return false;
+    if (!r_bn || !s_bn) {
+        return false;
+    }
 
     // ECDSA_SIG_set0 takes ownership on success
-    if (ECDSA_SIG_set0(ecdsa_sig.get(), r_bn.get(), s_bn.get()) != 1) return false;
+    if (ECDSA_SIG_set0(ecdsa_sig.get(), r_bn.get(), s_bn.get()) != 1) {
+        return false;
+    }
     r_bn.release();
     s_bn.release();
 
     // Encode to DER into managed memory.
     int der_len = i2d_ECDSA_SIG(ecdsa_sig.get(), nullptr);
-    if (der_len <= 0) return false;
+    if (der_len <= 0) {
+        return false;
+    }
     std::vector<unsigned char> der_buf(static_cast<size_t>(der_len));
-    unsigned char* der_ptr = der_buf.data();
-    int encoded_len = i2d_ECDSA_SIG(ecdsa_sig.get(), &der_ptr);
-    if (encoded_len != der_len) return false;
+    unsigned char *der_ptr = der_buf.data();
+    int encoded_len        = i2d_ECDSA_SIG(ecdsa_sig.get(), &der_ptr);
+    if (encoded_len != der_len) {
+        return false;
+    }
 
     // Verify using EVP_DigestVerify with the selected digest.
     auto mctx = utils::make_evp_md_ctx();
-    if (!mctx) return false;
-    if (EVP_DigestVerifyInit(mctx.get(), nullptr, md, nullptr, pkey.get()) != 1) return false;
-    if (EVP_DigestVerifyUpdate(mctx.get(), header_payload.data(), header_payload.size()) != 1) return false;
+    if (!mctx) {
+        return false;
+    }
+    if (EVP_DigestVerifyInit(mctx.get(), nullptr, md, nullptr, pkey.get()) != 1) {
+        return false;
+    }
+    if (EVP_DigestVerifyUpdate(mctx.get(), header_payload.data(), header_payload.size()) != 1) {
+        return false;
+    }
     return EVP_DigestVerifyFinal(mctx.get(), der_buf.data(), static_cast<size_t>(der_len)) == 1;
 }
 
-bool JWTValidator::verifySignatureEdDSA(const std::string& header_payload,
-                                        const std::vector<uint8_t>& signature,
-                                        const nlohmann::json& jwk) {
+bool JWTValidator::verifySignatureEdDSA(const std::string &header_payload, const std::vector<uint8_t> &signature,
+                                        const nlohmann::json &jwk) {
     // JWK format: {"kty":"OKP","crv":"Ed25519","x":"<base64url-32-bytes>"}
     auto it_crv = jwk.find("crv");
-    if (it_crv == jwk.end() || it_crv->get<std::string>() != "Ed25519") return false;
+    if (it_crv == jwk.end() || it_crv->get<std::string>() != "Ed25519") {
+        return false;
+    }
 
     auto it_x = jwk.find("x");
-    if (it_x == jwk.end()) return false;
+    if (it_x == jwk.end()) {
+        return false;
+    }
     auto pub_bytes = decodeBase64Url(it_x->get<std::string>());
-    if (pub_bytes.size() != 32) return false;  // Ed25519 public key is exactly 32 bytes
+    if (pub_bytes.size() != 32) {
+        return false; // Ed25519 public key is exactly 32 bytes
+    }
 
-    EVP_PKEY* raw_pkey = EVP_PKEY_new_raw_public_key(
-        EVP_PKEY_ED25519, nullptr, pub_bytes.data(), pub_bytes.size());
-    if (!raw_pkey) return false;
+    EVP_PKEY *raw_pkey = EVP_PKEY_new_raw_public_key(EVP_PKEY_ED25519, nullptr, pub_bytes.data(), pub_bytes.size());
+    if (!raw_pkey) {
+        return false;
+    }
     std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)> pkey(raw_pkey, EVP_PKEY_free);
 
-    EVP_MD_CTX* raw_ctx = EVP_MD_CTX_new();
-    if (!raw_ctx) return false;
+    EVP_MD_CTX *raw_ctx = EVP_MD_CTX_new();
+    if (!raw_ctx) {
+        return false;
+    }
     std::unique_ptr<EVP_MD_CTX, decltype(&EVP_MD_CTX_free)> ctx(raw_ctx, EVP_MD_CTX_free);
 
     // Ed25519 uses a single-pass DigestVerify with md=nullptr
-    if (EVP_DigestVerifyInit(ctx.get(), nullptr, nullptr, nullptr, pkey.get()) != 1) return false;
-    int result = EVP_DigestVerify(
-        ctx.get(),
-        signature.data(), signature.size(),
-        reinterpret_cast<const unsigned char*>(header_payload.data()),
-        header_payload.size());
+    if (EVP_DigestVerifyInit(ctx.get(), nullptr, nullptr, nullptr, pkey.get()) != 1) {
+        return false;
+    }
+    int result
+        = EVP_DigestVerify(ctx.get(), signature.data(), signature.size(),
+                           reinterpret_cast<const unsigned char *>(header_payload.data()), header_payload.size());
     return result == 1;
 }
 
-bool JWTValidator::checkAudience(const nlohmann::json& payload) const {
-    if (!cfg_.expected_audience.has_value()) return true;
-    if (!payload.contains("aud")) return false;
+bool JWTValidator::checkAudience(const nlohmann::json &payload) const {
+    if (!cfg_.expected_audience.has_value()) {
+        return true;
+    }
+    if (!payload.contains("aud")) {
+        return false;
+    }
     if (payload["aud"].is_string()) {
         return payload["aud"].get<std::string>() == *cfg_.expected_audience;
     }
     if (payload["aud"].is_array()) {
-        for (auto& v : payload["aud"]) {
-            if (v.is_string() && v.get<std::string>() == *cfg_.expected_audience) return true;
+        for (auto &v : payload["aud"]) {
+            if (v.is_string() && v.get<std::string>() == *cfg_.expected_audience) {
+                return true;
+            }
         }
         return false;
     }
     return false;
 }
 
-void JWTValidator::setJWKSForTesting(const nlohmann::json& jwks,
-                                     std::chrono::system_clock::time_point t) {
+void JWTValidator::setJWKSForTesting(const nlohmann::json &jwks, std::chrono::system_clock::time_point t) {
     std::unique_lock<std::shared_mutex> lock(jwks_cache_mutex_);
-    jwks_cache_ = jwks;
+    jwks_cache_      = jwks;
     jwks_cache_time_ = t;
 }
 
-JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
+JWTClaims JWTValidator::parseAndValidate(const std::string &token) {
     std::string jwt = token;
     if (jwt.rfind("Bearer ", 0) == 0) {
         jwt = jwt.substr(7);
     }
-    
+
     // Input validation: Check token size limit
     if (jwt.size() > MAX_JWT_TOKEN_SIZE) {
         utils::Logger::warn("JWT validation failed: Token exceeds maximum size");
         if (audit_logger_) {
-            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
-                "", "jwt/token", {{"reason", "token_too_large"}});
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, "", "jwt/token",
+                                            {{"reason", "token_too_large"}});
         }
         throw std::runtime_error("Token exceeds maximum size limit");
     }
-    
+
     // Input validation: Check for empty token
     if (jwt.empty()) {
         utils::Logger::warn("JWT validation failed: Empty token");
         if (audit_logger_) {
-            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
-                "", "jwt/token", {{"reason", "empty_token"}});
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, "", "jwt/token",
+                                            {{"reason", "empty_token"}});
         }
         throw std::runtime_error("Empty token");
     }
-    
+
     std::vector<std::string> parts;
     std::stringstream ss(jwt);
     std::string part;
@@ -564,65 +638,66 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     if (parts.size() != 3) {
         utils::Logger::warn("JWT validation failed: Invalid format (expected 3 parts)");
         if (audit_logger_) {
-            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
-                "", "jwt/token", {{"reason", "invalid_format"}});
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, "", "jwt/token",
+                                            {{"reason", "invalid_format"}});
         }
         throw std::runtime_error("Invalid JWT format (expected 3 parts)");
     }
-    auto header_json = decodeBase64UrlToString(parts[0]);
+    auto header_json  = decodeBase64UrlToString(parts[0]);
     auto payload_json = decodeBase64UrlToString(parts[1]);
-    auto header = nlohmann::json::parse(header_json);
-    auto payload = nlohmann::json::parse(payload_json);
-    std::string alg = header.value("alg", "");
-    std::string kid = header.value("kid", "");
-    
+    auto header       = nlohmann::json::parse(header_json);
+    auto payload      = nlohmann::json::parse(payload_json);
+    std::string alg   = header.value("alg", "");
+    std::string kid   = header.value("kid", "");
+
     // Check algorithm - support RS256/RS384/RS512, ES256/ES384/ES512, and EdDSA
-    if (alg != "RS256" && alg != "RS384" && alg != "RS512" &&
-        alg != "ES256" && alg != "ES384" && alg != "ES512" && alg != "EdDSA") {
+    if (alg != "RS256" && alg != "RS384" && alg != "RS512" && alg != "ES256" && alg != "ES384" && alg != "ES512"
+        && alg != "EdDSA") {
         utils::Logger::warn("JWT validation failed: Unsupported algorithm: " + alg);
         if (audit_logger_) {
-            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
-                "", "jwt/token", {{"reason", "unsupported_algorithm"}, {"alg", alg}});
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, "", "jwt/token",
+                                            {{"reason", "unsupported_algorithm"}, {"alg", alg}});
         }
-        throw std::runtime_error("Unsupported alg: " + alg + " (supported: RS256, RS384, RS512, ES256, ES384, ES512, EdDSA)");
+        throw std::runtime_error("Unsupported alg: " + alg
+                                 + " (supported: RS256, RS384, RS512, ES256, ES384, ES512, EdDSA)");
     }
-    
+
     // Check kid revocation
     if (!kid.empty() && isKidRevoked(kid)) {
         utils::Logger::warn("JWT validation failed: Revoked kid: " + kid);
         if (audit_logger_) {
-            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
-                "", "jwt/token", {{"reason", "revoked_kid"}, {"kid", kid}});
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, "", "jwt/token",
+                                            {{"reason", "revoked_kid"}, {"kid", kid}});
         }
         throw std::runtime_error("Token signed with revoked key (kid: " + kid + ")");
     }
-    
+
     JWTClaims claims;
     claims.sub = payload.value("sub", "");
-    
+
     // Input validation: Check principal/subject length
     if (claims.sub.size() > MAX_PRINCIPAL_NAME_LENGTH) {
         utils::Logger::warn("JWT validation failed: Subject exceeds maximum length");
         if (audit_logger_) {
-            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
-                "", "jwt/token", {{"reason", "subject_too_long"}});
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, "", "jwt/token",
+                                            {{"reason", "subject_too_long"}});
         }
         throw std::runtime_error("Subject (principal) exceeds maximum length");
     }
-    
+
     claims.email = payload.value("email", "");
-    claims.jti = payload.value("jti", "");         // JWT ID – used for per-token revocation
+    claims.jti   = payload.value("jti", ""); // JWT ID – used for per-token revocation
     if (cfg_.require_jti && claims.jti.empty()) {
         utils::Logger::warn("JWT validation failed: Missing required jti claim");
         if (audit_logger_) {
             // Use empty subject: token is not yet signature-verified so claims.sub is untrusted
-            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
-                "", "jwt/token", {{"reason", "missing_jti"}});
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, "", "jwt/token",
+                                            {{"reason", "missing_jti"}});
         }
         throw std::runtime_error("Missing required jti claim");
     }
-    claims.tenant_id = payload.value("tenant_id", "");  // Extract tenant_id from JWT
-    claims.issuer = payload.value("iss", "");
+    claims.tenant_id = payload.value("tenant_id", ""); // Extract tenant_id from JWT
+    claims.issuer    = payload.value("iss", "");
     if (payload.contains("groups")) {
         claims.groups = payload["groups"].get<std::vector<std::string>>();
     }
@@ -657,36 +732,36 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     }
     auto now = std::chrono::system_clock::now();
     if (payload.contains("exp")) {
-        int64_t exp = payload["exp"].get<int64_t>();
+        int64_t exp       = payload["exp"].get<int64_t>();
         claims.expiration = std::chrono::system_clock::time_point{std::chrono::seconds{exp}};
     } else {
         utils::Logger::warn("JWT validation failed: Missing exp claim");
         if (audit_logger_) {
-            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
-                claims.sub, "jwt/token", {{"reason", "missing_exp"}});
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, claims.sub, "jwt/token",
+                                            {{"reason", "missing_exp"}});
         }
         throw std::runtime_error("Missing exp claim");
     }
     if (payload.contains("nbf")) {
-        int64_t nbf = payload["nbf"].get<int64_t>();
+        int64_t nbf       = payload["nbf"].get<int64_t>();
         claims.not_before = std::chrono::system_clock::time_point{std::chrono::seconds{nbf}};
         if (now + cfg_.clock_skew < *claims.not_before) {
             utils::Logger::warn("JWT validation failed: Token not yet valid (nbf)");
             if (audit_logger_) {
-                audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
-                    claims.sub, "jwt/token", {{"reason", "not_yet_valid"}});
+                audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, claims.sub, "jwt/token",
+                                                {{"reason", "not_yet_valid"}});
             }
             throw std::runtime_error("Token not yet valid (nbf)");
         }
     }
     if (payload.contains("iat")) {
-        int64_t iat = payload["iat"].get<int64_t>();
+        int64_t iat      = payload["iat"].get<int64_t>();
         claims.issued_at = std::chrono::system_clock::time_point{std::chrono::seconds{iat}};
         if (now + cfg_.clock_skew < *claims.issued_at) {
             utils::Logger::warn("JWT validation failed: iat in future");
             if (audit_logger_) {
-                audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
-                    claims.sub, "jwt/token", {{"reason", "iat_in_future"}});
+                audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, claims.sub, "jwt/token",
+                                                {{"reason", "iat_in_future"}});
             }
             throw std::runtime_error("iat in future");
         }
@@ -695,37 +770,42 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
         if (payload["aud"].is_string()) {
             claims.audience.push_back(payload["aud"].get<std::string>());
         } else if (payload["aud"].is_array()) {
-            for (auto& v : payload["aud"]) if (v.is_string()) claims.audience.push_back(v.get<std::string>());
+            for (auto &v : payload["aud"]) {
+                if (v.is_string()) {
+                    claims.audience.push_back(v.get<std::string>());
+                }
+            }
         }
     }
     if (claims.isExpired() && now > claims.expiration + cfg_.clock_skew) {
         utils::Logger::warn("JWT validation failed: Token expired");
         if (audit_logger_) {
-            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
-                claims.sub, "jwt/token", {{"reason", "token_expired"}});
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, claims.sub, "jwt/token",
+                                            {{"reason", "token_expired"}});
         }
         throw std::runtime_error("Token expired");
     }
     if (cfg_.expected_issuer.has_value() && claims.issuer != *cfg_.expected_issuer) {
-        utils::Logger::warn("JWT validation failed: Issuer mismatch (expected: " + *cfg_.expected_issuer + ", got: " + claims.issuer + ")");
+        utils::Logger::warn("JWT validation failed: Issuer mismatch (expected: " + *cfg_.expected_issuer
+                            + ", got: " + claims.issuer + ")");
         if (audit_logger_) {
-            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
-                claims.sub, "jwt/token", {{"reason", "issuer_mismatch"}, {"issuer", claims.issuer}});
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, claims.sub, "jwt/token",
+                                            {{"reason", "issuer_mismatch"}, {"issuer", claims.issuer}});
         }
         throw std::runtime_error("Issuer mismatch");
     }
     if (!checkAudience(payload)) {
         utils::Logger::warn("JWT validation failed: Audience mismatch");
         if (audit_logger_) {
-            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
-                claims.sub, "jwt/token", {{"reason", "audience_mismatch"}});
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, claims.sub, "jwt/token",
+                                            {{"reason", "audience_mismatch"}});
         }
         throw std::runtime_error("Audience mismatch");
     }
-    auto jwks = fetchJWKS();
-    auto sig_bytes = decodeBase64Url(parts[2]);
+    auto jwks                  = fetchJWKS();
+    auto sig_bytes             = decodeBase64Url(parts[2]);
     std::string header_payload = parts[0] + "." + parts[1];
-    const nlohmann::json* jwk = nullptr;
+    const nlohmann::json *jwk  = nullptr;
     if (!kid.empty()) {
         jwk = findJwkForKid(jwks, kid);
         if (!jwk) {
@@ -735,14 +815,14 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
                 jwks_cache_time_ = std::chrono::system_clock::time_point::min();
             }
             jwks = fetchJWKS();
-            jwk = findJwkForKid(jwks, kid);
+            jwk  = findJwkForKid(jwks, kid);
         }
     }
     if (!jwk) {
         utils::Logger::warn("JWT validation failed: JWK not found for kid: " + kid);
         if (audit_logger_) {
-            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
-                claims.sub, "jwt/token", {{"reason", "jwk_not_found"}, {"kid", kid}});
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, claims.sub, "jwt/token",
+                                            {{"reason", "jwk_not_found"}, {"kid", kid}});
         }
         throw std::runtime_error("JWK not found for kid");
     }
@@ -757,8 +837,8 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     if (!sig_ok) {
         utils::Logger::warn("JWT validation failed: Signature verification failed for kid: " + kid);
         if (audit_logger_) {
-            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
-                claims.sub, "jwt/token", {{"reason", "signature_invalid"}, {"kid", kid}});
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, claims.sub, "jwt/token",
+                                            {{"reason", "signature_invalid"}, {"kid", kid}});
         }
         throw std::runtime_error("Signature verification failed");
     }
@@ -773,9 +853,9 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     if (token_blacklist_ && !claims.jti.empty() && token_blacklist_->isRevoked(claims.jti)) {
         utils::Logger::warn("JWT validation failed: Token revoked (jti: " + claims.jti + ")");
         if (audit_logger_) {
-            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
-                claims.sub, "jwt/token/" + claims.jti,
-                {{"reason", "token_revoked"}, {"jti", claims.jti}});
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, claims.sub,
+                                            "jwt/token/" + claims.jti,
+                                            {{"reason", "token_revoked"}, {"jti", claims.jti}});
         }
         throw std::runtime_error("Token has been revoked");
     }
@@ -784,26 +864,23 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
         d["jti"]    = claims.jti;
         d["issuer"] = claims.issuer;
         d["kid"]    = kid;
-        audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_SUCCESS,
-            claims.sub, "jwt/token", d);
+        audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_SUCCESS, claims.sub, "jwt/token", d);
     }
     return claims;
 }
 
-std::vector<uint8_t> JWTValidator::deriveUserKey(
-    const std::vector<uint8_t>& dek,
-    const JWTClaims& claims,
-    const std::string& field_name) {
+std::vector<uint8_t> JWTValidator::deriveUserKey(const std::vector<uint8_t> &dek, const JWTClaims &claims,
+                                                 const std::string &field_name) {
     std::vector<uint8_t> salt(claims.sub.begin(), claims.sub.end());
     std::string info = "user-field:" + field_name;
     return themis::utils::HKDFHelper::derive(dek, salt, info, 32);
 }
 
-bool JWTValidator::hasAccess(const JWTClaims& claims, const std::string& encryption_context) {
+bool JWTValidator::hasAccess(const JWTClaims &claims, const std::string &encryption_context) {
     if (claims.sub == encryption_context) {
         return true;
     }
-    for (const auto& group : claims.groups) {
+    for (const auto &group : claims.groups) {
         if (group == encryption_context) {
             return true;
         }
@@ -811,24 +888,24 @@ bool JWTValidator::hasAccess(const JWTClaims& claims, const std::string& encrypt
     return false;
 }
 
-void JWTValidator::setTokenBlacklist(TokenBlacklist* bl) {
+void JWTValidator::setTokenBlacklist(TokenBlacklist *bl) {
     token_blacklist_ = bl;
 }
 
-void JWTValidator::revokeKid(const std::string& kid) {
+void JWTValidator::revokeKid(const std::string &kid) {
     revoked_kids_runtime_.push_back(kid);
     utils::Logger::info("JWT kid revoked: " + kid);
 }
 
-bool JWTValidator::isKidRevoked(const std::string& kid) const {
+bool JWTValidator::isKidRevoked(const std::string &kid) const {
     // Check config denylist
-    for (const auto& revoked : cfg_.revoked_kids) {
+    for (const auto &revoked : cfg_.revoked_kids) {
         if (revoked == kid) {
             return true;
         }
     }
     // Check runtime denylist
-    for (const auto& revoked : revoked_kids_runtime_) {
+    for (const auto &revoked : revoked_kids_runtime_) {
         if (revoked == kid) {
             return true;
         }
@@ -836,17 +913,13 @@ bool JWTValidator::isKidRevoked(const std::string& kid) const {
     return false;
 }
 
-std::future<JWTClaims> JWTValidator::validateAsync(const std::string& token) {
+std::future<JWTClaims> JWTValidator::validateAsync(const std::string &token) {
     // Dispatch parseAndValidate() — which includes any JWKS refresh — to the
     // worker pool so the caller's thread is never blocked by network I/O.
     // The exponential back-off sleep in fetchJWKS() executes on the worker
     // thread, not on the caller's thread.
-    return worker_pool_->submit(
-        [this, token]() {
-            return this->parseAndValidate(token);
-        });
+    return worker_pool_->submit([this, token]() { return this->parseAndValidate(token); });
 }
 
 } // namespace auth
 } // namespace themis
-

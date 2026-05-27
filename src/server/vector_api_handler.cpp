@@ -10,6 +10,7 @@
  */
 
 #include "server/vector_api_handler.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "storage/key_schema.h"
@@ -763,13 +764,13 @@ std::optional<http::response<http::string_body>> VectorApiHandler::requireAccess
     // Extract Bearer token and use auth_->authorize() to check the required
     // permission scope, replacing the previous stub that granted access to any
     // authenticated user without checking their role.
-    auto auth_header = req.find(http::field::authorization);
-    if (auth_header == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         return makeErrorResponse(http::status::unauthorized, "Authentication required", req);
     }
 
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header->value().data(), auth_header->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     if (!token) {
         return makeErrorResponse(http::status::unauthorized, "Invalid authorization header", req);
@@ -788,9 +789,9 @@ AuthContext VectorApiHandler::extractAuthContext(const http::request<http::strin
     AuthContext ctx;
     
     // Extract from Authorization header
-    auto auth_header = req.find(http::field::authorization);
-    if (auth_header != req.end()) {
-        std::string auth_value(auth_header->value());
+    const auto auth_header = req[http::field::authorization];
+    if (!auth_header.empty()) {
+        std::string auth_value(auth_header.data(), auth_header.size());
         // Simple extraction - in real impl, parse JWT or other tokens
         // For now, just extract basic info from headers
     }

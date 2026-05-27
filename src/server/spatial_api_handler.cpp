@@ -10,6 +10,7 @@
  */
 
 #include "server/spatial_api_handler.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/spatial_index.h"

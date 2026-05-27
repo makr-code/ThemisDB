@@ -15,6 +15,7 @@
  */
 
 #include "rag/judge_config.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
 #include <fstream>

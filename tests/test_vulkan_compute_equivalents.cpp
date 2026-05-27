@@ -272,7 +272,7 @@ TEST(VulkanComputeEquivalents, VulkanGeoBackend_BatchPointInPolygon_InsideOutsid
 TEST(VulkanComputeEquivalents, VulkanVectorBackend_GPU_ComputeDistances_L2) {
     VulkanVectorBackend backend;
     if (!backend.initialize() || !backend.isAvailable()) {
-        GTEST_SKIP() << "Vulkan hardware not available";
+        GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_hardware_not_available";
     }
 
     // Two identical 3-D unit vectors → L2 squared distance = 0
@@ -288,7 +288,7 @@ TEST(VulkanComputeEquivalents, VulkanVectorBackend_GPU_ComputeDistances_L2) {
 TEST(VulkanComputeEquivalents, VulkanVectorBackend_GPU_ComputeDistances_Cosine) {
     VulkanVectorBackend backend;
     if (!backend.initialize() || !backend.isAvailable()) {
-        GTEST_SKIP() << "Vulkan hardware not available";
+        GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_hardware_not_available";
     }
 
     // Two identical unit vectors → cosine distance = 0

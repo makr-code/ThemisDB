@@ -1,0 +1,44 @@
+[
+  {
+    "key": "ISSUE-02",
+    "number": "5341",
+    "url": "https://github.com/makr-code/ThemisDB/issues/5341",
+    "title": "[Wire/Protobuf] AQL/Cursor/Geo/TS/Graph produktiv anbinden statt 501/503"
+  },
+  {
+    "key": "ISSUE-03",
+    "number": "5342",
+    "url": "https://github.com/makr-code/ThemisDB/issues/5342",
+    "title": "[Wire/JSON] Graph/AQL/Geo auf Startup-validierte Pflichtabhaengigkeiten umstellen"
+  },
+  {
+    "key": "ISSUE-04",
+    "number": "5343",
+    "url": "https://github.com/makr-code/ThemisDB/issues/5343",
+    "title": "[Backup/Cloud] S3/Azure/GCS Provider von Placeholder auf Produktionspfade umstellen"
+  },
+  {
+    "key": "ISSUE-05",
+    "number": "5344",
+    "url": "https://github.com/makr-code/ThemisDB/issues/5344",
+    "title": "[PITR] WAL-Replay als verpflichtenden Standardpfad integrieren"
+  },
+  {
+    "key": "ISSUE-06",
+    "number": "5345",
+    "url": "https://github.com/makr-code/ThemisDB/issues/5345",
+    "title": "[LLM/Distributed] AllReduce/Broadcast bei world_size>1 verpflichtend verdrahten"
+  },
+  {
+    "key": "ISSUE-07",
+    "number": "5346",
+    "url": "https://github.com/makr-code/ThemisDB/issues/5346",
+    "title": "[Sharding Transport] LZ4-Kompressionspfad vollstaendig implementieren"
+  },
+  {
+    "key": "ISSUE-08",
+    "number": "5347",
+    "url": "https://github.com/makr-code/ThemisDB/issues/5347",
+    "title": "[Wire Bootstrapping] Zentrale Verdrahtung der Bridge-Setter mit Startvalidierung"
+  }
+]

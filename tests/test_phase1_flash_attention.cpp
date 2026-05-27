@@ -22,6 +22,7 @@
 #include <filesystem>
 #include <cstdlib>
 #include <chrono>
+#include <sstream>
 
 using namespace themis::llm;
 
@@ -51,6 +52,29 @@ std::string getTestModelPath() {
     return "";
 }
 
+std::string compiledBackendSummary() {
+    std::ostringstream oss;
+    oss << "cuda=";
+#ifdef THEMIS_ENABLE_CUDA
+    oss << "1";
+#else
+    oss << "0";
+#endif
+    oss << ",hip=";
+#ifdef THEMIS_ENABLE_HIP
+    oss << "1";
+#else
+    oss << "0";
+#endif
+    oss << ",vulkan=";
+#ifdef THEMIS_ENABLE_VULKAN
+    oss << "1";
+#else
+    oss << "0";
+#endif
+    return oss.str();
+}
+
 } // anonymous namespace
 
 class FlashAttentionTest : public ::testing::Test {
@@ -59,7 +83,8 @@ protected:
         model_path_ = getTestModelPath();
         
         if (model_path_.empty()) {
-            GTEST_SKIP() << "No test model found. Set THEMIS_TEST_MODEL_PATH or place model in ./models/";
+            GTEST_SKIP() << "capability:model_available=false;reason=no_test_model;env=THEMIS_TEST_MODEL_PATH;compiled_backends="
+                         << compiledBackendSummary();
         }
     }
     

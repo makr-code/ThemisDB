@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.3  
-**Last Updated:** 2026-05-19  
+**Last Updated:** 2026-05-27  
 **Scope:** Aggregated roadmap across all 65 modules in `src/` (Phase 1-5 Gap Analysis Complete)
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
@@ -35,6 +35,17 @@ Traceability rules:
 - `COPILOT_INSTRUCTIONS.md` defines AI/agent update rules for root-governance and release/versioning document consistency.
 - `FEATURE_ENHANCEMENT.md` is a generated maturity snapshot and is not the canonical planning backlog.
 
+### Root Documentation Sync (2026-05-26)
+
+Status: [x] completed
+
+- [x] Root markdown set reviewed and synchronized.
+- [x] Verification evidence refreshed for active wire/themis hardening path:
+  - `cmake --build --preset windows-release --target themis_tests --parallel 16`
+  - `themis_tests --gtest_filter=WireProtocolServer.SingleThreadedIoContextPrunesSessionsAfterDisconnect`
+  - `ctest --preset windows-release -R ThemisWireProtocolV1Tests --output-on-failure`
+- [x] Cross-document traceability ensured (`CHANGELOG.md`, `README.md`, `CTEST.md`).
+
 ---
 
 ## Documentation Quality Delta (2026-05-11)
@@ -60,26 +71,29 @@ Audit method:
 
 ---
 
-## Module Status Summary — Evidence-Based (from Phase 1-5 Gap Scanner v3 + Phase 1-6 Planning)
+## Module Status Summary — Evidence-Based (from Gap Scanner v3 + Rescan 2026-05-27)
 
-> ⚠️ **CRITICAL UPDATE (2026-05-19):** Phase 1-5 Extended Gap Analysis Complete! 155,631 total gaps detected across 13 scanner categories. Phase 5 (5 new scanners) contributed +99,694 gaps (178% increase from Phase 1-4). 65 modules scanned. Top producers: llm (19,838), server (16,183), sharding (9,296). **Phase 1-4 Improvements Planned (+12 patterns, Q3 2026)** and **Phase 6 Design Complete (5 new scanners, 8 weeks, Q3-Q4 2026)**. See comprehensive planning documentation in `ai_working/`:
+> ⚠️ **CRITICAL UPDATE (2026-05-27):** Latest gap-scan run reports **185,190 total gaps** across 27 scanner categories (CRITICAL 5,980 | HIGH 143,326 | MEDIUM 35,884 | Actionable 149,306). Delta vs prior 194,852 baseline: **-9,662 total** and **-5,798 critical**. 65 modules scanned.
+>
+> Historical Phase 1-5 snapshot remains relevant for trend comparisons: 155,631 total gaps across 13 categories (Phase 5 added +99,694 vs Phase 1-4).
+>
+> See comprehensive planning and rescan documentation in `ai_working/`:
 > - [PHASE_5_IMPLEMENTATION_COMPLETE.md](ai_working/PHASE_5_IMPLEMENTATION_COMPLETE.md) — Phase 1-5 delivery summary
 > - [PHASE_1_4_IMPROVEMENTS.md](ai_working/PHASE_1_4_IMPROVEMENTS.md) — +12 enhancement patterns (Q3 2026)
 > - [PHASE_6_SCANNER_DESIGN.md](ai_working/PHASE_6_SCANNER_DESIGN.md) — 5 new scanners with 48–55 patterns
 > - [IMPLEMENTATION_ROADMAP.md](ai_working/IMPLEMENTATION_ROADMAP.md) — Q3-Q4 2026 execution plan
 > - [EXECUTIVE_DASHBOARD.md](ai_working/EXECUTIVE_DASHBOARD.md) — Comprehensive summary with metrics & timelines
+> - [GAP_SCAN_RESCAN_REPORT_2026-05-25.md](ai_working/GAP_SCAN_RESCAN_REPORT_2026-05-25.md) — latest validated rescan delta
 > 
 > Also: [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md#code-quality-scanner-enhancements-phase-1-6--roadmap-update-2026-05-19) updated with Phase 1-4 improvements and Phase 6 scanner details.
 
-**Phase 1-5 Gap Scanner Results Summary (2026-05-19):**
-- Total gaps (Phase 1-5): **155,631** across 13 categories
-- CRITICAL: 9,404 | HIGH: 118,694 | MEDIUM: 27,533
-- Actionable (C+H): 128,098 (82.3%)
-- Estimated effort: 3,437.6 weeks to fix all gaps
+**Latest Gap Scanner Results Summary (Rescan 2026-05-27):**
+- Total gaps (current canonical snapshot): **185,190** across 27 categories
+- CRITICAL: 5,980 | HIGH: 143,326 | MEDIUM: 35,884
+- Actionable (C+H): 149,306
+- Delta vs 194,852 baseline: **-9,662 total**, **-5,798 critical**
 - Modules scanned: 65
-- Scanner suite: 13 active (8 Phase 1-4 + 5 Phase 5)
-- Phase 5 Contribution: +99,694 gaps (Type Conversion +15,930, Input Validation +8,266, Exception Safety +31,247, Uninitialized +27,563, OOP Design +16,688)
-- GitHub Integration: ✅ Complete (24 aggregated issues created)
+- Historical baseline retained: Phase 1-5 = 155,631 across 13 categories (for trend comparison)
 
 **Phase 1-4 Improvements Planned (Q3 2026):**
 - +12 new detection patterns across 3 scanners
@@ -90,14 +104,26 @@ Audit method:
 **Phase 6 Extended Scanners Planned (Q3-Q4 2026):**
 - 5 new scanners: ABI Safety, Const Correctness, Template Meta-Programming, Build System, Ownership & Lifetime
 - Expected gap increase: +6,000–10,000 (20–30% additional)
-- Total Phase 1-6 projection: **~165,000–185,000 gaps** (40–45% increase)
+- Total Phase 1-6 projection from current baseline: **~193,390–198,390 gaps**
 - Timeline: 8 weeks implementation + 1 week integration
 - Detailed design & sprint breakdown: [PHASE_6_SCANNER_DESIGN.md](ai_working/PHASE_6_SCANNER_DESIGN.md)
 
-**GitHub Aggregated Issues (2026-05-19):**
-- [Master Issue #5207](https://github.com/makr-code/ThemisDB/issues/5207): Phase 1-5 Summary (v1.5.0)
-- [13 Category Issues](https://github.com/makr-code/ThemisDB/issues?q=label%3Atype%3Abug+is%3Aopen+author%3Acopilot-gap-scanner): Scanner Categories (Security, Memory, Reliability, Concurrency, RAII, Container, Platform, Performance, Type Conversion, Input Validation, Exception Safety, Uninitialized, OOP Design)
-- [10 Top Module Issues](https://github.com/makr-code/ThemisDB/issues?q=P0-CRITICAL+is%3Aopen+Module): Critical modules (LLM #5221, SERVER #5222, SHARDING #5223, INDEX #5224, QUERY #5225, STORAGE #5226, ANALYTICS #5227, RAG #5228, SECURITY #5229, CONTENT #5230)
+**GitHub Aggregated Issues (reviewed 2026-05-26):**
+- [x] Canonical Master Issue: [#5172](https://github.com/makr-code/ThemisDB/issues/5172) — **OPEN**
+- [x] Category issue wave (canonical): [#5184–#5194](https://github.com/makr-code/ThemisDB/issues?q=is%3Aissue+repo%3Amakr-code%2FThemisDB+is%3Aopen+%22518%22+OR+%22519%22+%22modules+%C3%97%22)
+- [x] P0 module wave (canonical): [#5195–#5201](https://github.com/makr-code/ThemisDB/issues?q=is%3Aissue+repo%3Amakr-code%2FThemisDB+is%3Aopen+%22%5BP0-CRITICAL%5D%22+%22Module%22)
+- [I] [#5195 LLM](https://github.com/makr-code/ThemisDB/issues/5195) — OPEN
+- [I] [#5196 SERVER](https://github.com/makr-code/ThemisDB/issues/5196) — OPEN
+- [I] [#5197 SHARDING](https://github.com/makr-code/ThemisDB/issues/5197) — OPEN
+- [I] [#5198 INDEX](https://github.com/makr-code/ThemisDB/issues/5198) — OPEN
+- [I] [#5199 QUERY](https://github.com/makr-code/ThemisDB/issues/5199) — OPEN
+- [I] [#5200 STORAGE](https://github.com/makr-code/ThemisDB/issues/5200) — OPEN
+- [I] [#5201 ANALYTICS](https://github.com/makr-code/ThemisDB/issues/5201) — OPEN
+- [x] Historical duplicates documented: #5183, #5206, #5207 (CLOSED); #5231 remains a separate wave and is not canonical for this roadmap baseline.
+
+**Review & Code-Audit (2026-05-21):**
+- [x] Roadmap-Link-/Issue-Review durchgeführt
+- [x] CodeQL-Check ausgeführt (trivial docs-only change; scan übersprungen)
 
 ---
 | **base** | 🟢 PRODUCTION | 12 | 0 | Stable, safe for production |
@@ -164,6 +190,79 @@ Audit method:
 - Estimated effort: 645.1 weeks to fix all gaps
 - Issue templates: 66 (ready for GitHub import)
 - Categories scanned: Security, Memory, Reliability, Concurrency, RAII, Container Misuse, Platform Portability, Performance
+
+**GitHub Issue Tracking — Module Gap Remediation (2026-05-19):**
+
+Per-module Gap Remediation issues (7-phase workflow model):
+
+| Module | Issue | Gaps |
+|--------|-------|------|
+| acceleration | [#5257](https://github.com/makr-code/ThemisDB/issues/5257) | 6 |
+| ai | [#5267](https://github.com/makr-code/ThemisDB/issues/5267) | 6 |
+| analytics | [#5314](https://github.com/makr-code/ThemisDB/issues/5314) *(Phase 3)* | - |
+| api | [#5258](https://github.com/makr-code/ThemisDB/issues/5258) | 6 |
+| aql | [#5259](https://github.com/makr-code/ThemisDB/issues/5259) | 6 |
+| auth | [#5260](https://github.com/makr-code/ThemisDB/issues/5260) | 6 |
+| base | [#5261](https://github.com/makr-code/ThemisDB/issues/5261) | 6 |
+| cache | [#5262](https://github.com/makr-code/ThemisDB/issues/5262) | 6 |
+| cdc | [#5263](https://github.com/makr-code/ThemisDB/issues/5263) | 6 |
+| chimera | [#5264](https://github.com/makr-code/ThemisDB/issues/5264) | 6 |
+| config | [#5265](https://github.com/makr-code/ThemisDB/issues/5265) | 6 |
+| content | [#5254](https://github.com/makr-code/ThemisDB/issues/5254) *(P0-CRITICAL)* · [#5315](https://github.com/makr-code/ThemisDB/issues/5315) *(Phase 3)* | 4,647 |
+| core | [#5266](https://github.com/makr-code/ThemisDB/issues/5266) | 6 |
+| chaos | [#5268](https://github.com/makr-code/ThemisDB/issues/5268) | 6 |
+| distributed_knowledge | [#5270](https://github.com/makr-code/ThemisDB/issues/5270) | 6 |
+| document | [#5271](https://github.com/makr-code/ThemisDB/issues/5271) | 6 |
+| ethics_ai | [#5272](https://github.com/makr-code/ThemisDB/issues/5272) | 6 |
+| exporters | [#5273](https://github.com/makr-code/ThemisDB/issues/5273) | 6 |
+| failover | [#5274](https://github.com/makr-code/ThemisDB/issues/5274) | 6 |
+| geo | [#5275](https://github.com/makr-code/ThemisDB/issues/5275) | 6 |
+| governance | [#5276](https://github.com/makr-code/ThemisDB/issues/5276) | 6 |
+| gpu | [#5277](https://github.com/makr-code/ThemisDB/issues/5277) | 6 |
+| graph | [#5278](https://github.com/makr-code/ThemisDB/issues/5278) | 6 |
+| importers | [#5279](https://github.com/makr-code/ThemisDB/issues/5279) | 6 |
+| index | [#5249](https://github.com/makr-code/ThemisDB/issues/5249) *(P0-CRITICAL)* · [#5316](https://github.com/makr-code/ThemisDB/issues/5316) *(Phase 3)* | 8,770 |
+| ingestion | [#5280](https://github.com/makr-code/ThemisDB/issues/5280) | 6 |
+| llama_cpp | [#5281](https://github.com/makr-code/ThemisDB/issues/5281) | 6 |
+| llm | [#5245](https://github.com/makr-code/ThemisDB/issues/5245) *(P0-CRITICAL)* · [#5317](https://github.com/makr-code/ThemisDB/issues/5317) *(Phase 3)* | 24,394 |
+| maintenance | [#5284](https://github.com/makr-code/ThemisDB/issues/5284) | 6 |
+| metadata | [#5285](https://github.com/makr-code/ThemisDB/issues/5285) | 6 |
+| network | [#5286](https://github.com/makr-code/ThemisDB/issues/5286) | 6 |
+| observability | [#5287](https://github.com/makr-code/ThemisDB/issues/5287) | 6 |
+| onnx_clip | [#5288](https://github.com/makr-code/ThemisDB/issues/5288) | 6 |
+| performance | [#5289](https://github.com/makr-code/ThemisDB/issues/5289) | 6 |
+| plugins | [#5290](https://github.com/makr-code/ThemisDB/issues/5290) | 6 |
+| process | [#5291](https://github.com/makr-code/ThemisDB/issues/5291) | 6 |
+| projects | [#5292](https://github.com/makr-code/ThemisDB/issues/5292) | 6 |
+| prompt_engineering | [#5293](https://github.com/makr-code/ThemisDB/issues/5293) | 6 |
+| query | [#5247](https://github.com/makr-code/ThemisDB/issues/5247) *(P0-CRITICAL)* · [#5318](https://github.com/makr-code/ThemisDB/issues/5318) *(Phase 3)* | 15,413 |
+| rag | [#5252](https://github.com/makr-code/ThemisDB/issues/5252) *(P0-CRITICAL)* · [#5319](https://github.com/makr-code/ThemisDB/issues/5319) *(Phase 3)* | 6,402 |
+| replication | [#5294](https://github.com/makr-code/ThemisDB/issues/5294) | 6 |
+| rpc_grpc | [#5295](https://github.com/makr-code/ThemisDB/issues/5295) | 6 |
+| scheduler | [#5296](https://github.com/makr-code/ThemisDB/issues/5296) | 6 |
+| scraper | [#5297](https://github.com/makr-code/ThemisDB/issues/5297) | 6 |
+| search | [#5298](https://github.com/makr-code/ThemisDB/issues/5298) | 6 |
+| security | [#5253](https://github.com/makr-code/ThemisDB/issues/5253) *(P0-CRITICAL)* · [#5320](https://github.com/makr-code/ThemisDB/issues/5320) *(Phase 3)* | 5,037 |
+| server | [#5246](https://github.com/makr-code/ThemisDB/issues/5246) *(P0-CRITICAL)* · [#5321](https://github.com/makr-code/ThemisDB/issues/5321) *(Phase 3)* | 19,059 |
+| sharding | [#5248](https://github.com/makr-code/ThemisDB/issues/5248) *(P0-CRITICAL)* · [#5322](https://github.com/makr-code/ThemisDB/issues/5322) *(Phase 3)* | 11,012 |
+| stable_diffusion | [#5299](https://github.com/makr-code/ThemisDB/issues/5299) | 6 |
+| storage | [#5250](https://github.com/makr-code/ThemisDB/issues/5250) *(P0-CRITICAL)* · [#5323](https://github.com/makr-code/ThemisDB/issues/5323) *(Phase 3)* | 7,481 |
+| temporal | [#5300](https://github.com/makr-code/ThemisDB/issues/5300) | 6 |
+| tensor | [#5301](https://github.com/makr-code/ThemisDB/issues/5301) | 6 |
+| themis | [#5302](https://github.com/makr-code/ThemisDB/issues/5302) | 6 |
+| timeseries | [#5303](https://github.com/makr-code/ThemisDB/issues/5303) | 6 |
+| toolbox | [#5304](https://github.com/makr-code/ThemisDB/issues/5304) | 6 |
+| training | [#5305](https://github.com/makr-code/ThemisDB/issues/5305) | 6 |
+| transaction | [#5306](https://github.com/makr-code/ThemisDB/issues/5306) | 6 |
+| updates | [#5307](https://github.com/makr-code/ThemisDB/issues/5307) | 6 |
+| user_storage_encrypted | [#5308](https://github.com/makr-code/ThemisDB/issues/5308) | 6 |
+| utils | [#5309](https://github.com/makr-code/ThemisDB/issues/5309) | 6 |
+| voice | [#5310](https://github.com/makr-code/ThemisDB/issues/5310) | 6 |
+| whisper | [#5311](https://github.com/makr-code/ThemisDB/issues/5311) | 6 |
+
+**Canonical Meta Scanner Issue:** [#5172](https://github.com/makr-code/ThemisDB/issues/5172) — Phase 1-5 baseline tracking (155,634 gaps).
+
+**Additional Wave (non-canonical for this roadmap baseline):** [#5231](https://github.com/makr-code/ThemisDB/issues/5231) — alternate 193,858 snapshot.
 
 ---
 
@@ -268,11 +367,11 @@ Audit method:
 - 📂 Location: `ai_working/` + `ai_working/clustered_issues/`
 
 **Next Steps:**
-1. **Phase 6 Planning (Q4 2026):** Design 5 additional scanners (API Contracts, UB Catalog, Templates, Const-Correctness, Macro Safety)
-2. **Scanner Improvements:** Add 12 new patterns to existing Phase 1-4 scanners (Security +5, Memory +4, Concurrency +3)
-3. **GitHub Integration:** Create 66+ issues from templates when approved
-4. **Roadmap Integration:** Map Phase 1-5 gaps to milestone priorities (v1.9.0–v2.1.0+)
-5. **CI/CD Setup:** Automated gap scanning in GitHub Actions
+1. **Review:** ✅ Generated issue templates reviewed in `ai_working/clustered_issues/`
+2. **Validate:** ✅ Categorization and gap accuracy confirmed
+3. **GitHub Import:** ✅ Per-module Gap Remediation issues created (#5257–#5311); P0-CRITICAL module issues created (#5245–#5254); Phase 3 Code Generation issues created (#5314–#5323); 13 clustered META/MOD/GROUP issues pending (run `ai_working/clustered_issues/create_issues.sh`)
+4. **Roadmap Integration:** 🚧 Map gaps to milestone priorities (v1.9.0–v2.1.0) — in progress
+5. **Assignment:** 📋 Distribute issues to team members with effort estimates — pending
 
 **Phase 1-5 Scanner Suite Details:**
 - Phase 1-4 Scanners: Security, Memory, Reliability, Concurrency, RAII, Container, Platform, Performance (1,680 LOC)
@@ -952,13 +1051,13 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 - 🟡 Phase 6 Extended Scanners: Designed (Q3-Q4 2026, 5 new scanners)
 - 📋 Module Hardening: Queued (Q3-Q4 2026, Tier 1: 25% gap reduction target)
 
-### Phase 1-5 Results Summary
-- **Total Gaps:** 155,631 across 13 scanner categories (8 Phase 1-4 + 5 Phase 5)
-- **Severity Distribution:** CRITICAL 9,404 (6.0%) | HIGH 118,694 (76.3%) | MEDIUM 27,533 (17.7%)
-- **Actionable (CRITICAL+HIGH):** 128,098 (82.3%)
-- **Scanner Suite:** 13 active (Phase 1-4: Security, Memory, Reliability, Concurrency, RAII, Container, Platform, Performance | Phase 5: Type Conversion, Input Validation, Exception Safety, Uninitialized, OOP Design)
-- **GitHub Integration:** 24 aggregated issues (1 Master #5207 + 13 Categories #5208–#5220 + 10 Modules #5221–#5230)
-- **Effort Estimate:** 3,437.6 weeks to fix all gaps (~66 weeks per module on average)
+### Phase 1-5 / Rescan Summary
+- **Historical Phase 1-5 Snapshot:** 155,631 gaps across 13 scanner categories (8 Phase 1-4 + 5 Phase 5)
+- **Current Rescan Snapshot (2026-05-27):** 185,190 gaps across 27 scanner categories
+- **Severity Distribution (current):** CRITICAL 5,980 | HIGH 143,326 | MEDIUM 35,884
+- **Actionable (CRITICAL+HIGH, current):** 149,306
+- **GitHub Integration (canonical set):** Master #5172 + Categories #5184–#5194 + P0 Modules #5195–#5201
+- **Note:** Older wave references (#5207, #5221–#5230) are retained only as historical duplicates.
 
 **Detailed Documentation:**
 - [PHASE_5_IMPLEMENTATION_COMPLETE.md](ai_working/PHASE_5_IMPLEMENTATION_COMPLETE.md)
@@ -980,7 +1079,7 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 
 **Expected Results:**
 - Phase 1-4 Baseline: 31,720 → **33,920–34,920 gaps** (+2,200–3,200)
-- Phase 1-5 Total: 155,631 → **157,831–158,831 gaps** (+2,200–3,200)
+- Current Rescan Baseline: 185,190 → **187,390–188,390 gaps** (+2,200–3,200)
 - Key Targets: Top 10 modules (llm, server, sharding, index, query, storage, analytics, rag, security, content)
 
 **Detailed Design:** [PHASE_1_4_IMPROVEMENTS.md](ai_working/PHASE_1_4_IMPROVEMENTS.md)
@@ -999,7 +1098,7 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 | — | **Phase 6 Total** | — | **48–55** | **~1,480** | — | — | **Week 1-9** |
 
 **Expected Results:**
-- Phase 1-6 Projection: 157,831–158,831 → **165,000–185,000 gaps** (+6,000–10,000, 20–30% additional)
+- Phase 1-6 Projection: 187,390–188,390 → **193,390–198,390 gaps** (+6,000–10,000)
 - Coverage increase: 18 scanners (Phase 1-4: 8 + Phase 5: 5 + Phase 6: 5)
 - All 65 modules re-scanned with full Phase 1-6 suite
 - Effort estimate: ~3,850–4,000 weeks to fix all gaps (Phase 1-6 total)
@@ -1170,3 +1269,7 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 - [src/ROADMAP.md](src/ROADMAP.md) — Module-level roadmap index
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) — Open enhancement and stub-replacement backlog
 - [FEATURE_ENHANCEMENT.md](FEATURE_ENHANCEMENT.md) — Generated code maturity analysis (reporting snapshot)
+
+---
+Zuletzt geprueft (Root-Sync): 2026-05-26
+

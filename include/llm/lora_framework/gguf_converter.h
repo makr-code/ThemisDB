@@ -186,14 +186,14 @@ namespace gguf_blocks {
     struct Q4KBlock {
         uint8_t qs[128];        // Quantized values (4 bits each, packed)
         uint8_t scales[12];     // Scales and mins (mixed)
-        uint16_t d;             // Delta (FP16)
-        uint16_t dmin;          // Min (FP16)
+        uint16_t d = 0;             // Delta (FP16)
+        uint16_t dmin = 0;          // Min (FP16)
     };
     static_assert(sizeof(Q4KBlock) == 144, "Q4KBlock size mismatch");
     
     // Q8_0 block (32 values)
     struct Q8_0Block {
-        uint16_t d;             // Scale (FP16)
+        uint16_t d = 0;             // Scale (FP16)
         int8_t qs[32];          // Quantized values (INT8)
     };
     static_assert(sizeof(Q8_0Block) == 34, "Q8_0Block size mismatch");

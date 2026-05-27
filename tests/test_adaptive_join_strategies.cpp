@@ -655,7 +655,10 @@ TEST(AdaptiveJoinStrategiesTest, EdgeCase_ThrowsOnEmptyLeftKey) {
     spec.right_key = "id";
 
     RuntimeStats stats = defaultStats();
-    EXPECT_THROW(exec.executeJoin(spec, left, right, stats), std::invalid_argument);
+    EXPECT_THROW({
+        auto join_result = exec.executeJoin(spec, left, right, stats);
+        static_cast<void>(join_result);
+    }, std::invalid_argument);
 }
 
 TEST(AdaptiveJoinStrategiesTest, EdgeCase_ThrowsOnEmptyRightKey) {
@@ -669,7 +672,10 @@ TEST(AdaptiveJoinStrategiesTest, EdgeCase_ThrowsOnEmptyRightKey) {
     spec.right_key = "";
 
     RuntimeStats stats = defaultStats();
-    EXPECT_THROW(exec.executeJoin(spec, left, right, stats), std::invalid_argument);
+    EXPECT_THROW({
+        auto join_result = exec.executeJoin(spec, left, right, stats);
+        static_cast<void>(join_result);
+    }, std::invalid_argument);
 }
 
 TEST(AdaptiveJoinStrategiesTest, EdgeCase_MultiRowCrossProductInBucket) {

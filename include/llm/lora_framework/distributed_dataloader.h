@@ -89,7 +89,7 @@ public:
         
     private:
         DistributedDataLoader* loader_;
-        size_t position_;
+        size_t position_ = 0;
     };
     
     Iterator begin();
@@ -112,13 +112,13 @@ public:
     
 private:
     const Dataset& dataset_;
-    size_t batch_size_;
+    size_t batch_size_ = 0;
     const MultiGPUContext& ctx_;
-    bool shuffle_;
-    bool drop_last_;
+    bool shuffle_ = false;
+    bool drop_last_ = false;
     
-    size_t batch_size_per_gpu_;
-    size_t num_batches_;
+    size_t batch_size_per_gpu_ = 0;
+    size_t num_batches_ = 0;
     std::vector<size_t> indices_;
     
     void initialize_indices();
@@ -131,6 +131,7 @@ private:
 class InMemoryDataset : public DistributedDataLoader::Dataset {
 public:
     explicit InMemoryDataset(std::vector<GPUTensor> data);
+    ~InMemoryDataset() override = default;
     
     GPUTensor get(size_t index) const override;
     size_t size() const override { return data_.size(); }

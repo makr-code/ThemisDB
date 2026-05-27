@@ -10,6 +10,7 @@
  */
 
 #include "stable_diffusion/sd_plugin.h"
+#include <stdexcept>
 #include <algorithm>
 #include <array>
 #include <chrono>

@@ -31,9 +31,9 @@ namespace llm {
 struct ModelMetadata {
     std::string model_id;
     std::string path;
-    size_t size_bytes;
-    int n_layers;
-    int n_ctx;
+    size_t size_bytes = 0;
+    int n_layers = 0;
+    int n_ctx = 0;
     std::chrono::system_clock::time_point loaded_timestamp;
     std::chrono::system_clock::time_point last_accessed;
     uint64_t access_count = 0;
@@ -96,10 +96,10 @@ public:
      * @brief Get cache statistics
      */
     struct Stats {
-        size_t total_entries;
-        size_t pinned_entries;
-        size_t total_size_bytes;
-        uint64_t total_accesses;
+        size_t total_entries = 0;
+        size_t pinned_entries = 0;
+        size_t total_size_bytes = 0;
+        uint64_t total_accesses = 0;
     };
     
     Stats getStats() const;

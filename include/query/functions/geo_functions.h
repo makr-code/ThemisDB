@@ -206,6 +206,7 @@ inline bool looksLikeDegrees(double lon, double lat) {
  */
 class StPointFunction : public IFunction {
 public:
+    ~StPointFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_POINT",
@@ -247,6 +248,7 @@ public:
  */
 class StLinestringFunction : public IFunction {
 public:
+    ~StLinestringFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_LINESTRING",
@@ -276,6 +278,7 @@ public:
  */
 class StPolygonFunction : public IFunction {
 public:
+    ~StPolygonFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_POLYGON",
@@ -305,6 +308,7 @@ public:
  */
 class StGeomFromTextFunction : public IFunction {
 public:
+    ~StGeomFromTextFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_GEOMFROMTEXT",
@@ -426,6 +430,7 @@ public:
  */
 class StGeomFromGeoJSONFunction : public IFunction {
 public:
+    ~StGeomFromGeoJSONFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_GEOMFROMGEOJSON",
@@ -472,6 +477,7 @@ public:
  */
 class StDistanceFunction : public IFunction {
 public:
+    ~StDistanceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_DISTANCE",
@@ -516,6 +522,7 @@ public:
  */
 class GeoDistanceFunction : public IFunction {
 public:
+    ~GeoDistanceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "GEO_DISTANCE",
@@ -545,6 +552,7 @@ public:
  */
 class StLengthFunction : public IFunction {
 public:
+    ~StLengthFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_LENGTH",
@@ -592,6 +600,7 @@ public:
  */
 class StAreaFunction : public IFunction {
 public:
+    ~StAreaFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_AREA",
@@ -641,6 +650,7 @@ public:
  */
 class StIntersectsFunction : public IFunction {
 public:
+    ~StIntersectsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_INTERSECTS",
@@ -670,6 +680,7 @@ public:
  */
 class StContainsFunction : public IFunction {
 public:
+    ~StContainsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_CONTAINS",
@@ -699,6 +710,7 @@ public:
  */
 class StWithinFunction : public IFunction {
 public:
+    ~StWithinFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_WITHIN",
@@ -728,6 +740,7 @@ public:
  */
 class StDWithinFunction : public IFunction {
 public:
+    ~StDWithinFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_DWITHIN",
@@ -774,6 +787,7 @@ public:
  */
 class GeoContainsFunction : public IFunction {
 public:
+    ~GeoContainsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "GEO_CONTAINS",
@@ -807,6 +821,7 @@ public:
  */
 class StXFunction : public IFunction {
 public:
+    ~StXFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_X",
@@ -834,6 +849,7 @@ public:
  */
 class StYFunction : public IFunction {
 public:
+    ~StYFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_Y",
@@ -861,6 +877,7 @@ public:
  */
 class StZFunction : public IFunction {
 public:
+    ~StZFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_Z",
@@ -892,6 +909,7 @@ public:
  */
 class StHasZFunction : public IFunction {
 public:
+    ~StHasZFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_HASZ",
@@ -936,6 +954,7 @@ public:
  */
 class StAsGeoJSONFunction : public IFunction {
 public:
+    ~StAsGeoJSONFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_ASGEOJSON",
@@ -962,6 +981,7 @@ public:
  */
 class StAsTextFunction : public IFunction {
 public:
+    ~StAsTextFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_ASTEXT",
@@ -1029,6 +1049,7 @@ public:
  */
 class StCentroidFunction : public IFunction {
 public:
+    ~StCentroidFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_CENTROID",
@@ -1096,6 +1117,7 @@ public:
  */
 class StEnvelopeFunction : public IFunction {
 public:
+    ~StEnvelopeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_ENVELOPE",
@@ -1151,6 +1173,7 @@ public:
  */
 class StBufferFunction : public IFunction {
 public:
+    ~StBufferFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_BUFFER",
@@ -1202,6 +1225,7 @@ public:
  */
 class StUnionFunction : public IFunction {
 public:
+    ~StUnionFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_UNION",
@@ -1244,6 +1268,7 @@ public:
  */
 class StDifferenceFunction : public IFunction {
 public:
+    ~StDifferenceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_DIFFERENCE",

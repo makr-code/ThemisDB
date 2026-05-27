@@ -188,8 +188,9 @@ Aspects:)";
 
 std::pair<DepthLevel, double> CompletenessEvaluator::assessDepth(
     const std::string& answer,
-    const std::vector<QueryAspect>& aspects
+    [[maybe_unused]] const std::vector<QueryAspect>& aspects
 ) {
+    static_cast<void>(aspects);
     if (answer.empty()) {
         return {DepthLevel::SHALLOW, 0.0};
     }
@@ -254,11 +255,13 @@ std::pair<DepthLevel, double> CompletenessEvaluator::assessDepth(
 }
 
 std::vector<std::string> CompletenessEvaluator::detectMissingInformation(
-    const std::string& answer,
-    const std::string& query,
+    [[maybe_unused]] const std::string& answer,
+    [[maybe_unused]] const std::string& query,
     const std::vector<QueryAspect>& aspects
 ) {
     std::vector<std::string> missing_info;
+    static_cast<void>(answer);
+    static_cast<void>(query);
     
     if (!impl_->config.enable_gap_detection) {
         return missing_info;

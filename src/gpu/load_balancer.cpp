@@ -19,12 +19,9 @@ namespace gpu {
 // Construction
 // ============================================================================
 
-GPULoadBalancer::GPULoadBalancer(Strategy strategy)
-    : strategy_(strategy) {}
+GPULoadBalancer::GPULoadBalancer(Strategy strategy) : strategy_(strategy) {}
 
-GPULoadBalancer::GPULoadBalancer(Strategy strategy,
-                                   const std::vector<DeviceInfo>& devices)
-    : strategy_(strategy) {
+GPULoadBalancer::GPULoadBalancer(Strategy strategy, const std::vector<DeviceInfo> &devices) : strategy_(strategy) {
     updateDevices(devices);
 }
 
@@ -32,24 +29,23 @@ GPULoadBalancer::GPULoadBalancer(Strategy strategy,
 // Device management
 // ============================================================================
 
-void GPULoadBalancer::updateDevices(const std::vector<DeviceInfo>& devices) {
+void GPULoadBalancer::updateDevices(const std::vector<DeviceInfo> &devices) {
     std::lock_guard<std::mutex> lock(mutex_);
     devices_.clear();
     devices_.reserve(devices.size());
-    for (const auto& d : devices) {
+    for (const auto &d : devices) {
         DeviceEntry e;
-        e.info             = d;
-        e.balancer_healthy = d.is_healthy;
+        e.info                = d;
+        e.balancer_healthy    = d.is_healthy;
         e.tracked_alloc_bytes = 0;
         devices_.push_back(std::move(e));
     }
     round_robin_cursor_ = 0;
 }
 
-void GPULoadBalancer::markDeviceFailed(int device_index,
-                                         const std::string& reason) {
+void GPULoadBalancer::markDeviceFailed(int device_index, const std::string &reason) {
     std::lock_guard<std::mutex> lock(mutex_);
-    for (auto& e : devices_) {
+    for (auto &e : devices_) {
         if (e.info.index == device_index) {
             e.balancer_healthy = false;
             e.failure_reason   = reason;
@@ -60,7 +56,7 @@ void GPULoadBalancer::markDeviceFailed(int device_index,
 
 void GPULoadBalancer::resetDevice(int device_index) {
     std::lock_guard<std::mutex> lock(mutex_);
-    for (auto& e : devices_) {
+    for (auto &e : devices_) {
         if (e.info.index == device_index) {
             e.balancer_healthy = true;
             e.failure_reason.clear();
@@ -73,7 +69,7 @@ void GPULoadBalancer::resetDevice(int device_index) {
 // setTopology
 // ============================================================================
 
-void GPULoadBalancer::setTopology(const GPUClusterTopology& topology) {
+void GPULoadBalancer::setTopology(const GPUClusterTopology &topology) {
     std::lock_guard<std::mutex> lock(mutex_);
     topology_ = topology;
 }
@@ -82,10 +78,13 @@ void GPULoadBalancer::setTopology(const GPUClusterTopology& topology) {
 // isEligible (called under mutex_)
 // ============================================================================
 
-bool GPULoadBalancer::isEligible(const DeviceEntry& e,
-                                   uint64_t required_vram) const {
-    if (!e.balancer_healthy || !e.info.is_healthy) return false;
-    if (e.info.backend == "CPU_FALLBACK") return false;
+bool GPULoadBalancer::isEligible(const DeviceEntry &e, uint64_t required_vram) const {
+    if (!e.balancer_healthy || !e.info.is_healthy) {
+        return false;
+    }
+    if (e.info.backend == "CPU_FALLBACK") {
+        return false;
+    }
     if (required_vram > 0 && e.info.free_vram_bytes < required_vram) {
         return false;
     }
@@ -96,13 +95,14 @@ bool GPULoadBalancer::isEligible(const DeviceEntry& e,
 // Selection helpers (called under mutex_)
 // ============================================================================
 
-GPULoadBalancer::DeviceEntry*
-GPULoadBalancer::selectRoundRobin(uint64_t required_vram) {
+GPULoadBalancer::DeviceEntry *GPULoadBalancer::selectRoundRobin(uint64_t required_vram) {
     const size_t n = devices_.size();
-    if (n == 0) return nullptr;
+    if (n == 0) {
+        return nullptr;
+    }
 
     for (size_t tried = 0; tried < n; ++tried) {
-        const size_t idx = round_robin_cursor_ % n;
+        const size_t idx    = round_robin_cursor_ % n;
         round_robin_cursor_ = (round_robin_cursor_ + 1) % n;
         if (isEligible(devices_[idx], required_vram)) {
             return &devices_[idx];
@@ -111,29 +111,29 @@ GPULoadBalancer::selectRoundRobin(uint64_t required_vram) {
     return nullptr;
 }
 
-GPULoadBalancer::DeviceEntry*
-GPULoadBalancer::selectLeastLoaded(uint64_t required_vram) {
-    DeviceEntry* best = nullptr;
-    for (auto& e : devices_) {
-        if (!isEligible(e, required_vram)) continue;
-        if (best == nullptr ||
-            e.info.free_vram_bytes > best->info.free_vram_bytes) {
+GPULoadBalancer::DeviceEntry *GPULoadBalancer::selectLeastLoaded(uint64_t required_vram) {
+    DeviceEntry *best = nullptr;
+    for (auto &e : devices_) {
+        if (!isEligible(e, required_vram)) {
+            continue;
+        }
+        if (best == nullptr || e.info.free_vram_bytes > best->info.free_vram_bytes) {
             best = &e;
         }
     }
     return best;
 }
 
-GPULoadBalancer::DeviceEntry*
-GPULoadBalancer::selectFirstHealthy(uint64_t required_vram) {
-    for (auto& e : devices_) {
-        if (isEligible(e, required_vram)) return &e;
+GPULoadBalancer::DeviceEntry *GPULoadBalancer::selectFirstHealthy(uint64_t required_vram) {
+    for (auto &e : devices_) {
+        if (isEligible(e, required_vram)) {
+            return &e;
+        }
     }
     return nullptr;
 }
 
-GPULoadBalancer::DeviceEntry*
-GPULoadBalancer::selectTopologyAware(uint64_t required_vram) {
+GPULoadBalancer::DeviceEntry *GPULoadBalancer::selectTopologyAware(uint64_t required_vram) {
     // If no NVLink topology is available, fall back to least-loaded selection.
     if (!topology_.has_nvlink || topology_.num_gpus == 0) {
         return selectLeastLoaded(required_vram);
@@ -141,18 +141,24 @@ GPULoadBalancer::selectTopologyAware(uint64_t required_vram) {
 
     // For each eligible device, sum its outgoing bandwidths from the topology's
     // bandwidth_matrix to find the device that is best-connected over NVLink.
-    DeviceEntry* best      = nullptr;
-    float        best_bw   = -1.0f;
+    DeviceEntry *best = nullptr;
+    float best_bw     = -1.0f;
 
-    for (auto& e : devices_) {
-        if (!isEligible(e, required_vram)) continue;
+    for (auto &e : devices_) {
+        if (!isEligible(e, required_vram)) {
+            continue;
+        }
 
         const int idx = e.info.index;
-        if (idx < 0 || idx >= topology_.num_gpus) continue;
+        if (idx < 0 || idx >= topology_.num_gpus) {
+            continue;
+        }
 
         float bw_sum = 0.0f;
         for (int j = 0; j < topology_.num_gpus; ++j) {
-            if (j == idx) continue;
+            if (j == idx) {
+                continue;
+            }
             bw_sum += topology_.bandwidthBetween(idx, j);
         }
 
@@ -170,18 +176,22 @@ GPULoadBalancer::selectTopologyAware(uint64_t required_vram) {
 // selectDevice
 // ============================================================================
 
-const DeviceInfo* GPULoadBalancer::selectDevice(uint64_t required_vram_bytes) {
+const DeviceInfo *GPULoadBalancer::selectDevice(uint64_t required_vram_bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
-    DeviceEntry* entry = nullptr;
+    DeviceEntry *entry = nullptr;
     switch (strategy_) {
         case Strategy::ROUND_ROBIN:
-            entry = selectRoundRobin(required_vram_bytes);   break;
+            entry = selectRoundRobin(required_vram_bytes);
+            break;
         case Strategy::LEAST_LOADED:
-            entry = selectLeastLoaded(required_vram_bytes);  break;
+            entry = selectLeastLoaded(required_vram_bytes);
+            break;
         case Strategy::FIRST_HEALTHY:
-            entry = selectFirstHealthy(required_vram_bytes); break;
+            entry = selectFirstHealthy(required_vram_bytes);
+            break;
         case Strategy::TOPOLOGY_AWARE:
-            entry = selectTopologyAware(required_vram_bytes); break;
+            entry = selectTopologyAware(required_vram_bytes);
+            break;
     }
     return entry ? &entry->info : nullptr;
 }
@@ -192,7 +202,7 @@ const DeviceInfo* GPULoadBalancer::selectDevice(uint64_t required_vram_bytes) {
 
 void GPULoadBalancer::recordAllocation(int device_index, uint64_t bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
-    for (auto& e : devices_) {
+    for (auto &e : devices_) {
         if (e.info.index == device_index) {
             e.tracked_alloc_bytes += bytes;
             // Update the free_vram estimate.
@@ -208,7 +218,7 @@ void GPULoadBalancer::recordAllocation(int device_index, uint64_t bytes) {
 
 void GPULoadBalancer::recordDeallocation(int device_index, uint64_t bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
-    for (auto& e : devices_) {
+    for (auto &e : devices_) {
         if (e.info.index == device_index) {
             if (e.tracked_alloc_bytes >= bytes) {
                 e.tracked_alloc_bytes -= bytes;
@@ -233,21 +243,19 @@ size_t GPULoadBalancer::totalDevices() const {
 size_t GPULoadBalancer::healthyDevices() const {
     std::lock_guard<std::mutex> lock(mutex_);
     size_t n = 0;
-    for (const auto& e : devices_) {
-        if (e.balancer_healthy && e.info.is_healthy &&
-            e.info.backend != "CPU_FALLBACK") {
+    for (const auto &e : devices_) {
+        if (e.balancer_healthy && e.info.is_healthy && e.info.backend != "CPU_FALLBACK") {
             ++n;
         }
     }
     return n;
 }
 
-std::vector<GPULoadBalancer::DeviceLoad>
-GPULoadBalancer::getDeviceLoads() const {
+std::vector<GPULoadBalancer::DeviceLoad> GPULoadBalancer::getDeviceLoads() const {
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<DeviceLoad> result;
     result.reserve(devices_.size());
-    for (const auto& e : devices_) {
+    for (const auto &e : devices_) {
         DeviceLoad dl;
         dl.index               = e.info.index;
         dl.name                = e.info.name;

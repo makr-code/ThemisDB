@@ -14,6 +14,7 @@
 // Phase 2.2: Metadata Shard Durability
 
 #include "sharding/metadata_snapshot.h"
+#include <stdexcept>
 #include <spdlog/spdlog.h>
 #include <filesystem>
 #include <fstream>

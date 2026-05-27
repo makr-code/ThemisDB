@@ -33,7 +33,7 @@ namespace llm {
  * @brief LLM output validation result
  */
 struct ValidationResult {
-    bool is_valid;
+    bool is_valid = false;
     std::vector<std::string> warnings;
     std::vector<std::string> errors;
     

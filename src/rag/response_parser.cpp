@@ -15,6 +15,7 @@
  */
 
 #include "rag/response_parser.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <regex>
 #include <algorithm>

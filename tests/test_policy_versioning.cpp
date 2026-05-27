@@ -57,22 +57,22 @@ TEST_F(PolicyVersionHistoryTest, RecordVersion) {
         "Initial version"
     );
     
-    EXPECT_EQ(version, "0.0.1");
+    EXPECT_EQ(version, "1.0.0");
 }
 
 TEST_F(PolicyVersionHistoryTest, RecordMultipleVersions) {
     auto rule = createTestRule("rule_002", "Test Rule");
     
     std::string v1 = history->recordVersion(rule.id, rule, "user1", "Version 1");
-    EXPECT_EQ(v1, "0.0.1");
+    EXPECT_EQ(v1, "1.0.0");
     
     rule.name = "Updated Rule";
     std::string v2 = history->recordVersion(rule.id, rule, "user1", "Version 2");
-    EXPECT_EQ(v2, "0.0.2");
+    EXPECT_EQ(v2, "1.0.1");
     
     rule.description = "Updated description";
     std::string v3 = history->recordVersion(rule.id, rule, "user2", "Version 3");
-    EXPECT_EQ(v3, "0.0.3");
+    EXPECT_EQ(v3, "1.0.2");
 }
 
 TEST_F(PolicyVersionHistoryTest, GetVersions) {
@@ -88,9 +88,9 @@ TEST_F(PolicyVersionHistoryTest, GetVersions) {
     EXPECT_EQ(versions.size(), 3);
     
     // Should be newest first
-    EXPECT_EQ(versions[0].version, "0.0.3");
-    EXPECT_EQ(versions[1].version, "0.0.2");
-    EXPECT_EQ(versions[2].version, "0.0.1");
+    EXPECT_EQ(versions[0].version, "1.0.2");
+    EXPECT_EQ(versions[1].version, "1.0.1");
+    EXPECT_EQ(versions[2].version, "1.0.0");
 }
 
 TEST_F(PolicyVersionHistoryTest, GetSpecificVersion) {
@@ -100,16 +100,16 @@ TEST_F(PolicyVersionHistoryTest, GetSpecificVersion) {
     rule.name = "Updated Name";
     history->recordVersion(rule.id, rule, "user1", "V2");
     
-    auto v1 = history->getVersion(rule.id, "0.0.1");
+    auto v1 = history->getVersion(rule.id, "1.0.0");
     ASSERT_TRUE(v1.has_value());
     EXPECT_EQ(v1->rule_id, "rule_004");
-    EXPECT_EQ(v1->version, "0.0.1");
+    EXPECT_EQ(v1->version, "1.0.0");
     EXPECT_EQ(v1->change_description, "V1");
     
-    auto v2 = history->getVersion(rule.id, "0.0.2");
+    auto v2 = history->getVersion(rule.id, "1.0.1");
     ASSERT_TRUE(v2.has_value());
     EXPECT_EQ(v2->rule_id, "rule_004");
-    EXPECT_EQ(v2->version, "0.0.2");
+    EXPECT_EQ(v2->version, "1.0.1");
     EXPECT_EQ(v2->change_description, "V2");
 }
 
@@ -128,10 +128,10 @@ TEST_F(PolicyVersionHistoryTest, GetLatestVersion) {
     EXPECT_EQ(history->getLatestVersion(rule.id), "0.0.0");
     
     history->recordVersion(rule.id, rule, "user1", "V1");
-    EXPECT_EQ(history->getLatestVersion(rule.id), "0.0.1");
+    EXPECT_EQ(history->getLatestVersion(rule.id), "1.0.0");
     
     history->recordVersion(rule.id, rule, "user1", "V2");
-    EXPECT_EQ(history->getLatestVersion(rule.id), "0.0.2");
+    EXPECT_EQ(history->getLatestVersion(rule.id), "1.0.1");
 }
 
 TEST_F(PolicyVersionHistoryTest, GetPreviousVersion) {
@@ -148,13 +148,13 @@ TEST_F(PolicyVersionHistoryTest, GetPreviousVersion) {
     history->recordVersion(rule.id, rule, "user1", "V2");
     auto prev = history->getPreviousVersion(rule.id);
     ASSERT_TRUE(prev.has_value());
-    EXPECT_EQ(*prev, "0.0.1");
+    EXPECT_EQ(*prev, "1.0.0");
     
     // Three versions
     history->recordVersion(rule.id, rule, "user1", "V3");
     prev = history->getPreviousVersion(rule.id);
     ASSERT_TRUE(prev.has_value());
-    EXPECT_EQ(*prev, "0.0.2");
+    EXPECT_EQ(*prev, "1.0.1");
 }
 
 TEST_F(PolicyVersionHistoryTest, CompareVersions) {
@@ -167,11 +167,11 @@ TEST_F(PolicyVersionHistoryTest, CompareVersions) {
     rule.enabled = false;
     history->recordVersion(rule.id, rule, "user2", "V2");
     
-    auto diff = history->compareVersions(rule.id, "0.0.1", "0.0.2");
+    auto diff = history->compareVersions(rule.id, "1.0.0", "1.0.1");
     
     EXPECT_EQ(diff.rule_id, rule.id);
-    EXPECT_EQ(diff.version1, "0.0.1");
-    EXPECT_EQ(diff.version2, "0.0.2");
+    EXPECT_EQ(diff.version1, "1.0.0");
+    EXPECT_EQ(diff.version2, "1.0.1");
     
     // Should identify changed fields
     EXPECT_TRUE(std::find(diff.changes.begin(), diff.changes.end(), "name") != diff.changes.end());
@@ -477,10 +477,10 @@ TEST_F(PolicyManagerVersionedTest, CompareVersions) {
     rule.priority = 20;
     manager->updateRuleVersioned(rule.id, rule, "user1", "Version 2");
     
-    auto diff = manager->compareVersions(rule.id, "1.0.0", "0.0.1");
+    auto diff = manager->compareVersions(rule.id, "1.0.0", "1.0.1");
     
     EXPECT_EQ(diff.version1, "1.0.0");
-    EXPECT_EQ(diff.version2, "0.0.1");
+    EXPECT_EQ(diff.version2, "1.0.1");
     EXPECT_GE(diff.changes.size(), 2);
 }
 
@@ -606,11 +606,15 @@ TEST_F(PolicyManagerVersionedTest, GetActiveConflicts_ReturnsAllConflicts) {
     ASSERT_FALSE(conflicts.empty());
     bool found_pair = false;
     for (const auto& c : conflicts) {
-        bool has_a = std::find(c.conflicting_rule_ids.begin(),
-                               c.conflicting_rule_ids.end(), "active_a") !=
-                     c.conflicting_rule_ids.end();
-        bool has_b = (c.new_rule_id == "active_a" || c.new_rule_id == "active_b");
-        if (has_a && has_b) {
+        const bool contains_a =
+            (c.new_rule_id == "active_a") ||
+            (std::find(c.conflicting_rule_ids.begin(), c.conflicting_rule_ids.end(), "active_a") !=
+             c.conflicting_rule_ids.end());
+        const bool contains_b =
+            (c.new_rule_id == "active_b") ||
+            (std::find(c.conflicting_rule_ids.begin(), c.conflicting_rule_ids.end(), "active_b") !=
+             c.conflicting_rule_ids.end());
+        if (contains_a && contains_b) {
             found_pair = true;
             break;
         }

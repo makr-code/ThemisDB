@@ -250,8 +250,8 @@ public:
      * @return Vector of OCR_IMAGE-typed TrainingSample records, or empty if
      *         OCR is unavailable.
      */
-    std::vector<TrainingSample> extract(const std::string& image_path,
-                                        const std::string& document_id) const;
+    std::vector<TrainingSample> extract([[maybe_unused]] const std::string& image_path,
+                                        [[maybe_unused]] const std::string& document_id) const;
 
 private:
     ModalityParserConfig config_;

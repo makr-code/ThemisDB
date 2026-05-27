@@ -81,7 +81,7 @@ static bool isSafePath(const std::string& rel_path, const std::string& base_dir)
         for (const auto& component : rel) {
             if (component == "..") return false;
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
     return true;
@@ -227,7 +227,7 @@ std::optional<FileDelta> FileDelta::fromJson(const json& j) {
         fd.algorithm  = algo.value_or(PatchAlgorithm::ZSTD_DICT);
 
         return fd;
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -272,7 +272,7 @@ std::optional<DeltaManifest> DeltaManifest::fromJson(const json& j) {
             }
         }
         return dm;
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -559,6 +559,7 @@ bool DeltaUpdateEngine::generatePatchZstdDict(
 
     return pf.good();
 #else
+    static_cast<void>(base);
     // Fallback without zstd: store raw target (no compression).
     // Still uses the ZSTD_DICT magic so the reader knows the format.
     // This path should never be hit in production builds.
@@ -631,6 +632,7 @@ bool DeltaUpdateEngine::applyPatchZstdDict(
     }
     target.resize(result);
 #else
+    static_cast<void>(base);
     // Non-zstd fallback: the generator stored the raw target bytes
     target = std::move(compressed);
 #endif

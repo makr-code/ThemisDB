@@ -9,6 +9,9 @@ All notable changes to the Analytics module are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
+- Analytics catch-all hardening (Phase 21, 2026-05-19): replaced all remaining 55 `catch(...)`
+  handlers with typed `catch (const std::exception&)` across 11 files; zero catch-all handlers
+  remain in `src/analytics/*.cpp`.
 - Federated analytics query dispatch across multiple ThemisDB clusters (Target: Q3 2026)
 - SARIMA and Prophet-style forecasting models (Target: Q4 2026)
 - AutoML ONNX export and deployment pipeline (Target: Q4 2026)

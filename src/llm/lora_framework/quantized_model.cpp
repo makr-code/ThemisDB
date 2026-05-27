@@ -192,8 +192,8 @@ Tensor QLoRALayer::backward(const Tensor& grad_output) {
     Tensor grad_B = input_T.matmul(scaled_grad).matmul(A_T);
     
     // Store gradients
-    A_->grad.reset(new Tensor(std::move(grad_A)));
-    B_->grad.reset(new Tensor(std::move(grad_B)));
+    A_->grad = std::make_unique<Tensor>(std::move(grad_A));
+    B_->grad = std::make_unique<Tensor>(std::move(grad_B));
     
     // Gradient w.r.t. input
     Tensor BA_T = cached_BA_.transpose();

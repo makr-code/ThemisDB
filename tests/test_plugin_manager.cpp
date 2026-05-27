@@ -214,8 +214,11 @@ TEST_F(PluginManagerTest, LoadPluginWithMissingBinaryFails) {
 
     auto result = manager_->loadPlugin("pm_no_binary_001");
     EXPECT_FALSE(result.has_value());
-    // Expect either LOAD_FAILED or INVALID_SIGNATURE (security check fails first)
+    // Depending on runtime edition/license gating this may be rejected as
+    // NOT_FOUND before binary/signature checks; otherwise LOAD_FAILED or
+    // INVALID_SIGNATURE are valid outcomes.
     EXPECT_TRUE(
+        result.error().code() == themis::errors::ErrorCode::ERR_PLUGIN_NOT_FOUND ||
         result.error().code() == themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED ||
         result.error().code() == themis::errors::ErrorCode::ERR_PLUGIN_INVALID_SIGNATURE);
 }

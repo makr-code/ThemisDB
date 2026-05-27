@@ -10,6 +10,7 @@
  */
 
 #include "server/task_scheduler_api_handler.h"
+#include <stdexcept>
 #include "scheduler/task_audit_manager.h"
 #include "scheduler/external_scheduler_adapter.h"
 #include "utils/input_validator.h"

@@ -47,8 +47,8 @@ struct TrainingBatch {
     std::vector<std::vector<int>> input_ids;      // [batch_size, seq_len]
     std::vector<std::vector<int>> label_ids;      // [batch_size, seq_len]
     std::vector<size_t> sequence_lengths;         // Actual lengths before padding
-    int batch_size;
-    int max_sequence_length;
+    int batch_size = 0;
+    int max_sequence_length = 0;
     
     bool empty() const { return input_ids.empty(); }
     size_t size() const { return input_ids.size(); }
@@ -135,7 +135,7 @@ public:
     int pad_token_id() const override { return 0; }
     
 private:
-    int vocab_size_;
+    int vocab_size_ = 0;
     // Simple character-level tokenization for testing
     std::vector<int> char_to_token(const std::string& text);
     std::string token_to_char(const std::vector<int>& tokens);
@@ -263,7 +263,7 @@ private:
     
     std::vector<InstructionDataSample> samples_;
     std::vector<size_t> indices_;  // For shuffling
-    size_t current_index_;
+    size_t current_index_ = 0;
     
     // Custom formatter (optional)
     std::function<std::string(const InstructionDataSample&)> custom_formatter_;

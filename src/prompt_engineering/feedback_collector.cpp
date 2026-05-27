@@ -15,6 +15,7 @@
  */
 
 #include "prompt_engineering/feedback_collector.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "distributed_knowledge/cross_shard_feedback_sync.h"
 #include "utils/logger.h"

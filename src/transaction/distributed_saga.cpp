@@ -880,3 +880,4 @@ bool DistributedSagaCoordinator::forceComplete(const std::string& saga_id) {
 }
 
 } // namespace themis
+

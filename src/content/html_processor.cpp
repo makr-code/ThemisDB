@@ -21,11 +21,13 @@
 
 #include "content/html_processor.h"
 
+#include <exception>
 #include <algorithm>
 #include <cctype>
 #include <cmath>
 #include <regex>
 #include <sstream>
+#include <stdexcept>
 #include <unordered_map>
 
 namespace themis {
@@ -265,7 +267,10 @@ std::string HtmlProcessor::decodeEntities(const std::string& text) {
                 } else {
                     code = std::stol(ref.substr(1));
                 }
-            } catch (const std::exception&) {
+            } catch (const std::invalid_argument&) {
+                result += text[pos++];
+                continue;
+            } catch (const std::out_of_range&) {
                 result += text[pos++];
                 continue;
             }
@@ -632,4 +637,3 @@ std::unique_ptr<IContentProcessor> createHtmlProcessor(HtmlProcessor::Config con
 
 } // namespace content
 } // namespace themis
-

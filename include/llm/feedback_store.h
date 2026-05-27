@@ -14,6 +14,7 @@
 #include <memory>
 #include <cstdint>
 #include <chrono>
+#include <functional>
 #include <nlohmann/json.hpp>
 #include "llm/i_feedback_plugin.h"
 
@@ -72,6 +73,8 @@ enum class ValidationStatus {
  */
 class FeedbackStore {
 public:
+    using SpamKeywordsProviderFn = std::function<std::vector<std::string>()>;
+
     /**
      * @brief Feedback entry structure
      */
@@ -84,13 +87,13 @@ public:
         std::string answer;                    // System answer
         std::string correction;                // User's correction (for negative feedback)
         std::string comment;                   // Optional user comment
-        int64_t timestamp_ms;                  // Creation timestamp
+        int64_t timestamp_ms = 0;              // Creation timestamp
         ValidationStatus validation_status;    // Validation state
         std::string model_version;             // Model version that generated the answer
         std::string adapter_id;                // LoRA adapter ID (if used)
         std::string adapter_version;           // LoRA adapter version
-        bool used_for_training;                // Whether used in training
-        int training_batch_id;                 // Training batch ID (0 = not trained)
+        bool used_for_training = false;        // Whether used in training
+        int training_batch_id = 0;             // Training batch ID (0 = not trained)
         nlohmann::json metadata;               // Additional fields
 
         // Serialization
@@ -116,15 +119,15 @@ public:
      * @brief Feedback statistics
      */
     struct Stats {
-        size_t total_feedback;
-        size_t positive_count;
-        size_t negative_count;
-        size_t pending_validation;
-        size_t approved_count;
-        size_t rejected_count;
-        size_t unused_for_training;
-        size_t used_for_training;
-        double positive_ratio;
+        size_t total_feedback = 0;
+        size_t positive_count = 0;
+        size_t negative_count = 0;
+        size_t pending_validation = 0;
+        size_t approved_count = 0;
+        size_t rejected_count = 0;
+        size_t unused_for_training = 0;
+        size_t used_for_training = 0;
+        double positive_ratio = 0.0;
     };
 
     /**
@@ -150,6 +153,22 @@ public:
      * @brief Get current validation plugin
      */
     std::shared_ptr<IFeedbackPlugin> getValidationPlugin() const;
+
+    /**
+     * @brief Set spam-keyword provider callback for runtime-configurable spam detection.
+     *
+     * When set, the provider is queried during validation and its returned keyword list
+     * is used for substring-based spam matching. If the provider is not set, throws, or
+     * returns an empty list, FeedbackStore falls back to the built-in default keywords.
+     *
+     * @param provider Callback returning the current spam keywords.
+     */
+    static void setSpamKeywordsProvider(SpamKeywordsProviderFn provider);
+
+    /**
+     * @brief Remove installed spam-keyword provider (fallback to defaults).
+     */
+    static void clearSpamKeywordsProvider();
 
     /**
      * @brief Store a new feedback entry
@@ -218,6 +237,20 @@ public:
     static ValidationStatus validateFeedback(const FeedbackEntry& feedback);
 
     /**
+     * @brief Install a runtime spam keywords provider.
+     *
+     * When set, getSpamKeywords() returns the result of this callable instead
+     * of the built-in static list, enabling runtime keyword updates.
+     * @param fn Callable returning a vector of lowercase spam keyword strings.
+     */
+    static void setSpamKeywordsProviderFn(SpamKeywordsProviderFn fn);
+
+    /**
+     * @brief Remove the spam keywords provider bridge (reverts to static list).
+     */
+    static void clearSpamKeywordsProviderFn();
+
+    /**
      * @brief Clear all feedback entries
      */
     void clear();
@@ -272,34 +305,6 @@ public:
         const std::string& feedback_id,
         const std::string& adapter_id) const;
 
-    // Spam detection configuration (deprecated, use plugin instead)
-    /**
-     * @brief Function type for the spam-keywords provider.
-     *
-     * Inject a runtime-configurable keyword source via
-     * setSpamKeywordsProvider(). The function must return a non-empty
-     * vector of lowercase keyword strings. An empty return causes
-     * getSpamKeywords() to fall back to the built-in static list.
-     */
-    using SpamKeywordsProviderFn = std::function<std::vector<std::string>()>;
-
-    /**
-     * @brief Inject a runtime spam-keywords source.
-     *
-     * When set, getSpamKeywords() calls the function and uses its result
-     * if non-empty. Useful for loading from a config file or database
-     * table without a binary rebuild. Pass an empty function to revert
-     * to the built-in static list.
-     *
-     * @param fn Callable returning a keyword vector.
-     */
-    static void setSpamKeywordsProvider(SpamKeywordsProviderFn fn);
-
-    /**
-     * @brief Clear the injected provider and revert to the built-in static list.
-     */
-    static void clearSpamKeywordsProvider();
-
     /**
      * @brief Get the active spam-keyword list.
      *
@@ -308,7 +313,7 @@ public:
      *
      * @return Active spam-keyword list used by feedback validation.
      */
-    static const std::vector<std::string>& getSpamKeywords();
+    static std::vector<std::string> getSpamKeywords();
 
 private:
     rocksdb::TransactionDB* db_;
@@ -323,16 +328,10 @@ private:
                                   const std::string& adapter_id) const;
     std::string generateId() const;
     
+    // Spam detection configuration (deprecated, use plugin instead)
     static bool isLikelySpam(const std::string& text);
     
-    /**
-     * @brief Apply plugin validation and, for MODIFY decisions, rewrite the
-     *        entry's comment and metadata in-place before persisting.
-     *
-     * @param feedback  Feedback entry to validate; modified in-place when the
-     *                  plugin returns MODIFY with non-empty field overrides.
-     * @return Resolved ValidationStatus (APPROVED after a MODIFY).
-     */
+    // Helper: Apply plugin validation if available
     ValidationStatus applyPluginValidation(FeedbackEntry& feedback);
 };
 

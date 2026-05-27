@@ -23,6 +23,7 @@
 // This prevents corrupted or malicious DLL loading in modular ThemisDB
 
 #include "themis/base/module_loader.h"
+#include <stdexcept>
 #include "acceleration/plugin_security.h"
 #include <filesystem>
 #include <fstream>

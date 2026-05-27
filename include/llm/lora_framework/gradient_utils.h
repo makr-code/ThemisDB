@@ -236,8 +236,8 @@ public:
 private:
     GradientAccumulationConfig config_;
     std::vector<Tensor> accumulated_gradients_;
-    int current_step_;
-    bool initialized_;
+    int current_step_ = 0;
+    bool initialized_ = false;
 };
 
 } // namespace lora

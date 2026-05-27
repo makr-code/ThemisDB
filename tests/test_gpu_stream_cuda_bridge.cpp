@@ -40,7 +40,7 @@ protected:
 // and still returns true (stream successfully created).
 TEST_F(GpuStreamCudaBridgeTest, NoFnUsesRocmFallback) {
 #ifdef THEMIS_ENABLE_CUDA
-    GTEST_SKIP() << "THEMIS_ENABLE_CUDA is ON — real CUDA path active; skip.";
+    GTEST_SKIP() << "capability:stub_path_active=false;reason=real_cuda_path_active";
 #endif
     GPUStreamManager::setCudaStreamBackendFn({});  // ensure clean state
 
@@ -58,7 +58,7 @@ TEST_F(GpuStreamCudaBridgeTest, NoFnUsesRocmFallback) {
 // to create the stream.
 TEST_F(GpuStreamCudaBridgeTest, InjectedFnIsCalledAndStreamIsCreated) {
 #ifdef THEMIS_ENABLE_CUDA
-    GTEST_SKIP() << "THEMIS_ENABLE_CUDA is ON — real CUDA path active; skip.";
+    GTEST_SKIP() << "capability:stub_path_active=false;reason=real_cuda_path_active";
 #endif
 
     std::atomic<int> backend_fn_call_count{0};
@@ -95,7 +95,7 @@ TEST_F(GpuStreamCudaBridgeTest, InjectedFnIsCalledAndStreamIsCreated) {
 // backend and still return true (fail-safe, not fail-closed).
 TEST_F(GpuStreamCudaBridgeTest, ThrowingFnFallsBackToRocm) {
 #ifdef THEMIS_ENABLE_CUDA
-    GTEST_SKIP() << "THEMIS_ENABLE_CUDA is ON — real CUDA path active; skip.";
+    GTEST_SKIP() << "capability:stub_path_active=false;reason=real_cuda_path_active";
 #endif
 
     GPUStreamManager::setCudaStreamBackendFn(

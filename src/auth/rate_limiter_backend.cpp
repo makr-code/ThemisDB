@@ -7,6 +7,7 @@
  */
 
 #include "auth/rate_limiter_backend.h"
+#include <stdexcept>
 #include "utils/logger.h"
 
 #ifdef THEMIS_ENABLE_REDIS

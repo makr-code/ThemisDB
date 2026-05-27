@@ -17,8 +17,7 @@
 #include <queue>
 #include <thread>
 
-namespace themis {
-namespace llm {
+namespace themis::llm {
 
 /**
  * @brief Resource usage statistics
@@ -83,10 +82,10 @@ public:
 private:
     void refillTokens();
     
-    size_t capacity_;           ///< Bucket capacity (burst size)
-    size_t refill_rate_;        ///< Tokens per minute
-    std::atomic<size_t> tokens_; ///< Available tokens
-    std::chrono::steady_clock::time_point last_refill_;
+    size_t capacity_ = 0;           ///< Bucket capacity (burst size)
+    size_t refill_rate_ = 0;        ///< Tokens per minute
+    mutable std::atomic<size_t> tokens_; ///< Available tokens
+    mutable std::chrono::steady_clock::time_point last_refill_;
     mutable std::mutex mutex_;
 };
 
@@ -114,10 +113,10 @@ public:
      * @brief Get remaining quota for a user
      */
     struct QuotaRemaining {
-        size_t daily_requests_remaining;
-        size_t monthly_requests_remaining;
-        size_t inference_minutes_remaining;
-        size_t vram_hours_remaining;
+        size_t daily_requests_remaining = 0;
+        size_t monthly_requests_remaining = 0;
+        size_t inference_minutes_remaining = 0;
+        size_t vram_hours_remaining = 0;
     };
     QuotaRemaining getRemainingQuota(const std::string& user_id) const;
     
@@ -228,10 +227,10 @@ public:
      * @brief Get rate limiter stats
      */
     struct RateLimiterStats {
-        size_t available_tokens;
-        std::chrono::milliseconds time_until_next_token;
-        uint64_t total_requests;
-        uint64_t rejected_requests;
+        size_t available_tokens = 0;
+        std::chrono::milliseconds time_until_next_token{0};
+        uint64_t total_requests = 0;
+        uint64_t rejected_requests = 0;
     };
     RateLimiterStats getRateLimiterStats() const;
     
@@ -254,7 +253,7 @@ public:
         std::string user_id;
         std::string model_id;
         std::string details;
-        bool success;
+        bool success = false;
     };
     std::vector<AuditEntry> getAuditLog(size_t max_entries = 100) const;
     
@@ -271,12 +270,12 @@ public:
      * @brief Get health status details
      */
     struct HealthStatus {
-        bool healthy;
+        bool healthy = false;
         std::string status;  // "healthy", "degraded", "unhealthy"
         std::vector<std::string> issues;
-        double memory_utilization_percent;
-        double vram_utilization_percent;
-        double request_utilization_percent;
+        double memory_utilization_percent = 0.0;
+        double vram_utilization_percent = 0.0;
+        double request_utilization_percent = 0.0;
     };
     HealthStatus getHealthStatus() const;
 
@@ -298,11 +297,11 @@ private:
     
     // Request tracking
     struct RequestInfo {
-        uint64_t request_id;
+        uint64_t request_id = 0;
         std::string user_id;
         std::string model_id;
         std::chrono::steady_clock::time_point start_time;
-        size_t memory_allocated_mb;
+        size_t memory_allocated_mb = 0;
     };
     std::unordered_map<uint64_t, RequestInfo> active_requests_;
     std::atomic<uint64_t> next_request_id_{1};
@@ -311,8 +310,8 @@ private:
     // Model tracking
     struct ModelInfo {
         std::string model_id;
-        size_t memory_mb;
-        size_t vram_mb;
+        size_t memory_mb = 0;
+        size_t vram_mb = 0;
         std::chrono::steady_clock::time_point load_time;
     };
     std::unordered_map<std::string, ModelInfo> loaded_models_;
@@ -336,5 +335,4 @@ private:
     RateLimiter* getUserRateLimiter(const std::string& user_id);
 };
 
-} // namespace llm
-} // namespace themis
+} // namespace themis::llm

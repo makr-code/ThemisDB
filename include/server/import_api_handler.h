@@ -10,9 +10,6 @@
 
 #include "importers/importer_interface.h"
 #include "importers/importer_interfaces.h"
-#ifdef THEMIS_ENABLE_POSTGRES_WIRE
-#include "importers/postgres_importer.h"
-#endif
 #include "importers/s3_importer.h"
 
 #include <memory>
@@ -147,6 +144,47 @@ private:
     // key = job_id, value = JSON array of RelationshipMapping objects
     std::mutex                                    rel_mutex_;
     std::map<std::string, nlohmann::json>         relationship_overrides_;
+
+    // ─── Schema inspection bridges (stub #294) ───────────────────────────────
+
+    /// @brief Type alias for schema inspector injection.
+    using SchemaInspectorFn = std::function<nlohmann::json(const std::string& source_path)>;
+
+    /// @brief Type alias for schema validator injection.
+    using SchemaValidatorFn = std::function<nlohmann::json(const std::string& source_path,
+                                                            const nlohmann::json& overrides)>;
+
+    /**
+     * @brief Install a schema inspector for handleGetSchema().
+     *
+     * When set, handleGetSchema() delegates schema retrieval to this function
+     * even when THEMIS_ENABLE_POSTGRES_WIRE is not defined, bypassing the 501
+     * compile-time guard.
+     * @param fn Callable receiving a source path → JSON schema object.
+     */
+    void setSchemaInspectorFn(SchemaInspectorFn fn);
+
+    /**
+     * @brief Remove the schema inspector bridge (reverts to 501 or PG-wire path).
+     */
+    void clearSchemaInspectorFn();
+
+    /**
+     * @brief Install a schema validator for handleValidateSchema().
+     *
+     * When set, handleValidateSchema() delegates validation to this function
+     * even when THEMIS_ENABLE_POSTGRES_WIRE is not defined.
+     * @param fn Callable receiving (source_path, overrides) → JSON validation result.
+     */
+    void setSchemaValidatorFn(SchemaValidatorFn fn);
+
+    /**
+     * @brief Remove the schema validator bridge (reverts to 501 or PG-wire path).
+     */
+    void clearSchemaValidatorFn();
+
+    SchemaInspectorFn schemaInspectorFn_;
+    SchemaValidatorFn schemaValidatorFn_;
 };
 
 } // namespace server

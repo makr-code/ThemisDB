@@ -13,6 +13,7 @@
 // Licensed under MIT License
 
 #include "sharding/paxos_snapshot.h"
+#include <stdexcept>
 #include "sharding/paxos_consensus.h"
 #include "utils/zstd_codec.h"
 #include <spdlog/spdlog.h>

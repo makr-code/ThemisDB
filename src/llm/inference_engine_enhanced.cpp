@@ -10,6 +10,7 @@
  */
 
 #include "llm/inference_engine_enhanced.h"
+#include <stdexcept>
 #include "llm/lookup_decoder.h"
 #include "llm/model_router.h"
 #include "llm/shared_worker_pool.h"
@@ -17,6 +18,7 @@
 #include "sharding/remote_executor.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
+#include <limits>
 #include <numeric>
 #include <sstream>
 
@@ -597,14 +599,17 @@ bool InferenceEngineEnhanced::reprioritize(const std::string& request_id, int ne
 // ═══════════════════════════════════════════════════════════
 
 void InferenceEngineEnhanced::clearCache() {
-    if (prefix_cache_) {
-        prefix_cache_->clear();
-        spdlog::info("Cleared inference cache");
+    auto* cache = prefix_cache_.get();
+    if (!cache) {
+        return;
     }
+    cache->clear();
+    spdlog::info("Cleared inference cache");
 }
 
 void InferenceEngineEnhanced::prewarmCache(const std::vector<std::string>& common_prompts) {
-    if (!prefix_cache_ || !config_.enable_context_caching) {
+    auto* cache = prefix_cache_.get();
+    if (!cache || !config_.enable_context_caching) {
         return;
     }
 
@@ -620,7 +625,7 @@ void InferenceEngineEnhanced::prewarmCache(const std::vector<std::string>& commo
         // Use the prompt text as the cache key so that HNSW fuzzy matching can
         // locate this entry when a semantically similar (but not identical) prompt
         // is seen later.  No generated response is available at prewarm time.
-        prefix_cache_->put(prompt, tokens, embedding, {});
+        cache->put(prompt, tokens, embedding, {});
         ++warmed;
 
         spdlog::debug("  Prewarmed: {} ({} estimated tokens, embedding dim={})",
@@ -1096,17 +1101,17 @@ void InferenceEngineEnhanced::processBatch(
             // Build an effective request that wraps the stream_callback so
             // cancellation is propagated at every token boundary.
             InferenceRequest effective_request = req.base_request;
+            auto raid_sharding = effective_request.metadata.value("raid_sharding", json::object());
             if (!req.shard_routing_key.empty()) {
-                effective_request.metadata["raid_sharding"]["routing_key"] = req.shard_routing_key;
+                raid_sharding["routing_key"] = req.shard_routing_key;
             }
             if (!req.target_instance_ids.empty()) {
-                effective_request.metadata["raid_sharding"]["target_instance_ids"] =
-                    req.target_instance_ids;
+                raid_sharding["target_instance_ids"] = req.target_instance_ids;
             }
             // Keep this boolean always present so downstream coordinators can
             // distinguish "explicitly disabled" from "field omitted".
-            effective_request.metadata["raid_sharding"]["allow_cross_instance_batching"] =
-                req.allow_cross_instance_batching;
+            raid_sharding["allow_cross_instance_batching"] = req.allow_cross_instance_batching;
+            effective_request.metadata["raid_sharding"] = std::move(raid_sharding);
             auto cancel_token = tracked->cancel_token;
             auto deadline = tracked->deadline;
             if (effective_request.stream_callback) {
@@ -1249,8 +1254,11 @@ void InferenceEngineEnhanced::processBatch(
                     // Attach draft hints into the request metadata for the plugin.
                     // The plugin may or may not use them; standard generation
                     // is used as fallback regardless.
-                    effective_request.metadata["lookup_decoding"]["draft_tokens"] = drafts;
-                    effective_request.metadata["lookup_decoding"]["ngram_hit"] = true;
+                    auto lookup_decoding =
+                        effective_request.metadata.value("lookup_decoding", json::object());
+                    lookup_decoding["draft_tokens"] = drafts;
+                    lookup_decoding["ngram_hit"] = true;
+                    effective_request.metadata["lookup_decoding"] = std::move(lookup_decoding);
                 }
             }
 
@@ -1380,7 +1388,8 @@ bool InferenceEngineEnhanced::canAddToBatch(
 std::optional<InferenceResponse> InferenceEngineEnhanced::checkCache(
     const InferenceRequest& request
 ) {
-    if (!prefix_cache_) {
+    auto* cache = prefix_cache_.get();
+    if (!cache) {
         return std::nullopt;
     }
 
@@ -1389,9 +1398,22 @@ std::optional<InferenceResponse> InferenceEngineEnhanced::checkCache(
     // cache will then perform an exact-key match only.
     std::vector<float> embedding = computeEmbeddingForCache(request.prompt);
 
+    // IV-03: Validate embedding dimension consistency before passing to the
+    // cache index.  Typical LLM embeddings are at least 64-dimensional; a
+    // smaller vector indicates a corrupted or stub embedding that must not be
+    // fed into the HNSW similarity index (wrong dimensionality would silently
+    // corrupt similarity scores).  Fall back to exact-key matching only.
+    constexpr size_t MIN_EMBEDDING_DIM = 64;
+    if (!embedding.empty() && embedding.size() < MIN_EMBEDDING_DIM) {
+        spdlog::warn("checkCache: embedding dimension {} is below minimum {}; "
+                     "falling back to exact-key lookup",
+                     embedding.size(), MIN_EMBEDDING_DIM);
+        embedding.clear();
+    }
+
     // Use the prompt text as the cache key so exact lookups match identical prompts
     // and the HNSW index can find semantically similar ones.
-    auto cached = prefix_cache_->get(request.prompt, embedding);
+    auto cached = cache->get(request.prompt, embedding);
 
     if (cached) {
         // Only return a cached response when we have a stored generated text.
@@ -1417,12 +1439,22 @@ void InferenceEngineEnhanced::updateCache(
     const InferenceRequest& request,
     const InferenceResponse& response
 ) {
-    if (!prefix_cache_ || response.text.empty()) {
+    auto* cache = prefix_cache_.get();
+    if (!cache || response.text.empty()) {
         return;
     }
 
     // Compute real embedding for future similarity-based lookups
     std::vector<float> embedding = computeEmbeddingForCache(request.prompt);
+
+    // IV-03: Reject stub/corrupted embeddings (see checkCache for rationale).
+    constexpr size_t MIN_EMBEDDING_DIM = 64;
+    if (!embedding.empty() && embedding.size() < MIN_EMBEDDING_DIM) {
+        spdlog::warn("updateCache: embedding dimension {} is below minimum {}; "
+                     "storing without embedding (exact-key lookup only)",
+                     embedding.size(), MIN_EMBEDDING_DIM);
+        embedding.clear();
+    }
 
     std::vector<int> tokens = estimateTokenSequence(request.prompt);
 
@@ -1431,7 +1463,7 @@ void InferenceEngineEnhanced::updateCache(
 
     // Store the prompt as cache key and the actual generated text so that
     // checkCache() can return the correct response on a cache hit.
-    prefix_cache_->put(request.prompt, tokens, embedding, kv_cache, response.text);
+    cache->put(request.prompt, tokens, embedding, kv_cache, response.text);
 }
 
 std::vector<float> InferenceEngineEnhanced::computeEmbeddingForCache(const std::string& text) {
@@ -1627,10 +1659,10 @@ void InferenceEngineEnhanced::recordBatchCompletion(size_t batch_size) {
     
     // Update moving average
     if (stats_.avg_batch_size == 0.0) {
-        stats_.avg_batch_size = batch_size;
+        stats_.avg_batch_size = static_cast<double>(batch_size);
     } else {
         stats_.avg_batch_size = 
-            0.95 * stats_.avg_batch_size + 0.05 * batch_size;
+            0.95 * stats_.avg_batch_size + 0.05 * static_cast<double>(batch_size);
     }
     
     if (batch_size > stats_.max_batch_size_seen) {
@@ -1775,10 +1807,13 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
             constexpr float kBaseline = -5.0f;
             draft_result.vocab_size = vocab_size;
             for (size_t i = 0; i < K; ++i) {
-                const int tid = (i < remote_text.size())
-                    ? (static_cast<int>(static_cast<unsigned char>(remote_text[i])) %
-                       static_cast<int>(vocab_size))
-                    : 0;
+                const size_t tid_raw = (i < remote_text.size())
+                    ? (static_cast<size_t>(static_cast<unsigned char>(remote_text[i])) %
+                       vocab_size)
+                    : 0u;
+                const int tid = static_cast<int>(std::min(
+                    tid_raw,
+                    static_cast<size_t>(std::numeric_limits<int>::max())));
                 draft_result.tokens.push_back(tid);
                 std::vector<float> row(vocab_size, kBaseline);
                 row[static_cast<size_t>(tid)] = kPeak;
@@ -1866,7 +1901,7 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
                         static_cast<int>(static_cast<unsigned char>(tgt_resp.text[0])) %
                         static_cast<int>(vocab_size);
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Non-fatal: keep target_pred_token = 0.
             }
         }
@@ -2035,4 +2070,3 @@ std::string InferenceEngineEnhanced::resolveDraftModelId(
 
 } // namespace llm
 } // namespace themis
-

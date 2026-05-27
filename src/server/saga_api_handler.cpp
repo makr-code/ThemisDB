@@ -10,6 +10,7 @@
  */
 
 #include "server/saga_api_handler.h"
+#include <stdexcept>
 #include <fstream>
 #include <sstream>
 #include <iomanip>

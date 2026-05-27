@@ -105,9 +105,6 @@ TEST_F(RealEmbeddingsTest, ConstructorRequiresValidContext) {
         GTEST_SKIP() << "Test model not available";
     }
     
-    // Mock model (in production, load real model)
-    llama_model* mock_model = reinterpret_cast<llama_model*>(0x1000);
-    
     // Null context should throw
     EXPECT_THROW({
         llama_model* mock_model = reinterpret_cast<llama_model*>(0x1000);

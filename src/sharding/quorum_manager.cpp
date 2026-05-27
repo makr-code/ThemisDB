@@ -13,6 +13,7 @@
 // Licensed under MIT License
 
 #include "sharding/quorum_manager.h"
+#include <stdexcept>
 #include <algorithm>
 #include <thread>
 

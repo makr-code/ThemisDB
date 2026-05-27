@@ -10,6 +10,7 @@
  */
 
 #include "server/entity_api_handler.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "storage/key_schema.h"
@@ -106,14 +107,14 @@ EntityApiHandler::AuthContext EntityApiHandler::extractAuthContext(
     }
     
     // Extract Authorization header
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         return ctx; // No token -> empty context
     }
     
     // Extract Bearer token
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(it->value().data(), it->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     if (!token) {
         return ctx; // Invalid token format -> empty context
@@ -140,13 +141,13 @@ std::optional<http::response<http::string_body>> EntityApiHandler::requireAccess
     }
     
     // Extract token from Authorization header
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
     }
     
     auto token_opt = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(it->value().data(), it->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     if (!token_opt) {
         return makeErrorResponse(http::status::unauthorized, "Invalid Authorization header format", req);
@@ -1234,4 +1235,3 @@ http::response<http::string_body> EntityApiHandler::handleBulkNdjson(
 
 } // namespace server
 } // namespace themis
-

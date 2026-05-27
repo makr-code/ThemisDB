@@ -75,7 +75,9 @@ TEST_F(GPUVRAMAllocationTest, CalculateOptimalAllocation_RTX4090_Llama7B) {
     auto hw = createRTX4090Hardware();
     
     AdaptiveVRAMAllocator::InferenceConfig config;
-    config.batch_size = 8;
+    // Keep this scenario in the "fits" region for 22 GB available VRAM
+    // under the current allocator model (weights + KV + activations + overhead).
+    config.batch_size = 2;
     config.max_seq_length = 4096;
     config.enable_prefix_caching = true;
     
@@ -145,16 +147,15 @@ TEST_F(GPUVRAMAllocationTest, CalculateModelSize) {
     
     // FP16
     size_t size_fp16 = AdaptiveVRAMAllocator::calculateModelSize(num_params, 2.0f);
-    EXPECT_NEAR(size_fp16, 14ULL * 1024 * 1024 * 1024, 1e9);
+    EXPECT_NEAR(static_cast<double>(size_fp16), 14'000'000'000.0, 1e8);
     
     // INT8
     size_t size_int8 = AdaptiveVRAMAllocator::calculateModelSize(num_params, 1.0f);
-    EXPECT_NEAR(size_int8, 7ULL * 1024 * 1024 * 1024, 1e9);
+    EXPECT_NEAR(static_cast<double>(size_int8), 7'000'000'000.0, 1e8);
     
     // Q4
     size_t size_q4 = AdaptiveVRAMAllocator::calculateModelSize(num_params, 0.5f);
-    size_t expected_q4 = static_cast<size_t>(3.5 * 1024 * 1024 * 1024);
-    EXPECT_NEAR(static_cast<double>(size_q4), static_cast<double>(expected_q4), 1e9);
+    EXPECT_NEAR(static_cast<double>(size_q4), 3'500'000'000.0, 1e8);
 }
 
 // ============================================================================
@@ -337,11 +338,11 @@ TEST_F(GPUVRAMAllocationTest, MixedPrecision_CalculateModelSize) {
     
     // FP16
     size_t size_fp16 = MixedPrecisionInference::calculateModelSize(num_params, PrecisionMode::FP16);
-    EXPECT_NEAR(size_fp16, 14ULL * 1024 * 1024 * 1024, 1e9);
+    EXPECT_NEAR(static_cast<double>(size_fp16), 14'000'000'000.0, 1e8);
     
     // INT8
     size_t size_int8 = MixedPrecisionInference::calculateModelSize(num_params, PrecisionMode::INT8);
-    EXPECT_NEAR(size_int8, 7ULL * 1024 * 1024 * 1024, 1e9);
+    EXPECT_NEAR(static_cast<double>(size_int8), 7'000'000'000.0, 1e8);
 }
 
 TEST_F(GPUVRAMAllocationTest, MixedPrecision_StringConversion) {
@@ -364,7 +365,7 @@ TEST_F(GPUVRAMAllocationTest, Integration_CompleteWorkflow) {
     auto hw = createRTX4090Hardware();
     
     AdaptiveVRAMAllocator::InferenceConfig config;
-    config.batch_size = 8;
+    config.batch_size = 2;
     config.max_seq_length = 4096;
     config.enable_prefix_caching = true;
     

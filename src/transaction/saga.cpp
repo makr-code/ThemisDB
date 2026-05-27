@@ -10,6 +10,7 @@
  */
 
 #include "transaction/saga.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/secondary_index.h"
@@ -283,3 +284,4 @@ void SagaOperation::vectorAddWithCompensation(
 }
 
 } // namespace themis
+

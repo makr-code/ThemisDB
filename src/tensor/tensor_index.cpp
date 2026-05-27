@@ -46,6 +46,25 @@
 namespace themis {
 namespace tensor {
 
+namespace {
+
+std::vector<size_t> inferFlatModeShape(size_t dim) {
+    if (dim == 0) {
+        return {1, 1};
+    }
+    auto rows = static_cast<size_t>(std::sqrt(static_cast<double>(dim)));
+    if (rows == 0) {
+        rows = 1;
+    }
+    while (rows > 1 && (dim % rows) != 0) {
+        --rows;
+    }
+    const auto cols = dim / rows;
+    return {rows, cols};
+}
+
+} // namespace
+
 // ============================================================================
 // FlatTensorIndex — linear-scan ITensorIndex (Phase 1 reference impl)
 // ============================================================================
@@ -85,7 +104,7 @@ public:
         cfg.eps      = 0.01;
 
         std::vector<float> data(vector, vector + dim);
-        std::vector<size_t> shape = { dim };  // treat as 1-D for Phase 1
+        const auto shape = inferFlatModeShape(dim);
         try {
             auto [train, stats] = decomposer.decompose(data, shape, cfg);
             (void)stats;
@@ -153,7 +172,7 @@ public:
         storage::TensorTrainConfig cfg;
         cfg.max_rank = 32;
         cfg.eps      = 0.01;
-        std::vector<size_t> shape = { dim };
+        const auto shape = inferFlatModeShape(dim);
         std::vector<float> data(query, query + dim);
 
         try {

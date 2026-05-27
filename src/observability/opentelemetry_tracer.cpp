@@ -23,6 +23,7 @@
  */
 
 #include "observability/opentelemetry_tracer.h"
+#include <stdexcept>
 #include "observability/metrics_collector.h"
 #include "tracer_utils.h"
 #include "api/otlp_exporter.h"

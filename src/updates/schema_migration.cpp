@@ -104,7 +104,10 @@ public:
         {
             if (!valid()) return "";
             std::string v;
-            store_->get(keys_[pos_], v);
+            const bool found = store_->get(keys_[pos_], v);
+            if (!found) {
+                return "";
+            }
             return v;
         }
         void next() override

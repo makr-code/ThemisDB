@@ -10,6 +10,7 @@
  */
 
 #include "server/llm_api_handler.h"
+#include <stdexcept>
 #include "server/lora_api_handler.h"
 #include "auth/jwt_validator.h"
 #include "governance/policy_engine.h"
@@ -42,16 +43,16 @@ namespace {
 
     // Helper to extract JWT token from Authorization header
     std::optional<std::string> extractBearerToken(const http::request<http::string_body>& req) {
-        auto it = req.find(http::field::authorization);
-        if (it == req.end()) {
+        const auto auth_header = req[http::field::authorization];
+        if (auth_header.empty()) {
             return std::nullopt;
         }
         
-        std::string auth_header{it->value()};
+        std::string auth_str{auth_header.data(), auth_header.size()};
         std::regex bearer_regex(R"(^Bearer\s+(.+)$)", std::regex::icase);
         std::smatch matches;
         
-        if (std::regex_match(auth_header, matches, bearer_regex) && matches.size() == 2) {
+        if (std::regex_match(auth_str, matches, bearer_regex) && matches.size() == 2) {
             return matches[1].str();
         }
         
@@ -1035,8 +1036,11 @@ bool LLMApiHandler::validateBearerToken(const http::request<http::string_body>& 
         auto claims = jwt_validator_->parseAndValidate(*token);
         // Token is valid
         return true;
-    } catch (const std::exception& e) {
-        // Token validation failed (expired, invalid signature, etc.)
+    } catch (...) {
+        // Token validation failed (expired, invalid signature, etc.).
+        // Log at DEBUG level to avoid flooding logs with expected auth failures,
+        // but provide a hook for diagnosing misconfigured tokens.
+        THEMIS_DEBUG("LLMApiHandler: JWT validation exception — treating token as invalid");
         return false;
     }
 }
@@ -1083,7 +1087,7 @@ std::optional<json> LLMApiHandler::parseRequestBody(
         if (parsed.is_object()) {
             return parsed;
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
     
@@ -1701,8 +1705,10 @@ http::response<http::string_body> LLMApiHandler::handleOpenAIListModels(
                 {"owned_by", "themisdb"}
             });
         }
-    } catch (const std::exception&) {
-        // If listing fails, return an empty list rather than an error
+    } catch (...) {
+        // If listing fails, return an empty list rather than an error.
+        // Log at WARN level so model enumeration failures can be diagnosed.
+        THEMIS_WARN("LLMApiHandler: handleOpenAIListModels: exception while listing models — returning empty list");
     }
 
     json response_json{

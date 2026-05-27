@@ -10,6 +10,7 @@
  */
 
 #include "server/import_api_handler.h"
+#include <stdexcept>
 #include "server/import_wizard_builder.h"
 #include "utils/logger.h"
 
@@ -25,6 +26,57 @@ namespace server {
 
 using json = nlohmann::json;
 using namespace importers;
+
+namespace {
+
+std::shared_ptr<IImporter> selectSchemaImporter(
+    const std::string& source_path,
+    const std::shared_ptr<IImporter>& default_importer,
+    const std::shared_ptr<IImporter>& s3_importer
+) {
+    if (source_path.rfind("s3://", 0) == 0 && s3_importer) {
+        return s3_importer;
+    }
+    return default_importer;
+}
+
+bool hasUsableSchemaPayload(const json& schema) {
+    if (schema.is_null()) {
+        return false;
+    }
+    if (schema.is_object()) {
+        if (schema.empty()) {
+            return false;
+        }
+        if (schema.contains("tables") && schema["tables"].is_array()) {
+            return !schema["tables"].empty();
+        }
+        return true;
+    }
+    return schema.is_array() && !schema.empty();
+}
+
+} // namespace
+
+// ============================================================================
+// Schema bridge setters (stub #294)
+// ============================================================================
+
+void ImportApiHandler::setSchemaInspectorFn(SchemaInspectorFn fn) {
+    schemaInspectorFn_ = std::move(fn);
+}
+
+void ImportApiHandler::clearSchemaInspectorFn() {
+    schemaInspectorFn_ = nullptr;
+}
+
+void ImportApiHandler::setSchemaValidatorFn(SchemaValidatorFn fn) {
+    schemaValidatorFn_ = std::move(fn);
+}
+
+void ImportApiHandler::clearSchemaValidatorFn() {
+    schemaValidatorFn_ = nullptr;
+}
 
 // ============================================================================
 // Construction
@@ -256,27 +308,26 @@ void ImportApiHandler::handleJobStatus(const httplib::Request& req,
                                         httplib::Response& res) {
     auto span = Tracer::startSpan("handleJobStatus");
     const std::string job_id = req.matches[1];
-    auto handle = registry_->get(job_id);
-    if (!handle) {
+    auto job = registry_->getJsonSnapshot(job_id);
+    if (!job.has_value()) {
         jsonError(res, 404, "Job not found: " + job_id);
         return;
     }
-    jsonOk(res, handle->toJson());
+    jsonOk(res, *job);
 }
 
 void ImportApiHandler::handleCancelJob(const httplib::Request& req,
                                         httplib::Response& res) {
     auto span = Tracer::startSpan("handleCancelJob");
     const std::string job_id = req.matches[1];
-    auto handle = registry_->get(job_id);
-    if (!handle) {
+    auto snapshot = registry_->getRunningAndJsonSnapshot(job_id);
+    if (!snapshot.has_value()) {
         jsonError(res, 404, "Job not found: " + job_id);
         return;
     }
-    if (!handle->running.load()) {
-        jsonError(res, 409, "Job is not running (status: " +
-                  std::string(handle->getStatus() == ImportStatus::COMPLETED
-                              ? "completed" : "unknown") + ")");
+    if (!snapshot->first) {
+        const std::string status = snapshot->second.value("status", "unknown");
+        jsonError(res, 409, "Job is not running (status: " + status + ")");
         return;
     }
     // NOTE: cancel() signals the shared `cancelled_` flag on the importer.
@@ -285,44 +336,41 @@ void ImportApiHandler::handleCancelJob(const httplib::Request& req,
     // importer instance per job (e.g. one PostgreSQLImporter per long-running import).
     importer_->cancel();
     THEMIS_INFO("ImportApiHandler: cancel requested for job '{}'", job_id);
-    jsonOk(res, handle->toJson());
+    auto updated = registry_->getJsonSnapshot(job_id);
+    jsonOk(res, updated.value_or(snapshot->second));
 }
 
 void ImportApiHandler::handleListJobs(const httplib::Request& /*req*/,
                                        httplib::Response& res) {
     auto span = Tracer::startSpan("handleListJobs");
-    auto jobs = registry_->all();
-    json arr = json::array();
-    for (auto& h : jobs) arr.push_back(h->toJson());
-    jsonOk(res, arr);
+    auto jobs = registry_->allJsonSnapshots();
+    jsonOk(res, jobs);
 }
 
 void ImportApiHandler::handleMetrics(const httplib::Request& /*req*/,
                                       httplib::Response& res) {
     auto span = Tracer::startSpan("handleMetrics");
     // Aggregate counters across all known jobs and emit Prometheus text format.
-    auto jobs = registry_->all();
+    auto jobs = registry_->allJsonSnapshots();
 
     size_t total_imported = 0, total_failed = 0, total_skipped = 0;
     size_t jobs_running = 0, jobs_completed = 0;
     double total_duration = 0.0;
 
-    for (auto& h : jobs) {
-        switch (h->getStatus()) {
-            case ImportStatus::RUNNING:   ++jobs_running;   break;
-            case ImportStatus::COMPLETED: ++jobs_completed; break;
-            default: break;
+    for (const auto& job : jobs) {
+        const std::string status = job.value("status", "unknown");
+        if (status == "running") {
+            ++jobs_running;
+        } else if (status == "completed") {
+            ++jobs_completed;
         }
-        // If the job is done and the future is ready, read final stats
-        if (h->getStatus() == ImportStatus::COMPLETED &&
-            h->future.wait_for(std::chrono::seconds(0)) == std::future_status::ready) {
-            try {
-                auto stats = h->future.get();
-                total_imported += stats.imported_records;
-                total_failed   += stats.failed_records;
-                total_skipped  += stats.skipped_records;
-                total_duration += stats.elapsed_seconds;
-            } catch (...) {}
+
+        const auto stats_it = job.find("stats");
+        if (status == "completed" && stats_it != job.end() && stats_it->is_object()) {
+            total_imported += stats_it->value("imported_records", 0ull);
+            total_failed += stats_it->value("failed_records", 0ull);
+            total_skipped += stats_it->value("skipped_records", 0ull);
+            total_duration += stats_it->value("elapsed_seconds", 0.0);
         }
     }
 
@@ -435,45 +483,43 @@ httplib::Response& ImportApiHandler::jsonError(httplib::Response& res,
 // v2.0 Handlers
 // ============================================================================
 
-void ImportApiHandler::handleGetSchema([[maybe_unused]] const httplib::Request& req,
+void ImportApiHandler::handleGetSchema(const httplib::Request& req,
                                         httplib::Response& res) {
     auto span = Tracer::startSpan("handleGetSchema");
-#ifndef THEMIS_ENABLE_POSTGRES_WIRE
-    // STUB/SIMULATION NOTE (stub #294):
-    // Purpose: Expose the schema-preview and schema-validate REST endpoints so that
-    //          clients can discover them, while the PostgreSQL wire protocol parser
-    //          required for source introspection is not linked into this build.
-    // Activation: `THEMIS_ENABLE_POSTGRES_WIRE` is not defined at compile time
-    //             (default build without the 'pg-wire' vcpkg feature).
-    // Production Delta: GET /import/{id}/schema and POST /import/validate-schema
-    //                   always return HTTP 501.  Callers cannot preview table structures
-    //                   or validate relationship overrides before starting an import.
-    // Removal Plan: Enable the 'pg-wire' vcpkg feature and set
-    //               `-DTHEMIS_ENABLE_POSTGRES_WIRE=ON` in CMake; the `#else` branch
-    //               contains the real implementation.
-    //               See src/server/ROADMAP.md §Import Schema Preview.  Target: Q1 2027.
-    jsonError(res, 501,
-              "Schema preview requires PostgreSQL wire support; rebuild with THEMIS_ENABLE_POSTGRES_WIRE=ON");
-    return;
-#else
     const std::string job_id = req.matches[1];
-    auto handle = registry_->get(job_id);
-    if (!handle) {
+    auto source_path_opt = registry_->getSourcePathSnapshot(job_id);
+    if (!source_path_opt.has_value()) {
         jsonError(res, 404, "Job not found: " + job_id);
         return;
     }
 
     // Retrieve the source_path stored in the handle's options snapshot
-    const std::string source_path = handle->source_path;
+    const std::string source_path = *source_path_opt;
     if (source_path.empty()) {
         jsonError(res, 409, "Job has no source_path available for schema preview");
         return;
     }
 
-    // Use a fresh importer to avoid mutating the running importer's state
-    auto schema_importer = std::make_shared<importers::PostgreSQLImporter>();
-    schema_importer->initialize("{}");
-    json schema = schema_importer->getSourceSchema(source_path);
+    std::shared_ptr<importers::IImporter> schema_importer = importer_;
+    if (source_path.rfind("s3://", 0) == 0 && s3_importer_) {
+        schema_importer = s3_importer_;
+    }
+    if (!schema_importer) {
+        jsonError(res, 503, "No importer is configured for schema preview");
+        return;
+    }
+
+    json schema;
+    try {
+        schema = schema_importer->getSourceSchema(source_path);
+    } catch (const std::exception& e) {
+        jsonError(res, 422, std::string("Schema preview failed: ") + e.what());
+        return;
+    }
+    if (!schema.is_object() || !schema.contains("tables") || !schema["tables"].is_array()) {
+        jsonError(res, 422, "Could not parse schema from: " + source_path);
+        return;
+    }
 
     // Merge any custom relationship overrides
     {
@@ -488,20 +534,11 @@ void ImportApiHandler::handleGetSchema([[maybe_unused]] const httplib::Request& 
     }
 
     jsonOk(res, json{{"job_id", job_id}, {"schema", schema}});
-#endif
 }
 
-void ImportApiHandler::handleValidateSchema([[maybe_unused]] const httplib::Request& req,
+void ImportApiHandler::handleValidateSchema(const httplib::Request& req,
                                              httplib::Response& res) {
     auto span = Tracer::startSpan("handleValidateSchema");
-#ifndef THEMIS_ENABLE_POSTGRES_WIRE
-    // STUB/SIMULATION NOTE (stub #294 — validateSchema path, same gate):
-    // See handleGetSchema() above for full details.  Both schema-inspection endpoints
-    // share the THEMIS_ENABLE_POSTGRES_WIRE compile-time gate.
-    jsonError(res, 501,
-              "Schema validation requires PostgreSQL wire support; rebuild with THEMIS_ENABLE_POSTGRES_WIRE=ON");
-    return;
-#else
     json body;
     try {
         body = parseRequestBody(req.body);
@@ -516,39 +553,59 @@ void ImportApiHandler::handleValidateSchema([[maybe_unused]] const httplib::Requ
     }
     const std::string source_path = body["source_path"].get<std::string>();
 
-    importers::ImportOptions opts;
-    opts.preserve_relationships = true;
-    opts.validate_references    = true;
-    if (body.contains("options") && body["options"].is_object()) {
-        opts = optionsFromJson(body["options"]);
-        opts.preserve_relationships = true;
-        opts.validate_references    = true;
+    std::shared_ptr<importers::IImporter> schema_importer = importer_;
+    if (source_path.rfind("s3://", 0) == 0 && s3_importer_) {
+        schema_importer = s3_importer_;
+    }
+    if (!schema_importer) {
+        jsonError(res, 503, "No importer is configured for schema validation");
+        return;
     }
 
-    // Parse schema and validate
-    auto schema_importer = std::make_shared<importers::PostgreSQLImporter>();
-    schema_importer->initialize("{}");
-    json schema = schema_importer->getSourceSchema(source_path);
+    json schema;
+    try {
+        schema = schema_importer->getSourceSchema(source_path);
+    } catch (const std::exception& e) {
+        jsonError(res, 422, std::string("Schema validation failed: ") + e.what());
+        return;
+    }
 
-    if (!schema.is_object()) {
+    if (!schema.is_object() || !schema.contains("tables") || !schema["tables"].is_array()) {
         jsonError(res, 422, "Could not parse schema from: " + source_path);
         return;
     }
 
-    size_t table_count = schema.value("tables", json::array()).size();
+    size_t table_count = schema["tables"].size();
     size_t rel_count   = schema.value("relationships", json::array()).size();
     auto   cycles      = schema.value("circular_references", json::array());
 
-    // Validate using a temporary ImportStats
-    importers::ImportStats vstats;
-    // Collect validation errors from the structured_errors already added by getSourceSchema()
     json warn_arr = json::array();
     json err_arr  = json::array();
-    for (const auto& e : vstats.structured_errors) {
-        if (e.severity == importers::ImportErrorSeverity::WARNING) {
-            warn_arr.push_back(e.message);
-        } else {
-            err_arr.push_back(e.message);
+
+    const auto append_strings = [](const json& src, const char* key, json& dst) {
+        if (!src.contains(key) || !src[key].is_array()) {
+            return;
+        }
+        for (const auto& entry : src[key]) {
+            if (entry.is_string()) {
+                dst.push_back(entry.get<std::string>());
+            }
+        }
+    };
+    append_strings(schema, "warnings", warn_arr);
+    append_strings(schema, "errors", err_arr);
+
+    if (schema.contains("structured_errors") && schema["structured_errors"].is_array()) {
+        for (const auto& entry : schema["structured_errors"]) {
+            if (!entry.is_object()) continue;
+            const std::string message = entry.value("message", std::string{});
+            if (message.empty()) continue;
+            const int severity = entry.value("severity", static_cast<int>(importers::ImportErrorSeverity::ERROR));
+            if (severity == static_cast<int>(importers::ImportErrorSeverity::WARNING)) {
+                warn_arr.push_back(message);
+            } else {
+                err_arr.push_back(message);
+            }
         }
     }
 
@@ -566,15 +623,13 @@ void ImportApiHandler::handleValidateSchema([[maybe_unused]] const httplib::Requ
         {"errors", err_arr},
         {"circular_references", cycles}
     });
-#endif
 }
 
 void ImportApiHandler::handleUpdateRelationships(const httplib::Request& req,
                                                   httplib::Response& res) {
     auto span = Tracer::startSpan("handleUpdateRelationships");
     const std::string job_id = req.matches[1];
-    auto handle = registry_->get(job_id);
-    if (!handle) {
+    if (!registry_->getSourcePathSnapshot(job_id).has_value()) {
         jsonError(res, 404, "Job not found: " + job_id);
         return;
     }

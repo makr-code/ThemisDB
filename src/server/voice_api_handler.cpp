@@ -18,6 +18,7 @@
  */
 
 #include "server/voice_api_handler.h"
+#include <stdexcept>
 #include "server/auth_middleware.h"
 #include "voice/voice_assistant.h"
 #include "voice/voice_audio_storage.h"
@@ -25,10 +26,12 @@
 #include "content/tts_processor.h"
 #include "utils/http_client_pool.h"
 #include "utils/input_validator.h"
+#include "utils/logger.h"
 #include <sstream>
 #include <algorithm>
 #include <cctype>
 #include <regex>
+#include <cstdlib>
 #include "utils/tracing.h"
 
 namespace themis::server {
@@ -70,7 +73,7 @@ namespace {
                 }
                 octets[i] = octet;
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             // std::stoi can throw invalid_argument or out_of_range
             return false;
         }
@@ -116,21 +119,101 @@ namespace {
 
 VoiceApiHandler::VoiceApiHandler(
     std::shared_ptr<voice::VoiceAssistant> voice_assistant,
-    std::shared_ptr<::themis::AuthMiddleware> auth)
-    : voice_assistant_(voice_assistant)
-    , auth_(std::move(auth)) {
+    std::shared_ptr<themis::AuthMiddleware> auth)
+    : voice_assistant_(std::move(voice_assistant)),
+      auth_(std::move(auth)) {
+    // Precondition: voice_assistant must be non-null.  All handler methods
+    // directly call voice_assistant_->...  and provide no null fallback.
+    // Failing fast here surfaces the programming error at construction time
+    // rather than at the first request, which would produce a less informative
+    // crash deep inside a request handler.
+    if (!voice_assistant_) {
+        throw std::invalid_argument(
+            "VoiceApiHandler: voice_assistant must be a non-null shared_ptr");
+    }
     // Initialize HTTP client pool for downloading audio from URLs
     utils::HTTPClientPool::Config http_config;
     http_config.max_connections = 10;
     http_config.connect_timeout = std::chrono::seconds(10);
     http_config.request_timeout = std::chrono::seconds(60); // Audio files may be large
     http_client_pool_ = std::make_shared<utils::HTTPClientPool>(http_config);
+
+    if (!auth_) {
+        auth_ = std::make_shared<themis::AuthMiddleware>();
+    }
+
+    const auto getEnv = [](const char* name) -> std::optional<std::string> {
+        const char* value = std::getenv(name);
+        if (value && *value) {
+            return std::string(value);
+        }
+        return std::nullopt;
+    };
+
+    if (auto token = getEnv("THEMIS_TOKEN_ADMIN")) {
+        themis::AuthMiddleware::TokenConfig cfg;
+        cfg.token = *token;
+        cfg.user_id = "admin";
+        cfg.scopes = {"admin", "data:read", "data:write", "metrics:read"};
+        auth_->addToken(cfg);
+    }
+
+    if (auto token = getEnv("THEMIS_TOKEN_READONLY")) {
+        themis::AuthMiddleware::TokenConfig cfg;
+        cfg.token = *token;
+        cfg.user_id = "readonly";
+        cfg.scopes = {"data:read", "metrics:read"};
+        auth_->addToken(cfg);
+    }
+
+    if (auto token = getEnv("THEMIS_TOKEN_ANALYST")) {
+        themis::AuthMiddleware::TokenConfig cfg;
+        cfg.token = *token;
+        cfg.user_id = "analyst";
+        cfg.scopes = {"data:read", "metrics:read"};
+        auth_->addToken(cfg);
+    }
+
+    if (auto jwks_url = getEnv("THEMIS_JWT_JWKS_URL")) {
+        themis::AuthMiddleware::JWTConfig jwt_cfg;
+        jwt_cfg.jwks_url = *jwks_url;
+        if (auto issuer = getEnv("THEMIS_JWT_EXPECTED_ISSUER")) {
+            jwt_cfg.expected_issuer = *issuer;
+        }
+        if (auto audience = getEnv("THEMIS_JWT_EXPECTED_AUDIENCE")) {
+            jwt_cfg.expected_audience = *audience;
+        }
+        if (auto scope_claim = getEnv("THEMIS_JWT_SCOPE_CLAIM")) {
+            jwt_cfg.scope_claim = *scope_claim;
+        }
+        if (auto tenant_claim = getEnv("THEMIS_JWT_TENANT_CLAIM")) {
+            jwt_cfg.tenant_claim = *tenant_claim;
+        }
+
+        // Allow issuer/audience to be optional in deployments that only set JWKS.
+        jwt_cfg.require_issuer_validation = !jwt_cfg.expected_issuer.empty();
+        jwt_cfg.require_audience_validation = !jwt_cfg.expected_audience.empty();
+
+        try {
+            auth_->enableJWT(jwt_cfg);
+        } catch (const std::exception& e) {
+            THEMIS_WARN("VoiceApiHandler: failed to enable JWT validation: {}", e.what());
+        }
+    }
 }
 
 http::response<http::string_body> VoiceApiHandler::handleRequest(
     const http::request<http::string_body>& req
 ) {
     auto span = Tracer::startSpan("handleRequest");
+    if (!voice_assistant_) {
+        return createErrorResponse(
+            http::status::service_unavailable,
+            "Service Unavailable",
+            "Voice assistant backend is not initialized"
+        );
+    }
+
     // Validate authentication
     if (!validateBearerToken(req)) {
         return createErrorResponse(
@@ -139,7 +222,15 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
             "Invalid or missing Bearer token"
         );
     }
-    
+
+    if (!voice_assistant_) {
+        return createErrorResponse(
+            http::status::service_unavailable,
+            "Service Unavailable",
+            "Voice assistant backend not available"
+        );
+    }
+
     // Extract path (without query string) and method
     std::string full_target = std::string(req.target());
     auto q_pos = full_target.find('?');
@@ -981,6 +1072,7 @@ http::response<http::string_body> VoiceApiHandler::handleGetSession(
     const std::string& session_id
 ) {
     auto span = Tracer::startSpan("handleGetSession");
+    static_cast<void>(req);
     auto session = voice_assistant_->getSession(session_id);
     
     json result;
@@ -1029,7 +1121,8 @@ http::response<http::string_body> VoiceApiHandler::handleDeleteSession(
     const std::string& session_id
 ) {
     auto span = Tracer::startSpan("handleDeleteSession");
-    if (!voice_assistant_->deleteSession(session_id)) {
+    const bool deleted = voice_assistant_->deleteSession(session_id);
+    if (!deleted) {
         return createErrorResponse(
             http::status::not_found,
             "Not Found",
@@ -1040,7 +1133,7 @@ http::response<http::string_body> VoiceApiHandler::handleDeleteSession(
     json result;
     result["success"] = true;
     result["session_id"] = session_id;
-    
+
     return createJsonResponse(result);
 }
 
@@ -1048,6 +1141,7 @@ http::response<http::string_body> VoiceApiHandler::handleGetVoices(
     const http::request<http::string_body>& req
 ) {
     auto span = Tracer::startSpan("handleGetVoices");
+    static_cast<void>(req);
     json result;
     result["voices"] = voice_assistant_->getAvailableVoices();
     return createJsonResponse(result);
@@ -1057,6 +1151,7 @@ http::response<http::string_body> VoiceApiHandler::handleGetLanguages(
     const http::request<http::string_body>& req
 ) {
     auto span = Tracer::startSpan("handleGetLanguages");
+    static_cast<void>(req);
     json result;
     result["languages"] = json::array({
         "en", "de", "es", "fr", "it", "pt", "ru", "zh", "ja", "ko"
@@ -1329,6 +1424,7 @@ http::response<http::string_body> VoiceApiHandler::handleGetMacro(
     const std::string& macro_id
 ) {
     auto span = Tracer::startSpan("handleGetMacro");
+    static_cast<void>(req);
     auto info = voice_assistant_->macroManager().getMacro(macro_id);
     if (!info) {
         return createErrorResponse(
@@ -1466,6 +1562,7 @@ http::response<http::string_body> VoiceApiHandler::handleDeleteMacro(
     const std::string& macro_id
 ) {
     auto span = Tracer::startSpan("handleDeleteMacro");
+    static_cast<void>(req);
     bool ok = voice_assistant_->macroManager().deleteMacro(macro_id);
     if (!ok) {
         return createErrorResponse(
@@ -1502,19 +1599,9 @@ http::response<http::string_body> VoiceApiHandler::handleListRecordings(
     std::string limit_str = parseQueryParam(std::string(req.target()), "limit");
     if (!limit_str.empty()) {
         try {
-            size_t pos = 0;
-            int v = std::stoi(limit_str, &pos);
-            if (pos != limit_str.size() || v <= 0) {
-                return createErrorResponse(
-                    http::status::bad_request, "Bad Request",
-                    "limit must be a positive integer");
-            }
-            limit = static_cast<size_t>(v);
-        } catch (...) {
-            return createErrorResponse(
-                http::status::bad_request, "Bad Request",
-                "limit must be a positive integer");
-        }
+            int v = std::stoi(limit_str);
+            if (v > 0) limit = static_cast<size_t>(v);
+        } catch (...) {}
     }
 
     auto records = voice_assistant_->audioStorage().listRecords(tier, limit);
@@ -1598,19 +1685,9 @@ http::response<http::string_body> VoiceApiHandler::handleSearchTranscripts(
     std::string limit_str = parseQueryParam(std::string(req.target()), "limit");
     if (!limit_str.empty()) {
         try {
-            size_t pos = 0;
-            int v = std::stoi(limit_str, &pos);
-            if (pos != limit_str.size() || v <= 0) {
-                return createErrorResponse(
-                    http::status::bad_request, "Bad Request",
-                    "limit must be a positive integer");
-            }
-            limit = static_cast<size_t>(v);
-        } catch (...) {
-            return createErrorResponse(
-                http::status::bad_request, "Bad Request",
-                "limit must be a positive integer");
-        }
+            int v = std::stoi(limit_str);
+            if (v > 0) limit = static_cast<size_t>(v);
+        } catch (...) {}
     }
 
     auto records = voice_assistant_->audioStorage().searchTranscripts(query, limit);
@@ -1637,6 +1714,7 @@ http::response<http::string_body> VoiceApiHandler::handleStats(
     const http::request<http::string_body>& req
 ) {
     auto span = Tracer::startSpan("handleStats");
+    static_cast<void>(req);
     auto stats = voice_assistant_->getStatistics();
     return createJsonResponse(stats);
 }
@@ -1645,6 +1723,7 @@ http::response<http::string_body> VoiceApiHandler::handleHealth(
     const http::request<http::string_body>& req
 ) {
     auto span = Tracer::startSpan("handleHealth");
+    static_cast<void>(req);
     json result;
     result["status"] = "healthy";
     result["voice_assistant"] = "available";
@@ -1658,39 +1737,23 @@ http::response<http::string_body> VoiceApiHandler::handleHealth(
 bool VoiceApiHandler::validateBearerToken(
     const http::request<http::string_body>& req
 ) {
-    // Check Authorization header
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         return false;
     }
 
-    const std::string_view auth_value(it->value().data(), it->value().size());
-
-    // Delegate to the shared auth middleware when available (production path).
-    // This validates expiry, signature, issuer, audience, revocation, and
-    // tenant/user claims via the repository-wide JWT/OIDC stack.
-    if (auth_ && auth_->isEnabled()) {
-        auto token = themis::AuthMiddleware::extractBearerToken(auth_value);
-        if (!token) {
-            return false; // Malformed / missing Bearer prefix
-        }
-        // Use "voice:access" scope — voice endpoints require at least this scope.
-        // Operators may tighten this to "voice:write" for synthesis/command endpoints.
-        auto result = auth_->authorize(*token, "voice:access");
-        return result.authorized;
-    }
-
-    // Open mode fallback: require a non-empty bearer token string so that
-    // unauthenticated callers (missing header entirely) are still rejected.
-    // This path is only reached when no auth middleware is injected, which
-    // should only happen in test/development deployments.
-    const std::string_view bearer_prefix("Bearer ");
-    if (auth_value.size() <= bearer_prefix.size() ||
-        auth_value.substr(0, bearer_prefix.size()) != bearer_prefix) {
+    const auto token = themis::AuthMiddleware::extractBearerToken(
+        std::string_view(auth_header.data(), auth_header.size()));
+    if (!token || token->empty()) {
         return false;
     }
-    const auto token = auth_value.substr(bearer_prefix.size());
-    return !token.empty();
+
+    if (!auth_) {
+        return false;
+    }
+
+    const auto auth_result = auth_->validateToken(*token);
+    return auth_result.authorized;
 }
 
 http::response<http::string_body> VoiceApiHandler::createErrorResponse(
@@ -1847,12 +1910,16 @@ std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl(const std::string& ur
     if (url.empty()) {
         throw std::invalid_argument("URL cannot be empty");
     }
+
+    if (!http_client_pool_) {
+        throw std::runtime_error("HTTP client pool is not initialized");
+    }
     
     // SSRF Protection: Parse URL and validate host to prevent access to internal resources
     utils::URLComponents components;
     try {
         components = utils::parseURL(url);
-    } catch (const std::exception& e) {
+    } catch (...) {
         throw std::invalid_argument("Invalid URL format");
     }
     

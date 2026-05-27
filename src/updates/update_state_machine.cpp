@@ -10,6 +10,7 @@
  */
 
 #include "updates/update_state_machine.h"
+#include <stdexcept>
 #include "updates/update_history_logger.h"
 #include "utils/logger.h"
 

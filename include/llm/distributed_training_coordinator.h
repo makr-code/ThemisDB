@@ -116,8 +116,8 @@ struct GradientTensor {
     
     // Metadata
     std::string source_shard;
-    int64_t timestamp_ms;
-    int step_number;
+    int64_t timestamp_ms = 0;
+    int step_number = 0;
     
     // Compression info
     GradientCompressionType compression_type = GradientCompressionType::NONE;
@@ -145,13 +145,13 @@ struct GradientExchangeMessage {
     std::vector<GradientTensor> gradients;
     
     // All-reduce metadata
-    int iteration_number;
-    int total_participants;
+    int iteration_number = 0;
+    int total_participants = 0;
     std::vector<std::string> participants_seen; // Ring all-reduce tracking
     
     // Timing
-    int64_t sent_timestamp_ms;
-    int64_t received_timestamp_ms;
+    int64_t sent_timestamp_ms = 0;
+    int64_t received_timestamp_ms = 0;
     
     // Loss metrics from this shard
     std::optional<float> local_loss;
@@ -182,7 +182,7 @@ struct ShardTrainingState {
     // Health
     bool is_active = true;
     bool is_synchronized = true;
-    int64_t last_heartbeat_ms;
+    int64_t last_heartbeat_ms = 0;
     int consecutive_failures = 0;
     
     // Resource usage
@@ -250,6 +250,8 @@ public:
 // All-Reduce: Average gradients from all shards
 class AllReduceAggregator : public GradientAggregator {
 public:
+    ~AllReduceAggregator() override = default;
+
     std::vector<GradientTensor> aggregate(
         const std::vector<std::vector<GradientTensor>>& shard_gradients
     ) override;
@@ -262,6 +264,7 @@ class ParameterServerAggregator : public GradientAggregator {
 public:
     ParameterServerAggregator(const std::map<std::string, float>& shard_weights)
         : shard_weights_(shard_weights) {}
+    ~ParameterServerAggregator() override = default;
     
     std::vector<GradientTensor> aggregate(
         const std::vector<std::vector<GradientTensor>>& shard_gradients
@@ -276,6 +279,8 @@ private:
 // Ring All-Reduce: Communication-efficient ring pattern
 class RingAllReduceAggregator : public GradientAggregator {
 public:
+    ~RingAllReduceAggregator() override = default;
+
     std::vector<GradientTensor> aggregate(
         const std::vector<std::vector<GradientTensor>>& shard_gradients
     ) override;
@@ -311,11 +316,11 @@ public:
     
     // Execute one distributed training step
     struct StepResult {
-        bool success;
-        int step_number;
+        bool success = false;
+        int step_number = 0;
         std::vector<GradientTensor> aggregated_gradients;
-        float sync_time_ms;
-        float total_time_ms;
+        float sync_time_ms = 0.0f;
+        float total_time_ms = 0.0f;
         std::map<std::string, ShardTrainingState> shard_states;
         std::optional<float> aggregated_loss;
         std::optional<float> aggregated_accuracy;

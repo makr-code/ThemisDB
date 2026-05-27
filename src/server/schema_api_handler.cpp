@@ -13,6 +13,7 @@
 // Copyright (c) 2026 ThemisDB Contributors
 
 #include "server/schema_api_handler.h"
+#include <stdexcept>
 #include "metadata/schema_manager.h"
 #include "metadata/information_schema.h"
 #include "metadata/statistics_collector.h"

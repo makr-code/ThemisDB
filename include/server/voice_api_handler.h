@@ -23,12 +23,14 @@
 
 #pragma once
 
+#include "server/auth_middleware.h"
 #include <boost/beast.hpp>
 #include <memory>
 #include <string>
 #include <string_view>
 #include <optional>
 #include <nlohmann/json.hpp>
+#include "auth/jwt_validator.h"
 
 // Forward declarations
 namespace themis {
@@ -38,11 +40,6 @@ class VoiceAssistant;
 namespace utils {
 class HTTPClientPool;
 }
-}
-
-// Forward-declare AuthMiddleware so callers can pass it without pulling in the
-// full header in most translation units.
-namespace themis {
 class AuthMiddleware;
 }
 
@@ -92,30 +89,52 @@ using json = nlohmann::json;
 class VoiceApiHandler {
 public:
     /**
-     * @brief Construct Voice API handler.
+     * @brief Construct Voice API handler
      *
-     * @param voice_assistant  Voice assistant instance (required).
-     * @param auth             Optional authentication middleware.  When non-null
-     *                         and enabled, every request is validated via the
-     *                         repository-wide JWT/OIDC stack.  When null the
-     *                         handler operates in open mode (non-empty bearer
-     *                         token check only) for backward compatibility.
+     * @param voice_assistant Voice assistant instance; **must not be null**.
+     *        Passing nullptr throws `std::invalid_argument`.
+     * @param auth Optional shared authentication middleware used for
+     *             bearer token validation (static tokens and JWT when configured).
+     *
+     * @throws std::invalid_argument if @p voice_assistant is null.
      */
     explicit VoiceApiHandler(
         std::shared_ptr<voice::VoiceAssistant> voice_assistant,
-        std::shared_ptr<::themis::AuthMiddleware> auth = nullptr);
+        std::shared_ptr<themis::AuthMiddleware> auth = nullptr);
     
     /**
      * @brief Handle Voice API request
-     * 
+     *
      * Routes request to appropriate handler based on path and method.
      * Validates JWT Bearer Token authentication.
-     * 
+     *
      * @param req HTTP request
      * @return HTTP response (JSON or audio data)
      */
     http::response<http::string_body> handleRequest(
         const http::request<http::string_body>& req);
+
+    /**
+     * @brief Function type for bearer-token validation (stub #302).
+     *
+     * When injected via setTokenValidatorFn(), validateBearerToken() delegates
+     * to this function, enabling JWT signature, expiry, audience, and issuer
+     * verification without changing callers.
+     *
+     * @param token The bearer token string (after the "Bearer " prefix).
+     * @return true if the token is valid and the caller is authorized.
+     */
+    using TokenValidatorFn = std::function<bool(std::string_view)>;
+
+    /**
+     * @brief Inject a real JWT/OIDC token validator.
+     *
+     * Thread-safe.  Passing nullptr reverts to the built-in non-empty-check
+     * fallback (retained for dev/CI builds only).
+     *
+     * @param fn Token validation callback.
+     */
+    static void setTokenValidatorFn(TokenValidatorFn fn);
 
 private:
     // Core endpoints
@@ -261,7 +280,7 @@ private:
 
     std::shared_ptr<voice::VoiceAssistant> voice_assistant_;
     std::shared_ptr<utils::HTTPClientPool> http_client_pool_;
-    std::shared_ptr<::themis::AuthMiddleware> auth_; ///< JWT/OIDC auth middleware; null = open mode
+    std::shared_ptr<themis::AuthMiddleware> auth_;
 };
 
 } // namespace themis::server

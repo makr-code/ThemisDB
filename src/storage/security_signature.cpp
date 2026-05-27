@@ -48,7 +48,7 @@ std::optional<SecuritySignature> SecuritySignature::fromJson(const nlohmann::jso
         }
         
         return sig;
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -61,7 +61,7 @@ std::optional<SecuritySignature> SecuritySignature::deserialize(const std::strin
     try {
         json j = json::parse(data);
         return fromJson(j);
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }

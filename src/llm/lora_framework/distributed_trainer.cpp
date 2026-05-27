@@ -43,6 +43,17 @@ bool DistributedTrainer::initialize() {
         spdlog::warn("DistributedTrainer already initialized");
         return true;
     }
+
+    if (config_.world_size < 1) {
+        spdlog::error("DistributedTrainer initialization failed: invalid world_size={} (must be >= 1)",
+                      config_.world_size);
+        return false;
+    }
+
+    if (config_.rank < 0 || config_.rank >= config_.world_size) {
+        spdlog::error("Invalid rank: {} (world_size={})", config_.rank, config_.world_size);
+        return false;
+    }
     
     if (!is_distributed()) {
         spdlog::info("Single process mode (world_size=1), skipping initialization");
@@ -58,8 +69,19 @@ bool DistributedTrainer::initialize() {
     // Real implementation would initialize NCCL/Gloo/MPI here
     // For now, we just validate the configuration
     
-    if (config_.rank < 0 || config_.rank >= config_.world_size) {
-        spdlog::error("Invalid rank: {} (world_size={})", config_.rank, config_.world_size);
+    if (!allreduce_cpu_fn_) {
+        spdlog::error("DistributedTrainer initialization failed: world_size={} requires "
+                      "setAllReduceCpuFn()", config_.world_size);
+        return false;
+    }
+    if (!broadcast_fn_) {
+        spdlog::error("DistributedTrainer initialization failed: world_size={} requires "
+                      "setBroadcastFn()", config_.world_size);
+        return false;
+    }
+    if (!barrier_fn_) {
+        spdlog::error("DistributedTrainer initialization failed: world_size={} requires "
+                      "setBarrierFn()", config_.world_size);
         return false;
     }
     
@@ -178,10 +200,6 @@ void DistributedTrainer::setAllReduceCpuFn(AllReduceCpuFn fn) {
     allreduce_cpu_fn_ = std::move(fn);
 }
 
-void DistributedTrainer::clearAllReduceCpuFn() {
-    allreduce_cpu_fn_.reset();
-}
-
 DistributedStats DistributedTrainer::stats() const {
     return stats_;
 }
@@ -212,32 +230,25 @@ float DistributedTrainer::scale_learning_rate(
     }
 }
 
-// CPU-based AllReduce — delegates to injected AllReduceCpuFn when available;
-// falls back to local scale-only path for single-process builds.
+// allreduce_cpu: delegates to the injected AllReduceCpuFn when available
+// (MPI_Allreduce / Gloo allreduce must be injected via setAllReduceCpuFn()
+// before training starts when world_size > 1).  Falls back to local scale for
+// single-process builds (world_size == 1) where no peer exchange is needed.
 void DistributedTrainer::allreduce_cpu(std::vector<float>& data) {
     if (allreduce_cpu_fn_) {
-        try {
-            (*allreduce_cpu_fn_)(data);
-        } catch (const std::exception& ex) {
-            spdlog::error("DistributedTrainer::allreduce_cpu: injected fn threw: {}", ex.what());
-        }
+        (*allreduce_cpu_fn_)(data);
         return;
     }
 
-    // STUB/SIMULATION NOTE (stub #290):
-    // Purpose: Allow distributed training code paths to compile and run without
-    //          NCCL, RCCL, or MPI installed.  Gradient vectors are scaled locally
-    //          (divide by world_size) under the assumption that they were already
-    //          summed externally, which is only true for single-process builds.
-    // Activation: When no AllReduceCpuFn has been injected via setAllReduceCpuFn().
-    // Production Delta: In a genuine multi-GPU or multi-node setting each rank
-    //                   independently scales its *own* gradient vector without
-    //                   exchanging data with peers.  This is mathematically incorrect
-    //                   and causes divergent model weights after the first step.
-    //                   Single-process builds (world_size == 1) are unaffected.
-    // Removal Plan: Inject MPI_Allreduce / Gloo allreduce via setAllReduceCpuFn()
-    //               at startup; this fallback is then unreachable in production.
-    float scale = 1.0f / static_cast<float>(config_.world_size);
+    if (config_.world_size > 1) {
+        spdlog::error("DistributedTrainer::allreduce_cpu called without AllReduceCpuFn "
+                      "(world_size={}); refusing local fallback in multi-rank mode",
+                      config_.world_size);
+        return;
+    }
+
+    // Single-process fallback.
+    const float scale = 1.0f / static_cast<float>(config_.world_size);
     for (float& val : data) {
         val *= scale;
     }
@@ -250,19 +261,11 @@ void DistributedTrainer::broadcast_cpu(std::vector<float>& data) {
         return;
     }
 
-    // STUB/SIMULATION NOTE:
-    // Purpose: Allow multi-rank training to proceed past the broadcast call in
-    //          single-process CPU mode where actual inter-process communication
-    //          is not needed (all "ranks" share the same address space).
-    // Activation: Called whenever NCCL/RCCL/Gloo are absent and no BroadcastFn
-    //             has been injected via setBroadcastFn() (default build without
-    //             MPI/Gloo).
-    // Production Delta: No data is sent to any rank.  In a true multi-process
-    //                   setup (e.g. mpirun with world_size > 1) all non-master
-    //                   ranks will continue with stale parameters; training
-    //                   diverges immediately.  Single-process builds are unaffected.
-    // Removal Plan: Inject a real MPI_Bcast/Gloo broadcast via setBroadcastFn() at
-    //               startup.  See src/llm/FUTURE_ENHANCEMENTS.md §DistributedTrainer BroadcastCPU.
+    if (config_.world_size > 1) {
+        spdlog::error("DistributedTrainer::broadcast_cpu called without BroadcastFn "
+                      "(world_size={}); refusing no-op fallback in multi-rank mode",
+                      config_.world_size);
+    }
 }
 
 // ============================================================================

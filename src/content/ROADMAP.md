@@ -126,6 +126,9 @@
 - [x] German developer docs (`docs/de/content/`)
 - [x] OCR language-pack path convention documented and defaulted to `config/ai_ml/tesseract_lang/` (CON-004)
 - [x] API reference for `ContentManager::ingestStream()` back-pressure behaviour
+- [x] MODULE_GAPS.md populated with gap scan v3 results (4,077 items, categorised by severity and file)
+- [x] AUDIT.md updated with 2026-05-19 findings: VideoProcessor healthCheck() fix, extractMetadata() STUB note, RAII fix CON-009
+- [x] CHANGELOG.md updated under [Unreleased] with CON-007, CON-008, CON-009 fixes
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1698)
@@ -136,7 +139,7 @@
 - [x] API stability guaranteed for ingestion pipeline
 
 ## Known Issues & Limitations
-- Video metadata and thumbnail extraction is available via FFmpeg integration; scene detection, subtitle extraction, and keyframe extraction stubs exist for non-FFmpeg builds
+- Video metadata and thumbnail extraction is available via FFmpeg integration; scene detection, subtitle extraction, and keyframe extraction stubs exist for non-FFmpeg builds. `VideoProcessor::healthCheck()` now correctly returns `false` when FFmpeg is not compiled in (CON-007, resolved 2026-05-19)
 - OCR integrated via Tesseract (`ocr_processor.cpp`, `THEMIS_ENABLE_OCR=ON`); DPI pre-processing (rescaling + Sauvola binarisation, CON-003) implemented. MimeDetector-triggered OCR routing via `ContentPolicy::ocrEnabled()` implemented (CON-002). OCR language-pack data directory defaults to `config/ai_ml/tesseract_lang/` (CON-004, resolved).
 - Large file streaming ingestion:
   - Streaming-capable types (text/plain, CSV, NDJSON, Markdown): processed in configurable chunks (default 4 MB) without full-file buffering; peak RSS ≤ 2× chunk size

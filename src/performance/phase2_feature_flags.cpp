@@ -45,7 +45,7 @@ void Phase2FeatureFlags::load_from_config(const std::string& config_path) {
                 set_rabitq_enabled(phase2["rabitq_enabled"]);
             }
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         // Ignore JSON parsing errors, use defaults
     }
 }

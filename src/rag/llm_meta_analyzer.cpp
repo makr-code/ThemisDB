@@ -15,6 +15,7 @@
  */
 
 #include "rag/llm_meta_analyzer.h"
+#include <stdexcept>
 #include "rag/llm_integration.h"
 #include "llm/inference_engine_enhanced.h"
 #include "utils/logger.h"
@@ -229,7 +230,7 @@ std::string LLMMetaAnalyzer::callLLM(const std::string& prompt) {
             request.base_request.prompt    = prompt;
             request.base_request.max_tokens = 512;
             // Low temperature (0.1) for deterministic analytical tasks; valid range 0.0-1.0
-            request.base_request.temperature = 0.1;
+            request.base_request.temperature = 0.1f;
             request.allow_caching = true;
             request.priority      = 0;
 

@@ -34,6 +34,7 @@
 // Roadmap ref: src/security/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
 
 #include "security/hsm_provider.h"
+#include <stdexcept>
 #include "core/production_mode.h"
 #include "themis/runtime_license_gate.h"
 #include "utils/logger.h"
@@ -523,3 +524,4 @@ bool HSMPKIClient::isReady() const { return hsm_->isReady(); }
 } } // namespace themis::security
 
 #endif // !THEMIS_ENABLE_HSM_REAL
+

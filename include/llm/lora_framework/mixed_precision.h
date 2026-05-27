@@ -146,10 +146,10 @@ public:
 
 private:
     MixedPrecisionConfig config_;
-    float current_loss_scale_;
-    int steps_since_overflow_;
-    int total_overflows_;
-    int total_steps_;
+    float current_loss_scale_ = 0.0f;
+    int steps_since_overflow_ = 0;
+    int total_overflows_ = 0;
+    int total_steps_ = 0;
     
     // Helper for FP16/BF16 conversion (simplified for CPU)
     static float fp32_to_fp16(float value);

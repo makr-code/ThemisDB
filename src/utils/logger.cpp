@@ -58,12 +58,6 @@ std::string jsonEscapeTraceId(const std::string& s) {
 }
 } // anonymous namespace
 
-std::shared_ptr<spdlog::logger> Logger::logger_;
-LogMetrics Logger::metrics_;
-std::string Logger::trace_context_;
-std::mutex Logger::trace_context_mu_;
-bool Logger::json_mode_ = false;
-
 // ─────────────────────────────────────────────────────────────────────────────
 // Private helper
 // ─────────────────────────────────────────────────────────────────────────────

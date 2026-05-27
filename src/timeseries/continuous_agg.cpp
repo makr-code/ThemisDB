@@ -10,6 +10,7 @@
  */
 
 #include "timeseries/continuous_agg.h"
+#include <stdexcept>
 #include "timeseries/tsstore.h"
 #include <sstream>
 #include <algorithm>

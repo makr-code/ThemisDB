@@ -76,6 +76,10 @@ MetaPromptResult MetaPromptGenerator::generateImprovementPrompt(
     meta_prompt << "Include explanations of key changes made.\n\n";
     
     result.meta_prompt = meta_prompt.str();
+
+    if (!result.metadata.is_object()) {
+        result.metadata = nlohmann::json::object();
+    }
     
     // Generate specific improvement suggestions
     result.improvement_suggestion = "Consider the following improvements:\n";

@@ -753,7 +753,7 @@ TEST(CUDAGraphBackendTest, GetCapabilities_SupportsGraphOps) {
     const auto caps = backend.getCapabilities();
     EXPECT_TRUE(caps.supportsGraphOps);
 #else
-    GTEST_SKIP() << "CUDA not compiled in";
+    GTEST_SKIP() << "capability:cuda_compiled=false;reason=cuda_not_compiled";
 #endif
 }
 
@@ -761,12 +761,12 @@ TEST(CUDAGraphBackendTest, Initialize_FailsWithoutHardware) {
 #ifdef THEMIS_ENABLE_CUDA
     CUDAGraphBackend backend;
     if (backend.isAvailable()) {
-        GTEST_SKIP() << "CUDA hardware present — skipping no-device path";
+        GTEST_SKIP() << "capability:no_cuda_device_path_exercisable=false;reason=cuda_hardware_present";
     }
     EXPECT_FALSE(backend.initialize());
     EXPECT_FALSE(backend.getLastError().isSuccess());
 #else
-    GTEST_SKIP() << "CUDA not compiled in";
+    GTEST_SKIP() << "capability:cuda_compiled=false;reason=cuda_not_compiled";
 #endif
 }
 
@@ -834,7 +834,7 @@ TEST(CUDAGraphBackendTest, BatchBFS_WithHardware_StartVertexAlwaysVisited) {
 #ifdef THEMIS_ENABLE_CUDA
     CUDAGraphBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
 
     // 4-vertex graph: 0→1, 1→2, 2→3 (linear chain)
@@ -862,7 +862,7 @@ TEST(CUDAGraphBackendTest, BatchBFS_WithHardware_StartVertexAlwaysVisited) {
 
     backend.shutdown();
 #else
-    GTEST_SKIP() << "CUDA not compiled in";
+    GTEST_SKIP() << "capability:cuda_compiled=false;reason=cuda_not_compiled";
 #endif
 }
 
@@ -872,7 +872,7 @@ TEST(CUDAGraphBackendTest, BatchShortestPath_WithHardware_LinearChain) {
 #ifdef THEMIS_ENABLE_CUDA
     CUDAGraphBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
 
     const size_t N = 4;
@@ -895,7 +895,7 @@ TEST(CUDAGraphBackendTest, BatchShortestPath_WithHardware_LinearChain) {
 
     backend.shutdown();
 #else
-    GTEST_SKIP() << "CUDA not compiled in";
+    GTEST_SKIP() << "capability:cuda_compiled=false;reason=cuda_not_compiled";
 #endif
 }
 
@@ -905,7 +905,7 @@ TEST(CUDAGraphBackendTest, BatchBFS_WithHardware_GraphCaptureReusesSameResults) 
 #ifdef THEMIS_ENABLE_CUDA
     CUDAGraphBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
 
     const size_t N = 3;
@@ -925,7 +925,7 @@ TEST(CUDAGraphBackendTest, BatchBFS_WithHardware_GraphCaptureReusesSameResults) 
 
     backend.shutdown();
 #else
-    GTEST_SKIP() << "CUDA not compiled in";
+    GTEST_SKIP() << "capability:cuda_compiled=false;reason=cuda_not_compiled";
 #endif
 }
 

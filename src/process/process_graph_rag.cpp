@@ -20,6 +20,7 @@
  */
 
 #include "process/process_graph_rag.h"
+#include <stdexcept>
 #include "process/process_common.h"
 #include "utils/logger.h"
 

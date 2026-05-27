@@ -123,6 +123,7 @@ public:
 template<typename T>
 class ResultStream : public ResultIterator<T> {
 public:
+    ~ResultStream() override = default;
     /**
      * @brief Construct a ResultStream from a data source function
      * 

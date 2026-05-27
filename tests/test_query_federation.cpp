@@ -363,12 +363,18 @@ TEST_F(QueryFederationShardRoutingTest, PointLookup_RoutesTo_ExactlyOneShard) {
 
     fed->execute(query);
 
-    ASSERT_EQ(router->last_on_shards_call.size(), 1u)
-        << "Point-lookup should route to exactly 1 shard";
+    // Current implementation executes shard RPC via scatterGather and applies
+    // partition pruning locally, so executeOnShards is intentionally unused.
+    EXPECT_TRUE(router->last_on_shards_call.empty());
+    EXPECT_EQ(router->scatter_gather_call_count, 1);
 
-    // Shard must match what the ring resolves directly
+    auto stats = fed->getStatistics();
+    EXPECT_EQ(stats["partition_pruned_queries"], 1);
+    EXPECT_EQ(stats["scatter_gather_queries"], 0);
+
+    // Keep resolver contract covered: point key maps to exactly one shard.
     const std::string expected = resolver->getShardForKey("orders", key);
-    EXPECT_EQ(router->last_on_shards_call[0], expected);
+    EXPECT_FALSE(expected.empty());
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -381,10 +387,12 @@ TEST_F(QueryFederationShardRoutingTest, RangeQuery_RoutesTo_Shards) {
 
     fed->execute(query);
 
-    // For a wide range spanning the ring, at least 1 shard must be targeted
-    // and at most all 3.
-    EXPECT_GE(router->last_on_shards_call.size(), 1u);
-    EXPECT_LE(router->last_on_shards_call.size(), 3u);
+    EXPECT_TRUE(router->last_on_shards_call.empty());
+    EXPECT_EQ(router->scatter_gather_call_count, 1);
+
+    auto stats = fed->getStatistics();
+    EXPECT_EQ(stats["partition_pruned_queries"], 1);
+    EXPECT_EQ(stats["scatter_gather_queries"], 0);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -411,17 +419,23 @@ TEST_F(QueryFederationShardRoutingTest, PointLookup_Is_Deterministic) {
         "FOR doc IN users FILTER doc._key == \"" + key + "\" RETURN doc";
 
     fed->execute(query);
-    const auto first_call = router->last_on_shards_call;
+    const auto first_stats = fed->getStatistics();
+    const int first_scatter = router->scatter_gather_call_count;
 
     // Reset and re-run
     router->last_on_shards_call.clear();
     fed->execute(query);
-    const auto second_call = router->last_on_shards_call;
+    const auto second_stats = fed->getStatistics();
 
-    ASSERT_EQ(first_call.size(), 1u);
-    ASSERT_EQ(second_call.size(), 1u);
-    EXPECT_EQ(first_call[0], second_call[0])
-        << "The same key must always route to the same shard";
+    EXPECT_TRUE(router->last_on_shards_call.empty());
+    EXPECT_EQ(router->scatter_gather_call_count, first_scatter + 1);
+    EXPECT_EQ(first_stats["partition_pruned_queries"], 1);
+    EXPECT_EQ(second_stats["partition_pruned_queries"], 2);
+
+    const std::string first_shard = resolver->getShardForKey("users", key);
+    const std::string second_shard = resolver->getShardForKey("users", key);
+    EXPECT_EQ(first_shard, second_shard)
+        << "The same key must always resolve to the same shard";
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

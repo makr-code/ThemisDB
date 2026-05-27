@@ -354,12 +354,30 @@ TEST_F(HttpRopeApiTest, GetRoPEStats) {
     };
     httpPost("/api/v1/vector-index/test_rope/rope/config", config_request);
 
+    // Add one rotated entity to produce runtime stats.
+    std::vector<float> embedding(768, 0.1f);
+    json add_request = {
+        {"entity", {
+            {"id", "stats_doc"},
+            {"embedding", embedding}
+        }},
+        {"vector_field", "embedding"},
+        {"position", 7}
+    };
+    auto add_response = httpPost("/api/v1/vector-index/test_rope/rope/add", add_request);
+    ASSERT_TRUE(add_response.contains("status"));
+    EXPECT_EQ(add_response["status"], "success");
+
     auto response = httpGet("/api/v1/vector-index/test_rope/rope/stats");
     
     ASSERT_TRUE(response.contains("enabled"));
     EXPECT_TRUE(response["enabled"]);
     ASSERT_TRUE(response.contains("config"));
     ASSERT_TRUE(response.contains("statistics"));
+    ASSERT_TRUE(response["statistics"].contains("status"));
+    EXPECT_EQ(response["statistics"]["status"], "ok");
+    ASSERT_TRUE(response["statistics"].contains("vector_count"));
+    ASSERT_TRUE(response["statistics"].contains("distance_metric"));
 }
 
 // Test 8: Disable RoPE

@@ -10,6 +10,7 @@
  */
 
 #include "timeseries/ts_encrypted_key_rotation.h"
+#include <stdexcept>
 
 #include <nlohmann/json.hpp>
 #include <rocksdb/utilities/transaction_db.h>
@@ -239,3 +240,4 @@ size_t TsEncryptedKeyRotation::runOnce()
 }
 
 } // namespace themis
+

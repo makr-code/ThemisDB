@@ -682,10 +682,13 @@ paths:
                 isolation_level:
                   type: string
                   enum: [snapshot_isolation, serializable]
-                  default: snapshot_isolation
+                  default: serializable
                   description: |
-                    snapshot_isolation - MVCC snapshot reads, no read locks (default).
-                    serializable - Full serializability, read-set validated on PREPARE.
+                    serializable - Full serializability, read-set validated on PREPARE (default, recommended for strict invariants).
+                    snapshot_isolation - MVCC snapshot reads, no read locks.
+                    WARNING: can permit write-skew and phantom-read anomalies in distributed workflows.
+                    When omitted, the server default may be overridden by environment variable
+                    THEMIS_DTXN_DEFAULT_ISOLATION ("snapshot_isolation" or "serializable").
       responses:
         '200':
           description: Transaction started
@@ -699,6 +702,11 @@ paths:
                   isolation_level:
                     type: string
                     enum: [snapshot_isolation, serializable]
+                  isolation_warning:
+                    type: string
+                    description: |
+                      Present when isolation_level is snapshot_isolation.
+                      Indicates potential write-skew/phantom-read anomalies and recommends serializable for strict ACID invariants.
                   shards:
                     type: array
                     items: { type: string }

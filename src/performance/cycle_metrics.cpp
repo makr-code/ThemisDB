@@ -10,6 +10,7 @@
  */
 
 #include "performance/cycle_metrics.h"
+#include <stdexcept>
 #include <fstream>
 #include <sstream>
 #include <cstring>

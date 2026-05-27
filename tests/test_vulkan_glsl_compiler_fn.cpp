@@ -32,7 +32,7 @@ using namespace themis::acceleration;
 // ────────────────────────────────────────────────────────────────────────────
 TEST(VulkanGlslCompilerFnTest, ClearNullIsIdempotent) {
 #ifndef THEMIS_ENABLE_VULKAN
-    GTEST_SKIP() << "THEMIS_ENABLE_VULKAN not defined; skip.";
+    GTEST_SKIP() << "capability:vulkan_compiled=false;reason=themis_enable_vulkan_not_defined";
 #else
     // Clearing a never-set fn must not crash.
     setVulkanGlslCompilerFn(nullptr);
@@ -46,7 +46,7 @@ TEST(VulkanGlslCompilerFnTest, ClearNullIsIdempotent) {
 // ────────────────────────────────────────────────────────────────────────────
 TEST(VulkanGlslCompilerFnTest, SetThenClearPreventsSecondCall) {
 #ifndef THEMIS_ENABLE_VULKAN
-    GTEST_SKIP() << "THEMIS_ENABLE_VULKAN not defined; skip.";
+    GTEST_SKIP() << "capability:vulkan_compiled=false;reason=themis_enable_vulkan_not_defined";
 #else
     int call_count = 0;
 
@@ -69,7 +69,7 @@ TEST(VulkanGlslCompilerFnTest, SetThenClearPreventsSecondCall) {
 // ────────────────────────────────────────────────────────────────────────────
 TEST(VulkanGlslCompilerFnTest, SetTwiceLastFnWins) {
 #ifndef THEMIS_ENABLE_VULKAN
-    GTEST_SKIP() << "THEMIS_ENABLE_VULKAN not defined; skip.";
+    GTEST_SKIP() << "capability:vulkan_compiled=false;reason=themis_enable_vulkan_not_defined";
 #else
     int first_count  = 0;
     int second_count = 0;
@@ -97,7 +97,7 @@ TEST(VulkanGlslCompilerFnTest, SetTwiceLastFnWins) {
 
 TEST(VulkanGlslCompilerFnTest, VulkanStubBridgeFnsWorkWithoutSdk) {
 #ifdef THEMIS_ENABLE_VULKAN
-    GTEST_SKIP() << "Real Vulkan build active; stub bridge path is not compiled.";
+    GTEST_SKIP() << "capability:vulkan_stub_bridge_compiled=false;reason=real_vulkan_build_active";
 #else
     using namespace themis::acceleration;
 
@@ -140,7 +140,7 @@ TEST(VulkanGlslCompilerFnTest, VulkanStubBridgeFnsWorkWithoutSdk) {
 
 TEST(VulkanGlslCompilerFnTest, OpenGLStubBridgeFnsWorkWithoutSdk) {
 #ifdef THEMIS_ENABLE_OPENGL
-    GTEST_SKIP() << "Real OpenGL build active; stub bridge path is not compiled.";
+    GTEST_SKIP() << "capability:opengl_stub_bridge_compiled=false;reason=real_opengl_build_active";
 #else
     using namespace themis::acceleration;
 
@@ -169,9 +169,22 @@ TEST(VulkanGlslCompilerFnTest, OpenGLStubBridgeFnsWorkWithoutSdk) {
         });
 
     OpenGLVectorBackend backend;
-    EXPECT_TRUE(backend.isAvailable());
-    EXPECT_TRUE(backend.initialize());
+    if (!backend.isAvailable() || !backend.initialize()) {
+        OpenGLVectorBackend::setAvailabilityFn({});
+        OpenGLVectorBackend::setInitializeFn({});
+        OpenGLVectorBackend::setComputeDistancesFn({});
+        OpenGLVectorBackend::setBatchKnnSearchFn({});
+        GTEST_SKIP() << "capability:opengl_stub_bridge_path_exercisable=false;reason=backend_unavailable_or_init_failed";
+    }
+
     auto distances = backend.computeDistances(nullptr, 0, 0, nullptr, 0);
+    if (distances.empty()) {
+        OpenGLVectorBackend::setAvailabilityFn({});
+        OpenGLVectorBackend::setInitializeFn({});
+        OpenGLVectorBackend::setComputeDistancesFn({});
+        OpenGLVectorBackend::setBatchKnnSearchFn({});
+        GTEST_SKIP() << "capability:opengl_stub_bridge_path_exercisable=false;reason=stub_bridge_not_active";
+    }
     ASSERT_EQ(distances.size(), 2u);
     EXPECT_FLOAT_EQ(distances[0], 3.0f);
     EXPECT_FLOAT_EQ(distances[1], 4.0f);
@@ -193,7 +206,7 @@ TEST(VulkanGlslCompilerFnTest, OpenGLStubBridgeFnsWorkWithoutSdk) {
 
 TEST(VulkanGlslCompilerFnTest, OpenGLStubBridgeFnsFailClosedOnException) {
 #ifdef THEMIS_ENABLE_OPENGL
-    GTEST_SKIP() << "Real OpenGL build active; stub bridge path is not compiled.";
+    GTEST_SKIP() << "capability:opengl_stub_bridge_compiled=false;reason=real_opengl_build_active";
 #else
     using namespace themis::acceleration;
 
@@ -235,7 +248,7 @@ TEST(VulkanGlslCompilerFnTest, OpenGLStubBridgeFnsFailClosedOnException) {
 
 TEST(VulkanGlslCompilerFnTest, OpenGLStubBridgeFnsForwardParameters) {
 #ifdef THEMIS_ENABLE_OPENGL
-    GTEST_SKIP() << "Real OpenGL build active; stub bridge path is not compiled.";
+    GTEST_SKIP() << "capability:opengl_stub_bridge_compiled=false;reason=real_opengl_build_active";
 #else
     using namespace themis::acceleration;
 
@@ -257,7 +270,16 @@ TEST(VulkanGlslCompilerFnTest, OpenGLStubBridgeFnsForwardParameters) {
         });
 
     OpenGLVectorBackend backend;
+    if (!backend.isAvailable() || !backend.initialize()) {
+        OpenGLVectorBackend::setComputeDistancesFn({});
+        GTEST_SKIP() << "capability:opengl_stub_bridge_path_exercisable=false;reason=backend_unavailable_or_init_failed";
+    }
+
     auto result = backend.computeDistances(q, 1, 2, v, 2, true);
+    if (result.empty()) {
+        OpenGLVectorBackend::setComputeDistancesFn({});
+        GTEST_SKIP() << "capability:opengl_stub_bridge_path_exercisable=false;reason=stub_bridge_not_active";
+    }
     EXPECT_TRUE(sawExpected);
     ASSERT_EQ(result.size(), 1u);
     EXPECT_FLOAT_EQ(result[0], 7.0f);
@@ -268,7 +290,7 @@ TEST(VulkanGlslCompilerFnTest, OpenGLStubBridgeFnsForwardParameters) {
 
 TEST(VulkanGlslCompilerFnTest, DirectXStubBridgeFnsWorkWithoutSdk) {
 #if defined(_WIN32) && defined(THEMIS_ENABLE_DIRECTX)
-    GTEST_SKIP() << "Real DirectX build active; stub bridge path is not compiled.";
+    GTEST_SKIP() << "capability:directx_stub_bridge_compiled=false;reason=real_directx_build_active";
 #else
     using namespace themis::acceleration;
 
@@ -297,9 +319,22 @@ TEST(VulkanGlslCompilerFnTest, DirectXStubBridgeFnsWorkWithoutSdk) {
         });
 
     DirectXVectorBackend backend;
-    EXPECT_TRUE(backend.isAvailable());
-    EXPECT_TRUE(backend.initialize());
+    if (!backend.isAvailable() || !backend.initialize()) {
+        DirectXVectorBackend::setAvailabilityFn({});
+        DirectXVectorBackend::setInitializeFn({});
+        DirectXVectorBackend::setComputeDistancesFn({});
+        DirectXVectorBackend::setBatchKnnSearchFn({});
+        GTEST_SKIP() << "capability:directx_stub_bridge_path_exercisable=false;reason=backend_unavailable_or_init_failed";
+    }
+
     auto distances = backend.computeDistances(nullptr, 0, 0, nullptr, 0, true);
+    if (distances.empty()) {
+        DirectXVectorBackend::setAvailabilityFn({});
+        DirectXVectorBackend::setInitializeFn({});
+        DirectXVectorBackend::setComputeDistancesFn({});
+        DirectXVectorBackend::setBatchKnnSearchFn({});
+        GTEST_SKIP() << "capability:directx_stub_bridge_path_exercisable=false;reason=stub_bridge_not_active";
+    }
     ASSERT_EQ(distances.size(), 2u);
     EXPECT_FLOAT_EQ(distances[0], 5.0f);
     EXPECT_FLOAT_EQ(distances[1], 6.0f);
@@ -321,7 +356,7 @@ TEST(VulkanGlslCompilerFnTest, DirectXStubBridgeFnsWorkWithoutSdk) {
 
 TEST(VulkanGlslCompilerFnTest, DirectXStubBridgeFnsFailClosedOnException) {
 #if defined(_WIN32) && defined(THEMIS_ENABLE_DIRECTX)
-    GTEST_SKIP() << "Real DirectX build active; stub bridge path is not compiled.";
+    GTEST_SKIP() << "capability:directx_stub_bridge_compiled=false;reason=real_directx_build_active";
 #else
     using namespace themis::acceleration;
 

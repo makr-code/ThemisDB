@@ -9,6 +9,7 @@
 // Graph Query Optimizer implementation
 
 #include "graph/graph_query_optimizer.h"
+#include <stdexcept>
 #include "graph/gpu_traversal.h"
 #include "graph/path_constraints.h"
 #include "query/result_stream.h"

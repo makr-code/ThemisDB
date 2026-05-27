@@ -7,6 +7,7 @@
  */
 
 #include "api/themisdb_grpc_service.h"
+#include <stdexcept>
 #include "api/aql_utils.h"
 #include "storage/rocksdb_wrapper.h"
 #include "transaction/transaction_manager.h"

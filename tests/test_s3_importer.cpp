@@ -514,8 +514,8 @@ TEST(S3ConfigParsing, PartialConfig) {
 
 TEST(S3ImporterPermission, DeniedPermissionCheck) {
     ImportOptions opts;
-    opts.permission_check = [](const std::string& resource,
-                                const std::string& action) {
+    opts.permission_check = [](const std::string&,
+                               const std::string&) {
         return false;  // Always deny.
     };
 

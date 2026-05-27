@@ -182,13 +182,7 @@ bool AuthMiddleware::roleGrantsScope(const std::vector<std::string>& roles,
 
 AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std::string_view required_scope) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    // Mask token for logging (show first/last 4 chars)
-    auto mask = [](std::string_view t) {
-        std::string s(t);
-        if (s.size() <= 8) return s;
-        return s.substr(0,4) + "..." + s.substr(s.size()-4);
-    };
-    THEMIS_INFO("AuthMiddleware::authorize called for token='{}' required_scope='{}'", mask(token), required_scope);
+    THEMIS_INFO("AuthMiddleware::authorize called (required_scope='{}')", required_scope);
     
     // First try API token lookup.
     // GAP-008 fixed: instead of relying on the hash-map comparison for the final
@@ -416,7 +410,7 @@ AuthMiddleware::AuthResult AuthMiddleware::validateToken(std::string_view token)
             auto claims = jwt_validator_->parseAndValidate(std::string(token));
             metrics_.jwt_validation_success_total++;
             return AuthResult::OK(claims.sub, claims.tenant_id, claims.groups);
-        } catch (const std::exception& e) {
+        } catch (...) {
             metrics_.jwt_validation_failed_total++;
             // GAP-013: Log JWT validation failures at WARN for auditability (CWE-778).
             // Previously logged at DEBUG, which means auth failures were invisible
@@ -720,4 +714,3 @@ void AuthMiddleware::loadRoleScopeMapping()
 }
 
 } // namespace themis
-

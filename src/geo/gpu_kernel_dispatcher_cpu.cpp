@@ -30,6 +30,7 @@
 // return immediately with dispatched=false.
 
 #include "geo/gpu_kernel_dispatcher.h"
+#include <stdexcept>
 
 #include <mutex>
 

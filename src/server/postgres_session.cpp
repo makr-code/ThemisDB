@@ -12,6 +12,7 @@
 #ifdef THEMIS_ENABLE_POSTGRES_WIRE
 
 #include "server/postgres_session.h"
+#include <stdexcept>
 #include "query/query_engine.h"
 #include "query/aql_parser.h"
 #include "query/aql_translator.h"
@@ -78,19 +79,29 @@ namespace {
         // For all other types (text, varchar, etc.), escape and quote
         return "'" + escapeSQLString(param) + "'";
     }
+
+    void logCurrentException(const char* context) {
+        try {
+            throw;
+        } catch (const std::exception& e) {
+            std::cerr << "[PostgresSession] " << context << ": " << e.what() << "\n";
+        } catch (...) {
+            std::cerr << "[PostgresSession] " << context << ": unknown exception\n";
+        }
+    }
 }
 
 PostgresSession::PostgresSession(asio::ip::tcp::socket socket)
     : socket_(std::move(socket))
-    , isAuthenticated_(false)
-    , inStartup_(true)
+    , readTimeoutTimer_(socket_.get_executor())
+    , writeTimeoutTimer_(socket_.get_executor())
     , queryEngine_(nullptr) {
 }
 
 PostgresSession::PostgresSession(asio::ip::tcp::socket socket, themis::QueryEngine* queryEngine)
     : socket_(std::move(socket))
-    , isAuthenticated_(false)
-    , inStartup_(true)
+    , readTimeoutTimer_(socket_.get_executor())
+    , writeTimeoutTimer_(socket_.get_executor())
     , queryEngine_(queryEngine) {
 }
 
@@ -99,13 +110,94 @@ PostgresSession::~PostgresSession() {
 }
 
 void PostgresSession::start() {
+    stopped_.store(false, std::memory_order_release);
     doRead();
 }
 
 void PostgresSession::stop() {
+    if (stopped_.exchange(true, std::memory_order_acq_rel)) {
+        return;
+    }
+    auto weak_self = weak_from_this();
+    auto close_fn = [this]() {
+        closeSocket();
+    };
+    if (auto self = weak_self.lock()) {
+        asio::dispatch(socket_.get_executor(), [self, close_fn]() {
+            close_fn();
+        });
+        return;
+    }
+    close_fn();
+}
+
+void PostgresSession::closeSocket() {
     boost::beast::error_code ec;
+    readTimeoutTimer_.cancel();
+    writeTimeoutTimer_.cancel();
+    {
+        std::lock_guard<std::mutex> lock(writeMutex_);
+        writeQueue_.clear();
+        writeInProgress_ = false;
+    }
     socket_.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
     socket_.close(ec);
+}
+
+void PostgresSession::armReadTimeout() {
+    auto self = shared_from_this();
+    readTimeoutTimer_.expires_after(kReadTimeout);
+    readTimeoutTimer_.async_wait([this, self](const boost::beast::error_code& ec) {
+        if (ec || stopped_.load(std::memory_order_acquire)) {
+            return;
+        }
+        try {
+            sendErrorResponse("ERROR", "57014", "Connection timed out while waiting for client message");
+            stop();
+        } catch (...) {
+            logCurrentException("Read-timeout handler error");
+            stop();
+        }
+    });
+}
+
+void PostgresSession::cancelReadTimeout() {
+    boost::beast::error_code ec;
+    readTimeoutTimer_.cancel(ec);
+}
+
+void PostgresSession::armWriteTimeout() {
+    auto self = shared_from_this();
+    writeTimeoutTimer_.expires_after(kWriteTimeout);
+    writeTimeoutTimer_.async_wait([this, self](const boost::beast::error_code& ec) {
+        if (ec || stopped_.load(std::memory_order_acquire)) {
+            return;
+        }
+        try {
+            sendErrorResponse("ERROR", "57014", "Connection timed out while sending response");
+            stop();
+        } catch (...) {
+            logCurrentException("Write-timeout handler error");
+            stop();
+        }
+    });
+}
+
+void PostgresSession::cancelWriteTimeout() {
+    boost::beast::error_code ec;
+    writeTimeoutTimer_.cancel(ec);
+}
+
+char PostgresSession::currentTransactionStatus() const {
+    switch (transactionState_.load(std::memory_order_acquire)) {
+        case TransactionState::IN_TRANSACTION:
+            return 'T';
+        case TransactionState::FAILED:
+            return 'E';
+        case TransactionState::IDLE:
+        default:
+            return 'I';
+    }
 }
 
 void PostgresSession::handleStartupMessage(int32_t protocolVersion, 
@@ -141,7 +233,7 @@ void PostgresSession::handleStartupMessage(int32_t protocolVersion,
         databaseName_ = userName_; // Default database name to username
     }
     
-    inStartup_ = false;
+    inStartup_.store(false, std::memory_order_release);
     
     // Implement authentication
     // For ThemisDB, we accept connections but mark them as authenticated
@@ -162,7 +254,7 @@ void PostgresSession::handleStartupMessage(int32_t protocolVersion,
     sendBackendKeyData(12345, 67890);
     sendReadyForQuery('I');
     
-    isAuthenticated_ = true;
+    isAuthenticated_.store(true, std::memory_order_release);
 }
 
 void PostgresSession::handleQuery(const std::string& query) {
@@ -176,19 +268,20 @@ void PostgresSession::handleQuery(const std::string& query) {
     
     // Handle transaction commands
     if (upperQuery == "BEGIN" || upperQuery == "START TRANSACTION" || upperQuery == "BEGIN TRANSACTION") {
-        transactionState_ = TransactionState::IN_TRANSACTION;
+        transactionState_.store(TransactionState::IN_TRANSACTION, std::memory_order_release);
         sendCommandComplete("BEGIN");
         sendReadyForQuery('T');
         return;
     }
     
     if (upperQuery == "COMMIT" || upperQuery == "END") {
-        if (transactionState_ == TransactionState::IN_TRANSACTION) {
-            transactionState_ = TransactionState::IDLE;
+        TransactionState state = transactionState_.load(std::memory_order_acquire);
+        if (state == TransactionState::IN_TRANSACTION) {
+            transactionState_.store(TransactionState::IDLE, std::memory_order_release);
             sendCommandComplete("COMMIT");
-        } else if (transactionState_ == TransactionState::FAILED) {
+        } else if (state == TransactionState::FAILED) {
             sendErrorResponse("WARNING", "25P02", "Current transaction is aborted, commands ignored until end of transaction block");
-            transactionState_ = TransactionState::IDLE;
+            transactionState_.store(TransactionState::IDLE, std::memory_order_release);
         } else {
             sendErrorResponse("WARNING", "25P01", "There is no transaction in progress");
         }
@@ -197,8 +290,8 @@ void PostgresSession::handleQuery(const std::string& query) {
     }
     
     if (upperQuery == "ROLLBACK" || upperQuery == "ABORT") {
-        if (transactionState_ != TransactionState::IDLE) {
-            transactionState_ = TransactionState::IDLE;
+        if (transactionState_.load(std::memory_order_acquire) != TransactionState::IDLE) {
+            transactionState_.store(TransactionState::IDLE, std::memory_order_release);
             sendCommandComplete("ROLLBACK");
         } else {
             sendErrorResponse("WARNING", "25P01", "There is no transaction in progress");
@@ -210,8 +303,7 @@ void PostgresSession::handleQuery(const std::string& query) {
     // Handle schema queries (pg_catalog, information_schema) for BI tool compatibility
     if (isSchemaQuery(query)) {
         handleSchemaQuery(query);
-        char txnStatus = (transactionState_ == TransactionState::IN_TRANSACTION) ? 'T' : 'I';
-        sendReadyForQuery(txnStatus);
+        sendReadyForQuery(currentTransactionStatus());
         return;
     }
     
@@ -224,8 +316,7 @@ void PostgresSession::handleQuery(const std::string& query) {
         sendRowDescription(fields);
         sendDataRow({"PostgreSQL 14.0 (ThemisDB " THEMIS_VERSION_STRING " compatibility mode)"});
         sendCommandComplete("SELECT 1");
-        char txnStatus = (transactionState_ == TransactionState::IN_TRANSACTION) ? 'T' : 'I';
-        sendReadyForQuery(txnStatus);
+        sendReadyForQuery(currentTransactionStatus());
         return;
     }
     
@@ -237,8 +328,7 @@ void PostgresSession::handleQuery(const std::string& query) {
         sendRowDescription(fields);
         sendDataRow({databaseName_.empty() ? "themisdb" : databaseName_});
         sendCommandComplete("SELECT 1");
-        char txnStatus = (transactionState_ == TransactionState::IN_TRANSACTION) ? 'T' : 'I';
-        sendReadyForQuery(txnStatus);
+        sendReadyForQuery(currentTransactionStatus());
         return;
     }
     
@@ -247,7 +337,7 @@ void PostgresSession::handleQuery(const std::string& query) {
         // COPY FROM STDIN or COPY TO STDOUT
         if (upperQuery.find("FROM STDIN") != std::string::npos) {
             // COPY table FROM STDIN — extract table name from between COPY and (
-            copyTableName_.clear();
+            std::string copyTableName;
             {
                 // Original (non-uppercased) query for accurate table name
                 constexpr size_t kCopyPrefixLen = sizeof("COPY ") - 1; // 5 chars
@@ -257,10 +347,14 @@ void PostgresSession::handleQuery(const std::string& query) {
                 // Find end: first of '(' (column list), whitespace, or end-of-string
                 size_t end = q.find_first_of(" (", start);
                 if (end == std::string::npos) { end = q.size(); }
-                copyTableName_ = q.substr(start, end - start);
+                copyTableName = q.substr(start, end - start);
             }
-            copyInProgress_ = true;
-            copyBuffer_.clear();
+            {
+                std::lock_guard<std::mutex> lock(copyMutex_);
+                copyTableName_ = std::move(copyTableName);
+                copyBuffer_.clear();
+            }
+            copyInProgress_.store(true, std::memory_order_release);
             std::vector<int16_t> formatCodes = {0}; // Text format
             sendCopyInResponse(formatCodes);
             return; // Don't send ReadyForQuery yet
@@ -278,8 +372,7 @@ void PostgresSession::handleQuery(const std::string& query) {
             // End of data
             sendCopyDone();
             sendCommandComplete("COPY 2"); // 2 rows
-            char txnStatus = (transactionState_ == TransactionState::IN_TRANSACTION) ? 'T' : 'I';
-            sendReadyForQuery(txnStatus);
+            sendReadyForQuery(currentTransactionStatus());
             return;
         }
     }
@@ -294,18 +387,12 @@ void PostgresSession::handleQuery(const std::string& query) {
         sendCommandComplete("SELECT 0");
     } catch (const std::exception& e) {
         sendErrorResponse("ERROR", "42601", std::string("Query translation failed: ") + e.what());
-        if (transactionState_ == TransactionState::IN_TRANSACTION) {
-            transactionState_ = TransactionState::FAILED;
+        if (transactionState_.load(std::memory_order_acquire) == TransactionState::IN_TRANSACTION) {
+            transactionState_.store(TransactionState::FAILED, std::memory_order_release);
         }
     }
     
-    char txnStatus = 'I';
-    if (transactionState_ == TransactionState::IN_TRANSACTION) {
-        txnStatus = 'T';
-    } else if (transactionState_ == TransactionState::FAILED) {
-        txnStatus = 'E';
-    }
-    sendReadyForQuery(txnStatus);
+    sendReadyForQuery(currentTransactionStatus());
 }
 
 void PostgresSession::handleParse(const std::string& stmt, const std::string& query, 
@@ -325,7 +412,10 @@ void PostgresSession::handleParse(const std::string& stmt, const std::string& qu
         }
         
         // Store the prepared statement with parameter types
-        preparedStatements_[stmt] = {query, paramTypes};
+        {
+            std::lock_guard<std::mutex> lock(preparedStatementsMutex_);
+            preparedStatements_[stmt] = {query, paramTypes};
+        }
         sendParseComplete();
         
     } catch (const std::exception& e) {
@@ -338,14 +428,16 @@ void PostgresSession::handleBind(const std::string& portal, const std::string& s
     // PostgreSQL Bind message handler
     // Binds parameters to prepared statement and creates portal
     
-    auto stmtIt = preparedStatements_.find(stmt);
-    if (stmtIt == preparedStatements_.end()) {
-        sendErrorResponse("ERROR", "26000", "Prepared statement not found: " + stmt);
-        return;
+    PreparedStatement preparedStmt;
+    {
+        std::lock_guard<std::mutex> lock(preparedStatementsMutex_);
+        auto stmtIt = preparedStatements_.find(stmt);
+        if (stmtIt == preparedStatements_.end()) {
+            sendErrorResponse("ERROR", "26000", "Prepared statement not found: " + stmt);
+            return;
+        }
+        preparedStmt = stmtIt->second;
     }
-    
-    const auto& preparedStmt = stmtIt->second;
-    
     // Validate parameter count
     if (!preparedStmt.paramTypes.empty() && params.size() != preparedStmt.paramTypes.size()) {
         sendErrorResponse("ERROR", "08P01", 
@@ -355,7 +447,10 @@ void PostgresSession::handleBind(const std::string& portal, const std::string& s
     }
     
     // Create portal with bound parameters
-    portals_[portal] = {stmt, params};
+    {
+        std::lock_guard<std::mutex> lock(portalsMutex_);
+        portals_[portal] = {stmt, params};
+    }
     sendBindComplete();
 }
 
@@ -363,24 +458,33 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
     // PostgreSQL Execute message handler with result streaming
     // Executes portal with bound parameters and returns results (up to maxRows)
     
-    auto portalIt = portals_.find(portal);
-    if (portalIt == portals_.end()) {
-        sendErrorResponse("ERROR", "34000", "Portal not found: " + portal);
-        return;
+    Portal portalData;
+    {
+        std::lock_guard<std::mutex> lock(portalsMutex_);
+        auto portalIt = portals_.find(portal);
+        if (portalIt == portals_.end()) {
+            sendErrorResponse("ERROR", "34000", "Portal not found: " + portal);
+            return;
+        }
+        portalData = portalIt->second;
     }
-    
-    auto& portalData = portalIt->second;
-    auto stmtIt = preparedStatements_.find(portalData.statementName);
-    if (stmtIt == preparedStatements_.end()) {
-        sendErrorResponse("ERROR", "26000", "Prepared statement not found");
-        return;
+
+    PreparedStatement preparedStmt;
+    {
+        std::lock_guard<std::mutex> lock(preparedStatementsMutex_);
+        auto stmtIt = preparedStatements_.find(portalData.statementName);
+        if (stmtIt == preparedStatements_.end()) {
+            sendErrorResponse("ERROR", "26000", "Prepared statement not found");
+            return;
+        }
+        preparedStmt = stmtIt->second;
     }
     
     try {
         // Get query with bound parameters
-        std::string query = stmtIt->second.query;
+        std::string query = preparedStmt.query;
         const auto& params = portalData.params;
-        const auto& paramTypes = stmtIt->second.paramTypes;
+        const auto& paramTypes = preparedStmt.paramTypes;
         
         // Replace $1, $2, etc. with properly escaped parameter values
         for (size_t i = 0; i < params.size(); ++i) {
@@ -401,6 +505,11 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
             if (isSchemaQuery(query)) {
                 handleSchemaQuery(query);
                 portalData.resultsComplete = true;
+                std::lock_guard<std::mutex> lock(portalsMutex_);
+                auto portalIt = portals_.find(portal);
+                if (portalIt != portals_.end()) {
+                    portalIt->second = portalData;
+                }
                 return;
             }
             
@@ -413,6 +522,11 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
                 sendDataRow({"PostgreSQL 14.0 (ThemisDB 1.3.0 compatibility mode)"});
                 sendCommandComplete("SELECT 1");
                 portalData.resultsComplete = true;
+                std::lock_guard<std::mutex> lock(portalsMutex_);
+                auto portalIt = portals_.find(portal);
+                if (portalIt != portals_.end()) {
+                    portalIt->second = portalData;
+                }
                 return;
             }
             
@@ -452,6 +566,11 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
                     if (info.tableName.empty()) {
                         sendCommandComplete("SELECT 0");
                         portalData.resultsComplete = true;
+                        std::lock_guard<std::mutex> lock(portalsMutex_);
+                        auto portalIt = portals_.find(portal);
+                        if (portalIt != portals_.end()) {
+                            portalIt->second = portalData;
+                        }
                         return;
                     }
 
@@ -502,11 +621,21 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
 
                     sendCommandComplete("SELECT " + std::to_string(row_count));
                     portalData.resultsComplete = true;
+                    std::lock_guard<std::mutex> lock(portalsMutex_);
+                    auto portalIt = portals_.find(portal);
+                    if (portalIt != portals_.end()) {
+                        portalIt->second = portalData;
+                    }
                     return;
                 } else {
                     // Non-SELECT queries (INSERT, UPDATE, DELETE)
                     sendCommandComplete("SELECT 0");
                     portalData.resultsComplete = true;
+                    std::lock_guard<std::mutex> lock(portalsMutex_);
+                    auto portalIt = portals_.find(portal);
+                    if (portalIt != portals_.end()) {
+                        portalIt->second = portalData;
+                    }
                     return;
                 }
             }
@@ -516,6 +645,11 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
                 "Query execution not available: QueryEngine not initialized. " 
                 "This is a protocol-only implementation.");
             portalData.resultsComplete = true;
+            std::lock_guard<std::mutex> lock(portalsMutex_);
+            auto portalIt = portals_.find(portal);
+            if (portalIt != portals_.end()) {
+                portalIt->second = portalData;
+            }
             return;
         }
         
@@ -542,6 +676,11 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
             // More rows available, send PortalSuspended
             sendPortalSuspended();
         }
+        std::lock_guard<std::mutex> lock(portalsMutex_);
+        auto portalIt = portals_.find(portal);
+        if (portalIt != portals_.end()) {
+            portalIt->second = portalData;
+        }
         
     } catch (const std::exception& e) {
         sendErrorResponse("ERROR", "XX000", std::string("Execute error: ") + e.what());
@@ -554,14 +693,16 @@ void PostgresSession::handleDescribe(char type, const std::string& name) {
     
     if (type == 'S') {
         // Describe statement - return ParameterDescription and RowDescription
-        auto stmtIt = preparedStatements_.find(name);
-        if (stmtIt == preparedStatements_.end()) {
-            sendErrorResponse("ERROR", "26000", "Prepared statement not found: " + name);
-            return;
+        PreparedStatement stmt;
+        {
+            std::lock_guard<std::mutex> lock(preparedStatementsMutex_);
+            auto stmtIt = preparedStatements_.find(name);
+            if (stmtIt == preparedStatements_.end()) {
+                sendErrorResponse("ERROR", "26000", "Prepared statement not found: " + name);
+                return;
+            }
+            stmt = stmtIt->second;
         }
-        
-        const auto& stmt = stmtIt->second;
-        
         // Send ParameterDescription
         sendParameterDescription(stmt.paramTypes);
         
@@ -601,8 +742,9 @@ void PostgresSession::handleDescribe(char type, const std::string& name) {
                 // Non-SELECT query - send NoData
                 sendNoData();
             }
-        } catch (const std::exception&) {
+        } catch (const std::exception& e) {
             // If parsing fails, send generic row description
+            std::cerr << "[PostgresSession] handleDescribe (statement): parse error: " << e.what() << "\n";
             std::vector<FieldDescription> fields = {
                 {"?column?", 0, 0, 25, -1, -1, 0}
             };
@@ -611,22 +753,29 @@ void PostgresSession::handleDescribe(char type, const std::string& name) {
         
     } else if (type == 'P') {
         // Describe portal - return RowDescription only
-        auto portalIt = portals_.find(name);
-        if (portalIt == portals_.end()) {
-            sendErrorResponse("ERROR", "34000", "Portal not found: " + name);
-            return;
+        Portal portal;
+        {
+            std::lock_guard<std::mutex> lock(portalsMutex_);
+            auto portalIt = portals_.find(name);
+            if (portalIt == portals_.end()) {
+                sendErrorResponse("ERROR", "34000", "Portal not found: " + name);
+                return;
+            }
+            portal = portalIt->second;
         }
-        
-        const auto& portal = portalIt->second;
-        auto stmtIt = preparedStatements_.find(portal.statementName);
-        if (stmtIt == preparedStatements_.end()) {
-            sendErrorResponse("ERROR", "26000", "Prepared statement not found");
-            return;
+        PreparedStatement stmt;
+        {
+            std::lock_guard<std::mutex> lock(preparedStatementsMutex_);
+            auto stmtIt = preparedStatements_.find(portal.statementName);
+            if (stmtIt == preparedStatements_.end()) {
+                sendErrorResponse("ERROR", "26000", "Prepared statement not found");
+                return;
+            }
+            stmt = stmtIt->second;
         }
-        
         // Return same row description as for statement
         try {
-            std::string query = stmtIt->second.query;
+            std::string query = stmt.query;
             std::string upperQuery = query;
             std::transform(upperQuery.begin(), upperQuery.end(), upperQuery.begin(), ::toupper);
             
@@ -652,7 +801,8 @@ void PostgresSession::handleDescribe(char type, const std::string& name) {
             } else {
                 sendNoData();
             }
-        } catch (const std::exception&) {
+        } catch (const std::exception& e) {
+            std::cerr << "[PostgresSession] handleDescribe (portal): parse error: " << e.what() << "\n";
             std::vector<FieldDescription> fields = {
                 {"?column?", 0, 0, 25, -1, -1, 0}
             };
@@ -667,37 +817,31 @@ void PostgresSession::handleClose(char type, const std::string& name) {
     
     if (type == 'S') {
         // Close statement
-        auto it = preparedStatements_.find(name);
-        if (it != preparedStatements_.end()) {
-            preparedStatements_.erase(it);
-            sendCloseComplete();
-        } else {
-            // PostgreSQL doesn't send error for closing non-existent statement
-            sendCloseComplete();
+        {
+            std::lock_guard<std::mutex> lock(preparedStatementsMutex_);
+            auto it = preparedStatements_.find(name);
+            if (it != preparedStatements_.end()) {
+                preparedStatements_.erase(it);
+            }
         }
+        sendCloseComplete();
     } else if (type == 'P') {
         // Close portal
-        auto it = portals_.find(name);
-        if (it != portals_.end()) {
-            portals_.erase(it);
-            sendCloseComplete();
-        } else {
-            // PostgreSQL doesn't send error for closing non-existent portal
-            sendCloseComplete();
+        {
+            std::lock_guard<std::mutex> lock(portalsMutex_);
+            auto it = portals_.find(name);
+            if (it != portals_.end()) {
+                portals_.erase(it);
+            }
         }
+        sendCloseComplete();
     }
 }
 
 void PostgresSession::handleSync() {
     // PostgreSQL Sync message handler
     // Ends extended query protocol flow and reports transaction status
-    char txnStatus = 'I';
-    if (transactionState_ == TransactionState::IN_TRANSACTION) {
-        txnStatus = 'T';
-    } else if (transactionState_ == TransactionState::FAILED) {
-        txnStatus = 'E';
-    }
-    sendReadyForQuery(txnStatus);
+    sendReadyForQuery(currentTransactionStatus());
 }
 
 void PostgresSession::handleTerminate() {
@@ -709,7 +853,7 @@ void PostgresSession::handleCopyData(const std::vector<uint8_t>& data) {
     // PostgreSQL CopyData message handler
     // Receives data rows during COPY IN operation
     
-    if (!copyInProgress_) {
+    if (!copyInProgress_.load(std::memory_order_acquire)) {
         sendErrorResponse("ERROR", "57014", "COPY operation not in progress");
         return;
     }
@@ -723,6 +867,7 @@ void PostgresSession::handleCopyData(const std::vector<uint8_t>& data) {
     std::string line;
     while (std::getline(stream, line)) {
         if (!line.empty()) {
+            std::lock_guard<std::mutex> lock(copyMutex_);
             copyBuffer_.push_back(line);
         }
     }
@@ -732,7 +877,7 @@ void PostgresSession::handleCopyDone() {
     // PostgreSQL CopyDone message handler
     // Signals end of COPY IN operation
     
-    if (!copyInProgress_) {
+    if (!copyInProgress_.load(std::memory_order_acquire)) {
         sendErrorResponse("ERROR", "57014", "COPY operation not in progress");
         return;
     }
@@ -740,11 +885,19 @@ void PostgresSession::handleCopyDone() {
     // Process accumulated data
     size_t rowsInserted = 0;
     
+    std::vector<std::string> copyBuffer;
+    std::string copyTableName;
+    {
+        std::lock_guard<std::mutex> lock(copyMutex_);
+        copyBuffer = copyBuffer_;
+        copyTableName = copyTableName_;
+    }
+
     if (queryEngine_) {
         // Insert each CSV row from copyBuffer_ as an AQL document.
         // Rows are CSV-formatted; we map each field to a sequential column name
         // since the protocol does not forward column names in COPY FROM STDIN.
-        for (const auto& row : copyBuffer_) {
+        for (const auto& row : copyBuffer) {
             // Parse CSV fields with RFC 4180 quoted field support.
             std::vector<std::string> fields;
             {
@@ -797,7 +950,7 @@ void PostgresSession::handleCopyDone() {
             }
 
             // Build AQL: INSERT <doc> INTO <table>
-            std::string aql = "INSERT " + doc.dump() + " INTO " + copyTableName_;
+            std::string aql = "INSERT " + doc.dump() + " INTO " + copyTableName;
             try {
                 query::AQLParser parser;
                 auto parse_res = parser.parse(aql);
@@ -816,8 +969,10 @@ void PostgresSession::handleCopyDone() {
         // No query engine - return error
         sendErrorResponse("ERROR", "XX000", 
             "COPY operation not available: QueryEngine not initialized");
-        copyInProgress_ = false;
+        copyInProgress_.store(false, std::memory_order_release);
+        std::lock_guard<std::mutex> lock(copyMutex_);
         copyBuffer_.clear();
+        copyTableName_.clear();
         return;
     }
     
@@ -825,8 +980,10 @@ void PostgresSession::handleCopyDone() {
     sendCommandComplete("COPY " + std::to_string(rowsInserted));
     
     // Clean up
-    copyInProgress_ = false;
+    copyInProgress_.store(false, std::memory_order_release);
+    std::lock_guard<std::mutex> lock(copyMutex_);
     copyBuffer_.clear();
+    copyTableName_.clear();
 }
 
 void PostgresSession::handleCopyFail(const std::string& message) {
@@ -835,6 +992,12 @@ void PostgresSession::handleCopyFail(const std::string& message) {
     
     // Clean up any buffered data
     // Send error response if needed
+    copyInProgress_.store(false, std::memory_order_release);
+    {
+        std::lock_guard<std::mutex> lock(copyMutex_);
+        copyBuffer_.clear();
+        copyTableName_.clear();
+    }
     sendErrorResponse("ERROR", "57014", "COPY operation canceled: " + message);
 }
 
@@ -1121,10 +1284,12 @@ void PostgresSession::sendErrorResponse(const std::string& severity, const std::
 
 void PostgresSession::doRead() {
     auto self = shared_from_this();
+    armReadTimeout();
     
     socket_.async_read_some(asio::buffer(buffer_),
         [this, self](boost::beast::error_code ec, std::size_t bytes_transferred) {
-            if (ec) {
+            cancelReadTimeout();
+            if (ec || stopped_.load(std::memory_order_acquire)) {
                 stop();
                 return;
             }
@@ -1136,7 +1301,7 @@ void PostgresSession::doRead() {
             
             size_t offset = 0;
             
-            if (inStartup_) {
+            if (inStartup_.load(std::memory_order_acquire)) {
                 // Startup message has no type byte, just length
                 int32_t length = (buffer_[0] << 24) | (buffer_[1] << 16) |
                                (buffer_[2] << 8) | buffer_[3];
@@ -1175,6 +1340,7 @@ void PostgresSession::doRead() {
                 
                 offset = 5; // Skip type and length
                 
+                try {
                 switch (messageType) {
                     case 'Q': { // Simple Query
                         std::string query(buffer_.data() + offset);
@@ -1258,20 +1424,43 @@ void PostgresSession::doRead() {
                         break;
                     }
                     case 'E': { // Execute
+                        // Guard: need at least 1 byte for portalName (the null terminator)
+                        // and 4 bytes for maxRows after it.
+                        if (offset >= bytes_transferred) {
+                            sendErrorResponse("ERROR", "08P01", "Malformed Execute message: missing portal name");
+                            break;
+                        }
                         std::string portalName(buffer_.data() + offset);
                         offset += portalName.size() + 1;
-                        int32_t maxRows = (buffer_[offset] << 24) | (buffer_[offset+1] << 16) |
-                                        (buffer_[offset+2] << 8) | buffer_[offset+3];
+                        // Guard: need 4 bytes for the maxRows int32.
+                        if (offset + 4 > bytes_transferred) {
+                            sendErrorResponse("ERROR", "08P01", "Malformed Execute message: missing maxRows field");
+                            break;
+                        }
+                        int32_t maxRows = (static_cast<uint8_t>(buffer_[offset]) << 24)
+                                        | (static_cast<uint8_t>(buffer_[offset+1]) << 16)
+                                        | (static_cast<uint8_t>(buffer_[offset+2]) << 8)
+                                        | static_cast<uint8_t>(buffer_[offset+3]);
                         handleExecute(portalName, maxRows);
                         break;
                     }
                     case 'D': { // Describe
+                        // Guard: need 1 byte for descType + at least 1 byte (null) for name.
+                        if (offset + 2 > bytes_transferred) {
+                            sendErrorResponse("ERROR", "08P01", "Malformed Describe message");
+                            break;
+                        }
                         char descType = buffer_[offset];
                         std::string name(buffer_.data() + offset + 1);
                         handleDescribe(descType, name);
                         break;
                     }
                     case 'C': { // Close
+                        // Guard: same layout as Describe.
+                        if (offset + 2 > bytes_transferred) {
+                            sendErrorResponse("ERROR", "08P01", "Malformed Close message");
+                            break;
+                        }
                         char closeType = buffer_[offset];
                         std::string name(buffer_.data() + offset + 1);
                         handleClose(closeType, name);
@@ -1301,6 +1490,13 @@ void PostgresSession::doRead() {
                     default:
                         break;
                 }
+                } catch (const std::exception& e) {
+                    std::cerr << "[PostgresSession] Message handler error (type='" << messageType << "'): " << e.what() << "\n";
+                    sendErrorResponse("ERROR", "XX000", std::string("Internal error: ") + e.what());
+                } catch (...) {
+                    std::cerr << "[PostgresSession] Message handler unknown error (type='" << messageType << "')\n";
+                    sendErrorResponse("ERROR", "XX000", "Internal error: unknown exception");
+                }
             }
             
             doRead(); // Continue reading
@@ -1308,20 +1504,46 @@ void PostgresSession::doRead() {
 }
 
 void PostgresSession::doWrite() {
-    if (writeQueue_.empty()) {
-        return;
+    std::shared_ptr<std::vector<uint8_t>> message;
+    {
+        std::lock_guard<std::mutex> lock(writeMutex_);
+        if (writeQueue_.empty()) {
+            writeInProgress_ = false;
+            return;
+        }
+        message = std::make_shared<std::vector<uint8_t>>(writeQueue_.front());
     }
-    
+
     auto self = shared_from_this();
-    
-    asio::async_write(socket_, asio::buffer(writeQueue_.front()),
-        [this, self](boost::beast::error_code ec, std::size_t /*bytes_transferred*/) {
-            if (!ec) {
-                writeQueue_.pop_front();
-                if (!writeQueue_.empty()) {
+    armWriteTimeout();
+    asio::async_write(socket_, asio::buffer(*message),
+        [this, self, message](boost::beast::error_code ec, std::size_t /*bytes_transferred*/) {
+            try {
+                cancelWriteTimeout();
+                if (ec || stopped_.load(std::memory_order_acquire)) {
+                    stop();
+                    return;
+                }
+
+                bool shouldContinue = false;
+                {
+                    std::lock_guard<std::mutex> lock(writeMutex_);
+                    if (!writeQueue_.empty()) {
+                        writeQueue_.pop_front();
+                    }
+                    shouldContinue = !writeQueue_.empty();
+                    if (!shouldContinue) {
+                        writeInProgress_ = false;
+                    }
+                }
+                if (shouldContinue) {
                     doWrite();
                 }
-            } else {
+            } catch (const std::exception& e) {
+                std::cerr << "[PostgresSession] Write completion handler error: " << e.what() << "\n";
+                stop();
+            } catch (...) {
+                logCurrentException("Write completion handler error");
                 stop();
             }
         });
@@ -1342,9 +1564,36 @@ void PostgresSession::writeMessage(char type, const std::vector<uint8_t>& payloa
     message.push_back(length & 0xFF);
     
     message.insert(message.end(), payload.begin(), payload.end());
-    
-    writeQueue_.push_back(std::move(message));
-    doWrite();
+
+    auto weak_self = weak_from_this();
+    if (auto self = weak_self.lock()) {
+        asio::dispatch(socket_.get_executor(), [self, message = std::move(message)]() mutable {
+            self->enqueueWrite(std::move(message));
+        });
+        return;
+    }
+
+    enqueueWrite(std::move(message));
+}
+
+void PostgresSession::enqueueWrite(std::vector<uint8_t> message) {
+    if (stopped_.load(std::memory_order_acquire)) {
+        return;
+    }
+
+    bool shouldStartWrite = false;
+    {
+        std::lock_guard<std::mutex> lock(writeMutex_);
+        shouldStartWrite = !writeInProgress_ && writeQueue_.empty();
+        writeQueue_.push_back(std::move(message));
+        if (shouldStartWrite) {
+            writeInProgress_ = true;
+        }
+    }
+
+    if (shouldStartWrite) {
+        doWrite();
+    }
 }
 
 bool PostgresSession::isSchemaQuery(const std::string& query) {
@@ -1469,7 +1718,9 @@ void PostgresSession::handleSchemaQuery(const std::string& query) {
                             }
                         }
                     }
-                } catch (...) {}
+                } catch (const std::exception& e) {
+                    std::cerr << "[PostgresSession] pg_attribute query: document parse error: " << e.what() << "\n";
+                }
                 ++oid;
             }
             sendCommandComplete("SELECT " + std::to_string(total_cols));
@@ -1997,7 +2248,12 @@ std::string PostgresSession::translateQuery(const std::string& postgresQuery) {
     std::string upperQuery = query;
     std::transform(upperQuery.begin(), upperQuery.end(), upperQuery.begin(), ::toupper);
     
-    // Handle different SQL statement types
+    // Handle different SQL statement types.
+    // Parser helpers (parseSelectQuery, parseInsertQuery, etc.) throw
+    // std::runtime_error on malformed input.  We propagate these as-is so that
+    // the catch blocks in handleQuery/handleExecute/handleDescribe can convert
+    // them into PostgreSQL ErrorResponse messages.  All callers of translateQuery
+    // are already wrapped in try { … } catch (const std::exception& e) { … }.
     if (upperQuery.find("SELECT") == 0) {
         QueryInfo info = parseSelectQuery(query);
         return buildCypherFromSelect(info);
@@ -2012,9 +2268,8 @@ std::string PostgresSession::translateQuery(const std::string& postgresQuery) {
         // Transaction commands - accept but don't execute (no ACID guarantees yet)
         return "// Transaction: " + query;
     } else {
-        throw std::runtime_error("Unsupported SQL statement type");
+        throw std::runtime_error("Unsupported SQL statement type: " + query.substr(0, 32));
     }
 }
 
 #endif // THEMIS_ENABLE_POSTGRES_WIRE
-

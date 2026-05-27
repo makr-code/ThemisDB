@@ -45,6 +45,7 @@
  */
 
 #include "rag/tensor_rag_pipeline.h"
+#include <stdexcept>
 
 #include <cstdio>
 #include <mutex>

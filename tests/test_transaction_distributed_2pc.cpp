@@ -761,6 +761,7 @@ TEST(Distributed2PCPerfTests, BatchedPrepareWindowGroupsTransactions) {
     DistributedTxnManagerConfig cfg;
     cfg.worker_thread_count  = 4;
     cfg.prepare_batch_window = std::chrono::milliseconds(30);
+    cfg.prepare_timeout      = std::chrono::milliseconds(15000);
     DistributedTransactionManager mgr("perf-coord-batch", cfg);
 
     std::vector<std::unique_ptr<MockParticipant>> participants(N);
@@ -1080,76 +1081,77 @@ TEST_F(DistributedTxnManagerTest, CC1_SuccessfulWALWriteDoesNotSuppressPhase2) {
     EXPECT_GE(p2->commitCount(), 1);
 }
 
-// ============================================================================
-// DTM-RPC bridge tests (stub #279)
-// ============================================================================
+// #279: Callback-less remote participants must receive Phase-2 ABORT through
+// the configured remote dispatcher.
+TEST_F(DistributedTxnManagerTest, Stub279_RemoteAbortUsesConfiguredPhase2Dispatcher) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout = 2000ms;
+    cfg.commit_timeout = 2000ms;
+    cfg.default_txn_timeout = 60s;
 
-// DTM-RPC-01: when RemoteDecisionFn is set, it is called for callback-less
-// participants during phase 2 (commit path).
-TEST_F(DistributedTxnManagerTest, DTM_RPC01_RemoteDecisionFnCalledOnCommit) {
-    std::atomic<int> rpc_calls{0};
-    std::string last_txn;
-    bool last_decision = false;
+    std::atomic<int> dispatch_calls{0};
+    std::atomic<int> abort_calls{0};
+    std::atomic<int> commit_calls{0};
+    cfg.remote_phase2_dispatch =
+        [&dispatch_calls, &abort_calls, &commit_calls](
+            const std::string& /*txn_id*/,
+            const std::string& node_id,
+            const std::string& endpoint,
+            bool do_commit) {
+            ++dispatch_calls;
+            EXPECT_EQ(node_id, "remote-node");
+            EXPECT_EQ(endpoint, "remote-node:9090");
+            if (do_commit) {
+                ++commit_calls;
+            } else {
+                ++abort_calls;
+            }
+            return true;
+        };
 
-    mgr->setRemoteDecisionFn([&](const std::string& /*node_id*/,
-                                  const std::string& /*endpoint*/,
-                                  const std::string& txn_id,
-                                  bool do_commit) -> bool {
-        ++rpc_calls;
-        last_txn      = txn_id;
-        last_decision = do_commit;
-        return true;
-    });
+    DistributedTransactionManager mgr_with_dispatch("coord-279-abort", cfg);
+    const auto tid = mgr_with_dispatch.beginDistributed({makeRemoteParticipant("remote-node")});
+    const auto prepare = mgr_with_dispatch.prepareDistributed(tid);
 
-    const auto tid = mgr->beginDistributed({
-        makeParticipant("local-n1", p1.get()),
-        makeRemoteParticipant("remote-rpc-1"),
-    });
-    ASSERT_TRUE(mgr->prepareDistributed(tid).ok);
-    ASSERT_TRUE(mgr->commitDistributed(tid).ok);
-
-    EXPECT_GE(rpc_calls.load(), 1) << "RemoteDecisionFn must be called for callback-less participant";
-    EXPECT_EQ(last_txn, tid);
-    EXPECT_TRUE(last_decision) << "Commit path must pass do_commit=true";
-
-    mgr->clearRemoteDecisionFn();
+    EXPECT_FALSE(prepare.ok);
+    EXPECT_EQ(dispatch_calls.load(), 1);
+    EXPECT_EQ(abort_calls.load(), 1);
+    EXPECT_EQ(commit_calls.load(), 0);
 }
 
-// DTM-RPC-02: when RemoteDecisionFn is set, it is called for callback-less
-// participants during phase 2 (abort path).
-TEST_F(DistributedTxnManagerTest, DTM_RPC02_RemoteDecisionFnCalledOnAbort) {
-    std::atomic<int> rpc_calls{0};
-    bool last_decision = true;
+// #279: Callback-less remote participants must receive Phase-2 COMMIT through
+// the configured remote dispatcher when all votes are COMMIT.
+TEST_F(DistributedTxnManagerTest, Stub279_RemoteCommitUsesConfiguredPhase2Dispatcher) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout = 2000ms;
+    cfg.commit_timeout = 2000ms;
+    cfg.default_txn_timeout = 60s;
 
-    mgr->setRemoteDecisionFn([&](const std::string&, const std::string&,
-                                  const std::string&, bool do_commit) -> bool {
-        ++rpc_calls;
-        last_decision = do_commit;
-        return true;
+    std::atomic<int> dispatch_calls{0};
+    std::atomic<int> commit_calls{0};
+    cfg.remote_phase2_dispatch =
+        [&dispatch_calls, &commit_calls](
+            const std::string& /*txn_id*/,
+            const std::string& node_id,
+            const std::string& endpoint,
+            bool do_commit) {
+            ++dispatch_calls;
+            EXPECT_EQ(node_id, "remote-node");
+            EXPECT_EQ(endpoint, "remote-node:9090");
+            EXPECT_TRUE(do_commit);
+            if (do_commit) ++commit_calls;
+            return true;
+        };
+
+    DistributedTransactionManager mgr_with_dispatch("coord-279-commit", cfg);
+    const auto tid = mgr_with_dispatch.beginDistributed({
+        makeParticipant("local-node", p1.get()),
+        makeRemoteParticipant("remote-node")
     });
 
-    const auto tid = mgr->beginDistributed({
-        makeRemoteParticipant("remote-rpc-2"),
-    });
-    mgr->abortDistributed(tid);
+    ASSERT_TRUE(mgr_with_dispatch.prepareDistributed(tid).ok);
+    ASSERT_TRUE(mgr_with_dispatch.commitDistributed(tid).ok);
 
-    EXPECT_GE(rpc_calls.load(), 1) << "RemoteDecisionFn must be called on abort for callback-less participant";
-    EXPECT_FALSE(last_decision) << "Abort path must pass do_commit=false";
-
-    mgr->clearRemoteDecisionFn();
-}
-
-// DTM-RPC-03: when no RemoteDecisionFn is set, callback-less participants are
-// skipped silently (no crash, no delivered decision).
-TEST_F(DistributedTxnManagerTest, DTM_RPC03_NoFnSkipsRemoteParticipantGracefully) {
-    mgr->clearRemoteDecisionFn(); // ensure unset
-
-    const auto tid = mgr->beginDistributed({
-        makeParticipant("local-only", p1.get()),
-        makeRemoteParticipant("remote-no-fn"),
-    });
-    ASSERT_TRUE(mgr->prepareDistributed(tid).ok);
-    // Must not throw or crash when no RemoteDecisionFn is set.
-    EXPECT_NO_THROW(mgr->commitDistributed(tid));
-    EXPECT_GE(p1->commitCount(), 1) << "Local participant still receives COMMIT";
+    EXPECT_EQ(dispatch_calls.load(), 1);
+    EXPECT_EQ(commit_calls.load(), 1);
 }

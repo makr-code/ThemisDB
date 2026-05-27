@@ -7,6 +7,7 @@
  */
 
 #include "index/advanced_vector_index.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <algorithm>
 #include <cmath>

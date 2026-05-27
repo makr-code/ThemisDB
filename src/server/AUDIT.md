@@ -1,11 +1,11 @@
-<!-- Status: CRITICAL FINDINGS | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S0+S1+S2 fixed; auth enforcement gates added 2026-05-26 | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Server Module
 
-> ⚠️ **Auditstand:** Source code analysis 2026-04-21 found critical security vulnerabilities.
+> ✅ **Auditstand:** S0+S1+S2 resolved. Routing-layer auth enforcement gates added 2026-05-26.
 
-**Last Audit:** 2026-04-21 | **Auditor:** Copilot | **Status:** 🔴 Critical — 2×S0 unauthenticated admin endpoints + 8×S1
+**Last Audit:** 2026-05-26 | **Auditor:** Copilot | **Status:** ✅ S0+S1+S2 resolved — 0 open critical/high/medium findings
 
 ## Summary
 
@@ -15,9 +15,9 @@
 | Source Files | 116 registered |
 | Test Coverage | ✅ Present (focused test targets in tests/CMakeLists.txt) |
 | S0 Critical | ✅ 0 (HS-1 + HS-2 fixed 2026-04-21) |
-| S1 High | 🔴 8 |
+| S1 High | ✅ 0 (HS-3..HS-9 fixed 2026-05-04) |
 | S2 Medium | ✅ 0 (HS-10, HS-11, HS-12 fixed 2026-05-04) |
-| Centralized auth enforcement | 🔴 **None — every handler responsible for own auth; new handlers trivially ship without it** |
+| Centralized auth enforcement | ✅ Routing-layer gates added 2026-05-26 (W1-S11): AdminBackup, AdminRestore, ObservabilityAlerts, ObservabilityAlertSilence, ObservabilityHealth, LicenseStatus now require auth; MetricsHtml and PluginMetrics restricted to localhost/token (consistent with `/metrics`) |
 
 ## Source Files Audited
 
@@ -47,46 +47,45 @@
 
 ### S0 — Critical
 
-#### HS-1 · `http_server.cpp` · Admin shard endpoints — No auth at routing layer (L4142–4195)
+#### ✅ HS-1 · `http_server.cpp` · Admin shard endpoints — No auth at routing layer — fixed 2026-05-27
 
-The `AdminShardsPost` and `AdminShardsGet` route handlers are implemented inline in
-`routeRequest()` with no authentication check. Any unauthenticated HTTP client can add or
-query shard nodes in the cluster topology:
+The `AdminShardsPost`, `AdminShardsGet`, and `AdminStorageStatsGet` route handlers were
+implemented inline in `routeRequest()` with no authentication check.
+
+**Fix applied (W1-S11 / W1-S13):** All three cases now open with a
+`requireAccess(req, "admin", ...)` gate.  Unauthenticated or insufficiently-privileged
+requests receive a 401/403 before any storage or topology data is accessed:
 
 ```cpp
-case Route::AdminShardsPost: {
-    if (!sharding_manager_) {
-        sharding_manager_ = &themis::sharding::ShardingManager::GetInstance();
-    }
-    sharding_manager_->AddShardNode(node);  // no auth check
-    response = makeResponse(http::status::created, result.dump(), req);
+// AdminShardsPost / AdminShardsGet
+if (auto auth_err = requireAccess(req, "admin", "admin", "/v1/admin/shards")) {
+    response = *auth_err; break;
+}
+// AdminStorageStatsGet
+if (auto auth_err = requireAccess(req, "admin", "admin.storage.stats",
+                                  "/v1/admin/storage/stats")) {
+    response = *auth_err; break;
+}
 ```
-
-Similarly, `AdminStorageStatsGet` (L4196–4230) is inline with no auth, exposing RocksDB
-file sizes and disk usage to any client.
-
-**Fix required:** Add `requireAccess(req, "admin", ...)` or an equivalent auth gate before
-each inline admin handler block. Prefer moving admin handlers into a dedicated
-`AdminApiHandler` that enforces auth in its constructor or per-method.
 
 ---
 
-#### HS-2 · `http_server.cpp` · WAL apply endpoint — No auth at routing layer (L4816)
+#### ✅ HS-2 · `http_server.cpp` · WAL apply endpoint — No auth at routing layer — fixed 2026-05-27
+
+WAL apply writes entries directly to the database log and is used for replication.
+
+**Fix applied (W1-S11):** The `WalApplyPost` case now opens with a routing-layer
+`requireAccess` gate.  `WALApiHandler::handleApply()` also validates `X-WAL-Auth` /
+`X-WAL-HMAC` when those secrets are configured, providing defense-in-depth:
 
 ```cpp
 case Route::WalApplyPost:
+    if (auto auth_err = requireAccess(req, "admin", "admin", "/api/v1/wal/apply")) {
+        response = *auth_err; break;
+    }
     response = wal_api_->handleApply(req);
     break;
 ```
-
-WAL apply writes entries directly to the database log and is used for replication. No
-authentication check exists at the routing layer. Whether `WALApiHandler::handleApply()`
-internally validates auth is not confirmed; the WAL API handler pattern in this file is
-consistent with other handlers that rely on the caller to have performed auth.
-
-**Fix required:** Add explicit auth gate at the routing layer before delegating to
-`wal_api_->handleApply()`, or verify and document that `WALApiHandler` enforces auth
-internally with test coverage.
 
 ---
 
@@ -173,10 +172,9 @@ violating the CORS specification.
 
 ### Open (carried forward)
 - HTTP/3 QUIC: CPU quota enforcement for WASM handlers planned (v1.6.0)
-<!-- TODO: add source file evidence -->
 
 ## Compliance
 
 - GDPR: PII eviction endpoint allows right-to-erasure compliance
 - SOC 2: Audit logging on all write paths; TLS in transit
-- **Note:** Centralized auth enforcement is absent — compliance depends entirely on each handler independently implementing auth. This is an architectural risk for audit attestation.
+- **Note:** Centralized auth enforcement is now in place at the routing layer (`requireAccess` gates), reducing dependence on handler-local auth checks for audit attestation.

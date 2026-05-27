@@ -15,6 +15,7 @@
  */
 
 #include "rag/continuous_learning_orchestrator.h"
+#include <stdexcept>
 #include "rag/bayesian_optimizer.h"
 #include "utils/logger.h"
 #include "distributed_knowledge/lora_federation_coordinator.h"
@@ -24,6 +25,7 @@
 #include <atomic>
 #include <fstream>
 #include <iomanip>
+#include <locale>
 #include <mutex>
 #include <numeric>
 #include <sstream>
@@ -608,6 +610,9 @@ void ContinuousLearningOrchestrator::saveMetrics() {
         THEMIS_WARN("saveMetrics: could not open metrics file for writing: {}", path);
         return;
     }
+    // Force locale-independent decimal formatting so CSV always uses '.'
+    // regardless of OS/user locale (e.g. de-DE decimal comma).
+    file.imbue(std::locale::classic());
 
     if (is_new_file) {
         file << "timestamp,accuracy,prompt_optimizations,retrieval_optimizations,"
@@ -653,7 +658,15 @@ void ContinuousLearningOrchestrator::loadMetrics() {
     while (std::getline(row, field, ',')) {
         try {
             switch (col) {
-                case 1: impl_->stats.current_accuracy        = std::stod(field); break;
+                case 1: {
+                    std::istringstream value_stream(field);
+                    value_stream.imbue(std::locale::classic());
+                    double value = 0.0;
+                    if (value_stream >> value) {
+                        impl_->stats.current_accuracy = value;
+                    }
+                    break;
+                }
                 case 2: impl_->stats.prompt_optimizations    = static_cast<size_t>(std::stoull(field)); break;
                 case 3: impl_->stats.retrieval_optimizations = static_cast<size_t>(std::stoull(field)); break;
                 case 4: impl_->stats.lora_retraining_count   = static_cast<size_t>(std::stoull(field)); break;

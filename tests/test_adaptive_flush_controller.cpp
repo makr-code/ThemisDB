@@ -517,7 +517,7 @@ TEST_F(AFCFixture, StopDuringBackpressureNoDeadlock) {
 TEST_F(AFCFixture, OverdueFlushEventAlerted) {
     AdaptiveFlushControllerConfig cfg = quietConfig();
     cfg.flush_interval          = std::chrono::milliseconds{30};
-    cfg.overdue_flush_multiplier = 2;   // overdue if held > 60 ms
+    cfg.overdue_flush_multiplier = 1;   // overdue if held > 30 ms (deterministic before first timeout flush)
     cfg.watermark_ratio          = 1.0; // no watermark-flush
     cfg.async_flush              = true;
     cfg.flush_batch_size         = 500;
@@ -585,7 +585,7 @@ TEST_F(AFCFixture, MetricsOverdueFlushCounterUpdated) {
 
     AdaptiveFlushControllerConfig cfg = quietConfig();
     cfg.flush_interval           = std::chrono::milliseconds{20};
-    cfg.overdue_flush_multiplier = 2;
+    cfg.overdue_flush_multiplier = 1;
     cfg.watermark_ratio          = 1.0;
     cfg.async_flush              = true;
     cfg.flush_batch_size         = 500;

@@ -38,6 +38,7 @@
 #include <atomic>
 #include <cmath>
 #include <mutex>
+#include <shared_mutex>
 #include <condition_variable>
 #include <fstream>
 #include <filesystem>
@@ -45,6 +46,30 @@
 namespace themis {
 namespace llm {
 namespace lora {
+
+// ============================================================================
+// ModelPathProvider bridge (stub #289)
+// ============================================================================
+
+namespace {
+    static std::mutex s_model_path_fn_mutex;
+    static std::function<std::string(const std::string&)> s_model_path_fn;
+} // namespace
+
+void LoRATrainingService::setModelPathProviderFn(ModelPathProviderFn fn) {
+    std::lock_guard<std::mutex> lock(s_model_path_fn_mutex);
+    s_model_path_fn = std::move(fn);
+}
+
+void LoRATrainingService::clearModelPathProviderFn() {
+    std::lock_guard<std::mutex> lock(s_model_path_fn_mutex);
+    s_model_path_fn = nullptr;
+}
+
+static std::function<std::string(const std::string&)> getModelPathProviderFn() {
+    std::lock_guard<std::mutex> lock(s_model_path_fn_mutex);
+    return s_model_path_fn;
+}
 
 // Simple MSE loss function
 float compute_mse_loss(const Tensor& predictions, const Tensor& targets) {
@@ -178,6 +203,14 @@ public:
         stop_requested_.store(false);
         is_training_.store(true);
         
+        // Take a local snapshot of config_ under the shared lock so that concurrent
+        // setTrainingConfig() calls cannot race with our training reads.
+        Config local_config;
+        {
+            std::shared_lock<std::shared_mutex> lock(config_mutex_);
+            local_config = config_;
+        }
+
         auto start_time = std::chrono::system_clock::now();
         
         TrainingResult result;
@@ -482,7 +515,9 @@ public:
             // Create learning rate scheduler using factory (more comprehensive than params-based)
             // Use config_ scheduler if available, otherwise fall back to params
             std::unique_ptr<LRScheduler> lr_scheduler;
-            int total_steps = (data.size() / params.batch_size) * params.num_epochs;
+            const int total_steps = static_cast<int>(
+                (data.size() / static_cast<size_t>(params.batch_size)) *
+                static_cast<size_t>(params.num_epochs));
             
             // Use production LR scheduler factory with full configuration support
             if (config_.lr_scheduler.type != SchedulerType::CONSTANT || config_.lr_scheduler.base_lr != 1e-4f) {
@@ -738,7 +773,7 @@ public:
                     float batch_loss = compute_mse_loss(predictions, batch_target);
                     
                     // Scale loss for mixed precision
-                    float scaled_loss = mixed_precision->scale_loss(batch_loss);
+                    static_cast<void>(mixed_precision->scale_loss(batch_loss));
                     
                     epoch_loss += batch_loss;
                     num_batches++;
@@ -903,11 +938,13 @@ public:
     }
     
     void setTrainingConfig(const Config& config) {
+        std::unique_lock<std::shared_mutex> lock(config_mutex_);
         config_ = config;
         spdlog::info("Updated training configuration");
     }
     
     Config getTrainingConfig() const {
+        std::shared_lock<std::shared_mutex> lock(config_mutex_);
         return config_;
     }
     
@@ -921,6 +958,7 @@ public:
     }
     
     TrainingMetrics getMetrics() const {
+        std::lock_guard<std::mutex> lock(metrics_mutex_);
         return current_metrics_;
     }
     
@@ -1054,6 +1092,8 @@ public:
     }
 
 private:
+    mutable std::shared_mutex config_mutex_;  ///< Protects config_ for concurrent set/get vs. read during training
+    mutable std::mutex metrics_mutex_;        ///< Protects current_metrics_ for concurrent callback writes vs. getMetrics reads
     Config config_;
     std::atomic<bool> is_training_;
     std::atomic<bool> stop_requested_;
@@ -1413,11 +1453,14 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         
         // Register callback for progress updates with resource profiling
         trainer.registerCallback([this, &profiler](const GPUTrainingMetrics& metrics) {
-            impl_->current_metrics_.current_epoch = metrics.current_epoch;
-            impl_->current_metrics_.current_step = metrics.current_step;
-            impl_->current_metrics_.current_loss = metrics.current_loss;
-            impl_->current_metrics_.learning_rate = metrics.learning_rate;
-            impl_->current_metrics_.progress = metrics.progress;
+            {
+                std::lock_guard<std::mutex> lock(impl_->metrics_mutex_);
+                impl_->current_metrics_.current_epoch = metrics.current_epoch;
+                impl_->current_metrics_.current_step = metrics.current_step;
+                impl_->current_metrics_.current_loss = metrics.current_loss;
+                impl_->current_metrics_.learning_rate = metrics.learning_rate;
+                impl_->current_metrics_.progress = metrics.progress;
+            }
             
             // Take resource snapshot
             profiler->snapshot(
@@ -1546,92 +1589,136 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
     
     // Create quantized model
     auto quantized_model = std::make_unique<QuantizedModel>(model_config);
-
-    // Attempt to load layers from the real GGUF file first.
-    // Synthetic layers are only created as a fallback when the file is absent, so
-    // that CI runs without model assets can still exercise the training pipeline.
+    
+    // Load actual model from GGUF file
     try {
+        if (model_path.empty()) {
+            spdlog::error("GGUF model path is empty");
+            return nullptr;
+        }
+
+        // Try to open and parse GGUF file
         if (!std::filesystem::exists(model_path)) {
-            spdlog::warn("GGUF model file not found at '{}' — "
-                         "falling back to synthetic 3-layer model. "
-                         "Production training on synthetic weights is NOT supported.",
-                         model_path);
-            // Synthetic fallback: 3 fixed-dimension layers.
-            for (int i = 0; i < 3; ++i) {
-                quantized_model->add_layer("layer_" + std::to_string(i),
-                                           tensor_utils::randn({768, 768}));
-            }
-            return quantized_model;
+            spdlog::error("GGUF model file not found: {}", model_path);
+            return nullptr;
         }
 
         std::ifstream gguf_file(model_path, std::ios::binary);
         if (!gguf_file.is_open()) {
             spdlog::error("Failed to open GGUF file: {}", model_path);
-            return quantized_model;
+            return nullptr;
         }
-        
+
+        const auto read_exact = [&gguf_file](char* dst, std::streamsize count) -> bool {
+            gguf_file.read(dst, count);
+            return gguf_file.good() && gguf_file.gcount() == count;
+        };
+
+        const auto read_u32 = [&read_exact](uint32_t& value) -> bool {
+            return read_exact(reinterpret_cast<char*>(&value), static_cast<std::streamsize>(sizeof(uint32_t)));
+        };
+
+        const auto read_u64 = [&read_exact](uint64_t& value) -> bool {
+            return read_exact(reinterpret_cast<char*>(&value), static_cast<std::streamsize>(sizeof(uint64_t)));
+        };
+         
         // Read GGUF magic number (4 bytes): "GGUF"
         char magic[4];
-        gguf_file.read(magic, 4);
+        if (!read_exact(magic, 4)) {
+            spdlog::error("Failed to read GGUF magic header: {}", model_path);
+            return nullptr;
+        }
         if (std::string(magic, 4) != "GGUF") {
             spdlog::error("Invalid GGUF file format: {}", model_path);
-            return quantized_model;
+            return nullptr;
         }
         
         // Read GGUF version (4 bytes, little-endian uint32)
         uint32_t version = 0;
-        gguf_file.read(reinterpret_cast<char*>(&version), sizeof(uint32_t));
+        if (!read_u32(version)) {
+            spdlog::error("Failed to read GGUF version: {}", model_path);
+            return nullptr;
+        }
         spdlog::info("GGUF version: {}", version);
         
         // Read tensor count (8 bytes, little-endian uint64)
         uint64_t tensor_count = 0;
-        gguf_file.read(reinterpret_cast<char*>(&tensor_count), sizeof(uint64_t));
+        if (!read_u64(tensor_count)) {
+            spdlog::error("Failed to read GGUF tensor count: {}", model_path);
+            return nullptr;
+        }
         spdlog::info("GGUF tensor count: {}", tensor_count);
         
         // Read KV pair count (8 bytes, little-endian uint64)
         uint64_t kv_count = 0;
-        gguf_file.read(reinterpret_cast<char*>(&kv_count), sizeof(uint64_t));
+        if (!read_u64(kv_count)) {
+            spdlog::error("Failed to read GGUF KV count: {}", model_path);
+            return nullptr;
+        }
         spdlog::info("GGUF KV pairs: {}", kv_count);
         
         // Parse metadata KV pairs to extract model info
-        size_t model_param_count = 0;
         std::vector<std::string> layer_names;
         
         for (uint64_t i = 0; i < kv_count; ++i) {
             // Read KV key
             uint64_t key_len = 0;
-            gguf_file.read(reinterpret_cast<char*>(&key_len), sizeof(uint64_t));
+            if (!read_u64(key_len) || key_len == 0) {
+                spdlog::error("Failed to read GGUF key length at KV index {}", i);
+                return nullptr;
+            }
             std::string key(key_len, '\0');
-            gguf_file.read(&key[0], key_len);
+            if (!read_exact(&key[0], static_cast<std::streamsize>(key_len))) {
+                spdlog::error("Failed to read GGUF key payload at KV index {}", i);
+                return nullptr;
+            }
             
             // Read value type (4 bytes)
             uint32_t value_type = 0;
-            gguf_file.read(reinterpret_cast<char*>(&value_type), sizeof(uint32_t));
+            if (!read_u32(value_type)) {
+                spdlog::error("Failed to read GGUF value type at KV index {}", i);
+                return nullptr;
+            }
             
             // Parse specific metadata
-            if (key == "general.name") {
-                uint64_t str_len = 0;
-                gguf_file.read(reinterpret_cast<char*>(&str_len), sizeof(uint64_t));
-                std::string model_name(str_len, '\0');
-                gguf_file.read(&model_name[0], str_len);
-                spdlog::info("GGUF model name: {}", model_name);
-            } else if (key == "llama.context_length") {
-                uint32_t ctx_len = 0;
-                gguf_file.read(reinterpret_cast<char*>(&ctx_len), sizeof(uint32_t));
-                spdlog::info("GGUF context length: {}", ctx_len);
-            } else if (key == "llama.embedding_length") {
-                uint32_t emb_dim = 0;
-                gguf_file.read(reinterpret_cast<char*>(&emb_dim), sizeof(uint32_t));
-                spdlog::info("GGUF embedding dimension: {}", emb_dim);
+                if (key == "general.name") {
+                    uint64_t str_len = 0;
+                    if (!read_u64(str_len)) {
+                        spdlog::error("Failed to read GGUF model-name length");
+                        return nullptr;
+                    }
+                    std::string model_name(str_len, '\0');
+                    if (!read_exact(&model_name[0], static_cast<std::streamsize>(str_len))) {
+                        spdlog::error("Failed to read GGUF model-name payload");
+                        return nullptr;
+                    }
+                    spdlog::info("GGUF model name: {}", model_name);
+                } else if (key == "llama.context_length") {
+                    uint32_t ctx_len = 0;
+                    if (!read_u32(ctx_len)) {
+                        spdlog::error("Failed to read GGUF context_length");
+                        return nullptr;
+                    }
+                    spdlog::info("GGUF context length: {}", ctx_len);
+                } else if (key == "llama.embedding_length") {
+                    uint32_t emb_dim = 0;
+                    if (!read_u32(emb_dim)) {
+                        spdlog::error("Failed to read GGUF embedding_length");
+                        return nullptr;
+                    }
+                    spdlog::info("GGUF embedding dimension: {}", emb_dim);
                 
                 // Use actual embedding dimension from model
                 if (emb_dim > 0) {
                     quantized_model->embedding_dim = emb_dim;
                 }
-            } else if (key == "llama.block_count") {
-                uint32_t block_count = 0;
-                gguf_file.read(reinterpret_cast<char*>(&block_count), sizeof(uint32_t));
-                spdlog::info("GGUF block count: {}", block_count);
+                } else if (key == "llama.block_count") {
+                    uint32_t block_count = 0;
+                    if (!read_u32(block_count)) {
+                        spdlog::error("Failed to read GGUF block_count");
+                        return nullptr;
+                    }
+                    spdlog::info("GGUF block count: {}", block_count);
                 
                 // Pre-populate layer names for actual model layers
                 layer_names.clear();
@@ -1649,8 +1736,15 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
                     case 3: { float v; gguf_file.read(reinterpret_cast<char*>(&v), 4); } break;
                     case 4: { // String
                         uint64_t str_len = 0;
-                        gguf_file.read(reinterpret_cast<char*>(&str_len), sizeof(uint64_t));
+                        if (!read_u64(str_len)) {
+                            spdlog::error("Failed to read GGUF string length for unknown value");
+                            return nullptr;
+                        }
                         gguf_file.seekg(str_len, std::ios::cur);
+                        if (!gguf_file.good()) {
+                            spdlog::error("Failed to skip GGUF unknown string payload");
+                            return nullptr;
+                        }
                     } break;
                     default:
                         spdlog::warn("Unknown GGUF value type: {}", value_type);
@@ -1681,20 +1775,12 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
         
         spdlog::info("Successfully loaded GGUF model with {} layers", 
                     quantized_model->num_layers());
+        return quantized_model;
         
     } catch (const std::exception& e) {
-        spdlog::error("Exception while loading GGUF model '{}': {}", model_path, e.what());
-        spdlog::warn("Falling back to synthetic 3-layer model — production training NOT supported");
-        // Ensure at least the synthetic fallback is populated.
-        if (quantized_model->num_layers() == 0) {
-            for (int i = 0; i < 3; ++i) {
-                quantized_model->add_layer("layer_" + std::to_string(i),
-                                           tensor_utils::randn({768, 768}));
-            }
-        }
+        spdlog::error("Exception while loading GGUF model: {}", e.what());
+        return nullptr;
     }
-
-    return quantized_model;
 }
 
 size_t LoRATrainingService::estimateMemoryUsage(
@@ -2110,4 +2196,3 @@ TrainingResult LoRATrainingService::trainDistributed(
 } // namespace lora
 } // namespace llm
 } // namespace themis
-

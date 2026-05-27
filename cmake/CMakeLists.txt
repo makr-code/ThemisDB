@@ -35,6 +35,98 @@ if(NOT THEMIS_VERSION_COMPILE_DEF_DEFINED)
     set(THEMIS_VERSION_COMPILE_DEF_DEFINED ON)
 endif()
 
+# GPU backend auto-discovery (no preset branching required).
+# Semantics: THEMIS_ENABLE_GPU=ON means "probe all supported frameworks and
+# enable what is available", with CPU fallback always present at runtime.
+if(NOT DEFINED THEMIS_ENABLE_GPU)
+    set(THEMIS_ENABLE_GPU ON CACHE BOOL "Enable GPU acceleration for vector search (default ON)")
+endif()
+option(THEMIS_GPU_AUTO_DETECT "Auto-detect CUDA/HIP/Vulkan backends when THEMIS_ENABLE_GPU=ON" ON)
+
+if(NOT DEFINED THEMIS_ENABLE_CUDA)
+    set(THEMIS_ENABLE_CUDA OFF CACHE BOOL "Enable NVIDIA CUDA acceleration" FORCE)
+endif()
+if(NOT DEFINED THEMIS_ENABLE_HIP)
+    set(THEMIS_ENABLE_HIP OFF CACHE BOOL "Enable AMD HIP acceleration" FORCE)
+endif()
+if(NOT DEFINED THEMIS_ENABLE_VULKAN)
+    set(THEMIS_ENABLE_VULKAN ON CACHE BOOL "Enable Vulkan Compute acceleration" FORCE)
+endif()
+
+if(THEMIS_ENABLE_GPU AND THEMIS_GPU_AUTO_DETECT)
+    message(STATUS "GPU backend auto-detect: probing CUDA/HIP/Vulkan")
+    set(_themis_detected_gpu_backends)
+
+    # Vulkan (cross-vendor)
+    find_package(Vulkan QUIET)
+    if(Vulkan_FOUND)
+        set(THEMIS_ENABLE_VULKAN ON CACHE BOOL "Enable Vulkan Compute acceleration" FORCE)
+        list(APPEND _themis_detected_gpu_backends "Vulkan")
+    else()
+        set(THEMIS_ENABLE_VULKAN OFF CACHE BOOL "Enable Vulkan Compute acceleration" FORCE)
+    endif()
+
+    # HIP (AMD ROCm)
+    find_program(_THEMIS_HIPCC_EXE NAMES hipcc HINTS ENV ROCM_PATH ENV HIP_PATH PATH_SUFFIXES bin)
+    if(_THEMIS_HIPCC_EXE)
+        set(THEMIS_ENABLE_HIP ON CACHE BOOL "Enable AMD HIP acceleration" FORCE)
+        list(APPEND _themis_detected_gpu_backends "HIP")
+    else()
+        set(THEMIS_ENABLE_HIP OFF CACHE BOOL "Enable AMD HIP acceleration" FORCE)
+    endif()
+
+    # CUDA (NVIDIA)
+    if(NOT DEFINED CMAKE_CUDA_COMPILER OR CMAKE_CUDA_COMPILER STREQUAL "")
+        set(_themis_cuda_nvcc_candidates)
+
+        if(DEFINED ENV{CUDACXX} AND EXISTS "$ENV{CUDACXX}")
+            list(APPEND _themis_cuda_nvcc_candidates "$ENV{CUDACXX}")
+        endif()
+        if(DEFINED ENV{CUDA_PATH} AND EXISTS "$ENV{CUDA_PATH}/bin/nvcc.exe")
+            list(APPEND _themis_cuda_nvcc_candidates "$ENV{CUDA_PATH}/bin/nvcc.exe")
+        endif()
+        if(DEFINED ENV{CUDA_HOME} AND EXISTS "$ENV{CUDA_HOME}/bin/nvcc.exe")
+            list(APPEND _themis_cuda_nvcc_candidates "$ENV{CUDA_HOME}/bin/nvcc.exe")
+        endif()
+
+        file(GLOB _themis_cuda_toolkits "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v*")
+        list(SORT _themis_cuda_toolkits ORDER DESCENDING)
+        foreach(_cuda_root IN LISTS _themis_cuda_toolkits)
+            if(EXISTS "${_cuda_root}/bin/nvcc.exe")
+                list(APPEND _themis_cuda_nvcc_candidates "${_cuda_root}/bin/nvcc.exe")
+            endif()
+        endforeach()
+
+        list(LENGTH _themis_cuda_nvcc_candidates _themis_cuda_nvcc_count)
+        if(_themis_cuda_nvcc_count GREATER 0)
+            list(GET _themis_cuda_nvcc_candidates 0 _themis_cuda_nvcc)
+            set(CMAKE_CUDA_COMPILER "${_themis_cuda_nvcc}" CACHE FILEPATH "CUDA compiler" FORCE)
+            get_filename_component(_themis_cuda_bin "${_themis_cuda_nvcc}" DIRECTORY)
+            get_filename_component(_themis_cuda_root "${_themis_cuda_bin}" DIRECTORY)
+            set(CUDAToolkit_ROOT "${_themis_cuda_root}" CACHE PATH "CUDA toolkit root" FORCE)
+        endif()
+    endif()
+
+    include(CheckLanguage)
+    check_language(CUDA)
+    if(CMAKE_CUDA_COMPILER)
+        enable_language(CUDA)
+        set(CMAKE_CUDA_STANDARD 17)
+        set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+        set(THEMIS_ENABLE_CUDA ON CACHE BOOL "Enable NVIDIA CUDA acceleration" FORCE)
+        list(APPEND _themis_detected_gpu_backends "CUDA")
+    else()
+        set(THEMIS_ENABLE_CUDA OFF CACHE BOOL "Enable NVIDIA CUDA acceleration" FORCE)
+    endif()
+
+    if(_themis_detected_gpu_backends)
+        string(REPLACE ";" ", " _themis_detected_gpu_backends_msg "${_themis_detected_gpu_backends}")
+        message(STATUS "GPU backend auto-detect: enabled backends = ${_themis_detected_gpu_backends_msg}")
+    else()
+        message(WARNING "GPU backend auto-detect: no CUDA/HIP/Vulkan toolchain found; runtime will use CPU fallback")
+    endif()
+endif()
+
 # Build provenance: channel, Git SHA, timestamp, Ed25519 signature
 # Generates ${CMAKE_BINARY_DIR}/include/updates/build_info.h
 include(${CMAKE_CURRENT_SOURCE_DIR}/BuildInfo.cmake)
@@ -1705,6 +1797,11 @@ set(THEMIS_CORE_SOURCES
     ../src/query/materialized_cte.cpp
     ../src/query/result_stream.cpp
     ../src/query/query_cache.cpp
+    ../src/query/synopsis_store.cpp
+    ../src/query/incremental_agg.cpp
+    ../src/query/cq_watermark.cpp
+    ../src/query/continuous_query_engine.cpp
+    ../src/query/continuous_query_planner.cpp
     ../src/query/query_rewrite_rule.cpp
     ../src/query/query_profiler.cpp
 
@@ -1913,7 +2010,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/markdown_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/video_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/audio_processor.cpp>
-    $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<NOT:$<BOOL:${THEMIS_ENABLE_VOICE_ASSISTANT}>>>:../src/content/stt_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/stt_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/image_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pdf_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/ocr_processor.cpp>
@@ -1938,7 +2035,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/language_detector.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/embedding_pipeline.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_manager_embedding.cpp>
-    $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<NOT:$<BOOL:${THEMIS_ENABLE_VOICE_ASSISTANT}>>>:../src/content/tts_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/tts_processor.cpp>
     $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/content/content_manager_llm.cpp>
     
     # Content ↔ Toolbox adapter layer (IFormatExtractor implementations)
@@ -4139,6 +4236,7 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/distributed_training_coordinator.cpp       # Coordinator implementation (link fixes)
         ../src/llm/applications/themis_help_lora.cpp          # Themis Help LoRA app (link fixes)
         ../src/llm/security/signature_verifier.cpp            # LLM signature verification
+        ../src/llm/lora_security_validator.cpp                # LoRA security policy validation
         
         # Dynamic batch size adaptation (Issue #39)
         ../src/llm/lora_framework/adaptive_batcher.cpp        # Adaptive batch sizing for optimal GPU utilization

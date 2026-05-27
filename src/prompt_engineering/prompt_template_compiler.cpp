@@ -10,6 +10,7 @@
  */
 
 #include "prompt_engineering/prompt_template_compiler.h"
+#include <stdexcept>
 
 #include "utils/string_utils.h"
 #include <algorithm>

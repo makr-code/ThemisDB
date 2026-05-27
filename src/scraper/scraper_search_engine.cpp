@@ -10,6 +10,7 @@
  */
 
 #include "scraper/scraper_search_engine.h"
+#include <stdexcept>
 #include <algorithm>
 #include <array>
 #include <sstream>

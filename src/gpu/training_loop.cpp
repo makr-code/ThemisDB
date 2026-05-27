@@ -19,12 +19,10 @@ namespace gpu {
 // Construction
 // ---------------------------------------------------------------------------
 
-GPUTrainingLoop::GPUTrainingLoop()
-    : GPUTrainingLoop(Config{}) {}
+GPUTrainingLoop::GPUTrainingLoop() : GPUTrainingLoop(Config{}) {}
 
-GPUTrainingLoop::GPUTrainingLoop(const Config& config)
-    : config_(config) {
-    last_epoch_ = {};
+GPUTrainingLoop::GPUTrainingLoop(const Config &config) : config_(config) {
+    last_epoch_          = {};
     last_epoch_.min_loss = 0.0;
     last_epoch_.max_loss = 0.0;
 }
@@ -33,12 +31,11 @@ GPUTrainingLoop::GPUTrainingLoop(const Config& config)
 // run
 // ---------------------------------------------------------------------------
 
-GPUTrainingLoop::EpochStats
-GPUTrainingLoop::run(const std::vector<Batch>& batches,
-                     LossFn                    loss_fn,
-                     CheckpointFn              checkpoint) {
-    if (batches.empty() || !loss_fn)
+GPUTrainingLoop::EpochStats GPUTrainingLoop::run(const std::vector<Batch> &batches, LossFn loss_fn,
+                                                 CheckpointFn checkpoint) {
+    if (batches.empty() || !loss_fn) {
         throw std::invalid_argument("GPUTrainingLoop::run: batches and loss_fn must be non-empty");
+    }
 
     // Build iteration order (optionally shuffled) ----------------------------
     std::vector<size_t> order(batches.size());
@@ -52,43 +49,51 @@ GPUTrainingLoop::run(const std::vector<Batch>& batches,
     }
 
     // Epoch state ------------------------------------------------------------
-    double sum_loss  = 0.0;
-    double min_loss  = std::numeric_limits<double>::max();
-    double max_loss  = std::numeric_limits<double>::lowest();
-    size_t gpu_steps = 0;
-    size_t cpu_steps = 0;
+    double sum_loss    = 0.0;
+    double min_loss    = std::numeric_limits<double>::max();
+    double max_loss    = std::numeric_limits<double>::lowest();
+    size_t gpu_steps   = 0;
+    size_t cpu_steps   = 0;
     size_t local_steps = 0;
 
     std::lock_guard<std::mutex> lk(mutex_);
     ++epoch_num_;
 
     for (size_t idx : order) {
-        if (stopped_) break;
+        if (stopped_) {
+            break;
+        }
         if (config_.max_steps > 0 && step_ >= config_.max_steps) {
             stopped_ = true;
             break;
         }
 
         double loss = loss_fn(batches[idx]);
-        bool   gpu  = (loss >= 0.0);  // negative sentinel means CPU fallback
+        bool gpu    = (loss >= 0.0); // negative sentinel means CPU fallback
 
         StepRecord rec{step_, loss, gpu};
         history_.push_back(rec);
 
         ++step_;
+        if (config_.max_steps > 0 && step_ >= config_.max_steps) {
+            stopped_ = true;
+        }
         ++local_steps;
         last_loss_ = loss;
-        sum_loss  += loss;
-        if (loss < min_loss) min_loss = loss;
-        if (loss > max_loss) max_loss = loss;
+        sum_loss += loss;
+        if (loss < min_loss)
+            min_loss = loss;
+        if (loss > max_loss)
+            max_loss = loss;
 
-        if (gpu) ++gpu_steps;
-        else     ++cpu_steps;
+        if (gpu) {
+            ++gpu_steps;
+        } else {
+            ++cpu_steps;
+        }
 
         // Checkpoint ---------------------------------------------------------
-        if (checkpoint &&
-            config_.checkpoint_interval > 0 &&
-            step_ % config_.checkpoint_interval == 0) {
+        if (checkpoint && config_.checkpoint_interval > 0 && step_ % config_.checkpoint_interval == 0) {
             checkpoint(step_, loss);
         }
 
@@ -126,8 +131,7 @@ double GPUTrainingLoop::lastLoss() const {
     return last_loss_;
 }
 
-const std::vector<GPUTrainingLoop::StepRecord>&
-GPUTrainingLoop::history() const {
+const std::vector<GPUTrainingLoop::StepRecord> &GPUTrainingLoop::history() const {
     // NOTE: caller must ensure no concurrent run() call.
     return history_;
 }
@@ -144,9 +148,9 @@ bool GPUTrainingLoop::isStopped() const {
 
 void GPUTrainingLoop::reset() {
     std::lock_guard<std::mutex> lk(mutex_);
-    step_       = 0;
-    last_loss_  = 0.0;
-    stopped_    = false;
+    step_      = 0;
+    last_loss_ = 0.0;
+    stopped_   = false;
     history_.clear();
     last_epoch_ = {};
     epoch_num_  = 0;

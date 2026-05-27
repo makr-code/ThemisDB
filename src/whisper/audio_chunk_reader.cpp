@@ -72,7 +72,7 @@ std::vector<float> WavAudioChunkReader::readFile(const std::string& path,
     f.seekg(0, std::ios::beg);
     std::vector<uint8_t> data(static_cast<size_t>(size));
     f.read(reinterpret_cast<char*>(data.data()), size);
-    f.close();
+    // f closes automatically (RAII) when it goes out of scope
 
     return parseWav(data, out_sample_rate);
 }
@@ -108,6 +108,18 @@ std::vector<float> WavAudioChunkReader::parseWav(const std::vector<uint8_t>& dat
         }
         if (data[pos] == 'd' && data[pos+1] == 'a' && data[pos+2] == 't' && data[pos+3] == 'a') {
             if (!found_fmt) throw std::runtime_error("WavAudioChunkReader: 'data' chunk before 'fmt '");
+
+            // Guard against invalid fmt data that would cause division-by-zero or
+            // out-of-bounds array access in the per-sample loops below.
+            if (num_channels == 0) {
+                throw std::runtime_error("WavAudioChunkReader: invalid WAV — num_channels is 0");
+            }
+            // Reasonable upper bound: 64 channels is already far beyond any practical audio.
+            if (num_channels > 64) {
+                throw std::runtime_error(
+                    "WavAudioChunkReader: unsupported channel count (" +
+                    std::to_string(num_channels) + ")");
+            }
 
             const size_t data_start = pos + 8;
             const size_t data_bytes = std::min(static_cast<size_t>(chunk_size),
@@ -183,7 +195,10 @@ std::string FfmpegAudioChunkReader::shellEscape(const std::string& path) {
         throw std::runtime_error("FfmpegAudioChunkReader: path contains NUL byte");
     }
     // Wrap in single quotes; escape any embedded single quotes as '\''
-    std::string result = "'";
+    // Pre-reserve worst-case capacity to avoid O(n²) reallocations.
+    std::string result;
+    result.reserve(path.size() + 2 + 4 * std::count(path.begin(), path.end(), '\''));
+    result += '\'';
     for (char c : path) {
         if (c == '\'') {
             result += "'\\''";
@@ -191,7 +206,7 @@ std::string FfmpegAudioChunkReader::shellEscape(const std::string& path) {
             result += c;
         }
     }
-    result += "'";
+    result += '\'';
     return result;
 }
 

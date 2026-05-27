@@ -217,6 +217,7 @@ TEST(GraphQLCache, InvalidatePatternPerformanceTarget) {
     }
 
     size_t before = 0;
+    static_cast<void>(before);
     // Count entries by querying all keys (approximate via put/get round-trip)
     // We know we inserted entries_per_collection * collections_count entries;
     // check that invalidating one collection removes exactly entries_per_collection.

@@ -13,6 +13,7 @@
 // Licensed under MIT License
 
 #include "storage/compaction_manager.h"
+#include <stdexcept>
 #include "utils/error_registry.h"
 
 #include <regex>

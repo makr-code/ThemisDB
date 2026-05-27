@@ -10,6 +10,7 @@
  */
 
 #include "storage/rocksdb_wrapper.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include "utils/expected.h"
 #include "performance/prefetch_hints.h"
@@ -617,6 +618,7 @@ bool RocksDBWrapper::open() {
     
     // Prepare column family descriptors
     std::vector<rocksdb::ColumnFamilyDescriptor> cf_descriptors;
+    cf_descriptors.reserve(cf_names.size());
 
     for (const auto& cf_name : cf_names) {
         rocksdb::ColumnFamilyOptions cf_opts;
@@ -658,6 +660,7 @@ bool RocksDBWrapper::open() {
     
     // Open with available column families
     std::vector<rocksdb::ColumnFamilyHandle*> cf_handles;
+    cf_handles.reserve(cf_descriptors.size());
     rocksdb::TransactionDB* txn_db_ptr = nullptr;
     rocksdb::Status status = rocksdb::TransactionDB::Open(
         *options_, 
@@ -695,6 +698,7 @@ bool RocksDBWrapper::open() {
     // RACE CONDITION FIX #1: Protect cf_handles_ during initialization
     {
         std::lock_guard<std::mutex> lock(cf_handles_mutex_);
+        cf_handles_.reserve(cf_handles_.size() + cf_handles.size());
         // Store column family handles
         // When sharding mode filtered CFs, cf_handles.size() == cf_descriptors.size()
         for (size_t i = 0; i < cf_handles.size(); ++i) {
@@ -1123,7 +1127,7 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::getBlob(std::string_view key
         // Decode manifest using explicit little-endian helpers (R-6).
         const auto* raw = reinterpret_cast<const uint8_t*>(manifest_raw.data());
         uint32_t num_chunks = readLE32(raw);
-        uint64_t chunk_size = readLE64(raw + 4);
+        [[maybe_unused]] uint64_t chunk_size = readLE64(raw + 4);
         uint64_t total_size = readLE64(raw + 12);
 
         if (num_chunks == 0 || total_size == 0) {
@@ -1260,8 +1264,7 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGet(
         }
         
         if (statuses[i].ok()) {
-            std::vector<uint8_t> value(values[i].begin(), values[i].end());
-            results.emplace_back(std::move(value));
+            results.emplace_back(std::vector<uint8_t>(values[i].begin(), values[i].end()));
         } else if (statuses[i].IsNotFound()) {
             results.emplace_back(std::nullopt);
         } else {
@@ -2384,6 +2387,9 @@ std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::scanWi
     std::string_view prefix, int limit) {
     
     std::vector<std::pair<std::string, std::vector<uint8_t>>> results;
+    if (limit > 0) {
+        results.reserve(static_cast<size_t>(limit));
+    }
     
     if (!db_) {
         THEMIS_ERROR("scanWithAsyncIO: database not open");
@@ -2506,6 +2512,9 @@ std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::revers
     std::string_view start_key, int limit) {
     
     std::vector<std::pair<std::string, std::vector<uint8_t>>> results;
+    if (limit > 0) {
+        results.reserve(static_cast<size_t>(limit));
+    }
     
     if (!db_) {
         THEMIS_ERROR("reverseScanWithAsyncIO: database not open");
@@ -2567,6 +2576,7 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGetWithAsy
     const std::vector<std::string>& keys) {
     
     std::vector<std::optional<std::vector<uint8_t>>> results;
+    results.reserve(keys.size());
     
     if (!db_) {
         THEMIS_ERROR("multiGetWithAsyncIO: database not open");
@@ -2600,11 +2610,9 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGetWithAsy
     std::vector<rocksdb::Status> statuses = base_db->MultiGet(read_opts, rock_keys, &values);
     
     // Process results
-    results.reserve(keys.size());
     for (size_t i = 0; i < keys.size(); ++i) {
         if (statuses[i].ok()) {
-            std::vector<uint8_t> value(values[i].begin(), values[i].end());
-            results.emplace_back(std::move(value));
+            results.emplace_back(std::vector<uint8_t>(values[i].begin(), values[i].end()));
         } else if (statuses[i].IsNotFound()) {
             results.emplace_back(std::nullopt);
         } else {

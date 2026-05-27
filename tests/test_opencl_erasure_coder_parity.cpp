@@ -37,14 +37,15 @@
 
 using namespace themis::sharding;
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-
-namespace {
-
-// Forward declaration of the OpenCL factory (defined in gpu_erasure_coder_opencl.cpp).
+namespace themis::sharding {
 std::unique_ptr<GPUErasureCoderImpl> createOpenCLErasureCoder(
     const GPUConfig& config,
     ErasureCodingAlgorithm algorithm);
+} // namespace themis::sharding
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+namespace {
 
 /// Deterministic data generator.
 std::vector<uint8_t> makeData(size_t size, uint8_t seed = 0xA5) {
@@ -183,7 +184,7 @@ TEST_F(OpenCLErasureCoderParityTest, RoundTrip_3Erasures_AllParity) {
 
 TEST_F(OpenCLErasureCoderParityTest, Parity_Encode_1Erasure) {
     if (!gpu_available_) {
-        GTEST_SKIP() << "No OpenCL device available; GPU parity test skipped";
+        GTEST_SKIP() << "capability:opencl_device_available=false;reason=no_opencl_device_for_gpu_parity";
     }
     auto data = makeData(4096, 0x11);
     const uint32_t ds = 4, ps = 2;
@@ -199,7 +200,7 @@ TEST_F(OpenCLErasureCoderParityTest, Parity_Encode_1Erasure) {
 
 TEST_F(OpenCLErasureCoderParityTest, Parity_EncodeDecodeRoundTrip_1Erasure) {
     if (!gpu_available_) {
-        GTEST_SKIP() << "No OpenCL device available; GPU parity test skipped";
+        GTEST_SKIP() << "capability:opencl_device_available=false;reason=no_opencl_device_for_gpu_parity";
     }
     auto data = makeData(4096, 0x22);
     const uint32_t ds = 4, ps = 2;
@@ -214,7 +215,7 @@ TEST_F(OpenCLErasureCoderParityTest, Parity_EncodeDecodeRoundTrip_1Erasure) {
 
 TEST_F(OpenCLErasureCoderParityTest, Parity_EncodeDecodeRoundTrip_2Erasures) {
     if (!gpu_available_) {
-        GTEST_SKIP() << "No OpenCL device available; GPU parity test skipped";
+        GTEST_SKIP() << "capability:opencl_device_available=false;reason=no_opencl_device_for_gpu_parity";
     }
     auto data = makeData(4096, 0x33);
     const uint32_t ds = 4, ps = 2;
@@ -228,7 +229,7 @@ TEST_F(OpenCLErasureCoderParityTest, Parity_EncodeDecodeRoundTrip_2Erasures) {
 
 TEST_F(OpenCLErasureCoderParityTest, Parity_EncodeDecodeRoundTrip_3Erasures) {
     if (!gpu_available_) {
-        GTEST_SKIP() << "No OpenCL device available; GPU parity test skipped";
+        GTEST_SKIP() << "capability:opencl_device_available=false;reason=no_opencl_device_for_gpu_parity";
     }
     auto data = makeData(4096, 0x44);
     const uint32_t ds = 7, ps = 3;
@@ -298,8 +299,7 @@ TEST_F(OpenCLErasureCoderParityTest, Encode_SingleByte) {
 // When OpenCL is not compiled in, provide a single placeholder test so the
 // test binary is valid and clearly communicates why it was skipped.
 TEST(OpenCLErasureCoderParityTest, SkippedNoBuildFlag) {
-    GTEST_SKIP() << "THEMIS_ENABLE_OPENCL not defined; "
-                    "OpenCL erasure coder tests skipped";
+    GTEST_SKIP() << "capability:opencl_compiled=false;reason=themis_enable_opencl_not_defined";
 }
 
 #endif // THEMIS_ENABLE_OPENCL

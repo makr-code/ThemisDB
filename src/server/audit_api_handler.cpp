@@ -10,6 +10,7 @@
  */
 
 #include "server/audit_api_handler.h"
+#include <stdexcept>
 #include <fstream>
 #include <sstream>
 #include <algorithm>
@@ -181,7 +182,7 @@ std::vector<AuditLogEntry> AuditApiHandler::readAuditLogs(const AuditQueryFilter
             
             entries.push_back(entry);
             
-        } catch (const std::exception&) {
+        } catch (...) {
             // Skip malformed lines
             continue;
         }

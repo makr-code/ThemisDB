@@ -300,9 +300,9 @@ public:
     
     struct TestResult {
         std::string test_name;
-        bool passed;
+        bool passed = false;
         std::string error_message;
-        double duration_ms;
+        double duration_ms = 0.0;
     };
     
     std::vector<TestResult> runAllTests();

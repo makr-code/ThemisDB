@@ -10,6 +10,7 @@
  */
 
 #include "projects/project_diff.h"
+#include <stdexcept>
 
 #include <chrono>
 #include <mutex>

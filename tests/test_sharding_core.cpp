@@ -231,7 +231,7 @@ TEST(ConsistentHashTest, BalanceFactor) {
 
 TEST(ShardTopologyTest, AddAndGetShard) {
     ShardTopology::Config config{
-        .metadata_endpoint = "http://localhost:2379",
+        .metadata_endpoint = "",
         .cluster_name = "test-cluster",
         .refresh_interval_sec = 0,
         .enable_health_checks = false
@@ -261,7 +261,7 @@ TEST(ShardTopologyTest, AddAndGetShard) {
 
 TEST(ShardTopologyTest, RemoveShard) {
     ShardTopology::Config config{
-        .metadata_endpoint = "http://localhost:2379",
+        .metadata_endpoint = "",
         .cluster_name = "test-cluster",
         .refresh_interval_sec = 0,
         .enable_health_checks = false
@@ -284,7 +284,7 @@ TEST(ShardTopologyTest, RemoveShard) {
 
 TEST(ShardTopologyTest, UpdateHealth) {
     ShardTopology::Config config{
-        .metadata_endpoint = "http://localhost:2379",
+        .metadata_endpoint = "",
         .cluster_name = "test-cluster",
         .refresh_interval_sec = 0,
         .enable_health_checks = false
@@ -309,7 +309,7 @@ TEST(ShardTopologyTest, UpdateHealth) {
 
 TEST(ShardTopologyTest, GetHealthyShards) {
     ShardTopology::Config config{
-        .metadata_endpoint = "http://localhost:2379",
+        .metadata_endpoint = "",
         .cluster_name = "test-cluster",
         .refresh_interval_sec = 0,
         .enable_health_checks = false
@@ -332,7 +332,7 @@ TEST(ShardTopologyTest, GetHealthyShards) {
 
 TEST(URNResolverTest, ResolvePrimary) {
     auto topology = std::make_shared<ShardTopology>(ShardTopology::Config{
-        .metadata_endpoint = "http://localhost:2379",
+        .metadata_endpoint = "",
         .cluster_name = "test-cluster",
         .refresh_interval_sec = 0,
         .enable_health_checks = false
@@ -366,7 +366,7 @@ TEST(URNResolverTest, ResolvePrimary) {
 
 TEST(URNResolverTest, IsLocal) {
     auto topology = std::make_shared<ShardTopology>(ShardTopology::Config{
-        .metadata_endpoint = "http://localhost:2379",
+        .metadata_endpoint = "",
         .cluster_name = "test-cluster",
         .refresh_interval_sec = 0,
         .enable_health_checks = false

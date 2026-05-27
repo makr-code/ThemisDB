@@ -1,0 +1,82 @@
+[
+  {
+    "file": "bench_distributed_coordinator.json",
+    "parse": "ok",
+    "benchmarks": 14,
+    "error_benchmarks": 0,
+    "max_items_per_second": 40156862.47619048,
+    "max_qps": null
+  },
+  {
+    "file": "bench_distributed_knowledge.json",
+    "parse": "ok",
+    "benchmarks": 9,
+    "error_benchmarks": 0,
+    "max_items_per_second": 1280000.0,
+    "max_qps": null
+  },
+  {
+    "file": "bench_graph_traversal.json",
+    "parse": "ok",
+    "benchmarks": 52,
+    "error_benchmarks": 0,
+    "max_items_per_second": 258694.73684210525,
+    "max_qps": null
+  },
+  {
+    "file": "bench_llm_inference_performance.json",
+    "parse": "ok",
+    "benchmarks": 26,
+    "error_benchmarks": 18,
+    "max_items_per_second": 220553846.15384614,
+    "max_qps": null
+  },
+  {
+    "file": "bench_llm_response_cache.json",
+    "parse": "ok",
+    "benchmarks": 10,
+    "error_benchmarks": 0,
+    "max_items_per_second": 1102769.2307692308,
+    "max_qps": null
+  },
+  {
+    "file": "bench_rag_hybrid_retriever.json",
+    "parse": "ok",
+    "benchmarks": 20,
+    "error_benchmarks": 0,
+    "max_items_per_second": 3308307.6923076925,
+    "max_qps": null
+  },
+  {
+    "file": "bench_replication_throughput.json",
+    "parse": "ok",
+    "benchmarks": 7,
+    "error_benchmarks": 0,
+    "max_items_per_second": 8688485.818181818,
+    "max_qps": null
+  },
+  {
+    "file": "bench_sharding_performance.json",
+    "parse": "ok",
+    "benchmarks": 47,
+    "error_benchmarks": 0,
+    "max_items_per_second": 28672000.0,
+    "max_qps": null
+  },
+  {
+    "file": "bench_timeseries_ingestion.json",
+    "parse": "invalid-json",
+    "benchmarks": 0,
+    "error_benchmarks": null,
+    "max_items_per_second": null,
+    "max_qps": null
+  },
+  {
+    "file": "bench_vector_search.json",
+    "parse": "ok",
+    "benchmarks": 9,
+    "error_benchmarks": 0,
+    "max_items_per_second": null,
+    "max_qps": 13444.217002889192
+  }
+]

@@ -239,7 +239,7 @@ Each copy independently strips backtick fences, trims whitespace, and performs `
 - `[x]` Add `ValidationResult AQLQueryValidator::validate(const std::string& query, const AQLSchemaProvider& schema) const` overload that also performs schema-aware checks — implemented; takes `const std::vector<CollectionMetadata>& schema` (see `aql_query_validator.cpp:452`)
 - `[x]` Implement `checkUnknownCollections()`: extract `FOR x IN <name>` identifiers using a regex; for each, call `schema.getCollectionMeta(name)`; if missing, add a `WARNING`-severity issue
 - `[x]` Implement `checkUnknownFields()`: extract `<var>.<field>` accesses and check against the schema's known field list for each collection variable in scope — implemented (`aql_query_validator.cpp:368`)
-- `[ ]` Integrate with `AQLQueryBuilder::validate()` (line 243) which already calls the schema-less version — add a second overload that accepts a schema
+- `[x]` Integrate with `AQLQueryBuilder::validate()` (line 243) which already calls the schema-less version — added `AQLQueryBuilder::validate(const std::vector<CollectionMetadata>& schema)` overload that delegates to the new `AQLQueryValidator::validate(builder, schema)` overload, which applies structural + schema-aware checks on the partial query
 - `[x]` Add dedicated tests with a mock schema: query referencing a non-existent collection must produce a WARNING; query referencing a valid collection's known fields must produce no issues — tests in `test_aql_query_validator.cpp:439`
 
 ---

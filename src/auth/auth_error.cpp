@@ -197,15 +197,15 @@ std::string AuthError::maskToken(const std::string& token) {
 
 std::string AuthError::generateRequestId() {
     // Generate a random request ID (format: auth-XXXXXXXX)
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
+    static std::random_device local_rd;
+    static std::mt19937 local_gen(local_rd());
     static std::uniform_int_distribution<> dis(0, 15);
     
     std::stringstream ss;
     ss << "auth-";
     
     for (int i = 0; i < 8; i++) {
-        ss << std::hex << dis(gen);
+        ss << std::hex << dis(local_gen);
     }
     
     return ss.str();

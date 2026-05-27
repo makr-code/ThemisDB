@@ -57,7 +57,7 @@ TEST_F(GPUMemoryManagerTest, IsGPUAccelerationEnabled_MatchesVRAMLimit) {
 
 TEST_F(GPUMemoryManagerTest, AllocSmallAmount_Succeeds) {
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
-        GTEST_SKIP() << "GPU not available in this edition";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition";
     }
     auto& mgr = GPUMemoryManager::GetInstance();
     const uint64_t one_mb = 1024ULL * 1024ULL;
@@ -68,7 +68,7 @@ TEST_F(GPUMemoryManagerTest, AllocSmallAmount_Succeeds) {
 TEST_F(GPUMemoryManagerTest, AllocExactLimit_Succeeds) {
     const uint64_t limit = GPUMemoryManager::GetMaxGPUVRAMBytes();
     if (limit == 0) {
-        GTEST_SKIP() << "GPU not available in this edition";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition";
     }
     auto& mgr = GPUMemoryManager::GetInstance();
     EXPECT_TRUE(mgr.TryAllocateGPU(limit, "exact_limit"));
@@ -91,7 +91,7 @@ TEST_F(GPUMemoryManagerTest, AllocBeyondLimit_ReturnsFalse) {
 TEST_F(GPUMemoryManagerTest, AllocAfterLimitReached_ReturnsFalse) {
     const uint64_t limit = GPUMemoryManager::GetMaxGPUVRAMBytes();
     if (limit == 0) {
-        GTEST_SKIP() << "GPU not available in this edition";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition";
     }
     auto& mgr = GPUMemoryManager::GetInstance();
     ASSERT_TRUE(mgr.TryAllocateGPU(limit, "fill"));
@@ -106,7 +106,7 @@ TEST_F(GPUMemoryManagerTest, AllocAfterLimitReached_ReturnsFalse) {
 
 TEST_F(GPUMemoryManagerTest, Dealloc_ReducesUsage) {
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
-        GTEST_SKIP() << "GPU not available in this edition";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition";
     }
     auto& mgr = GPUMemoryManager::GetInstance();
     const uint64_t size = 512ULL * 1024ULL * 1024ULL;  // 512 MB
@@ -117,12 +117,12 @@ TEST_F(GPUMemoryManagerTest, Dealloc_ReducesUsage) {
 
 TEST_F(GPUMemoryManagerTest, Dealloc_AllowsReallocAfterFree) {
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
-        GTEST_SKIP() << "GPU not available in this edition";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition";
     }
     auto& mgr = GPUMemoryManager::GetInstance();
     const uint64_t size = 1024ULL * 1024ULL * 1024ULL;  // 1 GB
     if (size > GPUMemoryManager::GetMaxGPUVRAMBytes()) {
-        GTEST_SKIP() << "Edition limit too small for this test";
+        GTEST_SKIP() << "capability:edition_limit_sufficient=false;reason=edition_limit_too_small_for_test";
     }
     ASSERT_TRUE(mgr.TryAllocateGPU(size, "a1"));
     mgr.DeallocateGPU(size);
@@ -146,29 +146,31 @@ TEST_F(GPUMemoryManagerTest, Stats_InitiallyZero) {
     auto s = mgr.GetStats();
     EXPECT_EQ(s.allocated_bytes, 0u);
     EXPECT_EQ(s.allocation_count, 0u);
-    EXPECT_EQ(s.deallocation_count, 0u);
+    // SetUp() drains the singleton and may increment deallocation_count.
+    EXPECT_GE(s.deallocation_count, 1u);
 }
 
 TEST_F(GPUMemoryManagerTest, Stats_CountsAllocsAndDeallocs) {
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
-        GTEST_SKIP() << "GPU not available in this edition";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition";
     }
     auto& mgr = GPUMemoryManager::GetInstance();
     const uint64_t mb = 1024ULL * 1024ULL;
+    const auto before = mgr.GetStats();
 
     ASSERT_TRUE(mgr.TryAllocateGPU(mb, "t1"));
     ASSERT_TRUE(mgr.TryAllocateGPU(mb, "t2"));
     mgr.DeallocateGPU(mb);
 
     auto s = mgr.GetStats();
-    EXPECT_EQ(s.allocation_count, 2u);
-    EXPECT_EQ(s.deallocation_count, 1u);
+    EXPECT_EQ(s.allocation_count, before.allocation_count + 2u);
+    EXPECT_EQ(s.deallocation_count, before.deallocation_count + 1u);
     EXPECT_EQ(s.allocated_bytes, mb);
 }
 
 TEST_F(GPUMemoryManagerTest, Stats_PeakTracksHighWaterMark) {
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
-        GTEST_SKIP() << "GPU not available in this edition";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition";
     }
     auto& mgr = GPUMemoryManager::GetInstance();
     const uint64_t mb = 1024ULL * 1024ULL;
@@ -188,9 +190,10 @@ TEST_F(GPUMemoryManagerTest, Stats_PeakTracksHighWaterMark) {
 TEST_F(GPUMemoryManagerTest, Stats_FailedAllocDoesNotIncrementCount) {
     const uint64_t limit = GPUMemoryManager::GetMaxGPUVRAMBytes();
     auto& mgr = GPUMemoryManager::GetInstance();
+    const uint64_t before = mgr.GetStats().allocation_count;
     // Attempt an allocation that is guaranteed to fail.
     mgr.TryAllocateGPU(limit + 1, "fail");
-    EXPECT_EQ(mgr.GetStats().allocation_count, 0u);
+    EXPECT_EQ(mgr.GetStats().allocation_count, before);
 }
 
 // ---------------------------------------------------------------------------
@@ -205,7 +208,7 @@ TEST_F(GPUMemoryManagerTest, UsagePercent_ZeroWhenNotAllocated) {
 TEST_F(GPUMemoryManagerTest, UsagePercent_100WhenFull) {
     const uint64_t limit = GPUMemoryManager::GetMaxGPUVRAMBytes();
     if (limit == 0) {
-        GTEST_SKIP() << "GPU not available in this edition";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition";
     }
     auto& mgr = GPUMemoryManager::GetInstance();
     ASSERT_TRUE(mgr.TryAllocateGPU(limit, "fill"));
@@ -225,7 +228,7 @@ TEST_F(GPUMemoryManagerTest, ValidateAllocation_ThrowsWhenOverLimit) {
 TEST_F(GPUMemoryManagerTest, ValidateAllocation_DoesNotThrowWhenFits) {
     const uint64_t limit = GPUMemoryManager::GetMaxGPUVRAMBytes();
     if (limit == 0) {
-        GTEST_SKIP() << "GPU not available in this edition";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition";
     }
     auto& mgr = GPUMemoryManager::GetInstance();
     EXPECT_NO_THROW(mgr.ValidateAllocation(limit / 2));
@@ -255,7 +258,7 @@ TEST_F(GPUMemoryManagerTest, GetGPUFallbackStrategy_NonEmpty) {
 
 TEST_F(GPUMemoryManagerTest, ActiveAllocations_TagsAreTracked) {
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
-        GTEST_SKIP() << "GPU not available in this edition";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition";
     }
     auto& mgr = GPUMemoryManager::GetInstance();
     const uint64_t mb = 1024ULL * 1024ULL;
@@ -273,7 +276,7 @@ TEST_F(GPUMemoryManagerTest, ActiveAllocations_TagsAreTracked) {
 
 TEST_F(GPUMemoryManagerTest, ActiveAllocations_RecordRemovedOnDealloc) {
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
-        GTEST_SKIP() << "GPU not available in this edition";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition";
     }
     auto& mgr = GPUMemoryManager::GetInstance();
     const uint64_t mb = 1024ULL * 1024ULL;
@@ -313,13 +316,13 @@ TEST_F(GPUMemoryManagerTest, Tenant_QuotaSetAndRetrieved) {
 
 TEST_F(GPUMemoryManagerTest, Tenant_AllocWithinQuota_Succeeds) {
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
-        GTEST_SKIP() << "GPU not available in this edition";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition";
     }
     auto& mgr = GPUMemoryManager::GetInstance();
     const uint64_t quota = 2ULL * 1024ULL * 1024ULL * 1024ULL;  // 2 GB
     const uint64_t alloc = 1ULL * 1024ULL * 1024ULL * 1024ULL;  // 1 GB
     if (alloc > GPUMemoryManager::GetMaxGPUVRAMBytes()) {
-        GTEST_SKIP() << "Edition limit too small for this test";
+        GTEST_SKIP() << "capability:edition_limit_sufficient=false;reason=edition_limit_too_small_for_test";
     }
     mgr.SetTenantQuota("tenant_b", quota);
 
@@ -331,7 +334,7 @@ TEST_F(GPUMemoryManagerTest, Tenant_AllocWithinQuota_Succeeds) {
 
 TEST_F(GPUMemoryManagerTest, Tenant_AllocExceedsQuota_Rejected) {
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
-        GTEST_SKIP() << "GPU not available in this edition";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition";
     }
     auto& mgr = GPUMemoryManager::GetInstance();
     const uint64_t mb    = 1024ULL * 1024ULL;
@@ -347,7 +350,7 @@ TEST_F(GPUMemoryManagerTest, Tenant_AllocExceedsQuota_Rejected) {
 
 TEST_F(GPUMemoryManagerTest, Tenant_QuotaFillThenReject) {
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
-        GTEST_SKIP() << "GPU not available in this edition";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition";
     }
     auto& mgr = GPUMemoryManager::GetInstance();
     const uint64_t mb    = 1024ULL * 1024ULL;
@@ -362,7 +365,7 @@ TEST_F(GPUMemoryManagerTest, Tenant_QuotaFillThenReject) {
 
 TEST_F(GPUMemoryManagerTest, Tenant_TenantsAreIsolated) {
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() < 20ULL * 1024ULL * 1024ULL) {
-        GTEST_SKIP() << "Edition limit too small for this test";
+        GTEST_SKIP() << "capability:edition_limit_sufficient=false;reason=edition_limit_too_small_for_test";
     }
     auto& mgr = GPUMemoryManager::GetInstance();
     const uint64_t mb = 1024ULL * 1024ULL;
@@ -384,7 +387,7 @@ TEST_F(GPUMemoryManagerTest, Tenant_TenantsAreIsolated) {
 
 TEST_F(GPUMemoryManagerTest, Tenant_DeallocByTenantDecrementsTenantUsage) {
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
-        GTEST_SKIP() << "GPU not available in this edition";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition";
     }
     auto& mgr = GPUMemoryManager::GetInstance();
     const uint64_t mb = 1024ULL * 1024ULL;
@@ -400,7 +403,7 @@ TEST_F(GPUMemoryManagerTest, Tenant_DeallocByTenantDecrementsTenantUsage) {
 
 TEST_F(GPUMemoryManagerTest, Tenant_PeakTrackedPerTenant) {
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
-        GTEST_SKIP() << "GPU not available in this edition";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition";
     }
     auto& mgr = GPUMemoryManager::GetInstance();
     const uint64_t mb = 1024ULL * 1024ULL;
@@ -443,7 +446,7 @@ TEST_F(GPUMemoryManagerTest, Tenant_GetTenantStats_UnknownTenant_ReturnsZero) {
 
 TEST_F(GPUMemoryManagerTest, Tenant_Headroom_WithQuota) {
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
-        GTEST_SKIP() << "GPU not available in this edition";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition";
     }
     auto& mgr = GPUMemoryManager::GetInstance();
     const uint64_t mb = 1024ULL * 1024ULL;
@@ -459,7 +462,7 @@ TEST_F(GPUMemoryManagerTest, Tenant_Headroom_WithQuota) {
 
 TEST_F(GPUMemoryManagerTest, Tenant_Headroom_NoQuota_ReturnsGlobalRemaining) {
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
-        GTEST_SKIP() << "GPU not available in this edition";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition";
     }
     auto& mgr = GPUMemoryManager::GetInstance();
     const uint64_t mb = 1024ULL * 1024ULL;
@@ -474,7 +477,7 @@ TEST_F(GPUMemoryManagerTest, Tenant_Headroom_NoQuota_ReturnsGlobalRemaining) {
 
 TEST_F(GPUMemoryManagerTest, Tenant_RemoveQuota_AllowsUnlimitedUse) {
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
-        GTEST_SKIP() << "GPU not available in this edition";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition";
     }
     auto& mgr = GPUMemoryManager::GetInstance();
     const uint64_t mb = 1024ULL * 1024ULL;
@@ -498,14 +501,14 @@ TEST_F(GPUMemoryManagerTest, Tenant_RemoveQuota_AllowsUnlimitedUse) {
 TEST_F(GPUMemoryManagerTest, Concurrent_AllocDealloc_NoCounterDrift) {
     const uint64_t limit = GPUMemoryManager::GetMaxGPUVRAMBytes();
     if (limit == 0) {
-        GTEST_SKIP() << "GPU not available in this edition";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition";
     }
     auto& mgr = GPUMemoryManager::GetInstance();
     const uint64_t chunk = 1024ULL * 1024ULL;  // 1 MB per operation
     // Use at most 25% of limit so we don't hit the ceiling.
     const int max_live = static_cast<int>((limit / 4) / chunk);
     if (max_live < 4) {
-        GTEST_SKIP() << "Edition limit too small for concurrent test";
+        GTEST_SKIP() << "capability:edition_limit_sufficient=false;reason=edition_limit_too_small_for_concurrent_test";
     }
 
     constexpr int THREADS = 4;
@@ -547,7 +550,7 @@ TEST_F(GPUMemoryManagerTest, Concurrent_AllocDealloc_NoCounterDrift) {
 TEST_F(GPUMemoryManagerTest, Concurrent_Stats_NeverNegative) {
     const uint64_t limit = GPUMemoryManager::GetMaxGPUVRAMBytes();
     if (limit == 0) {
-        GTEST_SKIP() << "GPU not available in this edition";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition";
     }
     auto& mgr = GPUMemoryManager::GetInstance();
     const uint64_t chunk = 512ULL * 1024ULL;  // 512 KB
@@ -582,7 +585,7 @@ TEST_F(GPUMemoryManagerTest, Concurrent_Stats_NeverNegative) {
 TEST_F(GPUMemoryManagerTest, Concurrent_TenantIsolation_NoLeakage) {
     const uint64_t limit = GPUMemoryManager::GetMaxGPUVRAMBytes();
     if (limit < 32ULL * 1024ULL * 1024ULL) {
-        GTEST_SKIP() << "Edition limit too small for concurrent tenant test";
+        GTEST_SKIP() << "capability:edition_limit_sufficient=false;reason=edition_limit_too_small_for_concurrent_tenant_test";
     }
     auto& mgr = GPUMemoryManager::GetInstance();
     const uint64_t mb = 1024ULL * 1024ULL;
@@ -662,7 +665,7 @@ TEST_F(GPUMemoryManagerTest, Fuzz_ValidateAllocation_LargeRequest_ThrowsNotCrash
 TEST_F(GPUMemoryManagerTest, Fuzz_DeallocLargerThanAllocated_ClampsToZero) {
     auto& mgr = GPUMemoryManager::GetInstance();
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
-        GTEST_SKIP() << "GPU not available in this edition";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition";
     }
     const uint64_t mb = 1024ULL * 1024ULL;
     ASSERT_TRUE(mgr.TryAllocateGPU(mb, "small"));
@@ -674,7 +677,7 @@ TEST_F(GPUMemoryManagerTest, Fuzz_DeallocLargerThanAllocated_ClampsToZero) {
 TEST_F(GPUMemoryManagerTest, Fuzz_EmptyTag_Handled) {
     auto& mgr = GPUMemoryManager::GetInstance();
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
-        GTEST_SKIP() << "GPU not available in this edition";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition";
     }
     const uint64_t mb = 1024ULL * 1024ULL;
     EXPECT_TRUE(mgr.TryAllocateGPU(mb, ""));  // empty tag must not crash
@@ -684,7 +687,7 @@ TEST_F(GPUMemoryManagerTest, Fuzz_EmptyTag_Handled) {
 TEST_F(GPUMemoryManagerTest, Fuzz_LongTag_Handled) {
     auto& mgr = GPUMemoryManager::GetInstance();
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
-        GTEST_SKIP() << "GPU not available in this edition";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition";
     }
     const uint64_t mb = 1024ULL * 1024ULL;
     const std::string long_tag(10000, 'x');
@@ -702,7 +705,7 @@ TEST_F(GPUMemoryManagerTest, Chaos_SimulateDeviceLoss_FallsBackGracefully) {
     // drains), allocations succeed again.
     auto& mgr = GPUMemoryManager::GetInstance();
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
-        GTEST_SKIP() << "GPU not available in this edition";
+        GTEST_SKIP() << "capability:gpu_edition_enabled=false;reason=gpu_not_available_in_edition";
     }
     const uint64_t mb = 1024ULL * 1024ULL;
 
@@ -729,7 +732,7 @@ TEST_F(GPUMemoryManagerTest, Chaos_SimulateMultipleTenantOOMAndRecovery) {
     auto& mgr = GPUMemoryManager::GetInstance();
     const uint64_t mb = 1024ULL * 1024ULL;
     if (GPUMemoryManager::GetMaxGPUVRAMBytes() < 10 * mb) {
-        GTEST_SKIP() << "Edition limit too small for chaos test";
+        GTEST_SKIP() << "capability:edition_limit_sufficient=false;reason=edition_limit_too_small_for_chaos_test";
     }
     mgr.SetTenantQuota("chaos_t1", 3 * mb);
     mgr.SetTenantQuota("chaos_t2", 3 * mb);

@@ -10,6 +10,7 @@
  */
 
 #include "security/rbac.h"
+#include <stdexcept>
 #include "themis/runtime_license_gate.h"
 #include "utils/logger.h"
 #include <fstream>

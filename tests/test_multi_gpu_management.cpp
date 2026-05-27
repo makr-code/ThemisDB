@@ -80,6 +80,25 @@ TEST_F(GPUMemoryManagerMultiGPUTest, GPUHealthMonitoring) {
     EXPECT_LE(health.utilization_percent, 100.0f);
 }
 
+TEST_F(GPUMemoryManagerMultiGPUTest, UsesConfiguredTemperatureProvider) {
+    GPUMemoryManager::Config config;
+    config.enable_multi_gpu = true;
+    config.gpu_devices = {0, 1};
+    config.max_vram_bytes = 24 * GB;
+    config.temperature_provider_fn =
+        [](int gpu_device_id, float& temperature_celsius) {
+            temperature_celsius = 60.0f + static_cast<float>(gpu_device_id);
+            return true;
+        };
+
+    auto manager = std::make_shared<GPUMemoryManager>(config);
+    auto health0 = manager->getGPUHealth(0);
+    auto health1 = manager->getGPUHealth(1);
+
+    EXPECT_FLOAT_EQ(health0.temperature_celsius, 60.0f);
+    EXPECT_FLOAT_EQ(health1.temperature_celsius, 61.0f);
+}
+
 TEST_F(GPUMemoryManagerMultiGPUTest, MarkGPUUnhealthy) {
     memory_manager_->markGPUUnhealthy(1, "Test failure");
     
@@ -397,5 +416,4 @@ TEST(MultiGPUIntegrationTest, HealthMonitoringWithFailover) {
     memory_manager->markGPUHealthy(0);
     EXPECT_TRUE(memory_manager->isGPUHealthy(0));
 }
-
 

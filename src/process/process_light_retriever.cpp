@@ -19,6 +19,7 @@
  */
 
 #include "process/process_light_retriever.h"
+#include <stdexcept>
 #include "utils/logger.h"
 
 #include <algorithm>

@@ -206,7 +206,7 @@ TEST(CudaGeoKernels, CUDAGeoBackend_CapabilitiesReportGeoOps) {
 TEST(CudaGeoKernels, CUDAGeoBackend_InitializeAndShutdown) {
     CUDAGeoBackend backend;
     if (!backend.isAvailable()) {
-        GTEST_SKIP() << "CUDA device not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
     EXPECT_TRUE(backend.initialize());
     backend.shutdown();
@@ -215,7 +215,7 @@ TEST(CudaGeoKernels, CUDAGeoBackend_InitializeAndShutdown) {
 TEST(CudaGeoKernels, CUDAGeoBackend_HaversineParisLondon) {
     CUDAGeoBackend backend;
     if (!backend.isAvailable()) {
-        GTEST_SKIP() << "CUDA device not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
     ASSERT_TRUE(backend.initialize());
 
@@ -234,7 +234,7 @@ TEST(CudaGeoKernels, CUDAGeoBackend_HaversineParisLondon) {
 TEST(CudaGeoKernels, CUDAGeoBackend_BatchDistances_MultiplePairs) {
     CUDAGeoBackend backend;
     if (!backend.isAvailable()) {
-        GTEST_SKIP() << "CUDA device not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
     ASSERT_TRUE(backend.initialize());
 
@@ -254,7 +254,7 @@ TEST(CudaGeoKernels, CUDAGeoBackend_BatchDistances_MultiplePairs) {
 TEST(CudaGeoKernels, CUDAGeoBackend_PointInPolygon_InsideAndOutside) {
     CUDAGeoBackend backend;
     if (!backend.isAvailable()) {
-        GTEST_SKIP() << "CUDA device not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
     ASSERT_TRUE(backend.initialize());
 
@@ -272,7 +272,7 @@ TEST(CudaGeoKernels, CUDAGeoBackend_PointInPolygon_InsideAndOutside) {
 TEST(CudaGeoKernels, CUDAGeoBackend_BatchDistances_EmptyInput) {
     CUDAGeoBackend backend;
     if (!backend.isAvailable()) {
-        GTEST_SKIP() << "CUDA device not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
     ASSERT_TRUE(backend.initialize());
 
@@ -285,7 +285,7 @@ TEST(CudaGeoKernels, CUDAGeoBackend_BatchDistances_EmptyInput) {
 TEST(CudaGeoKernels, CUDAGeoBackend_PointInPolygon_EmptyInput) {
     CUDAGeoBackend backend;
     if (!backend.isAvailable()) {
-        GTEST_SKIP() << "CUDA device not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
     ASSERT_TRUE(backend.initialize());
 
@@ -298,7 +298,7 @@ TEST(CudaGeoKernels, CUDAGeoBackend_PointInPolygon_EmptyInput) {
 TEST(CudaGeoKernels, CUDAGeoBackend_ConsistencyWithCPU_Distances) {
     CUDAGeoBackend cudaBackend;
     if (!cudaBackend.isAvailable()) {
-        GTEST_SKIP() << "CUDA device not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
     ASSERT_TRUE(cudaBackend.initialize());
 
@@ -330,7 +330,7 @@ TEST(CudaGeoKernels, CUDAGeoBackend_ConsistencyWithCPU_Distances) {
 TEST(CudaGeoKernels, CUDAGeoBackend_ConsistencyWithCPU_Containment) {
     CUDAGeoBackend cudaBackend;
     if (!cudaBackend.isAvailable()) {
-        GTEST_SKIP() << "CUDA device not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     }
     ASSERT_TRUE(cudaBackend.initialize());
 

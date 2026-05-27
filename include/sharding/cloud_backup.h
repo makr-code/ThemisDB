@@ -217,7 +217,6 @@ using S3ListFn = std::function<std::vector<std::string>(const std::string& bucke
                                                         const std::string& prefix)>;
 using S3ExistsFn = std::function<bool(const std::string& bucket,
                                       const std::string& remote_path)>;
-
 using AzureUploadFn = std::function<bool(const std::string& account,
                                          const std::string& container,
                                          const std::string& local_path,
@@ -236,7 +235,6 @@ using AzureListFn = std::function<std::vector<std::string>(const std::string& ac
 using AzureExistsFn = std::function<bool(const std::string& account,
                                          const std::string& container,
                                          const std::string& remote_path)>;
-
 using GCSUploadFn = std::function<bool(const std::string& bucket,
                                        const std::string& local_path,
                                        const std::string& remote_path,

@@ -20,6 +20,7 @@
 // Removal Plan: permanent component; not removed.
 
 #include "storage/tensor_compaction_filter.h"
+#include <stdexcept>
 
 #include <cstring>
 #include <mutex>

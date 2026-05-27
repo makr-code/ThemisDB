@@ -41,6 +41,7 @@ class ProcessGraphManager;
 class TSStore;
 class ContinuousAggregateManager;
 class QueryEngine;
+namespace index { class SpatialIndexManager; }
 
 namespace network {
 
@@ -54,6 +55,46 @@ namespace websocket = beast::websocket;
 // Forward declaration of the WebSocket session (defined in wire_protocol_websocket.h)
 class WireProtocolWebSocketSession;
 #endif
+
+// ---------------------------------------------------------------------------
+// GEO_QUERY injection bridge (stub #284 replacement)
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Geospatial query injection bridge for the JSON wire protocol.
+ *
+ * When set via setNetworkGeoQueryFn(), GEO_QUERY messages received on the
+ * JSON wire protocol port are dispatched to this function instead of
+ * returning the hard-coded GEO_NOT_INTEGRATED error.
+ *
+ * The function receives the collection name, centre coordinates (WGS84
+ * decimal degrees), search radius in metres, and result limit.  It must
+ * return a nlohmann::json array of matching document objects.
+ *
+ * Thread-safety: the stored function pointer is protected by an internal
+ * mutex; callers may register/clear the bridge at any time.
+ *
+ * @param collection  Target collection name.
+ * @param lat         Latitude of the search centre (WGS84, decimal degrees).
+ * @param lon         Longitude of the search centre (WGS84, decimal degrees).
+ * @param radius_m    Search radius in metres (>0).
+ * @param limit       Maximum number of results (<=0 means no limit).
+ * @return            JSON array of matching document objects.
+ */
+using GeoQueryFn = std::function<nlohmann::json(
+    const std::string& collection, double lat, double lon,
+    double radius_m, int limit)>;
+
+/**
+ * @brief Register the geospatial query injection bridge.
+ *
+ * Thread-safe.  Replaces any previously registered function.  Pass a
+ * null/empty function to clear the bridge and restore the
+ * GEO_NOT_INTEGRATED fallback behaviour.
+ *
+ * @param fn  Callable to handle GEO_QUERY messages, or nullptr to clear.
+ */
+void setNetworkGeoQueryFn(GeoQueryFn fn);
 
 /**
  * @brief Wire Protocol Server - Binary TCP Protocol
@@ -265,6 +306,18 @@ public:
      */
     std::vector<QoSManager::TenantQuotaStats> getAllTenantBandwidthStats() const;
 
+    /**
+     * @brief Inject a SpatialIndexManager for GEO_QUERY dispatch.
+     *
+     * When set, GEO_QUERY commands on this wire-protocol port are dispatched to
+     * the provided spatial index instead of returning GEO_NOT_INTEGRATED.  The
+     * manager is accessed from multiple session threads and must be thread-safe.
+     *
+     * @param idx  Shared spatial index manager; nullptr disables geo dispatch
+     *             and restores the NOT_INTEGRATED fallback.
+     */
+    void setSpatialIndexManager(std::shared_ptr<index::SpatialIndexManager> idx);
+
     // Cursor entry used by paginated query responses.
     struct CursorEntry {
         nlohmann::json results;    // Full result set (JSON array)
@@ -302,6 +355,11 @@ private:
     std::shared_ptr<TSStore> ts_store_;
     std::shared_ptr<ContinuousAggregateManager> agg_manager_;
     std::shared_ptr<QueryEngine> query_engine_;
+    std::shared_ptr<index::SpatialIndexManager> spatial_index_; ///< Optional geo-query back-end (stub #284).
+
+    // Geospatial query injection bridge (stub #284)
+    mutable std::mutex geo_query_fn_mutex_;
+    GeoQueryFn         geo_query_fn_;
 
     // Cursor registry: stores live AQL query results for batch pagination.
     // cursor_id -> {results as JSON array, current offset, TTL timestamp}

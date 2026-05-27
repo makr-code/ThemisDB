@@ -11,6 +11,7 @@
 // Copyright (c) 2024 ThemisDB
 
 #include "acceleration/compute_backend.h"
+#include <stdexcept>
 #include <vector>
 #include <cmath>
 #include <iostream>

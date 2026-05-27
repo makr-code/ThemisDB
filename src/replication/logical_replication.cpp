@@ -717,3 +717,4 @@ std::string LogicalReplicationManager::collectionKey(const std::string& collecti
 
 }  // namespace replication
 }  // namespace themisdb
+

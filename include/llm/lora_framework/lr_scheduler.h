@@ -129,7 +129,8 @@ public:
 class ConstantLR : public LRScheduler {
 public:
     explicit ConstantLR(float lr) : lr_(lr) {}
-    
+    ~ConstantLR() override = default;
+
     float get_lr(int /*step*/) const override { return lr_; }
     SchedulerType type() const override { return SchedulerType::CONSTANT; }
     LRSchedulerConfig config() const override {
@@ -140,7 +141,7 @@ public:
     }
 
 private:
-    float lr_;
+    float lr_ = 0.0f;
 };
 
 /**
@@ -150,15 +151,16 @@ class LinearLR : public LRScheduler {
 public:
     LinearLR(float start_lr, float end_lr, int total_steps)
         : start_lr_(start_lr), end_lr_(end_lr), total_steps_(total_steps) {}
-    
+    ~LinearLR() override = default;
+
     float get_lr(int step) const override;
     SchedulerType type() const override { return SchedulerType::LINEAR; }
     LRSchedulerConfig config() const override;
 
 private:
-    float start_lr_;
-    float end_lr_;
-    int total_steps_;
+    float start_lr_ = 0.0f;
+    float end_lr_ = 0.0f;
+    int total_steps_ = 0;
 };
 
 /**
@@ -168,15 +170,16 @@ class CosineAnnealingLR : public LRScheduler {
 public:
     CosineAnnealingLR(float max_lr, float min_lr, int total_steps)
         : max_lr_(max_lr), min_lr_(min_lr), total_steps_(total_steps) {}
-    
+    ~CosineAnnealingLR() override = default;
+
     float get_lr(int step) const override;
     SchedulerType type() const override { return SchedulerType::COSINE; }
     LRSchedulerConfig config() const override;
 
 private:
-    float max_lr_;
-    float min_lr_;
-    int total_steps_;
+    float max_lr_ = 0.0f;
+    float min_lr_ = 0.0f;
+    int total_steps_ = 0;
 };
 
 /**
@@ -186,16 +189,17 @@ class CosineAnnealingWarmRestartsLR : public LRScheduler {
 public:
     CosineAnnealingWarmRestartsLR(float max_lr, float min_lr, int period, int num_cycles = 1)
         : max_lr_(max_lr), min_lr_(min_lr), period_(period), num_cycles_(num_cycles) {}
-    
+    ~CosineAnnealingWarmRestartsLR() override = default;
+
     float get_lr(int step) const override;
     SchedulerType type() const override { return SchedulerType::COSINE_WITH_RESTARTS; }
     LRSchedulerConfig config() const override;
 
 private:
-    float max_lr_;
-    float min_lr_;
-    int period_;
-    int num_cycles_;
+    float max_lr_ = 0.0f;
+    float min_lr_ = 0.0f;
+    int period_ = 0;
+    int num_cycles_ = 0;
 };
 
 /**
@@ -205,16 +209,17 @@ class PolynomialLR : public LRScheduler {
 public:
     PolynomialLR(float start_lr, float end_lr, int total_steps, float power = 1.0f)
         : start_lr_(start_lr), end_lr_(end_lr), total_steps_(total_steps), power_(power) {}
-    
+    ~PolynomialLR() override = default;
+
     float get_lr(int step) const override;
     SchedulerType type() const override { return SchedulerType::POLYNOMIAL; }
     LRSchedulerConfig config() const override;
 
 private:
-    float start_lr_;
-    float end_lr_;
-    int total_steps_;
-    float power_;
+    float start_lr_ = 0.0f;
+    float end_lr_ = 0.0f;
+    int total_steps_ = 0;
+    float power_ = 0.0f;
 };
 
 /**
@@ -224,15 +229,16 @@ class StepLR : public LRScheduler {
 public:
     StepLR(float initial_lr, int step_size, float gamma = 0.1f)
         : initial_lr_(initial_lr), step_size_(step_size), gamma_(gamma) {}
-    
+    ~StepLR() override = default;
+
     float get_lr(int step) const override;
     SchedulerType type() const override { return SchedulerType::STEP; }
     LRSchedulerConfig config() const override;
 
 private:
-    float initial_lr_;
-    int step_size_;
-    float gamma_;
+    float initial_lr_ = 0.0f;
+    int step_size_ = 0;
+    float gamma_ = 0.0f;
 };
 
 /**
@@ -242,14 +248,15 @@ class ExponentialLR : public LRScheduler {
 public:
     ExponentialLR(float initial_lr, float gamma = 0.95f)
         : initial_lr_(initial_lr), gamma_(gamma) {}
-    
+    ~ExponentialLR() override = default;
+
     float get_lr(int step) const override;
     SchedulerType type() const override { return SchedulerType::EXPONENTIAL; }
     LRSchedulerConfig config() const override;
 
 private:
-    float initial_lr_;
-    float gamma_;
+    float initial_lr_ = 0.0f;
+    float gamma_ = 0.0f;
 };
 
 /**
@@ -259,14 +266,15 @@ class WarmupConstantLR : public LRScheduler {
 public:
     WarmupConstantLR(float target_lr, int warmup_steps)
         : target_lr_(target_lr), warmup_steps_(warmup_steps) {}
-    
+    ~WarmupConstantLR() override = default;
+
     float get_lr(int step) const override;
     SchedulerType type() const override { return SchedulerType::WARMUP_CONSTANT; }
     LRSchedulerConfig config() const override;
 
 private:
-    float target_lr_;
-    int warmup_steps_;
+    float target_lr_ = 0.0f;
+    int warmup_steps_ = 0;
 };
 
 /**
@@ -277,16 +285,17 @@ public:
     WarmupCosineLR(float max_lr, float min_lr, int warmup_steps, int total_steps)
         : max_lr_(max_lr), min_lr_(min_lr), 
           warmup_steps_(warmup_steps), total_steps_(total_steps) {}
-    
+    ~WarmupCosineLR() override = default;
+
     float get_lr(int step) const override;
     SchedulerType type() const override { return SchedulerType::WARMUP_COSINE; }
     LRSchedulerConfig config() const override;
 
 private:
-    float max_lr_;
-    float min_lr_;
-    int warmup_steps_;
-    int total_steps_;
+    float max_lr_ = 0.0f;
+    float min_lr_ = 0.0f;
+    int warmup_steps_ = 0;
+    int total_steps_ = 0;
 
 };
 
@@ -297,16 +306,17 @@ class CyclicLR : public LRScheduler {
 public:
     CyclicLR(float base_lr, float max_lr, int step_size_up, int step_size_down)
         : base_lr_(base_lr), max_lr_(max_lr), step_size_up_(step_size_up), step_size_down_(step_size_down) {}
-    
+    ~CyclicLR() override = default;
+
     float get_lr(int step) const override;
     SchedulerType type() const override { return SchedulerType::CYCLIC; }
     LRSchedulerConfig config() const override;
 
 private:
-    float base_lr_;
-    float max_lr_;
-    int step_size_up_;
-    int step_size_down_;
+    float base_lr_ = 0.0f;
+    float max_lr_ = 0.0f;
+    int step_size_up_ = 0;
+    int step_size_down_ = 0;
 };
 
 /**
@@ -318,17 +328,18 @@ public:
                int total_steps, float pct_start)
         : max_lr_(max_lr), base_lr_(base_lr), final_div_factor_(final_div_factor),
           total_steps_(total_steps), pct_start_(pct_start) {}
+    ~OneCycleLR() override = default;
 
     float get_lr(int step) const override;
     SchedulerType type() const override { return SchedulerType::ONE_CYCLE; }
     LRSchedulerConfig config() const override;
 
 private:
-    float max_lr_;
-    float base_lr_;
-    float final_div_factor_;
-    int total_steps_;
-    float pct_start_;
+    float max_lr_ = 0.0f;
+    float base_lr_ = 0.0f;
+    float final_div_factor_ = 0.0f;
+    int total_steps_ = 0;
+    float pct_start_ = 0.0f;
 };
 
 /**
@@ -339,16 +350,17 @@ public:
     WarmupLinearLR(float max_lr, float min_lr, int warmup_steps, int total_steps)
         : max_lr_(max_lr), min_lr_(min_lr), 
           warmup_steps_(warmup_steps), total_steps_(total_steps) {}
-    
+    ~WarmupLinearLR() override = default;
+
     float get_lr(int step) const override;
     SchedulerType type() const override { return SchedulerType::WARMUP_LINEAR; }
     LRSchedulerConfig config() const override;
 
 private:
-    float max_lr_;
-    float min_lr_;
-    int warmup_steps_;
-    int total_steps_;
+    float max_lr_ = 0.0f;
+    float min_lr_ = 0.0f;
+    int warmup_steps_ = 0;
+    int total_steps_ = 0;
 };
 
 /**

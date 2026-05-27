@@ -47,11 +47,7 @@ ThemisDB now has an **official merge strategy** that prefers **squash merges** f
 4. Set **Default to: squash merge**
 5. Configure commit message: "Pull request title and description"
 
-<<<<<<<< HEAD:docs/ci-cd/MERGE_STRATEGY_ADMIN_SUMMARY.md
 **Detailed guide**: [docs/GITHUB_SETTINGS_CONFIGURATION.md](ci-cd/branching-release-history/GITHUB_SETTINGS_CONFIGURATION.md)
-========
-**Detailed guide**: [docs/GITHUB_SETTINGS_CONFIGURATION.md](../../GITHUB_SETTINGS_CONFIGURATION.md)
->>>>>>>> refs/remotes/origin/develop:docs/ci-cd/branching-release-history/MERGE_STRATEGY_ADMIN_SUMMARY.md
 
 ## Documentation Updated
 
@@ -132,13 +128,8 @@ We've updated our merge strategy to keep the git history cleaner and more readab
 - ✅ Easier to revert if needed
 
 **Learn more:**
-<<<<<<<< HEAD:docs/ci-cd/MERGE_STRATEGY_ADMIN_SUMMARY.md
 - Quick ref: [MERGE_STRATEGY_QUICK_REF.md](ci-cd/branching-release-history/MERGE_STRATEGY_QUICK_REF.md)
 - Full guide: [MERGE_STRATEGY_MIGRATION.md](ci-cd/branching-release-history/MERGE_STRATEGY_MIGRATION.md)
-========
-- Quick ref: [MERGE_STRATEGY_QUICK_REF.md](MERGE_STRATEGY_QUICK_REF.md)
-- Full guide: [MERGE_STRATEGY_MIGRATION.md](../../MERGE_STRATEGY_MIGRATION.md)
->>>>>>>> refs/remotes/origin/develop:docs/ci-cd/branching-release-history/MERGE_STRATEGY_ADMIN_SUMMARY.md
 
 Questions? Ask in [Discussions](https://github.com/makr-code/ThemisDB/discussions)!
 
@@ -183,13 +174,8 @@ Use this checklist to roll out the change:
 ## Support
 
 **Questions or issues?**
-<<<<<<<< HEAD:docs/ci-cd/MERGE_STRATEGY_ADMIN_SUMMARY.md
 - 📖 Read: [MERGE_STRATEGY_MIGRATION.md](ci-cd/branching-release-history/MERGE_STRATEGY_MIGRATION.md)
 - ⚡ Quick ref: [MERGE_STRATEGY_QUICK_REF.md](ci-cd/branching-release-history/MERGE_STRATEGY_QUICK_REF.md)
-========
-- 📖 Read: [MERGE_STRATEGY_MIGRATION.md](../../MERGE_STRATEGY_MIGRATION.md)
-- ⚡ Quick ref: [MERGE_STRATEGY_QUICK_REF.md](MERGE_STRATEGY_QUICK_REF.md)
->>>>>>>> refs/remotes/origin/develop:docs/ci-cd/branching-release-history/MERGE_STRATEGY_ADMIN_SUMMARY.md
 - 💬 Ask: [GitHub Discussions](https://github.com/makr-code/ThemisDB/discussions)
 - 🐛 Found doc errors? Create an issue with label `documentation`
 
@@ -227,11 +213,7 @@ This change improves the maintainability and readability of the ThemisDB reposit
 ---
 
 **Next Steps:**
-<<<<<<<< HEAD:docs/ci-cd/MERGE_STRATEGY_ADMIN_SUMMARY.md
 1. ⚙️ Configure GitHub settings using [GITHUB_SETTINGS_CONFIGURATION.md](ci-cd/branching-release-history/GITHUB_SETTINGS_CONFIGURATION.md)
-========
-1. ⚙️ Configure GitHub settings using [GITHUB_SETTINGS_CONFIGURATION.md](../../GITHUB_SETTINGS_CONFIGURATION.md)
->>>>>>>> refs/remotes/origin/develop:docs/ci-cd/branching-release-history/MERGE_STRATEGY_ADMIN_SUMMARY.md
 2. 📢 Announce to team
 3. ✅ Start using on all new PRs
 

@@ -9,6 +9,7 @@
 #pragma once
 
 #include "llm/llm_plugin_interface.h"
+#include "llm/lora_security_validator.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -334,6 +335,15 @@ public:
         
         // Multi-GPU support (v1.4.0)
         MultiGPUConfig multi_gpu;
+
+        // Security validation (v1.20.0): when set, loadLoRAInternal() calls
+        // validateMetadata() before any GGUF parse.  Optional: null disables
+        // validation (legacy / test deployments).
+        std::shared_ptr<LoRASecurityValidator> security_validator;
+        /// When true and security_validator is set, a metadata-validation
+        /// failure causes loadLoRA() to reject the adapter hard.
+        /// When false the failure is logged as a warning and loading continues.
+        bool enforce_security_validation = true;
     };
     
     explicit MultiLoRAManager(const Config& config);
@@ -858,9 +868,9 @@ private:
         std::string event_type;  // "load", "unload", "migrate", "evict"
         std::string lora_id;
         std::string tenant_id;
-        int source_gpu;
-        int target_gpu;
-        size_t vram_bytes;
+        int source_gpu = 0;
+        int target_gpu = 0;
+        size_t vram_bytes = 0;
         std::string details;
     };
     std::vector<AuditEvent> audit_log_;
@@ -891,6 +901,9 @@ private:
     // Background eviction thread
     std::unique_ptr<std::thread> eviction_thread_;
     std::atomic<bool> eviction_thread_running_{false};
+    /// @brief Set to true when the eviction thread has fully exited.
+    /// Used by stopEvictionThread() to implement a timed join (W1-L01 no_timeout fix).
+    std::atomic<bool> eviction_thread_done_{true};
     std::condition_variable eviction_cv_;
     ApplyAdapterFn apply_adapter_fn_;
     RemoveAdapterFn remove_adapter_fn_;

@@ -13,10 +13,41 @@
 #include "llm/active_vram_allocator.h"
 #include <algorithm>
 #include <cmath>
+#include <limits>
 #include <sstream>
 
 namespace themis {
 namespace llm {
+
+namespace {
+bool checked_mul(size_t a, size_t b, size_t& out) {
+    if (a != 0 && b > std::numeric_limits<size_t>::max() / a) {
+        return false;
+    }
+    out = a * b;
+    return true;
+}
+
+bool checked_add(size_t a, size_t b, size_t& out) {
+    if (b > std::numeric_limits<size_t>::max() - a) {
+        return false;
+    }
+    out = a + b;
+    return true;
+}
+
+bool checked_scale(size_t value, double factor, size_t& out) {
+    if (!std::isfinite(factor) || factor < 0.0) {
+        return false;
+    }
+    const long double scaled = static_cast<long double>(value) * static_cast<long double>(factor);
+    if (scaled > static_cast<long double>(std::numeric_limits<size_t>::max())) {
+        return false;
+    }
+    out = static_cast<size_t>(scaled);
+    return true;
+}
+} // namespace
 
 // Private implementation
 class AdaptiveVRAMAllocator::Impl {
@@ -37,36 +68,74 @@ AdaptiveVRAMAllocator::AllocationPlan AdaptiveVRAMAllocator::calculateOptimalAll
     const HardwareInfo& hw,
     const InferenceConfig& config
 ) {
-    AllocationPlan plan;
+    AllocationPlan plan{};
+
+    if (model.precision_bytes <= 0 || model.num_parameters == 0 || model.num_layers == 0 ||
+        model.num_kv_heads == 0 || model.head_dim == 0 || config.batch_size == 0 ||
+        config.max_seq_length == 0 || !std::isfinite(config.kv_cache_growth_factor) ||
+        config.kv_cache_growth_factor < 0.0f) {
+        plan.fits_in_vram = false;
+        plan.recommendation = "Invalid allocation parameters.";
+        return plan;
+    }
     
     // 1. Calculate model weights size
-    plan.model_weights = static_cast<size_t>(model.num_parameters) * model.precision_bytes;
+    if (!checked_mul(model.num_parameters, static_cast<size_t>(model.precision_bytes), plan.model_weights)) {
+        plan.fits_in_vram = false;
+        plan.recommendation = "Model weight size overflow.";
+        return plan;
+    }
     
     // 2. Calculate KV cache size per token
     // Formula: 2 × num_layers × num_kv_heads × head_dim × precision_bytes
-    plan.kv_size_per_token = 2 * model.num_layers * model.num_kv_heads * 
-                             model.head_dim * model.precision_bytes;
+    size_t kv_size = 0;
+    if (!checked_mul(2, model.num_layers, kv_size) ||
+        !checked_mul(kv_size, model.num_kv_heads, kv_size) ||
+        !checked_mul(kv_size, model.head_dim, kv_size) ||
+        !checked_mul(kv_size, static_cast<size_t>(model.precision_bytes), kv_size)) {
+        plan.fits_in_vram = false;
+        plan.recommendation = "KV cache size overflow.";
+        return plan;
+    }
+    plan.kv_size_per_token = kv_size;
     
     // 3. Calculate static KV cache allocation
     // Allocate for batch_size × max_seq_length
-    size_t total_tokens = config.batch_size * config.max_seq_length;
-    plan.kv_cache_static = plan.kv_size_per_token * total_tokens;
+    size_t total_tokens = 0;
+    if (!checked_mul(config.batch_size, config.max_seq_length, total_tokens) ||
+        !checked_mul(plan.kv_size_per_token, total_tokens, plan.kv_cache_static)) {
+        plan.fits_in_vram = false;
+        plan.recommendation = "Static KV allocation overflow.";
+        return plan;
+    }
     
     // 4. Calculate dynamic KV cache (for growth)
-    plan.kv_cache_dynamic = static_cast<size_t>(
-        plan.kv_cache_static * config.kv_cache_growth_factor
-    );
+    if (!checked_scale(plan.kv_cache_static, config.kv_cache_growth_factor, plan.kv_cache_dynamic)) {
+        plan.fits_in_vram = false;
+        plan.recommendation = "Dynamic KV allocation overflow.";
+        return plan;
+    }
     
     // 5. Estimate activation memory
     plan.activations = estimateActivationMemory(model, config.batch_size, config.max_seq_length);
     
     // 6. Calculate overhead (5% for system, fragmentation, etc.)
-    size_t subtotal = plan.model_weights + plan.kv_cache_static + 
-                      plan.kv_cache_dynamic + plan.activations;
+    size_t subtotal = 0;
+    if (!checked_add(plan.model_weights, plan.kv_cache_static, subtotal) ||
+        !checked_add(subtotal, plan.kv_cache_dynamic, subtotal) ||
+        !checked_add(subtotal, plan.activations, subtotal)) {
+        plan.fits_in_vram = false;
+        plan.recommendation = "Allocation subtotal overflow.";
+        return plan;
+    }
     plan.overhead = subtotal / 20;  // 5%
     
     // 7. Calculate total
-    plan.total = subtotal + plan.overhead;
+    if (!checked_add(subtotal, plan.overhead, plan.total)) {
+        plan.fits_in_vram = false;
+        plan.recommendation = "Allocation total overflow.";
+        return plan;
+    }
     
     // 8. Calculate expected fragmentation
     // PagedAttention reduces fragmentation to ~3-5%
@@ -77,9 +146,13 @@ AdaptiveVRAMAllocator::AllocationPlan AdaptiveVRAMAllocator::calculateOptimalAll
     }
     
     // 9. Calculate max tokens that can be cached
-    size_t available_for_kv = hw.available_vram_bytes > plan.model_weights + plan.activations + plan.overhead
-        ? hw.available_vram_bytes - plan.model_weights - plan.activations - plan.overhead
-        : 0;
+    size_t required_before_kv = 0;
+    size_t available_for_kv = 0;
+    if (checked_add(plan.model_weights, plan.activations, required_before_kv) &&
+        checked_add(required_before_kv, plan.overhead, required_before_kv) &&
+        hw.available_vram_bytes > required_before_kv) {
+        available_for_kv = hw.available_vram_bytes - required_before_kv;
+    }
     plan.max_tokens_cached = plan.kv_size_per_token > 0 
         ? available_for_kv / plan.kv_size_per_token 
         : 0;
@@ -92,7 +165,11 @@ AdaptiveVRAMAllocator::AllocationPlan AdaptiveVRAMAllocator::calculateOptimalAll
     if (plan.fits_in_vram) {
         ss << "✓ Allocation fits in available VRAM. ";
         ss << "Model: " << (plan.model_weights / (1024.0 * 1024 * 1024)) << " GB, ";
-        ss << "KV Cache: " << ((plan.kv_cache_static + plan.kv_cache_dynamic) / (1024.0 * 1024 * 1024)) << " GB, ";
+        size_t kv_cache_total = 0;
+        if (!checked_add(plan.kv_cache_static, plan.kv_cache_dynamic, kv_cache_total)) {
+            kv_cache_total = std::numeric_limits<size_t>::max();
+        }
+        ss << "KV Cache: " << (kv_cache_total / (1024.0 * 1024 * 1024)) << " GB, ";
         ss << "Total: " << (plan.total / (1024.0 * 1024 * 1024)) << " GB";
     } else {
         ss << "✗ Allocation exceeds available VRAM. ";
@@ -116,21 +193,46 @@ AdaptiveVRAMAllocator::AllocationPlan AdaptiveVRAMAllocator::calculateOptimalAll
 }
 
 bool AdaptiveVRAMAllocator::allocateWithFragmentation(size_t bytes, void** ptr) {
+    if (!impl_ || ptr == nullptr || bytes == 0) {
+        return false;
+    }
     return impl_->active_allocator_.allocateWithFragmentation(bytes, ptr);
 }
 
 bool AdaptiveVRAMAllocator::handleOutOfMemory() {
+    if (!impl_) {
+        return false;
+    }
     return impl_->active_allocator_.handleOutOfMemory();
 }
 
 size_t AdaptiveVRAMAllocator::calculateKVCacheSizePerToken(const ModelConfig& model) {
     // Formula: 2 × num_layers × num_kv_heads × head_dim × precision_bytes
     // The "2" accounts for both Key and Value caches
-    return 2 * model.num_layers * model.num_kv_heads * model.head_dim * model.precision_bytes;
+    if (model.precision_bytes <= 0 || model.num_layers == 0 || model.num_kv_heads == 0 ||
+        model.head_dim == 0) {
+        return 0;
+    }
+    size_t kv_size = 0;
+    if (!checked_mul(2, model.num_layers, kv_size) ||
+        !checked_mul(kv_size, model.num_kv_heads, kv_size) ||
+        !checked_mul(kv_size, model.head_dim, kv_size) ||
+        !checked_mul(kv_size, static_cast<size_t>(model.precision_bytes), kv_size)) {
+        return 0;
+    }
+    return kv_size;
 }
 
 size_t AdaptiveVRAMAllocator::calculateModelSize(size_t num_parameters, float precision_bytes) {
-    return static_cast<size_t>(num_parameters * precision_bytes);
+    if (!std::isfinite(precision_bytes) || precision_bytes <= 0.0f) {
+        return 0;
+    }
+    const long double size =
+        static_cast<long double>(num_parameters) * static_cast<long double>(precision_bytes);
+    if (size > static_cast<long double>(std::numeric_limits<size_t>::max())) {
+        return 0;
+    }
+    return static_cast<size_t>(size);
 }
 
 size_t AdaptiveVRAMAllocator::estimateActivationMemory(
@@ -142,16 +244,35 @@ size_t AdaptiveVRAMAllocator::estimateActivationMemory(
     // Activations scale with: batch_size × seq_length × hidden_dim × num_layers
     // Rough estimate: ~4-8 bytes per activation depending on precision
     
-    size_t activation_elements = batch_size * seq_length * model.hidden_dim;
-    size_t bytes_per_activation = model.precision_bytes * 2;  // Forward + backward
+    if (model.precision_bytes <= 0 || batch_size == 0 || seq_length == 0 ||
+        model.hidden_dim == 0 || model.num_layers == 0) {
+        return 0;
+    }
+
+    size_t activation_elements = 0;
+    if (!checked_mul(batch_size, seq_length, activation_elements) ||
+        !checked_mul(activation_elements, model.hidden_dim, activation_elements)) {
+        return 0;
+    }
+    size_t bytes_per_activation = 0;  // Forward + backward
+    if (!checked_mul(static_cast<size_t>(model.precision_bytes), 2, bytes_per_activation)) {
+        return 0;
+    }
     
     // Only a subset of layers have activations stored at once
     // Typically ~20-30% of layers depending on checkpointing
     double checkpoint_ratio = 0.25;
     
-    return static_cast<size_t>(
-        activation_elements * bytes_per_activation * model.num_layers * checkpoint_ratio
-    );
+    size_t total_activation_bytes = 0;
+    if (!checked_mul(activation_elements, bytes_per_activation, total_activation_bytes) ||
+        !checked_mul(total_activation_bytes, model.num_layers, total_activation_bytes)) {
+        return 0;
+    }
+    size_t estimated = 0;
+    if (!checked_scale(total_activation_bytes, checkpoint_ratio, estimated)) {
+        return 0;
+    }
+    return estimated;
 }
 
 AdaptiveVRAMAllocator::DualModelAllocationPlan
@@ -169,17 +290,15 @@ AdaptiveVRAMAllocator::calculateDualModelAllocation(
             ? static_cast<float>(draft_config.precision_bytes)
             : kInt4Bytes;
 
-    // Build a local draft config with the resolved precision so that the
-    // existing helpers (calculateModelSize, estimateActivationMemory) work
-    // without modification.
-    ModelConfig resolved_draft = draft_config;
-    resolved_draft.precision_bytes =
-        (draft_config.precision_bytes > 0) ? draft_config.precision_bytes : 1;
-    // For calculateModelSize we pass the float precision directly.
-
     // --- Draft model weight footprint -----------------------------------------
     const size_t draft_weights =
         calculateModelSize(draft_config.num_parameters, draft_precision);
+    if (draft_config.num_parameters > 0 && draft_weights == 0) {
+        DualModelAllocationPlan invalid_plan{};
+        invalid_plan.fits_in_vram = false;
+        invalid_plan.recommendation = "Invalid draft model allocation parameters.";
+        return invalid_plan;
+    }
 
     // --- Base allocation plan for the target model ----------------------------
     AllocationPlan target_plan =
@@ -195,10 +314,14 @@ AdaptiveVRAMAllocator::calculateDualModelAllocation(
     plan.draft_model_weights  = draft_weights;
     plan.draft_precision_bytes =
         (draft_config.precision_bytes > 0) ? draft_config.precision_bytes : 0;
-    plan.model_weights        += draft_weights;
+    if (!checked_add(plan.model_weights, draft_weights, plan.model_weights) ||
+        !checked_add(plan.total, draft_weights, plan.total)) {
+        plan.fits_in_vram = false;
+        plan.recommendation = "Dual-model allocation overflow.";
+        return plan;
+    }
 
     // Re-compute total and fits_in_vram to account for the draft model.
-    plan.total += draft_weights;
     plan.fits_in_vram = (plan.total <= hw.available_vram_bytes);
 
     // Rebuild the recommendation string with dual-model context.
@@ -208,8 +331,12 @@ AdaptiveVRAMAllocator::calculateDualModelAllocation(
         ss << "Target: " << (target_plan.model_weights / (1024.0 * 1024 * 1024)) << " GB, ";
         ss << "Draft (INT" << (draft_precision < 1.0f ? 4 : static_cast<int>(draft_precision * 8))
            << "): " << (draft_weights / (1024.0 * 1024 * 1024)) << " GB, ";
+        size_t kv_cache_total = 0;
+        if (!checked_add(plan.kv_cache_static, plan.kv_cache_dynamic, kv_cache_total)) {
+            kv_cache_total = std::numeric_limits<size_t>::max();
+        }
         ss << "KV Cache: "
-           << ((plan.kv_cache_static + plan.kv_cache_dynamic) / (1024.0 * 1024 * 1024)) << " GB, ";
+           << (kv_cache_total / (1024.0 * 1024 * 1024)) << " GB, ";
         ss << "Total: " << (plan.total / (1024.0 * 1024 * 1024)) << " GB";
     } else {
         ss << "✗ Dual-model allocation exceeds available VRAM. ";

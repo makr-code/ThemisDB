@@ -15,6 +15,7 @@
 #include <mutex>
 #include <vector>
 #include <memory>
+#include <functional>
 
 namespace themis {
 namespace llm {
@@ -34,6 +35,8 @@ namespace detail {
  */
 class GPUMemoryManager {
 public:
+    using GPUTemperatureProviderFn = std::function<float(int gpu_device_id)>;
+
     struct MemoryAllocation {
         std::string model_id;
         size_t vram_bytes = 0;
@@ -59,10 +62,30 @@ public:
         bool enable_multi_gpu = false;
         std::vector<int> gpu_devices;  // GPU device IDs to use
         bool enable_peer_access = false;  // Enable CUDA peer-to-peer access
+        GPUTemperatureProviderFn temperature_provider_fn;  // Optional temperature callback
     };
     
     explicit GPUMemoryManager(const Config& config);
     ~GPUMemoryManager();
+
+    /**
+     * @brief Function type for per-device GPU temperature query (stub #309).
+     *
+     * When injected via setNvmlTemperatureFn(), updateGPUHealth() calls this
+     * function instead of returning a hardcoded 0.0 °C placeholder.  The
+     * function receives the device ID and must return the current temperature
+     * in degrees Celsius, or throw on error.
+     */
+    using NvmlTemperatureFn = std::function<float(int /*device_id*/)>;
+
+    /**
+     * @brief Inject an NVML-based (or mock) GPU temperature provider.
+     *
+     * Thread-safe.  Passing nullptr reverts to the 0.0 °C placeholder.
+     *
+     * @param fn Temperature query callback.
+     */
+    static void setNvmlTemperatureFn(NvmlTemperatureFn fn);
     
     // Memory allocation
     void* allocateGPU(const std::string& model_id, size_t bytes);
@@ -104,41 +127,41 @@ public:
     
     // Statistics
     struct Stats {
-        size_t total_vram_bytes;
-        size_t used_vram_bytes;
-        size_t free_vram_bytes;
-        size_t total_ram_bytes;
-        size_t used_ram_bytes;
-        size_t free_ram_bytes;
-        size_t num_allocations;
-        size_t num_models;
-        size_t fragmentation_pct;
+        size_t total_vram_bytes = 0;
+        size_t used_vram_bytes = 0;
+        size_t free_vram_bytes = 0;
+        size_t total_ram_bytes = 0;
+        size_t used_ram_bytes = 0;
+        size_t free_ram_bytes = 0;
+        size_t num_allocations = 0;
+        size_t num_models = 0;
+        size_t fragmentation_pct = 0;
     };
     
     // Per-GPU statistics
     struct GPUStats {
-        int device_id;
-        size_t total_vram_bytes;
-        size_t used_vram_bytes;
-        size_t free_vram_bytes;
-        size_t num_allocations;
-        float utilization_percent;  // 0.0 - 100.0
-        float temperature_celsius;
-        bool is_healthy;
+        int device_id = 0;
+        size_t total_vram_bytes = 0;
+        size_t used_vram_bytes = 0;
+        size_t free_vram_bytes = 0;
+        size_t num_allocations = 0;
+        float utilization_percent = 0.0f;  // 0.0 - 100.0
+        float temperature_celsius = 0.0f;
+        bool is_healthy = false;
         std::vector<std::string> loaded_models;
         std::vector<std::string> loaded_adapters;
     };
     
     // GPU Health status
     struct GPUHealth {
-        int device_id;
-        bool is_available;
-        bool is_healthy;
-        float temperature_celsius;
-        float utilization_percent;
-        size_t error_count;
+        int device_id = 0;
+        bool is_available = false;
+        bool is_healthy = false;
+        float temperature_celsius = 0.0f;
+        float utilization_percent = 0.0f;
+        size_t error_count = 0;
         std::string last_error;
-        int64_t last_check_timestamp_ms;
+        int64_t last_check_timestamp_ms = 0;
     };
     
     Stats getStats() const;
@@ -166,25 +189,16 @@ public:
     bool disablePeerAccess(int src_gpu, int dst_gpu);
     bool canAccessPeer(int src_gpu, int dst_gpu) const;
 
-    // ---------------------------------------------------------------------------
-    // Callback bridge for CUDA/NVML temperature telemetry (stub #309)
-    // ---------------------------------------------------------------------------
     /**
-     * @brief Function type for injecting real NVML per-device temperature queries.
-     *
-     * @param gpu_device_id  CUDA device index to query
-     * @return Temperature in degrees Celsius; negative value signals query failure
+     * @brief Install runtime GPU temperature provider (e.g. NVML bridge).
+     * @param fn Provider callable returning temperature in °C for a GPU device ID.
      */
-    using NVMLTemperatureFn = std::function<float(int gpu_device_id)>;
+    void setGPUTemperatureProviderFn(GPUTemperatureProviderFn fn);
 
     /**
-     * @brief Inject a real NVML temperature provider.
-     *
-     * When set, updateGPUHealth() uses this function to read the sensor value
-     * instead of the hardcoded 0.0°C placeholder.  Pass nullptr to revert to
-     * the placeholder behavior.  Thread-safe (internal mutex).
+     * @brief Remove runtime GPU temperature provider and use built-in fallback.
      */
-    void setNVMLTemperatureFn(NVMLTemperatureFn fn);
+    void clearGPUTemperatureProviderFn();
     
 private:
     Config config_;
@@ -209,6 +223,7 @@ private:
     std::unordered_map<int, float> gpu_temperatures_;     // Temperature tracking
     std::unordered_map<int, float> gpu_utilizations_;     // Utilization tracking
     std::unordered_map<int, size_t> gpu_error_counts_;    // Error count per GPU
+    GPUTemperatureProviderFn temperature_provider_fn_;
     
     // Adapter tracking for load balancing
     std::unordered_map<int, std::vector<std::string>> gpu_adapters_;  // Adapters per GPU
@@ -224,10 +239,7 @@ private:
     bool defragmentModelGPU(const std::string& model_id, const std::vector<MemoryAllocation>& gpu_allocs);
     bool defragmentModelCPU(const std::string& model_id, const std::vector<MemoryAllocation>& cpu_allocs);
 
-    // Bridge callback for NVML temperature (stub #309)
-    NVMLTemperatureFn nvml_temperature_fn_;
 };
 
 } // namespace llm
 } // namespace themis
-

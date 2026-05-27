@@ -351,6 +351,7 @@ TEST(QueryFederationAnalysisTest, AnalyzeQueryExtractsPointLookupKey) {
 
     json before = fed.getStatistics();
     uint64_t pruned_before = before.value("partition_pruned_queries", 0ull);
+    static_cast<void>(pruned_before);
 
     router->registerShard("s1");
     router->registerShard("s2");

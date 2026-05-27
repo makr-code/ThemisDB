@@ -10,6 +10,7 @@
  */
 
 #include "utils/lek_manager.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "utils/audit_logger.h"
 #include "utils/hkdf_helper.h"
@@ -34,7 +35,10 @@ LEKManager::LEKManager(std::shared_ptr<themis::RocksDBWrapper> db,
     // Ensure KEK exists
     if (!key_provider_->hasKey(kek_key_id_)) {
         auto kek = deriveKEK();
-        key_provider_->createKeyFromBytes(kek_key_id_, kek);
+        const uint32_t version = key_provider_->createKeyFromBytes(kek_key_id_, kek);
+        if (version == 0) {
+            throw std::runtime_error("Failed to create KEK in key provider");
+        }
     }
 }
 
@@ -98,8 +102,12 @@ void LEKManager::ensureLEKExists(const std::string& date_str) {
             FieldEncryption enc(key_provider_);
             auto lek_bytes = enc.decrypt(blob);
             
-            key_provider_->createKeyFromBytes(key_id, 
+            const uint32_t version = key_provider_->createKeyFromBytes(
+                key_id,
                 std::vector<uint8_t>(lek_bytes.begin(), lek_bytes.end()));
+            if (version == 0) {
+                throw std::runtime_error("Failed to load LEK into key provider");
+            }
             
         } catch (const std::exception& e) {
             throw std::runtime_error("Failed to decrypt LEK for " + date_str + ": " + e.what());
@@ -121,10 +129,15 @@ void LEKManager::ensureLEKExists(const std::string& date_str) {
         auto encrypted_json = themis::EncryptedBlob{encrypted_lek}.toJson();
         std::string json_str = encrypted_json.dump();
         std::vector<uint8_t> json_bytes(json_str.begin(), json_str.end());
-        db_->put(db_key_str, json_bytes);
+        if (!db_->put(db_key_str, json_bytes)) {
+            throw std::runtime_error("Failed to persist encrypted LEK in RocksDB");
+        }
         
         // Load into KeyProvider
-        key_provider_->createKeyFromBytes(key_id, lek);
+        const uint32_t version = key_provider_->createKeyFromBytes(key_id, lek);
+        if (version == 0) {
+            throw std::runtime_error("Failed to register generated LEK in key provider");
+        }
     }
 }
 
@@ -174,7 +187,9 @@ void LEKManager::rotate() {
     lek_cache_.erase(date_str);
     
     // Delete from DB
-    db_->del(dbKey(date_str));
+    if (!db_->del(dbKey(date_str))) {
+        throw std::runtime_error("Failed to delete rotated LEK from RocksDB");
+    }
     
     // Regenerate
     ensureLEKExists(date_str);
@@ -365,4 +380,5 @@ void LEKManager::autoRotationLoop(std::chrono::seconds check_interval,
 
 } // namespace utils
 } // namespace themis
+
 

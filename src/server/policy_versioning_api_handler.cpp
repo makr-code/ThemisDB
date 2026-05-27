@@ -258,7 +258,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleQueryAudit(
             }
             try {
                 start_time = std::stoll(*start_str);
-            } catch (const std::exception&) {
+            } catch (...) {
                 return makeErrorResponse(http::status::bad_request, "Invalid start_time query parameter", req);
             }
         }
@@ -270,7 +270,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleQueryAudit(
             }
             try {
                 end_time = std::stoll(*end_str);
-            } catch (const std::exception&) {
+            } catch (...) {
                 return makeErrorResponse(http::status::bad_request, "Invalid end_time query parameter", req);
             }
         }
@@ -347,15 +347,15 @@ bool PolicyVersioningApiHandler::checkAuth(
     }
     
     // Extract authorization header
-    auto auth_it = req.find(http::field::authorization);
-    if (auth_it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         THEMIS_WARN("Missing Authorization header for policy versioning endpoint");
         return false;
     }
     
     // Extract Bearer token
-    std::string auth_header(auth_it->value());
-    auto token = AuthMiddleware::extractBearerToken(auth_header);
+    std::string auth_str(auth_header.data(), auth_header.size());
+    auto token = AuthMiddleware::extractBearerToken(auth_str);
     
     if (!token) {
         THEMIS_WARN("Invalid Authorization header format for policy versioning endpoint");

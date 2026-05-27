@@ -415,7 +415,7 @@ TEST(KernelInvocationInterfaces, CUDAVectorBackend_PopulateANNDispatch_AllSlotsN
     CUDAVectorBackend backend;
     // Skip if CUDA hardware is unavailable; only test dispatch table population
     if (!backend.isAvailable()) {
-        GTEST_SKIP() << "CUDA backend not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_backend_not_available";
     }
     ANNKernelDispatch d = backend.populateANNDispatch();
     EXPECT_NE(d.launchL2Distance,   nullptr);
@@ -427,7 +427,7 @@ TEST(KernelInvocationInterfaces, CUDAVectorBackend_PopulateANNDispatch_AllSlotsN
 TEST(KernelInvocationInterfaces, CUDAGeoBackend_PopulateGeoDispatch_AllSlotsNonNull) {
     CUDAGeoBackend backend;
     if (!backend.isAvailable()) {
-        GTEST_SKIP() << "CUDA backend not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_backend_not_available";
     }
     GeoKernelDispatch d = backend.populateGeoDispatch();
     EXPECT_NE(d.launchDistance,    nullptr);

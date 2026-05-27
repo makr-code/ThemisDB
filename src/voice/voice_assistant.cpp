@@ -50,12 +50,13 @@ bool VoiceAssistant::initialize() {
         // Initialize STT processor
         stt_processor_ = std::make_unique<content::STTProcessor>();
         content::PluginConfig stt_config;
-        json stt_settings;
-        stt_settings["model_path"] = config_.stt_model_path;
-        stt_settings["model_size"] = config_.stt_model_size;
-        stt_settings["language"] = config_.stt_language;
-        stt_settings["timestamps"] = true;
-        stt_settings["speaker_diarization"] = true;
+        json stt_settings = json::object({
+            {"model_path", config_.stt_model_path},
+            {"model_size", config_.stt_model_size},
+            {"language", config_.stt_language},
+            {"timestamps", true},
+            {"speaker_diarization", true}
+        });
         stt_config = content::PluginConfig(stt_settings);
         
         if (!stt_processor_->initialize(stt_config)) {
@@ -65,10 +66,11 @@ bool VoiceAssistant::initialize() {
         // Initialize TTS processor
         tts_processor_ = std::make_unique<content::TTSProcessor>();
         content::PluginConfig tts_config;
-        json tts_settings;
-        tts_settings["model_path"] = config_.tts_model_path;
-        tts_settings["default_voice"] = config_.tts_voice;
-        tts_settings["default_speed"] = config_.tts_speed;
+        json tts_settings = json::object({
+            {"model_path", config_.tts_model_path},
+            {"default_voice", config_.tts_voice},
+            {"default_speed", config_.tts_speed}
+        });
         tts_config = content::PluginConfig(tts_settings);
         
         if (!tts_processor_->initialize(tts_config)) {
@@ -96,7 +98,7 @@ bool VoiceAssistant::initialize() {
         initialized_ = true;
         return true;
         
-    } catch (const std::exception& e) {
+    } catch (...) {
         return false;
     }
 }
@@ -550,14 +552,11 @@ VoiceSession VoiceAssistant::getSession(const std::string& session_id) {
 
 void VoiceAssistant::updateSession(const std::string& session_id, const json& context) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
-    
+
     auto it = sessions_.find(session_id);
     if (it != sessions_.end()) {
         it->second.context = context;
         it->second.last_activity = std::chrono::system_clock::now().time_since_epoch().count();
-    } else {
-        // Log warning: attempting to update non-existent session
-        // In production, this should be logged properly
     }
 }
 

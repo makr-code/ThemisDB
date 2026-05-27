@@ -114,9 +114,9 @@ public:
     
 private:
     const MultiGPUContext& ctx_;
-    int rank_;
-    int world_size_;
-    bool initialized_;
+    int rank_ = 0;
+    int world_size_ = 0;
+    bool initialized_ = false;
     
 #ifdef THEMIS_ENABLE_HIP
 #ifdef THEMIS_ENABLE_RCCL

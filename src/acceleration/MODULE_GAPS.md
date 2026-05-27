@@ -15,6 +15,15 @@ python tools/gap_audit_pipeline_v2.py
 
 ---
 
+## ✅ Recent Remediation (2026-05-26 — compute-capability probe reliability)
+
+- `src/acceleration/cuda/tensor_core_matmul.cu::launchINT8MatmulKernel()` now checks both
+  `cudaDeviceGetAttribute` calls used to derive SM major/minor capability before deciding whether
+  INT8 Tensor Cores are available. Failed attribute probes now follow the existing fallback
+  return path instead of computing support from incomplete device metadata.
+
+---
+
 ## 🚀 How to Use This Documentation
 
 Once generated, this file will contain:

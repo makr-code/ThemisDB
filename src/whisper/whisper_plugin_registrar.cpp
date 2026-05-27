@@ -10,6 +10,7 @@
  */
 
 #include "whisper/whisper_plugin_registrar.h"
+#include <stdexcept>
 #include "plugins/plugin_manager.h"
 #include "plugins/plugin_hot_plug_monitor.h"
 #include <memory>

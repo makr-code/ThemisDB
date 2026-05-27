@@ -14,10 +14,12 @@
 #ifdef THEMIS_ENABLE_WEBSOCKET
 
 #include "server/websocket_session.h"
+#include "cdc/changefeed.h"
 #include <string>
 #include <nlohmann/json.hpp>
 
 using namespace themis::server;
+using themis::Changefeed;
 using json = nlohmann::json;
 
 // ============================================================================
@@ -370,14 +372,14 @@ TEST(WsTransportTest, SubscriptionFilterWithEventTypes) {
     WsTransport::SubscriptionFilter f;
     f.key_prefix = "user:";
     f.from_sequence = 100;
-    f.event_types.insert(Changefeed::ChangeEventType::EVENT_PUT);
-    f.event_types.insert(Changefeed::ChangeEventType::EVENT_DELETE);
+    f.event_types.insert(themis::Changefeed::ChangeEventType::EVENT_PUT);
+    f.event_types.insert(themis::Changefeed::ChangeEventType::EVENT_DELETE);
 
     EXPECT_EQ(f.key_prefix, "user:");
     EXPECT_EQ(f.from_sequence, 100u);
     EXPECT_EQ(f.event_types.size(), 2u);
-    EXPECT_TRUE(f.event_types.count(Changefeed::ChangeEventType::EVENT_PUT));
-    EXPECT_TRUE(f.event_types.count(Changefeed::ChangeEventType::EVENT_DELETE));
+    EXPECT_TRUE(f.event_types.count(themis::Changefeed::ChangeEventType::EVENT_PUT));
+    EXPECT_TRUE(f.event_types.count(themis::Changefeed::ChangeEventType::EVENT_DELETE));
 }
 
 // ── Protocol frame constants ──────────────────────────────────────────────────

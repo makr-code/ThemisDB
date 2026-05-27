@@ -88,6 +88,7 @@ using namespace themis::llm::lora;
  */
 class LoraTrainFunction : public IFunction {
 public:
+    ~LoraTrainFunction() override = default;
     FunctionSignature signature() const override;
     nlohmann::json execute(
         const std::vector<nlohmann::json>& args,
@@ -127,6 +128,7 @@ public:
  */
 class LoraQueryFunction : public IFunction {
 public:
+    ~LoraQueryFunction() override = default;
     FunctionSignature signature() const override;
     nlohmann::json execute(
         const std::vector<nlohmann::json>& args,
@@ -161,6 +163,7 @@ public:
  */
 class LoraSimilarFunction : public IFunction {
 public:
+    ~LoraSimilarFunction() override = default;
     FunctionSignature signature() const override;
     nlohmann::json execute(
         const std::vector<nlohmann::json>& args,
@@ -195,6 +198,7 @@ public:
  */
 class LoraPathFunction : public IFunction {
 public:
+    ~LoraPathFunction() override = default;
     FunctionSignature signature() const override;
     nlohmann::json execute(
         const std::vector<nlohmann::json>& args,
@@ -230,6 +234,7 @@ public:
  */
 class LoraStatsFunction : public IFunction {
 public:
+    ~LoraStatsFunction() override = default;
     FunctionSignature signature() const override;
     nlohmann::json execute(
         const std::vector<nlohmann::json>& args,
@@ -265,6 +270,7 @@ public:
  */
 class LoraRecommendFunction : public IFunction {
 public:
+    ~LoraRecommendFunction() override = default;
     FunctionSignature signature() const override;
     nlohmann::json execute(
         const std::vector<nlohmann::json>& args,
@@ -297,6 +303,7 @@ public:
  */
 class LoraLineageFunction : public IFunction {
 public:
+    ~LoraLineageFunction() override = default;
     FunctionSignature signature() const override;
     nlohmann::json execute(
         const std::vector<nlohmann::json>& args,
@@ -332,6 +339,7 @@ public:
  */
 class LoraProvenanceFunction : public IFunction {
 public:
+    ~LoraProvenanceFunction() override = default;
     FunctionSignature signature() const override;
     nlohmann::json execute(
         const std::vector<nlohmann::json>& args,
@@ -367,6 +375,7 @@ public:
  */
 class LoraAuditLogFunction : public IFunction {
 public:
+    ~LoraAuditLogFunction() override = default;
     FunctionSignature signature() const override;
     nlohmann::json execute(
         const std::vector<nlohmann::json>& args,
@@ -400,6 +409,7 @@ public:
  */
 class LoraSnapshotsFunction : public IFunction {
 public:
+    ~LoraSnapshotsFunction() override = default;
     FunctionSignature signature() const override;
     nlohmann::json execute(
         const std::vector<nlohmann::json>& args,
@@ -431,6 +441,7 @@ public:
  */
 class LoraVerifyChainFunction : public IFunction {
 public:
+    ~LoraVerifyChainFunction() override = default;
     FunctionSignature signature() const override;
     nlohmann::json execute(
         const std::vector<nlohmann::json>& args,

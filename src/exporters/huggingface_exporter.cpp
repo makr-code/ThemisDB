@@ -7,17 +7,19 @@
  */
 
 #include "exporters/huggingface_exporter.h"
-#include "exporters/exporter_errors.h"
-#include "exporters/exporter_interface.h"
-#include "utils/logger.h"
+
 #include <chrono>
 #include <filesystem>
 #include <fstream>
-#include <sstream>
 #include <iomanip>
 #include <nlohmann/json.hpp>
+#include <sstream>
 
-using json = nlohmann::json;
+#include "exporters/exporter_errors.h"
+#include "exporters/exporter_interface.h"
+#include "utils/logger.h"
+
+using json   = nlohmann::json;
 namespace fs = std::filesystem;
 
 namespace themis::exporters {
@@ -26,31 +28,27 @@ namespace themis::exporters {
 // Construction
 // ---------------------------------------------------------------------------
 
-HuggingFaceExporter::HuggingFaceExporter(const HuggingFaceExporterConfig& config)
+HuggingFaceExporter::HuggingFaceExporter(const HuggingFaceExporterConfig &config)
     : config_(config), metrics_(std::make_shared<ExporterMetrics>()) {}
 
 // ---------------------------------------------------------------------------
 // Export
 // ---------------------------------------------------------------------------
 
-ExportStats HuggingFaceExporter::exportEntities(
-    const std::vector<BaseEntity>& entities,
-    const ExportOptions& options
-) {
+ExportStats HuggingFaceExporter::exportEntities(const std::vector<BaseEntity> &entities, const ExportOptions &options) {
     // Policy check before any cursor or file is opened (EXP-001).
     enforceExportPolicy(options);
 
     ExportStats stats;
-    stats.metrics = metrics_;
+    stats.metrics   = metrics_;
     auto start_time = std::chrono::steady_clock::now();
 
     // Resolve dataset root directory from options.output_path
     const std::string dataset_root = options.output_path;
     if (dataset_root.empty()) {
         stats.errors.push_back("output_path must be set to the dataset root directory");
-        stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::steady_clock::now() - start_time
-        );
+        stats.duration
+            = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time);
         return stats;
     }
 
@@ -61,9 +59,9 @@ ExportStats HuggingFaceExporter::exportEntities(
         fs::create_directories(data_dir);
 
         // Build data file name: <split>-00000-of-00001.jsonl
-        const std::string split = config_.split_name.empty() ? "train" : config_.split_name;
+        const std::string split         = config_.split_name.empty() ? "train" : config_.split_name;
         const std::string data_filename = split + "-00000-of-00001.jsonl";
-        const fs::path data_file = data_dir / data_filename;
+        const fs::path data_file        = data_dir / data_filename;
 
         // Optionally infer features from the entity set
         if (config_.infer_features && config_.features.empty()) {
@@ -73,32 +71,26 @@ ExportStats HuggingFaceExporter::exportEntities(
         // Delegate JSONL writing to JSONLLLMExporter
         JSONLLLMExporter jsonl_exporter(config_.jsonl_config);
         ExportOptions jsonl_options = options;
-        jsonl_options.output_path = data_file.string();
+        jsonl_options.output_path   = data_file.string();
 
         ExportStats jsonl_stats = jsonl_exporter.exportEntities(entities, jsonl_options);
 
         // Propagate statistics
-        stats.total_entities = jsonl_stats.total_entities;
+        stats.total_entities    = jsonl_stats.total_entities;
         stats.exported_entities = jsonl_stats.exported_entities;
-        stats.failed_entities = jsonl_stats.failed_entities;
-        stats.bytes_written = jsonl_stats.bytes_written;
-        stats.errors = jsonl_stats.errors;
+        stats.failed_entities   = jsonl_stats.failed_entities;
+        stats.bytes_written     = jsonl_stats.bytes_written;
+        stats.errors            = jsonl_stats.errors;
 
         // Write dataset_info.json
-        const std::string resolved_name = config_.dataset_name.empty()
-            ? root_dir.filename().string()
-            : config_.dataset_name;
-        const std::string info_json = generateDatasetInfoJson(
-            jsonl_stats, resolved_name, jsonl_stats.bytes_written
-        );
+        const std::string resolved_name
+            = config_.dataset_name.empty() ? root_dir.filename().string() : config_.dataset_name;
+        const std::string info_json = generateDatasetInfoJson(jsonl_stats, resolved_name, jsonl_stats.bytes_written);
         {
             const fs::path info_path = root_dir / "dataset_info.json";
             std::ofstream info_file(info_path);
             if (!info_file) {
-                throw ExportIOException(
-                    "Failed to open dataset_info.json for writing",
-                    info_path.string()
-                );
+                throw ExportIOException("Failed to open dataset_info.json for writing", info_path.string());
             }
             info_file << info_json;
         }
@@ -106,7 +98,7 @@ ExportStats HuggingFaceExporter::exportEntities(
 
         // Write README.md (dataset card) if requested
         if (config_.generate_dataset_card) {
-            const std::string card = generateDatasetCard();
+            const std::string card   = generateDatasetCard();
             const fs::path card_path = root_dir / "README.md";
             std::ofstream card_file(card_path);
             if (!card_file) {
@@ -117,48 +109,33 @@ ExportStats HuggingFaceExporter::exportEntities(
             }
         }
 
-        auto end_time = std::chrono::steady_clock::now();
-        stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-            end_time - start_time
-        );
+        auto end_time  = std::chrono::steady_clock::now();
+        stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
 
         metrics_->recordExport(stats.exported_entities, stats.bytes_written, stats.duration);
 
-        THEMIS_INFO(
-            "HuggingFace export completed: {} entities -> {} ({}ms)",
-            stats.exported_entities, dataset_root, stats.duration.count()
-        );
+        THEMIS_INFO("HuggingFace export completed: {} entities -> {} ({}ms)", stats.exported_entities, dataset_root,
+                    stats.duration.count());
 
-    } catch (const ExportIOException& e) {
-        stats.errors.push_back(
-            "[" + std::to_string(static_cast<int>(e.getErrorCode())) + "] " +
-            e.what() + " (file: " + e.getFilePath() + ")"
-        );
+    } catch (const ExportIOException &e) {
+        stats.errors.push_back("[" + std::to_string(static_cast<int>(e.getErrorCode())) + "] " + e.what()
+                               + " (file: " + e.getFilePath() + ")");
         metrics_->recordError("io_exception");
 
-        auto end_time = std::chrono::steady_clock::now();
-        stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-            end_time - start_time
-        );
-    } catch (const std::filesystem::filesystem_error& e) {
-        stats.errors.push_back(
-            std::string("Filesystem error: ") + e.what() +
-            " (path: " + e.path1().string() + ")"
-        );
+        auto end_time  = std::chrono::steady_clock::now();
+        stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+    } catch (const std::filesystem::filesystem_error &e) {
+        stats.errors.push_back(std::string("Filesystem error: ") + e.what() + " (path: " + e.path1().string() + ")");
         metrics_->recordError("filesystem_error");
 
-        auto end_time = std::chrono::steady_clock::now();
-        stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-            end_time - start_time
-        );
-    } catch (const std::exception& e) {
+        auto end_time  = std::chrono::steady_clock::now();
+        stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+    } catch (const std::exception &e) {
         stats.errors.push_back(std::string("Unexpected error: ") + e.what());
         metrics_->recordError("unexpected_error");
 
-        auto end_time = std::chrono::steady_clock::now();
-        stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-            end_time - start_time
-        );
+        auto end_time  = std::chrono::steady_clock::now();
+        stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
     }
 
     return stats;
@@ -168,14 +145,10 @@ ExportStats HuggingFaceExporter::exportEntities(
 // dataset_info.json generation
 // ---------------------------------------------------------------------------
 
-std::string HuggingFaceExporter::generateDatasetInfoJson(
-    const ExportStats& stats,
-    const std::string& dataset_name,
-    size_t data_file_bytes
-) const {
-    const std::string resolved_name = dataset_name.empty()
-        ? (config_.dataset_name.empty() ? "dataset" : config_.dataset_name)
-        : dataset_name;
+std::string HuggingFaceExporter::generateDatasetInfoJson(const ExportStats &stats, const std::string &dataset_name,
+                                                         size_t data_file_bytes) const {
+    const std::string resolved_name
+        = dataset_name.empty() ? (config_.dataset_name.empty() ? "dataset" : config_.dataset_name) : dataset_name;
 
     const size_t byte_count = data_file_bytes > 0 ? data_file_bytes : stats.bytes_written;
     const std::string split = config_.split_name.empty() ? "train" : config_.split_name;
@@ -188,11 +161,8 @@ std::string HuggingFaceExporter::generateDatasetInfoJson(
 
     // features
     json features_obj = json::object();
-    for (const auto& feat : resolvedFeatures()) {
-        features_obj[feat.name] = {
-            {"dtype",  feat.dtype},
-            {"_type",  feat.hf_type}
-        };
+    for (const auto &feat : resolvedFeatures()) {
+        features_obj[feat.name] = {{"dtype", feat.dtype}, {"_type", feat.hf_type}};
     }
     info["features"] = features_obj;
 
@@ -204,16 +174,11 @@ std::string HuggingFaceExporter::generateDatasetInfoJson(
     split_obj["dataset_name"] = resolved_name;
     info["splits"][split]     = split_obj;
 
-    info["download_size"]  = byte_count;
-    info["dataset_size"]   = byte_count;
-    info["builder_name"]   = "json";
-    info["config_name"]    = "default";
-    info["version"]        = {
-        {"version_str", "0.0.0"},
-        {"major", 0},
-        {"minor", 0},
-        {"patch", 0}
-    };
+    info["download_size"] = byte_count;
+    info["dataset_size"]  = byte_count;
+    info["builder_name"]  = "json";
+    info["config_name"]   = "default";
+    info["version"]       = {{"version_str", "0.0.0"}, {"major", 0}, {"minor", 0}, {"patch", 0}};
 
     return info.dump(2);
 }
@@ -226,17 +191,24 @@ std::string HuggingFaceExporter::generateDatasetInfoJson(
 /// Wraps the value in double quotes and escapes backslashes, double-quotes,
 /// and control characters so that the resulting YAML front matter is always
 /// syntactically valid regardless of the input.
-static std::string yamlQuote(const std::string& s) {
+static std::string yamlQuote(const std::string &s) {
     std::string out;
     out.reserve(s.size() + 2);
     out += '"';
     for (unsigned char c : s) {
-        if (c == '"')       { out += "\\\""; }
-        else if (c == '\\') { out += "\\\\"; }
-        else if (c == '\n') { out += "\\n";  }
-        else if (c == '\r') { out += "\\r";  }
-        else if (c == '\t') { out += "\\t";  }
-        else                { out += static_cast<char>(c); }
+        if (c == '"') {
+            out += "\\\"";
+        } else if (c == '\\') {
+            out += "\\\\";
+        } else if (c == '\n') {
+            out += "\\n";
+        } else if (c == '\r') {
+            out += "\\r";
+        } else if (c == '\t') {
+            out += "\\t";
+        } else {
+            out += static_cast<char>(c);
+        }
     }
     out += '"';
     return out;
@@ -266,7 +238,7 @@ std::string HuggingFaceExporter::generateDatasetCard() const {
     }
     if (!config_.tags.empty()) {
         card << "tags:\n";
-        for (const auto& tag : config_.tags) {
+        for (const auto &tag : config_.tags) {
             card << "- " << yamlQuote(tag) << "\n";
         }
     }
@@ -274,7 +246,7 @@ std::string HuggingFaceExporter::generateDatasetCard() const {
     // dataset_info block in YAML front matter
     card << "dataset_info:\n";
     card << "  features:\n";
-    for (const auto& feat : resolvedFeatures()) {
+    for (const auto &feat : resolvedFeatures()) {
         card << "  - name: " << yamlQuote(feat.name) << "\n";
         card << "    dtype: " << yamlQuote(feat.dtype) << "\n";
     }
@@ -290,7 +262,7 @@ std::string HuggingFaceExporter::generateDatasetCard() const {
 
     card << "## Dataset Structure\n\n";
     card << "### Data Fields\n\n";
-    for (const auto& feat : resolvedFeatures()) {
+    for (const auto &feat : resolvedFeatures()) {
         card << "- **" << feat.name << "** (`" << feat.dtype << "`)\n";
     }
     card << "\n";
@@ -312,20 +284,30 @@ std::string HuggingFaceExporter::generateDatasetCard() const {
 // Feature inference helpers
 // ---------------------------------------------------------------------------
 
-std::string HuggingFaceExporter::inferDtype(const Value& value) {
-    return std::visit([](const auto& v) -> std::string {
-        using T = std::decay_t<decltype(v)>;
-        if constexpr (std::is_same_v<T, std::monostate>)          return "string";
-        else if constexpr (std::is_same_v<T, bool>)               return "bool";
-        else if constexpr (std::is_same_v<T, int64_t>)            return "int64";
-        else if constexpr (std::is_same_v<T, double>)             return "float64";
-        else if constexpr (std::is_same_v<T, std::string>)        return "string";
-        else if constexpr (std::is_same_v<T, std::vector<float>>) return "sequence<float32>";
-        else                                                        return "string";
-    }, value);
+std::string HuggingFaceExporter::inferDtype(const Value &value) {
+    return std::visit(
+        [](const auto &v) -> std::string {
+            using T = std::decay_t<decltype(v)>;
+            if constexpr (std::is_same_v<T, std::monostate>) {
+                return "string";
+            } else if constexpr (std::is_same_v<T, bool>) {
+                return "bool";
+            } else if constexpr (std::is_same_v<T, int64_t>) {
+                return "int64";
+            } else if constexpr (std::is_same_v<T, double>) {
+                return "float64";
+            } else if constexpr (std::is_same_v<T, std::string>) {
+                return "string";
+            } else if constexpr (std::is_same_v<T, std::vector<float>>) {
+                return "sequence<float32>";
+            } else {
+                return "string";
+            }
+        },
+        value);
 }
 
-void HuggingFaceExporter::inferFeatures(const std::vector<BaseEntity>& entities) {
+void HuggingFaceExporter::inferFeatures(const std::vector<BaseEntity> &entities) {
     inferred_features_.clear();
     if (entities.empty()) {
         return;
@@ -333,16 +315,16 @@ void HuggingFaceExporter::inferFeatures(const std::vector<BaseEntity>& entities)
 
     // Collect all field names across all entities
     std::map<std::string, std::string> field_dtypes;
-    for (const auto& entity : entities) {
+    for (const auto &entity : entities) {
         const auto fields = entity.getAllFields();
-        for (const auto& [field_name, value] : fields) {
+        for (const auto &[field_name, value] : fields) {
             if (field_dtypes.find(field_name) == field_dtypes.end()) {
                 field_dtypes[field_name] = inferDtype(value);
             }
         }
     }
 
-    for (const auto& [name, dtype] : field_dtypes) {
+    for (const auto &[name, dtype] : field_dtypes) {
         HuggingFaceFeature feat;
         feat.name  = name;
         feat.dtype = dtype;
@@ -350,7 +332,7 @@ void HuggingFaceExporter::inferFeatures(const std::vector<BaseEntity>& entities)
     }
 }
 
-const std::vector<HuggingFaceFeature>& HuggingFaceExporter::resolvedFeatures() const {
+const std::vector<HuggingFaceFeature> &HuggingFaceExporter::resolvedFeatures() const {
     if (!config_.features.empty()) {
         return config_.features;
     }
@@ -358,4 +340,3 @@ const std::vector<HuggingFaceFeature>& HuggingFaceExporter::resolvedFeatures() c
 }
 
 } // namespace themis::exporters
-

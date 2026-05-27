@@ -1280,8 +1280,8 @@ MoralAnalyzer::detectEthicalImplicationsViaLLM(
     InferenceEngineEnhanced::EnhancedInferenceRequest request;
     request.base_request.prompt = prompt.str();
     request.base_request.max_tokens = 500;
-    request.base_request.temperature = 0.3;  // Lower temperature for more focused analysis
-    request.base_request.top_p = 0.9;
+    request.base_request.temperature = 0.3f;  // Lower temperature for more focused analysis
+    request.base_request.top_p = 0.9f;
     request.priority = 5;  // Medium priority
     request.allow_caching = true;  // Cache similar scenario analyses
     

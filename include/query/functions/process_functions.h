@@ -62,6 +62,7 @@ namespace functions {
  */
 class MilestoneStatusFunction : public IFunction {
 public:
+    ~MilestoneStatusFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "MILESTONE_STATUS",
@@ -135,6 +136,7 @@ public:
  */
 class MilestoneNextFunction : public IFunction {
 public:
+    ~MilestoneNextFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "MILESTONE_NEXT",
@@ -200,6 +202,7 @@ public:
  */
 class MilestoneOverdueFunction : public IFunction {
 public:
+    ~MilestoneOverdueFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "MILESTONE_OVERDUE",
@@ -256,6 +259,7 @@ public:
  */
 class WorkflowAdvanceFunction : public IFunction {
 public:
+    ~WorkflowAdvanceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "WORKFLOW_ADVANCE",
@@ -292,6 +296,7 @@ public:
  */
 class WorkflowVariablesFunction : public IFunction {
 public:
+    ~WorkflowVariablesFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "WORKFLOW_VARIABLES",
@@ -327,6 +332,7 @@ public:
  */
 class ProcessConformanceFunction : public IFunction {
 public:
+    ~ProcessConformanceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PROCESS_CONFORMANCE",
@@ -362,6 +368,7 @@ public:
  */
 class ProcessDeviationsFunction : public IFunction {
 public:
+    ~ProcessDeviationsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PROCESS_DEVIATIONS",
@@ -391,6 +398,7 @@ public:
  */
 class ProcessPredictNextFunction : public IFunction {
 public:
+    ~ProcessPredictNextFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PROCESS_PREDICT_NEXT",
@@ -420,6 +428,7 @@ public:
  */
 class ProcessPredictEndFunction : public IFunction {
 public:
+    ~ProcessPredictEndFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PROCESS_PREDICT_END",
@@ -463,6 +472,7 @@ public:
  */
 class SlaCheckFunction : public IFunction {
 public:
+    ~SlaCheckFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "SLA_CHECK",
@@ -497,6 +507,7 @@ public:
  */
 class SlaRemainingFunction : public IFunction {
 public:
+    ~SlaRemainingFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "SLA_REMAINING",

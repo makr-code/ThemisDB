@@ -95,7 +95,8 @@ protected:
 TEST_F(InferenceQualityTest, BasicGeneration_ArithmeticCapability) {
 #ifdef THEMIS_ENABLE_LLM
     // Would test actual model generation
-    std::string prompt = "What is 2 + 2?";
+    [[maybe_unused]] std::string prompt = "What is 2 + 2?";
+    static_cast<void>(prompt);
     // Expected output should contain "4"
     
     GTEST_SKIP() << "Requires actual model inference";
@@ -113,7 +114,8 @@ TEST_F(InferenceQualityTest, BasicGeneration_ArithmeticCapability) {
  */
 TEST_F(InferenceQualityTest, BasicGeneration_TextQuality) {
 #ifdef THEMIS_ENABLE_LLM
-    std::string prompt = "Describe a sunny day:";
+    [[maybe_unused]] std::string prompt = "Describe a sunny day:";
+    static_cast<void>(prompt);
     
     // Would generate and validate output
     // - Check for coherence
@@ -140,7 +142,9 @@ TEST_F(InferenceQualityTest, BasicGeneration_TextQuality) {
 TEST_F(InferenceQualityTest, Deterministic_ConsistentOutput) {
 #ifdef THEMIS_ENABLE_LLM
     std::string prompt = "The capital of France is";
-    double temperature = 0.0; // Deterministic
+    [[maybe_unused]] double temperature = 0.0; // Deterministic
+    static_cast<void>(prompt);
+    static_cast<void>(temperature);
     
     // Generate multiple times
     std::vector<std::string> outputs;
@@ -172,7 +176,8 @@ TEST_F(InferenceQualityTest, Deterministic_ConsistentOutput) {
  */
 TEST_F(InferenceQualityTest, Deterministic_BitIdentical) {
 #ifdef THEMIS_ENABLE_LLM
-    std::string prompt = "Count from 1 to 5:";
+    [[maybe_unused]] std::string prompt = "Count from 1 to 5:";
+    static_cast<void>(prompt);
     
     // Generate with deterministic settings
     // std::string output1 = generate(prompt, temp=0.0, seed=42);
@@ -215,7 +220,8 @@ TEST_F(InferenceQualityTest, Stochastic_VariedOutput) {
  */
 TEST_F(InferenceQualityTest, Stochastic_TemperatureEffect) {
 #ifdef THEMIS_ENABLE_LLM
-    std::string prompt = "The weather today is";
+    [[maybe_unused]] std::string prompt = "The weather today is";
+    static_cast<void>(prompt);
     
     // Test different temperatures
     std::vector<double> temperatures = {0.0, 0.5, 1.0, 1.5};
@@ -252,9 +258,11 @@ TEST_F(InferenceQualityTest, Stochastic_TemperatureEffect) {
 TEST_F(InferenceQualityTest, TokenCount_Accuracy) {
 #ifdef THEMIS_ENABLE_LLM
     std::string prompt = "Hello, how are you?";
+    static_cast<void>(prompt);
     
     // Generate with max tokens limit
-    int max_tokens = 50;
+    [[maybe_unused]] int max_tokens = 50;
+    static_cast<void>(max_tokens);
     
     // Would generate and get token count
     // auto result = generate(prompt, max_tokens=50);
@@ -318,6 +326,7 @@ TEST_F(InferenceQualityTest, Safety_HarmfulContentFiltering) {
     };
     
     for (const auto& prompt : unsafe_prompts) {
+        static_cast<void>(prompt);
         // Would generate with safety filters
         // auto response = generate_safe(prompt);
         
@@ -348,6 +357,7 @@ TEST_F(InferenceQualityTest, Safety_NoOverFiltering) {
     };
     
     for (const auto& prompt : safe_prompts) {
+        static_cast<void>(prompt);
         // Would generate with safety filters
         // auto response = generate_safe(prompt);
         
@@ -393,7 +403,8 @@ TEST_F(InferenceQualityTest, Safety_ContentValidation) {
  */
 TEST_F(InferenceQualityTest, OutputValidation_FormatCorrectness) {
 #ifdef THEMIS_ENABLE_LLM
-    std::string prompt = "Generate a list of three items:";
+    [[maybe_unused]] std::string prompt = "Generate a list of three items:";
+    static_cast<void>(prompt);
     
     // Would generate output
     // std::string output = generate(prompt);
@@ -418,7 +429,8 @@ TEST_F(InferenceQualityTest, OutputValidation_FormatCorrectness) {
  */
 TEST_F(InferenceQualityTest, OutputValidation_RelevanceCheck) {
 #ifdef THEMIS_ENABLE_LLM
-    std::string prompt = "What color is the sky?";
+    [[maybe_unused]] std::string prompt = "What color is the sky?";
+    static_cast<void>(prompt);
     
     // Would generate output
     // std::string output = generate(prompt);
@@ -443,7 +455,9 @@ TEST_F(InferenceQualityTest, OutputValidation_RelevanceCheck) {
 TEST_F(InferenceQualityTest, OutputValidation_LengthReasonable) {
 #ifdef THEMIS_ENABLE_LLM
     std::string prompt = "Write a single sentence:";
-    int max_tokens = 20;
+    static_cast<void>(prompt);
+    [[maybe_unused]] int max_tokens = 20;
+    static_cast<void>(max_tokens);
     
     // Would generate with token limit
     // auto result = generate(prompt, max_tokens=20);

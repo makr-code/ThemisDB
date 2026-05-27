@@ -66,6 +66,7 @@
 #define WIN32_LEAN_AND_MEAN
 #endif
 #include <windows.h>
+#include <stdexcept>
 #include <winsock2.h>
 // Early crash diagnostics for Windows
 #include <eh.h>
@@ -305,7 +306,7 @@ bool parse_server_command_line(int argc,
                     return false;
                 }
                 options.port = static_cast<uint16_t>(parsed_port);
-            } catch (const std::exception&) {
+            } catch (...) {
                 error_message = "Invalid numeric value for option --port: " + port_value;
                 return false;
             }
@@ -320,7 +321,7 @@ bool parse_server_command_line(int argc,
 
             try {
                 options.num_threads = std::stoul(threads_value);
-            } catch (const std::exception&) {
+            } catch (...) {
                 error_message = "Invalid numeric value for option --threads: " + threads_value;
                 return false;
             }

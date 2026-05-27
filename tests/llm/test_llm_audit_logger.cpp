@@ -158,7 +158,10 @@ TEST(LLMAuditLoggerTest, ExportAnalytics_WritesValidJsonLines) {
     size_t line_count = 0;
     while (std::getline(iss, line)) {
         if (line.empty()) continue;
-        EXPECT_NO_THROW(json::parse(line)) << "Invalid JSON line: " << line;
+        EXPECT_NO_THROW({
+            auto parsed = json::parse(line);
+            static_cast<void>(parsed);
+        }) << "Invalid JSON line: " << line;
         ++line_count;
     }
     EXPECT_EQ(line_count, 2u);

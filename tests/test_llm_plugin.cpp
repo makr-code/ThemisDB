@@ -34,7 +34,7 @@ static void requireGPUOrSkip() {
     const char* has_gpu = std::getenv("THEMIS_HAS_GPU");
     
     if (has_gpu == nullptr || std::string(has_gpu) != "1") {
-        GTEST_SKIP() << "Skipping GPU test: No GPU available.\n"
+        GTEST_SKIP() << "capability:gpu_runtime_available=false;reason=no_gpu_available;details=\n"
                      << "To enable GPU tests: $env:THEMIS_HAS_GPU = \"1\"";
     }
 }

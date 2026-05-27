@@ -27,7 +27,7 @@ using json = nlohmann::json;
  * Result of extracting structured data from content.
  */
 struct ExtractionResult {
-    bool ok;
+    bool ok = false;
     std::string text;              // Extracted plain text (for TEXT types)
     json metadata;                 // Structured metadata (EXIF, ID3, CAD properties, etc.)
     std::vector<float> embedding;  // Optional: Pre-computed embedding
@@ -47,10 +47,11 @@ struct ExtractionResult {
     std::optional<GeoData> geo_data;
     
     struct MediaData {
-        int duration_seconds;      // For audio/video
-        int width, height;         // For images/video
+        int duration_seconds = 0;  ///< Duration in seconds (CON-017)
+        int width = 0;             ///< Frame width in pixels (CON-017)
+        int height = 0;            ///< Frame height in pixels (CON-017)
         std::string codec;
-        int bitrate;
+        int bitrate = 0;           ///< Bit-rate in kbps (CON-017)
     };
     std::optional<MediaData> media_data;
     

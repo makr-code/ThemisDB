@@ -10,6 +10,7 @@
  */
 
 #include "performance/phase4/pmu_counters.h"
+#include <stdexcept>
 
 #include <mutex>
 

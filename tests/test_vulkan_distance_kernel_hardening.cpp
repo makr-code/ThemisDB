@@ -41,7 +41,7 @@ class VulkanDistanceKernelHardeningTest : public ::testing::Test {
 protected:
     void SetUp() override {
 #ifndef THEMIS_ENABLE_VULKAN
-        GTEST_SKIP() << "THEMIS_ENABLE_VULKAN not defined — skipping Vulkan tests";
+        GTEST_SKIP() << "capability:vulkan_compiled=false;reason=themis_enable_vulkan_not_defined";
 #endif
     }
 };
@@ -51,7 +51,7 @@ protected:
 // ---------------------------------------------------------------------------
 TEST_F(VulkanDistanceKernelHardeningTest, NormalDispatch_Succeeds) {
 #ifndef THEMIS_ENABLE_VULKAN
-    GTEST_SKIP() << "Vulkan not available";
+    GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";
 #else
     // Validate that VulkanPipelineConfig can be constructed without crashing
     VulkanPipelineConfig cfg;
@@ -69,7 +69,7 @@ TEST_F(VulkanDistanceKernelHardeningTest, NormalDispatch_Succeeds) {
 // ---------------------------------------------------------------------------
 TEST_F(VulkanDistanceKernelHardeningTest, MaxElementsBoundary_AtLimit) {
 #ifndef THEMIS_ENABLE_VULKAN
-    GTEST_SKIP() << "Vulkan not available";
+    GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";
 #else
     // Compute workgroup count at max_elements boundary
     const uint32_t max_elements = kMaxVulkanElements;
@@ -85,7 +85,7 @@ TEST_F(VulkanDistanceKernelHardeningTest, MaxElementsBoundary_AtLimit) {
 // ---------------------------------------------------------------------------
 TEST_F(VulkanDistanceKernelHardeningTest, ZeroElements_EmptyResultNoCrash) {
 #ifndef THEMIS_ENABLE_VULKAN
-    GTEST_SKIP() << "Vulkan not available";
+    GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";
 #else
     const uint32_t zero_elements = 0u;
     // Workgroup count for 0 elements should be 0
@@ -99,7 +99,7 @@ TEST_F(VulkanDistanceKernelHardeningTest, ZeroElements_EmptyResultNoCrash) {
 // ---------------------------------------------------------------------------
 TEST_F(VulkanDistanceKernelHardeningTest, InvalidDescriptor_NullptrRejected) {
 #ifndef THEMIS_ENABLE_VULKAN
-    GTEST_SKIP() << "Vulkan not available";
+    GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";
 #else
     // VulkanPipelineHandle with id=0 is invalid
     VulkanPipelineHandle invalid_handle;
@@ -113,7 +113,7 @@ TEST_F(VulkanDistanceKernelHardeningTest, InvalidDescriptor_NullptrRejected) {
 // ---------------------------------------------------------------------------
 TEST_F(VulkanDistanceKernelHardeningTest, ProductionMode_ValidationLayerAbsent) {
 #ifndef THEMIS_ENABLE_VULKAN
-    GTEST_SKIP() << "Vulkan not available";
+    GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";
 #else
     // In production builds (NDEBUG), the validation layer should not be enabled.
     // This test checks the compile-time flag.
@@ -131,7 +131,7 @@ TEST_F(VulkanDistanceKernelHardeningTest, ProductionMode_ValidationLayerAbsent) 
 // ---------------------------------------------------------------------------
 TEST_F(VulkanDistanceKernelHardeningTest, PushConstants_MaxElementsBoundsCheck) {
 #ifndef THEMIS_ENABLE_VULKAN
-    GTEST_SKIP() << "Vulkan not available";
+    GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";
 #else
     // Push constant block for distance kernel: {uint32 max_elements, uint32 vector_dim}
     struct DistanceKernelPushConstants {
@@ -155,7 +155,7 @@ TEST_F(VulkanDistanceKernelHardeningTest, PushConstants_MaxElementsBoundsCheck) 
 // ---------------------------------------------------------------------------
 TEST_F(VulkanDistanceKernelHardeningTest, PushConstants_VectorDimBoundsCheck) {
 #ifndef THEMIS_ENABLE_VULKAN
-    GTEST_SKIP() << "Vulkan not available";
+    GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";
 #else
     const uint32_t oversized_dim = kMaxVectorDim + 1u;
     // Backend must clamp or reject dimensions exceeding kMaxVectorDim
@@ -169,7 +169,7 @@ TEST_F(VulkanDistanceKernelHardeningTest, PushConstants_VectorDimBoundsCheck) {
 // ---------------------------------------------------------------------------
 TEST_F(VulkanDistanceKernelHardeningTest, OutOfBoundsElementCount_Clamped) {
 #ifndef THEMIS_ENABLE_VULKAN
-    GTEST_SKIP() << "Vulkan not available";
+    GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";
 #else
     const uint32_t overflow_count = UINT32_MAX; // Maximum uint32
     const uint32_t clamped = std::min(overflow_count, kMaxVulkanElements);
@@ -183,7 +183,7 @@ TEST_F(VulkanDistanceKernelHardeningTest, OutOfBoundsElementCount_Clamped) {
 // ---------------------------------------------------------------------------
 TEST_F(VulkanDistanceKernelHardeningTest, LargeBatch_WorkgroupCountAccurate) {
 #ifndef THEMIS_ENABLE_VULKAN
-    GTEST_SKIP() << "Vulkan not available";
+    GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";
 #else
     // Simulate large batch: 1M elements at workgroup size 64
     const uint32_t n_elements = 1u << 20; // 1M
@@ -199,7 +199,7 @@ TEST_F(VulkanDistanceKernelHardeningTest, LargeBatch_WorkgroupCountAccurate) {
 // ---------------------------------------------------------------------------
 TEST_F(VulkanDistanceKernelHardeningTest, WorkgroupSizeValidation_WithinLimits) {
 #ifndef THEMIS_ENABLE_VULKAN
-    GTEST_SKIP() << "Vulkan not available";
+    GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";
 #else
     VulkanPipelineConfig cfg;
     // Default workgroup size must be ≤ Vulkan minimum guarantee (128)

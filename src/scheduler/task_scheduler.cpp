@@ -10,6 +10,7 @@
  */
 
 #include "scheduler/task_scheduler.h"
+#include <stdexcept>
 #include "scheduler/event_trigger.h"
 #include "scheduler/task_audit_manager.h"
 #include "scheduler/task_audit_event.h"

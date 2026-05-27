@@ -9,6 +9,7 @@
 // Vector ANN index implementation
 
 #include "index/vector_index.h"
+#include <stdexcept>
 #include "index/advanced_vector_index.h"
 #include "index/ann_index.h"
 #include "index/rotary_embeddings.h"
@@ -51,6 +52,7 @@
 #include <filesystem>
 #include <fstream>
 #include <unordered_set>
+#include <chrono>
 #include <nlohmann/json.hpp>
 #include <yaml-cpp/yaml.h>
 
@@ -308,7 +310,9 @@ void VectorIndexManager::setVectorEncryptionEnabled(bool enabled) {
 		// Write back to database
 		std::string json_str = j.dump();
 		std::vector<uint8_t> data(json_str.begin(), json_str.end());
-		db_.put("config:vector", data);
+		if (!db_.put("config:vector", data)) {
+			THEMIS_WARN("VectorIndexManager: Failed to persist vector encryption config");
+		}
 		
 		THEMIS_INFO("VectorIndexManager: Vector encryption {}", enabled ? "ENABLED" : "DISABLED");
 	} catch (const std::exception& ex) {
@@ -345,7 +349,9 @@ void VectorIndexManager::setHnswEncryptionEnabled(bool enabled) {
 		// Write back to database
 		std::string json_str = j.dump();
 		std::vector<uint8_t> data(json_str.begin(), json_str.end());
-		db_.put("config:hnsw", data);
+		if (!db_.put("config:hnsw", data)) {
+			THEMIS_WARN("VectorIndexManager: Failed to persist HNSW encryption config");
+		}
 		
 		THEMIS_INFO("VectorIndexManager: HNSW index encryption {}", enabled ? "ENABLED" : "DISABLED");
 	} catch (const std::exception& ex) {
@@ -685,7 +691,9 @@ VectorIndexManager::Status VectorIndexManager::rebuildFromStorage() {
 	idToPk_.clear();
 
 	const std::string prefix = objectName_ + ":"; // KeySchema::makeVectorKey(object, pk) = object:pk
+#ifdef THEMIS_HNSW_ENABLED
 	size_t nextId = 0;
+#endif
 	db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
 		std::string pk = KeySchema::extractPrimaryKey(key);
 		std::vector<uint8_t> bytes(value.begin(), value.end());
@@ -1065,7 +1073,8 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 		} else {
 			ann_id = static_cast<int64_t>(it->second);
 		}
-		ann_backend_->add(ann_id, cache_[pk].data(), static_cast<size_t>(dim_));
+		const bool added = ann_backend_->add(ann_id, cache_[pk].data(), static_cast<size_t>(dim_));
+		static_cast<void>(added);
 	}
 	return Status::OK();
 }
@@ -1145,7 +1154,8 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 		} else {
 			ann_id = static_cast<int64_t>(it->second);
 		}
-		ann_backend_->add(ann_id, cache_[pk].data(), static_cast<size_t>(dim_));
+		const bool added = ann_backend_->add(ann_id, cache_[pk].data(), static_cast<size_t>(dim_));
+		static_cast<void>(added);
 	}
 	return Status::OK();
 }
@@ -2209,7 +2219,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 			// Check for encryption flag (Phase 2)
 			std::string encryptionFlag;
 			std::getline(metaFile, encryptionFlag);
-			bool isEncrypted = (encryptionFlag == "encrypted");
+			[[maybe_unused]] const bool isEncrypted = (encryptionFlag == "encrypted");
 
 			if (obj != objectName_) return Status::Error("loadIndex: objectName passt nicht zum Manager");
 			if (dim_ != 0 && dim_ != dim) return Status::Error("loadIndex: Dimension passt nicht zum Manager");
@@ -2857,6 +2867,10 @@ VectorIndexManager::Status VectorIndexManager::setRotaryEmbeddingConfig(const Ro
 		// Create new rotary embedding instance
 		rotary_embedding_ = std::make_unique<RotaryEmbedding>(config);
 		rotary_enabled_ = true;
+		rotary_positional_rotations_.store(0);
+		rotary_relational_rotations_.store(0);
+		rotary_query_rotations_.store(0);
+		rotary_total_rotation_time_us_.store(0);
 		
 		THEMIS_INFO("VectorIndexManager::setRotaryEmbeddingConfig - Rotary embeddings enabled: "
 		           "dim={}, rotation_pairs={}, base_theta={}, normalize_after={}",
@@ -2880,6 +2894,18 @@ std::optional<RotationConfig> VectorIndexManager::getRotaryEmbeddingConfig() con
 	return rotary_embedding_->getConfig();
 }
 
+std::optional<VectorIndexManager::RotaryEmbeddingStats> VectorIndexManager::getRotaryEmbeddingStats() const {
+	if (!rotary_enabled_ || !rotary_embedding_) {
+		return std::nullopt;
+	}
+	const auto rope_stats = rotary_embedding_->getStats();
+	RotaryEmbeddingStats stats;
+	stats.total_rotated_entities = rope_stats.total_rotated_entities;
+	stats.total_relational_rotations = rope_stats.total_relational_rotations;
+	stats.avg_rotation_time_us = rope_stats.avg_rotation_time_us;
+	return stats;
+}
+
 VectorIndexManager::Status VectorIndexManager::addEntityWithRotation(
 	const BaseEntity& e,
 	std::string_view vectorField,
@@ -2896,8 +2922,11 @@ VectorIndexManager::Status VectorIndexManager::addEntityWithRotation(
 	}
 	
 	try {
+		const auto rotate_start = std::chrono::steady_clock::now();
 		// Apply rotation
 		auto rotated = rotary_embedding_->rotate(*vec_opt, position);
+		const auto rotate_duration_us = std::chrono::duration_cast<std::chrono::microseconds>(
+			std::chrono::steady_clock::now() - rotate_start).count();
 		
 		// Create new entity with rotated embedding and metadata
 		BaseEntity rotated_entity = e;
@@ -2910,8 +2939,9 @@ VectorIndexManager::Status VectorIndexManager::addEntityWithRotation(
 		
 		// Log audit event if logger is set
 		if (status.ok) {
+			rotary_positional_rotations_.fetch_add(1);
+			rotary_total_rotation_time_us_.fetch_add(static_cast<uint64_t>(std::max<int64_t>(rotate_duration_us, 0)));
 			logAuditEvent_("vector", e.getPrimaryKey(), "add_with_rotation", position);
-			rotary_entities_added_.fetch_add(1, std::memory_order_relaxed);
 		}
 		
 		return status;
@@ -2936,8 +2966,11 @@ VectorIndexManager::Status VectorIndexManager::addEntityWithRelationalRotation(
 	}
 	
 	try {
+		const auto rotate_start = std::chrono::steady_clock::now();
 		// Apply relational rotation
 		auto rotated = rotary_embedding_->rotateRelational(*vec_opt, relation_type);
+		const auto rotate_duration_us = std::chrono::duration_cast<std::chrono::microseconds>(
+			std::chrono::steady_clock::now() - rotate_start).count();
 		
 		// Create new entity with rotated embedding and metadata
 		BaseEntity rotated_entity = e;
@@ -2949,8 +2982,9 @@ VectorIndexManager::Status VectorIndexManager::addEntityWithRelationalRotation(
 		
 		// Log audit event if logger is set
 		if (status.ok) {
+			rotary_relational_rotations_.fetch_add(1);
+			rotary_total_rotation_time_us_.fetch_add(static_cast<uint64_t>(std::max<int64_t>(rotate_duration_us, 0)));
 			logAuditEvent_("vector", e.getPrimaryKey(), "add_with_relational_rotation", 0);
-			relational_rotations_.fetch_add(1, std::memory_order_relaxed);
 		}
 		
 		return status;
@@ -2971,14 +3005,19 @@ VectorIndexManager::searchWithRotation(
 	}
 	
 	try {
+		const auto rotate_start = std::chrono::steady_clock::now();
 		// Rotate query vector
 		auto rotated_query = rotary_embedding_->rotate(query, query_position);
+		const auto rotate_duration_us = std::chrono::duration_cast<std::chrono::microseconds>(
+			std::chrono::steady_clock::now() - rotate_start).count();
 		
 		// Perform standard search with rotated query
 		auto [status, results] = searchKnn(rotated_query, k, whitelistPks);
 		
 		// Log audit event if logger is set
 		if (status.ok) {
+			rotary_query_rotations_.fetch_add(1);
+			rotary_total_rotation_time_us_.fetch_add(static_cast<uint64_t>(std::max<int64_t>(rotate_duration_us, 0)));
 			logAuditEvent_("vector", "query", "search_with_rotation", results.size());
 		}
 		

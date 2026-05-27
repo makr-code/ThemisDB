@@ -10,6 +10,7 @@
  */
 
 #include "projects/project_lifecycle.h"
+#include <stdexcept>
 
 #include <chrono>
 #include <sstream>

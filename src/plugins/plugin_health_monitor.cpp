@@ -10,6 +10,7 @@
  */
 
 #include "plugins/plugin_health_monitor.h"
+#include <stdexcept>
 #include "plugins/plugin_manager.h"
 #include "utils/logger.h"
 #include "utils/expected.h"

@@ -10,6 +10,7 @@
  */
 
 #include "server/chunked_response_writer.h"
+#include <stdexcept>
 #include "utils/logger.h"
 
 #include <iomanip>

@@ -495,6 +495,7 @@ inline int getUTMEpsg(int zone, bool isNorth, bool isWGS84 = true) {
  */
 class StTransformFunction : public IFunction {
 public:
+    ~StTransformFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_TRANSFORM",
@@ -689,6 +690,7 @@ private:
  */
 class StSridFunction : public IFunction {
 public:
+    ~StSridFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_SRID",
@@ -748,6 +750,7 @@ public:
  */
 class StSetSridFunction : public IFunction {
 public:
+    ~StSetSridFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_SETSRID",
@@ -783,6 +786,7 @@ public:
  */
 class UtmZoneFunction : public IFunction {
 public:
+    ~UtmZoneFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "UTM_ZONE",
@@ -810,6 +814,7 @@ public:
  */
 class UtmEpsgFunction : public IFunction {
 public:
+    ~UtmEpsgFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "UTM_EPSG",
@@ -845,6 +850,7 @@ public:
  */
 class CrsNameFunction : public IFunction {
 public:
+    ~CrsNameFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "CRS_NAME",
@@ -878,6 +884,7 @@ public:
  */
 class CrsIsGeographicFunction : public IFunction {
 public:
+    ~CrsIsGeographicFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "CRS_IS_GEOGRAPHIC",
@@ -911,6 +918,7 @@ public:
  */
 class CrsIsProjectedFunction : public IFunction {
 public:
+    ~CrsIsProjectedFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "CRS_IS_PROJECTED",
@@ -944,6 +952,7 @@ public:
  */
 class StMakePointUtmFunction : public IFunction {
 public:
+    ~StMakePointUtmFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_MAKEPOINT_UTM",

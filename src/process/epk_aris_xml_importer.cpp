@@ -21,6 +21,7 @@
  */
 
 #include "process/epk_aris_xml_importer.h"
+#include <stdexcept>
 #include "utils/logger.h"
 
 #include <algorithm>

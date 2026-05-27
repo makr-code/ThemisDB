@@ -10,6 +10,7 @@
  */
 
 #include "plugins/plugin_manager.h"
+#include <stdexcept>
 #include "plugins/plugin_dependency_resolver.h"
 #include "plugins/plugin_hot_plug_monitor.h"
 #include "plugins/plugin_health_monitor.h"

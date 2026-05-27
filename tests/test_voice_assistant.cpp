@@ -746,6 +746,23 @@ TEST(VoiceAssistantWakeWord, StatisticsIncludesWakeWordKey) {
     EXPECT_EQ(stats["wake_word"]["total_chunks_processed"].get<uint64_t>(), 1u);
 }
 
+TEST(VoiceAssistantSessionLifecycle, DeleteSessionRemovesExistingSession) {
+    themis::voice::VoiceAssistant va(makeVAConfig());
+
+    auto created = va.getSession("sess-delete-1");
+    EXPECT_EQ(created.session_id, "sess-delete-1");
+
+    EXPECT_TRUE(va.deleteSession("sess-delete-1"));
+
+    auto stats = va.getStatistics();
+    EXPECT_EQ(stats.value("active_sessions", 0), 0);
+}
+
+TEST(VoiceAssistantSessionLifecycle, DeleteSessionReturnsFalseWhenMissing) {
+    themis::voice::VoiceAssistant va(makeVAConfig());
+    EXPECT_FALSE(va.deleteSession("sess-missing"));
+}
+
 // ---------------------------------------------------------------------------
 // VoiceAssistant biometric auth delegate methods
 // ---------------------------------------------------------------------------
@@ -1539,4 +1556,3 @@ TEST(TTSEncoderInjection, TTS_OGG_03_ClearingFnRevertsToPassthrough) {
     EXPECT_FALSE(fn_called);
     EXPECT_FALSE(result.audio_data.empty());
 }
-

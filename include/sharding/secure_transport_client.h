@@ -10,6 +10,7 @@
 
 #include "sharding/mtls_client.h"
 #include "utils/zstd_codec.h"
+#include "utils/lz4_codec.h"
 #include <nlohmann/json.hpp>
 #include <string>
 #include <vector>
@@ -121,14 +122,53 @@ public:
 private:
     Config config_;
     std::shared_ptr<MTLSClient> mtls_client_;
+
+    // ─── LZ4 bridges (stub #295) ──────────────────────────────────────────────
+
+    /// @brief Type alias for LZ4 compression injection.
+    using Lz4CompressFn = std::function<bool(const std::string& input,
+                                              std::string&       output)>;
+
+    /// @brief Type alias for LZ4 decompression injection.
+    using Lz4DecompressFn = std::function<bool(const std::string& input,
+                                                std::string&       output,
+                                                std::size_t        original_size)>;
+
+    /**
+     * @brief Install an LZ4 compression callback for compressData().
+     * @param fn Callable receiving (input, output) → success.
+     */
+    void setLz4CompressFn(Lz4CompressFn fn);
+
+    /**
+     * @brief Remove the LZ4 compression bridge.
+     */
+    void clearLz4CompressFn();
+
+    /**
+     * @brief Install an LZ4 decompression callback.
+     * @param fn Callable receiving (input, output, original_size) → success.
+     */
+    void setLz4DecompressFn(Lz4DecompressFn fn);
+
+    /**
+     * @brief Remove the LZ4 decompression bridge.
+     */
+    void clearLz4DecompressFn();
+
+    Lz4CompressFn   lz4CompressFn_;
+    Lz4DecompressFn lz4DecompressFn_;
     
     /**
      * @brief Compress data if configured
      * @param data Input data
      * @param compressed Output compressed data (if compression applied)
+     * @param compression_codec Optional output codec string ("zstd" or "lz4")
      * @return true if compression was applied
      */
-    bool compressData(const std::string& data, std::string& compressed);
+    bool compressData(const std::string& data,
+                      std::string& compressed,
+                      std::string* compression_codec = nullptr);
     
     /**
      * @brief Perform transfer with retry logic

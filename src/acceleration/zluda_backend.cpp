@@ -11,6 +11,7 @@
 // Allows running CUDA code on AMD hardware without modification
 
 #include "acceleration/compute_backend.h"
+#include <stdexcept>
 #include <iostream>
 #include <vector>
 #include <functional>

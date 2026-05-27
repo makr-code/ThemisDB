@@ -7,6 +7,7 @@
  */
 
 #include "importers/oracle_importer.h"
+#include <stdexcept>
 #include "importers/importer_common.h"
 #include "utils/logger.h"
 #include <fstream>
@@ -1059,3 +1060,4 @@ void OracleImporterPlugin::shutdown() {
 
 } // namespace importers
 } // namespace themis
+

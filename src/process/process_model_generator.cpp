@@ -18,6 +18,7 @@
  */
 
 #include "process/process_model_generator.h"
+#include <stdexcept>
 #include "utils/logger.h"
 
 #include <sstream>

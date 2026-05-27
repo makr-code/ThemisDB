@@ -13,6 +13,7 @@
 // Licensed under MIT License
 
 #include "sharding/shard_durability.h"
+#include <stdexcept>
 #include <rocksdb/db.h>
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/checkpoint.h>

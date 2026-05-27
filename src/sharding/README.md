@@ -91,6 +91,14 @@ This module is built as part of ThemisDB. See the root `CMakeLists.txt` for buil
 - Repair jobs stay in non-terminal states: check document-list providers and read/write handler wiring.
 - Unexpected hotspotting on a subset of shards: inspect hash-ring and rebalancer telemetry before forcing migrations.
 
+## Wissenschaftliche Grundlagen
+
+| Algorithmus / Quelle | Anwendung in diesem Modul | Forschungsdatei |
+|----------------------|---------------------------|-----------------|
+| Tarjan (1972) — Depth-First Search and Linear Graph Algorithms | SCC-basierte Deadlock-Zykelerkennung im Distributed Wait-For Graph (`deadlockDetectionThread`, `detectCycle`) | [`research/papers/tarjan_scc_1972.md`](../../research/papers/tarjan_scc_1972.md) |
+| ADR-010 — Centralised Distributed Deadlock Detection via WFG | Architekturentscheidung: zentraler Koordinator, Poll/Push-Edges, konfigurierbares Victim-Policy | [`research/architecture_decisions/adr_010_distributed_deadlock_detection.md`](../../research/architecture_decisions/adr_010_distributed_deadlock_detection.md) |
+| Karger et al. (1997) — Consistent Hash Ring | Schlüssel-zu-Shard-Routing via virtualem Hashring | [`research/best_practices/consistent_hash_ring.md`](../../research/best_practices/consistent_hash_ring.md) |
+
 ## Related Docs
 
 - Public headers: [`../../include/sharding/README.md`](../../include/sharding/README.md)

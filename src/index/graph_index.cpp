@@ -9,6 +9,7 @@
 // Graph adjacency index implementation
 
 #include "index/graph_index.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/key_schema.h"
 #include "storage/base_entity.h"

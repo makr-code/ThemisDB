@@ -10,6 +10,7 @@
  */
 
 #include "server/lora_api_handler.h"
+#include <stdexcept>
 #include "server/auth_middleware.h"
 #include "auth/jwt_validator.h"
 #include "llm/lora_framework/lora_orchestrator.h"
@@ -979,12 +980,12 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAHealth(
 // ═══════════════════════════════════════════════════════════
 
 bool LoRAApiHandler::validateBearerToken(const http::request<http::string_body>& req) {
-    const auto auth_it = req.find(http::field::authorization);
-    if (auth_it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         return false;
     }
 
-    auto token = AuthMiddleware::extractBearerToken(auth_it->value());
+    auto token = AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
     if (!token) {
         return false;
     }
@@ -999,7 +1000,7 @@ bool LoRAApiHandler::validateBearerToken(const http::request<http::string_body>&
         auto claims = jwt_validator_->parseAndValidate(*token);
         // Token is valid
         return true;
-    } catch (const std::exception& e) {
+    } catch (...) {
         // Token validation failed (expired, invalid signature, etc.)
         return false;
     }
@@ -1047,7 +1048,7 @@ std::optional<json> LoRAApiHandler::parseRequestBody(
         if (parsed.is_object()) {
             return parsed;
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
     

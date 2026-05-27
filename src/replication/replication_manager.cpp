@@ -19,6 +19,7 @@
  */
 
 #include "replication/replication_manager.h"
+#include <stdexcept>
 #include "replication/multi_master_replication.h"
 #include "utils/logger.h"
 #include <openssl/sha.h>
@@ -5217,7 +5218,7 @@ uint32_t WALArchivalManager::purgeExpired() {
     while (it != index_.end()) {
         if (it->archived_at < cutoff) {
             if (backend_) {
-                backend_->deleteObject(it->archive_path);
+                static_cast<void>(backend_->deleteObject(it->archive_path));
             } else {
                 std::error_code ec;
                 std::filesystem::remove(it->archive_path, ec);
@@ -5261,7 +5262,7 @@ uint32_t WALArchivalManager::transitionStorageTiers() {
             // Notify the cloud backend so it can apply the actual tier transition
             // (e.g. move to S3 Glacier, Azure Archive).  No-op for local backend.
             if (backend_) {
-                backend_->setStorageTier(seg.archive_path, new_tier);
+                static_cast<void>(backend_->setStorageTier(seg.archive_path, new_tier));
             }
             ++transitioned;
         }
@@ -6310,4 +6311,5 @@ std::string GeoReplicationManager::exportPrometheusMetrics() const
 
 } // namespace replication
 } // namespace themisdb
+
 

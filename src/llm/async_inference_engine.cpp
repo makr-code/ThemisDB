@@ -10,6 +10,7 @@
  */
 
 #include "llm/async_inference_engine.h"
+#include <stdexcept>
 #include "llm/llm_response_cache.h"
 #include "llm/shared_worker_pool.h"
 #include <spdlog/spdlog.h>

@@ -91,6 +91,7 @@ public:
  */
 class PredicatePushdownRule : public IQueryRewriteRule {
 public:
+    ~PredicatePushdownRule() override = default;
     std::string name() const override { return "PredicatePushdown"; }
     bool applies(const nlohmann::json& plan, const RewriteContext& ctx) const override;
     size_t apply(nlohmann::json& plan, const RewriteContext& ctx) const override;
@@ -104,6 +105,7 @@ public:
  */
 class ProjectionPushdownRule : public IQueryRewriteRule {
 public:
+    ~ProjectionPushdownRule() override = default;
     std::string name() const override { return "ProjectionPushdown"; }
     bool applies(const nlohmann::json& plan, const RewriteContext& ctx) const override;
     size_t apply(nlohmann::json& plan, const RewriteContext& ctx) const override;
@@ -124,6 +126,7 @@ public:
  */
 class OrToInRewriteRule : public IQueryRewriteRule {
 public:
+    ~OrToInRewriteRule() override = default;
     std::string name() const override { return "OrToIn"; }
     bool applies(const nlohmann::json& plan, const RewriteContext& ctx) const override;
     size_t apply(nlohmann::json& plan, const RewriteContext& ctx) const override;
@@ -137,6 +140,7 @@ public:
  */
 class ConstantFoldingRule : public IQueryRewriteRule {
 public:
+    ~ConstantFoldingRule() override = default;
     std::string name() const override { return "ConstantFolding"; }
     bool applies(const nlohmann::json& plan, const RewriteContext& ctx) const override;
     size_t apply(nlohmann::json& plan, const RewriteContext& ctx) const override;
@@ -151,6 +155,7 @@ public:
  */
 class CommonSubexpressionRule : public IQueryRewriteRule {
 public:
+    ~CommonSubexpressionRule() override = default;
     std::string name() const override { return "CommonSubexpressionElimination"; }
     bool applies(const nlohmann::json& plan, const RewriteContext& ctx) const override;
     size_t apply(nlohmann::json& plan, const RewriteContext& ctx) const override;

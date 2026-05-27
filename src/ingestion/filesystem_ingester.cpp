@@ -399,7 +399,7 @@ public:
                     }
                 }
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             // Ignore errors during counting
         }
         
@@ -669,7 +669,7 @@ private:
             if (filter_.max_size_bytes > 0 && size > filter_.max_size_bytes) {
                 return false;
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             return false;
         }
         

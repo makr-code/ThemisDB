@@ -10,6 +10,7 @@
  */
 
 #include "updates/manifest_database.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <algorithm>
 #include <filesystem>
@@ -401,7 +402,7 @@ std::optional<bool> ManifestDatabase::getCachedSignatureVerification(const std::
         
         auto j = json::parse(value);
         return j.value("verified", false);
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -445,7 +446,7 @@ std::optional<std::string> ManifestDatabase::getCachedDownload(
         }
         
         return value;
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }

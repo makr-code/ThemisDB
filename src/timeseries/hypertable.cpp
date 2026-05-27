@@ -10,6 +10,7 @@
  */
 
 #include "timeseries/hypertable.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
 #include <sstream>

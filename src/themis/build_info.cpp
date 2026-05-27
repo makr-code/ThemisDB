@@ -19,6 +19,7 @@
  */
 
 #include "themis/build_info.h"
+#include <stdexcept>
 #include "themis/edition.h"
 #include <sstream>
 #include <iomanip>

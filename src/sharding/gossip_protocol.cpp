@@ -10,6 +10,7 @@
  */
 
 #include "sharding/gossip_protocol.h"
+#include <stdexcept>
 #include "sharding/shard_topology.h"
 #include "sharding/mtls_client.h"
 #include <random>

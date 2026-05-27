@@ -10,6 +10,7 @@
  */
 
 #include "performance/numa_topology.h"
+#include <stdexcept>
 
 #include <algorithm>
 #include <atomic>

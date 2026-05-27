@@ -389,13 +389,8 @@ These features work together to provide defense-in-depth security for the authen
 
 ## References
 
-<<<<<<<< HEAD:docs/ARCHIVED/implementation-summaries/AUTH_P1_IMPLEMENTATION_SUMMARY.md
 - [Auth Roadmap](../../de/roadmap/auth_roadmap.md) - Full production readiness assessment
 - [P0 Implementation Summary](AUTH_IMPLEMENTATION_SUMMARY.md) - Foundation phase
-========
-- [Auth Roadmap](auth_roadmap.md) - Full production readiness assessment
-- [P0 Implementation Summary](implementation-history/summaries/AUTH_IMPLEMENTATION_SUMMARY.md) - Foundation phase
->>>>>>>> refs/remotes/origin/develop:docs/implementation-history/summaries/AUTH_P1_IMPLEMENTATION_SUMMARY.md
 - RFC 7517: JSON Web Key (JWK)
 - RFC 7518: JSON Web Algorithms (JWA)
 - RFC 5056: On the Use of Channel Bindings to Secure Channels

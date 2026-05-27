@@ -10,6 +10,7 @@
  */
 
 #include "search/search_highlighter.h"
+#include <stdexcept>
 #include "utils/logger.h"
 
 #include <algorithm>

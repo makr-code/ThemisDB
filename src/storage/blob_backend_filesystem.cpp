@@ -10,6 +10,7 @@
  */
 
 #include "storage/blob_backend_filesystem.h"
+#include <stdexcept>
 #include "utils/error_registry.h"
 #include "utils/expected.h"
 #include "utils/logger.h"

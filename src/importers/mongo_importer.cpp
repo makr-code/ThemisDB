@@ -7,6 +7,7 @@
  */
 
 #include "importers/mongo_importer.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>
@@ -845,3 +846,4 @@ extern "C" {
         delete plugin;
     }
 }
+

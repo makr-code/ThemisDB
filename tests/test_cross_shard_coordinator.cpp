@@ -25,6 +25,7 @@
 #include "sharding/orphan_detector.h"
 #include "sharding/shard_rpc_client.h"
 #include <atomic>
+#include <filesystem>
 #include <memory>
 #include <thread>
 #include <chrono>
@@ -36,6 +37,15 @@
 #endif
 
 using namespace themisdb::sharding;
+
+namespace {
+
+std::string makeTempTxnLogPath(const std::string& prefix) {
+    return (std::filesystem::temp_directory_path() /
+            (prefix + std::to_string(::getpid()) + ".jsonl")).string();
+}
+
+}  // namespace
 
 // ============================================================================
 // DISABLED: MockConsensusModule Test Infrastructure
@@ -85,8 +95,8 @@ public:
     ConsensusType getType() const override { return ConsensusType::RAFT; }
     
     bool initialize(
-        const std::string& node_id,
-        const std::vector<std::string>& cluster_nodes
+        const std::string&,
+        const std::vector<std::string>&
     ) override { return true; }
     
     bool start() override { return true; }
@@ -104,22 +114,24 @@ public:
         return ++last_index_;
     }
     
-    bool waitForCommit(uint64_t log_index, std::chrono::milliseconds timeout) override { return true; }
+    bool waitForCommit([[maybe_unused]] uint64_t log_index,
+                       [[maybe_unused]] std::chrono::milliseconds timeout) override { return true; }
     
     std::vector<ConsensusLogEntry> readLog(
-        uint64_t start_index,
-        std::optional<uint64_t> end_index = std::nullopt
+        [[maybe_unused]] uint64_t start_index,
+        [[maybe_unused]] std::optional<uint64_t> end_index = std::nullopt
     ) override { return {}; }
     
     uint64_t getCommitIndex() const override { return 0; }
     uint64_t getLastLogIndex() const override { return last_index_; }
     
-    bool addNode(const std::string& node_id, const std::string& endpoint) override { return true; }
-    bool removeNode(const std::string& node_id) override { return true; }
-    bool transferLeadership(const std::string& target_node_id) override { return true; }
+    bool addNode([[maybe_unused]] const std::string& node_id,
+                 [[maybe_unused]] const std::string& endpoint) override { return true; }
+    bool removeNode([[maybe_unused]] const std::string& node_id) override { return true; }
+    bool transferLeadership([[maybe_unused]] const std::string& target_node_id) override { return true; }
     
-    bool takeSnapshot(const nlohmann::json& snapshot_data) override { return true; }
-    bool restoreSnapshot(const nlohmann::json& snapshot_data) override { return true; }
+    bool takeSnapshot([[maybe_unused]] const nlohmann::json& snapshot_data) override { return true; }
+    bool restoreSnapshot([[maybe_unused]] const nlohmann::json& snapshot_data) override { return true; }
     
     ConsensusStats getStats() const override {
         return ConsensusStats{
@@ -138,9 +150,9 @@ public:
     
     nlohmann::json getStatus() const override { return nlohmann::json::object(); }
     
-    void onCommit(std::function<void(const ConsensusLogEntry&)> callback) override {}
-    void onStateChange(std::function<void(ConsensusState, ConsensusState)> callback) override {}
-    void onLeaderChange(std::function<void(const std::string&, const std::string&)> callback) override {}
+    void onCommit([[maybe_unused]] std::function<void(const ConsensusLogEntry&)> callback) override {}
+    void onStateChange([[maybe_unused]] std::function<void(ConsensusState, ConsensusState)> callback) override {}
+    void onLeaderChange([[maybe_unused]] std::function<void(const std::string&, const std::string&)> callback) override {}
     
     std::vector<std::pair<std::string, nlohmann::json>> proposals_;
     uint64_t last_index_ = 0;
@@ -154,8 +166,7 @@ protected:
     void SetUp() override {
         auto consensus = std::make_shared<MockConsensusModule>();
         CrossShardTransactionConfig config;
-        config.transaction_log_path =
-            std::string("/tmp/themisdb_cscoord_") + std::to_string(::getpid()) + ".jsonl";
+        config.transaction_log_path = makeTempTxnLogPath("themisdb_cscoord_");
         coordinator_ = std::make_unique<CrossShardTransactionCoordinator>(config, consensus);
         coordinator_->initialize();
         coordinator_->start();
@@ -177,6 +188,302 @@ TEST_F(CrossShardCoordinatorTest, PlaceholderTestDisabledInfrastructure) {
     EXPECT_TRUE(true);
 }
 
+class DistributedDeadlockDetectionTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        auto consensus = std::make_shared<MockConsensusModule>();
+        CrossShardTransactionConfig config;
+        config.transaction_log_path = makeTempTxnLogPath("themisdb_deadlock_");
+        config.enable_deadlock_detection = true;
+        config.deadlock_detection_interval = std::chrono::milliseconds(25);
+        coordinator_ = std::make_unique<CrossShardTransactionCoordinator>(config, consensus);
+        coordinator_->initialize();
+        coordinator_->start();
+    }
+
+    void TearDown() override {
+        if (coordinator_) {
+            coordinator_->stop();
+        }
+    }
+
+    std::unique_ptr<CrossShardTransactionCoordinator> coordinator_;
+};
+
+TEST_F(DistributedDeadlockDetectionTest, DetectsAndResolvesReportedCrossShardCycle) {
+    ASSERT_TRUE(coordinator_->beginTransaction(
+        "txn-deadlock-a", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator_->beginTransaction(
+        "txn-deadlock-b", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+
+    coordinator_->reportDistributedWait("txn-deadlock-a", "txn-deadlock-b", "shard-A");
+    coordinator_->reportDistributedWait("txn-deadlock-b", "txn-deadlock-a", "shard-B");
+
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
+    bool resolved = false;
+    while (std::chrono::steady_clock::now() < deadline) {
+        auto state_a = coordinator_->getTransactionState("txn-deadlock-a");
+        auto state_b = coordinator_->getTransactionState("txn-deadlock-b");
+
+        if ((state_a.has_value() && *state_a == TransactionState::ABORTED) ||
+            (state_b.has_value() && *state_b == TransactionState::ABORTED)) {
+            resolved = true;
+            break;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    }
+
+    EXPECT_TRUE(resolved);
+
+    auto stats = coordinator_->getStatistics();
+    ASSERT_TRUE(stats.contains("deadlocked_transactions"));
+    EXPECT_GE(stats["deadlocked_transactions"].get<uint64_t>(), 1u);
+}
+
+TEST_F(DistributedDeadlockDetectionTest, VictimSelectionSkipsUpstreamNonCycleWaiter) {
+    ASSERT_TRUE(coordinator_->beginTransaction(
+        "txn-cycle-b", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator_->beginTransaction(
+        "txn-cycle-c", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator_->beginTransaction(
+        "txn-chain-head", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+
+    coordinator_->reportDistributedWait("txn-chain-head", "txn-cycle-b", "shard-A");
+    coordinator_->reportDistributedWait("txn-cycle-b", "txn-cycle-c", "shard-B");
+    coordinator_->reportDistributedWait("txn-cycle-c", "txn-cycle-b", "shard-C");
+
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
+    bool cycle_resolved = false;
+    while (std::chrono::steady_clock::now() < deadline) {
+        const auto state_b = coordinator_->getTransactionState("txn-cycle-b");
+        const auto state_c = coordinator_->getTransactionState("txn-cycle-c");
+        if ((state_b.has_value() && *state_b == TransactionState::ABORTED) ||
+            (state_c.has_value() && *state_c == TransactionState::ABORTED)) {
+            cycle_resolved = true;
+            break;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    }
+
+    ASSERT_TRUE(cycle_resolved);
+    const auto state_head = coordinator_->getTransactionState("txn-chain-head");
+    ASSERT_TRUE(state_head.has_value());
+    EXPECT_NE(*state_head, TransactionState::ABORTED);
+}
+
+TEST(CrossShardDeadlockGraphTest, IsDeadlockedRequiresCycleMembership) {
+    auto consensus = std::make_shared<MockConsensusModule>();
+    CrossShardTransactionConfig config;
+    config.transaction_log_path = makeTempTxnLogPath("themisdb_deadlock_membership_");
+    config.enable_deadlock_detection = false;
+
+    CrossShardTransactionCoordinator coordinator(config, consensus);
+    ASSERT_TRUE(coordinator.initialize());
+    ASSERT_TRUE(coordinator.start());
+
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-chain-head", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-cycle-b", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-cycle-c", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+
+    coordinator.reportDistributedWait("txn-chain-head", "txn-cycle-b", "shard-A");
+    coordinator.reportDistributedWait("txn-cycle-b", "txn-cycle-c", "shard-B");
+    coordinator.reportDistributedWait("txn-cycle-c", "txn-cycle-b", "shard-C");
+
+    EXPECT_FALSE(coordinator.isDeadlocked("txn-chain-head"));
+    EXPECT_TRUE(coordinator.isDeadlocked("txn-cycle-b"));
+    EXPECT_TRUE(coordinator.isDeadlocked("txn-cycle-c"));
+
+    coordinator.stop();
+}
+
+TEST(CrossShardDeadlockGraphTest, ClearDistributedWaitsBreaksCycleMembership) {
+    auto consensus = std::make_shared<MockConsensusModule>();
+    CrossShardTransactionConfig config;
+    config.transaction_log_path = makeTempTxnLogPath("themisdb_deadlock_clear_");
+    config.enable_deadlock_detection = false;
+
+    CrossShardTransactionCoordinator coordinator(config, consensus);
+    ASSERT_TRUE(coordinator.initialize());
+    ASSERT_TRUE(coordinator.start());
+
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-clear-a", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-clear-b", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+
+    coordinator.reportDistributedWait("txn-clear-a", "txn-clear-b", "shard-A");
+    coordinator.reportDistributedWait("txn-clear-b", "txn-clear-a", "shard-B");
+    ASSERT_TRUE(coordinator.isDeadlocked("txn-clear-a"));
+    ASSERT_TRUE(coordinator.isDeadlocked("txn-clear-b"));
+
+    coordinator.clearDistributedWaits("txn-clear-a");
+
+    EXPECT_FALSE(coordinator.isDeadlocked("txn-clear-a"));
+    EXPECT_FALSE(coordinator.isDeadlocked("txn-clear-b"));
+    coordinator.stop();
+}
+
+TEST(CrossShardDeadlockGraphTest, AbortClearsReportedCycleEdges) {
+    auto consensus = std::make_shared<MockConsensusModule>();
+    CrossShardTransactionConfig config;
+    config.transaction_log_path = makeTempTxnLogPath("themisdb_deadlock_abort_clear_");
+    config.enable_deadlock_detection = false;
+
+    CrossShardTransactionCoordinator coordinator(config, consensus);
+    ASSERT_TRUE(coordinator.initialize());
+    ASSERT_TRUE(coordinator.start());
+
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-abort-a", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-abort-b", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+
+    coordinator.reportDistributedWait("txn-abort-a", "txn-abort-b", "shard-A");
+    coordinator.reportDistributedWait("txn-abort-b", "txn-abort-a", "shard-B");
+    ASSERT_TRUE(coordinator.isDeadlocked("txn-abort-a"));
+    ASSERT_TRUE(coordinator.isDeadlocked("txn-abort-b"));
+
+    ASSERT_TRUE(coordinator.abort("txn-abort-a"));
+
+    EXPECT_FALSE(coordinator.isDeadlocked("txn-abort-b"));
+    coordinator.stop();
+}
+
+TEST(CrossShardDeadlockGraphTest, ReportDistributedWaitIgnoresInvalidEdges) {
+    auto consensus = std::make_shared<MockConsensusModule>();
+    CrossShardTransactionConfig config;
+    config.transaction_log_path = makeTempTxnLogPath("themisdb_deadlock_invalid_edges_");
+    config.enable_deadlock_detection = false;
+
+    CrossShardTransactionCoordinator coordinator(config, consensus);
+    ASSERT_TRUE(coordinator.initialize());
+    ASSERT_TRUE(coordinator.start());
+
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-valid-a", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-valid-b", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+
+    coordinator.reportDistributedWait("txn-valid-a", "txn-valid-a", "shard-self");
+    coordinator.reportDistributedWait("", "txn-valid-b", "shard-empty");
+    coordinator.reportDistributedWait("txn-valid-a", "", "shard-empty");
+    coordinator.reportDistributedWait("txn-missing", "txn-valid-b", "shard-missing");
+    coordinator.reportDistributedWait("txn-valid-a", "txn-missing", "shard-missing");
+
+    EXPECT_FALSE(coordinator.isDeadlocked("txn-valid-a"));
+    EXPECT_FALSE(coordinator.isDeadlocked("txn-valid-b"));
+    coordinator.stop();
+}
+
+TEST_F(DistributedDeadlockDetectionTest, VictimSelectionChoosesYoungestCycleMember) {
+    ASSERT_TRUE(coordinator_->beginTransaction(
+        "txn-oldest", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    ASSERT_TRUE(coordinator_->beginTransaction(
+        "txn-youngest", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+
+    coordinator_->reportDistributedWait("txn-oldest", "txn-youngest", "shard-A");
+    coordinator_->reportDistributedWait("txn-youngest", "txn-oldest", "shard-B");
+
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
+    bool resolved = false;
+    while (std::chrono::steady_clock::now() < deadline) {
+        const auto youngest = coordinator_->getTransactionState("txn-youngest");
+        const auto oldest = coordinator_->getTransactionState("txn-oldest");
+        if (youngest.has_value() && *youngest == TransactionState::ABORTED) {
+            ASSERT_TRUE(oldest.has_value());
+            EXPECT_NE(*oldest, TransactionState::ABORTED);
+            resolved = true;
+            break;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    }
+
+    EXPECT_TRUE(resolved);
+}
+
+TEST(DistributedDeadlockDetectionPolicyTest, VictimSelectionChoosesOldestCycleMemberWhenConfigured) {
+    auto consensus = std::make_shared<MockConsensusModule>();
+    CrossShardTransactionConfig config;
+    config.transaction_log_path = makeTempTxnLogPath("themisdb_deadlock_oldest_");
+    config.enable_deadlock_detection = true;
+    config.deadlock_detection_interval = std::chrono::milliseconds(25);
+    config.deadlock_victim_policy = DeadlockVictimPolicy::OLDEST;
+
+    CrossShardTransactionCoordinator coordinator(config, consensus);
+    ASSERT_TRUE(coordinator.initialize());
+    ASSERT_TRUE(coordinator.start());
+
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-oldest-policy-old", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-oldest-policy-young", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+
+    coordinator.reportDistributedWait("txn-oldest-policy-old", "txn-oldest-policy-young", "shard-A");
+    coordinator.reportDistributedWait("txn-oldest-policy-young", "txn-oldest-policy-old", "shard-B");
+
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
+    bool resolved = false;
+    while (std::chrono::steady_clock::now() < deadline) {
+        const auto oldest = coordinator.getTransactionState("txn-oldest-policy-old");
+        const auto youngest = coordinator.getTransactionState("txn-oldest-policy-young");
+        if (oldest.has_value() && *oldest == TransactionState::ABORTED) {
+            ASSERT_TRUE(youngest.has_value());
+            EXPECT_NE(*youngest, TransactionState::ABORTED);
+            resolved = true;
+            break;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    }
+
+    EXPECT_TRUE(resolved);
+    coordinator.stop();
+}
+
+TEST(DistributedDeadlockDetectionPolicyTest, VictimSelectionAbortsOneMemberWhenRandomPolicyConfigured) {
+    auto consensus = std::make_shared<MockConsensusModule>();
+    CrossShardTransactionConfig config;
+    config.transaction_log_path = makeTempTxnLogPath("themisdb_deadlock_random_");
+    config.enable_deadlock_detection = true;
+    config.deadlock_detection_interval = std::chrono::milliseconds(25);
+    config.deadlock_victim_policy = DeadlockVictimPolicy::RANDOM;
+
+    CrossShardTransactionCoordinator coordinator(config, consensus);
+    ASSERT_TRUE(coordinator.initialize());
+    ASSERT_TRUE(coordinator.start());
+
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-random-policy-A", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-random-policy-B", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+
+    coordinator.reportDistributedWait("txn-random-policy-A", "txn-random-policy-B", "shard-X");
+    coordinator.reportDistributedWait("txn-random-policy-B", "txn-random-policy-A", "shard-Y");
+
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
+    bool resolved = false;
+    while (std::chrono::steady_clock::now() < deadline) {
+        const auto stateA = coordinator.getTransactionState("txn-random-policy-A");
+        const auto stateB = coordinator.getTransactionState("txn-random-policy-B");
+        const bool aAborted = stateA.has_value() && *stateA == TransactionState::ABORTED;
+        const bool bAborted = stateB.has_value() && *stateB == TransactionState::ABORTED;
+        if (aAborted || bAborted) {
+            // Exactly one victim per cycle — both must not be aborted simultaneously.
+            EXPECT_FALSE(aAborted && bAborted);
+            resolved = true;
+            break;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    }
+
+    EXPECT_TRUE(resolved);
+    coordinator.stop();
+}
+
 // ============================================================================
 // Calvin Protocol Tests
 // ============================================================================
@@ -189,8 +496,7 @@ protected:
 #endif
         auto consensus = std::make_shared<MockConsensusModule>();
         CrossShardTransactionConfig config;
-        config.transaction_log_path =
-            std::string("/tmp/themisdb_calvin_") + std::to_string(::getpid()) + ".jsonl";
+        config.transaction_log_path = makeTempTxnLogPath("themisdb_calvin_");
         config.calvin_epoch_duration = std::chrono::milliseconds(10);
         config.calvin_enable_deterministic_lock_order = true;
         coordinator_ = std::make_unique<CrossShardTransactionCoordinator>(config, consensus);
@@ -343,8 +649,7 @@ protected:
 #endif
         auto consensus = std::make_shared<MockConsensusModule>();
         CrossShardTransactionConfig config;
-        config.transaction_log_path =
-            std::string("/tmp/themisdb_percolator_") + std::to_string(::getpid()) + ".jsonl";
+        config.transaction_log_path = makeTempTxnLogPath("themisdb_percolator_");
         config.default_protocol = TransactionProtocol::PERCOLATOR;
         coordinator_ = std::make_shared<CrossShardTransactionCoordinator>(config, consensus);
         coordinator_->initialize();
@@ -526,8 +831,7 @@ protected:
     void SetUp() override {
         auto consensus = std::make_shared<MockConsensusModule>();
         CrossShardTransactionConfig config;
-        config.transaction_log_path =
-            std::string("/tmp/themisdb_coord_id_") + std::to_string(::getpid()) + ".jsonl";
+        config.transaction_log_path = makeTempTxnLogPath("themisdb_coord_id_");
         config.coordinator_id = "node-42";
         coordinator_ = std::make_unique<CrossShardTransactionCoordinator>(config, consensus);
         coordinator_->initialize();
@@ -574,8 +878,7 @@ TEST(CoordinatorIdConfigTest, EmptyCoordinatorIdNoCrash) {
 #endif
     auto consensus = std::make_shared<MockConsensusModule>();
     CrossShardTransactionConfig cfg;
-    cfg.transaction_log_path =
-        std::string("/tmp/themisdb_coord_empty_") + std::to_string(::getpid()) + ".jsonl";
+    cfg.transaction_log_path = makeTempTxnLogPath("themisdb_coord_empty_");
     // coordinator_id intentionally left empty
     CrossShardTransactionCoordinator coordinator(cfg, consensus);
     ASSERT_TRUE(coordinator.initialize());
@@ -736,6 +1039,227 @@ TEST(DISABLED_CrossShard3PCCallbackTest, PreCommitNackAbortsTransaction) {
     coordinator->addParticipant(txn, "shard-A", "localhost:50051", {});
     coordinator->addParticipant(txn, "shard-B", "localhost:50052", {});
     EXPECT_FALSE(coordinator->commit(txn));
+
+    coordinator->stop();
+}
+
+// ============================================================================
+// Poll-based (pull) deadlock detection tests
+// ============================================================================
+
+// Verify that collectWaitForEdges() returns an empty list by default (in-process
+// simulation with no injected handler).
+TEST(ShardRpcCollectWaitForEdgesTest, DefaultReturnsEmptyList) {
+    themis::sharding::ShardRPCClient::Config cfg;
+    cfg.endpoint           = "shard-wfe-default:50051";
+    cfg.timeout_ms         = 500;
+    cfg.max_retries        = 1;
+    cfg.enable_circuit_breaker = false;
+
+    themis::sharding::ShardRPCClient client(cfg);
+    const auto edges = client.collectWaitForEdges();
+    EXPECT_TRUE(edges.empty());
+}
+
+// Verify that collectWaitForEdges() correctly parses edges returned by the
+// injected handler and ignores malformed entries.
+TEST(ShardRpcCollectWaitForEdgesTest, InjectedHandlerEdgesAreParsed) {
+    themis::sharding::ShardRPCClient::Config cfg;
+    cfg.endpoint           = "shard-wfe-inject:50051";
+    cfg.timeout_ms         = 500;
+    cfg.max_retries        = 1;
+    cfg.enable_circuit_breaker = false;
+
+    themis::sharding::ShardRPCClient client(cfg);
+
+    client.setInProcessResponseHandler(
+        [](std::string method, nlohmann::json) -> nlohmann::json {
+            if (method == "collect_wait_for_edges") {
+                return {
+                    {"shard_id", "shard-wfe-inject"},
+                    {"edges", nlohmann::json::array({
+                        {{"waiting_transaction_id", "txn-A"},
+                         {"blocking_transaction_id", "txn-B"}},
+                        {{"waiting_transaction_id", "txn-C"},
+                         {"blocking_transaction_id", "txn-D"}},
+                        // Malformed entries — must be silently skipped.
+                        {{"waiting_transaction_id", "txn-E"}},           // missing blocking
+                        {{"blocking_transaction_id", "txn-F"}},          // missing waiting
+                        nlohmann::json::object()                          // empty
+                    })}
+                };
+            }
+            return {{"status", "ok"}};
+        });
+
+    const auto edges = client.collectWaitForEdges();
+    ASSERT_EQ(edges.size(), 2u);
+    EXPECT_EQ(edges[0].waiting_transaction_id,  "txn-A");
+    EXPECT_EQ(edges[0].blocking_transaction_id, "txn-B");
+    EXPECT_EQ(edges[1].waiting_transaction_id,  "txn-C");
+    EXPECT_EQ(edges[1].blocking_transaction_id, "txn-D");
+}
+
+// Verify that the coordinator's deadlock detection thread picks up wait-for
+// edges from a configured shard endpoint via the poll collector hook and
+// resolves the resulting cross-shard cycle.
+TEST(DistributedDeadlockDetectionTest, PollBasedEdgesFromShardEndpointAreDetected) {
+    auto consensus = std::make_shared<MockConsensusModule>();
+
+    // Register a loopback shard endpoint so the coordinator will try to poll it.
+    // The ShardRPCClient uses in-process simulation for loopback addresses, so
+    // the injected handler below controls the reported wait-for edges.
+    CrossShardTransactionConfig config;
+    config.transaction_log_path = makeTempTxnLogPath("themisdb_deadlock_poll_");
+    config.enable_deadlock_detection = true;
+    config.deadlock_detection_interval = std::chrono::milliseconds(25);
+    config.shard_endpoints["shard-remote"] = "localhost:50099";
+    config.polled_wait_for_edge_collector =
+        [](const std::string& shard_id, const std::string&) {
+            if (shard_id == "shard-remote") {
+                return std::vector<CrossShardTransactionConfig::PolledWaitForEdge>{
+                    {"txn-poll-a", "txn-poll-b"}
+                };
+            }
+            return std::vector<CrossShardTransactionConfig::PolledWaitForEdge>{};
+        };
+
+    auto coordinator = std::make_unique<CrossShardTransactionCoordinator>(config, consensus);
+    coordinator->initialize();
+    coordinator->start();
+
+    // Two transactions are known to the coordinator (ACTIVE state).
+    ASSERT_TRUE(coordinator->beginTransaction(
+        "txn-poll-a", TransactionProtocol::TWO_PHASE_COMMIT,
+        IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator->beginTransaction(
+        "txn-poll-b", TransactionProtocol::TWO_PHASE_COMMIT,
+        IsolationLevel::SNAPSHOT_ISOLATION));
+
+    // The remote shard contributes one edge via polling; local shard reports
+    // the reverse edge via push reporting, forming a cycle.
+    coordinator->reportDistributedWait("txn-poll-b", "txn-poll-a", "shard-local");
+
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
+    bool resolved = false;
+    while (std::chrono::steady_clock::now() < deadline) {
+        const auto sa = coordinator->getTransactionState("txn-poll-a");
+        const auto sb = coordinator->getTransactionState("txn-poll-b");
+        if ((sa.has_value() && *sa == TransactionState::ABORTED) ||
+            (sb.has_value() && *sb == TransactionState::ABORTED)) {
+            resolved = true;
+            break;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    }
+
+    EXPECT_TRUE(resolved);
+
+    coordinator->stop();
+}
+
+// Verify that poll-reported cycles for unknown transactions are ignored to
+// prevent false-positive deadlock counters and abort attempts.
+TEST(DistributedDeadlockDetectionTest, PollBasedUnknownTransactionsAreIgnored) {
+    auto consensus = std::make_shared<MockConsensusModule>();
+
+    CrossShardTransactionConfig config;
+    config.transaction_log_path = makeTempTxnLogPath("themisdb_deadlock_poll_unknown_");
+    config.enable_deadlock_detection = true;
+    config.deadlock_detection_interval = std::chrono::milliseconds(25);
+    config.shard_endpoints["shard-remote"] = "localhost:50099";
+    config.polled_wait_for_edge_collector =
+        [](const std::string&, const std::string&) {
+            return std::vector<CrossShardTransactionConfig::PolledWaitForEdge>{
+                {"txn-ghost-a", "txn-ghost-b"},
+                {"txn-ghost-b", "txn-ghost-a"}
+            };
+        };
+
+    auto coordinator = std::make_unique<CrossShardTransactionCoordinator>(config, consensus);
+    coordinator->initialize();
+    coordinator->start();
+
+    ASSERT_TRUE(coordinator->beginTransaction(
+        "txn-live", TransactionProtocol::TWO_PHASE_COMMIT,
+        IsolationLevel::SNAPSHOT_ISOLATION));
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(180));
+
+    const auto state = coordinator->getTransactionState("txn-live");
+    ASSERT_TRUE(state.has_value());
+    EXPECT_EQ(*state, TransactionState::ACTIVE);
+
+    const auto stats = coordinator->getStatistics();
+    ASSERT_TRUE(stats.contains("deadlocked_transactions"));
+    EXPECT_EQ(stats["deadlocked_transactions"].get<uint64_t>(), 0u);
+
+    coordinator->stop();
+}
+
+// Verify that two independent deadlock cycles are both resolved within a
+// single detection round (one victim per cycle, not one victim globally).
+TEST(DistributedDeadlockDetectionTest, MultipleIndependentDeadlocksAllResolvedInSingleRound) {
+    auto consensus = std::make_shared<MockConsensusModule>();
+
+    CrossShardTransactionConfig config;
+    config.transaction_log_path = makeTempTxnLogPath("themisdb_deadlock_multi_");
+    config.enable_deadlock_detection = true;
+    // Use a longer interval so we can detect resolution within a tight window.
+    config.deadlock_detection_interval = std::chrono::milliseconds(50);
+
+    auto coordinator = std::make_unique<CrossShardTransactionCoordinator>(config, consensus);
+    coordinator->initialize();
+    coordinator->start();
+
+    // Cycle 1: txn-c1-a <-> txn-c1-b
+    ASSERT_TRUE(coordinator->beginTransaction(
+        "txn-c1-a", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator->beginTransaction(
+        "txn-c1-b", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+
+    // Cycle 2: txn-c2-a <-> txn-c2-b (independent of cycle 1)
+    ASSERT_TRUE(coordinator->beginTransaction(
+        "txn-c2-a", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator->beginTransaction(
+        "txn-c2-b", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+
+    coordinator->reportDistributedWait("txn-c1-a", "txn-c1-b", "shard-A");
+    coordinator->reportDistributedWait("txn-c1-b", "txn-c1-a", "shard-B");
+    coordinator->reportDistributedWait("txn-c2-a", "txn-c2-b", "shard-C");
+    coordinator->reportDistributedWait("txn-c2-b", "txn-c2-a", "shard-D");
+
+    // Both cycles must be resolved within a few detection intervals.
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(3);
+    bool cycle1_resolved = false;
+    bool cycle2_resolved = false;
+    while (std::chrono::steady_clock::now() < deadline) {
+        const auto c1a = coordinator->getTransactionState("txn-c1-a");
+        const auto c1b = coordinator->getTransactionState("txn-c1-b");
+        const auto c2a = coordinator->getTransactionState("txn-c2-a");
+        const auto c2b = coordinator->getTransactionState("txn-c2-b");
+
+        if ((c1a.has_value() && *c1a == TransactionState::ABORTED) ||
+            (c1b.has_value() && *c1b == TransactionState::ABORTED)) {
+            cycle1_resolved = true;
+        }
+        if ((c2a.has_value() && *c2a == TransactionState::ABORTED) ||
+            (c2b.has_value() && *c2b == TransactionState::ABORTED)) {
+            cycle2_resolved = true;
+        }
+        if (cycle1_resolved && cycle2_resolved) {
+            break;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    }
+
+    EXPECT_TRUE(cycle1_resolved) << "Cycle 1 was not resolved";
+    EXPECT_TRUE(cycle2_resolved) << "Cycle 2 was not resolved";
+
+    const auto stats = coordinator->getStatistics();
+    ASSERT_TRUE(stats.contains("deadlocked_transactions"));
+    // Two independent cycles -> at least 2 deadlock events counted.
+    EXPECT_GE(stats["deadlocked_transactions"].get<uint64_t>(), 2u);
 
     coordinator->stop();
 }

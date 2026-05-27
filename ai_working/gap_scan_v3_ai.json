@@ -1,22 +1,155 @@
 {
   "ai": {
-    "total": 16,
-    "severity_critical": 1,
-    "severity_high": 15,
-    "severity_medium": 0,
+    "total": 40,
+    "severity_critical": 0,
+    "severity_high": 35,
+    "severity_medium": 5,
     "by_category": {
-      "uninitialized": 1,
-      "oop_design": 8,
-      "audit_logging": 2,
-      "llm_ai_safety": 5
+      "security": 1,
+      "memory": 1,
+      "reliability": 1,
+      "container": 1,
+      "type_conversion": 3,
+      "uninitialized": 5,
+      "oop_design": 23,
+      "audit_logging": 1,
+      "performance_patterns": 1,
+      "llm_ai_safety": 2,
+      "determinism": 1
     },
     "by_file": {
       "src\\ai\\ai_plugin_generator.cpp": [
         {
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 27,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "buf->append(static_cast<char*>(ptr), size * nmemb);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 27,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "buf->append(static_cast<char*>(ptr), size * nmemb);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 142,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "const std::string request_body = request.dump();",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 180,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "generated.build_dependencies.push_back(dep.get<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "gap_type": "CAST_TO_SMALLER_TYPE",
+          "severity": "MEDIUM",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 135,
+          "line_content": "request[\"plugin_type\"] = static_cast<int>(prompt.type);",
+          "context": [
+            "    json request;",
+            "    request[\"description\"] = prompt.description;",
+            "    request[\"plugin_type\"] = static_cast<int>(prompt.type);",
+            "    request[\"required_capabilities\"] = prompt.required_capabilities;",
+            "    request[\"dependencies\"] = prompt.dependencies;"
+          ],
+          "pattern_matched": "request[\"plugin_type\"] = static_cast<int>(prompt.type);",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Explicit cast to int detected (verify no overflow on source)"
+        },
+        {
+          "gap_type": "CAST_TO_SMALLER_TYPE",
+          "severity": "MEDIUM",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 138,
+          "line_content": "request[\"llm_model\"] = static_cast<int>(prompt.llm_model);",
+          "context": [
+            "    request[\"required_capabilities\"] = prompt.required_capabilities;",
+            "    request[\"dependencies\"] = prompt.dependencies;",
+            "    request[\"llm_model\"] = static_cast<int>(prompt.llm_model);",
+            "    request[\"security_level\"] = static_cast<int>(prompt.security_level);",
+            "    request[\"generate_tests\"] = prompt.generate_tests;"
+          ],
+          "pattern_matched": "request[\"llm_model\"] = static_cast<int>(prompt.llm_model);",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Explicit cast to int detected (verify no overflow on source)"
+        },
+        {
+          "gap_type": "CAST_TO_SMALLER_TYPE",
+          "severity": "MEDIUM",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 139,
+          "line_content": "request[\"security_level\"] = static_cast<int>(prompt.security_level);",
+          "context": [
+            "    request[\"dependencies\"] = prompt.dependencies;",
+            "    request[\"llm_model\"] = static_cast<int>(prompt.llm_model);",
+            "    request[\"security_level\"] = static_cast<int>(prompt.security_level);",
+            "    request[\"generate_tests\"] = prompt.generate_tests;",
+            "    request[\"generate_docs\"] = prompt.generate_docs;"
+          ],
+          "pattern_matched": "request[\"security_level\"] = static_cast<int>(prompt.security_level);",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Explicit cast to int detected (verify no overflow on source)"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 27,
+          "var_name": "buf",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\ai\\ai_plugin_generator.cpp",
-          "line_number": 65,
+          "line_number": 48,
+          "var_name": "http_code",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 71,
+          "var_name": "res",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 78,
+          "var_name": "res",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 125,
           "var_name": "vr",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -25,9 +158,9 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\ai\\ai_plugin_generator.cpp",
-          "line_number": 39,
+          "line_number": 33,
           "class_name": "Unknown",
-          "function_name": "AIPluginGenerator",
+          "function_name": "curlWriteCallback",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -35,9 +168,9 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\ai\\ai_plugin_generator.cpp",
-          "line_number": 45,
+          "line_number": 40,
           "class_name": "Unknown",
-          "function_name": "AIPluginGenerator",
+          "function_name": "ensureCurlGlobalInit",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -45,27 +178,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\ai\\ai_plugin_generator.cpp",
-          "line_number": 48,
-          "class_name": "Unknown",
-          "function_name": "AIPluginGenerator",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\ai\\ai_plugin_generator.cpp",
-          "line_number": 53,
-          "class_name": "Unknown",
-          "function_name": "AIPluginGenerator",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\ai\\ai_plugin_generator.cpp",
-          "line_number": 60,
+          "line_number": 49,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -75,44 +188,205 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\ai\\ai_plugin_generator.cpp",
-          "line_number": 66,
-          "class_name": "Unknown",
-          "function_name": "generatePlugin",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\ai\\ai_plugin_generator.cpp",
-          "line_number": 69,
-          "class_name": "Unknown",
-          "function_name": "generatePlugin",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\ai\\ai_plugin_generator.cpp",
           "line_number": 79,
           "class_name": "Unknown",
-          "function_name": "debug",
+          "function_name": "curl_easy_perform",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 82,
+          "class_name": "Unknown",
+          "function_name": "curl_easy_getinfo",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 85,
+          "class_name": "Unknown",
+          "function_name": "curl_slist_free_all",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 87,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 95,
+          "class_name": "Unknown",
+          "function_name": "unexpected",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 101,
+          "class_name": "Unknown",
+          "function_name": "AIPluginGenerator",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 102,
+          "class_name": "Unknown",
+          "function_name": "AIPluginGenerator",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 105,
+          "class_name": "Unknown",
+          "function_name": "AIPluginGenerator",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 108,
+          "class_name": "Unknown",
+          "function_name": "AIPluginGenerator",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 113,
+          "class_name": "Unknown",
+          "function_name": "validatePrompt",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 120,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 126,
+          "class_name": "Unknown",
+          "function_name": "generatePlugin",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 129,
+          "class_name": "Unknown",
+          "function_name": "generatePlugin",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 148,
+          "class_name": "Unknown",
+          "function_name": "dump",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 153,
+          "class_name": "Unknown",
+          "function_name": "endpoint_invoke_fn",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 155,
+          "class_name": "Unknown",
+          "function_name": "endpoint_invoke_fn",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 157,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 172,
+          "class_name": "Unknown",
+          "function_name": "value",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 173,
+          "class_name": "Unknown",
+          "function_name": "value",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 186,
+          "class_name": "Unknown",
+          "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
         {
           "file": "src\\ai\\ai_plugin_generator.cpp",
-          "line": 21,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "*   - generatePlugin()  validates inputs, then returns ERR_PLUGIN_LOAD_FAILED."
-        },
-        {
-          "file": "src\\ai\\ai_plugin_generator.cpp",
-          "line": 63,
+          "line": 123,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -121,34 +395,16 @@
         },
         {
           "file": "src\\ai\\ai_plugin_generator.cpp",
-          "line": 7,
-          "category": "llm_ai_safety",
-          "severity": "CRITICAL",
-          "pattern": "prompt_injection",
-          "description": "User input in prompt without sanitization (injection risk)",
-          "context": "* Purpose: Provide structurally-valid input validation for AI plugin generation"
+          "line": 179,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "generated.build_dependencies.push_back(dep.get<std::string>());"
         },
         {
           "file": "src\\ai\\ai_plugin_generator.cpp",
-          "line": 7,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unsanitized_llm_input",
-          "description": "User input passed to LLM without normalization/sanitization",
-          "context": "* Purpose: Provide structurally-valid input validation for AI plugin generation"
-        },
-        {
-          "file": "src\\ai\\ai_plugin_generator.cpp",
-          "line": 21,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unsanitized_llm_input",
-          "description": "User input passed to LLM without normalization/sanitization",
-          "context": "*   - generatePlugin()  validates inputs, then returns ERR_PLUGIN_LOAD_FAILED."
-        },
-        {
-          "file": "src\\ai\\ai_plugin_generator.cpp",
-          "line": 63,
+          "line": 123,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -157,12 +413,21 @@
         },
         {
           "file": "src\\ai\\ai_plugin_generator.cpp",
-          "line": 23,
+          "line": 172,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
           "description": "LLM output used without validation (hallucination/bias risk)",
-          "context": "* Phase 2 (Target v1.6.0): wire a real ILLMInferenceEngine for code generation."
+          "context": "generated.manifest.name = payload.value(\"name\", std::string(\"generated_plugin\"));"
+        },
+        {
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 78,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (res != CURLE_OK) {"
         }
       ]
     }

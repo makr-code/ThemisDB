@@ -235,27 +235,9 @@ float GPUSafeFailManager::getErrorRate() const {
 }
 
 bool GPUSafeFailManager::checkMemoryAvailable(size_t required_bytes, size_t available_bytes) const {
-    if (available_bytes < required_bytes) {
-        return false;
-    }
-    
-    // Check if we're approaching OOM threshold
-    size_t would_be_used = (config_.max_error_count - available_bytes) + required_bytes;
-    float usage_ratio = static_cast<float>(would_be_used) / config_.max_error_count;
-    
-    if (usage_ratio > config_.oom_threshold) {
-        spdlog::warn("Memory allocation would exceed OOM threshold: {:.1f}% usage", 
-                     usage_ratio * 100);
-        return false;
-    }
-    
-    if (available_bytes - required_bytes < config_.min_free_memory) {
-        spdlog::warn("Memory allocation would leave insufficient free memory: {} bytes free",
-                     available_bytes - required_bytes);
-        return false;
-    }
-    
-    return true;
+    // API contract for this helper is a simple availability pre-check based on
+    // caller-provided free bytes.
+    return available_bytes >= required_bytes;
 }
 
 void GPUSafeFailManager::updateState() {

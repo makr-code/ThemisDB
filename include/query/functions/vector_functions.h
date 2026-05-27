@@ -120,6 +120,7 @@ inline double dotProduct(const std::vector<double>& v1, const std::vector<double
  */
 class CosineSimilarityFunction : public IFunction {
 public:
+    ~CosineSimilarityFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "COSINE_SIMILARITY",
@@ -162,6 +163,7 @@ public:
  */
 class EuclideanDistanceFunction : public IFunction {
 public:
+    ~EuclideanDistanceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "EUCLIDEAN_DISTANCE",
@@ -202,6 +204,7 @@ public:
  */
 class DotProductFunction : public IFunction {
 public:
+    ~DotProductFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "DOT_PRODUCT",
@@ -236,6 +239,7 @@ public:
  */
 class ManhattanDistanceFunction : public IFunction {
 public:
+    ~ManhattanDistanceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "MANHATTAN_DISTANCE",
@@ -275,6 +279,7 @@ public:
  */
 class ChebyshevDistanceFunction : public IFunction {
 public:
+    ~ChebyshevDistanceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "CHEBYSHEV_DISTANCE",
@@ -315,6 +320,7 @@ public:
  */
 class SimilarityFunction : public IFunction {
 public:
+    ~SimilarityFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "SIMILARITY",
@@ -364,6 +370,7 @@ public:
  */
 class L2NormalizeFunction : public IFunction {
 public:
+    ~L2NormalizeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "L2_NORMALIZE",
@@ -403,6 +410,7 @@ public:
  */
 class MinMaxNormalizeFunction : public IFunction {
 public:
+    ~MinMaxNormalizeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "MIN_MAX_NORMALIZE",
@@ -457,6 +465,7 @@ public:
  */
 class VectorAddFunction : public IFunction {
 public:
+    ~VectorAddFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_ADD",
@@ -495,6 +504,7 @@ public:
  */
 class VectorSubFunction : public IFunction {
 public:
+    ~VectorSubFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_SUB",
@@ -533,6 +543,7 @@ public:
  */
 class VectorMulFunction : public IFunction {
 public:
+    ~VectorMulFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_MUL",
@@ -571,6 +582,7 @@ public:
  */
 class VectorScaleFunction : public IFunction {
 public:
+    ~VectorScaleFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_SCALE",
@@ -611,6 +623,7 @@ public:
  */
 class VectorSumFunction : public IFunction {
 public:
+    ~VectorSumFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_SUM",
@@ -640,6 +653,7 @@ public:
  */
 class VectorAvgFunction : public IFunction {
 public:
+    ~VectorAvgFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_AVG",
@@ -674,6 +688,7 @@ public:
  */
 class VectorNormFunction : public IFunction {
 public:
+    ~VectorNormFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_NORM",
@@ -719,6 +734,7 @@ public:
  */
 class VectorDimFunction : public IFunction {
 public:
+    ~VectorDimFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_DIM",
@@ -746,6 +762,7 @@ public:
  */
 class VectorMinFunction : public IFunction {
 public:
+    ~VectorMinFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_MIN",
@@ -779,6 +796,7 @@ public:
  */
 class VectorMaxFunction : public IFunction {
 public:
+    ~VectorMaxFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_MAX",
@@ -816,6 +834,7 @@ public:
  */
 class VectorZerosFunction : public IFunction {
 public:
+    ~VectorZerosFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_ZEROS",
@@ -848,6 +867,7 @@ public:
  */
 class VectorOnesFunction : public IFunction {
 public:
+    ~VectorOnesFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_ONES",
@@ -880,6 +900,7 @@ public:
  */
 class VectorRandomFunction : public IFunction {
 public:
+    ~VectorRandomFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_RANDOM",
@@ -925,6 +946,7 @@ public:
  */
 class VectorSliceFunction : public IFunction {
 public:
+    ~VectorSliceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_SLICE",
@@ -970,6 +992,7 @@ public:
  */
 class VectorConcatFunction : public IFunction {
 public:
+    ~VectorConcatFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_CONCAT",

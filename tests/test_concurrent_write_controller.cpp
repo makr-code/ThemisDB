@@ -220,7 +220,10 @@ TEST_F(ConcurrentWriteControllerFocusedTests, QueueDepthLimitThrowsQueueFull) {
     std::this_thread::sleep_for(20ms);
 
     // A second waiter should get queue-full
-    EXPECT_THROW(wc.acquire(), std::runtime_error);
+    EXPECT_THROW({
+        auto guard = wc.acquire();
+        static_cast<void>(guard);
+    }, std::runtime_error);
 
     g1.release(); // unblock the waiting thread
     EXPECT_TRUE(f_ok.get());
@@ -238,7 +241,10 @@ TEST_F(ConcurrentWriteControllerFocusedTests, AcquireTimeoutFires) {
 
     auto g = wc.acquire(); // hold the only slot
 
-    EXPECT_THROW(wc.acquire(), std::runtime_error);
+    EXPECT_THROW({
+        auto guard = wc.acquire();
+        static_cast<void>(guard);
+    }, std::runtime_error);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -278,7 +284,10 @@ TEST_F(ConcurrentWriteControllerFocusedTests, PostShutdownAcquireThrows) {
     cfg.max_concurrent_writes = 2;
     ConcurrentWriteController wc(cfg);
     wc.shutdown();
-    EXPECT_THROW(wc.acquire(), std::runtime_error);
+    EXPECT_THROW({
+        auto guard = wc.acquire();
+        static_cast<void>(guard);
+    }, std::runtime_error);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -391,7 +400,10 @@ TEST_F(ConcurrentWriteControllerFocusedTests, StatsTotalRejectedOnQueueFull) {
     ConcurrentWriteController wc(cfg);
 
     auto g = wc.acquire();
-    EXPECT_THROW(wc.acquire(), std::runtime_error); // times out
+    EXPECT_THROW({
+        auto guard = wc.acquire();
+        static_cast<void>(guard);
+    }, std::runtime_error); // times out
     EXPECT_GE(wc.getStats().total_rejected, 1u);
 }
 

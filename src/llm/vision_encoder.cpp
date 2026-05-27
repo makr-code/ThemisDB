@@ -10,6 +10,7 @@
  */
 
 #include "llm/vision_encoder.h"
+#include <stdexcept>
 #include "themis/module_hash_verifier.h"
 #include "utils/logger.h"
 #include <filesystem>

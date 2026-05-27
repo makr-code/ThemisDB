@@ -61,3 +61,7 @@ For enterprise support and licensing context, review [docs/EDITION_COMPARISON.md
 - Bug reports: within 1 week (target)
 - Feature requests: within 2 weeks (target)
 - General questions: community-driven best effort
+
+---
+Zuletzt geprueft (Root-Sync): 2026-05-26
+

@@ -10,7 +10,9 @@
  */
 
 #include "llm/multi_lora_manager.h"
+#include <stdexcept>
 #include "llm/gguf_loader.h"
+#include "llm/lora_security_validator.h"
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
@@ -40,6 +42,8 @@ namespace llm {
 // Quantization and memory constants
 namespace {
     constexpr size_t TYPICAL_LORA_RANK8_BYTES = 32 * 1024 * 1024;  // 32 MB for rank-8 LoRA
+    constexpr size_t MIN_LORA_RANK = 4;    // Matches LoRASecurityConfig::min_rank default
+    constexpr size_t MAX_LORA_RANK = 128;  // Matches LoRASecurityConfig::max_rank default
     constexpr float INT8_MAX_VALUE = 127.0f;
     constexpr float INT4_MAX_VALUE = 7.0f;
     constexpr float MIN_SCALE_EPSILON = 1e-8f;
@@ -365,111 +369,177 @@ void MultiLoRAManager::setRemoveAdapterFn(RemoveAdapterFn fn) {
 }
 
 bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* context) {
-    auto* lora = getLoRA(lora_id);
-    if (!lora) {
-        errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, lora_id);
-        return false;
+    // Acquire mutex for the full lookup + field snapshot.
+    // The raw pointer returned by getLoRA() is unsafe to use after the lock is released
+    // (another thread may call unloadLoRA and free the LoRASlot).  Instead, we inline
+    // the lookup here and copy mutable fields to stack-local variables before releasing.
+    void* adapter_handle = nullptr;
+    float scale = 0.0f;
+    ApplyAdapterFn apply_fn_copy;
+    bool has_adapter = false;
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = loras_.find(lora_id);
+        if (it == loras_.end()) {
+            errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, lora_id);
+            return false;
+        }
+        auto& slot = *it->second;
+        slot.last_used = std::chrono::system_clock::now();
+        slot.use_count++;
+        adapter_handle = slot.adapter_handle;
+        scale = slot.scale;
+        has_adapter = (adapter_handle != nullptr);
+        apply_fn_copy = apply_adapter_fn_;
     }
 
     if (!context) {
-        auto apply_fn = ApplyAdapterFn{};
-        {
-            std::lock_guard<std::mutex> lock(mutex_);
-            apply_fn = apply_adapter_fn_;
-        }
-        if (!apply_fn) {
+        if (!apply_fn_copy) {
             spdlog::error(
                 "applyLoRA requires either a valid llama_context or an ApplyAdapterFn bridge; neither was provided for {}",
                 lora_id);
             return false;
         }
-        if (!apply_fn(*lora)) {
+        // The bridge callback receives the LoRASlot by reference.  Re-lookup under
+        // the lock to ensure the slot is still alive before passing it to the callback.
+        bool bridge_ok = false;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            auto it = loras_.find(lora_id);
+            if (it == loras_.end()) {
+                spdlog::error("applyLoRA: LoRA {} was unloaded before bridge call", lora_id);
+                return false;
+            }
+            bridge_ok = apply_fn_copy(*it->second);
+        }
+        if (!bridge_ok) {
             spdlog::error("ApplyAdapterFn bridge rejected LoRA {}", lora_id);
             return false;
         }
-        lora->is_active = true;
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = loras_.find(lora_id);
+        if (it != loras_.end()) {
+            it->second->is_active = true;
+        }
         switches_++;
         spdlog::info("LoRA {} applied successfully via bridge", lora_id);
         return true;
     }
-    
+
     spdlog::debug("Applying LoRA: {} to context", lora_id);
-    
-    // Apply LoRA adapter to context using modern llama.cpp API
-    if (lora->adapter_handle && context) {
+
+    // Apply LoRA adapter to context using modern llama.cpp API.
+    // The C API call uses the local snapshot of adapter_handle/scale — no lock needed.
+    if (has_adapter && context) {
         // F1-3 fixed: pass the adapter pointer directly instead of casting to
         // int (which always fails on 64-bit where heap addresses > INT_MAX).
-        int result = llama_lora_adapter_set(context, lora->adapter_handle, lora->scale);
-        
+        int result = llama_lora_adapter_set(context, adapter_handle, scale);
+
         if (result != 0) {
             spdlog::error("Failed to apply LoRA {} (error: {})", lora_id, result);
             return false;
         }
-        
-        lora->is_active = true;
+
+        // Re-acquire to update mutable slot state.
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = loras_.find(lora_id);
+        if (it != loras_.end()) {
+            it->second->is_active = true;
+        }
         switches_++;
-        spdlog::info("LoRA {} applied successfully (scale: {})", lora_id, lora->scale);
+        spdlog::info("LoRA {} applied successfully (scale: {})", lora_id, scale);
         return true;
     }
-    
-    if (!lora->adapter_handle) {
+
+    if (!has_adapter) {
         spdlog::error("LoRA adapter handle not initialized for {}", lora_id);
         return false;
     }
-    
+
     return false;
 }
 
 bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* context) {
-    auto* lora = getLoRA(lora_id);
-    if (!lora) {
-        return false;
+    // Same lock-then-snapshot pattern as applyLoRA to prevent use-after-free.
+    void* adapter_handle = nullptr;
+    RemoveAdapterFn remove_fn_copy;
+    bool has_adapter = false;
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = loras_.find(lora_id);
+        if (it == loras_.end()) {
+            return false;
+        }
+        auto& slot = *it->second;
+        slot.last_used = std::chrono::system_clock::now();
+        adapter_handle = slot.adapter_handle;
+        has_adapter = (adapter_handle != nullptr);
+        remove_fn_copy = remove_adapter_fn_;
     }
 
     if (!context) {
-        auto remove_fn = RemoveAdapterFn{};
-        {
-            std::lock_guard<std::mutex> lock(mutex_);
-            remove_fn = remove_adapter_fn_;
-        }
-        if (!remove_fn) {
+        if (!remove_fn_copy) {
             spdlog::error(
                 "removeLoRA requires either a valid llama_context or a RemoveAdapterFn bridge; neither was provided for {}",
                 lora_id);
             return false;
         }
-        if (!remove_fn(*lora)) {
+        bool bridge_ok = false;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            auto it = loras_.find(lora_id);
+            if (it == loras_.end()) {
+                spdlog::error("removeLoRA: LoRA {} was unloaded before bridge call", lora_id);
+                return false;
+            }
+            bridge_ok = remove_fn_copy(*it->second);
+        }
+        if (!bridge_ok) {
             spdlog::warn("RemoveAdapterFn bridge rejected LoRA {}", lora_id);
             return false;
         }
-        lora->is_active = false;
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = loras_.find(lora_id);
+        if (it != loras_.end()) {
+            it->second->is_active = false;
+        }
         spdlog::info("LoRA {} removed successfully via bridge", lora_id);
         return true;
     }
-    
+
     spdlog::debug("Removing LoRA: {} from context", lora_id);
-    
-    // Remove LoRA adapter from context using llama.cpp API
-    if (lora->adapter_handle && context) {
+
+    // Remove LoRA adapter from context using llama.cpp API.
+    if (has_adapter && context) {
         // F1-3 fixed: pass adapter pointer directly (see applyLoRA fix above).
         // Set scale to 0.0f to effectively disable the adapter.
-        int result = llama_lora_adapter_set(context, lora->adapter_handle, 0.0f);
-        
+        int result = llama_lora_adapter_set(context, adapter_handle, 0.0f);
+
         if (result != 0) {
             spdlog::warn("Failed to remove LoRA {} cleanly (error: {}), marking inactive", lora_id, result);
         }
-        
-        lora->is_active = false;
+
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = loras_.find(lora_id);
+        if (it != loras_.end()) {
+            it->second->is_active = false;
+        }
         spdlog::info("LoRA {} removed successfully", lora_id);
         return true;
     }
-    
-    if (!lora->adapter_handle) {
+
+    if (!has_adapter) {
         spdlog::warn("LoRA {} has no adapter handle to remove", lora_id);
-        lora->is_active = false;
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = loras_.find(lora_id);
+        if (it != loras_.end()) {
+            it->second->is_active = false;
+        }
         return true;
     }
-    
+
     return false;
 }
 
@@ -505,7 +575,20 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
     }
 
     const struct llama_vocab* vocab = llama_model_get_vocab(lmodel);
+    if (!vocab) {
+        spdlog::error("batchInferenceMultiLoRA: llama_model_get_vocab returned null");
+        std::vector<InferenceResponse> error_responses(requests.size());
+        for (auto& r : error_responses) { r.success = false; r.error_message = "llama_model_get_vocab failed"; }
+        return error_responses;
+    }
+
     const int32_t n_vocab    = llama_vocab_n_tokens(vocab);
+    if (n_vocab <= 0) {
+        spdlog::error("batchInferenceMultiLoRA: invalid vocabulary size {}", n_vocab);
+        std::vector<InferenceResponse> error_responses(requests.size());
+        for (auto& r : error_responses) { r.success = false; r.error_message = "Invalid model vocabulary size"; }
+        return error_responses;
+    }
     const int32_t eos_token  = llama_vocab_eos(vocab);
     const int32_t ctx_size   = static_cast<int32_t>(llama_n_ctx(model_context));
 
@@ -613,6 +696,12 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
             for (int tok_idx = 0; tok_idx < max_new_tokens; ++tok_idx) {
                 // Greedy sampling: argmax over vocabulary logits
                 float* logits = llama_get_logits_ith(model_context, -1);
+                if (!logits) {
+                    response.success = false;
+                    response.error_message = "llama_get_logits_ith returned null";
+                    responses[idx] = response;
+                    break;
+                }
                 int32_t next_token = 0;
                 float   best_logit = logits[0];
                 for (int32_t v = 1; v < n_vocab; ++v) {
@@ -1255,16 +1344,16 @@ bool MultiLoRAManager::quantizeLoRA(LoRASlot* lora) {
         // Fallback: generate a size-representative weight vector when the file
         // cannot be parsed (e.g. unit tests with non-existent paths).
         if (weights.empty()) {
-            size_t num_weights = lora->original_vram_bytes / sizeof(float);
+            size_t fallback_weights = lora->original_vram_bytes / sizeof(float);
             const size_t kMaxFallback = 256 * 1024;   // 1 MB of floats
-            num_weights = std::min(num_weights, kMaxFallback);
-            if (num_weights == 0) {
+            fallback_weights = std::min(fallback_weights, kMaxFallback);
+            if (fallback_weights == 0) {
                 spdlog::warn("quantizeLoRA: zero-size LoRA '{}', skipping quantization", lora->lora_id);
                 return false;
             }
-            weights.assign(num_weights, 0.0f);
+            weights.assign(fallback_weights, 0.0f);
             // Populate with a deterministic non-zero pattern for scale calibration.
-            for (size_t i = 0; i < num_weights; ++i) {
+            for (size_t i = 0; i < fallback_weights; ++i) {
                 weights[i] = static_cast<float>((i % 255) - 127) / 127.0f;
             }
         }
@@ -1994,6 +2083,26 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
         return nullptr;
     }
 
+    // Security validation (v1.20.0): run LoRASecurityValidator::validateMetadata()
+    // before any file I/O so that malformed or tampered adapters are rejected
+    // early — before the GGUF parser streams adapter weights into memory.
+    if (config_.security_validator) {
+        if (!config_.security_validator->validateMetadata(lora_path)) {
+            if (config_.enforce_security_validation) {
+                spdlog::error("loadLoRAInternal: security-validator rejected adapter '{}' "
+                              "at path '{}' — metadata validation failed (enforce=true)",
+                              lora_id, lora_path);
+                return nullptr;
+            }
+            spdlog::warn("loadLoRAInternal: security-validator reported metadata issue for "
+                         "adapter '{}' at path '{}' — continuing (enforce=false)",
+                         lora_id, lora_path);
+        } else {
+            spdlog::debug("loadLoRAInternal: security-validator approved adapter '{}' "
+                          "at path '{}'", lora_id, lora_path);
+        }
+    }
+
     // Validate that LoRA file exists
     std::ifstream file_check(lora_path, std::ios::binary);
     if (!file_check.good()) {
@@ -2029,7 +2138,21 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
             // Extract rank/alpha from GGUF metadata if present.
             auto it_rank = meta.config.find("lora.rank");
             if (it_rank != meta.config.end()) {
-                try { lora->rank = std::stoi(it_rank->second); } catch (...) {}
+                try {
+                    int parsed_rank = std::stoi(it_rank->second);
+                    if (parsed_rank < static_cast<int>(MIN_LORA_RANK) ||
+                        parsed_rank > static_cast<int>(MAX_LORA_RANK)) {
+                        spdlog::warn("loadLoRAInternal: LoRA '{}' rank {} from GGUF metadata "
+                                     "is outside allowed bounds [{}, {}]; clamping",
+                                     lora_id, parsed_rank,
+                                     static_cast<int>(MIN_LORA_RANK),
+                                     static_cast<int>(MAX_LORA_RANK));
+                        parsed_rank = std::clamp(parsed_rank,
+                                                 static_cast<int>(MIN_LORA_RANK),
+                                                 static_cast<int>(MAX_LORA_RANK));
+                    }
+                    lora->rank = static_cast<size_t>(parsed_rank);
+                } catch (...) {}
             }
             auto it_alpha = meta.config.find("lora.alpha");
             if (it_alpha != meta.config.end()) {
@@ -2654,7 +2777,6 @@ json MultiLoRAManager::getGPUTransferAuditLog(size_t limit) const {
     
     json log = json::array();
     
-    size_t count = 0;
     size_t start = (limit > 0 && audit_log_.size() > limit) ? 
                    (audit_log_.size() - limit) : 0;
     
@@ -2744,8 +2866,9 @@ bool MultiLoRAManager::fuseLoRAsAdvanced(
         return false;
     }
     
-    // Check cache first for STATIC fusions
+    // Check cache first for STATIC fusions (under lock — fusion_cache_ is shared state).
     if (config.strategy == FusionStrategy::STATIC && config.enable_cache) {
+        std::lock_guard<std::mutex> lock(mutex_);
         auto cache_it = fusion_cache_.find(fused_id);
         if (cache_it != fusion_cache_.end()) {
             // Check if cache is still valid
@@ -2766,13 +2889,17 @@ bool MultiLoRAManager::fuseLoRAsAdvanced(
         }
     }
     
-    fusion_cache_misses_++;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        fusion_cache_misses_++;
+    }
     
     // Perform fusion
     bool success = fuseLoRAsInternal(fused_id, config);
     
     if (success) {
-        // Update cache and metrics
+        // Update cache and shared metrics under lock.
+        std::lock_guard<std::mutex> lock(mutex_);
         if (config.enable_cache) {
             FusionCacheEntry entry;
             entry.fusion_id = fused_id;
@@ -2795,13 +2922,19 @@ bool MultiLoRAManager::fuseLoRAsAdvanced(
             fusion_schedules_[fused_id] = config.alpha_schedule;
         }
         
+        total_fusions_++;
+    }
+
+    if (success) {
         auto end_time = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
         double fusion_time_ms = duration.count() / 1000.0;
         
-        updateFusionMetrics(fused_id, fusion_time_ms);
-        total_fusions_++;
-        
+        // updateFusionMetrics accesses fusion_cache_ — must be called under lock.
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            updateFusionMetrics(fused_id, fusion_time_ms);
+        }
         spdlog::info("Fusion completed: {} ({:.2f} ms)", fused_id, fusion_time_ms);
     }
     
@@ -3377,4 +3510,3 @@ void MultiLoRAManager::updateInferenceMetrics(
 
 } // namespace llm
 } // namespace themis
-

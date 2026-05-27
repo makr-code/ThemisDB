@@ -32,6 +32,7 @@
 #include <chrono>
 #include <cmath>
 #include <algorithm>
+#include <exception>
 
 namespace themis {
 namespace content {
@@ -101,7 +102,7 @@ std::vector<float> EmbeddingPipeline::embedWithTimeout(const std::string& text)
         }
 
         return embedding;
-    } catch (const std::exception&) {
+    } catch (...) {
         notifyFailure();
         return {};
     }
@@ -143,4 +144,3 @@ std::vector<std::vector<float>> EmbeddingPipeline::generateEmbeddingBatch(
 
 } // namespace content
 } // namespace themis
-

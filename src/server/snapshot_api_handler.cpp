@@ -10,6 +10,7 @@
  */
 
 #include "server/snapshot_api_handler.h"
+#include <stdexcept>
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>
 #include "utils/tracing.h"

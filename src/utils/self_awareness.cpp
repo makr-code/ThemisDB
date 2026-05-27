@@ -10,6 +10,7 @@
  */
 
 #include "utils/self_awareness.h"
+#include <stdexcept>
 #include <yaml-cpp/yaml.h>
 #include <filesystem>
 #include <fstream>
@@ -71,7 +72,7 @@ SelfAwareness::Config SelfAwareness::Config::loadFromYAML(const std::string& yam
             }
         }
         
-    } catch (const std::exception&) {
+    } catch (...) {
         // Use defaults if config fails to load
     }
     
@@ -567,7 +568,7 @@ void SelfAwareness::persistSnapshot(const Snapshot& snapshot) {
         if (ofs) {
             ofs << snapshot.toJSON().dump(2) << "\n";
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         // Snapshot persistence is best-effort; do not propagate errors
     }
 }
@@ -620,11 +621,11 @@ void SelfAwareness::loadSnapshots() {
                 }
                 s.triggered_by = j.value("triggered_by", "loaded");
                 snapshots_.push_back(std::move(s));
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Skip malformed files
             }
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         // Snapshot loading is best-effort
     }
 }

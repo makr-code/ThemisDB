@@ -75,9 +75,12 @@ size_t alignUp(size_t n, size_t alignment) {
  * @param gpu_available   True when a real CUDA device is in use.
  */
 void copyMemory(void* dst, const void* src, size_t bytes,
-                bool device_to_host, bool gpu_available)
+                [[maybe_unused]] bool device_to_host,
+                [[maybe_unused]] bool gpu_available)
 {
-    if (bytes == 0 || !dst || !src) return;
+    if (bytes == 0 || dst == nullptr || src == nullptr) {
+        return;
+    }
 
 #ifdef THEMIS_ENABLE_CUDA
     if (gpu_available) {

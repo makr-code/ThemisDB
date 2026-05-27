@@ -1,9 +1,28 @@
 /*
+<<<<<<< HEAD
  * ThemisDB | File: retention_functions.h | Version: 0.0.47
  * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
  * Gap Summary: total=4; TODO=0, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
+=======
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            retention_functions.h                              ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:28                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     501                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+>>>>>>> origin/develop
  */
 
 /**
@@ -41,6 +60,7 @@ namespace functions {
  */
 class CoefficientOfVariationFunction : public IFunction {
 public:
+    ~CoefficientOfVariationFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "CV",
@@ -83,6 +103,7 @@ public:
  */
 class VarianceLevelFunction : public IFunction {
 public:
+    ~VarianceLevelFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "VARIANCE_LEVEL",
@@ -127,6 +148,7 @@ public:
  */
 class RetentionResolutionFunction : public IFunction {
 public:
+    ~RetentionResolutionFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "RETENTION_RESOLUTION",
@@ -174,6 +196,7 @@ public:
  */
 class DateSubFunction : public IFunction {
 public:
+    ~DateSubFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_SUB",
@@ -249,6 +272,7 @@ public:
  */
 class ScheduleTaskFunction : public IFunction {
 public:
+    ~ScheduleTaskFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "SCHEDULE_TASK",
@@ -278,12 +302,15 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext& ctx) const override {
+<<<<<<< HEAD
         // ⚠️ SECURITY: Require non-empty user ID; downstream callers are responsible
         // for ensuring only admin-privileged users reach this function.
         if (ctx.userId().empty()) {
             throw std::runtime_error("SCHEDULE_TASK: unauthenticated caller");
         }
 
+=======
+>>>>>>> origin/develop
         const auto& config = args[0];
         
         // Validate required fields
@@ -296,16 +323,19 @@ public:
         std::string type = config["type"].get<std::string>();
         std::string query = config["query"].get<std::string>();
         
-        // Calculate interval
-        std::chrono::milliseconds interval(60000); // Default: 1 minute
+        // Calculate interval in milliseconds
+        int64_t interval_ms = 60000; // Default: 1 minute
         if (config.contains("interval_hours")) {
-            interval = std::chrono::hours(config["interval_hours"].get<int>());
+            interval_ms = static_cast<int64_t>(config["interval_hours"].get<int>()) * 3600000LL;
         } else if (config.contains("interval_minutes")) {
-            interval = std::chrono::minutes(config["interval_minutes"].get<int>());
+            interval_ms = static_cast<int64_t>(config["interval_minutes"].get<int>()) * 60000LL;
         } else if (config.contains("interval_seconds")) {
-            interval = std::chrono::seconds(config["interval_seconds"].get<int>());
+            interval_ms = static_cast<int64_t>(config["interval_seconds"].get<int>()) * 1000LL;
+        } else if (config.contains("interval_ms")) {
+            interval_ms = config["interval_ms"].get<int64_t>();
         }
 
+<<<<<<< HEAD
         TaskScheduler* sched = ctx.getTaskScheduler();
         if (!sched) {
             // No scheduler wired — return a descriptive error rather than silent placeholder.
@@ -326,6 +356,32 @@ public:
             {"task_id", task_id},
             {"name", name},
             {"interval_ms", interval.count()}
+=======
+        // Use injected TaskScheduler bridge when available
+        if (const auto& fn = ctx.registerTaskFn()) {
+            nlohmann::json task_config{
+                {"name",        name},
+                {"type",        type},
+                {"query",       query},
+                {"interval_ms", interval_ms}
+            };
+            std::string task_id = fn(task_config);
+            return nlohmann::json{
+                {"status",      "created"},
+                {"task_id",     task_id},
+                {"name",        name},
+                {"interval_ms", interval_ms}
+            };
+        }
+
+        // Fallback when no scheduler context is injected
+        return nlohmann::json{
+            {"status",      "pending"},
+            {"task_id",     "unregistered_" + name},
+            {"name",        name},
+            {"interval_ms", interval_ms},
+            {"note",        "Task scheduler not configured; inject via FunctionContext::setRegisterTaskFn()"}
+>>>>>>> origin/develop
         };
     }
 };
@@ -337,6 +393,7 @@ public:
  */
 class ListScheduledTasksFunction : public IFunction {
 public:
+    ~ListScheduledTasksFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "LIST_SCHEDULED_TASKS",
@@ -351,8 +408,9 @@ public:
         };
     }
     
-    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+    nlohmann::json execute(const std::vector<nlohmann::json>& /*args*/,
                            const FunctionContext& ctx) const override {
+<<<<<<< HEAD
         TaskScheduler* sched = ctx.getTaskScheduler();
         if (!sched) {
             return nlohmann::json::array();
@@ -368,6 +426,13 @@ public:
             });
         }
         return result;
+=======
+        if (const auto& fn = ctx.listTasksFn()) {
+            return fn();
+        }
+        // Fallback when no scheduler context is injected
+        return nlohmann::json::array();
+>>>>>>> origin/develop
     }
 };
 
@@ -378,6 +443,7 @@ public:
  */
 class CancelTaskFunction : public IFunction {
 public:
+    ~CancelTaskFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "CANCEL_TASK",
@@ -396,6 +462,7 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext& ctx) const override {
+<<<<<<< HEAD
         // ⚠️ SECURITY: Require authenticated caller.
         if (ctx.userId().empty()) {
             throw std::runtime_error("CANCEL_TASK: unauthenticated caller");
@@ -409,6 +476,14 @@ public:
 
         sched->unregisterTask(taskId);
         return true;
+=======
+        std::string taskId = args[0].get<std::string>();
+        if (const auto& fn = ctx.cancelTaskFn()) {
+            return fn(taskId);
+        }
+        // Fallback when no scheduler context is injected
+        return false;
+>>>>>>> origin/develop
     }
 };
 
@@ -419,6 +494,7 @@ public:
  */
 class EstimateStorageSavingsFunction : public IFunction {
 public:
+    ~EstimateStorageSavingsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ESTIMATE_STORAGE_SAVINGS",

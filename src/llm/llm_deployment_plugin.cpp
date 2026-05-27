@@ -10,6 +10,7 @@
  */
 
 #include "llm/llm_deployment_plugin.h"
+#include <stdexcept>
 #include "llm/llm_model_storage.h"
 #include "utils/logger.h"
 #include "utils/checksum_utils.h"

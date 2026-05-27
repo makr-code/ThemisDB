@@ -92,6 +92,7 @@ public:
  */
 class ApproximateCountDistinct : public IApproximateAggregator {
 public:
+    ~ApproximateCountDistinct() override = default;
     /// @param precision  HyperLogLog precision (4–18; default 12 → ~1.6 % error).
     explicit ApproximateCountDistinct(int precision = 12);
 
@@ -133,6 +134,7 @@ private:
  */
 class ApproximatePercentile : public IApproximateAggregator {
 public:
+    ~ApproximatePercentile() override = default;
     /**
      * @param quantile    Target quantile in [0.0, 1.0] (e.g. 0.95 for p95).
      * @param compression Number of centroids (higher = more accurate, default 100).
@@ -181,6 +183,7 @@ private:
  */
 class SamplingAggregator : public IApproximateAggregator {
 public:
+    ~SamplingAggregator() override = default;
     enum class AggregationType { SUM, AVG, COUNT };
 
     /**

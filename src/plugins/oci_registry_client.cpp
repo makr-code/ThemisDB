@@ -18,6 +18,7 @@
  */
 
 #include "plugins/oci_registry_client.h"
+#include <stdexcept>
 #include "utils/logger.h"
 
 #include <curl/curl.h>

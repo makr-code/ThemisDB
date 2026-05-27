@@ -7,6 +7,7 @@
  */
 
 #include "importers/flatfile_importer.h"
+#include <stdexcept>
 #include "importers/schema_validator.h"
 #include "utils/logger.h"
 #include <fstream>
@@ -1325,6 +1326,10 @@ bool FlatFileImporter::importParquetFile(const std::string& path,
 
     return true;
 #else
+    (void)path;
+    (void)table;
+    (void)options;
+    (void)cb;
     addError(stats, ImportErrorCode::FILE_OPEN_FAILED,
              ImportErrorSeverity::CRITICAL,
              "Parquet import requires Apache Arrow "
@@ -1454,3 +1459,4 @@ void FlatFileImporterPlugin::shutdown() {
 // ============================================================================
 // Plugin Entry Points
 // ============================================================================
+

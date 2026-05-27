@@ -41,11 +41,11 @@ namespace llm {
 class PagedBlockManager {
 public:
     struct Block {
-        int block_id;
-        int physical_address;
-        bool is_free;
+        int block_id = 0;
+        int physical_address = 0;
+        bool is_free = true;
         std::vector<int> tokens;
-        size_t memory_bytes;
+        size_t memory_bytes = 0;
         int ref_count = 0;  // For copy-on-write (v1.4.0)
     };
     
@@ -58,12 +58,12 @@ public:
     };
     
     struct Stats {
-        int num_blocks;
-        int num_free_blocks;
-        int num_allocated_blocks;
-        size_t total_memory_bytes;
-        size_t used_memory_bytes;
-        double fragmentation_ratio;
+        int num_blocks = 0;
+        int num_free_blocks = 0;
+        int num_allocated_blocks = 0;
+        size_t total_memory_bytes = 0;
+        size_t used_memory_bytes = 0;
+        double fragmentation_ratio = 0.0;
     };
     
     explicit PagedBlockManager(const Config& config);

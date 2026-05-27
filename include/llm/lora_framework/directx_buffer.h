@@ -95,7 +95,7 @@ private:
     bool create_readback_buffer();
     
     DirectXContext* context_;
-    size_t size_;
+    size_t size_ = 0;
     D3D12_RESOURCE_FLAGS flags_;
     D3D12_RESOURCE_STATES current_state_;
     

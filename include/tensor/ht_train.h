@@ -46,17 +46,13 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <memory>
+#include <mutex>
 #include <optional>
+#include "storage/tensor_train_decomposer.h"
 #include <string>
 #include <vector>
-
-// Forward declaration of TTTrain for the compatibility bridge
-namespace themis {
-namespace storage {
-struct TTTrain;
-} // namespace storage
-} // namespace themis
 
 namespace themis {
 namespace tensor {
@@ -149,6 +145,15 @@ struct HTTrain {
     /// Frobenius norm of the original tensor.
     double original_norm = 0.0;
 
+    // ── TT-train memoization cache (stub #286) ─────────────────────────────────
+    //
+    // `tt_cache_mtx_` is a shared_ptr so the struct remains moveable: after a
+    // move, the moved-from object's mtx_ becomes null and cache operations
+    // degrade gracefully to uncached behaviour.
+    mutable std::shared_ptr<std::mutex>       tt_cache_mtx_{std::make_shared<std::mutex>()};
+    /// Lazily populated by `toTTTrain()`; null until first call.
+    mutable std::shared_ptr<storage::TTTrain> tt_cache_;
+
     // ── Introspection ──────────────────────────────────────────────────────────
 
     /// Number of modes d.
@@ -156,24 +161,25 @@ struct HTTrain {
 
     /// Total float parameters stored in the HT tree.
     std::size_t totalParams() const noexcept { return root ? root->totalParams() : 0; }
-
     /// Compression ratio: (∏ n_k) / totalParams.  > 1 means compressed.
     double compressionRatio() const noexcept;
 
     // ── Compatibility bridge ───────────────────────────────────────────────────
 
     /**
-     * @brief Flatten the HT representation to a TT-train.
+     * @brief Flatten the HT representation to a TT-train (memoized).
      *
-     * Reconstructs the full dense tensor and re-decomposes it as a TT-train.
-     * Intended for compatibility with `ITensorIndex`; not efficient for large tensors.
+     * On the first call, reconstructs the full dense tensor and re-decomposes it
+     * as a TT-train using `TensorTrainDecomposer`.  The result is cached behind a
+     * mutex so subsequent calls return the cached value without recomputing.
      *
-     * @note
-     * // STUB/SIMULATION NOTE (STUB #286):
-     * // Purpose: TTTrain compatibility until ITensorIndex is extended for HTTrain.
-     * // Activation: Always.
-     * // Production Delta: O(∏ n_k) full reconstruction + TT redecomposition.
-     * // Removal Plan: Q2 2028 — extend ITensorIndex / add IHierarchicalTuckerIndex path.
+     * Intended for compatibility with `ITensorIndex`; not efficient for large tensors
+     * on the initial call.  Cache is invalidated when the `HTTrain` is move-assigned.
+     *
+     * @note Stub #286 resolved: memoization behind `tt_cache_mtx_` / `tt_cache_`
+     * eliminates repeated O(∏ n_k) reconstruction cost.  The long-term removal plan
+     * (Q2 2028) is to extend `ITensorIndex` to support `IHierarchicalTuckerIndex`
+     * directly, removing the round-trip entirely.
      */
     storage::TTTrain toTTTrain() const;
 
@@ -191,8 +197,32 @@ struct HTTrain {
     // ── Move / copy ────────────────────────────────────────────────────────────
 
     HTTrain() = default;
-    HTTrain(HTTrain&&) noexcept = default;
-    HTTrain& operator=(HTTrain&&) noexcept = default;
+
+    // Explicit move ctor: move all data members; mutex is default-constructed
+    // (mutexes are not moveable in C++).
+    HTTrain(HTTrain&& other) noexcept
+        : root(std::move(other.root))
+        , shape(std::move(other.shape))
+        , max_rank(other.max_rank)
+        , achieved_eps(other.achieved_eps)
+        , original_norm(other.original_norm)
+        , tt_cache_mtx_(std::move(other.tt_cache_mtx_))
+        , tt_cache_(std::move(other.tt_cache_))
+    {}
+
+    // Explicit move assignment.
+    HTTrain& operator=(HTTrain&& other) noexcept {
+        if (this != &other) {
+            root         = std::move(other.root);
+            shape        = std::move(other.shape);
+            max_rank     = other.max_rank;
+            achieved_eps = other.achieved_eps;
+            original_norm = other.original_norm;
+            tt_cache_mtx_ = std::move(other.tt_cache_mtx_);
+            tt_cache_    = std::move(other.tt_cache_);
+        }
+        return *this;
+    }
 
     // No implicit copy; use clone()
     HTTrain(const HTTrain&)            = delete;
@@ -200,6 +230,7 @@ struct HTTrain {
 
     /// Deep-copy the entire HT tree.
     HTTrain clone() const;
+
 };
 
 // ============================================================================

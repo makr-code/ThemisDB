@@ -114,3 +114,7 @@ Legacy setup snippets using non-canonical preset names (for example `linux-gcc-r
 
 - [SUPPORT.md](SUPPORT.md)
 - [docs/FAQ.md](docs/FAQ.md)
+
+---
+Zuletzt geprueft (Root-Sync): 2026-05-26
+

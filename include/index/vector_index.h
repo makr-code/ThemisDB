@@ -17,7 +17,7 @@
 #include <optional>
 #include <utility>
 #include <memory>
-#include <atomic>
+#include <cstdint>
 
 namespace themis {
 
@@ -394,6 +394,15 @@ public:
     /// Get current rotary embedding configuration
     /// Returns nullopt if rotary embeddings are not enabled
     std::optional<struct RotationConfig> getRotaryEmbeddingConfig() const;
+
+    struct RotaryEmbeddingStats {
+        uint64_t total_rotated_entities = 0;
+        uint64_t total_relational_rotations = 0;
+        double avg_rotation_time_us = 0.0;
+    };
+
+    /// Get runtime RoPE stats. Returns nullopt when RoPE is disabled.
+    std::optional<RotaryEmbeddingStats> getRotaryEmbeddingStats() const;
     
     /// Add entity with automatic positional rotation
     /// The embedding is rotated based on the position parameter before storage
@@ -424,8 +433,8 @@ public:
 
     /// Return a snapshot of the rotary embedding counters.
     RotaryStats getRotaryStats() const {
-        return { rotary_entities_added_.load(std::memory_order_relaxed),
-                 relational_rotations_.load(std::memory_order_relaxed) };
+        return { rotary_positional_rotations_.load(std::memory_order_relaxed),
+                 rotary_relational_rotations_.load(std::memory_order_relaxed) };
     }
     
     /// KNN search with rotation-aware query
@@ -507,10 +516,10 @@ private:
     // Rotary Embeddings support
     std::unique_ptr<RotaryEmbedding> rotary_embedding_;
     bool rotary_enabled_ = false;
-
-    /// Counters incremented by addEntityWithRotation / addEntityWithRelationalRotation.
-    mutable std::atomic<uint64_t> rotary_entities_added_{0};
-    mutable std::atomic<uint64_t> relational_rotations_{0};
+    mutable std::atomic<uint64_t> rotary_positional_rotations_{0};
+    mutable std::atomic<uint64_t> rotary_relational_rotations_{0};
+    mutable std::atomic<uint64_t> rotary_query_rotations_{0};
+    mutable std::atomic<uint64_t> rotary_total_rotation_time_us_{0};
     
     // Advanced Vector Index Integration (v1.5.0+)
     AdvancedIndexConfig advanced_config_;

@@ -10,6 +10,7 @@
  */
 
 #include "rag/lora_enhanced_retriever.h"
+#include <stdexcept>
 #include "utils/logger.h"
 
 #include <algorithm>

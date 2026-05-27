@@ -345,7 +345,7 @@ DetectionResult KrumDetector::detectByzantineShards(
     DetectionResult result;
     result.detection_method = "KRUM";
     
-    int n = shard_gradients.size();
+    const auto n = static_cast<int>(shard_gradients.size());
     
     if (n < 2 * max_byzantine_shards_ + 3) {
         spdlog::warn(
@@ -461,7 +461,7 @@ DetectionResult BulyanDetector::detectByzantineShards(
     DetectionResult result;
     result.detection_method = "BULYAN";
     
-    int n = shard_gradients.size();
+    const auto n = static_cast<int>(shard_gradients.size());
     
     if (n < 4 * max_byzantine_shards_ + 3) {
         spdlog::warn(
@@ -493,8 +493,8 @@ DetectionResult BulyanDetector::detectByzantineShards(
 std::vector<GradientTensor> BulyanDetector::aggregateRobust(
     const std::map<std::string, std::vector<GradientTensor>>& shard_gradients
 ) {
-    int n = shard_gradients.size();
-    int m = n - max_byzantine_shards_ - 2;
+    const auto n = static_cast<int>(shard_gradients.size());
+    const int m = n - max_byzantine_shards_ - 2;
     
     // Step 1: Use Krum to select m gradients
     auto selected_ids = krum_detector_.selectKrumGradients(shard_gradients, m);

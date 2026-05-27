@@ -215,6 +215,56 @@ std::optional<std::vector<float>> BaseEntity::getFieldAsVector(std::string_view 
     }, *value);
 }
 
+std::optional<std::vector<std::string>> BaseEntity::getFieldAsStringArray(std::string_view field_name) const {
+    auto strOpt = getFieldAsString(field_name);
+    if (!strOpt.has_value()) {
+        return std::nullopt;
+    }
+    const std::string& raw = *strOpt;
+    if (raw.empty()) {
+        return std::vector<std::string>{};
+    }
+
+    // Try JSON array first (e.g. ["label1","label2"]).
+    if (raw.front() == '[') {
+        try {
+            auto arr = nlohmann::json::parse(raw);
+            if (arr.is_array()) {
+                std::vector<std::string> result;
+                result.reserve(arr.size());
+                for (const auto& el : arr) {
+                    if (el.is_string()) {
+                        result.push_back(el.get<std::string>());
+                    } else {
+                        result.push_back(el.dump());
+                    }
+                }
+                return result;
+            }
+        } catch (const nlohmann::json::exception&) {
+            // Not valid JSON — fall through to comma-split below.
+        }
+    }
+
+    // Legacy comma-separated fallback.
+    std::vector<std::string> result;
+    std::stringstream ss(raw);
+    std::string token;
+    while (std::getline(ss, token, ',')) {
+        token.erase(0, token.find_first_not_of(" \t"));
+        auto last = token.find_last_not_of(" \t");
+        if (last != std::string::npos) {
+            token.erase(last + 1);
+        } else {
+            token.clear();
+        }
+        if (!token.empty()) {
+            result.push_back(std::move(token));
+        }
+    }
+    return result;
+}
+
 void BaseEntity::setField(std::string_view field_name, const Value& value) {
     ensureCache();
     if (field_cache_ && field_cache_.use_count() > 1) {
@@ -690,4 +740,5 @@ std::optional<std::string> BaseEntity::getRotationType(std::string_view field_na
 }
 
 } // namespace themis
+
 

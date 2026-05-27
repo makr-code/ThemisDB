@@ -16,6 +16,7 @@
  */
 
 #include "themis/license_info.h"
+#include <stdexcept>
 #include "utils/openssl_deleter.h"
 #include <nlohmann/json.hpp>
 #include <sstream>

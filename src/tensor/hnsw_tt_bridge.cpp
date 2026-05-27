@@ -30,6 +30,7 @@
  */
 
 #include "tensor/hnsw_tt_bridge.h"
+#include <stdexcept>
 #include "utils/logger.h"
 
 #ifdef THEMIS_HNSW_ENABLED

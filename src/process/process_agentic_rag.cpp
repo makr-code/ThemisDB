@@ -18,6 +18,7 @@
  */
 
 #include "process/process_agentic_rag.h"
+#include <stdexcept>
 #include "utils/logger.h"
 
 #include <chrono>

@@ -7,6 +7,7 @@
  */
 
 #include "exporters/stream_writer.h"
+#include <stdexcept>
 #include "exporters/exporter_errors.h"
 #ifdef THEMIS_HAS_ZSTD
 #include <zstd.h>
@@ -146,7 +147,7 @@ void StreamWriter::writeBuffer() {
     }
 }
 
-void StreamWriter::compressAndWrite(const char* data, size_t size) {
+void StreamWriter::compressAndWrite([[maybe_unused]] const char* data, [[maybe_unused]] size_t size) {
 #ifdef THEMIS_HAS_ZSTD
     if (compression_state_) {
         ZSTD_CStream* cstream = static_cast<ZSTD_CStream*>(compression_state_);
@@ -166,6 +167,8 @@ void StreamWriter::compressAndWrite(const char* data, size_t size) {
         }
     }
 #endif
+    (void)data;
+    (void)size;
 }
 
 void StreamWriter::finalizeCompression() {

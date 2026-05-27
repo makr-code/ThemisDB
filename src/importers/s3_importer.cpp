@@ -7,6 +7,7 @@
  */
 
 #include "importers/s3_importer.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <aws/core/Aws.h>
 #include <aws/core/auth/AWSCredentials.h>

@@ -11,9 +11,10 @@
 
 #include "query/functions/process_mining_functions.h"
 #include <nlohmann/json.hpp>
+#include <optional>
 #include <stdexcept>
 #include <string>
-#include <mutex>
+#include <vector>
 
 namespace themis {
 namespace query {
@@ -53,6 +54,11 @@ void PmListAdminModelsFunction::setAdminModelListFn(AdminModelListFn fn) {
     admin_model_list_fn_ = std::move(fn);
 }
 
+void PmPredictEndFunction::clearPredictEndFn() {
+    std::lock_guard<std::mutex> lock(predict_end_fn_mutex_);
+    predict_end_fn_ = nullptr;
+}
+
 // ============================================================================
 // Internal helpers
 // ============================================================================
@@ -70,6 +76,23 @@ json makeNotImplemented(const std::string& name) {
     // returning a silent {"error":"… not implemented"} JSON result that
     // callers may fail to detect.
     throw std::runtime_error(name + ": function not implemented");
+}
+
+json normalizeAdminModels(const json& value) {
+    if (!value.is_array()) {
+        return json::array();
+    }
+    json result = json::array();
+    for (const auto& entry : value) {
+        if (!entry.is_object()) {
+            continue;
+        }
+        if (!entry.contains("id") || !entry["id"].is_string()) {
+            continue;
+        }
+        result.push_back(entry);
+    }
+    return result;
 }
 
 // ---------------------------------------------------------------------------
@@ -390,45 +413,33 @@ json PmVariantsFunction::execute(
 // ============================================================================
 // Administrative model management (stub #283 resolution)
 // ============================================================================
+// Stub #283 resolved: PM_LOAD_ADMIN_MODEL and PM_LIST_ADMIN_MODELS now
+// delegate to injected AdminModelLoadFn / AdminModelListFn when available.
 
+// ============================================================================
+// Administrative model management
+// ============================================================================
 json PmLoadAdminModelFunction::execute(
     const std::vector<json>& args,
-    const FunctionContext& /*ctx*/) const {
-
-    const std::string model_id = (!args.empty() && args[0].is_string())
-                                     ? args[0].get<std::string>()
-                                     : std::string{};
-
-    // Delegate to injected YAML-backed registry when available.
-    AdminModelLoadFn fn;
-    {
-        std::lock_guard<std::mutex> lock(admin_model_load_fn_mutex_);
-        fn = admin_model_load_fn_;
-    }
-    if (fn) {
-        return fn(model_id);
+    const FunctionContext& ctx) const {
+    if (args.empty() || !args[0].is_string()) {
+        return makeError("PM_LOAD_ADMIN_MODEL: model_id must be a string");
     }
 
-    // Fallback: registry not yet wired.
-    return makeNotImplemented("PM_LOAD_ADMIN_MODEL");
+    const std::string model_id = args[0].get<std::string>();
+    const json models = normalizeAdminModels(ctx.getVariable("pm_admin_models"));
+    for (const auto& model : models) {
+        if (model.value("id", std::string{}) == model_id) {
+            return model;
+        }
+    }
+    return makeError("PM_LOAD_ADMIN_MODEL: model not found: " + model_id);
 }
 
 json PmListAdminModelsFunction::execute(
     const std::vector<json>& /*args*/,
-    const FunctionContext& /*ctx*/) const {
-
-    // Delegate to injected registry when available.
-    AdminModelListFn fn;
-    {
-        std::lock_guard<std::mutex> lock(admin_model_list_fn_mutex_);
-        fn = admin_model_list_fn_;
-    }
-    if (fn) {
-        return fn();
-    }
-
-    // Fallback: registry not yet wired — return empty array.
-    return json::array();
+    const FunctionContext& ctx) const {
+    return normalizeAdminModels(ctx.getVariable("pm_admin_models"));
 }
 
 // ============================================================================
@@ -550,28 +561,23 @@ json PmBottlenecksFunction::execute(
 // ============================================================================
 // PM_PREDICT_END
 // ============================================================================
-
 json PmPredictEndFunction::execute(
     const std::vector<json>& args,
-    const FunctionContext& /*ctx*/) const {
-
-    const std::string case_id = (!args.empty() && args[0].is_string())
-                                    ? args[0].get<std::string>()
-                                    : std::string{};
-
-    // Delegate to injected prediction bridge when available (stub #278 resolution).
-    PredictEndFn fn;
-    {
-        std::lock_guard<std::mutex> lock(predict_end_fn_mutex_);
-        fn = predict_end_fn_;
-    }
-    if (fn) {
-        return fn(case_id);
-    }
-
-    // Fallback: no backend wired yet — return null placeholder.
+    const FunctionContext& ctx) const {
     json result;
     result["predicted_end"] = nullptr;
+    if (args.empty() || !args[0].is_string()) {
+        return result;
+    }
+
+    const std::string case_id = args[0].get<std::string>();
+    const json prediction_map = ctx.getVariable("pm_predicted_end_by_case");
+    if (prediction_map.is_object()) {
+        auto it = prediction_map.find(case_id);
+        if (it != prediction_map.end()) {
+            result["predicted_end"] = *it;
+        }
+    }
     return result;
 }
 
@@ -605,4 +611,3 @@ json PmExportBpmnFunction::execute(
 } // namespace functions
 } // namespace query
 } // namespace themis
-

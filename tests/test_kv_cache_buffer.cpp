@@ -41,6 +41,20 @@ TEST_F(KVCacheBufferTest, BasicAppendToken) {
     EXPECT_EQ(stats.current_batch_size, 1);
 }
 
+TEST_F(KVCacheBufferTest, AppendTokenRejectsNullPointers) {
+    KVCacheBuffer buffer(config_);
+
+    std::vector<float> key(config_.embedding_dim, 1.0f);
+    std::vector<float> value(config_.embedding_dim, 2.0f);
+
+    EXPECT_FALSE(buffer.appendToken(1, nullptr, value.data()));
+    EXPECT_FALSE(buffer.appendToken(1, key.data(), nullptr));
+
+    auto stats = buffer.getStats();
+    EXPECT_EQ(stats.total_appends, 0);
+    EXPECT_EQ(stats.current_batch_size, 0);
+}
+
 TEST_F(KVCacheBufferTest, AppendMultipleTokens) {
     KVCacheBuffer buffer(config_);
     

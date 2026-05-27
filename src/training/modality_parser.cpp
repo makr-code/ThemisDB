@@ -28,6 +28,7 @@
  */
 
 #include "training/modality_parser.h"
+#include "utils/string_utils.h"
 
 #include <algorithm>
 #include <chrono>
@@ -70,7 +71,7 @@ static std::vector<std::string> splitLines(const std::string& text) {
 }
 
 // Trim leading/trailing ASCII whitespace
-// Using themis::utils::themis::utils::trim() from string_utils.h (Phase 1 consolidation)
+// Using themis::utils::trim() from string_utils.h (Phase 1 consolidation)
 
 // Return true if the line looks like part of a pipe-delimited table row
 static bool isPipeTableRow(const std::string& line) {
@@ -413,8 +414,8 @@ bool OCRExtractor::isAvailable() const noexcept {
 }
 
 std::vector<TrainingSample>
-OCRExtractor::extract(const std::string& image_path,
-                      const std::string& document_id) const
+OCRExtractor::extract([[maybe_unused]] const std::string& image_path,
+                      [[maybe_unused]] const std::string& document_id) const
 {
     std::vector<TrainingSample> samples;
 

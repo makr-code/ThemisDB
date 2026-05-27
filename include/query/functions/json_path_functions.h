@@ -349,6 +349,7 @@ public:
  */
 class JsonExtractFunction : public IFunction {
 public:
+    ~JsonExtractFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "JSON_EXTRACT",
@@ -382,6 +383,7 @@ public:
  */
 class JsonSetFunction : public IFunction {
 public:
+    ~JsonSetFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "JSON_SET",
@@ -418,6 +420,7 @@ public:
  */
 class JsonRemoveFunction : public IFunction {
 public:
+    ~JsonRemoveFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "JSON_REMOVE",
@@ -453,6 +456,7 @@ public:
  */
 class JsonTypeFunction : public IFunction {
 public:
+    ~JsonTypeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "JSON_TYPE",
@@ -494,6 +498,7 @@ public:
  */
 class JsonContainsFunction : public IFunction {
 public:
+    ~JsonContainsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "JSON_CONTAINS",
@@ -523,6 +528,7 @@ public:
  */
 class JsonDepthFunction : public IFunction {
 public:
+    ~JsonDepthFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "JSON_DEPTH",
@@ -551,6 +557,7 @@ public:
  */
 class JsonParseFunction : public IFunction {
 public:
+    ~JsonParseFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "JSON_PARSE",
@@ -583,6 +590,7 @@ public:
  */
 class JsonStringifyFunction : public IFunction {
 public:
+    ~JsonStringifyFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "JSON_STRINGIFY",

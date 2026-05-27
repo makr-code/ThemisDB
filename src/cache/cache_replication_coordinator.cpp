@@ -10,6 +10,7 @@
 // Licensed under MIT License
 
 #include "cache/cache_replication_coordinator.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <unordered_map>
 

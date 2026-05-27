@@ -10,6 +10,7 @@
  */
 
 #include "utils/pki_client.h"
+#include <stdexcept>
 #include "utils/expected.h"
 #include "utils/error_registry.h"
 #include "utils/openssl_deleter.h"
@@ -574,9 +575,6 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
                     } catch (const std::exception& e) {
                         std::cerr << "PKI REST parse exception: " << e.what() << " body='" << resp_body << "'\n";
                         // fallthrough to local fallback
-                    } catch (...) {
-                        std::cerr << "PKI REST parse unknown error, body='" << resp_body << "'\n";
-                        // fallthrough to local fallback
                     }
                 } else {
                     std::cerr << "PKI REST /sign: curl error: " << curl_easy_strerror(rc) << " resp='" << resp_body << "'\n";
@@ -784,9 +782,6 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
                         }
                     } catch (const std::exception& e) {
                         std::cerr << "PKI REST parse exception: " << e.what() << " body='" << resp_body << "'\n";
-                        // fallthrough to local fallback
-                    } catch (...) {
-                        std::cerr << "PKI REST parse unknown error, body='" << resp_body << "'\n";
                         // fallthrough to local fallback
                     }
                 } else {

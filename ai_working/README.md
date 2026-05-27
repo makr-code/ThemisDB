@@ -28,3 +28,33 @@ Dateien hier als Referenz lesen und bei inhaltlichen Änderungen im selben PR mi
 
 - Konsolidierungsplan: `ai_working/CODE_MATURITY_FRAMEWORK_REALIGNMENT_PLAN_2026-05-20.md`
 - Priorisierte TODO: `ai_working/CODE_MATURITY_FRAMEWORK_TODO_2026-05-20.md`
+
+## Hierher verschobene AI-Artefakte (2026-05-26)
+
+Folgende Dateien wurden aus dem Root-Verzeichnis und `docs/` hierher verschoben,
+da sie keine Produktdokumentation, sondern KI-Agent-Arbeitsartefakte sind:
+
+### Phase-3-Ollama-Workflow
+- `PHASE3_ROADMAP.md` — Ollama-basierte Code-Generierungs-Roadmap
+- `PHASE3_CLEANUP_GUIDE.md` — Speicher-Cleanup für Ollama-Modelle
+- `PHASE3_OLLAMA_SETUP.md` — Ollama-Einrichtungsanleitung für lokale KI-Codegenerierung
+- `PHASE3_VALIDATION_CRITERIA.md` — PoC-Validierungs-Entscheidungsmatrix
+- `PHASE3_VALIDATION_NEXT_STEPS.md` — Nächste Schritte nach Phase-3-Validierung
+
+### Wave-A / ML-Implementierungsberichte
+- `WAVE_A_PHASE2_REPORT.md` — Wave-A-ML-Implementierungsbericht (Phase 2)
+- `WAVE_A_REMAINING_WORK.md` — Offene Punkte Wave A (Speculative Decoding, DPR, etc.)
+
+### Workflow-Berichte
+- `WORKFLOW_ACTIVATION_REPORT.md` — Gap-Scan + Issue-Erstellungs-Workflow
+- `WORKFLOW_COMPLETION_REPORT.md` — Abschlussbericht des 7-Phasen-Workflows
+
+### Temporäre Blueprints und Tracker
+- `tmp_ai_blueprint_4931.md`, `tmp_acceleration_blueprint.md`, `tmp_analytics_blueprint.md`,
+  `tmp_api_blueprint.md`, `tmp_scraper_blueprint.md`, `tmp_tensor_blueprint.md`
+- `tmp_review_audit_block.md`, `tmp_stub_missing.txt`, `tmp_created_doc_issues.json`
+- `tmp_tracker_new_modules.md`, `tmp_tracking_priorities_comment.md`, `tmp_tracking_stub_priorities.md`
+
+### Sonstige
+- `TODO_TENSOR.md` — Tensor-spezifisches Stub-Backlog
+- `AI_DECISION_AUDITING_IMPLEMENTATION_SUMMARY.md` — Implementierungszusammenfassung (ex docs/)

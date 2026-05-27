@@ -63,10 +63,21 @@ public:
      * @brief Configuration for ThemisHelpLoRA
      */
     struct Config {
+        using ModelPathProviderFn = std::function<std::string(const std::string& model_id)>;
+
         std::string adapter_id = "themis_help_lora";
         std::string base_model_id = "llama-2-7b";
         std::string docs_database_path = "data/docs_database.json";
-
+        /**
+         * @brief Optional GGUF path resolver for @ref base_model_id.
+         *
+         * When set, this callback is queried first for both lazy inference-time
+         * model loading and training-service base-model initialization.
+         * Return an empty string to fall back to the default local path
+         * `models/<base_model_id>.gguf`.
+         */
+        ModelPathProviderFn model_path_provider;
+        
         // Remote model loading (Ollama support)
         bool enable_remote_loading = false;
         std::string ollama_url = "http://localhost:11434";
@@ -78,24 +89,6 @@ public:
         rocksdb::TransactionDB* db = nullptr;
         std::shared_ptr<storage::BlobStorageManager> blob_manager;
 
-        /**
-         * @brief Optional model-path resolver.
-         *
-         * When set, this function is called with @p base_model_id to obtain
-         * the filesystem path of the GGUF model file.  Implement this to
-         * integrate with LLMModelStorage::resolveGGUFPath() or any other
-         * model-registry backend.
-         *
-         * If nullptr, the handler falls back to the local path convention
-         * @c "models/" + base_model_id + ".gguf" relative to the working
-         * directory.
-         *
-         * @param model_id  The model identifier string.
-         * @return Absolute or relative path to the GGUF file.
-         */
-        using ModelPathProviderFn = std::function<std::string(const std::string& model_id)>;
-        ModelPathProviderFn model_path_provider;
-
         // Training settings
         lora::LoRAHyperparameters hyperparameters;
         int feedback_batch_size = 100;  // Train after N feedback items
@@ -105,8 +98,24 @@ public:
         float min_accuracy_threshold = 0.80f;
         bool enable_ab_testing = true;
         bool enable_auto_rollback = true;
+
+        /**
+         * @brief Optional model-path resolver injected at startup.
+         *
+         * When set, the resolver is called with @p base_model_id and must
+         * return the absolute filesystem path to the GGUF model file.
+         * Implement via `LLMModelStorage::resolveGGUFPath(model_id)` and wire
+         * at server startup.
+         *
+         * When not set, the component falls back to the relative path
+         * `"models/" + base_model_id + ".gguf"`, which is only correct when
+         * the server working directory contains a `models/` sub-directory.
+         *
+         * @param model_id The base_model_id string from this Config.
+         * @return Absolute path to the GGUF file, or empty on resolution failure.
+         */
     };
-    
+
     explicit ThemisHelpLoRA(const Config& config);
     ThemisHelpLoRA();
     ~ThemisHelpLoRA();

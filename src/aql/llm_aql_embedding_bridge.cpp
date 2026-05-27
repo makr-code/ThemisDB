@@ -7,6 +7,7 @@
  */
 
 #include "aql/llm_aql_embedding_bridge.h"
+#include <stdexcept>
 #include "aql/llm_aql_handler.h"
 #include <spdlog/spdlog.h>
 

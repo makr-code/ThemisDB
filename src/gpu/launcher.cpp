@@ -137,3 +137,4 @@ GPULauncher::Stats GPULauncher::getStats() const {
 
 } // namespace gpu
 } // namespace themis
+

@@ -79,6 +79,7 @@ namespace server {
  */
 class OAuth2Provider {
 public:
+    using RefreshTokenRevocationFn = std::function<bool(const std::string& refresh_token)>;
     /**
      * @brief Configuration for the server-layer OAuth2/OIDC provider
      */
@@ -242,30 +243,13 @@ public:
     void setRandBytesForTesting(
         std::function<void(unsigned char* buf, std::size_t len)> fn);
 
-    // ---------------------------------------------------------------------------
-    // Callback bridge for RFC 7009 token revocation (stub #306)
-    // ---------------------------------------------------------------------------
     /**
-     * @brief Function type for injecting a real token revocation backend.
+     * @brief Override refresh-token revocation dispatch used by handleLogout().
      *
-     * The callee is responsible for resolving the revocation endpoint (e.g. via
-     * OIDC discovery) and performing the RFC 7009 POST.
-     *
-     * @param refresh_token  Refresh token to revoke
-     * @return true if the revocation was accepted
+     * Enables wiring a concrete revocation endpoint integration without changing
+     * the logout endpoint contract.
      */
-    using TokenRevocationFn = std::function<bool(const std::string& refresh_token)>;
-
-    /**
-     * @brief Inject a real RFC 7009 token revocation implementation.
-     *
-     * When set, handleLogout() will call this function with the IdP revocation
-     * endpoint to properly invalidate the refresh token at the authorization
-     * server.  Without injection the logout succeeds locally but remote
-     * revocation is skipped (documented stub #306 behavior).
-     * Thread-safe (internal mutex).
-     */
-    void setTokenRevocationFn(TokenRevocationFn fn);
+    void setRefreshTokenRevocationFn(RefreshTokenRevocationFn fn);
 
 private:
     Config config_;
@@ -280,9 +264,8 @@ private:
     std::function<void(unsigned char* buf, std::size_t len)>
         rand_bytes_fn_;
 
-    /// Injected RFC 7009 token revocation callback (stub #306).
-    TokenRevocationFn token_revocation_fn_;
-    mutable std::mutex revocation_mutex_;
+    /// Optional refresh-token revocation bridge for logout.
+    RefreshTokenRevocationFn refresh_token_revocation_fn_;
 
     // -----------------------------------------------------------------------
     // Pending-state map (state → {code_verifier, expiry})

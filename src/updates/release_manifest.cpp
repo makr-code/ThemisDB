@@ -68,7 +68,7 @@ std::optional<ReleaseFile> ReleaseFile::fromJson(const json& j) {
         }
         
         return file;
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -189,7 +189,7 @@ std::optional<ReleaseManifest> ReleaseManifest::fromJson(const json& j) {
         manifest.schema_version = j.value("schema_version", 1);
         
         return manifest;
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }

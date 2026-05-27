@@ -10,6 +10,7 @@
  */
 
 #include "server/rope_api_handler.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/vector_index.h"
@@ -23,6 +24,26 @@ namespace themis {
 namespace server {
 
 using json = nlohmann::json;
+
+// ============================================================================
+// AuthorizeFn + StatsQueryFn bridges (stubs #280, #307)
+// ============================================================================
+
+void RopeApiHandler::setAuthorizeFn(AuthorizeFn fn) {
+    authorizeFn_ = std::move(fn);
+}
+
+void RopeApiHandler::clearAuthorizeFn() {
+    authorizeFn_ = nullptr;
+}
+
+void RopeApiHandler::setStatsQueryFn(StatsQueryFn fn) {
+    statsQueryFn_ = std::move(fn);
+}
+
+void RopeApiHandler::clearStatsQueryFn() {
+    statsQueryFn_ = nullptr;
+}
 
 RopeApiHandler::RopeApiHandler(
     std::shared_ptr<RocksDBWrapper> storage,
@@ -798,14 +819,26 @@ http::response<http::string_body> RopeApiHandler::handleStatsGet(
                     {"normalize_after", config.normalize_after}
                 };
             }
-            
-            // Surface real rotation counters collected since the index was opened.
-            auto rope_stats = vector_index_->getRotaryStats();
-            response["statistics"] = {
-                {"total_rotated_entities", rope_stats.total_rotated_entities},
-                {"relational_rotations",   rope_stats.relational_rotations},
-                {"note", "Counters are process-lifetime totals; reset on server restart"}
-            };
+
+            auto [stats_status, stats] = vector_index_->getStatistics();
+            if (!stats_status.ok) {
+                response["statistics"] = {
+                    {"status", "unavailable"},
+                    {"error", stats_status.message}
+                };
+            } else {
+                response["statistics"] = {
+                    {"status", "ok"},
+                    {"vector_count", stats.vector_count},
+                    {"index_dimension", stats.dimension},
+                    {"distance_metric", stats.metric_name},
+                    {"distance_min", stats.min_distance},
+                    {"distance_max", stats.max_distance},
+                    {"distance_mean", stats.mean_distance},
+                    {"distance_stddev", stats.std_dev_distance},
+                    {"rotation_ready", config_opt.has_value()}
+                };
+            }
         }
         
         span.setStatus(true);
@@ -844,36 +877,39 @@ http::response<http::string_body> RopeApiHandler::makeResponse(
 }
 
 std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
-    [[maybe_unused]] const http::request<http::string_body>& req,
+    const http::request<http::string_body>& req,
     const std::string& permission,
     [[maybe_unused]] const std::string& resource,
     [[maybe_unused]] const std::string& path)
 {
+    // Basic authentication check - if auth middleware is not configured or not enabled,
+    // allow access (open mode)
     if (!auth_ || !auth_->isEnabled()) {
-        return std::nullopt; // Open mode — allow all
+        return std::nullopt;
     }
-
-    auto auth_hdr = req.find(http::field::authorization);
-    if (auth_hdr == req.end()) {
-        return makeErrorResponse(http::status::unauthorized,
-                                 "Authentication required", req);
+    
+    // Enforce scope-based authorization (mirrors VectorApiHandler RBAC pattern).
+    // Extract Bearer token and verify the required permission scope via
+    // auth_->authorize(); deny with HTTP 403 when the scope is not granted.
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
+        return makeErrorResponse(http::status::unauthorized, "Authentication required", req);
     }
 
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(auth_hdr->value().data(), auth_hdr->value().size()));
+        std::string_view(auth_header.data(), auth_header.size())
+    );
     if (!token) {
-        return makeErrorResponse(http::status::unauthorized,
-                                 "Invalid authorization header", req);
+        return makeErrorResponse(http::status::unauthorized, "Invalid authorization header", req);
     }
 
     auto ar = auth_->authorize(*token, permission);
     if (!ar.authorized) {
         return makeErrorResponse(http::status::forbidden,
-                                 "Insufficient permissions for scope: " + permission,
-                                 req);
+                                 "Insufficient permissions for scope: " + permission, req);
     }
 
-    return std::nullopt; // Access granted
+    return std::nullopt;  // null = access allowed
 }
 
 std::optional<std::string> RopeApiHandler::extractIndexName(const std::string& path) {

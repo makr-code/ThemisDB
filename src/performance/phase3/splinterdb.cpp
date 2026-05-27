@@ -10,6 +10,7 @@
  */
 
 #include "performance/phase3/splinterdb.h"
+#include <stdexcept>
 #include <queue>
 #include <mutex>
 #include <condition_variable>

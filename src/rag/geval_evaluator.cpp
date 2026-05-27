@@ -232,7 +232,7 @@ struct GEvalEvaluator::Impl {
             llm::InferenceEngineEnhanced::EnhancedInferenceRequest req;
             req.base_request.prompt = prompt;
             req.base_request.max_tokens = 50;
-            req.base_request.temperature = config.temperature;
+            req.base_request.temperature = static_cast<float>(config.temperature);
             req.allow_caching = true;
             req.priority = 0;
 
@@ -268,7 +268,7 @@ struct GEvalEvaluator::Impl {
 
             return heuristicProbsForDimension(dimension);
 
-        } catch (const std::exception&) {
+        } catch (...) {
             return heuristicProbsForDimension(dimension);
         }
     }
@@ -379,7 +379,7 @@ GEvalResult GEvalEvaluator::evaluate(
 
 std::vector<double> GEvalEvaluator::extractTokenProbabilities(
     const std::string& prompt,
-    const std::vector<int>& score_tokens
+    const std::vector<int>&
 ) {
     // Use LLM engine to derive probabilities from the prompt when available;
     // otherwise fall back to heuristic distributions.

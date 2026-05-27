@@ -662,7 +662,7 @@ std::optional<BranchManager::Branch> BranchManager::deserialize(const std::vecto
         std::string str(data.begin(), data.end());
         json j = json::parse(str);
         return Branch::fromJson(j);
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }

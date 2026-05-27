@@ -15,6 +15,7 @@
  */
 
 #include "rag/rag_judge.h"
+#include <stdexcept>
 #include "rag/prompt_templates.h"
 #include "rag/response_parser.h"
 #include "rag/llm_judge_integration.h"
@@ -1527,3 +1528,4 @@ double calculateCalibrationError(
 } // namespace metrics
 
 } // namespace themis::rag::judge
+

@@ -25,6 +25,11 @@ namespace directx {
  * - src/acceleration/directx/shaders/lora/gradient.hlsl
  * 
  * Requirements: DirectX 12, Shader Model 6.0+, Windows 10 1809+
+ *
+ * Error behavior:
+ * - Throws std::runtime_error when backend state cannot be acquired/initialized.
+ * - Throws std::invalid_argument on null pointers or invalid dimensions.
+ * - Throws std::overflow_error when workload byte-size calculations overflow.
  */
 
 /**

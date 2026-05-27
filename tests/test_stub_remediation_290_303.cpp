@@ -36,7 +36,7 @@ TEST(DistributedTrainerAllReduceBridge, AR_01_InjectedFnCalledInsteadOfLocalScal
         fn_called = true;
         for (auto& v : g) v /= 4.0f;
     }));
-    EXPECT_NO_THROW(trainer.clearAllReduceCpuFn());
+    EXPECT_NO_THROW(trainer.setAllReduceCpuFn(DistributedTrainer::AllReduceCpuFn{}));
 }
 
 TEST(DistributedTrainerAllReduceBridge, AR_02_ClearAllReduceFnRevertsToFallback) {
@@ -48,12 +48,12 @@ TEST(DistributedTrainerAllReduceBridge, AR_02_ClearAllReduceFnRevertsToFallback)
     trainer.setAllReduceCpuFn([](std::vector<float>& data) {
         for (auto& v : data) v /= 2.0f;
     });
-    trainer.clearAllReduceCpuFn();
+    trainer.setAllReduceCpuFn(DistributedTrainer::AllReduceCpuFn{});
     // After clear, setting a new fn must still work (no crash/invariant break)
     bool called2 = false;
     EXPECT_NO_THROW(trainer.setAllReduceCpuFn([&](std::vector<float>&) {
         called2 = true;
     }));
-    trainer.clearAllReduceCpuFn();
+    trainer.setAllReduceCpuFn(DistributedTrainer::AllReduceCpuFn{});
     EXPECT_FALSE(called2);
 }

@@ -10,6 +10,7 @@
  */
 
 #include "sharding/health_check.h"
+#include <stdexcept>
 #include "sharding/mtls_client.h"
 #include <openssl/x509.h>
 #include <openssl/pem.h>

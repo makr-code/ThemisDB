@@ -10,6 +10,7 @@
  */
 
 #include "llama_cpp/llama_cpp_registrar.h"
+#include <stdexcept>
 #include "llm/llm_plugin_manager.h"
 #include <memory>
 

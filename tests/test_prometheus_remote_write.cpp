@@ -140,6 +140,30 @@ TEST_F(PrometheusProtoDecodeTest, DecodeEmptyBuffer) {
     EXPECT_TRUE(result2->timeseries.empty());
 }
 
+TEST_F(PrometheusProtoDecodeTest, DecodeRejectsInvalidWireStartTag) {
+    // field 1 encoded as VARINT (wire type 0) instead of LEN (wire type 2)
+    // must fail fast at wire-start validation.
+    std::vector<uint8_t> invalid = {
+        static_cast<uint8_t>((1u << 3) | 0u),
+        0x01
+    };
+
+    auto result = PromWriteRequest::decode(invalid.data(), invalid.size());
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST_F(PrometheusProtoDecodeTest, DecodeRejectsTruncatedFirstTimeSeriesField) {
+    // field 1, wire LEN with declared length 4 but only 1 payload byte present.
+    std::vector<uint8_t> invalid = {
+        static_cast<uint8_t>((1u << 3) | 2u),
+        0x04,
+        0x08
+    };
+
+    auto result = PromWriteRequest::decode(invalid.data(), invalid.size());
+    EXPECT_FALSE(result.has_value());
+}
+
 TEST_F(PrometheusProtoDecodeTest, DecodeSingleSample) {
     int64_t ts_ms = 1700000000000LL;
     auto buf = buildWriteRequest("cpu_usage", {{42.5, ts_ms}});
@@ -277,6 +301,21 @@ TEST_F(PrometheusSnappyDecodeTest, DecodeSnappyInvalidData) {
 TEST_F(PrometheusSnappyDecodeTest, DecodeSnappyEmptyBuffer) {
     auto result = PromWriteRequest::decodeSnappy(nullptr, 0);
     EXPECT_FALSE(result.has_value()); // empty snappy stream is invalid
+}
+
+TEST_F(PrometheusSnappyDecodeTest, DecodeSnappyRejectsInvalidWireStartAfterDecompress) {
+    // Build a syntactically valid snappy stream that inflates to an invalid
+    // protobuf start (field 1 with VARINT wire type).
+    const std::vector<uint8_t> invalid_raw = {
+        static_cast<uint8_t>((1u << 3) | 0u),
+        0x01
+    };
+    const auto compressed = snappyCompress(invalid_raw);
+
+    auto result = PromWriteRequest::decodeSnappy(
+        reinterpret_cast<const uint8_t*>(compressed.data()),
+        compressed.size());
+    EXPECT_FALSE(result.has_value());
 }
 
 TEST_F(PrometheusSnappyDecodeTest, DecodeSnappyDecompressionBombRejected) {

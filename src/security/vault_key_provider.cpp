@@ -10,6 +10,7 @@
  */
 
 #include "security/vault_key_provider.h"
+#include <stdexcept>
 #include "security/key_provider.h"
 #include <nlohmann/json.hpp>
 #include <curl/curl.h>
@@ -493,7 +494,7 @@ std::vector<KeyMetadata> VaultKeyProvider::listKeys() {
             KeyMetadata meta = getKeyMetadata(key_id, 0);
             meta.key_id = key_id;
             result.push_back(meta);
-        } catch (const std::exception&) {
+        } catch (...) {
             // Skip keys that can't be read
             continue;
         }

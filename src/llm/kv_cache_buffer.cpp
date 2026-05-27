@@ -32,6 +32,10 @@ KVCacheBuffer::~KVCacheBuffer() {
 }
 
 bool KVCacheBuffer::appendToken(int sequence_id, const float* key, const float* value) {
+    if (key == nullptr || value == nullptr) {
+        return false;
+    }
+
     auto& cache = getCacheForSequence(sequence_id);
     
     // Append key and value

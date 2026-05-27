@@ -7,6 +7,7 @@
  */
 
 #include "api/geo_index_hooks.h"
+#include <stdexcept>
 #include "index/spatial_index.h"
 #include "storage/base_entity.h"
 #include "utils/geo/ewkb.h"

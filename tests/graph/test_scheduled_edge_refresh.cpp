@@ -839,8 +839,6 @@ TEST_F(ScheduledEdgeRefreshTest, Integration_LargeGraph_RefreshCycleCompletes) {
 }
 
 TEST_F(ScheduledEdgeRefreshTest, Integration_LargeGraph_WithEmbeddings_RemovesSomeEdges) {
-    constexpr int N = 20;
-
     // Build graph with two clusters: cluster A (nodes 0-9) and cluster B (nodes 10-19).
     // Cross-cluster edges should score low; intra-cluster edges high.
     for (int i = 0; i < 10; ++i) {

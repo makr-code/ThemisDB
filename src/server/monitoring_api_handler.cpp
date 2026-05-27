@@ -10,6 +10,7 @@
  */
 
 #include "server/monitoring_api_handler.h"
+#include <stdexcept>
 #include "server/openapi_route_registry.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
@@ -1767,4 +1768,3 @@ void MonitoringApiHandler::registerRoutes() {
 
 } // namespace server
 } // namespace themis
-

@@ -17,7 +17,12 @@
 #include <map>
 #include <memory>
 #include <mutex>
+#include <functional>
+#include <optional>
 #include <chrono>
+#include <functional>
+#include <optional>
+#include <string_view>
 #include <nlohmann/json.hpp>
 
 namespace themis::sharding {
@@ -234,6 +239,33 @@ public:
      * @param config New configuration
      */
     void updateAdaptiveConfig(const AdaptiveConfig& config);
+
+    /**
+     * @brief Inject NLP/ML query-context enrichment callback.
+     *
+     * The callback receives the raw query text and the current query context
+     * (already populated with extracted keywords), and can enrich domains,
+     * regions, organizations, data types, or embeddings in-place.
+     *
+     * @param fn NLP/ML enrichment function.
+     */
+    using NlpContextFn = std::function<void(
+        const std::string& query,
+        CapabilityMatcher::QueryContext& context
+    )>;
+
+    /**
+     * @brief Backward-compatible NLP callback variant.
+     *
+     * The callback may return a fully prepared QueryContext. Returning
+     * std::nullopt keeps the existing heuristic/extracted context.
+     */
+    using LegacyNlpContextFn = std::function<std::optional<CapabilityMatcher::QueryContext>(
+        std::string_view query
+    )>;
+
+    void setNlpContextFn(NlpContextFn fn);
+    void setNlpContextFn(LegacyNlpContextFn fn);
     
     /**
      * Get current adaptive configuration
@@ -263,13 +295,15 @@ private:
     std::map<std::string, ShardLLMLoad> shard_llm_load_;
 
     mutable std::mutex domain_scores_mutex_;
+
+    std::optional<NlpContextFn> nlp_context_fn_;
+    mutable std::mutex nlp_context_fn_mutex_;
     
     // Statistics
     mutable std::atomic<uint64_t> total_adaptive_queries_{0};
     mutable std::atomic<uint64_t> iterations_saved_{0};
     mutable std::atomic<uint64_t> early_stops_{0};
     mutable std::atomic<uint64_t> fallback_to_scatter_gather_{0};
-    
     /**
      * Prepare query context for capability matching
      * 

@@ -184,3 +184,7 @@ Every change must be recorded in the document's version header and noted in [CHA
 - [SECURITY.md](SECURITY.md) — Security policy
 - [docs/ROOT_GOVERNANCE_COMMUNITY_REVIEW_AUDIT_2026-05-13.md](docs/ROOT_GOVERNANCE_COMMUNITY_REVIEW_AUDIT_2026-05-13.md) — Review and documentation audit evidence for root governance/community harmonization
 - [.github/GOVERNANCE.md](.github/GOVERNANCE.md) — Issue/PR label schema and milestone standards
+
+---
+Zuletzt geprueft (Root-Sync): 2026-05-26
+

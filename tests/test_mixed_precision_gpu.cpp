@@ -18,7 +18,7 @@
 #if SKIP_MIXED_PRECISION_GPU_TESTS
 
 TEST(DummyMixedPrecisionGpu, DisabledOnMSVC) {
-    GTEST_SKIP() << "Mixed-precision GPU tests are temporarily disabled on MSVC while porting.";
+    GTEST_SKIP() << "capability:gpu_mixed_precision_tests_enabled=false;reason=msvc_porting_in_progress";
 }
 
 #else
@@ -331,7 +331,7 @@ TEST(GPUMixedPrecisionTest, HasInfOrNaN_CPU_NaN) {
 #ifdef THEMIS_ENABLE_CUDA
 TEST(GPUMixedPrecisionTest, ScalarMultiplyInplace_CUDA) {
     if (!Device::cuda().is_available()) {
-        GTEST_SKIP() << "CUDA not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_not_available";
     }
     
     GPUTensor tensor({4}, Device::cuda());
@@ -349,7 +349,7 @@ TEST(GPUMixedPrecisionTest, ScalarMultiplyInplace_CUDA) {
 
 TEST(GPUMixedPrecisionTest, HasInfOrNaN_CUDA_Normal) {
     if (!Device::cuda().is_available()) {
-        GTEST_SKIP() << "CUDA not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_not_available";
     }
     
     GPUTensor tensor({4}, Device::cuda());
@@ -361,7 +361,7 @@ TEST(GPUMixedPrecisionTest, HasInfOrNaN_CUDA_Normal) {
 
 TEST(GPUMixedPrecisionTest, HasInfOrNaN_CUDA_Inf) {
     if (!Device::cuda().is_available()) {
-        GTEST_SKIP() << "CUDA not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_not_available";
     }
     
     GPUTensor tensor({4}, Device::cuda());
@@ -373,7 +373,7 @@ TEST(GPUMixedPrecisionTest, HasInfOrNaN_CUDA_Inf) {
 
 TEST(GPUMixedPrecisionTest, HasInfOrNaN_CUDA_NaN) {
     if (!Device::cuda().is_available()) {
-        GTEST_SKIP() << "CUDA not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_not_available";
     }
     
     GPUTensor tensor({4}, Device::cuda());
@@ -387,7 +387,7 @@ TEST(GPUMixedPrecisionTest, HasInfOrNaN_CUDA_NaN) {
 #ifdef THEMIS_ENABLE_HIP
 TEST(GPUMixedPrecisionTest, ScalarMultiplyInplace_HIP) {
     if (!Device::hip().is_available()) {
-        GTEST_SKIP() << "HIP not available";
+        GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_not_available";
     }
     
     GPUTensor tensor({4}, Device::hip());
@@ -405,7 +405,7 @@ TEST(GPUMixedPrecisionTest, ScalarMultiplyInplace_HIP) {
 
 TEST(GPUMixedPrecisionTest, HasInfOrNaN_HIP_Normal) {
     if (!Device::hip().is_available()) {
-        GTEST_SKIP() << "HIP not available";
+        GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_not_available";
     }
     
     GPUTensor tensor({4}, Device::hip());
@@ -417,7 +417,7 @@ TEST(GPUMixedPrecisionTest, HasInfOrNaN_HIP_Normal) {
 
 TEST(GPUMixedPrecisionTest, HasInfOrNaN_HIP_Inf) {
     if (!Device::hip().is_available()) {
-        GTEST_SKIP() << "HIP not available";
+        GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_not_available";
     }
     
     GPUTensor tensor({4}, Device::hip());
@@ -429,7 +429,7 @@ TEST(GPUMixedPrecisionTest, HasInfOrNaN_HIP_Inf) {
 
 TEST(GPUMixedPrecisionTest, HasInfOrNaN_HIP_NaN) {
     if (!Device::hip().is_available()) {
-        GTEST_SKIP() << "HIP not available";
+        GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_not_available";
     }
     
     GPUTensor tensor({4}, Device::hip());

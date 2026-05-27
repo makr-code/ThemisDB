@@ -10,6 +10,7 @@
  */
 
 #include "security/aql_injection_detector.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <algorithm>
 #include <cctype>

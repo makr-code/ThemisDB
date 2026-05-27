@@ -122,7 +122,6 @@ GPUTensor FlashLoRA::forward(
     }
     
     // Get LoRA dimensions
-    size_t rank = B.shape()[0];
     size_t out_dim = A.shape()[0];
     
     // Create output tensor
@@ -201,7 +200,13 @@ GPUTensor FlashLoRA::forward(
         }
         
         // Synchronize to ensure completion
-        cudaDeviceSynchronize();
+        const cudaError_t sync_err = cudaDeviceSynchronize();
+        if (sync_err != cudaSuccess) {
+            throw std::runtime_error(
+                "FlashLoRA CUDA forward synchronize failed: " +
+                std::string(cudaGetErrorString(sync_err))
+            );
+        }
     } else
 #endif
     {
@@ -368,7 +373,13 @@ std::tuple<GPUTensor, GPUTensor, GPUTensor> FlashLoRA::backward(
             throw std::runtime_error("FlashLoRA backward input kernel failed");
         }
         
-        cudaDeviceSynchronize();
+        const cudaError_t sync_err = cudaDeviceSynchronize();
+        if (sync_err != cudaSuccess) {
+            throw std::runtime_error(
+                "FlashLoRA CUDA backward synchronize failed: " +
+                std::string(cudaGetErrorString(sync_err))
+            );
+        }
     } else
 #endif
     {
@@ -388,7 +399,7 @@ bool FlashLoRA::is_available(const Device& device) {
     if (device.type == DeviceType::CUDA) {
         // Check CUDA compute capability
         int device_id = device.index;
-        cudaDeviceProp prop;
+        cudaDeviceProp prop{};
         cudaError_t err = cudaGetDeviceProperties(&prop, device_id);
         
         if (err != cudaSuccess) {
@@ -430,8 +441,13 @@ FlashLoRA::Config FlashLoRA::get_recommended_config(
 #ifdef THEMIS_ENABLE_CUDA
     if (device.type == DeviceType::CUDA) {
         int device_id = device.index;
-        cudaDeviceProp prop;
-        cudaGetDeviceProperties(&prop, device_id);
+        cudaDeviceProp prop{};
+        cudaError_t prop_err = cudaGetDeviceProperties(&prop, device_id);
+        if (prop_err != cudaSuccess) {
+            spdlog::warn("FlashLoRA: cudaGetDeviceProperties failed for device {}: {}",
+                         device_id, cudaGetErrorString(prop_err));
+            // Fall through with zeroed prop; auto_tune_for_device will use safe defaults
+        }
         
         // Auto-tune based on device name
         config.auto_tune_for_device(std::string(prop.name));
@@ -486,7 +502,6 @@ void FlashLoRA::validate_shapes(
     size_t in_dim = input_shape.back();
     size_t rank_B = B_shape[0];
     size_t in_dim_B = B_shape[1];
-    size_t out_dim_A = A_shape[0];
     size_t rank_A = A_shape[1];
     
     if (in_dim != in_dim_B) {

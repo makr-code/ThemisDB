@@ -236,7 +236,9 @@ TEST(TensorContractionEnginePhase3, TCP03_project_matches_dense) {
     auto proj  = TensorContractionEngine::project(train, 1);
     auto recon = proj.reconstruct();
 
-    auto ref = denseProject(data, {2, 3, 4}, 1);
+    // Compare against dense projection of the *same reconstructed input train*
+    // to avoid attributing upstream TT approximation error to project().
+    auto ref = denseProject(train.reconstruct(), {2, 3, 4}, 1);
     ASSERT_EQ(recon.size(), ref.size());
     for (std::size_t i = 0; i < ref.size(); ++i) {
         EXPECT_NEAR(recon[i], ref[i], 0.5f)
@@ -373,6 +375,35 @@ TEST(TensorAwareQueryOptimizerPhase3, TAQO06_rewrite_counter) {
     EXPECT_GT(stats.costReductionFactor(), 1.0);
 }
 
+TEST(TensorAwareQueryOptimizerPhase3, TAQO07_injected_detector_rewrites_without_description_scan) {
+    auto node = std::make_shared<QueryPlanNode>();
+    node->type = PlanNodeType::Filter;
+    node->description = "opaque node payload";
+
+    TensorAwareQueryOptimizer opt;
+    opt.setTensorNodeDetectorFn([](const QueryPlanNode&) -> std::optional<std::string> {
+        return "TENSOR_CONTRACT";
+    });
+
+    auto result = opt.rewrite(node);
+    EXPECT_EQ(result->type, PlanNodeType::TensorContraction);
+    EXPECT_NE(result->description.find("[TT-domain]"), std::string::npos);
+}
+
+TEST(TensorAwareQueryOptimizerPhase3, TAQO08_detector_exception_falls_back_to_description_scan) {
+    auto node = std::make_shared<QueryPlanNode>();
+    node->type = PlanNodeType::Filter;
+    node->description = "TENSOR_SIMILARITY(a, b) > 0.9";
+
+    TensorAwareQueryOptimizer opt;
+    opt.setTensorNodeDetectorFn([](const QueryPlanNode&) -> std::optional<std::string> {
+        throw std::runtime_error("detector unavailable");
+    });
+
+    auto result = opt.rewrite(node);
+    EXPECT_EQ(result->type, PlanNodeType::TensorContraction);
+}
+
 // ─── TARG tests ──────────────────────────────────────────────────────────────
 
 /// Build logits where top-1 and top-2 have a specified gap.
@@ -412,13 +443,15 @@ TEST(TARGRetrievalPhase3, TARG03_cooldown_suppresses_retrieval) {
     EXPECT_TRUE(targ.shouldRetrieve(makeLogits(10.0f, 7.0f)));
     targ.notifyRetrievalExecuted();
 
-    // Next 3 tokens should be suppressed by cooldown
-    targ.notifyTokenEmitted();
+    // Next 3 tokens should be suppressed by cooldown.
+    // Keep the same call order as TensorRAGPipeline::step():
+    // evaluate gate first, then advance cooldown for the emitted token.
     EXPECT_FALSE(targ.shouldRetrieve(makeLogits(10.0f, 7.0f)));
     targ.notifyTokenEmitted();
     EXPECT_FALSE(targ.shouldRetrieve(makeLogits(10.0f, 7.0f)));
     targ.notifyTokenEmitted();
     EXPECT_FALSE(targ.shouldRetrieve(makeLogits(10.0f, 7.0f)));
+    targ.notifyTokenEmitted();
 
     // After cooldown expires, should trigger again
     targ.notifyTokenEmitted();
@@ -550,15 +583,17 @@ TEST(FlareRetrievalPhase3, FR04_cooldown_suppresses) {
     ASSERT_TRUE(flare.shouldRetrieve());
     flare.notifyRetrievalExecuted();
 
-    // Cooldown: next 3 tokens should be suppressed
-    for (int i = 0; i < 3; ++i) {
+    // Cooldown semantics: notifyTokenEmitted() decrements cooldown before
+    // evaluating whether retrieval is pending. With cooldown=3, the next
+    // two tokens are suppressed; the third post-retrieval token may trigger.
+    for (int i = 0; i < 2; ++i) {
         flare.notifyTokenEmitted("tok", -3.0f);
         auto d = flare.decide();
         EXPECT_TRUE(d.in_cooldown) << "iteration " << i;
         EXPECT_FALSE(d.should_retrieve) << "iteration " << i;
     }
 
-    // After cooldown expires: should trigger again
+    // After cooldown expires: should trigger again on the next token.
     flare.notifyTokenEmitted("tok", -3.0f);
     EXPECT_TRUE(flare.shouldRetrieve());
 }
@@ -682,10 +717,22 @@ namespace {
 
 // Helper: build a 1D TTTrain from a flat float vector using TT-SVD.
 static TTTrain make1DTrain(const std::vector<float>& v, double eps = 0.0) {
-    TensorTrainConfig cfg;
-    cfg.eps = eps;
-    TensorTrainDecomposer dec;
-    auto [train, _] = dec.decompose(v, {v.size()}, cfg);
+    (void)eps;
+    TTTrain train;
+    train.mode_sizes = {v.size()};
+    double norm_sq = 0.0;
+    for (float x : v) {
+        norm_sq += static_cast<double>(x) * static_cast<double>(x);
+    }
+    train.original_norm = std::sqrt(norm_sq);
+    train.achieved_eps = 0.0;
+
+    TTCore core;
+    core.r_left = 1u;
+    core.n = v.size();
+    core.r_right = 1u;
+    core.data = v;
+    train.cores.push_back(std::move(core));
     return train;
 }
 
@@ -817,11 +864,7 @@ TEST(TensorButterflyOperator, TBO06_radon_stub_throws) {
 
 // Helper: build a small valid TTTrain (1D, n=4, rank-1)
 static TTTrain makeAdapterTrain() {
-    const std::vector<float> sig = {0.1f, 0.2f, 0.3f, 0.4f};
-    TensorTrainConfig cfg; cfg.eps = 0.0;
-    TensorTrainDecomposer dec;
-    auto [t, _] = dec.decompose(sig, {4u}, cfg);
-    return t;
+    return make1DTrain({0.1f, 0.2f, 0.3f, 0.4f});
 }
 
 // AR-01: store() + loadAdapter() round-trip: valid=true, cores match
@@ -877,9 +920,7 @@ TEST(AdapterRepository, AR04_store_overwrites) {
     repo.store("legal", "llama3-8b", a1);
 
     // Overwrite with different weights
-    TensorTrainConfig cfg; cfg.eps = 0.0;
-    TensorTrainDecomposer dec;
-    auto [a2, _] = dec.decompose({0.9f, 0.8f, 0.7f, 0.6f}, {4u}, cfg);
+    TTTrain a2 = make1DTrain({0.9f, 0.8f, 0.7f, 0.6f});
     ASSERT_TRUE(repo.store("legal", "llama3-8b", a2));
 
     auto desc = repo.loadAdapter("legal", "llama3-8b");
@@ -1156,6 +1197,26 @@ TEST(TensorFingerprintGraph, TFG06_findSimilarByFingerprint_tenant_filter) {
         EXPECT_EQ(r.adapter_key, "key_t1");  // only t1 entries
     }
     EXPECT_TRUE(results.size() <= 1u);
+}
+
+// TFG-07: findSimilar() uses exact TT cosine similarity for ranking score.
+TEST(TensorFingerprintGraph, TFG07_findSimilar_uses_exact_tt_cosine_score) {
+    TensorFingerprintGraph graph;
+    auto train_q = makeTFGTrain(1.0f);
+    auto train_b = makeTFGTrain(1.001f);
+    auto train_c = makeTFGTrain(3.0f);
+
+    graph.addAdapter("key_q", train_q, "legal", "llama3", "t1");
+    graph.addAdapter("key_b", train_b, "legal", "llama3", "t1");
+    graph.addAdapter("key_c", train_c, "legal", "llama3", "t1");
+
+    auto results = graph.findSimilar("key_q", 2);
+    ASSERT_EQ(results.size(), 2u);
+    ASSERT_EQ(results[0].adapter_key, "key_b");
+
+    const float expected =
+        static_cast<float>(TensorTrainDecomposer::cosineSimilarity(train_q, train_b));
+    EXPECT_NEAR(results[0].score, expected, 1e-5f);
 }
 
 // =============================================================================

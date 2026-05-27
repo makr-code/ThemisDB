@@ -19,27 +19,18 @@
 #include <algorithm>
 #include <mutex>
 #include <regex>
+#include <mutex>
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
+#include <mutex>
 
 namespace themis {
 namespace llm {
 
-// ── Spam-keywords provider bridge (stub #296) ─────────────────────────────
 namespace {
-std::mutex              s_spam_kw_mutex;
-FeedbackStore::SpamKeywordsProviderFn s_spam_kw_provider;
-} // anonymous namespace
-
-void FeedbackStore::setSpamKeywordsProvider(SpamKeywordsProviderFn fn) {
-    std::lock_guard<std::mutex> lk(s_spam_kw_mutex);
-    s_spam_kw_provider = std::move(fn);
-}
-
-void FeedbackStore::clearSpamKeywordsProvider() {
-    std::lock_guard<std::mutex> lk(s_spam_kw_mutex);
-    s_spam_kw_provider = SpamKeywordsProviderFn{};
-}
+std::mutex g_spam_keywords_provider_mutex;
+FeedbackStore::SpamKeywordsProviderFn g_spam_keywords_provider;
+} // namespace
 
 // ===== Helper function to convert enum to string =====
 
@@ -160,6 +151,16 @@ void FeedbackStore::setValidationPlugin(std::shared_ptr<IFeedbackPlugin> plugin)
 
 std::shared_ptr<IFeedbackPlugin> FeedbackStore::getValidationPlugin() const {
     return validation_plugin_;
+}
+
+void FeedbackStore::setSpamKeywordsProvider(SpamKeywordsProviderFn provider) {
+    std::lock_guard<std::mutex> lock(g_spam_keywords_provider_mutex);
+    g_spam_keywords_provider = std::move(provider);
+}
+
+void FeedbackStore::clearSpamKeywordsProvider() {
+    std::lock_guard<std::mutex> lock(g_spam_keywords_provider_mutex);
+    g_spam_keywords_provider = {};
 }
 
 
@@ -542,30 +543,42 @@ void FeedbackStore::clear() {
 
 // ===== Validation Logic =====
 
-const std::vector<std::string>& FeedbackStore::getSpamKeywords() {
-    // Check for injected provider first (stub #296 bridge).
-    {
-        std::lock_guard<std::mutex> lk(s_spam_kw_mutex);
-        if (s_spam_kw_provider) {
-            static thread_local std::vector<std::string> dynamic_keywords;
-            try {
-                auto kws = s_spam_kw_provider();
-                if (!kws.empty()) {
-                    dynamic_keywords = std::move(kws);
-                    return dynamic_keywords;
-                }
-            } catch (const std::exception& ex) {
-                THEMIS_WARN("FeedbackStore::getSpamKeywords: provider threw: {}", ex.what());
-            }
-        }
-    }
-    // Built-in static fallback.
-    static const std::vector<std::string> spam_keywords = {
+std::vector<std::string> FeedbackStore::getSpamKeywords() {
+    // Default spam keywords used when no runtime provider is configured.
+    static const std::vector<std::string> default_spam_keywords = {
         "buy now", "click here", "viagra", "casino", "lottery", 
         "free money", "million dollars", "nigerian prince",
         "weight loss", "work from home", "make money fast"
     };
-    return spam_keywords;
+
+    SpamKeywordsProviderFn provider;
+    {
+        std::lock_guard<std::mutex> lock(g_spam_keywords_provider_mutex);
+        provider = g_spam_keywords_provider;
+    }
+
+    if (provider) {
+        try {
+            auto runtime_keywords = provider();
+            if (!runtime_keywords.empty()) {
+                runtime_keywords.erase(
+                    std::remove_if(runtime_keywords.begin(),
+                                   runtime_keywords.end(),
+                                   [](const auto& keyword) { return keyword.empty(); }),
+                    runtime_keywords.end());
+            }
+
+            if (!runtime_keywords.empty()) {
+                return runtime_keywords;
+            }
+
+            THEMIS_WARN("Spam keywords provider returned empty list; using built-in defaults");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Spam keywords provider failed: {}; using built-in defaults", e.what());
+        }
+    }
+
+    return default_spam_keywords;
 }
 
 bool FeedbackStore::isLikelySpam(const std::string& text) {
@@ -590,7 +603,7 @@ bool FeedbackStore::isLikelySpam(const std::string& text) {
     }
     
     // Common spam patterns
-    const auto& spam_keywords = getSpamKeywords();
+    const auto spam_keywords = getSpamKeywords();
     
     std::string lower_text = text;
     std::transform(lower_text.begin(), lower_text.end(), lower_text.begin(), ::tolower);
@@ -666,22 +679,13 @@ ValidationStatus FeedbackStore::applyPluginValidation(FeedbackEntry& feedback) {
             case FeedbackValidationResult::FLAG:
                 return ValidationStatus::FLAGGED;
             case FeedbackValidationResult::MODIFY:
-                // Apply plugin-suggested modifications before storing the entry.
-                // Fields are overwritten only when the plugin explicitly set them
-                // (has_value()), preserving original values for unset optionals.
+                // Apply plugin-provided transformations before storing the feedback.
                 if (result.modified_comment.has_value()) {
                     feedback.comment = *result.modified_comment;
-                    data.comment     = *result.modified_comment; // keep data in sync
                 }
                 if (result.modified_metadata.has_value()) {
                     feedback.metadata = *result.modified_metadata;
-                    data.metadata     = *result.modified_metadata;
                 }
-                THEMIS_DEBUG("Plugin MODIFY applied for feedback {} "
-                             "(comment rewritten: {}, metadata rewritten: {})",
-                             feedback.id,
-                             result.modified_comment.has_value(),
-                             result.modified_metadata.has_value());
                 return ValidationStatus::APPROVED;
             default:
                 return ValidationStatus::PENDING;
@@ -892,4 +896,3 @@ bool FeedbackStore::isLinkedToAdapter(
 
 } // namespace llm
 } // namespace themis
-

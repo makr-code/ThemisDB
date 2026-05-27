@@ -88,6 +88,23 @@ public:
     void unregisterConnection(uint64_t conn_id);
 
     /**
+     * @brief Get pending raw events for a connection (for at-least-once delivery tracking).
+     *
+     * Returns up to `max_events` raw `ChangeEvent` objects that have been
+     * buffered since the last call.  This API is intended for handlers that
+     * need to feed events through a `DeliveryTracker` before formatting them
+     * as SSE lines; callers should not mix calls to `pollEvents()` and
+     * `pollRawEvents()` on the same connection.
+     *
+     * Rate-limiting (if configured) is applied the same way as in `pollEvents()`.
+     *
+     * @param conn_id    Connection ID.
+     * @param max_events Maximum number of raw events to return.
+     * @return           Raw change events in ascending sequence order.
+     */
+    std::vector<Changefeed::ChangeEvent> pollRawEvents(uint64_t conn_id, size_t max_events = 100);
+
+    /**
      * @brief Get pending events for a connection
      * @param conn_id Connection ID
      * @param max_events Max events to retrieve
@@ -121,12 +138,15 @@ public:
 private:
     struct Connection {
         uint64_t id;
-        uint64_t current_sequence;
+        std::atomic<uint64_t> current_sequence{0};
         std::string key_prefix;
         std::set<Changefeed::ChangeEventType> event_types;
         std::chrono::steady_clock::time_point last_activity;
         std::chrono::steady_clock::time_point last_heartbeat;
+        /// Formatted SSE lines ("id: N\ndata: {...}\n\n") — drained by pollEvents().
         std::vector<std::string> buffered_events;
+        /// Raw ChangeEvent objects — drained by pollRawEvents() for at-least-once tracking.
+        std::vector<Changefeed::ChangeEvent> raw_buffered_events;
         std::atomic<bool> active{true};
         // Backpressure accounting
         uint64_t dropped_events{0};
@@ -147,6 +167,7 @@ private:
 
     // Background polling
     std::unique_ptr<boost::asio::steady_timer> poll_timer_;
+    mutable std::mutex poll_timer_mutex_;
     std::atomic<bool> running_{false};
 
     // Stats

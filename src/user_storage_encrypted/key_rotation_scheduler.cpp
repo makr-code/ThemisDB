@@ -10,6 +10,7 @@
  */
 
 #include "key_rotation_scheduler.hpp"
+#include <stdexcept>
 #include <thread>
 #include <chrono>
 #include <map>

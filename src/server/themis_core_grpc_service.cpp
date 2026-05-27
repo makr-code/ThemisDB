@@ -10,6 +10,7 @@
  */
 
 #include "server/themis_core_grpc_service.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "transaction/transaction_manager.h"
 #include "utils/logger.h"

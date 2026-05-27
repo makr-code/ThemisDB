@@ -10,6 +10,7 @@
  */
 
 #include "server/compliance_reporting_api_handler.h"
+#include <stdexcept>
 #include "server/auth_scope_mapper.h"
 #include "utils/logger.h"
 
@@ -290,14 +291,14 @@ bool ComplianceReportingApiHandler::checkAuth(
     }
     
     // Extract authorization header
-    auto auth_it = req.find(http::field::authorization);
-    if (auth_it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         THEMIS_WARN("Missing Authorization header for compliance reporting endpoint");
         return false;
     }
     
     // Extract Bearer token
-    const auto auth_value = std::string(auth_it->value());
+    const auto auth_value = std::string(auth_header.data(), auth_header.size());
     auto token = AuthMiddleware::extractBearerToken(auth_value);
     
     if (!token) {
