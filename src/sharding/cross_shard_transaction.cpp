@@ -118,46 +118,6 @@ bool CrossShardTransactionCoordinator::initialize() {
         spdlog::error("Consensus module required for cross-shard transactions");
         return false;
     }
-
-    void CrossShardTransactionCoordinator::reportDistributedWait(
-        const std::string& waiting_transaction_id,
-        const std::string& blocking_transaction_id,
-        const std::string& shard_id
-    ) {
-        if (waiting_transaction_id.empty() || blocking_transaction_id.empty() ||
-            waiting_transaction_id == blocking_transaction_id) {
-            return;
-        }
-
-        std::lock_guard<std::mutex> lock(transactions_mutex_);
-        auto waiting_it = transactions_.find(waiting_transaction_id);
-        auto blocking_it = transactions_.find(blocking_transaction_id);
-        if (waiting_it == transactions_.end() || blocking_it == transactions_.end()) {
-            return;
-        }
-
-        const auto waiting_state = waiting_it->second.state;
-        const auto blocking_state = blocking_it->second.state;
-        const bool waiting_live = waiting_state == TransactionState::ACTIVE ||
-                                  waiting_state == TransactionState::PREPARING;
-        const bool blocking_live = blocking_state == TransactionState::ACTIVE ||
-                                   blocking_state == TransactionState::PREPARING ||
-                                   blocking_state == TransactionState::PREPARED;
-        if (!waiting_live || !blocking_live) {
-            return;
-        }
-
-        distributed_wait_for_edges_[waiting_transaction_id].insert(blocking_transaction_id);
-        spdlog::trace("Recorded distributed wait edge: {} -> {} (shard={})",
-                      waiting_transaction_id, blocking_transaction_id, shard_id);
-    }
-
-    void CrossShardTransactionCoordinator::clearDistributedWaits(
-        const std::string& transaction_id
-    ) {
-        std::lock_guard<std::mutex> lock(transactions_mutex_);
-        clearDistributedWaitEdgesLocked(transaction_id);
-    }
     
     // Phase 2.3.3: Initialize WAL if available
     if (transaction_wal_ && !transaction_wal_->initialize()) {
@@ -187,6 +147,46 @@ bool CrossShardTransactionCoordinator::initialize() {
         recovery_result.details.failed_operations,
         recovery_result.details.in_doubt_transactions);
     return true;
+}
+
+void CrossShardTransactionCoordinator::reportDistributedWait(
+    const std::string& waiting_transaction_id,
+    const std::string& blocking_transaction_id,
+    const std::string& shard_id
+) {
+    if (waiting_transaction_id.empty() || blocking_transaction_id.empty() ||
+        waiting_transaction_id == blocking_transaction_id) {
+        return;
+    }
+
+    std::lock_guard<std::mutex> lock(transactions_mutex_);
+    auto waiting_it = transactions_.find(waiting_transaction_id);
+    auto blocking_it = transactions_.find(blocking_transaction_id);
+    if (waiting_it == transactions_.end() || blocking_it == transactions_.end()) {
+        return;
+    }
+
+    const auto waiting_state = waiting_it->second.state;
+    const auto blocking_state = blocking_it->second.state;
+    const bool waiting_live = waiting_state == TransactionState::ACTIVE ||
+                              waiting_state == TransactionState::PREPARING;
+    const bool blocking_live = blocking_state == TransactionState::ACTIVE ||
+                               blocking_state == TransactionState::PREPARING ||
+                               blocking_state == TransactionState::PREPARED;
+    if (!waiting_live || !blocking_live) {
+        return;
+    }
+
+    distributed_wait_for_edges_[waiting_transaction_id].insert(blocking_transaction_id);
+    spdlog::trace("Recorded distributed wait edge: {} -> {} (shard={})",
+                  waiting_transaction_id, blocking_transaction_id, shard_id);
+}
+
+void CrossShardTransactionCoordinator::clearDistributedWaits(
+    const std::string& transaction_id
+) {
+    std::lock_guard<std::mutex> lock(transactions_mutex_);
+    clearDistributedWaitEdgesLocked(transaction_id);
 }
 
 bool CrossShardTransactionCoordinator::start() {
@@ -2837,4 +2837,3 @@ size_t PercolatorCoordinator::cleanStaleLocks(
 
 } // namespace sharding
 } // namespace themisdb
-
