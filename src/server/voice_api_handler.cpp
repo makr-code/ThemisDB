@@ -336,7 +336,7 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
     else if (path == "/api/v1/voice/recordings/search" && method == http::verb::get) {
         return handleSearchTranscripts(req);
     }
-    else if (path.find("/api/v1/voice/recordings/") == 0 && method == http::verb::get) {
+    else if (path.rfind("/api/v1/voice/recordings/", 0) == 0 && method == http::verb::get) {
         static constexpr std::string_view kRecordingsPrefix = "/api/v1/voice/recordings/";
         std::string record_id = path.substr(kRecordingsPrefix.size());
         if (record_id.empty()) {
@@ -364,7 +364,7 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
     else if (path == "/api/v1/voice/auth/profiles" && method == http::verb::get) {
         return handleAuthListProfiles(req);
     }
-    else if (path.find("/api/v1/voice/auth/profiles/") == 0 && method == http::verb::delete_) {
+    else if (path.rfind("/api/v1/voice/auth/profiles/", 0) == 0 && method == http::verb::delete_) {
         static constexpr std::string_view kAuthProfilesPrefix = "/api/v1/voice/auth/profiles/";
         std::string profile_id = path.substr(kAuthProfilesPrefix.size());
         if (profile_id.empty()) {

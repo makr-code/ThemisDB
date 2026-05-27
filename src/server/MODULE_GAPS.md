@@ -598,12 +598,39 @@ Failing fast at construction time surfaces the programming error at the call sit
 than producing a segfault deep inside a request handler. Matching `@throws` Doxygen
 annotation added to the header declaration.
 
+#### 4. Path-prefix anchor hardening — `VoiceApiHandler::handleRequest()` (pointer_arithmetic / CWE-20)
+
+**Root cause:** Four parameterised path branches used `path.find(prefix) == 0` to detect
+route prefixes, which is functionally correct but not idiomatic and can be confused with
+mid-string search. Magic numeric offsets (`substr(21)`, `substr(24)`) were used to extract
+the trailing identifier, making the code fragile to prefix length changes. The sessions
+branch also lacked an explicit empty-ID guard, unlike the macros/recordings/profiles
+branches.
+
+**Fix (2026-05-27):**
+- Replaced all four `path.find(prefix) == 0` tests with `path.rfind(prefix, 0) == 0`
+  (anchored prefix check — `rfind` with `pos=0` only matches at position 0).
+- Replaced magic `substr(21)` / `substr(24)` offsets with `static constexpr std::string_view`
+  prefix constants (`kMacrosPrefix`, `kSessionsPrefix`, `kRecordingsPrefix`,
+  `kAuthProfilesPrefix`) and `path.substr(kXxxPrefix.size())`.
+- Added missing empty-ID 400 guard for the sessions branch (consistent with macros,
+  recordings, and profiles branches).
+
+Applies to:
+- `/api/v1/voice/macros/<id>` branch
+- `/api/v1/voice/sessions/<id>` branch (also added empty-ID guard)
+- `/api/v1/voice/recordings/<id>` branch
+- `/api/v1/voice/auth/profiles/<id>` branch
+
+Tests added: `MacroRejectsMissingId`, `SessionRejectsMissingId`, `RecordingRejectsMissingId`,
+`ProfileDeleteRejectsMissingId` in `tests/test_voice_api_handler.cpp`.
+
 ### Gap Delta (estimated, mcp_server.cpp + voice_api_handler.cpp)
 
 | Type | Before | After |
 |---|---|---|
-| null_dereference (HIGH) | 7 (mcp) + 7 (voice) = 14 | 7 mcp → 0 real; voice guarded at ctor |
-| pointer_arithmetic (HIGH) | 16 (mcp) + 25 (voice) = 41 | Structural false-positives documented; real risks guarded |
+| null_dereference (HIGH) | 7 (mcp) + 7 (voice) = 14 | 7 mcp → 0 real; voice guarded at ctor + handleRequest |
+| pointer_arithmetic (HIGH) | 16 (mcp) + 25 (voice) = 41 | Path-prefix anchoring applied to all 4 parameterised routes; structural false-positives documented |
 
 ### Remaining False Positives (documented, not fixed)
 

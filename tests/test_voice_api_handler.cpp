@@ -95,12 +95,28 @@ TEST_F(VoiceApiHandlerPathValidationTest, RecordingRejectsInvalidId) {
     EXPECT_EQ(parseBody(response)["details"], "Invalid recording ID");
 }
 
+TEST_F(VoiceApiHandlerPathValidationTest, RecordingRejectsMissingId) {
+    const auto response = handler.handleRequest(
+        makeRequest(http::verb::get, "/api/v1/voice/recordings/"));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "Missing recording ID");
+}
+
 TEST_F(VoiceApiHandlerPathValidationTest, ProfileDeleteRejectsInvalidId) {
     const auto response = handler.handleRequest(
         makeRequest(http::verb::delete_, "/api/v1/voice/auth/profiles/../bad"));
 
     ASSERT_EQ(response.result(), http::status::bad_request);
     EXPECT_EQ(parseBody(response)["details"], "Invalid profile ID");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, ProfileDeleteRejectsMissingId) {
+    const auto response = handler.handleRequest(
+        makeRequest(http::verb::delete_, "/api/v1/voice/auth/profiles/"));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "Missing profile ID");
 }
 
 TEST_F(VoiceApiHandlerPathValidationTest, AuthVerifyRejectsNonStringProfileId) {
