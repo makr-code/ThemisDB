@@ -20,6 +20,7 @@
 #include <sstream>
 #include <chrono>
 #include <algorithm>
+#include <charconv>
 #include <limits>
 #include <queue>
 #include <unordered_map>
@@ -41,6 +42,59 @@ namespace {
     constexpr double PI = 3.14159265358979323846;
     constexpr double DEG_TO_RAD = PI / 180.0;
     constexpr double EARTH_RADIUS_METERS = 6371000.0;
+
+    std::optional<long long> parseStrictPositiveInteger(const std::string& raw) {
+        if (raw.empty()) {
+            return std::nullopt;
+        }
+        long long parsed = 0;
+        const char* begin = raw.data();
+        const char* end = raw.data() + raw.size();
+        const auto [ptr, ec] = std::from_chars(begin, end, parsed);
+        if (ec != std::errc{} || ptr != end) {
+            return std::nullopt;
+        }
+        return parsed;
+    }
+
+    long long safeCeilDiv(long long value, long long divisor) {
+        if (value <= 0) {
+            return 0;
+        }
+        return 1 + ((value - 1) / divisor);
+    }
+
+    std::chrono::milliseconds clampMillisFromUnit(long long value, char unit) {
+        if (value <= 0) {
+            return std::chrono::milliseconds(0);
+        }
+
+        constexpr long long kMaxMs = std::numeric_limits<long long>::max();
+        auto saturatingMul = [](long long lhs, long long rhs) {
+            constexpr long long kMax = std::numeric_limits<long long>::max();
+            if (lhs > kMax / rhs) {
+                return kMax;
+            }
+            return lhs * rhs;
+        };
+
+        switch (unit) {
+            case 'H':
+                return std::chrono::milliseconds(saturatingMul(value, 3600000LL));
+            case 'M':
+                return std::chrono::milliseconds(saturatingMul(value, 60000LL));
+            case 'S':
+                return std::chrono::milliseconds(saturatingMul(value, 1000LL));
+            case 'm':
+                return std::chrono::milliseconds(std::min(value, kMaxMs));
+            case 'u':
+                return std::chrono::milliseconds(std::max(1LL, safeCeilDiv(value, 1000LL)));
+            case 'n':
+                return std::chrono::milliseconds(std::max(1LL, safeCeilDiv(value, 1000000LL)));
+            default:
+                return std::chrono::milliseconds(0);
+        }
+    }
 
     bool isRetryableMethod(const std::string& method) {
         static const std::unordered_set<std::string> retryable_methods = {
@@ -68,39 +122,32 @@ namespace {
         }
 
         const char unit = timeout.back();
-        long long value = 0;
-        try {
-            value = std::stoll(timeout.substr(0, timeout.size() - 1));
-        } catch (const std::exception&) {
+        const auto value = parseStrictPositiveInteger(timeout.substr(0, timeout.size() - 1));
+        if (!value.has_value()) {
             return std::nullopt;
         }
 
-        if (value <= 0) {
-            return std::chrono::milliseconds(0);
-        }
-
-        using namespace std::chrono;
         switch (unit) {
-            case 'H': return duration_cast<milliseconds>(hours(value));
-            case 'M': return duration_cast<milliseconds>(minutes(value));
-            case 'S': return duration_cast<milliseconds>(seconds(value));
-            case 'm': return milliseconds(value);
-            case 'u': return std::max(milliseconds(1), duration_cast<milliseconds>(microseconds(value)));
-            case 'n': return std::max(milliseconds(1), duration_cast<milliseconds>(nanoseconds(value)));
+            case 'H':
+            case 'M':
+            case 'S':
+            case 'm':
+            case 'u':
+            case 'n':
+                return clampMillisFromUnit(*value, unit);
             default: return std::nullopt;
         }
     }
 
     std::optional<std::chrono::milliseconds> parseMillisHeaderValue(const std::string& value) {
-        try {
-            const long long parsed = std::stoll(value);
-            if (parsed <= 0) {
-                return std::chrono::milliseconds(0);
-            }
-            return std::chrono::milliseconds(parsed);
-        } catch (const std::exception&) {
+        const auto parsed = parseStrictPositiveInteger(value);
+        if (!parsed.has_value()) {
             return std::nullopt;
         }
+        if (*parsed <= 0) {
+            return std::chrono::milliseconds(0);
+        }
+        return std::chrono::milliseconds(*parsed);
     }
 
     std::optional<std::chrono::milliseconds> parseRequestTimeout(const themis::plugins::rpc::RPCRequestContext& context) {

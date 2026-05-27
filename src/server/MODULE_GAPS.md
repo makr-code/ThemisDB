@@ -887,3 +887,10 @@ Findings addressed:
   performing direct unsigned addition (`timestamp + timeout`), preventing overflow-induced false
   expirations for large/future timestamps. Coverage added in `tests/test_rpc_batch_operations.cpp`
   for negative-millisecond header handling and overflow-safe future-timestamp dispatch.
+
+- **W1-S04 follow-up (2026-05-27) — strict timeout metadata parsing in `rpc_service_impl.cpp`:**
+  timeout parsers now use full-string numeric parsing (`std::from_chars`) for `grpc-timeout`,
+  `x-timeout-ms`, and `request-timeout-ms` values, preventing permissive partial parses such as
+  `"1xS"` or `"10abc"` from being interpreted as valid deadlines. Unit conversion for `grpc-timeout`
+  now uses saturating millisecond arithmetic to avoid overflow at large timeout values. Added tests
+  in `tests/test_rpc_batch_operations.cpp` for malformed gRPC and millisecond timeout metadata.

@@ -440,6 +440,30 @@ TEST_F(RPCBatchOperationsTest, DispatchDoesNotOverflowDeadlineArithmeticForFutur
     EXPECT_TRUE(resp.contains("result"));
 }
 
+TEST_F(RPCBatchOperationsTest, DispatchIgnoresMalformedGrpcTimeoutWithNonNumericValue) {
+    themis::plugins::rpc::RPCRequestContext ctx;
+    const auto now_ms = static_cast<uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count());
+    ctx.timestamp_ms = now_ms - 5000;
+    ctx.metadata["grpc-timeout"] = "1xS";
+
+    json keys = json::array({KeySpec("d", "M", "k1")});
+    auto resp = service_->dispatch("batch_get", {{"keys", keys}}, ctx);
+    EXPECT_TRUE(resp.contains("result"));
+}
+
+TEST_F(RPCBatchOperationsTest, DispatchIgnoresMalformedMsTimeoutWithNonNumericSuffix) {
+    themis::plugins::rpc::RPCRequestContext ctx;
+    const auto now_ms = static_cast<uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count());
+    ctx.timestamp_ms = now_ms - 5000;
+    ctx.metadata["x-timeout-ms"] = "10abc";
+
+    json keys = json::array({KeySpec("d", "M", "k1")});
+    auto resp = service_->dispatch("batch_get", {{"keys", keys}}, ctx);
+    EXPECT_TRUE(resp.contains("result"));
+}
+
 // ============================================================================
 // Performance – batch vs. individual operations
 // ============================================================================
