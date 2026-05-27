@@ -25,6 +25,8 @@
 
 #include <algorithm>
 #include <cctype>
+#include <cmath>
+#include <limits>
 #include <sstream>
 #include <stdexcept>
 #include <regex>
@@ -67,6 +69,40 @@ bool iequal(const std::string& a, const std::string& b) {
                       [](unsigned char x, unsigned char y){
                           return std::tolower(x) == std::tolower(y);
                       });
+}
+
+int parseIntegerValue(const std::string& value, const char* field_name) {
+    try {
+        std::size_t parsed_chars = 0;
+        const long long parsed = std::stoll(value, &parsed_chars);
+        if (parsed_chars != value.size()) {
+            throw std::invalid_argument("trailing characters");
+        }
+        if (parsed < std::numeric_limits<int>::min() ||
+            parsed > std::numeric_limits<int>::max()) {
+            throw std::out_of_range("out of int range");
+        }
+        return static_cast<int>(parsed);
+    } catch (...) {
+        throw std::invalid_argument(
+            std::string("AQLTrainParser: invalid integer value for ") +
+            field_name + ": '" + value + "'");
+    }
+}
+
+double parseDoubleValue(const std::string& value, const char* field_name) {
+    try {
+        std::size_t parsed_chars = 0;
+        const double parsed = std::stod(value, &parsed_chars);
+        if (parsed_chars != value.size() || !std::isfinite(parsed)) {
+            throw std::invalid_argument("invalid floating value");
+        }
+        return parsed;
+    } catch (...) {
+        throw std::invalid_argument(
+            std::string("AQLTrainParser: invalid numeric value for ") +
+            field_name + ": '" + value + "'");
+    }
 }
 
 /**
@@ -513,13 +549,13 @@ TrainStatementConfig AQLTrainParser::parseTrainingConfig(const std::string& with
     auto kv = parseKeyValuePairs(content);
 
     if (kv.count("base_model"))     cfg.base_model_name  = kv["base_model"];
-    if (kv.count("epochs"))         cfg.epochs           = std::stoi(kv["epochs"]);
-    if (kv.count("learning_rate"))  cfg.learning_rate    = std::stod(kv["learning_rate"]);
-    if (kv.count("rank"))           cfg.lora_rank        = std::stoi(kv["rank"]);
-    if (kv.count("lora_rank"))      cfg.lora_rank        = std::stoi(kv["lora_rank"]);
-    if (kv.count("alpha"))          cfg.lora_alpha       = std::stod(kv["alpha"]);
-    if (kv.count("lora_alpha"))     cfg.lora_alpha       = std::stod(kv["lora_alpha"]);
-    if (kv.count("batch_size"))     cfg.batch_size       = std::stoi(kv["batch_size"]);
+    if (kv.count("epochs"))         cfg.epochs           = parseIntegerValue(kv["epochs"], "epochs");
+    if (kv.count("learning_rate"))  cfg.learning_rate    = parseDoubleValue(kv["learning_rate"], "learning_rate");
+    if (kv.count("rank"))           cfg.lora_rank        = parseIntegerValue(kv["rank"], "rank");
+    if (kv.count("lora_rank"))      cfg.lora_rank        = parseIntegerValue(kv["lora_rank"], "lora_rank");
+    if (kv.count("alpha"))          cfg.lora_alpha       = parseDoubleValue(kv["alpha"], "alpha");
+    if (kv.count("lora_alpha"))     cfg.lora_alpha       = parseDoubleValue(kv["lora_alpha"], "lora_alpha");
+    if (kv.count("batch_size"))     cfg.batch_size       = parseIntegerValue(kv["batch_size"], "batch_size");
     if (kv.count("optimizer"))      cfg.optimizer        = kv["optimizer"];
     if (kv.count("sign_adapter"))   cfg.sign_adapter     = iequal(kv["sign_adapter"], "true");
     if (kv.count("version"))        cfg.adapter_version  = kv["version"];
@@ -530,9 +566,9 @@ TrainStatementConfig AQLTrainParser::parseTrainingConfig(const std::string& with
 GraphContextConfig AQLTrainParser::parseGraphContext(const std::string& args) {
     GraphContextConfig cfg;
     auto kv = parseKeyValuePairs(args);
-    if (kv.count("max_depth"))  cfg.max_depth  = std::stoi(kv["max_depth"]);
+    if (kv.count("max_depth"))  cfg.max_depth  = parseIntegerValue(kv["max_depth"], "max_depth");
     if (kv.count("direction"))  cfg.direction  = kv["direction"];
-    if (kv.count("max_nodes"))  cfg.max_nodes  = std::stoi(kv["max_nodes"]);
+    if (kv.count("max_nodes"))  cfg.max_nodes  = parseIntegerValue(kv["max_nodes"], "max_nodes");
     // Parse relationships: relationships = ['REL1', 'REL2']
     static const std::regex rel_re(R"(\[([^\]]*)\])");
     std::smatch m;
@@ -550,8 +586,8 @@ VectorSimilarityConfig AQLTrainParser::parseVectorSimilarity(const std::string& 
     VectorSimilarityConfig cfg;
     auto kv = parseKeyValuePairs(args);
     if (kv.count("field"))     cfg.field     = kv["field"];
-    if (kv.count("threshold")) cfg.threshold = std::stod(kv["threshold"]);
-    if (kv.count("top_k"))     cfg.top_k     = std::stoi(kv["top_k"]);
+    if (kv.count("threshold")) cfg.threshold = parseDoubleValue(kv["threshold"], "threshold");
+    if (kv.count("top_k"))     cfg.top_k     = parseIntegerValue(kv["top_k"], "top_k");
     if (kv.count("metric"))    cfg.metric    = kv["metric"];
     return cfg;
 }
@@ -959,4 +995,3 @@ std::string TrainingQueryBuilder::toAQL() const {
 
 } // namespace llm
 } // namespace themis
-

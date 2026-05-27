@@ -374,6 +374,30 @@ TEST_F(AQLTrainParserTest, ParseTrainAdapterInvalidNameThrows) {
     EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
 }
 
+TEST_F(AQLTrainParserTest, ParseTrainAdapterInvalidEpochValueThrowsClearError) {
+    const std::string aql = "TRAIN ADAPTER 'aql-v1' FROM training_pairs "
+                            "WITH { base_model: 'mistral-7b', rank: 8, alpha: 16, epochs: not_a_number, learning_rate: 0.0003 }";
+
+    try {
+        (void)parser_.parseTrainAdapter(aql);
+        FAIL() << "Expected std::invalid_argument";
+    } catch (const std::invalid_argument& ex) {
+        EXPECT_NE(std::string(ex.what()).find("invalid integer value for epochs"), std::string::npos);
+    }
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterOutOfRangeRankThrowsClearError) {
+    const std::string aql = "TRAIN ADAPTER 'aql-v1' FROM training_pairs "
+                            "WITH { base_model: 'mistral-7b', rank: 999999999999999999999, alpha: 16, epochs: 3, learning_rate: 0.0003 }";
+
+    try {
+        (void)parser_.parseTrainAdapter(aql);
+        FAIL() << "Expected std::invalid_argument";
+    } catch (const std::invalid_argument& ex) {
+        EXPECT_NE(std::string(ex.what()).find("invalid integer value for rank"), std::string::npos);
+    }
+}
+
 // ─── parseDeployAdapter ──────────────────────────────────────────────────────
 
 TEST_F(AQLTrainParserTest, ParseDeployAdapterBasic) {
