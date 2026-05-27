@@ -178,6 +178,14 @@ inline size_t calculateAvailableBytes(size_t total_bytes, size_t used_bytes) noe
     return (used_bytes < total_bytes) ? (total_bytes - used_bytes) : 0;
 }
 
+inline bool tryAddSize(size_t lhs, size_t rhs, size_t& out) noexcept {
+    if (rhs > (std::numeric_limits<size_t>::max() - lhs)) {
+        return false;
+    }
+    out = lhs + rhs;
+    return true;
+}
+
 inline size_t clampUsedVRAM(size_t used_vram, size_t max_vram_bytes) noexcept {
     return std::min(used_vram, max_vram_bytes);
 }
@@ -1225,12 +1233,33 @@ void GPUMemoryManager::updateMemoryStats() {
     
     for (const auto& [_, allocs] : allocations_) {
         for (const auto& alloc : allocs) {
-            total_vram_used_ += alloc.vram_bytes;
-            total_ram_used_ += alloc.ram_bytes;
+            size_t updated_vram = 0;
+            if (!tryAddSize(total_vram_used_, alloc.vram_bytes, updated_vram)) {
+                spdlog::error("GPUMemoryManager::updateMemoryStats: VRAM accounting overflow; clamping to max");
+                total_vram_used_ = std::numeric_limits<size_t>::max();
+            } else {
+                total_vram_used_ = updated_vram;
+            }
+
+            size_t updated_ram = 0;
+            if (!tryAddSize(total_ram_used_, alloc.ram_bytes, updated_ram)) {
+                spdlog::error("GPUMemoryManager::updateMemoryStats: RAM accounting overflow; clamping to max");
+                total_ram_used_ = std::numeric_limits<size_t>::max();
+            } else {
+                total_ram_used_ = updated_ram;
+            }
             
             // Track per-GPU usage (operator[] auto-initializes to 0)
             if (alloc.vram_bytes > 0) {
-                per_gpu_vram_used_[alloc.gpu_device_id] += alloc.vram_bytes;
+                size_t& per_gpu_used = per_gpu_vram_used_[alloc.gpu_device_id];
+                size_t updated_per_gpu = 0;
+                if (!tryAddSize(per_gpu_used, alloc.vram_bytes, updated_per_gpu)) {
+                    spdlog::error("GPUMemoryManager::updateMemoryStats: per-GPU VRAM accounting overflow for GPU {}; clamping to max",
+                                  alloc.gpu_device_id);
+                    per_gpu_used = std::numeric_limits<size_t>::max();
+                } else {
+                    per_gpu_used = updated_per_gpu;
+                }
             }
         }
     }
@@ -1299,8 +1328,24 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes, i
     );
     
     allocations_[model_id].push_back(std::move(alloc));
-    total_vram_used_ += bytes;
-    per_gpu_vram_used_[gpu_device_id] += bytes;
+    size_t updated_vram_total = 0;
+    if (!tryAddSize(total_vram_used_, bytes, updated_vram_total)) {
+        spdlog::error("GPUMemoryManager::allocateGPU: global VRAM accounting overflow for model '{}'; clamping to max",
+                      model_id);
+        total_vram_used_ = std::numeric_limits<size_t>::max();
+    } else {
+        total_vram_used_ = updated_vram_total;
+    }
+
+    size_t& per_gpu_used = per_gpu_vram_used_[gpu_device_id];
+    size_t updated_per_gpu = 0;
+    if (!tryAddSize(per_gpu_used, bytes, updated_per_gpu)) {
+        spdlog::error("GPUMemoryManager::allocateGPU: per-GPU VRAM accounting overflow on GPU {} for model '{}'; clamping to max",
+                      gpu_device_id, model_id);
+        per_gpu_used = std::numeric_limits<size_t>::max();
+    } else {
+        per_gpu_used = updated_per_gpu;
+    }
     
     spdlog::debug("Allocated {} MB on GPU {} for model {} (GPU total: {} MB)", 
                   bytes / (1024.0 * 1024),
@@ -1332,13 +1377,35 @@ bool GPUMemoryManager::freeModel(const std::string& model_id, int gpu_device_id)
         bool is_cpu_only = (alloc_it->vram_bytes == 0);
         
         if (is_target_gpu || is_cpu_only) {
-            freed_vram += alloc_it->vram_bytes;
-            freed_ram += alloc_it->ram_bytes;
+            size_t updated_freed_vram = 0;
+            if (!tryAddSize(freed_vram, alloc_it->vram_bytes, updated_freed_vram)) {
+                spdlog::error("GPUMemoryManager::freeModel(gpu): freed VRAM overflow for model '{}'; clamping to max",
+                              model_id);
+                freed_vram = std::numeric_limits<size_t>::max();
+            } else {
+                freed_vram = updated_freed_vram;
+            }
+
+            size_t updated_freed_ram = 0;
+            if (!tryAddSize(freed_ram, alloc_it->ram_bytes, updated_freed_ram)) {
+                spdlog::error("GPUMemoryManager::freeModel(gpu): freed RAM overflow for model '{}'; clamping to max",
+                              model_id);
+                freed_ram = std::numeric_limits<size_t>::max();
+            } else {
+                freed_ram = updated_freed_ram;
+            }
             
             // Update per-GPU tracking for this specific allocation
             if (is_target_gpu && alloc_it->vram_bytes > 0) {
                 if (per_gpu_vram_used_.find(alloc_it->gpu_device_id) != per_gpu_vram_used_.end()) {
-                    per_gpu_vram_used_[alloc_it->gpu_device_id] -= alloc_it->vram_bytes;
+                    size_t& per_gpu_used = per_gpu_vram_used_[alloc_it->gpu_device_id];
+                    if (alloc_it->vram_bytes > per_gpu_used) {
+                        spdlog::error("GPUMemoryManager::freeModel(gpu): per-GPU VRAM accounting underflow on GPU {}; clamping to 0",
+                                      alloc_it->gpu_device_id);
+                        per_gpu_used = 0;
+                    } else {
+                        per_gpu_used -= alloc_it->vram_bytes;
+                    }
                 }
             }
             
@@ -1349,8 +1416,21 @@ bool GPUMemoryManager::freeModel(const std::string& model_id, int gpu_device_id)
         }
     }
     
-    total_vram_used_ -= freed_vram;
-    total_ram_used_ -= freed_ram;
+    if (freed_vram > total_vram_used_) {
+        spdlog::error("GPUMemoryManager::freeModel(gpu): VRAM accounting underflow for model '{}'; clamping to 0",
+                      model_id);
+        total_vram_used_ = 0;
+    } else {
+        total_vram_used_ -= freed_vram;
+    }
+
+    if (freed_ram > total_ram_used_) {
+        spdlog::error("GPUMemoryManager::freeModel(gpu): RAM accounting underflow for model '{}'; clamping to 0",
+                      model_id);
+        total_ram_used_ = 0;
+    } else {
+        total_ram_used_ -= freed_ram;
+    }
     
     if (allocs.empty()) {
         allocations_.erase(it);

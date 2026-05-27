@@ -183,6 +183,31 @@ TEST_F(GPUMemoryManagerMultiGPUTest, GlobalStatsReflectGPUAllocation) {
     EXPECT_TRUE(memory_manager_->freeGPU("stats-model", ptr));
 }
 
+TEST_F(GPUMemoryManagerMultiGPUTest, FreeModelOnSingleGPUKeepsPerGPUAndGlobalStatsConsistent) {
+    void* gpu0_ptr = memory_manager_->allocateGPU("split-model", 128 * MB, 0);
+    void* gpu1_ptr = memory_manager_->allocateGPU("split-model", 64 * MB, 1);
+    void* cpu_ptr = memory_manager_->allocateCPU("split-model", 32 * MB, false);
+    ASSERT_NE(gpu0_ptr, nullptr);
+    ASSERT_NE(gpu1_ptr, nullptr);
+    ASSERT_NE(cpu_ptr, nullptr);
+
+    auto before = memory_manager_->getStats();
+    EXPECT_EQ(memory_manager_->getGPUVRAM(0), 128 * MB);
+    EXPECT_EQ(memory_manager_->getGPUVRAM(1), 64 * MB);
+    EXPECT_EQ(before.used_vram_bytes, 192 * MB);
+    EXPECT_EQ(before.used_ram_bytes, 32 * MB);
+
+    EXPECT_TRUE(memory_manager_->freeModel("split-model", 0));
+
+    auto after = memory_manager_->getStats();
+    EXPECT_EQ(memory_manager_->getGPUVRAM(0), 0u);
+    EXPECT_EQ(memory_manager_->getGPUVRAM(1), 64 * MB);
+    EXPECT_EQ(after.used_vram_bytes, 64 * MB);
+    EXPECT_EQ(after.used_ram_bytes, 0u);
+
+    EXPECT_TRUE(memory_manager_->freeModel("split-model", 1));
+}
+
 TEST(GPUMemoryManagerStatsEdgeCases, ZeroConfiguredVRAMKeepsStatsBounded) {
     GPUMemoryManager::Config config;
     config.enable_multi_gpu = true;

@@ -427,6 +427,17 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
 - Added focused global-stats regression test (`ZeroConfiguredCapacitiesKeepGlobalStatsBounded`) in
   `tests/test_multi_gpu_management.cpp`.
 
+**Status (v1.22.0-pre — W1-L06 multi-GPU accounting follow-up):** multi-GPU stat recomputation and scoped free paths hardened against arithmetic corruption:
+- `gpu_memory_manager.cpp::updateMemoryStats()` now uses checked `size_t` addition for global/per-GPU
+  counters and logs+clamps on overflow instead of wrapping.
+- `gpu_memory_manager.cpp::allocateGPU()` now protects global/per-GPU usage counter increments against
+  overflow, with explicit diagnostics on clamp.
+- `gpu_memory_manager.cpp::freeModel(model_id, gpu_device_id)` now guards freed-byte accumulation
+  against overflow and protects both per-GPU and global counters from underflow by clamping to zero.
+- Added focused regression coverage in `tests/test_multi_gpu_management.cpp`
+  (`FreeModelOnSingleGPUKeepsPerGPUAndGlobalStatsConsistent`) to verify scoped free keeps VRAM/RAM
+  accounting consistent.
+
 **Status (v1.22.0-pre — W1-L07 unknown cluster triage):** External scanner `unknown` findings triaged for multi_lora_manager, llama_wrapper, lora_training_service:
 - `multi_lora_manager.cpp`: external_v3 reports 1227 findings vs 5 internal. `unknown` cluster
   arises from deep STL template patterns, virtual dispatch and large switch bodies the scanner
