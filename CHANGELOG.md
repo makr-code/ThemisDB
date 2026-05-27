@@ -7,6 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Cluster-wide deadlock detection via distributed Wait-For Graph (issue #5396)**
+
+  `CrossShardTransactionCoordinator` now detects circular lock-wait dependencies that
+  span multiple shards — a class of deadlock previously undetectable within a single shard.
+
+  - **Pull-based edge collection**: `deadlockDetectionThread` polls every shard listed in
+    `CrossShardTransactionConfig::shard_endpoints` once per `deadlock_detection_interval`
+    via `ShardRPCClient::collectWaitForEdges()`.  The RPC counterpart
+    (`CollectWaitForEdges` / `WaitForEdgeProto`) is defined in
+    `proto/sharding/shard_rpc.proto` and served by `ShardRPCServer`.
+  - **Push-based edges** already reported via `reportDistributedWait()` are merged
+    into the same graph before cycle detection runs.
+  - **Cycle detection** uses Tarjan's SCC algorithm; all members of any strongly-connected
+    component of size > 1 are treated as deadlocked.
+  - **Victim selection** aborts the youngest transaction in the cycle (most recent
+    `start_time`), giving priority to longer-running transactions.
+  - **Testing hook**: `CrossShardTransactionConfig::polled_wait_for_edge_collector`
+    accepts an `std::function` that overrides RPC polling for deterministic unit tests
+    and custom deployments (see `PollBasedEdgesFromShardEndpointAreDetected` test).
+  - (`include/sharding/cross_shard_transaction.h`,
+    `src/sharding/cross_shard_transaction.cpp`,
+    `include/sharding/shard_rpc_client.h`,
+    `src/sharding/shard_rpc_client.cpp`,
+    `include/sharding/shard_rpc_server.h`,
+    `src/sharding/shard_rpc_server.cpp`,
+    `proto/sharding/shard_rpc.proto`,
+    `tests/test_cross_shard_coordinator.cpp`)
+
 ### Fixed
 
 - **Stub batch 29: #276, #281 (partial), #284 resolved; inventory header corrected**
