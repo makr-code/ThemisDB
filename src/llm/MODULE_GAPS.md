@@ -552,6 +552,17 @@ slot/cache nullability anchors in remaining issue-scope utility paths:
 - Runtime behavior remains unchanged; objective is further reduction of residual `unknown` and
   null_dereference scanner noise in W1-L07 files.
 
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 7):** Remaining
+LoRA slot relookup paths now fail closed on empty unique_ptr entries:
+- `multi_lora_manager.cpp` — `unloadLoRA`, `applyLoRA`, and `removeLoRA` now snapshot
+  `it->second.get()` into local `slot` aliases after each guarded map lookup; empty slots are
+  erased or rejected before mutable-field access and before bridge callback invocation.
+- `multi_lora_manager.cpp` — multi-GPU cache-hit `loadLoRA`, `getLoRAGPUPlacement`,
+  `setLoRATenant`, `createFusion`, and `checkFusionCompatibility` now treat null slots as stale or
+  invalid entries instead of pushing raw null pointers into downstream logic.
+- Runtime behavior remains unchanged for valid slots; objective is additional
+  null_dereference/unknown-cluster reduction in W1-L07 issue-scope utility flows.
+
 **Status (v1.22.0-pre — W1-L03d scope follow-up):** Vulkan/DirectX kernel-interface
 scope hardened for smart-pointer lifetime safety:
 - `lora_framework/kernels/vulkan_kernels.cpp` — Removed `thread_local` fused-buffer cache

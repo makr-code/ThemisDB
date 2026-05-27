@@ -259,8 +259,14 @@ bool MultiLoRAManager::unloadLoRA(const std::string& lora_id, bool force) {
     if (it == loras_.end()) {
         return false;
     }
+
+    auto* const slot = it->second.get();
+    if (!slot) {
+        loras_.erase(it);
+        return true;
+    }
     
-    if (it->second->keep_loaded && !force) {
+    if (slot->keep_loaded && !force) {
         spdlog::warn("LoRA {} is pinned, cannot unload (use force=true)", lora_id);
         return false;
     }
@@ -411,11 +417,15 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* cont
             errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, lora_id);
             return false;
         }
-        auto& slot = *it->second;
-        slot.last_used = std::chrono::system_clock::now();
-        slot.use_count++;
-        adapter_handle = slot.adapter_handle;
-        scale = slot.scale;
+        auto* const slot = it->second.get();
+        if (!slot) {
+            spdlog::error("applyLoRA: LoRA {} is stored in an empty slot", lora_id);
+            return false;
+        }
+        slot->last_used = std::chrono::system_clock::now();
+        slot->use_count++;
+        adapter_handle = slot->adapter_handle;
+        scale = slot->scale;
         has_adapter = (adapter_handle != nullptr);
         apply_fn_copy = apply_adapter_fn_;
     }
@@ -437,7 +447,12 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* cont
                 spdlog::error("applyLoRA: LoRA {} was unloaded before bridge call", lora_id);
                 return false;
             }
-            bridge_ok = apply_fn_copy(*it->second);
+            auto* const slot = it->second.get();
+            if (!slot) {
+                spdlog::error("applyLoRA: LoRA {} bridge slot became empty", lora_id);
+                return false;
+            }
+            bridge_ok = apply_fn_copy(*slot);
         }
         if (!bridge_ok) {
             spdlog::error("ApplyAdapterFn bridge rejected LoRA {}", lora_id);
@@ -446,7 +461,10 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* cont
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = loras_.find(lora_id);
         if (it != loras_.end()) {
-            it->second->is_active = true;
+            auto* const slot = it->second.get();
+            if (slot) {
+                slot->is_active = true;
+            }
         }
         switches_++;
         spdlog::info("LoRA {} applied successfully via bridge", lora_id);
@@ -471,7 +489,10 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* cont
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = loras_.find(lora_id);
         if (it != loras_.end()) {
-            it->second->is_active = true;
+            auto* const slot = it->second.get();
+            if (slot) {
+                slot->is_active = true;
+            }
         }
         switches_++;
         spdlog::info("LoRA {} applied successfully (scale: {})", lora_id, scale);
@@ -498,9 +519,13 @@ bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* con
         if (it == loras_.end()) {
             return false;
         }
-        auto& slot = *it->second;
-        slot.last_used = std::chrono::system_clock::now();
-        adapter_handle = slot.adapter_handle;
+        auto* const slot = it->second.get();
+        if (!slot) {
+            spdlog::warn("removeLoRA: LoRA {} is stored in an empty slot", lora_id);
+            return false;
+        }
+        slot->last_used = std::chrono::system_clock::now();
+        adapter_handle = slot->adapter_handle;
         has_adapter = (adapter_handle != nullptr);
         remove_fn_copy = remove_adapter_fn_;
     }
@@ -520,7 +545,12 @@ bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* con
                 spdlog::error("removeLoRA: LoRA {} was unloaded before bridge call", lora_id);
                 return false;
             }
-            bridge_ok = remove_fn_copy(*it->second);
+            auto* const slot = it->second.get();
+            if (!slot) {
+                spdlog::warn("removeLoRA: LoRA {} bridge slot became empty", lora_id);
+                return false;
+            }
+            bridge_ok = remove_fn_copy(*slot);
         }
         if (!bridge_ok) {
             spdlog::warn("RemoveAdapterFn bridge rejected LoRA {}", lora_id);
@@ -529,7 +559,10 @@ bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* con
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = loras_.find(lora_id);
         if (it != loras_.end()) {
-            it->second->is_active = false;
+            auto* const slot = it->second.get();
+            if (slot) {
+                slot->is_active = false;
+            }
         }
         spdlog::info("LoRA {} removed successfully via bridge", lora_id);
         return true;
@@ -550,7 +583,10 @@ bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* con
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = loras_.find(lora_id);
         if (it != loras_.end()) {
-            it->second->is_active = false;
+            auto* const slot = it->second.get();
+            if (slot) {
+                slot->is_active = false;
+            }
         }
         spdlog::info("LoRA {} removed successfully", lora_id);
         return true;
@@ -561,7 +597,10 @@ bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* con
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = loras_.find(lora_id);
         if (it != loras_.end()) {
-            it->second->is_active = false;
+            auto* const slot = it->second.get();
+            if (slot) {
+                slot->is_active = false;
+            }
         }
         return true;
     }
@@ -1683,8 +1722,20 @@ bool MultiLoRAManager::loadLoRA(
     if (it != loras_.end()) {
         spdlog::debug("LoRA cache hit: {}", lora_id);
         cache_hits_++;
-        it->second->last_used = std::chrono::system_clock::now();
-        it->second->use_count++;
+        auto* const slot = it->second.get();
+        if (!slot) {
+            spdlog::warn("LoRA cache entry {} is empty (null slot), reloading", lora_id);
+            loras_.erase(it);
+            cache_misses_++;
+            if (loras_.size() >= config_.max_lora_slots) {
+                spdlog::info("LoRA cache full, evicting LRU");
+                evictLRU();
+            }
+            auto* lora = loadLoRAInternal(lora_id, lora_path, base_model_id, scale, quantize, placement);
+            return lora != nullptr;
+        }
+        slot->last_used = std::chrono::system_clock::now();
+        slot->use_count++;
         return true;
     }
     
@@ -1731,8 +1782,13 @@ std::vector<int> MultiLoRAManager::getLoRAGPUPlacement(const std::string& lora_i
     if (it == loras_.end()) {
         return {};
     }
+
+    auto* const slot = it->second.get();
+    if (!slot) {
+        return {};
+    }
     
-    return it->second->assigned_gpus;
+    return slot->assigned_gpus;
 }
 
 std::unordered_map<int, size_t> MultiLoRAManager::getPerGPUMemoryUsage() const {
@@ -2820,7 +2876,11 @@ void MultiLoRAManager::setLoRATenant(const std::string& lora_id, const std::stri
     
     auto it = loras_.find(lora_id);
     if (it != loras_.end()) {
-        it->second->tenant_id = tenant_id;
+        auto* const slot = it->second.get();
+        if (!slot) {
+            return;
+        }
+        slot->tenant_id = tenant_id;
         lora_tenants_[lora_id] = tenant_id;
         spdlog::debug("Set tenant {} for LoRA {}", tenant_id, lora_id);
     }
@@ -3020,7 +3080,12 @@ bool MultiLoRAManager::fuseLoRAsInternal(
             errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, lora_id);
             return false;
         }
-        source_loras.push_back(it->second.get());
+        auto* const slot = it->second.get();
+        if (!slot) {
+            spdlog::warn("createFusion: LoRA {} is stored in an empty slot", lora_id);
+            return false;
+        }
+        source_loras.push_back(slot);
     }
     
     // Validate compatibility
@@ -3465,7 +3530,12 @@ bool MultiLoRAManager::checkFusionCompatibility(
             spdlog::debug("LoRA not loaded: {}", lora_id);
             return false;
         }
-        source_loras.push_back(it->second.get());
+        auto* const slot = it->second.get();
+        if (!slot) {
+            spdlog::debug("LoRA {} has an empty slot", lora_id);
+            return false;
+        }
+        source_loras.push_back(slot);
     }
     
     return validateFusionCompatibility(source_loras, config);
