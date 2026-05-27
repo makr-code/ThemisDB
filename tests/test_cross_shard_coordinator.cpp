@@ -299,6 +299,59 @@ TEST(CrossShardDeadlockGraphTest, IsDeadlockedRequiresCycleMembership) {
     coordinator.stop();
 }
 
+TEST(CrossShardDeadlockGraphTest, ClearDistributedWaitsBreaksCycleMembership) {
+    auto consensus = std::make_shared<MockConsensusModule>();
+    CrossShardTransactionConfig config;
+    config.transaction_log_path = makeTempTxnLogPath("themisdb_deadlock_clear_");
+    config.enable_deadlock_detection = false;
+
+    CrossShardTransactionCoordinator coordinator(config, consensus);
+    ASSERT_TRUE(coordinator.initialize());
+    ASSERT_TRUE(coordinator.start());
+
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-clear-a", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-clear-b", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+
+    coordinator.reportDistributedWait("txn-clear-a", "txn-clear-b", "shard-A");
+    coordinator.reportDistributedWait("txn-clear-b", "txn-clear-a", "shard-B");
+    ASSERT_TRUE(coordinator.isDeadlocked("txn-clear-a"));
+    ASSERT_TRUE(coordinator.isDeadlocked("txn-clear-b"));
+
+    coordinator.clearDistributedWaits("txn-clear-a");
+
+    EXPECT_FALSE(coordinator.isDeadlocked("txn-clear-a"));
+    EXPECT_FALSE(coordinator.isDeadlocked("txn-clear-b"));
+    coordinator.stop();
+}
+
+TEST(CrossShardDeadlockGraphTest, AbortClearsReportedCycleEdges) {
+    auto consensus = std::make_shared<MockConsensusModule>();
+    CrossShardTransactionConfig config;
+    config.transaction_log_path = makeTempTxnLogPath("themisdb_deadlock_abort_clear_");
+    config.enable_deadlock_detection = false;
+
+    CrossShardTransactionCoordinator coordinator(config, consensus);
+    ASSERT_TRUE(coordinator.initialize());
+    ASSERT_TRUE(coordinator.start());
+
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-abort-a", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-abort-b", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+
+    coordinator.reportDistributedWait("txn-abort-a", "txn-abort-b", "shard-A");
+    coordinator.reportDistributedWait("txn-abort-b", "txn-abort-a", "shard-B");
+    ASSERT_TRUE(coordinator.isDeadlocked("txn-abort-a"));
+    ASSERT_TRUE(coordinator.isDeadlocked("txn-abort-b"));
+
+    ASSERT_TRUE(coordinator.abort("txn-abort-a"));
+
+    EXPECT_FALSE(coordinator.isDeadlocked("txn-abort-b"));
+    coordinator.stop();
+}
+
 // ============================================================================
 // Calvin Protocol Tests
 // ============================================================================
