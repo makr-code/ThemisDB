@@ -104,9 +104,10 @@ http::response<http::string_body> ReplicationTopologyApiHandler::handleTopologyG
         return makeErrorResponse(http::status::service_unavailable,
                                  "Replication not configured", req);
     }
+    auto& coordinator = *coordinator_;
 
     try {
-        const auto replicas = coordinator_->getReplicaInfo();
+        const auto replicas = coordinator.getReplicaInfo();
         const uint64_t primary_lsn = wal_manager_
             ? wal_manager_->getCurrentLSN().segment : 0;
 
@@ -178,10 +179,11 @@ http::response<http::string_body> ReplicationTopologyApiHandler::handleHealthGet
         return makeErrorResponse(http::status::service_unavailable,
                                  "Replication not configured", req);
     }
+    auto& coordinator = *coordinator_;
 
     try {
-        const auto replicas = coordinator_->getReplicaInfo();
-        const auto stats = coordinator_->getShipperStats();
+        const auto replicas = coordinator.getReplicaInfo();
+        const auto stats = coordinator.getShipperStats();
 
         const auto healthy_replicas = static_cast<uint64_t>(std::count_if(
             replicas.begin(), replicas.end(),
@@ -303,4 +305,3 @@ std::string ReplicationTopologyApiHandler::buildUiHtml(const std::string& api_ba
 
 } // namespace server
 } // namespace themis
-

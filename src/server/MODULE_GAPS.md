@@ -959,6 +959,34 @@ Each file now follows the W1-S03 post-guard anchor pattern: after `if (!member_)
 
 ---
 
+## ✅ Recent Remediation (2026-05-27) — W1-S03 Extension: Null-Guard Standardisation Round 10
+
+**Scope:** `src/server/policy_api_handler.cpp`, `src/server/policy_versioning_api_handler.cpp`, `src/server/prompt_engineering_api_handler.cpp`, `src/server/replication_topology_api_handler.cpp`, `src/server/spatial_api_handler.cpp`, `src/server/wal_grpc_service.cpp`  
+**Ticket:** W1-S03 (issue scope) · Priority P1
+
+### Fixes Applied
+
+#### Guarded pointer dereference anchoring (pointer_without_null_check / CWE-476)
+
+Each file now applies the W1-S03 anchor pattern: after `if (!member_) { return …; }`, the member pointer is immediately bound to a local reference and all guarded dispatches in that code path use the local reference.
+
+| File | Member(s) anchored | Guard sites |
+|---|---|---|
+| `policy_api_handler.cpp` | `ranger_client_` (×1), `policy_engine_` (×2) | 3 |
+| `policy_versioning_api_handler.cpp` | `policy_manager_versioned_` (×6) | 6 |
+| `prompt_engineering_api_handler.cpp` | `orchestrator_` (×5), `feedback_collector_` (×1), `version_control_` (×1) | 7 |
+| `replication_topology_api_handler.cpp` | `coordinator_` (×2) | 2 |
+| `spatial_api_handler.cpp` | `spatial_index_` (×4) | 4 |
+| `wal_grpc_service.cpp` | `wal_applier_` (×1) | 1 |
+
+### Gap Delta
+
+| Type | Before | After |
+|---|---|---|
+| `pointer_without_null_check` (W1-S03 Round 10 guarded derefs) | residual scanner-visible guarded-member deref hits across policy/prompt/replication/spatial/WAL gRPC paths | standardized with explicit post-guard local references across all scope files |
+
+---
+
 
 **Scope:** `src/server/http_server.cpp`, `include/server/http_server.h`  
 **Ticket:** W1-S02 · Priority P0  

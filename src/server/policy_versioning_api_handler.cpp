@@ -71,8 +71,9 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleListVersions
             return makeErrorResponse(http::status::service_unavailable, 
                 "PolicyManagerWithVersioning not initialized", req);
         }
+        auto& policy_manager_versioned = *policy_manager_versioned_;
         
-        auto versions = policy_manager_versioned_->getRuleVersions(rule_id);
+        auto versions = policy_manager_versioned.getRuleVersions(rule_id);
         
         nlohmann::json json_array = nlohmann::json::array();
         for (const auto& version : versions) {
@@ -112,8 +113,9 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleGetVersion(
             return makeErrorResponse(http::status::service_unavailable, 
                 "PolicyManagerWithVersioning not initialized", req);
         }
+        auto& policy_manager_versioned = *policy_manager_versioned_;
         
-        auto version_data = policy_manager_versioned_->getRuleVersion(rule_id, version);
+        auto version_data = policy_manager_versioned.getRuleVersion(rule_id, version);
         if (!version_data.has_value()) {
             return makeErrorResponse(http::status::not_found, 
                 "Version " + version + " of rule " + rule_id + " not found", req);
@@ -147,6 +149,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleRollback(
             return makeErrorResponse(http::status::service_unavailable, 
                 "PolicyManagerWithVersioning not initialized", req);
         }
+        auto& policy_manager_versioned = *policy_manager_versioned_;
         
         // Parse request body for user info
         nlohmann::json body;
@@ -163,7 +166,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleRollback(
         }
         
         // Perform rollback
-        bool success = policy_manager_versioned_->rollbackToVersion(
+        bool success = policy_manager_versioned.rollbackToVersion(
             rule_id, 
             target_version, 
             user
@@ -210,8 +213,9 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleCompareVersi
             return makeErrorResponse(http::status::service_unavailable, 
                 "PolicyManagerWithVersioning not initialized", req);
         }
+        auto& policy_manager_versioned = *policy_manager_versioned_;
         
-        auto diff = policy_manager_versioned_->compareVersions(rule_id, version1, version2);
+        auto diff = policy_manager_versioned.compareVersions(rule_id, version1, version2);
         
         return makeResponse(http::status::ok, diff.toJson().dump(2), req);
         
@@ -235,6 +239,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleQueryAudit(
             return makeErrorResponse(http::status::service_unavailable, 
                 "PolicyManagerWithVersioning not initialized", req);
         }
+        auto& policy_manager_versioned = *policy_manager_versioned_;
         
         // Extract query parameters
         std::string url(req.target());
@@ -276,7 +281,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleQueryAudit(
         }
         
         // Query audit log
-        auto entries = policy_manager_versioned_->queryAudit(rule_id, user, start_time, end_time);
+        auto entries = policy_manager_versioned.queryAudit(rule_id, user, start_time, end_time);
         
         nlohmann::json json_array = nlohmann::json::array();
         for (const auto& entry : entries) {
@@ -309,8 +314,9 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleGetConflicts
             return makeErrorResponse(http::status::service_unavailable,
                 "PolicyManagerWithVersioning not initialized", req);
         }
+        auto& policy_manager_versioned = *policy_manager_versioned_;
 
-        auto conflicts = policy_manager_versioned_->getActiveConflicts();
+        auto conflicts = policy_manager_versioned.getActiveConflicts();
 
         nlohmann::json conflicts_arr = nlohmann::json::array();
         bool has_critical = false;
@@ -439,4 +445,3 @@ std::optional<std::string> PolicyVersioningApiHandler::getQueryParam(
 
 } // namespace server
 } // namespace themis
-

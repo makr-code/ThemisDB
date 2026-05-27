@@ -58,6 +58,7 @@ http::response<http::string_body> SpatialApiHandler::handleIndexCreate(
         if (!spatial_index_) {
             return makeErrorResponse(http::status::internal_server_error, "Spatial index manager not available", req);
         }
+        auto& spatial_index = *spatial_index_;
         
         // Parse optional config
         index::RTreeConfig config;
@@ -74,7 +75,7 @@ http::response<http::string_body> SpatialApiHandler::handleIndexCreate(
             }
         }
         
-        auto status = spatial_index_->createSpatialIndex(table, geometry_column, config);
+        auto status = spatial_index.createSpatialIndex(table, geometry_column, config);
         
         if (!status) {
             span.setStatus(false, status.message);
@@ -121,18 +122,19 @@ http::response<http::string_body> SpatialApiHandler::handleIndexRebuild(
         if (!spatial_index_) {
             return makeErrorResponse(http::status::internal_server_error, "Spatial index manager not available", req);
         }
+        auto& spatial_index = *spatial_index_;
         
         // Rebuild: drop existing index, re-create it, then re-index all entities
         // Step 1: get geometry column (default "geometry")
         std::string geometry_column = j.value("geometry_column", "geometry");
 
         // Step 2: drop and re-create the spatial index
-        auto drop_status = spatial_index_->dropSpatialIndex(table);
+        auto drop_status = spatial_index.dropSpatialIndex(table);
         if (!drop_status.ok) {
             // Treat "not found" as non-fatal (index may not exist yet)
             THEMIS_WARN("SpatialRebuild: drop returned: {}", drop_status.message);
         }
-        auto create_status = spatial_index_->createSpatialIndex(table, geometry_column);
+        auto create_status = spatial_index.createSpatialIndex(table, geometry_column);
         if (!create_status.ok) {
             return makeErrorResponse(http::status::internal_server_error,
                 "Failed to re-create spatial index: " + create_status.message, req);
@@ -191,7 +193,7 @@ http::response<http::string_body> SpatialApiHandler::handleIndexRebuild(
                     if (pk.size() > scan_prefix.size()) {
                         pk = pk.substr(scan_prefix.size());
                     }
-                    auto ins = spatial_index_->insert(table, pk, sidecar);
+                    auto ins = spatial_index.insert(table, pk, sidecar);
                     if (ins.ok) { ++indexed; } else { ++skipped; }
                 } catch (const std::exception& ex) {
                     THEMIS_WARN("SpatialRebuild: skipping key={} – {}", key, ex.what());
@@ -243,8 +245,9 @@ http::response<http::string_body> SpatialApiHandler::handleIndexStats(
         if (!spatial_index_) {
             return makeErrorResponse(http::status::internal_server_error, "Spatial index manager not available", req);
         }
+        auto& spatial_index = *spatial_index_;
         
-        auto stats = spatial_index_->getStats(table);
+        auto stats = spatial_index.getStats(table);
         json response;
         response["success"] = true;
         response["table"] = table;
@@ -280,8 +283,9 @@ http::response<http::string_body> SpatialApiHandler::handleMetrics(
         if (!spatial_index_) {
             return makeErrorResponse(http::status::internal_server_error, "Spatial index manager not available", req);
         }
+        auto& spatial_index = *spatial_index_;
         
-        const auto& metrics = spatial_index_->getMetrics();
+        const auto& metrics = spatial_index.getMetrics();
         
         json response;
         response["query_count"] = metrics.query_count.load();
@@ -399,4 +403,3 @@ http::response<http::string_body> SpatialApiHandler::makeResponse(
 
 } // namespace server
 } // namespace themis
-
