@@ -351,3 +351,36 @@ std::shared_ptr<Expression> parseUnary() {
 | ID | File | Function | Description | Status |
 |----|------|----------|-------------|--------|
 | IV-01 | `src/query/workload_cache_strategy.cpp` | `classifyWorkload()` | `total_patterns = query_patterns_.size()` then division `avg_frequency /= total_patterns` — if called with empty map, division by zero produces NaN/Inf propagating into workload classification ratios | ✅ fixed — early-return `WorkloadType::UNKNOWN` when `total_patterns == 0` |
+
+---
+
+## REL-20..22 batch — Reliability / Unchecked String-to-Number Conversions (2026-05-27)
+
+| ID | File | Location | Description | Status |
+|----|------|----------|-------------|--------|
+| REL-20 | `src/query/query_engine.cpp` | ~3336-3341 | `stoll(valid_from)` / `stoll(valid_to)` on user-supplied temporal filter strings — throws unhandled `std::invalid_argument` / `std::out_of_range` | ✅ fixed — `parseTimestampMs` lambda wraps `stoll` in try/catch; returns `std::nullopt` on failure |
+| REL-21 | `include/query/functions/crs_functions.h` | ~720 | `std::stoi(name.substr(colonPos + 1))` on EPSG code from geometry JSON `crs.properties.name` — no bounds or format check | ✅ fixed — wrapped in try/catch; falls through to default SRID 4326 on failure |
+| REL-22 | `include/query/functions/json_path_functions.h` | ~97 | `std::stoi(index_str)` on JSONPath `[N]` subscript from user input — unchecked | ✅ fixed — wrapped in try/catch; throws descriptive `std::runtime_error` on failure |
+
+---
+
+## UNINIT-21 — Uninitialized Struct Members (2026-05-27)
+
+| ID | File | Struct | Description | Status |
+|----|------|--------|-------------|--------|
+| UNINIT-21 | `include/query/functions/geo_functions.h` | `MBR` | `double minx, miny, maxx, maxy` — no NSDMIs; default-constructed instances have indeterminate values | ✅ fixed — added `= 0.0` NSDMIs to all four members |
+
+---
+
+## TC-16..19 batch — Type-Cast Safety / Negative-int → size_t UB (2026-05-27)
+
+| ID | File | Function | Description | Status |
+|----|------|----------|-------------|--------|
+| TC-16 | `src/query/functions/tensor_functions.cpp` | `TENSOR_SLICE::execute()` | `static_cast<size_t>(args[1/2].get<int>())` for `dim`/`idx` — negative user value wraps to huge `size_t` | ✅ fixed — guard: `if (dimI < 0 / idxI < 0) throw invalid_argument(...)` |
+| TC-17 | `src/query/functions/tensor_functions.cpp` | `TENSOR_PROJECT::execute()` | `static_cast<size_t>(args[1].get<int>())` for `mode` | ✅ fixed — guard: `if (modeI < 0) throw invalid_argument(...)` |
+| TC-18 | `src/query/functions/tensor_functions.cpp` | `TENSOR_COMPRESS::execute()` | `static_cast<size_t>(args[2].get<int>())` for `max_rank` | ✅ fixed — guard with `if (mrI < 0) throw invalid_argument(...)` |
+| TC-19 | `src/query/functions/tensor_functions.cpp` | `TENSOR_DECOMPOSE::execute()` | `static_cast<size_t>(args[2].get<int>())` for `max_rank` | ✅ fixed — guard inside IIFE lambda |
+
+---
+
+*All critical findings resolved — 0 S0, 0 S1, 0 S2 open. REL-20..22, UNINIT-21, TC-16..19 closed 2026-05-27.*

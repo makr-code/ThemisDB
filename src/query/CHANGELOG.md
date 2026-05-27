@@ -10,9 +10,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-- Query security hardening batches completed: CCF-01..05, CQE-01..03, TC-01..15, REL-01..19, UNINIT-01..20, PERF-01..05, and IV-01 (see `AUDIT.md`).
+- Query security hardening batches completed: CCF-01..05, CQE-01..03, TC-01..15, REL-01..19, UNINIT-01..20, PERF-01..05, IV-01, REL-20..22, UNINIT-21, TC-16..19 (see `AUDIT.md`).
 - Clarified AQL parser concurrency guarantees: `AQLParser` is stateless and safe for shared-instance concurrent use.
 - Enabled fulltext AQL function registration in `registerBuiltinFunctions()` (`registerFulltextFunctions(registry)`), so FULLTEXT/PHRASE/FUZZY/NGRAM_MATCH/TOKENS/SOUNDEX/METAPHONE/DOUBLE_METAPHONE are now available at startup.
+
+### Fixed (2026-05-27 batch — REL-20..22, UNINIT-21, TC-16..19)
+- **REL-20** (`query_engine.cpp`): temporal filter `stoll()` on `valid_from`/`valid_to` user strings now wrapped in `parseTimestampMs` lambda returning `std::nullopt` on failure; prevents unhandled `std::invalid_argument`/`std::out_of_range` exceptions.
+- **REL-21** (`crs_functions.h`): `std::stoi()` on EPSG code from geometry JSON `crs.properties.name` now wrapped in try/catch; falls back to default SRID 4326 on malformed input.
+- **REL-22** (`json_path_functions.h`): `std::stoi()` on JSONPath `[N]` subscript now wrapped in try/catch; throws descriptive `std::runtime_error("Invalid JSONPath: array index '...' is not a valid integer")` on failure.
+- **UNINIT-21** (`geo_functions.h`): `MBR` struct `minx/miny/maxx/maxy` members now have `= 0.0` NSDMIs; eliminates UB from default-constructed instances.
+- **TC-16** (`tensor_functions.cpp` `TENSOR_SLICE`): negative `dim`/`idx` arguments now throw `std::invalid_argument` before `static_cast<size_t>`; prevents UB integer wrap-around.
+- **TC-17** (`tensor_functions.cpp` `TENSOR_PROJECT`): negative `mode` argument now guarded.
+- **TC-18** (`tensor_functions.cpp` `TENSOR_COMPRESS`): negative `max_rank` argument now guarded.
+- **TC-19** (`tensor_functions.cpp` `TENSOR_DECOMPOSE`): negative `max_rank` argument now guarded.
+- **ROADMAP.md Known Issues**: updated stale "AQLParser is NOT thread-safe" entry to reflect KL-01 resolution (2026-05-26).
 
 ## [2.0.1] — 2026-05-27
 

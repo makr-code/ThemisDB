@@ -78,7 +78,8 @@ constexpr double EARTH_RADIUS_M = 6371000.0;
 
 // Minimum Bounding Rectangle
 struct MBR {
-    double minx, miny, maxx, maxy;
+    // UNINIT-21: add NSDMI so default-constructed MBR has defined values.
+    double minx = 0.0, miny = 0.0, maxx = 0.0, maxy = 0.0;
     
     bool contains(double x, double y) const {
         return x >= minx && x <= maxx && y >= miny && y <= maxy;

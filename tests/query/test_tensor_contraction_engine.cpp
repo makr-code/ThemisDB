@@ -352,3 +352,56 @@ TEST(TensorContractionEngineOverflow, HadamardProductThrowsOnCoreOverflow) {
         TensorContractionEngine::hadamardProduct(a, b),
         std::overflow_error);
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TC-16..19: Negative-int → size_t UB guards in tensor AQL functions (#5177)
+// ─────────────────────────────────────────────────────────────────────────────
+
+// TC-16a: TENSOR_SLICE with negative dim throws std::invalid_argument
+TEST_F(TensorAQLFunctionTest, TC16a_TensorSliceNegativeDimThrows) {
+    auto& reg = FunctionRegistry::instance();
+    FunctionContext ctx;
+    // dim = -1 must not wrap to a huge size_t
+    EXPECT_THROW(
+        reg.call("TENSOR_SLICE", {sample_arg_, json(-1), json(0)}, ctx),
+        std::invalid_argument);
+}
+
+// TC-16b: TENSOR_SLICE with negative idx throws std::invalid_argument
+TEST_F(TensorAQLFunctionTest, TC16b_TensorSliceNegativeIdxThrows) {
+    auto& reg = FunctionRegistry::instance();
+    FunctionContext ctx;
+    EXPECT_THROW(
+        reg.call("TENSOR_SLICE", {sample_arg_, json(0), json(-1)}, ctx),
+        std::invalid_argument);
+}
+
+// TC-17: TENSOR_PROJECT with negative mode throws std::invalid_argument
+TEST_F(TensorAQLFunctionTest, TC17_TensorProjectNegativeModeThrows) {
+    auto& reg = FunctionRegistry::instance();
+    FunctionContext ctx;
+    EXPECT_THROW(
+        reg.call("TENSOR_PROJECT", {sample_arg_, json(-1)}, ctx),
+        std::invalid_argument);
+}
+
+// TC-18: TENSOR_COMPRESS with negative max_rank throws std::invalid_argument
+TEST_F(TensorAQLFunctionTest, TC18_TensorCompressNegativeMaxRankThrows) {
+    auto& reg = FunctionRegistry::instance();
+    FunctionContext ctx;
+    EXPECT_THROW(
+        reg.call("TENSOR_COMPRESS", {sample_arg_, json(0.01), json(-1)}, ctx),
+        std::invalid_argument);
+}
+
+// TC-19: TENSOR_DECOMPOSE with negative max_rank throws std::invalid_argument
+TEST_F(TensorAQLFunctionTest, TC19_TensorDecomposeNegativeMaxRankThrows) {
+    auto& reg = FunctionRegistry::instance();
+    FunctionContext ctx;
+    // Build a minimal flat data array + shape suitable for TENSOR_DECOMPOSE
+    json flat_data = json::array({1.0f, 2.0f, 3.0f, 4.0f});
+    json shape     = json::array({2, 2});
+    EXPECT_THROW(
+        reg.call("TENSOR_DECOMPOSE", {flat_data, shape, json(-1)}, ctx),
+        std::invalid_argument);
+}

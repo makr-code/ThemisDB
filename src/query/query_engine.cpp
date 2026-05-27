@@ -3329,16 +3329,27 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 		return Ok(std::vector<std::vector<std::string>>{}); // leere Pfadliste als Schutz vor Explosion
 	}
 	// Temporal filter setup
+	// REL-20: wrap stoll() calls in try/catch — valid_from/valid_to are user-supplied
+	// strings; malformed or out-of-range values must not propagate an unhandled exception.
+	auto parseTimestampMs = [](const std::string& s) -> std::optional<int64_t> {
+		try {
+			return std::stoll(s);
+		} catch (const std::exception&) {
+			return std::nullopt;
+		}
+	};
 	std::optional<int64_t> timestamp_ms;
 	if (q.valid_from.has_value() && q.valid_to.has_value()) {
-		// Use midpoint of time window as query timestamp
-		int64_t from = std::stoll(*q.valid_from);
-		int64_t to = std::stoll(*q.valid_to);
-		timestamp_ms = (from + to) / 2;
+		auto from = parseTimestampMs(*q.valid_from);
+		auto to   = parseTimestampMs(*q.valid_to);
+		if (from.has_value() && to.has_value()) {
+			// Use midpoint of time window as query timestamp
+			timestamp_ms = (*from + *to) / 2;
+		}
 	} else if (q.valid_from.has_value()) {
-		timestamp_ms = std::stoll(*q.valid_from);
+		timestamp_ms = parseTimestampMs(*q.valid_from);
 	} else if (q.valid_to.has_value()) {
-		timestamp_ms = std::stoll(*q.valid_to);
+		timestamp_ms = parseTimestampMs(*q.valid_to);
 	}
 	
 	std::vector<std::vector<std::string>> allPaths;

@@ -715,9 +715,15 @@ public:
                 geom["crs"]["properties"].contains("name")) {
                 std::string name = geom["crs"]["properties"]["name"];
                 // Parse EPSG code from name like "EPSG:4326"
+                // REL-21: wrap stoi() — the suffix after ':' may be non-numeric or
+                // out-of-range; fall through to the default WGS84 (4326) on failure.
                 size_t colonPos = name.find(':');
                 if (colonPos != std::string::npos) {
-                    return std::stoi(name.substr(colonPos + 1));
+                    try {
+                        return std::stoi(name.substr(colonPos + 1));
+                    } catch (const std::exception&) {
+                        // Fall through to default 4326
+                    }
                 }
             }
             // Default to WGS84

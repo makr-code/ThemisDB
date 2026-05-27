@@ -410,7 +410,7 @@ Adds a production-grade Continuous Query Language (CQL) engine to ThemisDB, enab
 
 ## Known Issues & Limitations
 
-- **`AQLParser` is NOT thread-safe**: each thread must own its own `AQLParser` instance or protect shared instances with a mutex. Thread-safe wrapper is planned but not yet scheduled.
+- **`AQLParser` thread-safety** — ✅ resolved (KL-01, 2026-05-26): `AQLParser` is now stateless (no mutable state, all intermediate state on the stack); instances can be shared across threads without a mutex or per-thread copies.
 - **`QueryEngine::createDefault()` unimplemented**: throws `std::runtime_error`. Use constructor injection (`IStorageEnginePtr` + `IIndexManagerPtr`) until concrete interface adapters are wired (v1.9.0).
 - **Graph traversal edge-type filtering** — ✅ resolved in v2.0.0: `executeGeneralTraversal()` now accepts an optional `edgeTypeFilter` parameter. Edges are matched by `adj.graphId` (same convention as `RecursivePathQuery::edge_type`).
 - **Stale statistics for cost estimation**: statistics used for cardinality estimation can become stale over time as data grows, leading to suboptimal join ordering. Workaround: restart or manually trigger `StatisticsCollector::refresh()`. Continuous incremental stats collection is planned.

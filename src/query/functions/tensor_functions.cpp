@@ -284,8 +284,14 @@ public:
         if (args.size() < 3)
             throw std::invalid_argument("TENSOR_SLICE: requires 3 arguments (tensor, dim, idx)");
         TTTrain a   = buildTrain(args[0], ctx);
-        auto dim    = static_cast<std::size_t>(args[1].get<int>());
-        auto idx    = static_cast<std::size_t>(args[2].get<int>());
+        // TC-16: guard against negative user-supplied dim/idx — negative int wraps
+        // to a huge size_t and would cause out-of-bounds access inside slice().
+        int dimI = args[1].get<int>();
+        int idxI = args[2].get<int>();
+        if (dimI < 0) throw std::invalid_argument("TENSOR_SLICE: dim must be >= 0");
+        if (idxI < 0) throw std::invalid_argument("TENSOR_SLICE: idx must be >= 0");
+        auto dim    = static_cast<std::size_t>(dimI);
+        auto idx    = static_cast<std::size_t>(idxI);
         TTTrain sl  = TensorContractionEngine::slice(a, dim, idx);
         auto recon  = sl.reconstruct();
         return json{
@@ -327,7 +333,13 @@ public:
             throw std::invalid_argument("TENSOR_COMPRESS: requires at least 1 argument");
         TTTrain a   = buildTrain(args[0], ctx);
         double eps  = (args.size() > 1) ? args[1].get<double>() : 0.01;
-        auto mr     = (args.size() > 2) ? static_cast<std::size_t>(args[2].get<int>()) : 0u;
+        // TC-18: guard against negative max_rank — wraps to huge size_t.
+        std::size_t mr = 0u;
+        if (args.size() > 2) {
+            int mrI = args[2].get<int>();
+            if (mrI < 0) throw std::invalid_argument("TENSOR_COMPRESS: max_rank must be >= 0");
+            mr = static_cast<std::size_t>(mrI);
+        }
         TTTrain comp = TensorContractionEngine::recompress(a, eps, mr);
         auto recon  = comp.reconstruct();
         return json{
@@ -481,7 +493,10 @@ public:
                 "TENSOR_PROJECT: requires 2 arguments (t, mode)");
 
         TTTrain t    = buildTrain(args[0], ctx);
-        auto    mode = static_cast<std::size_t>(args[1].get<int>());
+        // TC-17: guard against negative mode — wraps to huge size_t.
+        int modeI = args[1].get<int>();
+        if (modeI < 0) throw std::invalid_argument("TENSOR_PROJECT: mode must be >= 0");
+        auto    mode = static_cast<std::size_t>(modeI);
 
         TTTrain result = TensorContractionEngine::project(t, mode);
         auto    recon  = result.reconstruct();
@@ -540,8 +555,15 @@ public:
         for (const auto& v : args[0]) data.push_back(v.get<float>());
         for (const auto& s : args[1]) shape.push_back(s.get<std::size_t>());
 
-        auto max_rank = (args.size() > 2)
-            ? static_cast<std::size_t>(args[2].get<int>()) : 0u;
+        auto max_rank = [&]() -> std::size_t {
+            if (args.size() > 2) {
+                // TC-19: guard against negative max_rank — wraps to huge size_t.
+                int mrI = args[2].get<int>();
+                if (mrI < 0) throw std::invalid_argument("TENSOR_DECOMPOSE: max_rank must be >= 0");
+                return static_cast<std::size_t>(mrI);
+            }
+            return 0u;
+        }();
         double eps = (args.size() > 3) ? args[3].get<double>() : 0.01;
 
         TensorTrainConfig cfg;
