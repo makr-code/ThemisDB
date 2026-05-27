@@ -2732,30 +2732,40 @@ json ThemisRPCService::handleGetCollectionMetadataInternal(
             });
         }
         
+        json idx_array = json::array();
+        if (storage) {
+            std::string idx_prefix = "_idx_meta:" + collection + ":";
+            size_t scanned_index_metadata = 0;
+            bool deadline_exceeded = false;
+            storage->scanPrefix(
+                idx_prefix,
+                [&](std::string_view /*key*/, std::string_view value) -> bool {
+                    ++scanned_index_metadata;
+                    if (shouldCheckDeadline(scanned_index_metadata) && isDeadlineExceeded(deadline)) {
+                        deadline_exceeded = true;
+                        return false;
+                    }
+                    try {
+                        idx_array.push_back(json::parse(value));
+                    } catch (const json::exception&) {
+                        // Skip malformed index metadata entries
+                    }
+                    return true;
+                });
+            if (deadline_exceeded) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during collection metadata index scan"
+                );
+            }
+        }
+
         json result = {
             {"collection", collection},
             {"document_count", document_count},
             {"total_size_bytes", total_size},
             {"models", models_array},
-            {"indexes", [&] {
-                json idx_array = json::array();
-                // storage is validated non-null above (if (!storage) was already checked).
-                // The explicit guard here makes the invariant visible to static analysers
-                // that analyse the lambda body in isolation.
-                if (storage) {
-                    std::string idx_prefix = "_idx_meta:" + collection + ":";
-                    storage->scanPrefix(idx_prefix,
-                        [&idx_array](std::string_view /*key*/, std::string_view value) -> bool {
-                            try {
-                                idx_array.push_back(json::parse(value));
-                            } catch (const json::exception&) {
-                                // Skip malformed index metadata entries
-                            }
-                            return true;
-                        });
-                }
-                return idx_array;
-            }()}
+            {"indexes", idx_array}
         };
         
         return createSuccess(result);

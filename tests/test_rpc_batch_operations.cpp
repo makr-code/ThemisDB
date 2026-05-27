@@ -549,6 +549,36 @@ TEST_F(RPCBatchOperationsTest, DispatchTimesOutDuringCollectionMetadataScan) {
               static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
 }
 
+TEST_F(RPCBatchOperationsTest, DispatchTimesOutDuringCollectionMetadataIndexScan) {
+    for (int i = 0; i < 8; ++i) {
+        DirectPut("meta_timeout_idx", "M", "doc-" + std::to_string(i), {{"i", i}});
+    }
+    for (int i = 0; i < 25000; ++i) {
+        std::string key = "_idx_meta:meta_timeout_idx:" + std::to_string(i);
+        json meta = {
+            {"name", "idx_" + std::to_string(i)},
+            {"collection", "meta_timeout_idx"},
+            {"field", "f"},
+            {"type", "btree"}
+        };
+        ASSERT_TRUE(db_->put(key, meta.dump()));
+    }
+
+    themis::plugins::rpc::RPCRequestContext ctx;
+    ctx.timestamp_ms = CurrentUnixMs() - 5;
+    ctx.metadata["request-timeout-ms"] = "10";
+
+    json resp = service_->dispatch(
+        "get_collection_metadata",
+        {{"collection", "meta_timeout_idx"}},
+        ctx
+    );
+
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+}
+
 TEST_F(RPCBatchOperationsTest, DispatchTimesOutDuringQueryScan) {
     const std::string blob(512, 'z');
     for (int i = 0; i < 25000; ++i) {

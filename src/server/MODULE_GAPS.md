@@ -960,3 +960,9 @@ Findings addressed:
   any partial writes.  `dispatch()` now threads `request_deadline` into both via the Internal variants.
   Added `DispatchTimesOutDuringGetIndexOperationsScan` and `DispatchTimesOutDuringBatchUpdateLoop` tests
   to `tests/test_rpc_batch_operations.cpp`.
+
+- **W1-S04 follow-up (2026-05-27) — deadline enforcement in `get_collection_metadata` index-metadata scan (`rpc_service_impl.cpp`):**
+  `handleGetCollectionMetadataInternal` now checks `request_deadline` while scanning `_idx_meta:{collection}:*`
+  entries (every 256 scanned index records) and aborts with `QUERY_TIMEOUT` if the deadline expires during
+  index metadata enumeration. Added `DispatchTimesOutDuringCollectionMetadataIndexScan` to
+  `tests/test_rpc_batch_operations.cpp` to cover deadline expiry in this nested scan path.
