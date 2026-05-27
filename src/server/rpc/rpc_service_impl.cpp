@@ -668,6 +668,13 @@ json ThemisRPCService::handleDelete(const json& params) {
 }
 
 json ThemisRPCService::handleBatchGet(const json& params) {
+    return handleBatchGetInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleBatchGetInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         if (!params.contains("keys") || !params["keys"].is_array()) {
             return createError(
@@ -690,7 +697,15 @@ json ThemisRPCService::handleBatchGet(const json& params) {
         std::vector<json> results_array;
         
         // Build keys list
+        size_t keys_built = 0;
         for (const auto& key_obj : keys_array) {
+            ++keys_built;
+            if (shouldCheckDeadline(keys_built) && isDeadlineExceeded(deadline)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during batch get"
+                );
+            }
             if (!key_obj.contains("collection") || !key_obj.contains("model") || !key_obj.contains("uuid")) {
                 return createError(
                     themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
@@ -708,6 +723,12 @@ json ThemisRPCService::handleBatchGet(const json& params) {
         
         // Build results
         for (size_t i = 0; i < values.size(); ++i) {
+            if (shouldCheckDeadline(i + 1) && isDeadlineExceeded(deadline)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during batch get results"
+                );
+            }
             json result_item;
             if (values[i].has_value()) {
                 // Parse JSON entity directly from vector<uint8_t>
@@ -747,6 +768,13 @@ json ThemisRPCService::handleBatchGet(const json& params) {
 }
 
 json ThemisRPCService::handleBatchPut(const json& params) {
+    return handleBatchPutInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleBatchPutInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         if (!params.contains("entities") || !params["entities"].is_array()) {
             return createError(
@@ -771,8 +799,16 @@ json ThemisRPCService::handleBatchPut(const json& params) {
         
         uint64_t timestamp = getCurrentTimestampNs();
         int count = 0;
+        size_t item_index = 0;
         
         for (const auto& item : entities_array) {
+            ++item_index;
+            if (shouldCheckDeadline(item_index) && isDeadlineExceeded(deadline)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during batch put"
+                );
+            }
             if (!item.contains("collection") || !item.contains("model") || 
                 !item.contains("uuid") || !item.contains("entity")) {
                 return createError(
@@ -830,6 +866,13 @@ json ThemisRPCService::handleBatchPut(const json& params) {
 }
 
 json ThemisRPCService::handleBatchDelete(const json& params) {
+    return handleBatchDeleteInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleBatchDeleteInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         if (!params.contains("keys") || !params["keys"].is_array()) {
             return createError(
@@ -850,8 +893,16 @@ json ThemisRPCService::handleBatchDelete(const json& params) {
 
         auto batch = storage->createWriteBatch();
         int count = 0;
+        size_t item_index = 0;
 
         for (const auto& key_obj : keys_array) {
+            ++item_index;
+            if (shouldCheckDeadline(item_index) && isDeadlineExceeded(deadline)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during batch delete"
+                );
+            }
             if (!key_obj.contains("collection") || !key_obj.contains("model") || !key_obj.contains("uuid")) {
                 return createError(
                     themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
@@ -1147,8 +1198,232 @@ json ThemisRPCService::handleGraphTraverse(const json& params) {
 }
 
 json ThemisRPCService::handleGeoQuery(const json& params) {
+    return handleGeoQueryInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleGeoQueryInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         std::string collection(params.value("collection", ""));
+        
+        if (collection.empty()) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                "Missing required parameter: collection"
+            );
+        }
+        
+        // Get storage engine
+        auto storage = storage_;
+        if (!storage) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Database storage not initialized"
+            );
+        }
+        
+        // Check if spatial index is available
+        if (!spatial_index_) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Spatial index not initialized"
+            );
+        }
+        
+        // Verify that the collection has a spatial index
+        if (!spatial_index_->hasSpatialIndex(collection)) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                "Collection '" + collection + "' does not have a spatial index. Create one first using spatial index API."
+            );
+        }
+        
+        // Extract geo query parameters
+        std::string query_type(params.value("type", ""));  // within, near, intersects
+        
+        if (query_type.empty()) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                "Missing required parameter: type (within, near, intersects)"
+            );
+        }
+        
+        json results = json::array();
+        
+        // Handle different query types
+        if (query_type == "intersects" || query_type == "within") {
+            // Parse bounding box
+            if (!params.contains("bbox") || !params["bbox"].is_object()) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                    "Missing or invalid 'bbox' parameter. Expected: {minx, miny, maxx, maxy}"
+                );
+            }
+            
+            auto bbox_json = params["bbox"];
+            if (!bbox_json.contains("minx") || !bbox_json.contains("miny") ||
+                !bbox_json.contains("maxx") || !bbox_json.contains("maxy")) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                    "bbox must contain: minx, miny, maxx, maxy"
+                );
+            }
+            
+            geo::MBR query_bbox(
+                bbox_json["minx"].get<double>(),
+                bbox_json["miny"].get<double>(),
+                bbox_json["maxx"].get<double>(),
+                bbox_json["maxy"].get<double>()
+            );
+            
+            // Perform spatial search
+            auto search_results = spatial_index_->searchIntersects(collection, query_bbox);
+            
+            // Convert results to JSON
+            size_t result_count = 0;
+            for (const auto& result : search_results) {
+                ++result_count;
+                if (shouldCheckDeadline(result_count) && isDeadlineExceeded(deadline)) {
+                    return createError(
+                        themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                        "Request deadline exceeded during geo query results"
+                    );
+                }
+                json result_obj;
+                result_obj["primary_key"] = result.primary_key;
+                result_obj["mbr"] = {
+                    {"minx", result.mbr.minx},
+                    {"miny", result.mbr.miny},
+                    {"maxx", result.mbr.maxx},
+                    {"maxy", result.mbr.maxy}
+                };
+                if (result.z_min.has_value() && result.z_max.has_value()) {
+                    result_obj["z_min"] = result.z_min.value();
+                    result_obj["z_max"] = result.z_max.value();
+                }
+                results.push_back(result_obj);
+            }
+            
+        } else if (query_type == "near") {
+            // Parse center point and radius
+            if (!params.contains("center") || !params["center"].is_object()) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                    "Missing or invalid 'center' parameter. Expected: {lon, lat}"
+                );
+            }
+            
+            if (!params.contains("radius")) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                    "Missing 'radius' parameter (in meters)"
+                );
+            }
+            
+            auto center = params["center"];
+            if (!center.contains("lon") || !center.contains("lat")) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                    "center must contain: lon, lat"
+                );
+            }
+            
+            double lon = center["lon"].get<double>();
+            double lat = center["lat"].get<double>();
+            double radius = params["radius"].get<double>();
+            
+            // Create bounding box from center + radius
+            // Rough approximation: 1 degree latitude ≈ 111km
+            // 1 degree longitude varies by latitude
+            constexpr double METERS_PER_DEGREE_LAT = 111000.0;
+            double meters_per_degree_lon = METERS_PER_DEGREE_LAT * std::cos(lat * DEG_TO_RAD);
+            
+            double lat_delta = radius / METERS_PER_DEGREE_LAT;
+            double lon_delta = radius / meters_per_degree_lon;
+            
+            geo::MBR query_bbox(
+                lon - lon_delta,
+                lat - lat_delta,
+                lon + lon_delta,
+                lat + lat_delta
+            );
+            
+            // Perform spatial search
+            auto search_results = spatial_index_->searchIntersects(collection, query_bbox);
+            
+            // Convert results to JSON and add distance
+            size_t result_count = 0;
+            for (const auto& result : search_results) {
+                ++result_count;
+                if (shouldCheckDeadline(result_count) && isDeadlineExceeded(deadline)) {
+                    return createError(
+                        themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                        "Request deadline exceeded during geo query results"
+                    );
+                }
+                json result_obj;
+                result_obj["primary_key"] = result.primary_key;
+                result_obj["mbr"] = {
+                    {"minx", result.mbr.minx},
+                    {"miny", result.mbr.miny},
+                    {"maxx", result.mbr.maxx},
+                    {"maxy", result.mbr.maxy}
+                };
+                
+                // Calculate approximate distance from center to MBR centroid
+                double result_lon = (result.mbr.minx + result.mbr.maxx) / 2.0;
+                double result_lat = (result.mbr.miny + result.mbr.maxy) / 2.0;
+                
+                // Haversine formula for great circle distance
+                double lat1_rad = lat * DEG_TO_RAD;
+                double lat2_rad = result_lat * DEG_TO_RAD;
+                double dlat = (result_lat - lat) * DEG_TO_RAD;
+                double dlon = (result_lon - lon) * DEG_TO_RAD;
+                
+                double a = std::sin(dlat/2) * std::sin(dlat/2) +
+                          std::cos(lat1_rad) * std::cos(lat2_rad) *
+                          std::sin(dlon/2) * std::sin(dlon/2);
+                double c = 2 * std::atan2(std::sqrt(a), std::sqrt(1-a));
+                double distance = EARTH_RADIUS_METERS * c;
+                
+                result_obj["distance"] = distance;
+                
+                if (result.z_min.has_value() && result.z_max.has_value()) {
+                    result_obj["z_min"] = result.z_min.value();
+                    result_obj["z_max"] = result.z_max.value();
+                }
+                
+                // Only include results within the specified radius
+                if (distance <= radius) {
+                    results.push_back(result_obj);
+                }
+            }
+            
+        } else {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                "Invalid query type. Supported types: intersects, within, near"
+            );
+        }
+        
+        json result = {
+            {"results", results},
+            {"count", results.size()},
+            {"query_type", query_type},
+            {"collection", collection}
+        };
+        
+        return createSuccess(result);
+        
+    } catch (const std::exception& e) {
+        return createError(
+            themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+            e.what()
+        );
+    }
+}
         
         if (collection.empty()) {
             return createError(
@@ -2865,11 +3140,11 @@ json ThemisRPCService::dispatch(
         } else if (method == "delete") {
             return handleDelete(params);
         } else if (method == "batch_get") {
-            return handleBatchGet(params);
+            return handleBatchGetInternal(params, request_deadline);
         } else if (method == "batch_put") {
-            return handleBatchPut(params);
+            return handleBatchPutInternal(params, request_deadline);
         } else if (method == "batch_delete") {
-            return handleBatchDelete(params);
+            return handleBatchDeleteInternal(params, request_deadline);
         } else if (method == "query") {
             return handleQueryInternal(params, request_deadline);
         } else if (method == "vector_search") {
@@ -2877,7 +3152,7 @@ json ThemisRPCService::dispatch(
         } else if (method == "graph_traverse") {
             return handleGraphTraverse(params);
         } else if (method == "geo_query") {
-            return handleGeoQuery(params);
+            return handleGeoQueryInternal(params, request_deadline);
         } else if (method == "timeseries_query") {
             return handleTimeSeriesQueryInternal(params, request_deadline);
         } else if (method == "transaction_begin") {

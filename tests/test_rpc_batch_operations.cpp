@@ -9,6 +9,8 @@
 #include <gtest/gtest.h>
 #include "server/rpc_service_impl.h"
 #include "storage/rocksdb_wrapper.h"
+#include "index/spatial_index.h"
+#include "utils/geo/ewkb.h"
 #include <nlohmann/json.hpp>
 #include <filesystem>
 #include <chrono>
@@ -736,6 +738,111 @@ TEST_F(RPCBatchOperationsTest, DispatchTimesOutDuringBatchUpdateLoop) {
         "batch_update",
         {{"updates", updates}},
         ctx
+    );
+
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+}
+
+// ============================================================================
+// Deadline enforcement – batch_get, batch_put, batch_delete, geo_query
+// ============================================================================
+
+TEST_F(RPCBatchOperationsTest, DispatchTimesOutDuringBatchGetKeysLoop) {
+    // Build an input with 25000 key specs and an already-expired deadline.
+    // The deadline check fires at item 256 (kDeadlineCheckInterval).
+    json keys = json::array();
+    for (int i = 0; i < 25000; ++i) {
+        keys.push_back(KeySpec("bget_timeout", "M", "u-" + std::to_string(i)));
+    }
+
+    themis::plugins::rpc::RPCRequestContext ctx;
+    ctx.timestamp_ms = CurrentUnixMs() - 5;
+    ctx.metadata["x-timeout-ms"] = "10";
+
+    json resp = service_->dispatch(
+        "batch_get",
+        {{"keys", keys}},
+        ctx
+    );
+
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+}
+
+TEST_F(RPCBatchOperationsTest, DispatchTimesOutDuringBatchPutEntitiesLoop) {
+    // Build an input with 25000 entity specs and an already-expired deadline.
+    // The deadline check fires at item 256 (kDeadlineCheckInterval).
+    json entities = json::array();
+    for (int i = 0; i < 25000; ++i) {
+        entities.push_back(EntitySpec("bput_timeout", "M", "u-" + std::to_string(i), {{"v", i}}));
+    }
+
+    themis::plugins::rpc::RPCRequestContext ctx;
+    ctx.timestamp_ms = CurrentUnixMs() - 5;
+    ctx.metadata["x-timeout-ms"] = "10";
+
+    json resp = service_->dispatch(
+        "batch_put",
+        {{"entities", entities}},
+        ctx
+    );
+
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+}
+
+TEST_F(RPCBatchOperationsTest, DispatchTimesOutDuringBatchDeleteKeysLoop) {
+    // Build an input with 25000 key specs and an already-expired deadline.
+    // The deadline check fires at item 256 (kDeadlineCheckInterval).
+    json keys = json::array();
+    for (int i = 0; i < 25000; ++i) {
+        keys.push_back(KeySpec("bdel_timeout", "M", "u-" + std::to_string(i)));
+    }
+
+    themis::plugins::rpc::RPCRequestContext ctx;
+    ctx.timestamp_ms = CurrentUnixMs() - 5;
+    ctx.metadata["x-timeout-ms"] = "10";
+
+    json resp = service_->dispatch(
+        "batch_delete",
+        {{"keys", keys}},
+        ctx
+    );
+
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+}
+
+TEST_F(RPCBatchOperationsTest, DispatchTimesOutDuringGeoQueryResultsLoop) {
+    // Set up a spatial index on the test DB and insert 257 entries so the
+    // 256-iteration deadline check fires inside handleGeoQueryInternal.
+    themis::index::SpatialIndexManager spatial_mgr(*db_);
+    spatial_mgr.createSpatialIndex("geo_timeout_col");
+
+    for (int i = 0; i < 257; ++i) {
+        geo::GeoSidecar sidecar(
+            geo::MBR{static_cast<double>(i), static_cast<double>(i),
+                     static_cast<double>(i) + 0.001, static_cast<double>(i) + 0.001});
+        spatial_mgr.insert("geo_timeout_col", "pk-" + std::to_string(i), sidecar);
+    }
+
+    // Build a service wired to the spatial index
+    ThemisRPCService geo_svc(db_.get(), &spatial_mgr);
+
+    // Call Internal variant directly with an already-expired deadline to bypass
+    // the pre-dispatch deadline check, hitting the in-loop check at item 256.
+    auto expired = std::chrono::steady_clock::time_point{};  // epoch – always in the past
+
+    json resp = geo_svc.handleGeoQueryInternal(
+        {{"collection", "geo_timeout_col"},
+         {"type",       "intersects"},
+         {"bbox",       {{"minx", -1e6}, {"miny", -1e6}, {"maxx", 1e6}, {"maxy", 1e6}}}},
+        std::make_optional(expired)
     );
 
     ASSERT_TRUE(resp.contains("error"));

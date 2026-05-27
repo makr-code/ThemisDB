@@ -966,3 +966,14 @@ Findings addressed:
   entries (every 256 scanned index records) and aborts with `QUERY_TIMEOUT` if the deadline expires during
   index metadata enumeration. Added `DispatchTimesOutDuringCollectionMetadataIndexScan` to
   `tests/test_rpc_batch_operations.cpp` to cover deadline expiry in this nested scan path.
+
+- **W1-S04 follow-up (2026-05-27) — deadline enforcement in `batch_get`, `batch_put`, `batch_delete`, and `geo_query` (`rpc_service_impl.cpp`):**
+  Each of the four handlers was converted to a wrapper + `Internal(params, deadline)` variant following
+  the established W1-S04 pattern. `handleBatchGetInternal` checks `request_deadline` while building the
+  keys list and again during result-array construction. `handleBatchPutInternal` and
+  `handleBatchDeleteInternal` each check per 256 input items before staging the batch write/delete.
+  `handleGeoQueryInternal` checks per 256 spatial results returned by `searchIntersects` for both the
+  `intersects`/`within` and `near` code paths. `dispatch()` now threads `request_deadline` into all four
+  via their Internal variants. Added `DispatchTimesOutDuringBatchGetKeysLoop`,
+  `DispatchTimesOutDuringBatchPutEntitiesLoop`, `DispatchTimesOutDuringBatchDeleteKeysLoop`, and
+  `DispatchTimesOutDuringGeoQueryResultsLoop` tests to `tests/test_rpc_batch_operations.cpp`.

@@ -78,16 +78,28 @@ public:
      * @brief Handle batch GET operation
      */
     json handleBatchGet(const json& params);
+    json handleBatchGetInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
     
     /**
      * @brief Handle batch PUT operation
      */
     json handleBatchPut(const json& params);
+    json handleBatchPutInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
 
     /**
      * @brief Handle batch DELETE operation
      */
     json handleBatchDelete(const json& params);
+    json handleBatchDeleteInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
 
     /**
      * @brief Handle AQL query
@@ -108,6 +120,10 @@ public:
      * @brief Handle geo query
      */
     json handleGeoQuery(const json& params);
+    json handleGeoQueryInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
     
     /**
      * @brief Handle time series query
