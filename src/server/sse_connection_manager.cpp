@@ -91,40 +91,50 @@ uint64_t SseConnectionManager::registerConnection(
 }
 
 void SseConnectionManager::unregisterConnection(uint64_t conn_id) {
+    bool stop_polling = false;
     std::unique_lock<std::shared_mutex> lock(connections_mutex_);
-    
-    auto it = connections_.find(conn_id);
-    if (it != connections_.end()) {
-        it->second->active = false;
-        connections_.erase(it);
+
+    auto removed = connections_.extract(conn_id);
+    if (!removed.empty()) {
+        if (removed.mapped()) {
+            removed.mapped()->active.store(false, std::memory_order_relaxed);
+        }
         total_disconnects_++;
-        
+
         THEMIS_INFO("SSE connection unregistered: id={}", conn_id);
-        
+
         // Stop polling if no more connections
         if (connections_.empty()) {
             running_ = false;
-            if (poll_timer_) {
-                poll_timer_->cancel();
-            }
+            stop_polling = true;
+        }
+    }
+
+    lock.unlock();
+    if (stop_polling) {
+        std::lock_guard<std::mutex> timer_lock(poll_timer_mutex_);
+        if (poll_timer_) {
+            poll_timer_->cancel();
         }
     }
 }
 
-std::vector<std::pair<uint64_t, std::string>> SseConnectionManager::pollEventsWithSequences(
+std::vector<std::string> SseConnectionManager::pollEvents(
     uint64_t conn_id,
     size_t   max_events
 ) {
     std::unique_lock<std::shared_mutex> lock(connections_mutex_);
 
     auto it = connections_.find(conn_id);
-    if (it == connections_.end() || !it->second->active) {
+    if (it == connections_.end() || !it->second
+        || !it->second->active.load(std::memory_order_relaxed)) {
         return {};
     }
 
     auto& conn = it->second;
 
     // Apply server-side rate limit when configured.
+    size_t count = max_events;
     if (config_.max_events_per_second > 0) {
         auto now = std::chrono::steady_clock::now();
         auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -140,58 +150,41 @@ std::vector<std::pair<uint64_t, std::string>> SseConnectionManager::pollEventsWi
         if (budget == 0) {
             return {};
         }
-        size_t count = std::min({max_events, conn->buffered_events.size(),
-                                 static_cast<size_t>(budget)});
-        if (count == 0) {
-            return {};
-        }
-        std::vector<std::pair<uint64_t, std::string>> events(
-            conn->buffered_events.begin(),
-            conn->buffered_events.begin() + static_cast<ptrdiff_t>(count)
-        );
-        // Remove consumed events from both buffers (keep in sync)
-        conn->buffered_events.erase(
-            conn->buffered_events.begin(),
-            conn->buffered_events.begin() + static_cast<ptrdiff_t>(count)
-        );
-        {
-            size_t raw_count = std::min(count, conn->buffered_raw_events.size());
-            conn->buffered_raw_events.erase(
-                conn->buffered_raw_events.begin(),
-                conn->buffered_raw_events.begin() + static_cast<std::ptrdiff_t>(raw_count));
-        }
-        if (!events.empty()) {
-            conn->last_activity = std::chrono::steady_clock::now();
-            total_events_sent_ += events.size();
-            conn->sent_in_window += static_cast<uint32_t>(events.size());
-        }
-        
-        return events;
+        count = std::min({max_events, conn->buffered_events.size(),
+                          static_cast<size_t>(budget)});
+    } else {
+        count = std::min(max_events, conn->buffered_events.size());
     }
 
-    // No rate limit.
-    size_t count = std::min(max_events, conn->buffered_events.size());
-    std::vector<std::pair<uint64_t, std::string>> events(
+    if (count == 0) {
+        return {};
+    }
+
+    // Drain formatted SSE lines from the front of buffered_events.
+    std::vector<std::string> events(
         conn->buffered_events.begin(),
         conn->buffered_events.begin() + static_cast<ptrdiff_t>(count)
     );
-    
-    // Remove consumed events from both buffers (keep in sync)
     conn->buffered_events.erase(
         conn->buffered_events.begin(),
         conn->buffered_events.begin() + static_cast<ptrdiff_t>(count)
     );
-    {
-        size_t raw_count = std::min(count, conn->buffered_raw_events.size());
-        conn->buffered_raw_events.erase(
-            conn->buffered_raw_events.begin(),
-            conn->buffered_raw_events.begin() + static_cast<std::ptrdiff_t>(raw_count));
+
+    // Keep raw_buffered_events in sync so that pollRawEvents() remains consistent
+    // with the number of formatted lines already consumed.
+    const size_t raw_count = std::min(count, conn->raw_buffered_events.size());
+    if (raw_count > 0) {
+        conn->raw_buffered_events.erase(
+            conn->raw_buffered_events.begin(),
+            conn->raw_buffered_events.begin() + static_cast<std::ptrdiff_t>(raw_count));
     }
-    
-    if (!events.empty()) {
-        conn->last_activity = std::chrono::steady_clock::now();
-        total_events_sent_ += events.size();
+
+    conn->last_activity = std::chrono::steady_clock::now();
+    total_events_sent_ += events.size();
+    if (config_.max_events_per_second > 0) {
+        conn->sent_in_window += static_cast<uint32_t>(events.size());
     }
+
     return events;
 }
 
@@ -202,7 +195,8 @@ std::vector<Changefeed::ChangeEvent> SseConnectionManager::pollRawEvents(
     std::unique_lock<std::shared_mutex> lock(connections_mutex_);
 
     auto it = connections_.find(conn_id);
-    if (it == connections_.end() || !it->second->active) {
+    if (it == connections_.end() || !it->second
+        || !it->second->active.load(std::memory_order_relaxed)) {
         return {};
     }
 
@@ -259,7 +253,7 @@ bool SseConnectionManager::needsHeartbeat(uint64_t conn_id) const {
     std::shared_lock<std::shared_mutex> lock(connections_mutex_);
 
     auto it = connections_.find(conn_id);
-    if (it == connections_.end()) {
+    if (it == connections_.end() || !it->second) {
         return false;
     }
 
@@ -274,7 +268,7 @@ void SseConnectionManager::recordHeartbeat(uint64_t conn_id) {
     std::unique_lock<std::shared_mutex> lock(connections_mutex_);
     
     auto it = connections_.find(conn_id);
-    if (it != connections_.end()) {
+    if (it != connections_.end() && it->second) {
         it->second->last_heartbeat = std::chrono::steady_clock::now();
         total_heartbeats_sent_++;
     }
@@ -296,16 +290,24 @@ void SseConnectionManager::shutdown() {
     THEMIS_INFO("SSE Connection Manager shutting down...");
     
     running_ = false;
-    
-    if (poll_timer_) {
-        poll_timer_->cancel();
-    }
-    
+
     std::unique_lock<std::shared_mutex> lock(connections_mutex_);
     for (auto& [id, conn] : connections_) {
-        conn->active = false;
+        if (conn) {
+            conn->active.store(false, std::memory_order_relaxed);
+        }
     }
     connections_.clear();
+    lock.unlock();
+
+    std::lock_guard<std::mutex> timer_lock(poll_timer_mutex_);
+    if (poll_timer_) {
+        poll_timer_->cancel();
+        // Reset so that a second shutdown() call (e.g. from the destructor after
+        // an explicit HttpServer::stop()) cannot touch a timer whose io_context
+        // may already have been destroyed.
+        poll_timer_.reset();
+    }
     
     THEMIS_INFO("SSE Connection Manager shutdown complete");
 }
@@ -314,19 +316,33 @@ void SseConnectionManager::backgroundPollTask() {
     if (!running_) {
         return;
     }
+
+    if (!changefeed_) {
+        THEMIS_WARN("SSE background poll skipped: changefeed unavailable");
+        running_ = false;
+        return;
+    }
     
     try {
+        struct PollTarget {
+            uint64_t id;
+            std::shared_ptr<Connection> conn;
+            uint64_t from_sequence;
+            std::string key_prefix;
+            std::set<Changefeed::ChangeEventType> event_types;
+        };
+
         // Snapshot the active connection list under a brief read lock so that
         // addConnection() / removeConnection() are not blocked for the full
         // changefeed poll duration (which may involve I/O and JSON serialisation).
         // The buffer-full early-exit check is performed here under the lock to
         // avoid an unsynchronised read of conn->buffered_events outside the lock.
-        std::vector<std::pair<uint64_t, std::shared_ptr<Connection>>> active_conns;
+        std::vector<PollTarget> active_conns;
         {
             std::shared_lock<std::shared_mutex> lock(connections_mutex_);
             active_conns.reserve(connections_.size());
             for (auto& [id, conn] : connections_) {
-                if (!conn->active) continue;
+                if (!conn || !conn->active.load(std::memory_order_relaxed)) continue;
                 // Backpressure: skip non-drop-oldest connections whose buffer is
                 // already full.  This read is safe here because we hold the
                 // connections_mutex_ shared lock; the write side (pollEventsWithSequences,
@@ -336,23 +352,28 @@ void SseConnectionManager::backgroundPollTask() {
                     THEMIS_WARN("SSE connection {} buffer full, skipping poll", id);
                     continue;
                 }
-                active_conns.emplace_back(id, conn);
+                active_conns.push_back(PollTarget{
+                    id,
+                    conn,
+                    conn->current_sequence.load(std::memory_order_relaxed),
+                    conn->key_prefix,
+                    conn->event_types
+                });
             }
         }
 
-        for (auto& [id, conn] : active_conns) {
+        for (auto& target : active_conns) {
             // Query new events since last sequence — without holding connections_mutex_.
-            // current_sequence is atomic so the lock-free read is safe.
             Changefeed::ListOptions options;
-            options.from_sequence = conn->current_sequence.load(std::memory_order_relaxed);
+            options.from_sequence = target.from_sequence;
             options.limit = 100;
             
-            if (!conn->key_prefix.empty()) {
-                options.key_prefix = conn->key_prefix;
+            if (!target.key_prefix.empty()) {
+                options.key_prefix = target.key_prefix;
             }
             
-            if (!conn->event_types.empty()) {
-                options.event_types = conn->event_types;
+            if (!target.event_types.empty()) {
+                options.event_types = target.event_types;
             }
             
             auto events = changefeed_->listEvents(options);
@@ -361,25 +382,32 @@ void SseConnectionManager::backgroundPollTask() {
 
             // Re-acquire write lock briefly to append events to the connection buffer.
             std::unique_lock<std::shared_mutex> lock(connections_mutex_);
-            // Re-check active flag: the connection may have been removed while we polled.
-            auto it = connections_.find(id);
-            if (it == connections_.end() || !it->second->active) continue;
-            auto& c = *it->second;
+            // Re-check active flag: the connection may have been unregistered while we polled.
+            if (!target.conn || !target.conn->active.load(std::memory_order_relaxed)) continue;
+            auto& c = *target.conn;
 
             for (const auto& event : events) {
                 // Enforce capacity limit: drop oldest when configured, otherwise skip
                 // new events to preserve the hard max_buffered_events bound.
-                while (c.buffered_events.size() >= config_.max_buffered_events) {
-                    if (config_.drop_oldest_on_overflow && !c.buffered_events.empty()) {
-                        c.buffered_events.erase(c.buffered_events.begin());
-                        if (!c.raw_buffered_events.empty()) {
-                            c.raw_buffered_events.erase(c.raw_buffered_events.begin());
-                        }
-                        c.dropped_events++;
-                        total_dropped_events_++;
-                    } else {
-                        break;
+                if (config_.drop_oldest_on_overflow
+                    && c.buffered_events.size() >= config_.max_buffered_events
+                    && config_.max_buffered_events > 0) {
+                    const size_t overflow_count =
+                        c.buffered_events.size() - static_cast<size_t>(config_.max_buffered_events) + 1;
+                    c.buffered_events.erase(
+                        c.buffered_events.begin(),
+                        c.buffered_events.begin() + static_cast<std::ptrdiff_t>(overflow_count));
+
+                    const size_t raw_overflow_count =
+                        std::min(overflow_count, c.raw_buffered_events.size());
+                    if (raw_overflow_count > 0) {
+                        c.raw_buffered_events.erase(
+                            c.raw_buffered_events.begin(),
+                            c.raw_buffered_events.begin() + static_cast<std::ptrdiff_t>(raw_overflow_count));
                     }
+
+                    c.dropped_events += overflow_count;
+                    total_dropped_events_ += overflow_count;
                 }
 
                 // Skip event if buffer is still at capacity (drop_oldest_on_overflow==false).
@@ -404,8 +432,9 @@ void SseConnectionManager::backgroundPollTask() {
         THEMIS_ERROR("SSE background poll error: {}", e.what());
     }
     
-    // Schedule next poll
-    if (running_) {
+    // Schedule next poll.
+    std::lock_guard<std::mutex> timer_lock(poll_timer_mutex_);
+    if (running_ && poll_timer_) {
         poll_timer_->expires_after(
             std::chrono::milliseconds(config_.event_poll_interval_ms)
         );
