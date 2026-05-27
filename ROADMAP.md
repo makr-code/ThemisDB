@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.3  
-**Last Updated:** 2026-05-26  
+**Last Updated:** 2026-05-27  
 **Scope:** Aggregated roadmap across all 65 modules in `src/` (Phase 1-5 Gap Analysis Complete)
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
@@ -71,9 +71,9 @@ Audit method:
 
 ---
 
-## Module Status Summary — Evidence-Based (from Gap Scanner v3 + Rescan 2026-05-25)
+## Module Status Summary — Evidence-Based (from Gap Scanner v3 + Rescan 2026-05-27)
 
-> ⚠️ **CRITICAL UPDATE (2026-05-25):** Latest gap-scan rescan reports **184,779 total gaps** across 27 scanner categories (CRITICAL 6,025 | HIGH 142,926 | MEDIUM 35,828 | Actionable 148,951). Delta vs prior 194,852 baseline: **-10,073 total** and **-5,753 critical**. 65 modules scanned.
+> ⚠️ **CRITICAL UPDATE (2026-05-27):** Latest gap-scan run reports **185,190 total gaps** across 27 scanner categories (CRITICAL 5,980 | HIGH 143,326 | MEDIUM 35,884 | Actionable 149,306). Delta vs prior 194,852 baseline: **-9,662 total** and **-5,798 critical**. 65 modules scanned.
 >
 > Historical Phase 1-5 snapshot remains relevant for trend comparisons: 155,631 total gaps across 13 categories (Phase 5 added +99,694 vs Phase 1-4).
 >
@@ -87,11 +87,11 @@ Audit method:
 > 
 > Also: [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md#code-quality-scanner-enhancements-phase-1-6--roadmap-update-2026-05-19) updated with Phase 1-4 improvements and Phase 6 scanner details.
 
-**Latest Gap Scanner Results Summary (Rescan 2026-05-25):**
-- Total gaps (current canonical snapshot): **184,779** across 27 categories
-- CRITICAL: 6,025 | HIGH: 142,926 | MEDIUM: 35,828
-- Actionable (C+H): 148,951
-- Delta vs 194,852 baseline: **-10,073 total**, **-5,753 critical**
+**Latest Gap Scanner Results Summary (Rescan 2026-05-27):**
+- Total gaps (current canonical snapshot): **185,190** across 27 categories
+- CRITICAL: 5,980 | HIGH: 143,326 | MEDIUM: 35,884
+- Actionable (C+H): 149,306
+- Delta vs 194,852 baseline: **-9,662 total**, **-5,798 critical**
 - Modules scanned: 65
 - Historical baseline retained: Phase 1-5 = 155,631 across 13 categories (for trend comparison)
 
@@ -104,7 +104,7 @@ Audit method:
 **Phase 6 Extended Scanners Planned (Q3-Q4 2026):**
 - 5 new scanners: ABI Safety, Const Correctness, Template Meta-Programming, Build System, Ownership & Lifetime
 - Expected gap increase: +6,000–10,000 (20–30% additional)
-- Total Phase 1-6 projection: **~165,000–185,000 gaps** (40–45% increase)
+- Total Phase 1-6 projection from current baseline: **~193,390–198,390 gaps**
 - Timeline: 8 weeks implementation + 1 week integration
 - Detailed design & sprint breakdown: [PHASE_6_SCANNER_DESIGN.md](ai_working/PHASE_6_SCANNER_DESIGN.md)
 
@@ -1053,9 +1053,9 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 
 ### Phase 1-5 / Rescan Summary
 - **Historical Phase 1-5 Snapshot:** 155,631 gaps across 13 scanner categories (8 Phase 1-4 + 5 Phase 5)
-- **Current Rescan Snapshot (2026-05-25):** 184,779 gaps across 27 scanner categories
-- **Severity Distribution (current):** CRITICAL 6,025 | HIGH 142,926 | MEDIUM 35,828
-- **Actionable (CRITICAL+HIGH, current):** 148,951
+- **Current Rescan Snapshot (2026-05-27):** 185,190 gaps across 27 scanner categories
+- **Severity Distribution (current):** CRITICAL 5,980 | HIGH 143,326 | MEDIUM 35,884
+- **Actionable (CRITICAL+HIGH, current):** 149,306
 - **GitHub Integration (canonical set):** Master #5172 + Categories #5184–#5194 + P0 Modules #5195–#5201
 - **Note:** Older wave references (#5207, #5221–#5230) are retained only as historical duplicates.
 
@@ -1079,7 +1079,7 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 
 **Expected Results:**
 - Phase 1-4 Baseline: 31,720 → **33,920–34,920 gaps** (+2,200–3,200)
-- Current Rescan Baseline: 184,779 → **186,979–187,979 gaps** (+2,200–3,200)
+- Current Rescan Baseline: 185,190 → **187,390–188,390 gaps** (+2,200–3,200)
 - Key Targets: Top 10 modules (llm, server, sharding, index, query, storage, analytics, rag, security, content)
 
 **Detailed Design:** [PHASE_1_4_IMPROVEMENTS.md](ai_working/PHASE_1_4_IMPROVEMENTS.md)
@@ -1098,7 +1098,7 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 | — | **Phase 6 Total** | — | **48–55** | **~1,480** | — | — | **Week 1-9** |
 
 **Expected Results:**
-- Phase 1-6 Projection: 186,979–187,979 → **192,979–197,979 gaps** (+6,000–10,000)
+- Phase 1-6 Projection: 187,390–188,390 → **193,390–198,390 gaps** (+6,000–10,000)
 - Coverage increase: 18 scanners (Phase 1-4: 8 + Phase 5: 5 + Phase 6: 5)
 - All 65 modules re-scanned with full Phase 1-6 suite
 - Effort estimate: ~3,850–4,000 weeks to fix all gaps (Phase 1-6 total)

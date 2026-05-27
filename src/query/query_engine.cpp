@@ -47,6 +47,7 @@
 #include <tbb/parallel_sort.h> // v1.1.0: TBB Parallel Sort
 #include "query/parallel_scan.h"
 #include <algorithm>
+#include <array>
 #include <functional>
 #include <unordered_map>
 #include <unordered_set>
@@ -114,9 +115,10 @@ std::vector<std::string> QueryEngine::listCollections() const {
         return {};
     }
     std::unordered_set<std::string> seen;
+	static constexpr std::array<std::string_view, 2> kCollectionPrefixes{"doc:", "rel:"};
     // Key schema: "doc:<collection>:<pk>" or "rel:<table>:<pk>"
     // We scan all keys and extract the second segment.
-    for ([[maybe_unused]] const std::string prefix : {"doc:", "rel:"}) {
+	for (const auto prefix : kCollectionPrefixes) {
         db_->scanPrefix(prefix, [&](std::string_view key, std::string_view /*value*/) {
             // key looks like "doc:name:pk" — extract "name"
             std::string_view remainder = key.substr(prefix.size());
@@ -279,6 +281,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			tbb::parallel_sort(structKeys.begin(), structKeys.end());
 			
 			std::vector<std::string> intersection;
+			intersection.reserve(std::min(phraseKeys.size(), structKeys.size()));
 			std::set_intersection(
 				phraseKeys.begin(), phraseKeys.end(),
 				structKeys.begin(), structKeys.end(),
@@ -341,6 +344,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			tbb::parallel_sort(structKeys.begin(), structKeys.end());
 			
 			std::vector<std::string> intersection;
+			intersection.reserve(std::min(fuzzyKeys.size(), structKeys.size()));
 			std::set_intersection(
 				fuzzyKeys.begin(), fuzzyKeys.end(),
 				structKeys.begin(), structKeys.end(),
@@ -409,6 +413,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			tbb::parallel_sort(structKeys.begin(), structKeys.end());
 			
 			std::vector<std::string> intersection;
+			intersection.reserve(std::min(fulltextKeys.size(), structKeys.size()));
 			std::set_intersection(
 				fulltextKeys.begin(), fulltextKeys.end(),
 				structKeys.begin(), structKeys.end(),
@@ -496,6 +501,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			tbb::parallel_sort(structKeys.begin(), structKeys.end());
 			
 			std::vector<std::string> intersection;
+			intersection.reserve(std::min(spatialKeys.size(), structKeys.size()));
 			std::set_intersection(
 				spatialKeys.begin(), spatialKeys.end(),
 				structKeys.begin(), structKeys.end(),
@@ -529,6 +535,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 	std::vector<std::vector<std::string>> all_lists(q.predicates.size());
 	std::mutex errors_mutex;
 	std::vector<std::string> errors;
+	errors.reserve(q.predicates.size());
 	tbb::task_group tg;
 
 	for (size_t i = 0; i < q.predicates.size(); ++i) {
@@ -643,6 +650,7 @@ QueryEngine::executeAndKeysWithScores(const ConjunctiveQuery& q) const {
 		tbb::parallel_sort(structKeys.begin(), structKeys.end());
 		
 		std::vector<std::string> intersection;
+		intersection.reserve(std::min(fulltextKeys.size(), structKeys.size()));
 		std::set_intersection(
 			fulltextKeys.begin(), fulltextKeys.end(),
 			structKeys.begin(), structKeys.end(),
@@ -823,6 +831,7 @@ QueryEngine::executeOrKeys(const DisjunctiveQuery& q) const {
 	// Execute each disjunct (AND-block) and collect results
 	std::vector<std::vector<std::string>> all_lists(q.disjuncts.size());
 	std::vector<std::string> errors;
+	errors.reserve(q.disjuncts.size());
 	tbb::task_group tg;
 
 	for (size_t i = 0; i < q.disjuncts.size(); ++i) {
@@ -2449,7 +2458,10 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 		}
 		// Erzeuge Kandidaten-Set für schnelles Membership-Checking (falls es Prädikate gab)
 		std::unordered_set<std::string> candSet;
-		if (!candidates.empty()) candSet.insert(candidates.begin(), candidates.end());
+		if (!candidates.empty()) {
+			candSet.reserve(candidates.size());
+			candSet.insert(candidates.begin(), candidates.end());
+		}
 
 		std::vector<std::string> ordered;
 		ordered.reserve(ob.limit);
@@ -4356,6 +4368,7 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 		if (!st.ok) { child1.setStatus(false, st.message); span.setStatus(false, st.message); return Err<std::vector<ContentGeoResult>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message); }
 		child1.setAttribute("fulltext_results", static_cast<int64_t>(ftResults.size())); child1.setStatus(true);
 		if (ftResults.empty()) { span.setAttribute("result_count", static_cast<int64_t>(0)); span.setStatus(true); return Ok(std::vector<ContentGeoResult>{}); }
+		results.reserve(ftResults.size());
 		// Phase 2: Spatial filtering
 		auto child2 = Tracer::startSpan("phase2.spatial_filter");
 		std::vector<std::string> keys; keys.reserve(ftResults.size());
@@ -4378,6 +4391,8 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 			if (bbox) {
 				childS.setAttribute("method","spatial_index");
 				auto indexResults = spatialIdx_->searchWithin(q.table, *bbox);
+				spatialCandidates.reserve(indexResults.size());
+				cache.reserve(indexResults.size());
 				std::vector<std::string> keys; keys.reserve(indexResults.size());
 				for (auto &r : indexResults) keys.push_back(q.table+":"+r.primary_key);
 				auto blobs = db_->multiGet(keys);

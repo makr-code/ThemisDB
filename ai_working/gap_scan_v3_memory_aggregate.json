@@ -6878,15 +6878,14 @@
     }
   },
   "llm": {
-    "total": 353,
-    "severity_critical": 3,
-    "severity_high": 350,
+    "total": 344,
+    "severity_critical": 0,
+    "severity_high": 344,
     "severity_medium": 0,
     "by_type": {
-      "pointer_arithmetic": 324,
-      "delete_no_nullptr": 13,
-      "unchecked_malloc": 13,
-      "new_without_delete": 3
+      "pointer_arithmetic": 319,
+      "delete_no_nullptr": 12,
+      "unchecked_malloc": 13
     },
     "gaps_by_file": {
       "src\\llm\\active_vram_allocator.cpp": [
@@ -6997,17 +6996,6 @@
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "[](const AdapterMetadata& a, const AdapterMetadata& b) {",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        }
-      ],
-      "src\\llm\\adaptive_vram_allocator.cpp": [
-        {
-          "file": "src\\llm\\adaptive_vram_allocator.cpp",
-          "line": 119,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "return impl_->active_allocator_.allocateWithFragmentation(bytes, ptr);",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
         }
@@ -7417,7 +7405,7 @@
       "src\\llm\\gpu_memory_manager.cpp": [
         {
           "file": "src\\llm\\gpu_memory_manager.cpp",
-          "line": 455,
+          "line": 486,
           "type": "unchecked_malloc",
           "severity": "HIGH",
           "snippet": "ptr = std::malloc(bytes);",
@@ -7426,7 +7414,7 @@
         },
         {
           "file": "src\\llm\\gpu_memory_manager.cpp",
-          "line": 464,
+          "line": 495,
           "type": "unchecked_malloc",
           "severity": "HIGH",
           "snippet": "ptr = std::malloc(bytes);",
@@ -7435,7 +7423,7 @@
         },
         {
           "file": "src\\llm\\gpu_memory_manager.cpp",
-          "line": 512,
+          "line": 543,
           "type": "unchecked_malloc",
           "severity": "HIGH",
           "snippet": "ptr = std::malloc(bytes);",
@@ -7444,7 +7432,7 @@
         },
         {
           "file": "src\\llm\\gpu_memory_manager.cpp",
-          "line": 515,
+          "line": 546,
           "type": "unchecked_malloc",
           "severity": "HIGH",
           "snippet": "ptr = std::malloc(bytes);",
@@ -7453,7 +7441,7 @@
         },
         {
           "file": "src\\llm\\gpu_memory_manager.cpp",
-          "line": 520,
+          "line": 551,
           "type": "unchecked_malloc",
           "severity": "HIGH",
           "snippet": "ptr = std::malloc(bytes);",
@@ -7462,7 +7450,7 @@
         },
         {
           "file": "src\\llm\\gpu_memory_manager.cpp",
-          "line": 904,
+          "line": 969,
           "type": "unchecked_malloc",
           "severity": "HIGH",
           "snippet": "new_ptr = std::malloc(total_vram);",
@@ -7471,7 +7459,7 @@
         },
         {
           "file": "src\\llm\\gpu_memory_manager.cpp",
-          "line": 915,
+          "line": 980,
           "type": "unchecked_malloc",
           "severity": "HIGH",
           "snippet": "new_ptr = std::malloc(total_vram);",
@@ -7480,7 +7468,7 @@
         },
         {
           "file": "src\\llm\\gpu_memory_manager.cpp",
-          "line": 993,
+          "line": 1058,
           "type": "unchecked_malloc",
           "severity": "HIGH",
           "snippet": "new_ptr = std::malloc(total_ram);",
@@ -7489,7 +7477,7 @@
         },
         {
           "file": "src\\llm\\gpu_memory_manager.cpp",
-          "line": 996,
+          "line": 1061,
           "type": "unchecked_malloc",
           "severity": "HIGH",
           "snippet": "new_ptr = std::malloc(total_ram);",
@@ -7498,7 +7486,7 @@
         },
         {
           "file": "src\\llm\\gpu_memory_manager.cpp",
-          "line": 999,
+          "line": 1064,
           "type": "unchecked_malloc",
           "severity": "HIGH",
           "snippet": "new_ptr = std::malloc(total_ram);",
@@ -7507,7 +7495,7 @@
         },
         {
           "file": "src\\llm\\gpu_memory_manager.cpp",
-          "line": 1044,
+          "line": 1109,
           "type": "unchecked_malloc",
           "severity": "HIGH",
           "snippet": "void* new_ptr = std::malloc(total_ram);",
@@ -7516,7 +7504,7 @@
         },
         {
           "file": "src\\llm\\gpu_memory_manager.cpp",
-          "line": 1179,
+          "line": 1244,
           "type": "unchecked_malloc",
           "severity": "HIGH",
           "snippet": "ptr = std::malloc(bytes);",
@@ -7525,7 +7513,7 @@
         },
         {
           "file": "src\\llm\\gpu_memory_manager.cpp",
-          "line": 1188,
+          "line": 1253,
           "type": "unchecked_malloc",
           "severity": "HIGH",
           "snippet": "ptr = std::malloc(bytes);",
@@ -7534,7 +7522,7 @@
         },
         {
           "file": "src\\llm\\gpu_memory_manager.cpp",
-          "line": 1630,
+          "line": 1695,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "gpu_health_data_[gpu_device_id] = health;",
@@ -7556,7 +7544,7 @@
       "src\\llm\\inference_engine_enhanced.cpp": [
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 1070,
+          "line": 1074,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto active_guard = std::shared_ptr<void>(nullptr, [this, model_id](void*) {",
@@ -7565,19 +7553,19 @@
         },
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 1109,
+          "line": 1114,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
-          "snippet": "effective_request.metadata[\"raid_sharding\"][\"allow_cross_instance_batching\"] =",
+          "snippet": "effective_request.metadata[\"raid_sharding\"] = std::move(raid_sharding);",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
         },
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 1254,
+          "line": 1261,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
-          "snippet": "effective_request.metadata[\"lookup_decoding\"][\"ngram_hit\"] = true;",
+          "snippet": "effective_request.metadata[\"lookup_decoding\"] = std::move(lookup_decoding);",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
         }
@@ -7656,7 +7644,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1082,
+          "line": 1089,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "llama_grammar* grammar_handle = grammar ? grammar->getHandle() : nullptr;",
@@ -7665,7 +7653,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1184,
+          "line": 1191,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response.metadata[\"validation_errors\"] = validation.errors;",
@@ -7674,7 +7662,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1185,
+          "line": 1192,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response.metadata[\"validation_valid\"] = false;",
@@ -7683,7 +7671,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1194,
+          "line": 1201,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response.metadata[\"validation_metrics\"] = {",
@@ -7692,7 +7680,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1327,
+          "line": 1337,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "logit_row[j] = logits_ptr[j];",
@@ -7701,7 +7689,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1367,
+          "line": 1377,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response.metadata[\"rag_enabled\"] = true;",
@@ -7710,7 +7698,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1872,
+          "line": 1889,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "float max_logit = candidates_p.data[0].logit;",
@@ -7719,7 +7707,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1875,
+          "line": 1892,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "candidates_p.data[i].p = std::exp(candidates_p.data[i].logit - max_logit);",
@@ -7728,7 +7716,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1876,
+          "line": 1893,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "sum_exp += candidates_p.data[i].p;",
@@ -7737,7 +7725,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1882,
+          "line": 1899,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "candidates_p.data[i].p /= sum_exp;",
@@ -7746,7 +7734,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1883,
+          "line": 1900,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "cum_prob += candidates_p.data[i].p;",
@@ -7755,7 +7743,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1901,
+          "line": 1918,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "llama_token sampled_token = candidates_p.data[0].id;",
@@ -7764,7 +7752,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1974,
+          "line": 1991,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result[\"metadata\"][\"format_hints\"] = {",
@@ -7773,7 +7761,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2392,
+          "line": 2429,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response.metadata[\"speculative_decoding\"] = true;",
@@ -7782,7 +7770,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2393,
+          "line": 2430,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response.metadata[\"acceptance_rate\"] = (total_speculations > 0)",
@@ -7791,7 +7779,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2395,
+          "line": 2432,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response.metadata[\"draft_model\"] = draft_model_id_;",
@@ -8263,7 +8251,7 @@
         },
         {
           "file": "src\\llm\\multi_lora_manager.cpp",
-          "line": 1050,
+          "line": 1135,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "std::memcpy(serialized.data() + offset, lora->lora_id.data(), id_len);",
@@ -8272,7 +8260,7 @@
         },
         {
           "file": "src\\llm\\multi_lora_manager.cpp",
-          "line": 1054,
+          "line": 1139,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "std::memcpy(serialized.data() + offset, lora->path.data(), path_len);",
@@ -8281,7 +8269,7 @@
         },
         {
           "file": "src\\llm\\multi_lora_manager.cpp",
-          "line": 1056,
+          "line": 1141,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "std::memcpy(serialized.data() + offset, &lora->vram_bytes, sizeof(size_t));",
@@ -8290,7 +8278,7 @@
         },
         {
           "file": "src\\llm\\multi_lora_manager.cpp",
-          "line": 1058,
+          "line": 1143,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "std::memcpy(serialized.data() + offset, &lora->rank, sizeof(int));",
@@ -8299,7 +8287,7 @@
         },
         {
           "file": "src\\llm\\multi_lora_manager.cpp",
-          "line": 1060,
+          "line": 1145,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "std::memcpy(serialized.data() + offset, &lora->alpha, sizeof(int));",
@@ -8308,7 +8296,7 @@
         },
         {
           "file": "src\\llm\\multi_lora_manager.cpp",
-          "line": 1062,
+          "line": 1147,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "std::memcpy(serialized.data() + offset, &lora->scale, sizeof(float));",
@@ -8317,7 +8305,7 @@
         },
         {
           "file": "src\\llm\\multi_lora_manager.cpp",
-          "line": 1104,
+          "line": 1189,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "lora->lora_id = std::string(reinterpret_cast<const char*>(data.data() + offset), id_len);",
@@ -8326,7 +8314,7 @@
         },
         {
           "file": "src\\llm\\multi_lora_manager.cpp",
-          "line": 1115,
+          "line": 1200,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "lora->path = std::string(reinterpret_cast<const char*>(data.data() + offset), path_len);",
@@ -8335,7 +8323,7 @@
         },
         {
           "file": "src\\llm\\multi_lora_manager.cpp",
-          "line": 1125,
+          "line": 1210,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "std::memcpy(&lora->vram_bytes, data.data() + offset, sizeof(size_t));",
@@ -8344,7 +8332,7 @@
         },
         {
           "file": "src\\llm\\multi_lora_manager.cpp",
-          "line": 1127,
+          "line": 1212,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "std::memcpy(&lora->rank, data.data() + offset, sizeof(int));",
@@ -8353,7 +8341,7 @@
         },
         {
           "file": "src\\llm\\multi_lora_manager.cpp",
-          "line": 1129,
+          "line": 1214,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "std::memcpy(&lora->alpha, data.data() + offset, sizeof(int));",
@@ -8362,7 +8350,7 @@
         },
         {
           "file": "src\\llm\\multi_lora_manager.cpp",
-          "line": 1131,
+          "line": 1216,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "std::memcpy(&lora->scale, data.data() + offset, sizeof(float));",
@@ -8705,7 +8693,7 @@
       "src\\llm\\lora_framework\\directx_context.cpp": [
         {
           "file": "src\\llm\\lora_framework\\directx_context.cpp",
-          "line": 285,
+          "line": 294,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "hr = command_list_->Reset(command_allocator_.Get(), nullptr);",
@@ -9020,7 +9008,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\lora_layers.cpp",
-          "line": 591,
+          "line": 604,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "Tensor& v = v_buffers_[param];",
@@ -9029,7 +9017,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\lora_layers.cpp",
-          "line": 620,
+          "line": 633,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "param->data()[i] -= learning_rate_ * m_hat / (std::sqrt(v_hat) + epsilon_);",
@@ -9038,7 +9026,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\lora_layers.cpp",
-          "line": 678,
+          "line": 691,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "Tensor& v = v_buffers_[param];",
@@ -9047,7 +9035,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\lora_layers.cpp",
-          "line": 703,
+          "line": 716,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "float weight_decay_update = learning_rate_ * weight_decay_ * param->data()[i];",
@@ -9056,7 +9044,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\lora_layers.cpp",
-          "line": 705,
+          "line": 718,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "param->data()[i] -= adam_update + weight_decay_update;",
@@ -9352,7 +9340,7 @@
       "src\\llm\\lora_framework\\lora_training_service.cpp": [
         {
           "file": "src\\llm\\lora_framework\\lora_training_service.cpp",
-          "line": 1134,
+          "line": 1148,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "return impl_->trainOnTheFly(adapter_id, data, hyperparameters);",
@@ -9361,7 +9349,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\lora_training_service.cpp",
-          "line": 1142,
+          "line": 1156,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "return impl_->trainBatch(adapter_id, dataset, hyperparameters);",
@@ -9387,48 +9375,12 @@
           "snippet": "auto target_data = targets[i].cpu_data();",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\multi_gpu_trainer.cpp",
-          "line": 344,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "void* param_ptr = params[j]->gpu_ptr();",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\multi_gpu_trainer.cpp",
-          "line": 345,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "void* grad_ptr = grads[j]->gpu_ptr();",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\multi_gpu_trainer.cpp",
-          "line": 375,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "void* param_ptr = params[j]->gpu_ptr();",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\multi_gpu_trainer.cpp",
-          "line": 376,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "void* grad_ptr = grads[j]->gpu_ptr();",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
         }
       ],
       "src\\llm\\lora_framework\\nccl_backend.cpp": [
         {
           "file": "src\\llm\\lora_framework\\nccl_backend.cpp",
-          "line": 129,
+          "line": 134,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "void* send_buf = tensor->gpu_ptr();",
@@ -9437,7 +9389,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\nccl_backend.cpp",
-          "line": 130,
+          "line": 135,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "void* recv_buf = tensor->gpu_ptr();  // In-place",
@@ -9604,30 +9556,10 @@
           "remediation": "Add bounds check before dereferencing"
         }
       ],
-      "src\\llm\\lora_framework\\quantized_model.cpp": [
-        {
-          "file": "src\\llm\\lora_framework\\quantized_model.cpp",
-          "line": 195,
-          "type": "new_without_delete",
-          "severity": "CRITICAL",
-          "snippet": "A_->grad.reset(new Tensor(std::move(grad_A)));",
-          "description": "Raw new without RAII wrapper \u2014 potential memory leak",
-          "remediation": "Use std::unique_ptr<T> or std::make_unique<T>()"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\quantized_model.cpp",
-          "line": 196,
-          "type": "new_without_delete",
-          "severity": "CRITICAL",
-          "snippet": "B_->grad.reset(new Tensor(std::move(grad_B)));",
-          "description": "Raw new without RAII wrapper \u2014 potential memory leak",
-          "remediation": "Use std::unique_ptr<T> or std::make_unique<T>()"
-        }
-      ],
       "src\\llm\\lora_framework\\rccl_backend.cpp": [
         {
           "file": "src\\llm\\lora_framework\\rccl_backend.cpp",
-          "line": 129,
+          "line": 134,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "void* send_buf = tensor->gpu_ptr();",
@@ -9636,7 +9568,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\rccl_backend.cpp",
-          "line": 130,
+          "line": 135,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "void* recv_buf = tensor->gpu_ptr();  // In-place",
@@ -9658,7 +9590,7 @@
       "src\\llm\\lora_framework\\vram_allocator.cpp": [
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 110,
+          "line": 111,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "VkResult enum_result = vkEnumeratePhysicalDevices(ctx->instance, &dev_count, nullptr);",
@@ -9667,7 +9599,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 127,
+          "line": 128,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "VkResult enum_result = vkEnumeratePhysicalDevices(ctx->instance, &dev_count, devs.data());",
@@ -9676,7 +9608,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 149,
+          "line": 150,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "vkGetPhysicalDeviceQueueFamilyProperties(ctx->physical_device, &qf_count, nullptr);",
@@ -9685,7 +9617,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 229,
+          "line": 230,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "vkGetBufferMemoryRequirements(ctx->device, buffer, &mem_req);",
@@ -9694,7 +9626,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 269,
+          "line": 270,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "ctx->entries.push_back({buffer, memory, mapped,",
@@ -9703,25 +9635,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 459,
-          "type": "new_without_delete",
-          "severity": "CRITICAL",
-          "snippet": "auto* vk_ctx = new VulkanAllocContext();",
-          "description": "Raw new without RAII wrapper \u2014 potential memory leak",
-          "remediation": "Use std::unique_ptr<T> or std::make_unique<T>()"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 461,
-          "type": "delete_no_nullptr",
-          "severity": "HIGH",
-          "snippet": "delete vk_ctx;",
-          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
-          "remediation": "After delete: vk_ctx = nullptr;"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 496,
+          "line": 497,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "delete vk_ctx;",
@@ -9839,7 +9753,7 @@
       "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp": [
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 781,
+          "line": 893,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_uav(0, buffer_output);  // Output",
@@ -9848,7 +9762,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 782,
+          "line": 894,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv(0, buffer_token_ids);  // Token IDs",
@@ -9857,7 +9771,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 783,
+          "line": 895,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv(1, buffer_embedding_weights);  // Embedding weights",
@@ -9866,7 +9780,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 848,
+          "line": 971,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_uav(0, buffer_output);  // Output",
@@ -9875,7 +9789,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 849,
+          "line": 972,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv(0, buffer_input);  // Input",
@@ -9886,7 +9800,7 @@
       "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp": [
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 397,
+          "line": 443,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_A);",
@@ -9895,7 +9809,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 398,
+          "line": 444,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(1, buf_B);",
@@ -9904,7 +9818,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 399,
+          "line": 445,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(2, buf_C);",
@@ -9913,7 +9827,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 421,
+          "line": 467,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_input);",
@@ -9922,7 +9836,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 423,
+          "line": 469,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(1, buf_input);",
@@ -9931,7 +9845,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 424,
+          "line": 470,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(2, buf_output);",
@@ -9940,7 +9854,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 502,
+          "line": 558,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_A);",
@@ -9949,7 +9863,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 503,
+          "line": 559,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(1, buf_B);",
@@ -9958,7 +9872,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 504,
+          "line": 560,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(2, buf_C);",
@@ -9967,7 +9881,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 545,
+          "line": 607,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_A);",
@@ -9976,7 +9890,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 546,
+          "line": 608,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(1, buf_B);",
@@ -9985,7 +9899,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 547,
+          "line": 609,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(2, buf_C);",
@@ -9994,7 +9908,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 585,
+          "line": 653,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_A);",
@@ -10003,7 +9917,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 587,
+          "line": 655,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(1, buf_A);",
@@ -10012,7 +9926,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 588,
+          "line": 656,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(2, buf_B);",
@@ -10021,7 +9935,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 627,
+          "line": 701,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_input);",
@@ -10030,7 +9944,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 629,
+          "line": 703,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(1, buf_input);",
@@ -10039,7 +9953,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 630,
+          "line": 704,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(2, buf_output);",
@@ -10048,7 +9962,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 681,
+          "line": 759,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_h); // h serves as input",
@@ -10057,7 +9971,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 682,
+          "line": 760,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(1, buf_h); // dummy B",
@@ -10066,7 +9980,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 683,
+          "line": 761,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(2, buf_h); // dummy A",
@@ -10075,7 +9989,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 684,
+          "line": 762,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(3, buf_grad_output);",
@@ -10084,7 +9998,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 685,
+          "line": 763,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(4, buf_grad_A);",
@@ -10093,7 +10007,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 686,
+          "line": 764,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(5, buf_grad_A); // dummy grad_B",
@@ -10102,7 +10016,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 687,
+          "line": 765,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(6, buf_grad_A); // dummy grad_input",
@@ -10111,7 +10025,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 739,
+          "line": 821,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_input);",
@@ -10120,7 +10034,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 740,
+          "line": 822,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(1, buf_grad_B); // dummy B",
@@ -10129,7 +10043,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 741,
+          "line": 823,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(2, buf_grad_B); // dummy A",
@@ -10138,7 +10052,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 742,
+          "line": 824,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(3, buf_grad_h); // grad_h as grad_output",
@@ -10147,7 +10061,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 743,
+          "line": 825,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(4, buf_grad_B); // dummy grad_A",
@@ -10156,7 +10070,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 744,
+          "line": 826,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(5, buf_grad_B); // grad_B output",
@@ -10165,7 +10079,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 745,
+          "line": 827,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(6, buf_grad_B); // dummy grad_input",
@@ -10174,7 +10088,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 801,
+          "line": 883,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_token_ids);",
@@ -10183,7 +10097,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 802,
+          "line": 884,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(1, buf_embedding_weights);",
@@ -10192,7 +10106,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 803,
+          "line": 885,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(2, buf_output);",
@@ -10201,7 +10115,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 850,
+          "line": 935,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_input);",
@@ -10210,7 +10124,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 851,
+          "line": 936,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(1, buf_output);",
@@ -10891,7 +10805,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1727,
+          "line": 1729,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "v[\"data\"]      = tr.vertex_data;",
@@ -10900,7 +10814,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2264,
+          "line": 2266,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "bucket_data[bucket_start_ms].push_back(point.value);",
@@ -10909,7 +10823,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2268,
+          "line": 2270,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "for (const auto& [bucket_start_ms, values] : bucket_data) {",
@@ -10918,7 +10832,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2528,
+          "line": 2530,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response[\"active_task_ids\"] = json::array();",
@@ -10927,7 +10841,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2736,
+          "line": 2738,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "event[\"data\"] = json::object();",
@@ -10936,7 +10850,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2737,
+          "line": 2739,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "event[\"data\"][\"node_id\"] = node;",
@@ -10945,7 +10859,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2743,
+          "line": 2745,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response[\"history\"] = json::array();",
@@ -14421,12 +14335,12 @@
     }
   },
   "server": {
-    "total": 246,
+    "total": 247,
     "severity_critical": 10,
-    "severity_high": 236,
+    "severity_high": 237,
     "severity_medium": 0,
     "by_type": {
-      "pointer_arithmetic": 219,
+      "pointer_arithmetic": 220,
       "delete_no_nullptr": 17,
       "array_bounds": 4,
       "new_without_delete": 6
@@ -14920,7 +14834,7 @@
       "src\\server\\http2_session.cpp": [
         {
           "file": "src\\server\\http2_session.cpp",
-          "line": 279,
+          "line": 357,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "self->response_buffers_.erase(stream_id);",
@@ -14929,16 +14843,7 @@
         },
         {
           "file": "src\\server\\http2_session.cpp",
-          "line": 286,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "self->response_buffers_.erase(stream_id);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\server\\http2_session.cpp",
-          "line": 298,
+          "line": 374,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto it = self->response_buffers_.find(stream_id);",
@@ -14947,7 +14852,7 @@
         },
         {
           "file": "src\\server\\http2_session.cpp",
-          "line": 501,
+          "line": 577,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response_buffers_[stream_id] = resp_buffer;",
@@ -14956,7 +14861,7 @@
         },
         {
           "file": "src\\server\\http2_session.cpp",
-          "line": 618,
+          "line": 694,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response_buffers_[promised_stream_id] = resp_buffer;",
@@ -15041,7 +14946,7 @@
         },
         {
           "file": "src\\server\\http3_session.cpp",
-          "line": 183,
+          "line": 200,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "session->handlePacket(recv_buffer_.data(), bytes_transferred, remote_endpoint_);",
@@ -15050,7 +14955,7 @@
         },
         {
           "file": "src\\server\\http3_session.cpp",
-          "line": 260,
+          "line": 283,
           "type": "array_bounds",
           "severity": "CRITICAL",
           "snippet": "const uint8_t first = data[0];",
@@ -15059,7 +14964,7 @@
         },
         {
           "file": "src\\server\\http3_session.cpp",
-          "line": 265,
+          "line": 288,
           "type": "array_bounds",
           "severity": "CRITICAL",
           "snippet": "uint8_t dcid_len = data[5];",
@@ -15068,7 +14973,7 @@
         },
         {
           "file": "src\\server\\http3_session.cpp",
-          "line": 277,
+          "line": 300,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "hex += kHex[(data[i] >> 4) & 0xf];",
@@ -15077,7 +14982,7 @@
         },
         {
           "file": "src\\server\\http3_session.cpp",
-          "line": 278,
+          "line": 301,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "hex += kHex[data[i] & 0xf];",
@@ -15086,7 +14991,7 @@
         },
         {
           "file": "src\\server\\http3_session.cpp",
-          "line": 383,
+          "line": 406,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "void* /*user_data*/) -> int {",
@@ -15095,7 +15000,7 @@
         },
         {
           "file": "src\\server\\http3_session.cpp",
-          "line": 387,
+          "line": 410,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "callbacks.recv_crypto_data = [](ngtcp2_conn* conn, ngtcp2_encryption_level level,",
@@ -15104,7 +15009,7 @@
         },
         {
           "file": "src\\server\\http3_session.cpp",
-          "line": 389,
+          "line": 412,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "void* user_data) -> int {",
@@ -15113,7 +15018,7 @@
         },
         {
           "file": "src\\server\\http3_session.cpp",
-          "line": 391,
+          "line": 414,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "return self->feedCryptoData(level, data, datalen);",
@@ -15122,7 +15027,7 @@
         },
         {
           "file": "src\\server\\http3_session.cpp",
-          "line": 778,
+          "line": 809,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "dr.read_data = [](nghttp3_conn* /*conn*/, int64_t /*stream_id*/,",
@@ -15131,7 +15036,7 @@
         },
         {
           "file": "src\\server\\http3_session.cpp",
-          "line": 781,
+          "line": 812,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "void* stream_user_data) -> nghttp3_ssize {",
@@ -15140,7 +15045,7 @@
         },
         {
           "file": "src\\server\\http3_session.cpp",
-          "line": 852,
+          "line": 883,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "self->http3_conn_, stream_id, data, datalen, 0",
@@ -15149,7 +15054,7 @@
         },
         {
           "file": "src\\server\\http3_session.cpp",
-          "line": 891,
+          "line": 922,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "self->datagram_dispatcher_.dispatch(data, datalen);",
@@ -15160,7 +15065,7 @@
       "src\\server\\http_server.cpp": [
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 545,
+          "line": 555,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pii_api_ = std::make_unique<PIIApiHandler>(storage_->getRawDB(), nullptr);",
@@ -15169,7 +15074,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 688,
+          "line": 698,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "content_manager_->registerProcessor(std::unique_ptr<themis::content::IContentProcessor>(text_process",
@@ -15178,7 +15083,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 1090,
+          "line": 1100,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "std::shared_ptr<QueryEngine>(ethics_query_engine_.get(), [](QueryEngine*) {}),",
@@ -15187,7 +15092,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 2609,
+          "line": 2652,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "MetadataIndexRecsGet,     // GET  /api/v1/metadata/index_recommendations[/:table]",
@@ -15196,7 +15101,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 2610,
+          "line": 2653,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "MetadataAuditGet,         // GET  /api/v1/metadata/audit[/:table]",
@@ -15205,7 +15110,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 2611,
+          "line": 2654,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "MetadataLineageGet,       // GET  /api/v1/metadata/lineage/:table[/:column]",
@@ -15214,7 +15119,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 8733,
+          "line": 8880,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "{\"max_write_buffer_number\", storage_->getConfig().max_write_buffer_number},",
@@ -15223,7 +15128,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 8734,
+          "line": 8881,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "{\"min_write_buffer_number_to_merge\", storage_->getConfig().min_write_buffer_number_to_merge},",
@@ -15232,7 +15137,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 9480,
+          "line": 9627,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response[\"interactions\"] = json::array();",
@@ -15241,7 +15146,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 9586,
+          "line": 9733,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "bool success = llm_store_->updateMetadata(id, body_json);",
@@ -15250,7 +15155,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 9596,
+          "line": 9743,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response[\"message\"] = \"Metadata updated successfully\";",
@@ -15259,7 +15164,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 11576,
+          "line": 11744,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "resp[\"indexes\"] = stats_array;",
@@ -15281,7 +15186,7 @@
       "src\\server\\llm_api_handler.cpp": [
         {
           "file": "src\\server\\llm_api_handler.cpp",
-          "line": 1156,
+          "line": 1159,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response_data[\"relevant_documents\"] = docs_array;",
@@ -15290,7 +15195,7 @@
         },
         {
           "file": "src\\server\\llm_api_handler.cpp",
-          "line": 1370,
+          "line": 1373,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response_data[\"message\"] = \"Feedback recorded successfully\";",
@@ -15299,7 +15204,7 @@
         },
         {
           "file": "src\\server\\llm_api_handler.cpp",
-          "line": 1425,
+          "line": 1428,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "json response_data = feedback->toJson();",
@@ -15404,7 +15309,7 @@
       "src\\server\\mcp_server.cpp": [
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 693,
+          "line": 722,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "{\"description\", \"AI Safety: preview the delete without executing it (Phase 1 guard)\"}}}",
@@ -15413,7 +15318,7 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 1204,
+          "line": 1233,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "{\"message\", \"Failed to delete entity\"},",
@@ -15422,7 +15327,7 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 1544,
+          "line": 1573,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "{\"database_connected\", db_->isOpen()},",
@@ -15431,7 +15336,7 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 1556,
+          "line": 1585,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "{\"database_connected\", db_->isOpen()},",
@@ -15440,7 +15345,7 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 1565,
+          "line": 1594,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "{\"database_connected\", db_->isOpen()},",
@@ -15449,7 +15354,7 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 1720,
+          "line": 1749,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "out[\"mode_id\"]         = result.metadata.mode_id;",
@@ -15458,7 +15363,7 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 1721,
+          "line": 1750,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "out[\"model_id\"]        = result.metadata.model_id;",
@@ -15467,7 +15372,7 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 1722,
+          "line": 1751,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "out[\"tokens_prompt\"]   = result.metadata.tokens_prompt;",
@@ -15476,7 +15381,7 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 1723,
+          "line": 1752,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "out[\"tokens_generated\"]= result.metadata.tokens_generated;",
@@ -15485,7 +15390,7 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 1724,
+          "line": 1753,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "out[\"retrieved_docs\"]  = result.metadata.retrieved_docs;",
@@ -15494,7 +15399,7 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 1725,
+          "line": 1754,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "out[\"latency_ms\"]      = result.metadata.latency.total_ms;",
@@ -15503,7 +15408,7 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 2088,
+          "line": 2117,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "[this](const std::string& uri) { return resourceMetadata(uri); });",
@@ -15512,7 +15417,7 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 2139,
+          "line": 2168,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "{\"last_refresh\", metadata.toJSON()[\"last_refresh\"]}",
@@ -15521,7 +15426,7 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 2182,
+          "line": 2211,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "{\"database_open\", db_ && db_->isOpen()}",
@@ -15530,7 +15435,7 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 2914,
+          "line": 2952,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "for (auto& [client_id, buffer] : clients_) {",
@@ -15539,7 +15444,7 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 2951,
+          "line": 2989,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "for (auto& [client_id, buffer] : clients_) {",
@@ -15548,7 +15453,7 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 3012,
+          "line": 3053,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "for (auto& [session_id, session_data] : sessions_) {",
@@ -15557,7 +15462,7 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 3098,
+          "line": 3139,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "for (const auto& [session_id, session_data] : sessions_) {",
@@ -15851,7 +15756,7 @@
       "src\\server\\postgres_session.cpp": [
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 1150,
+          "line": 1252,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "int32_t protocolVersion = (buffer_[4] << 24) | (buffer_[5] << 16) |",
@@ -15860,7 +15765,7 @@
         },
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 1151,
+          "line": 1253,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "(buffer_[6] << 8) | buffer_[7];",
@@ -15869,7 +15774,7 @@
         },
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 1156,
+          "line": 1258,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "while (offset < static_cast<size_t>(length) && buffer_[offset] != 0) {",
@@ -15878,7 +15783,7 @@
         },
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 1168,
+          "line": 1270,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "char messageType = buffer_[0];",
@@ -15887,7 +15792,7 @@
         },
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 1169,
+          "line": 1271,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "int32_t length = (buffer_[1] << 24) | (buffer_[2] << 16) |",
@@ -15896,7 +15801,7 @@
         },
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 1170,
+          "line": 1272,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "(buffer_[3] << 8) | buffer_[4];",
@@ -15905,7 +15810,7 @@
         },
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 1199,
+          "line": 1302,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "int32_t typeOid = (static_cast<uint8_t>(buffer_[offset]) << 24) |",
@@ -15914,7 +15819,7 @@
         },
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 1200,
+          "line": 1303,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "(static_cast<uint8_t>(buffer_[offset + 1]) << 16) |",
@@ -15923,7 +15828,7 @@
         },
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 1201,
+          "line": 1304,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "(static_cast<uint8_t>(buffer_[offset + 2]) << 8) |",
@@ -15932,7 +15837,7 @@
         },
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 1202,
+          "line": 1305,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "static_cast<uint8_t>(buffer_[offset + 3]);",
@@ -15941,7 +15846,7 @@
         },
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 1225,
+          "line": 1328,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "int16_t format = (static_cast<uint8_t>(buffer_[offset]) << 8) |",
@@ -15950,7 +15855,7 @@
         },
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 1226,
+          "line": 1329,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "static_cast<uint8_t>(buffer_[offset + 1]);",
@@ -15959,7 +15864,7 @@
         },
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 1240,
+          "line": 1343,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "int32_t paramLen = (static_cast<uint8_t>(buffer_[offset]) << 24) |",
@@ -15968,7 +15873,7 @@
         },
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 1241,
+          "line": 1344,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "(static_cast<uint8_t>(buffer_[offset + 1]) << 16) |",
@@ -15977,7 +15882,7 @@
         },
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 1242,
+          "line": 1345,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "(static_cast<uint8_t>(buffer_[offset + 2]) << 8) |",
@@ -15986,7 +15891,7 @@
         },
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 1243,
+          "line": 1346,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "static_cast<uint8_t>(buffer_[offset + 3]);",
@@ -15995,19 +15900,28 @@
         },
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 1270,
+          "line": 1379,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
-          "snippet": "char descType = buffer_[offset];",
+          "snippet": "| (static_cast<uint8_t>(buffer_[offset+1]) << 16)",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
         },
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 1276,
+          "line": 1380,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
-          "snippet": "char closeType = buffer_[offset];",
+          "snippet": "| (static_cast<uint8_t>(buffer_[offset+2]) << 8)",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\server\\postgres_session.cpp",
+          "line": 1381,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "| static_cast<uint8_t>(buffer_[offset+3]);",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
         }
@@ -16015,7 +15929,7 @@
       "src\\server\\query_api_handler.cpp": [
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 255,
+          "line": 295,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "plan_json[\"estimates\"] = nlohmann::json::array();",
@@ -16024,7 +15938,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 321,
+          "line": 361,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "plan_json[\"estimates\"] = nlohmann::json::array();",
@@ -16033,7 +15947,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 396,
+          "line": 439,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "plan_json[\"estimates\"] = nlohmann::json::array();",
@@ -16042,7 +15956,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 641,
+          "line": 706,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "std::function<std::string(const std::shared_ptr<Expression>&, std::string&)> fieldFromFA = [&](const",
@@ -16051,7 +15965,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 663,
+          "line": 728,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "collectPreds = [&](const std::shared_ptr<Expression>& e){",
@@ -16060,7 +15974,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 744,
+          "line": 810,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "resolveToLoopField = [&](const std::shared_ptr<Expression>& e)->std::optional<std::string> {",
@@ -16069,7 +15983,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 780,
+          "line": 846,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "visit = [&](const std::shared_ptr<Expression>& ex){",
@@ -16078,7 +15992,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 908,
+          "line": 975,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "evalExprToLiteral = [&](std::shared_ptr<themis::query::Expression> expr, nlohmann::json& out)->bool ",
@@ -16087,7 +16001,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1043,
+          "line": 1110,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto parseSide = [&](std::shared_ptr<Expression> e, char& var, std::string& field) -> bool {",
@@ -16096,7 +16010,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1053,
+          "line": 1120,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto parseSimpleFromExpr = [&](std::shared_ptr<Expression> expr, SimplePred& out)->bool {",
@@ -16105,7 +16019,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1477,
+          "line": 1544,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "std::function<std::string(const std::shared_ptr<Expression>&, std::string&)> fieldFromFA = [&](const",
@@ -16114,7 +16028,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1934,
+          "line": 2008,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "res[\"entities\"] = nlohmann::json::array();",
@@ -16123,7 +16037,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2238,
+          "line": 2319,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "evalExpr = [&](const std::shared_ptr<themis::query::Expression>& e) -> nlohmann::json {",
@@ -16132,7 +16046,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2506,
+          "line": 2594,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "plan_json[\"estimates\"] = nlohmann::json::array();",
@@ -16141,7 +16055,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2767,
+          "line": 2855,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "extractColFromFA = [&](const std::shared_ptr<Expression>& expr, bool& rootedAtLoop)->std::optional<s",
@@ -16150,7 +16064,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2864,
+          "line": 2952,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "evalExpr = [&](const std::shared_ptr<Expression>& expr,",
@@ -16159,7 +16073,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 3305,
+          "line": 3397,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "enhanced_response[\"llm_context\"] = json::array();",
@@ -16408,7 +16322,7 @@
       "src\\server\\voice_api_handler.cpp": [
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 396,
+          "line": 421,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "audio_data = decodeBase64((*body)[\"audio_base64\"]);",
@@ -16417,7 +16331,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 666,
+          "line": 691,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto audio_data = decodeBase64((*body)[\"audio_base64\"]);",
@@ -16426,7 +16340,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 667,
+          "line": 692,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto audio_response = voice_assistant_->processVoiceCommand(audio_data, session_id);",
@@ -16435,7 +16349,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 736,
+          "line": 761,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto audio_data = decodeBase64((*body)[\"audio_base64\"]);",
@@ -16444,7 +16358,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 788,
+          "line": 813,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto detection = voice_assistant_->detectWakeWord(audio_data);",
@@ -16453,7 +16367,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 822,
+          "line": 847,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "audio_data = decodeBase64((*body)[\"audio_base64\"]);",
@@ -16462,7 +16376,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 892,
+          "line": 917,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata.call_id = body->value(\"call_id\", \"\");",
@@ -16471,7 +16385,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 900,
+          "line": 925,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata.caller_number = body->value(\"caller\", \"\");",
@@ -16480,7 +16394,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 901,
+          "line": 926,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata.callee_number = body->value(\"callee\", \"\");",
@@ -16489,7 +16403,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 902,
+          "line": 927,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata.start_time = body->value(\"start_time\", 0LL);",
@@ -16498,7 +16412,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 903,
+          "line": 928,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata.end_time = body->value(\"end_time\", 0LL);",
@@ -16507,7 +16421,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 904,
+          "line": 929,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata.call_type = body->value(\"call_type\", \"inbound\");",
@@ -16516,7 +16430,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 911,
+          "line": 936,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto result = voice_assistant_->recordPhoneCall(audio_data, metadata);",
@@ -16525,7 +16439,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 939,
+          "line": 964,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "audio_data = decodeBase64((*body)[\"audio_base64\"]);",
@@ -16534,7 +16448,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1009,
+          "line": 1034,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata.meeting_id = body->value(\"meeting_id\", \"\");",
@@ -16543,7 +16457,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1017,
+          "line": 1042,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata.title = body->value(\"title\", \"\");",
@@ -16552,7 +16466,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1018,
+          "line": 1043,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata.start_time = body->value(\"start_time\", 0LL);",
@@ -16561,7 +16475,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1019,
+          "line": 1044,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata.end_time = body->value(\"end_time\", 0LL);",
@@ -16570,7 +16484,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1020,
+          "line": 1045,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata.organizer = body->value(\"organizer\", \"\");",
@@ -16579,7 +16493,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1040,
+          "line": 1065,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto result = voice_assistant_->generateMeetingProtocol(audio_data, metadata);",
@@ -16588,7 +16502,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1131,
+          "line": 1156,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result[\"languages\"] = json::array({",
@@ -16597,7 +16511,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1531,
+          "line": 1556,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result[\"macro\"]   = info ? macroInfoToResponseJson(*info) : json(nullptr);",
@@ -16606,7 +16520,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1593,
+          "line": 1618,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "r[\"metadata\"]         = rec.metadata;",
@@ -16615,7 +16529,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1641,
+          "line": 1666,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result[\"metadata\"]         = rec->metadata;",
@@ -16624,7 +16538,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1682,
+          "line": 1707,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "r[\"metadata\"]         = rec.metadata;",
@@ -16632,10 +16546,30 @@
           "remediation": "Add bounds check before dereferencing"
         }
       ],
+      "src\\server\\websocket_session.cpp": [
+        {
+          "file": "src\\server\\websocket_session.cpp",
+          "line": 419,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "net::dispatch(ws_plain_->get_executor(), [self, data]() mutable {",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\server\\websocket_session.cpp",
+          "line": 420,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "self->sendBinaryOnExecutor(std::move(data));",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        }
+      ],
       "src\\server\\rpc\\rpc_service_impl.cpp": [
         {
           "file": "src\\server\\rpc\\rpc_service_impl.cpp",
-          "line": 399,
+          "line": 400,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "\" reference this entity. Use cascade=true to delete them.\"",
@@ -16644,7 +16578,7 @@
         },
         {
           "file": "src\\server\\rpc\\rpc_service_impl.cpp",
-          "line": 443,
+          "line": 444,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "\"Failed to delete child entity during cascade: \" + *it",
@@ -16653,7 +16587,7 @@
         },
         {
           "file": "src\\server\\rpc\\rpc_service_impl.cpp",
-          "line": 453,
+          "line": 454,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "\"Failed to delete entity from database\"",
@@ -16662,7 +16596,7 @@
         },
         {
           "file": "src\\server\\rpc\\rpc_service_impl.cpp",
-          "line": 491,
+          "line": 492,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "const auto& keys_array = params[\"keys\"];",
@@ -16671,7 +16605,7 @@
         },
         {
           "file": "src\\server\\rpc\\rpc_service_impl.cpp",
-          "line": 570,
+          "line": 571,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "const auto& entities_array = params[\"entities\"];",
@@ -16680,7 +16614,7 @@
         },
         {
           "file": "src\\server\\rpc\\rpc_service_impl.cpp",
-          "line": 652,
+          "line": 653,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "const auto& keys_array = params[\"keys\"];",
@@ -16689,7 +16623,7 @@
         },
         {
           "file": "src\\server\\rpc\\rpc_service_impl.cpp",
-          "line": 854,
+          "line": 855,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "const bool has_vector = params.contains(\"vector\") && params[\"vector\"].is_array();",
@@ -16698,7 +16632,7 @@
         },
         {
           "file": "src\\server\\rpc\\rpc_service_impl.cpp",
-          "line": 855,
+          "line": 856,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "const bool has_query_vector = params.contains(\"query_vector\") && params[\"query_vector\"].is_array();",
@@ -16707,7 +16641,7 @@
         },
         {
           "file": "src\\server\\rpc\\rpc_service_impl.cpp",
-          "line": 1613,
+          "line": 1612,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "{\"database_path\", storage->getConfig().db_path},",
@@ -16716,19 +16650,10 @@
         },
         {
           "file": "src\\server\\rpc\\rpc_service_impl.cpp",
-          "line": 1751,
+          "line": 1750,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "const auto& updates_array = params[\"updates\"];",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\server\\rpc\\rpc_service_impl.cpp",
-          "line": 2381,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "[&idx_array](std::string_view /*key*/, std::string_view value) -> bool {",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
         }
@@ -16789,7 +16714,7 @@
         },
         {
           "file": "src\\sharding\\cloud_backup.cpp",
-          "line": 230,
+          "line": 211,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "THEMIS_ERROR(\"S3 delete callback failed: {}\", e.what());",
@@ -16798,7 +16723,7 @@
         },
         {
           "file": "src\\sharding\\cloud_backup.cpp",
-          "line": 255,
+          "line": 232,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "THEMIS_ERROR(\"S3 delete failed: AWS SDK not integrated\");",
@@ -16807,7 +16732,7 @@
         },
         {
           "file": "src\\sharding\\cloud_backup.cpp",
-          "line": 352,
+          "line": 329,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "[[maybe_unused]] const std::map<std::string, std::string>& metadata) override {",
@@ -16816,7 +16741,7 @@
         },
         {
           "file": "src\\sharding\\cloud_backup.cpp",
-          "line": 439,
+          "line": 405,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "THEMIS_ERROR(\"Azure delete callback failed: {}\", e.what());",
@@ -16825,7 +16750,7 @@
         },
         {
           "file": "src\\sharding\\cloud_backup.cpp",
-          "line": 453,
+          "line": 415,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "THEMIS_ERROR(\"Azure delete failed: Azure SDK not integrated\");",
@@ -16834,7 +16759,7 @@
         },
         {
           "file": "src\\sharding\\cloud_backup.cpp",
-          "line": 547,
+          "line": 509,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "[[maybe_unused]] const std::map<std::string, std::string>& metadata) override {",
@@ -16843,7 +16768,7 @@
         },
         {
           "file": "src\\sharding\\cloud_backup.cpp",
-          "line": 642,
+          "line": 593,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "THEMIS_ERROR(\"GCS delete callback failed: {}\", e.what());",
@@ -16852,7 +16777,7 @@
         },
         {
           "file": "src\\sharding\\cloud_backup.cpp",
-          "line": 667,
+          "line": 611,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "THEMIS_ERROR(\"GCS delete failed: GCS SDK not integrated\");",
@@ -16861,7 +16786,7 @@
         },
         {
           "file": "src\\sharding\\cloud_backup.cpp",
-          "line": 779,
+          "line": 723,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata[\"backup_id\"] = backup_id;",
@@ -16870,7 +16795,7 @@
         },
         {
           "file": "src\\sharding\\cloud_backup.cpp",
-          "line": 780,
+          "line": 724,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata[\"shard_id\"] = shard_id;",
@@ -16879,7 +16804,7 @@
         },
         {
           "file": "src\\sharding\\cloud_backup.cpp",
-          "line": 781,
+          "line": 725,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata[\"timestamp\"] = std::chrono::system_clock::to_time_t(timestamp);",
@@ -16888,7 +16813,7 @@
         },
         {
           "file": "src\\sharding\\cloud_backup.cpp",
-          "line": 782,
+          "line": 726,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata[\"version\"] = \"1.0\";",
@@ -16897,7 +16822,7 @@
         },
         {
           "file": "src\\sharding\\cloud_backup.cpp",
-          "line": 803,
+          "line": 747,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "upload_metadata[\"backup_id\"] = backup_id;",
@@ -16906,7 +16831,7 @@
         },
         {
           "file": "src\\sharding\\cloud_backup.cpp",
-          "line": 804,
+          "line": 748,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "upload_metadata[\"shard_id\"] = shard_id;",
@@ -16915,7 +16840,7 @@
         },
         {
           "file": "src\\sharding\\cloud_backup.cpp",
-          "line": 904,
+          "line": 848,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "THEMIS_ERROR(\"Failed to delete backup object from provider: {}\", remote_path);",
@@ -16924,7 +16849,7 @@
         },
         {
           "file": "src\\sharding\\cloud_backup.cpp",
-          "line": 951,
+          "line": 895,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "replication_targets_[datacenter_id] = target;",
@@ -16933,7 +16858,7 @@
         },
         {
           "file": "src\\sharding\\cloud_backup.cpp",
-          "line": 1089,
+          "line": 1033,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "return impl_->setReplicationTarget(datacenter_id, shard_endpoints);",
@@ -16942,7 +16867,7 @@
         },
         {
           "file": "src\\sharding\\cloud_backup.cpp",
-          "line": 1093,
+          "line": 1037,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "return impl_->enableContinuousReplication(datacenter_id);",
@@ -16951,7 +16876,7 @@
         },
         {
           "file": "src\\sharding\\cloud_backup.cpp",
-          "line": 1097,
+          "line": 1041,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "return impl_->disableContinuousReplication(datacenter_id);",
@@ -16962,7 +16887,7 @@
       "src\\sharding\\cross_shard_transaction.cpp": [
         {
           "file": "src\\sharding\\cross_shard_transaction.cpp",
-          "line": 290,
+          "line": 374,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "static_cast<void>(consensus_->propose(\"BEGIN_TRANSACTION\", data));",
@@ -16971,7 +16896,7 @@
         },
         {
           "file": "src\\sharding\\cross_shard_transaction.cpp",
-          "line": 359,
+          "line": 443,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "transaction_wal_->logPrepare(transaction_id, shard_id, prepare_data);",
@@ -16980,7 +16905,7 @@
         },
         {
           "file": "src\\sharding\\cross_shard_transaction.cpp",
-          "line": 728,
+          "line": 812,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "transaction_wal_->logCompensate(transaction_id, shard_id, compensate_data);",
@@ -16989,7 +16914,7 @@
         },
         {
           "file": "src\\sharding\\cross_shard_transaction.cpp",
-          "line": 895,
+          "line": 979,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "commit_data[\"participants\"].push_back(shard_id);",
@@ -16998,7 +16923,7 @@
         },
         {
           "file": "src\\sharding\\cross_shard_transaction.cpp",
-          "line": 897,
+          "line": 981,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "transaction_wal_->logCommit(txn.transaction_id, commit_data);",
@@ -17007,7 +16932,7 @@
         },
         {
           "file": "src\\sharding\\cross_shard_transaction.cpp",
-          "line": 992,
+          "line": 1132,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "precommit_data[\"participants\"].push_back(shard_id);",
@@ -17016,7 +16941,7 @@
         },
         {
           "file": "src\\sharding\\cross_shard_transaction.cpp",
-          "line": 994,
+          "line": 1134,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "transaction_wal_->logCommit(txn.transaction_id, precommit_data);",
@@ -17025,7 +16950,7 @@
         },
         {
           "file": "src\\sharding\\cross_shard_transaction.cpp",
-          "line": 1069,
+          "line": 1203,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "commit_data[\"participants\"].push_back(shard_id);",
@@ -17034,7 +16959,7 @@
         },
         {
           "file": "src\\sharding\\cross_shard_transaction.cpp",
-          "line": 1071,
+          "line": 1205,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "transaction_wal_->logCommit(txn.transaction_id, commit_data);",
@@ -17043,7 +16968,7 @@
         },
         {
           "file": "src\\sharding\\cross_shard_transaction.cpp",
-          "line": 1216,
+          "line": 1350,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "transaction_wal_->logPrepare(txn.transaction_id, \"sequencer\", seq_data);",
@@ -17052,7 +16977,7 @@
         },
         {
           "file": "src\\sharding\\cross_shard_transaction.cpp",
-          "line": 1312,
+          "line": 1446,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "transaction_wal_->logCommit(txn.transaction_id, exec_data);",
@@ -17061,7 +16986,7 @@
         },
         {
           "file": "src\\sharding\\cross_shard_transaction.cpp",
-          "line": 1804,
+          "line": 1938,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "transaction_wal_->logCompensate(transaction_id, shard_id, comp_data);",
@@ -19128,7 +19053,7 @@
       "src\\storage\\pitr_manager.cpp": [
         {
           "file": "src\\storage\\pitr_manager.cpp",
-          "line": 306,
+          "line": 323,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "return Status::Error(\"Failed to delete key: \" + event.key);",
@@ -20065,7 +19990,7 @@
         },
         {
           "file": "src\\themis\\wire_protocol_server.cpp",
-          "line": 816,
+          "line": 850,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "[[maybe_unused]] const std::vector<uint8_t>& data) {",

@@ -1,9 +1,9 @@
 {
   "timeseries": {
-    "total": 1776,
+    "total": 1785,
     "severity_critical": 26,
-    "severity_high": 1407,
-    "severity_medium": 343,
+    "severity_high": 1412,
+    "severity_medium": 347,
     "by_category": {
       "security": 22,
       "memory": 34,
@@ -13,15 +13,15 @@
       "container": 59,
       "platform": 7,
       "performance": 7,
-      "type_conversion": 184,
+      "type_conversion": 185,
       "input_validation": 83,
       "exception_safety": 20,
-      "uninitialized": 424,
-      "oop_design": 586,
+      "uninitialized": 426,
+      "oop_design": 588,
       "performance_patterns": 40,
       "query_correctness": 58,
-      "observability": 120,
-      "determinism": 62
+      "observability": 123,
+      "determinism": 63
     },
     "by_file": {
       "src\\timeseries\\aggregate_scheduler.cpp": [
@@ -15966,7 +15966,7 @@
       "src\\timeseries\\prometheus_remote_write.cpp": [
         {
           "file": "src\\timeseries\\prometheus_remote_write.cpp",
-          "line": 269,
+          "line": 292,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "\"Snappy decompression: failed to allocate output buffer\");",
@@ -16118,10 +16118,28 @@
           "reason": "Shift operation detected (verify shift count < bitwidth)"
         },
         {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\timeseries\\prometheus_remote_write.cpp",
+          "line_number": 238,
+          "line_content": "const uint32_t first_field_number = static_cast<uint32_t>(first_tag_raw >> 3);",
+          "context": [
+            "                                    \"Failed to decode Prometheus WriteRequest protobuf: truncated wire start tag\");",
+            "    }",
+            "    const uint32_t first_field_number = static_cast<uint32_t>(first_tag_raw >> 3);",
+            "    const uint32_t first_wire_type    = static_cast<uint32_t>(first_tag_raw & 0x07);",
+            "    if (first_field_number != 1 || first_wire_type != 2) {"
+          ],
+          "pattern_matched": "const uint32_t first_field_number = static_cast<uint32_t>(first_tag_raw >> 3);",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\prometheus_remote_write.cpp",
-          "line_number": 257,
+          "line_number": 280,
           "line_content": "static constexpr size_t MAX_DECOMPRESSED_SIZE = 32ULL * 1024 * 1024; // 32 MB",
           "context": [
             "    // batches while preventing unbounded memory allocation from a hostile",
@@ -16139,7 +16157,7 @@
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\prometheus_remote_write.cpp",
-          "line_number": 257,
+          "line_number": 280,
           "line_content": "static constexpr size_t MAX_DECOMPRESSED_SIZE = 32ULL * 1024 * 1024; // 32 MB",
           "context": [
             "    // batches while preventing unbounded memory allocation from a hostile",
@@ -16157,7 +16175,7 @@
           "gap_type": "MULTIPLICATION_OVERFLOW",
           "severity": "CRITICAL",
           "file_path": "src\\timeseries\\prometheus_remote_write.cpp",
-          "line_number": 257,
+          "line_number": 280,
           "line_content": "static constexpr size_t MAX_DECOMPRESSED_SIZE = 32ULL * 1024 * 1024; // 32 MB",
           "context": [
             "    // batches while preventing unbounded memory allocation from a hostile",
@@ -16193,7 +16211,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\prometheus_remote_write.cpp",
-          "line_number": 273,
+          "line_number": 296,
           "line_content": "&uncompressed[0])) {",
           "context": [
             "    if (!snappy::RawUncompress(",
@@ -16283,7 +16301,25 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\prometheus_remote_write.cpp",
-          "line_number": 238,
+          "line_number": 225,
+          "var_name": "wire_pos",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\timeseries\\prometheus_remote_write.cpp",
+          "line_number": 240,
+          "var_name": "wire_pos",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\timeseries\\prometheus_remote_write.cpp",
+          "line_number": 261,
           "var_name": "uncompressed_len",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -16292,7 +16328,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\prometheus_remote_write.cpp",
-          "line_number": 245,
+          "line_number": 268,
           "var_name": "uncompressed_len",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -16371,17 +16407,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\prometheus_remote_write.cpp",
-          "line_number": 230,
-          "class_name": "Unknown",
-          "function_name": "decode",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\timeseries\\prometheus_remote_write.cpp",
-          "line_number": 237,
+          "line_number": 234,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -16391,7 +16417,37 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\prometheus_remote_write.cpp",
-          "line_number": 245,
+          "line_number": 247,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\timeseries\\prometheus_remote_write.cpp",
+          "line_number": 253,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\timeseries\\prometheus_remote_write.cpp",
+          "line_number": 260,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\timeseries\\prometheus_remote_write.cpp",
+          "line_number": 268,
           "class_name": "Unknown",
           "function_name": "decodeSnappy",
           "issue": "Virtual function called in constructor",
@@ -16401,11 +16457,47 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\prometheus_remote_write.cpp",
-          "line_number": 271,
+          "line_number": 294,
           "class_name": "Unknown",
           "function_name": "resize",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\timeseries\\prometheus_remote_write.cpp",
+          "line": 230,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Fail fast on malformed wire starts. A valid WriteRequest must begin with"
+        },
+        {
+          "file": "src\\timeseries\\prometheus_remote_write.cpp",
+          "line": 236,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "\"Failed to decode Prometheus WriteRequest protobuf: truncated wire start tag\");"
+        },
+        {
+          "file": "src\\timeseries\\prometheus_remote_write.cpp",
+          "line": 242,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "\"Failed to decode Prometheus WriteRequest protobuf: invalid wire start (expected field 1, wire type 2)\");"
+        },
+        {
+          "file": "src\\timeseries\\prometheus_remote_write.cpp",
+          "line": 240,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (first_field_number != 1 || first_wire_type != 2) {"
         }
       ],
       "src\\timeseries\\anomaly_detection.cpp": [

@@ -4,6 +4,10 @@
 **Date:** 19 May 2026, 20:45 UTC  
 **Location:** GitHub [makr-code/ThemisDB](https://github.com/makr-code/ThemisDB)
 
+> Update note (2026-05-27): This report documents the historical activation run.
+> Canonical planning baseline is now 184,779 gaps (Rescan 2026-05-25) with
+> master issue #5172.
+
 ---
 
 ## 📋 Execution Summary
@@ -12,7 +16,7 @@
 
 1. ✅ **Gap Scan (Phase 1-10)**
    - Command: `python tools/gap_scanner_v3.py . ai_working`
-   - Result: 193,858 gaps across 65 modules
+   - Result (historical run): 193,858 gaps across 65 modules
    - Severity: CRITICAL (11.7K) + HIGH (142K) + MEDIUM (40K)
 
 2. ✅ **Data Consolidation**
@@ -21,7 +25,8 @@
 
 3. ✅ **GitHub Issues Created (Batch 1)**
    - 24 issues created (Master + Category + Module issues)
-   - Master Issue: #5231 (193,858 gaps overview)
+   - Historical master issue: #5231 (193,858 gaps overview)
+   - Canonical active master issue: #5172 (planning baseline)
 
 4. ✅ **7-Phase Workflow Implemented**
    - Template: `tools/ISSUE_WORKFLOW_TEMPLATE.md`
@@ -178,7 +183,8 @@ Plus:
 
 ## ✅ Validation Checklist
 
-- ✅ Gap scan complete (193,858 gaps identified)
+- ✅ Gap scan complete (historical run: 193,858 gaps identified)
+- ✅ Canonical baseline tracked separately (184,779, issue #5172)
 - ✅ Aggregate data validated (65 modules)
 - ✅ Top 10 issues on GitHub (7-phase format)
 - ✅ Phase 0 checkpoints functional
@@ -207,6 +213,7 @@ Plus:
 | Metric | Value | Status |
 |--------|-------|--------|
 | Total Gaps Identified | 193,858 | ✅ |
+| Canonical Baseline (Rescan) | 184,779 | ✅ |
 | Modules Scanned | 65 | ✅ |
 | Top Issues in 7-Phase | 10 | ✅ |
 | Gaps in Top 10 | 104,241 (53.8%) | ✅ |
@@ -220,7 +227,8 @@ Plus:
 
 **Complete end-to-end workflow deployed:**
 
-1. ✅ **Gap Analysis** — 193,858 gaps catalogued across 65 modules
+1. ✅ **Gap Analysis (historical run)** — 193,858 gaps catalogued across 65 modules
+2. ✅ **Canonical baseline (current)** — 184,779 gaps, tracked via #5172
 2. ✅ **Consolidation** — Structured aggregate JSON created
 3. ✅ **GitHub Integration** — 24 issues created, top 10 updated to 7-phase
 4. ✅ **Workflow Template** — Phase 0-7 fully specified with checkpoints

@@ -4785,6 +4785,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             auto nodes = sharding_manager_->GetAllNodes();
             json shards_arr = json::array();
+            shards_arr.get_ref<json::array_t&>().reserve(nodes.size());
             for (const auto& n : nodes) {
                 shards_arr.push_back({
                     {"node_id",      n.node_id},
@@ -4905,6 +4906,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             try {
                 auto modules = module_loader_->getAllLoadedModules();
                 json arr = json::array();
+                arr.get_ref<json::array_t&>().reserve(modules.size());
                 for (const auto& m : modules) {
                     arr.push_back({
                         {"name",            m.name},
@@ -9844,6 +9846,7 @@ http::response<http::string_body> HttpServer::handleGetContentChunks(
         auto id = path.substr(prefix.size(), pos - prefix.size());
         auto chunks = content_manager_->getContentChunks(id);
         json arr = json::array();
+        arr.get_ref<json::array_t&>().reserve(chunks.size());
         for (const auto& c : chunks) {
             json j = c.toJson();
             // For response size, omit full embedding by default
@@ -9875,6 +9878,7 @@ http::response<http::string_body> HttpServer::handleHybridSearch(
 
         auto results = content_manager_->searchWithExpansion(query, k, hops, filters);
         json resp = json::array();
+        resp.get_ref<json::array_t&>().reserve(results.size());
         for (const auto& [pk, score] : results) {
             resp.push_back({{"pk", pk}, {"score", score}});
         }
@@ -9929,6 +9933,7 @@ http::response<http::string_body> HttpServer::handleFulltextSearch(
         
         // Build response with scores
         json resp = json::array();
+        resp.get_ref<json::array_t&>().reserve(results.size());
         for (const auto& result : results) {
             resp.push_back({
                 {"pk", result.pk},
@@ -10004,6 +10009,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             }
             
             std::vector<float> vectorQuery;
+            vectorQuery.reserve(body["vector_query"].size());
             for (const auto& val : body["vector_query"]) {
                 if (val.is_number()) {
                     vectorQuery.push_back(val.get<float>());
@@ -10034,6 +10040,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             // Reciprocal Rank Fusion: score = sum(1 / (k + rank))
             int kRrf = body.value("k_rrf", 60);
             std::unordered_map<std::string, double> scores;
+            scores.reserve(textResults.size() + vectorResults.size());
             
             // Text contributions
             for (size_t i = 0; i < textResults.size(); ++i) {
@@ -10070,6 +10077,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             double vecRange = (vecMax - vecMin) > 1e-9 ? (vecMax - vecMin) : 1.0;
             
             std::unordered_map<std::string, double> scores;
+            scores.reserve(textResults.size() + vectorResults.size());
             
             // Text contributions
             for (const auto& res : textResults) {
@@ -10566,6 +10574,7 @@ http::response<http::string_body> HttpServer::handleCreateIndex(
                 return makeErrorResponse(http::status::bad_request, "'columns' must be a non-empty array of strings", req);
             }
             std::vector<std::string> columns;
+            columns.reserve(body["columns"].size());
             for (const auto& c : body["columns"]) {
                 columns.push_back(c.get<std::string>());
             }
@@ -12074,6 +12083,7 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
 // ============================================================================
 std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints() const {
     std::vector<RegisteredEndpoint> endpoints;
+    endpoints.reserve(256);
 
     // ========== CORE ENDPOINTS (Always Available) ==========
     // Health & Status

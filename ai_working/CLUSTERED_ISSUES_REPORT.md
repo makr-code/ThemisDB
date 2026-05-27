@@ -98,7 +98,8 @@
 
 ### ✅ Created — Phase 1-5 Meta Scanner Issue
 
-- [#5231](https://github.com/makr-code/ThemisDB/issues/5231) — [PHASE 1-5] Gap Scanner Analysis — 193,858 Security & Code Quality Gaps
+- [#5172](https://github.com/makr-code/ThemisDB/issues/5172) — canonical master tracker for planning baseline
+- [#5231](https://github.com/makr-code/ThemisDB/issues/5231) — historical alternate wave (193,858 snapshot)
 
 ### 📋 Pending — 13 Clustered META/MOD/GROUP Issues
 
@@ -111,9 +112,9 @@ bash create_issues.sh
 
 | Issue ID | Title | Related GitHub Issues |
 |----------|-------|-----------------------|
-| META-001 | Complete unimplemented code paths | #5231, #5245–#5254 |
-| META-002 | Audit STUB/MOCK markers | #5231 |
-| META-003 | Resolve all TODO/FIXME comments | #5231 |
+| META-001 | Complete unimplemented code paths | #5172, #5245–#5254 |
+| META-002 | Audit STUB/MOCK markers | #5172 |
+| META-003 | Resolve all TODO/FIXME comments | #5172 |
 | MOD-acceleration | Fix 209 unimplemented paths | [#5257](https://github.com/makr-code/ThemisDB/issues/5257) |
 | MOD-ingestion | Fix 153 unimplemented paths | [#5280](https://github.com/makr-code/ThemisDB/issues/5280) |
 | MOD-llm | Fix 91 unimplemented paths | [#5245](https://github.com/makr-code/ThemisDB/issues/5245), [#5317](https://github.com/makr-code/ThemisDB/issues/5317) |

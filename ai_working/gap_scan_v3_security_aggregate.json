@@ -3704,12 +3704,12 @@
     }
   },
   "llm": {
-    "total": 275,
+    "total": 270,
     "severity_critical": 7,
-    "severity_high": 268,
+    "severity_high": 263,
     "severity_medium": 0,
     "by_type": {
-      "null_dereference": 268,
+      "null_dereference": 263,
       "sql_injection": 7
     },
     "gaps_by_file": {
@@ -3871,7 +3871,7 @@
       "src\\llm\\adaptive_vram_allocator.cpp": [
         {
           "file": "src\\llm\\adaptive_vram_allocator.cpp",
-          "line": 119,
+          "line": 199,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return impl_->active_allocator_.allocateWithFragmentation(bytes, ptr);",
@@ -3880,7 +3880,7 @@
         },
         {
           "file": "src\\llm\\adaptive_vram_allocator.cpp",
-          "line": 123,
+          "line": 206,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return impl_->active_allocator_.handleOutOfMemory();",
@@ -4105,7 +4105,7 @@
       "src\\llm\\gpu_memory_manager.cpp": [
         {
           "file": "src\\llm\\gpu_memory_manager.cpp",
-          "line": 566,
+          "line": 597,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (alloc_it->gpu_ptr == ptr) {",
@@ -4114,7 +4114,7 @@
         },
         {
           "file": "src\\llm\\gpu_memory_manager.cpp",
-          "line": 600,
+          "line": 631,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (alloc_it->cpu_ptr == ptr) {",
@@ -4147,44 +4147,6 @@
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = exporter_->handleMetricsRequest();",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        }
-      ],
-      "src\\llm\\inference_engine_enhanced.cpp": [
-        {
-          "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 602,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "prefix_cache_->clear();",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 624,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "prefix_cache_->put(prompt, tokens, embedding, {});",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 1395,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "auto cached = prefix_cache_->get(request.prompt, embedding);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 1435,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "prefix_cache_->put(request.prompt, tokens, embedding, kv_cache, response.text);",
           "description": "Potential null pointer dereference",
           "remediation": "Add null check before dereferencing"
         }
@@ -4226,13 +4188,22 @@
           "line": 954,
           "type": "null_dereference",
           "severity": "HIGH",
+          "snippet": "if (!cached->model_handle || !cached->context_handle) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 957,
+          "type": "null_dereference",
+          "severity": "HIGH",
           "snippet": "auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);",
           "description": "Potential null pointer dereference",
           "remediation": "Add null check before dereferencing"
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 955,
+          "line": 958,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto* lctx = reinterpret_cast<llama_context*>(cached->context_handle);",
@@ -4241,7 +4212,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1082,
+          "line": 1089,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "llama_grammar* grammar_handle = grammar ? grammar->getHandle() : nullptr;",
@@ -4250,7 +4221,16 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1283,
+          "line": 1290,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (!cached->model_handle || !cached->context_handle) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 1293,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);",
@@ -4259,7 +4239,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1284,
+          "line": 1294,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto* lctx   = reinterpret_cast<llama_context*>(cached->context_handle);",
@@ -4268,7 +4248,16 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1391,
+          "line": 1401,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (!cached->model_handle || !cached->context_handle) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 1404,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);",
@@ -4277,7 +4266,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1392,
+          "line": 1405,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto* lctx = reinterpret_cast<llama_context*>(cached->context_handle);",
@@ -4286,7 +4275,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2008,
+          "line": 2025,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return prefix_cache_->getStatistics();",
@@ -4295,7 +4284,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2015,
+          "line": 2032,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "prefix_cache_->clear();",
@@ -4304,7 +4293,16 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2191,
+          "line": 2213,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (!cached->model_handle || !cached->context_handle) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 2217,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto* target_model = reinterpret_cast<llama_model*>(cached->model_handle);",
@@ -4313,7 +4311,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2192,
+          "line": 2218,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto* target_context = reinterpret_cast<llama_context*>(cached->context_handle);",
@@ -4322,7 +4320,16 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2430,
+          "line": 2467,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (!cached->model_handle || !cached->context_handle) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 2470,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);",
@@ -4331,7 +4338,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2431,
+          "line": 2471,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto* lctx = reinterpret_cast<llama_context*>(cached->context_handle);",
@@ -4340,16 +4347,16 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2983,
+          "line": 3027,
           "type": "null_dereference",
           "severity": "HIGH",
-          "snippet": "if (cached_m && cached_m->context_handle) {",
+          "snippet": "if (cached_m && cached_m->context_handle && cached_m->model_handle) {",
           "description": "Potential null pointer dereference",
           "remediation": "Add null check before dereferencing"
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2984,
+          "line": 3028,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto* lctx = reinterpret_cast<llama_context*>(cached_m->context_handle);",
@@ -4358,7 +4365,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2989,
+          "line": 3029,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto* lmodel = reinterpret_cast<llama_model*>(cached_m->model_handle);",
@@ -4844,61 +4851,7 @@
         },
         {
           "file": "src\\llm\\multi_lora_manager.cpp",
-          "line": 403,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (lora->adapter_handle && context) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\llm\\multi_lora_manager.cpp",
-          "line": 406,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "int result = llama_lora_adapter_set(context, lora->adapter_handle, lora->scale);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\llm\\multi_lora_manager.cpp",
-          "line": 419,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (!lora->adapter_handle) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\llm\\multi_lora_manager.cpp",
-          "line": 457,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (lora->adapter_handle && context) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\llm\\multi_lora_manager.cpp",
-          "line": 460,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "int result = llama_lora_adapter_set(context, lora->adapter_handle, 0.0f);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\llm\\multi_lora_manager.cpp",
-          "line": 471,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (!lora->adapter_handle) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\llm\\multi_lora_manager.cpp",
-          "line": 2521,
+          "line": 2620,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (lora->adapter_handle) {",
@@ -4907,7 +4860,7 @@
         },
         {
           "file": "src\\llm\\multi_lora_manager.cpp",
-          "line": 2522,
+          "line": 2621,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "llama_lora_adapter_free(lora->adapter_handle);",
@@ -4916,7 +4869,7 @@
         },
         {
           "file": "src\\llm\\multi_lora_manager.cpp",
-          "line": 2523,
+          "line": 2622,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "lora->adapter_handle = nullptr;",
@@ -5069,7 +5022,7 @@
       "src\\llm\\lora_framework\\directx_context.cpp": [
         {
           "file": "src\\llm\\lora_framework\\directx_context.cpp",
-          "line": 285,
+          "line": 294,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "hr = command_list_->Reset(command_allocator_.Get(), nullptr);",
@@ -5100,7 +5053,7 @@
       "src\\llm\\lora_framework\\distributed_trainer.cpp": [
         {
           "file": "src\\llm\\lora_framework\\distributed_trainer.cpp",
-          "line": 120,
+          "line": 126,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto& data = grad_ptr->data();",
@@ -5109,7 +5062,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\distributed_trainer.cpp",
-          "line": 147,
+          "line": 153,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto& data = param_ptr->data();",
@@ -5438,7 +5391,7 @@
       "src\\llm\\lora_framework\\lora_training_service.cpp": [
         {
           "file": "src\\llm\\lora_framework\\lora_training_service.cpp",
-          "line": 1943,
+          "line": 1960,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "std::shared_ptr<themis::sharding::ShardRouter> shard_router = impl_->config_.shard_router;",
@@ -5447,7 +5400,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\lora_training_service.cpp",
-          "line": 1944,
+          "line": 1961,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "std::shared_ptr<themis::sharding::ShardTopology> shard_topology = impl_->config_.shard_topology;",
@@ -5456,7 +5409,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\lora_training_service.cpp",
-          "line": 2048,
+          "line": 2065,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "can_continue = coordinator->handleShardFailure(shard_id);",
@@ -5496,7 +5449,7 @@
       "src\\llm\\lora_framework\\multi_gpu_trainer.cpp": [
         {
           "file": "src\\llm\\lora_framework\\multi_gpu_trainer.cpp",
-          "line": 344,
+          "line": 353,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* param_ptr = params[j]->gpu_ptr();",
@@ -5505,7 +5458,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\multi_gpu_trainer.cpp",
-          "line": 345,
+          "line": 354,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* grad_ptr = grads[j]->gpu_ptr();",
@@ -5514,7 +5467,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\multi_gpu_trainer.cpp",
-          "line": 375,
+          "line": 394,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* param_ptr = params[j]->gpu_ptr();",
@@ -5523,7 +5476,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\multi_gpu_trainer.cpp",
-          "line": 376,
+          "line": 395,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* grad_ptr = grads[j]->gpu_ptr();",
@@ -5534,7 +5487,7 @@
       "src\\llm\\lora_framework\\nccl_backend.cpp": [
         {
           "file": "src\\llm\\lora_framework\\nccl_backend.cpp",
-          "line": 129,
+          "line": 134,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* send_buf = tensor->gpu_ptr();",
@@ -5543,7 +5496,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\nccl_backend.cpp",
-          "line": 130,
+          "line": 135,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* recv_buf = tensor->gpu_ptr();  // In-place",
@@ -5664,7 +5617,7 @@
       "src\\llm\\lora_framework\\rccl_backend.cpp": [
         {
           "file": "src\\llm\\lora_framework\\rccl_backend.cpp",
-          "line": 129,
+          "line": 134,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* send_buf = tensor->gpu_ptr();",
@@ -5673,7 +5626,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\rccl_backend.cpp",
-          "line": 130,
+          "line": 135,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* recv_buf = tensor->gpu_ptr();  // In-place",
@@ -5684,7 +5637,7 @@
       "src\\llm\\lora_framework\\vram_allocator.cpp": [
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 102,
+          "line": 103,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (vkCreateInstance(&inst_ci, nullptr, &ctx->instance) != VK_SUCCESS) {",
@@ -5693,7 +5646,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 110,
+          "line": 111,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "VkResult enum_result = vkEnumeratePhysicalDevices(ctx->instance, &dev_count, nullptr);",
@@ -5702,7 +5655,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 114,
+          "line": 115,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "vkDestroyInstance(ctx->instance, nullptr);",
@@ -5711,7 +5664,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 121,
+          "line": 122,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "vkDestroyInstance(ctx->instance, nullptr);",
@@ -5720,7 +5673,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 131,
+          "line": 132,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "vkDestroyInstance(ctx->instance, nullptr);",
@@ -5729,7 +5682,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 149,
+          "line": 150,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "vkGetPhysicalDeviceQueueFamilyProperties(ctx->physical_device, &qf_count, nullptr);",
@@ -5738,7 +5691,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 163,
+          "line": 164,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "vkDestroyInstance(ctx->instance, nullptr);",
@@ -5747,7 +5700,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 181,
+          "line": 182,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (vkCreateDevice(ctx->physical_device, &dev_ci, nullptr,",
@@ -5756,7 +5709,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 184,
+          "line": 185,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "vkDestroyInstance(ctx->instance, nullptr);",
@@ -5765,7 +5718,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 222,
+          "line": 223,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (vkCreateBuffer(ctx->device, &buf_ci, nullptr, &buffer) != VK_SUCCESS) {",
@@ -5774,7 +5727,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 238,
+          "line": 239,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "vkDestroyBuffer(ctx->device, buffer, nullptr);",
@@ -5783,7 +5736,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 248,
+          "line": 249,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (vkAllocateMemory(ctx->device, &alloc_info, nullptr, &memory) != VK_SUCCESS) {",
@@ -5792,19 +5745,10 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 250,
+          "line": 251,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "vkDestroyBuffer(ctx->device, buffer, nullptr);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 256,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "vkFreeMemory(ctx->device, memory, nullptr);",
           "description": "Potential null pointer dereference",
           "remediation": "Add null check before dereferencing"
         },
@@ -5813,16 +5757,16 @@
           "line": 257,
           "type": "null_dereference",
           "severity": "HIGH",
-          "snippet": "vkDestroyBuffer(ctx->device, buffer, nullptr);",
+          "snippet": "vkFreeMemory(ctx->device, memory, nullptr);",
           "description": "Potential null pointer dereference",
           "remediation": "Add null check before dereferencing"
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 264,
+          "line": 258,
           "type": "null_dereference",
           "severity": "HIGH",
-          "snippet": "vkFreeMemory(ctx->device, memory, nullptr);",
+          "snippet": "vkDestroyBuffer(ctx->device, buffer, nullptr);",
           "description": "Potential null pointer dereference",
           "remediation": "Add null check before dereferencing"
         },
@@ -5831,13 +5775,22 @@
           "line": 265,
           "type": "null_dereference",
           "severity": "HIGH",
+          "snippet": "vkFreeMemory(ctx->device, memory, nullptr);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
+          "line": 266,
+          "type": "null_dereference",
+          "severity": "HIGH",
           "snippet": "vkDestroyBuffer(ctx->device, buffer, nullptr);",
           "description": "Potential null pointer dereference",
           "remediation": "Add null check before dereferencing"
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 276,
+          "line": 277,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (it->mapped == ptr) {",
@@ -5846,7 +5799,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 278,
+          "line": 279,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "vkFreeMemory(ctx->device, it->memory, nullptr);",
@@ -5855,7 +5808,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 279,
+          "line": 280,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "vkDestroyBuffer(ctx->device, it->buffer, nullptr);",
@@ -5864,7 +5817,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 291,
+          "line": 292,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (e.memory != VK_NULL_HANDLE) vkFreeMemory(ctx->device, e.memory, nullptr);",
@@ -5873,7 +5826,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 292,
+          "line": 293,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (e.buffer != VK_NULL_HANDLE) vkDestroyBuffer(ctx->device, e.buffer, nullptr);",
@@ -5882,7 +5835,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 295,
+          "line": 296,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (ctx->device   != VK_NULL_HANDLE) vkDestroyDevice(ctx->device, nullptr);",
@@ -5891,7 +5844,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 296,
+          "line": 297,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (ctx->instance != VK_NULL_HANDLE) vkDestroyInstance(ctx->instance, nullptr);",
@@ -5900,7 +5853,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 518,
+          "line": 519,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return block->ptr;",
@@ -5909,7 +5862,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 888,
+          "line": 903,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "deallocate_to_backend(it->ptr);",
@@ -5918,7 +5871,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 904,
+          "line": 919,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "ptr_ = allocator_->allocate(size_bytes);",
@@ -5927,7 +5880,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 910,
+          "line": 925,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "allocator_->deallocate(ptr_);",
@@ -5936,7 +5889,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 927,
+          "line": 942,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "allocator_->deallocate(ptr_);",
@@ -5945,7 +5898,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 950,
+          "line": 965,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return allocator_->upload(ptr_, src, size_bytes);",
@@ -5954,7 +5907,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vram_allocator.cpp",
-          "line": 962,
+          "line": 977,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return allocator_->download(dst, ptr_, size_bytes);",
@@ -6169,7 +6122,7 @@
       "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp": [
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 262,
+          "line": 315,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));",
@@ -6178,7 +6131,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 263,
+          "line": 316,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));",
@@ -6187,7 +6140,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 336,
+          "line": 397,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));",
@@ -6196,7 +6149,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 337,
+          "line": 398,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));",
@@ -6205,7 +6158,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 400,
+          "line": 469,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));",
@@ -6214,7 +6167,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 401,
+          "line": 470,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));",
@@ -6223,7 +6176,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 459,
+          "line": 536,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));",
@@ -6232,7 +6185,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 460,
+          "line": 537,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));",
@@ -6241,7 +6194,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 519,
+          "line": 604,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));",
@@ -6250,7 +6203,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 520,
+          "line": 605,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));",
@@ -6259,19 +6212,10 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 610,
+          "line": 704,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_grad_A));",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 611,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_input));",
           "description": "Potential null pointer dereference",
           "remediation": "Add null check before dereferencing"
         },
@@ -6280,13 +6224,22 @@
           "line": 705,
           "type": "null_dereference",
           "severity": "HIGH",
+          "snippet": "pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_input));",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 808,
+          "type": "null_dereference",
+          "severity": "HIGH",
           "snippet": "pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_grad_A));",
           "description": "Potential null pointer dereference",
           "remediation": "Add null check before dereferencing"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 706,
+          "line": 809,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_input));",
@@ -8965,12 +8918,12 @@
     }
   },
   "server": {
-    "total": 415,
+    "total": 418,
     "severity_critical": 0,
-    "severity_high": 415,
+    "severity_high": 418,
     "severity_medium": 0,
     "by_type": {
-      "null_dereference": 415
+      "null_dereference": 418
     },
     "gaps_by_file": {
       "src\\server\\async_job_api_handler.cpp": [
@@ -9109,7 +9062,7 @@
       "src\\server\\http3_session.cpp": [
         {
           "file": "src\\server\\http3_session.cpp",
-          "line": 166,
+          "line": 175,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "it->second->handlePacket(recv_buffer_.data(), bytes_transferred, remote_endpoint_);",
@@ -9118,7 +9071,16 @@
         },
         {
           "file": "src\\server\\http3_session.cpp",
-          "line": 183,
+          "line": 190,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "THEMIS_ERROR(\"HTTP/3: null session ptr in CID migration path for key '{}'\", cid_it->second);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\server\\http3_session.cpp",
+          "line": 200,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "session->handlePacket(recv_buffer_.data(), bytes_transferred, remote_endpoint_);",
@@ -9127,7 +9089,7 @@
         },
         {
           "file": "src\\server\\http3_session.cpp",
-          "line": 208,
+          "line": 225,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "session->handlePacket(recv_buffer_.data(), bytes_transferred, remote_endpoint_);",
@@ -9136,7 +9098,7 @@
         },
         {
           "file": "src\\server\\http3_session.cpp",
-          "line": 787,
+          "line": 818,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "vec[0].base = (uint8_t*)body_ptr->data();",
@@ -9145,7 +9107,7 @@
         },
         {
           "file": "src\\server\\http3_session.cpp",
-          "line": 788,
+          "line": 819,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "vec[0].len = body_ptr->size();",
@@ -9156,7 +9118,7 @@
       "src\\server\\http_server.cpp": [
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 538,
+          "line": 548,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pii_api_ = std::make_unique<PIIApiHandler>(storage_->getRawDB(), pii_cf_handle_);",
@@ -9165,7 +9127,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 545,
+          "line": 555,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pii_api_ = std::make_unique<PIIApiHandler>(storage_->getRawDB(), nullptr);",
@@ -9174,7 +9136,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 688,
+          "line": 698,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "content_manager_->registerProcessor(std::unique_ptr<themis::content::IContentProcessor>(text_process",
@@ -9183,7 +9145,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 1211,
+          "line": 1221,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "schema_api_handler_->setStatisticsCollector(stats_collector_.get());",
@@ -9192,7 +9154,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 1212,
+          "line": 1222,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "schema_api_handler_->setSchemaConstraints(schema_constraints_.get());",
@@ -9201,7 +9163,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 1213,
+          "line": 1223,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "schema_api_handler_->setSchemaVersionManager(schema_version_mgr_.get());",
@@ -9210,7 +9172,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 1214,
+          "line": 1224,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "schema_api_handler_->setIndexRecommender(index_recommender_.get());",
@@ -9219,7 +9181,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 1215,
+          "line": 1225,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "schema_api_handler_->setAuditLog(schema_audit_log_.get());",
@@ -9228,7 +9190,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 1219,
+          "line": 1229,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "schema_api_handler_->setColumnLineageTracker(column_lineage_tracker_.get());",
@@ -9237,7 +9199,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 1363,
+          "line": 1373,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto response = qapi->handleQueryAql(inner);",
@@ -9246,7 +9208,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 1860,
+          "line": 1870,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "SSL_CTX_set_cipher_list(ssl_ctx_->native_handle(), config_.tls_cipher_list.c_str());",
@@ -9255,7 +9217,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 1865,
+          "line": 1875,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "SSL_CTX_set_cipher_list(ssl_ctx_->native_handle(),",
@@ -9264,7 +9226,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 2009,
+          "line": 2019,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "http3_handler_->start();",
@@ -9273,7 +9235,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 2058,
+          "line": 2068,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "http3_handler_->stop();",
@@ -9282,7 +9244,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 2187,
+          "line": 2197,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "SSL_CTX_set_cipher_list(new_ctx->native_handle(), config_.tls_cipher_list.c_str());",
@@ -9291,7 +9253,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 2189,
+          "line": 2199,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "SSL_CTX_set_cipher_list(new_ctx->native_handle(),",
@@ -9300,7 +9262,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 3607,
+          "line": 3650,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto checkSegment = [&](const std::string& prefix) -> std::optional<http::response<http::string_body",
@@ -9309,7 +9271,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 3788,
+          "line": 3831,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "http::response<http::string_body> response = ethics_api_->handle(req, target);",
@@ -9318,7 +9280,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4221,
+          "line": 4264,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = monitoring_api_->handleHealthCheck(req);",
@@ -9327,7 +9289,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4224,
+          "line": 4267,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = monitoring_api_->handleLiveness(req);",
@@ -9336,7 +9298,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4227,
+          "line": 4270,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = monitoring_api_->handleReadiness(req);",
@@ -9345,7 +9307,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4230,
+          "line": 4273,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = monitoring_api_->handleOpenApi(req);",
@@ -9354,7 +9316,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4233,
+          "line": 4276,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = monitoring_api_->handleVersion(req);",
@@ -9363,7 +9325,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4236,
+          "line": 4279,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = monitoring_api_->handleStats(req);",
@@ -9372,7 +9334,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4239,
+          "line": 4282,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = monitoring_api_->handleCapabilities(req);",
@@ -9381,7 +9343,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4265,
+          "line": 4308,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = monitoring_api_->handleMetrics(req);",
@@ -9390,7 +9352,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4269,
+          "line": 4333,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = monitoring_api_->handleMetricsHtml(req);",
@@ -9399,7 +9361,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4273,
+          "line": 4358,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = monitoring_api_->handlePluginMetrics(req);",
@@ -9408,7 +9370,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4276,
+          "line": 4368,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = monitoring_api_->handleObservabilityAlerts(req);",
@@ -9417,7 +9379,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4279,
+          "line": 4377,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = monitoring_api_->handleObservabilityAlertSilence(req);",
@@ -9426,7 +9388,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4282,
+          "line": 4387,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = monitoring_api_->handleObservabilityHealth(req);",
@@ -9435,7 +9397,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4285,
+          "line": 4397,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = monitoring_api_->handleLicenseStatus(req);",
@@ -9444,7 +9406,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4295,
+          "line": 4407,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = wal_api_->handleApply(req);",
@@ -9453,7 +9415,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4301,
+          "line": 4418,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = admin_api_->handleBackup(req);",
@@ -9462,7 +9424,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4304,
+          "line": 4426,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = admin_api_->handleRestore(req);",
@@ -9471,7 +9433,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4307,
+          "line": 4429,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = entity_api_->handleGet(req);",
@@ -9480,7 +9442,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4310,
+          "line": 4432,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = entity_api_->handlePut(req);",
@@ -9489,7 +9451,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4313,
+          "line": 4435,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = entity_api_->handleDelete(req);",
@@ -9498,7 +9460,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4316,
+          "line": 4438,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = entity_api_->handlePut(req);",
@@ -9507,7 +9469,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4319,
+          "line": 4441,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = entity_api_->handleBatch(req);",
@@ -9516,7 +9478,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4322,
+          "line": 4444,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = entity_api_->handleBulkNdjson(req);",
@@ -9525,7 +9487,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4325,
+          "line": 4447,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = query_api_->handleQuery(req);",
@@ -9534,7 +9496,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4342,
+          "line": 4464,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = query_api_->handleQueryAql(req);",
@@ -9543,7 +9505,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4346,
+          "line": 4468,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = query_api_->handleQueryStreamSse(req);",
@@ -9552,7 +9514,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4349,
+          "line": 4471,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = index_api_->handleCreate(req);",
@@ -9561,7 +9523,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4352,
+          "line": 4474,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = index_api_->handleDrop(req);",
@@ -9570,7 +9532,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4355,
+          "line": 4477,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = index_api_->handleStats(req);",
@@ -9579,7 +9541,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4358,
+          "line": 4480,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = index_api_->handleRebuild(req);",
@@ -9588,7 +9550,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4361,
+          "line": 4483,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = index_api_->handleReindex(req);",
@@ -9597,7 +9559,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4366,
+          "line": 4488,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = spatial_api_->handleIndexCreate(req);",
@@ -9606,7 +9568,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4370,
+          "line": 4492,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = spatial_api_->handleIndexRebuild(req);",
@@ -9615,7 +9577,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4374,
+          "line": 4496,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = spatial_api_->handleIndexStats(req);",
@@ -9624,7 +9586,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4378,
+          "line": 4500,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = spatial_api_->handleMetrics(req);",
@@ -9633,7 +9595,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4384,
+          "line": 4506,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = graph_api_->handleTraverse(req);",
@@ -9642,7 +9604,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4391,
+          "line": 4513,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = graph_api_->handleEdgeCreate(req);",
@@ -9651,7 +9613,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4398,
+          "line": 4520,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = graph_api_->handleEdgeDelete(req);",
@@ -9660,7 +9622,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4405,
+          "line": 4527,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = graph_api_->handleMetrics(req);",
@@ -9669,7 +9631,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4412,
+          "line": 4534,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = graph_api_->handleMetricsPrometheus(req);",
@@ -9678,7 +9640,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4419,
+          "line": 4541,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = graph_api_->handleIncrementalQueryRegister(req);",
@@ -9687,7 +9649,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4426,
+          "line": 4548,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = graph_api_->handleIncrementalQueryUnregister(req);",
@@ -9696,7 +9658,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4433,
+          "line": 4555,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = graph_api_->handleGraphChanges(req);",
@@ -9705,7 +9667,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4440,
+          "line": 4562,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = graph_api_->handleCostModelCalibrate(req);",
@@ -9714,7 +9676,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4447,
+          "line": 4569,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = graph_api_->handleCostModelExport(req);",
@@ -9723,7 +9685,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4454,
+          "line": 4576,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = graph_api_->handleCostModelImport(req);",
@@ -9732,7 +9694,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4461,
+          "line": 4583,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = graph_api_->handleQueryExplain(req);",
@@ -9741,7 +9703,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4468,
+          "line": 4590,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = vector_api_->handleSearch(req);",
@@ -9750,7 +9712,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4475,
+          "line": 4597,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = vector_api_->handleBatchInsert(req);",
@@ -9759,7 +9721,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4482,
+          "line": 4604,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = vector_api_->handleDeleteByFilter(req);",
@@ -9768,7 +9730,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4489,
+          "line": 4611,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = cache_api_->handleQuery(req);",
@@ -9777,7 +9739,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4496,
+          "line": 4618,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = prompt_api_->handlePost(req);",
@@ -9786,7 +9748,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4503,
+          "line": 4625,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = prompt_api_->handleList(req);",
@@ -9795,7 +9757,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4510,
+          "line": 4632,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = prompt_api_->handleGet(req);",
@@ -9804,7 +9766,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4517,
+          "line": 4639,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = prompt_api_->handlePut(req);",
@@ -9813,7 +9775,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4524,
+          "line": 4646,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = cache_api_->handlePut(req);",
@@ -9822,7 +9784,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4531,
+          "line": 4653,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = cache_api_->handleStats(req);",
@@ -9831,7 +9793,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4538,
+          "line": 4660,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = cache_admin_api_->handleHealth(req);",
@@ -9840,7 +9802,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4545,
+          "line": 4667,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = cache_admin_api_->handleStats(req);",
@@ -9849,7 +9811,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4552,
+          "line": 4674,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = cache_admin_api_->handleEvictKey(req);",
@@ -9858,7 +9820,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4559,
+          "line": 4681,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = cache_admin_api_->handleEvictTenant(req);",
@@ -9867,7 +9829,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4566,
+          "line": 4688,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = cache_admin_api_->handleCircuitBreakerReset(req);",
@@ -9876,7 +9838,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4573,
+          "line": 4695,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = cache_admin_api_->handleCircuitBreakerStatus(req);",
@@ -9885,7 +9847,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4580,
+          "line": 4702,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = cache_admin_api_->handleWarmup(req);",
@@ -9894,7 +9856,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4587,
+          "line": 4709,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = cache_admin_api_->handleSnapshot(req);",
@@ -9903,7 +9865,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4594,
+          "line": 4716,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = cache_admin_api_->handleListTenants(req);",
@@ -9912,7 +9874,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4601,
+          "line": 4723,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = cache_admin_api_->handleTenantStats(req);",
@@ -9921,7 +9883,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4608,
+          "line": 4730,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = cache_admin_api_->handleUpdateTenantQuota(req);",
@@ -9930,7 +9892,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4615,
+          "line": 4737,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = cache_admin_api_->handlePiiEvict(req);",
@@ -9939,7 +9901,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4728,
+          "line": 4850,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = shard_repair_api_->handleHealth(req);",
@@ -9948,7 +9910,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4738,
+          "line": 4860,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = shard_repair_api_->handleTriggerRepair(req);",
@@ -9957,7 +9919,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4748,
+          "line": 4870,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = shard_repair_api_->handleTriggerFullScan(req);",
@@ -9966,7 +9928,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4758,
+          "line": 4880,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = shard_repair_api_->handleJobStatus(req);",
@@ -9975,7 +9937,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4768,
+          "line": 4890,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = shard_repair_api_->handleDashboard(req);",
@@ -9984,7 +9946,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4925,
+          "line": 5047,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = query_api_->handleQueryEnhanced(req);",
@@ -9993,7 +9955,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4929,
+          "line": 5051,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = changefeed_api_->handleGet(req);",
@@ -10002,7 +9964,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4936,
+          "line": 5058,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = changefeed_api_->handleStreamSse(req);",
@@ -10011,7 +9973,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4943,
+          "line": 5065,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = changefeed_api_->handleStreamAck(req);",
@@ -10020,7 +9982,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4950,
+          "line": 5072,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = changefeed_api_->handleStats(req);",
@@ -10029,7 +9991,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4957,
+          "line": 5079,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = changefeed_api_->handleRetention(req);",
@@ -10038,7 +10000,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4964,
+          "line": 5086,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = changefeed_api_->handleRetentionGet(req);",
@@ -10047,7 +10009,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4971,
+          "line": 5093,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = changefeed_api_->handleRetentionPut(req);",
@@ -10056,7 +10018,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4978,
+          "line": 5100,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = changefeed_api_->handleCompact(req);",
@@ -10065,7 +10027,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4985,
+          "line": 5107,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = changefeed_api_->handleGdprRedact(req);",
@@ -10074,7 +10036,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4997,
+          "line": 5119,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "snapshot_api_handler_->handleCreateTag(httplib_req, httplib_res);",
@@ -10083,7 +10045,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5010,
+          "line": 5132,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "snapshot_api_handler_->handleListTags(httplib_req, httplib_res);",
@@ -10092,7 +10054,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5023,
+          "line": 5145,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "snapshot_api_handler_->handleGetTag(httplib_req, httplib_res);",
@@ -10101,7 +10063,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5036,
+          "line": 5158,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "snapshot_api_handler_->handleDeleteTag(httplib_req, httplib_res);",
@@ -10110,7 +10072,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5049,
+          "line": 5171,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "snapshot_api_handler_->handleGetStats(httplib_req, httplib_res);",
@@ -10119,7 +10081,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5064,
+          "line": 5186,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "diff_api_handler_->handleGetDiff(httplib_req, httplib_res);",
@@ -10128,7 +10090,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5077,
+          "line": 5199,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "diff_api_handler_->handleGetCacheStats(httplib_req, httplib_res);",
@@ -10137,7 +10099,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5090,
+          "line": 5212,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "diff_api_handler_->handleClearCache(httplib_req, httplib_res);",
@@ -10146,7 +10108,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5105,
+          "line": 5227,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pitr_api_handler_->handleRestore(httplib_req, httplib_res);",
@@ -10155,7 +10117,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5118,
+          "line": 5240,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pitr_api_handler_->handlePreview(httplib_req, httplib_res);",
@@ -10164,7 +10126,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5131,
+          "line": 5253,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pitr_api_handler_->handleGetProgress(httplib_req, httplib_res);",
@@ -10173,7 +10135,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5144,
+          "line": 5266,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "branch_api_handler_->handleCreateBranch(httplib_req, httplib_res);",
@@ -10182,7 +10144,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5155,
+          "line": 5277,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "branch_api_handler_->handleListBranches(httplib_req, httplib_res);",
@@ -10191,7 +10153,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5166,
+          "line": 5288,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "branch_api_handler_->handleGetActiveBranch(httplib_req, httplib_res);",
@@ -10200,7 +10162,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5177,
+          "line": 5299,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "branch_api_handler_->handleGetStats(httplib_req, httplib_res);",
@@ -10209,7 +10171,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5188,
+          "line": 5310,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "branch_api_handler_->handleGetBranch(httplib_req, httplib_res);",
@@ -10218,7 +10180,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5199,
+          "line": 5321,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "branch_api_handler_->handleSwitchBranch(httplib_req, httplib_res);",
@@ -10227,7 +10189,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5210,
+          "line": 5332,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "branch_api_handler_->handleDeleteBranch(httplib_req, httplib_res);",
@@ -10236,7 +10198,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5221,
+          "line": 5343,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "branch_api_handler_->handleMergeBranches(httplib_req, httplib_res);",
@@ -10245,7 +10207,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5234,
+          "line": 5356,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "merge_api_handler_->handleMerge(httplib_req, httplib_res);",
@@ -10254,7 +10216,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5245,
+          "line": 5367,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "merge_api_handler_->handleMergePreview(httplib_req, httplib_res);",
@@ -10263,7 +10225,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5256,
+          "line": 5378,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "merge_api_handler_->handleMergeByTag(httplib_req, httplib_res);",
@@ -10272,7 +10234,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5267,
+          "line": 5389,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "merge_api_handler_->handleCanFastForward(httplib_req, httplib_res);",
@@ -10281,7 +10243,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5277,
+          "line": 5399,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = timeseries_api_->handlePut(req);",
@@ -10290,7 +10252,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5285,
+          "line": 5407,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = timeseries_api_->handleQuery(req);",
@@ -10299,7 +10261,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5293,
+          "line": 5415,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = timeseries_api_->handleAggregate(req);",
@@ -10308,7 +10270,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5301,
+          "line": 5423,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = timeseries_api_->handleConfigGet(req);",
@@ -10317,7 +10279,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5309,
+          "line": 5431,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = timeseries_api_->handleConfigPut(req);",
@@ -10326,7 +10288,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5317,
+          "line": 5439,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = timeseries_api_->handleAggregatesGet(req);",
@@ -10335,7 +10297,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5325,
+          "line": 5447,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = timeseries_api_->handleRetentionGet(req);",
@@ -10344,7 +10306,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5333,
+          "line": 5455,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = timeseries_api_->handleMetricsGet(req);",
@@ -10353,7 +10315,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5341,
+          "line": 5463,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = timeseries_api_->handlePrometheusRemoteWrite(req);",
@@ -10362,7 +10324,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5348,
+          "line": 5470,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = index_api_->handleSuggestions(req);",
@@ -10371,7 +10333,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5351,
+          "line": 5473,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = index_api_->handlePatterns(req);",
@@ -10380,7 +10342,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5354,
+          "line": 5476,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = index_api_->handleRecordPattern(req);",
@@ -10389,7 +10351,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5357,
+          "line": 5479,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = index_api_->handleClearPatterns(req);",
@@ -10398,7 +10360,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5361,
+          "line": 5483,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = vector_api_->handleIndexSave(req);",
@@ -10407,7 +10369,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5368,
+          "line": 5490,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = vector_api_->handleIndexLoad(req);",
@@ -10416,7 +10378,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5375,
+          "line": 5497,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = vector_api_->handleIndexConfigGet(req);",
@@ -10425,7 +10387,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5382,
+          "line": 5504,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = vector_api_->handleIndexConfigPut(req);",
@@ -10434,7 +10396,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5389,
+          "line": 5511,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = vector_api_->handleIndexStats(req);",
@@ -10443,7 +10405,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5396,
+          "line": 5518,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = vector_api_->handleIncrementalReindex(req);",
@@ -10452,7 +10414,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5403,
+          "line": 5525,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = rope_api_->handleConfigPost(req);",
@@ -10461,7 +10423,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5410,
+          "line": 5532,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = rope_api_->handleConfigGet(req);",
@@ -10470,7 +10432,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5417,
+          "line": 5539,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = rope_api_->handleConfigDelete(req);",
@@ -10479,7 +10441,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5424,
+          "line": 5546,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = rope_api_->handleAddPost(req);",
@@ -10488,7 +10450,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5431,
+          "line": 5553,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = rope_api_->handleAddRelationalPost(req);",
@@ -10497,7 +10459,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5438,
+          "line": 5560,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = rope_api_->handleSearchPost(req);",
@@ -10506,7 +10468,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5445,
+          "line": 5567,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = rope_api_->handleBatchAddPost(req);",
@@ -10515,7 +10477,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5452,
+          "line": 5574,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = rope_api_->handleStatsGet(req);",
@@ -10524,7 +10486,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5531,
+          "line": 5653,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = export_api_->handleExportJsonlLlm(req);",
@@ -10533,7 +10495,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5539,
+          "line": 5661,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = export_api_->handleExportStatus(req);",
@@ -10542,7 +10504,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5550,
+          "line": 5672,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = update_api_->handleRequest(req);",
@@ -10551,7 +10513,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5561,
+          "line": 5683,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = feedback_api_handler_->handleCreateFeedback(req);",
@@ -10560,7 +10522,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5570,
+          "line": 5692,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = feedback_api_handler_->handleListFeedback(req);",
@@ -10569,7 +10531,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5585,
+          "line": 5707,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = feedback_api_handler_->handleGetFeedback(req, id);",
@@ -10578,7 +10540,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5601,
+          "line": 5723,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = feedback_api_handler_->handleUpdateFeedback(req, id);",
@@ -10587,7 +10549,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5617,
+          "line": 5739,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = feedback_api_handler_->handleDeleteFeedback(req, id);",
@@ -10596,7 +10558,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5633,
+          "line": 5755,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = feedback_api_handler_->handleGetAdapterFeedback(req, adapter_id);",
@@ -10605,7 +10567,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5643,
+          "line": 5765,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = feedback_api_handler_->handleGetStatistics(req);",
@@ -10614,7 +10576,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5663,
+          "line": 5785,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = transaction_api_->handleTransaction(req);",
@@ -10623,7 +10585,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5666,
+          "line": 5788,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = transaction_api_->handleBegin(req);",
@@ -10632,7 +10594,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5669,
+          "line": 5791,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = transaction_api_->handleCommit(req);",
@@ -10641,7 +10603,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5672,
+          "line": 5794,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = transaction_api_->handleRollback(req);",
@@ -10650,7 +10612,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5675,
+          "line": 5797,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = transaction_api_->handleStats(req);",
@@ -10659,7 +10621,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5678,
+          "line": 5800,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = transaction_api_->handleGetVersion(req);",
@@ -10668,7 +10630,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5683,
+          "line": 5805,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = transaction_api_->handleExplain(req);",
@@ -10677,7 +10639,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5686,
+          "line": 5808,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = distributed_txn_api_->handleBegin(req);",
@@ -10686,7 +10648,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5689,
+          "line": 5811,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = distributed_txn_api_->handleOperation(req);",
@@ -10695,7 +10657,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5692,
+          "line": 5814,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = distributed_txn_api_->handleCommit(req);",
@@ -10704,7 +10666,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5695,
+          "line": 5817,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = distributed_txn_api_->handleAbort(req);",
@@ -10713,7 +10675,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5698,
+          "line": 5820,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = distributed_txn_api_->handleReadOnly(req);",
@@ -10722,7 +10684,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5701,
+          "line": 5823,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = distributed_txn_api_->handleStatus(req);",
@@ -10731,7 +10693,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5704,
+          "line": 5826,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = distributed_txn_api_->handleStats(req);",
@@ -10740,7 +10702,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5722,
+          "line": 5844,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = content_api_->handleImport(req);",
@@ -10749,7 +10711,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5726,
+          "line": 5848,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = content_api_->handleGet(req);",
@@ -10758,7 +10720,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5729,
+          "line": 5851,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = content_api_->handleGetBlob(req);",
@@ -10767,7 +10729,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5732,
+          "line": 5854,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = content_api_->handleGetChunks(req);",
@@ -10776,7 +10738,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5747,
+          "line": 5869,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = content_api_->handleHybridSearch(req);",
@@ -10785,7 +10747,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5750,
+          "line": 5872,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = content_api_->handleFusionSearch(req);",
@@ -10794,7 +10756,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5753,
+          "line": 5875,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = content_api_->handleFulltextSearch(req);",
@@ -10803,7 +10765,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5756,
+          "line": 5878,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = content_api_->handleContentFilterSchemaGet(req);",
@@ -10812,7 +10774,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5759,
+          "line": 5881,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = content_api_->handleContentFilterSchemaPut(req);",
@@ -10821,7 +10783,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5762,
+          "line": 5884,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = content_api_->handleConfigGet(req);",
@@ -10830,7 +10792,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5765,
+          "line": 5887,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = content_api_->handleConfigPut(req);",
@@ -10839,7 +10801,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5768,
+          "line": 5890,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = content_api_->handleEdgeWeightConfigGet(req);",
@@ -10848,7 +10810,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5771,
+          "line": 5893,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = content_api_->handleEdgeWeightConfigPut(req);",
@@ -10857,7 +10819,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5784,
+          "line": 5906,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = content_api_->handleEncryptionSchemaGet(req);",
@@ -10866,7 +10828,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5797,
+          "line": 5919,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = content_api_->handleEncryptionSchemaPut(req);",
@@ -10875,7 +10837,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5813,
+          "line": 5935,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = bpmn_api_->handleStartProcess(req);",
@@ -10884,7 +10846,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5821,
+          "line": 5943,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = bpmn_api_->handleTaskComplete(req);",
@@ -10893,7 +10855,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5829,
+          "line": 5951,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = bpmn_api_->handleQueryInstance(req);",
@@ -10902,7 +10864,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5838,
+          "line": 5960,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = geo_topology_api_->handleTopologyGet(req);",
@@ -10911,7 +10873,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5841,
+          "line": 5963,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = geo_topology_api_->handleRegionsGet(req);",
@@ -10920,7 +10882,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5844,
+          "line": 5966,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = geo_topology_api_->handleHealthGet(req);",
@@ -10929,7 +10891,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5847,
+          "line": 5969,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = geo_topology_api_->handleTopologyShardPost(req);",
@@ -10938,7 +10900,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5850,
+          "line": 5972,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = geo_topology_api_->handleTopologyShardDelete(req);",
@@ -10947,7 +10909,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5853,
+          "line": 5975,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = geo_topology_api_->handleConfigGet(req);",
@@ -10956,7 +10918,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5856,
+          "line": 5978,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = geo_topology_api_->handleConfigPut(req);",
@@ -10965,7 +10927,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5861,
+          "line": 5983,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = replication_topology_api_->handleTopologyGet(req);",
@@ -10974,7 +10936,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5864,
+          "line": 5986,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = replication_topology_api_->handleHealthGet(req);",
@@ -10983,7 +10945,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5867,
+          "line": 5989,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = replication_topology_api_->handleUiGet(req);",
@@ -10992,7 +10954,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5936,
+          "line": 6058,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = policy_api_->handleImportRanger(req);",
@@ -11001,7 +10963,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5955,
+          "line": 6077,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = policy_api_->handleExportRanger(req);",
@@ -11010,7 +10972,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5978,
+          "line": 6100,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "mvcc_api_handler_->handleGetKey(httplib_req, httplib_res);",
@@ -11019,7 +10981,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 5980,
+          "line": 6102,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "mvcc_api_handler_->handlePutKey(httplib_req, httplib_res);",
@@ -11028,7 +10990,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6002,
+          "line": 6124,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "mvcc_api_handler_->handleListVersions(httplib_req, httplib_res);",
@@ -11037,7 +10999,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6004,
+          "line": 6126,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "mvcc_api_handler_->handleGcVersions(httplib_req, httplib_res);",
@@ -11046,7 +11008,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6017,
+          "line": 6139,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "mvcc_api_handler_->handleGetClock(httplib_req, httplib_res);",
@@ -11055,7 +11017,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6029,
+          "line": 6151,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "mvcc_api_handler_->handleGetStats(httplib_req, httplib_res);",
@@ -11064,7 +11026,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6039,
+          "line": 6161,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = graphql_api_handler_->handlePost(req);",
@@ -11073,7 +11035,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6044,
+          "line": 6166,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = graphql_api_handler_->handleSchemaGet(req);",
@@ -11082,7 +11044,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6050,
+          "line": 6172,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = grpc_web_proxy_->handleOptions(req);",
@@ -11091,7 +11053,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6054,
+          "line": 6176,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = grpc_web_proxy_->handleStatus(req);",
@@ -11100,7 +11062,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6071,
+          "line": 6193,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = grpc_web_proxy_->handlePost(req, method_path);",
@@ -11109,7 +11071,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6077,
+          "line": 6199,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = serverless_fn_handler_->handleRegister(req);",
@@ -11118,7 +11080,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6081,
+          "line": 6203,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = serverless_fn_handler_->handleList(req);",
@@ -11127,7 +11089,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6116,
+          "line": 6238,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = serverless_fn_handler_->handleInvoke(req, id);",
@@ -11136,7 +11098,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6118,
+          "line": 6240,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = serverless_fn_handler_->handleVersions(req, id);",
@@ -11145,7 +11107,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6120,
+          "line": 6242,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = serverless_fn_handler_->handleGet(req, id);",
@@ -11154,7 +11116,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6122,
+          "line": 6244,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = serverless_fn_handler_->handleUpdate(req, id);",
@@ -11163,7 +11125,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6124,
+          "line": 6246,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = serverless_fn_handler_->handleDelete(req, id);",
@@ -11172,7 +11134,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6131,
+          "line": 6253,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = async_job_api_->handleSubmit(req);",
@@ -11181,7 +11143,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6139,
+          "line": 6261,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = async_job_api_->handleList(req);",
@@ -11190,7 +11152,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6147,
+          "line": 6269,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = async_job_api_->handleGetStatus(req);",
@@ -11199,7 +11161,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6155,
+          "line": 6277,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = async_job_api_->handleCancel(req);",
@@ -11208,7 +11170,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6208,
+          "line": 6330,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = udf_api_handler_->handleRegister(req);",
@@ -11217,7 +11179,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6211,
+          "line": 6333,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = udf_api_handler_->handleList(req);",
@@ -11226,7 +11188,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6219,
+          "line": 6341,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = udf_api_handler_->handleGet(req, udf_name);",
@@ -11235,7 +11197,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6228,
+          "line": 6350,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = udf_api_handler_->handleDelete(req, udf_name);",
@@ -11244,7 +11206,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 7048,
+          "line": 7170,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = continuous_query_api_->handleRegister(req);",
@@ -11253,7 +11215,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 7062,
+          "line": 7184,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = continuous_query_api_->handleList(req);",
@@ -11262,7 +11224,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 7081,
+          "line": 7203,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = continuous_query_api_->handleDrop(req, cq_name);",
@@ -11271,7 +11233,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 7104,
+          "line": 7226,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "response = continuous_query_api_->handleStreamSse(req, cq_name);",
@@ -11280,7 +11242,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 7121,
+          "line": 7243,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const json result = mcp_server_->handleAiPendingApprovals();",
@@ -11289,7 +11251,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 7143,
+          "line": 7265,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const json result = mcp_server_->handleAiApprove(op_id);",
@@ -11298,7 +11260,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 7169,
+          "line": 7291,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const json result = mcp_server_->handleAiDeny(op_id);",
@@ -11307,7 +11269,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 7196,
+          "line": 7318,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const json result = mcp_server_->handleAiRollback(snap_id);",
@@ -11316,7 +11278,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 7920,
+          "line": 8042,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto result = saml_provider_->handleLogin(relay_state);",
@@ -11325,7 +11287,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 7982,
+          "line": 8104,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto result = saml_provider_->handleAcs(saml_response_b64, relay_state, in_response_to);",
@@ -11334,7 +11296,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 8012,
+          "line": 8134,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto result = saml_provider_->handleSlo(session_index);",
@@ -11343,7 +11305,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 10917,
+          "line": 11066,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "api::WsChangeHandler ws_handler(server_->auth_,",
@@ -11352,7 +11314,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 11226,
+          "line": 11384,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "api::WsChangeHandler ws_handler(server_->auth_,",
@@ -11361,7 +11323,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 12392,
+          "line": 12566,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "error_api_handler_->handleGetErrors(handler_req, handler_res);",
@@ -11370,7 +11332,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 12434,
+          "line": 12608,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "error_api_handler_->handleGetError(handler_req, handler_res);",
@@ -11379,7 +11341,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 12464,
+          "line": 12638,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "error_api_handler_->handleGetCategories(handler_req, handler_res);",
@@ -11388,7 +11350,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 12498,
+          "line": 12672,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "error_api_handler_->handleSearchErrors(handler_req, handler_res);",
@@ -11397,7 +11359,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 12522,
+          "line": 12696,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return schema_api_handler_->handleGetSchema(req);",
@@ -11406,7 +11368,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 12532,
+          "line": 12706,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return schema_api_handler_->handleGetTables(req);",
@@ -11415,7 +11377,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 12542,
+          "line": 12716,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return schema_api_handler_->handleGetTable(req);",
@@ -11424,7 +11386,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 12552,
+          "line": 12726,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return schema_api_handler_->handlePutSchema(req);",
@@ -11433,7 +11395,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 12562,
+          "line": 12736,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return schema_api_handler_->handlePatchSchema(req);",
@@ -11442,7 +11404,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 12576,
+          "line": 12750,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return schema_api_handler_->handleGetInformationSchema(req);",
@@ -11451,7 +11413,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 12586,
+          "line": 12760,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return schema_api_handler_->handleGetStats(req);",
@@ -11460,7 +11422,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 12596,
+          "line": 12770,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return schema_api_handler_->handleCollectStats(req);",
@@ -11469,7 +11431,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 12606,
+          "line": 12780,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return schema_api_handler_->handleGetConstraints(req);",
@@ -11478,7 +11440,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 12616,
+          "line": 12790,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return schema_api_handler_->handleGetIndexRecommendations(req);",
@@ -11487,7 +11449,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 12626,
+          "line": 12800,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return schema_api_handler_->handleGetVersionHistory(req);",
@@ -11496,7 +11458,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 12636,
+          "line": 12810,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return schema_api_handler_->handleCreateVersion(req);",
@@ -11505,7 +11467,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 12646,
+          "line": 12820,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return schema_api_handler_->handleGetDiff(req);",
@@ -11514,7 +11476,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 12656,
+          "line": 12830,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return schema_api_handler_->handleGetAuditLog(req);",
@@ -11523,7 +11485,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 12666,
+          "line": 12840,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return schema_api_handler_->handleSchemaImport(req);",
@@ -11532,7 +11494,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 12676,
+          "line": 12850,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return schema_api_handler_->handleBatchConstraintValidation(req);",
@@ -11541,7 +11503,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 12686,
+          "line": 12860,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return schema_api_handler_->handleGetColumnLineage(req);",
@@ -11550,7 +11512,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 12696,
+          "line": 12870,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return schema_api_handler_->handleRecordLineageDerivation(req);",
@@ -11642,82 +11604,10 @@
         },
         {
           "file": "src\\server\\import_api_handler.cpp",
-          "line": 311,
+          "line": 369,
           "type": "null_dereference",
           "severity": "HIGH",
-          "snippet": "auto handle = registry_->get(job_id);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\server\\import_api_handler.cpp",
-          "line": 316,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "jsonOk(res, handle->toJson());",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\server\\import_api_handler.cpp",
-          "line": 323,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "auto handle = registry_->get(job_id);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\server\\import_api_handler.cpp",
-          "line": 328,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (!handle->running.load()) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\server\\import_api_handler.cpp",
-          "line": 330,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "std::string(handle->getStatus() == ImportStatus::COMPLETED",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\server\\import_api_handler.cpp",
-          "line": 340,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "jsonOk(res, handle->toJson());",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\server\\import_api_handler.cpp",
-          "line": 494,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "auto handle = registry_->get(job_id);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\server\\import_api_handler.cpp",
-          "line": 501,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "const std::string source_path = handle->source_path;",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\server\\import_api_handler.cpp",
-          "line": 636,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "auto handle = registry_->get(job_id);",
+          "snippet": "if (status == \"completed\" && stats_it != job.end() && stats_it->is_object()) {",
           "description": "Potential null pointer dereference",
           "remediation": "Add null check before dereferencing"
         }
@@ -11758,7 +11648,7 @@
       "src\\server\\mcp_server.cpp": [
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 258,
+          "line": 263,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "stdio_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });",
@@ -11767,7 +11657,7 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 265,
+          "line": 274,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "sse_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });",
@@ -11776,7 +11666,7 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 272,
+          "line": 285,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "ws_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });",
@@ -11785,7 +11675,16 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 564,
+          "line": 581,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (!it->second.handler) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\server\\mcp_server.cpp",
+          "line": 585,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "json result = it->second.handler(args);",
@@ -11794,7 +11693,16 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 599,
+          "line": 620,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (!it->second.handler) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\server\\mcp_server.cpp",
+          "line": 624,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "json content = it->second.handler(uri);",
@@ -11803,7 +11711,16 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 641,
+          "line": 666,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (!it->second.handler) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\server\\mcp_server.cpp",
+          "line": 670,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "json messages = it->second.handler(name, args);",
@@ -11812,10 +11729,73 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 2436,
+          "line": 2464,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "} else if (!tool_it->second.handler) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\server\\mcp_server.cpp",
+          "line": 2468,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "exec_result = tool_it->second.handler(mutable_args);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\server\\mcp_server.cpp",
+          "line": 2807,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (self->message_handler_) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\server\\mcp_server.cpp",
+          "line": 2808,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "json response = self->message_handler_(request);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\server\\mcp_server.cpp",
+          "line": 2831,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (self->message_handler_) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\server\\mcp_server.cpp",
+          "line": 2832,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "json response = self->message_handler_(request);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\server\\mcp_server.cpp",
+          "line": 2882,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (self->message_handler_) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\server\\mcp_server.cpp",
+          "line": 2883,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "json response = self->message_handler_(request);",
           "description": "Potential null pointer dereference",
           "remediation": "Add null check before dereferencing"
         }
@@ -11925,7 +11905,7 @@
       "src\\server\\query_api_handler.cpp": [
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 626,
+          "line": 691,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (*parse_result && (*parse_result)->traversal == nullptr && !(*parse_result)->for_nodes.empty() &&",
@@ -11934,7 +11914,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 629,
+          "line": 694,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const auto& f1_ref = (*parse_result)->for_nodes[0];",
@@ -11943,7 +11923,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 630,
+          "line": 695,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const auto& f2_ref = (*parse_result)->for_nodes[1];",
@@ -11952,7 +11932,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 641,
+          "line": 706,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "std::function<std::string(const std::shared_ptr<Expression>&, std::string&)> fieldFromFA = [&](const",
@@ -11961,7 +11941,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 645,
+          "line": 710,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto* cur = fa->object.get();",
@@ -11970,7 +11950,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 646,
+          "line": 711,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "while (auto* fa2 = dynamic_cast<FieldAccessExpr*>(cur)) { parts.push_back(fa2->field); cur = fa2->ob",
@@ -11979,7 +11959,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 731,
+          "line": 797,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if ((*parse_result) && (*parse_result)->traversal == nullptr && !(*parse_result)->for_nodes.empty())",
@@ -11988,7 +11968,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 744,
+          "line": 810,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "resolveToLoopField = [&](const std::shared_ptr<Expression>& e)->std::optional<std::string> {",
@@ -11997,7 +11977,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 749,
+          "line": 815,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto* cur = fa->object.get();",
@@ -12006,7 +11986,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 750,
+          "line": 816,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "while (auto* fa2 = dynamic_cast<FieldAccessExpr*>(cur)) { parts.push_back(fa2->field); cur = fa2->ob",
@@ -12015,7 +11995,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 908,
+          "line": 975,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "evalExprToLiteral = [&](std::shared_ptr<themis::query::Expression> expr, nlohmann::json& out)->bool ",
@@ -12024,7 +12004,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1043,
+          "line": 1110,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto parseSide = [&](std::shared_ptr<Expression> e, char& var, std::string& field) -> bool {",
@@ -12033,7 +12013,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1046,
+          "line": 1113,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto* v = dynamic_cast<VariableExpr*>(fa->object.get());",
@@ -12042,7 +12022,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1053,
+          "line": 1120,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto parseSimpleFromExpr = [&](std::shared_ptr<Expression> expr, SimplePred& out)->bool {",
@@ -12051,7 +12031,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1103,
+          "line": 1170,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto parseSide = [&](std::shared_ptr<Expression> e, char& var, std::string& field) -> bool {",
@@ -12060,7 +12040,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1107,
+          "line": 1174,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto* v = dynamic_cast<VariableExpr*>(fa->object.get());",
@@ -12069,7 +12049,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1317,
+          "line": 1384,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (!fa->object) return false;  // Null-safety: Check shared_ptr is valid",
@@ -12078,7 +12058,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1318,
+          "line": 1385,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto* v = dynamic_cast<const VariableExpr*>(fa->object.get());",
@@ -12087,7 +12067,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1408,
+          "line": 1475,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (auto* objVar = dynamic_cast<VariableExpr*>(fa->object.get())) {",
@@ -12096,7 +12076,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1409,
+          "line": 1476,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (objVar->name == \"v\" || objVar->name == \"e\") return true;",
@@ -12105,7 +12085,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1412,
+          "line": 1479,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return usesVE(fa->object.get());",
@@ -12114,7 +12094,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1461,
+          "line": 1528,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if ((*parse_result) && (*parse_result)->traversal == nullptr && !(*parse_result)->for_nodes.empty() ",
@@ -12123,7 +12103,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1477,
+          "line": 1544,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "std::function<std::string(const std::shared_ptr<Expression>&, std::string&)> fieldFromFA = [&](const",
@@ -12132,7 +12112,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1483,
+          "line": 1550,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto* cur = fa->object.get();",
@@ -12141,7 +12121,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1486,
+          "line": 1553,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "cur = fa2->object.get();",
@@ -12150,7 +12130,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2148,
+          "line": 2223,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto* cur = fa->object.get();",
@@ -12159,7 +12139,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2151,
+          "line": 2226,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "cur = fa2->object.get();",
@@ -12168,7 +12148,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2228,
+          "line": 2305,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "storage_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {",
@@ -12177,7 +12157,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2238,
+          "line": 2319,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "evalExpr = [&](const std::shared_ptr<themis::query::Expression>& e) -> nlohmann::json {",
@@ -12186,7 +12166,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2255,
+          "line": 2336,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto base = evalExpr(fa->object);",
@@ -12195,7 +12175,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2263,
+          "line": 2344,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "for (const auto& [k, ce] : obj->fields) out[k] = evalExpr(ce);",
@@ -12204,7 +12184,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2322,
+          "line": 2409,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "exprContainsFn = [&](const std::shared_ptr<themis::query::Expression>& expr, const std::string& name",
@@ -12213,7 +12193,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2634,
+          "line": 2722,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto extractColumn = [&](const std::shared_ptr<themis::query::Expression>& expr)->std::string {",
@@ -12222,7 +12202,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2639,
+          "line": 2727,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto* cur = fa->object.get();",
@@ -12231,7 +12211,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2642,
+          "line": 2730,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "cur = fa2->object.get();",
@@ -12240,7 +12220,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2767,
+          "line": 2855,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "extractColFromFA = [&](const std::shared_ptr<Expression>& expr, bool& rootedAtLoop)->std::optional<s",
@@ -12249,7 +12229,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2770,
+          "line": 2858,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto* cur = fa->object.get();",
@@ -12258,7 +12238,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2771,
+          "line": 2859,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "while (auto* fa2 = dynamic_cast<FieldAccessExpr*>(cur)) { parts.push_back(fa2->field); cur = fa2->ob",
@@ -12267,7 +12247,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2780,
+          "line": 2868,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "containsFunction = [&](const std::shared_ptr<Expression>& expr, const std::string& name)->bool{",
@@ -12276,7 +12256,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2875,
+          "line": 2963,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto it = env.find(v->name); if (it != env.end()) return it->second; return nullptr; }",
@@ -12285,7 +12265,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2885,
+          "line": 2973,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto base = evalExpr(fa->object, ent, env);",
@@ -12294,7 +12274,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2887,
+          "line": 2975,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto it = base.find(fa->field); if (it != base.end()) return *it; return nullptr;",
@@ -12303,7 +12283,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 3044,
+          "line": 3132,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "for (const auto& kv : oc->fields) obj[kv.first] = evalExpr(kv.second, ent, env);",
@@ -12457,7 +12437,7 @@
         },
         {
           "file": "src\\server\\sse_connection_manager.cpp",
-          "line": 345,
+          "line": 350,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (!conn->key_prefix.empty()) {",
@@ -12466,7 +12446,7 @@
         },
         {
           "file": "src\\server\\sse_connection_manager.cpp",
-          "line": 346,
+          "line": 351,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "options.key_prefix = conn->key_prefix;",
@@ -12622,7 +12602,7 @@
       "src\\server\\voice_api_handler.cpp": [
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 874,
+          "line": 899,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (body->contains(\"custom_fields\") && !(*body)[\"custom_fields\"].is_object()) {",
@@ -12631,7 +12611,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 991,
+          "line": 1016,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (body->contains(\"custom_fields\") && !(*body)[\"custom_fields\"].is_object()) {",
@@ -12640,7 +12620,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1281,
+          "line": 1306,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (body->contains(\"options\") && !(*body)[\"options\"].is_object()) {",
@@ -12649,7 +12629,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1285,
+          "line": 1310,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (body->contains(\"options\") && (*body)[\"options\"].is_object()) {",
@@ -12658,7 +12638,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1444,
+          "line": 1469,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (body->contains(\"options\") && !(*body)[\"options\"].is_object()) {",
@@ -12667,7 +12647,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1448,
+          "line": 1473,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (body->contains(\"options\") && (*body)[\"options\"].is_object()) {",
@@ -12676,7 +12656,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1794,
+          "line": 1819,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (!body || !body->is_object()) {",
@@ -12698,7 +12678,7 @@
       "src\\server\\websocket_session.cpp": [
         {
           "file": "src\\server\\websocket_session.cpp",
-          "line": 203,
+          "line": 202,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto responses = cdc_stream_handler_->handleFrame(msg);",
@@ -12707,7 +12687,7 @@
         },
         {
           "file": "src\\server\\websocket_session.cpp",
-          "line": 330,
+          "line": 329,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "is_aql ? server_->query_api_->handleQueryAql(http_req)",
@@ -12716,7 +12696,7 @@
         },
         {
           "file": "src\\server\\websocket_session.cpp",
-          "line": 331,
+          "line": 330,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": ": server_->query_api_->handleQuery(http_req);",
@@ -12725,7 +12705,7 @@
         },
         {
           "file": "src\\server\\websocket_session.cpp",
-          "line": 650,
+          "line": 696,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (auto* handler = session->getCdcStreamHandler()) {",
@@ -12734,7 +12714,7 @@
         },
         {
           "file": "src\\server\\websocket_session.cpp",
-          "line": 651,
+          "line": 697,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (!handler->hasSubscriptions()) continue;",
@@ -12743,7 +12723,7 @@
         },
         {
           "file": "src\\server\\websocket_session.cpp",
-          "line": 653,
+          "line": 699,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto frames = handler->pollEvents(*changefeed_);",
@@ -12752,7 +12732,7 @@
         },
         {
           "file": "src\\server\\websocket_session.cpp",
-          "line": 657,
+          "line": 703,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto redeliveries = handler->checkRedelivery();",
@@ -12763,7 +12743,7 @@
       "src\\server\\rpc\\rpc_service_impl.cpp": [
         {
           "file": "src\\server\\rpc\\rpc_service_impl.cpp",
-          "line": 1949,
+          "line": 1948,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "storage->scanPrefix(prefix, [&indexes](std::string_view /*key*/, std::string_view value) -> bool {",
@@ -12772,7 +12752,7 @@
         },
         {
           "file": "src\\server\\rpc\\rpc_service_impl.cpp",
-          "line": 2380,
+          "line": 2383,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "storage->scanPrefix(idx_prefix,",
