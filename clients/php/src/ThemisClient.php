@@ -624,7 +624,22 @@ class ThemisClient
      * Begin a new ACID transaction.
      *
      * @param array $options Transaction options:
-     *   - isolation_level: 'READ_COMMITTED' or 'SNAPSHOT' (default: 'READ_COMMITTED')
+     *   - isolation_level: Isolation level for the transaction. One of:
+     *       'READ_COMMITTED'  – only committed values visible (default).
+     *                          Non-repeatable reads and phantom reads possible.
+     *       'SNAPSHOT'        – consistent snapshot as of transaction start.
+     *
+     *                          WARNING: Write-skew and phantom-read anomalies
+     *                          are possible at SNAPSHOT isolation. Two concurrent
+     *                          SNAPSHOT transactions reading the same rows and
+     *                          writing disjoint keys can both commit even when
+     *                          their combined effect violates an application
+     *                          invariant (e.g. double-booking, over-withdrawal).
+     *                          Use 'SERIALIZABLE' for strict correctness.
+     *
+     *       'SERIALIZABLE'    – full serializability via SSI / predicate locking.
+     *                          Prevents write skew and phantom reads. Higher
+     *                          latency and more aborts than SNAPSHOT.
      *   - timeout: Transaction timeout in seconds (optional)
      * @return Transaction Transaction object
      * @throws TransactionException If transaction cannot be started
@@ -639,6 +654,8 @@ class ThemisClient
             $body['isolation'] = 'snapshot';
         } elseif ($isolationLevel === 'READ_COMMITTED') {
             $body['isolation'] = 'read_committed';
+        } elseif ($isolationLevel === 'SERIALIZABLE') {
+            $body['isolation'] = 'serializable';
         } else {
             throw new \InvalidArgumentException("Invalid isolation level: {$isolationLevel}");
         }

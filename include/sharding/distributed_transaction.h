@@ -44,7 +44,7 @@ enum class TransactionState {
  * TwoPhaseCommitParticipant::onPrepare() via the validate_and_lock callback.
  */
 enum class DistributedIsolationLevel {
-    SNAPSHOT_ISOLATION, // MVCC snapshot reads – default; no read locks needed
+    SNAPSHOT_ISOLATION, // MVCC snapshot reads – default; may allow write-skew/phantom anomalies
     SERIALIZABLE        // Full serializability; read-set validation on prepare
 };
 
@@ -344,4 +344,3 @@ private:
 };
 
 } // namespace themis::sharding
-

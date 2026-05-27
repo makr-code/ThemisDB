@@ -193,7 +193,7 @@ sharding:
   # Transaction Configuration
   transactions:
     protocol: two_phase_commit  # or saga, percolator
-    isolation_level: snapshot_isolation
+    isolation_level: serializable
     prepare_timeout_ms: 5000
     commit_timeout_ms: 5000
     enable_deadlock_detection: true
@@ -211,6 +211,10 @@ sharding:
     max_concurrent_shards: 10
     enable_query_pushdown: true
 ```
+
+`serializable` should remain the normal default for distributed transactions that must prevent
+write-skew and phantom-read anomalies. Switch to `snapshot_isolation` only when those trade-offs
+are explicitly acceptable for the workload.
 
 ## Migration from Previous Versions
 
