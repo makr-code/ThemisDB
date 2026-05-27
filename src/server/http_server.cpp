@@ -2141,9 +2141,11 @@ void HttpServer::stop() {
     // poll_timer_ is cancelled and reset while the executor is still alive.
     // (sse_manager_ is declared before ioc_ and would otherwise be destroyed
     // after ioc_, accessing a dead executor in its destructor.)
+#ifdef THEMIS_ENABLE_SSE
     if (sse_manager_) {
         sse_manager_->shutdown();
     }
+#endif
 
     // Stop io_context
     ioc_.stop();
@@ -2382,7 +2384,7 @@ namespace {
             
             std::string key = urlDecode(query_string.substr(pos, eq_pos - pos));
             std::string value = urlDecode(query_string.substr(eq_pos + 1, amp_pos - eq_pos - 1));
-            query_params[key] = value;
+            query_params.emplace(std::move(key), std::move(value));
             pos = amp_pos + 1;
         }
         return query_params;
@@ -10058,12 +10060,14 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             
             // Text contributions
             for (size_t i = 0; i < textResults.size(); ++i) {
-                scores[textResults[i].pk] += 1.0 / (kRrf + i + 1);
+                auto [it, inserted] = scores.try_emplace(textResults[i].pk, 0.0);
+                it->second += 1.0 / (kRrf + i + 1);
             }
             
             // Vector contributions
             for (size_t i = 0; i < vectorResults.size(); ++i) {
-                scores[vectorResults[i].pk] += 1.0 / (kRrf + i + 1);
+                auto [it, inserted] = scores.try_emplace(vectorResults[i].pk, 0.0);
+                it->second += 1.0 / (kRrf + i + 1);
             }
             
             // Convert to vector and sort
@@ -10096,14 +10100,16 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             // Text contributions
             for (const auto& res : textResults) {
                 double normScore = (res.score - textMin) / textRange;
-                scores[res.pk] += alpha * normScore;
+                auto [it, inserted] = scores.try_emplace(res.pk, 0.0);
+                it->second += alpha * normScore;
             }
             
             // Vector contributions (convert distance to similarity)
             for (const auto& res : vectorResults) {
                 double normDist = (res.distance - vecMin) / vecRange;
                 double similarity = 1.0 - normDist;
-                scores[res.pk] += (1.0 - alpha) * similarity;
+                auto [it, inserted] = scores.try_emplace(res.pk, 0.0);
+                it->second += (1.0 - alpha) * similarity;
             }
             
             // Convert to vector and sort
@@ -10126,6 +10132,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
         
         // Build response
         json resp = json::array();
+        resp.get_ref<json::array_t&>().reserve(fusedResults.size());
         for (const auto& [pk, score] : fusedResults) {
             resp.push_back({
                 {"pk", pk},

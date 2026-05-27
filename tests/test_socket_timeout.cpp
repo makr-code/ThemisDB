@@ -311,7 +311,10 @@ TEST(W1S02AtomicTimeout, ConcurrentHotReloadAndArmDoNotDataRace) {
 // that stale entries are removed when the map exceeds 128 entries.
 
 TEST(W1S02AuditRateEviction, StaleEntriesAreRemovedWhenMapExceeds128) {
-    using RateState = struct { uint64_t window_start_ms{0}; uint32_t count{0}; };
+    struct RateState {
+        uint64_t window_start_ms{0};
+        uint32_t count{0};
+    };
     std::unordered_map<std::string, RateState> buckets;
 
     const uint64_t window_ms = 60ull * 1000ull;
@@ -340,7 +343,10 @@ TEST(W1S02AuditRateEviction, StaleEntriesAreRemovedWhenMapExceeds128) {
 }
 
 TEST(W1S02AuditRateEviction, FreshEntriesAreNotEvicted) {
-    using RateState = struct { uint64_t window_start_ms{0}; uint32_t count{0}; };
+    struct RateState {
+        uint64_t window_start_ms{0};
+        uint32_t count{0};
+    };
     std::unordered_map<std::string, RateState> buckets;
 
     const uint64_t window_ms = 60ull * 1000ull;
@@ -369,7 +375,10 @@ TEST(W1S02AuditRateEviction, FreshEntriesAreNotEvicted) {
 
 TEST(W1S02AuditRateEviction, MapBelowThresholdIsNotScanned) {
     // Eviction only triggers when map.size() > 128 to avoid O(n) on every request.
-    using RateState = struct { uint64_t window_start_ms{0}; uint32_t count{0}; };
+    struct RateState {
+        uint64_t window_start_ms{0};
+        uint32_t count{0};
+    };
     std::unordered_map<std::string, RateState> buckets;
 
     const uint64_t window_ms = 60ull * 1000ull;

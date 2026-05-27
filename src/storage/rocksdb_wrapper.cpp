@@ -703,7 +703,7 @@ bool RocksDBWrapper::open() {
         // When sharding mode filtered CFs, cf_handles.size() == cf_descriptors.size()
         for (size_t i = 0; i < cf_handles.size(); ++i) {
             // All remaining CFs (after sharding filter) are stored
-            cf_handles_.push_back(cf_handles[i]);
+            cf_handles_.emplace_back(cf_handles[i]);
         }
     }
     
@@ -1264,7 +1264,7 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGet(
         }
         
         if (statuses[i].ok()) {
-            results.emplace_back(std::vector<uint8_t>(values[i].begin(), values[i].end()));
+            results.emplace_back(std::in_place, values[i].begin(), values[i].end());
         } else if (statuses[i].IsNotFound()) {
             results.emplace_back(std::nullopt);
         } else {
@@ -2155,7 +2155,7 @@ Result<rocksdb::ColumnFamilyHandle*> RocksDBWrapper::getOrCreateColumnFamily(con
     }
     
     // Track handle so we can destroy it on close (protected by mutex)
-    cf_handles_.push_back(cf_handle);
+    cf_handles_.emplace_back(cf_handle);
     THEMIS_INFO("Created or got column family '{}'", cf_name);
     return Ok(cf_handle);
 }
@@ -2177,7 +2177,7 @@ std::vector<RocksDBWrapper::CFInfo> RocksDBWrapper::listColumnFamilies() const {
         if (db_->GetIntProperty(handle, "rocksdb.total-sst-files-size", &size)) {
             info.approx_size_bytes = size;
         }
-        result.push_back(std::move(info));
+        result.emplace_back(std::move(info));
     }
     return result;
 }
@@ -2612,7 +2612,7 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGetWithAsy
     // Process results
     for (size_t i = 0; i < keys.size(); ++i) {
         if (statuses[i].ok()) {
-            results.emplace_back(std::vector<uint8_t>(values[i].begin(), values[i].end()));
+            results.emplace_back(std::in_place, values[i].begin(), values[i].end());
         } else if (statuses[i].IsNotFound()) {
             results.emplace_back(std::nullopt);
         } else {
