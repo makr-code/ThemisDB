@@ -421,12 +421,11 @@ Transaction lifecycle events are logged:
 | GET | `/dtxn/status/{id}` | Query transaction state |
 | GET | `/dtxn/stats` | Coordinator statistics |
 
-> ⚠️ Isolation Hinweis: `/dtxn/begin` verwendet standardmäßig `snapshot_isolation`.
-> Dieser Modus kann Write-Skew- und Phantom-Read-Anomalien zulassen.
-> Für ACID-strenge Invarianten (z. B. Banking, Inventory, Double-Booking) explizit
-> `serializable` setzen.
-> Optional kann der Server-Default per Environment-Variable
-> `THEMIS_DTXN_DEFAULT_ISOLATION` auf `serializable` gestellt werden.
+> ✅ Isolation Hinweis: `/dtxn/begin` verwendet standardmäßig `serializable`.
+> Für weniger strikte Workloads kann optional explizit `snapshot_isolation` gesetzt werden.
+> ⚠️ `snapshot_isolation` kann Write-Skew- und Phantom-Read-Anomalien zulassen.
+> Der Server-Default kann per Environment-Variable
+> `THEMIS_DTXN_DEFAULT_ISOLATION` auf `snapshot_isolation` oder `serializable` gesetzt werden.
 
 **Example — multi-shard transfer:**
 

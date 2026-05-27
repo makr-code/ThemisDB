@@ -135,9 +135,9 @@ TEST_F(DistributedTxnApiHandlerTest, BeginReturnsTransactionId) {
     EXPECT_FALSE(body["transaction_id"].get<std::string>().empty());
     EXPECT_EQ(body["status"], "active");
     EXPECT_EQ(body["shards"].size(), 2u);
-    // Default isolation level should be snapshot_isolation
-    EXPECT_EQ(body["isolation_level"], "snapshot_isolation");
-    EXPECT_TRUE(body.contains("isolation_warning"));
+    // Default isolation level should be serializable
+    EXPECT_EQ(body["isolation_level"], "serializable");
+    EXPECT_FALSE(body.contains("isolation_warning"));
 }
 
 TEST_F(DistributedTxnApiHandlerTest, BeginWithSnapshotIsolation) {
@@ -184,7 +184,7 @@ TEST_F(DistributedTxnApiHandlerTest, BeginExplicitIsolationOverridesEnvDefault) 
     EXPECT_TRUE(body.contains("isolation_warning"));
 }
 
-TEST_F(DistributedTxnApiHandlerTest, BeginWithInvalidEnvDefaultFallsBackToSnapshotIsolation) {
+TEST_F(DistributedTxnApiHandlerTest, BeginWithInvalidEnvDefaultFallsBackToSerializable) {
     ScopedEnvVar env(kDtxnDefaultIsolationEnv, "invalid_value");
 
     auto req = makeReq(http::verb::post, "/dtxn/begin",
@@ -192,8 +192,8 @@ TEST_F(DistributedTxnApiHandlerTest, BeginWithInvalidEnvDefaultFallsBackToSnapsh
     auto res = handler_->handleBegin(req);
     EXPECT_EQ(res.result(), http::status::ok);
     auto body = parseBody(res);
-    EXPECT_EQ(body["isolation_level"], "snapshot_isolation");
-    EXPECT_TRUE(body.contains("isolation_warning"));
+    EXPECT_EQ(body["isolation_level"], "serializable");
+    EXPECT_FALSE(body.contains("isolation_warning"));
 }
 
 TEST_F(DistributedTxnApiHandlerTest, BeginWithInvalidIsolationLevelReturnsBadRequest) {

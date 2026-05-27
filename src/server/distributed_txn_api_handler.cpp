@@ -43,7 +43,7 @@ bool isValidDistributedTxnIdentifier(const std::string& value) {
 sharding::DistributedIsolationLevel getConfiguredDefaultIsolationLevel() {
     const char* configured_default = std::getenv(kDefaultIsolationEnvVar.data());
     if (configured_default == nullptr) {
-        return sharding::DistributedIsolationLevel::SNAPSHOT_ISOLATION;
+        return sharding::DistributedIsolationLevel::SERIALIZABLE;
     }
 
     const std::string configured(configured_default);
@@ -54,9 +54,9 @@ sharding::DistributedIsolationLevel getConfiguredDefaultIsolationLevel() {
         return sharding::DistributedIsolationLevel::SNAPSHOT_ISOLATION;
     }
 
-    THEMIS_WARN("Ignoring invalid {}='{}'; using snapshot_isolation",
+    THEMIS_WARN("Ignoring invalid {}='{}'; using serializable",
                 kDefaultIsolationEnvVar, configured);
-    return sharding::DistributedIsolationLevel::SNAPSHOT_ISOLATION;
+    return sharding::DistributedIsolationLevel::SERIALIZABLE;
 }
 
 } // namespace
@@ -103,7 +103,7 @@ DistributedTxnApiHandler::handleBegin(const http::request<http::string_body>& re
         }
 
         // Optional isolation_level: "snapshot_isolation" or "serializable"
-        // Default is configurable through THEMIS_DTXN_DEFAULT_ISOLATION.
+        // Default is serializable unless overridden by THEMIS_DTXN_DEFAULT_ISOLATION.
         auto isolation = getConfiguredDefaultIsolationLevel();
         if (body.contains("isolation_level")) {
             const std::string isolation_level_str = body["isolation_level"].get<std::string>();

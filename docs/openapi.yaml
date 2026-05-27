@@ -682,11 +682,11 @@ paths:
                 isolation_level:
                   type: string
                   enum: [snapshot_isolation, serializable]
-                  default: snapshot_isolation
+                  default: serializable
                   description: |
-                    snapshot_isolation - MVCC snapshot reads, no read locks (default).
+                    serializable - Full serializability, read-set validated on PREPARE (default, recommended for strict invariants).
+                    snapshot_isolation - MVCC snapshot reads, no read locks.
                     WARNING: can permit write-skew and phantom-read anomalies in distributed workflows.
-                    serializable - Full serializability, read-set validated on PREPARE (recommended for strict invariants).
                     When omitted, the server default may be overridden by environment variable
                     THEMIS_DTXN_DEFAULT_ISOLATION ("snapshot_isolation" or "serializable").
       responses:
