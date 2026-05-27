@@ -573,7 +573,12 @@ TrainStatementConfig AQLTrainParser::parseTrainingConfig(const std::string& with
     if (kv.count("batch_size"))     cfg.batch_size       = parseIntegerValue(kv["batch_size"], "batch_size");
     if (kv.count("optimizer"))      cfg.optimizer        = kv["optimizer"];
     if (kv.count("sign_adapter"))   cfg.sign_adapter     = iequal(kv["sign_adapter"], "true");
-    if (kv.count("version"))        cfg.adapter_version  = kv["version"];
+    if (kv.count("version"))          cfg.adapter_version  = kv["version"];
+    if (kv.count("dropout"))          cfg.lora_dropout     = parseDoubleValue(kv["dropout"], "dropout");
+    if (kv.count("lora_dropout"))     cfg.lora_dropout     = parseDoubleValue(kv["lora_dropout"], "lora_dropout");
+    if (kv.count("validation_split")) cfg.validation_split = parseDoubleValue(kv["validation_split"], "validation_split");
+    if (kv.count("max_seq_length"))   cfg.max_seq_length   = parseIntegerValue(kv["max_seq_length"], "max_seq_length");
+    if (kv.count("seq_length"))       cfg.max_seq_length   = parseIntegerValue(kv["seq_length"], "seq_length");
 
     return cfg;
 }
@@ -783,6 +788,7 @@ std::shared_ptr<TrainAdapterStmt> AQLTrainParser::parseTrainAdapter(
     }
 
     validateConfig(stmt->config);
+    validateBaseModel(stmt->config.base_model_name);
     return stmt;
 }
 

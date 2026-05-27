@@ -415,6 +415,15 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
   (missing quoted shard identifiers) with an explicit `std::invalid_argument`.
 - Regression tests added for all new validation paths in `tests/test_aql_lora_finetuner.cpp`.
 
+**Status (v1.22.0-pre — W1-L05 validateBaseModel + KV completeness batch):** Final W1-L05 gaps closed:
+- `aql_train_parser.cpp` `parseTrainAdapter()` now calls `validateBaseModel()` after `validateConfig()`
+  — empty `base_model_name` is no longer silently accepted.
+- `aql_train_parser.cpp` `parseTrainingConfig()` KV path now parses `dropout`/`lora_dropout`,
+  `validation_split`, `max_seq_length`/`seq_length`; previously these KV keys were silently ignored.
+- 4 regression tests added: `ParseTrainAdapterEmptyBaseModelThrows`,
+  `ParseTrainAdapterKVDropoutAccepted`, `ParseTrainAdapterKVValidationSplitAccepted`,
+  `ParseTrainAdapterKVMaxSeqLengthAccepted`.
+
 **Status (v1.22.0-pre — W1-L06 uninitialized_access/overflow batch):** Integer-overflow guard added to `canAllocate`:
 - `gpu_memory_manager.cpp` `canAllocate()` (~line 759) — Added `size_t` overflow pre-checks
   before computing `future_vram = total_vram_used_ + vram_bytes` and

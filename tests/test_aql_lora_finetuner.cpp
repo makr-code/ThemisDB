@@ -600,6 +600,42 @@ TEST_F(AQLTrainParserTest, ParseDeployAdapterNoShardsThrows) {
         std::invalid_argument);
 }
 
+// ─── validateBaseModel ────────────────────────────────────────────────────────
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterEmptyBaseModelThrows) {
+    // KV WITH clause that sets base_model to empty string must be rejected.
+    const std::string aql =
+        "TRAIN ADAPTER 'empty-model' FROM docs "
+        "WITH { base_model = '', rank = 8, epochs = 1 }";
+    EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
+}
+
+// ─── KV-path completeness (dropout / validation_split / max_seq_length) ───────
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterKVDropoutAccepted) {
+    const std::string aql =
+        "TRAIN ADAPTER 'kv-dropout' FROM docs "
+        "WITH { base_model = 'llama-3-8b', epochs = 2, dropout = 0.05, rank = 8 }";
+    auto stmt = parser_.parseTrainAdapter(aql);
+    EXPECT_NEAR(stmt->config.lora_dropout, 0.05, 1e-9);
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterKVValidationSplitAccepted) {
+    const std::string aql =
+        "TRAIN ADAPTER 'kv-split' FROM docs "
+        "WITH { base_model = 'llama-3-8b', epochs = 2, validation_split = 0.2, rank = 8 }";
+    auto stmt = parser_.parseTrainAdapter(aql);
+    EXPECT_NEAR(stmt->config.validation_split, 0.2, 1e-9);
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterKVMaxSeqLengthAccepted) {
+    const std::string aql =
+        "TRAIN ADAPTER 'kv-seqlen' FROM docs "
+        "WITH { base_model = 'llama-3-8b', epochs = 2, max_seq_length = 512, rank = 8 }";
+    auto stmt = parser_.parseTrainAdapter(aql);
+    EXPECT_EQ(stmt->config.max_seq_length, 512);
+}
+
 // ─── JSON round-trip ─────────────────────────────────────────────────────────
 
 TEST_F(AQLTrainParserTest, TrainStatementConfigRoundTrip) {
