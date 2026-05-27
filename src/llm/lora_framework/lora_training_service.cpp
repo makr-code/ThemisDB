@@ -38,6 +38,7 @@
 #include <atomic>
 #include <cmath>
 #include <mutex>
+#include <shared_mutex>
 #include <condition_variable>
 #include <fstream>
 #include <filesystem>
@@ -190,12 +191,7 @@ public:
         const TrainingData& data,
         const std::optional<LoRAHyperparameters>& hyperparameters
     ) {
-        // Atomically claim the training slot; avoids TOCTOU race between
-        // is_training_.load() check and the subsequent stores.
-        bool expected = false;
-        if (!is_training_.compare_exchange_strong(expected, true,
-                                                  std::memory_order_acq_rel,
-                                                  std::memory_order_acquire)) {
+        if (is_training_.load()) {
             spdlog::warn("Training already in progress");
             TrainingResult result;
             result.success = false;
@@ -203,18 +199,18 @@ public:
             return result;
         }
         
-        // Reset stop flag after successfully claiming the training slot
-        stop_requested_.store(false, std::memory_order_release);
-
-        // Take a local snapshot of the shared configuration under the config lock so
-        // that concurrent setTrainingConfig() / setHyperparameters() calls cannot
-        // race with reads inside the training loop.
+        // Reset stop flag
+        stop_requested_.store(false);
+        is_training_.store(true);
+        
+        // Take a local snapshot of config_ under the shared lock so that concurrent
+        // setTrainingConfig() calls cannot race with our training reads.
         Config local_config;
         {
-            std::lock_guard<std::mutex> lock(config_mutex_);
+            std::shared_lock<std::shared_mutex> lock(config_mutex_);
             local_config = config_;
         }
-        
+
         auto start_time = std::chrono::system_clock::now();
         
         TrainingResult result;
@@ -223,7 +219,7 @@ public:
         
         try {
             // Use provided hyperparameters or default
-            auto params = hyperparameters.value_or(local_config.default_hyperparameters);
+            auto params = hyperparameters.value_or(config_.default_hyperparameters);
             
             // Define default target modules for comparison
             static const std::vector<std::string> DEFAULT_TARGET_MODULES = {
@@ -232,17 +228,16 @@ public:
             
             // Detect Phi-3 model and configure appropriate settings
             bool is_phi3_model = false;
-            if (local_config.base_model_path.find("phi-3") != std::string::npos ||
-                local_config.base_model_path.find("phi3") != std::string::npos ||
+            if (config_.base_model_path.find("phi-3") != std::string::npos ||
+                config_.base_model_path.find("phi3") != std::string::npos ||
                 adapter_id.find("phi-3") != std::string::npos ||
                 adapter_id.find("phi3") != std::string::npos) {
                 is_phi3_model = true;
                 spdlog::info("Detected Phi-3 model, applying Phi-3 specific configuration");
                 
-                // Override target modules for Phi-3's Grouped Query Attention architecture.
-                // Mutate the local snapshot only — never modify the shared config_ here.
-                if (local_config.target_modules.empty() || local_config.target_modules == DEFAULT_TARGET_MODULES) {
-                    local_config.target_modules = {
+                // Override target modules for Phi-3's Grouped Query Attention architecture
+                if (config_.target_modules.empty() || config_.target_modules == DEFAULT_TARGET_MODULES) {
+                    config_.target_modules = {
                         "qkv_proj",      // Phi-3 combined Q/K/V projection
                         "o_proj",        // Output projection
                         "gate_up_proj",  // Phi-3 combined gate/up projection (MLP)
@@ -266,21 +261,19 @@ public:
             spdlog::info("  Training samples: {}", data.size());
             spdlog::info("  Rank: {}, Alpha: {}", params.rank, params.alpha);
             spdlog::info("  Learning rate: {}", params.learning_rate);
-            if (!local_config.target_modules.empty()) {
-                spdlog::info("  Target modules: {}", fmt::join(local_config.target_modules, ", "));
+            if (!config_.target_modules.empty()) {
+                spdlog::info("  Target modules: {}", fmt::join(config_.target_modules, ", "));
             }
             
-            // Initialize metrics and checkpoint state under lock so that a concurrent
-            // getMetrics() call always sees a consistent snapshot.
-            {
-                std::lock_guard<std::mutex> lock(metrics_mutex_);
-                current_metrics_.status = "training";
-                current_metrics_.total_epochs = params.num_epochs;
-                current_metrics_.total_steps = (data.size() / params.batch_size) * params.num_epochs;
-                current_metrics_.learning_rate = params.learning_rate;
-                current_adapter_id_ = adapter_id;
-                loss_history_.clear();
-            }
+            // Initialize metrics
+            current_metrics_.status = "training";
+            current_metrics_.total_epochs = params.num_epochs;
+            current_metrics_.total_steps = (data.size() / params.batch_size) * params.num_epochs;
+            current_metrics_.learning_rate = params.learning_rate;
+            
+            // Store current training context for checkpointing
+            current_adapter_id_ = adapter_id;
+            loss_history_.clear();
             
             // Phase 2: Initialize with real data processing
             // Convert TrainingDataSample to InstructionDataSample format
@@ -299,7 +292,7 @@ public:
             std::shared_ptr<ITokenizer> tokenizer;
             
             // Validate base model path is provided
-            if (local_config.base_model_path.empty()) {
+            if (config_.base_model_path.empty()) {
                 result.success = false;
                 result.error_message = "base_model_path is required for LoRA training. "
                     "llama.cpp tokenizer needs model file for correct tokenization. "
@@ -308,9 +301,9 @@ public:
                 return result;
             }
             
-            if (!std::filesystem::exists(local_config.base_model_path)) {
+            if (!std::filesystem::exists(config_.base_model_path)) {
                 result.success = false;
-                result.error_message = "Base model file not found: " + local_config.base_model_path + ". "
+                result.error_message = "Base model file not found: " + config_.base_model_path + ". "
                     "llama.cpp tokenizer requires valid GGUF model file.";
                 spdlog::error(result.error_message);
                 return result;
@@ -318,8 +311,8 @@ public:
             
             // Load llama.cpp tokenizer from base model
             try {
-                spdlog::info("Initializing llama.cpp tokenizer from: {}", local_config.base_model_path);
-                tokenizer = std::make_shared<LlamaTokenizer>(local_config.base_model_path);
+                spdlog::info("Initializing llama.cpp tokenizer from: {}", config_.base_model_path);
+                tokenizer = std::make_shared<LlamaTokenizer>(config_.base_model_path);
                 
                 // Log tokenizer info
                 size_t vocab_size = tokenizer->vocab_size();
@@ -336,25 +329,25 @@ public:
             }
             
             // QLoRA Configuration
-            bool using_qlora = local_config.qlora.enabled;
+            bool using_qlora = config_.qlora.enabled;
             QuantizationType quant_type = QuantizationType::NONE;
             
             if (using_qlora) {
                 spdlog::info("QLoRA training mode ENABLED");
-                spdlog::info("  Quantization type: {}", local_config.qlora.quantization_type);
-                spdlog::info("  Block size: {}", local_config.qlora.block_size);
-                spdlog::info("  Double quantization: {}", local_config.qlora.use_double_quantization);
-                spdlog::info("  Layer-by-layer: {}", local_config.qlora.layer_by_layer);
+                spdlog::info("  Quantization type: {}", config_.qlora.quantization_type);
+                spdlog::info("  Block size: {}", config_.qlora.block_size);
+                spdlog::info("  Double quantization: {}", config_.qlora.use_double_quantization);
+                spdlog::info("  Layer-by-layer: {}", config_.qlora.layer_by_layer);
                 
                 // Set quantization type based on configuration
-                if (local_config.qlora.quantization_type == "nf4") {
+                if (config_.qlora.quantization_type == "nf4") {
                     quant_type = QuantizationType::NF4;
                     spdlog::info("Using NF4 quantization (expected memory reduction: ~80%)");
-                } else if (local_config.qlora.quantization_type == "int8") {
+                } else if (config_.qlora.quantization_type == "int8") {
                     quant_type = QuantizationType::INT8;
                     spdlog::info("Using INT8 quantization (expected memory reduction: ~69%)");
                 } else {
-                    spdlog::warn("Unknown quantization type '{}', disabling QLoRA", local_config.qlora.quantization_type);
+                    spdlog::warn("Unknown quantization type '{}', disabling QLoRA", config_.qlora.quantization_type);
                     using_qlora = false;
                 }
             } else {
@@ -383,14 +376,14 @@ public:
             bool using_base_model = false;
             
             if (using_qlora) {
-                spdlog::info("Initializing QLoRA model with base model: {}", local_config.base_model_path);
+                spdlog::info("Initializing QLoRA model with base model: {}", config_.base_model_path);
                 
                 // Create quantized model configuration
                 QuantizedModelConfig qmodel_config;
                 qmodel_config.quantization_type = quant_type;
-                qmodel_config.block_size = local_config.qlora.block_size;
-                qmodel_config.use_double_quantization = local_config.qlora.use_double_quantization;
-                qmodel_config.layer_by_layer = local_config.qlora.layer_by_layer;
+                qmodel_config.block_size = config_.qlora.block_size;
+                qmodel_config.use_double_quantization = config_.qlora.use_double_quantization;
+                qmodel_config.layer_by_layer = config_.qlora.layer_by_layer;
                 
                 try {
                     quantized_model = std::make_unique<QuantizedModel>(qmodel_config);
@@ -399,26 +392,22 @@ public:
                     spdlog::error("Failed to initialize quantized model: {}", e.what());
                     result.success = false;
                     result.error_message = "QLoRA initialization failed: " + std::string(e.what());
-                    {
-                        std::lock_guard<std::mutex> lock(stop_mutex_);
-                        is_training_.store(false, std::memory_order_release);
-                    }
-                    stop_cv_.notify_all();
+                    is_training_.store(false);
                     return result;
                 }
             } else {
                 // Standard LoRA: Try to initialize with base model if path is provided, valid, and enabled
-                if (local_config.use_base_model && 
-                    !local_config.base_model_path.empty() && 
-                    std::filesystem::exists(local_config.base_model_path)) {
+                if (config_.use_base_model && 
+                    !config_.base_model_path.empty() && 
+                    std::filesystem::exists(config_.base_model_path)) {
                     try {
-                        spdlog::info("Initializing with base model: {}", local_config.base_model_path);
+                        spdlog::info("Initializing with base model: {}", config_.base_model_path);
                         
                         // Configure LoRA-enhanced model
                         LoRAEnhancedModel::Config model_config;
-                        model_config.base_model_path = local_config.base_model_path;
+                        model_config.base_model_path = config_.base_model_path;
                         model_config.lora_config = params;
-                        model_config.target_modules = local_config.target_modules;
+                        model_config.target_modules = config_.target_modules;
                         model_config.freeze_base_model = true;
                         
                         enhanced_model = std::make_unique<LoRAEnhancedModel>(model_config);
@@ -445,12 +434,12 @@ public:
                         enhanced_model.reset();
                     }
                 } else {
-                    if (!local_config.use_base_model) {
+                    if (!config_.use_base_model) {
                         spdlog::info("Base model integration disabled (use_base_model=false)");
-                    } else if (local_config.base_model_path.empty()) {
+                    } else if (config_.base_model_path.empty()) {
                         spdlog::info("No base model path configured");
                     } else {
-                        spdlog::warn("Base model file not found: {}", local_config.base_model_path);
+                        spdlog::warn("Base model file not found: {}", config_.base_model_path);
                     }
                     spdlog::info("Using standalone LoRA layer for training");
                 }
@@ -531,9 +520,9 @@ public:
                 static_cast<size_t>(params.num_epochs));
             
             // Use production LR scheduler factory with full configuration support
-            if (local_config.lr_scheduler.type != SchedulerType::CONSTANT || local_config.lr_scheduler.base_lr != 1e-4f) {
+            if (config_.lr_scheduler.type != SchedulerType::CONSTANT || config_.lr_scheduler.base_lr != 1e-4f) {
                 // Production config has been set, use it
-                auto scheduler_config = local_config.lr_scheduler;
+                auto scheduler_config = config_.lr_scheduler;
                 scheduler_config.total_steps = total_steps;  // Update total_steps based on actual data
                 lr_scheduler = LRSchedulerFactory::create(scheduler_config);
                 spdlog::info("Using production LR scheduler: type={}", static_cast<int>(scheduler_config.type));
@@ -583,15 +572,15 @@ public:
             }
             
             // Initialize production training features
-            auto mixed_precision = std::make_unique<MixedPrecisionTrainer>(local_config.mixed_precision);
-            auto gradient_accumulator = std::make_unique<GradientAccumulator>(local_config.gradient_accumulation);
+            auto mixed_precision = std::make_unique<MixedPrecisionTrainer>(config_.mixed_precision);
+            auto gradient_accumulator = std::make_unique<GradientAccumulator>(config_.gradient_accumulation);
             
             spdlog::info("Initialized LoRA layer with {} parameters", 
                         lora_layer->parameter_count());
             spdlog::info("Production features enabled:");
             spdlog::info("  Mixed precision: {}", mixed_precision->is_enabled());
-            spdlog::info("  Gradient clipping: {}", static_cast<int>(local_config.gradient_clipping.method));
-            spdlog::info("  Gradient accumulation: {} steps", local_config.gradient_accumulation.accumulation_steps);
+            spdlog::info("  Gradient clipping: {}", static_cast<int>(config_.gradient_clipping.method));
+            spdlog::info("  Gradient accumulation: {} steps", config_.gradient_accumulation.accumulation_steps);
             
             // Training loop
             for (int epoch = 0; epoch < params.num_epochs; ++epoch) {
@@ -603,10 +592,7 @@ public:
                     break;
                 }
                 
-                {
-                    std::lock_guard<std::mutex> lock(metrics_mutex_);
-                    current_metrics_.current_epoch = epoch + 1;
-                }
+                current_metrics_.current_epoch = epoch + 1;
                 float epoch_loss = 0.0f;
                 int num_batches = 0;
                 
@@ -624,12 +610,9 @@ public:
                         break;
                     }
                     
-                    {
-                        std::lock_guard<std::mutex> lock(metrics_mutex_);
-                        current_metrics_.current_step = epoch * data_loader.num_batches() + step;
-                        current_metrics_.progress = static_cast<float>(current_metrics_.current_step) / 
-                                                   static_cast<float>(current_metrics_.total_steps);
-                    }
+                    current_metrics_.current_step = epoch * data_loader.num_batches() + step;
+                    current_metrics_.progress = static_cast<float>(current_metrics_.current_step) / 
+                                               static_cast<float>(current_metrics_.total_steps);
                     
                     // Get real tokenized batch from DataLoader
                     auto batch = data_loader.getNextBatch();
@@ -743,17 +726,13 @@ public:
                         }
                     }
                     int global_step = epoch * data_loader.num_batches() + step;
-                    // Update learning rate from scheduler (before locking metrics so the
-                    // scheduler call — which is local-only — is outside the critical section)
-                    float current_lr = lr_scheduler->get_lr(global_step);
+                    current_metrics_.current_step = global_step;
+                    current_metrics_.progress = static_cast<float>(current_metrics_.current_step) / 
+                                               static_cast<float>(current_metrics_.total_steps);
                     
-                    {
-                        std::lock_guard<std::mutex> lock(metrics_mutex_);
-                        current_metrics_.current_step = global_step;
-                        current_metrics_.progress = static_cast<float>(current_metrics_.current_step) /
-                                                   static_cast<float>(current_metrics_.total_steps);
-                        current_metrics_.learning_rate = current_lr;
-                    }
+                    // Update learning rate from scheduler
+                    float current_lr = lr_scheduler->get_lr(global_step);
+                    current_metrics_.learning_rate = current_lr;
                     
                     if (sgd_optimizer) {
                         sgd_optimizer->set_learning_rate(current_lr);
@@ -820,7 +799,7 @@ public:
                     if (no_overflow) {
                         // Apply gradient clipping
                         GradientStats grad_stats = GradientUtils::apply_clipping(
-                            gradients, local_config.gradient_clipping
+                            gradients, config_.gradient_clipping
                         );
                         
                         // Accumulate gradients
@@ -858,27 +837,19 @@ public:
                         gradient_accumulator->reset();
                     }
                     
-                    // Update loss metrics and invoke the callback under lock to prevent
-                    // data races with concurrent getMetrics() / registerCallback() calls.
-                    // The callback itself is invoked outside the lock so it cannot deadlock
-                    // if it calls back into the service.
-                    TrainingCallback cb;
-                    TrainingMetrics metrics_snapshot;
-                    {
-                        std::lock_guard<std::mutex> lock(metrics_mutex_);
-                        current_metrics_.current_loss = batch_loss;
-                        loss_history_.push_back(batch_loss);  // vector push_back under lock — no iterator invalidation race
-                        cb = training_callback_;
-                        metrics_snapshot = current_metrics_;
-                    }
-                    if (cb) {
-                        cb(metrics_snapshot);
+                    // Update metrics
+                    current_metrics_.current_loss = batch_loss;
+                    loss_history_.push_back(batch_loss);
+                    
+                    // Call callback if registered
+                    if (training_callback_) {
+                        training_callback_(current_metrics_);
                     }
                     
-                    // Periodic checkpointing (use local_config snapshot values)
-                    if (local_config.enable_checkpointing && 
-                        local_config.checkpoint_interval_steps > 0 &&
-                        global_step % local_config.checkpoint_interval_steps == 0) {
+                    // Periodic checkpointing
+                    if (config_.enable_checkpointing && 
+                        config_.checkpoint_interval_steps > 0 &&
+                        current_metrics_.current_step % config_.checkpoint_interval_steps == 0) {
                         saveCheckpoint(adapter_id, params);
                     }
                     
@@ -910,48 +881,34 @@ public:
                 if (result.error_message.empty()) {
                     result.error_message = "Training stopped by user request";
                 }
-                {
-                    std::lock_guard<std::mutex> lock(metrics_mutex_);
-                    current_metrics_.status = "stopped";
-                }
+                current_metrics_.status = "stopped";
                 spdlog::info("Training stopped - saving final checkpoint");
                 
-                // Save checkpoint on stop (uses local_config snapshot)
-                if (local_config.enable_checkpointing) {
+                // Save checkpoint on stop
+                if (config_.enable_checkpointing) {
                     saveCheckpoint(adapter_id, params);
                 }
             } else {
                 // Training completed normally
                 result.success = true;
-                std::lock_guard<std::mutex> lock(metrics_mutex_);
                 current_metrics_.status = "completed";
             }
             
-            {
-                std::lock_guard<std::mutex> lock(metrics_mutex_);
-                result.final_loss = current_metrics_.current_loss;
-                result.validation_accuracy = 0.85f + (0.1f * current_metrics_.progress); // Simulated
-                result.epochs_completed = current_metrics_.current_epoch;
-            }
+            result.final_loss = current_metrics_.current_loss;
+            result.validation_accuracy = 0.85f + (0.1f * current_metrics_.progress); // Simulated
+            result.epochs_completed = current_metrics_.current_epoch;
             
         } catch (const std::exception& e) {
             spdlog::error("Training failed: {}", e.what());
             result.success = false;
             result.error_message = e.what();
-            std::lock_guard<std::mutex> lock(metrics_mutex_);
             current_metrics_.status = "failed";
         }
         
         auto end_time = std::chrono::system_clock::now();
         result.training_time = std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time);
         
-        // Clear is_training_ under stop_mutex_ so that stopTraining()'s wait_for predicate
-        // can observe the updated value before notify_all wakes it.
-        {
-            std::lock_guard<std::mutex> lock(stop_mutex_);
-            is_training_.store(false, std::memory_order_release);
-        }
-        stop_cv_.notify_all();
+        is_training_.store(false);
         
         spdlog::info("Training completed for adapter: {} (time: {}s, success: {})", 
                      adapter_id, result.training_time.count(), result.success);
@@ -981,24 +938,22 @@ public:
     }
     
     void setTrainingConfig(const Config& config) {
-        std::lock_guard<std::mutex> lock(config_mutex_);
+        std::unique_lock<std::shared_mutex> lock(config_mutex_);
         config_ = config;
         spdlog::info("Updated training configuration");
     }
     
     Config getTrainingConfig() const {
-        std::lock_guard<std::mutex> lock(config_mutex_);
+        std::shared_lock<std::shared_mutex> lock(config_mutex_);
         return config_;
     }
     
     void setHyperparameters(const LoRAHyperparameters& hyperparameters) {
-        std::lock_guard<std::mutex> lock(config_mutex_);
         config_.default_hyperparameters = hyperparameters;
         spdlog::info("Updated default hyperparameters");
     }
     
     LoRAHyperparameters getHyperparameters() const {
-        std::lock_guard<std::mutex> lock(config_mutex_);
         return config_.default_hyperparameters;
     }
     
@@ -1008,8 +963,7 @@ public:
     }
     
     void registerCallback(TrainingCallback callback) {
-        std::lock_guard<std::mutex> lock(metrics_mutex_);
-        training_callback_ = std::move(callback);
+        training_callback_ = callback;
         spdlog::debug("Registered training callback");
     }
     
@@ -1025,52 +979,39 @@ public:
         
         spdlog::info("Stop training requested");
         
-        // Signal the training loop to stop
+        // Set stop flag (thread-safe)
         stop_requested_.store(true, std::memory_order_release);
         
-        // Wait up to 30 seconds using a condition variable instead of busy-polling.
-        // The training thread notifies stop_cv_ after it clears is_training_.
-        std::unique_lock<std::mutex> lock(stop_mutex_);
-        bool completed = stop_cv_.wait_for(lock, std::chrono::seconds(30), [this] {
-            return !is_training_.load(std::memory_order_acquire);
-        });
+        // Wait for training to complete current batch (up to 30 seconds)
+        auto timeout = std::chrono::seconds(30);
+        auto start = std::chrono::steady_clock::now();
         
-        if (!completed) {
-            // Timeout: force-clear is_training_ to prevent the service from remaining
-            // permanently stuck in the "training" state.
-            spdlog::error("Training stop timeout after 30 s — forcing is_training_ clear");
-            is_training_.store(false, std::memory_order_release);
-        } else {
-            spdlog::info("Training stopped successfully");
+        while (is_training_.load(std::memory_order_acquire)) {
+            if (std::chrono::steady_clock::now() - start > timeout) {
+                spdlog::error("Training stop timeout after 30 seconds");
+                break;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
+        
+        spdlog::info("Training stopped successfully");
     }
     
     // Save training checkpoint
     bool saveCheckpoint(const std::string& adapter_id, const LoRAHyperparameters& params) {
-        // Read checkpoint_dir under config lock
-        std::string checkpoint_dir;
-        {
-            std::lock_guard<std::mutex> lock(config_mutex_);
-            checkpoint_dir = config_.checkpoint_dir;
-        }
-        
-        if (checkpoint_dir.empty()) {
+        if (config_.checkpoint_dir.empty()) {
             spdlog::warn("Checkpoint directory not configured");
             return false;
         }
         
         try {
-            // Snapshot metrics and loss history under lock to avoid iterator-invalidation
-            // races with concurrent push_back() calls in the training loop.
+            // Create checkpoint
             TrainingCheckpoint checkpoint;
             checkpoint.adapter_id = adapter_id;
-            {
-                std::lock_guard<std::mutex> lock(metrics_mutex_);
-                checkpoint.current_epoch = current_metrics_.current_epoch;
-                checkpoint.current_step = current_metrics_.current_step;
-                checkpoint.current_loss = current_metrics_.current_loss;
-                checkpoint.loss_history = loss_history_;
-            }
+            checkpoint.current_epoch = current_metrics_.current_epoch;
+            checkpoint.current_step = current_metrics_.current_step;
+            checkpoint.current_loss = current_metrics_.current_loss;
+            checkpoint.loss_history = loss_history_;
             checkpoint.hyperparameters = params;
             checkpoint.saved_at = std::chrono::system_clock::now();
             
@@ -1078,8 +1019,8 @@ public:
             std::string filename = "checkpoint_" + adapter_id + "_epoch" + 
                                   std::to_string(checkpoint.current_epoch) + "_step" + 
                                   std::to_string(checkpoint.current_step) + ".json";
-            std::filesystem::path checkpoint_path = std::filesystem::path(checkpoint_dir) / filename;
-            std::filesystem::path temp_path = std::filesystem::path(checkpoint_dir) / (filename + ".tmp");
+            std::filesystem::path checkpoint_path = std::filesystem::path(config_.checkpoint_dir) / filename;
+            std::filesystem::path temp_path = std::filesystem::path(config_.checkpoint_dir) / (filename + ".tmp");
             
             // Serialize to JSON and save atomically
             {
@@ -1131,20 +1072,13 @@ public:
             // Deserialize checkpoint
             TrainingCheckpoint checkpoint = TrainingCheckpoint::fromJSON(j);
             
-            // Restore metrics/checkpoint state under metrics lock
-            {
-                std::lock_guard<std::mutex> lock(metrics_mutex_);
-                current_adapter_id_ = checkpoint.adapter_id;
-                current_metrics_.current_epoch = checkpoint.current_epoch;
-                current_metrics_.current_step = checkpoint.current_step;
-                current_metrics_.current_loss = checkpoint.current_loss;
-                loss_history_ = checkpoint.loss_history;
-            }
-            // Restore hyperparameters under config lock (consistent ordering: metrics first)
-            {
-                std::lock_guard<std::mutex> lock(config_mutex_);
-                config_.default_hyperparameters = checkpoint.hyperparameters;
-            }
+            // Restore training state
+            current_adapter_id_ = checkpoint.adapter_id;
+            current_metrics_.current_epoch = checkpoint.current_epoch;
+            current_metrics_.current_step = checkpoint.current_step;
+            current_metrics_.current_loss = checkpoint.current_loss;
+            loss_history_ = checkpoint.loss_history;
+            config_.default_hyperparameters = checkpoint.hyperparameters;
             
             spdlog::info("Checkpoint loaded: epoch {}, step {}, loss {:.4f}",
                         checkpoint.current_epoch, checkpoint.current_step, checkpoint.current_loss);
@@ -1158,6 +1092,8 @@ public:
     }
 
 private:
+    mutable std::shared_mutex config_mutex_;  ///< Protects config_ for concurrent set/get vs. read during training
+    mutable std::mutex metrics_mutex_;        ///< Protects current_metrics_ for concurrent callback writes vs. getMetrics reads
     Config config_;
     std::atomic<bool> is_training_;
     std::atomic<bool> stop_requested_;
@@ -1167,21 +1103,6 @@ private:
     // Checkpoint state
     std::string current_adapter_id_;
     std::vector<float> loss_history_;
-
-    /// @brief Guards current_metrics_, loss_history_, current_adapter_id_, and training_callback_.
-    /// Always acquire before config_mutex_ when both are needed (consistent lock ordering).
-    mutable std::mutex metrics_mutex_;
-
-    /// @brief Guards config_. Training methods take a snapshot under this lock at entry so
-    /// concurrent setTrainingConfig() / setHyperparameters() calls never race with the loop.
-    mutable std::mutex config_mutex_;
-
-    /// @brief Used together with stop_cv_ to let stopTraining() efficiently wait for the
-    /// training thread to finish without busy-polling.
-    std::mutex stop_mutex_;
-
-    /// @brief Notified (notify_all) by the training thread once is_training_ is cleared.
-    std::condition_variable stop_cv_;
     
     /**
      * @brief Generate hash-based embeddings as fallback when base model unavailable
@@ -1283,45 +1204,14 @@ TrainingResult LoRATrainingService::trainWithQuantization(
     auto start_time = std::chrono::system_clock::now();
     
     try {
-        // Snapshot configuration under lock to avoid races with concurrent updates.
-        Config local_config;
-        {
-            std::lock_guard<std::mutex> lock(impl_->config_mutex_);
-            local_config = impl_->config_;
-        }
-
-        auto params = hyperparameters.value_or(local_config.default_hyperparameters);
-        const auto& qlora_config = local_config.qlora;
+        // Get configuration
+        auto params = hyperparameters.value_or(impl_->config_.default_hyperparameters);
+        auto& qlora_config = impl_->config_.qlora;
         
         if (!qlora_config.enabled) {
             spdlog::warn("QLoRA not enabled in configuration, falling back to standard training");
             return trainOnTheFly(adapter_id, data, hyperparameters);
         }
-
-        bool expected = false;
-        if (!impl_->is_training_.compare_exchange_strong(expected, true,
-                                                         std::memory_order_acq_rel,
-                                                         std::memory_order_acquire)) {
-            result.success = false;
-            result.error_message = "Training already in progress";
-            spdlog::warn("trainWithQuantization rejected: {}", result.error_message);
-            return result;
-        }
-        impl_->stop_requested_.store(false, std::memory_order_release);
-
-        struct ScopedTrainingSlot {
-            Impl* impl = nullptr;
-            ~ScopedTrainingSlot() {
-                if (!impl) {
-                    return;
-                }
-                {
-                    std::lock_guard<std::mutex> lock(impl->stop_mutex_);
-                    impl->is_training_.store(false, std::memory_order_release);
-                }
-                impl->stop_cv_.notify_all();
-            }
-        } training_slot{impl_.get()};
         
         spdlog::info("Starting GPU-accelerated QLoRA training for adapter: {}", adapter_id);
         spdlog::info("  Quantization type: {}", qlora_config.quantization_type);
@@ -1334,7 +1224,7 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         // ===================================================================
         spdlog::info("Checking model compatibility...");
         auto compat_result = ModelCompatibilityChecker::check_compatibility(
-            local_config.base_model_path,
+            impl_->config_.base_model_path,
             qlora_config.quantization_type
         );
         
@@ -1360,7 +1250,7 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         // ===================================================================
         // Step 2: Estimate Memory Requirements
         // ===================================================================
-        size_t estimated_memory = estimateMemoryUsage(local_config.base_model_path, qlora_config);
+        size_t estimated_memory = estimateMemoryUsage(impl_->config_.base_model_path, qlora_config);
         spdlog::info("  Estimated memory usage: {:.2f} GB", estimated_memory / (1024.0 * 1024.0 * 1024.0));
         
         // ===================================================================
@@ -1370,7 +1260,7 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         profiler_config.enabled = true;
         profiler_config.snapshot_interval_steps = 10;
         profiler_config.log_to_file = true;
-        profiler_config.log_file = local_config.checkpoint_dir + "/resource_profile_" + adapter_id + ".jsonl";
+        profiler_config.log_file = impl_->config_.checkpoint_dir + "/resource_profile_" + adapter_id + ".jsonl";
         profiler_config.verbose_logging = false;
         profiler_config.enable_alerts = true;
         
@@ -1383,9 +1273,9 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         // ===================================================================
         // Resolve the model path: use the injected provider if available, otherwise
         // use the configured path directly.
-        std::string resolved_model_path = local_config.base_model_path;
-        if (local_config.model_path_provider) {
-            resolved_model_path = local_config.model_path_provider(local_config.base_model_path);
+        std::string resolved_model_path = impl_->config_.base_model_path;
+        if (impl_->config_.model_path_provider) {
+            resolved_model_path = impl_->config_.model_path_provider(impl_->config_.base_model_path);
         }
         auto quantized_model = loadQuantizedBaseModel(resolved_model_path, qlora_config);
         if (!quantized_model) {
@@ -1398,14 +1288,14 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         
         // Load base model adapter for real embeddings
         std::unique_ptr<BaseModelAdapter> base_model_adapter;
-        if (local_config.use_base_model && 
-            !local_config.base_model_path.empty()) {
+        if (impl_->config_.use_base_model && 
+            !impl_->config_.base_model_path.empty()) {
             
-            spdlog::info("Loading base model adapter for real embeddings: {}", local_config.base_model_path);
+            spdlog::info("Loading base model adapter for real embeddings: {}", impl_->config_.base_model_path);
             base_model_adapter = std::make_unique<BaseModelAdapter>();
             
             // Try to load model - loadModel() handles missing files gracefully
-            if (base_model_adapter->loadModel(local_config.base_model_path)) {
+            if (base_model_adapter->loadModel(impl_->config_.base_model_path)) {
                 spdlog::info("Base model adapter loaded successfully");
                 spdlog::info("  Architecture: {}", base_model_adapter->getArchitecture().architecture);
                 spdlog::info("  Vocab size: {}", base_model_adapter->getVocabSize());
@@ -1476,7 +1366,7 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         std::shared_ptr<ITokenizer> tokenizer;
         
         // Validate base model path
-        if (local_config.base_model_path.empty()) {
+        if (impl_->config_.base_model_path.empty()) {
             result.success = false;
             result.error_message = "base_model_path is required for GPU training. "
                 "llama.cpp tokenizer needs model file.";
@@ -1484,16 +1374,16 @@ TrainingResult LoRATrainingService::trainWithQuantization(
             return result;
         }
         
-        if (!std::filesystem::exists(local_config.base_model_path)) {
+        if (!std::filesystem::exists(impl_->config_.base_model_path)) {
             result.success = false;
-            result.error_message = "Base model file not found: " + local_config.base_model_path;
+            result.error_message = "Base model file not found: " + impl_->config_.base_model_path;
             spdlog::error(result.error_message);
             return result;
         }
         
         // Load llama.cpp tokenizer
         try {
-            tokenizer = std::make_shared<LlamaTokenizer>(local_config.base_model_path);
+            tokenizer = std::make_shared<LlamaTokenizer>(impl_->config_.base_model_path);
             spdlog::info("✓ LlamaTokenizer loaded (vocab_size={})", tokenizer->vocab_size());
         } catch (const std::exception& e) {
             result.success = false;
@@ -1538,7 +1428,7 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         training_config.momentum = params.momentum;
         training_config.weight_decay = params.weight_decay;
         training_config.device = target_device;
-        training_config.use_mixed_precision = local_config.mixed_precision.mode != PrecisionMode::FP32;
+        training_config.use_mixed_precision = impl_->config_.mixed_precision.mode != PrecisionMode::FP32;
         training_config.use_fused_kernels = true;
         
         GPUTrainingLoop trainer(training_config);
@@ -1555,18 +1445,14 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         
         // Set mixed precision trainer if enabled
         if (training_config.use_mixed_precision) {
-            auto mixed_precision = std::make_unique<MixedPrecisionTrainer>(local_config.mixed_precision);
+            auto mixed_precision = std::make_unique<MixedPrecisionTrainer>(impl_->config_.mixed_precision);
             trainer.setMixedPrecisionTrainer(mixed_precision.get());
             spdlog::info("Mixed precision training enabled: mode={}", 
-                        static_cast<int>(local_config.mixed_precision.mode));
+                        static_cast<int>(impl_->config_.mixed_precision.mode));
         }
         
-        // Register callback for progress updates with resource profiling.
-        // current_metrics_ is written under metrics_mutex_ to avoid data races with
-        // concurrent getMetrics() callers; the user callback is invoked outside the lock.
+        // Register callback for progress updates with resource profiling
         trainer.registerCallback([this, &profiler](const GPUTrainingMetrics& metrics) {
-            TrainingCallback cb;
-            TrainingMetrics metrics_snapshot;
             {
                 std::lock_guard<std::mutex> lock(impl_->metrics_mutex_);
                 impl_->current_metrics_.current_epoch = metrics.current_epoch;
@@ -1574,11 +1460,9 @@ TrainingResult LoRATrainingService::trainWithQuantization(
                 impl_->current_metrics_.current_loss = metrics.current_loss;
                 impl_->current_metrics_.learning_rate = metrics.learning_rate;
                 impl_->current_metrics_.progress = metrics.progress;
-                cb = impl_->training_callback_;
-                metrics_snapshot = impl_->current_metrics_;
             }
             
-            // Take resource snapshot (outside lock — no shared state access)
+            // Take resource snapshot
             profiler->snapshot(
                 metrics.current_epoch,
                 metrics.current_step,
@@ -1586,8 +1470,8 @@ TrainingResult LoRATrainingService::trainWithQuantization(
                 metrics.learning_rate
             );
             
-            if (cb) {
-                cb(metrics_snapshot);
+            if (impl_->training_callback_) {
+                impl_->training_callback_(impl_->current_metrics_);
             }
         });
         
@@ -2029,82 +1913,52 @@ TrainingResult LoRATrainingService::trainDistributed(
     TrainingResult result;
     result.adapter_id = adapter_id;
     result.success = false;
-
-    Config local_config;
-    {
-        std::lock_guard<std::mutex> lock(impl_->config_mutex_);
-        local_config = impl_->config_;
-    }
     
     // Check if distributed training is enabled
-    if (!local_config.enable_distributed_training) {
+    if (!impl_->config_.enable_distributed_training) {
         result.error_message = "Distributed training is not enabled. Set enable_distributed_training=true in config.";
         spdlog::error(result.error_message);
         return result;
     }
     
     // Validate distributed configuration
-    if (local_config.participant_shards.empty()) {
+    if (impl_->config_.participant_shards.empty()) {
         result.error_message = "No participant shards configured for distributed training";
         spdlog::error(result.error_message);
         return result;
     }
-
-    bool expected = false;
-    if (!impl_->is_training_.compare_exchange_strong(expected, true,
-                                                     std::memory_order_acq_rel,
-                                                     std::memory_order_acquire)) {
-        result.error_message = "Training already in progress";
-        spdlog::warn("trainDistributed rejected: {}", result.error_message);
-        return result;
-    }
-    impl_->stop_requested_.store(false, std::memory_order_release);
-
-    struct ScopedTrainingSlot {
-        Impl* impl = nullptr;
-        ~ScopedTrainingSlot() {
-            if (!impl) {
-                return;
-            }
-            {
-                std::lock_guard<std::mutex> lock(impl->stop_mutex_);
-                impl->is_training_.store(false, std::memory_order_release);
-            }
-            impl->stop_cv_.notify_all();
-        }
-    } training_slot{impl_.get()};
     
     try {
         auto start_time = std::chrono::system_clock::now();
         
         spdlog::info("Starting distributed training for adapter: {}", adapter_id);
-        spdlog::info("  Participant shards: {}", local_config.participant_shards.size());
-        spdlog::info("  Coordinator shard: {}", local_config.coordinator_shard);
+        spdlog::info("  Participant shards: {}", impl_->config_.participant_shards.size());
+        spdlog::info("  Coordinator shard: {}", impl_->config_.coordinator_shard);
         
         // 1. Create DistributedTrainingConfig from service config
         DistributedTrainingConfig dist_config;
         dist_config.sync_strategy = SyncStrategy::ALL_REDUCE;
         dist_config.compression = GradientCompressionType::NONE;
-        dist_config.coordinator_shard = local_config.coordinator_shard;
-        dist_config.participant_shards = local_config.participant_shards;
-        dist_config.gradient_accumulation_steps = local_config.gradient_accumulation.accumulation_steps;
+        dist_config.coordinator_shard = impl_->config_.coordinator_shard;
+        dist_config.participant_shards = impl_->config_.participant_shards;
+        dist_config.gradient_accumulation_steps = impl_->config_.gradient_accumulation.accumulation_steps;
         dist_config.sync_frequency = 1;
-        dist_config.gradient_clip_norm = local_config.gradient_clipping.max_norm;
+        dist_config.gradient_clip_norm = impl_->config_.gradient_clipping.max_norm;
         dist_config.use_mixed_precision = (
-            local_config.mixed_precision.mode != PrecisionMode::FP32
+            impl_->config_.mixed_precision.mode != PrecisionMode::FP32
         );
         dist_config.sparse_gradients = false;
         dist_config.sparse_threshold = 1e-6f;
         dist_config.max_retry_attempts = 3;
         dist_config.timeout_seconds = 300;
-        dist_config.enable_checkpointing = local_config.enable_checkpointing;
-        dist_config.checkpoint_frequency = local_config.checkpoint_interval_steps;
-        dist_config.checkpoint_path = local_config.checkpoint_dir;
+        dist_config.enable_checkpointing = impl_->config_.enable_checkpointing;
+        dist_config.checkpoint_frequency = impl_->config_.checkpoint_interval_steps;
+        dist_config.checkpoint_path = impl_->config_.checkpoint_dir;
         
         // 2. Get ShardRouter and ShardTopology from registry
         // First check if they were provided in config, otherwise get from registry
-        std::shared_ptr<themis::sharding::ShardRouter> shard_router = local_config.shard_router;
-        std::shared_ptr<themis::sharding::ShardTopology> shard_topology = local_config.shard_topology;
+        std::shared_ptr<themis::sharding::ShardRouter> shard_router = impl_->config_.shard_router;
+        std::shared_ptr<themis::sharding::ShardTopology> shard_topology = impl_->config_.shard_topology;
         
         if (!shard_router || !shard_topology) {
             // Try to get from registry
@@ -2153,8 +2007,7 @@ TrainingResult LoRATrainingService::trainDistributed(
         spdlog::info("Distributed training coordinator initialized successfully");
         
         // 5. Setup hyperparameters
-        LoRAHyperparameters hyper = hyperparameters.value_or(local_config.default_hyperparameters);
-        const int configured_participant_shards = static_cast<int>(local_config.participant_shards.size());
+        LoRAHyperparameters hyper = hyperparameters.value_or(impl_->config_.default_hyperparameters);
         
         // 6. Execute training steps with gradient synchronization
         int total_steps = hyper.num_epochs * (static_cast<int>(data.size()) / hyper.batch_size);
@@ -2168,12 +2021,10 @@ TrainingResult LoRATrainingService::trainDistributed(
         
         // Track last step result for per-shard loss
         DistributedTrainingCoordinator::StepResult last_step_result;
-        bool stopped_by_request = false;
         
         // Progress callback to monitor training
         coordinator->setProgressCallback(
-            [total_steps, configured_participant_shards](int step,
-                                                          const DistributedTrainingCoordinator::StepResult& step_result) {
+            [&](int step, const DistributedTrainingCoordinator::StepResult& step_result) {
                 if (step_result.success) {
                     spdlog::info("Step {}/{} completed in {:.2f}ms (sync: {:.2f}ms)", 
                                step, total_steps, 
@@ -2188,20 +2039,13 @@ TrainingResult LoRATrainingService::trainDistributed(
                         }
                     }
                     spdlog::debug("Active shards: {}/{}", active_shards, 
-                                configured_participant_shards);
+                                impl_->config_.participant_shards.size());
                 }
             }
         );
         
         // Execute training loop
         for (int step = 0; step < total_steps; ++step) {
-            if (impl_->stop_requested_.load(std::memory_order_acquire)) {
-                stopped_by_request = true;
-                result.error_message = "Distributed training stopped by user request";
-                spdlog::info("{}", result.error_message);
-                break;
-            }
-
             auto step_result = coordinator->executeStep();
             
             if (!step_result.success) {
@@ -2230,19 +2074,10 @@ TrainingResult LoRATrainingService::trainDistributed(
                     int retry_count = 0;
                     const int max_retries = 3;
                     while (retry_count < max_retries) {
-                        if (impl_->stop_requested_.load(std::memory_order_acquire)) {
-                            stopped_by_request = true;
-                            result.error_message = "Distributed training stopped by user request";
-                            spdlog::info("{}", result.error_message);
-                            break;
-                        }
                         spdlog::info("Retrying step {} (attempt {})", step, retry_count + 1);
                         step_result = coordinator->executeStep();
                         if (step_result.success) break;
                         retry_count++;
-                    }
-                    if (stopped_by_request) {
-                        break;
                     }
                     if (!step_result.success) {
                         spdlog::error("Step {} failed after {} retries", step, max_retries);
@@ -2281,7 +2116,7 @@ TrainingResult LoRATrainingService::trainDistributed(
         auto shard_states = coordinator->getShardStates();
         
         // Populate result
-        result.success = (!stopped_by_request && successful_steps > 0);
+        result.success = (successful_steps > 0);
         result.final_loss = !loss_history.empty() ? loss_history.back() : 0.0f;
         
         // Calculate actual training time from start to finish
@@ -2313,7 +2148,7 @@ TrainingResult LoRATrainingService::trainDistributed(
             }
         }
         result.metrics["active_shards"] = active_shards;
-        result.metrics["total_shards"] = configured_participant_shards;
+        result.metrics["total_shards"] = static_cast<int>(impl_->config_.participant_shards.size());
         
         // Add per-shard loss tracking from last successful step
         if (!last_step_result.per_shard_loss.empty()) {
@@ -2345,7 +2180,7 @@ TrainingResult LoRATrainingService::trainDistributed(
         spdlog::info("Distributed training completed successfully");
         spdlog::info("  Total steps: {}", stats.total_steps_completed);
         spdlog::info("  Successful steps: {}", successful_steps);
-        spdlog::info("  Active shards: {}/{}", active_shards, configured_participant_shards);
+        spdlog::info("  Active shards: {}/{}", active_shards, impl_->config_.participant_shards.size());
         spdlog::info("  Avg sync time: {:.2f}ms", stats.avg_sync_time_ms);
         spdlog::info("  Effective speedup: {:.2f}x", stats.effective_speedup);
         

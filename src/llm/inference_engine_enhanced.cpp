@@ -599,14 +599,17 @@ bool InferenceEngineEnhanced::reprioritize(const std::string& request_id, int ne
 // ═══════════════════════════════════════════════════════════
 
 void InferenceEngineEnhanced::clearCache() {
-    if (prefix_cache_) {
-        prefix_cache_->clear();
-        spdlog::info("Cleared inference cache");
+    auto* cache = prefix_cache_.get();
+    if (!cache) {
+        return;
     }
+    cache->clear();
+    spdlog::info("Cleared inference cache");
 }
 
 void InferenceEngineEnhanced::prewarmCache(const std::vector<std::string>& common_prompts) {
-    if (!prefix_cache_ || !config_.enable_context_caching) {
+    auto* cache = prefix_cache_.get();
+    if (!cache || !config_.enable_context_caching) {
         return;
     }
 
@@ -622,7 +625,7 @@ void InferenceEngineEnhanced::prewarmCache(const std::vector<std::string>& commo
         // Use the prompt text as the cache key so that HNSW fuzzy matching can
         // locate this entry when a semantically similar (but not identical) prompt
         // is seen later.  No generated response is available at prewarm time.
-        prefix_cache_->put(prompt, tokens, embedding, {});
+        cache->put(prompt, tokens, embedding, {});
         ++warmed;
 
         spdlog::debug("  Prewarmed: {} ({} estimated tokens, embedding dim={})",
@@ -1098,17 +1101,17 @@ void InferenceEngineEnhanced::processBatch(
             // Build an effective request that wraps the stream_callback so
             // cancellation is propagated at every token boundary.
             InferenceRequest effective_request = req.base_request;
+            auto raid_sharding = effective_request.metadata.value("raid_sharding", json::object());
             if (!req.shard_routing_key.empty()) {
-                effective_request.metadata["raid_sharding"]["routing_key"] = req.shard_routing_key;
+                raid_sharding["routing_key"] = req.shard_routing_key;
             }
             if (!req.target_instance_ids.empty()) {
-                effective_request.metadata["raid_sharding"]["target_instance_ids"] =
-                    req.target_instance_ids;
+                raid_sharding["target_instance_ids"] = req.target_instance_ids;
             }
             // Keep this boolean always present so downstream coordinators can
             // distinguish "explicitly disabled" from "field omitted".
-            effective_request.metadata["raid_sharding"]["allow_cross_instance_batching"] =
-                req.allow_cross_instance_batching;
+            raid_sharding["allow_cross_instance_batching"] = req.allow_cross_instance_batching;
+            effective_request.metadata["raid_sharding"] = std::move(raid_sharding);
             auto cancel_token = tracked->cancel_token;
             auto deadline = tracked->deadline;
             if (effective_request.stream_callback) {
@@ -1251,8 +1254,11 @@ void InferenceEngineEnhanced::processBatch(
                     // Attach draft hints into the request metadata for the plugin.
                     // The plugin may or may not use them; standard generation
                     // is used as fallback regardless.
-                    effective_request.metadata["lookup_decoding"]["draft_tokens"] = drafts;
-                    effective_request.metadata["lookup_decoding"]["ngram_hit"] = true;
+                    auto lookup_decoding =
+                        effective_request.metadata.value("lookup_decoding", json::object());
+                    lookup_decoding["draft_tokens"] = drafts;
+                    lookup_decoding["ngram_hit"] = true;
+                    effective_request.metadata["lookup_decoding"] = std::move(lookup_decoding);
                 }
             }
 
@@ -1382,7 +1388,8 @@ bool InferenceEngineEnhanced::canAddToBatch(
 std::optional<InferenceResponse> InferenceEngineEnhanced::checkCache(
     const InferenceRequest& request
 ) {
-    if (!prefix_cache_) {
+    auto* cache = prefix_cache_.get();
+    if (!cache) {
         return std::nullopt;
     }
 
@@ -1406,7 +1413,7 @@ std::optional<InferenceResponse> InferenceEngineEnhanced::checkCache(
 
     // Use the prompt text as the cache key so exact lookups match identical prompts
     // and the HNSW index can find semantically similar ones.
-    auto cached = prefix_cache_->get(request.prompt, embedding);
+    auto cached = cache->get(request.prompt, embedding);
 
     if (cached) {
         // Only return a cached response when we have a stored generated text.
@@ -1432,7 +1439,8 @@ void InferenceEngineEnhanced::updateCache(
     const InferenceRequest& request,
     const InferenceResponse& response
 ) {
-    if (!prefix_cache_ || response.text.empty()) {
+    auto* cache = prefix_cache_.get();
+    if (!cache || response.text.empty()) {
         return;
     }
 
@@ -1455,7 +1463,7 @@ void InferenceEngineEnhanced::updateCache(
 
     // Store the prompt as cache key and the actual generated text so that
     // checkCache() can return the correct response on a cache hit.
-    prefix_cache_->put(request.prompt, tokens, embedding, kv_cache, response.text);
+    cache->put(request.prompt, tokens, embedding, kv_cache, response.text);
 }
 
 std::vector<float> InferenceEngineEnhanced::computeEmbeddingForCache(const std::string& text) {

@@ -380,6 +380,48 @@ TEST_F(PITRManagerComprehensiveTest, RestoreWithDeleteEvents) {
     EXPECT_TRUE(status.ok);
 }
 
+TEST_F(PITRManagerComprehensiveTest, RestoreFailsClosedForDeleteWithoutPreviousValue) {
+    // Build an update history then append a delete without before_snapshot.
+    addEvents(5);
+
+    Changefeed::ChangeEvent del;
+    del.type = Changefeed::ChangeEventType::EVENT_DELETE;
+    del.key = "table:key_0";
+    del.value = std::nullopt;
+    del.before_snapshot = std::nullopt;
+    del.timestamp_ms = 9999;
+    changefeed_->recordEvent(del);
+
+    PITRManager::RestoreOptions options;
+    options.dry_run = false;
+    options.create_backup = false;
+    options.abort_on_first_error = true;
+
+    const uint64_t current_seq = changefeed_->getLatestSequence();
+    ASSERT_EQ(current_seq, 6);
+
+    auto status = pitr_mgr_->restoreToSequence(4, options);
+    EXPECT_FALSE(status.ok);
+    EXPECT_THAT(status.message, ::testing::HasSubstr("Cannot reverse DELETE"));
+}
+
+TEST_F(PITRManagerComprehensiveTest, RestoreFailsOnIncompleteWalCoverage) {
+    addEvents(20);
+
+    // Remove older history to simulate truncated WAL window.
+    const size_t removed = changefeed_->deleteOldEventsBySequence(16);
+    EXPECT_GT(removed, 0u);
+
+    PITRManager::RestoreOptions options;
+    options.dry_run = true;
+    options.create_backup = false;
+    options.max_events_to_replay = 0;
+
+    auto status = pitr_mgr_->restoreToSequence(5, options);
+    EXPECT_FALSE(status.ok);
+    EXPECT_THAT(status.message, ::testing::HasSubstr("WAL replay coverage incomplete"));
+}
+
 // ============================================================================
 // Disaster Recovery Scenarios
 // ============================================================================
@@ -429,6 +471,7 @@ TEST_F(PITRManagerComprehensiveTest, DisasterRecovery_AccidentalDeletion) {
     event.type = Changefeed::ChangeEventType::EVENT_DELETE;
     event.key = "critical:data";
     event.value = std::nullopt;
+    event.before_snapshot = R"({"important":"value"})";
     event.timestamp_ms = 2000;
     changefeed_->recordEvent(event);
     

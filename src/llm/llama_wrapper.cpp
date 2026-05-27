@@ -878,16 +878,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             VisionRequest vision_req;
             vision_req.text_prompt = request.prompt;
             vision_req.image_paths = request.image_paths;
-            {
-                bool max_tokens_capped = false;
-                int capped = resolveMaxTokensWithContextCap(
-                    request.max_tokens, config_.n_ctx, max_tokens_capped);
-                if (max_tokens_capped) {
-                    spdlog::warn("Vision max_tokens={} exceeds context limit n_ctx={}, "
-                                 "capping to {}", request.max_tokens, config_.n_ctx, capped);
-                }
-                vision_req.max_tokens = capped;
-            }
+            vision_req.max_tokens  = request.max_tokens;
             vision_req.temperature = request.temperature;
             vision_req.top_p       = request.top_p;
             vision_req.top_k       = request.top_k;
@@ -960,6 +951,9 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         throw std::runtime_error("Model failed to load");
     }
 
+    if (!cached->model_handle || !cached->context_handle) {
+        throw std::runtime_error("Model/context handle is null after load");
+    }
     auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);
     auto* lctx = reinterpret_cast<llama_context*>(cached->context_handle);
     
@@ -1072,13 +1066,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         
         // Get vocab for EOS detection and token count
         const llama_vocab* vocab = llama_model_get_vocab(lmodel);
-        if (!vocab) {
-            throw std::runtime_error("llama_model_get_vocab returned null");
-        }
         int32_t n_vocab = llama_vocab_n_tokens(vocab);
-        if (n_vocab <= 0) {
-            throw std::runtime_error("Invalid vocabulary size returned by llama_vocab_n_tokens");
-        }
         llama_token eos_token = llama_vocab_eos(vocab);
         
         // Time to first token
@@ -1093,7 +1081,8 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             // Get logits for last token
             float* logits = llama_get_logits_ith(lctx, -1);
             if (!logits) {
-                throw std::runtime_error("llama_get_logits_ith returned null");
+                spdlog::error("llama_get_logits_ith returned null at step {}", i);
+                break;
             }
             
             // Sample next token with optional grammar constraint (Phase 3.2)
@@ -1298,6 +1287,9 @@ ILLMPlugin::DraftTokensResult LlamaWrapper::generateDraftTokens(
         throw std::runtime_error("Model failed to load for draft token generation");
     }
 
+    if (!cached->model_handle || !cached->context_handle) {
+        throw std::runtime_error("Model/context handle is null for draft token generation");
+    }
     auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);
     auto* lctx   = reinterpret_cast<llama_context*>(cached->context_handle);
     if (!lmodel || !lctx) {
@@ -1317,13 +1309,7 @@ ILLMPlugin::DraftTokensResult LlamaWrapper::generateDraftTokens(
     }
 
     const llama_vocab* vocab = llama_model_get_vocab(lmodel);
-    if (!vocab) {
-        throw std::runtime_error("llama_model_get_vocab returned null for draft token generation");
-    }
     const int32_t n_vocab = llama_vocab_n_tokens(vocab);
-    if (n_vocab <= 0) {
-        throw std::runtime_error("Invalid vocabulary size returned by llama_vocab_n_tokens");
-    }
     const llama_token eos_token = llama_vocab_eos(vocab);
     const size_t produced_vocab_size = static_cast<size_t>(n_vocab);
     if (vocab_size_hint > 0 && vocab_size_hint != produced_vocab_size) {
@@ -1412,6 +1398,9 @@ std::vector<float> LlamaWrapper::embed(const std::string& text) {
         throw std::runtime_error("Model failed to load");
     }
     
+    if (!cached->model_handle || !cached->context_handle) {
+        throw std::runtime_error("Model/context handle is null for embeddings");
+    }
     auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);
     auto* lctx = reinterpret_cast<llama_context*>(cached->context_handle);
     
@@ -1772,9 +1761,6 @@ std::vector<llama_token> LlamaWrapper::tokenizeInternal(
     
     // Get vocab from model
     const llama_vocab* vocab = llama_model_get_vocab(model);
-    if (!vocab) {
-        throw std::runtime_error("llama_model_get_vocab returned null");
-    }
     
     // Allocate buffer for tokens (estimate: text length + special tokens)
     int32_t n_tokens_max = text.length() + (add_bos ? 1 : 0) + 8;
@@ -1823,13 +1809,7 @@ std::string LlamaWrapper::detokenizeInternal(
     
     // Get model and vocab from context
     const llama_model* model = llama_get_model(ctx);
-    if (!model) {
-        throw std::runtime_error("llama_get_model returned null");
-    }
     const llama_vocab* vocab = llama_model_get_vocab(model);
-    if (!vocab) {
-        throw std::runtime_error("llama_model_get_vocab returned null");
-    }
     
     std::string result;
     result.reserve(tokens.size() * 4);  // Rough estimate
@@ -1883,6 +1863,10 @@ llama_token LlamaWrapper::sampleTokenInternal(
                      candidates_p.size);
     } else if (grammar != nullptr && !themis_llama_grammar_available()) {
         spdlog::warn("Grammar sampling requested but llama.cpp grammar API not available");
+    }
+
+    if (candidates_p.size == 0 || candidates_p.data == nullptr) {
+        return 0;  // Fallback if grammar filtering removed all candidates
     }
     
     // Apply temperature sampling
@@ -2201,14 +2185,15 @@ void LlamaWrapper::synchronizeDraftToTarget(const std::vector<llama_token>& acce
     // Clear draft context and re-evaluate accepted tokens
     llama_memory_t mem = llama_get_memory(draft_context_);
     if (!mem) {
-        spdlog::warn("Failed to synchronize draft model: llama_get_memory returned null");
+        spdlog::warn("Failed to synchronize draft model: null draft memory");
         return;
     }
     llama_memory_clear(mem, true);
-    
+
+    std::vector<llama_token> mutable_tokens = accepted_tokens;
     llama_batch batch = llama_batch_get_one(
-        const_cast<llama_token*>(accepted_tokens.data()), 
-        accepted_tokens.size()
+        mutable_tokens.data(),
+        mutable_tokens.size()
     );
     
     if (llama_decode(draft_context_, batch) != 0) {
@@ -2225,6 +2210,10 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         throw std::runtime_error("Target model failed to load");
     }
     
+    if (!cached->model_handle || !cached->context_handle) {
+        spdlog::warn("Speculative decoding model/context handles are null, falling back to regular generation");
+        return generateRegular(request);
+    }
     auto* target_model = reinterpret_cast<llama_model*>(cached->model_handle);
     auto* target_context = reinterpret_cast<llama_context*>(cached->context_handle);
     
@@ -2283,13 +2272,7 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         // 3. Speculative generation loop
         std::vector<llama_token> generated_tokens;
         const llama_vocab* vocab = llama_model_get_vocab(target_model);
-        if (!vocab) {
-            throw std::runtime_error("llama_model_get_vocab returned null for target model");
-        }
         int32_t n_vocab = llama_vocab_n_tokens(vocab);
-        if (n_vocab <= 0) {
-            throw std::runtime_error("Invalid vocabulary size returned by llama_vocab_n_tokens");
-        }
         llama_token eos_token = llama_vocab_eos(vocab);
         
         bool max_tokens_capped = false;
@@ -2314,7 +2297,8 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
             for (int i = 0; i < config_.speculative_tokens; ++i) {
                 float* draft_logits = llama_get_logits_ith(draft_context_, -1);
                 if (!draft_logits) {
-                    throw std::runtime_error("llama_get_logits_ith returned null for draft model");
+                    spdlog::error("llama_get_logits_ith returned null for draft context at step {}", i);
+                    break;
                 }
                 llama_token draft_token = sampleTokenInternal(
                     draft_context_, draft_model_, draft_logits, n_vocab,
@@ -2336,15 +2320,13 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
             }
             
             total_speculations += draft_tokens.size();
-
-            if (draft_tokens.empty()) {
-                spdlog::warn("Speculative decoding produced no draft tokens; stopping iteration");
-                break;
-            }
             
             // 3b. Target model validates all draft tokens in parallel
+            if (draft_tokens.empty()) {
+                break;
+            }
             llama_batch validation_batch = llama_batch_get_one(
-                draft_tokens.data(), draft_tokens.size()
+                draft_tokens.data(), static_cast<int32_t>(draft_tokens.size())
             );
             if (llama_decode(target_context, validation_batch) != 0) {
                 spdlog::warn("Failed to validate draft tokens");
@@ -2354,9 +2336,10 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
             // 3c. Check which tokens are accepted
             int accepted = 0;
             for (size_t i = 0; i < draft_tokens.size(); ++i) {
-                float* target_logits = llama_get_logits_ith(target_context, i);
+                float* target_logits = llama_get_logits_ith(target_context, static_cast<int32_t>(i));
                 if (!target_logits) {
-                    throw std::runtime_error("llama_get_logits_ith returned null for target model");
+                    spdlog::error("llama_get_logits_ith returned null for target context at validation step {}", i);
+                    break;
                 }
                 
                 // Get probability of draft token from target model
@@ -2481,6 +2464,9 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         throw std::runtime_error("Model failed to load");
     }
 
+    if (!cached->model_handle || !cached->context_handle) {
+        throw std::runtime_error("Model/context handle is null");
+    }
     auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);
     auto* lctx = reinterpret_cast<llama_context*>(cached->context_handle);
     
@@ -2559,13 +2545,7 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         float top_p = request.top_p > 0.0f ? request.top_p : 0.9f;
         
         const llama_vocab* vocab = llama_model_get_vocab(lmodel);
-        if (!vocab) {
-            throw std::runtime_error("llama_model_get_vocab returned null");
-        }
         int32_t n_vocab = llama_vocab_n_tokens(vocab);
-        if (n_vocab <= 0) {
-            throw std::runtime_error("Invalid vocabulary size returned by llama_vocab_n_tokens");
-        }
         llama_token eos_token = llama_vocab_eos(vocab);
         
         // Phase 2: Collect token probabilities for knowledge gap detection
@@ -2575,7 +2555,8 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         for (int i = 0; i < max_tokens; ++i) {
             float* logits = llama_get_logits_ith(lctx, -1);
             if (!logits) {
-                throw std::runtime_error("llama_get_logits_ith returned null");
+                spdlog::error("llama_get_logits_ith returned null at step {}", i);
+                break;
             }
             llama_token next_token = sampleTokenInternal(
                 lctx, lmodel, logits, n_vocab, temperature, top_p, nullptr
@@ -3043,56 +3024,56 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
 
         if (themis_llava_eval_available()) {
             auto* cached_m = model_loader_->getOrLoadModel(current_model_id_, current_model_path_);
-            if (cached_m && cached_m->context_handle) {
+            if (cached_m && cached_m->context_handle && cached_m->model_handle) {
                 auto* lctx = reinterpret_cast<llama_context*>(cached_m->context_handle);
-                int n_past = 0;
-
-                // Tokenize and evaluate the prompt prefix (everything before the image
-                // token placeholder) so that the KV cache is correctly positioned.
                 auto* lmodel = reinterpret_cast<llama_model*>(cached_m->model_handle);
-                std::string prefix = "USER: ";
-                std::vector<llama_token> prefix_tokens = tokenizeInternal(lmodel, prefix, true);
-                if (!prefix_tokens.empty()) {
-                    llama_batch prefix_batch = llama_batch_get_one(
-                        prefix_tokens.data(), static_cast<int32_t>(prefix_tokens.size()));
-                    int decode_result = llama_decode(lctx, prefix_batch);
-                    if (decode_result == 0) {
-                        n_past += static_cast<int>(prefix_tokens.size());
-                    } else {
-                        spdlog::warn(
-                            "generateVision: llama_decode failed during prefix prefill (error: {}); "
-                            "continuing with image embed injection",
-                            decode_result);
+                if (!lctx || !lmodel) {
+                    spdlog::warn("generateVision: model/context handles are null; skipping embedding injection");
+                } else {
+                    int n_past = 0;
+
+                    // Tokenize and evaluate the prompt prefix (everything before the image
+                    // token placeholder) so that the KV cache is correctly positioned.
+                    std::string prefix = "USER: ";
+                    std::vector<llama_token> prefix_tokens = tokenizeInternal(lmodel, prefix, true);
+                    if (!prefix_tokens.empty()) {
+                        llama_batch prefix_batch = llama_batch_get_one(
+                            prefix_tokens.data(), static_cast<int32_t>(prefix_tokens.size()));
+                        if (llama_decode(lctx, prefix_batch) == 0) {
+                            n_past += static_cast<int>(prefix_tokens.size());
+                        } else {
+                            spdlog::warn("generateVision: prefix llama_decode failed; continuing without image-prefill context");
+                        }
                     }
+
+                    // Inject each encoded image into the context.
+                    int n_batch_size = static_cast<int>(vision_request.max_tokens > 0
+                                                         ? vision_request.max_tokens : 512);
+                    for (auto& emb_vec : image_embeddings) {
+                        if (emb_vec.empty()) continue;
+                        int n_patches = vision_encoder_->getNumPatches();
+                        if (n_patches <= 0) {
+                            n_patches = static_cast<int>(emb_vec.size()) /
+                                        vision_encoder_->getEmbeddingDimension();
+                        }
+                        llava_image_embed embed_data;
+                        embed_data.embed       = emb_vec.data();
+                        embed_data.n_image_pos = n_patches;
+
+                        if (!llava_eval_image_embed(lctx, &embed_data, n_batch_size, &n_past)) {
+                            spdlog::warn("generateVision: llava_eval_image_embed failed for one image; "
+                                         "continuing with remaining images");
+                        } else {
+                            embeddings_injected = true;
+                            spdlog::debug("generateVision: injected {} image patches (n_past={})",
+                                          n_patches, n_past);
+                        }
+                    }
+
+                    // Pass remaining text portion; the context is already positioned.
+                    // We use the raw generate() path which re-evaluates the full prompt,
+                    // but since context is pre-loaded the decode call handles only new tokens.
                 }
-
-                // Inject each encoded image into the context.
-                int n_batch_size = static_cast<int>(vision_request.max_tokens > 0
-                                                     ? vision_request.max_tokens : 512);
-                for (auto& emb_vec : image_embeddings) {
-                    if (emb_vec.empty()) continue;
-                    int n_patches = vision_encoder_->getNumPatches();
-                    if (n_patches <= 0) {
-                        n_patches = static_cast<int>(emb_vec.size()) /
-                                    vision_encoder_->getEmbeddingDimension();
-                    }
-                    llava_image_embed embed_data;
-                    embed_data.embed       = emb_vec.data();
-                    embed_data.n_image_pos = n_patches;
-
-                    if (!llava_eval_image_embed(lctx, &embed_data, n_batch_size, &n_past)) {
-                        spdlog::warn("generateVision: llava_eval_image_embed failed for one image; "
-                                     "continuing with remaining images");
-                    } else {
-                        embeddings_injected = true;
-                        spdlog::debug("generateVision: injected {} image patches (n_past={})",
-                                      n_patches, n_past);
-                    }
-                }
-
-                // Pass remaining text portion; the context is already positioned.
-                // We use the raw generate() path which re-evaluates the full prompt,
-                // but since context is pre-loaded the decode call handles only new tokens.
             }
         }
 
@@ -3195,6 +3176,5 @@ std::string LlamaWrapper::stateToString(WrapperState state) {
         default:                          return "UNKNOWN";
     }
 }
-
 } // namespace llm
 } // namespace themis

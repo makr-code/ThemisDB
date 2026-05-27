@@ -9,6 +9,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **wire/themis hardening + single-thread regression validation (2026-05-26)**
+
+  - `WireProtocolServer` single-threaded `io_context` pruning behaviour is now
+    explicitly covered by
+    `WireProtocolServer.SingleThreadedIoContextPrunesSessionsAfterDisconnect`.
+  - Deprecated free wire bridge compatibility coverage remains active and focused
+    (`DeprecatedWireSessionBridgeTest*`), while protobuf bootstrap continues to
+    fail closed for deprecated generic bridge-only wiring.
+  - Build blocker in `src/llm/multi_lora_manager.cpp` resolved by using the
+    existing opaque adapter handle type (`void*`) consistently for local handle
+    snapshots in `applyLoRA()` / `removeLoRA()`.
+  - Verification run:
+    - `cmake --build --preset windows-release --target themis_tests --parallel 16`
+    - `themis_tests --gtest_filter=WireProtocolServer.SingleThreadedIoContextPrunesSessionsAfterDisconnect`
+    - `ctest --preset windows-release -R ThemisWireProtocolV1Tests --output-on-failure`
+
 - **Stub batch 29: #276, #281 (partial), #284 resolved; inventory header corrected**
 
   - **#284 — network/wire_protocol_server: GEO_QUERY dispatches to injected SpatialIndexManager**
@@ -1787,3 +1803,7 @@ ThemisDB follows [Semantic Versioning](https://semver.org/):
 - **MINOR** version for new functionality in a backward compatible manner
 - **PATCH** version for backward compatible bug fixes
 - **-alpha**, **-beta**, **-rc** suffixes for pre-release versions
+
+---
+Zuletzt geprueft (Root-Sync): 2026-05-26
+

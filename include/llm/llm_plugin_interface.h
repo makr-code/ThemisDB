@@ -11,8 +11,6 @@
 #include "plugins/plugin_interface.h"
 #include "llm/json_schema_converter.h"
 #include "llm/context_window_budget.h"
-#include <algorithm>
-#include <limits>
 #include <string>
 #include <vector>
 #include <memory>
@@ -424,12 +422,10 @@ public:
 
         const std::string& text = resp.text;
         for (size_t i = 0; i < k; ++i) {
-            const size_t token_id_raw = (i < text.size())
-                ? (static_cast<size_t>(static_cast<unsigned char>(text[i])) % vocab)
-                : 0u;
-            const int token_id = static_cast<int>(std::min(
-                token_id_raw,
-                static_cast<size_t>(std::numeric_limits<int>::max())));
+            const int token_id = (i < text.size())
+                ? (static_cast<int>(static_cast<unsigned char>(text[i])) %
+                   static_cast<int>(vocab))
+                : 0;
             result.tokens.push_back(token_id);
 
             std::vector<float> row(vocab, kBaseline);
@@ -529,7 +525,7 @@ public:
         : llm_plugin_(std::move(llm_plugin)) {}
     
     ~LLMPluginAdapter() override = default;
-
+    
     // IThemisPlugin interface implementation
     const char* getName() const override { return "LLM Plugin"; }
     const char* getVersion() const override { return "1.0.0"; }
@@ -591,3 +587,4 @@ private:
         themis::llm::ILLMPlugin* themis_llm_create();                             \
     extern "C" THEMIS_PLUGIN_EXPORT                                                \
         void themis_llm_destroy(themis::llm::ILLMPlugin* p)
+

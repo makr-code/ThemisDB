@@ -2,6 +2,7 @@
 
 #include "llm/lora_framework/quantization_kernels.h"
 #include "security/vram_secure_clear.h"
+#include <spdlog/spdlog.h>
 #include <cuda_runtime.h>
 #include <device_launch_parameters.h>
 #include <cuda_fp16.h>
@@ -410,16 +411,14 @@ cudaError_t launch_quantize_nf4_kernel(
     int threads_per_block = min(static_cast<int>(block_size), 256);
     
     // Initialize output to zero
+    cudaError_t memset_err = cudaSuccess;
     if (stream) {
-        cudaError_t memset_err = cudaMemsetAsync(output, 0, (num_elements + 1) / 2, stream);
-        if (memset_err != cudaSuccess) {
-            return memset_err;
-        }
+        memset_err = cudaMemsetAsync(output, 0, (num_elements + 1) / 2, stream);
     } else {
-        cudaError_t memset_err = cudaMemset(output, 0, (num_elements + 1) / 2);
-        if (memset_err != cudaSuccess) {
-            return memset_err;
-        }
+        memset_err = cudaMemset(output, 0, (num_elements + 1) / 2);
+    }
+    if (memset_err != cudaSuccess) {
+        return memset_err;
     }
     
     if (stream) {
@@ -585,8 +584,10 @@ GPUMemoryManager& GPUMemoryManager::operator=(GPUMemoryManager&& other) noexcept
 void* GPUMemoryManager::allocateQuantizedBuffer(size_t num_params, bool use_nf4) {
     size_t size_bytes = use_nf4 ? (num_params + 1) / 2 : num_params;
     void* ptr = nullptr;
-    cudaError_t err = cudaMalloc(&ptr, size_bytes);
+    const cudaError_t err = cudaMalloc(&ptr, size_bytes);
     if (err != cudaSuccess) {
+        spdlog::error("Quantization GPUMemoryManager::allocateQuantizedBuffer failed for {} bytes: {}",
+                      size_bytes, cudaGetErrorString(err));
         return nullptr;
     }
     total_allocated_ += size_bytes;
@@ -595,8 +596,10 @@ void* GPUMemoryManager::allocateQuantizedBuffer(size_t num_params, bool use_nf4)
 
 void* GPUMemoryManager::allocatePinnedHost(size_t size) {
     void* ptr = nullptr;
-    cudaError_t err = cudaMallocHost(&ptr, size);
+    const cudaError_t err = cudaMallocHost(&ptr, size);
     if (err != cudaSuccess) {
+        spdlog::error("Quantization GPUMemoryManager::allocatePinnedHost failed for {} bytes: {}",
+                      size, cudaGetErrorString(err));
         return nullptr;
     }
     return ptr;
@@ -604,18 +607,20 @@ void* GPUMemoryManager::allocatePinnedHost(size_t size) {
 
 void GPUMemoryManager::freeDevice(void* ptr) {
     if (ptr) {
-        cudaError_t err = cudaFree(ptr);
+        const cudaError_t err = cudaFree(ptr);
         if (err != cudaSuccess) {
-            return;
+            spdlog::error("Quantization GPUMemoryManager::freeDevice failed: {}",
+                          cudaGetErrorString(err));
         }
     }
 }
 
 void GPUMemoryManager::freePinned(void* ptr) {
     if (ptr) {
-        cudaError_t err = cudaFreeHost(ptr);
+        const cudaError_t err = cudaFreeHost(ptr);
         if (err != cudaSuccess) {
-            return;
+            spdlog::error("Quantization GPUMemoryManager::freePinned failed: {}",
+                          cudaGetErrorString(err));
         }
     }
 }

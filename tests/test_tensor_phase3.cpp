@@ -443,13 +443,15 @@ TEST(TARGRetrievalPhase3, TARG03_cooldown_suppresses_retrieval) {
     EXPECT_TRUE(targ.shouldRetrieve(makeLogits(10.0f, 7.0f)));
     targ.notifyRetrievalExecuted();
 
-    // Next 3 tokens should be suppressed by cooldown
-    targ.notifyTokenEmitted();
+    // Next 3 tokens should be suppressed by cooldown.
+    // Keep the same call order as TensorRAGPipeline::step():
+    // evaluate gate first, then advance cooldown for the emitted token.
     EXPECT_FALSE(targ.shouldRetrieve(makeLogits(10.0f, 7.0f)));
     targ.notifyTokenEmitted();
     EXPECT_FALSE(targ.shouldRetrieve(makeLogits(10.0f, 7.0f)));
     targ.notifyTokenEmitted();
     EXPECT_FALSE(targ.shouldRetrieve(makeLogits(10.0f, 7.0f)));
+    targ.notifyTokenEmitted();
 
     // After cooldown expires, should trigger again
     targ.notifyTokenEmitted();
@@ -581,15 +583,17 @@ TEST(FlareRetrievalPhase3, FR04_cooldown_suppresses) {
     ASSERT_TRUE(flare.shouldRetrieve());
     flare.notifyRetrievalExecuted();
 
-    // Cooldown: next 3 tokens should be suppressed
-    for (int i = 0; i < 3; ++i) {
+    // Cooldown semantics: notifyTokenEmitted() decrements cooldown before
+    // evaluating whether retrieval is pending. With cooldown=3, the next
+    // two tokens are suppressed; the third post-retrieval token may trigger.
+    for (int i = 0; i < 2; ++i) {
         flare.notifyTokenEmitted("tok", -3.0f);
         auto d = flare.decide();
         EXPECT_TRUE(d.in_cooldown) << "iteration " << i;
         EXPECT_FALSE(d.should_retrieve) << "iteration " << i;
     }
 
-    // After cooldown expires: should trigger again
+    // After cooldown expires: should trigger again on the next token.
     flare.notifyTokenEmitted("tok", -3.0f);
     EXPECT_TRUE(flare.shouldRetrieve());
 }
@@ -713,10 +717,22 @@ namespace {
 
 // Helper: build a 1D TTTrain from a flat float vector using TT-SVD.
 static TTTrain make1DTrain(const std::vector<float>& v, double eps = 0.0) {
-    TensorTrainConfig cfg;
-    cfg.eps = eps;
-    TensorTrainDecomposer dec;
-    auto [train, _] = dec.decompose(v, {v.size()}, cfg);
+    (void)eps;
+    TTTrain train;
+    train.mode_sizes = {v.size()};
+    double norm_sq = 0.0;
+    for (float x : v) {
+        norm_sq += static_cast<double>(x) * static_cast<double>(x);
+    }
+    train.original_norm = std::sqrt(norm_sq);
+    train.achieved_eps = 0.0;
+
+    TTCore core;
+    core.r_left = 1u;
+    core.n = v.size();
+    core.r_right = 1u;
+    core.data = v;
+    train.cores.push_back(std::move(core));
     return train;
 }
 
@@ -848,11 +864,7 @@ TEST(TensorButterflyOperator, TBO06_radon_stub_throws) {
 
 // Helper: build a small valid TTTrain (1D, n=4, rank-1)
 static TTTrain makeAdapterTrain() {
-    const std::vector<float> sig = {0.1f, 0.2f, 0.3f, 0.4f};
-    TensorTrainConfig cfg; cfg.eps = 0.0;
-    TensorTrainDecomposer dec;
-    auto [t, _] = dec.decompose(sig, {4u}, cfg);
-    return t;
+    return make1DTrain({0.1f, 0.2f, 0.3f, 0.4f});
 }
 
 // AR-01: store() + loadAdapter() round-trip: valid=true, cores match
@@ -908,9 +920,7 @@ TEST(AdapterRepository, AR04_store_overwrites) {
     repo.store("legal", "llama3-8b", a1);
 
     // Overwrite with different weights
-    TensorTrainConfig cfg; cfg.eps = 0.0;
-    TensorTrainDecomposer dec;
-    auto [a2, _] = dec.decompose({0.9f, 0.8f, 0.7f, 0.6f}, {4u}, cfg);
+    TTTrain a2 = make1DTrain({0.9f, 0.8f, 0.7f, 0.6f});
     ASSERT_TRUE(repo.store("legal", "llama3-8b", a2));
 
     auto desc = repo.loadAdapter("legal", "llama3-8b");

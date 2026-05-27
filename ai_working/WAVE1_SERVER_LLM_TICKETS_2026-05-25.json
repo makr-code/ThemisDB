@@ -17,7 +17,9 @@
         "data_race",
         "no_timeout",
         "null_dereference"
-      ]
+      ],
+      "github_issue_number": 5348,
+      "github_issue_url": "https://github.com/makr-code/ThemisDB/issues/5348"
     },
     {
       "id": "W1-S02",
@@ -31,7 +33,9 @@
         "data_race",
         "iterator_invalidation",
         "no_timeout"
-      ]
+      ],
+      "github_issue_number": 5349,
+      "github_issue_url": "https://github.com/makr-code/ThemisDB/issues/5349"
     },
     {
       "id": "W1-S03",
@@ -115,7 +119,9 @@
         "data_race",
         "no_timeout",
         "null_dereference"
-      ]
+      ],
+      "github_issue_number": 5350,
+      "github_issue_url": "https://github.com/makr-code/ThemisDB/issues/5350"
     },
     {
       "id": "W1-L02",
@@ -129,7 +135,9 @@
         "data_race",
         "iterator_invalidation",
         "no_timeout"
-      ]
+      ],
+      "github_issue_number": 5351,
+      "github_issue_url": "https://github.com/makr-code/ThemisDB/issues/5351"
     },
     {
       "id": "W1-L03",
@@ -144,7 +152,9 @@
         "data_race",
         "smart_ptr_misuse",
         "no_timeout"
-      ]
+      ],
+      "github_issue_number": 5352,
+      "github_issue_url": "https://github.com/makr-code/ThemisDB/issues/5352"
     },
     {
       "id": "W1-L04",

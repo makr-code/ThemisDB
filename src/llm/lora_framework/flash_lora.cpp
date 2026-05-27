@@ -200,10 +200,10 @@ GPUTensor FlashLoRA::forward(
         }
         
         // Synchronize to ensure completion
-        cudaError_t sync_err = cudaDeviceSynchronize();
+        const cudaError_t sync_err = cudaDeviceSynchronize();
         if (sync_err != cudaSuccess) {
             throw std::runtime_error(
-                "FlashLoRA CUDA forward synchronization failed: " +
+                "FlashLoRA CUDA forward synchronize failed: " +
                 std::string(cudaGetErrorString(sync_err))
             );
         }
@@ -373,10 +373,10 @@ std::tuple<GPUTensor, GPUTensor, GPUTensor> FlashLoRA::backward(
             throw std::runtime_error("FlashLoRA backward input kernel failed");
         }
         
-        cudaError_t sync_err = cudaDeviceSynchronize();
+        const cudaError_t sync_err = cudaDeviceSynchronize();
         if (sync_err != cudaSuccess) {
             throw std::runtime_error(
-                "FlashLoRA CUDA backward synchronization failed: " +
+                "FlashLoRA CUDA backward synchronize failed: " +
                 std::string(cudaGetErrorString(sync_err))
             );
         }

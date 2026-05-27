@@ -249,9 +249,9 @@ void DirectXContext::enable_debug_layer() {
     }
 }
 
-void DirectXContext::wait_for_gpu() {
+bool DirectXContext::wait_for_gpu(uint32_t timeout_ms) {
     if (!fence_ || !fence_event_) {
-        return;
+        return false;
     }
     
     // Signal fence with current value
@@ -259,32 +259,28 @@ void DirectXContext::wait_for_gpu() {
     HRESULT hr = command_queue_->Signal(fence_.Get(), fence_to_wait);
     if (FAILED(hr)) {
         std::cerr << "Failed to signal fence\n";
-        return;
+        return false;
     }
     fence_value_++;
     
-    // Wait for fence to reach the signaled value.
-    // Use a 30-second timeout instead of INFINITE to prevent an unrecoverable
-    // GPU-hang stall from blocking the process forever.
+    // Wait for fence to reach the signaled value
     if (fence_->GetCompletedValue() < fence_to_wait) {
         hr = fence_->SetEventOnCompletion(fence_to_wait, fence_event_);
         if (FAILED(hr)) {
             std::cerr << "Failed to set fence event\n";
-            return;
+            return false;
         }
-        constexpr DWORD kGpuTimeoutMs = 30'000;
-        DWORD wait_result = WaitForSingleObject(fence_event_, kGpuTimeoutMs);
+        const DWORD wait_result = WaitForSingleObject(fence_event_, timeout_ms);
         if (wait_result == WAIT_TIMEOUT) {
-            throw std::runtime_error(
-                "DirectXContext::wait_for_gpu(): GPU fence timed out after 30 s "
-                "— device may be lost");
+            std::cerr << "DirectX wait_for_gpu timed out after " << timeout_ms << " ms\n";
+            return false;
         }
         if (wait_result != WAIT_OBJECT_0) {
-            throw std::runtime_error(
-                "DirectXContext::wait_for_gpu(): WaitForSingleObject failed "
-                "(WAIT_FAILED or WAIT_ABANDONED)");
+            std::cerr << "DirectX wait_for_gpu failed with wait code " << wait_result << "\n";
+            return false;
         }
     }
+    return true;
 }
 
 void DirectXContext::reset_command_list() {
@@ -301,7 +297,7 @@ void DirectXContext::reset_command_list() {
     }
 }
 
-void DirectXContext::execute_command_list() {
+void DirectXContext::execute_command_list(uint32_t timeout_ms) {
     // Close command list
     HRESULT hr = command_list_->Close();
     if (FAILED(hr)) {
@@ -313,7 +309,9 @@ void DirectXContext::execute_command_list() {
     command_queue_->ExecuteCommandLists(1, cmd_lists);
     
     // Wait for completion
-    wait_for_gpu();
+    if (!wait_for_gpu(timeout_ms)) {
+        throw std::runtime_error("DirectX command execution timed out or failed while waiting for GPU");
+    }
 }
 
 } // namespace directx
@@ -321,4 +319,3 @@ void DirectXContext::execute_command_list() {
 } // namespace themis
 
 #endif // _WIN32
-

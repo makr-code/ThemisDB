@@ -44,6 +44,7 @@ namespace functions {
 /*
 class AllShortestPathsFunction : public IFunction {
 public:
+    ~AllShortestPathsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ALL_SHORTEST_PATHS",
@@ -94,6 +95,7 @@ public:
 /*
 class KShortestPathsFunction : public IFunction {
 public:
+    ~KShortestPathsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "K_SHORTEST_PATHS",
@@ -201,6 +203,7 @@ public:
 /*
 class WeightedShortestPathFunction : public IFunction {
 public:
+    ~WeightedShortestPathFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "WEIGHTED_SHORTEST_PATH",
@@ -249,6 +252,7 @@ public:
 /*
 class PathLengthFunction : public IFunction {
 public:
+    ~PathLengthFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PATH_LENGTH",
@@ -287,6 +291,7 @@ public:
 /*
 class PathVerticesFunction : public IFunction {
 public:
+    ~PathVerticesFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PATH_VERTICES",
@@ -321,6 +326,7 @@ public:
 /*
 class PathEdgesFunction : public IFunction {
 public:
+    ~PathEdgesFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PATH_EDGES",
@@ -355,6 +361,7 @@ public:
 /*
 class PathWeightFunction : public IFunction {
 public:
+    ~PathWeightFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PATH_WEIGHT",
@@ -399,6 +406,7 @@ public:
 /*
 class BetweennessCentralityFunction : public IFunction {
 public:
+    ~BetweennessCentralityFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "BETWEENNESS_CENTRALITY",
@@ -429,6 +437,7 @@ public:
 /*
 class ClosenessCentralityFunction : public IFunction {
 public:
+    ~ClosenessCentralityFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "CLOSENESS_CENTRALITY",
@@ -468,6 +477,7 @@ public:
  */
 class BetweennessCentralityExtFunction : public IFunction {
 public:
+    ~BetweennessCentralityExtFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "BETWEENNESS_CENTRALITY",
@@ -623,6 +633,7 @@ private:
     }
 
 public:
+    ~LouvainCommunitiesExtFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "LOUVAIN_COMMUNITIES",
@@ -840,6 +851,7 @@ private:
     }
 
 public:
+    ~LabelPropagationCommunitiesExtFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "LABEL_PROPAGATION_COMMUNITIES",

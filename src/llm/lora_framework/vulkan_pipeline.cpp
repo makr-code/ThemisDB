@@ -470,19 +470,11 @@ void VulkanComputePipeline::dispatch(uint32_t group_x, uint32_t group_y, uint32_
     }
 }
 
-void VulkanComputePipeline::wait() {
-    if (fence_ != VK_NULL_HANDLE) {
-        // Use a 30-second timeout (30 × 10⁹ ns) rather than UINT64_MAX to avoid
-        // an infinite GPU-hang stall. A timed-out wait is fatal — the device is
-        // lost and the process must not continue using it.
-        constexpr uint64_t kGpuTimeoutNs = 30'000'000'000ULL;
-        bool ok = context_->wait_for_fence(fence_, kGpuTimeoutNs);
-        if (!ok) {
-            throw std::runtime_error(
-                "VulkanComputePipeline::wait(): GPU fence timed out after 30 s "
-                "— device may be lost");
-        }
+bool VulkanComputePipeline::wait(uint64_t timeout_ns) {
+    if (fence_ == VK_NULL_HANDLE) {
+        return false;
     }
+    return context_->wait_for_fence(fence_, timeout_ns);
 }
 
 } // namespace vulkan

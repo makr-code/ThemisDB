@@ -12,7 +12,6 @@
 #include "llm/mixed_precision_inference.h"
 #include <algorithm>
 #include <stdexcept>
-#include <spdlog/spdlog.h>
 #if defined(THEMIS_HAS_CUDA) && THEMIS_HAS_CUDA
 #  include <cuda_runtime.h>
 #endif
@@ -240,16 +239,12 @@ bool MixedPrecisionInference::isSupported(PrecisionMode precision) {
         return false;
     }
     int major = 0, minor_ver = 0;
-    cudaError_t major_err = cudaDeviceGetAttribute(&major, cudaDevAttrComputeCapabilityMajor, dev);
-    if (major_err != cudaSuccess) {
-        spdlog::warn("cudaDeviceGetAttribute(ComputeCapabilityMajor) failed in isSupported: {}",
-                     cudaGetErrorString(major_err));
+    cudaError_t attr_err = cudaDeviceGetAttribute(&major, cudaDevAttrComputeCapabilityMajor, dev);
+    if (attr_err != cudaSuccess) {
         return false;
     }
-    cudaError_t minor_err = cudaDeviceGetAttribute(&minor_ver, cudaDevAttrComputeCapabilityMinor, dev);
-    if (minor_err != cudaSuccess) {
-        spdlog::warn("cudaDeviceGetAttribute(ComputeCapabilityMinor) failed in isSupported: {}",
-                     cudaGetErrorString(minor_err));
+    attr_err = cudaDeviceGetAttribute(&minor_ver, cudaDevAttrComputeCapabilityMinor, dev);
+    if (attr_err != cudaSuccess) {
         return false;
     }
     const int sm = major * 10 + minor_ver;

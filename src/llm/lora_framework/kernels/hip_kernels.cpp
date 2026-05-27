@@ -13,6 +13,7 @@
 
 #include "llm/lora_framework/hip_kernels.h"
 #include "security/vram_secure_clear.h"
+#include <spdlog/spdlog.h>
 #include <hip/hip_runtime.h>
 #include <rocblas/rocblas.h>
 
@@ -435,9 +436,10 @@ hipError_t launch_check_inf_nan_kernel(
     err = hipMemset(d_overflow, 0, sizeof(int));
     if (err != hipSuccess) {
         security::VRAMSecureClear::secureClearHIP(d_overflow, sizeof(int));
-        hipError_t free_err = hipFree(d_overflow);
+        const hipError_t free_err = hipFree(d_overflow);
         if (free_err != hipSuccess) {
-            return free_err;
+            spdlog::error("checkInfNanHIP cleanup hipFree failed after hipMemset error: {}",
+                          hipGetErrorString(free_err));
         }
         return err;
     }
@@ -450,9 +452,10 @@ hipError_t launch_check_inf_nan_kernel(
     err = hipGetLastError();
     if (err != hipSuccess) {
         security::VRAMSecureClear::secureClearHIP(d_overflow, sizeof(int));
-        hipError_t free_err = hipFree(d_overflow);
+        const hipError_t free_err = hipFree(d_overflow);
         if (free_err != hipSuccess) {
-            return free_err;
+            spdlog::error("checkInfNanHIP cleanup hipFree failed after kernel launch error: {}",
+                          hipGetErrorString(free_err));
         }
         return err;
     }
@@ -463,9 +466,13 @@ hipError_t launch_check_inf_nan_kernel(
     
     // Securely clear before freeing
     security::VRAMSecureClear::secureClearHIP(d_overflow, sizeof(int));
-    hipError_t free_err = hipFree(d_overflow);
+    const hipError_t free_err = hipFree(d_overflow);
     if (free_err != hipSuccess) {
-        return free_err;
+        spdlog::error("checkInfNanHIP cleanup hipFree failed after result copy: {}",
+                      hipGetErrorString(free_err));
+        if (err == hipSuccess) {
+            return free_err;
+        }
     }
     
     if (err != hipSuccess) {

@@ -253,14 +253,17 @@ std::vector<GPUMemoryManager::BackendInfo> GPUMemoryManager::detect_backends() {
             }
             
             int runtime_version = 0;
-            cudaError_t runtime_err = cudaRuntimeGetVersion(&runtime_version);
-            if (runtime_err != cudaSuccess) {
-                spdlog::warn("GPUMemoryManager: cudaRuntimeGetVersion failed: {}",
-                             cudaGetErrorString(runtime_err));
-            } else {
-                info.version = std::to_string(runtime_version / 1000) + "." +
-                               std::to_string((runtime_version % 100) / 10);
+            // REL-18a: check cudaRuntimeGetVersion return value
+            {
+                cudaError_t ver_err = cudaRuntimeGetVersion(&runtime_version);
+                if (ver_err != cudaSuccess) {
+                    spdlog::warn("GPUMemoryManager: cudaRuntimeGetVersion failed: {}",
+                                 cudaGetErrorString(ver_err));
+                    runtime_version = 0;
+                }
             }
+            info.version = std::to_string(runtime_version / 1000) + "." +
+                          std::to_string((runtime_version % 100) / 10);
         }
         
         backends.push_back(info);
@@ -279,25 +282,31 @@ std::vector<GPUMemoryManager::BackendInfo> GPUMemoryManager::detect_backends() {
             info.available = true;
             
             hipDeviceProp_t prop{};
-            hipError_t prop_err = hipGetDeviceProperties(&prop, 0);
-            if (prop_err != hipSuccess) {
-                spdlog::warn("GPUMemoryManager: hipGetDeviceProperties failed: {}",
-                             hipGetErrorString(prop_err));
-            } else {
-                info.device_name = prop.name;
-                info.vram_bytes = prop.totalGlobalMem;
-                info.compute_units = prop.multiProcessorCount;
+            // REL-18b: zero-init prop and check hipGetDeviceProperties return value
+            {
+                hipError_t prop_err = hipGetDeviceProperties(&prop, 0);
+                if (prop_err != hipSuccess) {
+                    spdlog::warn("GPUMemoryManager: hipGetDeviceProperties failed: {}",
+                                 hipGetErrorString(prop_err));
+                } else {
+                    info.device_name = prop.name;
+                    info.vram_bytes = prop.totalGlobalMem;
+                    info.compute_units = prop.multiProcessorCount;
+                }
             }
 
             int runtime_version = 0;
-            hipError_t runtime_err = hipRuntimeGetVersion(&runtime_version);
-            if (runtime_err != hipSuccess) {
-                spdlog::warn("GPUMemoryManager: hipRuntimeGetVersion failed: {}",
-                             hipGetErrorString(runtime_err));
-            } else {
-                info.version = std::to_string(runtime_version / 1000) + "." +
-                               std::to_string((runtime_version % 100) / 10);
+            // REL-18c: check hipRuntimeGetVersion return value
+            {
+                hipError_t ver_err = hipRuntimeGetVersion(&runtime_version);
+                if (ver_err != hipSuccess) {
+                    spdlog::warn("GPUMemoryManager: hipRuntimeGetVersion failed: {}",
+                                 hipGetErrorString(ver_err));
+                    runtime_version = 0;
+                }
             }
+            info.version = std::to_string(runtime_version / 1000) + "." +
+                          std::to_string((runtime_version % 100) / 10);
         }
         
         backends.push_back(info);
@@ -322,12 +331,19 @@ std::vector<GPUMemoryManager::BackendInfo> GPUMemoryManager::detect_backends() {
         VkResult create_result = vkCreateInstance(&instCI, nullptr, &instance);
         if (create_result == VK_SUCCESS) {
             uint32_t deviceCount = 0;
-            VkResult enum_count_result = vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
-            if (enum_count_result == VK_SUCCESS && deviceCount > 0) {
+            VkResult enumerate_count_result =
+                vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
+            if (enumerate_count_result != VK_SUCCESS) {
+                spdlog::warn("GPUMemoryManager: vkEnumeratePhysicalDevices(count) failed: {}",
+                             static_cast<int>(enumerate_count_result));
+            } else if (deviceCount > 0) {
                 std::vector<VkPhysicalDevice> physDevices(deviceCount);
-                VkResult enum_fill_result = vkEnumeratePhysicalDevices(
-                    instance, &deviceCount, physDevices.data());
-                if (enum_fill_result == VK_SUCCESS) {
+                VkResult enumerate_fill_result =
+                    vkEnumeratePhysicalDevices(instance, &deviceCount, physDevices.data());
+                if (enumerate_fill_result == VK_SUCCESS || enumerate_fill_result == VK_INCOMPLETE) {
+                    if (deviceCount == 0) {
+                        spdlog::warn("GPUMemoryManager: vkEnumeratePhysicalDevices(fill) returned no devices");
+                    } else {
                     // Use first physical device's properties
                     VkPhysicalDeviceProperties props{};
                     vkGetPhysicalDeviceProperties(physDevices[0], &props);
@@ -347,19 +363,17 @@ std::vector<GPUMemoryManager::BackendInfo> GPUMemoryManager::detect_backends() {
                             break;
                         }
                     }
+                    }
                 } else {
-                    spdlog::warn(
-                        "GPUMemoryManager: vkEnumeratePhysicalDevices (fill) failed: {}",
-                        static_cast<int>(enum_fill_result));
+                    spdlog::warn("GPUMemoryManager: vkEnumeratePhysicalDevices(fill) failed: {}",
+                                 static_cast<int>(enumerate_fill_result));
                 }
-            } else if (enum_count_result != VK_SUCCESS) {
-                spdlog::warn(
-                    "GPUMemoryManager: vkEnumeratePhysicalDevices (count) failed: {}",
-                    static_cast<int>(enum_count_result));
+            } else {
+                spdlog::debug("GPUMemoryManager: Vulkan backend available but no physical device found");
             }
             vkDestroyInstance(instance, nullptr);
         } else {
-            spdlog::warn("GPUMemoryManager: vkCreateInstance failed: {}",
+            spdlog::warn("GPUMemoryManager: vkCreateInstance probe failed: {}",
                          static_cast<int>(create_result));
         }
 

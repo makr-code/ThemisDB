@@ -26,6 +26,18 @@
 
 **See [ai_working/MODULE_MATURITY_MATRIX.md](ai_working/MODULE_MATURITY_MATRIX.md) for details.**
 
+## Documentation Sync (2026-05-26)
+
+- Root-level markdown documentation was reviewed and synchronized.
+- Current wire/themis verification baseline:
+  - `cmake --build --preset windows-release --target themis_tests --parallel 16`
+  - `themis_tests --gtest_filter=WireProtocolServer.SingleThreadedIoContextPrunesSessionsAfterDisconnect`
+  - `ctest --preset windows-release -R ThemisWireProtocolV1Tests --output-on-failure`
+- Recent technical hardening reflected in docs/changelog:
+  - fail-closed wire bootstrap behaviour retained for deprecated bridge-only setup
+  - single-threaded wire server session pruning regression covered by dedicated test
+  - `multi_lora_manager` opaque adapter handle consistency fix (`void*`)
+
 ---
 
 ## What is ThemisDB?
@@ -199,3 +211,7 @@ ThemisDB is released under the [MIT License](LICENSE).
 ## Module Documentation
 
 > Per-module documentation lives in `src/<module>/README.md` and `include/<module>/`. This section is a navigation index.
+
+---
+Zuletzt geprueft (Root-Sync): 2026-05-26
+

@@ -901,6 +901,9 @@ private:
     // Background eviction thread
     std::unique_ptr<std::thread> eviction_thread_;
     std::atomic<bool> eviction_thread_running_{false};
+    /// @brief Set to true when the eviction thread has fully exited.
+    /// Used by stopEvictionThread() to implement a timed join (W1-L01 no_timeout fix).
+    std::atomic<bool> eviction_thread_done_{true};
     std::condition_variable eviction_cv_;
     ApplyAdapterFn apply_adapter_fn_;
     RemoveAdapterFn remove_adapter_fn_;

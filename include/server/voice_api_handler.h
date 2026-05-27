@@ -91,9 +91,12 @@ public:
     /**
      * @brief Construct Voice API handler
      *
-     * @param voice_assistant Voice assistant instance
+     * @param voice_assistant Voice assistant instance; **must not be null**.
+     *        Passing nullptr throws `std::invalid_argument`.
      * @param auth Optional shared authentication middleware used for
      *             bearer token validation (static tokens and JWT when configured).
+     *
+     * @throws std::invalid_argument if @p voice_assistant is null.
      */
     explicit VoiceApiHandler(
         std::shared_ptr<voice::VoiceAssistant> voice_assistant,

@@ -117,10 +117,10 @@ bool RCCLBackend::allreduce([[maybe_unused]] std::vector<GPUTensor*>& tensors, [
 #ifdef THEMIS_ENABLE_RCCL
     hipStream_t stream = static_cast<hipStream_t>(hip_stream_);
     
-    // Group API for efficient communication
+    // Group API for efficient communication — REL-71: check ncclGroupStart return value
     ncclResult_t group_start_err = ncclGroupStart();
     if (group_start_err != ncclSuccess) {
-        spdlog::error("ncclGroupStart failed before RCCL allreduce: {}",
+        spdlog::error("RCCL allreduce: ncclGroupStart failed: {}",
                       ncclGetErrorString(group_start_err));
         return false;
     }
@@ -149,25 +149,26 @@ bool RCCLBackend::allreduce([[maybe_unused]] std::vector<GPUTensor*>& tensors, [
             spdlog::error("RCCL allreduce failed: {}", ncclGetErrorString(result));
             ncclResult_t group_end_err = ncclGroupEnd();
             if (group_end_err != ncclSuccess) {
-                spdlog::error("ncclGroupEnd failed after RCCL allreduce error: {}",
-                              ncclGetErrorString(group_end_err));
+                spdlog::warn("RCCL allreduce early-exit: ncclGroupEnd failed: {}",
+                             ncclGetErrorString(group_end_err));
             }
             return false;
         }
     }
     
+    // REL-72: check ncclGroupEnd return value on success path
     ncclResult_t group_end_err = ncclGroupEnd();
     if (group_end_err != ncclSuccess) {
-        spdlog::error("ncclGroupEnd failed after RCCL allreduce: {}",
+        spdlog::error("RCCL allreduce: ncclGroupEnd failed: {}",
                       ncclGetErrorString(group_end_err));
         return false;
     }
     
-    // Wait for completion
+    // Wait for completion — REL-14: check hipStreamSynchronize return value
     {
         hipError_t sync_err = hipStreamSynchronize(stream);
         if (sync_err != hipSuccess) {
-            spdlog::error("hipStreamSynchronize failed after RCCL allreduce: {}",
+            spdlog::error("RCCL allreduce stream sync failed: {}",
                           hipGetErrorString(sync_err));
             return false;
         }
@@ -230,10 +231,11 @@ bool RCCLBackend::broadcast([[maybe_unused]] GPUTensor& tensor, [[maybe_unused]]
         return false;
     }
     
+    // REL-15: check hipStreamSynchronize return value in broadcast
     {
         hipError_t sync_err = hipStreamSynchronize(stream);
         if (sync_err != hipSuccess) {
-            spdlog::error("hipStreamSynchronize failed after RCCL broadcast: {}",
+            spdlog::error("RCCL broadcast stream sync failed: {}",
                           hipGetErrorString(sync_err));
             return false;
         }
@@ -274,10 +276,11 @@ void RCCLBackend::barrier() {
         spdlog::error("RCCL barrier allreduce failed: {}", ncclGetErrorString(result));
     }
     
+    // REL-16: check hipStreamSynchronize return value in barrier
     {
         hipError_t sync_err = hipStreamSynchronize(stream);
         if (sync_err != hipSuccess) {
-            spdlog::error("hipStreamSynchronize failed in RCCL barrier: {}",
+            spdlog::error("RCCL barrier stream sync failed: {}",
                           hipGetErrorString(sync_err));
         }
     }
@@ -303,9 +306,8 @@ std::string RCCLBackend::get_version() {
     int version = 0;
     ncclResult_t version_err = ncclGetVersion(&version);
     if (version_err != ncclSuccess) {
-        spdlog::warn("ncclGetVersion failed in RCCLBackend::get_version: {}",
-                     ncclGetErrorString(version_err));
-        return "Unknown (ncclGetVersion failed)";
+        spdlog::warn("Failed to query RCCL version: {}", ncclGetErrorString(version_err));
+        return "Unknown (query failed)";
     }
     int major = version / 10000;
     int minor = (version % 10000) / 100;
@@ -324,13 +326,13 @@ bool RCCLBackend::initialize_rccl() {
 #ifdef THEMIS_ENABLE_RCCL
     spdlog::info("Initializing RCCL backend (rank {}/{})", rank_, world_size_);
     
-    // Set device
+    // Set device — REL-17: check hipSetDevice return value
     Device device = ctx_.get_device(rank_);
     {
-        hipError_t dev_err = hipSetDevice(device.id);
-        if (dev_err != hipSuccess) {
-            spdlog::error("hipSetDevice({}) failed in initialize_rccl: {}",
-                          device.id, hipGetErrorString(dev_err));
+        hipError_t set_err = hipSetDevice(device.id);
+        if (set_err != hipSuccess) {
+            spdlog::error("RCCL init: hipSetDevice({}) failed: {}",
+                          device.id, hipGetErrorString(set_err));
             return false;
         }
     }
@@ -380,17 +382,17 @@ void RCCLBackend::cleanup_rccl() {
 #ifdef THEMIS_ENABLE_HIP
 #ifdef THEMIS_ENABLE_RCCL
     if (rccl_comm_) {
-        ncclResult_t rccl_err = ncclCommDestroy(rccl_comm_);
-        if (rccl_err != ncclSuccess) {
-            spdlog::warn("ncclCommDestroy (RCCL) failed during RCCL cleanup: {}", ncclGetErrorString(rccl_err));
+        ncclResult_t destroy_err = ncclCommDestroy(rccl_comm_);
+        if (destroy_err != ncclSuccess) {
+            spdlog::warn("RCCL cleanup: ncclCommDestroy failed: {}", ncclGetErrorString(destroy_err));
         }
         rccl_comm_ = nullptr;
     }
     
     if (hip_stream_) {
-        hipError_t stream_err = hipStreamDestroy(static_cast<hipStream_t>(hip_stream_));
-        if (stream_err != hipSuccess) {
-            spdlog::warn("hipStreamDestroy failed during RCCL cleanup: {}", hipGetErrorName(stream_err));
+        hipError_t destroy_err = hipStreamDestroy(static_cast<hipStream_t>(hip_stream_));
+        if (destroy_err != hipSuccess) {
+            spdlog::warn("RCCL cleanup: hipStreamDestroy failed: {}", hipGetErrorString(destroy_err));
         }
         hip_stream_ = nullptr;
     }

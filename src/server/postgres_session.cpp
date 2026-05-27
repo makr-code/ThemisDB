@@ -602,8 +602,9 @@ void PostgresSession::handleDescribe(char type, const std::string& name) {
                 // Non-SELECT query - send NoData
                 sendNoData();
             }
-        } catch (...) {
+        } catch (const std::exception& e) {
             // If parsing fails, send generic row description
+            std::cerr << "[PostgresSession] handleDescribe (statement): parse error: " << e.what() << "\n";
             std::vector<FieldDescription> fields = {
                 {"?column?", 0, 0, 25, -1, -1, 0}
             };
@@ -653,7 +654,8 @@ void PostgresSession::handleDescribe(char type, const std::string& name) {
             } else {
                 sendNoData();
             }
-        } catch (...) {
+        } catch (const std::exception& e) {
+            std::cerr << "[PostgresSession] handleDescribe (portal): parse error: " << e.what() << "\n";
             std::vector<FieldDescription> fields = {
                 {"?column?", 0, 0, 25, -1, -1, 0}
             };
@@ -1176,6 +1178,7 @@ void PostgresSession::doRead() {
                 
                 offset = 5; // Skip type and length
                 
+                try {
                 switch (messageType) {
                     case 'Q': { // Simple Query
                         std::string query(buffer_.data() + offset);
@@ -1259,20 +1262,43 @@ void PostgresSession::doRead() {
                         break;
                     }
                     case 'E': { // Execute
+                        // Guard: need at least 1 byte for portalName (the null terminator)
+                        // and 4 bytes for maxRows after it.
+                        if (offset >= bytes_transferred) {
+                            sendErrorResponse("ERROR", "08P01", "Malformed Execute message: missing portal name");
+                            break;
+                        }
                         std::string portalName(buffer_.data() + offset);
                         offset += portalName.size() + 1;
-                        int32_t maxRows = (buffer_[offset] << 24) | (buffer_[offset+1] << 16) |
-                                        (buffer_[offset+2] << 8) | buffer_[offset+3];
+                        // Guard: need 4 bytes for the maxRows int32.
+                        if (offset + 4 > bytes_transferred) {
+                            sendErrorResponse("ERROR", "08P01", "Malformed Execute message: missing maxRows field");
+                            break;
+                        }
+                        int32_t maxRows = (static_cast<uint8_t>(buffer_[offset]) << 24)
+                                        | (static_cast<uint8_t>(buffer_[offset+1]) << 16)
+                                        | (static_cast<uint8_t>(buffer_[offset+2]) << 8)
+                                        | static_cast<uint8_t>(buffer_[offset+3]);
                         handleExecute(portalName, maxRows);
                         break;
                     }
                     case 'D': { // Describe
+                        // Guard: need 1 byte for descType + at least 1 byte (null) for name.
+                        if (offset + 2 > bytes_transferred) {
+                            sendErrorResponse("ERROR", "08P01", "Malformed Describe message");
+                            break;
+                        }
                         char descType = buffer_[offset];
                         std::string name(buffer_.data() + offset + 1);
                         handleDescribe(descType, name);
                         break;
                     }
                     case 'C': { // Close
+                        // Guard: same layout as Describe.
+                        if (offset + 2 > bytes_transferred) {
+                            sendErrorResponse("ERROR", "08P01", "Malformed Close message");
+                            break;
+                        }
                         char closeType = buffer_[offset];
                         std::string name(buffer_.data() + offset + 1);
                         handleClose(closeType, name);
@@ -1301,6 +1327,10 @@ void PostgresSession::doRead() {
                     }
                     default:
                         break;
+                }
+                } catch (const std::exception& e) {
+                    std::cerr << "[PostgresSession] Message handler error (type='" << messageType << "'): " << e.what() << "\n";
+                    sendErrorResponse("ERROR", "XX000", std::string("Internal error: ") + e.what());
                 }
             }
             
@@ -1470,7 +1500,9 @@ void PostgresSession::handleSchemaQuery(const std::string& query) {
                             }
                         }
                     }
-                } catch (...) {}
+                } catch (const std::exception& e) {
+                    std::cerr << "[PostgresSession] pg_attribute query: document parse error: " << e.what() << "\n";
+                }
                 ++oid;
             }
             sendCommandComplete("SELECT " + std::to_string(total_cols));
@@ -1998,7 +2030,12 @@ std::string PostgresSession::translateQuery(const std::string& postgresQuery) {
     std::string upperQuery = query;
     std::transform(upperQuery.begin(), upperQuery.end(), upperQuery.begin(), ::toupper);
     
-    // Handle different SQL statement types
+    // Handle different SQL statement types.
+    // Parser helpers (parseSelectQuery, parseInsertQuery, etc.) throw
+    // std::runtime_error on malformed input.  We propagate these as-is so that
+    // the catch blocks in handleQuery/handleExecute/handleDescribe can convert
+    // them into PostgreSQL ErrorResponse messages.  All callers of translateQuery
+    // are already wrapped in try { … } catch (const std::exception& e) { … }.
     if (upperQuery.find("SELECT") == 0) {
         QueryInfo info = parseSelectQuery(query);
         return buildCypherFromSelect(info);
@@ -2013,7 +2050,7 @@ std::string PostgresSession::translateQuery(const std::string& postgresQuery) {
         // Transaction commands - accept but don't execute (no ACID guarantees yet)
         return "// Transaction: " + query;
     } else {
-        throw std::runtime_error("Unsupported SQL statement type");
+        throw std::runtime_error("Unsupported SQL statement type: " + query.substr(0, 32));
     }
 }
 
