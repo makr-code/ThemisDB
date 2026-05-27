@@ -1459,6 +1459,20 @@ Fixes applied:
   fail-closed / empty-list resilient without leaking non-standard exceptions into
   top-level request dispatch.
 
+### Focused Test Coverage (2026-05-27, W1-S06 verification)
+- `tests/test_llm_w1s06_exception_boundaries.cpp`: 6 focused unit tests registered as
+  `W1S06ExceptionBoundaryTests` in `tests/CMakeLists.txt`.
+  - **EX-01** — `handleRequest()` top-level catch does not propagate; returns HTTP 500.
+  - **EX-02** — No `Authorization` header → 401 (no-auth-header path).
+  - **EX-03** — Bearer token present but `jwt_validator_` null → 401 (fail-closed).
+  - **EX-04** — Malformed JWT (2-part token) → `parseAndValidate()` throws; caught by
+    `validateBearerToken()` → 401 (exception-catch path exercised).
+  - **EX-05** — `GET /v1/models` bypasses JWT gate → 200 with `{"object":"list","data":[]}`.
+  - **EX-06** — Unknown route past auth gate → 404.
+  - `Http3Handler` lifecycle changes (`running_` gate, `armCleanupTimer`) are verified
+    by code review and documented here; direct unit-testing requires a live UDP socket
+    and is deferred to integration-level tests.
+
 ---
 
 ## ✅ Recent Remediation (2026-05-26 — W1-S07 unknown cluster triage)
