@@ -279,7 +279,7 @@ std::shared_ptr<Expression> parseUnary() {
 | ~~**CQE-01..CQE-03**~~ | ~~**ContinuousQueryEngine memory-safety and resource-exhaustion hardening**~~ | ✅ **Fixed 2026-05-27** | ~~High~~ |
 | ~~**REL-01..REL-09**~~ | ~~**Arithmetic overflow / type-cast safety (reliability batch)**~~ | ✅ **Fixed 2026-05-27** | ~~High~~ |
 | OI-02 | Performance benchmarks (vectorized, federated)               | Q2 2026 | High     |
-| OI-03 | Full security audit (injection, resource exhaustion)         | Q2 2026 | High     |
+| ~~OI-03~~ | ~~Full security audit (injection, resource exhaustion)~~ | ✅ **Closed 2026-05-27** — all tracked findings resolved (CCF-01..05, CQE-01..03, TC-01..15, REL-01..19, UNINIT-01..20, PERF-01..05, IV-01) | ~~High~~ |
 
 ---
 
