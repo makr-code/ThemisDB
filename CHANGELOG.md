@@ -9,6 +9,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **W1-S05 server hardening: `SseConnectionManager` + `CacheAdminApiHandler` (2026-05-27)**
+
+  - **`SseConnectionManager` concurrency hardening (follow-ups 1–6)**
+    - `backgroundPollTask()` now snapshots connection poll inputs (`from_sequence`,
+      `key_prefix`, `event_types`) under `connections_mutex_` before the unlocked
+      `changefeed_->listEvents()` call, eliminating iterator-invalidation races on the
+      connection map.
+    - Overflow eviction switched to bounded range-erase (drop-oldest semantics) instead
+      of repeated `erase(begin)` loops; next-poll rescheduling re-checks `running_` under
+      `poll_timer_mutex_` before arming `async_wait`, tightening the stop/schedule race.
+    - Removed undeclared `pollEventsWithSequences()` (had a type-mismatch compile error);
+      implemented the public `pollEvents(conn_id, max_events)` declared in the header,
+      draining `buffered_events` and keeping `raw_buffered_events` in sync.
+    - `shutdown()` now resets `poll_timer_` via `unique_ptr::reset()` after `cancel()` to
+      make repeated shutdown calls safe; `HttpServer::stop()` now explicitly calls
+      `sse_manager_->shutdown()` before `ioc_.stop()` to prevent timer access on a
+      destroyed executor (latent use-after-free).
+    - Defensive null guards added across `unregisterConnection`, `pollEvents`,
+      `pollRawEvents`, `needsHeartbeat`, `recordHeartbeat`, and `shutdown` for stale/null
+      map entries (fail-closed rather than crash).
+    - `backgroundPollTask()` fail-closes with a warning when `changefeed_` is absent,
+      disabling the polling loop instead of dereferencing a null pointer.
+  - **`CacheAdminApiHandler` SLO monitor race** — `set`/`read` access to `slo_monitor_`
+    now synchronised via `slo_monitor_mutex_`; `/v1/admin/cache/stats` includes latency
+    SLO fields only when a monitor is attached.
+  - **`SseStreamWriterFn` bridge unit tests** — Added `ChangefeedSseWriterTests` suite
+    covering Path A dispatch, parameter forwarding, clear/replace semantics, exception
+    fallthrough (writer throws → handler catches, 200 OK returned), and thread-safety of
+    concurrent `setSseStreamWriterFn`/`clearSseStreamWriterFn` calls.
+  - **Regression tests** — Added `DropOldestOverflowKeepsNewestRawEvents` (overflow buffer
+    drop-oldest semantics) and `NullChangefeedDoesNotCrashPollingPaths` (null changefeed
+    safe operation).
+  - (`src/server/sse_connection_manager.cpp`, `src/server/http_server.cpp`,
+    `src/server/cache_admin_api_handler.cpp`, `tests/test_sse_connection_manager.cpp`,
+    `tests/test_changefeed_sse_writer.cpp`)
+
 - **wire/themis hardening + single-thread regression validation (2026-05-26)**
 
   - `WireProtocolServer` single-threaded `io_context` pruning behaviour is now
