@@ -83,7 +83,11 @@ int parseIntegerValue(const std::string& value, const char* field_name) {
             throw std::out_of_range("out of int range");
         }
         return static_cast<int>(parsed);
-    } catch (...) {
+    } catch (const std::invalid_argument&) {
+        throw std::invalid_argument(
+            std::string("AQLTrainParser: invalid integer value for ") +
+            field_name + ": '" + value + "'");
+    } catch (const std::out_of_range&) {
         throw std::invalid_argument(
             std::string("AQLTrainParser: invalid integer value for ") +
             field_name + ": '" + value + "'");
@@ -98,7 +102,11 @@ double parseDoubleValue(const std::string& value, const char* field_name) {
             throw std::invalid_argument("invalid floating value");
         }
         return parsed;
-    } catch (...) {
+    } catch (const std::invalid_argument&) {
+        throw std::invalid_argument(
+            std::string("AQLTrainParser: invalid numeric value for ") +
+            field_name + ": '" + value + "'");
+    } catch (const std::out_of_range&) {
         throw std::invalid_argument(
             std::string("AQLTrainParser: invalid numeric value for ") +
             field_name + ": '" + value + "'");

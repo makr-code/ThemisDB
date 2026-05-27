@@ -398,6 +398,30 @@ TEST_F(AQLTrainParserTest, ParseTrainAdapterOutOfRangeRankThrowsClearError) {
     }
 }
 
+TEST_F(AQLTrainParserTest, ParseTrainAdapterInvalidLearningRateValueThrowsClearError) {
+    const std::string aql = "TRAIN ADAPTER 'aql-v1' FROM training_pairs "
+                            "WITH { base_model: 'mistral-7b', rank: 8, alpha: 16, epochs: 3, learning_rate: 0.1xyz }";
+
+    try {
+        (void)parser_.parseTrainAdapter(aql);
+        FAIL() << "Expected std::invalid_argument";
+    } catch (const std::invalid_argument& ex) {
+        EXPECT_NE(std::string(ex.what()).find("invalid numeric value for learning_rate"), std::string::npos);
+    }
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterInfiniteLearningRateThrowsClearError) {
+    const std::string aql = "TRAIN ADAPTER 'aql-v1' FROM training_pairs "
+                            "WITH { base_model: 'mistral-7b', rank: 8, alpha: 16, epochs: 3, learning_rate: 1e309 }";
+
+    try {
+        (void)parser_.parseTrainAdapter(aql);
+        FAIL() << "Expected std::invalid_argument";
+    } catch (const std::invalid_argument& ex) {
+        EXPECT_NE(std::string(ex.what()).find("invalid numeric value for learning_rate"), std::string::npos);
+    }
+}
+
 TEST_F(AQLTrainParserTest, ParseTrainAdapterRejectsNonPositiveBatchSize) {
     const std::string aql = "TRAIN ADAPTER 'aql-v1' FROM training_pairs "
                             "WITH { base_model: 'mistral-7b', rank: 8, alpha: 16, epochs: 3, learning_rate: 0.0003, batch_size: 0 }";

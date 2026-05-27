@@ -439,6 +439,15 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
   `MultiModelEnrichmentFromJSONNonArrayRelationalJoinsIgnored`,
   `ParseTrainAdapterJsonWithClauseTypeMismatchThrows`.
 
+**Status (v1.22.0-pre — W1-L05 numeric-exception follow-up):** Numeric parser catch scope narrowed:
+- `aql_train_parser.cpp` helper parsers `parseIntegerValue()` and `parseDoubleValue()` now catch only
+  `std::invalid_argument`/`std::out_of_range` from `std::stoll`/`std::stod` conversion paths instead
+  of `catch(...)`, preserving existing user-facing validation messages while avoiding unrelated
+  exception swallowing.
+- Added regression tests `ParseTrainAdapterInvalidLearningRateValueThrowsClearError` and
+  `ParseTrainAdapterInfiniteLearningRateThrowsClearError` to lock down malformed/trailing and
+  non-finite learning-rate parsing errors.
+
 **Status (v1.22.0-pre — W1-L06 uninitialized_access/overflow batch):** Integer-overflow guard added to `canAllocate`:
 - `gpu_memory_manager.cpp` `canAllocate()` (~line 759) — Added `size_t` overflow pre-checks
   before computing `future_vram = total_vram_used_ + vram_bytes` and
