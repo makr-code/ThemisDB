@@ -92,15 +92,14 @@ uint64_t SseConnectionManager::registerConnection(
 
 void SseConnectionManager::unregisterConnection(uint64_t conn_id) {
     std::unique_lock<std::shared_mutex> lock(connections_mutex_);
-    
-    auto it = connections_.find(conn_id);
-    if (it != connections_.end()) {
-        it->second->active = false;
-        connections_.erase(it);
+
+    auto removed = connections_.extract(conn_id);
+    if (!removed.empty()) {
+        removed.mapped()->active.store(false, std::memory_order_relaxed);
         total_disconnects_++;
-        
+
         THEMIS_INFO("SSE connection unregistered: id={}", conn_id);
-        
+
         // Stop polling if no more connections
         if (connections_.empty()) {
             running_ = false;

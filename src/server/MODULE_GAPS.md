@@ -426,17 +426,18 @@ its internal locking discipline.
 **Fix:** Added a thread-safety clarification comment above the endpoint handlers section
 documenting the invariant. No code change required.
 
-#### 3. False positives documented — SSE iterator_invalidation (iterator_invalidation)
+#### 3. Iterator-path hardening — SSE `unregisterConnection()` (iterator_invalidation)
 
 **Scanner flags:** 2 CRITICAL iterator_invalidation alerts at `connections_.find()` calls in
 `unregisterConnection()` (L96) and `backgroundPollTask()` (L360).
 
-**Assessment:** Both accesses are performed under the exclusive `connections_mutex_` lock and
-the iterator is not retained after the `erase()` call. There is no iterator invalidation
-risk. The scanner analyses the `erase` call without tracking that the invalidated iterator
-is immediately discarded.
+**Assessment:** The original `unregisterConnection()` path used `find()+erase(it)` under lock
+and was functionally safe, but still triggered iterator-invalidation alerts in conservative
+static analysis.
 
-**Fix:** False positives — no code change required. The existing lock discipline is correct.
+**Fix:** Rewrote the removal path to `connections_.extract(conn_id)` and operate on the
+extracted node's mapped value (`active=false`) without retaining any map iterator after
+mutation. `backgroundPollTask()` `find()` remains a lock-protected false positive.
 
 ### Gap Delta (estimated)
 
@@ -444,7 +445,7 @@ is immediately discarded.
 |---|---|---|
 | data_race CRITICAL (sse) | 5 | 1 real race fixed (L335); 4 false positives documented |
 | data_race CRITICAL (cache_admin) | 16 | 0 real races; all 16 documented as false positives |
-| iterator_invalidation CRITICAL (sse) | 2 | 0 real gaps; both documented as false positives |
+| iterator_invalidation CRITICAL (sse) | 2 | 1 hardened in code (`extract` path), 1 false positive documented |
 
 ---
 

@@ -3232,6 +3232,41 @@ else()
 endif()
 
 # ============================================================================
+# SSE Connection Manager Tests (W1-S05 hardening)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sse_connection_manager.cpp")
+    message(STATUS "Adding SSE Connection Manager tests")
+
+    add_executable(test_sse_connection_manager
+        test_sse_connection_manager.cpp
+    )
+
+    target_link_libraries(test_sse_connection_manager PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_sse_connection_manager PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SseConnectionManagerTests COMMAND test_sse_connection_manager)
+
+    set_tests_properties(SseConnectionManagerTests PROPERTIES
+        LABELS "sse;cdc;concurrency;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  SSE Connection Manager: unregister/remove path and disconnect accounting")
+else()
+    message(STATUS "SSE Connection Manager tests not found")
+endif()
+
+# ============================================================================
 # Cache Warmup Tests (Phase 3 - bulk warmup from query log / snapshot)
 # ============================================================================
 
