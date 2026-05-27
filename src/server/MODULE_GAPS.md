@@ -991,3 +991,11 @@ Findings addressed:
   cascade delete child-scan/traversal/write loops now check deadlines in 256-item intervals, returning
   `QUERY_TIMEOUT` when exceeded before destructive completion. Added
   `DeleteInternalHonorsExpiredDeadlineDuringCascadeScan` in `tests/test_rpc_batch_operations.cpp`.
+
+- **W1-S04 follow-up (2026-05-27) — deadline threading for `update_entity` (`rpc_service_impl.cpp`):**
+  `handleUpdateEntity` now follows wrapper + `Internal(params, deadline)` parity with other
+  deadline-aware handlers. `dispatch()` now threads `request_deadline` into
+  `handleUpdateEntityInternal`, which fail-closes on already-expired deadlines, checks merge-loop
+  progress in 256-field intervals, and re-checks before the final write. Added
+  `UpdateEntityInternalHonorsExpiredDeadline` in `tests/test_rpc_batch_operations.cpp` to verify
+  timeout behavior and non-mutation on expired deadlines.

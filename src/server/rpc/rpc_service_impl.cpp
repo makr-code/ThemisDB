@@ -2235,6 +2235,13 @@ json ThemisRPCService::handleStats([[maybe_unused]] const json& params) {
 }
 
 json ThemisRPCService::handleUpdateEntity(const json& params) {
+    return handleUpdateEntityInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleUpdateEntityInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         std::string model(params.value("model", ""));
         std::string collection(params.value("collection", ""));
@@ -2251,6 +2258,13 @@ json ThemisRPCService::handleUpdateEntity(const json& params) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
                 "Missing required parameter: updates"
+            );
+        }
+
+        if (isDeadlineExceeded(deadline)) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                "Request deadline exceeded during update entity"
             );
         }
         
@@ -2290,8 +2304,23 @@ json ThemisRPCService::handleUpdateEntity(const json& params) {
         
         // Apply updates (merge)
         json updates = params["updates"];
+        size_t updated_fields = 0;
         for (auto& [field, new_value] : updates.items()) {
+            ++updated_fields;
+            if (shouldCheckDeadline(updated_fields) && isDeadlineExceeded(deadline)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during update entity merge"
+                );
+            }
             entity[field] = new_value;
+        }
+
+        if (isDeadlineExceeded(deadline)) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                "Request deadline exceeded during update entity write"
+            );
         }
         
         // Update metadata
@@ -3247,7 +3276,7 @@ json ThemisRPCService::dispatch(
         } else if (method == "stats") {
             return handleStats(params);
         } else if (method == "update_entity") {
-            return handleUpdateEntity(params);
+            return handleUpdateEntityInternal(params, request_deadline);
         } else if (method == "batch_update") {
             return handleBatchUpdateInternal(params, request_deadline);
         } else if (method == "paginated_query") {

@@ -916,6 +916,30 @@ TEST_F(RPCBatchOperationsTest, DeleteInternalHonorsExpiredDeadlineDuringCascadeS
     EXPECT_TRUE(db_->get("cascade_timeout:Node:child-0", persisted_value));
 }
 
+TEST_F(RPCBatchOperationsTest, UpdateEntityInternalHonorsExpiredDeadline) {
+    DirectPut("update_timeout", "Doc", "doc-1", {{"title", "before"}});
+
+    auto expired = std::chrono::steady_clock::time_point{};
+    json resp = service_->handleUpdateEntityInternal(
+        {
+            {"collection", "update_timeout"},
+            {"model", "Doc"},
+            {"uuid", "doc-1"},
+            {"updates", {{"title", "after"}}}
+        },
+        std::make_optional(expired)
+    );
+
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+
+    std::string persisted_value;
+    ASSERT_TRUE(db_->get("update_timeout:Doc:doc-1", persisted_value));
+    auto persisted = json::parse(persisted_value);
+    EXPECT_EQ(persisted.value("title", ""), "before");
+}
+
 // ============================================================================
 // Performance – batch vs. individual operations
 // ============================================================================

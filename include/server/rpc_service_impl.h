@@ -181,6 +181,10 @@ public:
      * @brief Handle entity update - update entity with merge logic
      */
     json handleUpdateEntity(const json& params);
+    json handleUpdateEntityInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
     
     /**
      * @brief Handle batch update - batch update operations
