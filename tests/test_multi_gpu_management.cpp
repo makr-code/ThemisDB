@@ -178,6 +178,24 @@ TEST_F(GPUMemoryManagerMultiGPUTest, UnknownGPUReportsZeroFreeVRAM) {
     EXPECT_EQ(memory_manager_->getFreeGPUVRAM(999), 0u);
 }
 
+TEST(GPUMemoryManagerPeerAccessValidation, PeerAccessDisabledByConfig) {
+    GPUMemoryManager::Config config;
+    config.enable_multi_gpu = true;
+    config.gpu_devices = {0, 1};
+    config.max_vram_bytes = 24 * GB;
+    config.enable_peer_access = false;
+
+    auto manager = std::make_shared<GPUMemoryManager>(config);
+    EXPECT_FALSE(manager->enablePeerAccess(0, 1));
+    EXPECT_FALSE(manager->disablePeerAccess(0, 1));
+    EXPECT_FALSE(manager->canAccessPeer(0, 1));
+}
+
+TEST_F(GPUMemoryManagerMultiGPUTest, PeerAccessRejectsSameSourceAndDestinationGPU) {
+    EXPECT_FALSE(memory_manager_->enablePeerAccess(0, 0));
+    EXPECT_FALSE(memory_manager_->disablePeerAccess(1, 1));
+}
+
 TEST_F(GPUMemoryManagerMultiGPUTest, GetLeastLoadedGPU) {
     int least_loaded = memory_manager_->getLeastLoadedGPU();
     

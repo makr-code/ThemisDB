@@ -1614,6 +1614,16 @@ bool GPUMemoryManager::isGPUAvailable(int gpu_device_id) const {
 
 bool GPUMemoryManager::enablePeerAccess(int src_gpu, int dst_gpu) {
     std::lock_guard<std::mutex> lock(mutex_);
+
+    if (!config_.enable_peer_access) {
+        spdlog::warn("Cannot enable peer access: peer access is disabled in configuration");
+        return false;
+    }
+
+    if (src_gpu == dst_gpu) {
+        spdlog::warn("Cannot enable peer access: source and destination GPU are identical ({})", src_gpu);
+        return false;
+    }
     
     if (!isGPUAvailableNoLock(gpu_health_status_, src_gpu) ||
         !isGPUAvailableNoLock(gpu_health_status_, dst_gpu)) {
@@ -1653,6 +1663,16 @@ bool GPUMemoryManager::enablePeerAccess(int src_gpu, int dst_gpu) {
 
 bool GPUMemoryManager::disablePeerAccess(int src_gpu, int dst_gpu) {
     std::lock_guard<std::mutex> lock(mutex_);
+
+    if (!config_.enable_peer_access) {
+        spdlog::warn("Cannot disable peer access: peer access is disabled in configuration");
+        return false;
+    }
+
+    if (src_gpu == dst_gpu) {
+        spdlog::warn("Cannot disable peer access: source and destination GPU are identical ({})", src_gpu);
+        return false;
+    }
     
     if (!isGPUAvailableNoLock(gpu_health_status_, src_gpu) ||
         !isGPUAvailableNoLock(gpu_health_status_, dst_gpu)) {
