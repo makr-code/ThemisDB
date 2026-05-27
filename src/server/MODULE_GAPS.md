@@ -17,6 +17,22 @@ python tools/gap_audit_pipeline_v2.py
 
 ## ✅ Recent Remediation (2026-05-27)
 
+- **W1-S05 follow-up 4 (2026-05-27) – `src/server/sse_connection_manager.cpp`,
+  `src/server/http_server.cpp`**
+  - `shutdown()` now resets `poll_timer_` (via `unique_ptr::reset()`) immediately after
+    `cancel()`, making the method safe to call a second time (e.g. from the destructor
+    after an explicit `HttpServer::stop()`) without touching a timer whose io_context
+    may already have been destroyed.
+  - `HttpServer::stop()` now explicitly calls `sse_manager_->shutdown()` before
+    `ioc_.stop()` to guarantee that the SSE poll timer is cancelled and released while
+    the io_context executor is still alive.  Previously, C++ member-destruction order
+    (non-static members destroyed in reverse declaration order) meant `ioc_` was
+    destroyed before `sse_manager_`, so the implicit destructor-triggered `shutdown()`
+    would access a dead executor — a latent use-after-free.
+  - Gap delta intent: eliminate the residual `use_after_free` / shutdown-ordering
+    finding in the SSE manager timer lifecycle without changing any observable runtime
+    behaviour.
+
 - **W1-S13 (2026-05-27) – `src/server/http_server.cpp`, `src/server/AUDIT.md`,
   `tests/test_server_integration_complete.cpp`**
   - Completed HS-1 fix: added `requireAccess(req, "admin", "admin.storage.stats",

@@ -2137,6 +2137,14 @@ void HttpServer::stop() {
         THEMIS_INFO("RocksDB closed cleanly");
     }
 
+    // Shut down the SSE manager before the io_context so that its internal
+    // poll_timer_ is cancelled and reset while the executor is still alive.
+    // (sse_manager_ is declared before ioc_ and would otherwise be destroyed
+    // after ioc_, accessing a dead executor in its destructor.)
+    if (sse_manager_) {
+        sse_manager_->shutdown();
+    }
+
     // Stop io_context
     ioc_.stop();
 

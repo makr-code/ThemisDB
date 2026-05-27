@@ -297,6 +297,10 @@ void SseConnectionManager::shutdown() {
     std::lock_guard<std::mutex> timer_lock(poll_timer_mutex_);
     if (poll_timer_) {
         poll_timer_->cancel();
+        // Reset so that a second shutdown() call (e.g. from the destructor after
+        // an explicit HttpServer::stop()) cannot touch a timer whose io_context
+        // may already have been destroyed.
+        poll_timer_.reset();
     }
     
     THEMIS_INFO("SSE Connection Manager shutdown complete");
