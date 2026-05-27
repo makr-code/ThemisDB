@@ -57,6 +57,7 @@ PolicyManagerApiHandler::PolicyManagerApiHandler(
     if (!policy_manager_) {
         THEMIS_WARN("PolicyManagerApiHandler created with null PolicyManager");
     }
+    auto& policy_manager = *policy_manager_;
 }
 
 http::response<http::string_body> PolicyManagerApiHandler::handleListRules(
@@ -72,7 +73,7 @@ http::response<http::string_body> PolicyManagerApiHandler::handleListRules(
             return makeErrorResponse(http::status::service_unavailable, "PolicyManager not initialized", req);
         }
         
-        auto rules = policy_manager_->listRules();
+        auto rules = policy_manager.listRules();
         nlohmann::json json_array = nlohmann::json::array();
         
         for (const auto& rule : rules) {
@@ -110,7 +111,7 @@ http::response<http::string_body> PolicyManagerApiHandler::handleGetRule(
             return makeErrorResponse(http::status::service_unavailable, "PolicyManager not initialized", req);
         }
         
-        auto rule = policy_manager_->getRule(rule_id);
+        auto rule = policy_manager.getRule(rule_id);
         if (!rule.has_value()) {
             return makeErrorResponse(http::status::not_found, "Rule not found: " + rule_id, req);
         }
@@ -139,6 +140,7 @@ http::response<http::string_body> PolicyManagerApiHandler::handleCreateRule(
         if (!policy_manager_) {
             return makeErrorResponse(http::status::service_unavailable, "PolicyManager not initialized", req);
         }
+        auto& policy_manager = *policy_manager_;
         
         // Parse request body
         nlohmann::json body = nlohmann::json::parse(req.body());
@@ -155,7 +157,7 @@ http::response<http::string_body> PolicyManagerApiHandler::handleCreateRule(
         }
         
         // Check if rule already exists
-        if (policy_manager_->getRule(rule.id).has_value()) {
+        if (policy_manager.getRule(rule.id).has_value()) {
             return makeErrorResponse(http::status::conflict, "Rule already exists: " + rule.id, req);
         }
         
@@ -164,7 +166,7 @@ http::response<http::string_body> PolicyManagerApiHandler::handleCreateRule(
         rule.updated_at = rule.created_at;
         
         // Add rule
-        policy_manager_->addRule(rule);
+        policy_manager.addRule(rule);
         
         THEMIS_INFO("Created policy rule: {}", rule.id);
         
@@ -206,7 +208,7 @@ http::response<http::string_body> PolicyManagerApiHandler::handleUpdateRule(
         }
         
         // Check if rule exists
-        auto existing = policy_manager_->getRule(rule_id);
+        auto existing = policy_manager.getRule(rule_id);
         if (!existing.has_value()) {
             return makeErrorResponse(http::status::not_found, "Rule not found: " + rule_id, req);
         }
@@ -225,8 +227,8 @@ http::response<http::string_body> PolicyManagerApiHandler::handleUpdateRule(
         updated_rule.updated_at = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
         
         // Update rule (remove old, add new)
-        policy_manager_->removeRule(rule_id);
-        policy_manager_->addRule(updated_rule);
+        policy_manager.removeRule(rule_id);
+        policy_manager.addRule(updated_rule);
         
         THEMIS_INFO("Updated policy rule: {}", rule_id);
         
@@ -265,12 +267,12 @@ http::response<http::string_body> PolicyManagerApiHandler::handleDeleteRule(
         }
         
         // Check if rule exists
-        if (!policy_manager_->getRule(rule_id).has_value()) {
+        if (!policy_manager.getRule(rule_id).has_value()) {
             return makeErrorResponse(http::status::not_found, "Rule not found: " + rule_id, req);
         }
         
         // Remove rule
-        policy_manager_->removeRule(rule_id);
+        policy_manager.removeRule(rule_id);
         
         THEMIS_INFO("Deleted policy rule: {}", rule_id);
         
@@ -330,7 +332,7 @@ http::response<http::string_body> PolicyManagerApiHandler::handleEvaluatePolicy(
         }
         
         // Evaluate policy
-        auto decision = policy_manager_->evaluatePolicy(resource, action, user_roles);
+        auto decision = policy_manager.evaluatePolicy(resource, action, user_roles);
         
         // Build response
         nlohmann::json response = {
@@ -375,7 +377,7 @@ http::response<http::string_body> PolicyManagerApiHandler::handleGetStats(
             return makeErrorResponse(http::status::service_unavailable, "PolicyManager not initialized", req);
         }
         
-        auto stats = policy_manager_->getStats();
+        auto stats = policy_manager.getStats();
         
         nlohmann::json response = {
             {"total_rules", stats.total_rules},

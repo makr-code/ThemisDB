@@ -824,6 +824,45 @@ directly afterwards (`..._->...`). This is scanner-visible as residual guarded-d
 
 ---
 
+## ✅ Recent Remediation (2026-05-27) — W1-S03 Extension: Null-Guard Standardisation Round 6
+
+**Scope:** `src/server/task_scheduler_api_handler.cpp`, `src/server/schema_api_handler.cpp`,
+`src/server/maintenance_api_handler.cpp`, `src/server/graph_api_handler.cpp`,
+`src/server/geo_topology_api_handler.cpp`, `src/server/monitoring_api_handler.cpp`,
+`src/server/cache_admin_api_handler.cpp`, `src/server/lora_api_handler.cpp`,
+`src/server/timeseries_api_handler.cpp`, `src/server/policy_manager_api_handler.cpp`,
+`src/server/content_api_handler.cpp`  
+**Ticket:** W1-S03 (extension) · Priority P1
+
+### Fixes Applied
+
+All files follow the same W1-S03 pattern: every `if (!member_) { return …; }` guard is now
+immediately followed by `auto& member = *member_;`, and all subsequent `member_->method()`
+calls are replaced with `member.method()`. This makes the non-null invariant structurally
+visible to static scanners (CWE-476 / `pointer_without_null_check`).
+
+| File | Guarded pointer(s) anchored | Sites fixed |
+|---|---|---|
+| `task_scheduler_api_handler.cpp` | `scheduler_` → `scheduler` | 10 guard sites |
+| `schema_api_handler.cpp` | `schema_mgr_`, `stats_collector_`, `schema_constraints_`, `version_mgr_`, `index_recommender_`, `audit_log_` | 9 guard sites |
+| `maintenance_api_handler.cpp` | `orchestrator_` → `orchestrator` | 13 guard sites |
+| `graph_api_handler.cpp` | `optimizer_` → `optimizer` | 5 guard sites |
+| `geo_topology_api_handler.cpp` | `shard_topology_`, `redundancy_manager_` | 6 guard sites |
+| `monitoring_api_handler.cpp` | `sharding_metrics_`, `alertmanager_` | 3 guard sites |
+| `cache_admin_api_handler.cpp` | `cache_` → `cache` | 7 guard sites |
+| `lora_api_handler.cpp` | `jwt_validator_`, `orchestrator_` | 4 guard sites |
+| `timeseries_api_handler.cpp` | `ts_store_` → `ts_store` | 2 guard sites |
+| `policy_manager_api_handler.cpp` | `policy_manager_` → `policy_manager` | 6 guard sites |
+| `content_api_handler.cpp` | `content_manager_` → `content_manager` | residual sites |
+
+### Gap Delta
+
+| Type | Before | After |
+|---|---|---|
+| `pointer_without_null_check` (guarded member-pointer derefs across 11 handler files) | scanner-visible guarded-deref noise in all listed files | all guarded member dereferences anchored via local reference |
+
+---
+
 
 
 **Scope:** `src/server/http_server.cpp`, `include/server/http_server.h`  

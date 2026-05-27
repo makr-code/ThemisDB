@@ -139,7 +139,7 @@ http::response<http::string_body> ContentApiHandler::handleImport(
         
         // Call ContentManager::importContent with structured JSON spec
         std::string user_ctx = extractUserId(req, auth_);
-        auto status = content_manager_->importContent(body, blob, user_ctx);
+        auto status = content_manager.importContent(body, blob, user_ctx);
         
         if (!status.ok) {
             return makeErrorResponse(http::status::internal_server_error, status.message, req);
@@ -166,7 +166,7 @@ http::response<http::string_body> ContentApiHandler::handleGet(
     try {
         auto id = extractPathParam(std::string(req.target()), "/content/");
         if (id.empty()) return makeErrorResponse(http::status::bad_request, "Missing content id", req);
-        auto meta = content_manager_->getContentMeta(id);
+        auto meta = content_manager.getContentMeta(id);
         if (!meta) return makeErrorResponse(http::status::not_found, "Content not found", req);
         return makeResponse(http::status::ok, meta->toJson().dump(), req);
     } catch (const std::exception& e) {
@@ -185,9 +185,9 @@ http::response<http::string_body> ContentApiHandler::handleGetBlob(
         if (pos == std::string::npos) return makeErrorResponse(http::status::bad_request, "Invalid path", req);
         auto id = path.substr(prefix.size(), pos - prefix.size());
         std::string user_ctx = extractUserId(req, auth_);
-        auto blob = content_manager_->getContentBlob(id, user_ctx);
+        auto blob = content_manager.getContentBlob(id, user_ctx);
         if (!blob) return makeErrorResponse(http::status::not_found, "Blob not found", req);
-        auto meta = content_manager_->getContentMeta(id);
+        auto meta = content_manager.getContentMeta(id);
         std::string mime = (meta ? meta->mime_type : std::string("application/octet-stream"));
 
         http::response<http::string_body> res{http::status::ok, req.version()};
@@ -212,7 +212,7 @@ http::response<http::string_body> ContentApiHandler::handleGetChunks(
         auto pos = path.find("/chunks");
         if (pos == std::string::npos) return makeErrorResponse(http::status::bad_request, "Invalid path", req);
         auto id = path.substr(prefix.size(), pos - prefix.size());
-        auto chunks = content_manager_->getContentChunks(id);
+        auto chunks = content_manager.getContentChunks(id);
         nlohmann::json arr = nlohmann::json::array();
         for (const auto& c : chunks) {
             nlohmann::json j = c.toJson();
@@ -232,6 +232,7 @@ http::response<http::string_body> ContentApiHandler::handleHybridSearch(
 ) {
     try {
         if (!content_manager_) return makeErrorResponse(http::status::service_unavailable, "ContentManager not initialized", req);
+        auto& content_manager = *content_manager_;
         nlohmann::json body = nlohmann::json::parse(req.body());
         std::string query = body.value("query", "");
         int k = body.value("k", 10);
@@ -243,7 +244,7 @@ http::response<http::string_body> ContentApiHandler::handleHybridSearch(
         if (body.contains("filters")) filters = body["filters"];
         if (body.contains("scoring")) filters["scoring"] = body["scoring"];
 
-        auto results = content_manager_->searchWithExpansion(query, k, hops, filters);
+        auto results = content_manager.searchWithExpansion(query, k, hops, filters);
         nlohmann::json resp = nlohmann::json::array();
         for (const auto& result : results) {
             resp.push_back({{"pk", result.first}, {"score", result.second}});

@@ -72,6 +72,7 @@ json MaintenanceApiHandler::createSchedule(const json& body) {
         span.setStatus(false, "Orchestrator not initialized");
         return errorResponse("Orchestrator not initialized");
     }
+    auto& orchestrator = *orchestrator_;
 
     maintenance::MaintenanceScheduleEntry entry;
     try {
@@ -82,7 +83,7 @@ json MaintenanceApiHandler::createSchedule(const json& body) {
         return errorResponse(std::string("Invalid request body: ") + ex.what());
     }
 
-    auto result = orchestrator_->createSchedule(std::move(entry));
+    auto result = orchestrator.createSchedule(std::move(entry));
     if (!result) {
         span.setStatus(false, result.error().message());
         return errorResponse(result.error().message());
@@ -99,12 +100,13 @@ json MaintenanceApiHandler::listSchedules(const std::string& tenant_id) {
         span.setStatus(false, "Orchestrator not initialized");
         return errorResponse("Orchestrator not initialized");
     }
+    auto& orchestrator = *orchestrator_;
     if (!isValidTenantFilter(tenant_id)) {
         span.setStatus(false, "Invalid tenant_id filter");
         return errorResponse("Invalid tenant_id filter");
     }
 
-    auto schedules = orchestrator_->listSchedules(tenant_id);
+    auto schedules = orchestrator.listSchedules(tenant_id);
     span.setAttribute("maintenance.schedule_count", static_cast<int64_t>(schedules.size()));
     if (!tenant_id.empty()) {
         span.setAttribute("maintenance.tenant_id", tenant_id);
@@ -117,18 +119,20 @@ json MaintenanceApiHandler::listSchedules(const std::string& tenant_id) {
 
 json MaintenanceApiHandler::getSchedule(const std::string& id) {
     if (!orchestrator_) return errorResponse("Orchestrator not initialized");
+    auto& orchestrator = *orchestrator_;
     if (id.empty())     return errorResponse("Schedule id must not be empty");
     if (!isValidMaintenanceIdentifier(id)) {
         return errorResponse("Invalid schedule id");
     }
 
-    auto result = orchestrator_->getSchedule(id);
+    auto result = orchestrator.getSchedule(id);
     if (!result) return errorResponse(result.error().message());
     return scheduleToResponse(*result);
 }
 
 json MaintenanceApiHandler::updateSchedule(const std::string& id, const json& body) {
     if (!orchestrator_) return errorResponse("Orchestrator not initialized");
+    auto& orchestrator = *orchestrator_;
     if (id.empty())     return errorResponse("Schedule id must not be empty");
     if (!isValidMaintenanceIdentifier(id)) {
         return errorResponse("Invalid schedule id");
@@ -141,31 +145,33 @@ json MaintenanceApiHandler::updateSchedule(const std::string& id, const json& bo
         return errorResponse(std::string("Invalid request body: ") + ex.what());
     }
 
-    auto result = orchestrator_->updateSchedule(id, std::move(entry));
+    auto result = orchestrator.updateSchedule(id, std::move(entry));
     if (!result) return errorResponse(result.error().message());
     return scheduleToResponse(*result);
 }
 
 json MaintenanceApiHandler::patchSchedule(const std::string& id, const json& patch) {
     if (!orchestrator_) return errorResponse("Orchestrator not initialized");
+    auto& orchestrator = *orchestrator_;
     if (id.empty())     return errorResponse("Schedule id must not be empty");
     if (!isValidMaintenanceIdentifier(id)) {
         return errorResponse("Invalid schedule id");
     }
 
-    auto result = orchestrator_->patchSchedule(id, patch);
+    auto result = orchestrator.patchSchedule(id, patch);
     if (!result) return errorResponse(result.error().message());
     return scheduleToResponse(*result);
 }
 
 json MaintenanceApiHandler::deleteSchedule(const std::string& id) {
     if (!orchestrator_) return errorResponse("Orchestrator not initialized");
+    auto& orchestrator = *orchestrator_;
     if (id.empty())     return errorResponse("Schedule id must not be empty");
     if (!isValidMaintenanceIdentifier(id)) {
         return errorResponse("Invalid schedule id");
     }
 
-    auto result = orchestrator_->deleteSchedule(id);
+    auto result = orchestrator.deleteSchedule(id);
     if (!result) return errorResponse(result.error().message());
     return {{"status", "deleted"}, {"id", id}};
 }
@@ -176,8 +182,8 @@ json MaintenanceApiHandler::deleteSchedule(const std::string& id) {
 
 json MaintenanceApiHandler::listJobs(bool active_only) {
     if (!orchestrator_) return errorResponse("Orchestrator not initialized");
-
-    auto jobs = orchestrator_->listJobs(active_only);
+    auto& orchestrator = *orchestrator_;
+    auto jobs = orchestrator.listJobs(active_only);
     json arr = json::array();
     for (auto& j : jobs) arr.push_back(jobToResponse(j));
     return {{"jobs", arr}, {"count", static_cast<int>(jobs.size())}};
@@ -185,36 +191,39 @@ json MaintenanceApiHandler::listJobs(bool active_only) {
 
 json MaintenanceApiHandler::getJob(const std::string& id) {
     if (!orchestrator_) return errorResponse("Orchestrator not initialized");
+    auto& orchestrator = *orchestrator_;
     if (id.empty())     return errorResponse("Job id must not be empty");
     if (!isValidMaintenanceIdentifier(id)) {
         return errorResponse("Invalid job id");
     }
 
-    auto result = orchestrator_->getJob(id);
+    auto result = orchestrator.getJob(id);
     if (!result) return errorResponse(result.error().message());
     return jobToResponse(*result);
 }
 
 json MaintenanceApiHandler::cancelJob(const std::string& id) {
     if (!orchestrator_) return errorResponse("Orchestrator not initialized");
+    auto& orchestrator = *orchestrator_;
     if (id.empty())     return errorResponse("Job id must not be empty");
     if (!isValidMaintenanceIdentifier(id)) {
         return errorResponse("Invalid job id");
     }
 
-    auto result = orchestrator_->cancelJob(id);
+    auto result = orchestrator.cancelJob(id);
     if (!result) return errorResponse(result.error().message());
     return {{"status", "cancelled"}, {"id", id}};
 }
 
 json MaintenanceApiHandler::triggerNow(const std::string& schedule_id, bool force) {
     if (!orchestrator_) return errorResponse("Orchestrator not initialized");
+    auto& orchestrator = *orchestrator_;
     if (schedule_id.empty()) return errorResponse("Schedule id must not be empty");
     if (!isValidMaintenanceIdentifier(schedule_id)) {
         return errorResponse("Invalid schedule id");
     }
 
-    auto result = orchestrator_->triggerNow(schedule_id, force);
+    auto result = orchestrator.triggerNow(schedule_id, force);
     if (!result) return errorResponse(result.error().message());
     json resp = jobToResponse(*result);
     resp["status"] = "triggered";
@@ -227,18 +236,20 @@ json MaintenanceApiHandler::triggerNow(const std::string& schedule_id, bool forc
 
 json MaintenanceApiHandler::getStatus() {
     if (!orchestrator_) return errorResponse("Orchestrator not initialized");
-    return orchestrator_->getStatus();
+    auto& orchestrator = *orchestrator_;
+    return orchestrator.getStatus();
 }
 
 json MaintenanceApiHandler::getHealth() {
     if (!orchestrator_) return errorResponse("Orchestrator not initialized");
-    return orchestrator_->getHealthReport().toJson();
+    auto& orchestrator = *orchestrator_;
+    return orchestrator.getHealthReport().toJson();
 }
 
 json MaintenanceApiHandler::listTaskHandlers() {
     if (!orchestrator_) return errorResponse("Orchestrator not initialized");
-
-    auto handlers = orchestrator_->listTaskHandlers();
+    auto& orchestrator = *orchestrator_;
+    auto handlers = orchestrator.listTaskHandlers();
     json arr = json::array();
     for (const auto& [task_type, handler_name] : handlers) {
         arr.push_back({{"task_type", task_type}, {"handler", handler_name}});
