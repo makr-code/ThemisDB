@@ -99,6 +99,46 @@ TEST_F(GPUMemoryManagerMultiGPUTest, UsesConfiguredTemperatureProvider) {
     EXPECT_FLOAT_EQ(health1.temperature_celsius, 61.0f);
 }
 
+TEST_F(GPUMemoryManagerMultiGPUTest, RuntimeTemperatureProviderOverridesConfigProvider) {
+    // Config provider returns 60 + device_id; runtime provider returns 80 + device_id.
+    // After setGPUTemperatureProviderFn the runtime value must win.
+    GPUMemoryManager::Config config;
+    config.enable_multi_gpu = true;
+    config.gpu_devices = {0, 1};
+    config.max_vram_bytes = 24 * GB;
+    config.temperature_provider_fn =
+        [](int gpu_device_id, float& temperature_celsius) {
+            temperature_celsius = 60.0f + static_cast<float>(gpu_device_id);
+            return true;
+        };
+
+    auto manager = std::make_shared<GPUMemoryManager>(config);
+
+    // Install runtime override and trigger a health update.
+    manager->setGPUTemperatureProviderFn(
+        [](int gpu_device_id, float& temperature_celsius) {
+            temperature_celsius = 80.0f + static_cast<float>(gpu_device_id);
+            return true;
+        });
+    manager->checkGPUHealth(0);
+    manager->checkGPUHealth(1);
+
+    auto health0 = manager->getGPUHealth(0);
+    auto health1 = manager->getGPUHealth(1);
+    EXPECT_FLOAT_EQ(health0.temperature_celsius, 80.0f);
+    EXPECT_FLOAT_EQ(health1.temperature_celsius, 81.0f);
+
+    // After clearing the runtime provider the config provider must take effect again.
+    manager->clearGPUTemperatureProviderFn();
+    manager->checkGPUHealth(0);
+    manager->checkGPUHealth(1);
+
+    health0 = manager->getGPUHealth(0);
+    health1 = manager->getGPUHealth(1);
+    EXPECT_FLOAT_EQ(health0.temperature_celsius, 60.0f);
+    EXPECT_FLOAT_EQ(health1.temperature_celsius, 61.0f);
+}
+
 TEST_F(GPUMemoryManagerMultiGPUTest, MarkGPUUnhealthy) {
     memory_manager_->markGPUUnhealthy(1, "Test failure");
     

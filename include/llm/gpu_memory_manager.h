@@ -35,7 +35,7 @@ namespace detail {
  */
 class GPUMemoryManager {
 public:
-    using GPUTemperatureProviderFn = std::function<float(int gpu_device_id)>;
+    using GPUTemperatureProviderFn = std::function<bool(int gpu_device_id, float& temperature_celsius)>;
 
     struct MemoryAllocation {
         std::string model_id;
@@ -190,8 +190,9 @@ public:
     bool canAccessPeer(int src_gpu, int dst_gpu) const;
 
     /**
-     * @brief Install runtime GPU temperature provider (e.g. NVML bridge).
-     * @param fn Provider callable returning temperature in °C for a GPU device ID.
+     * @brief Install runtime GPU temperature provider.
+     * @param fn Provider callable that sets temperature_celsius and returns true on success.
+     *           When set, this overrides the construction-time Config::temperature_provider_fn.
      */
     void setGPUTemperatureProviderFn(GPUTemperatureProviderFn fn);
 

@@ -530,6 +530,25 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
 - Added regression assertion in `tests/test_multi_gpu_management.cpp::MarkGPUUnhealthy` to ensure an
   unhealthy GPU remains reported as available but unhealthy.
 
+**Status (v1.22.0-pre — W1-L06 temperature-provider type/wiring follow-up):** `GPUTemperatureProviderFn` type mismatch fixed; dead instance provider wired; init-time health populated:
+- `include/llm/gpu_memory_manager.h`: changed `GPUTemperatureProviderFn` from `std::function<float(int)>` to
+  `std::function<bool(int, float&)>`. The output-parameter pattern lets providers signal failure without
+  throwing, while the bool return distinguishes "no reading" from a legitimate 0 °C reading.
+- `gpu_memory_manager.cpp` — `updateGPUHealth` simulation path: switched from `config_.temperature_provider_fn`
+  to preferring the runtime instance member `temperature_provider_fn_` (set via `setGPUTemperatureProviderFn`)
+  and falling back to the construction-time config value. This wires the previously dead/unused instance
+  member (stub) into actual use, enabling live temperature-source overrides after construction.
+- `gpu_memory_manager.cpp` — `updateGPUHealth` CUDA path: instance provider `temperature_provider_fn_` is
+  now captured before the manager-mutex unlock and tried as a last-resort fallback after both the static
+  NVML-injection path and the dynamic `queryNvmlTemperatureCelsius` probe.
+- `gpu_memory_manager.cpp` — `initializeGPU`: calls `updateGPUHealth(gpu_id)` for every GPU in
+  `available_gpus_` after the VRAM limit fallback, so `getGPUHealth()` returns real temperature and
+  utilization data immediately on construction rather than zero-defaults.
+- `tests/test_multi_gpu_management.cpp`: added `RuntimeTemperatureProviderOverridesConfigProvider` test
+  verifying that `setGPUTemperatureProviderFn` overrides the config value and `clearGPUTemperatureProviderFn`
+  restores the config value.
+- File-header counts updated: `Stubs=3, Gaps=30`.
+
 **Status (v1.22.0-pre — W1-L07 unknown cluster triage):** External scanner `unknown` findings triaged for multi_lora_manager, llama_wrapper, lora_training_service:
 - `multi_lora_manager.cpp`: external_v3 reports 1227 findings vs 5 internal. `unknown` cluster
   arises from deep STL template patterns, virtual dispatch and large switch bodies the scanner

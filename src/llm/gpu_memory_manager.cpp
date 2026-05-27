@@ -1,7 +1,7 @@
 /*
  * ThemisDB | File: gpu_memory_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:59
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 84/100 | Lines: 1736
- * Open Issues: TODOs=1, Stubs=4, Gaps=32, Unimpl=0, Mock=1, Sim=25, Debt=1
+ * Open Issues: TODOs=1, Stubs=3, Gaps=30, Unimpl=0, Mock=1, Sim=25, Debt=1
  * Gap Correlation: internal=32 | external_v3=518 | delta=486 | status=divergent
  * External Severity (v3): C=58, H=406, M=54
  * PR: #379 Migrate critical error logging to structured error codes (Phase 1) (2026-03-11T21:28:11Z)
@@ -503,6 +503,12 @@ void GPUMemoryManager::initializeGPU() {
         config_.max_vram_bytes = 8ULL * 1024 * 1024 * 1024;  // 8 GB simulation default
         spdlog::info("  VRAM limit defaulted to {:.2f} GB (simulation)",
                      config_.max_vram_bytes / (1024.0 * 1024 * 1024));
+    }
+
+    // Populate initial health metrics (temperature + utilization) for each GPU so that
+    // callers of getGPUHealth() immediately get real data rather than zero-defaults.
+    for (int gpu_id : available_gpus_) {
+        updateGPUHealth(gpu_id);
     }
 }
 
@@ -2173,6 +2179,8 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
             std::lock_guard<std::mutex> provider_lock(nvml_temp_fn_mutex);
             injected_temp_provider = nvml_temp_fn;
         }
+        // Capture instance-level provider while we hold the manager lock.
+        GPUTemperatureProviderFn instance_temp_provider = temperature_provider_fn_;
 
         // Avoid invoking external callbacks while holding manager mutex to prevent re-entrant deadlocks.
         lock.unlock();
@@ -2191,6 +2199,21 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
         }
         if (!temperature.has_value()) {
             temperature = queryNvmlTemperatureCelsius(gpu_device_id);
+        }
+        // Last-resort: try the instance-level provider (e.g. test injection or alternative NVML bridge).
+        if (!temperature.has_value() && instance_temp_provider) {
+            try {
+                float temp_out = 0.0f;
+                if (instance_temp_provider(gpu_device_id, temp_out)) {
+                    temperature = temp_out;
+                }
+            } catch (const std::exception& e) {
+                spdlog::warn("updateGPUHealth: instance temperature provider failed for GPU {}: {}",
+                             gpu_device_id, e.what());
+            } catch (...) {
+                spdlog::warn("updateGPUHealth: instance temperature provider failed for GPU {}",
+                             gpu_device_id);
+            }
         }
 
         lock.lock();
@@ -2213,13 +2236,20 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
     }
 
     const float utilization = calculateUtilization(used_vram, config_.max_vram_bytes) * 100.0f;
-    auto temperature_provider = config_.temperature_provider_fn;
+    // Prefer the runtime instance provider (set via setGPUTemperatureProviderFn) over
+    // the construction-time config provider; this allows test injection and live overrides.
+    auto temperature_provider = temperature_provider_fn_
+                                    ? temperature_provider_fn_
+                                    : config_.temperature_provider_fn;
     lock.unlock();
 
     std::optional<float> measured_temperature = std::nullopt;
     if (temperature_provider) {
         try {
-            measured_temperature = temperature_provider(gpu_device_id);
+            float temp_out = 0.0f;
+            if (temperature_provider(gpu_device_id, temp_out)) {
+                measured_temperature = temp_out;
+            }
         } catch (const std::exception& e) {
             spdlog::error("GPU temperature callback failed for device {}: {}",
                           gpu_device_id, e.what());
