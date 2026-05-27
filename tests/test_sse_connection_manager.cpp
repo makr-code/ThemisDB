@@ -176,4 +176,63 @@ TEST_F(SseConnectionManagerTest, DropOldestOverflowKeepsNewestRawEvents) {
     EXPECT_EQ(stats.total_dropped_events, 2u);
 }
 
+TEST_F(SseConnectionManagerTest, PollEventsReturnsSseFormattedLines) {
+    // Record two events so backgroundPollTask() will buffer them.
+    for (int i = 1; i <= 2; ++i) {
+        themis::Changefeed::ChangeEvent ev;
+        ev.type = themis::Changefeed::ChangeEventType::EVENT_PUT;
+        ev.key  = "item:" + std::to_string(i);
+        ev.value = R"({"n":)" + std::to_string(i) + "}";
+        changefeed_->recordEvent(ev);
+    }
+
+    themis::server::SseConnectionManager manager(changefeed_, ioc_);
+    const auto conn_id = manager.registerConnection(/*from_seq=*/0);
+
+    auto lines = manager.pollEvents(conn_id, 10);
+    ASSERT_EQ(lines.size(), 2u);
+
+    // Each formatted SSE line must contain "id:" and "data:".
+    for (const auto& line : lines) {
+        EXPECT_NE(line.find("id:"), std::string::npos)
+            << "SSE line must contain 'id:' field: " << line;
+        EXPECT_NE(line.find("data:"), std::string::npos)
+            << "SSE line must contain 'data:' field: " << line;
+    }
+}
+
+TEST_F(SseConnectionManagerTest, PollEventsEmptyWhenNoEvents) {
+    themis::server::SseConnectionManager manager(changefeed_, ioc_);
+    const auto conn_id = manager.registerConnection(/*from_seq=*/0);
+
+    auto lines = manager.pollEvents(conn_id, 10);
+    EXPECT_TRUE(lines.empty());
+}
+
+TEST_F(SseConnectionManagerTest, PollEventsKeepsRawBufferInSync) {
+    // When pollEvents() drains formatted lines it must also drain the same count
+    // from raw_buffered_events so that a subsequent pollRawEvents() call does not
+    // re-deliver already-consumed events.
+    for (int i = 1; i <= 3; ++i) {
+        themis::Changefeed::ChangeEvent ev;
+        ev.type  = themis::Changefeed::ChangeEventType::EVENT_PUT;
+        ev.key   = "k" + std::to_string(i);
+        ev.value = "{}";
+        changefeed_->recordEvent(ev);
+    }
+
+    themis::server::SseConnectionManager manager(changefeed_, ioc_);
+    const auto conn_id = manager.registerConnection(/*from_seq=*/0);
+
+    // Drain all formatted lines via pollEvents().
+    auto lines = manager.pollEvents(conn_id, 10);
+    ASSERT_EQ(lines.size(), 3u);
+
+    // raw_buffered_events must now also be empty.
+    auto raw = manager.pollRawEvents(conn_id, 10);
+    EXPECT_TRUE(raw.empty())
+        << "pollEvents() must drain raw_buffered_events in sync; "
+        << raw.size() << " raw event(s) unexpectedly remain";
+}
+
 } // namespace

@@ -117,7 +117,7 @@ void SseConnectionManager::unregisterConnection(uint64_t conn_id) {
     }
 }
 
-std::vector<std::pair<uint64_t, std::string>> SseConnectionManager::pollEventsWithSequences(
+std::vector<std::string> SseConnectionManager::pollEvents(
     uint64_t conn_id,
     size_t   max_events
 ) {
@@ -131,6 +131,7 @@ std::vector<std::pair<uint64_t, std::string>> SseConnectionManager::pollEventsWi
     auto& conn = it->second;
 
     // Apply server-side rate limit when configured.
+    size_t count = max_events;
     if (config_.max_events_per_second > 0) {
         auto now = std::chrono::steady_clock::now();
         auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -146,58 +147,41 @@ std::vector<std::pair<uint64_t, std::string>> SseConnectionManager::pollEventsWi
         if (budget == 0) {
             return {};
         }
-        size_t count = std::min({max_events, conn->buffered_events.size(),
-                                 static_cast<size_t>(budget)});
-        if (count == 0) {
-            return {};
-        }
-        std::vector<std::pair<uint64_t, std::string>> events(
-            conn->buffered_events.begin(),
-            conn->buffered_events.begin() + static_cast<ptrdiff_t>(count)
-        );
-        // Remove consumed events from both buffers (keep in sync)
-        conn->buffered_events.erase(
-            conn->buffered_events.begin(),
-            conn->buffered_events.begin() + static_cast<ptrdiff_t>(count)
-        );
-        {
-            size_t raw_count = std::min(count, conn->buffered_raw_events.size());
-            conn->buffered_raw_events.erase(
-                conn->buffered_raw_events.begin(),
-                conn->buffered_raw_events.begin() + static_cast<std::ptrdiff_t>(raw_count));
-        }
-        if (!events.empty()) {
-            conn->last_activity = std::chrono::steady_clock::now();
-            total_events_sent_ += events.size();
-            conn->sent_in_window += static_cast<uint32_t>(events.size());
-        }
-        
-        return events;
+        count = std::min({max_events, conn->buffered_events.size(),
+                          static_cast<size_t>(budget)});
+    } else {
+        count = std::min(max_events, conn->buffered_events.size());
     }
 
-    // No rate limit.
-    size_t count = std::min(max_events, conn->buffered_events.size());
-    std::vector<std::pair<uint64_t, std::string>> events(
+    if (count == 0) {
+        return {};
+    }
+
+    // Drain formatted SSE lines from the front of buffered_events.
+    std::vector<std::string> events(
         conn->buffered_events.begin(),
         conn->buffered_events.begin() + static_cast<ptrdiff_t>(count)
     );
-    
-    // Remove consumed events from both buffers (keep in sync)
     conn->buffered_events.erase(
         conn->buffered_events.begin(),
         conn->buffered_events.begin() + static_cast<ptrdiff_t>(count)
     );
-    {
-        size_t raw_count = std::min(count, conn->buffered_raw_events.size());
-        conn->buffered_raw_events.erase(
-            conn->buffered_raw_events.begin(),
-            conn->buffered_raw_events.begin() + static_cast<std::ptrdiff_t>(raw_count));
+
+    // Keep raw_buffered_events in sync so that pollRawEvents() remains consistent
+    // with the number of formatted lines already consumed.
+    const size_t raw_count = std::min(count, conn->raw_buffered_events.size());
+    if (raw_count > 0) {
+        conn->raw_buffered_events.erase(
+            conn->raw_buffered_events.begin(),
+            conn->raw_buffered_events.begin() + static_cast<std::ptrdiff_t>(raw_count));
     }
-    
-    if (!events.empty()) {
-        conn->last_activity = std::chrono::steady_clock::now();
-        total_events_sent_ += events.size();
+
+    conn->last_activity = std::chrono::steady_clock::now();
+    total_events_sent_ += events.size();
+    if (config_.max_events_per_second > 0) {
+        conn->sent_in_window += static_cast<uint32_t>(events.size());
     }
+
     return events;
 }
 

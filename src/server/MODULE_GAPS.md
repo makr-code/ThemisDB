@@ -55,6 +55,18 @@ python tools/gap_audit_pipeline_v2.py
   - Gap delta intent: further reduce W1-S05 `data_race` / `iterator_invalidation`
     scanner noise with behavior-preserving changes and explicit test coverage.
 
+- **W1-S05 follow-up 3 (2026-05-27) – `src/server/sse_connection_manager.cpp`**
+  - Removed `pollEventsWithSequences()`: the function was undeclared in the header,
+    never called externally, and contained a type-mismatch compile error (attempted
+    to construct `vector<pair<uint64_t,string>>` from `vector<string>` iterators).
+  - Implemented `pollEvents(conn_id, max_events)` — the public API declared in the
+    header — draining the `buffered_events` (`vector<string>`) correctly and keeping
+    `raw_buffered_events` in sync via a single range-erase, with the same rate-limiting
+    logic as `pollRawEvents()`.
+  - Gap delta intent: eliminate the dangling (unimplemented) `pollEvents` declaration,
+    fix latent compile error in the removed function, and complete the public SSE drain
+    API surface.
+
 - **W1-S12 (2026-05-26) – `include/server/postgres_session.h`, `src/server/postgres_session.cpp`**
   - PostgreSQL wire session concurrency hardening: lifecycle flags (`isAuthenticated_`,
     `inStartup_`, `copyInProgress_`, `transactionState_`) now use atomic state, and
@@ -441,7 +453,7 @@ captures in `cleanup_timer_.async_wait(...)` callbacks. Static analysers flag th
 `shared_lock<shared_mutex>`, releasing the lock, and then performed the buffer-full
 early-exit check (`conn->buffered_events.size() >= config_.max_buffered_events`) on the
 shared `Connection` struct **outside the lock**. Concurrent calls to
-`pollEventsWithSequences()` or `pollRawEventsWithSequences()` hold the exclusive lock while
+`pollEvents()` or `pollRawEvents()` hold the exclusive lock while
 erasing elements from `conn->buffered_events`, creating a data race on the vector.
 
 **Fix:** Moved the buffer-full predicate into the snapshot loop inside the
