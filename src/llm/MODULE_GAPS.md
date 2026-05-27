@@ -671,6 +671,33 @@ generation and adapter cleanup paths.
 | `inference_engine_enhanced.cpp` int-range risk in vocab modulo paths | potential overflow hotspot | bounded/fallback conversion |
 | `llama_wrapper.cpp` unchecked model/vocab pointer retrieval | multiple implicit assumptions | explicit null guards + fail-fast exceptions |
 | `llama_wrapper.cpp` implicit loader/LoRA manager assumptions | potential null-manager dereference | explicit loader guards + LoRA manager-gated paths |
+| `llama_wrapper.cpp` public API methods (`loadModel`, `unloadModel`, `getModelInfo`, `isModelLoaded`, `embed`, `getMemoryStats`, `getPerformanceStats`, `generateVision`) | unguarded `model_loader_` dereference | explicit null guard + fail-fast throw or graceful return |
+| `llama_wrapper.cpp` public API methods (`loadLoRA`, `unloadLoRA`, `listLoRAs`, `exportLoRA`, `importLoRA`, `getMemoryStats`, `getPerformanceStats`) | unguarded `lora_manager_` dereference | explicit null guard + warn + graceful return |
+
+---
+
+## ✅ Recent Remediation (2026-05-27) — W1-L04 follow-up: Public API null guard completion
+
+**Scope:** `src/llm/llama_wrapper.cpp`  
+**Ticket:** W1-L04 · Priority P1
+
+### Fixes Applied
+
+Remaining public-API entry points that called `model_loader_` or `lora_manager_` without an explicit null check have been hardened to be consistent with the guards added to the generate paths:
+
+- `loadModel` — added `if (!model_loader_)` guard before `getOrLoadModel`; transitions to `ERROR_STATE` and returns false.
+- `unloadModel` — added `if (!model_loader_)` guard; logs warning and returns early.
+- `getModelInfo` — added `if (!model_loader_)` guard; returns `std::nullopt`.
+- `isModelLoaded` — added `if (!model_loader_)` guard; returns false.
+- `embed` — added `if (!model_loader_)` guard before `getOrLoadModel`; throws on missing loader.
+- `getMemoryStats` — replaced unchecked `model_loader_->*` and `lora_manager_->*` calls with `if (model_loader_)` / `if (lora_manager_)` branches; combined VRAM totals computed only when both managers are present.
+- `getPerformanceStats` — same guarding pattern for `getCacheStats` calls.
+- `loadLoRA` — added `if (!lora_manager_)` guard; warns and returns false.
+- `unloadLoRA` — added `if (!lora_manager_)` guard; returns false.
+- `listLoRAs` — added `if (!lora_manager_)` guard; returns empty vector.
+- `exportLoRA` — added `if (!lora_manager_)` guard; warns and returns empty vector.
+- `importLoRA` — added `if (!lora_manager_)` guard; warns and returns false.
+- `generateVision` (vision embedding injection path) — added `if (!model_loader_)` guard wrapping the `themis_llava_eval_available()` inner path.
 
 ---
 

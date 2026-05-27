@@ -428,6 +428,11 @@ bool LlamaWrapper::loadModel(
                      config_.rope_scaling.max_context);
     }
     
+    if (!model_loader_) {
+        transitionToState(WrapperState::ERROR_STATE, "Model loader is not initialized");
+        return false;
+    }
+
     // Trigger lazy load (or get from cache)
     auto* model = model_loader_->getOrLoadModel(
         current_model_id_,
@@ -693,6 +698,10 @@ void LlamaWrapper::unloadModel() {
     }
     
     // Unload via lazy loader
+    if (!model_loader_) {
+        spdlog::warn("LlamaWrapper::unloadModel: model loader is not initialized");
+        return;
+    }
     model_loader_->unloadModel(current_model_id_, true);
     
     current_model_id_.clear();
@@ -751,12 +760,18 @@ std::optional<ModelInfo> LlamaWrapper::getModelInfo() const {
     if (current_model_id_.empty()) {
         return std::nullopt;
     }
+    if (!model_loader_) {
+        return std::nullopt;
+    }
     
     return model_loader_->getModelInfo(current_model_id_);
 }
 
 bool LlamaWrapper::isModelLoaded() const {
     std::lock_guard<std::mutex> lock(mutex_);
+    if (!model_loader_) {
+        return false;
+    }
     return !current_model_id_.empty() && 
            model_loader_->isModelLoaded(current_model_id_);
 }
@@ -779,17 +794,27 @@ bool LlamaWrapper::loadLoRA(
     
     spdlog::info("Loading LoRA (lazy): {}", lora_id);
     
+    if (!lora_manager_) {
+        spdlog::warn("LlamaWrapper::loadLoRA: LoRA manager is not initialized, cannot load '{}'", lora_id);
+        return false;
+    }
     // Use multi-LoRA manager (vLLM-style)
     return lora_manager_->loadLoRA(lora_id, lora_path, current_model_id_, scale);
 }
 
 bool LlamaWrapper::unloadLoRA(const std::string& lora_id) {
     std::lock_guard<std::mutex> lock(mutex_);
+    if (!lora_manager_) {
+        return false;
+    }
     return lora_manager_->unloadLoRA(lora_id);
 }
 
 std::vector<LoRAInfo> LlamaWrapper::listLoRAs() const {
     std::lock_guard<std::mutex> lock(mutex_);
+    if (!lora_manager_) {
+        return {};
+    }
     return lora_manager_->listLoRAs();
 }
 
@@ -1415,6 +1440,9 @@ std::vector<float> LlamaWrapper::embed(const std::string& text) {
     spdlog::debug("Generating embedding for text: {}", text.substr(0, 50));
     
     // Ensure model is loaded
+    if (!model_loader_) {
+        throw std::runtime_error("Model loader is not initialized");
+    }
     auto* cached = model_loader_->getOrLoadModel(
         current_model_id_,
         current_model_path_
@@ -1521,19 +1549,29 @@ json LlamaWrapper::getMemoryStats() const {
     json stats;
     
     // Get stats from lazy model loader
-    stats["model_loader"] = model_loader_->getMemoryStats();
-    stats["model_loader_cache"] = model_loader_->getCacheStats();
+    if (model_loader_) {
+        stats["model_loader"] = model_loader_->getMemoryStats();
+        stats["model_loader_cache"] = model_loader_->getCacheStats();
+    }
     
     // Get stats from multi-LoRA manager
-    stats["lora_manager"] = lora_manager_->getMemoryStats();
-    stats["lora_manager_cache"] = lora_manager_->getCacheStats();
+    if (lora_manager_) {
+        stats["lora_manager"] = lora_manager_->getMemoryStats();
+        stats["lora_manager_cache"] = lora_manager_->getCacheStats();
+    }
     
     // Combined totals
-    auto model_stats = model_loader_->getMemoryStats();
-    auto lora_stats = lora_manager_->getMemoryStats();
-    
-    stats["total_vram_mb"] = model_stats["vram_used_mb"].get<size_t>() + 
-                             lora_stats["vram_used_mb"].get<size_t>();
+    size_t model_vram = 0;
+    size_t lora_vram  = 0;
+    if (model_loader_) {
+        auto model_stats = model_loader_->getMemoryStats();
+        model_vram = model_stats.value("vram_used_mb", static_cast<size_t>(0));
+    }
+    if (lora_manager_) {
+        auto lora_stats = lora_manager_->getMemoryStats();
+        lora_vram = lora_stats.value("vram_used_mb", static_cast<size_t>(0));
+    }
+    stats["total_vram_mb"] = model_vram + lora_vram;
     stats["max_vram_mb"] = config_.max_vram_mb;
     
     return stats;
@@ -1554,8 +1592,12 @@ json LlamaWrapper::getPerformanceStats() const {
     }
     
     // Include model loader and LoRA manager stats
-    stats["model_loader_stats"] = model_loader_->getCacheStats();
-    stats["lora_manager_stats"] = lora_manager_->getCacheStats();
+    if (model_loader_) {
+        stats["model_loader_stats"] = model_loader_->getCacheStats();
+    }
+    if (lora_manager_) {
+        stats["lora_manager_stats"] = lora_manager_->getCacheStats();
+    }
     
     return stats;
 }
@@ -1569,6 +1611,10 @@ std::vector<uint8_t> LlamaWrapper::exportLoRA(const std::string& lora_id) {
     
     spdlog::info("Exporting LoRA for cross-shard transfer: {}", lora_id);
     
+    if (!lora_manager_) {
+        spdlog::warn("LlamaWrapper::exportLoRA: LoRA manager is not initialized, cannot export '{}'", lora_id);
+        return {};
+    }
     // Delegate to multi-LoRA manager
     return lora_manager_->exportLoRA(lora_id);
 }
@@ -1581,6 +1627,11 @@ bool LlamaWrapper::importLoRA(
     
     if (current_model_id_.empty()) {
         errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, "no_base_model_loaded");
+        return false;
+    }
+    
+    if (!lora_manager_) {
+        spdlog::warn("LlamaWrapper::importLoRA: LoRA manager is not initialized, cannot import '{}'", lora_id);
         return false;
     }
     
@@ -3089,58 +3140,62 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
         bool embeddings_injected = false;
 
         if (themis_llava_eval_available()) {
-            auto* cached_m = model_loader_->getOrLoadModel(current_model_id_, current_model_path_);
-            if (cached_m && cached_m->context_handle && cached_m->model_handle) {
-                auto* lctx = reinterpret_cast<llama_context*>(cached_m->context_handle);
-                auto* lmodel = reinterpret_cast<llama_model*>(cached_m->model_handle);
-                if (!lctx || !lmodel) {
-                    spdlog::warn("generateVision: model/context handles are null; skipping embedding injection");
-                } else {
-                    int n_past = 0;
+            if (!model_loader_) {
+                spdlog::warn("generateVision: model loader is not initialized; skipping embedding injection");
+            } else {
+                auto* cached_m = model_loader_->getOrLoadModel(current_model_id_, current_model_path_);
+                if (cached_m && cached_m->context_handle && cached_m->model_handle) {
+                    auto* lctx = reinterpret_cast<llama_context*>(cached_m->context_handle);
+                    auto* lmodel = reinterpret_cast<llama_model*>(cached_m->model_handle);
+                    if (!lctx || !lmodel) {
+                        spdlog::warn("generateVision: model/context handles are null; skipping embedding injection");
+                    } else {
+                        int n_past = 0;
 
-                    // Tokenize and evaluate the prompt prefix (everything before the image
-                    // token placeholder) so that the KV cache is correctly positioned.
-                    std::string prefix = "USER: ";
-                    std::vector<llama_token> prefix_tokens = tokenizeInternal(lmodel, prefix, true);
-                    if (!prefix_tokens.empty()) {
-                        llama_batch prefix_batch = llama_batch_get_one(
-                            prefix_tokens.data(), static_cast<int32_t>(prefix_tokens.size()));
-                        if (llama_decode(lctx, prefix_batch) == 0) {
-                            n_past += static_cast<int>(prefix_tokens.size());
-                        } else {
-                            spdlog::warn("generateVision: prefix llama_decode failed; continuing without image-prefill context");
+                        // Tokenize and evaluate the prompt prefix (everything before the image
+                        // token placeholder) so that the KV cache is correctly positioned.
+                        std::string prefix = "USER: ";
+                        std::vector<llama_token> prefix_tokens = tokenizeInternal(lmodel, prefix, true);
+                        if (!prefix_tokens.empty()) {
+                            llama_batch prefix_batch = llama_batch_get_one(
+                                prefix_tokens.data(), static_cast<int32_t>(prefix_tokens.size()));
+                            if (llama_decode(lctx, prefix_batch) == 0) {
+                                n_past += static_cast<int>(prefix_tokens.size());
+                            } else {
+                                spdlog::warn("generateVision: prefix llama_decode failed; continuing without image-prefill context");
+                            }
                         }
+
+                        // Inject each encoded image into the context.
+                        int n_batch_size = static_cast<int>(vision_request.max_tokens > 0
+                                                             ? vision_request.max_tokens : 512);
+                        for (auto& emb_vec : image_embeddings) {
+                            if (emb_vec.empty()) continue;
+                            int n_patches = vision_encoder_->getNumPatches();
+                            if (n_patches <= 0) {
+                                n_patches = static_cast<int>(emb_vec.size()) /
+                                            vision_encoder_->getEmbeddingDimension();
+                            }
+                            llava_image_embed embed_data;
+                            embed_data.embed       = emb_vec.data();
+                            embed_data.n_image_pos = n_patches;
+
+                            if (!llava_eval_image_embed(lctx, &embed_data, n_batch_size, &n_past)) {
+                                spdlog::warn("generateVision: llava_eval_image_embed failed for one image; "
+                                             "continuing with remaining images");
+                            } else {
+                                embeddings_injected = true;
+                                spdlog::debug("generateVision: injected {} image patches (n_past={})",
+                                              n_patches, n_past);
+                            }
+                        }
+
+                        // Pass remaining text portion; the context is already positioned.
+                        // We use the raw generate() path which re-evaluates the full prompt,
+                        // but since context is pre-loaded the decode call handles only new tokens.
                     }
-
-                    // Inject each encoded image into the context.
-                    int n_batch_size = static_cast<int>(vision_request.max_tokens > 0
-                                                         ? vision_request.max_tokens : 512);
-                    for (auto& emb_vec : image_embeddings) {
-                        if (emb_vec.empty()) continue;
-                        int n_patches = vision_encoder_->getNumPatches();
-                        if (n_patches <= 0) {
-                            n_patches = static_cast<int>(emb_vec.size()) /
-                                        vision_encoder_->getEmbeddingDimension();
-                        }
-                        llava_image_embed embed_data;
-                        embed_data.embed       = emb_vec.data();
-                        embed_data.n_image_pos = n_patches;
-
-                        if (!llava_eval_image_embed(lctx, &embed_data, n_batch_size, &n_past)) {
-                            spdlog::warn("generateVision: llava_eval_image_embed failed for one image; "
-                                         "continuing with remaining images");
-                        } else {
-                            embeddings_injected = true;
-                            spdlog::debug("generateVision: injected {} image patches (n_past={})",
-                                          n_patches, n_past);
-                        }
-                    }
-
-                    // Pass remaining text portion; the context is already positioned.
-                    // We use the raw generate() path which re-evaluates the full prompt,
-                    // but since context is pre-loaded the decode call handles only new tokens.
                 }
-            }
+            } // model_loader_ != null
         }
 
         if (!embeddings_injected) {
