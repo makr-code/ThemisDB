@@ -135,6 +135,8 @@ void Http3Handler::start() {
                 cleanupInactiveSessions();
             } catch (const std::exception& e) {
                 THEMIS_ERROR("HTTP/3 cleanup timer error: {}", e.what());
+            } catch (...) {
+                THEMIS_ERROR("HTTP/3 cleanup timer error: non-standard exception");
             }
         }
     });
@@ -236,6 +238,8 @@ void Http3Handler::onReceive(boost::system::error_code ec, std::size_t bytes_tra
         }
     } catch (const std::exception& e) {
         THEMIS_ERROR("HTTP/3 onReceive error: {}", e.what());
+    } catch (...) {
+        THEMIS_ERROR("HTTP/3 onReceive error: non-standard exception");
     }
     
     doAccept(); // Continue accepting
@@ -270,6 +274,8 @@ void Http3Handler::cleanupInactiveSessions() {
                 cleanupInactiveSessions();
             } catch (const std::exception& e) {
                 THEMIS_ERROR("HTTP/3 cleanup timer error: {}", e.what());
+            } catch (...) {
+                THEMIS_ERROR("HTTP/3 cleanup timer error: non-standard exception");
             }
         }
     });
@@ -479,6 +485,8 @@ void Http3Session::start() {
                 onTimeout();
             } catch (const std::exception& e) {
                 THEMIS_ERROR("HTTP/3 idle timeout handler error: {}", e.what());
+            } catch (...) {
+                THEMIS_ERROR("HTTP/3 idle timeout handler error: non-standard exception");
             }
         }
     });
@@ -515,6 +523,8 @@ void Http3Session::handlePacket(const uint8_t* data, size_t len, const udp::endp
                 onTimeout();
             } catch (const std::exception& e) {
                 THEMIS_ERROR("HTTP/3 idle timeout handler error: {}", e.what());
+            } catch (...) {
+                THEMIS_ERROR("HTTP/3 idle timeout handler error: non-standard exception");
             }
         }
     });

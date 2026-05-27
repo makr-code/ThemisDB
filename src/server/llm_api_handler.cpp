@@ -1090,7 +1090,8 @@ std::optional<json> LLMApiHandler::parseRequestBody(
         if (parsed.is_object()) {
             return parsed;
         }
-    } catch (const json::exception&) {
+    } catch (const json::exception& e) {
+        THEMIS_DEBUG("LLMApiHandler: failed to parse JSON request body: {}", e.what());
         return std::nullopt;
     }
     
