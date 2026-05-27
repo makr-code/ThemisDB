@@ -17,6 +17,17 @@ python tools/gap_audit_pipeline_v2.py
 
 ## ✅ Recent Remediation (2026-05-27)
 
+- **W1-S07 follow-up (2026-05-27) – `src/server/query_api_handler.cpp`, `src/server/http_server.cpp`**
+  - Replaced remaining size-guarded `operator[]` reads on strings/vectors in W1-S07 scope with
+    explicit `front()` / `back()` / iterator-based access and local anchor variables after the
+    existing emptiness/arity checks.
+  - Query-side cleanup covered decrypt-JSON detection, path predicate argument reads, join FOR-node
+    binding, single-FOR join conversion/fallback paths, SORT/ COLLECT first-element access, BM25
+    argument dispatch, and `VariableExpr::name` character extraction.
+  - HTTP-side cleanup covered policy-path candidate replacement and timezone-lead parsing.
+  - Gap delta (scoped pass): removed **24** residual size-guarded indexed-read hotspots from the
+    W1-S07 unknown-cluster review set without changing runtime behavior.
+
 - **W1-S13 (2026-05-27) – `src/server/http_server.cpp`**
   - Fixed `extractClientIP` STUB/SIMULATION: per-IP rate limiting was ineffective for
     direct (non-proxied) connections because the function returned `""` when neither

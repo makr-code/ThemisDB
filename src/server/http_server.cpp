@@ -1432,7 +1432,7 @@ HttpServer::HttpServer(
                     if (std::filesystem::exists(up / "CMakeLists.txt") || std::filesystem::exists(up / ".git")) {
                         std::filesystem::path candidate = up / envp;
                         if (std::filesystem::exists(candidate)) {
-                            candidates[0] = candidate;
+                            candidates.front() = candidate;
                             THEMIS_INFO("PolicyEngine: resolved THEMIS_POLICIES_PATH relative to repo root: {}", candidate.string());
                             break;
                         }
@@ -8653,9 +8653,10 @@ namespace {
         millis = static_cast<int64_t>((S - tm.tm_sec) * 1000.0 + 0.5);
         // Parse timezone
         if (!tzpart.empty()) {
-            if (tzpart[0] == 'Z') { tz_sign = 0; }
-            else if (tzpart[0] == '+' || tzpart[0] == '-') {
-                tz_sign = (tzpart[0] == '+') ? +1 : -1;
+            const char tz_lead = tzpart.front();
+            if (tz_lead == 'Z') { tz_sign = 0; }
+            else if (tz_lead == '+' || tz_lead == '-') {
+                tz_sign = (tz_lead == '+') ? +1 : -1;
                 // format ±HH:MM
                 if (tzpart.size() >= 6 && tzpart[3] == ':') {
                     try {
