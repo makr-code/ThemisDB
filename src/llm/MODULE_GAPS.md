@@ -538,6 +538,20 @@ snapshot and coordinator/slot null anchors across remaining issue-scope files:
 - Runtime behavior is unchanged; objective is scanner-friendly guard anchoring for data_race /
   null_dereference / pointer_arithmetic cluster reduction.
 
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 6):** Additional
+slot/cache nullability anchors in remaining issue-scope utility paths:
+- `multi_lora_manager.cpp` — cache-hit fast path in `loadLoRA` now snapshots `it->second.get()`
+  into a local `slot` alias; null slots are treated as stale entries (erase + reload) instead of
+  dereferencing map members directly.
+- `multi_lora_manager.cpp` — `getLoRA`, `pinLoRA`, `unpinLoRA`, `listLoRAs` (both overloads),
+  `getLoRAInfo`, and `evictLRU` now use explicit null guards / local slot aliases before member
+  access to keep guard and dereference in one analysis scope.
+- `llama_wrapper.cpp` — response-cache write path now snapshots `response_cache_.get()` into a
+  local alias before `put(...)`; `shutdownVisionEncoder` now uses an explicit local
+  `vision_encoder` alias guard before reset.
+- Runtime behavior remains unchanged; objective is further reduction of residual `unknown` and
+  null_dereference scanner noise in W1-L07 files.
+
 **Status (v1.22.0-pre — W1-L03d scope follow-up):** Vulkan/DirectX kernel-interface
 scope hardened for smart-pointer lifetime safety:
 - `lora_framework/kernels/vulkan_kernels.cpp` — Removed `thread_local` fused-buffer cache

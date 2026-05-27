@@ -218,10 +218,22 @@ bool MultiLoRAManager::loadLoRA(
     if (it != loras_.end()) {
         spdlog::debug("LoRA cache hit: {}", lora_id);
         cache_hits_++;
+        auto* const slot = it->second.get();
+        if (!slot) {
+            spdlog::warn("LoRA cache entry {} is empty (null slot), reloading", lora_id);
+            loras_.erase(it);
+            cache_misses_++;
+            if (loras_.size() >= config_.max_lora_slots) {
+                spdlog::info("LoRA cache full, evicting LRU");
+                evictLRU();
+            }
+            auto* lora = loadLoRAInternal(lora_id, lora_path, base_model_id, scale, quantize, GPUPlacement::SINGLE_GPU);
+            return lora != nullptr;
+        }
         
         // Update usage
-        it->second->last_used = std::chrono::system_clock::now();
-        it->second->use_count++;
+        slot->last_used = std::chrono::system_clock::now();
+        slot->use_count++;
         
         return true;
     }
@@ -360,12 +372,16 @@ LoRASlot* MultiLoRAManager::getLoRA(const std::string& lora_id) {
     if (it == loras_.end()) {
         return nullptr;
     }
+    auto* const slot = it->second.get();
+    if (!slot) {
+        return nullptr;
+    }
     
     // Update usage
-    it->second->last_used = std::chrono::system_clock::now();
-    it->second->use_count++;
+    slot->last_used = std::chrono::system_clock::now();
+    slot->use_count++;
     
-    return it->second.get();
+    return slot;
 }
 
 void MultiLoRAManager::setApplyAdapterFn(ApplyAdapterFn fn) {
@@ -911,7 +927,11 @@ void MultiLoRAManager::pinLoRA(const std::string& lora_id) {
     
     auto it = loras_.find(lora_id);
     if (it != loras_.end()) {
-        it->second->keep_loaded = true;
+        auto* const slot = it->second.get();
+        if (!slot) {
+            return;
+        }
+        slot->keep_loaded = true;
         spdlog::info("LoRA pinned in memory: {}", lora_id);
     }
 }
@@ -921,7 +941,11 @@ void MultiLoRAManager::unpinLoRA(const std::string& lora_id) {
     
     auto it = loras_.find(lora_id);
     if (it != loras_.end()) {
-        it->second->keep_loaded = false;
+        auto* const slot = it->second.get();
+        if (!slot) {
+            return;
+        }
+        slot->keep_loaded = false;
         spdlog::info("LoRA unpinned: {}", lora_id);
     }
 }
@@ -938,6 +962,9 @@ std::vector<LoRAInfo> MultiLoRAManager::listLoRAs() const {
     result.reserve(loras_.size());
     
     for (const auto& [id, slot] : loras_) {
+        if (!slot) {
+            continue;
+        }
         LoRAInfo info;
         info.id = id;
         info.name = id;
@@ -958,6 +985,9 @@ std::vector<LoRAInfo> MultiLoRAManager::listLoRAs(const std::string& base_model_
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<LoRAInfo> result;
     for (const auto& [id, slot] : loras_) {
+        if (!slot) {
+            continue;
+        }
         if (base_model_id.empty() || slot->base_model_id == base_model_id) {
             LoRAInfo info;
             info.id = id;
@@ -979,16 +1009,20 @@ std::optional<LoRAInfo> MultiLoRAManager::getLoRAInfo(const std::string& lora_id
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = loras_.find(lora_id);
     if (it == loras_.end()) return std::nullopt;
+    const auto* const slot = it->second.get();
+    if (!slot) {
+        return std::nullopt;
+    }
     LoRAInfo info;
     info.id = it->first;
     info.name = it->first;
     info.lora_id = it->first;
-    info.path = it->second->path;
-    info.base_model = it->second->base_model_id;
+    info.path = slot->path;
+    info.base_model = slot->base_model_id;
     info.adapter_id = it->first;
-    info.base_model_id = it->second->base_model_id;
-    info.size_bytes = it->second->vram_bytes;
-    info.scale = it->second->scale;
+    info.base_model_id = slot->base_model_id;
+    info.size_bytes = slot->vram_bytes;
+    info.scale = slot->scale;
     return info;
 }
 
@@ -1005,6 +1039,9 @@ size_t MultiLoRAManager::evictLRU(size_t /*target_vram_mb*/) {
     auto oldest_time = std::chrono::system_clock::now();
     
     for (auto& [id, lora] : loras_) {
+        if (!lora) {
+            continue;
+        }
         if (lora->keep_loaded) {
             continue;  // Skip pinned LoRAs
         }

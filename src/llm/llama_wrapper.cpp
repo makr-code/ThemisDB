@@ -1272,7 +1272,10 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         // Cache the successful response; key includes model_id to prevent cross-tenant leakage
         if (response_cache_) {
             const std::string cache_key = request.prompt + "|" + request.model_id;
-            response_cache_->put(cache_key, response);
+            auto* const response_cache = response_cache_.get();
+            if (response_cache) {
+                response_cache->put(cache_key, response);
+            }
         }
 
         // Tool call parsing: if tools were specified, parse the model output
@@ -3109,6 +3112,11 @@ bool LlamaWrapper::initializeVisionEncoder() {
 
 void LlamaWrapper::shutdownVisionEncoder() {
     if (vision_encoder_) {
+        auto* const vision_encoder = vision_encoder_.get();
+        if (!vision_encoder) {
+            vision_enabled_ = false;
+            return;
+        }
         spdlog::info("Shutting down vision encoder");
         vision_encoder_.reset();
         vision_enabled_ = false;
