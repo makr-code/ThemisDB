@@ -2256,39 +2256,72 @@ void HttpServer::onAccept(beast::error_code ec, tcp::socket socket) {
     if (ec) {
         THEMIS_ERROR("Accept error: {}", ec.message());
     } else {
+        bool connection_slot_reserved = false;
+
+        // W1-S02: reserve a connection slot atomically at admission to avoid
+        // accept-time races that can exceed max_connections under contention.
+        if (config_.max_connections > 0) {
+            uint64_t observed = active_connections_.load(std::memory_order_relaxed);
+            while (observed < config_.max_connections) {
+                if (active_connections_.compare_exchange_weak(
+                        observed,
+                        observed + 1,
+                        std::memory_order_acq_rel,
+                        std::memory_order_relaxed)) {
+                    connection_slot_reserved = true;
+                    break;
+                }
+            }
+        }
+
         // Enforce max_connections limit: close the socket immediately if exceeded
-        if (config_.max_connections > 0 &&
-            active_connections_.load(std::memory_order_relaxed) >= config_.max_connections) {
+        if (config_.max_connections > 0 && !connection_slot_reserved) {
             THEMIS_WARN("Max connections ({}) reached - rejecting new connection",
                 config_.max_connections);
             beast::error_code close_ec;
             socket.shutdown(tcp::socket::shutdown_both, close_ec);
             socket.close(close_ec);
         } else {
-            // Create new session for this connection.
-            // Lock briefly to get a stable reference to ssl_ctx_ (hot-reload may swap it).
-            if (config_.enable_tls) {
-                std::lock_guard<std::mutex> lock(ssl_ctx_mutex_);
-                if (ssl_ctx_) {
+            try {
+                // Create new session for this connection.
+                // Lock briefly to get a stable reference to ssl_ctx_ (hot-reload may swap it).
+                if (config_.enable_tls) {
+                    std::lock_guard<std::mutex> lock(ssl_ctx_mutex_);
+                    if (ssl_ctx_) {
 #ifdef THEMIS_ENABLE_HTTP2
-                    if (config_.enable_http2) {
-                        std::make_shared<Http2Session>(
-                            std::move(socket),
-                            *ssl_ctx_,
-                            this,
-                            config_.http2_max_concurrent_streams,
-                            config_.http2_initial_window_size
-                        )->start();
-                    } else {
-                        std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
-                    }
+                        if (config_.enable_http2) {
+                            Http2Handler::createSession(
+                                std::move(socket),
+                                *ssl_ctx_,
+                                this,
+                                config_.http2_max_concurrent_streams,
+                                config_.http2_initial_window_size,
+                                connection_slot_reserved
+                            )->start();
+                        } else {
+                            std::make_shared<SslSession>(
+                                std::move(socket), *ssl_ctx_, this, connection_slot_reserved)->start();
+                        }
 #else
-                    std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
+                        std::make_shared<SslSession>(
+                            std::move(socket), *ssl_ctx_, this, connection_slot_reserved)->start();
 #endif
+                        connection_slot_reserved = false; // counted by session dtor
+                    } else {
+                        THEMIS_WARN("TLS enabled but SSL context unavailable; rejecting new connection");
+                    }
+                } else {
+                    // Plain HTTP/1.1 without TLS
+                    std::make_shared<Session>(
+                        std::move(socket), this, connection_slot_reserved)->start();
+                    connection_slot_reserved = false; // counted by session dtor
                 }
-            } else {
-                // Plain HTTP/1.1 without TLS
-                std::make_shared<Session>(std::move(socket), this)->start();
+            } catch (const std::exception& ex) {
+                THEMIS_ERROR("Failed to start session: {}", ex.what());
+            }
+
+            if (connection_slot_reserved) {
+                active_connections_.fetch_sub(1, std::memory_order_release);
             }
         }
     }
@@ -4275,23 +4308,92 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = monitoring_api_->handleMetrics(req);
             break;
         }
-        case Route::MetricsHtml:
+        case Route::MetricsHtml: {
+            // W1-S11: Same localhost-or-metrics-token restriction as the Prometheus /metrics
+            // endpoint — the HTML view exposes the same data.
+            const std::string client_ip_mhtml = extractClientIP(req);
+            const bool from_loopback_mhtml = (client_ip_mhtml == "127.0.0.1" || client_ip_mhtml == "::1");
+            bool token_ok_mhtml = false;
+            if (const char* tok_env = std::getenv("THEMIS_METRICS_TOKEN")) {
+                const std::string expected_tok{tok_env};
+                if (!expected_tok.empty()) {
+                    auto it = req.find(http::field::authorization);
+                    if (it != req.end()) {
+                        auto bearer = themis::AuthMiddleware::extractBearerToken(
+                            std::string_view(it->value().data(), it->value().size()));
+                        token_ok_mhtml = (bearer && *bearer == expected_tok);
+                    }
+                }
+            }
+            if (!from_loopback_mhtml && !token_ok_mhtml) {
+                response = makeErrorResponse(http::status::forbidden,
+                    "Metrics HTML endpoint requires local access or valid THEMIS_METRICS_TOKEN", req);
+                break;
+            }
             response = monitoring_api_->handleMetricsHtml(req);
             break;
-        case Route::PluginMetrics:
-            // Delegate to MonitoringApiHandler for plugin metrics
+        }
+        case Route::PluginMetrics: {
+            // W1-S11: Same localhost-or-metrics-token restriction as the Prometheus /metrics
+            // endpoint — plugin metrics expose comparable operational data.
+            const std::string client_ip_pm = extractClientIP(req);
+            const bool from_loopback_pm = (client_ip_pm == "127.0.0.1" || client_ip_pm == "::1");
+            bool token_ok_pm = false;
+            if (const char* tok_env = std::getenv("THEMIS_METRICS_TOKEN")) {
+                const std::string expected_tok{tok_env};
+                if (!expected_tok.empty()) {
+                    auto it = req.find(http::field::authorization);
+                    if (it != req.end()) {
+                        auto bearer = themis::AuthMiddleware::extractBearerToken(
+                            std::string_view(it->value().data(), it->value().size()));
+                        token_ok_pm = (bearer && *bearer == expected_tok);
+                    }
+                }
+            }
+            if (!from_loopback_pm && !token_ok_pm) {
+                response = makeErrorResponse(http::status::forbidden,
+                    "Plugin metrics endpoint requires local access or valid THEMIS_METRICS_TOKEN", req);
+                break;
+            }
             response = monitoring_api_->handlePluginMetrics(req);
             break;
+        }
         case Route::ObservabilityAlertsGet:
+            // W1-S11: Observability alert list exposes internal alert state — require monitoring read.
+            if (auto auth_err = requireAccess(req, "monitoring:read", "monitoring.alerts.read",
+                                              "/api/v1/observability/alerts")) {
+                response = *auth_err;
+                break;
+            }
             response = monitoring_api_->handleObservabilityAlerts(req);
             break;
         case Route::ObservabilityAlertSilencePost:
+            // W1-S11: Silencing alerts is a write operation — require monitoring write.
+            if (auto auth_err = requireAccess(req, "monitoring:write", "monitoring.alerts.silence",
+                                              "/api/v1/observability/alerts/silence")) {
+                response = *auth_err;
+                break;
+            }
             response = monitoring_api_->handleObservabilityAlertSilence(req);
             break;
         case Route::ObservabilityHealthGet:
+            // W1-S11: Observability health exposes internal service config (endpoint URLs,
+            // connection state) — require monitoring read.
+            if (auto auth_err = requireAccess(req, "monitoring:read", "monitoring.health.read",
+                                              "/api/v1/observability/health")) {
+                response = *auth_err;
+                break;
+            }
             response = monitoring_api_->handleObservabilityHealth(req);
             break;
         case Route::LicenseStatusGet:
+            // W1-S11: License status exposes organization name, edition, and masked license key —
+            // require monitoring read access.
+            if (auto auth_err = requireAccess(req, "monitoring:read", "monitoring.license.read",
+                                              "/api/v1/license/status")) {
+                response = *auth_err;
+                break;
+            }
             response = monitoring_api_->handleLicenseStatus(req);
             break;
         case Route::WalApplyPost:
@@ -4308,9 +4410,19 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = handleConfig(req);
             break;
         case Route::AdminBackupPost:
+            // W1-S11: Backup creates a storage checkpoint — requires admin privilege.
+            if (auto auth_err = requireAccess(req, "admin", "admin", "/api/v1/admin/backup")) {
+                response = *auth_err;
+                break;
+            }
             response = admin_api_->handleBackup(req);
             break;
         case Route::AdminRestorePost:
+            // W1-S11: Restore replaces the live database — requires admin privilege.
+            if (auto auth_err = requireAccess(req, "admin", "admin", "/api/v1/admin/restore")) {
+                response = *auth_err;
+                break;
+            }
             response = admin_api_->handleRestore(req);
             break;
         case Route::EntitiesGet:
@@ -8575,6 +8687,20 @@ std::optional<http::response<http::string_body>> HttpServer::enforceAuditRateLim
         uint32_t count = 0;
         {
             std::lock_guard<std::mutex> lk(audit_rate_mutex_);
+            // W1-S02: amortised eviction of stale buckets to prevent unbounded map growth.
+            // Triggered on each access — erases entries whose window expired more than
+            // one full window ago (i.e., at least 2 × window_ms in the past).
+            if (audit_rate_buckets_.size() > 128) {
+                const uint64_t evict_cutoff = now - 2 * window_ms;
+                for (auto bucket_it = audit_rate_buckets_.begin();
+                     bucket_it != audit_rate_buckets_.end(); ) {
+                    if (bucket_it->second.window_start_ms < evict_cutoff) {
+                        bucket_it = audit_rate_buckets_.erase(bucket_it);
+                    } else {
+                        ++bucket_it;
+                    }
+                }
+            }
             // Use try_emplace to make the insertion intent explicit and to avoid
             // the iterator-invalidation risk that operator[] carries: operator[]
             // inserts a default element when the key is absent, which can trigger
@@ -10846,12 +10972,14 @@ void HttpServer::ensurePIIPseudonymizer() {
 // Session Implementation
 // ============================================================================
 
-HttpServer::Session::Session(tcp::socket socket, HttpServer* server)
+HttpServer::Session::Session(tcp::socket socket, HttpServer* server, bool connection_slot_reserved)
     : socket_(std::move(socket))
     , server_(server)
     , read_timer_(socket_.get_executor())
 {
-    server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
+    if (!connection_slot_reserved) {
+        server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
+    }
 }
 
 HttpServer::Session::~Session() {
@@ -11085,6 +11213,8 @@ void HttpServer::Session::doWrite() {
     // is already complete and the timer was cancelled in onRead before we get here).
     armReadTimer();
     bool close = response_.need_eof();
+    // W1-S02: arm per-connection timeout for potentially blocking async writes.
+    armReadTimer();
     http::async_write(
         socket_,
         response_,
@@ -11103,6 +11233,7 @@ void HttpServer::Session::onWrite(
 ) {
     cancelReadTimer();  // Cancel the write-phase I/O timeout
     boost::ignore_unused(bytes_transferred);
+    cancelReadTimer();
 
     if (ec) {
         THEMIS_ERROR("Write error: {}", ec.message());
@@ -11123,12 +11254,14 @@ void HttpServer::Session::onWrite(
 // SSL Session Implementation
 // ============================================================================
 
-HttpServer::SslSession::SslSession(tcp::socket socket, boost::asio::ssl::context& ssl_ctx, HttpServer* server)
+HttpServer::SslSession::SslSession(tcp::socket socket, boost::asio::ssl::context& ssl_ctx, HttpServer* server, bool connection_slot_reserved)
     : stream_(std::move(socket), ssl_ctx)
     , server_(server)
     , read_timer_(stream_.get_executor())
 {
-    server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
+    if (!connection_slot_reserved) {
+        server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
+    }
 }
 
 HttpServer::SslSession::~SslSession() {
@@ -11401,6 +11534,8 @@ void HttpServer::SslSession::doWrite() {
     // it was cancelled in onRead/onHandshake before we get here).
     armReadTimer();
     bool close = response_.need_eof();
+    // W1-S02: arm per-connection timeout for potentially blocking TLS writes.
+    armReadTimer();
     http::async_write(
         stream_,
         response_,
@@ -11419,6 +11554,7 @@ void HttpServer::SslSession::onWrite(
 ) {
     cancelReadTimer();  // Cancel the write-phase I/O timeout
     boost::ignore_unused(bytes_transferred);
+    cancelReadTimer();
 
     if (ec) {
         THEMIS_ERROR("SSL write error: {}", ec.message());
@@ -11435,9 +11571,12 @@ void HttpServer::SslSession::onWrite(
 }
 
 void HttpServer::SslSession::doShutdown() {
+    // W1-S02: prevent indefinite async_shutdown hang on stalled peers.
+    armReadTimer();
     stream_.async_shutdown(
         beast::bind_front_handler(
             [self = shared_from_this()](beast::error_code ec) {
+                self->cancelReadTimer();
                 if (ec && ec != boost::asio::error::eof) {
                     THEMIS_ERROR("SSL shutdown error: {}", ec.message());
                 }

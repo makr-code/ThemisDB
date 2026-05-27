@@ -37,12 +37,26 @@ class HttpServer;
  */
 class Http2Session : public std::enable_shared_from_this<Http2Session> {
 public:
+    /**
+     * @brief Construct an HTTP/2 session bound to one accepted TLS socket.
+     *
+     * @param socket Accepted TCP socket already selected for HTTP/2 handling.
+     * @param ssl_ctx TLS context used for the HTTP/2 TLS handshake.
+     * @param server Owning HTTP server instance; must remain valid for the
+     *        session lifetime.
+     * @param max_concurrent_streams Maximum concurrent HTTP/2 streams allowed.
+     * @param initial_window_size Initial per-stream flow-control window size.
+     * @param connection_slot_reserved When true, accept-path admission already
+     *        reserved one `active_connections_` slot and the constructor must
+     *        not increment it again. The destructor still releases the slot.
+     */
     Http2Session(
         tcp::socket socket,
         boost::asio::ssl::context& ssl_ctx,
         HttpServer* server,
         uint32_t max_concurrent_streams,
-        uint32_t initial_window_size
+        uint32_t initial_window_size,
+        bool connection_slot_reserved = false
     );
     
     ~Http2Session();
@@ -64,6 +78,10 @@ private:
     void onRead(boost::system::error_code ec, std::size_t bytes_transferred);
     void doWrite();
     void onWrite(boost::system::error_code ec, std::size_t bytes_transferred);
+    void armReadTimer();
+    void cancelReadTimer();
+    void armWriteTimer();
+    void cancelWriteTimer();
     
     // nghttp2 callbacks
     static ssize_t sendCallback(nghttp2_session* session, const uint8_t* data,
@@ -121,8 +139,8 @@ private:
     std::array<uint8_t, 16384> read_buffer_;
     std::vector<uint8_t> write_buffer_;
     std::unordered_map<int32_t, StreamData> streams_;
-    // Per-stream response buffers for RAII lifetime management (stub #298).
-    std::unordered_map<int32_t, std::shared_ptr<ResponseBuffer>> response_buffers_;
+    net::steady_timer read_timer_;  // handshake + read timeout guard
+    net::steady_timer write_timer_; // write timeout guard
     
     uint32_t max_concurrent_streams_;
     uint32_t initial_window_size_;
@@ -132,6 +150,7 @@ private:
     std::set<int32_t> cdc_subscribed_streams_;
     mutable std::mutex push_mutex_;
     mutable std::mutex response_mutex_;
+    // Per-stream response buffers for RAII lifetime management (stub #298).
     std::unordered_map<int32_t, std::shared_ptr<ResponseBuffer>> response_buffers_;
 };
 
@@ -162,7 +181,8 @@ public:
         boost::asio::ssl::context& ssl_ctx,
         HttpServer* server,
         uint32_t max_concurrent_streams = 100,
-        uint32_t initial_window_size = 65535
+        uint32_t initial_window_size = 65535,
+        bool connection_slot_reserved = false
     );
 };
 

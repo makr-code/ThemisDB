@@ -308,27 +308,26 @@ void ImportApiHandler::handleJobStatus(const httplib::Request& req,
                                         httplib::Response& res) {
     auto span = Tracer::startSpan("handleJobStatus");
     const std::string job_id = req.matches[1];
-    auto handle = registry_->get(job_id);
-    if (!handle) {
+    auto job = registry_->getJsonSnapshot(job_id);
+    if (!job.has_value()) {
         jsonError(res, 404, "Job not found: " + job_id);
         return;
     }
-    jsonOk(res, handle->toJson());
+    jsonOk(res, *job);
 }
 
 void ImportApiHandler::handleCancelJob(const httplib::Request& req,
                                         httplib::Response& res) {
     auto span = Tracer::startSpan("handleCancelJob");
     const std::string job_id = req.matches[1];
-    auto handle = registry_->get(job_id);
-    if (!handle) {
+    auto snapshot = registry_->getRunningAndJsonSnapshot(job_id);
+    if (!snapshot.has_value()) {
         jsonError(res, 404, "Job not found: " + job_id);
         return;
     }
-    if (!handle->running.load()) {
-        jsonError(res, 409, "Job is not running (status: " +
-                  std::string(handle->getStatus() == ImportStatus::COMPLETED
-                              ? "completed" : "unknown") + ")");
+    if (!snapshot->first) {
+        const std::string status = snapshot->second.value("status", "unknown");
+        jsonError(res, 409, "Job is not running (status: " + status + ")");
         return;
     }
     // NOTE: cancel() signals the shared `cancelled_` flag on the importer.
@@ -337,44 +336,41 @@ void ImportApiHandler::handleCancelJob(const httplib::Request& req,
     // importer instance per job (e.g. one PostgreSQLImporter per long-running import).
     importer_->cancel();
     THEMIS_INFO("ImportApiHandler: cancel requested for job '{}'", job_id);
-    jsonOk(res, handle->toJson());
+    auto updated = registry_->getJsonSnapshot(job_id);
+    jsonOk(res, updated.value_or(snapshot->second));
 }
 
 void ImportApiHandler::handleListJobs(const httplib::Request& /*req*/,
                                        httplib::Response& res) {
     auto span = Tracer::startSpan("handleListJobs");
-    auto jobs = registry_->all();
-    json arr = json::array();
-    for (auto& h : jobs) arr.push_back(h->toJson());
-    jsonOk(res, arr);
+    auto jobs = registry_->allJsonSnapshots();
+    jsonOk(res, jobs);
 }
 
 void ImportApiHandler::handleMetrics(const httplib::Request& /*req*/,
                                       httplib::Response& res) {
     auto span = Tracer::startSpan("handleMetrics");
     // Aggregate counters across all known jobs and emit Prometheus text format.
-    auto jobs = registry_->all();
+    auto jobs = registry_->allJsonSnapshots();
 
     size_t total_imported = 0, total_failed = 0, total_skipped = 0;
     size_t jobs_running = 0, jobs_completed = 0;
     double total_duration = 0.0;
 
-    for (auto& h : jobs) {
-        switch (h->getStatus()) {
-            case ImportStatus::RUNNING:   ++jobs_running;   break;
-            case ImportStatus::COMPLETED: ++jobs_completed; break;
-            default: break;
+    for (const auto& job : jobs) {
+        const std::string status = job.value("status", "unknown");
+        if (status == "running") {
+            ++jobs_running;
+        } else if (status == "completed") {
+            ++jobs_completed;
         }
-        // If the job is done and the future is ready, read final stats
-        if (h->getStatus() == ImportStatus::COMPLETED &&
-            h->future.wait_for(std::chrono::seconds(0)) == std::future_status::ready) {
-            try {
-                auto stats = h->future.get();
-                total_imported += stats.imported_records;
-                total_failed   += stats.failed_records;
-                total_skipped  += stats.skipped_records;
-                total_duration += stats.elapsed_seconds;
-            } catch (...) {}
+
+        const auto stats_it = job.find("stats");
+        if (status == "completed" && stats_it != job.end() && stats_it->is_object()) {
+            total_imported += stats_it->value("imported_records", 0ull);
+            total_failed += stats_it->value("failed_records", 0ull);
+            total_skipped += stats_it->value("skipped_records", 0ull);
+            total_duration += stats_it->value("elapsed_seconds", 0.0);
         }
     }
 
@@ -491,14 +487,14 @@ void ImportApiHandler::handleGetSchema(const httplib::Request& req,
                                         httplib::Response& res) {
     auto span = Tracer::startSpan("handleGetSchema");
     const std::string job_id = req.matches[1];
-    auto handle = registry_->get(job_id);
-    if (!handle) {
+    auto source_path_opt = registry_->getSourcePathSnapshot(job_id);
+    if (!source_path_opt.has_value()) {
         jsonError(res, 404, "Job not found: " + job_id);
         return;
     }
 
     // Retrieve the source_path stored in the handle's options snapshot
-    const std::string source_path = handle->source_path;
+    const std::string source_path = *source_path_opt;
     if (source_path.empty()) {
         jsonError(res, 409, "Job has no source_path available for schema preview");
         return;
@@ -633,8 +629,7 @@ void ImportApiHandler::handleUpdateRelationships(const httplib::Request& req,
                                                   httplib::Response& res) {
     auto span = Tracer::startSpan("handleUpdateRelationships");
     const std::string job_id = req.matches[1];
-    auto handle = registry_->get(job_id);
-    if (!handle) {
+    if (!registry_->getSourcePathSnapshot(job_id).has_value()) {
         jsonError(res, 404, "Job not found: " + job_id);
         return;
     }

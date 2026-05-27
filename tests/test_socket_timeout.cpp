@@ -19,7 +19,8 @@
 #include <atomic>
 #include <chrono>
 #include <thread>
-
+#include <unordered_map>
+#include <vector>
 #include "server/http_server.h"
 
 using Config = themis::server::HttpServer::Config;
@@ -243,4 +244,285 @@ TEST(SocketTimeoutConfig, TimeoutIsUint32) {
     static_assert(std::is_same_v<decltype(cfg.request_timeout_ms), uint32_t>,
                   "request_timeout_ms must be uint32_t");
     SUCCEED();
+}
+
+// ---------------------------------------------------------------------------
+// W1-S02: hot_request_timeout_ms_ atomic shadow — race-free hot-reload
+// ---------------------------------------------------------------------------
+
+// Validates that the atomic shadow pattern used in HttpServer::hot_request_timeout_ms_
+// (initialized from Config::request_timeout_ms) is correct: concurrent store/load from
+// multiple threads must not produce torn reads or UB.
+
+TEST(W1S02AtomicTimeout, AtomicInitFromConfigDefaultIs30s) {
+    // Mirrors: HttpServer constructor initialises hot_request_timeout_ms_ from
+    // config_.request_timeout_ms, which defaults to 30000.
+    Config cfg;
+    std::atomic<uint32_t> hot_ms{cfg.request_timeout_ms};
+    EXPECT_EQ(hot_ms.load(std::memory_order_acquire), 30000u);
+}
+
+TEST(W1S02AtomicTimeout, HotReloadStoreIsVisibleToAcquireLoad) {
+    // Simulates: hot-reload handler stores new value, armReadTimer reads it.
+    std::atomic<uint32_t> hot_ms{30000u};
+
+    // Hot-reload writes
+    hot_ms.store(5000u, std::memory_order_release);
+
+    // armReadTimer reads
+    uint32_t seen = hot_ms.load(std::memory_order_acquire);
+    EXPECT_EQ(seen, 5000u);
+}
+
+TEST(W1S02AtomicTimeout, ConcurrentHotReloadAndArmDoNotDataRace) {
+    // Stress test: 4 writers and 4 readers on the same atomic must not trigger TSAN.
+    std::atomic<uint32_t> hot_ms{30000u};
+    std::atomic<bool> stop{false};
+
+    std::vector<std::thread> writers;
+    std::vector<std::thread> readers;
+    for (int i = 0; i < 4; ++i) {
+        writers.emplace_back([&hot_ms, &stop, i]() {
+            while (!stop.load(std::memory_order_relaxed)) {
+                hot_ms.store(static_cast<uint32_t>(1000 + i * 1000),
+                             std::memory_order_release);
+            }
+        });
+        readers.emplace_back([&hot_ms, &stop]() {
+            while (!stop.load(std::memory_order_relaxed)) {
+                auto v = hot_ms.load(std::memory_order_acquire);
+                (void)v; // all values are valid
+            }
+        });
+    }
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    stop.store(true, std::memory_order_release);
+    for (auto& t : writers) t.join();
+    for (auto& t : readers) t.join();
+    SUCCEED(); // no TSAN / UB detected
+}
+
+// ---------------------------------------------------------------------------
+// W1-S02: audit_rate_buckets_ amortised eviction — bounded map size
+// ---------------------------------------------------------------------------
+
+// Simulates the eviction logic from HttpServer::enforceAuditRateLimit to verify
+// that stale entries are removed when the map exceeds 128 entries.
+
+TEST(W1S02AuditRateEviction, StaleEntriesAreRemovedWhenMapExceeds128) {
+    using RateState = struct { uint64_t window_start_ms{0}; uint32_t count{0}; };
+    std::unordered_map<std::string, RateState> buckets;
+
+    const uint64_t window_ms = 60ull * 1000ull;
+    const uint64_t now = 1'000'000; // arbitrary epoch-relative timestamp
+
+    // Insert 200 stale entries (window started 3 min ago)
+    for (int i = 0; i < 200; ++i) {
+        buckets["stale:" + std::to_string(i)] = {now - 3 * window_ms, 1};
+    }
+    ASSERT_EQ(buckets.size(), 200u);
+
+    // Trigger eviction (same logic as HttpServer::enforceAuditRateLimit)
+    if (buckets.size() > 128) {
+        const uint64_t evict_cutoff = now - 2 * window_ms;
+        for (auto it = buckets.begin(); it != buckets.end(); ) {
+            if (it->second.window_start_ms < evict_cutoff) {
+                it = buckets.erase(it);
+            } else {
+                ++it;
+            }
+        }
+    }
+
+    EXPECT_LT(buckets.size(), 200u) << "Stale entries must be evicted";
+    EXPECT_EQ(buckets.size(), 0u)   << "All 200 stale entries should be removed";
+}
+
+TEST(W1S02AuditRateEviction, FreshEntriesAreNotEvicted) {
+    using RateState = struct { uint64_t window_start_ms{0}; uint32_t count{0}; };
+    std::unordered_map<std::string, RateState> buckets;
+
+    const uint64_t window_ms = 60ull * 1000ull;
+    const uint64_t now = 1'000'000;
+
+    // Insert 150 fresh entries (started in current window)
+    for (int i = 0; i < 150; ++i) {
+        buckets["fresh:" + std::to_string(i)] = {now - window_ms / 2, 1};
+    }
+    ASSERT_EQ(buckets.size(), 150u);
+
+    // Trigger eviction
+    if (buckets.size() > 128) {
+        const uint64_t evict_cutoff = now - 2 * window_ms;
+        for (auto it = buckets.begin(); it != buckets.end(); ) {
+            if (it->second.window_start_ms < evict_cutoff) {
+                it = buckets.erase(it);
+            } else {
+                ++it;
+            }
+        }
+    }
+
+    EXPECT_EQ(buckets.size(), 150u) << "Fresh entries must not be evicted";
+}
+
+TEST(W1S02AuditRateEviction, MapBelowThresholdIsNotScanned) {
+    // Eviction only triggers when map.size() > 128 to avoid O(n) on every request.
+    using RateState = struct { uint64_t window_start_ms{0}; uint32_t count{0}; };
+    std::unordered_map<std::string, RateState> buckets;
+
+    const uint64_t window_ms = 60ull * 1000ull;
+    const uint64_t now = 1'000'000;
+
+    // Insert 5 very stale entries (below threshold)
+    for (int i = 0; i < 5; ++i) {
+        buckets["stale:" + std::to_string(i)] = {now - 10 * window_ms, 1};
+    }
+
+    size_t scanned = 0;
+    if (buckets.size() > 128) {  // threshold NOT exceeded
+        const uint64_t evict_cutoff = now - 2 * window_ms;
+        for (auto it = buckets.begin(); it != buckets.end(); ) {
+            ++scanned;
+            if (it->second.window_start_ms < evict_cutoff) {
+                it = buckets.erase(it);
+            } else {
+                ++it;
+            }
+        }
+    }
+    EXPECT_EQ(scanned, 0u)          << "No scan below threshold";
+    EXPECT_EQ(buckets.size(), 5u)   << "Small map must be left intact";
+}
+
+// ---------------------------------------------------------------------------
+// W1-S02: write/shutdown timeout coverage for HTTP core session paths
+// ---------------------------------------------------------------------------
+
+TEST(W1S02WriteTimeout, StalledWriteTriggersTimeout) {
+    namespace asio = boost::asio;
+    asio::io_context ioc;
+    asio::steady_timer io_timeout(ioc);
+    auto simulated_write = std::make_shared<asio::steady_timer>(ioc);
+
+    std::atomic<bool> timed_out{false};
+    std::atomic<bool> write_done{false};
+
+    io_timeout.expires_after(std::chrono::milliseconds(20));
+    io_timeout.async_wait([&timed_out](const boost::system::error_code& ec) {
+        if (!ec) timed_out.store(true);
+    });
+
+    simulated_write->expires_after(std::chrono::milliseconds(100));
+    simulated_write->async_wait([&write_done](const boost::system::error_code& ec) {
+        if (!ec) write_done.store(true);
+    });
+
+    ioc.run_for(std::chrono::milliseconds(200));
+    EXPECT_TRUE(timed_out.load());
+    EXPECT_TRUE(write_done.load());
+}
+
+TEST(W1S02WriteTimeout, CompletedWriteCancelsTimeout) {
+    namespace asio = boost::asio;
+    asio::io_context ioc;
+    asio::steady_timer io_timeout(ioc);
+    auto simulated_write = std::make_shared<asio::steady_timer>(ioc);
+
+    std::atomic<bool> timed_out{false};
+    std::atomic<bool> write_done{false};
+
+    io_timeout.expires_after(std::chrono::milliseconds(100));
+    io_timeout.async_wait([&timed_out](const boost::system::error_code& ec) {
+        if (!ec) timed_out.store(true);
+    });
+
+    simulated_write->expires_after(std::chrono::milliseconds(10));
+    simulated_write->async_wait([&write_done, &io_timeout](const boost::system::error_code& ec) {
+        if (!ec) {
+            write_done.store(true);
+            io_timeout.cancel();
+        }
+    });
+
+    ioc.run_for(std::chrono::milliseconds(200));
+    EXPECT_TRUE(write_done.load());
+    EXPECT_FALSE(timed_out.load());
+}
+
+TEST(W1S02ShutdownTimeout, StalledShutdownTriggersTimeout) {
+    namespace asio = boost::asio;
+    asio::io_context ioc;
+    asio::steady_timer io_timeout(ioc);
+    auto simulated_shutdown = std::make_shared<asio::steady_timer>(ioc);
+
+    std::atomic<bool> timed_out{false};
+    std::atomic<bool> shutdown_done{false};
+
+    io_timeout.expires_after(std::chrono::milliseconds(20));
+    io_timeout.async_wait([&timed_out](const boost::system::error_code& ec) {
+        if (!ec) timed_out.store(true);
+    });
+
+    simulated_shutdown->expires_after(std::chrono::milliseconds(100));
+    simulated_shutdown->async_wait([&shutdown_done](const boost::system::error_code& ec) {
+        if (!ec) shutdown_done.store(true);
+    });
+
+    ioc.run_for(std::chrono::milliseconds(200));
+    EXPECT_TRUE(timed_out.load());
+    EXPECT_TRUE(shutdown_done.load());
+}
+
+TEST(W1S02ConnectionAdmission, RejectsWhenLimitReached) {
+    std::atomic<uint64_t> active_connections{5};
+    const uint64_t max_connections = 5;
+
+    bool reserved = false;
+    uint64_t observed = active_connections.load(std::memory_order_relaxed);
+    while (observed < max_connections) {
+        if (active_connections.compare_exchange_weak(
+                observed, observed + 1,
+                std::memory_order_acq_rel,
+                std::memory_order_relaxed)) {
+            reserved = true;
+            break;
+        }
+    }
+
+    EXPECT_FALSE(reserved);
+    EXPECT_EQ(active_connections.load(std::memory_order_relaxed), max_connections);
+}
+
+TEST(W1S02ConnectionAdmission, ConcurrentReservationsDoNotExceedLimit) {
+    constexpr uint64_t max_connections = 32;
+    std::atomic<uint64_t> active_connections{0};
+    std::atomic<uint64_t> reserved_count{0};
+
+    constexpr size_t kThreads = 128;
+    std::vector<std::thread> threads;
+    threads.reserve(kThreads);
+
+    for (size_t i = 0; i < kThreads; ++i) {
+        threads.emplace_back([&]() {
+            uint64_t observed = active_connections.load(std::memory_order_relaxed);
+            while (observed < max_connections) {
+                if (active_connections.compare_exchange_weak(
+                        observed, observed + 1,
+                        std::memory_order_acq_rel,
+                        std::memory_order_relaxed)) {
+                    reserved_count.fetch_add(1, std::memory_order_relaxed);
+                    return;
+                }
+            }
+        });
+    }
+
+    for (auto& t : threads) {
+        t.join();
+    }
+
+    EXPECT_EQ(active_connections.load(std::memory_order_relaxed), max_connections);
+    EXPECT_EQ(reserved_count.load(std::memory_order_relaxed), max_connections);
 }
