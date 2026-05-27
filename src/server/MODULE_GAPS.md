@@ -279,6 +279,11 @@ python tools/gap_audit_pipeline_v2.py
   - Timeout hardening: explicit timeout aborts added for traversal BFS and LET projection fallback prefix-scan paths (`timeout_ms`).
   - Null-safety hardening: fail-closed `503 Service Unavailable` guards for missing core query dependencies (`storage`, `secondary_index`) and missing enhanced-query `llm_store`.
   - Gap delta intent: reduce `data_race`, `no_timeout`, and `null_dereference` findings for `query_api_handler.cpp` in next server rescan.
+
+- **W1-S07 (2026-05-27) – `src/server/query_api_handler.cpp`**
+  - Unknown-cluster noise reduction (`UNCHECKED_ARRAY_INDEX`): both JOIN execution paths now bind `for_nodes` to a local reference and gate indexed access behind an explicit `for_nodes.size() >= 2` check before reading `[0]` / `[1]`.
+  - This removes 4 ambiguous indexed-read hotspots from scanner perspective (2 in the early join path + 2 in the traversal-aware join path) without changing join behavior.
+  - Gap delta (module, scoped pass): `query_api_handler.cpp` unknown-cluster actionable index-access set reduced by **4** in this pass; `http_server.cpp` unchanged in this ticket pass.
 ## ✅ Recent Remediation (2026-05-26) — W1-S01: Authorization Header Iterator-Free Sweep (all handler files)
 
 **Scope:** 18 server handler files  

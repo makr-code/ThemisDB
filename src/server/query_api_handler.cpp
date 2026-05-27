@@ -688,11 +688,13 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         parseSpan.setStatus(true);
 
         // EARLY: Join-Erkennung vor Translation (Translator unterstützt keine Field==Field Prädikate)
-        if (*parse_result && (*parse_result)->traversal == nullptr && !(*parse_result)->for_nodes.empty() && (*parse_result)->for_nodes.size() >= 2) {
+        if (*parse_result && (*parse_result)->traversal == nullptr) {
+            const auto& for_nodes = (*parse_result)->for_nodes;
+            if (for_nodes.size() >= 2) {
             // Wiederverwendung der Join-Logik wie weiter unten
             auto joinSpan = Tracer::startSpan("aql.join");
-            const auto& f1_ref = (*parse_result)->for_nodes[0];
-            const auto& f2_ref = (*parse_result)->for_nodes[1];
+            const auto& f1_ref = for_nodes[0];
+            const auto& f2_ref = for_nodes[1];
             const std::string var1 = f1_ref.variable;
             const std::string var2 = f2_ref.variable;
             const std::string table1 = f1_ref.collection;
@@ -788,6 +790,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             if (explain) { response_body["query"] = aql_query; response_body["ast"] = (*parse_result)->toJSON(); nlohmann::json jp; jp["on_left"] = (*joinCols).first; jp["on_right"] = (*joinCols).second; response_body["join"] = jp; }
             joinSpan.setAttribute("join.output_count", static_cast<int64_t>(out.size())); joinSpan.setStatus(true); span.setAttribute("aql.result_count", static_cast<int64_t>(out.size())); span.setStatus(true);
             return makeResponse(http::status::ok, response_body.dump(), req);
+            }
         }
 
     // Translate AST to Query (relational oder traversal)
@@ -1526,11 +1529,13 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     }
                 }
                     // Joins via doppeltem FOR (MVP): Wenn mehrere FOR-Klauseln vorhanden sind und keine Traversal-Query aktiv ist
-                    if ((*parse_result) && (*parse_result)->traversal == nullptr && !(*parse_result)->for_nodes.empty() && (*parse_result)->for_nodes.size() >= 2) {
+                    if ((*parse_result) && (*parse_result)->traversal == nullptr) {
+                        const auto& for_nodes = (*parse_result)->for_nodes;
+                        if (for_nodes.size() >= 2) {
                         auto joinSpan = Tracer::startSpan("aql.join");
                         // Beschränkung: Genau zwei FOR-Klauseln, Equality-Join über FILTER lhs.field == rhs.field
-                        const auto& f1 = (*parse_result)->for_nodes[0];
-                        const auto& f2 = (*parse_result)->for_nodes[1];
+                        const auto& f1 = for_nodes[0];
+                        const auto& f2 = for_nodes[1];
                         const std::string var1 = f1.variable;
                         const std::string var2 = f2.variable;
                         const std::string table1 = f1.collection;
@@ -1761,6 +1766,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         span.setAttribute("aql.result_count", static_cast<int64_t>(out.size()));
                         span.setStatus(true);
                         return makeResponse(http::status::ok, response_body.dump(), req);
+                        }
                     }
 
             }
