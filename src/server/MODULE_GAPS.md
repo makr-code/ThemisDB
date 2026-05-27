@@ -987,6 +987,32 @@ Each file now applies the W1-S03 anchor pattern: after `if (!member_) { return �
 
 ---
 
+## ✅ Recent Remediation (2026-05-27) — W1-S03 Extension: Null-Guard Standardisation Round 11
+
+**Scope:** `src/server/http_server.cpp`, `src/server/mqtt_session.cpp`, `src/server/pii_api_handler.cpp`, `src/server/rpc/rpc_service_impl.cpp`
+**Ticket:** W1-S03 (issue scope) · Priority P1
+
+### Fixes Applied
+
+#### Guarded pointer dereference anchoring (pointer_without_null_check / CWE-476)
+
+Each scope file now applies the W1-S03 anchor pattern: after a null guard or one-time lazy initialization, the member pointer is immediately bound to a local reference and the remainder of the guarded path uses that anchored reference.
+
+| File | Member(s) anchored | Guard sites |
+|---|---|---|
+| `http_server.cpp` | `sharding_manager_`, `shard_repair_api_`, `module_loader_`, `task_scheduler_api_`, `maintenance_api_`, `retention_api_`, `saga_api_`, `continuous_query_api_`, `mcp_server_`, `keys_api_`, `pki_api_`, `api_key_mgmt_`, `session_api_`, `saml_provider_`, `classification_api_`, `reports_api_`, `pii_pseudonymizer_`, `pii_api_`, `content_manager_`, `error_api_handler_`, `schema_api_handler_`, `content_fs_` | multiple remaining HTTP/admin/PII/schema/content paths |
+| `mqtt_session.cpp` | `wsStream_` | 2 |
+| `pii_api_handler.cpp` | `db_` | 4 |
+| `rpc_service_impl.cpp` | `spatial_index_`, `auth_` | 2 |
+
+### Gap Delta
+
+| Type | Before | After |
+|---|---|---|
+| `pointer_without_null_check` (W1-S03 Round 11 guarded derefs) | residual scanner-visible guarded-member deref hits in HTTP server, MQTT, PII, and RPC auth/spatial paths | standardized with explicit post-guard local references across all scope files |
+
+---
+
 
 **Scope:** `src/server/http_server.cpp`, `include/server/http_server.h`  
 **Ticket:** W1-S02 · Priority P0  

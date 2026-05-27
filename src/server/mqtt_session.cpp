@@ -854,9 +854,10 @@ void MqttSession::doWebSocketRead() {
     if (!wsStream_) {
         return;
     }
+    auto& ws_stream = *wsStream_;
     
     auto self = shared_from_this();
-    wsStream_->async_read(
+    ws_stream.async_read(
         wsReadBuffer_,
         [this, self](boost::beast::error_code ec, std::size_t bytes_transferred) {
             if (ec) {
@@ -878,6 +879,7 @@ void MqttSession::doWebSocketWrite() {
     if (!wsStream_ || writeQueue_.empty()) {
         return;
     }
+    auto& ws_stream = *wsStream_;
     
     auto self = shared_from_this();
     auto& packet = writeQueue_.front();
@@ -885,7 +887,7 @@ void MqttSession::doWebSocketWrite() {
     metrics_.messagesSent++;
     metrics_.bytesSent += packet.size();
     
-    wsStream_->async_write(
+    ws_stream.async_write(
         asio::buffer(packet),
         [this, self](boost::beast::error_code ec, std::size_t /*bytes_transferred*/) {
             if (ec) {
