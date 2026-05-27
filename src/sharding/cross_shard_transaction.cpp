@@ -118,6 +118,46 @@ bool CrossShardTransactionCoordinator::initialize() {
         spdlog::error("Consensus module required for cross-shard transactions");
         return false;
     }
+
+    void CrossShardTransactionCoordinator::reportDistributedWait(
+        const std::string& waiting_transaction_id,
+        const std::string& blocking_transaction_id,
+        const std::string& shard_id
+    ) {
+        if (waiting_transaction_id.empty() || blocking_transaction_id.empty() ||
+            waiting_transaction_id == blocking_transaction_id) {
+            return;
+        }
+
+        std::lock_guard<std::mutex> lock(transactions_mutex_);
+        auto waiting_it = transactions_.find(waiting_transaction_id);
+        auto blocking_it = transactions_.find(blocking_transaction_id);
+        if (waiting_it == transactions_.end() || blocking_it == transactions_.end()) {
+            return;
+        }
+
+        const auto waiting_state = waiting_it->second.state;
+        const auto blocking_state = blocking_it->second.state;
+        const bool waiting_live = waiting_state == TransactionState::ACTIVE ||
+                                  waiting_state == TransactionState::PREPARING;
+        const bool blocking_live = blocking_state == TransactionState::ACTIVE ||
+                                   blocking_state == TransactionState::PREPARING ||
+                                   blocking_state == TransactionState::PREPARED;
+        if (!waiting_live || !blocking_live) {
+            return;
+        }
+
+        distributed_wait_for_edges_[waiting_transaction_id].insert(blocking_transaction_id);
+        spdlog::trace("Recorded distributed wait edge: {} -> {} (shard={})",
+                      waiting_transaction_id, blocking_transaction_id, shard_id);
+    }
+
+    void CrossShardTransactionCoordinator::clearDistributedWaits(
+        const std::string& transaction_id
+    ) {
+        std::lock_guard<std::mutex> lock(transactions_mutex_);
+        clearDistributedWaitEdgesLocked(transaction_id);
+    }
     
     // Phase 2.3.3: Initialize WAL if available
     if (transaction_wal_ && !transaction_wal_->initialize()) {
@@ -567,6 +607,7 @@ bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id)
             persistTransactionState(transaction_id, TransactionState::ABORTED);
             spdlog::error("Transaction {} commit failed, aborted", transaction_id);
         }
+        clearDistributedWaitEdgesLocked(transaction_id);
     }
     lock.unlock();
     
@@ -634,6 +675,7 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
         it2->second.state = TransactionState::ABORTED;
         it2->second.end_time = std::chrono::system_clock::now();
         aborted_transactions_++;
+        clearDistributedWaitEdgesLocked(transaction_id);
         should_persist_aborted = true;
     }
     lock.unlock();
@@ -1793,80 +1835,56 @@ CrossShardTransactionCoordinator::buildWaitForGraph() const {
     std::map<std::string, std::vector<std::string>> graph;
     
     std::lock_guard<std::mutex> lock(transactions_mutex_);
-    
-    // Build wait-for graph from active transactions
-    // Transaction A waits for B if:
-    // 1. Both are active or preparing
-    // 2. They have overlapping participants
-    // 3. A started after B
-    
-    std::vector<std::string> active_txn_ids;
-    for (const auto& [txn_id, txn] : transactions_) {
-        if (txn.state == TransactionState::ACTIVE ||
-            txn.state == TransactionState::PREPARING) {
-            active_txn_ids.push_back(txn_id);
+
+    // Build wait-for graph from explicit cross-shard wait reports.
+    // Edge: waiting_txn -> blocking_txn.
+    for (const auto& [waiting_txn_id, blockers] : distributed_wait_for_edges_) {
+        const auto waiting_it = transactions_.find(waiting_txn_id);
+        if (waiting_it == transactions_.end()) {
+            continue;
         }
-    }
-    
-    // For each pair of active transactions, check for potential conflicts
-    for (size_t i = 0; i < active_txn_ids.size(); ++i) {
-        const auto& txn_a_id = active_txn_ids[i];
-        const auto& txn_a = transactions_.at(txn_a_id);
-        
-        for (size_t j = i + 1; j < active_txn_ids.size(); ++j) {
-            const auto& txn_b_id = active_txn_ids[j];
-            const auto& txn_b = transactions_.at(txn_b_id);
-            
-            // Check if transactions have overlapping participants
-            bool has_overlap = false;
-            for (const auto& [shard_id_a, _] : txn_a.participants) {
-                if (txn_b.participants.find(shard_id_a) != txn_b.participants.end()) {
-                    has_overlap = true;
-                    break;
-                }
-            }
-            
-            if (has_overlap) {
-                // Determine wait-for relationship based on start time
-                // Younger transaction waits for older transaction
-                if (txn_a.start_time < txn_b.start_time) {
-                    // B waits for A
-                    graph[txn_b_id].push_back(txn_a_id);
-                    spdlog::trace("Wait-for edge: {} -> {}", txn_b_id, txn_a_id);
-                } else {
-                    // A waits for B
-                    graph[txn_a_id].push_back(txn_b_id);
-                    spdlog::trace("Wait-for edge: {} -> {}", txn_a_id, txn_b_id);
-                }
-            }
+        const auto waiting_state = waiting_it->second.state;
+        if (waiting_state != TransactionState::ACTIVE &&
+            waiting_state != TransactionState::PREPARING) {
+            continue;
         }
-    }
-    
-    // Add additional wait-for edges based on prepare status
-    // If a transaction is in PREPARING state and another has overlapping
-    // participants in ACTIVE state, the ACTIVE waits for PREPARING
-    for (const auto& [txn_id, txn] : transactions_) {
-        if (txn.state == TransactionState::PREPARING) {
-            for (const auto& [other_id, other_txn] : transactions_) {
-                if (other_id == txn_id) continue;
-                if (other_txn.state != TransactionState::ACTIVE) continue;
-                
-                // Check for overlapping participants
-                for (const auto& [shard_id, _] : txn.participants) {
-                    if (other_txn.participants.find(shard_id) != 
-                        other_txn.participants.end()) {
-                        graph[other_id].push_back(txn_id);
-                        spdlog::trace("Wait-for edge (prepare): {} -> {}", other_id, txn_id);
-                        break;
-                    }
-                }
+
+        for (const auto& blocking_txn_id : blockers) {
+            const auto blocking_it = transactions_.find(blocking_txn_id);
+            if (blocking_it == transactions_.end()) {
+                continue;
             }
+            const auto blocking_state = blocking_it->second.state;
+            if (blocking_state != TransactionState::ACTIVE &&
+                blocking_state != TransactionState::PREPARING &&
+                blocking_state != TransactionState::PREPARED) {
+                continue;
+            }
+
+            graph[waiting_txn_id].push_back(blocking_txn_id);
+            spdlog::trace("Wait-for edge (distributed): {} -> {}",
+                          waiting_txn_id, blocking_txn_id);
         }
     }
     
     spdlog::debug("Built wait-for graph with {} nodes", graph.size());
     
     return graph;
+}
+
+void CrossShardTransactionCoordinator::clearDistributedWaitEdgesLocked(
+    const std::string& transaction_id
+) {
+    distributed_wait_for_edges_.erase(transaction_id);
+    for (auto it = distributed_wait_for_edges_.begin();
+         it != distributed_wait_for_edges_.end();) {
+        it->second.erase(transaction_id);
+        if (it->second.empty()) {
+            it = distributed_wait_for_edges_.erase(it);
+        } else {
+            ++it;
+        }
+    }
 }
 
 bool CrossShardTransactionCoordinator::detectCycle(
@@ -2819,5 +2837,4 @@ size_t PercolatorCoordinator::cleanStaleLocks(
 
 } // namespace sharding
 } // namespace themisdb
-
 

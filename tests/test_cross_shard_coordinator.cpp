@@ -188,6 +188,58 @@ TEST_F(CrossShardCoordinatorTest, PlaceholderTestDisabledInfrastructure) {
     EXPECT_TRUE(true);
 }
 
+class DistributedDeadlockDetectionTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        auto consensus = std::make_shared<MockConsensusModule>();
+        CrossShardTransactionConfig config;
+        config.transaction_log_path = makeTempTxnLogPath("themisdb_deadlock_");
+        config.enable_deadlock_detection = true;
+        config.deadlock_detection_interval = std::chrono::milliseconds(25);
+        coordinator_ = std::make_unique<CrossShardTransactionCoordinator>(config, consensus);
+        coordinator_->initialize();
+        coordinator_->start();
+    }
+
+    void TearDown() override {
+        if (coordinator_) {
+            coordinator_->stop();
+        }
+    }
+
+    std::unique_ptr<CrossShardTransactionCoordinator> coordinator_;
+};
+
+TEST_F(DistributedDeadlockDetectionTest, DetectsAndResolvesReportedCrossShardCycle) {
+    ASSERT_TRUE(coordinator_->beginTransaction(
+        "txn-deadlock-a", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator_->beginTransaction(
+        "txn-deadlock-b", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+
+    coordinator_->reportDistributedWait("txn-deadlock-a", "txn-deadlock-b", "shard-A");
+    coordinator_->reportDistributedWait("txn-deadlock-b", "txn-deadlock-a", "shard-B");
+
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
+    bool resolved = false;
+    while (std::chrono::steady_clock::now() < deadline) {
+        auto state_a = coordinator_->getTransactionState("txn-deadlock-a");
+        auto state_b = coordinator_->getTransactionState("txn-deadlock-b");
+
+        if ((state_a.has_value() && *state_a == TransactionState::ABORTED) ||
+            (state_b.has_value() && *state_b == TransactionState::ABORTED)) {
+            resolved = true;
+            break;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    }
+
+    EXPECT_TRUE(resolved);
+
+    auto stats = coordinator_->getStatistics();
+    ASSERT_TRUE(stats.contains("deadlocked_transactions"));
+    EXPECT_GE(stats["deadlocked_transactions"].get<uint64_t>(), 1u);
+}
+
 // ============================================================================
 // Calvin Protocol Tests
 // ============================================================================

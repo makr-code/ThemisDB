@@ -335,6 +335,24 @@ public:
      * @return true if deadlocked
      */
     bool isDeadlocked(const std::string& transaction_id) const;
+
+    /**
+     * @brief Report a distributed wait edge observed on a shard.
+     *
+     * Records that @p waiting_transaction_id is waiting for
+     * @p blocking_transaction_id on @p shard_id so the coordinator can build
+     * a cross-shard wait-for graph for deadlock detection.
+     */
+    void reportDistributedWait(
+        const std::string& waiting_transaction_id,
+        const std::string& blocking_transaction_id,
+        const std::string& shard_id
+    );
+
+    /**
+     * @brief Clear all distributed wait edges for a transaction.
+     */
+    void clearDistributedWaits(const std::string& transaction_id);
     
     /**
      * @brief Get active transactions
@@ -445,6 +463,14 @@ private:
         std::set<std::string>& visited,
         std::set<std::string>& rec_stack
     ) const;
+
+    /**
+     * @brief Remove all outgoing and incoming distributed wait edges
+     * for a finished transaction.
+     *
+     * Caller must hold transactions_mutex_.
+     */
+    void clearDistributedWaitEdgesLocked(const std::string& transaction_id);
     
     /**
      * @brief Execute compensations for SAGA transaction
@@ -511,6 +537,7 @@ private:
     // State
     mutable std::mutex transactions_mutex_;
     std::map<std::string, CrossShardTransaction> transactions_;
+    std::map<std::string, std::set<std::string>> distributed_wait_for_edges_;
     
     // Callbacks
     mutable std::mutex callbacks_mutex_;
@@ -672,4 +699,3 @@ private:
 
 } // namespace sharding
 } // namespace themisdb
-
