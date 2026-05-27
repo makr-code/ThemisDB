@@ -122,6 +122,28 @@ TEST_F(GPUMemoryManagerMultiGPUTest, MarkGPUHealthy) {
     EXPECT_TRUE(health.last_error.empty());
 }
 
+TEST_F(GPUMemoryManagerMultiGPUTest, MarkUnknownGPUHealthyDoesNotCreatePhantomHealthyState) {
+    auto healthy_before = memory_manager_->getHealthyGPUs();
+    ASSERT_EQ(healthy_before.size(), 4u);
+
+    memory_manager_->markGPUHealthy(99);
+
+    EXPECT_FALSE(memory_manager_->isGPUHealthy(99));
+    auto healthy_after = memory_manager_->getHealthyGPUs();
+    EXPECT_EQ(healthy_after.size(), healthy_before.size());
+}
+
+TEST_F(GPUMemoryManagerMultiGPUTest, MarkUnknownGPUUnhealthyDoesNotAffectTrackedGPUs) {
+    auto healthy_before = memory_manager_->getHealthyGPUs();
+    ASSERT_EQ(healthy_before.size(), 4u);
+
+    memory_manager_->markGPUUnhealthy(99, "unknown");
+
+    EXPECT_FALSE(memory_manager_->isGPUHealthy(99));
+    auto healthy_after = memory_manager_->getHealthyGPUs();
+    EXPECT_EQ(healthy_after.size(), healthy_before.size());
+}
+
 TEST_F(GPUMemoryManagerMultiGPUTest, GetLeastLoadedGPU) {
     int least_loaded = memory_manager_->getLeastLoadedGPU();
     

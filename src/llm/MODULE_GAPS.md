@@ -499,6 +499,17 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
 - Static injected temperature providers from `setNvmlTemperatureFn()` are now honored first under
   `nvml_temp_fn_mutex`, with exception-safe fallback to dynamic NVML probing and then simulated defaults.
 
+**Status (v1.22.0-pre — W1-L06 GPU-health callback/state hardening):** health monitoring no longer allows callback re-entrancy deadlocks or phantom GPU state mutation:
+- `gpu_memory_manager.cpp::updateGPUHealth()` now releases `mutex_` before invoking external temperature
+  providers (`setNvmlTemperatureFn()` callback and `Config::temperature_provider_fn`) and re-locks only
+  for map updates, preventing re-entrant lock inversion/deadlock from provider callbacks.
+- `gpu_memory_manager.cpp::isGPUHealthy()`, `markGPUHealthy()`, and `markGPUUnhealthy()` now enforce
+  tracked-GPU membership (`available_gpus_`) and ignore unknown device IDs instead of creating phantom
+  health-map entries.
+- Added focused regressions in `tests/test_multi_gpu_management.cpp`
+  (`MarkUnknownGPUHealthyDoesNotCreatePhantomHealthyState`,
+  `MarkUnknownGPUUnhealthyDoesNotAffectTrackedGPUs`).
+
 **Status (v1.22.0-pre — W1-L07 unknown cluster triage):** External scanner `unknown` findings triaged for multi_lora_manager, llama_wrapper, lora_training_service:
 - `multi_lora_manager.cpp`: external_v3 reports 1227 findings vs 5 internal. `unknown` cluster
   arises from deep STL template patterns, virtual dispatch and large switch bodies the scanner
