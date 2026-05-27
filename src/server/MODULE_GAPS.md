@@ -7,7 +7,7 @@
 
 ## 📊 Gap Summary
 
-This module's gap analysis is pending. Run the gap audit to populate this document:
+Refresh this module's gap analysis with:
 
 ```bash
 python tools/gap_audit_pipeline_v2.py

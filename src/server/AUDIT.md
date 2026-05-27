@@ -172,10 +172,9 @@ violating the CORS specification.
 
 ### Open (carried forward)
 - HTTP/3 QUIC: CPU quota enforcement for WASM handlers planned (v1.6.0)
-<!-- TODO: add source file evidence -->
 
 ## Compliance
 
 - GDPR: PII eviction endpoint allows right-to-erasure compliance
 - SOC 2: Audit logging on all write paths; TLS in transit
-- **Note:** Centralized auth enforcement is absent — compliance depends entirely on each handler independently implementing auth. This is an architectural risk for audit attestation.
+- **Note:** Centralized auth enforcement is now in place at the routing layer (`requireAccess` gates), reducing dependence on handler-local auth checks for audit attestation.
