@@ -17,6 +17,17 @@ python tools/gap_audit_pipeline_v2.py
 
 ## ✅ Recent Remediation (2026-05-26)
 
+- **W1-S05 follow-up (2026-05-27) – `src/server/sse_connection_manager.cpp`**
+  - `backgroundPollTask()` now snapshots per-connection poll inputs
+    (`from_sequence`, `key_prefix`, `event_types`) under `connections_mutex_`
+    and uses that immutable snapshot for the unlocked `changefeed_->listEvents(...)`
+    call.
+  - Removed the write-phase `connections_.find(id)` revalidation path and switched
+    to the already-snapshotted `shared_ptr<Connection>` with an atomic `active`
+    re-check under lock before buffering events.
+  - Gap delta intent: reduce residual `iterator_invalidation` and `data_race`
+    scanner noise in the W1-S05 SSE polling path while preserving runtime behavior.
+
 - **W1-S12 (2026-05-26) – `include/server/postgres_session.h`, `src/server/postgres_session.cpp`**
   - PostgreSQL wire session concurrency hardening: lifecycle flags (`isAuthenticated_`,
     `inStartup_`, `copyInProgress_`, `transactionState_`) now use atomic state, and

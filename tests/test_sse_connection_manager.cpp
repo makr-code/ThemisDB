@@ -99,4 +99,55 @@ TEST_F(SseConnectionManagerTest, ShutdownClearsAllConnectionsAndIsIdempotent) {
     EXPECT_EQ(after_unregister.total_disconnects, after_second_shutdown.total_disconnects);
 }
 
+TEST_F(SseConnectionManagerTest, PollRawEventsAppliesKeyPrefixFilter) {
+    themis::Changefeed::ChangeEvent ev1;
+    ev1.type = themis::Changefeed::ChangeEventType::EVENT_PUT;
+    ev1.key = "alpha:1";
+    ev1.value = R"({"v":1})";
+    changefeed_->recordEvent(ev1);
+
+    themis::Changefeed::ChangeEvent ev2;
+    ev2.type = themis::Changefeed::ChangeEventType::EVENT_PUT;
+    ev2.key = "beta:1";
+    ev2.value = R"({"v":2})";
+    changefeed_->recordEvent(ev2);
+
+    themis::server::SseConnectionManager manager(changefeed_, ioc_);
+    const auto conn_id = manager.registerConnection(/*from_seq=*/0, /*key_prefix=*/"alpha");
+
+    auto raw_events = manager.pollRawEvents(conn_id, 10);
+    ASSERT_FALSE(raw_events.empty());
+    for (const auto& e : raw_events) {
+        EXPECT_EQ(e.key.rfind("alpha", 0), 0u);
+    }
+}
+
+TEST_F(SseConnectionManagerTest, PollRawEventsAppliesEventTypeFilter) {
+    themis::Changefeed::ChangeEvent put_event;
+    put_event.type = themis::Changefeed::ChangeEventType::EVENT_PUT;
+    put_event.key = "orders:1";
+    put_event.value = R"({"status":"new"})";
+    changefeed_->recordEvent(put_event);
+
+    themis::Changefeed::ChangeEvent del_event;
+    del_event.type = themis::Changefeed::ChangeEventType::EVENT_DELETE;
+    del_event.key = "orders:1";
+    changefeed_->recordEvent(del_event);
+
+    std::set<themis::Changefeed::ChangeEventType> only_delete{
+        themis::Changefeed::ChangeEventType::EVENT_DELETE
+    };
+    themis::server::SseConnectionManager manager(changefeed_, ioc_);
+    const auto conn_id = manager.registerConnection(
+        /*from_seq=*/0,
+        /*key_prefix=*/"",
+        only_delete);
+
+    auto raw_events = manager.pollRawEvents(conn_id, 10);
+    ASSERT_FALSE(raw_events.empty());
+    for (const auto& e : raw_events) {
+        EXPECT_EQ(e.type, themis::Changefeed::ChangeEventType::EVENT_DELETE);
+    }
+}
+
 } // namespace
