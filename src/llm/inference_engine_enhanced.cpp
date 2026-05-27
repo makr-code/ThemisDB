@@ -1735,6 +1735,11 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
     std::shared_ptr<ILLMPlugin> draft_plugin,
     InferenceResponse&          response
 ) {
+    if (!target_plugin || !draft_plugin || !speculative_decoder_) {
+        spdlog::warn("Speculative decoding prerequisites not met (null plugin/decoder)");
+        return false;
+    }
+
     const size_t K = config_.speculative_draft_tokens;
 
     // Use the actual vocab size reported by the target model when available;
@@ -1746,6 +1751,12 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
             vocab_size = model_info->vocab_size;
         }
     }
+    if (vocab_size > static_cast<size_t>(std::numeric_limits<int>::max())) {
+        spdlog::warn("Speculative decoding vocab size {} exceeds int range; using fallback 32000",
+                     vocab_size);
+        vocab_size = 32000u;
+    }
+    const int vocab_size_int = static_cast<int>(vocab_size);
 
     // ── Remote draft path ─────────────────────────────────────────────────
     // When a remote draft shard is configured and a RemoteExecutor is injected,
@@ -1899,7 +1910,7 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
                 if (!tgt_resp.text.empty()) {
                     target_pred_token =
                         static_cast<int>(static_cast<unsigned char>(tgt_resp.text[0])) %
-                        static_cast<int>(vocab_size);
+                        vocab_size_int;
                 }
             } catch (...) {
                 // Non-fatal: keep target_pred_token = 0.
@@ -1909,7 +1920,7 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
         auto make_target_row = [&](int peak_token) {
             std::vector<float> row(vocab_size, kTargetBaseline);
             row[static_cast<size_t>(
-                std::max(0, peak_token) % static_cast<int>(vocab_size))] = kTargetPeak;
+                std::max(0, peak_token) % vocab_size_int)] = kTargetPeak;
             return row;
         };
 
@@ -1919,7 +1930,7 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
         }
         // Bonus position: use a token shifted by 1 to distinguish from verification.
         target_logit_matrix[K] = make_target_row(
-            (target_pred_token + 1) % static_cast<int>(vocab_size));
+            (target_pred_token + 1) % vocab_size_int);
     }
 
     // ── Acceptance / rejection loop ───────────────────────────────────────

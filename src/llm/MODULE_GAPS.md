@@ -680,6 +680,138 @@ handle usage and speculative decoding/logit processing loops.
 - Added strict model/context handle validation before image embedding injection in
   `generateVision`.
 
+#### 4. Follow-up hardening for probability/index handling (2026-05-27)
+
+**Root cause:** Remaining scanner hotspots in W1-L04 scope were tied to unchecked pointer/index
+inputs in `getProbability()` and int-range assumptions in speculative vocab arithmetic.
+
+**Fix:**
+- `LlamaWrapper::getProbability()` now returns a safe `0.0f` on null logits, invalid `n_vocab`,
+  out-of-range token IDs, or non-finite softmax denominators.
+- `InferenceEngineEnhanced::trySpeculativeGeneration()` now validates
+  `target_plugin`/`draft_plugin`/`speculative_decoder_` pointers up-front.
+- Oversized `vocab_size` metadata is clamped to a safe fallback (`32000`) before int modulo paths.
+
+#### 5. Follow-up hardening for vocabulary/model handle dereferences (2026-05-27)
+
+**Root cause:** Remaining W1-L04 null-dereference risk in `llama_wrapper.cpp` came from
+unchecked `llama_model_get_vocab()` / `llama_get_model()` results before vocabulary-dependent
+operations.
+
+**Fix:**
+- Added explicit null checks for `llama_model_get_vocab()` results in `generate`,
+  `generateDraftTokens`, `tokenizeInternal`, `generateSpeculative`, and `generateRegular`.
+- Added explicit null checks for `llama_get_model(ctx)` and its derived vocabulary in
+  `detokenizeInternal`.
+- All affected paths now fail fast with clear exceptions instead of dereferencing null pointers.
+
+#### 6. Follow-up hardening for loader/LoRA manager dereferences (2026-05-27)
+
+**Root cause:** Remaining W1-L04 null-dereference risk in `llama_wrapper.cpp` came from
+implicit assumptions that `model_loader_` / `lora_manager_` are always initialized before
+generation and adapter cleanup paths.
+
+**Fix:**
+- Added explicit `model_loader_` null checks in `generate`, `generateSpeculative`, and
+  `generateRegular` before `getOrLoadModel(...)`.
+- Guarded LoRA adapter auto-bind/remove/cleanup paths in `generate`, `generateSpeculative`,
+  and `generateRegular` behind `lora_manager_` availability checks with fail-open warnings.
+- Preserved existing generation fallback behavior while preventing null manager dereferences
+  in both happy-path and exception cleanup branches.
+
+### Gap Delta (W1-L04 follow-up)
+
+| Metric | Before | After |
+|---|---|---|
+| `llama_wrapper.cpp` unchecked logits/token bounds in probability path | 1 hotspot | 0 (guarded return path) |
+| `inference_engine_enhanced.cpp` speculative null-plugin/decoder precondition | implicit assumption | explicit guard + early return |
+| `inference_engine_enhanced.cpp` int-range risk in vocab modulo paths | potential overflow hotspot | bounded/fallback conversion |
+| `llama_wrapper.cpp` unchecked model/vocab pointer retrieval | multiple implicit assumptions | explicit null guards + fail-fast exceptions |
+| `llama_wrapper.cpp` implicit loader/LoRA manager assumptions | potential null-manager dereference | explicit loader guards + LoRA manager-gated paths |
+| `llama_wrapper.cpp` public API methods (`loadModel`, `unloadModel`, `getModelInfo`, `isModelLoaded`, `embed`, `getMemoryStats`, `getPerformanceStats`, `generateVision`) | unguarded `model_loader_` dereference | explicit null guard + fail-fast throw or graceful return |
+| `llama_wrapper.cpp` public API methods (`loadLoRA`, `unloadLoRA`, `listLoRAs`, `exportLoRA`, `importLoRA`, `getMemoryStats`, `getPerformanceStats`) | unguarded `lora_manager_` dereference | explicit null guard + warn + graceful return |
+| `sampleTokenInternal` — `n_vocab` sign before `reserve` / pointer loop | potential huge-alloc wrap | guarded `n_vocab > 0` check; throws |
+| `embed()` — `n_embd` sign before `embd + n_embd` pointer arithmetic | potential pointer underflow UB | guarded `n_embd > 0`; throws |
+| `generateRegular` / `generateSpeculative` / `generateDraftTokens` — 4× `n_vocab` post-assign | silent misuse of API return | guarded `n_vocab > 0` early throw |
+
+---
+
+## ✅ Recent Remediation (2026-05-27) — W1-L04 follow-up 3: Model-handle dereference anchoring
+
+**Scope:** `src/llm/llama_wrapper.cpp`
+**Ticket:** W1-L04 · Priority P1
+
+### Fixes Applied
+
+Additional W1-L04 null/pointer-hardening pass for llama runtime handle access:
+
+- Replaced direct `cached->model_handle` / `cached->context_handle` dereference chains with local handle anchoring before casts in:
+  - `generateRegular`
+  - `generateDraftTokens`
+  - `embed`
+  - `generateSpeculative`
+  - `generate` (continuous-batching path)
+- Applied the same anchoring pattern in the vision embedding injection path (`generateVision`) and made null-handle branching explicit before cast/use.
+- Kept behavior unchanged (same fallback/throw semantics), but made null invariants explicit at every cast boundary.
+
+### Gap Delta (W1-L04 follow-up 3)
+
+| Metric | Before | After |
+|---|---|---|
+| `llama_wrapper.cpp` model/context cast sites | repeated direct `cached->...` dereference at cast sites | dereference anchored to local checked handles before cast |
+| vision embedding injection path | mixed inline pointer checks/casts | explicit staged null-check → cast → use flow |
+
+---
+
+## ✅ Recent Remediation (2026-05-27) — W1-L04 follow-up 2: Pointer-arithmetic / unsafe-cast guards
+
+**Scope:** `src/llm/llama_wrapper.cpp`  
+**Ticket:** W1-L04 · Priority P1
+
+### Fixes Applied
+
+Remaining scanner hotspots where signed integer results from llama API calls were used in unsafe pointer arithmetic or `size_t` casts without a positivity guard:
+
+- `sampleTokenInternal` — `n_vocab <= 0` guard added before `candidates.reserve(n_vocab)`; the cast `static_cast<size_t>(n_vocab)` is now only reached when `n_vocab > 0`, eliminating wrap-around allocation risk.
+- `embed()` — `n_embd <= 0` guard added after `llama_model_n_embd()`; `embd + n_embd` pointer arithmetic is now only reached when `n_embd > 0`, eliminating pointer underflow UB.
+- `generateRegular()` (primary path) — `n_vocab > 0` assertion after `llama_vocab_n_tokens()`; propagated as `throw` to prevent use of an invalid vocab in subsequent logits loops.
+- `generateDraftTokens()` — same guard before `static_cast<size_t>(n_vocab)` that produces `produced_vocab_size`.
+- `generateSpeculative()` (internal speculative loop) — same guard on target-model `n_vocab`.
+- `generate()` (secondary path for continuous-batching context) — same guard on `n_vocab`.
+
+### Gap Delta (W1-L04 follow-up 2)
+
+| Metric | Before | After |
+|---|---|---||
+| `sampleTokenInternal` unchecked `n_vocab` sign before `reserve` | potential huge-alloc / wrap | guarded; throws on invalid vocab |
+| `embed()` unchecked `n_embd` sign before pointer arithmetic | potential pointer underflow UB | guarded; throws on non-positive dim |
+| 4× generation-loop `n_vocab` without positivity check | silent misuse of API return | guarded with early throw |
+
+---
+
+## ✅ Recent Remediation (2026-05-27) — W1-L04 follow-up: Public API null guard completion
+
+**Scope:** `src/llm/llama_wrapper.cpp`  
+**Ticket:** W1-L04 · Priority P1
+
+### Fixes Applied
+
+Remaining public-API entry points that called `model_loader_` or `lora_manager_` without an explicit null check have been hardened to be consistent with the guards added to the generate paths:
+
+- `loadModel` — added `if (!model_loader_)` guard before `getOrLoadModel`; transitions to `ERROR_STATE` and returns false.
+- `unloadModel` — added `if (!model_loader_)` guard; logs warning and returns early.
+- `getModelInfo` — added `if (!model_loader_)` guard; returns `std::nullopt`.
+- `isModelLoaded` — added `if (!model_loader_)` guard; returns false.
+- `embed` — added `if (!model_loader_)` guard before `getOrLoadModel`; throws on missing loader.
+- `getMemoryStats` — replaced unchecked `model_loader_->*` and `lora_manager_->*` calls with `if (model_loader_)` / `if (lora_manager_)` branches; combined VRAM totals computed only when both managers are present.
+- `getPerformanceStats` — same guarding pattern for `getCacheStats` calls.
+- `loadLoRA` — added `if (!lora_manager_)` guard; warns and returns false.
+- `unloadLoRA` — added `if (!lora_manager_)` guard; returns false.
+- `listLoRAs` — added `if (!lora_manager_)` guard; returns empty vector.
+- `exportLoRA` — added `if (!lora_manager_)` guard; warns and returns empty vector.
+- `importLoRA` — added `if (!lora_manager_)` guard; warns and returns false.
+- `generateVision` (vision embedding injection path) — added `if (!model_loader_)` guard wrapping the `themis_llava_eval_available()` inner path.
+
 ---
 
 ## ✅ Recent Remediation (2026-05-26) — W1-L03: Vulkan/DirectX Kernel — Timeout + Null Guards
