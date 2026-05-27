@@ -687,6 +687,8 @@ paths:
                     snapshot_isolation - MVCC snapshot reads, no read locks (default).
                     WARNING: can permit write-skew and phantom-read anomalies in distributed workflows.
                     serializable - Full serializability, read-set validated on PREPARE (recommended for strict invariants).
+                    When omitted, the server default may be overridden by environment variable
+                    THEMIS_DTXN_DEFAULT_ISOLATION ("snapshot_isolation" or "serializable").
       responses:
         '200':
           description: Transaction started

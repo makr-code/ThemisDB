@@ -425,6 +425,8 @@ Transaction lifecycle events are logged:
 > Dieser Modus kann Write-Skew- und Phantom-Read-Anomalien zulassen.
 > Für ACID-strenge Invarianten (z. B. Banking, Inventory, Double-Booking) explizit
 > `serializable` setzen.
+> Optional kann der Server-Default per Environment-Variable
+> `THEMIS_DTXN_DEFAULT_ISOLATION` auf `serializable` gestellt werden.
 
 **Example — multi-shard transfer:**
 

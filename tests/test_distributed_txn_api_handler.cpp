@@ -25,6 +25,7 @@
 #include "server/distributed_txn_api_handler.h"
 #include "sharding/distributed_transaction.h"
 #include "sharding/truetime.h"
+#include <cstdlib>
 #include <nlohmann/json.hpp>
 #include <string>
 
@@ -48,6 +49,50 @@ makeReq(http::verb verb, const std::string& target, const std::string& body = ""
 static nlohmann::json parseBody(const http::response<http::string_body>& res) {
     return nlohmann::json::parse(res.body());
 }
+
+constexpr const char* kDtxnDefaultIsolationEnv = "THEMIS_DTXN_DEFAULT_ISOLATION";
+
+class ScopedEnvVar {
+public:
+    ScopedEnvVar(const char* key, const char* value)
+        : key_(key) {
+        const char* existing = std::getenv(key_);
+        if (existing != nullptr) {
+            had_previous_ = true;
+            previous_ = existing;
+        }
+        set(value);
+    }
+
+    ~ScopedEnvVar() {
+        if (had_previous_) {
+            set(previous_.c_str());
+        } else {
+            clear();
+        }
+    }
+
+private:
+    void set(const char* value) {
+#if defined(_WIN32)
+        _putenv_s(key_, value);
+#else
+        setenv(key_, value, 1);
+#endif
+    }
+
+    void clear() {
+#if defined(_WIN32)
+        _putenv_s(key_, "");
+#else
+        unsetenv(key_);
+#endif
+    }
+
+    const char* key_;
+    bool had_previous_{false};
+    std::string previous_;
+};
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Test Fixture
@@ -113,6 +158,42 @@ TEST_F(DistributedTxnApiHandlerTest, BeginWithSerializableIsolation) {
     auto body = parseBody(res);
     EXPECT_EQ(body["isolation_level"], "serializable");
     EXPECT_FALSE(body.contains("isolation_warning"));
+}
+
+TEST_F(DistributedTxnApiHandlerTest, BeginUsesSerializableDefaultWhenEnvConfigured) {
+    ScopedEnvVar env(kDtxnDefaultIsolationEnv, "serializable");
+
+    auto req = makeReq(http::verb::post, "/dtxn/begin",
+                       R"({"shards":["shard1"]})");
+    auto res = handler_->handleBegin(req);
+    EXPECT_EQ(res.result(), http::status::ok);
+    auto body = parseBody(res);
+    EXPECT_EQ(body["isolation_level"], "serializable");
+    EXPECT_FALSE(body.contains("isolation_warning"));
+}
+
+TEST_F(DistributedTxnApiHandlerTest, BeginExplicitIsolationOverridesEnvDefault) {
+    ScopedEnvVar env(kDtxnDefaultIsolationEnv, "serializable");
+
+    auto req = makeReq(http::verb::post, "/dtxn/begin",
+                       R"({"shards":["shard1"],"isolation_level":"snapshot_isolation"})");
+    auto res = handler_->handleBegin(req);
+    EXPECT_EQ(res.result(), http::status::ok);
+    auto body = parseBody(res);
+    EXPECT_EQ(body["isolation_level"], "snapshot_isolation");
+    EXPECT_TRUE(body.contains("isolation_warning"));
+}
+
+TEST_F(DistributedTxnApiHandlerTest, BeginWithInvalidEnvDefaultFallsBackToSnapshotIsolation) {
+    ScopedEnvVar env(kDtxnDefaultIsolationEnv, "invalid_value");
+
+    auto req = makeReq(http::verb::post, "/dtxn/begin",
+                       R"({"shards":["shard1"]})");
+    auto res = handler_->handleBegin(req);
+    EXPECT_EQ(res.result(), http::status::ok);
+    auto body = parseBody(res);
+    EXPECT_EQ(body["isolation_level"], "snapshot_isolation");
+    EXPECT_TRUE(body.contains("isolation_warning"));
 }
 
 TEST_F(DistributedTxnApiHandlerTest, BeginWithInvalidIsolationLevelReturnsBadRequest) {
