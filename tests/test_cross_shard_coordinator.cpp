@@ -1022,8 +1022,8 @@ TEST(ShardRpcCollectWaitForEdgesTest, InjectedHandlerEdgesAreParsed) {
 }
 
 // Verify that the coordinator's deadlock detection thread picks up wait-for
-// edges from a configured shard endpoint (via the injected in-process handler)
-// and resolves the resulting cross-shard cycle.
+// edges from a configured shard endpoint via the poll collector hook and
+// resolves the resulting cross-shard cycle.
 TEST(DistributedDeadlockDetectionTest, PollBasedEdgesFromShardEndpointAreDetected) {
     auto consensus = std::make_shared<MockConsensusModule>();
 
@@ -1035,6 +1035,15 @@ TEST(DistributedDeadlockDetectionTest, PollBasedEdgesFromShardEndpointAreDetecte
     config.enable_deadlock_detection = true;
     config.deadlock_detection_interval = std::chrono::milliseconds(25);
     config.shard_endpoints["shard-remote"] = "localhost:50099";
+    config.polled_wait_for_edge_collector =
+        [](const std::string& shard_id, const std::string&) {
+            if (shard_id == "shard-remote") {
+                return std::vector<CrossShardTransactionConfig::PolledWaitForEdge>{
+                    {"txn-poll-a", "txn-poll-b"}
+                };
+            }
+            return std::vector<CrossShardTransactionConfig::PolledWaitForEdge>{};
+        };
 
     auto coordinator = std::make_unique<CrossShardTransactionCoordinator>(config, consensus);
     coordinator->initialize();
@@ -1048,11 +1057,8 @@ TEST(DistributedDeadlockDetectionTest, PollBasedEdgesFromShardEndpointAreDetecte
         "txn-poll-b", TransactionProtocol::TWO_PHASE_COMMIT,
         IsolationLevel::SNAPSHOT_ISOLATION));
 
-    // The remote shard reports a cycle via its polled wait-for edges.
-    // We inject the response via the ShardRPCClient in-process handler by
-    // calling reportDistributedWait() — this simulates what the polled edges
-    // would contribute to the combined graph.
-    coordinator->reportDistributedWait("txn-poll-a", "txn-poll-b", "shard-remote");
+    // The remote shard contributes one edge via polling; local shard reports
+    // the reverse edge via push reporting, forming a cycle.
     coordinator->reportDistributedWait("txn-poll-b", "txn-poll-a", "shard-local");
 
     const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);

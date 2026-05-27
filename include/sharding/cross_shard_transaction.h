@@ -149,6 +149,11 @@ struct CrossShardTransaction {
  * @brief Configuration for cross-shard transactions
  */
 struct CrossShardTransactionConfig {
+    struct PolledWaitForEdge {
+        std::string waiting_transaction_id;
+        std::string blocking_transaction_id;
+    };
+
     TransactionProtocol default_protocol = TransactionProtocol::TWO_PHASE_COMMIT;
     IsolationLevel default_isolation = IsolationLevel::SNAPSHOT_ISOLATION;
     
@@ -197,6 +202,14 @@ struct CrossShardTransactionConfig {
     // merge them into the cluster-wide graph alongside any edges explicitly
     // reported via reportDistributedWait().
     std::map<std::string, std::string> shard_endpoints;
+
+    // Optional override used to collect per-shard wait-for edges during
+    // deadlock detection. Primarily intended for deterministic tests and
+    // custom deployments that do not use ShardRPCClient polling.
+    std::function<std::vector<PolledWaitForEdge>(
+        const std::string& shard_id,
+        const std::string& endpoint
+    )> polled_wait_for_edge_collector;
 };
 
 struct BackendRecoveryStats {

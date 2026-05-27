@@ -35,6 +35,7 @@
 #include <thread>
 #include <chrono>
 #include <filesystem>
+#include <limits>
 
 namespace themisdb {
 namespace sharding {
@@ -1849,17 +1850,31 @@ void CrossShardTransactionCoordinator::deadlockDetectionThread() {
         // cannot) proactively report their local lock-wait state.
         if (!config_.shard_endpoints.empty()) {
             for (const auto& [shard_id, endpoint] : config_.shard_endpoints) {
-                themis::sharding::ShardRPCClient::Config rpc_cfg;
-                rpc_cfg.endpoint = endpoint;
-                rpc_cfg.shard_id = shard_id;
-                rpc_cfg.timeout_ms = static_cast<int>(
-                    config_.deadlock_detection_interval.count() / 2);
-                rpc_cfg.max_retries  = 1;
-                rpc_cfg.enable_circuit_breaker = false;
-
                 try {
-                    themis::sharding::ShardRPCClient client(rpc_cfg);
-                    const auto remote_edges = client.collectWaitForEdges();
+                    std::vector<CrossShardTransactionConfig::PolledWaitForEdge> remote_edges;
+                    if (config_.polled_wait_for_edge_collector) {
+                        remote_edges = config_.polled_wait_for_edge_collector(shard_id, endpoint);
+                    } else {
+                        themis::sharding::ShardRPCClient::Config rpc_cfg;
+                        rpc_cfg.endpoint = endpoint;
+                        rpc_cfg.shard_id = shard_id;
+                        const auto timeout_ms = std::max<int64_t>(
+                            1, config_.deadlock_detection_interval.count() / 2);
+                        rpc_cfg.timeout_ms = static_cast<int>(
+                            std::min<int64_t>(timeout_ms, std::numeric_limits<int>::max()));
+                        rpc_cfg.max_retries  = 1;
+                        rpc_cfg.enable_circuit_breaker = false;
+
+                        themis::sharding::ShardRPCClient client(rpc_cfg);
+                        const auto rpc_edges = client.collectWaitForEdges();
+                        remote_edges.reserve(rpc_edges.size());
+                        for (const auto& edge : rpc_edges) {
+                            remote_edges.push_back({
+                                edge.waiting_transaction_id,
+                                edge.blocking_transaction_id
+                            });
+                        }
+                    }
 
                     for (const auto& edge : remote_edges) {
                         if (edge.waiting_transaction_id.empty() ||
