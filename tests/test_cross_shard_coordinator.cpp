@@ -444,6 +444,46 @@ TEST(DistributedDeadlockDetectionPolicyTest, VictimSelectionChoosesOldestCycleMe
     coordinator.stop();
 }
 
+TEST(DistributedDeadlockDetectionPolicyTest, VictimSelectionAbortsOneMemberWhenRandomPolicyConfigured) {
+    auto consensus = std::make_shared<MockConsensusModule>();
+    CrossShardTransactionConfig config;
+    config.transaction_log_path = makeTempTxnLogPath("themisdb_deadlock_random_");
+    config.enable_deadlock_detection = true;
+    config.deadlock_detection_interval = std::chrono::milliseconds(25);
+    config.deadlock_victim_policy = DeadlockVictimPolicy::RANDOM;
+
+    CrossShardTransactionCoordinator coordinator(config, consensus);
+    ASSERT_TRUE(coordinator.initialize());
+    ASSERT_TRUE(coordinator.start());
+
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-random-policy-A", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-random-policy-B", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+
+    coordinator.reportDistributedWait("txn-random-policy-A", "txn-random-policy-B", "shard-X");
+    coordinator.reportDistributedWait("txn-random-policy-B", "txn-random-policy-A", "shard-Y");
+
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
+    bool resolved = false;
+    while (std::chrono::steady_clock::now() < deadline) {
+        const auto stateA = coordinator.getTransactionState("txn-random-policy-A");
+        const auto stateB = coordinator.getTransactionState("txn-random-policy-B");
+        const bool aAborted = stateA.has_value() && *stateA == TransactionState::ABORTED;
+        const bool bAborted = stateB.has_value() && *stateB == TransactionState::ABORTED;
+        if (aAborted || bAborted) {
+            // Exactly one victim per cycle — both must not be aborted simultaneously.
+            EXPECT_FALSE(aAborted && bAborted);
+            resolved = true;
+            break;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    }
+
+    EXPECT_TRUE(resolved);
+    coordinator.stop();
+}
+
 // ============================================================================
 // Calvin Protocol Tests
 // ============================================================================

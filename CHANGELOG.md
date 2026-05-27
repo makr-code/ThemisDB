@@ -23,8 +23,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     into the same graph before cycle detection runs.
   - **Cycle detection** uses Tarjan's SCC algorithm; all members of any strongly-connected
     component of size > 1 are treated as deadlocked.
-  - **Victim selection** aborts the youngest transaction in the cycle (most recent
-    `start_time`), giving priority to longer-running transactions.
+  - **Victim selection** is configurable via `CrossShardTransactionConfig::deadlock_victim_policy`
+    (`DeadlockVictimPolicy::YOUNGEST` (default) — aborts the transaction with the most
+    recent `start_time`; `OLDEST` — aborts the earliest-started transaction; `RANDOM` —
+    selects an arbitrary member of the cycle).  One victim per independent SCC cycle is
+    chosen so that concurrent non-overlapping cycles are all resolved in a single detection
+    pass.
   - **Testing hook**: `CrossShardTransactionConfig::polled_wait_for_edge_collector`
     accepts an `std::function` that overrides RPC polling for deterministic unit tests
     and custom deployments (see `PollBasedEdgesFromShardEndpointAreDetected` test).
