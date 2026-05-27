@@ -4805,6 +4805,12 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
         case Route::AdminStorageStatsGet: {
             // GET /v1/admin/storage/stats
+            // HS-1 fix: require admin privilege before exposing internal storage metrics.
+            if (auto auth_err = requireAccess(req, "admin", "admin.storage.stats",
+                                              "/v1/admin/storage/stats")) {
+                response = *auth_err;
+                break;
+            }
             // Returns RocksDB on-disk SST size and OS-level disk space metrics
             // for the storage path so admin tooling and quota logic can act on
             // real numbers instead of the previous hard-coded 0.

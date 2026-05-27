@@ -1,7 +1,7 @@
 # server Module — Implementation Gap Analysis
 
 **Status:** In Progress  
-**Last Updated:** 2026-05-26  
+**Last Updated:** 2026-05-27  
 
 ---
 
@@ -15,7 +15,21 @@ python tools/gap_audit_pipeline_v2.py
 
 ---
 
-## ✅ Recent Remediation (2026-05-26)
+## ✅ Recent Remediation (2026-05-27)
+
+- **W1-S13 (2026-05-27) – `src/server/http_server.cpp`, `src/server/AUDIT.md`,
+  `tests/test_server_integration_complete.cpp`**
+  - Completed HS-1 fix: added `requireAccess(req, "admin", "admin.storage.stats",
+    "/v1/admin/storage/stats")` gate to `Route::AdminStorageStatsGet`, which was the
+    only remaining case in the HS-1 group without a routing-layer auth check (the
+    other two cases, `AdminShardsPost` and `AdminShardsGet`, were gated by W1-S11).
+  - AUDIT.md HS-1 and HS-2 sections updated from "Fix required" to ✅ resolved, with
+    code snippets showing the applied gates.
+  - Added `ServerAuthEnforcementTest` coverage for all three HS-1 routes
+    (`POST /v1/admin/shards`, `GET /v1/admin/shards`, `GET /v1/admin/storage/stats`)
+    and both HS-2 WAL-apply cases (no-auth → 401, bad-token → 401, valid-token → not 401).
+  - Gap delta intent: eliminate the last open AUDIT.md "Fix required" entries and
+    provide regression coverage so HS-1/HS-2 regressions are caught automatically.
 
 - **W1-S05 follow-up (2026-05-27) – `src/server/sse_connection_manager.cpp`**
   - `backgroundPollTask()` now snapshots per-connection poll inputs

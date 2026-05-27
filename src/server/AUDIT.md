@@ -47,46 +47,45 @@
 
 ### S0 — Critical
 
-#### HS-1 · `http_server.cpp` · Admin shard endpoints — No auth at routing layer (L4142–4195)
+#### ✅ HS-1 · `http_server.cpp` · Admin shard endpoints — No auth at routing layer — fixed 2026-05-27
 
-The `AdminShardsPost` and `AdminShardsGet` route handlers are implemented inline in
-`routeRequest()` with no authentication check. Any unauthenticated HTTP client can add or
-query shard nodes in the cluster topology:
+The `AdminShardsPost`, `AdminShardsGet`, and `AdminStorageStatsGet` route handlers were
+implemented inline in `routeRequest()` with no authentication check.
+
+**Fix applied (W1-S11 / W1-S13):** All three cases now open with a
+`requireAccess(req, "admin", ...)` gate.  Unauthenticated or insufficiently-privileged
+requests receive a 401/403 before any storage or topology data is accessed:
 
 ```cpp
-case Route::AdminShardsPost: {
-    if (!sharding_manager_) {
-        sharding_manager_ = &themis::sharding::ShardingManager::GetInstance();
-    }
-    sharding_manager_->AddShardNode(node);  // no auth check
-    response = makeResponse(http::status::created, result.dump(), req);
+// AdminShardsPost / AdminShardsGet
+if (auto auth_err = requireAccess(req, "admin", "admin", "/v1/admin/shards")) {
+    response = *auth_err; break;
+}
+// AdminStorageStatsGet
+if (auto auth_err = requireAccess(req, "admin", "admin.storage.stats",
+                                  "/v1/admin/storage/stats")) {
+    response = *auth_err; break;
+}
 ```
-
-Similarly, `AdminStorageStatsGet` (L4196–4230) is inline with no auth, exposing RocksDB
-file sizes and disk usage to any client.
-
-**Fix required:** Add `requireAccess(req, "admin", ...)` or an equivalent auth gate before
-each inline admin handler block. Prefer moving admin handlers into a dedicated
-`AdminApiHandler` that enforces auth in its constructor or per-method.
 
 ---
 
-#### HS-2 · `http_server.cpp` · WAL apply endpoint — No auth at routing layer (L4816)
+#### ✅ HS-2 · `http_server.cpp` · WAL apply endpoint — No auth at routing layer — fixed 2026-05-27
+
+WAL apply writes entries directly to the database log and is used for replication.
+
+**Fix applied (W1-S11):** The `WalApplyPost` case now opens with a routing-layer
+`requireAccess` gate.  `WALApiHandler::handleApply()` also validates `X-WAL-Auth` /
+`X-WAL-HMAC` when those secrets are configured, providing defense-in-depth:
 
 ```cpp
 case Route::WalApplyPost:
+    if (auto auth_err = requireAccess(req, "admin", "admin", "/api/v1/wal/apply")) {
+        response = *auth_err; break;
+    }
     response = wal_api_->handleApply(req);
     break;
 ```
-
-WAL apply writes entries directly to the database log and is used for replication. No
-authentication check exists at the routing layer. Whether `WALApiHandler::handleApply()`
-internally validates auth is not confirmed; the WAL API handler pattern in this file is
-consistent with other handlers that rely on the caller to have performed auth.
-
-**Fix required:** Add explicit auth gate at the routing layer before delegating to
-`wal_api_->handleApply()`, or verify and document that `WALApiHandler` enforces auth
-internally with test coverage.
 
 ---
 
