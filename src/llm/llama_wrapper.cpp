@@ -428,13 +428,14 @@ bool LlamaWrapper::loadModel(
                      config_.rope_scaling.max_context);
     }
     
-    if (!model_loader_) {
+    auto* const model_loader = model_loader_.get();
+    if (!model_loader) {
         transitionToState(WrapperState::ERROR_STATE, "Model loader is not initialized");
         return false;
     }
 
     // Trigger lazy load (or get from cache)
-    auto* model = model_loader_->getOrLoadModel(
+    auto* model = model_loader->getOrLoadModel(
         current_model_id_,
         model_path,
         load_config
@@ -698,11 +699,12 @@ void LlamaWrapper::unloadModel() {
     }
     
     // Unload via lazy loader
-    if (!model_loader_) {
+    auto* const model_loader = model_loader_.get();
+    if (!model_loader) {
         spdlog::warn("LlamaWrapper::unloadModel: model loader is not initialized");
         return;
     }
-    model_loader_->unloadModel(current_model_id_, true);
+    model_loader->unloadModel(current_model_id_, true);
     
     current_model_id_.clear();
     current_model_path_.clear();
@@ -760,20 +762,22 @@ std::optional<ModelInfo> LlamaWrapper::getModelInfo() const {
     if (current_model_id_.empty()) {
         return std::nullopt;
     }
-    if (!model_loader_) {
+    const auto* const model_loader = model_loader_.get();
+    if (!model_loader) {
         return std::nullopt;
     }
     
-    return model_loader_->getModelInfo(current_model_id_);
+    return model_loader->getModelInfo(current_model_id_);
 }
 
 bool LlamaWrapper::isModelLoaded() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (!model_loader_) {
+    const auto* const model_loader = model_loader_.get();
+    if (!model_loader) {
         return false;
     }
     return !current_model_id_.empty() && 
-           model_loader_->isModelLoaded(current_model_id_);
+           model_loader->isModelLoaded(current_model_id_);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -968,11 +972,12 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
                   request.prompt.substr(0, std::min(request.prompt.size(), size_t(50))), request.max_tokens);
     
     // Ensure model is loaded (lazy loading trigger)
-    if (!model_loader_) {
+    auto* const model_loader = model_loader_.get();
+    if (!model_loader) {
         throw std::runtime_error("Model loader is not initialized");
     }
 
-    auto* cached = model_loader_->getOrLoadModel(
+    auto* cached = model_loader->getOrLoadModel(
         current_model_id_,
         current_model_path_
     );
@@ -1334,11 +1339,12 @@ ILLMPlugin::DraftTokensResult LlamaWrapper::generateDraftTokens(
         throw std::runtime_error("No model loaded for draft token generation");
     }
 
-    if (!model_loader_) {
+    auto* const model_loader = model_loader_.get();
+    if (!model_loader) {
         throw std::runtime_error("Model loader is not initialized");
     }
 
-    auto* cached = model_loader_->getOrLoadModel(current_model_id_, current_model_path_);
+    auto* cached = model_loader->getOrLoadModel(current_model_id_, current_model_path_);
     if (!cached) {
         throw std::runtime_error("Model failed to load for draft token generation");
     }
@@ -1454,10 +1460,11 @@ std::vector<float> LlamaWrapper::embed(const std::string& text) {
     spdlog::debug("Generating embedding for text: {}", text.substr(0, 50));
     
     // Ensure model is loaded
-    if (!model_loader_) {
+    auto* const model_loader = model_loader_.get();
+    if (!model_loader) {
         throw std::runtime_error("Model loader is not initialized");
     }
-    auto* cached = model_loader_->getOrLoadModel(
+    auto* cached = model_loader->getOrLoadModel(
         current_model_id_,
         current_model_path_
     );
@@ -2329,10 +2336,11 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
     auto start_time = std::chrono::high_resolution_clock::now();
     
     // Get target model
-    if (!model_loader_) {
+    auto* const model_loader = model_loader_.get();
+    if (!model_loader) {
         throw std::runtime_error("Model loader is not initialized");
     }
-    auto* cached = model_loader_->getOrLoadModel(current_model_id_, current_model_path_);
+    auto* cached = model_loader->getOrLoadModel(current_model_id_, current_model_path_);
     if (!cached) {
         throw std::runtime_error("Target model failed to load");
     }
@@ -2599,11 +2607,12 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
     // Fallback for when speculative decoding is not available
     auto start_time = std::chrono::high_resolution_clock::now();
     
-    if (!model_loader_) {
+    auto* const model_loader = model_loader_.get();
+    if (!model_loader) {
         throw std::runtime_error("Model loader is not initialized");
     }
 
-    auto* cached = model_loader_->getOrLoadModel(current_model_id_, current_model_path_);
+    auto* cached = model_loader->getOrLoadModel(current_model_id_, current_model_path_);
     if (!cached) {
         throw std::runtime_error("Model failed to load");
     }
@@ -3180,10 +3189,11 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
         bool embeddings_injected = false;
 
         if (themis_llava_eval_available()) {
-            if (!model_loader_) {
+            auto* const model_loader = model_loader_.get();
+            if (!model_loader) {
                 spdlog::warn("generateVision: model loader is not initialized; skipping embedding injection");
             } else {
-                auto* cached_m = model_loader_->getOrLoadModel(current_model_id_, current_model_path_);
+                auto* cached_m = model_loader->getOrLoadModel(current_model_id_, current_model_path_);
                 if (cached_m) {
                     void* context_handle = cached_m->context_handle;
                     void* model_handle = cached_m->model_handle;

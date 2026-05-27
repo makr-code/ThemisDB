@@ -496,6 +496,17 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
   forwarding + quantization/distributed training paths; `trainDistributed()` now also fails fast
   when `impl_` is missing instead of dereferencing member state unguarded.
 
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 3):** `llama_wrapper.cpp`
+model-loader access now uses guard-anchored local aliases across remaining issue-scope paths:
+- `loadModel`, `unloadModel`, `getModelInfo`, and `isModelLoaded` now snapshot
+  `model_loader_.get()` into local aliases before dereference, keeping the null guard and use in
+  one analysis scope.
+- Inference/embedding paths (`generate`, `generateDraftTokens`, `generateSpeculative`,
+  `generateRegular`, `embed`, and the `generateVision` embedding-injection branch) now use
+  the same local-alias pattern for `getOrLoadModel(...)` calls.
+- Gap delta intent: reduce residual scanner `unknown` findings caused by member-pointer
+  guard/dereference separation without changing runtime behavior.
+
 **Status (v1.22.0-pre — W1-L03d scope follow-up):** Vulkan/DirectX kernel-interface
 scope hardened for smart-pointer lifetime safety:
 - `lora_framework/kernels/vulkan_kernels.cpp` — Removed `thread_local` fused-buffer cache
