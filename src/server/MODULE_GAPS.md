@@ -37,6 +37,15 @@ python tools/gap_audit_pipeline_v2.py
   - Gap delta (scoped pass): removed **24** residual size-guarded indexed-read hotspots from the
     W1-S07 unknown-cluster review set without changing runtime behavior.
 
+- **W1-S07 continuation (2026-05-27) – `src/server/query_api_handler.cpp`, `src/server/http_server.cpp`**
+  - Removed additional indexed-access patterns still in scope by switching URL decode loops in
+    both files from `raw[i]`/`str[i]` style access to iterator-walk parsing with equivalent `%XX`
+    and `+` handling semantics.
+  - Replaced remaining rank/bucket and post-LIMIT move loops that used `vector[i]` with
+    range-based iteration and iterator-range `std::move`, preserving output ordering and behavior.
+  - Gap delta intent: further reduce W1-S07 unknown-cluster `UNCHECKED_ARRAY_INDEX` scanner noise
+    while keeping request/response semantics unchanged.
+
 - **W1-S13 (2026-05-27) – `src/server/http_server.cpp`**
   - Fixed `extractClientIP` STUB/SIMULATION: per-IP rate limiting was ineffective for
     direct (non-proxied) connections because the function returned `""` when neither

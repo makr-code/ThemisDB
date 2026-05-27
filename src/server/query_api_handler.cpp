@@ -791,7 +791,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             std::vector<themis::BaseEntity> out;
             if (buildLeft) { for (const auto& e : rightVec) { auto k = getFieldStr(e, colRight); if (!k.has_value()) continue; auto range = hash.equal_range(*k); for (auto it = range.first; it != range.second; ++it) { const themis::BaseEntity& l = it->second; if (retVar == var1) out.push_back(l); else out.push_back(e); } } }
             else { for (const auto& e : leftVec) { auto k = getFieldStr(e, colLeft); if (!k.has_value()) continue; auto range = hash.equal_range(*k); for (auto it = range.first; it != range.second; ++it) { const themis::BaseEntity& r = it->second; if (retVar == var1) out.push_back(e); else out.push_back(r); } } }
-            if ((*parse_result) && (*parse_result)->limit) { auto off = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->offset)); auto cnt = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->count)); if (off < out.size()) { size_t last = std::min(out.size(), off + cnt); std::vector<themis::BaseEntity> tmp; tmp.reserve(last - off); for (size_t i = off; i < last; ++i) tmp.emplace_back(std::move(out[i])); out.swap(tmp); } else { out.clear(); } }
+            if ((*parse_result) && (*parse_result)->limit) { auto off = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->offset)); auto cnt = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->count)); if (off < out.size()) { size_t last = std::min(out.size(), off + cnt); auto first_it = out.begin() + static_cast<std::ptrdiff_t>(off); auto last_it = out.begin() + static_cast<std::ptrdiff_t>(last); std::vector<themis::BaseEntity> tmp; tmp.reserve(last - off); std::move(first_it, last_it, std::back_inserter(tmp)); out.swap(tmp); } else { out.clear(); } }
             nlohmann::json entities = nlohmann::json::array(); for (const auto& e : out) entities.push_back(e.toJson()); nlohmann::json response_body = {{"table_left", table1}, {"table_right", table2}, {"count", out.size()}, {"entities", applyMasking(entities, req)}};
             if (explain) { response_body["query"] = aql_query; response_body["ast"] = (*parse_result)->toJSON(); nlohmann::json jp; jp["on_left"] = (*joinCols).first; jp["on_right"] = (*joinCols).second; response_body["join"] = jp; }
             joinSpan.setAttribute("join.output_count", static_cast<int64_t>(out.size())); joinSpan.setStatus(true); span.setAttribute("aql.result_count", static_cast<int64_t>(out.size())); span.setStatus(true);
@@ -1754,7 +1754,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             if (off < out.size()) {
                                 size_t last = std::min(out.size(), off + cnt);
                                 std::vector<themis::BaseEntity> tmp; tmp.reserve(last - off);
-                                for (size_t i = off; i < last; ++i) tmp.emplace_back(std::move(out[i]));
+                                auto first_it = out.begin() + static_cast<std::ptrdiff_t>(off);
+                                auto last_it = out.begin() + static_cast<std::ptrdiff_t>(last);
+                                std::move(first_it, last_it, std::back_inserter(tmp));
                                 out.swap(tmp);
                             } else {
                                 out.clear();
@@ -2699,7 +2701,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 size_t last = std::min(sliced.size(), off + cnt);
                 std::vector<themis::BaseEntity> tmp;
                 tmp.reserve(last - off);
-                for (size_t i = off; i < last; ++i) tmp.emplace_back(std::move(sliced[i]));
+                auto first_it = sliced.begin() + static_cast<std::ptrdiff_t>(off);
+                auto last_it = sliced.begin() + static_cast<std::ptrdiff_t>(last);
+                std::move(first_it, last_it, std::back_inserter(tmp));
                 sliced.swap(tmp);
             } else {
                 sliced.clear();
@@ -3559,14 +3563,17 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
             // Basic URL-decode: replace '+' with ' ' and %XX with char
             std::string decoded;
             decoded.reserve(raw.size());
-            for (size_t i = 0; i < raw.size(); ) {
-                if (raw[i] == '+') { decoded += ' '; ++i; }
-                else if (raw[i] == '%' && i + 2 < raw.size()) {
-                    char hex[3] = {raw[i+1], raw[i+2], '\0'};
+            for (auto it = raw.begin(); it != raw.end(); ) {
+                if (*it == '+') {
+                    decoded += ' ';
+                    ++it;
+                } else if (*it == '%' && std::distance(it, raw.end()) >= 3) {
+                    char hex[3] = {*(it + 1), *(it + 2), '\0'};
                     decoded += static_cast<char>(std::strtol(hex, nullptr, 16));
-                    i += 3;
+                    it += 3;
                 } else {
-                    decoded += raw[i++];
+                    decoded += *it;
+                    ++it;
                 }
             }
             return decoded;
