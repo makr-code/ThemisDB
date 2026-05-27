@@ -84,12 +84,14 @@ namespace {
 PostgresSession::PostgresSession(asio::ip::tcp::socket socket)
     : socket_(std::move(socket))
     , readTimeoutTimer_(socket_.get_executor())
+    , writeTimeoutTimer_(socket_.get_executor())
     , queryEngine_(nullptr) {
 }
 
 PostgresSession::PostgresSession(asio::ip::tcp::socket socket, themis::QueryEngine* queryEngine)
     : socket_(std::move(socket))
     , readTimeoutTimer_(socket_.get_executor())
+    , writeTimeoutTimer_(socket_.get_executor())
     , queryEngine_(queryEngine) {
 }
 
@@ -122,6 +124,7 @@ void PostgresSession::stop() {
 void PostgresSession::closeSocket() {
     boost::beast::error_code ec;
     readTimeoutTimer_.cancel();
+    writeTimeoutTimer_.cancel();
     {
         std::lock_guard<std::mutex> lock(writeMutex_);
         writeQueue_.clear();
@@ -146,6 +149,23 @@ void PostgresSession::armReadTimeout() {
 void PostgresSession::cancelReadTimeout() {
     boost::beast::error_code ec;
     readTimeoutTimer_.cancel(ec);
+}
+
+void PostgresSession::armWriteTimeout() {
+    auto self = shared_from_this();
+    writeTimeoutTimer_.expires_after(kWriteTimeout);
+    writeTimeoutTimer_.async_wait([this, self](const boost::beast::error_code& ec) {
+        if (ec || stopped_.load(std::memory_order_acquire)) {
+            return;
+        }
+        sendErrorResponse("ERROR", "57014", "Connection timed out while sending response");
+        stop();
+    });
+}
+
+void PostgresSession::cancelWriteTimeout() {
+    boost::beast::error_code ec;
+    writeTimeoutTimer_.cancel(ec);
 }
 
 char PostgresSession::currentTransactionStatus() const {
@@ -1475,9 +1495,10 @@ void PostgresSession::doWrite() {
     }
 
     auto self = shared_from_this();
-    
+    armWriteTimeout();
     asio::async_write(socket_, asio::buffer(*message),
         [this, self, message](boost::beast::error_code ec, std::size_t /*bytes_transferred*/) {
+            cancelWriteTimeout();
             if (ec || stopped_.load(std::memory_order_acquire)) {
                 stop();
                 return;

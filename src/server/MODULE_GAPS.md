@@ -908,3 +908,8 @@ Findings addressed:
   `get_collection_metadata` now abort with `QUERY_TIMEOUT` if the deadline expires during large
   iterator scans, and retry backoff no longer sleeps past the remaining request deadline. Added
   `tests/test_rpc_batch_operations.cpp` coverage for aggregation and collection-metadata scan expiry.
+
+- **W1-S04 follow-up (2026-05-27) — write-phase timeout hardening in `postgres_session.cpp`:**
+  PostgreSQL wire-session writes now arm a dedicated per-write timeout (`kWriteTimeout`, SQLSTATE `57014`)
+  before each `asio::async_write` and cancel it on completion. Stalled response writes now fail closed
+  with a structured timeout error and session stop instead of allowing indefinite write-side hangs.

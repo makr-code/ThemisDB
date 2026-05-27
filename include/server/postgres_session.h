@@ -96,6 +96,8 @@ private:
     void closeSocket();
     void armReadTimeout();
     void cancelReadTimeout();
+    void armWriteTimeout();
+    void cancelWriteTimeout();
     char currentTransactionStatus() const;
     
     // SQL to Cypher translation for BI tools
@@ -125,6 +127,7 @@ private:
     
     asio::ip::tcp::socket socket_;
     asio::steady_timer readTimeoutTimer_;
+    asio::steady_timer writeTimeoutTimer_;
     std::array<char, 8192> buffer_;
     std::string databaseName_;
     std::string userName_;
@@ -135,6 +138,7 @@ private:
     mutable std::mutex writeMutex_;
     bool writeInProgress_ = false;
     static constexpr std::chrono::seconds kReadTimeout{30};
+    static constexpr std::chrono::seconds kWriteTimeout{30};
     
     // Transaction state tracking
     enum class TransactionState {
