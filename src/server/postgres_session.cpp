@@ -79,15 +79,29 @@ namespace {
         // For all other types (text, varchar, etc.), escape and quote
         return "'" + escapeSQLString(param) + "'";
     }
+
+    void logCurrentException(const char* context) {
+        try {
+            throw;
+        } catch (const std::exception& e) {
+            std::cerr << "[PostgresSession] " << context << ": " << e.what() << "\n";
+        } catch (...) {
+            std::cerr << "[PostgresSession] " << context << ": unknown exception\n";
+        }
+    }
 }
 
 PostgresSession::PostgresSession(asio::ip::tcp::socket socket)
     : socket_(std::move(socket))
+    , readTimeoutTimer_(socket_.get_executor())
+    , writeTimeoutTimer_(socket_.get_executor())
     , queryEngine_(nullptr) {
 }
 
 PostgresSession::PostgresSession(asio::ip::tcp::socket socket, themis::QueryEngine* queryEngine)
     : socket_(std::move(socket))
+    , readTimeoutTimer_(socket_.get_executor())
+    , writeTimeoutTimer_(socket_.get_executor())
     , queryEngine_(queryEngine) {
 }
 
@@ -119,6 +133,8 @@ void PostgresSession::stop() {
 
 void PostgresSession::closeSocket() {
     boost::beast::error_code ec;
+    readTimeoutTimer_.cancel();
+    writeTimeoutTimer_.cancel();
     {
         std::lock_guard<std::mutex> lock(writeMutex_);
         writeQueue_.clear();
@@ -126,6 +142,50 @@ void PostgresSession::closeSocket() {
     }
     socket_.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
     socket_.close(ec);
+}
+
+void PostgresSession::armReadTimeout() {
+    auto self = shared_from_this();
+    readTimeoutTimer_.expires_after(kReadTimeout);
+    readTimeoutTimer_.async_wait([this, self](const boost::beast::error_code& ec) {
+        if (ec || stopped_.load(std::memory_order_acquire)) {
+            return;
+        }
+        try {
+            sendErrorResponse("ERROR", "57014", "Connection timed out while waiting for client message");
+            stop();
+        } catch (...) {
+            logCurrentException("Read-timeout handler error");
+            stop();
+        }
+    });
+}
+
+void PostgresSession::cancelReadTimeout() {
+    boost::beast::error_code ec;
+    readTimeoutTimer_.cancel(ec);
+}
+
+void PostgresSession::armWriteTimeout() {
+    auto self = shared_from_this();
+    writeTimeoutTimer_.expires_after(kWriteTimeout);
+    writeTimeoutTimer_.async_wait([this, self](const boost::beast::error_code& ec) {
+        if (ec || stopped_.load(std::memory_order_acquire)) {
+            return;
+        }
+        try {
+            sendErrorResponse("ERROR", "57014", "Connection timed out while sending response");
+            stop();
+        } catch (...) {
+            logCurrentException("Write-timeout handler error");
+            stop();
+        }
+    });
+}
+
+void PostgresSession::cancelWriteTimeout() {
+    boost::beast::error_code ec;
+    writeTimeoutTimer_.cancel(ec);
 }
 
 char PostgresSession::currentTransactionStatus() const {
@@ -1224,9 +1284,11 @@ void PostgresSession::sendErrorResponse(const std::string& severity, const std::
 
 void PostgresSession::doRead() {
     auto self = shared_from_this();
+    armReadTimeout();
     
     socket_.async_read_some(asio::buffer(buffer_),
         [this, self](boost::beast::error_code ec, std::size_t bytes_transferred) {
+            cancelReadTimeout();
             if (ec || stopped_.load(std::memory_order_acquire)) {
                 stop();
                 return;
@@ -1431,6 +1493,9 @@ void PostgresSession::doRead() {
                 } catch (const std::exception& e) {
                     std::cerr << "[PostgresSession] Message handler error (type='" << messageType << "'): " << e.what() << "\n";
                     sendErrorResponse("ERROR", "XX000", std::string("Internal error: ") + e.what());
+                } catch (...) {
+                    std::cerr << "[PostgresSession] Message handler unknown error (type='" << messageType << "')\n";
+                    sendErrorResponse("ERROR", "XX000", "Internal error: unknown exception");
                 }
             }
             
@@ -1450,27 +1515,36 @@ void PostgresSession::doWrite() {
     }
 
     auto self = shared_from_this();
-    
+    armWriteTimeout();
     asio::async_write(socket_, asio::buffer(*message),
         [this, self, message](boost::beast::error_code ec, std::size_t /*bytes_transferred*/) {
-            if (ec || stopped_.load(std::memory_order_acquire)) {
-                stop();
-                return;
-            }
+            try {
+                cancelWriteTimeout();
+                if (ec || stopped_.load(std::memory_order_acquire)) {
+                    stop();
+                    return;
+                }
 
-            bool shouldContinue = false;
-            {
-                std::lock_guard<std::mutex> lock(writeMutex_);
-                if (!writeQueue_.empty()) {
-                    writeQueue_.pop_front();
+                bool shouldContinue = false;
+                {
+                    std::lock_guard<std::mutex> lock(writeMutex_);
+                    if (!writeQueue_.empty()) {
+                        writeQueue_.pop_front();
+                    }
+                    shouldContinue = !writeQueue_.empty();
+                    if (!shouldContinue) {
+                        writeInProgress_ = false;
+                    }
                 }
-                shouldContinue = !writeQueue_.empty();
-                if (!shouldContinue) {
-                    writeInProgress_ = false;
+                if (shouldContinue) {
+                    doWrite();
                 }
-            }
-            if (shouldContinue) {
-                doWrite();
+            } catch (const std::exception& e) {
+                std::cerr << "[PostgresSession] Write completion handler error: " << e.what() << "\n";
+                stop();
+            } catch (...) {
+                logCurrentException("Write completion handler error");
+                stop();
             }
         });
 }

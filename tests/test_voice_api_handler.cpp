@@ -9,9 +9,11 @@
 #include <gtest/gtest.h>
 
 #include "server/voice_api_handler.h"
+#include "voice/voice_assistant.h"
 
 #include <boost/beast/http.hpp>
 #include <nlohmann/json.hpp>
+#include <stdexcept>
 
 namespace http = boost::beast::http;
 using json = nlohmann::json;
@@ -43,8 +45,15 @@ json parseBody(const http::response<http::string_body>& response) {
 
 class VoiceApiHandlerPathValidationTest : public ::testing::Test {
 protected:
-    VoiceApiHandler handler{nullptr};
+    VoiceApiHandlerPathValidationTest()
+        : handler{std::make_shared<voice::VoiceAssistant>(voice::VoiceAssistant::Config{})} {}
+
+    VoiceApiHandler handler;
 };
+
+TEST(VoiceApiHandlerConstructionTest, RejectsNullVoiceAssistant) {
+    EXPECT_THROW((VoiceApiHandler{nullptr}), std::invalid_argument);
+}
 
 TEST_F(VoiceApiHandlerPathValidationTest, MacroRejectsInvalidId) {
     const auto response = handler.handleRequest(
@@ -52,6 +61,14 @@ TEST_F(VoiceApiHandlerPathValidationTest, MacroRejectsInvalidId) {
 
     ASSERT_EQ(response.result(), http::status::bad_request);
     EXPECT_EQ(parseBody(response)["details"], "Invalid macro ID");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, MacroRejectsMissingId) {
+    const auto response = handler.handleRequest(
+        makeRequest(http::verb::get, "/api/v1/voice/macros/"));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "Missing macro ID");
 }
 
 TEST_F(VoiceApiHandlerPathValidationTest, SessionRejectsInvalidId) {
@@ -62,6 +79,14 @@ TEST_F(VoiceApiHandlerPathValidationTest, SessionRejectsInvalidId) {
     EXPECT_EQ(parseBody(response)["details"], "Invalid session path");
 }
 
+TEST_F(VoiceApiHandlerPathValidationTest, SessionRejectsMissingId) {
+    const auto response = handler.handleRequest(
+        makeRequest(http::verb::get, "/api/v1/voice/sessions/"));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "Missing session ID");
+}
+
 TEST_F(VoiceApiHandlerPathValidationTest, RecordingRejectsInvalidId) {
     const auto response = handler.handleRequest(
         makeRequest(http::verb::get, "/api/v1/voice/recordings/../bad"));
@@ -70,12 +95,28 @@ TEST_F(VoiceApiHandlerPathValidationTest, RecordingRejectsInvalidId) {
     EXPECT_EQ(parseBody(response)["details"], "Invalid recording ID");
 }
 
+TEST_F(VoiceApiHandlerPathValidationTest, RecordingRejectsMissingId) {
+    const auto response = handler.handleRequest(
+        makeRequest(http::verb::get, "/api/v1/voice/recordings/"));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "Missing recording ID");
+}
+
 TEST_F(VoiceApiHandlerPathValidationTest, ProfileDeleteRejectsInvalidId) {
     const auto response = handler.handleRequest(
         makeRequest(http::verb::delete_, "/api/v1/voice/auth/profiles/../bad"));
 
     ASSERT_EQ(response.result(), http::status::bad_request);
     EXPECT_EQ(parseBody(response)["details"], "Invalid profile ID");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, ProfileDeleteRejectsMissingId) {
+    const auto response = handler.handleRequest(
+        makeRequest(http::verb::delete_, "/api/v1/voice/auth/profiles/"));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "Missing profile ID");
 }
 
 TEST_F(VoiceApiHandlerPathValidationTest, AuthVerifyRejectsNonStringProfileId) {

@@ -181,6 +181,7 @@ http::response<http::string_body> BpmnApiHandler::handleStartProcess(
     if (!process_graph_) {
         return makeErrorResponse(http::status::service_unavailable, "Process engine not available", req);
     }
+    auto& process_graph = *process_graph_;
     
     try {
         // Parse request body
@@ -201,7 +202,7 @@ http::response<http::string_body> BpmnApiHandler::handleStartProcess(
         }
         
         // Start process instance
-        auto [status, instance_id] = process_graph_->startProcess(process_key, variables);
+        auto [status, instance_id] = process_graph.startProcess(process_key, variables);
         
         if (!status.ok) {
             return makeErrorResponse(http::status::internal_server_error, 
@@ -209,7 +210,7 @@ http::response<http::string_body> BpmnApiHandler::handleStartProcess(
         }
         
         // Get instance state to return active tasks
-        auto [get_status, instance] = process_graph_->getProcessInstance(instance_id);
+        auto [get_status, instance] = process_graph.getProcessInstance(instance_id);
         
         // Build response
         json response;
@@ -285,6 +286,7 @@ http::response<http::string_body> BpmnApiHandler::handleTaskComplete(
     if (!process_graph_) {
         return makeErrorResponse(http::status::service_unavailable, "Process engine not available", req);
     }
+    auto& process_graph = *process_graph_;
     
     try {
         // Extract task ID from path: /api/v1/bpmn/task/:taskId/complete
@@ -324,7 +326,7 @@ http::response<http::string_body> BpmnApiHandler::handleTaskComplete(
         }
         
         // Complete the task
-        auto status = process_graph_->completeTask(instance_id, node_id, variables);
+        auto status = process_graph.completeTask(instance_id, node_id, variables);
         
         // Build response
         json response;
@@ -337,7 +339,7 @@ http::response<http::string_body> BpmnApiHandler::handleTaskComplete(
             response["error"] = "";
             
             // Try to find next active task
-            auto [get_status, instance] = process_graph_->getProcessInstance(instance_id);
+            auto [get_status, instance] = process_graph.getProcessInstance(instance_id);
             if (get_status.ok && !instance.tokens.empty()) {
                 // Find first active token
                 for (const auto& token : instance.tokens) {
@@ -380,6 +382,7 @@ http::response<http::string_body> BpmnApiHandler::handleQueryInstance(
     if (!process_graph_) {
         return makeErrorResponse(http::status::service_unavailable, "Process engine not available", req);
     }
+    auto& process_graph = *process_graph_;
     
     try {
         // Extract instance ID from path: /api/v1/bpmn/instance/:instanceId
@@ -409,7 +412,7 @@ http::response<http::string_body> BpmnApiHandler::handleQueryInstance(
         }
         
         // Get process instance
-        auto [status, instance] = process_graph_->getProcessInstance(instance_id);
+        auto [status, instance] = process_graph.getProcessInstance(instance_id);
         
         if (!status.ok) {
             return makeErrorResponse(http::status::not_found, 
@@ -509,4 +512,3 @@ http::response<http::string_body> BpmnApiHandler::handleQueryInstance(
 
 } // namespace server
 } // namespace themis
-

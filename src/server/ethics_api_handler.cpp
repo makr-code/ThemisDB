@@ -503,6 +503,7 @@ nlohmann::json EthicsApiHandler::executeAQL(
     if (!query_engine_) {
         throw std::runtime_error("QueryEngine not available");
     }
+    auto& query_engine = *query_engine_;
 
     // Substitute bind parameters (@name → value literal) for simple string/number vars.
     // Each placeholder is replaced exactly once, left-to-right, to prevent re-substitution.
@@ -547,14 +548,14 @@ nlohmann::json EthicsApiHandler::executeAQL(
     nlohmann::json rows = nlohmann::json::array();
 
     if (translation.disjunctive.has_value()) {
-        auto result = query_engine_->executeOrEntities(translation.disjunctive.value());
+        auto result = query_engine.executeOrEntities(translation.disjunctive.value());
         if (result.has_value()) {
             for (const auto& entity : result.value()) {
                 rows.push_back(nlohmann::json::parse(entity.toJson()));
             }
         }
     } else {
-        auto result = query_engine_->executeAndEntities(translation.query);
+        auto result = query_engine.executeAndEntities(translation.query);
         if (result.has_value()) {
             for (const auto& entity : result.value()) {
                 rows.push_back(nlohmann::json::parse(entity.toJson()));
@@ -596,4 +597,3 @@ std::string EthicsApiHandler::extractQueryParam(
 
 } // namespace server
 } // namespace themis
-

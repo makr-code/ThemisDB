@@ -77,7 +77,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handlePut(
         ts_point.tags = body.value("tags", nlohmann::json::object());
         ts_point.metadata = body.value("metadata", nlohmann::json::object());
         
-        auto result = ts_store_->putDataPoint(ts_point);
+        auto result = ts_store.putDataPoint(ts_point);
         
         if (!result) {
             span.setStatus(false, "put_failed");
@@ -139,7 +139,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleQuery(
             query_opts.tag_filter = body["tags"];
         }
         
-        auto result = ts_store_->query(query_opts);
+        auto result = ts_store.query(query_opts);
         
         if (!result) {
             span.setStatus(false, "query_failed");
@@ -212,7 +212,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregate(
             query_opts.tag_filter = body["tags"];
         }
         
-        auto result = ts_store_->aggregate(query_opts);
+        auto result = ts_store.aggregate(query_opts);
         
         if (!result) {
             span.setStatus(false, "aggregate_failed");
@@ -257,6 +257,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleConfigGet(
         span.setStatus(false, "feature_disabled");
         return makeErrorResponse(http::status::not_implemented, "Time-series feature not enabled", req);
     }
+    auto& ts_store = *ts_store_;
     
     try {
         // Prefer persisted config if present so settings survive restarts
@@ -266,7 +267,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleConfigGet(
             std::string s(stored->begin(), stored->end());
             response = nlohmann::json::parse(s);
         } else {
-            const auto& config = ts_store_->getConfig();
+            const auto& config = ts_store.getConfig();
             response = {
                 {"compression", config.compression == TSStore::CompressionType::Gorilla ? "gorilla" : "none"},
                 {"chunk_size_hours", config.chunk_size_hours},
@@ -292,6 +293,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleConfigPut(
         span.setStatus(false, "feature_disabled");
         return makeErrorResponse(http::status::not_implemented, "Time-series feature not enabled", req);
     }
+    auto& ts_store = *ts_store_;
     
     try {
         nlohmann::json body = nlohmann::json::parse(req.body());
@@ -302,7 +304,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleConfigPut(
             std::string s(v->begin(), v->end());
             persisted = nlohmann::json::parse(s);
         } else {
-            const auto& cur = ts_store_->getConfig();
+            const auto& cur = ts_store.getConfig();
             persisted = {
                 {"compression", cur.compression == TSStore::CompressionType::Gorilla ? "gorilla" : "none"},
                 {"chunk_size_hours", cur.chunk_size_hours},
@@ -363,7 +365,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleConfigPut(
         }
 
         // Apply to in-memory TSStore (affects new data points only)
-        TSStore::Config new_config = ts_store_->getConfig();
+        TSStore::Config new_config = ts_store.getConfig();
         if (persisted.contains("compression")) {
             std::string compression_str = persisted["compression"];
             new_config.compression = (compression_str == "gorilla") ? TSStore::CompressionType::Gorilla : TSStore::CompressionType::None;
@@ -374,7 +376,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleConfigPut(
         if (persisted.contains("late_arrival_window_ms")) {
             new_config.late_arrival_window_ms = persisted["late_arrival_window_ms"].get<int64_t>();
         }
-        ts_store_->setConfig(new_config);
+        ts_store.setConfig(new_config);
 
         nlohmann::json response = persisted;
         response["status"] = "ok";
@@ -458,7 +460,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleRetentionGet(
         }
 
         if (ts_store_) {
-            const auto& config = ts_store_->getConfig();
+            const auto& config = ts_store.getConfig();
             if (config.late_arrival_window_ms > 0) {
                 policies.push_back({
                     {"name", "late_arrival_window"},
@@ -489,6 +491,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleMetricsGet(
         span.setStatus(false, "feature_disabled");
         return makeErrorResponse(http::status::not_implemented, "Time-series feature not enabled", req);
     }
+    auto& ts_store = *ts_store_;
     
     try {
         // Check format parameter from query string
@@ -506,7 +509,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleMetricsGet(
             }
         }
         
-        auto metrics = ts_store_->getMetrics();
+        auto metrics = ts_store.getMetrics();
         if (!metrics) {
             nlohmann::json response = {
                 {"error", false},
@@ -518,7 +521,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleMetricsGet(
         }
         
         // Also update stats from TSStore before exporting metrics
-        auto stats = ts_store_->getStats();
+        auto stats = ts_store.getStats();
         metrics->updateStorageStats(stats.total_data_points, stats.total_metrics, stats.total_size_bytes);
         
         if (format == "prometheus") {
@@ -634,7 +637,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handlePrometheusRemoteWr
         }
 
         if (!batch.empty()) {
-            auto result = ts_store_->putDataPoints(batch);
+            auto result = ts_store.putDataPoints(batch);
             if (!result) {
                 span.setStatus(false, "put_failed");
                 return makeErrorResponse(http::status::internal_server_error,

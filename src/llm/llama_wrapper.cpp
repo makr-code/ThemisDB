@@ -428,6 +428,11 @@ bool LlamaWrapper::loadModel(
                      config_.rope_scaling.max_context);
     }
     
+    if (!model_loader_) {
+        transitionToState(WrapperState::ERROR_STATE, "Model loader is not initialized");
+        return false;
+    }
+
     // Trigger lazy load (or get from cache)
     auto* model = model_loader_->getOrLoadModel(
         current_model_id_,
@@ -693,6 +698,10 @@ void LlamaWrapper::unloadModel() {
     }
     
     // Unload via lazy loader
+    if (!model_loader_) {
+        spdlog::warn("LlamaWrapper::unloadModel: model loader is not initialized");
+        return;
+    }
     model_loader_->unloadModel(current_model_id_, true);
     
     current_model_id_.clear();
@@ -751,12 +760,18 @@ std::optional<ModelInfo> LlamaWrapper::getModelInfo() const {
     if (current_model_id_.empty()) {
         return std::nullopt;
     }
+    if (!model_loader_) {
+        return std::nullopt;
+    }
     
     return model_loader_->getModelInfo(current_model_id_);
 }
 
 bool LlamaWrapper::isModelLoaded() const {
     std::lock_guard<std::mutex> lock(mutex_);
+    if (!model_loader_) {
+        return false;
+    }
     return !current_model_id_.empty() && 
            model_loader_->isModelLoaded(current_model_id_);
 }
@@ -779,17 +794,27 @@ bool LlamaWrapper::loadLoRA(
     
     spdlog::info("Loading LoRA (lazy): {}", lora_id);
     
+    if (!lora_manager_) {
+        spdlog::warn("LlamaWrapper::loadLoRA: LoRA manager is not initialized, cannot load '{}'", lora_id);
+        return false;
+    }
     // Use multi-LoRA manager (vLLM-style)
     return lora_manager_->loadLoRA(lora_id, lora_path, current_model_id_, scale);
 }
 
 bool LlamaWrapper::unloadLoRA(const std::string& lora_id) {
     std::lock_guard<std::mutex> lock(mutex_);
+    if (!lora_manager_) {
+        return false;
+    }
     return lora_manager_->unloadLoRA(lora_id);
 }
 
 std::vector<LoRAInfo> LlamaWrapper::listLoRAs() const {
     std::lock_guard<std::mutex> lock(mutex_);
+    if (!lora_manager_) {
+        return {};
+    }
     return lora_manager_->listLoRAs();
 }
 
@@ -940,6 +965,10 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
                   request.prompt.substr(0, std::min(request.prompt.size(), size_t(50))), request.max_tokens);
     
     // Ensure model is loaded (lazy loading trigger)
+    if (!model_loader_) {
+        throw std::runtime_error("Model loader is not initialized");
+    }
+
     auto* cached = model_loader_->getOrLoadModel(
         current_model_id_,
         current_model_path_
@@ -951,11 +980,13 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         throw std::runtime_error("Model failed to load");
     }
 
-    if (!cached->model_handle || !cached->context_handle) {
+    void* model_handle = cached->model_handle;
+    void* context_handle = cached->context_handle;
+    if (!model_handle || !context_handle) {
         throw std::runtime_error("Model/context handle is null after load");
     }
-    auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);
-    auto* lctx = reinterpret_cast<llama_context*>(cached->context_handle);
+    auto* lmodel = reinterpret_cast<llama_model*>(model_handle);
+    auto* lctx = reinterpret_cast<llama_context*>(context_handle);
     
     // Model and context must be loaded before inference
     if (!lmodel || !lctx) {
@@ -978,51 +1009,62 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         if (request.lora_adapter_id && !request.lora_adapter_id->empty()) {
             const std::string& adapter_id = *request.lora_adapter_id;
             spdlog::info("Auto-binding LoRA adapter: {}", adapter_id);
-            
-            // Check if adapter needs to be rebound after context switch
-            if (context_changed && !active_lora_adapter_.empty()) {
-                spdlog::info("Context changed, rebinding adapter {} to new context", adapter_id);
-                // Context changed - previous adapter binding is invalid
-                active_lora_adapter_.clear();
-            }
-            
-            // Check if we need to switch adapters
-            if (active_lora_adapter_ != adapter_id || context_changed) {
-                // Load adapter if not already loaded (lazy loading)
-                if (!lora_manager_->isLoRALoaded(adapter_id)) {
-                    spdlog::info("LoRA adapter {} not loaded, attempting lazy load from storage", adapter_id);
-                    // Adapter will be loaded by LoRAManager from storage
+
+            if (!lora_manager_) {
+                spdlog::warn("LoRA manager not initialized, cannot apply adapter {}", adapter_id);
+            } else {
+
+                // Check if adapter needs to be rebound after context switch
+                if (context_changed && !active_lora_adapter_.empty()) {
+                    spdlog::info("Context changed, rebinding adapter {} to new context", adapter_id);
+                    // Context changed - previous adapter binding is invalid
+                    active_lora_adapter_.clear();
                 }
-                
-                // Ensure LoRA is initialized with the model handle
-                // This calls llama_lora_adapter_init() if not already done
-                if (lora_manager_->isLoRALoaded(adapter_id)) {
-                    if (!lora_manager_->initializeLoRAWithModel(adapter_id, lmodel)) {
-                        spdlog::warn("Failed to initialize LoRA adapter {}, proceeding with base model", adapter_id);
-                    } else {
-                        // Apply adapter to context
-                        if (lora_manager_->applyLoRA(adapter_id, lctx)) {
-                            adapter_applied = true;
-                            active_lora_adapter_ = adapter_id;
-                            last_context_ptr_ = lctx;
-                            spdlog::debug("LoRA adapter {} applied to context", adapter_id);
+
+                // Check if we need to switch adapters
+                if (active_lora_adapter_ != adapter_id || context_changed) {
+                    // Load adapter if not already loaded (lazy loading)
+                    if (!lora_manager_->isLoRALoaded(adapter_id)) {
+                        spdlog::info("LoRA adapter {} not loaded, attempting lazy load from storage", adapter_id);
+                        // Adapter will be loaded by LoRAManager from storage
+                    }
+
+                    // Ensure LoRA is initialized with the model handle
+                    // This calls llama_lora_adapter_init() if not already done
+                    if (lora_manager_->isLoRALoaded(adapter_id)) {
+                        if (!lora_manager_->initializeLoRAWithModel(adapter_id, lmodel)) {
+                            spdlog::warn("Failed to initialize LoRA adapter {}, proceeding with base model", adapter_id);
                         } else {
-                            spdlog::warn("Failed to apply LoRA adapter {}, proceeding with base model", adapter_id);
+                            // Apply adapter to context
+                            if (lora_manager_->applyLoRA(adapter_id, lctx)) {
+                                adapter_applied = true;
+                                active_lora_adapter_ = adapter_id;
+                                last_context_ptr_ = lctx;
+                                spdlog::debug("LoRA adapter {} applied to context", adapter_id);
+                            } else {
+                                spdlog::warn("Failed to apply LoRA adapter {}, proceeding with base model", adapter_id);
+                            }
                         }
+                    } else {
+                        spdlog::warn("LoRA adapter {} not found in manager, proceeding with base model", adapter_id);
                     }
                 } else {
-                    spdlog::warn("LoRA adapter {} not found in manager, proceeding with base model", adapter_id);
+                    // Adapter already applied to this context
+                    spdlog::debug("LoRA adapter {} already active on this context", adapter_id);
+                    adapter_applied = true;  // Mark as applied for cleanup logic
                 }
-            } else {
-                // Adapter already applied to this context
-                spdlog::debug("LoRA adapter {} already active on this context", adapter_id);
-                adapter_applied = true;  // Mark as applied for cleanup logic
             }
         } else if (!active_lora_adapter_.empty() && !context_changed) {
             // No adapter requested but one is active - remove it
             spdlog::info("Removing active adapter {} as none requested", active_lora_adapter_);
-            lora_manager_->removeLoRA(active_lora_adapter_, lctx);
-            active_lora_adapter_.clear();
+            if (lora_manager_) {
+                lora_manager_->removeLoRA(active_lora_adapter_, lctx);
+                active_lora_adapter_.clear();
+            } else {
+                spdlog::warn("LoRA manager not initialized, cannot remove active adapter {}",
+                             active_lora_adapter_);
+                active_lora_adapter_.clear();
+            }
         }
         
         // 2. Tokenize prompt
@@ -1066,7 +1108,13 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         
         // Get vocab for EOS detection and token count
         const llama_vocab* vocab = llama_model_get_vocab(lmodel);
+        if (!vocab) {
+            throw std::runtime_error("Failed to get model vocabulary");
+        }
         int32_t n_vocab = llama_vocab_n_tokens(vocab);
+        if (n_vocab <= 0) {
+            throw std::runtime_error("Model returned non-positive vocabulary size");
+        }
         llama_token eos_token = llama_vocab_eos(vocab);
         
         // Time to first token
@@ -1246,7 +1294,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         spdlog::error("Inference error: {}", e.what());
         
         // Cleanup: Remove adapter if applied (error path)
-        if (adapter_applied && request.lora_adapter_id) {
+        if (adapter_applied && request.lora_adapter_id && lora_manager_) {
             lora_manager_->removeLoRA(*request.lora_adapter_id, lctx);
             spdlog::debug("LoRA adapter {} removed after error", *request.lora_adapter_id);
         }
@@ -1282,16 +1330,22 @@ ILLMPlugin::DraftTokensResult LlamaWrapper::generateDraftTokens(
         throw std::runtime_error("No model loaded for draft token generation");
     }
 
+    if (!model_loader_) {
+        throw std::runtime_error("Model loader is not initialized");
+    }
+
     auto* cached = model_loader_->getOrLoadModel(current_model_id_, current_model_path_);
     if (!cached) {
         throw std::runtime_error("Model failed to load for draft token generation");
     }
 
-    if (!cached->model_handle || !cached->context_handle) {
+    void* model_handle = cached->model_handle;
+    void* context_handle = cached->context_handle;
+    if (!model_handle || !context_handle) {
         throw std::runtime_error("Model/context handle is null for draft token generation");
     }
-    auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);
-    auto* lctx   = reinterpret_cast<llama_context*>(cached->context_handle);
+    auto* lmodel = reinterpret_cast<llama_model*>(model_handle);
+    auto* lctx   = reinterpret_cast<llama_context*>(context_handle);
     if (!lmodel || !lctx) {
         throw std::runtime_error("Model/context not initialized for draft token generation");
     }
@@ -1309,7 +1363,13 @@ ILLMPlugin::DraftTokensResult LlamaWrapper::generateDraftTokens(
     }
 
     const llama_vocab* vocab = llama_model_get_vocab(lmodel);
+    if (!vocab) {
+        throw std::runtime_error("Failed to get model vocabulary for draft generation");
+    }
     const int32_t n_vocab = llama_vocab_n_tokens(vocab);
+    if (n_vocab <= 0) {
+        throw std::runtime_error("Model returned non-positive vocabulary size for draft generation");
+    }
     const llama_token eos_token = llama_vocab_eos(vocab);
     const size_t produced_vocab_size = static_cast<size_t>(n_vocab);
     if (vocab_size_hint > 0 && vocab_size_hint != produced_vocab_size) {
@@ -1390,6 +1450,9 @@ std::vector<float> LlamaWrapper::embed(const std::string& text) {
     spdlog::debug("Generating embedding for text: {}", text.substr(0, 50));
     
     // Ensure model is loaded
+    if (!model_loader_) {
+        throw std::runtime_error("Model loader is not initialized");
+    }
     auto* cached = model_loader_->getOrLoadModel(
         current_model_id_,
         current_model_path_
@@ -1398,11 +1461,13 @@ std::vector<float> LlamaWrapper::embed(const std::string& text) {
         throw std::runtime_error("Model failed to load");
     }
     
-    if (!cached->model_handle || !cached->context_handle) {
+    void* model_handle = cached->model_handle;
+    void* context_handle = cached->context_handle;
+    if (!model_handle || !context_handle) {
         throw std::runtime_error("Model/context handle is null for embeddings");
     }
-    auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);
-    auto* lctx = reinterpret_cast<llama_context*>(cached->context_handle);
+    auto* lmodel = reinterpret_cast<llama_model*>(model_handle);
+    auto* lctx = reinterpret_cast<llama_context*>(context_handle);
     
     // Model and context must be loaded before computing embeddings
     if (!lmodel || !lctx) {
@@ -1433,6 +1498,9 @@ std::vector<float> LlamaWrapper::embed(const std::string& text) {
         
         // 5. Get embedding dimension
         int32_t n_embd = llama_model_n_embd(lmodel);
+        if (n_embd <= 0) {
+            throw std::runtime_error("Model reports non-positive embedding dimension");
+        }
         
         // 6. Copy embeddings to vector
         std::vector<float> embedding(embd, embd + n_embd);
@@ -1496,19 +1564,29 @@ json LlamaWrapper::getMemoryStats() const {
     json stats;
     
     // Get stats from lazy model loader
-    stats["model_loader"] = model_loader_->getMemoryStats();
-    stats["model_loader_cache"] = model_loader_->getCacheStats();
+    if (model_loader_) {
+        stats["model_loader"] = model_loader_->getMemoryStats();
+        stats["model_loader_cache"] = model_loader_->getCacheStats();
+    }
     
     // Get stats from multi-LoRA manager
-    stats["lora_manager"] = lora_manager_->getMemoryStats();
-    stats["lora_manager_cache"] = lora_manager_->getCacheStats();
+    if (lora_manager_) {
+        stats["lora_manager"] = lora_manager_->getMemoryStats();
+        stats["lora_manager_cache"] = lora_manager_->getCacheStats();
+    }
     
     // Combined totals
-    auto model_stats = model_loader_->getMemoryStats();
-    auto lora_stats = lora_manager_->getMemoryStats();
-    
-    stats["total_vram_mb"] = model_stats["vram_used_mb"].get<size_t>() + 
-                             lora_stats["vram_used_mb"].get<size_t>();
+    size_t model_vram = 0;
+    size_t lora_vram  = 0;
+    if (model_loader_) {
+        auto model_stats = model_loader_->getMemoryStats();
+        model_vram = model_stats.value("vram_used_mb", static_cast<size_t>(0));
+    }
+    if (lora_manager_) {
+        auto lora_stats = lora_manager_->getMemoryStats();
+        lora_vram = lora_stats.value("vram_used_mb", static_cast<size_t>(0));
+    }
+    stats["total_vram_mb"] = model_vram + lora_vram;
     stats["max_vram_mb"] = config_.max_vram_mb;
     
     return stats;
@@ -1529,8 +1607,12 @@ json LlamaWrapper::getPerformanceStats() const {
     }
     
     // Include model loader and LoRA manager stats
-    stats["model_loader_stats"] = model_loader_->getCacheStats();
-    stats["lora_manager_stats"] = lora_manager_->getCacheStats();
+    if (model_loader_) {
+        stats["model_loader_stats"] = model_loader_->getCacheStats();
+    }
+    if (lora_manager_) {
+        stats["lora_manager_stats"] = lora_manager_->getCacheStats();
+    }
     
     return stats;
 }
@@ -1544,6 +1626,10 @@ std::vector<uint8_t> LlamaWrapper::exportLoRA(const std::string& lora_id) {
     
     spdlog::info("Exporting LoRA for cross-shard transfer: {}", lora_id);
     
+    if (!lora_manager_) {
+        spdlog::warn("LlamaWrapper::exportLoRA: LoRA manager is not initialized, cannot export '{}'", lora_id);
+        return {};
+    }
     // Delegate to multi-LoRA manager
     return lora_manager_->exportLoRA(lora_id);
 }
@@ -1556,6 +1642,11 @@ bool LlamaWrapper::importLoRA(
     
     if (current_model_id_.empty()) {
         errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, "no_base_model_loaded");
+        return false;
+    }
+    
+    if (!lora_manager_) {
+        spdlog::warn("LlamaWrapper::importLoRA: LoRA manager is not initialized, cannot import '{}'", lora_id);
         return false;
     }
     
@@ -1761,6 +1852,9 @@ std::vector<llama_token> LlamaWrapper::tokenizeInternal(
     
     // Get vocab from model
     const llama_vocab* vocab = llama_model_get_vocab(model);
+    if (!vocab) {
+        throw std::runtime_error("Failed to get model vocabulary");
+    }
     
     // Allocate buffer for tokens (estimate: text length + special tokens)
     int32_t n_tokens_max = text.length() + (add_bos ? 1 : 0) + 8;
@@ -1809,7 +1903,13 @@ std::string LlamaWrapper::detokenizeInternal(
     
     // Get model and vocab from context
     const llama_model* model = llama_get_model(ctx);
+    if (!model) {
+        throw std::runtime_error("Model is null");
+    }
     const llama_vocab* vocab = llama_model_get_vocab(model);
+    if (!vocab) {
+        throw std::runtime_error("Failed to get model vocabulary");
+    }
     
     std::string result;
     result.reserve(tokens.size() * 4);  // Rough estimate
@@ -1839,10 +1939,13 @@ llama_token LlamaWrapper::sampleTokenInternal(
     if (!ctx || !model || !logits) {
         throw std::runtime_error("Invalid parameters for sampling");
     }
+    if (n_vocab <= 0) {
+        throw std::runtime_error("Invalid n_vocab for sampling");
+    }
     
     // Build candidates array from logits
     std::vector<llama_token_data> candidates;
-    candidates.reserve(n_vocab);
+    candidates.reserve(static_cast<size_t>(n_vocab));
     
     for (llama_token token_id = 0; token_id < n_vocab; ++token_id) {
         candidates.push_back({token_id, logits[token_id], 0.0f});
@@ -2157,6 +2260,13 @@ std::optional<LlamaWrapper::SpeculativeDecodingStats> LlamaWrapper::getSpeculati
 }
 
 float LlamaWrapper::getProbability(float* logits, llama_token token, int32_t n_vocab) {
+    if (!logits || n_vocab <= 0) {
+        return 0.0f;
+    }
+    if (token < 0 || token >= n_vocab) {
+        return 0.0f;
+    }
+
     // Find max logit for numerical stability
     float max_logit = -INFINITY;
     for (int32_t i = 0; i < n_vocab; ++i) {
@@ -2167,6 +2277,10 @@ float LlamaWrapper::getProbability(float* logits, llama_token token, int32_t n_v
     float sum_exp = 0.0f;
     for (int32_t i = 0; i < n_vocab; ++i) {
         sum_exp += std::exp(logits[i] - max_logit);
+    }
+
+    if (!std::isfinite(sum_exp) || sum_exp <= 0.0f) {
+        return 0.0f;
     }
     
     // Calculate probability for target token
@@ -2205,17 +2319,22 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
     auto start_time = std::chrono::high_resolution_clock::now();
     
     // Get target model
+    if (!model_loader_) {
+        throw std::runtime_error("Model loader is not initialized");
+    }
     auto* cached = model_loader_->getOrLoadModel(current_model_id_, current_model_path_);
     if (!cached) {
         throw std::runtime_error("Target model failed to load");
     }
     
-    if (!cached->model_handle || !cached->context_handle) {
+    void* target_model_handle = cached->model_handle;
+    void* target_context_handle = cached->context_handle;
+    if (!target_model_handle || !target_context_handle) {
         spdlog::warn("Speculative decoding model/context handles are null, falling back to regular generation");
         return generateRegular(request);
     }
-    auto* target_model = reinterpret_cast<llama_model*>(cached->model_handle);
-    auto* target_context = reinterpret_cast<llama_context*>(cached->context_handle);
+    auto* target_model = reinterpret_cast<llama_model*>(target_model_handle);
+    auto* target_context = reinterpret_cast<llama_context*>(target_context_handle);
     
     if (!target_model || !target_context || !draft_model_ || !draft_context_) {
         spdlog::warn("Speculative decoding prerequisites not met, falling back to regular generation");
@@ -2233,16 +2352,20 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
             spdlog::info("Auto-binding LoRA adapter for speculative decoding: {}", adapter_id);
             
             // Load adapter if not already loaded (lazy loading)
-            if (!lora_manager_->isLoRALoaded(adapter_id)) {
-                spdlog::info("LoRA adapter {} not loaded, attempting lazy load from storage", adapter_id);
-            }
-            
-            // Apply adapter to target context (not draft model)
-            if (lora_manager_->applyLoRA(adapter_id, target_context)) {
-                adapter_applied = true;
-                spdlog::debug("LoRA adapter {} applied to target context", adapter_id);
+            if (!lora_manager_) {
+                spdlog::warn("LoRA manager not initialized, cannot apply adapter {}", adapter_id);
             } else {
-                spdlog::warn("Failed to apply LoRA adapter {}, proceeding with base model", adapter_id);
+                if (!lora_manager_->isLoRALoaded(adapter_id)) {
+                    spdlog::info("LoRA adapter {} not loaded, attempting lazy load from storage", adapter_id);
+                }
+
+                // Apply adapter to target context (not draft model)
+                if (lora_manager_->applyLoRA(adapter_id, target_context)) {
+                    adapter_applied = true;
+                    spdlog::debug("LoRA adapter {} applied to target context", adapter_id);
+                } else {
+                    spdlog::warn("Failed to apply LoRA adapter {}, proceeding with base model", adapter_id);
+                }
             }
         }
         
@@ -2272,7 +2395,13 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         // 3. Speculative generation loop
         std::vector<llama_token> generated_tokens;
         const llama_vocab* vocab = llama_model_get_vocab(target_model);
+        if (!vocab) {
+            throw std::runtime_error("Failed to get target model vocabulary");
+        }
         int32_t n_vocab = llama_vocab_n_tokens(vocab);
+        if (n_vocab <= 0) {
+            throw std::runtime_error("Target model returned non-positive vocabulary size");
+        }
         llama_token eos_token = llama_vocab_eos(vocab);
         
         bool max_tokens_capped = false;
@@ -2444,7 +2573,7 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         spdlog::error("Speculative decoding error: {}", e.what());
         
         // Cleanup on error: Remove adapter if applied
-        if (adapter_applied && request.lora_adapter_id) {
+        if (adapter_applied && request.lora_adapter_id && lora_manager_) {
             lora_manager_->removeLoRA(*request.lora_adapter_id, target_context);
             spdlog::debug("LoRA adapter {} removed after error", *request.lora_adapter_id);
         }
@@ -2459,16 +2588,22 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
     // Fallback for when speculative decoding is not available
     auto start_time = std::chrono::high_resolution_clock::now();
     
+    if (!model_loader_) {
+        throw std::runtime_error("Model loader is not initialized");
+    }
+
     auto* cached = model_loader_->getOrLoadModel(current_model_id_, current_model_path_);
     if (!cached) {
         throw std::runtime_error("Model failed to load");
     }
 
-    if (!cached->model_handle || !cached->context_handle) {
+    void* model_handle = cached->model_handle;
+    void* context_handle = cached->context_handle;
+    if (!model_handle || !context_handle) {
         throw std::runtime_error("Model/context handle is null");
     }
-    auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);
-    auto* lctx = reinterpret_cast<llama_context*>(cached->context_handle);
+    auto* lmodel = reinterpret_cast<llama_model*>(model_handle);
+    auto* lctx = reinterpret_cast<llama_context*>(context_handle);
     
     // Model and context must be loaded before inference
     if (!lmodel || !lctx) {
@@ -2491,16 +2626,20 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
             spdlog::info("Auto-binding LoRA adapter: {}", adapter_id);
             
             // Load adapter if not already loaded (lazy loading)
-            if (!lora_manager_->isLoRALoaded(adapter_id)) {
-                spdlog::info("LoRA adapter {} not loaded, attempting lazy load from storage", adapter_id);
-            }
-            
-            // Apply adapter to context
-            if (lora_manager_->applyLoRA(adapter_id, lctx)) {
-                adapter_applied = true;
-                spdlog::debug("LoRA adapter {} applied to context", adapter_id);
+            if (!lora_manager_) {
+                spdlog::warn("LoRA manager not initialized, cannot apply adapter {}", adapter_id);
             } else {
-                spdlog::warn("Failed to apply LoRA adapter {}, proceeding with base model", adapter_id);
+                if (!lora_manager_->isLoRALoaded(adapter_id)) {
+                    spdlog::info("LoRA adapter {} not loaded, attempting lazy load from storage", adapter_id);
+                }
+
+                // Apply adapter to context
+                if (lora_manager_->applyLoRA(adapter_id, lctx)) {
+                    adapter_applied = true;
+                    spdlog::debug("LoRA adapter {} applied to context", adapter_id);
+                } else {
+                    spdlog::warn("Failed to apply LoRA adapter {}, proceeding with base model", adapter_id);
+                }
             }
         }
         
@@ -2545,7 +2684,13 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         float top_p = request.top_p > 0.0f ? request.top_p : 0.9f;
         
         const llama_vocab* vocab = llama_model_get_vocab(lmodel);
+        if (!vocab) {
+            throw std::runtime_error("Failed to get model vocabulary");
+        }
         int32_t n_vocab = llama_vocab_n_tokens(vocab);
+        if (n_vocab <= 0) {
+            throw std::runtime_error("Model returned non-positive vocabulary size");
+        }
         llama_token eos_token = llama_vocab_eos(vocab);
         
         // Phase 2: Collect token probabilities for knowledge gap detection
@@ -2615,7 +2760,7 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         spdlog::error("Inference error: {}", e.what());
         
         // Cleanup on error: Remove adapter if applied
-        if (adapter_applied && request.lora_adapter_id) {
+        if (adapter_applied && request.lora_adapter_id && lora_manager_) {
             lora_manager_->removeLoRA(*request.lora_adapter_id, lctx);
             spdlog::debug("LoRA adapter {} removed after error", *request.lora_adapter_id);
         }
@@ -3023,58 +3168,68 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
         bool embeddings_injected = false;
 
         if (themis_llava_eval_available()) {
-            auto* cached_m = model_loader_->getOrLoadModel(current_model_id_, current_model_path_);
-            if (cached_m && cached_m->context_handle && cached_m->model_handle) {
-                auto* lctx = reinterpret_cast<llama_context*>(cached_m->context_handle);
-                auto* lmodel = reinterpret_cast<llama_model*>(cached_m->model_handle);
-                if (!lctx || !lmodel) {
-                    spdlog::warn("generateVision: model/context handles are null; skipping embedding injection");
-                } else {
-                    int n_past = 0;
-
-                    // Tokenize and evaluate the prompt prefix (everything before the image
-                    // token placeholder) so that the KV cache is correctly positioned.
-                    std::string prefix = "USER: ";
-                    std::vector<llama_token> prefix_tokens = tokenizeInternal(lmodel, prefix, true);
-                    if (!prefix_tokens.empty()) {
-                        llama_batch prefix_batch = llama_batch_get_one(
-                            prefix_tokens.data(), static_cast<int32_t>(prefix_tokens.size()));
-                        if (llama_decode(lctx, prefix_batch) == 0) {
-                            n_past += static_cast<int>(prefix_tokens.size());
+            if (!model_loader_) {
+                spdlog::warn("generateVision: model loader is not initialized; skipping embedding injection");
+            } else {
+                auto* cached_m = model_loader_->getOrLoadModel(current_model_id_, current_model_path_);
+                if (cached_m) {
+                    void* context_handle = cached_m->context_handle;
+                    void* model_handle = cached_m->model_handle;
+                    if (!context_handle || !model_handle) {
+                        spdlog::warn("generateVision: model/context handles are null; skipping embedding injection");
+                    } else {
+                        auto* lctx = reinterpret_cast<llama_context*>(context_handle);
+                        auto* lmodel = reinterpret_cast<llama_model*>(model_handle);
+                        if (!lctx || !lmodel) {
+                            spdlog::warn("generateVision: model/context handles are null; skipping embedding injection");
                         } else {
-                            spdlog::warn("generateVision: prefix llama_decode failed; continuing without image-prefill context");
+                        int n_past = 0;
+
+                        // Tokenize and evaluate the prompt prefix (everything before the image
+                        // token placeholder) so that the KV cache is correctly positioned.
+                        std::string prefix = "USER: ";
+                        std::vector<llama_token> prefix_tokens = tokenizeInternal(lmodel, prefix, true);
+                        if (!prefix_tokens.empty()) {
+                            llama_batch prefix_batch = llama_batch_get_one(
+                                prefix_tokens.data(), static_cast<int32_t>(prefix_tokens.size()));
+                            if (llama_decode(lctx, prefix_batch) == 0) {
+                                n_past += static_cast<int>(prefix_tokens.size());
+                            } else {
+                                spdlog::warn("generateVision: prefix llama_decode failed; continuing without image-prefill context");
+                            }
+                        }
+
+                        // Inject each encoded image into the context.
+                        int n_batch_size = static_cast<int>(vision_request.max_tokens > 0
+                                                             ? vision_request.max_tokens : 512);
+                        for (auto& emb_vec : image_embeddings) {
+                            if (emb_vec.empty()) continue;
+                            int n_patches = vision_encoder_->getNumPatches();
+                            if (n_patches <= 0) {
+                                n_patches = static_cast<int>(emb_vec.size()) /
+                                            vision_encoder_->getEmbeddingDimension();
+                            }
+                            llava_image_embed embed_data;
+                            embed_data.embed       = emb_vec.data();
+                            embed_data.n_image_pos = n_patches;
+
+                            if (!llava_eval_image_embed(lctx, &embed_data, n_batch_size, &n_past)) {
+                                spdlog::warn("generateVision: llava_eval_image_embed failed for one image; "
+                                             "continuing with remaining images");
+                            } else {
+                                embeddings_injected = true;
+                                spdlog::debug("generateVision: injected {} image patches (n_past={})",
+                                              n_patches, n_past);
+                            }
+                        }
+
+                            // Pass remaining text portion; the context is already positioned.
+                            // We use the raw generate() path which re-evaluates the full prompt,
+                            // but since context is pre-loaded the decode call handles only new tokens.
                         }
                     }
-
-                    // Inject each encoded image into the context.
-                    int n_batch_size = static_cast<int>(vision_request.max_tokens > 0
-                                                         ? vision_request.max_tokens : 512);
-                    for (auto& emb_vec : image_embeddings) {
-                        if (emb_vec.empty()) continue;
-                        int n_patches = vision_encoder_->getNumPatches();
-                        if (n_patches <= 0) {
-                            n_patches = static_cast<int>(emb_vec.size()) /
-                                        vision_encoder_->getEmbeddingDimension();
-                        }
-                        llava_image_embed embed_data;
-                        embed_data.embed       = emb_vec.data();
-                        embed_data.n_image_pos = n_patches;
-
-                        if (!llava_eval_image_embed(lctx, &embed_data, n_batch_size, &n_past)) {
-                            spdlog::warn("generateVision: llava_eval_image_embed failed for one image; "
-                                         "continuing with remaining images");
-                        } else {
-                            embeddings_injected = true;
-                            spdlog::debug("generateVision: injected {} image patches (n_past={})",
-                                          n_patches, n_past);
-                        }
-                    }
-
-                    // Pass remaining text portion; the context is already positioned.
-                    // We use the raw generate() path which re-evaluates the full prompt,
-                    // but since context is pre-loaded the decode call handles only new tokens.
                 }
-            }
+            } // model_loader_ != null
         }
 
         if (!embeddings_injected) {

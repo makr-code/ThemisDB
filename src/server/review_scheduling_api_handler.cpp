@@ -42,8 +42,8 @@ http::response<http::string_body> ReviewSchedulingApiHandler::handleListPendingR
             return makeErrorResponse(http::status::service_unavailable, 
                 "ReviewScheduler not initialized", req);
         }
-        
-        auto pending = scheduler_->getPendingReviews();
+        auto& scheduler = *scheduler_;
+        auto pending = scheduler.getPendingReviews();
         
         nlohmann::json json_array = nlohmann::json::array();
         for (const auto& review : pending) {
@@ -77,14 +77,14 @@ http::response<http::string_body> ReviewSchedulingApiHandler::handleCreateReview
             return makeErrorResponse(http::status::service_unavailable, 
                 "ReviewScheduler not initialized", req);
         }
-        
+        auto& scheduler = *scheduler_;
         // Parse request body
         nlohmann::json body = nlohmann::json::parse(req.body());
         
         std::string requester = body.value("requester", "system");
         int due_days = body.value("due_days", 7);
         
-        std::string review_id = scheduler_->createReviewRequest(
+        std::string review_id = scheduler.createReviewRequest(
             rule_id,
             requester,
             due_days
@@ -120,14 +120,14 @@ http::response<http::string_body> ReviewSchedulingApiHandler::handleApproveRevie
             return makeErrorResponse(http::status::service_unavailable, 
                 "ReviewScheduler not initialized", req);
         }
-        
+        auto& scheduler = *scheduler_;
         // Parse request body
         nlohmann::json body = nlohmann::json::parse(req.body());
         
         std::string reviewer = body.value("reviewer", "unknown");
         std::string comments = body.value("comments", "");
         
-        scheduler_->approveReview(review_id, reviewer, comments);
+        scheduler.approveReview(review_id, reviewer, comments);
         
         nlohmann::json response = {
             {"success", true},
@@ -158,14 +158,14 @@ http::response<http::string_body> ReviewSchedulingApiHandler::handleRejectReview
             return makeErrorResponse(http::status::service_unavailable, 
                 "ReviewScheduler not initialized", req);
         }
-        
+        auto& scheduler = *scheduler_;
         // Parse request body
         nlohmann::json body = nlohmann::json::parse(req.body());
         
         std::string reviewer = body.value("reviewer", "unknown");
         std::string comments = body.value("comments", "No reason provided");
         
-        scheduler_->rejectReview(review_id, reviewer, comments);
+        scheduler.rejectReview(review_id, reviewer, comments);
         
         nlohmann::json response = {
             {"success", true},
@@ -195,8 +195,8 @@ http::response<http::string_body> ReviewSchedulingApiHandler::handleGetExpiratio
             return makeErrorResponse(http::status::service_unavailable, 
                 "ReviewScheduler not initialized", req);
         }
-        
-        auto expiration_info = scheduler_->getExpirationInfo(rule_id);
+        auto& scheduler = *scheduler_;
+        auto expiration_info = scheduler.getExpirationInfo(rule_id);
         
         return makeResponse(http::status::ok, expiration_info.dump(2), req);
         

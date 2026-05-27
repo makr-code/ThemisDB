@@ -63,6 +63,7 @@ std::string PIIApiHandler::nowIso8601() {
 
 bool PIIApiHandler::addMapping(const PiiMapping& mappingIn) {
     if (!db_) return false;
+    auto& db = *db_;
     PiiMapping mapping = mappingIn;
     if (mapping.created_at.empty()) mapping.created_at = nowIso8601();
     mapping.updated_at = mapping.created_at;
@@ -70,7 +71,7 @@ bool PIIApiHandler::addMapping(const PiiMapping& mappingIn) {
     std::string key = makeKey(mapping.original_uuid);
     std::string existing;
     rocksdb::ReadOptions ro;
-    rocksdb::Status gs = cf_ ? db_->Get(ro, cf_, key, &existing) : db_->Get(ro, key, &existing);
+    rocksdb::Status gs = cf_ ? db.Get(ro, cf_, key, &existing) : db.Get(ro, key, &existing);
     if (gs.ok()) {
     auto span = Tracer::startSpan("addMapping");
         // duplicate
@@ -79,16 +80,17 @@ bool PIIApiHandler::addMapping(const PiiMapping& mappingIn) {
 
     std::string value = mapping.toJson().dump();
     rocksdb::WriteOptions wo;
-    rocksdb::Status s = cf_ ? db_->Put(wo, cf_, key, value) : db_->Put(wo, key, value);
+    rocksdb::Status s = cf_ ? db.Put(wo, cf_, key, value) : db.Put(wo, key, value);
     return s.ok();
 }
 
 std::optional<PiiMapping> PIIApiHandler::getMapping(const std::string& original_uuid) const {
     if (!db_) return std::nullopt;
+    auto& db = *db_;
     std::string key = makeKey(original_uuid);
     std::string value;
     rocksdb::ReadOptions ro;
-    rocksdb::Status s = cf_ ? db_->Get(ro, cf_, key, &value) : db_->Get(ro, key, &value);
+    rocksdb::Status s = cf_ ? db.Get(ro, cf_, key, &value) : db.Get(ro, key, &value);
     if (!s.ok()) return std::nullopt;
     try {
     auto span = Tracer::startSpan("getMapping");
@@ -101,9 +103,10 @@ std::optional<PiiMapping> PIIApiHandler::getMapping(const std::string& original_
 
 bool PIIApiHandler::deleteMapping(const std::string& original_uuid) {
     if (!db_) return false;
+    auto& db = *db_;
     std::string key = makeKey(original_uuid);
     rocksdb::WriteOptions wo;
-    rocksdb::Status s = cf_ ? db_->Delete(wo, cf_, key) : db_->Delete(wo, key);
+    rocksdb::Status s = cf_ ? db.Delete(wo, cf_, key) : db.Delete(wo, key);
     return s.ok();
 }
 
@@ -113,10 +116,11 @@ json PIIApiHandler::listMappings(const PiiQueryFilter& filter) {
     if (!db_) {
         return json{{"items", out_items}, {"total", 0}, {"page", 1}, {"page_size", 0}};
     }
+    auto& db = *db_;
 
     // Full scan over prefix "pii:" in the configured CF
     rocksdb::ReadOptions ro;
-    std::unique_ptr<rocksdb::Iterator> it(cf_ ? db_->NewIterator(ro, cf_) : db_->NewIterator(ro));
+    std::unique_ptr<rocksdb::Iterator> it(cf_ ? db.NewIterator(ro, cf_) : db.NewIterator(ro));
     const std::string prefix = KEY_PREFIX;
     int total = 0;
     int page = std::max(1, filter.page);

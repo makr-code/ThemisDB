@@ -187,7 +187,7 @@ bool CacheAdminApiHandler::checkAuth(
 // to AdaptiveQueryCache, which serialises its own state via internal mutexes
 // (l1_mutex_, l2_mutex_, l3_mutex_, tenant_mutex_, coordinator_mutex_).
 // No additional external lock is required in this handler class.
-// Static-analysis data-race alerts on cache_->method() calls are false
+// Static-analysis data-race alerts on cache.method() calls are false
 // positives: AdaptiveQueryCache is designed as a thread-safe shared resource.
 // ---------------------------------------------------------------------------
 
@@ -208,9 +208,10 @@ http::response<http::string_body> CacheAdminApiHandler::handleHealth(
         return makeErrorResponse(http::status::service_unavailable,
                                  "Cache not available", req);
     }
+    auto& cache = *cache_;
 
     try {
-        nlohmann::json body = cache_->getHealthStatus();
+        nlohmann::json body = cache.getHealthStatus();
         bool healthy = body.value("healthy", true);
         auto status = healthy ? http::status::ok : http::status::service_unavailable;
         return makeResponse(status, body.dump(), req);
@@ -233,14 +234,15 @@ http::response<http::string_body> CacheAdminApiHandler::handleStats(
         return makeErrorResponse(http::status::service_unavailable,
                                  "Cache not available", req);
     }
+    auto& cache = *cache_;
 
     try {
-        nlohmann::json body = cache_->getDetailedInfo();
-        body["health"] = cache_->getHealthStatus();
-        body["tenant_stats"] = cache_->getTenantStats();
-        body["circuit_breaker"] = cache_->getCircuitBreakerStatus();
+        nlohmann::json body = cache.getDetailedInfo();
+        body["health"] = cache.getHealthStatus();
+        body["tenant_stats"] = cache.getTenantStats();
+        body["circuit_breaker"] = cache.getCircuitBreakerStatus();
 
-        const auto& metrics = cache_->getEnhancedMetrics();
+        const auto& metrics = cache.getEnhancedMetrics();
         body["rate_limiter"] = {
             {"total_hits", metrics.l1_hits.load() + metrics.l2_hits.load() + metrics.l3_hits.load()},
             {"throttled", metrics.rate_limited_requests.load()}
@@ -311,7 +313,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleEvictKey(
         //   * the plain fingerprint in L1/L2 and in L3, and
         //   * any tenant-scoped form "tenant:{id}:{fingerprint}" in L1/L2.
         std::string pattern = "(^" + escaped + "$)|(^tenant:.+:" + escaped + "$)";
-        size_t count = cache_->invalidate(pattern);
+        size_t count = cache.invalidate(pattern);
 
         nlohmann::json body = {
             {"evicted", count},
@@ -337,6 +339,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleEvictTenant(
         return makeErrorResponse(http::status::service_unavailable,
                                  "Cache not available", req);
     }
+    auto& cache = *cache_;
 
     std::string tenant_id = extractPathParam(std::string(req.target()),
                                              "/v1/admin/cache/tenant/");
@@ -350,7 +353,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleEvictTenant(
     }
 
     try {
-        size_t count = cache_->invalidateTenant(tenant_id);
+        size_t count = cache.invalidateTenant(tenant_id);
 
         nlohmann::json body = {
             {"evicted", count},
@@ -376,13 +379,14 @@ http::response<http::string_body> CacheAdminApiHandler::handleCircuitBreakerRese
         return makeErrorResponse(http::status::service_unavailable,
                                  "Cache not available", req);
     }
+    auto& cache = *cache_;
 
     try {
-        cache_->resetCircuitBreaker();
+        cache.resetCircuitBreaker();
 
         nlohmann::json body = {
             {"status", "ok"},
-            {"circuit_breaker", cache_->getCircuitBreakerStatus()}
+            {"circuit_breaker", cache.getCircuitBreakerStatus()}
         };
         return makeResponse(http::status::ok, body.dump(), req);
     } catch (const std::exception& e) {
@@ -404,9 +408,10 @@ http::response<http::string_body> CacheAdminApiHandler::handleCircuitBreakerStat
         return makeErrorResponse(http::status::service_unavailable,
                                  "Cache not available", req);
     }
+    auto& cache = *cache_;
 
     try {
-        nlohmann::json body = cache_->getCircuitBreakerStatus();
+        nlohmann::json body = cache.getCircuitBreakerStatus();
         return makeResponse(http::status::ok, body.dump(), req);
     } catch (const std::exception& e) {
         THEMIS_WARN("Cache admin circuit-breaker status error: {}", e.what());
@@ -495,7 +500,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleWarmup(
     }
 
     try {
-        auto result = cache_->warmupFromLog(log_path, max_entries);
+        auto result = cache.warmupFromLog(log_path, max_entries);
 
         if (!result.ok) {
             return makeErrorResponse(http::status::internal_server_error,
@@ -556,7 +561,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleSnapshot(
     }
 
     try {
-        auto result = cache_->exportSnapshot(out_path);
+        auto result = cache.exportSnapshot(out_path);
 
         if (!result.ok) {
             return makeErrorResponse(http::status::internal_server_error,
@@ -592,9 +597,10 @@ http::response<http::string_body> CacheAdminApiHandler::handleListTenants(
         return makeErrorResponse(http::status::service_unavailable,
                                  "Cache not available", req);
     }
+    auto& cache = *cache_;
 
     try {
-        nlohmann::json body = cache_->getTenantStats();
+        nlohmann::json body = cache.getTenantStats();
         return makeResponse(http::status::ok, body.dump(), req);
     } catch (const std::exception& e) {
         THEMIS_WARN("Cache admin list-tenants error: {}", e.what());
@@ -645,7 +651,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleTenantStats(
     }
 
     try {
-        nlohmann::json body = cache_->getTenantStatsForTenant(tenant_id);
+        nlohmann::json body = cache.getTenantStatsForTenant(tenant_id);
         if (body.contains("found") && !body["found"].get<bool>()) {
             return makeErrorResponse(http::status::not_found,
                                      "Tenant not found: " + tenant_id, req);
@@ -712,7 +718,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleUpdateTenantQuota(
     }
 
     try {
-        bool ok = cache_->updateTenantQuota(tenant_id, quota_bytes);
+        bool ok = cache.updateTenantQuota(tenant_id, quota_bytes);
         if (!ok) {
             return makeErrorResponse(http::status::not_found,
                                      "Tenant isolation is disabled or tenant_id is empty", req);
@@ -747,6 +753,7 @@ http::response<http::string_body> CacheAdminApiHandler::handlePiiEvict(
         return makeErrorResponse(http::status::service_unavailable,
                                  "Cache not available", req);
     }
+    auto& cache = *cache_;
 
     std::string pii_uuid = extractPathParam(std::string(req.target()),
                                             "/v1/admin/cache/pii/");
@@ -760,7 +767,7 @@ http::response<http::string_body> CacheAdminApiHandler::handlePiiEvict(
     }
 
     try {
-        size_t evicted = cache_->invalidatePII(pii_uuid);
+        size_t evicted = cache.invalidatePII(pii_uuid);
         THEMIS_INFO("Cache admin PII evict: pii_uuid={} evicted={}", pii_uuid, evicted);
 
         nlohmann::json body = {

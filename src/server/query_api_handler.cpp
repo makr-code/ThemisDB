@@ -936,6 +936,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             if (!graph_index_) {
                 return makeErrorResponse(http::status::bad_request, "Graph traversal requested but graph index manager is not available", req);
             }
+            auto& graph_index = *graph_index_;
             const auto& t = translate_result.traversal.value();
             traversalSpan.setAttribute("traversal.start_vertex", t.startVertex);
             traversalSpan.setAttribute("traversal.min_depth", static_cast<int64_t>(t.minDepth));
@@ -1981,7 +1982,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
 
                 if (t.direction == themis::AQLTranslator::TranslationResult::TraversalQuery::Direction::Outbound ||
                     t.direction == themis::AQLTranslator::TranslationResult::TraversalQuery::Direction::Any) {
-                    auto [stAdj, adj] = graph_index_->outAdjacency(node);
+                    auto [stAdj, adj] = graph_index.outAdjacency(node);
                     if (!stAdj.ok) {
                         return makeErrorResponse(http::status::internal_server_error, std::string("Graph outAdjacency failed: ") + stAdj.message, req);
                     }
@@ -1989,7 +1990,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 }
                 if (t.direction == themis::AQLTranslator::TranslationResult::TraversalQuery::Direction::Inbound ||
                     t.direction == themis::AQLTranslator::TranslationResult::TraversalQuery::Direction::Any) {
-                    auto [stAdjIn, adjIn] = graph_index_->inAdjacency(node);
+                    auto [stAdjIn, adjIn] = graph_index.inAdjacency(node);
                     if (!stAdjIn.ok) {
                         return makeErrorResponse(http::status::internal_server_error, std::string("Graph inAdjacency failed: ") + stAdjIn.message, req);
                     }
@@ -3318,6 +3319,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryEnhanced(
         return makeErrorResponse(http::status::service_unavailable,
             "LLM interaction store is not available", req);
     }
+    auto& llm_store = *llm_store_;
     
     auto span = Tracer::startSpan("handleQueryEnhanced");
     span.setAttribute("http.path", "/query/enhanced");
@@ -3389,7 +3391,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryEnhanced(
             list_opts.since_timestamp_ms = llm_options["since_timestamp_ms"].get<int64_t>();
         }
         
-        auto llm_interactions = llm_store_->listInteractions(list_opts);
+        auto llm_interactions = llm_store.listInteractions(list_opts);
         
         // Build enhanced response
         json enhanced_response;

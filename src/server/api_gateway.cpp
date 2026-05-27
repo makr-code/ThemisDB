@@ -128,20 +128,23 @@ http::response<http::string_body> APIGateway::handleRequest(
     
     try {
         // 1. Authentication check
-        if (auth_ && auth_->isEnabled()) {
-            bool auth_ok = false;
-            const auto auth_header = req[http::field::authorization];
-            if (!auth_header.empty()) {
-                auto token = AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
-                if (token) {
-                    auto result = auth_->validateToken(*token);
-                    auth_ok = result.authorized;
+        if (auth_) {
+            auto& auth = *auth_;
+            if (auth.isEnabled()) {
+                bool auth_ok = false;
+                const auto auth_header = req[http::field::authorization];
+                if (!auth_header.empty()) {
+                    auto token = AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
+                    if (token) {
+                        auto result = auth.validateToken(*token);
+                        auth_ok = result.authorized;
+                    }
                 }
-            }
-            if (!auth_ok) {
-                rate_limited_requests_++;
-                return makeErrorResponse(http::status::unauthorized,
-                                        "Authentication failed", req);
+                if (!auth_ok) {
+                    rate_limited_requests_++;
+                    return makeErrorResponse(http::status::unauthorized,
+                                            "Authentication failed", req);
+                }
             }
         }
         
@@ -259,6 +262,7 @@ nlohmann::json APIGateway::executeFederatedQuery(
         throw Error(static_cast<int>(ErrorCode::ConfigurationError), 
                    "Shard router not configured for query federation");
     }
+    auto& shard_router = *shard_router_;
     
     try {
         spdlog::info("Executing federated query: user={}", auth_context.user_id);
@@ -268,7 +272,7 @@ nlohmann::json APIGateway::executeFederatedQuery(
         // - Query analysis
         // - Routing to appropriate shards
         // - Result aggregation
-        auto result = shard_router_->executeQuery(query);
+        auto result = shard_router.executeQuery(query);
         
         return result;
         
@@ -374,7 +378,8 @@ void APIGateway::registerDeprecation(
     const APIDeprecationInfo& info
 ) {
     if (version_manager_) {
-        version_manager_->registerDeprecation(endpoint, info);
+        auto& version_manager = *version_manager_;
+        version_manager.registerDeprecation(endpoint, info);
     }
 }
 
@@ -410,11 +415,16 @@ http::response<http::string_body> APIGateway::dispatchShardOperation(
     const sharding::URN& urn,
     const http::request<http::string_body>& req
 ) {
+    if (!shard_router_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Shard router not available", req);
+    }
+    auto& shard_router = *shard_router_;
     nlohmann::json result_body;
     bool ok = false;
 
     if (req.method() == http::verb::get) {
-        auto data = shard_router_->get(urn);
+        auto data = shard_router.get(urn);
         if (data) {
             result_body = *data;
             ok = true;
@@ -431,10 +441,10 @@ http::response<http::string_body> APIGateway::dispatchShardOperation(
                     std::string("Invalid JSON: ") + e.what(), req);
             }
         }
-        ok = shard_router_->put(urn, body);
+        ok = shard_router.put(urn, body);
         if (ok) result_body = {{"status", "ok"}};
     } else if (req.method() == http::verb::delete_) {
-        ok = shard_router_->del(urn);
+        ok = shard_router.del(urn);
         if (ok) result_body = {{"status", "deleted"}};
     }
 
@@ -496,6 +506,7 @@ bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
 
     // Prefer V2 rate limiter if available
     if (rate_limiter_v2_) {
+        auto& rate_limiter_v2 = *rate_limiter_v2_;
         // Extract client ID from request (prefer user ID from JWT)
         std::string client_id = "anonymous";
         
@@ -506,8 +517,9 @@ bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
             
             // Extract JWT subject if possible (via AuthMiddleware)
             if (auth_ && auth_value.size() > 7 && auth_value.substr(0, 7) == "Bearer ") {
+                auto& auth = *auth_;
                 std::string token = auth_value.substr(7);
-                auto ctx = auth_->extractContext(token);
+                auto ctx = auth.extractContext(token);
                 if (ctx && !ctx->user_id.empty()) {
                     client_id = ctx->user_id;  // Use JWT subject as client ID
                 } else {
@@ -532,13 +544,14 @@ bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
         auto priority = TokenBucketRateLimiter::Priority::NORMAL;
         // Future: Extract priority from JWT claims (e.g., ctx->premium = true)
         
-        return rate_limiter_v2_->allowRequest(client_id, 1, priority);
+        return rate_limiter_v2.allowRequest(client_id, 1, priority);
     }
     
     // Fallback to V1 rate limiter
     if (!rate_limiter_) {
         return true;
     }
+    auto& rate_limiter = *rate_limiter_;
     
     // Extract client ID from request (could be IP, user ID, etc.)
     std::string client_id = "default";
@@ -553,15 +566,16 @@ bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
         client_id = ipClientId();
     }
     
-    return rate_limiter_->allowRequest(client_id);
+    return rate_limiter.allowRequest(client_id);
 }
 
 bool APIGateway::checkLoadShedding(const http::request<http::string_body>& /*req*/) {
     if (!load_shedder_) {
         return true;
     }
+    auto& load_shedder = *load_shedder_;
     
-    return !load_shedder_->shouldReject(LoadShedder::Priority::NORMAL);
+    return !load_shedder.shouldReject(LoadShedder::Priority::NORMAL);
 }
 
 std::shared_ptr<sharding::CircuitBreaker> APIGateway::getCircuitBreaker(
@@ -600,6 +614,7 @@ http::response<http::string_body> APIGateway::executeRemote(
         return makeErrorResponse(http::status::service_unavailable,
                                 "Shard router not available", req);
     }
+    auto& shard_router = *shard_router_;
     
     // Check circuit breaker
     if (config_.enable_circuit_breaker) {
@@ -629,7 +644,7 @@ http::response<http::string_body> APIGateway::executeRemote(
         }
 
         // No URN found — forward as a generic query
-        auto query_result = shard_router_->executeQuery(std::string(req.target()));
+        auto query_result = shard_router.executeQuery(std::string(req.target()));
         if (config_.enable_circuit_breaker) {
             getCircuitBreaker(shard_id)->recordSuccess();
         }
@@ -658,6 +673,7 @@ http::response<http::string_body> APIGateway::executeScatterGather(
         return makeErrorResponse(http::status::service_unavailable,
                                 "Shard router not available", req);
     }
+    auto& shard_router = *shard_router_;
     
     try {
         // Parse request body as query — body is required for scatter-gather
@@ -680,7 +696,7 @@ http::response<http::string_body> APIGateway::executeScatterGather(
         }
         
         // Execute scatter-gather via shard router
-        auto results = shard_router_->scatterGather(query);
+        auto results = shard_router.scatterGather(query);
         
         // Aggregate results
         nlohmann::json response_body;
@@ -783,6 +799,7 @@ APIVersion APIGateway::processVersionHeaders(
             APIVersionConfig::CURRENT_PATCH
         };
     }
+    auto& version_manager = *version_manager_;
     
     // Check for version prefix in URL path first (e.g. "/v1/entities").
     // Strip query string before inspecting the path so that a target like
@@ -820,26 +837,26 @@ APIVersion APIGateway::processVersionHeaders(
     // API-Version header, resolve the best matching version within the range.
     APIVersion version;
     if (url_version_str) {
-        version = version_manager_->resolveVersion(*url_version_str);
+        version = version_manager.resolveVersion(*url_version_str);
         spdlog::debug("APIGateway: version resolved from URL path prefix: {}", version.toString());
     } else if (!version_header.empty()) {
-        version = version_manager_->resolveVersion(version_header);
+        version = version_manager.resolveVersion(version_header);
     } else {
         // Check Accept-API-Version range header as final fallback
         auto range_it = req.find(APIHeaders::ACCEPT_API_VERSION);
         if (range_it != req.end()) {
             auto range = APIVersionRange::parse(std::string(range_it->value()));
             if (range) {
-                version = version_manager_->resolveVersionRange(*range);
+                version = version_manager.resolveVersionRange(*range);
                 spdlog::debug("APIGateway: version resolved from Accept-API-Version range '{}': {}",
                               std::string(range_it->value()), version.toString());
             } else {
                 spdlog::warn("APIGateway: invalid Accept-API-Version range '{}', using current",
                              std::string(range_it->value()));
-                version = version_manager_->getCurrentVersion();
+                version = version_manager.getCurrentVersion();
             }
         } else {
-            version = version_manager_->resolveVersion("");
+            version = version_manager.resolveVersion("");
         }
     }
 
@@ -847,7 +864,7 @@ APIVersion APIGateway::processVersionHeaders(
     response.set(APIHeaders::API_VERSION, version.toString());
     
     // Check if version is supported
-    if (!version_manager_->isVersionSupported(version)) {
+    if (!version_manager.isVersionSupported(version)) {
         spdlog::warn("Unsupported API version requested: {}", version.toString());
         
         if (config_.enforce_version_check) {
@@ -867,6 +884,7 @@ void APIGateway::addDeprecationHeaders(
     if (!version_manager_) {
         return;
     }
+    auto& version_manager = *version_manager_;
     
     // Extract endpoint path — strip query string so ?page=1 doesn't break lookup
     std::string endpoint = std::string(req.target());
@@ -880,7 +898,7 @@ void APIGateway::addDeprecationHeaders(
     endpoint = stripVersionPrefix(endpoint);
     
     // Check if endpoint is deprecated
-    auto deprecation = version_manager_->getDeprecationInfo(endpoint, version);
+    auto deprecation = version_manager.getDeprecationInfo(endpoint, version);
     if (!deprecation) {
         return;
     }
@@ -996,4 +1014,3 @@ std::string APIGateway::extractClientIp(
 }
 
 } // namespace themis::server
-

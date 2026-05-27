@@ -107,6 +107,7 @@ private:
             if (!wal_applier_) {
                 return grpc::Status(grpc::StatusCode::FAILED_PRECONDITION, "WALApplier not configured");
             }
+            auto& wal_applier = *wal_applier_;
 
             std::vector<sharding::WALEntry> entries;
             auto status = hydrateEntries(*request, entries);
@@ -114,7 +115,7 @@ private:
                 return status;
             }
 
-            auto result = wal_applier_->applyBatch(entries);
+            auto result = wal_applier.applyBatch(entries);
             response->set_success(result.success);
             response->set_entries_applied(static_cast<uint32_t>(result.entries_applied));
             response->set_last_applied_lsn(result.last_applied_lsn.toString());

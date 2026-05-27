@@ -30,6 +30,7 @@ nlohmann::json ClassificationApiHandler::listRules() {
                 {"total", 0}
             };
         }
+        auto& pii_detector = *pii_detector_;
         
         // Return supported PII types as classification rules
         nlohmann::json items = nlohmann::json::array();
@@ -85,6 +86,7 @@ nlohmann::json ClassificationApiHandler::testClassification(const nlohmann::json
                 {"status_code", 503}
             };
         }
+        auto& pii_detector = *pii_detector_;
         
         // Extract text from request body
         if (!body.contains("text") || !body["text"].is_string()) {
@@ -98,7 +100,7 @@ nlohmann::json ClassificationApiHandler::testClassification(const nlohmann::json
         std::string text = body["text"].get<std::string>();
         
         // Run PII detection
-        auto findings = pii_detector_->detectInText(text);
+        auto findings = pii_detector.detectInText(text);
         
         // Determine overall classification based on findings
         std::string classification = "PUBLIC";
@@ -141,4 +143,3 @@ nlohmann::json ClassificationApiHandler::testClassification(const nlohmann::json
 }
 
 }} // namespace themis::server
-

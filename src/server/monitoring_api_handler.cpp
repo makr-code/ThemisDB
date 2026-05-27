@@ -913,12 +913,13 @@ http::response<http::string_body> MonitoringApiHandler::handleShardingMetrics(
         return makeErrorResponse(http::status::service_unavailable, 
                                  "Sharding metrics not configured", req);
     }
+    auto& sharding_metrics = *sharding_metrics_;
     
     try {
-        std::string metrics = sharding_metrics_->getMetrics();
+        std::string metrics = sharding_metrics.getMetrics();
         
         // Also include SLO metrics if available
-        std::string slo_metrics = sharding_metrics_->getSLOMetrics();
+        std::string slo_metrics = sharding_metrics.getSLOMetrics();
         if (!slo_metrics.empty()) {
             metrics += "\n" + slo_metrics;
         }
@@ -944,9 +945,10 @@ http::response<http::string_body> MonitoringApiHandler::handleSLOStatus(
         return makeErrorResponse(http::status::service_unavailable, 
                                  "SLO monitoring not configured", req);
     }
+    auto& sharding_metrics = *sharding_metrics_;
     
     try {
-        std::string slo_status = sharding_metrics_->getSLOStatus();
+        std::string slo_status = sharding_metrics.getSLOStatus();
         return makeResponse(http::status::ok, slo_status, req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, 
@@ -1004,7 +1006,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
 
         json arr = json::array();
         if (alertmanager_) {
-            for (const auto& alert : alertmanager_->getActiveAlerts()) {
+            for (const auto& alert : alertmanager.getActiveAlerts()) {
                 json a;
                 a["alert_id"]   = alert.alert_id;
                 a["alert_name"] = alert.alert_name;
@@ -1032,7 +1034,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
         body["alerts"] = arr;
         body["count"]  = arr.size();
         body["alertmanager_enabled"] = (alertmanager_ != nullptr) &&
-                                       alertmanager_->getConfig().enabled;
+                                       alertmanager.getConfig().enabled;
         return makeResponse(http::status::ok, body.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error,
@@ -1084,8 +1086,9 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
             return makeErrorResponse(http::status::service_unavailable,
                                      "Alertmanager not configured", req);
         }
+        auto& alertmanager = *alertmanager_;
 
-        auto result = alertmanager_->silenceAlert(alert_id, duration_minutes);
+        auto result = alertmanager.silenceAlert(alert_id, duration_minutes);
         if (!result) {
             return makeErrorResponse(http::status::bad_gateway,
                                      "Silence request failed: " + result.error().message(), req);
@@ -1114,13 +1117,13 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityHealt
         {
             json am;
             if (alertmanager_) {
-                const auto& cfg = alertmanager_->getConfig();
+                const auto& cfg = alertmanager.getConfig();
                 am["enabled"]      = cfg.enabled;
                 am["endpoint_url"] = cfg.endpoint_url;
                 am["active_alerts"] = static_cast<int>(
-                    alertmanager_->getActiveAlerts().size());
+                    alertmanager.getActiveAlerts().size());
                 if (cfg.enabled) {
-                    auto conn = alertmanager_->testConnection();
+                    auto conn = alertmanager.testConnection();
                     am["reachable"] = conn.has_value();
                     if (!conn) {
                         am["error"]  = conn.error().message();

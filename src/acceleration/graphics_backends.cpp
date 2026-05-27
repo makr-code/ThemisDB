@@ -1,8 +1,8 @@
 /*
- * ThemisDB | File: graphics_backends.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟡 RELEASE-CANDIDATE | Score: 77/100 | Lines: 4256
- * Gap Summary: total=30; TODO=1, Stub=24, Unimpl=0, Mock=1, Sim=3, Debt=1, C=5, H=527, M=178, L=4
- * PR: #4928 [Docs][acceleration] Aktualize module docs for public API, runtime ... (2026-05-10T18:11:48Z)
+ * ThemisDB | File: graphics_backends.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 06:15:52
+ * Author: copilot-swe-agent[bot] | Maturity: 🟡 RELEASE-CANDIDATE | Score: 77/100 | Lines: 4248
+ * Gap Summary: total=26; TODO=1, Stub=20, Unimpl=0, Mock=1, Sim=3, Debt=1, C=3, H=529, M=159, L=4
+ * PR: none
  * Status: Release Candidate
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -4758,6 +4758,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             if (!sharding_manager_) {
                 sharding_manager_ = &themis::sharding::ShardingManager::GetInstance();
             }
+            auto& sharding_manager = *sharding_manager_;
             try {
                 auto body = json::parse(req.body());
                 themis::sharding::ShardNodeInfo node;
@@ -4769,7 +4770,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                     response = makeErrorResponse(http::status::bad_request, "node_address is required", req);
                     break;
                 }
-                sharding_manager_->AddShardNode(node);
+                sharding_manager.AddShardNode(node);
                 json result = {
                     {"node_id",      node.node_id},
                     {"node_address", node.node_address},
@@ -4793,7 +4794,8 @@ http::response<http::string_body> HttpServer::routeRequest(
             if (!sharding_manager_) {
                 sharding_manager_ = &themis::sharding::ShardingManager::GetInstance();
             }
-            auto nodes = sharding_manager_->GetAllNodes();
+            auto& sharding_manager = *sharding_manager_;
+            auto nodes = sharding_manager.GetAllNodes();
             json shards_arr = json::array();
             shards_arr.get_ref<json::array_t&>().reserve(nodes.size());
             for (const auto& n : nodes) {
@@ -4806,10 +4808,10 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             json result = {
                 {"shards",          shards_arr},
-                {"total",           sharding_manager_->GetNodeCount()},
+                {"total",           sharding_manager.GetNodeCount()},
                 {"max_nodes",       themis::sharding::ShardingManager::GetMaxShardNodes()},
-                {"remaining",       sharding_manager_->GetRemainingNodeCapacity()},
-                {"healthy_count",   sharding_manager_->GetHealthyNodeCount()}
+                {"remaining",       sharding_manager.GetRemainingNodeCapacity()},
+                {"healthy_count",   sharding_manager.GetHealthyNodeCount()}
             };
             response = makeResponse(http::status::ok, result.dump(), req);
             break;
@@ -4864,7 +4866,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
                 break;
             }
-            response = shard_repair_api_->handleHealth(req);
+            auto& shard_repair_api = *shard_repair_api_;
+            response = shard_repair_api.handleHealth(req);
             break;
         }
         case Route::AdminRepairPost: {
@@ -4874,7 +4877,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
                 break;
             }
-            response = shard_repair_api_->handleTriggerRepair(req);
+            auto& shard_repair_api = *shard_repair_api_;
+            response = shard_repair_api.handleTriggerRepair(req);
             break;
         }
         case Route::AdminRepairScanPost: {
@@ -4884,7 +4888,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
                 break;
             }
-            response = shard_repair_api_->handleTriggerFullScan(req);
+            auto& shard_repair_api = *shard_repair_api_;
+            response = shard_repair_api.handleTriggerFullScan(req);
             break;
         }
         case Route::AdminRepairJobStatusGet: {
@@ -4894,7 +4899,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
                 break;
             }
-            response = shard_repair_api_->handleJobStatus(req);
+            auto& shard_repair_api = *shard_repair_api_;
+            response = shard_repair_api.handleJobStatus(req);
             break;
         }
         case Route::AdminRepairDashboardGet: {
@@ -4904,7 +4910,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
                 break;
             }
-            response = shard_repair_api_->handleDashboard(req);
+            auto& shard_repair_api = *shard_repair_api_;
+            response = shard_repair_api.handleDashboard(req);
             break;
         }
         // ─── Module Admin API ───────────────────────────────────────────────────
@@ -4919,8 +4926,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "ModuleLoader not initialized; set modules.directory in config", req);
                 break;
             }
+            auto& module_loader = *module_loader_;
             try {
-                auto modules = module_loader_->getAllLoadedModules();
+                auto modules = module_loader.getAllLoadedModules();
                 json arr = json::array();
                 arr.get_ref<json::array_t&>().reserve(modules.size());
                 for (const auto& m : modules) {
@@ -4952,6 +4960,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "ModuleLoader not initialized; set modules.directory in config", req);
                 break;
             }
+            auto& module_loader = *module_loader_;
             try {
                 const std::string prefix = "/v1/admin/modules/";
                 std::string url_name = path_only.substr(prefix.size());
@@ -4966,7 +4975,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                     break;
                 }
                 std::string mod_name = body.value("name", url_name);
-                auto result = module_loader_->loadModule(lib_path, mod_name);
+                auto result = module_loader.loadModule(lib_path, mod_name);
                 if (result.success) {
                     response = makeResponse(http::status::ok,
                         json{{"status","loaded"},{"name",mod_name},{"hash",result.moduleHash}}.dump(), req);
@@ -4993,10 +5002,11 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "ModuleLoader not initialized; set modules.directory in config", req);
                 break;
             }
+            auto& module_loader = *module_loader_;
             try {
                 const std::string prefix = "/v1/admin/modules/";
                 std::string mod_name = path_only.substr(prefix.size());
-                module_loader_->unloadModule(mod_name);
+                module_loader.unloadModule(mod_name);
                 response = makeResponse(http::status::ok,
                     json{{"status","unloaded"},{"name",mod_name}}.dump(), req);
             } catch (const std::exception& e) {
@@ -5015,10 +5025,11 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "ModuleLoader not initialized; set modules.directory in config", req);
                 break;
             }
+            auto& module_loader = *module_loader_;
             try {
                 const std::string prefix = "/v1/admin/modules/";
                 std::string mod_name = path_only.substr(prefix.size());
-                auto info = module_loader_->getModuleInfo(mod_name);
+                auto info = module_loader.getModuleInfo(mod_name);
                 if (!info) {
                     response = makeErrorResponse(http::status::not_found,
                         "Module not found: " + mod_name, req);
@@ -5033,7 +5044,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                     {"load_time",       info->loadTime},
                     {"load_duration_ms",info->loadDurationMs}
                 };
-                auto wd = module_loader_->getWatchdogStats(mod_name);
+                auto wd = module_loader.getWatchdogStats(mod_name);
                 if (wd) {
                     result["watchdog"] = {
                         {"restart_count",         wd->restart_count},
@@ -6399,6 +6410,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
                 break;
             }
+            auto& task_scheduler_api = *task_scheduler_api_;
             bool scheduler_ctx_set = false;
             if (auth_ && auth_->isEnabled()) {
                 auto auth_ctx = extractAuthContext(req);
@@ -6423,7 +6435,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 TaskScheduler::setRequestContext(scheduler_ctx);
                 scheduler_ctx_set = true;
             }
-            auto result = task_scheduler_api_->registerTask(body);
+            auto result = task_scheduler_api.registerTask(body);
             if (scheduler_ctx_set) {
                 TaskScheduler::clearRequestContext();
             }
@@ -6443,7 +6455,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
                 break;
             }
-            response = makeResponse(http::status::ok, task_scheduler_api_->listTasks().dump(), req);
+            auto& task_scheduler_api = *task_scheduler_api_;
+            response = makeResponse(http::status::ok, task_scheduler_api.listTasks().dump(), req);
             break;
         }
         case Route::TasksStatsGet: {
@@ -6455,7 +6468,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
                 break;
             }
-            response = makeResponse(http::status::ok, task_scheduler_api_->getStats().dump(), req);
+            auto& task_scheduler_api = *task_scheduler_api_;
+            response = makeResponse(http::status::ok, task_scheduler_api.getStats().dump(), req);
             break;
         }
         case Route::TasksGet: {
@@ -6471,7 +6485,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
                 break;
             }
-            auto result = task_scheduler_api_->getTask(task_id);
+            auto& task_scheduler_api = *task_scheduler_api_;
+            auto result = task_scheduler_api.getTask(task_id);
             if (result.value("status", "") == "error") {
                 response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
             } else {
@@ -6497,7 +6512,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
                 break;
             }
-            auto result = task_scheduler_api_->updateTask(task_id, body);
+            auto& task_scheduler_api = *task_scheduler_api_;
+            auto result = task_scheduler_api.updateTask(task_id, body);
             if (result.value("status", "") == "error") {
                 response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
             } else {
@@ -6518,7 +6534,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
                 break;
             }
-            auto result = task_scheduler_api_->unregisterTask(task_id);
+            auto& task_scheduler_api = *task_scheduler_api_;
+            auto result = task_scheduler_api.unregisterTask(task_id);
             if (result.value("status", "") == "error") {
                 response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
             } else {
@@ -6540,7 +6557,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
                 break;
             }
-            auto result = task_scheduler_api_->enableTask(task_id);
+            auto& task_scheduler_api = *task_scheduler_api_;
+            auto result = task_scheduler_api.enableTask(task_id);
             if (result.value("status", "") == "error") {
                 response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
             } else {
@@ -6562,7 +6580,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
                 break;
             }
-            auto result = task_scheduler_api_->disableTask(task_id);
+            auto& task_scheduler_api = *task_scheduler_api_;
+            auto result = task_scheduler_api.disableTask(task_id);
             if (result.value("status", "") == "error") {
                 response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
             } else {
@@ -6584,6 +6603,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
                 break;
             }
+            auto& task_scheduler_api = *task_scheduler_api_;
             bool scheduler_ctx_set = false;
             if (auth_ && auth_->isEnabled()) {
                 auto auth_ctx = extractAuthContext(req);
@@ -6608,7 +6628,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 TaskScheduler::setRequestContext(scheduler_ctx);
                 scheduler_ctx_set = true;
             }
-            auto result = task_scheduler_api_->executeTask(task_id);
+            auto result = task_scheduler_api.executeTask(task_id);
             if (scheduler_ctx_set) {
                 TaskScheduler::clearRequestContext();
             }
@@ -6634,7 +6654,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
                 break;
             }
-            auto result = task_scheduler_api_->getExecutionHistory(task_id, qparams);
+            auto& task_scheduler_api = *task_scheduler_api_;
+            auto result = task_scheduler_api.getExecutionHistory(task_id, qparams);
             response = makeResponse(http::status::ok, result.dump(), req);
             break;
         }
@@ -6651,8 +6672,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "Maintenance orchestrator not initialized", req);
                 break;
             }
+            auto& maintenance_api = *maintenance_api_;
             response = makeResponse(http::status::ok,
-                                    maintenance_api_->getStatus().dump(), req);
+                                    maintenance_api.getStatus().dump(), req);
             break;
         }
 
@@ -6666,8 +6688,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "Maintenance orchestrator not initialized", req);
                 break;
             }
+            auto& maintenance_api = *maintenance_api_;
             response = makeResponse(http::status::ok,
-                                    maintenance_api_->getHealth().dump(), req);
+                                    maintenance_api.getHealth().dump(), req);
             break;
         }
 
@@ -6681,8 +6704,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "Maintenance orchestrator not initialized", req);
                 break;
             }
+            auto& maintenance_api = *maintenance_api_;
             response = makeResponse(http::status::ok,
-                                    maintenance_api_->listTaskHandlers().dump(), req);
+                                    maintenance_api.listTaskHandlers().dump(), req);
             break;
         }
 
@@ -6704,7 +6728,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "Maintenance orchestrator not initialized", req);
                 break;
             }
-            auto result = maintenance_api_->createSchedule(body);
+            auto& maintenance_api = *maintenance_api_;
+            auto result = maintenance_api.createSchedule(body);
             if (result.value("status", "") == "error") {
                 response = makeErrorResponse(http::status::bad_request,
                                              result.value("error", "Unknown error"), req);
@@ -6725,8 +6750,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "Maintenance orchestrator not initialized", req);
                 break;
             }
+            auto& maintenance_api = *maintenance_api_;
             response = makeResponse(http::status::ok,
-                                    maintenance_api_->listSchedules().dump(), req);
+                                    maintenance_api.listSchedules().dump(), req);
             break;
         }
 
@@ -6746,7 +6772,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                                                  "Maintenance orchestrator not initialized", req);
                     break;
                 }
-                auto result = maintenance_api_->getSchedule(id);
+                auto& maintenance_api = *maintenance_api_;
+                auto result = maintenance_api.getSchedule(id);
                 if (result.value("status", "") == "error") {
                     response = makeErrorResponse(http::status::not_found,
                                                  result.value("error", "Not found"), req);
@@ -6778,7 +6805,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                                                  "Maintenance orchestrator not initialized", req);
                     break;
                 }
-                auto result = maintenance_api_->updateSchedule(id, body);
+                auto& maintenance_api = *maintenance_api_;
+                auto result = maintenance_api.updateSchedule(id, body);
                 if (result.value("status", "") == "error") {
                     response = makeErrorResponse(http::status::not_found,
                                                  result.value("error", "Not found"), req);
@@ -6810,7 +6838,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                                                  "Maintenance orchestrator not initialized", req);
                     break;
                 }
-                auto result = maintenance_api_->patchSchedule(id, patch);
+                auto& maintenance_api = *maintenance_api_;
+                auto result = maintenance_api.patchSchedule(id, patch);
                 if (result.value("status", "") == "error") {
                     response = makeErrorResponse(http::status::not_found,
                                                  result.value("error", "Not found"), req);
@@ -6837,7 +6866,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                                                  "Maintenance orchestrator not initialized", req);
                     break;
                 }
-                auto result = maintenance_api_->deleteSchedule(id);
+                auto& maintenance_api = *maintenance_api_;
+                auto result = maintenance_api.deleteSchedule(id);
                 if (result.value("status", "") == "error") {
                     response = makeErrorResponse(http::status::not_found,
                                                  result.value("error", "Not found"), req);
@@ -6897,7 +6927,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                                                  "Maintenance orchestrator not initialized", req);
                     break;
                 }
-                auto result = maintenance_api_->triggerNow(id, force_run);
+                auto& maintenance_api = *maintenance_api_;
+                auto result = maintenance_api.triggerNow(id, force_run);
                 if (result.value("status", "") == "error") {
                     response = makeErrorResponse(http::status::not_found,
                                                  result.value("error", "Not found"), req);
@@ -6921,10 +6952,11 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "Maintenance orchestrator not initialized", req);
                 break;
             }
+            auto& maintenance_api = *maintenance_api_;
             nlohmann::json qp = parseQueryParams(std::string(req.target()));
             bool active_only = qp.value("active_only", false);
             response = makeResponse(http::status::ok,
-                                    maintenance_api_->listJobs(active_only).dump(), req);
+                                    maintenance_api.listJobs(active_only).dump(), req);
             break;
         }
 
@@ -6944,7 +6976,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                                                  "Maintenance orchestrator not initialized", req);
                     break;
                 }
-                auto result = maintenance_api_->getJob(id);
+                auto& maintenance_api = *maintenance_api_;
+                auto result = maintenance_api.getJob(id);
                 if (result.value("status", "") == "error") {
                     response = makeErrorResponse(http::status::not_found,
                                                  result.value("error", "Not found"), req);
@@ -6972,7 +7005,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                                                  "Maintenance orchestrator not initialized", req);
                     break;
                 }
-                auto result = maintenance_api_->cancelJob(id);
+                auto& maintenance_api = *maintenance_api_;
+                auto result = maintenance_api.cancelJob(id);
                 if (result.value("status", "") == "error") {
                     response = makeErrorResponse(http::status::not_found,
                                                  result.value("error", "Not found"), req);
@@ -6994,6 +7028,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "Retention API not initialized", req);
                 break;
             }
+            auto& retention_api = *retention_api_;
             server::RetentionQueryFilter filter;
             if (auto qpos = std::string(req.target()).find('?'); qpos != std::string::npos) {
                 auto qs = std::string(req.target()).substr(qpos + 1);
@@ -7013,7 +7048,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 }
             }
             response = makeResponse(http::status::ok,
-                                    retention_api_->listPolicies(filter).dump(), req);
+                                    retention_api.listPolicies(filter).dump(), req);
             break;
         }
 
@@ -7027,13 +7062,14 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "Retention API not initialized", req);
                 break;
             }
+            auto& retention_api = *retention_api_;
             auto body = nlohmann::json::parse(req.body(), nullptr, false);
             if (body.is_discarded()) {
                 response = makeErrorResponse(http::status::bad_request,
                                              "Invalid JSON body", req);
                 break;
             }
-            auto result = retention_api_->createOrUpdatePolicy(body);
+            auto result = retention_api.createOrUpdatePolicy(body);
             auto created = result.value("status", "") == "created";
             response = makeResponse(
                 created ? http::status::created : http::status::ok,
@@ -7051,6 +7087,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "Retention API not initialized", req);
                 break;
             }
+            auto& retention_api = *retention_api_;
             std::string request_target = std::string(req.target());
             std::string policy_name = request_target.substr(request_target.rfind('/') + 1);
             auto qpos = policy_name.find('?');
@@ -7060,7 +7097,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "Missing policy name in path", req);
                 break;
             }
-            auto result = retention_api_->deletePolicy(policy_name);
+            auto result = retention_api.deletePolicy(policy_name);
             if (result.value("status", "") == "not_found") {
                 response = makeErrorResponse(http::status::not_found,
                                              "Retention policy not found", req);
@@ -7080,11 +7117,12 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "Retention API not initialized", req);
                 break;
             }
+            auto& retention_api = *retention_api_;
             int limit = 100;
             if (auto qpos = std::string(req.target()).find("limit="); qpos != std::string::npos) {
                 try { limit = std::stoi(std::string(req.target()).substr(qpos + 6)); } catch (...) {}
             }
-            auto result = retention_api_->getHistory(limit);
+            auto result = retention_api.getHistory(limit);
             response = makeResponse(http::status::ok, result.dump(), req);
             break;
         }
@@ -7100,8 +7138,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "SAGA API not initialized", req);
                 break;
             }
+            auto& saga_api = *saga_api_;
             response = makeResponse(http::status::ok,
-                                    saga_api_->listBatches().dump(), req);
+                                    saga_api.listBatches().dump(), req);
             break;
         }
 
@@ -7115,6 +7154,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "SAGA API not initialized", req);
                 break;
             }
+            auto& saga_api = *saga_api_;
             std::string request_target = std::string(req.target());
             static constexpr std::string_view kPrefix = "/api/saga/batches/";
             std::string batch_id = request_target.substr(kPrefix.size());
@@ -7126,7 +7166,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 break;
             }
             response = makeResponse(http::status::ok,
-                                    saga_api_->getBatchDetail(batch_id).dump(), req);
+                                    saga_api.getBatchDetail(batch_id).dump(), req);
             break;
         }
 
@@ -7140,6 +7180,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "SAGA API not initialized", req);
                 break;
             }
+            auto& saga_api = *saga_api_;
             // Extract batch_id from path /api/saga/batches/{id}/verify
             std::string request_target = std::string(req.target());
             static constexpr std::string_view kVPrefix = "/api/saga/batches/";
@@ -7155,7 +7196,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 break;
             }
             response = makeResponse(http::status::ok,
-                                    saga_api_->verifyBatch(batch_id).dump(), req);
+                                    saga_api.verifyBatch(batch_id).dump(), req);
             break;
         }
 
@@ -7169,8 +7210,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "SAGA API not initialized", req);
                 break;
             }
+            auto& saga_api = *saga_api_;
             response = makeResponse(http::status::ok,
-                                    saga_api_->flushCurrentBatch().dump(), req);
+                                    saga_api.flushCurrentBatch().dump(), req);
             break;
         }
 
@@ -7185,7 +7227,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "Continuous query engine not initialized", req);
                 break;
             }
-            response = continuous_query_api_->handleRegister(req);
+            auto& continuous_query_api = *continuous_query_api_;
+            response = continuous_query_api.handleRegister(req);
             break;
         }
 
@@ -7199,7 +7242,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "Continuous query engine not initialized", req);
                 break;
             }
-            response = continuous_query_api_->handleList(req);
+            auto& continuous_query_api = *continuous_query_api_;
+            response = continuous_query_api.handleList(req);
             break;
         }
 
@@ -7218,7 +7262,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "Continuous query engine not initialized", req);
                 break;
             }
-            response = continuous_query_api_->handleDrop(req, cq_name);
+            auto& continuous_query_api = *continuous_query_api_;
+            response = continuous_query_api.handleDrop(req, cq_name);
             break;
         }
 
@@ -7241,7 +7286,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "Continuous query engine not initialized", req);
                 break;
             }
-            response = continuous_query_api_->handleStreamSse(req, cq_name);
+            auto& continuous_query_api = *continuous_query_api_;
+            response = continuous_query_api.handleStreamSse(req, cq_name);
             break;
         }
 
@@ -7258,7 +7304,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "MCP server not initialized", req);
                 break;
             }
-            const json result = mcp_server_->handleAiPendingApprovals();
+            auto& mcp_server = *mcp_server_;
+            const json result = mcp_server.handleAiPendingApprovals();
             response = makeResponse(http::status::ok, result.dump(), req);
             break;
         }
@@ -7273,6 +7320,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "MCP server not initialized", req);
                 break;
             }
+            auto& mcp_server = *mcp_server_;
             {
                 // Extract operation_id from /v1/ai/approve/{operation_id}
                 std::string ai_path = std::string(req.target());
@@ -7280,7 +7328,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 if (qp != std::string::npos) ai_path = ai_path.substr(0, qp);
                 constexpr std::size_t kApproveRouteLen = 15;  // strlen("/v1/ai/approve/")
                 const std::string op_id = ai_path.substr(kApproveRouteLen);
-                const json result = mcp_server_->handleAiApprove(op_id);
+                const json result = mcp_server.handleAiApprove(op_id);
                 const bool is_error = result.value("status", "") == "error";
                 response = makeResponse(
                     is_error ? http::status::not_found : http::status::ok,
@@ -7299,6 +7347,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "MCP server not initialized", req);
                 break;
             }
+            auto& mcp_server = *mcp_server_;
             {
                 // Extract operation_id from /v1/ai/deny/{operation_id}
                 std::string ai_path = std::string(req.target());
@@ -7306,7 +7355,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 if (qp != std::string::npos) ai_path = ai_path.substr(0, qp);
                 constexpr std::size_t kDenyRouteLen = 12;  // strlen("/v1/ai/deny/")
                 const std::string op_id = ai_path.substr(kDenyRouteLen);
-                const json result = mcp_server_->handleAiDeny(op_id);
+                const json result = mcp_server.handleAiDeny(op_id);
                 const bool is_error = result.value("status", "") == "error";
                 response = makeResponse(
                     is_error ? http::status::not_found : http::status::ok,
@@ -7327,13 +7376,14 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "MCP server not initialized", req);
                 break;
             }
+            auto& mcp_server = *mcp_server_;
             {
                 std::string ai_path = std::string(req.target());
                 const auto qp = ai_path.find('?');
                 if (qp != std::string::npos) ai_path = ai_path.substr(0, qp);
                 constexpr std::size_t kRollbackRouteLen = 16;  // strlen("/v1/ai/rollback/")
                 const std::string snap_id = ai_path.substr(kRollbackRouteLen);
-                const json result = mcp_server_->handleAiRollback(snap_id);
+                const json result = mcp_server.handleAiRollback(snap_id);
                 const bool is_error = result.value("status", "") != "success";
                 response = makeResponse(
                     is_error ? http::status::bad_request : http::status::ok,
@@ -7429,7 +7479,8 @@ http::response<http::string_body> HttpServer::handleKeysListKeys(
         if (!keys_api_) {
             return makeErrorResponse(http::status::service_unavailable, "Keys API not available", req);
         }
-        auto result = keys_api_->listKeys();
+        auto& keys_api = *keys_api_;
+        auto result = keys_api.listKeys();
         return makeResponse(http::status::ok, result.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
@@ -7466,7 +7517,8 @@ http::response<http::string_body> HttpServer::handlePkiSign(
             }
         }
 
-        auto result = pki_api_->sign(key_id, body);
+        auto& pki_api = *pki_api_;
+        auto result = pki_api.sign(key_id, body);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7506,7 +7558,8 @@ http::response<http::string_body> HttpServer::handlePkiVerify(
             }
         }
 
-        auto result = pki_api_->verify(key_id, body);
+        auto& pki_api = *pki_api_;
+        auto result = pki_api.verify(key_id, body);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7531,7 +7584,8 @@ http::response<http::string_body> HttpServer::handlePkiHsmSign(
         nlohmann::json body = nlohmann::json::object();
         if (!req.body().empty()) body = nlohmann::json::parse(req.body());
 
-        auto result = pki_api_->hsmSign(body);
+        auto& pki_api = *pki_api_;
+        auto result = pki_api.hsmSign(body);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7549,7 +7603,8 @@ http::response<http::string_body> HttpServer::handlePkiHsmKeys(
         if (!pki_api_) return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
         if (auto resp = requireAccess(req, "pki:read", "pki.hsm.read", "/api/pki")) return *resp;
 
-        auto result = pki_api_->hsmListKeys();
+        auto& pki_api = *pki_api_;
+        auto result = pki_api.hsmListKeys();
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7570,7 +7625,8 @@ http::response<http::string_body> HttpServer::handlePkiTimestamp(
         nlohmann::json body = nlohmann::json::object();
         if (!req.body().empty()) body = nlohmann::json::parse(req.body());
 
-        auto result = pki_api_->getTimestamp(body);
+        auto& pki_api = *pki_api_;
+        auto result = pki_api.getTimestamp(body);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7591,7 +7647,8 @@ http::response<http::string_body> HttpServer::handlePkiTimestampVerify(
         nlohmann::json body = nlohmann::json::object();
         if (!req.body().empty()) body = nlohmann::json::parse(req.body());
 
-        auto result = pki_api_->verifyTimestamp(body);
+        auto& pki_api = *pki_api_;
+        auto result = pki_api.verifyTimestamp(body);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7612,7 +7669,8 @@ http::response<http::string_body> HttpServer::handlePkiEidasSign(
         nlohmann::json body = nlohmann::json::object();
         if (!req.body().empty()) body = nlohmann::json::parse(req.body());
 
-        auto result = pki_api_->eidasSign(body);
+        auto& pki_api = *pki_api_;
+        auto result = pki_api.eidasSign(body);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7633,7 +7691,8 @@ http::response<http::string_body> HttpServer::handlePkiEidasVerify(
         nlohmann::json body = nlohmann::json::object();
         if (!req.body().empty()) body = nlohmann::json::parse(req.body());
 
-        auto result = pki_api_->eidasVerify(body);
+        auto& pki_api = *pki_api_;
+        auto result = pki_api.eidasVerify(body);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7651,7 +7710,8 @@ http::response<http::string_body> HttpServer::handlePkiCertificates(
         if (!pki_api_) return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
         if (auto resp = requireAccess(req, "pki:read", "pki.certificates.read", "/api/pki")) return *resp;
 
-        auto result = pki_api_->listCertificates();
+        auto& pki_api = *pki_api_;
+        auto result = pki_api.listCertificates();
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7677,7 +7737,8 @@ http::response<http::string_body> HttpServer::handlePkiCertificate(
             return makeErrorResponse(http::status::bad_request, "Invalid cert_id", req);
         }
 
-        auto result = pki_api_->getCertificate(cert_id);
+        auto& pki_api = *pki_api_;
+        auto result = pki_api.getCertificate(cert_id);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7695,7 +7756,8 @@ http::response<http::string_body> HttpServer::handlePkiStatus(
         if (!pki_api_) return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
         if (auto resp = requireAccess(req, "pki:read", "pki.status", "/api/pki")) return *resp;
 
-        auto result = pki_api_->getStatus();
+        auto& pki_api = *pki_api_;
+        auto result = pki_api.getStatus();
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7746,7 +7808,8 @@ http::response<http::string_body> HttpServer::handleKeysRotateKey(
         // Pass original body if JSON else empty
         json body_json;
         try { if (!req.body().empty()) body_json = json::parse(req.body()); } catch (...) {}
-        auto result = keys_api_->rotateKey(key_id, body_json);
+        auto& keys_api = *keys_api_;
+        auto result = keys_api.rotateKey(key_id, body_json);
         return makeResponse(http::status::ok, result.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
@@ -7772,7 +7835,8 @@ http::response<http::string_body> HttpServer::handleApiKeyCreate(
         try { body = json::parse(req.body()); } catch (...) {
             return makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
         }
-        auto result = api_key_mgmt_->createKey(body);
+        auto& api_key_mgmt = *api_key_mgmt_;
+        auto result = api_key_mgmt.createKey(body);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7791,7 +7855,8 @@ http::response<http::string_body> HttpServer::handleApiKeyList(
             return makeErrorResponse(http::status::service_unavailable, "API Key Management not available", req);
         }
         if (auto resp = requireAccess(req, "admin:all", "api_key.list", "/api/keys")) return *resp;
-        auto result = api_key_mgmt_->listKeys();
+        auto& api_key_mgmt = *api_key_mgmt_;
+        auto result = api_key_mgmt.listKeys();
         return makeResponse(http::status::ok, result.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
@@ -7813,7 +7878,8 @@ http::response<http::string_body> HttpServer::handleApiKeyGet(
         if (validator_ && !validator_->validatePathSegment(key_id)) {
             return makeErrorResponse(http::status::bad_request, "Invalid key id", req);
         }
-        auto result = api_key_mgmt_->getKey(key_id);
+        auto& api_key_mgmt = *api_key_mgmt_;
+        auto result = api_key_mgmt.getKey(key_id);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7843,7 +7909,8 @@ http::response<http::string_body> HttpServer::handleApiKeyUpdate(
         try { if (!req.body().empty()) body = json::parse(req.body()); } catch (...) {
             return makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
         }
-        auto result = api_key_mgmt_->updateKey(key_id, body);
+        auto& api_key_mgmt = *api_key_mgmt_;
+        auto result = api_key_mgmt.updateKey(key_id, body);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7869,7 +7936,8 @@ http::response<http::string_body> HttpServer::handleApiKeyDelete(
         if (validator_ && !validator_->validatePathSegment(key_id)) {
             return makeErrorResponse(http::status::bad_request, "Invalid key id", req);
         }
-        auto result = api_key_mgmt_->deleteKey(key_id);
+        auto& api_key_mgmt = *api_key_mgmt_;
+        auto result = api_key_mgmt.deleteKey(key_id);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7918,7 +7986,8 @@ http::response<http::string_body> HttpServer::handleSessionCreate(
             auto last  = client_ip.find_last_not_of(" \t");
             client_ip = (first == std::string::npos) ? "" : client_ip.substr(first, last - first + 1);
         }
-        auto result = session_api_->createSession(*token, body, client_ip);
+        auto& session_api = *session_api_;
+        auto result = session_api.createSession(*token, body, client_ip);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7949,7 +8018,8 @@ http::response<http::string_body> HttpServer::handleSessionList(
         std::string current_session;
         auto cs_hdr = req.find("X-Session-Id");
         if (cs_hdr != req.end()) current_session = std::string(cs_hdr->value());
-        auto result = session_api_->listSessions(*token, current_session);
+        auto& session_api = *session_api_;
+        auto result = session_api.listSessions(*token, current_session);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7980,7 +8050,8 @@ http::response<http::string_body> HttpServer::handleSessionRevokeById(
         if (session_id.empty()) {
             return makeErrorResponse(http::status::bad_request, "Missing session id", req);
         }
-        auto result = session_api_->revokeSession(*token, session_id);
+        auto& session_api = *session_api_;
+        auto result = session_api.revokeSession(*token, session_id);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -8018,7 +8089,8 @@ http::response<http::string_body> HttpServer::handleSessionRevokeOthers(
                 return makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
             }
         }
-        auto result = session_api_->revokeAllOtherSessions(*token, current_session);
+        auto& session_api = *session_api_;
+        auto result = session_api.revokeAllOtherSessions(*token, current_session);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -8057,7 +8129,8 @@ http::response<http::string_body> HttpServer::handleSamlLogin(
                 }
             }
         }
-        auto result = saml_provider_->handleLogin(relay_state);
+        auto& saml_provider = *saml_provider_;
+        auto result = saml_provider.handleLogin(relay_state);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -8119,7 +8192,8 @@ http::response<http::string_body> HttpServer::handleSamlAcs(
         if (req_id_hdr != req.end()) {
             in_response_to = std::string(req_id_hdr->value());
         }
-        auto result = saml_provider_->handleAcs(saml_response_b64, relay_state, in_response_to);
+        auto& saml_provider = *saml_provider_;
+        auto result = saml_provider.handleAcs(saml_response_b64, relay_state, in_response_to);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -8149,7 +8223,8 @@ http::response<http::string_body> HttpServer::handleSamlSlo(
                 // Non-JSON bodies (e.g. form-encoded) are silently ignored for SLO.
             }
         }
-        auto result = saml_provider_->handleSlo(session_index);
+        auto& saml_provider = *saml_provider_;
+        auto result = saml_provider.handleSlo(session_index);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -8178,7 +8253,8 @@ http::response<http::string_body> HttpServer::handleSamlMetadata(
             return makeErrorResponse(http::status::service_unavailable,
                                      "SAML provider not configured", req);
         }
-        const auto xml = saml_provider_->buildMetadataXml();
+        auto& saml_provider = *saml_provider_;
+        const auto xml = saml_provider.buildMetadataXml();
         http::response<http::string_body> res{http::status::ok, req.version()};
         res.set(http::field::content_type, "application/samlmetadata+xml");
         res.keep_alive(req.keep_alive());
@@ -8197,7 +8273,8 @@ http::response<http::string_body> HttpServer::handleClassificationListRules(
         if (!classification_api_) {
             return makeErrorResponse(http::status::service_unavailable, "Classification API not available", req);
         }
-        auto result = classification_api_->listRules();
+        auto& classification_api = *classification_api_;
+        auto result = classification_api.listRules();
         return makeResponse(http::status::ok, result.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
@@ -8215,7 +8292,8 @@ http::response<http::string_body> HttpServer::handleClassificationTest(
             return makeErrorResponse(http::status::bad_request, "Missing JSON body", req);
         }
         auto body = json::parse(req.body());
-        auto result = classification_api_->testClassification(body);
+        auto& classification_api = *classification_api_;
+        auto result = classification_api.testClassification(body);
         return makeResponse(http::status::ok, result.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
@@ -8245,7 +8323,8 @@ http::response<http::string_body> HttpServer::handleReportsCompliance(
                 }
             }
         }
-        auto result = reports_api_->generateComplianceReport(report_type);
+        auto& reports_api = *reports_api_;
+        auto result = reports_api.generateComplianceReport(report_type);
         return makeResponse(http::status::ok, result.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
@@ -8436,7 +8515,8 @@ http::response<http::string_body> HttpServer::handleMetrics(const http::request<
 
         // Content metrics (if available)
         if (content_manager_) {
-            const auto& m = content_manager_->getMetrics();
+            auto& content_manager = *content_manager_;
+            const auto& m = content_manager.getMetrics();
             uint64_t comp_bytes = m.compressed_bytes_total.load(std::memory_order_relaxed);
             uint64_t uncomp_bytes = m.uncompressed_bytes_total.load(std::memory_order_relaxed);
             uint64_t skipped = m.compression_skipped_total.load(std::memory_order_relaxed);
@@ -8607,6 +8687,7 @@ http::response<http::string_body> HttpServer::handleAuditQuery(
         if (!audit_api_) {
             return makeErrorResponse(http::status::service_unavailable, "Audit API not available", req);
         }
+        auto& audit_api = *audit_api_;
         auto params = parseQuery(std::string(req.target()));
         themis::server::AuditQueryFilter f;
         if (auto it = params.find("start"); it != params.end()) f.start_ts_ms = parseTimeMs(it->second);
@@ -8629,7 +8710,7 @@ http::response<http::string_body> HttpServer::handleAuditQuery(
                 if (f.page_size > 1000) f.page_size = 1000;
             } catch (...) {}
         }
-        auto result = audit_api_->queryAuditLogs(f);
+        auto result = audit_api.queryAuditLogs(f);
         return makeResponse(http::status::ok, result.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
@@ -8646,6 +8727,7 @@ http::response<http::string_body> HttpServer::handleAuditExportCsv(
         if (!audit_api_) {
             return makeErrorResponse(http::status::service_unavailable, "Audit API not available", req);
         }
+        auto& audit_api = *audit_api_;
         auto params = parseQuery(std::string(req.target()));
         themis::server::AuditQueryFilter f;
         if (auto it = params.find("start"); it != params.end()) f.start_ts_ms = parseTimeMs(it->second);
@@ -8669,7 +8751,7 @@ http::response<http::string_body> HttpServer::handleAuditExportCsv(
             } catch (...) {}
         }
 
-        auto csv = audit_api_->exportAuditLogsCsv(f);
+        auto csv = audit_api.exportAuditLogsCsv(f);
         http::response<http::string_body> res{http::status::ok, req.version()};
 #ifdef THEMIS_VERSION_STRING
         res.set(http::field::server, std::string("THEMIS/") + THEMIS_VERSION_STRING);
@@ -9166,6 +9248,7 @@ http::response<http::string_body> HttpServer::handlePiiRevealByUuid(
     if (!pii_pseudonymizer_) {
         return makeErrorResponse(http::status::service_unavailable, "PII service not initialized", req);
     }
+    auto& pii_pseudonymizer = *pii_pseudonymizer_;
 
     // Extract UUID from path
     std::string target = std::string(req.target());
@@ -9264,7 +9347,7 @@ http::response<http::string_body> HttpServer::handlePiiRevealByUuid(
     }
 
     // Reveal
-    auto value_opt = pii_pseudonymizer_->revealPII(uuid, user_id.empty() ? std::string("unknown") : user_id);
+    auto value_opt = pii_pseudonymizer.revealPII(uuid, user_id.empty() ? std::string("unknown") : user_id);
     if (!value_opt) {
         return makeErrorResponse(http::status::not_found, "PII mapping not found", req);
     }
@@ -9381,7 +9464,8 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
     }
     // Prefer CRUD mapping deletion when PII Manager feature is enabled
     if (config_.feature_pii_manager && pii_api_) {
-        bool ok = pii_api_->deleteMapping(uuid);
+        auto& pii_api = *pii_api_;
+        bool ok = pii_api.deleteMapping(uuid);
         nlohmann::json resp = {{"status", ok ? "deleted" : "not_found"}, {"uuid", uuid}};
         return makeResponse(http::status::ok, resp.dump(), req);
     }
@@ -9396,13 +9480,14 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
     if (!pii_pseudonymizer_) {
         return makeErrorResponse(http::status::service_unavailable, "PII service not initialized", req);
     }
+    auto& pii_pseudonymizer = *pii_pseudonymizer_;
 
     nlohmann::json resp;
     if (mode == "hard") {
-        bool ok = pii_pseudonymizer_->erasePII(uuid);
+        bool ok = pii_pseudonymizer.erasePII(uuid);
         resp = {{"status", ok ? "ok" : "not_found"}, {"mode", "hard"}, {"uuid", uuid}, {"deleted", ok}};
     } else {
-        bool ok = pii_pseudonymizer_->softDeletePII(uuid, user_id.empty() ? std::string("unknown") : user_id);
+        bool ok = pii_pseudonymizer.softDeletePII(uuid, user_id.empty() ? std::string("unknown") : user_id);
         resp = {{"status", ok ? "ok" : "not_found"}, {"mode", "soft"}, {"uuid", uuid}, {"updated", ok}};
     }
     return makeResponse(http::status::ok, resp.dump(), req);
@@ -9417,6 +9502,7 @@ http::response<http::string_body> HttpServer::handlePiiListMappings(
 
     // Authorization: require scope pii:read or admin
     if (auto unauth = requireScope(req, "pii:read"); unauth.has_value()) return *unauth;
+    auto& pii_api = *pii_api_;
 
     // Parse query params
     std::string target = std::string(req.target());
@@ -9439,7 +9525,7 @@ http::response<http::string_body> HttpServer::handlePiiListMappings(
         if (!getParam("page_size").empty()) filter.page_size = std::stoi(getParam("page_size"));
     } catch (...) {}
 
-    auto js = pii_api_->listMappings(filter);
+    auto js = pii_api.listMappings(filter);
     return makeResponse(http::status::ok, js.dump(), req);
 }
 
@@ -9453,6 +9539,7 @@ http::response<http::string_body> HttpServer::handlePiiCreateMapping(
         return makeErrorResponse(http::status::method_not_allowed, "Method not allowed", req);
     }
     if (auto unauth = requireScope(req, "pii:write"); unauth.has_value()) return *unauth;
+    auto& pii_api = *pii_api_;
     try {
         nlohmann::json body = nlohmann::json::parse(req.body());
         if (!body.contains("original_uuid") || !body.contains("pseudonym")) {
@@ -9462,7 +9549,7 @@ http::response<http::string_body> HttpServer::handlePiiCreateMapping(
         m.original_uuid = body["original_uuid"].get<std::string>();
         m.pseudonym = body["pseudonym"].get<std::string>();
         m.active = body.value("active", true);
-        if (!pii_api_->addMapping(m)) {
+        if (!pii_api.addMapping(m)) {
             return makeErrorResponse(http::status::conflict, "Mapping already exists", req);
         }
         return makeResponse(http::status::created, m.toJson().dump(), req);
@@ -9478,6 +9565,7 @@ http::response<http::string_body> HttpServer::handlePiiGetByUuid(
         return makeErrorResponse(http::status::not_found, "Feature 'pii_manager' disabled", req);
     }
     if (auto unauth = requireScope(req, "pii:read"); unauth.has_value()) return *unauth;
+    auto& pii_api = *pii_api_;
     std::string target = std::string(req.target());
     auto qpos = target.find('?');
     std::string path_only = (qpos == std::string::npos) ? target : target.substr(0, qpos);
@@ -9489,7 +9577,7 @@ http::response<http::string_body> HttpServer::handlePiiGetByUuid(
     if (uuid.empty() || uuid == "export.csv" || uuid == "reveal") {
         return makeErrorResponse(http::status::bad_request, "Invalid UUID", req);
     }
-    auto m = pii_api_->getMapping(uuid);
+    auto m = pii_api.getMapping(uuid);
     if (!m) return makeErrorResponse(http::status::not_found, "PII mapping not found", req);
     return makeResponse(http::status::ok, m->toJson().dump(), req);
 }
@@ -9501,6 +9589,7 @@ http::response<http::string_body> HttpServer::handlePiiExportCsv(
         return makeErrorResponse(http::status::not_found, "Feature 'pii_manager' disabled", req);
     }
     if (auto unauth = requireScope(req, "pii:read"); unauth.has_value()) return *unauth;
+    auto& pii_api = *pii_api_;
     // Reuse list parsing
     std::string target = std::string(req.target());
     auto qpos = target.find('?');
@@ -9522,7 +9611,7 @@ http::response<http::string_body> HttpServer::handlePiiExportCsv(
         if (!getParam("page_size").empty()) filter.page_size = std::stoi(getParam("page_size"));
     } catch (...) {}
 
-    std::string csv = pii_api_->exportCsv(filter);
+    std::string csv = pii_api.exportCsv(filter);
     http::response<http::string_body> res{http::status::ok, req.version()};
     res.set(http::field::content_type, "text/csv; charset=utf-8");
     res.keep_alive(req.keep_alive());
@@ -9809,9 +9898,14 @@ http::response<http::string_body> HttpServer::handleGetContent(
     const http::request<http::string_body>& req
 ) {
     try {
+        if (!content_manager_) {
+            return makeErrorResponse(http::status::service_unavailable,
+                "ContentManager not initialized", req);
+        }
+        auto& content_manager = *content_manager_;
         auto id = extractPathParam(std::string(req.target()), "/content/");
         if (id.empty()) return makeErrorResponse(http::status::bad_request, "Missing content id", req);
-        auto meta = content_manager_->getContentMeta(id);
+        auto meta = content_manager.getContentMeta(id);
         if (!meta) return makeErrorResponse(http::status::not_found, "Content not found", req);
         return makeResponse(http::status::ok, meta->toJson().dump(), req);
     } catch (const std::exception& e) {
@@ -9823,6 +9917,11 @@ http::response<http::string_body> HttpServer::handleGetContentBlob(
     const http::request<http::string_body>& req
 ) {
     try {
+        if (!content_manager_) {
+            return makeErrorResponse(http::status::service_unavailable,
+                "ContentManager not initialized", req);
+        }
+        auto& content_manager = *content_manager_;
         auto path = std::string(req.target());
         // path format: /content/{id}/blob
         auto prefix = std::string("/content/");
@@ -9831,9 +9930,9 @@ http::response<http::string_body> HttpServer::handleGetContentBlob(
         auto id = path.substr(prefix.size(), pos - prefix.size());
     auto auth_ctx = extractAuthContext(req);
     std::string user_ctx = auth_ctx.user_id;
-    auto blob = content_manager_->getContentBlob(id, user_ctx);
+    auto blob = content_manager.getContentBlob(id, user_ctx);
         if (!blob) return makeErrorResponse(http::status::not_found, "Blob not found", req);
-        auto meta = content_manager_->getContentMeta(id);
+        auto meta = content_manager.getContentMeta(id);
         std::string mime = (meta ? meta->mime_type : std::string("application/octet-stream"));
 
         http::response<http::string_body> res{http::status::ok, req.version()};
@@ -9854,13 +9953,18 @@ http::response<http::string_body> HttpServer::handleGetContentChunks(
     const http::request<http::string_body>& req
 ) {
     try {
+        if (!content_manager_) {
+            return makeErrorResponse(http::status::service_unavailable,
+                "ContentManager not initialized", req);
+        }
+        auto& content_manager = *content_manager_;
         auto path = std::string(req.target());
         // path format: /content/{id}/chunks
         auto prefix = std::string("/content/");
         auto pos = path.find("/chunks");
         if (pos == std::string::npos) return makeErrorResponse(http::status::bad_request, "Invalid path", req);
         auto id = path.substr(prefix.size(), pos - prefix.size());
-        auto chunks = content_manager_->getContentChunks(id);
+        auto chunks = content_manager.getContentChunks(id);
         json arr = json::array();
         arr.get_ref<json::array_t&>().reserve(chunks.size());
         for (const auto& c : chunks) {
@@ -9881,6 +9985,7 @@ http::response<http::string_body> HttpServer::handleHybridSearch(
 ) {
     try {
         if (!content_manager_) return makeErrorResponse(http::status::service_unavailable, "ContentManager not initialized", req);
+        auto& content_manager = *content_manager_;
         json body = json::parse(req.body());
         std::string query = body.value("query", "");
         int k = body.value("k", 10);
@@ -9892,7 +9997,7 @@ http::response<http::string_body> HttpServer::handleHybridSearch(
         if (body.contains("filters")) filters = body["filters"];
         if (body.contains("scoring")) filters["scoring"] = body["scoring"];
 
-        auto results = content_manager_->searchWithExpansion(query, k, hops, filters);
+        auto results = content_manager.searchWithExpansion(query, k, hops, filters);
         json resp = json::array();
         resp.get_ref<json::array_t&>().reserve(results.size());
         for (const auto& [pk, score] : results) {
@@ -9915,6 +10020,7 @@ http::response<http::string_body> HttpServer::handleFulltextSearch(
 ) {
     try {
         if (!secondary_index_) return makeErrorResponse(http::status::service_unavailable, "IndexManager not initialized", req);
+        auto& secondary_index = *secondary_index_;
         
         json body = json::parse(req.body());
         
@@ -9935,13 +10041,13 @@ http::response<http::string_body> HttpServer::handleFulltextSearch(
         size_t limit = body.value("limit", 1000);
         
         // Check if fulltext index exists
-        if (!secondary_index_->hasFulltextIndex(table, column)) {
+        if (!secondary_index.hasFulltextIndex(table, column)) {
             return makeErrorResponse(http::status::bad_request, 
                 "No fulltext index on " + table + "." + column, req);
         }
         
         // Perform BM25-scored fulltext search
-        auto [status, results] = secondary_index_->scanFulltextWithScores(table, column, query, limit);
+        auto [status, results] = secondary_index.scanFulltextWithScores(table, column, query, limit);
         
         if (!status.ok) {
             return makeErrorResponse(http::status::internal_server_error, status.message, req);
@@ -9981,6 +10087,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
 ) {
     try {
         if (!secondary_index_) return makeErrorResponse(http::status::service_unavailable, "SecondaryIndexManager not initialized", req);
+        auto& secondary_index = *secondary_index_;
         if (!vector_index_) return makeErrorResponse(http::status::service_unavailable, "VectorIndexManager not initialized", req);
         
         json body = json::parse(req.body());
@@ -10003,12 +10110,12 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             std::string textQuery = body["text_query"];
             int textLimit = body.value("text_limit", 1000);
             
-            if (!secondary_index_->hasFulltextIndex(table, textColumn)) {
+            if (!secondary_index.hasFulltextIndex(table, textColumn)) {
                 return makeErrorResponse(http::status::bad_request, 
                     "No fulltext index on " + table + "." + textColumn, req);
             }
             
-            auto [textStatus, textRes] = secondary_index_->scanFulltextWithScores(table, textColumn, textQuery, textLimit);
+            auto [textStatus, textRes] = secondary_index.scanFulltextWithScores(table, textColumn, textQuery, textLimit);
             if (!textStatus.ok) {
                 return makeErrorResponse(http::status::internal_server_error, "Text search failed: " + textStatus.message, req);
             }
@@ -11218,6 +11325,17 @@ void HttpServer::Session::processRequest() {
             }
         }
 
+        // Inject the verified socket peer address so that extractClientIP can
+        // return a real IP for direct connections (no proxy headers present).
+        // Strip any client-supplied header first to prevent spoofing.
+        request_.erase("X-Themis-Peer-Addr");
+        try {
+            auto ep = socket_.remote_endpoint();
+            request_.set("X-Themis-Peer-Addr", ep.address().to_string());
+        } catch (const std::exception&) {
+            // Ignore: best-effort; rate limiting falls back to empty key.
+        }
+
         // Route request to appropriate handler
         response_ = server_->routeRequest(request_);
     } catch (const std::exception& e) {
@@ -11533,6 +11651,17 @@ void HttpServer::SslSession::processRequest() {
                 }
                 request_.target(rw.effective_path);
             }
+        }
+
+        // Inject the verified socket peer address so that extractClientIP can
+        // return a real IP for direct connections (no proxy headers present).
+        // Strip any client-supplied header first to prevent spoofing.
+        request_.erase("X-Themis-Peer-Addr");
+        try {
+            auto ep = stream_.lowest_layer().remote_endpoint();
+            request_.set("X-Themis-Peer-Addr", ep.address().to_string());
+        } catch (const std::exception&) {
+            // Ignore: best-effort; rate limiting falls back to empty key.
         }
 
         // Route request to appropriate handler
@@ -11985,25 +12114,19 @@ std::string HttpServer::extractClientIP(const http::request<http::string_body>& 
         }
         return xff;
     }
-    
+
     // Try X-Real-IP header
     if (req.find("X-Real-IP") != req.end()) {
         return std::string(req["X-Real-IP"]);
     }
-    
-    // STUB/SIMULATION NOTE:
-    // Purpose: Returns empty string when neither X-Forwarded-For nor X-Real-IP
-    //          header is present; the real socket remote_endpoint() extraction
-    //          requires passing the Boost.Beast session context into this helper,
-    //          which is not yet threaded through the call chain.
-    // Activation: Request has no proxy-forwarding headers.
-    // Production Delta: Rate limiter receives an empty client IP and cannot
-    //                   distinguish between different direct-connection clients;
-    //                   per-IP rate limiting is ineffective for direct connections.
-    // Removal Plan: Thread the Boost.Beast `tcp::socket::remote_endpoint()` into
-    //               this function (or pass `Session*` as an additional parameter)
-    //               and return `endpoint.address().to_string()`.  See
-    //               src/server/FUTURE_ENHANCEMENTS.md §HttpServer getClientIp.
+
+    // Fall back to the socket peer address injected by Session::processRequest /
+    // SslSession::processRequest.  The injection site strips any client-supplied
+    // value before setting it, so this header cannot be spoofed.
+    if (req.find("X-Themis-Peer-Addr") != req.end()) {
+        return std::string(req["X-Themis-Peer-Addr"]);
+    }
+
     return "";
 }
 
@@ -12013,6 +12136,7 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
     if (!rate_limiter_) {
         return std::nullopt; // Rate limiting disabled
     }
+    auto& rate_limiter = *rate_limiter_;
     
     std::string client_ip = extractClientIP(req);
     std::string user_id;
@@ -12067,8 +12191,8 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
     }
 
     // Fallback to legacy rate limiter
-    if (!rate_limiter_->allowRequest(client_ip, user_id)) {
-        uint32_t retry_after = rate_limiter_->getRetryAfter(client_ip, user_id);
+    if (!rate_limiter.allowRequest(client_ip, user_id)) {
+        uint32_t retry_after = rate_limiter.getRetryAfter(client_ip, user_id);
         
         THEMIS_WARN("Rate limit exceeded: ip={}, user={}, retry_after={}s", 
             client_ip.empty() ? "<unknown>" : client_ip, 
@@ -12594,7 +12718,8 @@ http::response<http::string_body> HttpServer::handleErrorApiList(
         if (!error_api_handler_) {
             error_api_handler_ = std::make_unique<server::ErrorApiHandler>();
         }
-        error_api_handler_->handleGetErrors(handler_req, handler_res);
+        auto& error_api_handler = *error_api_handler_;
+        error_api_handler.handleGetErrors(handler_req, handler_res);
         
         // Convert response
         return makeResponse(
@@ -12636,7 +12761,8 @@ http::response<http::string_body> HttpServer::handleErrorApiGetByCode(
         if (!error_api_handler_) {
             error_api_handler_ = std::make_unique<server::ErrorApiHandler>();
         }
-        error_api_handler_->handleGetError(handler_req, handler_res);
+        auto& error_api_handler = *error_api_handler_;
+        error_api_handler.handleGetError(handler_req, handler_res);
         
         // Convert response
         return makeResponse(
@@ -12666,7 +12792,8 @@ http::response<http::string_body> HttpServer::handleErrorApiCategories(
         if (!error_api_handler_) {
             error_api_handler_ = std::make_unique<server::ErrorApiHandler>();
         }
-        error_api_handler_->handleGetCategories(handler_req, handler_res);
+        auto& error_api_handler = *error_api_handler_;
+        error_api_handler.handleGetCategories(handler_req, handler_res);
         
         // Convert response
         return makeResponse(
@@ -12700,7 +12827,8 @@ http::response<http::string_body> HttpServer::handleErrorApiSearch(
         if (!error_api_handler_) {
             error_api_handler_ = std::make_unique<server::ErrorApiHandler>();
         }
-        error_api_handler_->handleSearchErrors(handler_req, handler_res);
+        auto& error_api_handler = *error_api_handler_;
+        error_api_handler.handleSearchErrors(handler_req, handler_res);
         
         // Convert response
         return makeResponse(
@@ -12724,7 +12852,8 @@ http::response<http::string_body> HttpServer::handleSchemaGetFull(
         return makeErrorResponse(http::status::service_unavailable, 
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleGetSchema(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleGetSchema(req);
 }
 
 http::response<http::string_body> HttpServer::handleSchemaGetTables(
@@ -12734,7 +12863,8 @@ http::response<http::string_body> HttpServer::handleSchemaGetTables(
         return makeErrorResponse(http::status::service_unavailable, 
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleGetTables(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleGetTables(req);
 }
 
 http::response<http::string_body> HttpServer::handleSchemaGetTable(
@@ -12744,7 +12874,8 @@ http::response<http::string_body> HttpServer::handleSchemaGetTable(
         return makeErrorResponse(http::status::service_unavailable, 
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleGetTable(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleGetTable(req);
 }
 
 http::response<http::string_body> HttpServer::handleSchemaPut(
@@ -12754,7 +12885,8 @@ http::response<http::string_body> HttpServer::handleSchemaPut(
         return makeErrorResponse(http::status::service_unavailable, 
             "Schema API not available", req);
     }
-    return schema_api_handler_->handlePutSchema(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handlePutSchema(req);
 }
 
 http::response<http::string_body> HttpServer::handleSchemaPatch(
@@ -12764,7 +12896,8 @@ http::response<http::string_body> HttpServer::handleSchemaPatch(
         return makeErrorResponse(http::status::service_unavailable, 
             "Schema API not available", req);
     }
-    return schema_api_handler_->handlePatchSchema(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handlePatchSchema(req);
 }
 
 // ============================================================================
@@ -12778,7 +12911,8 @@ http::response<http::string_body> HttpServer::handleMetadataInformationSchema(
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleGetInformationSchema(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleGetInformationSchema(req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataGetStats(
@@ -12788,7 +12922,8 @@ http::response<http::string_body> HttpServer::handleMetadataGetStats(
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleGetStats(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleGetStats(req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataCollectStats(
@@ -12798,7 +12933,8 @@ http::response<http::string_body> HttpServer::handleMetadataCollectStats(
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleCollectStats(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleCollectStats(req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataGetConstraints(
@@ -12808,7 +12944,8 @@ http::response<http::string_body> HttpServer::handleMetadataGetConstraints(
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleGetConstraints(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleGetConstraints(req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataIndexRecommendations(
@@ -12818,7 +12955,8 @@ http::response<http::string_body> HttpServer::handleMetadataIndexRecommendations
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleGetIndexRecommendations(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleGetIndexRecommendations(req);
 }
 
 http::response<http::string_body> HttpServer::handleSchemaVersionHistory(
@@ -12828,7 +12966,8 @@ http::response<http::string_body> HttpServer::handleSchemaVersionHistory(
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleGetVersionHistory(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleGetVersionHistory(req);
 }
 
 http::response<http::string_body> HttpServer::handleSchemaCreateVersion(
@@ -12838,7 +12977,8 @@ http::response<http::string_body> HttpServer::handleSchemaCreateVersion(
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleCreateVersion(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleCreateVersion(req);
 }
 
 http::response<http::string_body> HttpServer::handleSchemaDiff(
@@ -12848,7 +12988,8 @@ http::response<http::string_body> HttpServer::handleSchemaDiff(
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleGetDiff(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleGetDiff(req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataAuditLog(
@@ -12858,7 +12999,8 @@ http::response<http::string_body> HttpServer::handleMetadataAuditLog(
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleGetAuditLog(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleGetAuditLog(req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataSchemaImport(
@@ -12868,7 +13010,8 @@ http::response<http::string_body> HttpServer::handleMetadataSchemaImport(
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleSchemaImport(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleSchemaImport(req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataBatchValidate(
@@ -12878,7 +13021,8 @@ http::response<http::string_body> HttpServer::handleMetadataBatchValidate(
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleBatchConstraintValidation(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleBatchConstraintValidation(req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataGetColumnLineage(
@@ -12888,7 +13032,8 @@ http::response<http::string_body> HttpServer::handleMetadataGetColumnLineage(
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleGetColumnLineage(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleGetColumnLineage(req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataRecordLineageDerivation(
@@ -12898,7 +13043,8 @@ http::response<http::string_body> HttpServer::handleMetadataRecordLineageDerivat
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleRecordLineageDerivation(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleRecordLineageDerivation(req);
 }
 
 // ── ContentFS HTTP handlers ─────────────────────────────────────────────────
@@ -12924,6 +13070,7 @@ http::response<http::string_body> HttpServer::handleContentFsPut(
         return makeErrorResponse(http::status::service_unavailable,
             "ContentFS not initialized", req);
     }
+    auto& content_fs = *content_fs_;
     const std::string pk = extractContentFsPk(req);
     if (pk.empty()) {
         return makeErrorResponse(http::status::bad_request,
@@ -12941,7 +13088,7 @@ http::response<http::string_body> HttpServer::handleContentFsPut(
         sha256_hint = std::string(sha_hdr->value());
     }
 
-    auto result = content_fs_->put(pk, data, mime, sha256_hint);
+    auto result = content_fs.put(pk, data, mime, sha256_hint);
     if (!result) {
         const bool bad_req = (result.error().code() == errors::ErrorCode::ERR_API_INVALID_REQUEST);
         return makeErrorResponse(
@@ -12961,6 +13108,7 @@ http::response<http::string_body> HttpServer::handleContentFsGet(
         return makeErrorResponse(http::status::service_unavailable,
             "ContentFS not initialized", req);
     }
+    auto& content_fs = *content_fs_;
     const std::string pk = extractContentFsPk(req);
     if (pk.empty()) {
         return makeErrorResponse(http::status::bad_request,
@@ -12986,7 +13134,7 @@ http::response<http::string_body> HttpServer::handleContentFsGet(
                 }
             }
         }
-        auto result = content_fs_->getRange(pk, offset, length);
+        auto result = content_fs.getRange(pk, offset, length);
         if (!result) {
             const bool not_found = (result.error().code() == errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND);
             return makeErrorResponse(
@@ -13002,7 +13150,7 @@ http::response<http::string_body> HttpServer::handleContentFsGet(
         return resp;
     }
 
-    auto result = content_fs_->get(pk);
+    auto result = content_fs.get(pk);
     if (!result) {
         const bool not_found = (result.error().code() == errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND);
         return makeErrorResponse(
@@ -13011,7 +13159,7 @@ http::response<http::string_body> HttpServer::handleContentFsGet(
     }
     const auto& data = result.value();
     // Retrieve MIME via head() for correct Content-Type
-    auto meta_result = content_fs_->head(pk);
+    auto meta_result = content_fs.head(pk);
     std::string mime = "application/octet-stream";
     if (meta_result) mime = meta_result.value().mime;
 
@@ -13030,12 +13178,13 @@ http::response<http::string_body> HttpServer::handleContentFsHead(
         return makeErrorResponse(http::status::service_unavailable,
             "ContentFS not initialized", req);
     }
+    auto& content_fs = *content_fs_;
     const std::string pk = extractContentFsPk(req);
     if (pk.empty()) {
         return makeErrorResponse(http::status::bad_request,
             "ContentFS: pk (resource key) must not be empty", req);
     }
-    auto result = content_fs_->head(pk);
+    auto result = content_fs.head(pk);
     if (!result) {
         const bool not_found = (result.error().code() == errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND);
         return makeErrorResponse(
@@ -13059,12 +13208,13 @@ http::response<http::string_body> HttpServer::handleContentFsDelete(
         return makeErrorResponse(http::status::service_unavailable,
             "ContentFS not initialized", req);
     }
+    auto& content_fs = *content_fs_;
     const std::string pk = extractContentFsPk(req);
     if (pk.empty()) {
         return makeErrorResponse(http::status::bad_request,
             "ContentFS: pk (resource key) must not be empty", req);
     }
-    auto result = content_fs_->remove(pk);
+    auto result = content_fs.remove(pk);
     if (!result) {
         const bool not_found = (result.error().code() == errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND);
         return makeErrorResponse(

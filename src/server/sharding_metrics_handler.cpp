@@ -35,9 +35,9 @@ std::string ShardingMetricsHandler::getMetrics() const {
     if (!metrics_) {
         return "";
     }
-    
+    auto& metrics = *metrics_;
     // Base metrics with HELP/TYPE annotations
-    std::string result = metrics_->getMetricsWithAnnotations();
+    std::string result = metrics.getMetricsWithAnnotations();
 
     // Append repair metrics when available
     std::string repair = getRepairMetrics();
@@ -52,25 +52,25 @@ std::string ShardingMetricsHandler::getMetricsPlain() const {
     if (!metrics_) {
         return "";
     }
-    
+    auto& metrics = *metrics_;
     // Get plain metrics without annotations
-    return metrics_->getMetrics();
+    return metrics.getMetrics();
 }
 
 std::string ShardingMetricsHandler::getSLOStatus() const {
     if (!slo_monitor_) {
         return R"({"error": "SLO monitoring not configured"})";
     }
-    
+    auto& slo_monitor = *slo_monitor_;
     // Get SLO status in JSON format
-    return slo_monitor_->generateSLOReportJSON();
+    return slo_monitor.generateSLOReportJSON();
 }
 
 std::string ShardingMetricsHandler::getSLOMetrics() const {
     if (!slo_monitor_) {
         return "";
     }
-    
+    auto& slo_monitor = *slo_monitor_;
     std::ostringstream oss;
     
     // Add SLO metrics in Prometheus format
@@ -84,7 +84,7 @@ std::string ShardingMetricsHandler::getSLOMetrics() const {
     oss << "# TYPE themisdb_slo_compliance gauge\n";
     
     // Get compliance data
-    auto compliance = slo_monitor_->getSLOCompliance();
+    auto compliance = slo_monitor.getSLOCompliance();
     
     // Export availability
     if (compliance.find("availability") != compliance.end()) {
@@ -101,7 +101,7 @@ std::string ShardingMetricsHandler::getSLOMetrics() const {
     }
     
     // Export overall compliance (1 if all SLOs met, 0 otherwise)
-    double global_error_budget = slo_monitor_->getGlobalErrorBudget();
+    double global_error_budget = slo_monitor.getGlobalErrorBudget();
     oss << "themisdb_slo_compliance " 
         << (global_error_budget > 0.1 ? 1.0 : 0.0) << "\n";
     
@@ -112,7 +112,8 @@ std::string ShardingMetricsHandler::getRepairMetrics() const {
     if (!repair_engine_) {
         return "";
     }
-    return repair_engine_->exportPrometheusMetrics();
+    auto& repair_engine = *repair_engine_;
+    return repair_engine.exportPrometheusMetrics();
 }
 
 } // namespace server

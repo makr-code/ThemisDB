@@ -28,6 +28,7 @@
 
 #include <atomic>
 #include <chrono>
+#include <limits>
 #include <string>
 #include <thread>
 #include <vector>
@@ -354,4 +355,38 @@ TEST(SpecTlBridge, SPEC_TL_03_BadShapeFallsBackToHeuristic) {
     auto handle   = engine.submit(req);
     EXPECT_NO_THROW(handle.get());
     engine.shutdown();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SPEC-TL-04: Oversized vocab metadata is clamped to safe fallback range
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(SpecTlBridge, SPEC_TL_04_OversizedVocabMetadataHandledSafely) {
+    constexpr size_t kK = 1;
+
+    InferenceEngineEnhanced::Config cfg;
+    cfg.enable_speculative_decoding = true;
+    cfg.speculative_draft_tokens    = kK;
+    cfg.speculative_draft_model_id  = "draft";
+    cfg.num_worker_threads          = 1;
+    cfg.enable_context_caching      = false;
+    cfg.batch_timeout_ms            = 50;
+
+    InferenceEngineEnhanced engine(cfg);
+    engine.registerModel("target", std::make_shared<MinimalPlugin>(
+        "t", std::numeric_limits<size_t>::max()));
+    engine.registerModel("draft", std::make_shared<MinimalPlugin>("d", 64));
+    engine.start();
+
+    InferenceEngineEnhanced::EnhancedInferenceRequest req;
+    req.request_id          = "spec_tl_04";
+    req.base_request.prompt = "test large vocab";
+    req.preferred_model_id  = "target";
+    req.allow_caching       = false;
+
+    auto handle = engine.submit(req);
+    auto response = handle.get();
+    engine.shutdown();
+
+    EXPECT_FALSE(response.text.empty())
+        << "Engine should keep running with oversized vocab metadata";
 }
