@@ -470,6 +470,15 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
   (`FreeModelOnSingleGPUKeepsPerGPUAndGlobalStatsConsistent`) to verify scoped free keeps VRAM/RAM
   accounting consistent.
 
+**Status (v1.22.0-pre — W1-L06 CUDA health-query hardening):** `gpu_memory_manager.cpp::updateGPUHealth()` no longer consumes undefined CUDA query outputs:
+- `cudaSetDevice` is now checked explicitly; on failure the method records safe fallback health metrics
+  and returns without touching uninitialized CUDA state.
+- `cudaMemGetInfo` now writes into zero-initialized locals and is validated before utilization math; a
+  failed query (or zero-total-memory edge case) now yields deterministic `0.0f` utilization instead of
+  reading undefined values or dividing by zero.
+- Static injected temperature providers from `setNvmlTemperatureFn()` are now honored first under
+  `nvml_temp_fn_mutex`, with exception-safe fallback to dynamic NVML probing and then simulated defaults.
+
 **Status (v1.22.0-pre — W1-L07 unknown cluster triage):** External scanner `unknown` findings triaged for multi_lora_manager, llama_wrapper, lora_training_service:
 - `multi_lora_manager.cpp`: external_v3 reports 1227 findings vs 5 internal. `unknown` cluster
   arises from deep STL template patterns, virtual dispatch and large switch bodies the scanner

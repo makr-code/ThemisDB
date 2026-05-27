@@ -1961,17 +1961,52 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
     // This would typically query actual GPU hardware
 #ifdef THEMIS_ENABLE_CUDA
     if (gpu_available_) {
-        CUDA_CHECK(cudaSetDevice(gpu_device_id));
+        cudaError_t set_err = cudaSetDevice(gpu_device_id);
+        if (set_err != cudaSuccess) {
+            spdlog::warn("updateGPUHealth: cudaSetDevice({}) failed: {}",
+                         gpu_device_id, cudaGetErrorString(set_err));
+            gpu_utilizations_[gpu_device_id] = 0.0f;
+            gpu_temperatures_[gpu_device_id] = 40.0f;
+            return;
+        }
 
         // Get memory info for utilization
-        size_t free_mem, total_mem;
-        CUDA_CHECK(cudaMemGetInfo(&free_mem, &total_mem));
-        size_t used_mem = total_mem - free_mem;
-        float utilization = static_cast<float>(used_mem) / total_mem * 100.0f;
+        size_t free_mem = 0;
+        size_t total_mem = 0;
+        cudaError_t mem_info_err = cudaMemGetInfo(&free_mem, &total_mem);
+        float utilization = 0.0f;
+        if (mem_info_err != cudaSuccess) {
+            spdlog::warn("updateGPUHealth: cudaMemGetInfo failed for GPU {}: {}",
+                         gpu_device_id, cudaGetErrorString(mem_info_err));
+        } else if (total_mem == 0) {
+            spdlog::warn("updateGPUHealth: cudaMemGetInfo returned zero total memory for GPU {}",
+                         gpu_device_id);
+        } else {
+            const size_t used_mem = total_mem - free_mem;
+            utilization = (static_cast<float>(used_mem) / static_cast<float>(total_mem)) * 100.0f;
+        }
         gpu_utilizations_[gpu_device_id] = utilization;
 
-        auto temperature = queryNvmlTemperatureCelsius(gpu_device_id);
+        std::optional<float> temperature = std::nullopt;
+        {
+            std::lock_guard<std::mutex> provider_lock(nvml_temp_fn_mutex);
+            if (nvml_temp_fn) {
+                try {
+                    temperature = nvml_temp_fn(gpu_device_id);
+                } catch (const std::exception& e) {
+                    spdlog::warn("updateGPUHealth: injected NVML temperature provider failed for GPU {}: {}",
+                                 gpu_device_id, e.what());
+                } catch (...) {
+                    spdlog::warn("updateGPUHealth: injected NVML temperature provider failed for GPU {}",
+                                 gpu_device_id);
+                }
+            }
+        }
+        if (!temperature.has_value()) {
+            temperature = queryNvmlTemperatureCelsius(gpu_device_id);
+        }
         gpu_temperatures_[gpu_device_id] = temperature.value_or(40.0f + (utilization * 0.35f));
+        return;
     }
 #else
     // Simulation mode - calculate based on allocations
@@ -1993,6 +2028,30 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
         }
     } else {
         gpu_temperatures_[gpu_device_id] = 45.0f + (utilization * 0.4f);  // Simulated temp
+    }
+#endif
+
+#ifdef THEMIS_ENABLE_CUDA
+    if (!gpu_available_) {
+        size_t used_vram = 0;
+        auto it = per_gpu_vram_used_.find(gpu_device_id);
+        if (it != per_gpu_vram_used_.end()) {
+            used_vram = it->second;
+        }
+
+        float utilization = calculateUtilization(used_vram, config_.max_vram_bytes) * 100.0f;
+        gpu_utilizations_[gpu_device_id] = utilization;
+        if (config_.temperature_provider_fn) {
+            try {
+                gpu_temperatures_[gpu_device_id] = config_.temperature_provider_fn(gpu_device_id);
+            } catch (const std::exception& e) {
+                spdlog::error("GPU temperature callback failed for device {}: {}",
+                              gpu_device_id, e.what());
+                gpu_temperatures_[gpu_device_id] = 45.0f + (utilization * 0.4f);  // Simulated temp
+            }
+        } else {
+            gpu_temperatures_[gpu_device_id] = 45.0f + (utilization * 0.4f);  // Simulated temp
+        }
     }
 #endif
 }
