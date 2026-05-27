@@ -1093,6 +1093,30 @@ All scope functions now apply the W1-S03 anchor pattern: after `if (!member_) { 
 
 ---
 
+## ✅ Recent Remediation (2026-05-27) — W1-S03 Extension: Null-Guard Standardisation Round 15
+
+**Scope:** `src/server/feedback_api_handler.cpp`, `src/server/retention_api_handler.cpp`  
+**Ticket:** W1-S03 (issue scope) · Priority P1
+
+### Fixes Applied
+
+#### Defensive service-manager guard + anchored local reference (pointer_without_null_check / CWE-476)
+
+Both scope files now apply the W1-S03 anchor pattern in request-facing methods: the optional service pointer is guarded at function entry, then immediately anchored to a local reference, and all downstream dispatches in that path use the anchored reference.
+
+| File | Member(s) anchored | Guard sites |
+|---|---|---|
+| `feedback_api_handler.cpp` | `storage_service_` | 7 |
+| `retention_api_handler.cpp` | `retention_manager_` | 5 |
+
+### Gap Delta
+
+| Type | Before | After |
+|---|---|---|
+| `pointer_without_null_check` (W1-S03 Round 15 guarded derefs) | residual scanner-visible guarded-member deref hits in feedback + retention handler paths | standardized with explicit entry guards and post-guard local references across both scope files |
+
+---
+
 
 **Scope:** `src/server/http_server.cpp`, `include/server/http_server.h`  
 **Ticket:** W1-S02 · Priority P0  
