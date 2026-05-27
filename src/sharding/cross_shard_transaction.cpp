@@ -29,6 +29,7 @@
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <set>
+#include <unordered_set>
 #include <fstream>
 #include <thread>
 #include <chrono>
@@ -36,6 +37,49 @@
 
 namespace themisdb {
 namespace sharding {
+
+namespace {
+bool isNodeInDirectedCycle(
+    const std::map<std::string, std::vector<std::string>>& graph,
+    const std::string& start_node
+) {
+    auto start_it = graph.find(start_node);
+    if (start_it == graph.end()) {
+        return false;
+    }
+
+    std::unordered_set<std::string> visited;
+    visited.insert(start_node);
+
+    std::function<bool(const std::string&)> dfs =
+        [&](const std::string& node) -> bool {
+        auto it = graph.find(node);
+        if (it == graph.end()) {
+            return false;
+        }
+
+        for (const auto& neighbor : it->second) {
+            if (neighbor == start_node) {
+                return true;
+            }
+            if (visited.insert(neighbor).second && dfs(neighbor)) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    for (const auto& neighbor : start_it->second) {
+        if (neighbor == start_node) {
+            return true;
+        }
+        if (visited.insert(neighbor).second && dfs(neighbor)) {
+            return true;
+        }
+    }
+    return false;
+}
+}  // namespace
 
 CrossShardTransactionCoordinator::CrossShardTransactionCoordinator(
     const CrossShardTransactionConfig& config,
@@ -944,17 +988,7 @@ bool CrossShardTransactionCoordinator::isDeadlocked(
 ) const {
     // Build wait-for graph
     auto graph = buildWaitForGraph();
-    
-    // Check if transaction_id is part of a cycle
-    std::set<std::string> visited;
-    std::set<std::string> rec_stack;
-    
-    // Start DFS from the given transaction
-    if (graph.find(transaction_id) != graph.end()) {
-        return detectCycle(graph, transaction_id, visited, rec_stack);
-    }
-    
-    return false;
+    return isNodeInDirectedCycle(graph, transaction_id);
 }
 
 std::vector<CrossShardTransaction> CrossShardTransactionCoordinator::getActiveTransactions() const {
@@ -1779,20 +1813,11 @@ void CrossShardTransactionCoordinator::deadlockDetectionThread() {
             continue;  // No active transactions with potential conflicts
         }
         
-        // Detect cycles using DFS
-        std::set<std::string> visited;
-        std::set<std::string> rec_stack;
         std::vector<std::string> deadlocked_txns;
-        
+
         for (const auto& [node, _] : graph) {
-            if (visited.find(node) == visited.end()) {
-                if (detectCycle(graph, node, visited, rec_stack)) {
-                    // Found a cycle - all nodes in rec_stack are part of the deadlock
-                    for (const auto& txn_id : rec_stack) {
-                        deadlocked_txns.push_back(txn_id);
-                    }
-                    break;  // Handle one deadlock at a time
-                }
+            if (isNodeInDirectedCycle(graph, node)) {
+                deadlocked_txns.push_back(node);
             }
         }
         

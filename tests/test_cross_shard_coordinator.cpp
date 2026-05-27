@@ -240,6 +240,34 @@ TEST_F(DistributedDeadlockDetectionTest, DetectsAndResolvesReportedCrossShardCyc
     EXPECT_GE(stats["deadlocked_transactions"].get<uint64_t>(), 1u);
 }
 
+TEST(CrossShardDeadlockGraphTest, IsDeadlockedRequiresCycleMembership) {
+    auto consensus = std::make_shared<MockConsensusModule>();
+    CrossShardTransactionConfig config;
+    config.transaction_log_path = makeTempTxnLogPath("themisdb_deadlock_membership_");
+    config.enable_deadlock_detection = false;
+
+    CrossShardTransactionCoordinator coordinator(config, consensus);
+    ASSERT_TRUE(coordinator.initialize());
+    ASSERT_TRUE(coordinator.start());
+
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-chain-head", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-cycle-b", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-cycle-c", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+
+    coordinator.reportDistributedWait("txn-chain-head", "txn-cycle-b", "shard-A");
+    coordinator.reportDistributedWait("txn-cycle-b", "txn-cycle-c", "shard-B");
+    coordinator.reportDistributedWait("txn-cycle-c", "txn-cycle-b", "shard-C");
+
+    EXPECT_FALSE(coordinator.isDeadlocked("txn-chain-head"));
+    EXPECT_TRUE(coordinator.isDeadlocked("txn-cycle-b"));
+    EXPECT_TRUE(coordinator.isDeadlocked("txn-cycle-c"));
+
+    coordinator.stop();
+}
+
 // ============================================================================
 // Calvin Protocol Tests
 // ============================================================================
