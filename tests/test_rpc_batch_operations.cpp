@@ -941,6 +941,162 @@ TEST_F(RPCBatchOperationsTest, UpdateEntityInternalHonorsExpiredDeadline) {
 }
 
 // ============================================================================
+// Deadline enforcement – get, put, insert, transaction_begin/commit/abort,
+//                        stats, create_index, drop_index
+// ============================================================================
+
+TEST_F(RPCBatchOperationsTest, GetInternalHonorsExpiredDeadline) {
+    DirectPut("dl_get", "E", "e-1", {{"v", 42}});
+
+    auto expired = std::chrono::steady_clock::time_point{};
+    json resp = service_->handleGetInternal(
+        {{"collection", "dl_get"}, {"model", "E"}, {"uuid", "e-1"}},
+        std::make_optional(expired)
+    );
+
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+}
+
+TEST_F(RPCBatchOperationsTest, PutInternalHonorsExpiredDeadline) {
+    auto expired = std::chrono::steady_clock::time_point{};
+    json resp = service_->handlePutInternal(
+        {{"collection", "dl_put"},
+         {"model", "E"},
+         {"uuid", "e-1"},
+         {"entity", {{"v", 1}}}},
+        std::make_optional(expired)
+    );
+
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+
+    // Verify the entity was not written
+    std::string val;
+    EXPECT_FALSE(db_->get("dl_put:E:e-1", val));
+}
+
+TEST_F(RPCBatchOperationsTest, InsertInternalHonorsExpiredDeadline) {
+    auto expired = std::chrono::steady_clock::time_point{};
+    json resp = service_->handleInsertInternal(
+        {{"collection", "dl_insert"},
+         {"model", "E"},
+         {"uuid", "e-1"},
+         {"entity", {{"v", 1}}}},
+        std::make_optional(expired)
+    );
+
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+
+    // Verify the entity was not written
+    std::string val;
+    EXPECT_FALSE(db_->get("dl_insert:E:e-1", val));
+}
+
+TEST_F(RPCBatchOperationsTest, TransactionBeginInternalHonorsExpiredDeadline) {
+    auto expired = std::chrono::steady_clock::time_point{};
+    json resp = service_->handleTransactionBeginInternal(
+        {{"isolation_level", "READ_COMMITTED"}},
+        std::make_optional(expired)
+    );
+
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+}
+
+TEST_F(RPCBatchOperationsTest, TransactionCommitInternalHonorsExpiredDeadline) {
+    // Create a real transaction first
+    json begin_resp = service_->handleTransactionBegin({{"isolation_level", "READ_COMMITTED"}});
+    ASSERT_TRUE(begin_resp.contains("result"));
+    std::string tx_id = begin_resp["result"]["transaction_id"];
+
+    auto expired = std::chrono::steady_clock::time_point{};
+    json resp = service_->handleTransactionCommitInternal(
+        {{"transaction_id", tx_id}},
+        std::make_optional(expired)
+    );
+
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+
+    // The transaction was not committed; abort it to clean up
+    service_->handleTransactionAbort({{"transaction_id", tx_id}});
+}
+
+TEST_F(RPCBatchOperationsTest, TransactionAbortInternalHonorsExpiredDeadline) {
+    // Create a real transaction first
+    json begin_resp = service_->handleTransactionBegin({{"isolation_level", "READ_COMMITTED"}});
+    ASSERT_TRUE(begin_resp.contains("result"));
+    std::string tx_id = begin_resp["result"]["transaction_id"];
+
+    auto expired = std::chrono::steady_clock::time_point{};
+    json resp = service_->handleTransactionAbortInternal(
+        {{"transaction_id", tx_id}},
+        std::make_optional(expired)
+    );
+
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+
+    // The transaction still exists; clean it up
+    service_->handleTransactionAbort({{"transaction_id", tx_id}});
+}
+
+TEST_F(RPCBatchOperationsTest, StatsInternalHonorsExpiredDeadline) {
+    auto expired = std::chrono::steady_clock::time_point{};
+    json resp = service_->handleStatsInternal({}, std::make_optional(expired));
+
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+}
+
+TEST_F(RPCBatchOperationsTest, CreateIndexInternalHonorsExpiredDeadline) {
+    auto expired = std::chrono::steady_clock::time_point{};
+    json resp = service_->handleCreateIndexInternal(
+        {{"collection", "dl_idx"}, {"field", "name"}, {"type", "btree"}},
+        std::make_optional(expired)
+    );
+
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+
+    // Verify the index metadata was not written
+    std::string val;
+    EXPECT_FALSE(db_->get("_idx_meta:dl_idx:dl_idx_name_idx", val));
+}
+
+TEST_F(RPCBatchOperationsTest, DropIndexInternalHonorsExpiredDeadline) {
+    // Create an index to attempt to drop
+    json create_resp = service_->handleCreateIndex(
+        {{"collection", "dl_drop_idx"}, {"field", "name"}, {"type", "btree"}}
+    );
+    ASSERT_TRUE(create_resp.contains("result"));
+
+    auto expired = std::chrono::steady_clock::time_point{};
+    json resp = service_->handleDropIndexInternal(
+        {{"collection", "dl_drop_idx"}, {"index_name", "dl_drop_idx_name_idx"}},
+        std::make_optional(expired)
+    );
+
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+
+    // Verify the index metadata was not deleted
+    std::string val;
+    EXPECT_TRUE(db_->get("_idx_meta:dl_drop_idx:dl_drop_idx_name_idx", val));
+}
+
+// ============================================================================
 // Performance – batch vs. individual operations
 // ============================================================================
 

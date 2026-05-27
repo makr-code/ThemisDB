@@ -57,17 +57,29 @@ public:
      * @brief Handle GET operation
      */
     json handleGet(const json& params);
-    
+    json handleGetInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
+
     /**
      * @brief Handle PUT operation (upsert with optional transaction support)
      */
     json handlePut(const json& params);
-    
+    json handlePutInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
+
     /**
      * @brief Handle INSERT operation (strict insert - fails if entity already exists)
      * Supports optional transaction_id for transactional inserts.
      */
     json handleInsert(const json& params);
+    json handleInsertInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
     
     /**
      * @brief Handle DELETE operation
@@ -146,16 +158,28 @@ public:
      * @brief Handle transaction begin
      */
     json handleTransactionBegin(const json& params);
-    
+    json handleTransactionBeginInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
+
     /**
      * @brief Handle transaction commit
      */
     json handleTransactionCommit(const json& params);
-    
+    json handleTransactionCommitInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
+
     /**
      * @brief Handle transaction abort
      */
     json handleTransactionAbort(const json& params);
+    json handleTransactionAbortInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
     
     /**
      * @brief Handle health check
@@ -176,6 +200,10 @@ public:
      * @brief Handle statistics retrieval - get real database statistics
      */
     json handleStats(const json& params);
+    json handleStatsInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
     
     /**
      * @brief Handle entity update - update entity with merge logic
@@ -215,11 +243,19 @@ public:
      * @brief Handle create index - create index on collection
      */
     json handleCreateIndex(const json& params);
-    
+    json handleCreateIndexInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
+
     /**
      * @brief Handle drop index - drop index from collection
      */
     json handleDropIndex(const json& params);
+    json handleDropIndexInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
     
     /**
      * @brief Handle get collection metadata - retrieve collection metadata

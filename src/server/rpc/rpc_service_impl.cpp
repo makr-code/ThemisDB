@@ -249,6 +249,19 @@ static std::mutex transaction_mutex;
 static std::unordered_map<std::string, std::unique_ptr<RocksDBWrapper::TransactionWrapper>> active_transactions;
 
 json ThemisRPCService::handleGet(const json& params) {
+    return handleGetInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleGetInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
+    if (isDeadlineExceeded(deadline)) {
+        return createError(
+            themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+            "Request deadline exceeded before get execution"
+        );
+    }
     try {
         std::string model(params.value("model", ""));
         std::string collection(params.value("collection", ""));
@@ -313,6 +326,19 @@ json ThemisRPCService::handleGet(const json& params) {
 }
 
 json ThemisRPCService::handlePut(const json& params) {
+    return handlePutInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handlePutInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
+    if (isDeadlineExceeded(deadline)) {
+        return createError(
+            themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+            "Request deadline exceeded before put execution"
+        );
+    }
     try {
         std::string model(params.value("model", ""));
         std::string collection(params.value("collection", ""));
@@ -400,6 +426,19 @@ json ThemisRPCService::handlePut(const json& params) {
 }
 
 json ThemisRPCService::handleInsert(const json& params) {
+    return handleInsertInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleInsertInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
+    if (isDeadlineExceeded(deadline)) {
+        return createError(
+            themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+            "Request deadline exceeded before insert execution"
+        );
+    }
     try {
         std::string model(params.value("model", ""));
         std::string collection(params.value("collection", ""));
@@ -1849,6 +1888,19 @@ json ThemisRPCService::handleTimeSeriesQueryInternal(
 static uint64_t transaction_counter = 0;
 
 json ThemisRPCService::handleTransactionBegin(const json& params) {
+    return handleTransactionBeginInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleTransactionBeginInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
+    if (isDeadlineExceeded(deadline)) {
+        return createError(
+            themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+            "Request deadline exceeded before transaction_begin execution"
+        );
+    }
     try {
         // Get storage engine
         auto storage = storage_;
@@ -1897,6 +1949,19 @@ json ThemisRPCService::handleTransactionBegin(const json& params) {
 }
 
 json ThemisRPCService::handleTransactionCommit(const json& params) {
+    return handleTransactionCommitInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleTransactionCommitInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
+    if (isDeadlineExceeded(deadline)) {
+        return createError(
+            themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+            "Request deadline exceeded before transaction_commit execution"
+        );
+    }
     try {
         std::string tx_id;
         if (params.is_object()) {
@@ -1955,6 +2020,19 @@ json ThemisRPCService::handleTransactionCommit(const json& params) {
 }
 
 json ThemisRPCService::handleTransactionAbort(const json& params) {
+    return handleTransactionAbortInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleTransactionAbortInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
+    if (isDeadlineExceeded(deadline)) {
+        return createError(
+            themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+            "Request deadline exceeded before transaction_abort execution"
+        );
+    }
     try {
         std::string tx_id;
         if (params.is_object()) {
@@ -2193,6 +2271,19 @@ json ThemisRPCService::handleSearchInternal(
 }
 
 json ThemisRPCService::handleStats([[maybe_unused]] const json& params) {
+    return handleStatsInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleStatsInternal(
+    [[maybe_unused]] const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
+    if (isDeadlineExceeded(deadline)) {
+        return createError(
+            themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+            "Request deadline exceeded before stats execution"
+        );
+    }
     try {
         // Get storage engine
         auto storage = storage_;
@@ -2917,6 +3008,19 @@ json ThemisRPCService::handleListCollectionsInternal(
 }
 
 json ThemisRPCService::handleCreateIndex(const json& params) {
+    return handleCreateIndexInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleCreateIndexInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
+    if (isDeadlineExceeded(deadline)) {
+        return createError(
+            themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+            "Request deadline exceeded before create_index execution"
+        );
+    }
     try {
         std::string collection(params.value("collection", ""));
         std::string field(params.value("field", ""));
@@ -2977,6 +3081,19 @@ json ThemisRPCService::handleCreateIndex(const json& params) {
 }
 
 json ThemisRPCService::handleDropIndex(const json& params) {
+    return handleDropIndexInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleDropIndexInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
+    if (isDeadlineExceeded(deadline)) {
+        return createError(
+            themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+            "Request deadline exceeded before drop_index execution"
+        );
+    }
     try {
         std::string collection(params.value("collection", ""));
         std::string index_name(params.value("index_name", ""));
@@ -3238,11 +3355,11 @@ json ThemisRPCService::dispatch(
 
     auto dispatch_once = [&]() -> json {
         if (method == "get") {
-            return handleGet(params);
+            return handleGetInternal(params, request_deadline);
         } else if (method == "put") {
-            return handlePut(params);
+            return handlePutInternal(params, request_deadline);
         } else if (method == "insert") {
-            return handleInsert(params);
+            return handleInsertInternal(params, request_deadline);
         } else if (method == "delete") {
             return handleDeleteInternal(params, request_deadline);
         } else if (method == "batch_get") {
@@ -3262,11 +3379,11 @@ json ThemisRPCService::dispatch(
         } else if (method == "timeseries_query") {
             return handleTimeSeriesQueryInternal(params, request_deadline);
         } else if (method == "transaction_begin") {
-            return handleTransactionBegin(params);
+            return handleTransactionBeginInternal(params, request_deadline);
         } else if (method == "transaction_commit") {
-            return handleTransactionCommit(params);
+            return handleTransactionCommitInternal(params, request_deadline);
         } else if (method == "transaction_abort") {
-            return handleTransactionAbort(params);
+            return handleTransactionAbortInternal(params, request_deadline);
         } else if (method == "health_check") {
             return handleHealthCheck(params);
         } else if (method == "authenticate") {
@@ -3274,7 +3391,7 @@ json ThemisRPCService::dispatch(
         } else if (method == "search") {
             return handleSearchInternal(params, request_deadline);
         } else if (method == "stats") {
-            return handleStats(params);
+            return handleStatsInternal(params, request_deadline);
         } else if (method == "update_entity") {
             return handleUpdateEntityInternal(params, request_deadline);
         } else if (method == "batch_update") {
@@ -3288,9 +3405,9 @@ json ThemisRPCService::dispatch(
         } else if (method == "list_collections") {
             return handleListCollectionsInternal(params, request_deadline);
         } else if (method == "create_index") {
-            return handleCreateIndex(params);
+            return handleCreateIndexInternal(params, request_deadline);
         } else if (method == "drop_index") {
-            return handleDropIndex(params);
+            return handleDropIndexInternal(params, request_deadline);
         } else if (method == "get_collection_metadata") {
             return handleGetCollectionMetadataInternal(params, request_deadline);
         }

@@ -999,3 +999,15 @@ Findings addressed:
   progress in 256-field intervals, and re-checks before the final write. Added
   `UpdateEntityInternalHonorsExpiredDeadline` in `tests/test_rpc_batch_operations.cpp` to verify
   timeout behavior and non-mutation on expired deadlines.
+
+- **W1-S04 follow-up (2026-05-27) — deadline threading for remaining single-op handlers (`rpc_service_impl.cpp`):**
+  All remaining handlers without deadline enforcement have been converted to the wrapper + `Internal(params, deadline)`
+  pattern: `handleGet`, `handlePut`, `handleInsert`, `handleTransactionBegin`, `handleTransactionCommit`,
+  `handleTransactionAbort`, `handleStats`, `handleCreateIndex`, `handleDropIndex`. Each Internal variant
+  performs a pre-execution `isDeadlineExceeded(deadline)` check and returns `QUERY_TIMEOUT` on expired
+  deadlines before touching storage. `dispatch()` now threads `request_deadline` into all of these Internal
+  variants, completing full deadline coverage across every dispatched RPC method (excluding `health_check`
+  and `authenticate` which are infrastructure methods exempt from user deadline enforcement). Added
+  `GetInternal`, `PutInternal`, `InsertInternal`, `TransactionBeginInternal`, `TransactionCommitInternal`,
+  `TransactionAbortInternal`, `StatsInternal`, `CreateIndexInternal`, and `DropIndexInternal`
+  `HonorsExpiredDeadline` tests in `tests/test_rpc_batch_operations.cpp`.
