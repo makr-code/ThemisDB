@@ -24,6 +24,8 @@
 #include <queue>
 #include <unordered_map>
 #include <unordered_set>
+#include <thread>
+#include <optional>
 
 // Define THEMIS_VERSION_STRING if not already defined
 #ifndef THEMIS_VERSION_STRING
@@ -39,6 +41,82 @@ namespace {
     constexpr double PI = 3.14159265358979323846;
     constexpr double DEG_TO_RAD = PI / 180.0;
     constexpr double EARTH_RADIUS_METERS = 6371000.0;
+
+    bool isRetryableMethod(const std::string& method) {
+        static const std::unordered_set<std::string> retryable_methods = {
+            "get", "batch_get", "search", "query", "paginated_query",
+            "vector_search", "graph_traverse", "geo_query", "timeseries_query",
+            "get_index_operations", "list_collections", "get_collection_metadata",
+            "aggregation_pipeline", "health_check", "stats"
+        };
+        return retryable_methods.count(method) > 0;
+    }
+
+    bool isRetryableErrorResponse(const json& response) {
+        if (!response.contains("error") || !response["error"].is_object()) {
+            return false;
+        }
+        const int code = response["error"].value("code", -1);
+        return code == static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT) ||
+               code == static_cast<int>(themis::plugins::rpc::RPCErrorCode::SERVICE_UNAVAILABLE) ||
+               code == static_cast<int>(themis::plugins::rpc::RPCErrorCode::RESOURCE_EXHAUSTED);
+    }
+
+    std::optional<std::chrono::milliseconds> parseGrpcTimeout(const std::string& timeout) {
+        if (timeout.size() < 2) {
+            return std::nullopt;
+        }
+
+        const char unit = timeout.back();
+        long long value = 0;
+        try {
+            value = std::stoll(timeout.substr(0, timeout.size() - 1));
+        } catch (const std::exception&) {
+            return std::nullopt;
+        }
+
+        if (value <= 0) {
+            return std::chrono::milliseconds(0);
+        }
+
+        using namespace std::chrono;
+        switch (unit) {
+            case 'H': return duration_cast<milliseconds>(hours(value));
+            case 'M': return duration_cast<milliseconds>(minutes(value));
+            case 'S': return duration_cast<milliseconds>(seconds(value));
+            case 'm': return milliseconds(value);
+            case 'u': return std::max(milliseconds(1), duration_cast<milliseconds>(microseconds(value)));
+            case 'n': return std::max(milliseconds(1), duration_cast<milliseconds>(nanoseconds(value)));
+            default: return std::nullopt;
+        }
+    }
+
+    std::optional<std::chrono::milliseconds> parseRequestTimeout(const themis::plugins::rpc::RPCRequestContext& context) {
+        auto grpc_timeout_it = context.metadata.find("grpc-timeout");
+        if (grpc_timeout_it != context.metadata.end()) {
+            return parseGrpcTimeout(grpc_timeout_it->second);
+        }
+
+        auto ms_timeout_it = context.metadata.find("x-timeout-ms");
+        if (ms_timeout_it != context.metadata.end()) {
+            try {
+                return std::chrono::milliseconds(std::stoll(ms_timeout_it->second));
+            } catch (const std::exception&) {
+                return std::nullopt;
+            }
+        }
+
+        auto request_timeout_it = context.metadata.find("request-timeout-ms");
+        if (request_timeout_it != context.metadata.end()) {
+            try {
+                return std::chrono::milliseconds(std::stoll(request_timeout_it->second));
+            } catch (const std::exception&) {
+                return std::nullopt;
+            }
+        }
+
+        return std::nullopt;
+    }
 }
 
 // Helper function to get timestamp in nanoseconds
@@ -2409,6 +2487,18 @@ json ThemisRPCService::dispatch(
     const json& params,
     const themis::plugins::rpc::RPCRequestContext& context
 ) {
+    auto request_timeout = parseRequestTimeout(context);
+    if (request_timeout.has_value() && context.timestamp_ms > 0) {
+        const auto now_ms = static_cast<uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count());
+        if (now_ms >= context.timestamp_ms + static_cast<uint64_t>(request_timeout->count())) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                "Request deadline exceeded before dispatch"
+            );
+        }
+    }
+
     // Authentication and authorization check (except for authenticate and health_check methods)
     if (method != "authenticate" && method != "health_check") {
         std::string username;
@@ -2458,70 +2548,101 @@ json ThemisRPCService::dispatch(
             );
         }
     }
-    
-    // Route to appropriate handler
-    if (method == "get") {
-        return handleGet(params);
-    } else if (method == "put") {
-        return handlePut(params);
-    } else if (method == "insert") {
-        return handleInsert(params);
-    } else if (method == "delete") {
-        return handleDelete(params);
-    } else if (method == "batch_get") {
-        return handleBatchGet(params);
-    } else if (method == "batch_put") {
-        return handleBatchPut(params);
-    } else if (method == "batch_delete") {
-        return handleBatchDelete(params);
-    } else if (method == "query") {
-        return handleQuery(params);
-    } else if (method == "vector_search") {
-        return handleVectorSearch(params);
-    } else if (method == "graph_traverse") {
-        return handleGraphTraverse(params);
-    } else if (method == "geo_query") {
-        return handleGeoQuery(params);
-    } else if (method == "timeseries_query") {
-        return handleTimeSeriesQuery(params);
-    } else if (method == "transaction_begin") {
-        return handleTransactionBegin(params);
-    } else if (method == "transaction_commit") {
-        return handleTransactionCommit(params);
-    } else if (method == "transaction_abort") {
-        return handleTransactionAbort(params);
-    } else if (method == "health_check") {
-        return handleHealthCheck(params);
-    } else if (method == "authenticate") {
-        return handleAuthenticate(params);
-    } else if (method == "search") {
-        return handleSearch(params);
-    } else if (method == "stats") {
-        return handleStats(params);
-    } else if (method == "update_entity") {
-        return handleUpdateEntity(params);
-    } else if (method == "batch_update") {
-        return handleBatchUpdate(params);
-    } else if (method == "paginated_query") {
-        return handlePaginatedQuery(params);
-    } else if (method == "get_index_operations") {
-        return handleGetIndexOperations(params);
-    } else if (method == "aggregation_pipeline") {
-        return handleAggregationPipeline(params);
-    } else if (method == "list_collections") {
-        return handleListCollections(params);
-    } else if (method == "create_index") {
-        return handleCreateIndex(params);
-    } else if (method == "drop_index") {
-        return handleDropIndex(params);
-    } else if (method == "get_collection_metadata") {
-        return handleGetCollectionMetadata(params);
-    } else {
+
+    auto dispatch_once = [&]() -> json {
+        if (method == "get") {
+            return handleGet(params);
+        } else if (method == "put") {
+            return handlePut(params);
+        } else if (method == "insert") {
+            return handleInsert(params);
+        } else if (method == "delete") {
+            return handleDelete(params);
+        } else if (method == "batch_get") {
+            return handleBatchGet(params);
+        } else if (method == "batch_put") {
+            return handleBatchPut(params);
+        } else if (method == "batch_delete") {
+            return handleBatchDelete(params);
+        } else if (method == "query") {
+            return handleQuery(params);
+        } else if (method == "vector_search") {
+            return handleVectorSearch(params);
+        } else if (method == "graph_traverse") {
+            return handleGraphTraverse(params);
+        } else if (method == "geo_query") {
+            return handleGeoQuery(params);
+        } else if (method == "timeseries_query") {
+            return handleTimeSeriesQuery(params);
+        } else if (method == "transaction_begin") {
+            return handleTransactionBegin(params);
+        } else if (method == "transaction_commit") {
+            return handleTransactionCommit(params);
+        } else if (method == "transaction_abort") {
+            return handleTransactionAbort(params);
+        } else if (method == "health_check") {
+            return handleHealthCheck(params);
+        } else if (method == "authenticate") {
+            return handleAuthenticate(params);
+        } else if (method == "search") {
+            return handleSearch(params);
+        } else if (method == "stats") {
+            return handleStats(params);
+        } else if (method == "update_entity") {
+            return handleUpdateEntity(params);
+        } else if (method == "batch_update") {
+            return handleBatchUpdate(params);
+        } else if (method == "paginated_query") {
+            return handlePaginatedQuery(params);
+        } else if (method == "get_index_operations") {
+            return handleGetIndexOperations(params);
+        } else if (method == "aggregation_pipeline") {
+            return handleAggregationPipeline(params);
+        } else if (method == "list_collections") {
+            return handleListCollections(params);
+        } else if (method == "create_index") {
+            return handleCreateIndex(params);
+        } else if (method == "drop_index") {
+            return handleDropIndex(params);
+        } else if (method == "get_collection_metadata") {
+            return handleGetCollectionMetadata(params);
+        }
+
         return createError(
             themis::plugins::rpc::RPCErrorCode::METHOD_NOT_FOUND,
             "Method not found: " + method
         );
+    };
+
+    const bool retryable_method = isRetryableMethod(method);
+    const int max_attempts = retryable_method ? 3 : 1;
+    for (int attempt = 1; attempt <= max_attempts; ++attempt) {
+        try {
+            json response = dispatch_once();
+            if (!retryable_method || !isRetryableErrorResponse(response) || attempt == max_attempts) {
+                return response;
+            }
+        } catch (const std::exception& e) {
+            if (!retryable_method || attempt == max_attempts) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                    e.what()
+                );
+            }
+        } catch (...) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Unknown internal error during RPC dispatch"
+            );
+        }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(10 * attempt));
     }
+
+    return createError(
+        themis::plugins::rpc::RPCErrorCode::SERVICE_UNAVAILABLE,
+        "Retry budget exhausted"
+    );
 }
 
 bool ThemisRPCService::verifyAuth(
@@ -2594,4 +2715,3 @@ json ThemisRPCService::createSuccess(const json& result) {
 } // namespace rpc
 } // namespace server
 } // namespace themis
-

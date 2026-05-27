@@ -19,6 +19,7 @@
 #include <array>
 #include <atomic>
 #include <mutex>
+#include <chrono>
 
 namespace asio = boost::asio;
 
@@ -93,6 +94,8 @@ private:
     void writeMessage(char type, const std::vector<uint8_t>& payload);
     void enqueueWrite(std::vector<uint8_t> message);
     void closeSocket();
+    void armReadTimeout();
+    void cancelReadTimeout();
     char currentTransactionStatus() const;
     
     // SQL to Cypher translation for BI tools
@@ -121,6 +124,7 @@ private:
     std::string parseDeleteQuery(const std::string& query);
     
     asio::ip::tcp::socket socket_;
+    asio::steady_timer readTimeoutTimer_;
     std::array<char, 8192> buffer_;
     std::string databaseName_;
     std::string userName_;
@@ -130,6 +134,7 @@ private:
     std::deque<std::vector<uint8_t>> writeQueue_;
     mutable std::mutex writeMutex_;
     bool writeInProgress_ = false;
+    static constexpr std::chrono::seconds kReadTimeout{30};
     
     // Transaction state tracking
     enum class TransactionState {

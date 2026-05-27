@@ -512,6 +512,19 @@ this as a potential null dereference.
 explaining that `storage` was already validated above. The lambda now compiles as trivially
 safe from any analysis perspective.
 
+#### 4. Follow-up hardening (2026-05-27) — Timeout/Retry/Unknown-Exception
+
+- `postgres_session.cpp` now arms a per-read socket timeout (`kReadTimeout`, SQLSTATE `57014`)
+  and cancels it on successful reads, preventing idle connections from hanging indefinitely.
+- PostgreSQL message dispatch now also catches `catch (...)` and returns a structured
+  `XX000` protocol error instead of risking process-level termination on non-`std::exception`.
+- `rpc_service_impl.cpp::dispatch()` now:
+  - rejects already-expired requests from propagated timeout metadata (`grpc-timeout`,
+    `x-timeout-ms`, `request-timeout-ms`) with `RPCErrorCode::QUERY_TIMEOUT`;
+  - applies a bounded retry budget (max 3 attempts, short backoff) for retryable read methods
+    when receiving transient timeout/service-availability error codes;
+  - catches `std::exception` and `...` at dispatch level to avoid uncaught-exception crashes.
+
 ### Retry / Timeout Assessment
 
 | Component | Retry applicability | Timeout applicability |
@@ -524,7 +537,9 @@ safe from any analysis perspective.
 | Type | Before | After |
 |---|---|---|
 | pointer_arithmetic HIGH (postgres) | 18 | Reduced: 3 Execute/Describe/Close OOB guards added |
-| uncaught_exception HIGH (postgres) | 11 | Documented as properly caught at callers; error message improved |
+| uncaught_exception HIGH (postgres/rpc) | 11+ | Reduced: protocol/RPC dispatch now catches `std::exception` + `...` |
+| no_timeout HIGH (postgres/rpc) | n/a | Reduced: socket read timeout + propagated request-timeout pre-dispatch guard |
+| no_retry_logic MEDIUM (rpc) | n/a | Reduced: bounded retry budget for retryable read methods on transient errors |
 | null_dereference HIGH (rpc) | 2 | 1 storage lambda guard added; 1 already guarded (false positive documented) |
 
 ---

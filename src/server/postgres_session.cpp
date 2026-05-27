@@ -83,11 +83,13 @@ namespace {
 
 PostgresSession::PostgresSession(asio::ip::tcp::socket socket)
     : socket_(std::move(socket))
+    , readTimeoutTimer_(socket_.get_executor())
     , queryEngine_(nullptr) {
 }
 
 PostgresSession::PostgresSession(asio::ip::tcp::socket socket, themis::QueryEngine* queryEngine)
     : socket_(std::move(socket))
+    , readTimeoutTimer_(socket_.get_executor())
     , queryEngine_(queryEngine) {
 }
 
@@ -119,6 +121,7 @@ void PostgresSession::stop() {
 
 void PostgresSession::closeSocket() {
     boost::beast::error_code ec;
+    readTimeoutTimer_.cancel();
     {
         std::lock_guard<std::mutex> lock(writeMutex_);
         writeQueue_.clear();
@@ -126,6 +129,23 @@ void PostgresSession::closeSocket() {
     }
     socket_.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
     socket_.close(ec);
+}
+
+void PostgresSession::armReadTimeout() {
+    auto self = shared_from_this();
+    readTimeoutTimer_.expires_after(kReadTimeout);
+    readTimeoutTimer_.async_wait([this, self](const boost::beast::error_code& ec) {
+        if (ec || stopped_.load(std::memory_order_acquire)) {
+            return;
+        }
+        sendErrorResponse("ERROR", "57014", "Connection timed out while waiting for client message");
+        stop();
+    });
+}
+
+void PostgresSession::cancelReadTimeout() {
+    boost::beast::error_code ec;
+    readTimeoutTimer_.cancel(ec);
 }
 
 char PostgresSession::currentTransactionStatus() const {
@@ -1224,9 +1244,11 @@ void PostgresSession::sendErrorResponse(const std::string& severity, const std::
 
 void PostgresSession::doRead() {
     auto self = shared_from_this();
+    armReadTimeout();
     
     socket_.async_read_some(asio::buffer(buffer_),
         [this, self](boost::beast::error_code ec, std::size_t bytes_transferred) {
+            cancelReadTimeout();
             if (ec || stopped_.load(std::memory_order_acquire)) {
                 stop();
                 return;
@@ -1431,6 +1453,9 @@ void PostgresSession::doRead() {
                 } catch (const std::exception& e) {
                     std::cerr << "[PostgresSession] Message handler error (type='" << messageType << "'): " << e.what() << "\n";
                     sendErrorResponse("ERROR", "XX000", std::string("Internal error: ") + e.what());
+                } catch (...) {
+                    std::cerr << "[PostgresSession] Message handler unknown error (type='" << messageType << "')\n";
+                    sendErrorResponse("ERROR", "XX000", "Internal error: unknown exception");
                 }
             }
             
