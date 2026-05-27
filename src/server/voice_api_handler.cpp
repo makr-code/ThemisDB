@@ -269,8 +269,9 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
     else if (path == "/api/v1/voice/macros" && method == http::verb::get) {
         return handleListMacros(req);
     }
-    else if (path.find("/api/v1/voice/macros/") == 0) {
-        std::string macro_id = path.substr(21);  // Length of "/api/v1/voice/macros/"
+    else if (path.rfind("/api/v1/voice/macros/", 0) == 0) {
+        static constexpr std::string_view kMacrosPrefix = "/api/v1/voice/macros/";
+        std::string macro_id = path.substr(kMacrosPrefix.size());
         if (macro_id.empty()) {
             return createErrorResponse(
                 http::status::bad_request, "Bad Request", "Missing macro ID");
@@ -289,9 +290,14 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
             return handleDeleteMacro(req, macro_id);
         }
     }
-    else if (path.find("/api/v1/voice/sessions/") == 0) {
+    else if (path.rfind("/api/v1/voice/sessions/", 0) == 0) {
+        static constexpr std::string_view kSessionsPrefix = "/api/v1/voice/sessions/";
         // Extract session ID
-        std::string session_id = path.substr(24);  // Length of "/api/v1/voice/sessions/"
+        std::string session_id = path.substr(kSessionsPrefix.size());
+        if (session_id.empty()) {
+            return createErrorResponse(
+                http::status::bad_request, "Bad Request", "Missing session ID");
+        }
         
         // Remove trailing segments
         auto slash_pos = session_id.find('/');

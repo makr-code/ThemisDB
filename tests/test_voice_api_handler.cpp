@@ -63,12 +63,28 @@ TEST_F(VoiceApiHandlerPathValidationTest, MacroRejectsInvalidId) {
     EXPECT_EQ(parseBody(response)["details"], "Invalid macro ID");
 }
 
+TEST_F(VoiceApiHandlerPathValidationTest, MacroRejectsMissingId) {
+    const auto response = handler.handleRequest(
+        makeRequest(http::verb::get, "/api/v1/voice/macros/"));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "Missing macro ID");
+}
+
 TEST_F(VoiceApiHandlerPathValidationTest, SessionRejectsInvalidId) {
     const auto response = handler.handleRequest(
         makeRequest(http::verb::get, "/api/v1/voice/sessions/../bad"));
 
     ASSERT_EQ(response.result(), http::status::bad_request);
     EXPECT_EQ(parseBody(response)["details"], "Invalid session path");
+}
+
+TEST_F(VoiceApiHandlerPathValidationTest, SessionRejectsMissingId) {
+    const auto response = handler.handleRequest(
+        makeRequest(http::verb::get, "/api/v1/voice/sessions/"));
+
+    ASSERT_EQ(response.result(), http::status::bad_request);
+    EXPECT_EQ(parseBody(response)["details"], "Missing session ID");
 }
 
 TEST_F(VoiceApiHandlerPathValidationTest, RecordingRejectsInvalidId) {
