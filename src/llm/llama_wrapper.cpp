@@ -1000,6 +1000,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     // Real llama.cpp inference implementation
     // Declare adapter tracking outside try to access in catch
     bool adapter_applied = false;
+    auto* const lora_manager = lora_manager_.get();
     
     try {
         // 1. Apply LoRA adapter if specified (Auto-Binding with Context Switch Detection)
@@ -1010,7 +1011,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             const std::string& adapter_id = *request.lora_adapter_id;
             spdlog::info("Auto-binding LoRA adapter: {}", adapter_id);
 
-            if (!lora_manager_) {
+            if (!lora_manager) {
                 spdlog::warn("LoRA manager not initialized, cannot apply adapter {}", adapter_id);
             } else {
 
@@ -1024,19 +1025,19 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
                 // Check if we need to switch adapters
                 if (active_lora_adapter_ != adapter_id || context_changed) {
                     // Load adapter if not already loaded (lazy loading)
-                    if (!lora_manager_->isLoRALoaded(adapter_id)) {
+                    if (!lora_manager->isLoRALoaded(adapter_id)) {
                         spdlog::info("LoRA adapter {} not loaded, attempting lazy load from storage", adapter_id);
                         // Adapter will be loaded by LoRAManager from storage
                     }
 
                     // Ensure LoRA is initialized with the model handle
                     // This calls llama_lora_adapter_init() if not already done
-                    if (lora_manager_->isLoRALoaded(adapter_id)) {
-                        if (!lora_manager_->initializeLoRAWithModel(adapter_id, lmodel)) {
+                    if (lora_manager->isLoRALoaded(adapter_id)) {
+                        if (!lora_manager->initializeLoRAWithModel(adapter_id, lmodel)) {
                             spdlog::warn("Failed to initialize LoRA adapter {}, proceeding with base model", adapter_id);
                         } else {
                             // Apply adapter to context
-                            if (lora_manager_->applyLoRA(adapter_id, lctx)) {
+                            if (lora_manager->applyLoRA(adapter_id, lctx)) {
                                 adapter_applied = true;
                                 active_lora_adapter_ = adapter_id;
                                 last_context_ptr_ = lctx;
@@ -1057,8 +1058,8 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         } else if (!active_lora_adapter_.empty() && !context_changed) {
             // No adapter requested but one is active - remove it
             spdlog::info("Removing active adapter {} as none requested", active_lora_adapter_);
-            if (lora_manager_) {
-                lora_manager_->removeLoRA(active_lora_adapter_, lctx);
+            if (lora_manager) {
+                lora_manager->removeLoRA(active_lora_adapter_, lctx);
                 active_lora_adapter_.clear();
             } else {
                 spdlog::warn("LoRA manager not initialized, cannot remove active adapter {}",
@@ -1294,8 +1295,8 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         spdlog::error("Inference error: {}", e.what());
         
         // Cleanup: Remove adapter if applied (error path)
-        if (adapter_applied && request.lora_adapter_id && lora_manager_) {
-            lora_manager_->removeLoRA(*request.lora_adapter_id, lctx);
+        if (adapter_applied && request.lora_adapter_id && lora_manager) {
+            lora_manager->removeLoRA(*request.lora_adapter_id, lctx);
             spdlog::debug("LoRA adapter {} removed after error", *request.lora_adapter_id);
         }
         
@@ -2343,6 +2344,7 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
     
     // Declare adapter tracking outside try to access in catch
     bool adapter_applied = false;
+    auto* const lora_manager = lora_manager_.get();
     
     try {
         // Apply LoRA adapter if specified (Auto-Binding)
@@ -2352,15 +2354,15 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
             spdlog::info("Auto-binding LoRA adapter for speculative decoding: {}", adapter_id);
             
             // Load adapter if not already loaded (lazy loading)
-            if (!lora_manager_) {
+            if (!lora_manager) {
                 spdlog::warn("LoRA manager not initialized, cannot apply adapter {}", adapter_id);
             } else {
-                if (!lora_manager_->isLoRALoaded(adapter_id)) {
+                if (!lora_manager->isLoRALoaded(adapter_id)) {
                     spdlog::info("LoRA adapter {} not loaded, attempting lazy load from storage", adapter_id);
                 }
 
                 // Apply adapter to target context (not draft model)
-                if (lora_manager_->applyLoRA(adapter_id, target_context)) {
+                if (lora_manager->applyLoRA(adapter_id, target_context)) {
                     adapter_applied = true;
                     spdlog::debug("LoRA adapter {} applied to target context", adapter_id);
                 } else {
@@ -2573,8 +2575,8 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         spdlog::error("Speculative decoding error: {}", e.what());
         
         // Cleanup on error: Remove adapter if applied
-        if (adapter_applied && request.lora_adapter_id && lora_manager_) {
-            lora_manager_->removeLoRA(*request.lora_adapter_id, target_context);
+        if (adapter_applied && request.lora_adapter_id && lora_manager) {
+            lora_manager->removeLoRA(*request.lora_adapter_id, target_context);
             spdlog::debug("LoRA adapter {} removed after error", *request.lora_adapter_id);
         }
         
@@ -2617,6 +2619,7 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
     // Real llama.cpp inference implementation
     // Declare adapter tracking outside try to access in catch
     bool adapter_applied = false;
+    auto* const lora_manager = lora_manager_.get();
     
     try {
         // Apply LoRA adapter if specified (Auto-Binding)
@@ -2626,15 +2629,15 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
             spdlog::info("Auto-binding LoRA adapter: {}", adapter_id);
             
             // Load adapter if not already loaded (lazy loading)
-            if (!lora_manager_) {
+            if (!lora_manager) {
                 spdlog::warn("LoRA manager not initialized, cannot apply adapter {}", adapter_id);
             } else {
-                if (!lora_manager_->isLoRALoaded(adapter_id)) {
+                if (!lora_manager->isLoRALoaded(adapter_id)) {
                     spdlog::info("LoRA adapter {} not loaded, attempting lazy load from storage", adapter_id);
                 }
 
                 // Apply adapter to context
-                if (lora_manager_->applyLoRA(adapter_id, lctx)) {
+                if (lora_manager->applyLoRA(adapter_id, lctx)) {
                     adapter_applied = true;
                     spdlog::debug("LoRA adapter {} applied to context", adapter_id);
                 } else {
@@ -2760,8 +2763,8 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         spdlog::error("Inference error: {}", e.what());
         
         // Cleanup on error: Remove adapter if applied
-        if (adapter_applied && request.lora_adapter_id && lora_manager_) {
-            lora_manager_->removeLoRA(*request.lora_adapter_id, lctx);
+        if (adapter_applied && request.lora_adapter_id && lora_manager) {
+            lora_manager->removeLoRA(*request.lora_adapter_id, lctx);
             spdlog::debug("LoRA adapter {} removed after error", *request.lora_adapter_id);
         }
         

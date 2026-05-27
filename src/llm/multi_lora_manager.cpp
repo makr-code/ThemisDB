@@ -2086,8 +2086,9 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
     // Security validation (v1.20.0): run LoRASecurityValidator::validateMetadata()
     // before any file I/O so that malformed or tampered adapters are rejected
     // early — before the GGUF parser streams adapter weights into memory.
-    if (config_.security_validator) {
-        if (!config_.security_validator->validateMetadata(lora_path)) {
+    const auto security_validator = config_.security_validator;
+    if (security_validator) {
+        if (!security_validator->validateMetadata(lora_path)) {
             if (config_.enforce_security_validation) {
                 spdlog::error("loadLoRAInternal: security-validator rejected adapter '{}' "
                               "at path '{}' — metadata validation failed (enforce=true)",

@@ -471,6 +471,24 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
   distinguish from races. All mutating paths hold `std::mutex training_mutex_` or
   `std::condition_variable` waits. No concrete unguarded shared-state write found on audit.
 
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up):** Scanner-friendly guard anchoring added in issue scope:
+- `multi_lora_manager.cpp` (`loadLoRAInternal`) now snapshots `config_.security_validator`
+  into a local `shared_ptr` before use (`if (security_validator)` + single dereference path),
+  reducing ambiguous member-pointer nullability traces.
+- `llama_wrapper.cpp` (`generate`, `generateSpeculative`, `generateRegular`) now snapshots
+  `lora_manager_.get()` into a local pointer after guard and uses that alias consistently for
+  load/apply/remove paths, which keeps the guard and dereference in the same analysis scope.
+- `lora_training_service.cpp` public forwarding methods now fail fast on `!impl_` with explicit
+  guard throws before any `impl_->...` dispatch, making nullability intent explicit to static scanners.
+
+### Gap Delta (W1-L07 follow-up)
+
+| Scope file | Before | After |
+|---|---|---|
+| `src/llm/multi_lora_manager.cpp` | member-pointer guard + repeated member dereference | guard + local validator alias |
+| `src/llm/llama_wrapper.cpp` | member guard and dereference across mixed control-flow blocks | local alias anchored to guard in hot inference paths |
+| `src/llm/lora_framework/lora_training_service.cpp` | direct `impl_->...` forwarding without explicit precondition guard | explicit `if (!impl_)` fail-fast guards in forwarding entry points |
+
 **Status (v1.22.0-pre — W1-L03d scope follow-up):** Vulkan/DirectX kernel-interface
 scope hardened for smart-pointer lifetime safety:
 - `lora_framework/kernels/vulkan_kernels.cpp` — Removed `thread_local` fused-buffer cache

@@ -1145,6 +1145,9 @@ TrainingResult LoRATrainingService::trainOnTheFly(
     const TrainingData& data,
     const std::optional<LoRAHyperparameters>& hyperparameters
 ) {
+    if (!impl_) {
+        throw std::runtime_error("LoRATrainingService implementation is not initialized");
+    }
     return impl_->trainOnTheFly(adapter_id, data, hyperparameters);
 }
 
@@ -1153,38 +1156,65 @@ TrainingResult LoRATrainingService::trainBatch(
     const std::vector<TrainingData>& dataset,
     const std::optional<LoRAHyperparameters>& hyperparameters
 ) {
+    if (!impl_) {
+        throw std::runtime_error("LoRATrainingService implementation is not initialized");
+    }
     return impl_->trainBatch(adapter_id, dataset, hyperparameters);
 }
 
 void LoRATrainingService::setTrainingConfig(const Config& config) {
+    if (!impl_) {
+        throw std::runtime_error("LoRATrainingService implementation is not initialized");
+    }
     impl_->setTrainingConfig(config);
 }
 
 LoRATrainingService::Config LoRATrainingService::getTrainingConfig() const {
+    if (!impl_) {
+        throw std::runtime_error("LoRATrainingService implementation is not initialized");
+    }
     return impl_->getTrainingConfig();
 }
 
 void LoRATrainingService::setHyperparameters(const LoRAHyperparameters& hyperparameters) {
+    if (!impl_) {
+        throw std::runtime_error("LoRATrainingService implementation is not initialized");
+    }
     impl_->setHyperparameters(hyperparameters);
 }
 
 LoRAHyperparameters LoRATrainingService::getHyperparameters() const {
+    if (!impl_) {
+        throw std::runtime_error("LoRATrainingService implementation is not initialized");
+    }
     return impl_->getHyperparameters();
 }
 
 TrainingMetrics LoRATrainingService::getMetrics() const {
+    if (!impl_) {
+        throw std::runtime_error("LoRATrainingService implementation is not initialized");
+    }
     return impl_->getMetrics();
 }
 
 void LoRATrainingService::registerCallback(TrainingCallback callback) {
+    if (!impl_) {
+        throw std::runtime_error("LoRATrainingService implementation is not initialized");
+    }
     impl_->registerCallback(callback);
 }
 
 bool LoRATrainingService::isTraining() const {
+    if (!impl_) {
+        throw std::runtime_error("LoRATrainingService implementation is not initialized");
+    }
     return impl_->isTraining();
 }
 
 void LoRATrainingService::stopTraining() {
+    if (!impl_) {
+        throw std::runtime_error("LoRATrainingService implementation is not initialized");
+    }
     impl_->stopTraining();
 }
 
@@ -1197,6 +1227,9 @@ TrainingResult LoRATrainingService::trainWithQuantization(
     const TrainingData& data,
     const std::optional<LoRAHyperparameters>& hyperparameters
 ) {
+    if (!impl_) {
+        throw std::runtime_error("LoRATrainingService implementation is not initialized");
+    }
     TrainingResult result;
     result.adapter_id = adapter_id;
     result.version = "v1";
