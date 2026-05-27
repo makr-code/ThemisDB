@@ -635,6 +635,19 @@ inputs in `getProbability()` and int-range assumptions in speculative vocab arit
   `target_plugin`/`draft_plugin`/`speculative_decoder_` pointers up-front.
 - Oversized `vocab_size` metadata is clamped to a safe fallback (`32000`) before int modulo paths.
 
+#### 5. Follow-up hardening for vocabulary/model handle dereferences (2026-05-27)
+
+**Root cause:** Remaining W1-L04 null-dereference risk in `llama_wrapper.cpp` came from
+unchecked `llama_model_get_vocab()` / `llama_get_model()` results before vocabulary-dependent
+operations.
+
+**Fix:**
+- Added explicit null checks for `llama_model_get_vocab()` results in `generate`,
+  `generateDraftTokens`, `tokenizeInternal`, `generateSpeculative`, and `generateRegular`.
+- Added explicit null checks for `llama_get_model(ctx)` and its derived vocabulary in
+  `detokenizeInternal`.
+- All affected paths now fail fast with clear exceptions instead of dereferencing null pointers.
+
 ### Gap Delta (W1-L04 follow-up)
 
 | Metric | Before | After |
@@ -642,6 +655,7 @@ inputs in `getProbability()` and int-range assumptions in speculative vocab arit
 | `llama_wrapper.cpp` unchecked logits/token bounds in probability path | 1 hotspot | 0 (guarded return path) |
 | `inference_engine_enhanced.cpp` speculative null-plugin/decoder precondition | implicit assumption | explicit guard + early return |
 | `inference_engine_enhanced.cpp` int-range risk in vocab modulo paths | potential overflow hotspot | bounded/fallback conversion |
+| `llama_wrapper.cpp` unchecked model/vocab pointer retrieval | multiple implicit assumptions | explicit null guards + fail-fast exceptions |
 
 ---
 

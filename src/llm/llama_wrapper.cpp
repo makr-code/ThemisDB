@@ -1066,6 +1066,9 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         
         // Get vocab for EOS detection and token count
         const llama_vocab* vocab = llama_model_get_vocab(lmodel);
+        if (!vocab) {
+            throw std::runtime_error("Failed to get model vocabulary");
+        }
         int32_t n_vocab = llama_vocab_n_tokens(vocab);
         llama_token eos_token = llama_vocab_eos(vocab);
         
@@ -1309,6 +1312,9 @@ ILLMPlugin::DraftTokensResult LlamaWrapper::generateDraftTokens(
     }
 
     const llama_vocab* vocab = llama_model_get_vocab(lmodel);
+    if (!vocab) {
+        throw std::runtime_error("Failed to get model vocabulary for draft generation");
+    }
     const int32_t n_vocab = llama_vocab_n_tokens(vocab);
     const llama_token eos_token = llama_vocab_eos(vocab);
     const size_t produced_vocab_size = static_cast<size_t>(n_vocab);
@@ -1761,6 +1767,9 @@ std::vector<llama_token> LlamaWrapper::tokenizeInternal(
     
     // Get vocab from model
     const llama_vocab* vocab = llama_model_get_vocab(model);
+    if (!vocab) {
+        throw std::runtime_error("Failed to get model vocabulary");
+    }
     
     // Allocate buffer for tokens (estimate: text length + special tokens)
     int32_t n_tokens_max = text.length() + (add_bos ? 1 : 0) + 8;
@@ -1809,7 +1818,13 @@ std::string LlamaWrapper::detokenizeInternal(
     
     // Get model and vocab from context
     const llama_model* model = llama_get_model(ctx);
+    if (!model) {
+        throw std::runtime_error("Model is null");
+    }
     const llama_vocab* vocab = llama_model_get_vocab(model);
+    if (!vocab) {
+        throw std::runtime_error("Failed to get model vocabulary");
+    }
     
     std::string result;
     result.reserve(tokens.size() * 4);  // Rough estimate
@@ -2283,6 +2298,9 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         // 3. Speculative generation loop
         std::vector<llama_token> generated_tokens;
         const llama_vocab* vocab = llama_model_get_vocab(target_model);
+        if (!vocab) {
+            throw std::runtime_error("Failed to get target model vocabulary");
+        }
         int32_t n_vocab = llama_vocab_n_tokens(vocab);
         llama_token eos_token = llama_vocab_eos(vocab);
         
@@ -2556,6 +2574,9 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         float top_p = request.top_p > 0.0f ? request.top_p : 0.9f;
         
         const llama_vocab* vocab = llama_model_get_vocab(lmodel);
+        if (!vocab) {
+            throw std::runtime_error("Failed to get model vocabulary");
+        }
         int32_t n_vocab = llama_vocab_n_tokens(vocab);
         llama_token eos_token = llama_vocab_eos(vocab);
         
