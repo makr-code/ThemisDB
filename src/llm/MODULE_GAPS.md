@@ -510,6 +510,16 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
   (`MarkUnknownGPUHealthyDoesNotCreatePhantomHealthyState`,
   `MarkUnknownGPUUnhealthyDoesNotAffectTrackedGPUs`).
 
+**Status (v1.22.0-pre — W1-L06 resource-lifecycle continuation):** exception-safety hardened for allocation/defragment bookkeeping paths in `gpu_memory_manager.cpp`:
+- `allocateGPU()` / `allocateCPU()` (single-GPU) and `allocateGPU(..., gpu_device_id)` now guard
+  `MemoryHolder` creation + `allocations_` bookkeeping with fail-safe cleanup, so metadata allocation
+  failures cannot leak raw GPU/CPU/pinned allocations.
+- Defragmentation consolidation paths (`defragmentModelGPU`, `defragmentModelCPU`) now create the
+  replacement RAII holder before mutating tracked allocation lists and perform best-effort cleanup on
+  holder-construction failure.
+- CPU defragment replacement now removes only the original fragmented pointers (not all pinned/pageable
+  entries by predicate), preserving non-target allocations during partial consolidation.
+
 **Status (v1.22.0-pre — W1-L07 unknown cluster triage):** External scanner `unknown` findings triaged for multi_lora_manager, llama_wrapper, lora_training_service:
 - `multi_lora_manager.cpp`: external_v3 reports 1227 findings vs 5 internal. `unknown` cluster
   arises from deep STL template patterns, virtual dispatch and large switch bodies the scanner

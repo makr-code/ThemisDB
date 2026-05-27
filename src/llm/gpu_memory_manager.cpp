@@ -209,6 +209,22 @@ inline bool isTrackedGpuNoLock(const std::vector<int>& available_gpus, int gpu_d
     return std::find(available_gpus.begin(), available_gpus.end(), gpu_device_id) != available_gpus.end();
 }
 
+inline void cleanupRawAllocation(void* ptr,
+                                 size_t bytes,
+                                 detail::MemoryHolder::Type type,
+                                 bool gpu_available,
+                                 int gpu_device_id = 0) noexcept {
+    if (ptr == nullptr) {
+        return;
+    }
+
+    try {
+        detail::MemoryHolder cleanup_holder(ptr, bytes, type, gpu_available, gpu_device_id);
+    } catch (...) {
+        // Best-effort cleanup in failure fallback path.
+    }
+}
+
 inline std::optional<float> queryNvmlTemperatureCelsius(int gpu_device_id) {
 #if defined(THEMIS_ENABLE_CUDA) && defined(__linux__)
     using nvmlReturn_t = int;
@@ -536,17 +552,28 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
     }
 #endif
     
-    // Track allocation with RAII holder for automatic cleanup
-    MemoryAllocation alloc;
-    alloc.model_id = model_id;
-    alloc.vram_bytes = bytes;
-    alloc.gpu_ptr = ptr;
-    alloc.gpu_device_id = 0;  // Default GPU device
-    alloc.holder = std::make_shared<detail::MemoryHolder>(
-        ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_, 0  // Default GPU device
-    );
-    
-    allocations_[model_id].push_back(std::move(alloc));
+    // Track allocation with RAII holder for automatic cleanup.
+    // Guard metadata bookkeeping so low-memory exceptions do not leak raw allocations.
+    try {
+        MemoryAllocation alloc;
+        alloc.model_id = model_id;
+        alloc.vram_bytes = bytes;
+        alloc.gpu_ptr = ptr;
+        alloc.gpu_device_id = 0;  // Default GPU device
+        alloc.holder = std::make_shared<detail::MemoryHolder>(
+            ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_, 0  // Default GPU device
+        );
+        allocations_[model_id].push_back(std::move(alloc));
+    } catch (const std::exception& e) {
+        cleanupRawAllocation(ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_, 0);
+        spdlog::error("allocateGPU metadata bookkeeping failed for model {}: {}", model_id, e.what());
+        return nullptr;
+    } catch (...) {
+        cleanupRawAllocation(ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_, 0);
+        spdlog::error("allocateGPU metadata bookkeeping failed for model {}: unknown exception", model_id);
+        return nullptr;
+    }
+
     total_vram_used_ += bytes;
     
     spdlog::debug("Allocated {} MB VRAM for model {} (total: {} MB)", 
@@ -593,21 +620,30 @@ void* GPUMemoryManager::allocateCPU(const std::string& model_id, size_t bytes, b
         return nullptr;
     }
     
-    // Track allocation with RAII holder
-    MemoryAllocation alloc;
-    alloc.model_id = model_id;
-    alloc.ram_bytes = bytes;
-    alloc.cpu_ptr = ptr;
-    alloc.is_pinned = pinned;
-    
-    // Create holder with appropriate type
-    auto holder_type = pinned ? detail::MemoryHolder::Type::PINNED 
-                              : detail::MemoryHolder::Type::CPU;
-    alloc.holder = std::make_shared<detail::MemoryHolder>(
-        ptr, bytes, holder_type, gpu_available_
-    );
-    
-    allocations_[model_id].push_back(std::move(alloc));
+    // Track allocation with RAII holder.
+    // Guard metadata bookkeeping so low-memory exceptions do not leak raw allocations.
+    const auto holder_type = pinned ? detail::MemoryHolder::Type::PINNED
+                                    : detail::MemoryHolder::Type::CPU;
+    try {
+        MemoryAllocation alloc;
+        alloc.model_id = model_id;
+        alloc.ram_bytes = bytes;
+        alloc.cpu_ptr = ptr;
+        alloc.is_pinned = pinned;
+        alloc.holder = std::make_shared<detail::MemoryHolder>(
+            ptr, bytes, holder_type, gpu_available_
+        );
+        allocations_[model_id].push_back(std::move(alloc));
+    } catch (const std::exception& e) {
+        cleanupRawAllocation(ptr, bytes, holder_type, gpu_available_);
+        spdlog::error("allocateCPU metadata bookkeeping failed for model {}: {}", model_id, e.what());
+        return nullptr;
+    } catch (...) {
+        cleanupRawAllocation(ptr, bytes, holder_type, gpu_available_);
+        spdlog::error("allocateCPU metadata bookkeeping failed for model {}: unknown exception", model_id);
+        return nullptr;
+    }
+
     total_ram_used_ += bytes;
     
     spdlog::debug("Allocated {} MB RAM ({}) for model {} (total: {} MB)", 
@@ -1024,7 +1060,25 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
         }
 #endif
 
-        // Update allocations list for this model/device
+        // Build replacement allocation holder first so failure keeps old allocations intact.
+        std::shared_ptr<detail::MemoryHolder> consolidated_holder;
+        try {
+            consolidated_holder = std::make_shared<detail::MemoryHolder>(
+                new_ptr, total_vram, detail::MemoryHolder::Type::GPU, gpu_available_, device_id
+            );
+        } catch (const std::exception& e) {
+            cleanupRawAllocation(new_ptr, total_vram, detail::MemoryHolder::Type::GPU, gpu_available_, device_id);
+            spdlog::warn("Defrag: failed to create consolidated GPU holder for model {} on GPU {}: {}",
+                         model_id, device_id, e.what());
+            continue;
+        } catch (...) {
+            cleanupRawAllocation(new_ptr, total_vram, detail::MemoryHolder::Type::GPU, gpu_available_, device_id);
+            spdlog::warn("Defrag: failed to create consolidated GPU holder for model {} on GPU {}",
+                         model_id, device_id);
+            continue;
+        }
+
+        // Update allocations list for this model/device.
         // Remove only the allocations that were identified as fragmented (device_allocs),
         // not all allocations for this device_id.
         auto& model_allocs = allocations_[model_id];
@@ -1032,12 +1086,6 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
         for (const auto& alloc : device_allocs) {
             ptrs_to_erase.insert(alloc.gpu_ptr);
         }
-        model_allocs.erase(
-            std::remove_if(model_allocs.begin(), model_allocs.end(),
-                [&ptrs_to_erase](const MemoryAllocation& alloc) {
-                    return ptrs_to_erase.count(alloc.gpu_ptr) > 0;
-                }),
-            model_allocs.end());
 
         // Create new consolidated allocation with RAII holder
         MemoryAllocation consolidated;
@@ -1045,10 +1093,14 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
         consolidated.vram_bytes = total_vram;
         consolidated.gpu_ptr = new_ptr;
         consolidated.gpu_device_id = device_id;
-        consolidated.holder = std::make_shared<detail::MemoryHolder>(
-            new_ptr, total_vram, detail::MemoryHolder::Type::GPU, gpu_available_, device_id
-        );
+        consolidated.holder = std::move(consolidated_holder);
         model_allocs.push_back(std::move(consolidated));
+        model_allocs.erase(
+            std::remove_if(model_allocs.begin(), model_allocs.end(),
+                [&ptrs_to_erase](const MemoryAllocation& alloc) {
+                    return ptrs_to_erase.count(alloc.gpu_ptr) > 0;
+                }),
+            model_allocs.end());
 
         spdlog::debug("Consolidated {} GPU allocations for model {} on device {} into single {} MB block",
                       device_allocs.size(), model_id, device_id, total_vram / (1024.0 * 1024));
@@ -1113,26 +1165,43 @@ bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id,
             offset += alloc.ram_bytes;
         }
         
-        // Update allocations - removing old allocations will trigger cleanup via RAII
+        std::shared_ptr<detail::MemoryHolder> consolidated_holder;
+        try {
+            consolidated_holder = std::make_shared<detail::MemoryHolder>(
+                new_ptr, total_ram, detail::MemoryHolder::Type::PINNED, gpu_available_
+            );
+        } catch (const std::exception& e) {
+            cleanupRawAllocation(new_ptr, total_ram, detail::MemoryHolder::Type::PINNED, gpu_available_);
+            spdlog::warn("Defrag: failed to create consolidated pinned holder for model {}: {}", model_id, e.what());
+            return false;
+        } catch (...) {
+            cleanupRawAllocation(new_ptr, total_ram, detail::MemoryHolder::Type::PINNED, gpu_available_);
+            spdlog::warn("Defrag: failed to create consolidated pinned holder for model {}", model_id);
+            return false;
+        }
+
+        // Update allocations - removing old allocations will trigger cleanup via RAII.
+        std::unordered_set<void*> ptrs_to_erase;
+        for (const auto& alloc : pinned_allocs) {
+            ptrs_to_erase.insert(alloc.cpu_ptr);
+        }
         auto& model_allocs = allocations_[model_id];
-        model_allocs.erase(
-            std::remove_if(model_allocs.begin(), model_allocs.end(),
-                [](const MemoryAllocation& alloc) {
-                    return alloc.is_pinned && alloc.ram_bytes > 0;
-                }),
-            model_allocs.end()
-        );
-        
+
         // Create new consolidated allocation with RAII holder
         MemoryAllocation consolidated;
         consolidated.model_id = model_id;
         consolidated.ram_bytes = total_ram;
         consolidated.cpu_ptr = new_ptr;
         consolidated.is_pinned = true;
-        consolidated.holder = std::make_shared<detail::MemoryHolder>(
-            new_ptr, total_ram, detail::MemoryHolder::Type::PINNED, gpu_available_
-        );
+        consolidated.holder = std::move(consolidated_holder);
         model_allocs.push_back(std::move(consolidated));
+        model_allocs.erase(
+            std::remove_if(model_allocs.begin(), model_allocs.end(),
+                [&ptrs_to_erase](const MemoryAllocation& alloc) {
+                    return ptrs_to_erase.count(alloc.cpu_ptr) > 0;
+                }),
+            model_allocs.end()
+        );
     }
     
     // Consolidate regular allocations
@@ -1156,26 +1225,43 @@ bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id,
             offset += alloc.ram_bytes;
         }
         
-        // Update allocations - removing old allocations will trigger cleanup via RAII
+        std::shared_ptr<detail::MemoryHolder> consolidated_holder;
+        try {
+            consolidated_holder = std::make_shared<detail::MemoryHolder>(
+                new_ptr, total_ram, detail::MemoryHolder::Type::CPU, gpu_available_
+            );
+        } catch (const std::exception& e) {
+            cleanupRawAllocation(new_ptr, total_ram, detail::MemoryHolder::Type::CPU, gpu_available_);
+            spdlog::warn("Defrag: failed to create consolidated CPU holder for model {}: {}", model_id, e.what());
+            return false;
+        } catch (...) {
+            cleanupRawAllocation(new_ptr, total_ram, detail::MemoryHolder::Type::CPU, gpu_available_);
+            spdlog::warn("Defrag: failed to create consolidated CPU holder for model {}", model_id);
+            return false;
+        }
+
+        // Update allocations - removing old allocations will trigger cleanup via RAII.
+        std::unordered_set<void*> ptrs_to_erase;
+        for (const auto& alloc : regular_allocs) {
+            ptrs_to_erase.insert(alloc.cpu_ptr);
+        }
         auto& model_allocs = allocations_[model_id];
-        model_allocs.erase(
-            std::remove_if(model_allocs.begin(), model_allocs.end(),
-                [](const MemoryAllocation& alloc) {
-                    return !alloc.is_pinned && alloc.ram_bytes > 0;
-                }),
-            model_allocs.end()
-        );
-        
+
         // Create new consolidated allocation with RAII holder
         MemoryAllocation consolidated;
         consolidated.model_id = model_id;
         consolidated.ram_bytes = total_ram;
         consolidated.cpu_ptr = new_ptr;
         consolidated.is_pinned = false;
-        consolidated.holder = std::make_shared<detail::MemoryHolder>(
-            new_ptr, total_ram, detail::MemoryHolder::Type::CPU, gpu_available_
-        );
+        consolidated.holder = std::move(consolidated_holder);
         model_allocs.push_back(std::move(consolidated));
+        model_allocs.erase(
+            std::remove_if(model_allocs.begin(), model_allocs.end(),
+                [&ptrs_to_erase](const MemoryAllocation& alloc) {
+                    return ptrs_to_erase.count(alloc.cpu_ptr) > 0;
+                }),
+            model_allocs.end()
+        );
     }
     
     return true;
@@ -1321,17 +1407,30 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes, i
     }
 #endif
     
-    // Track allocation with RAII holder
-    MemoryAllocation alloc;
-    alloc.model_id = model_id;
-    alloc.vram_bytes = bytes;
-    alloc.gpu_ptr = ptr;
-    alloc.gpu_device_id = gpu_device_id;
-    alloc.holder = std::make_shared<detail::MemoryHolder>(
-        ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_, gpu_device_id
-    );
-    
-    allocations_[model_id].push_back(std::move(alloc));
+    // Track allocation with RAII holder.
+    // Guard metadata bookkeeping so low-memory exceptions do not leak raw allocations.
+    try {
+        MemoryAllocation alloc;
+        alloc.model_id = model_id;
+        alloc.vram_bytes = bytes;
+        alloc.gpu_ptr = ptr;
+        alloc.gpu_device_id = gpu_device_id;
+        alloc.holder = std::make_shared<detail::MemoryHolder>(
+            ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_, gpu_device_id
+        );
+        allocations_[model_id].push_back(std::move(alloc));
+    } catch (const std::exception& e) {
+        cleanupRawAllocation(ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_, gpu_device_id);
+        spdlog::error("allocateGPU(gpu_device_id={}) metadata bookkeeping failed for model {}: {}",
+                      gpu_device_id, model_id, e.what());
+        return nullptr;
+    } catch (...) {
+        cleanupRawAllocation(ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_, gpu_device_id);
+        spdlog::error("allocateGPU(gpu_device_id={}) metadata bookkeeping failed for model {}: unknown exception",
+                      gpu_device_id, model_id);
+        return nullptr;
+    }
+
     size_t updated_vram_total = 0;
     if (!tryAddSize(total_vram_used_, bytes, updated_vram_total)) {
         spdlog::error("GPUMemoryManager::allocateGPU: global VRAM accounting overflow for model '{}'; clamping to max",
