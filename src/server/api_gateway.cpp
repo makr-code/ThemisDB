@@ -410,6 +410,10 @@ http::response<http::string_body> APIGateway::dispatchShardOperation(
     const sharding::URN& urn,
     const http::request<http::string_body>& req
 ) {
+    if (!shard_router_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Shard router not available", req);
+    }
     nlohmann::json result_body;
     bool ok = false;
 

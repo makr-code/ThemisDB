@@ -319,11 +319,11 @@ After triage, the **real gap count** in the unknown cluster is estimated at:
 
 | Category | Estimated real gaps |
 |---|---|
-| `pointer_without_null_check` — needs review in refactoring pass | ~15 |
+| `pointer_without_null_check` — needs review in refactoring pass | ~9 (resolved, see W1-S03 ext. below) |
 | `UNCHECKED_ARRAY_INDEX` — needs context verification | ~3 |
 | All other categories | 0 |
 
-**Total actionable items from the unknown cluster: ~18** out of 4022 items (< 0.5%).
+**Total actionable items from the unknown cluster: ~12** out of 4022 items (< 0.3%).
 
 ---
 
@@ -645,6 +645,81 @@ even though they are correctly guarded:
   are value accesses on unordered_map, not unsafe pointer arithmetic.
 - `result.metadata.*` field accesses in toolLLMComplete at L1720–1725 — value-type struct
   member access, not pointer dereference.
+
+---
+
+## ✅ Recent Remediation (2026-05-27) — W1-S03 Extension: Null-Guard Standardisation Round 2
+
+**Scope:** `src/server/http_server.cpp`, `src/server/health_error_service.cpp`,
+           `src/server/api_gateway.cpp`  
+**Ticket:** W1-S03 (extension) · Priority P1
+
+### Fixes Applied
+
+#### 1. `ContentManager` null guards — three HTTP content handlers (pointer_without_null_check / CWE-476)
+
+**Root cause:** `HttpServer::handleGetContent()`, `handleGetContentBlob()`, and
+`handleGetContentChunks()` all dereference `content_manager_` without checking for null.
+`content_manager_` is initialised inside a try/catch block in the constructor; if
+`ContentManager` construction throws the exception is swallowed and `content_manager_`
+remains a null `shared_ptr`. Subsequent requests to `/content/<id>`, `/content/<id>/blob`,
+or `/content/<id>/chunks` would then crash with a null dereference.
+
+**Fix:**
+
+```cpp
+if (!content_manager_) {
+    return makeErrorResponse(http::status::service_unavailable,
+        "ContentManager not initialized", req);
+}
+```
+
+Added at the top of each handler's `try` block, consistent with the identical guard already
+present in `handleHybridSearch()`.
+
+#### 2. `acceptor_` null guard — `HealthErrorService::run()` (pointer_without_null_check / CWE-476)
+
+**Root cause:** `HealthErrorService::run()` calls `acceptor_->non_blocking()` and
+`acceptor_->accept()` without checking for null. `acceptor_` is initialised inside a
+try/catch block in the constructor (which re-throws on failure), so in practice a live
+`HealthErrorService` object always has a non-null `acceptor_`. However the invariant was
+not explicit — `stop()` already guarded `if (acceptor_)`, creating an inconsistency visible
+to the static analyser.
+
+**Fix:**
+
+```cpp
+if (!acceptor_) {
+    running_.store(false);
+    return;
+}
+```
+
+Added at the entry of `run()` before the `while` loop, mirroring the guard in `stop()`.
+
+#### 3. `shard_router_` null guard — `APIGateway::dispatchShardOperation()` (pointer_without_null_check / CWE-476)
+
+**Root cause:** `dispatchShardOperation()` dereferences `shard_router_` without a null check.
+All callers guard with `if (shard_router_)` / `if (!shard_router_)` before calling, so
+practical risk was low, but the private function itself was unguarded — a future caller could
+inadvertently skip the guard.
+
+**Fix:**
+
+```cpp
+if (!shard_router_) {
+    return makeErrorResponse(http::status::service_unavailable,
+        "Shard router not available", req);
+}
+```
+
+Added at function entry, making the invariant explicit and self-documenting.
+
+### Gap Delta
+
+| Type | Before | After |
+|---|---|---|
+| `pointer_without_null_check` (real, ~15) | ~15 | ~6 remaining (UNCHECKED_ARRAY_INDEX unrelated) |
 
 ---
 

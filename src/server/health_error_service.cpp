@@ -109,6 +109,10 @@ void HealthErrorService::stop() {
 
 void HealthErrorService::run() {
     try {
+        if (!acceptor_) {
+            running_.store(false);
+            return;
+        }
         while (running_.load()) {
             // Use synchronous accept with timeout
             beast::error_code ec;
