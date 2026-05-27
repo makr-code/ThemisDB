@@ -1553,11 +1553,13 @@ json McpServer::toolGetSchema(const json& args) {
 
 json McpServer::toolGetStats(const json& args) {
     spdlog::info("MCP Tool 'get_stats' called");
-    
-    if (!db_) {
+
+    const bool database_connected = db_ && db_->isOpen();
+    if (!database_connected) {
         return {
             {"status", "error"},
-            {"message", "Database not attached"},
+            {"message", "Database not attached or not open"},
+            {"database_connected", false},
             {"node_count", 0},
             {"edge_count", 0},
             {"storage_size_bytes", 0}
@@ -1570,7 +1572,7 @@ json McpServer::toolGetStats(const json& args) {
             auto metadata = schema_mgr_->getDatabaseMetadata();
             return {
                 {"status", "success"},
-                {"database_connected", db_->isOpen()},
+                {"database_connected", database_connected},
                 {"integration_level", "full"},
                 {"version", metadata.version},
                 {"table_count", metadata.table_count},
@@ -1582,7 +1584,7 @@ json McpServer::toolGetStats(const json& args) {
             return {
                 {"status", "error"},
                 {"message", std::string("Failed to retrieve stats: ") + e.what()},
-                {"database_connected", db_->isOpen()},
+                {"database_connected", database_connected},
                 {"integration_level", "full"}
             };
         }
@@ -1591,7 +1593,7 @@ json McpServer::toolGetStats(const json& args) {
     // Minimal integration: return connection status
     return {
         {"status", "success"},
-        {"database_connected", db_->isOpen()},
+        {"database_connected", database_connected},
         {"message", "Detailed statistics require full query engine integration"},
         {"integration_level", "minimal"},
         {"node_count", 0},

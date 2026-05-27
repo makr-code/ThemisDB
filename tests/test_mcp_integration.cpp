@@ -541,6 +541,20 @@ TEST_F(MCPIntegrationTest, GetStats) {
     EXPECT_TRUE(parsed["database_connected"]);
 }
 
+TEST_F(MCPIntegrationTest, GetStatsWithoutAttachedDatabaseReturnsError) {
+    server_->attachDatabase(nullptr);
+
+    json result = callTool("get_stats", json::object());
+
+    std::string result_text = result["result"]["content"][0]["text"];
+    json parsed = json::parse(result_text);
+
+    EXPECT_EQ(parsed["status"], "error");
+    EXPECT_TRUE(parsed.contains("database_connected"));
+    EXPECT_FALSE(parsed["database_connected"]);
+    EXPECT_TRUE(parsed.contains("message"));
+}
+
 // ============================================================================
 // Resource Tests
 // ============================================================================
