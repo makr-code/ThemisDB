@@ -863,6 +863,40 @@ visible to static scanners (CWE-476 / `pointer_without_null_check`).
 
 ---
 
+## ✅ Recent Remediation (2026-05-27) — W1-S03 Extension: Null-Guard Standardisation Round 7
+
+**Scope:** `src/server/mcp_server.cpp`, `src/server/voice_api_handler.cpp`  
+**Ticket:** W1-S03 (issue scope) · Priority P1
+
+### Fixes Applied
+
+#### 1. Guarded pointer dereference anchoring in MCP handlers/resources (pointer_without_null_check / CWE-476)
+
+After existing null guards in `mcp_server.cpp`, guarded member pointers now bind to local references
+and dispatch through those references (`audit_logger_`, `orchestrator_`, `index_mgr_`, `schema_mgr_`,
+`operation_guard_`). This standardizes previously mixed guarded patterns in:
+
+- `logAiEvent()`, `attachOrchestrator()`
+- `toolCreateIndex()`, `toolDropIndex()`, `toolListIndexes()`
+- `toolGetSchema()`, `toolGetStats()`, `toolIntrospectDatabase()`
+- `toolLLMOrchestrate()`, `toolLLMListModes()`
+- `resourceSchema()`, `resourceStats()`, `checkOperationGuard()`
+
+#### 2. Guarded auth dereference anchoring in Voice API paths (pointer_without_null_check / CWE-476)
+
+`voice_api_handler.cpp` now binds `auth_` to a local reference after it is guaranteed non-null:
+
+- Constructor path after fallback auth creation (`addToken`, `enableJWT`)
+- `validateBearerToken()` after early `if (!auth_) return false`
+
+### Gap Delta
+
+| Type | Before | After |
+|---|---|---|
+| `pointer_without_null_check` (W1-S03 issue-scope guarded derefs in MCP + Voice) | residual scanner-visible guarded-member deref hits | standardized with explicit post-guard references in both scope files |
+
+---
+
 
 
 **Scope:** `src/server/http_server.cpp`, `include/server/http_server.h`  

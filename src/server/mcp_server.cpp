@@ -377,7 +377,8 @@ void McpServer::logAiEvent(
     if (!audit_logger_) [[unlikely]] {
         return;
     }
-    audit_logger_->logSecurityEvent(
+    auto& audit_logger = *audit_logger_;
+    audit_logger.logSecurityEvent(
         type,
         ai_session_id,
         "mcp://" + tool_name,
@@ -396,6 +397,7 @@ void McpServer::attachOrchestrator(std::shared_ptr<themis::llm::AIOrchestrator> 
         spdlog::warn("MCP Server: attachOrchestrator called with null orchestrator");
         return;
     }
+    auto& orchestrator_ref = *orchestrator_;
 
     // Register llm_orchestrate: run a named pipeline mode via the orchestrator
     registerTool("llm_orchestrate",
@@ -427,7 +429,7 @@ void McpServer::attachOrchestrator(std::shared_ptr<themis::llm::AIOrchestrator> 
         },
         [this](const json& args) { return toolLLMListModes(args); });
 
-    const auto& pack = orchestrator_->modePack();
+    const auto& pack = orchestrator_ref.modePack();
     spdlog::info("MCP Server: AIOrchestrator attached (pack='{}' v{}, {} mode(s), default='{}')",
                  pack.name, pack.version, pack.modes.size(), pack.default_mode);
 }
@@ -1259,6 +1261,7 @@ json McpServer::toolCreateIndex(const json& args) {
             {"message", "Index manager not initialized"}
         };
     }
+    auto& index_mgr = *index_mgr_;
     
     // Extract parameters
     std::string table = args.value("table", "");
@@ -1285,13 +1288,13 @@ json McpServer::toolCreateIndex(const json& args) {
         
         // Convert index_type string to enum and create appropriate index
         if (index_type == "regular" || index_type == "secondary") {
-            status = index_mgr_->createIndex(table, column, unique);
+            status = index_mgr.createIndex(table, column, unique);
         } else if (index_type == "range") {
-            status = index_mgr_->createRangeIndex(table, column);
+            status = index_mgr.createRangeIndex(table, column);
         } else if (index_type == "sparse") {
-            status = index_mgr_->createSparseIndex(table, column, unique);
+            status = index_mgr.createSparseIndex(table, column, unique);
         } else if (index_type == "geo" || index_type == "geospatial") {
-            status = index_mgr_->createGeoIndex(table, column);
+            status = index_mgr.createGeoIndex(table, column);
         } else if (index_type == "fulltext") {
             // Get optional fulltext configuration from args
             SecondaryIndexManager::FulltextConfig config;
@@ -1302,10 +1305,10 @@ json McpServer::toolCreateIndex(const json& args) {
                 config.stopwords_enabled = ft_config.value("stopwords", false);
                 config.normalize_umlauts = ft_config.value("normalize_umlauts", false);
             }
-            status = index_mgr_->createFulltextIndex(table, column, config);
+            status = index_mgr.createFulltextIndex(table, column, config);
         } else if (index_type == "ttl") {
             int64_t ttl_seconds = args.value("ttl_seconds", 86400); // default 1 day
-            status = index_mgr_->createTTLIndex(table, column, ttl_seconds);
+            status = index_mgr.createTTLIndex(table, column, ttl_seconds);
         } else {
             return {
                 {"status", "error"},
@@ -1358,6 +1361,7 @@ json McpServer::toolDropIndex(const json& args) {
             {"message", "Index manager not initialized"}
         };
     }
+    auto& index_mgr = *index_mgr_;
     
     // Extract parameters
     std::string table = args.value("table", "");
@@ -1403,17 +1407,17 @@ json McpServer::toolDropIndex(const json& args) {
         
         // Drop the appropriate index type
         if (index_type == "regular" || index_type == "secondary") {
-            status = index_mgr_->dropIndex(table, column);
+            status = index_mgr.dropIndex(table, column);
         } else if (index_type == "range") {
-            status = index_mgr_->dropRangeIndex(table, column);
+            status = index_mgr.dropRangeIndex(table, column);
         } else if (index_type == "sparse") {
-            status = index_mgr_->dropSparseIndex(table, column);
+            status = index_mgr.dropSparseIndex(table, column);
         } else if (index_type == "geo" || index_type == "geospatial") {
-            status = index_mgr_->dropGeoIndex(table, column);
+            status = index_mgr.dropGeoIndex(table, column);
         } else if (index_type == "fulltext") {
-            status = index_mgr_->dropFulltextIndex(table, column);
+            status = index_mgr.dropFulltextIndex(table, column);
         } else if (index_type == "ttl") {
-            status = index_mgr_->dropTTLIndex(table, column);
+            status = index_mgr.dropTTLIndex(table, column);
         } else {
             return {
                 {"status", "error"},
@@ -1465,17 +1469,19 @@ json McpServer::toolListIndexes(const json& args) {
             {"indexes", json::array()}
         };
     }
+    auto& index_mgr = *index_mgr_;
     
     try {
         // Get all tables from schema manager
         json indexes = json::array();
         
         if (schema_mgr_) {
-            auto tables = schema_mgr_->getAllTables();
+            auto& schema_mgr = *schema_mgr_;
+            auto tables = schema_mgr.getAllTables();
             
             for (const auto& table : tables) {
                 // Get index stats for each table
-                auto stats = index_mgr_->getAllIndexStats(table.name);
+                auto stats = index_mgr.getAllIndexStats(table.name);
                 
                 for (const auto& stat : stats) {
                     json index_info = {
@@ -1532,10 +1538,11 @@ json McpServer::toolGetSchema(const json& args) {
             {"properties", json::object()}
         };
     }
+    auto& schema_mgr = *schema_mgr_;
 
     // Full integration: return real schema data from SchemaManager
     try {
-        auto schema_json = schema_mgr_->toJSON();
+        auto schema_json = schema_mgr.toJSON();
         
         // Add integration level indicator
         schema_json["integration_level"] = "full";
@@ -1573,8 +1580,9 @@ json McpServer::toolGetStats(const json& args) {
 
     // Full integration: return real statistics from SchemaManager
     if (schema_mgr_) {
+        auto& schema_mgr = *schema_mgr_;
         try {
-            auto metadata = schema_mgr_->getDatabaseMetadata();
+            auto metadata = schema_mgr.getDatabaseMetadata();
             return {
                 {"status", "success"},
                 {"database_connected", database_connected},
@@ -1734,6 +1742,7 @@ json McpServer::toolLLMOrchestrate(const json& args) {
     if (!orchestrator_) {
         return {{"status", "error"}, {"message", "AIOrchestrator not attached. Call attachOrchestrator() first."}};
     }
+    auto& orchestrator = *orchestrator_;
 
     try {
         themis::llm::OrchestratorContext ctx;
@@ -1748,7 +1757,7 @@ json McpServer::toolLLMOrchestrate(const json& args) {
             ctx.temperature = args["temperature"].get<float>();
         }
 
-        const auto result = orchestrator_->run(ctx);
+        const auto result = orchestrator.run(ctx);
 
         json out;
         out["status"]          = result.success ? "success" : "error";
@@ -1779,7 +1788,8 @@ json McpServer::toolLLMListModes(const json& /*args*/) {
         return {{"status", "error"}, {"message", "AIOrchestrator not attached."}};
     }
 
-    const auto& pack = orchestrator_->modePack();
+    auto& orchestrator = *orchestrator_;
+    const auto& pack = orchestrator.modePack();
 
     json modes_arr = json::array();
     for (const auto& m : pack.modes) {
@@ -1896,8 +1906,9 @@ json McpServer::toolIntrospectDatabase(const json& args) {
     }
     
     // Build context from SchemaManager
+    auto& schema_mgr = *schema_mgr_;
     auto context = themis::prompt_engineering::PromptManager::buildContextFromSchema(
-        schema_mgr_.get(),
+        &schema_mgr,
         themis::version::getEditionString(),
         themis::version::getVersionString()
     );
@@ -1948,7 +1959,7 @@ json McpServer::toolIntrospectDatabase(const json& args) {
         
         // Try to extract table name from question
         // This is a simple implementation - could be enhanced
-        auto tables = schema_mgr_->getAllTables();
+        auto tables = schema_mgr.getAllTables();
         for (const auto& table : tables) {
             if (utils::containsCaseInsensitive(question, table.name)) {
                 auto table_json = table.toJSON();
@@ -2138,9 +2149,10 @@ json McpServer::resourceSchema(const std::string& uri) {
             {"edges", json::array()}
         };
     }
+    auto& schema_mgr = *schema_mgr_;
     
     try {
-        return schema_mgr_->toJSON();
+        return schema_mgr.toJSON();
     } catch (const std::exception& e) {
         spdlog::error("Error retrieving schema resource: {}", e.what());
         return {
@@ -2163,8 +2175,9 @@ json McpServer::resourceStats(const std::string& uri) {
     }
     
     if (schema_mgr_) {
+        auto& schema_mgr = *schema_mgr_;
         try {
-            auto metadata = schema_mgr_->getDatabaseMetadata();
+            auto metadata = schema_mgr.getDatabaseMetadata();
             return {
                 {"status", "connected"},
                 {"database_open", true},
@@ -2339,8 +2352,9 @@ std::optional<json> McpServer::checkOperationGuard(
     if (!operation_guard_) {
         return std::nullopt;  // Guard not initialised — pass through
     }
+    auto& operation_guard = *operation_guard_;
 
-    const auto decision = operation_guard_->evaluate(
+    const auto decision = operation_guard.evaluate(
         tool_name, args, ai_session_id, caller_role);
 
     // Hard block: return immediately without storing in queue
@@ -2350,7 +2364,7 @@ std::optional<json> McpServer::checkOperationGuard(
         logAiEvent(themis::utils::SecurityEventType::AI_OPERATION_DENIED,
                    tool_name, ai_session_id,
                    {{"reason", decision.block_reason}, {"op_class", themis::security::operationClassName(decision.op_class)}});
-        return operation_guard_->buildBlockedResponse(decision);
+        return operation_guard.buildBlockedResponse(decision);
     }
 
     // READ_ONLY / WRITE_SAFE: no interception needed
@@ -2368,7 +2382,7 @@ std::optional<json> McpServer::checkOperationGuard(
                  decision.operation_id);
 
     // Build the approval response before locking
-    const json approval_resp = operation_guard_->buildRequiresApprovalResponse(decision);
+    const json approval_resp = operation_guard.buildRequiresApprovalResponse(decision);
 
     {
         std::lock_guard<std::mutex> lock(pending_approvals_mutex_);
@@ -2386,7 +2400,7 @@ std::optional<json> McpServer::checkOperationGuard(
         pa.approval_response = approval_resp;
         pa.created_at        = std::chrono::system_clock::now();
         pa.expires_at        = pa.created_at +
-            std::chrono::seconds(operation_guard_->config().approval_timeout_s);
+            std::chrono::seconds(operation_guard.config().approval_timeout_s);
         pa.is_executed       = false;
 
         pending_approvals_.emplace(decision.operation_id, std::move(pa));
