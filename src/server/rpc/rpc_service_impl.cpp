@@ -512,6 +512,13 @@ json ThemisRPCService::handleInsert(const json& params) {
 }
 
 json ThemisRPCService::handleDelete(const json& params) {
+    return handleDeleteInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleDeleteInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         std::string model(params.value("model", ""));
         std::string collection(params.value("collection", ""));
@@ -550,9 +557,10 @@ json ThemisRPCService::handleDelete(const json& params) {
         // Helper lambda: find direct children of an entity within its collection.
         // Child entities carry _parent_uuid (and optionally _parent_model /
         // _parent_collection) fields that point to their parent.
+        bool deadline_exceeded = false;
         auto find_children = [&](const std::string& p_collection,
-                                  const std::string& p_model,
-                                  const std::string& p_uuid) -> std::vector<std::string> {
+                                 const std::string& p_model,
+                                 const std::string& p_uuid) -> std::vector<std::string> {
             std::vector<std::string> children;
             std::string scan_prefix = p_collection + ":";
             std::string parent_key  = p_collection + ":" + p_model + ":" + p_uuid;
@@ -562,7 +570,13 @@ json ThemisRPCService::handleDelete(const json& params) {
 
             auto& iter = iter_result.value();
             iter.Seek(scan_prefix);
+            size_t scanned_keys = 0;
             while (iter.Valid()) {
+                ++scanned_keys;
+                if (shouldCheckDeadline(scanned_keys) && isDeadlineExceeded(deadline)) {
+                    deadline_exceeded = true;
+                    break;
+                }
                 std::string iter_key(iter.key());
                 if (iter_key.substr(0, scan_prefix.length()) != scan_prefix) break;
                 if (iter_key != parent_key) {
@@ -585,6 +599,12 @@ json ThemisRPCService::handleDelete(const json& params) {
 
         // Discover direct children of the target entity
         std::vector<std::string> direct_children = find_children(collection, model, uuid);
+        if (deadline_exceeded) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                "Request deadline exceeded during delete cascade scan"
+            );
+        }
 
         // Referential integrity: block deletion when children exist and cascade is off
         if (!direct_children.empty() && !cascade) {
@@ -606,7 +626,16 @@ json ThemisRPCService::handleDelete(const json& params) {
                 keys_to_delete.push_back(child_key);
             }
 
+            size_t bfs_visited = 0;
             while (!bfs_queue.empty()) {
+                ++bfs_visited;
+                if (shouldCheckDeadline(bfs_visited) && isDeadlineExceeded(deadline)) {
+                    return createError(
+                        themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                        "Request deadline exceeded during delete cascade traversal"
+                    );
+                }
+
                 std::string curr_key = bfs_queue.front();
                 bfs_queue.pop();
 
@@ -624,6 +653,12 @@ json ThemisRPCService::handleDelete(const json& params) {
                 std::string curr_uuid       = curr_key.substr(second_colon + 1);
 
                 auto grandchildren = find_children(curr_collection, curr_model, curr_uuid);
+                if (deadline_exceeded) {
+                    return createError(
+                        themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                        "Request deadline exceeded during delete cascade scan"
+                    );
+                }
                 for (const auto& gc_key : grandchildren) {
                     bfs_queue.push(gc_key);
                     keys_to_delete.push_back(gc_key);
@@ -632,8 +667,16 @@ json ThemisRPCService::handleDelete(const json& params) {
         }
 
         // Delete descendants in reverse BFS order (deepest level first)
+        size_t deleted_items = 0;
         int deleted_count = 0;
         for (auto it = keys_to_delete.rbegin(); it != keys_to_delete.rend(); ++it) {
+            ++deleted_items;
+            if (shouldCheckDeadline(deleted_items) && isDeadlineExceeded(deadline)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during delete cascade write"
+                );
+            }
             if (!storage->del(*it)) {
                 return createError(
                     themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
@@ -644,6 +687,12 @@ json ThemisRPCService::handleDelete(const json& params) {
         }
 
         // Delete the target entity itself
+        if (isDeadlineExceeded(deadline)) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                "Request deadline exceeded during delete write"
+            );
+        }
         if (!storage->del(key)) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
@@ -3166,7 +3215,7 @@ json ThemisRPCService::dispatch(
         } else if (method == "insert") {
             return handleInsert(params);
         } else if (method == "delete") {
-            return handleDelete(params);
+            return handleDeleteInternal(params, request_deadline);
         } else if (method == "batch_get") {
             return handleBatchGetInternal(params, request_deadline);
         } else if (method == "batch_put") {

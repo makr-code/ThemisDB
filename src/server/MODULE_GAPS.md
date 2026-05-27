@@ -984,3 +984,10 @@ Findings addressed:
   Internal variants, and each Internal method returns `QUERY_TIMEOUT` when the request deadline is already
   exceeded before execution starts. Added `VectorSearchInternalHonorsExpiredDeadline` and
   `GraphTraverseInternalHonorsExpiredDeadline` tests in `tests/test_rpc_batch_operations.cpp`.
+
+- **W1-S04 follow-up (2026-05-27) — deadline enforcement for cascade delete traversal (`rpc_service_impl.cpp`):**
+  `handleDelete` now follows the same wrapper + `Internal(params, deadline)` pattern used by other
+  deadline-aware handlers. `dispatch()` now passes `request_deadline` into `handleDeleteInternal`, and
+  cascade delete child-scan/traversal/write loops now check deadlines in 256-item intervals, returning
+  `QUERY_TIMEOUT` when exceeded before destructive completion. Added
+  `DeleteInternalHonorsExpiredDeadlineDuringCascadeScan` in `tests/test_rpc_batch_operations.cpp`.

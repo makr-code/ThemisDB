@@ -881,6 +881,41 @@ TEST_F(RPCBatchOperationsTest, GraphTraverseInternalHonorsExpiredDeadline) {
               static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
 }
 
+TEST_F(RPCBatchOperationsTest, DeleteInternalHonorsExpiredDeadlineDuringCascadeScan) {
+    DirectPut("cascade_timeout", "Node", "root", {{"name", "root"}});
+    for (int i = 0; i < 257; ++i) {
+        DirectPut(
+            "cascade_timeout",
+            "Node",
+            "child-" + std::to_string(i),
+            {
+                {"_parent_uuid", "root"},
+                {"_parent_model", "Node"},
+                {"_parent_collection", "cascade_timeout"}
+            }
+        );
+    }
+
+    auto expired = std::chrono::steady_clock::time_point{};
+    json resp = service_->handleDeleteInternal(
+        {
+            {"collection", "cascade_timeout"},
+            {"model", "Node"},
+            {"uuid", "root"},
+            {"cascade", true}
+        },
+        std::make_optional(expired)
+    );
+
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+
+    std::string persisted_value;
+    EXPECT_TRUE(db_->get("cascade_timeout:Node:root", persisted_value));
+    EXPECT_TRUE(db_->get("cascade_timeout:Node:child-0", persisted_value));
+}
+
 // ============================================================================
 // Performance – batch vs. individual operations
 // ============================================================================

@@ -73,6 +73,10 @@ public:
      * @brief Handle DELETE operation
      */
     json handleDelete(const json& params);
+    json handleDeleteInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
     
     /**
      * @brief Handle batch GET operation
