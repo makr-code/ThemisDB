@@ -395,6 +395,8 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
 - `aql_train_parser.cpp` WITH/USING numeric fields now parse via checked helpers (`parseIntegerValue`,
   `parseDoubleValue`) that reject trailing characters, non-finite values, and out-of-range integers
   with explicit `std::invalid_argument` messages (instead of leaking raw `std::stoi/std::stod` errors).
+- `aql_train_parser.cpp` LIST ADAPTERS `LIMIT` parsing now uses the same checked integer parser and no
+  longer accepts trailing garbage or silently swallows out-of-range parse failures.
 
 **Status (v1.22.0-pre — W1-L06 uninitialized_access/overflow batch):** Integer-overflow guard added to `canAllocate`:
 - `gpu_memory_manager.cpp` `canAllocate()` (~line 759) — Added `size_t` overflow pre-checks

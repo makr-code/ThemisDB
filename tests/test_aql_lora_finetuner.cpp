@@ -471,6 +471,18 @@ TEST_F(AQLTrainParserTest, ParseListAdaptersAscOrder) {
     EXPECT_EQ(stmt->limit, 10);
 }
 
+TEST_F(AQLTrainParserTest, ParseListAdaptersInvalidLimitThrows) {
+    EXPECT_THROW(
+        parser_.parseListAdapters("LIST ADAPTERS ORDER BY updated_at DESC LIMIT 10oops"),
+        std::invalid_argument);
+}
+
+TEST_F(AQLTrainParserTest, ParseListAdaptersOverflowLimitThrows) {
+    EXPECT_THROW(
+        parser_.parseListAdapters("LIST ADAPTERS LIMIT 999999999999999999999"),
+        std::invalid_argument);
+}
+
 // ─── JSON round-trip ─────────────────────────────────────────────────────────
 
 TEST_F(AQLTrainParserTest, TrainStatementConfigRoundTrip) {

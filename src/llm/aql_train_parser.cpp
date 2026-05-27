@@ -865,7 +865,7 @@ std::shared_ptr<ListAdaptersStmt> AQLTrainParser::parseListAdapters(
             std::string rest = themis::utils::trim(aql.substr(pos_limit + 5));
             auto tokens = tokenize(rest);
             if (!tokens.empty()) {
-                try { stmt->limit = std::stoi(tokens[0]); } catch (...) {}
+                stmt->limit = parseIntegerValue(tokens[0], "limit");
             }
         }
     }
