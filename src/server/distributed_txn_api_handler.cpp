@@ -26,6 +26,9 @@ using json = nlohmann::json;
 namespace {
 
 constexpr size_t kMaxDistributedTxnIdentifierLength = 256;
+constexpr std::string_view kSnapshotIsolationWarning =
+    "snapshot_isolation may permit write-skew and phantom-read anomalies; "
+    "use 'serializable' for strict invariant safety.";
 
 bool isValidDistributedTxnIdentifier(const std::string& value) {
     themis::utils::InputValidator validator;
@@ -93,13 +96,17 @@ DistributedTxnApiHandler::handleBegin(const http::request<http::string_body>& re
 
         std::string txn_id = coordinator_->beginTransaction(shard_ids, isolation);
 
-        return ok({
+        json response = {
             {"transaction_id",  txn_id},
             {"status",          "active"},
             {"shards",          shard_ids},
             {"isolation_level", isolation == sharding::DistributedIsolationLevel::SERIALIZABLE
                                     ? "serializable" : "snapshot_isolation"}
-        }, req);
+        };
+        if (isolation == sharding::DistributedIsolationLevel::SNAPSHOT_ISOLATION) {
+            response["isolation_warning"] = kSnapshotIsolationWarning;
+        }
+        return ok(response, req);
 
     } catch (const json::exception& e) {
         return error(http::status::bad_request,
@@ -368,4 +375,3 @@ DistributedTxnApiHandler::stateToString(sharding::TransactionState state) {
 }
 
 } // namespace themis::server
-

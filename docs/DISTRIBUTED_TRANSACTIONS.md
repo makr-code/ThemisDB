@@ -421,14 +421,19 @@ Transaction lifecycle events are logged:
 | GET | `/dtxn/status/{id}` | Query transaction state |
 | GET | `/dtxn/stats` | Coordinator statistics |
 
+> ⚠️ Isolation Hinweis: `/dtxn/begin` verwendet standardmäßig `snapshot_isolation`.
+> Dieser Modus kann Write-Skew- und Phantom-Read-Anomalien zulassen.
+> Für ACID-strenge Invarianten (z. B. Banking, Inventory, Double-Booking) explizit
+> `serializable` setzen.
+
 **Example — multi-shard transfer:**
 
 ```bash
 # 1. Begin
 curl -X POST http://localhost:8080/dtxn/begin \
      -H 'Content-Type: application/json' \
-     -d '{"shards": ["shard1", "shard2"]}'
-# → {"transaction_id": "txn-abc123", "status": "active", "shards": ["shard1","shard2"]}
+     -d '{"shards": ["shard1", "shard2"], "isolation_level": "serializable"}'
+# → {"transaction_id": "txn-abc123", "status": "active", "shards": ["shard1","shard2"], "isolation_level":"serializable"}
 
 # 2. Add operations
 curl -X POST http://localhost:8080/dtxn/operation \
