@@ -105,6 +105,7 @@ struct GremlinParser::Lexer {
 
     std::vector<Token> tokenize() {
         std::vector<Token> tokens;
+        tokens.reserve(src.size());
         while (true) {
             skipWhitespace();
             if (pos >= src.size()) {

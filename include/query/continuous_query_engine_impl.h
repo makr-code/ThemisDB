@@ -132,7 +132,7 @@ private:
     struct IncomingTuple {
         std::string collection;
         std::string payload;
-        int64_t     event_ts_us;
+        int64_t     event_ts_us = 0;
     };
     std::mutex                    inject_mutex_;
     std::deque<IncomingTuple>     inject_queue_;

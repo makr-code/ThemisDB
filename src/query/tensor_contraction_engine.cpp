@@ -74,6 +74,8 @@ TTTrain TensorContractionEngine::slice(const TTTrain& train,
     TTTrain result;
     result.original_norm = train.original_norm;
     result.achieved_eps  = train.achieved_eps;
+    result.mode_sizes.reserve(train.order());
+    result.cores.reserve(train.order());
 
     for (std::size_t k = 0; k < train.order(); ++k) {
         if (k == dim) {
@@ -155,6 +157,7 @@ TTTrain TensorContractionEngine::hadamardProduct(
     result.mode_sizes    = a.mode_sizes;
     result.original_norm = 0.0;  // not tracked for products
     result.achieved_eps  = std::max(a.achieved_eps, b.achieved_eps);
+    result.cores.reserve(a.order());
 
     for (std::size_t k = 0; k < a.order(); ++k) {
         const auto& ca = a.cores[k];
@@ -237,6 +240,8 @@ TTTrain TensorContractionEngine::project(const TTTrain& train,
     result.achieved_eps  = train.achieved_eps;
 
     const std::size_t d = train.order();
+    result.cores.reserve(d - 1);
+    result.mode_sizes.reserve(d - 1);
 
     if (mode == 0) {
         // Absorb M (shape 1 × rr_k) into G_{1} from the left.

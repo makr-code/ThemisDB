@@ -1,4 +1,4 @@
-<!-- Status: S0 fixed 2026-05-04 | S1 fixed 2026-05-04 | OI-05/OI-06 fixed 2026-05-26 | KL-01 closed 2026-05-26 | CCF-01..CCF-05 fixed 2026-05-27 | CQE-01..CQE-03 fixed 2026-05-27 | QE-arc-points-cast fixed 2026-05-27 | TC-01..TC-06 fixed 2026-05-27 | UNINIT-01..UNINIT-11 fixed 2026-05-27 | REL-01..REL-09 fixed 2026-05-27 | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S0 fixed 2026-05-04 | S1 fixed 2026-05-04 | OI-05/OI-06 fixed 2026-05-26 | KL-01 closed 2026-05-26 | CCF-01..CCF-05 fixed 2026-05-27 | CQE-01..CQE-03 fixed 2026-05-27 | QE-arc-points-cast fixed 2026-05-27 | TC-01..TC-06 fixed 2026-05-27 | UNINIT-01..UNINIT-11 fixed 2026-05-27 | REL-01..REL-09 fixed 2026-05-27 | UNINIT-12..UNINIT-13 fixed 2026-05-27 | PERF-01..PERF-05 fixed 2026-05-27 | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · SECURITY.md -->
 
 # Audit Record — Query Module
@@ -9,9 +9,9 @@
 |--------------|--------------------------------------------|
 | Module       | query                                      |
 | Source path  | `src/query/`                               |
-| Audit date   | 2026-04-21 (S0 fixes: 2026-05-04, S1 fixes: 2026-05-04, OI-05/OI-06: 2026-05-26, KL-01 closed: 2026-05-26, CCF-01..CCF-05 fixed: 2026-05-27, CQE-01..CQE-03 fixed: 2026-05-27, QE-arc-points-cast fixed: 2026-05-27, TC-01..TC-06 fixed: 2026-05-27, UNINIT-01..UNINIT-11 fixed: 2026-05-27) |
+| Audit date   | 2026-04-21 (S0 fixes: 2026-05-04, S1 fixes: 2026-05-04, OI-05/OI-06: 2026-05-26, KL-01 closed: 2026-05-26, CCF-01..CCF-05 fixed: 2026-05-27, CQE-01..CQE-03 fixed: 2026-05-27, QE-arc-points-cast fixed: 2026-05-27, TC-01..TC-06 fixed: 2026-05-27, UNINIT-01..UNINIT-13 fixed: 2026-05-27, REL-01..REL-09 fixed: 2026-05-27, PERF-01..PERF-05 fixed: 2026-05-27) |
 | Audited by   | Copilot (source code analysis)             |
-| Status       | ✅ All critical findings resolved — 0 S0, 0 S1, 0 critical OI open; KL-01 closed; CCF-01..CCF-05 closed; CQE-01..CQE-03 closed; QE-arc-points-cast closed; TC-01..TC-06 closed; UNINIT-01..UNINIT-11 closed |
+| Status       | ✅ All critical findings resolved — 0 S0, 0 S1, 0 critical OI open; KL-01 closed; CCF-01..CCF-05 closed; CQE-01..CQE-03 closed; QE-arc-points-cast closed; TC-01..TC-06 closed; UNINIT-01..UNINIT-13 closed; REL-01..REL-09 closed; PERF-01..PERF-05 closed |
 
 > **2026-05-04:** QE-1 fixed (errors_mutex), QE-2 addressed, PA-1 fixed (depth limit 500 in
 > `parseExpression()`). See finding details below for confirmation.
@@ -74,6 +74,25 @@
 > UNINIT-09: `GraphPathCostResult::{estimatedExpandedVertices,estimatedTimeMs}` (`= 0.0`) in `query_optimizer.h`.
 > UNINIT-10: `VectorWorkloadPlan::{recommended_ef_search,recommended_k_overfetch,use_prefiltering}` and `GraphWorkloadPlan::{max_expansion_depth,use_bidirectional_search,enable_spatial_pruning,recommended_parallelism}` in `query_optimizer.h`.
 > UNINIT-11: `PlanChoice::estimated_cost` (`= 0.0`) and `NumaNode::{node_id,available_cores,memory_gb}` and `NumaPlacement::{preferred_numa_node,use_local_memory}` in `adaptive_optimizer.h`; `Centroid::{mean,weight}` (`= 0.0`) in `approximate_aggregator.h`; `QueryPlan::estimated_cost` (`= 0`) in `query_federation.h`; `EPSGDefinition::{code,utmZone,utmNorth,centralMeridian,scaleFactor,falseEasting,falseNorthing}` in `crs_functions.h`.
+> UNINIT-12: `CTEExecution::should_materialize` (`= false`) in `aql_translator.h` — struct had no
+> constructor; uninitialized bool could be read as `true` and incorrectly force materialization of
+> every CTE regardless of the optimizer's decision.
+> UNINIT-13: `IncomingTuple::event_ts_us` (`= 0`) in `continuous_query_engine_impl.h` — plain
+> aggregate struct with no constructor; uninitialized `int64_t` would produce garbage timestamps in
+> the watermark logic if a caller forgot to set the field.
+
+> **2026-05-27:** PERF-01..PERF-05 fixed — five missing `reserve()` calls before `push_back` loops
+> (issue #5177 `copy_overhead` category):
+> PERF-01: `AQLTranslator::translate` — `cte_executions.reserve(ast->with_clause->ctes.size())`
+> before iterating WITH-clause CTEs in `aql_translator.cpp`.
+> PERF-02: `GremlinTokenizer::tokenize` — `tokens.reserve(src.size())` before the tokenizer loop in
+> `gremlin_parser.cpp`; source string length is a safe upper bound on token count.
+> PERF-03: `TensorContractionEngine::slice` — `result.mode_sizes.reserve(train.order())` and
+> `result.cores.reserve(train.order())` before the mode loop in `tensor_contraction_engine.cpp`.
+> PERF-04: `TensorContractionEngine::hadamardProduct` — `result.cores.reserve(a.order())` before
+> the Kronecker-product loop (mode_sizes already set via copy assignment).
+> PERF-05: `TensorContractionEngine::project` — `result.cores.reserve(d - 1)` and
+> `result.mode_sizes.reserve(d - 1)` before the branch that builds the projected TTTrain.
 
 ## Source File Inventory
 

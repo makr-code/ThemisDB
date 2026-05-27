@@ -41,6 +41,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
     std::vector<TranslationResult::CTEExecution> cte_executions;
     if (ast->with_clause) {
         query::SubqueryOptimizer optimizer;
+        cte_executions.reserve(ast->with_clause->ctes.size());
 
         for (const auto& cte_def : ast->with_clause->ctes) {
             if (!cte_def.subquery) {
