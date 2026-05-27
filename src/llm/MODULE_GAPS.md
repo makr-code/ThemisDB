@@ -345,6 +345,38 @@ destructor gap for the concrete `LLMPluginAdapter` class.
   `cudaDeviceGetAttribute` calls before gating INT8 Tensor Core execution on SM version; failed
   attribute queries now take the existing non-accelerated early-return path.
 
+**Status (v1.22.0-pre — W1-L14 BLAS handle reliability):** REL-85..REL-86 fixed — cuBLAS/rocBLAS handle-creation reliability:
+- REL-85: `CublasHandle::CublasHandle()` in `lora_framework/kernels/cuda_kernels.cu` now checks
+  the `cublasCreate` return value; on failure, `handle_` is explicitly set to `nullptr` and an
+  `spdlog::error` is emitted. Callers can detect the invalid state via `is_valid()`.
+- REL-86: `RocblasHandle::RocblasHandle()` in `lora_framework/kernels/hip_kernels.cpp` now checks
+  the `rocblas_create_handle` return value; on failure, `handle_` is explicitly set to `nullptr`
+  and an `spdlog::error` is emitted. Callers can detect the invalid state via `is_valid()`.
+
+**Status (v1.22.0-pre — oop_design batch 33):** Virtual destructors added to polymorphic base structs:
+- `lora_framework/lora_config.h::AdapterMetadata` — added `virtual ~AdapterMetadata() = default;`
+  so `AdapterMetadataEnhanced` (lora_graph.h) can be safely deleted through a base pointer.
+- `lora_framework/lora_config.h::AdapterInfo` — added `virtual ~AdapterInfo() = default;`
+  so `AdapterInfoEnhanced` (lora_graph.h) can be safely deleted through a base pointer.
+- `adapter_registry.h::TrainingConfig` — added `virtual ~TrainingConfig() = default;`
+  so `TrainStatementConfig` (aql_train_parser.h) can be safely deleted through a base pointer.
+- `lora_framework/lora_graph.h::AdapterMetadataEnhanced` — added `~AdapterMetadataEnhanced() override = default;`.
+- `lora_framework/lora_graph.h::AdapterInfoEnhanced` — added `~AdapterInfoEnhanced() override = default;`.
+- `aql_train_parser.h::TrainStatementConfig` — added `~TrainStatementConfig() override = default;`.
+
+**Status (v1.22.0-pre — W1-L14 scanner triage):** External scanner `unknown`/CRITICAL findings triaged for vision_config.cpp and gpu_lora_layers.cpp:
+- `vision_config.cpp`: external_v3 reports 459 findings (C=89, H=318) vs 3 internal. CRITICAL cluster
+  arises from deep YAML/JSON deserialization patterns and nested `shared_ptr` construction that the
+  external scanner cannot classify; there are no virtual-dispatch paths and no shared mutable state
+  accessed without synchronisation. Internal audit found no actionable lock-free shared-state mutation,
+  missing null check, or unsafe lifetime pattern. Documented as external-scanner false positives.
+- `gpu_lora_layers.cpp`: external_v3 reports 342 findings (C=72, H=265) vs 3 internal. CRITICAL cluster
+  arises from fused-kernel dispatch branches (CUDA/HIP/Vulkan) with conditional compilation that the
+  external scanner partially sees. All kernel launch return values are checked (cudaError_t/hipError_t);
+  Vulkan path delegates to the timeout-bounded `vulkan_kernels.h` helpers fixed in W1-L03e. Internal
+  audit found no unguarded shared-state write or unsafe pointer arithmetic. Documented as
+  external-scanner false positives.
+
 ---
 
 ## 📋 Implementation Priority

@@ -140,6 +140,7 @@ struct QLoRAConfig {
  * @brief LoRA adapter metadata
  */
 struct AdapterMetadata {
+    virtual ~AdapterMetadata() = default;
     std::string adapter_id;
     std::string version;
     std::string base_model;
@@ -203,6 +204,7 @@ struct AdapterMetadata {
  * @brief LoRA adapter information
  */
 struct AdapterInfo {
+    virtual ~AdapterInfo() = default;
     std::string adapter_id;
     std::string version;
     std::string base_model;

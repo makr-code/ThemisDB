@@ -83,6 +83,7 @@ struct AdapterProvenance {
 
 /// Training configuration
 struct TrainingConfig {
+    virtual ~TrainingConfig() = default;
     std::string dataset_name;
     size_t num_samples = 0;
     int epochs = 3;
