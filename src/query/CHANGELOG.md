@@ -14,7 +14,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Clarified AQL parser concurrency guarantees: `AQLParser` is stateless and safe for shared-instance concurrent use.
 - Enabled fulltext AQL function registration in `registerBuiltinFunctions()` (`registerFulltextFunctions(registry)`), so FULLTEXT/PHRASE/FUZZY/NGRAM_MATCH/TOKENS/SOUNDEX/METAPHONE/DOUBLE_METAPHONE are now available at startup.
 
-## [2.0.0] — 2026-04-27
+## [2.0.1] — 2026-05-27
+
+### Fixed
+- **`AdaptiveJoinExecutor` hardening** (Issue #QUERY-7327): overflow-safe build-memory estimation in `selectAlgorithm()` (AC-5 guard prevents `size_t` wrap before `size_t × bytes_per_row`); defensive `nullptr` checks added in merge-join equal-range cross-product, index-nested-loop probe loop, and grace-hash-join partition loop.
+- **`QueryFederation` hardening** (Issue #QUERY-7327): partition-pruning now routes through `executeOnShards()` with deduplicated shard IDs instead of blind scatter-gather; regex capture-group bounds are checked (`m.size() > 1` / `m.size() > 2`) in point-lookup and range-lookup extraction paths to prevent out-of-bounds `m[1]` / `m[2]` access.
+
+### Tests
+- Added `AC5_SelectAlgo_OverflowSafeMemoryEstimate_GraceHash` regression test — verifies that near-`SIZE_MAX` build-row counts do not wrap and correctly trigger `GRACE_HASH_JOIN`.
+- Added `AC2_MergeJoin_IgnoresRowsWithMissingJoinKey` regression test — verifies rows without the join key are silently skipped in merge-join mode.
+
+
 
 ### Added
 - **Continuous Query Language (CQL) engine** (Phase 8.1–8.5) — production-grade standing-query support:

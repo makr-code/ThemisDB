@@ -2,9 +2,9 @@
 
 # Query Module Roadmap
 
-**Version:** 1.9.0
+**Version:** 2.0.1
 **Status:** ✅ Production-Ready
-**Last Updated:** 2026-04-06
+**Last Updated:** 2026-05-27
 **Module Path:** `src/query/`
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -63,9 +63,13 @@ Production-ready multi-model query engine supporting relational, document, graph
 
 ## In Progress 🚧
 
-- [~] `QueryEngine` graph traversal: edge-type filtering — ✅ implemented in v2.0.0 as optional `edgeTypeFilter` parameter to `executeGeneralTraversal()`. Edges are matched by `adj.graphId` (same convention as `RecursivePathQuery::edge_type`). (Target: v1.9.0 → shipped v2.0.0)
-- [~] P0 gap remediation batch (Issue #QUERY-7327): `AdaptiveJoinExecutor` hardening in progress — overflow-safe build-memory estimation, defensive key/pointer checks in merge/index/grace join loops, and focused regression tests for missing join keys + overflow path. (Target: v2.0.1)
-- [~] P0 gap remediation batch (Issue #QUERY-7327): `QueryFederation` hardening in progress — partition-pruning now uses targeted `executeOnShards()` with deduplicated shard IDs, regex-capture bounds guard for collection extraction, and synchronized shard-resolution path. (Target: v2.0.1)
+<!-- No active P0/P1 items — see PERF-D7 and Tensor Algebra Phase 2 below for longer-horizon work -->
+
+## Completed (v2.0.1) ✅
+
+- [x] **`AdaptiveJoinExecutor` hardening** (Issue #QUERY-7327) — overflow-safe build-memory estimation in `selectAlgorithm()` (AC-5 guard); defensive `nullptr` checks in merge-join equal-range cross-product, index-nested-loop probe, and grace-hash-join partition loops; regression tests `AC2_MergeJoin_IgnoresRowsWithMissingJoinKey` and `AC5_SelectAlgo_OverflowSafeMemoryEstimate_GraceHash` in `tests/test_adaptive_join_strategies.cpp`. ✅ Shipped v2.0.1
+- [x] **`QueryFederation` hardening** (Issue #QUERY-7327) — partition-pruning routes via `executeOnShards()` with deduplicated shard IDs; regex-capture bounds guarded (`m.size() > 1` / `m.size() > 2`) in point-lookup and range-lookup extraction; shard-resolution path synchronized. ✅ Shipped v2.0.1
+- [x] **`QueryEngine` graph traversal: edge-type filtering** — ✅ implemented in v2.0.0 as optional `edgeTypeFilter` parameter to `executeGeneralTraversal()`. Edges are matched by `adj.graphId` (same convention as `RecursivePathQuery::edge_type`). (Target: v1.9.0 → shipped v2.0.0)
 
 ## Completed (v2.0.0) ✅
 

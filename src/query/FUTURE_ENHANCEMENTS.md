@@ -1,6 +1,6 @@
 > **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
 
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-05-27 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Query Module - Future Enhancements
@@ -16,7 +16,7 @@
 
 ## Design Constraints
 
-- [ ] `AQLParser` instances are NOT thread-safe; each thread must own its own instance or use mutex protection
+- [x] `AQLParser` instances are thread-safe — ✅ confirmed 2026-05-26 (KL-01 closed): `AQLParser` is stateless; each public method constructs a local `Tokenizer`+`Parser`, so concurrent calls on a shared instance are safe. No per-thread instance or mutex needed.
 - [ ] Optimizer plan generation must complete in < 5 ms for queries touching ≤ 10 collections
 - [ ] Query cache lookups (exact match) must have < 1 ms latency at p99 under 10,000 concurrent clients
 - [ ] UDF registration must not require server restart; hot-load via dynamic linking
