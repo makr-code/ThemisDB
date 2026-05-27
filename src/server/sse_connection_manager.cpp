@@ -91,6 +91,7 @@ uint64_t SseConnectionManager::registerConnection(
 }
 
 void SseConnectionManager::unregisterConnection(uint64_t conn_id) {
+    bool stop_polling = false;
     std::unique_lock<std::shared_mutex> lock(connections_mutex_);
 
     auto removed = connections_.extract(conn_id);
@@ -103,9 +104,15 @@ void SseConnectionManager::unregisterConnection(uint64_t conn_id) {
         // Stop polling if no more connections
         if (connections_.empty()) {
             running_ = false;
-            if (poll_timer_) {
-                poll_timer_->cancel();
-            }
+            stop_polling = true;
+        }
+    }
+
+    lock.unlock();
+    if (stop_polling) {
+        std::lock_guard<std::mutex> timer_lock(poll_timer_mutex_);
+        if (poll_timer_) {
+            poll_timer_->cancel();
         }
     }
 }
@@ -295,16 +302,18 @@ void SseConnectionManager::shutdown() {
     THEMIS_INFO("SSE Connection Manager shutting down...");
     
     running_ = false;
-    
-    if (poll_timer_) {
-        poll_timer_->cancel();
-    }
-    
+
     std::unique_lock<std::shared_mutex> lock(connections_mutex_);
     for (auto& [id, conn] : connections_) {
         conn->active = false;
     }
     connections_.clear();
+    lock.unlock();
+
+    std::lock_guard<std::mutex> timer_lock(poll_timer_mutex_);
+    if (poll_timer_) {
+        poll_timer_->cancel();
+    }
     
     THEMIS_INFO("SSE Connection Manager shutdown complete");
 }
@@ -405,14 +414,17 @@ void SseConnectionManager::backgroundPollTask() {
     
     // Schedule next poll
     if (running_) {
-        poll_timer_->expires_after(
-            std::chrono::milliseconds(config_.event_poll_interval_ms)
-        );
-        poll_timer_->async_wait([this](const boost::system::error_code& ec) {
-            if (!ec && running_) {
-                backgroundPollTask();
-            }
-        });
+        std::lock_guard<std::mutex> timer_lock(poll_timer_mutex_);
+        if (poll_timer_) {
+            poll_timer_->expires_after(
+                std::chrono::milliseconds(config_.event_poll_interval_ms)
+            );
+            poll_timer_->async_wait([this](const boost::system::error_code& ec) {
+                if (!ec && running_) {
+                    backgroundPollTask();
+                }
+            });
+        }
     }
 }
 

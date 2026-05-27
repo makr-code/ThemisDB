@@ -76,4 +76,27 @@ TEST_F(SseConnectionManagerTest, UnregisterUnknownConnectionDoesNotChangeStats) 
     EXPECT_EQ(after.total_disconnects, before.total_disconnects);
 }
 
+TEST_F(SseConnectionManagerTest, ShutdownClearsAllConnectionsAndIsIdempotent) {
+    themis::server::SseConnectionManager manager(changefeed_, ioc_);
+    const auto conn_a = manager.registerConnection(/*from_seq=*/0);
+    const auto conn_b = manager.registerConnection(/*from_seq=*/10);
+
+    auto before_shutdown = manager.getStats();
+    EXPECT_EQ(before_shutdown.active_connections, 2u);
+
+    manager.shutdown();
+    auto after_first_shutdown = manager.getStats();
+    EXPECT_EQ(after_first_shutdown.active_connections, 0u);
+
+    manager.shutdown();
+    auto after_second_shutdown = manager.getStats();
+    EXPECT_EQ(after_second_shutdown.active_connections, 0u);
+
+    manager.unregisterConnection(conn_a);
+    manager.unregisterConnection(conn_b);
+    auto after_unregister = manager.getStats();
+    EXPECT_EQ(after_unregister.active_connections, 0u);
+    EXPECT_EQ(after_unregister.total_disconnects, after_second_shutdown.total_disconnects);
+}
+
 } // namespace

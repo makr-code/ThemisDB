@@ -167,6 +167,7 @@ private:
 
     // Background polling
     std::unique_ptr<boost::asio::steady_timer> poll_timer_;
+    mutable std::mutex poll_timer_mutex_;
     std::atomic<bool> running_{false};
 
     // Stats
