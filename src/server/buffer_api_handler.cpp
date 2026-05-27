@@ -116,6 +116,7 @@ http::response<http::string_body> BufferAPIHandler::handleTSPutBuffered(
         return makeErrorResponse(http::status::service_unavailable,
                                 "Time series buffer not available", req);
     }
+    auto& ts_buffer = *ts_buffer_;
     
     try {
         auto body = json::parse(req.body());
@@ -135,7 +136,7 @@ http::response<http::string_body> BufferAPIHandler::handleTSPutBuffered(
         point.value = body["value"].get<double>();
         
         // Add to buffer
-        auto status = ts_buffer_->add(point);
+        auto status = ts_buffer.add(point);
 
         if (!status.has_value()) {
             return makeErrorResponse(
@@ -145,7 +146,7 @@ http::response<http::string_body> BufferAPIHandler::handleTSPutBuffered(
         }
         
         // Return success with stats
-        auto stats = ts_buffer_->getStats();
+        auto stats = ts_buffer.getStats();
         json response = {
             {"status", "buffered"},
             {"metric", point.metric},
@@ -178,6 +179,7 @@ http::response<http::string_body> BufferAPIHandler::handleVectorAddBuffered(
         return makeErrorResponse(http::status::service_unavailable,
                                 "Vector buffer not available", req);
     }
+    auto& vector_buffer = *vector_buffer_;
     
     try {
         auto body = json::parse(req.body());
@@ -198,7 +200,7 @@ http::response<http::string_body> BufferAPIHandler::handleVectorAddBuffered(
         }
         
         // Add to buffer
-        auto status = vector_buffer_->add(entity);
+        auto status = vector_buffer.add(entity);
 
         if (!status.ok) {
             return makeErrorResponse(http::status::internal_server_error,
@@ -206,7 +208,7 @@ http::response<http::string_body> BufferAPIHandler::handleVectorAddBuffered(
         }
         
         // Return success with stats
-        auto stats = vector_buffer_->getStats();
+        auto stats = vector_buffer.getStats();
         json response = {
             {"status", "buffered"},
             {"pk", entity.getPrimaryKey()},
@@ -440,4 +442,3 @@ http::response<http::string_body> BufferAPIHandler::makeErrorResponse(
 
 } // namespace server
 } // namespace themis
-

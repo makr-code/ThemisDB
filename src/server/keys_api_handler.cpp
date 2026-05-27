@@ -32,8 +32,9 @@ nlohmann::json KeysApiHandler::listKeys() {
                 {"total", 0}
             };
         }
+        auto& key_provider = *key_provider_;
         
-        auto keys = key_provider_->listKeys();
+        auto keys = key_provider.listKeys();
         nlohmann::json items = nlohmann::json::array();
         
         for (const auto& key_meta : keys) {
@@ -97,9 +98,10 @@ nlohmann::json KeysApiHandler::rotateKey(const std::string& key_id, [[maybe_unus
                 {"status_code", 503}
             };
         }
+        auto& key_provider = *key_provider_;
         
         // Check if key exists
-        if (!key_provider_->hasKey(key_id)) {
+        if (!key_provider.hasKey(key_id)) {
             THEMIS_WARN("Keys API: Key not found: {}", key_id);
             return {
                 {"error", "Not Found"},
@@ -109,7 +111,7 @@ nlohmann::json KeysApiHandler::rotateKey(const std::string& key_id, [[maybe_unus
         }
         
         // Perform rotation
-        uint32_t new_version = key_provider_->rotateKey(key_id);
+        uint32_t new_version = key_provider.rotateKey(key_id);
         
         THEMIS_INFO("Keys API: Rotated key '{}' to version {}", key_id, new_version);
         
@@ -131,4 +133,3 @@ nlohmann::json KeysApiHandler::rotateKey(const std::string& key_id, [[maybe_unus
 }
 
 }} // namespace themis::server
-

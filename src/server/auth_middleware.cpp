@@ -106,7 +106,8 @@ void AuthMiddleware::addApiKeyCredential(const auth::ApiKeyCredential& credentia
         THEMIS_WARN("addApiKeyCredential: API key auth not enabled; call enableApiKeyAuth() first");
         return;
     }
-    api_key_auth_->addCredential(credential);
+    auto& api_key_auth = *api_key_auth_;
+    api_key_auth.addCredential(credential);
 }
 
 void AuthMiddleware::removeApiKeyCredential(const std::string& key_id) {
@@ -275,10 +276,11 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaJWT(std::string_view toke
     if (!jwt_validator_) {
         return AuthResult::Denied("JWT validation not configured");
     }
+    auto& jwt_validator = *jwt_validator_;
 
     try {
         // Parse and validate JWT
-        auto claims = jwt_validator_->parseAndValidate(std::string(token));
+        auto claims = jwt_validator.parseAndValidate(std::string(token));
 
         metrics_.jwt_validation_success_total++;
 
@@ -511,10 +513,11 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaKerberos(
     if (!kerberos_auth_) {
         return AuthResult::Denied("Kerberos authentication not configured");
     }
+    auto& kerberos_auth = *kerberos_auth_;
 
     try {
         // Authenticate the Kerberos token
-        auto result = kerberos_auth_->authenticateToken(std::string(token));
+        auto result = kerberos_auth.authenticateToken(std::string(token));
 
         if (!result.success) {
             THEMIS_WARN("Kerberos authentication failed: {}", result.error_message);
@@ -605,9 +608,10 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaMTLS(
     if (!mtls_auth_) {
         return AuthResult::Denied("mTLS authentication not configured");
     }
+    auto& mtls_auth = *mtls_auth_;
 
     try {
-        auto claims = mtls_auth_->authenticate(std::string(cert_pem));
+        auto claims = mtls_auth.authenticate(std::string(cert_pem));
 
         THEMIS_INFO("mTLS authentication successful for principal '{}' roles={}",
                 claims.principal, claims.roles.size());
@@ -634,9 +638,10 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaApiKey(
     if (!api_key_auth_) {
         return AuthResult::Denied("API key authentication not configured");
     }
+    auto& api_key_auth = *api_key_auth_;
 
     try {
-        auto claims = api_key_auth_->authenticateCombined(std::string(combined_token));
+        auto claims = api_key_auth.authenticateCombined(std::string(combined_token));
 
         THEMIS_INFO("API key authenticated: key_id='{}' principal='{}' tenant='{}'",
                     claims.key_id, claims.principal, claims.tenant_id);

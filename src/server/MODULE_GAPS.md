@@ -931,6 +931,34 @@ All files follow the W1-S03 pattern: every `if (!member_) { return …; }` guard
 ---
 
 
+## ✅ Recent Remediation (2026-05-27) — W1-S03 Extension: Null-Guard Standardisation Round 9
+
+**Scope:** `src/server/auth_middleware.cpp`, `src/server/bpmn_api_handler.cpp`, `src/server/buffer_api_handler.cpp`, `src/server/content_api_handler.cpp`, `src/server/keys_api_handler.cpp`, `src/server/pki_api_handler.cpp`  
+**Ticket:** W1-S03 (issue scope) · Priority P1
+
+### Fixes Applied
+
+#### Guarded pointer dereference anchoring (pointer_without_null_check / CWE-476)
+
+Each file now follows the W1-S03 post-guard anchor pattern: after `if (!member_) { return …; }`, the member pointer is immediately bound to a local reference and all subsequent calls in that path use the local reference.
+
+| File | Member(s) anchored | Guard sites |
+|---|---|---|
+| `auth_middleware.cpp` | `api_key_auth_` (×2), `jwt_validator_` (×1), `kerberos_auth_` (×1), `mtls_auth_` (×1) | 5 |
+| `bpmn_api_handler.cpp` | `process_graph_` (×3) | 3 |
+| `buffer_api_handler.cpp` | `ts_buffer_` (×1), `vector_buffer_` (×1) | 2 |
+| `content_api_handler.cpp` | `secondary_index_` (×2), `vector_index_` (×1) | 2 |
+| `keys_api_handler.cpp` | `key_provider_` (×2) | 2 |
+| `pki_api_handler.cpp` | `signing_service_` (×2), `hsm_provider_` (×4), `tsa_` (×3), combined `hsm_provider_`+`tsa_` guards (×2) | 9 |
+
+### Gap Delta
+
+| Type | Before | After |
+|---|---|---|
+| `pointer_without_null_check` (W1-S03 Round 9 guarded derefs) | residual scanner-visible guarded-member deref hits across auth/BPMN/buffer/content/keys/PKI handlers | standardized with explicit post-guard local references across all scope files |
+
+---
+
 
 **Scope:** `src/server/http_server.cpp`, `include/server/http_server.h`  
 **Ticket:** W1-S02 · Priority P0  

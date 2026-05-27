@@ -268,6 +268,8 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
     try {
         if (!secondary_index_) return makeErrorResponse(http::status::service_unavailable, "SecondaryIndexManager not initialized", req);
         if (!vector_index_) return makeErrorResponse(http::status::service_unavailable, "VectorIndexManager not initialized", req);
+        auto& secondary_index = *secondary_index_;
+        auto& vector_index = *vector_index_;
         
         nlohmann::json body = nlohmann::json::parse(req.body());
         
@@ -289,12 +291,12 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
             std::string textQuery = body["text_query"];
             int textLimit = body.value("text_limit", 1000);
             
-            if (!secondary_index_->hasFulltextIndex(table, textColumn)) {
+            if (!secondary_index.hasFulltextIndex(table, textColumn)) {
                 return makeErrorResponse(http::status::bad_request, 
                     "No fulltext index on " + table + "." + textColumn, req);
             }
             
-            auto [textStatus, textRes] = secondary_index_->scanFulltextWithScores(table, textColumn, textQuery, textLimit);
+            auto [textStatus, textRes] = secondary_index.scanFulltextWithScores(table, textColumn, textQuery, textLimit);
             if (!textStatus.ok) {
                 return makeErrorResponse(http::status::internal_server_error, "Text search failed: " + textStatus.message, req);
             }
@@ -322,7 +324,7 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
             }
             
             int vectorLimit = body.value("vector_limit", 1000);
-            auto [vecStatus, vecRes] = vector_index_->searchKnn(vectorQuery, vectorLimit);
+            auto [vecStatus, vecRes] = vector_index.searchKnn(vectorQuery, vectorLimit);
             if (!vecStatus.ok) {
                 return makeErrorResponse(http::status::internal_server_error, "Vector search failed: " + vecStatus.message, req);
             }
@@ -449,6 +451,7 @@ http::response<http::string_body> ContentApiHandler::handleFulltextSearch(
 ) {
     try {
         if (!secondary_index_) return makeErrorResponse(http::status::service_unavailable, "IndexManager not initialized", req);
+        auto& secondary_index = *secondary_index_;
         
         nlohmann::json body = nlohmann::json::parse(req.body());
         
@@ -469,13 +472,13 @@ http::response<http::string_body> ContentApiHandler::handleFulltextSearch(
         size_t limit = body.value("limit", 1000);
         
         // Check if fulltext index exists
-        if (!secondary_index_->hasFulltextIndex(table, column)) {
+        if (!secondary_index.hasFulltextIndex(table, column)) {
             return makeErrorResponse(http::status::bad_request, 
                 "No fulltext index on " + table + "." + column, req);
         }
         
         // Perform BM25-scored fulltext search
-        auto [status, results] = secondary_index_->scanFulltextWithScores(table, column, query, limit);
+        auto [status, results] = secondary_index.scanFulltextWithScores(table, column, query, limit);
         
         if (!status.ok) {
             return makeErrorResponse(http::status::internal_server_error, status.message, req);
