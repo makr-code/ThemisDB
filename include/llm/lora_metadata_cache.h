@@ -32,8 +32,8 @@ struct LoRAMetadata {
     std::string lora_id;
     std::string path;
     std::string base_model_id;
-    size_t size_bytes;
-    float scale;  // LoRA scaling factor
+    size_t size_bytes = 0;
+    float scale = 1.0f;  // LoRA scaling factor
     std::chrono::system_clock::time_point loaded_timestamp;
     std::chrono::system_clock::time_point last_accessed;
     uint64_t access_count = 0;
@@ -41,8 +41,8 @@ struct LoRAMetadata {
     int slot_id = -1;  // Current slot (-1 if not loaded)
     
     // LoRA-specific metadata
-    int rank;                    // LoRA rank (e.g., 8, 16, 32)
-    float alpha;                 // LoRA alpha parameter
+    int rank = 0;               // LoRA rank (e.g., 8, 16, 32)
+    float alpha = 0.0f;          // LoRA alpha parameter
     std::vector<std::string> target_modules;  // Which layers are adapted
 };
 
@@ -108,10 +108,10 @@ public:
      * @brief Get cache statistics
      */
     struct Stats {
-        size_t total_entries;
-        size_t loaded_entries;
-        size_t total_size_bytes;
-        uint64_t total_accesses;
+        size_t total_entries = 0;
+        size_t loaded_entries = 0;
+        size_t total_size_bytes = 0;
+        uint64_t total_accesses = 0;
     };
     
     Stats getStats() const;

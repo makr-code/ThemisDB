@@ -98,7 +98,7 @@ public:
     
 private:
     Device device_;
-    bool is_available_;
+    bool is_available_ = false;
     
     // Metrics history
     std::vector<Metrics> metrics_history_;

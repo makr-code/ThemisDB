@@ -18,6 +18,7 @@
 #include "sharding/remote_executor.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
+#include <limits>
 #include <numeric>
 #include <sstream>
 
@@ -1397,6 +1398,19 @@ std::optional<InferenceResponse> InferenceEngineEnhanced::checkCache(
     // cache will then perform an exact-key match only.
     std::vector<float> embedding = computeEmbeddingForCache(request.prompt);
 
+    // IV-03: Validate embedding dimension consistency before passing to the
+    // cache index.  Typical LLM embeddings are at least 64-dimensional; a
+    // smaller vector indicates a corrupted or stub embedding that must not be
+    // fed into the HNSW similarity index (wrong dimensionality would silently
+    // corrupt similarity scores).  Fall back to exact-key matching only.
+    constexpr size_t MIN_EMBEDDING_DIM = 64;
+    if (!embedding.empty() && embedding.size() < MIN_EMBEDDING_DIM) {
+        spdlog::warn("checkCache: embedding dimension {} is below minimum {}; "
+                     "falling back to exact-key lookup",
+                     embedding.size(), MIN_EMBEDDING_DIM);
+        embedding.clear();
+    }
+
     // Use the prompt text as the cache key so exact lookups match identical prompts
     // and the HNSW index can find semantically similar ones.
     auto cached = cache->get(request.prompt, embedding);
@@ -1432,6 +1446,15 @@ void InferenceEngineEnhanced::updateCache(
 
     // Compute real embedding for future similarity-based lookups
     std::vector<float> embedding = computeEmbeddingForCache(request.prompt);
+
+    // IV-03: Reject stub/corrupted embeddings (see checkCache for rationale).
+    constexpr size_t MIN_EMBEDDING_DIM = 64;
+    if (!embedding.empty() && embedding.size() < MIN_EMBEDDING_DIM) {
+        spdlog::warn("updateCache: embedding dimension {} is below minimum {}; "
+                     "storing without embedding (exact-key lookup only)",
+                     embedding.size(), MIN_EMBEDDING_DIM);
+        embedding.clear();
+    }
 
     std::vector<int> tokens = estimateTokenSequence(request.prompt);
 
@@ -1784,10 +1807,13 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
             constexpr float kBaseline = -5.0f;
             draft_result.vocab_size = vocab_size;
             for (size_t i = 0; i < K; ++i) {
-                const int tid = (i < remote_text.size())
-                    ? (static_cast<int>(static_cast<unsigned char>(remote_text[i])) %
-                       static_cast<int>(vocab_size))
-                    : 0;
+                const size_t tid_raw = (i < remote_text.size())
+                    ? (static_cast<size_t>(static_cast<unsigned char>(remote_text[i])) %
+                       vocab_size)
+                    : 0u;
+                const int tid = static_cast<int>(std::min(
+                    tid_raw,
+                    static_cast<size_t>(std::numeric_limits<int>::max())));
                 draft_result.tokens.push_back(tid);
                 std::vector<float> row(vocab_size, kBaseline);
                 row[static_cast<size_t>(tid)] = kPeak;

@@ -68,6 +68,10 @@ std::vector<float> EmbeddingProvider::getEmbedding(const std::string& text) {
     // Tokenize text
     // NOTE: We need a tokenizer instance. For now, we'll use llama.cpp's tokenization directly.
     const llama_vocab* vocab = llama_model_get_vocab(model_);
+    if (!vocab) {
+        spdlog::error("llama_model_get_vocab returned null while generating embedding");
+        return std::vector<float>();
+    }
     
     std::vector<llama_token> tokens_buffer(text.size() + 16);
     int32_t n_tokens = llama_tokenize(
@@ -353,7 +357,7 @@ std::vector<float> EmbeddingProvider::extractEmbeddingFromTokens(
         batch.seq_id[i][0] = 0;
         batch.logits[i] = (i == llama_tokens.size() - 1) ? 1 : 0;  // Only last token needs logits
     }
-    batch.n_tokens = llama_tokens.size();
+    batch.n_tokens = static_cast<int32_t>(llama_tokens.size());
     
     // Decode to get embeddings
     int result = llama_decode(context_, batch);
@@ -456,4 +460,3 @@ void EmbeddingProvider::addToCache(
 } // namespace lora
 } // namespace llm
 } // namespace themis
-

@@ -92,8 +92,8 @@ public:
     
 private:
     GPUTensor embedding_weights_;  // [vocab_size, hidden_dim] on GPU
-    size_t vocab_size_;
-    size_t hidden_dim_;
+    size_t vocab_size_ = 0;
+    size_t hidden_dim_ = 0;
     Device device_;
     
     // Helper methods

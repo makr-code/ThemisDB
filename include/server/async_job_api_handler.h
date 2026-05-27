@@ -15,7 +15,9 @@
 #include <map>
 #include <memory>
 #include <mutex>
+#include <optional>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include <boost/beast/http.hpp>
@@ -110,6 +112,15 @@ public:
 
     /// Return a snapshot of all known jobs.
     std::vector<std::shared_ptr<AsyncJobRecord>> all() const;
+
+    /// Return JSON snapshot for one job; std::nullopt if not found.
+    std::optional<nlohmann::json> getJsonSnapshot(const std::string& id) const;
+
+    /// Return JSON snapshots of all known jobs.
+    std::vector<nlohmann::json> allJsonSnapshots() const;
+
+    /// Request cancellation and return {status, already_terminal}; nullopt if not found.
+    std::optional<std::pair<AsyncJobStatus, bool>> requestCancel(const std::string& id);
 
     /// Remove completed/failed/cancelled jobs older than `ttl_`.
     void prune();

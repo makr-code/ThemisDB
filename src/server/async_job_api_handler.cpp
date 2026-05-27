@@ -171,6 +171,57 @@ std::vector<std::shared_ptr<AsyncJobRecord>> AsyncJobRegistry::all() const {
     return out;
 }
 
+std::optional<nlohmann::json> AsyncJobRegistry::getJsonSnapshot(const std::string& id) const {
+    std::shared_ptr<AsyncJobRecord> job;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = jobs_.find(id);
+        if (it == jobs_.end()) {
+            return std::nullopt;
+        }
+        job = it->second;
+    }
+    return job->toJson();
+}
+
+std::vector<nlohmann::json> AsyncJobRegistry::allJsonSnapshots() const {
+    auto jobs = all();
+    std::vector<nlohmann::json> out;
+    out.reserve(jobs.size());
+    for (const auto& job : jobs) {
+        out.push_back(job->toJson());
+    }
+    return out;
+}
+
+std::optional<std::pair<AsyncJobStatus, bool>> AsyncJobRegistry::requestCancel(
+    const std::string& id) {
+    std::shared_ptr<AsyncJobRecord> job;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = jobs_.find(id);
+        if (it == jobs_.end()) {
+            return std::nullopt;
+        }
+        job = it->second;
+    }
+
+    std::lock_guard<std::mutex> rlock(job->mu);
+    AsyncJobStatus status = job->status;
+    if (status == AsyncJobStatus::COMPLETED ||
+        status == AsyncJobStatus::FAILED ||
+        status == AsyncJobStatus::CANCELLED) {
+        return std::make_pair(status, true);
+    }
+
+    job->cancel_requested.store(true, std::memory_order_release);
+    if (job->status == AsyncJobStatus::PENDING) {
+        job->status = AsyncJobStatus::CANCELLED;
+        job->updated_at = std::chrono::system_clock::now();
+    }
+    return std::make_pair(job->status, false);
+}
+
 void AsyncJobRegistry::prune() {
     std::lock_guard<std::mutex> lock(mutex_);
     auto now = std::chrono::system_clock::now();
@@ -466,12 +517,8 @@ http::response<http::string_body> AsyncJobApiHandler::handleList(
     const http::request<http::string_body>& req)
 {
     auto span = Tracer::startSpan("handleList");
-    auto jobs = registry_->all();
-    json arr = json::array();
-    for (const auto& job : jobs) {
-        arr.push_back(job->toJson());
-    }
-    return makeJsonResponse(http::status::ok, arr, req);
+    auto jobs = registry_->allJsonSnapshots();
+    return makeJsonResponse(http::status::ok, jobs, req);
 }
 
 // GET /v2/jobs/{id}
@@ -491,13 +538,13 @@ http::response<http::string_body> AsyncJobApiHandler::handleGetStatus(
             {{"error", true}, {"message", "Invalid job ID in path"}}, req);
     }
 
-    auto job = registry_->get(job_id);
-    if (!job) {
+    auto job = registry_->getJsonSnapshot(job_id);
+    if (!job.has_value()) {
         return makeJsonResponse(http::status::not_found,
             {{"error", true}, {"message", "Job not found: " + job_id}}, req);
     }
 
-    return makeJsonResponse(http::status::ok, job->toJson(), req);
+    return makeJsonResponse(http::status::ok, *job, req);
 }
 
 // DELETE /v2/jobs/{id}
@@ -517,21 +564,16 @@ http::response<http::string_body> AsyncJobApiHandler::handleCancel(
             {{"error", true}, {"message", "Invalid job ID in path"}}, req);
     }
 
-    auto job = registry_->get(job_id);
-    if (!job) {
+    auto status_result = registry_->requestCancel(job_id);
+    if (!status_result.has_value()) {
         return makeJsonResponse(http::status::not_found,
             {{"error", true}, {"message", "Job not found: " + job_id}}, req);
     }
 
-    AsyncJobStatus current;
-    {
-        std::lock_guard<std::mutex> rlock(job->mu);
-        current = job->status;
-    }
+    const AsyncJobStatus current = status_result->first;
+    const bool already_terminal = status_result->second;
 
-    if (current == AsyncJobStatus::COMPLETED ||
-        current == AsyncJobStatus::FAILED    ||
-        current == AsyncJobStatus::CANCELLED)
+    if (already_terminal)
     {
         return makeJsonResponse(http::status::conflict,
             {{"error", true},
@@ -540,17 +582,6 @@ http::response<http::string_body> AsyncJobApiHandler::handleCancel(
              {"job_id", job_id},
              {"status", asyncJobStatusToString(current)}},
             req);
-    }
-
-    job->cancel_requested.store(true, std::memory_order_release);
-    // If job is still PENDING (not yet picked up by executor), mark immediately
-    {
-        std::lock_guard<std::mutex> rlock(job->mu);
-        if (job->status == AsyncJobStatus::PENDING) {
-            job->status     = AsyncJobStatus::CANCELLED;
-            job->updated_at = std::chrono::system_clock::now();
-        }
-        current = job->status;
     }
 
     THEMIS_INFO("AsyncJob {} cancel requested", job_id);

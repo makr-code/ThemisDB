@@ -82,7 +82,7 @@ public:
 private:
     struct MetricValue {
         MetricType type;
-        double value;
+        double value = 0.0;
         std::vector<double> histogram_buckets;  // For histograms
         std::chrono::system_clock::time_point last_updated;
     };

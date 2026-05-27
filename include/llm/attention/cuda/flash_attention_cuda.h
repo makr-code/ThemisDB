@@ -64,7 +64,7 @@ public:
 
 private:
     FlashAttentionConfig config_;
-    int compute_capability_;
+    int compute_capability_ = 0;
     
     // CUDA resources
     void* d_workspace_ = nullptr;

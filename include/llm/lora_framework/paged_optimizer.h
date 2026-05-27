@@ -220,11 +220,11 @@ public:
 
 private:
     // Optimizer hyperparameters
-    float learning_rate_;
-    float beta1_;
-    float beta2_;
-    float epsilon_;
-    float weight_decay_;
+    float learning_rate_ = 0.0f;
+    float beta1_ = 0.0f;
+    float beta2_ = 0.0f;
+    float epsilon_ = 0.0f;
+    float weight_decay_ = 0.0f;
     int step_count_ = 0;
     
     // Configuration

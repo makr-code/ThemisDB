@@ -91,9 +91,9 @@ public:
 
 private:
     DirectXContext* context_;
-    uint32_t max_descriptors_;
-    uint32_t current_descriptor_;
-    uint32_t descriptor_increment_size_;
+    uint32_t max_descriptors_ = 0;
+    uint32_t current_descriptor_ = 0;
+    uint32_t descriptor_increment_size_ = 0;
     
     ComPtr<ID3D12DescriptorHeap> descriptor_heap_;
     D3D12_CPU_DESCRIPTOR_HANDLE cpu_heap_start_;

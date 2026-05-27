@@ -141,13 +141,12 @@ bool VulkanContext::initialize(int device_id, bool enable_validation) {
 }
 
 void VulkanContext::cleanup() {
-    if (!initialized_) {
-        return;
-    }
-    
     // Wait for device to be idle
     if (device_ != VK_NULL_HANDLE) {
-        vkDeviceWaitIdle(device_);
+        VkResult idle_result = vkDeviceWaitIdle(device_);
+        if (idle_result != VK_SUCCESS) {
+            std::cerr << "vkDeviceWaitIdle failed during cleanup: " << idle_result << '\n';
+        }
     }
     
     // Destroy command pool
@@ -178,6 +177,10 @@ void VulkanContext::cleanup() {
         vkDestroyInstance(instance_, nullptr);
         instance_ = VK_NULL_HANDLE;
     }
+
+    physical_device_ = VK_NULL_HANDLE;
+    compute_queue_ = VK_NULL_HANDLE;
+    queue_family_index_ = 0;
     
     initialized_ = false;
 }
@@ -446,7 +449,13 @@ bool VulkanContext::wait_for_fence(VkFence fence, uint64_t timeout_ns) {
         return false;
     }
     VkResult result = vkWaitForFences(device_, 1, &fence, VK_TRUE, timeout_ns);
-    return result == VK_SUCCESS;
+    if (result == VK_SUCCESS) {
+        return true;
+    }
+    if (result != VK_TIMEOUT) {
+        std::cerr << "vkWaitForFences failed: " << result << '\n';
+    }
+    return false;
 }
 
 void VulkanContext::reset_fence(VkFence fence) {

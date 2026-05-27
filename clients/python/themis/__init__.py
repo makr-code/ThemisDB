@@ -492,16 +492,34 @@ class ThemisClient:
         timeout: Optional[float] = None,
     ) -> "Transaction":
         """Begin a new transaction.
-        
+
         Args:
-            isolation_level: Transaction isolation level ("READ_COMMITTED" or "SNAPSHOT")
+            isolation_level: Transaction isolation level. One of:
+                - ``"READ_COMMITTED"`` – only committed values are visible (default).
+                  Non-repeatable reads and phantom reads are possible.
+                - ``"SNAPSHOT"`` – the transaction sees a consistent snapshot of the
+                  database as of its start time.
+
+                  .. warning::
+                     **Write-skew and phantom-read anomalies are possible at SNAPSHOT
+                     isolation.** Two concurrent SNAPSHOT transactions that each read
+                     the same data and then write disjoint keys can both commit even
+                     when their combined effect violates an application invariant
+                     (e.g. double-booking, over-withdrawal). Use ``"SERIALIZABLE"``
+                     when strict correctness is required.
+
+                - ``"SERIALIZABLE"`` – full serializability via Snapshot Isolation
+                  plus write-conflict detection (SSI / predicate locking). Prevents
+                  write skew and phantom reads. May abort more transactions and has
+                  higher latency than SNAPSHOT.
             timeout: Transaction timeout in seconds (optional)
-            
+
         Returns:
             Transaction object
-            
+
         Raises:
             TransactionError: If transaction cannot be started
+            ValueError: If an invalid isolation level is supplied
         """
         endpoint = self.endpoints[0]
         body: Dict[str, Any] = {}
@@ -509,6 +527,8 @@ class ThemisClient:
             body["isolation"] = "snapshot"
         elif isolation_level == "READ_COMMITTED":
             body["isolation"] = "read_committed"
+        elif isolation_level == "SERIALIZABLE":
+            body["isolation"] = "serializable"
         else:
             raise ValueError(f"Invalid isolation level: {isolation_level}")
         

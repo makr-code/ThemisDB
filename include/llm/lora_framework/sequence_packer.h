@@ -50,8 +50,8 @@ public:
         GPUTensor attention_mask;   // [total_tokens] - attention mask
         std::vector<size_t> sequence_lengths;  // Length per sequence
         std::vector<size_t> sequence_offsets;  // Start offset per sequence
-        size_t num_sequences;
-        size_t total_tokens;
+        size_t num_sequences = 0;
+        size_t total_tokens = 0;
         
         bool is_valid() const {
             return num_sequences > 0 && total_tokens > 0 && 

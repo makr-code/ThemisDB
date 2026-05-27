@@ -646,7 +646,13 @@ export class ThemisClient {
     const endpoint = this.endpoints[0];
     const body: Record<string, unknown> = {};
     if (options?.isolationLevel) {
-      body.isolation = options.isolationLevel === "SNAPSHOT" ? "snapshot" : "read_committed";
+      if (options.isolationLevel === "SNAPSHOT") {
+        body.isolation = "snapshot";
+      } else if (options.isolationLevel === "SERIALIZABLE") {
+        body.isolation = "serializable";
+      } else {
+        body.isolation = "read_committed";
+      }
     }
     
     const response = await this.request("POST", `${endpoint}/transaction/begin`, {
@@ -698,7 +704,25 @@ export class ThemisClient {
 }
 
 export interface TransactionOptions {
-  isolationLevel?: "READ_COMMITTED" | "SNAPSHOT";
+  /**
+   * Isolation level for the transaction.
+   *
+   * - `"READ_COMMITTED"` (default) – only committed values are visible.
+   *   Non-repeatable reads and phantom reads are possible.
+   * - `"SNAPSHOT"` – the transaction sees a consistent snapshot of the database
+   *   as of its start time.
+   *
+   *   **Warning:** Write-skew and phantom-read anomalies are possible at
+   *   SNAPSHOT isolation. Two concurrent SNAPSHOT transactions that each read
+   *   the same data and write disjoint keys can both commit even when their
+   *   combined effect violates an application invariant (e.g. double-booking,
+   *   over-withdrawal). Use `"SERIALIZABLE"` when strict correctness matters.
+   *
+   * - `"SERIALIZABLE"` – full serializability via SSI / predicate locking.
+   *   Prevents write skew and phantom reads. May abort more transactions and
+   *   has higher latency than SNAPSHOT.
+   */
+  isolationLevel?: "READ_COMMITTED" | "SNAPSHOT" | "SERIALIZABLE";
   timeout?: number;
 }
 

@@ -127,41 +127,41 @@ public:
     
     // Statistics
     struct Stats {
-        size_t total_vram_bytes;
-        size_t used_vram_bytes;
-        size_t free_vram_bytes;
-        size_t total_ram_bytes;
-        size_t used_ram_bytes;
-        size_t free_ram_bytes;
-        size_t num_allocations;
-        size_t num_models;
-        size_t fragmentation_pct;
+        size_t total_vram_bytes = 0;
+        size_t used_vram_bytes = 0;
+        size_t free_vram_bytes = 0;
+        size_t total_ram_bytes = 0;
+        size_t used_ram_bytes = 0;
+        size_t free_ram_bytes = 0;
+        size_t num_allocations = 0;
+        size_t num_models = 0;
+        size_t fragmentation_pct = 0;
     };
     
     // Per-GPU statistics
     struct GPUStats {
-        int device_id;
-        size_t total_vram_bytes;
-        size_t used_vram_bytes;
-        size_t free_vram_bytes;
-        size_t num_allocations;
-        float utilization_percent;  // 0.0 - 100.0
-        float temperature_celsius;
-        bool is_healthy;
+        int device_id = 0;
+        size_t total_vram_bytes = 0;
+        size_t used_vram_bytes = 0;
+        size_t free_vram_bytes = 0;
+        size_t num_allocations = 0;
+        float utilization_percent = 0.0f;  // 0.0 - 100.0
+        float temperature_celsius = 0.0f;
+        bool is_healthy = false;
         std::vector<std::string> loaded_models;
         std::vector<std::string> loaded_adapters;
     };
     
     // GPU Health status
     struct GPUHealth {
-        int device_id;
-        bool is_available;
-        bool is_healthy;
-        float temperature_celsius;
-        float utilization_percent;
-        size_t error_count;
+        int device_id = 0;
+        bool is_available = false;
+        bool is_healthy = false;
+        float temperature_celsius = 0.0f;
+        float utilization_percent = 0.0f;
+        size_t error_count = 0;
         std::string last_error;
-        int64_t last_check_timestamp_ms;
+        int64_t last_check_timestamp_ms = 0;
     };
     
     Stats getStats() const;

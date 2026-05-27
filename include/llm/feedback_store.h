@@ -87,13 +87,13 @@ public:
         std::string answer;                    // System answer
         std::string correction;                // User's correction (for negative feedback)
         std::string comment;                   // Optional user comment
-        int64_t timestamp_ms;                  // Creation timestamp
+        int64_t timestamp_ms = 0;              // Creation timestamp
         ValidationStatus validation_status;    // Validation state
         std::string model_version;             // Model version that generated the answer
         std::string adapter_id;                // LoRA adapter ID (if used)
         std::string adapter_version;           // LoRA adapter version
-        bool used_for_training;                // Whether used in training
-        int training_batch_id;                 // Training batch ID (0 = not trained)
+        bool used_for_training = false;        // Whether used in training
+        int training_batch_id = 0;             // Training batch ID (0 = not trained)
         nlohmann::json metadata;               // Additional fields
 
         // Serialization
@@ -119,15 +119,15 @@ public:
      * @brief Feedback statistics
      */
     struct Stats {
-        size_t total_feedback;
-        size_t positive_count;
-        size_t negative_count;
-        size_t pending_validation;
-        size_t approved_count;
-        size_t rejected_count;
-        size_t unused_for_training;
-        size_t used_for_training;
-        double positive_ratio;
+        size_t total_feedback = 0;
+        size_t positive_count = 0;
+        size_t negative_count = 0;
+        size_t pending_validation = 0;
+        size_t approved_count = 0;
+        size_t rejected_count = 0;
+        size_t unused_for_training = 0;
+        size_t used_for_training = 0;
+        double positive_ratio = 0.0;
     };
 
     /**

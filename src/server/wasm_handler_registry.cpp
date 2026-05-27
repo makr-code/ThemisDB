@@ -26,6 +26,33 @@ namespace server {
 
 using json = nlohmann::json;
 
+namespace {
+constexpr uint64_t kMinWasmCpuTimeLimitMs = 1;
+constexpr uint64_t kMaxWasmCpuTimeLimitMs = 60'000;
+
+WasmHandlerConfig sanitizeWasmConfig(const WasmHandlerConfig& config) {
+    WasmHandlerConfig sanitized = config;
+
+    const auto requested_ms_raw = std::chrono::duration_cast<std::chrono::milliseconds>(
+        sanitized.cpu_time_limit).count();
+    uint64_t requested_ms = requested_ms_raw <= 0
+        ? kMinWasmCpuTimeLimitMs
+        : static_cast<uint64_t>(requested_ms_raw);
+
+    if (requested_ms_raw <= 0) {
+        spdlog::warn("[SECURITY] WASM: cpu_time_limit={}ms is invalid; clamping to {}ms",
+                     requested_ms_raw, kMinWasmCpuTimeLimitMs);
+    } else if (requested_ms > kMaxWasmCpuTimeLimitMs) {
+        spdlog::warn("[SECURITY] WASM: cpu_time_limit={}ms exceeds cap {}; clamping",
+                     requested_ms, kMaxWasmCpuTimeLimitMs);
+    }
+
+    requested_ms = std::clamp(requested_ms, kMinWasmCpuTimeLimitMs, kMaxWasmCpuTimeLimitMs);
+    sanitized.cpu_time_limit = std::chrono::milliseconds(requested_ms);
+    return sanitized;
+}
+} // namespace
+
 // =============================================================================
 // WasmHandlerEntry
 // =============================================================================
@@ -182,6 +209,8 @@ bool WasmHandlerRegistry::registerHandler(
         return false;
     }
 
+    const WasmHandlerConfig sanitized_config = sanitizeWasmConfig(config);
+
     std::unique_lock lock(registry_mutex_);
 
     auto it = registry_.find(id);
@@ -192,7 +221,7 @@ bool WasmHandlerRegistry::registerHandler(
         WasmHandlerEntry& entry = it->second;
         entry.wasm_bytes  = wasm_bytes;
         entry.module_info = info;
-        entry.config      = config;
+        entry.config      = sanitized_config;
         entry.name        = name.empty() ? entry.name : name;
         entry.description = description.empty() ? entry.description : description;
         entry.tenant_id   = tenant_id.empty() ? entry.tenant_id : tenant_id;
@@ -207,7 +236,7 @@ bool WasmHandlerRegistry::registerHandler(
         entry.description = description;
         entry.wasm_bytes  = wasm_bytes;
         entry.module_info = info;
-        entry.config      = config;
+        entry.config      = sanitized_config;
         entry.created_at  = now;
         entry.updated_at  = now;
         entry.version     = 1;
@@ -559,4 +588,3 @@ http::response<http::string_body> WasmHandlerRegistry::handleInvoke(
 
 } // namespace server
 } // namespace themis
-

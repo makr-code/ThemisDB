@@ -170,7 +170,7 @@ private:
     std::unique_ptr<RCCLBackend> rccl_backend_;
     std::unique_ptr<CustomAllReduce> custom_backend_;
     
-    bool gradients_synced_;
+    bool gradients_synced_ = false;
     Stats stats_;
     
     void initialize_backend(CommBackend backend);

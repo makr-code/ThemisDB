@@ -96,16 +96,29 @@ try {
 
 ### Isolation Levels
 
-ThemisDB supports two isolation levels:
+ThemisDB supports three isolation levels:
 
-- `READ_COMMITTED` (default) - Prevents dirty reads
-- `SNAPSHOT` - Provides a consistent snapshot of the database
+- `READ_COMMITTED` (default) – Prevents dirty reads. Non-repeatable reads and phantom reads are possible.
+- `SNAPSHOT` – Provides a consistent snapshot of the database as of transaction start.
+
+  > ⚠️ **Write-skew and phantom-read anomalies are possible at SNAPSHOT isolation.**
+  > Two concurrent SNAPSHOT transactions reading the same rows and writing disjoint
+  > keys can both commit even when their combined effect violates an application
+  > invariant (e.g. double-booking, over-withdrawal). Use `SERIALIZABLE` for strict
+  > correctness.
+
+- `SERIALIZABLE` – Full serializability via SSI / predicate locking. Prevents write skew
+  and phantom reads. May abort more transactions and has higher latency than SNAPSHOT.
 
 ```php
 <?php
 
 // Use SNAPSHOT isolation for repeatable reads
+// WARNING: write skew and phantom reads are possible at this level
 $tx = $client->beginTransaction(['isolation_level' => 'SNAPSHOT']);
+
+// Use SERIALIZABLE to prevent write skew and phantom reads
+$tx = $client->beginTransaction(['isolation_level' => 'SERIALIZABLE']);
 
 try {
     $user1 = $tx->get('relational', 'users', 'user1');

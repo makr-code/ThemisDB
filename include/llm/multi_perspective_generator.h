@@ -53,7 +53,7 @@ struct EthicalPerspective {
 struct PerspectiveResponse {
     EthicalPerspective perspective;
     std::string response;
-    float confidence;
+    float confidence = 0.0f;
     std::vector<std::string> key_points;
     std::string reasoning;
 };
@@ -73,12 +73,12 @@ struct MultiPerspectiveResult {
     std::string synthesis_reasoning;
     
     // Diversity metrics
-    int unique_perspectives_count;
-    float perspective_diversity_score;  ///< 0-1, higher = more diverse
-    bool shows_balanced_view;
+    int unique_perspectives_count = 0;
+    float perspective_diversity_score = 0.0f;  ///< 0-1, higher = more diverse
+    bool shows_balanced_view = false;
     
     // Quality metrics
-    bool meets_diversity_requirement;
+    bool meets_diversity_requirement = false;
     std::vector<std::string> common_themes;
     std::vector<std::string> disagreements;
     

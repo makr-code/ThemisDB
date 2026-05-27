@@ -199,10 +199,10 @@ public:
     void set_lora_weights(const Tensor& B, const Tensor& A);
     
 private:
-    size_t in_dim_;
-    size_t out_dim_;
-    size_t rank_;
-    float scaling_;
+    size_t in_dim_ = 0;
+    size_t out_dim_ = 0;
+    size_t rank_ = 0;
+    float scaling_ = 1.0f;
     
     // Quantized base model weights (frozen, not trainable)
     std::shared_ptr<QuantizedLayerWeights> base_weights_;
