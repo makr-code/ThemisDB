@@ -15,6 +15,7 @@
 #include <functional>
 #include <unordered_map>
 #include <chrono>
+#include <optional>
 
 /**
  * @file rpc_service_impl.h
@@ -222,6 +223,19 @@ private:
      * @brief Create success response
      */
     json createSuccess(const json& result);
+
+    json handleAggregationPipelineInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
+    json handleListCollectionsInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
+    json handleGetCollectionMetadataInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
 };
 
 } // namespace rpc

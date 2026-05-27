@@ -901,3 +901,10 @@ Findings addressed:
   enforcement entirely. Added `tests/test_rpc_batch_operations.cpp` coverage to verify malformed
   `grpc-timeout` still enforces valid `x-timeout-ms`, and malformed `x-timeout-ms` still enforces
   valid `request-timeout-ms`.
+
+- **W1-S04 follow-up (2026-05-27) — mid-handler deadline enforcement in `rpc_service_impl.cpp`:**
+  dispatch now derives a remaining execution deadline from propagated timeout metadata and threads it
+  into long-running scan handlers. `aggregation_pipeline`, `list_collections`, and
+  `get_collection_metadata` now abort with `QUERY_TIMEOUT` if the deadline expires during large
+  iterator scans, and retry backoff no longer sleeps past the remaining request deadline. Added
+  `tests/test_rpc_batch_operations.cpp` coverage for aggregation and collection-metadata scan expiry.

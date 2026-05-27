@@ -42,6 +42,7 @@ namespace {
     constexpr double PI = 3.14159265358979323846;
     constexpr double DEG_TO_RAD = PI / 180.0;
     constexpr double EARTH_RADIUS_METERS = 6371000.0;
+    constexpr size_t kDeadlineCheckInterval = 256;
 
     std::optional<long long> parseStrictPositiveInteger(const std::string& raw) {
         if (raw.empty()) {
@@ -176,6 +177,53 @@ namespace {
         }
 
         return std::nullopt;
+    }
+
+    using RequestDeadline = std::optional<std::chrono::steady_clock::time_point>;
+
+    RequestDeadline deriveRequestDeadline(
+        const themis::plugins::rpc::RPCRequestContext& context,
+        const std::optional<std::chrono::milliseconds>& request_timeout
+    ) {
+        if (!request_timeout.has_value() || context.timestamp_ms == 0) {
+            return std::nullopt;
+        }
+
+        const auto timeout_count = request_timeout->count();
+        if (timeout_count <= 0) {
+            return std::chrono::steady_clock::now();
+        }
+
+        const auto now_ms = static_cast<uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count());
+        const auto elapsed_ms = (now_ms >= context.timestamp_ms) ? (now_ms - context.timestamp_ms) : 0;
+        if (elapsed_ms >= static_cast<uint64_t>(timeout_count)) {
+            return std::chrono::steady_clock::now();
+        }
+
+        const auto remaining_ms = timeout_count - static_cast<long long>(elapsed_ms);
+        return std::chrono::steady_clock::now() + std::chrono::milliseconds(remaining_ms);
+    }
+
+    bool isDeadlineExceeded(const RequestDeadline& deadline) {
+        return deadline.has_value() && std::chrono::steady_clock::now() >= *deadline;
+    }
+
+    bool shouldCheckDeadline(size_t iterations) {
+        return iterations > 0 && (iterations % kDeadlineCheckInterval) == 0;
+    }
+
+    std::chrono::milliseconds remainingDeadlineBudget(const RequestDeadline& deadline) {
+        if (!deadline.has_value()) {
+            return std::chrono::milliseconds::max();
+        }
+
+        const auto now = std::chrono::steady_clock::now();
+        if (now >= *deadline) {
+            return std::chrono::milliseconds(0);
+        }
+
+        return std::chrono::duration_cast<std::chrono::milliseconds>(*deadline - now);
     }
 }
 
@@ -2114,6 +2162,13 @@ json ThemisRPCService::handleGetIndexOperations(const json& params) {
 }
 
 json ThemisRPCService::handleAggregationPipeline(const json& params) {
+    return handleAggregationPipelineInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleAggregationPipelineInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         std::string collection(params.value("collection", ""));
         
@@ -2155,9 +2210,18 @@ json ThemisRPCService::handleAggregationPipeline(const json& params) {
         
         auto& iter = iter_result.value();
         json documents = json::array();
+        size_t scanned_documents = 0;
         
         iter.Seek(prefix);
         while (iter.Valid()) {
+            ++scanned_documents;
+            if (shouldCheckDeadline(scanned_documents) && isDeadlineExceeded(deadline)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during aggregation collection scan"
+                );
+            }
+
             std::string key(iter.key());
             if (key.substr(0, prefix.length()) != prefix) {
                 break;
@@ -2187,7 +2251,16 @@ json ThemisRPCService::handleAggregationPipeline(const json& params) {
             if (stage_name == "$match") {
                 // Filter documents
                 json filtered = json::array();
+                size_t matched_documents = 0;
                 for (const auto& doc : results) {
+                    ++matched_documents;
+                    if (shouldCheckDeadline(matched_documents) && isDeadlineExceeded(deadline)) {
+                        return createError(
+                            themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                            "Request deadline exceeded during aggregation pipeline execution"
+                        );
+                    }
+
                     bool matches = true;
                     for (auto& [field, expected_value] : stage_spec.items()) {
                         if (!doc.contains(field) || doc[field] != expected_value) {
@@ -2225,7 +2298,16 @@ json ThemisRPCService::handleAggregationPipeline(const json& params) {
             } else if (stage_name == "$project") {
                 // Project fields
                 json projected = json::array();
+                size_t projected_documents = 0;
                 for (const auto& doc : results) {
+                    ++projected_documents;
+                    if (shouldCheckDeadline(projected_documents) && isDeadlineExceeded(deadline)) {
+                        return createError(
+                            themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                            "Request deadline exceeded during aggregation pipeline execution"
+                        );
+                    }
+
                     json proj_doc = json::object();
                     for (auto& [field, include] : stage_spec.items()) {
                         // Validate projection spec is boolean
@@ -2262,6 +2344,13 @@ json ThemisRPCService::handleAggregationPipeline(const json& params) {
 }
 
 json ThemisRPCService::handleListCollections([[maybe_unused]] const json& params) {
+    return handleListCollectionsInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleListCollectionsInternal(
+    [[maybe_unused]] const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         // Get storage engine
         auto storage = storage_;
@@ -2283,9 +2372,18 @@ json ThemisRPCService::handleListCollections([[maybe_unused]] const json& params
         
         auto& iter = iter_result.value();
         std::unordered_map<std::string, int> collections;
+        size_t scanned_keys = 0;
         
         iter.SeekToFirst();
         while (iter.Valid()) {
+            ++scanned_keys;
+            if (shouldCheckDeadline(scanned_keys) && isDeadlineExceeded(deadline)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during collection listing"
+                );
+            }
+
             std::string key(iter.key());
             
             // Parse key format: collection:model:uuid
@@ -2442,6 +2540,13 @@ json ThemisRPCService::handleDropIndex(const json& params) {
 }
 
 json ThemisRPCService::handleGetCollectionMetadata(const json& params) {
+    return handleGetCollectionMetadataInternal(params, std::nullopt);
+}
+
+json ThemisRPCService::handleGetCollectionMetadataInternal(
+    const json& params,
+    const std::optional<std::chrono::steady_clock::time_point>& deadline
+) {
     try {
         std::string collection(params.value("collection", ""));
         
@@ -2475,9 +2580,18 @@ json ThemisRPCService::handleGetCollectionMetadata(const json& params) {
         int document_count = 0;
         uint64_t total_size = 0;
         std::unordered_map<std::string, int> models;
+        size_t scanned_documents = 0;
         
         iter.Seek(prefix);
         while (iter.Valid()) {
+            ++scanned_documents;
+            if (shouldCheckDeadline(scanned_documents) && isDeadlineExceeded(deadline)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded during collection metadata scan"
+                );
+            }
+
             std::string key(iter.key());
             if (key.substr(0, prefix.length()) != prefix) {
                 break;
@@ -2567,6 +2681,7 @@ json ThemisRPCService::dispatch(
             );
         }
     }
+    const auto request_deadline = deriveRequestDeadline(context, request_timeout);
 
     // Authentication and authorization check (except for authenticate and health_check methods)
     if (method != "authenticate" && method != "health_check") {
@@ -2666,15 +2781,15 @@ json ThemisRPCService::dispatch(
         } else if (method == "get_index_operations") {
             return handleGetIndexOperations(params);
         } else if (method == "aggregation_pipeline") {
-            return handleAggregationPipeline(params);
+            return handleAggregationPipelineInternal(params, request_deadline);
         } else if (method == "list_collections") {
-            return handleListCollections(params);
+            return handleListCollectionsInternal(params, request_deadline);
         } else if (method == "create_index") {
             return handleCreateIndex(params);
         } else if (method == "drop_index") {
             return handleDropIndex(params);
         } else if (method == "get_collection_metadata") {
-            return handleGetCollectionMetadata(params);
+            return handleGetCollectionMetadataInternal(params, request_deadline);
         }
 
         return createError(
@@ -2686,6 +2801,13 @@ json ThemisRPCService::dispatch(
     const bool retryable_method = isRetryableMethod(method);
     const int max_attempts = retryable_method ? 3 : 1;
     for (int attempt = 1; attempt <= max_attempts; ++attempt) {
+        if (isDeadlineExceeded(request_deadline)) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                "Request deadline exceeded before dispatch retry"
+            );
+        }
+
         try {
             json response = dispatch_once();
             if (!retryable_method || !isRetryableErrorResponse(response) || attempt == max_attempts) {
@@ -2705,7 +2827,19 @@ json ThemisRPCService::dispatch(
             );
         }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(10 * attempt));
+        const auto backoff = std::chrono::milliseconds(10 * attempt);
+        if (request_deadline.has_value()) {
+            const auto remaining = remainingDeadlineBudget(request_deadline);
+            if (remaining <= std::chrono::milliseconds(0)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                    "Request deadline exceeded before dispatch retry"
+                );
+            }
+            std::this_thread::sleep_for(std::min(backoff, remaining));
+        } else {
+            std::this_thread::sleep_for(backoff);
+        }
     }
 
     return createError(

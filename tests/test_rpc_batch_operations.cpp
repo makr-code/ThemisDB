@@ -75,6 +75,11 @@ protected:
         ASSERT_TRUE(db_->put(key, e.dump()));
     }
 
+    static uint64_t CurrentUnixMs() {
+        return static_cast<uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count());
+    }
+
     std::string db_path_;
     std::unique_ptr<RocksDBWrapper> db_;
     std::unique_ptr<ThemisRPCService> service_;
@@ -489,6 +494,56 @@ TEST_F(RPCBatchOperationsTest, DispatchFallsBackToRequestTimeoutWhenMsTimeoutMal
 
     json keys = json::array({KeySpec("d", "M", "k1")});
     auto resp = service_->dispatch("batch_get", {{"keys", keys}}, ctx);
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+}
+
+TEST_F(RPCBatchOperationsTest, DispatchTimesOutDuringAggregationCollectionScan) {
+    const std::string blob(512, 'x');
+    for (int i = 0; i < 25000; ++i) {
+        DirectPut("agg_timeout", "M", "doc-" + std::to_string(i),
+                  {{"type", "alpha"}, {"blob", blob}, {"i", i}});
+    }
+
+    themis::plugins::rpc::RPCRequestContext ctx;
+    ctx.timestamp_ms = CurrentUnixMs() - 5;
+    ctx.metadata["x-timeout-ms"] = "10";
+
+    json resp = service_->dispatch(
+        "aggregation_pipeline",
+        {
+            {"collection", "agg_timeout"},
+            {"pipeline", json::array({
+                {{"$match", {{"type", "alpha"}}}},
+                {{"$project", {{"type", true}, {"i", true}}}}
+            })}
+        },
+        ctx
+    );
+
+    ASSERT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
+}
+
+TEST_F(RPCBatchOperationsTest, DispatchTimesOutDuringCollectionMetadataScan) {
+    const std::string blob(512, 'y');
+    for (int i = 0; i < 25000; ++i) {
+        DirectPut("meta_timeout", "M", "doc-" + std::to_string(i),
+                  {{"blob", blob}, {"i", i}});
+    }
+
+    themis::plugins::rpc::RPCRequestContext ctx;
+    ctx.timestamp_ms = CurrentUnixMs() - 5;
+    ctx.metadata["request-timeout-ms"] = "10";
+
+    json resp = service_->dispatch(
+        "get_collection_metadata",
+        {{"collection", "meta_timeout"}},
+        ctx
+    );
+
     ASSERT_TRUE(resp.contains("error"));
     EXPECT_EQ(resp["error"]["code"].get<int>(),
               static_cast<int>(themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT));
