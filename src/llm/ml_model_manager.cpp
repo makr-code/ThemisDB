@@ -374,7 +374,7 @@ json MLModelManager::getModelMetrics(const std::string& model_id) const {
     metrics["successful_requests"] = successful_requests;
     metrics["failed_requests"] = failed_requests;
     metrics["active_requests"] = active_requests;
-    metrics["success_rate"] = total_requests > 0 ? (float)successful_requests / total_requests : 0.0f;
+    metrics["success_rate"] = total_requests > 0 ? static_cast<float>(successful_requests) / static_cast<float>(total_requests) : 0.0f;
     metrics["avg_latency_ms"] = total_requests > 0 ? total_latency / total_requests : 0.0f;
     
     return metrics;
@@ -694,7 +694,7 @@ json MLModelManager::getSystemStats() const {
     stats["successful_requests"] = successful_requests_.load();
     stats["failed_requests"] = failed_requests_.load();
     stats["success_rate"] = total_requests_ > 0 ? 
-        (float)successful_requests_ / total_requests_ : 0.0f;
+        static_cast<float>(successful_requests_.load()) / static_cast<float>(total_requests_.load()) : 0.0f;
     
     size_t total_instances = 0;
     size_t healthy_instances = 0;

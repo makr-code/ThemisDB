@@ -274,10 +274,10 @@ private:
     size_t active_set_size_ = 0;
     
     // Access counter for LRU
-    uint64_t access_counter_ = 0;
+    mutable uint64_t access_counter_ = 0;
     
     // Helper to get current timestamp for LRU
-    uint64_t getCurrentTimestamp() {
+    uint64_t getCurrentTimestamp() const {
         return access_counter_++;
     }
     

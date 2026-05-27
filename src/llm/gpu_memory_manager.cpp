@@ -156,11 +156,11 @@ private:
         std::free(ptr_);
     }
     
-    void* ptr_;
-    size_t bytes_;
-    Type type_;
-    bool gpu_available_;
-    int gpu_device_id_;
+    void* ptr_ = nullptr;
+    size_t bytes_ = 0;
+    Type type_ = Type::CPU;
+    bool gpu_available_ = false;
+    int gpu_device_id_ = 0;
 };
 
 } // namespace detail

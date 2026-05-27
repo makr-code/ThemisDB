@@ -409,6 +409,26 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
 - `lora_framework/kernels/hip_fused_kernels.cpp` — `(int)(rank - tile_start)` replaced with
   `static_cast<int>(rank - tile_start)` in tiled forward kernel
 
+**Status (v1.22.0-pre — batch 34 — W1-L06):** Fourth batch of type_conversion fixes (remaining C-style float casts):
+- `lora_framework/kernels/quantization_kernels.cu` — `(float)quantized` → `static_cast<float>(quantized)` in INT8
+  dequantize kernel; `(float)quantized_weights[weight_idx]` → `static_cast<float>(...) ` in fused dequant+matmul kernel.
+- `ml_model_manager.cpp` — two `(float)successful_requests` → `static_cast<float>(successful_requests)` (metrics
+  and stats success_rate computation; `.load()` added for the atomic path).
+- `kernel_fusion.cu` — `(float)rope_base` and `(float)(2 * d)` in RoPE frequency kernel →
+  `static_cast<float>(rope_base)` and `static_cast<float>(2 * d) / static_cast<float>(head_dim)`.
+- `kernel_fusion.cpp` — `(float)head_dim` in CPU attention scale → `static_cast<float>(head_dim)`.
+
+**Status (v1.22.0-pre — oop_design batch 34 — W1-L06):** Const-correctness fixes:
+- `grammar_cache.h` / `grammar_cache.cpp` — `GrammarCache::get()` declared and defined as `const`;
+  mutex was already `mutable`, so no further change needed.
+- `lora_framework/paged_memory_manager.h` — `access_counter_` declared `mutable`; `getCurrentTimestamp()`
+  marked `const`; semantics unchanged (counter still increments for LRU tracking).
+
+**Status (v1.22.0-pre — uninitialized batch 34 — W1-L06):** Default member initializers added:
+- `gpu_memory_manager.cpp` `detail::MemoryHolder` private fields — `ptr_ = nullptr`, `bytes_ = 0`,
+  `type_ = Type::CPU`, `gpu_available_ = false`, `gpu_device_id_ = 0` ensure all members have
+  deterministic defaults even if a future refactor bypasses the constructor initializer list.
+
 **Status (v1.22.0-pre — W1-L04 null_dereference batch):** Null-pointer guards added to all
 `llama_get_logits_ith` call sites that lacked an explicit check:
 - `llama_wrapper.cpp` main generation loop (line ~1079) — `if (!logits) break` added before
