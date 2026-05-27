@@ -794,28 +794,31 @@ bool LlamaWrapper::loadLoRA(
     
     spdlog::info("Loading LoRA (lazy): {}", lora_id);
     
-    if (!lora_manager_) {
+    auto* lora_manager = lora_manager_.get();
+    if (!lora_manager) {
         spdlog::warn("LlamaWrapper::loadLoRA: LoRA manager is not initialized, cannot load '{}'", lora_id);
         return false;
     }
     // Use multi-LoRA manager (vLLM-style)
-    return lora_manager_->loadLoRA(lora_id, lora_path, current_model_id_, scale);
+    return lora_manager->loadLoRA(lora_id, lora_path, current_model_id_, scale);
 }
 
 bool LlamaWrapper::unloadLoRA(const std::string& lora_id) {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (!lora_manager_) {
+    auto* lora_manager = lora_manager_.get();
+    if (!lora_manager) {
         return false;
     }
-    return lora_manager_->unloadLoRA(lora_id);
+    return lora_manager->unloadLoRA(lora_id);
 }
 
 std::vector<LoRAInfo> LlamaWrapper::listLoRAs() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (!lora_manager_) {
+    auto* lora_manager = lora_manager_.get();
+    if (!lora_manager) {
         return {};
     }
-    return lora_manager_->listLoRAs();
+    return lora_manager->listLoRAs();
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1563,28 +1566,30 @@ json LlamaWrapper::getMemoryStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     json stats;
+    auto* model_loader = model_loader_.get();
+    auto* lora_manager = lora_manager_.get();
     
     // Get stats from lazy model loader
-    if (model_loader_) {
-        stats["model_loader"] = model_loader_->getMemoryStats();
-        stats["model_loader_cache"] = model_loader_->getCacheStats();
+    if (model_loader) {
+        stats["model_loader"] = model_loader->getMemoryStats();
+        stats["model_loader_cache"] = model_loader->getCacheStats();
     }
     
     // Get stats from multi-LoRA manager
-    if (lora_manager_) {
-        stats["lora_manager"] = lora_manager_->getMemoryStats();
-        stats["lora_manager_cache"] = lora_manager_->getCacheStats();
+    if (lora_manager) {
+        stats["lora_manager"] = lora_manager->getMemoryStats();
+        stats["lora_manager_cache"] = lora_manager->getCacheStats();
     }
     
     // Combined totals
     size_t model_vram = 0;
     size_t lora_vram  = 0;
-    if (model_loader_) {
-        auto model_stats = model_loader_->getMemoryStats();
+    if (model_loader) {
+        auto model_stats = model_loader->getMemoryStats();
         model_vram = model_stats.value("vram_used_mb", static_cast<size_t>(0));
     }
-    if (lora_manager_) {
-        auto lora_stats = lora_manager_->getMemoryStats();
+    if (lora_manager) {
+        auto lora_stats = lora_manager->getMemoryStats();
         lora_vram = lora_stats.value("vram_used_mb", static_cast<size_t>(0));
     }
     stats["total_vram_mb"] = model_vram + lora_vram;
@@ -1597,6 +1602,8 @@ json LlamaWrapper::getPerformanceStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     json stats;
+    auto* model_loader = model_loader_.get();
+    auto* lora_manager = lora_manager_.get();
     stats["total_inferences"] = stats_.total_inferences;
     stats["total_tokens_generated"] = stats_.total_tokens_generated;
     
@@ -1608,11 +1615,11 @@ json LlamaWrapper::getPerformanceStats() const {
     }
     
     // Include model loader and LoRA manager stats
-    if (model_loader_) {
-        stats["model_loader_stats"] = model_loader_->getCacheStats();
+    if (model_loader) {
+        stats["model_loader_stats"] = model_loader->getCacheStats();
     }
-    if (lora_manager_) {
-        stats["lora_manager_stats"] = lora_manager_->getCacheStats();
+    if (lora_manager) {
+        stats["lora_manager_stats"] = lora_manager->getCacheStats();
     }
     
     return stats;
@@ -1627,12 +1634,13 @@ std::vector<uint8_t> LlamaWrapper::exportLoRA(const std::string& lora_id) {
     
     spdlog::info("Exporting LoRA for cross-shard transfer: {}", lora_id);
     
-    if (!lora_manager_) {
+    auto* lora_manager = lora_manager_.get();
+    if (!lora_manager) {
         spdlog::warn("LlamaWrapper::exportLoRA: LoRA manager is not initialized, cannot export '{}'", lora_id);
         return {};
     }
     // Delegate to multi-LoRA manager
-    return lora_manager_->exportLoRA(lora_id);
+    return lora_manager->exportLoRA(lora_id);
 }
 
 bool LlamaWrapper::importLoRA(
@@ -1646,7 +1654,8 @@ bool LlamaWrapper::importLoRA(
         return false;
     }
     
-    if (!lora_manager_) {
+    auto* lora_manager = lora_manager_.get();
+    if (!lora_manager) {
         spdlog::warn("LlamaWrapper::importLoRA: LoRA manager is not initialized, cannot import '{}'", lora_id);
         return false;
     }
@@ -1655,7 +1664,7 @@ bool LlamaWrapper::importLoRA(
                  lora_id, data.size());
     
     // Delegate to multi-LoRA manager
-    return lora_manager_->importLoRA(lora_id, data, current_model_id_);
+    return lora_manager->importLoRA(lora_id, data, current_model_id_);
 }
 
 // ═══════════════════════════════════════════════════════════

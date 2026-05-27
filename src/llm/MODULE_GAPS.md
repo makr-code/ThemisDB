@@ -489,6 +489,13 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
 | `src/llm/llama_wrapper.cpp` | member guard and dereference across mixed control-flow blocks | local alias anchored to guard in hot inference paths |
 | `src/llm/lora_framework/lora_training_service.cpp` | direct `impl_->...` forwarding without explicit precondition guard | explicit `if (!impl_)` fail-fast guards in forwarding entry points |
 
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 2):** Additional local-alias anchoring applied across remaining issue-scope hot paths:
+- `llama_wrapper.cpp` now snapshots `lora_manager_.get()`/`model_loader_.get()` in LoRA admin,
+  export/import and stats methods, keeping guard and dereference in one local analysis scope.
+- `lora_training_service.cpp` now snapshots `impl_.get()` and `config_` into local aliases in
+  forwarding + quantization/distributed training paths; `trainDistributed()` now also fails fast
+  when `impl_` is missing instead of dereferencing member state unguarded.
+
 **Status (v1.22.0-pre — W1-L03d scope follow-up):** Vulkan/DirectX kernel-interface
 scope hardened for smart-pointer lifetime safety:
 - `lora_framework/kernels/vulkan_kernels.cpp` — Removed `thread_local` fused-buffer cache
