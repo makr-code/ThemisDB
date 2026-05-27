@@ -16,7 +16,8 @@ Hinweis:
 ## Gepruefte Kandidaten
 
 ### Offene Issues (als `Refs` geeignet)
-- #5231 `[PHASE 1-5] Gap Scanner Analysis`
+- #5172 `[PHASE 1-5] Gap Scanner Analysis` (canonical planning tracker)
+- #5231 `[PHASE 1-5] Gap Scanner Analysis` (historical alternate wave)
 - #5245 `[P0-CRITICAL] LLM Module`
 - #5246 `[P0-CRITICAL] SERVER Module`
 - #5248 `[P0-CRITICAL] SHARDING Module`
@@ -45,7 +46,7 @@ Empfohlene PR-Verknuepfung:
 - `Closes #5345`
 - `Closes #5346`
 - `Closes #5347`
-- `Refs #5231`
+- `Refs #5172`
 - `Refs #5245`
 - `Refs #5246`
 - `Refs #5248`
@@ -90,7 +91,7 @@ Closes #5345
 Closes #5346
 Closes #5347
 
-Refs #5231
+Refs #5172
 Refs #5245
 Refs #5246
 Refs #5248

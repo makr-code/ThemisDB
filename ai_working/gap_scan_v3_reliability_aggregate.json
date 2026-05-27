@@ -14496,15 +14496,15 @@
     }
   },
   "llm": {
-    "total": 570,
-    "severity_critical": 33,
-    "severity_high": 437,
+    "total": 594,
+    "severity_critical": 23,
+    "severity_high": 471,
     "severity_medium": 100,
     "by_type": {
-      "uncaught_exception": 443,
+      "uncaught_exception": 474,
       "no_health_check": 34,
-      "no_retry_logic": 60,
-      "no_timeout": 33
+      "no_retry_logic": 63,
+      "no_timeout": 23
     },
     "gaps_by_file": {
       "src\\llm\\active_vram_allocator.cpp": [
@@ -14678,7 +14678,7 @@
         },
         {
           "file": "src\\llm\\aql_train_parser.cpp",
-          "line": 735,
+          "line": 738,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -14687,7 +14687,7 @@
         },
         {
           "file": "src\\llm\\aql_train_parser.cpp",
-          "line": 781,
+          "line": 784,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -14696,7 +14696,7 @@
         },
         {
           "file": "src\\llm\\aql_train_parser.cpp",
-          "line": 829,
+          "line": 832,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { stmt->limit = std::stoi(tokens[0]); } catch (...) {}",
@@ -15377,7 +15377,7 @@
       "src\\llm\\gpu_memory_manager.cpp": [
         {
           "file": "src\\llm\\gpu_memory_manager.cpp",
-          "line": 101,
+          "line": 102,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -15386,7 +15386,7 @@
         },
         {
           "file": "src\\llm\\gpu_memory_manager.cpp",
-          "line": 1685,
+          "line": 1750,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::vector<int> healthy_gpus;",
@@ -15395,7 +15395,7 @@
         },
         {
           "file": "src\\llm\\gpu_memory_manager.cpp",
-          "line": 1720,
+          "line": 1785,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "healthy_count++;",
@@ -15446,7 +15446,7 @@
       "src\\llm\\inference_engine_enhanced.cpp": [
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 121,
+          "line": 122,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"SharedWorkerPool cannot be null\");",
@@ -15455,7 +15455,7 @@
         },
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 235,
+          "line": 236,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"New plugin cannot be null\");",
@@ -15464,7 +15464,7 @@
         },
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 240,
+          "line": 241,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Model not registered: \" + model_id);",
@@ -15473,7 +15473,7 @@
         },
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 417,
+          "line": 418,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Request queue full\");",
@@ -15482,7 +15482,7 @@
         },
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 459,
+          "line": 460,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Request queue full\");",
@@ -15491,7 +15491,7 @@
         },
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 532,
+          "line": 533,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Request queue full\");",
@@ -15500,7 +15500,7 @@
         },
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 572,
+          "line": 573,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -15509,7 +15509,7 @@
         },
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 984,
+          "line": 988,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -15518,7 +15518,7 @@
         },
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 1018,
+          "line": 1022,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { tracked->callback(InferenceResponse{}); } catch (...) {}",
@@ -15527,7 +15527,7 @@
         },
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 1024,
+          "line": 1028,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -15536,7 +15536,7 @@
         },
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 1079,
+          "line": 1083,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"No available model for request\");",
@@ -15545,7 +15545,7 @@
         },
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 1086,
+          "line": 1090,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (req.base_request.lora_adapter_id.has_value() &&",
@@ -15554,7 +15554,7 @@
         },
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 1087,
+          "line": 1091,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "!req.base_request.lora_adapter_id->empty()) {",
@@ -15563,7 +15563,25 @@
         },
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 1136,
+          "line": 1104,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "auto raid_sharding = effective_request.metadata.value(\"raid_sharding\", json::object());",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\llm\\inference_engine_enhanced.cpp",
+          "line": 1114,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "effective_request.metadata[\"raid_sharding\"] = std::move(raid_sharding);",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\llm\\inference_engine_enhanced.cpp",
+          "line": 1140,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "req.base_request.grammar_type.has_value() ||",
@@ -15572,7 +15590,7 @@
         },
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 1137,
+          "line": 1141,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "req.base_request.grammar_ebnf.has_value() ||",
@@ -15581,7 +15599,7 @@
         },
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 1138,
+          "line": 1142,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "req.base_request.json_schema.has_value() ||",
@@ -15590,7 +15608,7 @@
         },
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 1139,
+          "line": 1143,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "!req.base_request.tools.empty();",
@@ -15599,7 +15617,16 @@
         },
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 1275,
+          "line": 1258,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "effective_request.metadata.value(\"lookup_decoding\", json::object());",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\llm\\inference_engine_enhanced.cpp",
+          "line": 1282,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { tracked->callback(InferenceResponse{}); } catch (...) {}",
@@ -15608,7 +15635,7 @@
         },
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 1293,
+          "line": 1300,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -15617,7 +15644,7 @@
         },
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 1318,
+          "line": 1325,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -15626,7 +15653,7 @@
         },
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 1372,
+          "line": 1379,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "size_t req_tokens = req->request.base_request.prompt.length() / 4;",
@@ -15635,7 +15662,7 @@
         },
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 1518,
+          "line": 1549,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (!request.preferred_model_id.empty()) {",
@@ -15644,7 +15671,7 @@
         },
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 1541,
+          "line": 1572,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"No available models\");",
@@ -15653,7 +15680,7 @@
         },
         {
           "file": "src\\llm\\inference_engine_enhanced.cpp",
-          "line": 1870,
+          "line": 1904,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -15908,7 +15935,16 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 959,
+          "line": 955,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Model/context handle is null after load\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 962,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -15917,7 +15953,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 975,
+          "line": 978,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (request.lora_adapter_id && !request.lora_adapter_id->empty()) {",
@@ -15926,7 +15962,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1044,
+          "line": 1047,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to evaluate prompt\");",
@@ -15935,7 +15971,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1115,
+          "line": 1122,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.stream_callback(token_text);",
@@ -15944,7 +15980,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1215,
+          "line": 1222,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (!request.tools.empty()) {",
@@ -15953,7 +15989,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1263,
+          "line": 1270,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"generateDraftTokens requires k > 0\");",
@@ -15962,7 +15998,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1275,
+          "line": 1282,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"No model loaded for draft token generation\");",
@@ -15971,7 +16007,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1280,
+          "line": 1287,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model failed to load for draft token generation\");",
@@ -15980,7 +16016,16 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1286,
+          "line": 1291,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Model/context handle is null for draft token generation\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 1296,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model/context not initialized for draft token generation\");",
@@ -15989,7 +16034,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1298,
+          "line": 1308,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to evaluate prompt for draft token generation\");",
@@ -15998,7 +16043,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1322,
+          "line": 1332,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"llama_get_logits_ith returned null\");",
@@ -16007,7 +16052,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1339,
+          "line": 1349,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to decode draft token\");",
@@ -16016,7 +16061,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1377,
+          "line": 1387,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"No model loaded\");",
@@ -16025,7 +16070,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1388,
+          "line": 1398,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model failed to load\");",
@@ -16034,7 +16079,16 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1396,
+          "line": 1402,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Model/context handle is null for embeddings\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 1409,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -16043,7 +16097,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1746,
+          "line": 1759,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model is null\");",
@@ -16052,7 +16106,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1794,
+          "line": 1807,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Context is null\");",
@@ -16061,7 +16115,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1827,
+          "line": 1840,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Invalid parameters for sampling\");",
@@ -16070,7 +16124,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1905,
+          "line": 1922,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "llama_grammar_accept(grammar, ctx, sampled_token);",
@@ -16079,7 +16133,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2188,
+          "line": 2210,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Target model failed to load\");",
@@ -16088,7 +16142,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2240,
+          "line": 2266,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to evaluate prompt in target model\");",
@@ -16097,7 +16151,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2243,
+          "line": 2269,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to evaluate prompt in draft model\");",
@@ -16106,7 +16160,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2346,
+          "line": 2383,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.stream_callback(token_text);",
@@ -16115,7 +16169,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2427,
+          "line": 2464,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model failed to load\");",
@@ -16124,7 +16178,16 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2435,
+          "line": 2468,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Model/context handle is null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 2475,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -16133,7 +16196,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2484,
+          "line": 2524,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Context handle became null before inference\");",
@@ -16142,7 +16205,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2494,
+          "line": 2534,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to evaluate prompt\");",
@@ -16151,7 +16214,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2534,
+          "line": 2578,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.stream_callback(token_text);",
@@ -16160,7 +16223,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2674,
+          "line": 2718,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Batch mode not active. Call startBatchMode() first.\");",
@@ -16169,7 +16232,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2678,
+          "line": 2722,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Batch scheduler not initialized\");",
@@ -16178,7 +16241,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2747,
+          "line": 2791,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.grammar_type.has_value() || request.grammar_ebnf.has_value();",
@@ -16187,7 +16250,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2749,
+          "line": 2793,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.json_schema.has_value() || !request.tools.empty();",
@@ -16196,7 +16259,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2764,
+          "line": 2808,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (request.grammar_ebnf.has_value()) {",
@@ -16205,7 +16268,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2765,
+          "line": 2809,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "ebnf_text = request.grammar_ebnf.value();",
@@ -16214,7 +16277,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2773,
+          "line": 2817,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "else if (request.grammar_type.has_value()) {",
@@ -16223,7 +16286,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2774,
+          "line": 2818,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string grammar_name = request.grammar_type.value();",
@@ -16232,7 +16295,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2787,
+          "line": 2831,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "else if (request.json_schema.has_value()) {",
@@ -16241,7 +16304,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2788,
+          "line": 2832,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "ebnf_text = JsonSchemaConverter::schemaToEbnf(request.json_schema.value());",
@@ -16250,7 +16313,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2806,
+          "line": 2850,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "else if (!request.tools.empty()) {",
@@ -16259,7 +16322,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2940,
+          "line": 2984,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (!vision_request.image_path.empty()) {",
@@ -16268,7 +16331,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2942,
+          "line": 2986,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "} else if (!vision_request.image_paths.empty()) {",
@@ -16984,7 +17047,7 @@
       "src\\llm\\multi_gpu_memory_coordinator.cpp": [
         {
           "file": "src\\llm\\multi_gpu_memory_coordinator.cpp",
-          "line": 585,
+          "line": 635,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::vector<std::pair<int, bool>> status;",
@@ -16995,16 +17058,16 @@
       "src\\llm\\multi_lora_manager.cpp": [
         {
           "file": "src\\llm\\multi_lora_manager.cpp",
-          "line": 2056,
+          "line": 2155,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
-          "snippet": "try { lora->rank = std::stoi(it_rank->second); } catch (...) {}",
+          "snippet": "} catch (...) {}",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
         },
         {
           "file": "src\\llm\\multi_lora_manager.cpp",
-          "line": 2060,
+          "line": 2159,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { lora->alpha = std::stof(it_alpha->second); } catch (...) {}",
@@ -17013,7 +17076,7 @@
         },
         {
           "file": "src\\llm\\multi_lora_manager.cpp",
-          "line": 2580,
+          "line": 2679,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::vector<int> unhealthy_gpus;",
@@ -17022,7 +17085,7 @@
         },
         {
           "file": "src\\llm\\multi_lora_manager.cpp",
-          "line": 2634,
+          "line": 2733,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "lora_id, unhealthy_gpu, target_gpu);",
@@ -17664,7 +17727,7 @@
       "src\\llm\\lora_framework\\directx_context.cpp": [
         {
           "file": "src\\llm\\lora_framework\\directx_context.cpp",
-          "line": 281,
+          "line": 290,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to reset command allocator\");",
@@ -17673,7 +17736,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\directx_context.cpp",
-          "line": 287,
+          "line": 296,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to reset command list\");",
@@ -17682,10 +17745,19 @@
         },
         {
           "file": "src\\llm\\lora_framework\\directx_context.cpp",
-          "line": 295,
+          "line": 304,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to close command list\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\directx_context.cpp",
+          "line": 313,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"DirectX command execution timed out or failed while waiting for GPU\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         }
@@ -17818,7 +17890,16 @@
         },
         {
           "file": "src\\llm\\lora_framework\\flash_lora.cpp",
-          "line": 207,
+          "line": 205,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\flash_lora.cpp",
+          "line": 213,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"FlashLoRA only supports CUDA devices currently\");",
@@ -17827,7 +17908,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\flash_lora.cpp",
-          "line": 261,
+          "line": 267,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -17836,7 +17917,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\flash_lora.cpp",
-          "line": 309,
+          "line": 315,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Backward pass only supports rank 8, 16\");",
@@ -17845,7 +17926,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\flash_lora.cpp",
-          "line": 313,
+          "line": 319,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"FlashLoRA backward A kernel failed\");",
@@ -17854,7 +17935,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\flash_lora.cpp",
-          "line": 340,
+          "line": 346,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"FlashLoRA backward B kernel failed\");",
@@ -17863,7 +17944,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\flash_lora.cpp",
-          "line": 367,
+          "line": 373,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"FlashLoRA backward input kernel failed\");",
@@ -17872,7 +17953,16 @@
         },
         {
           "file": "src\\llm\\lora_framework\\flash_lora.cpp",
-          "line": 374,
+          "line": 378,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\flash_lora.cpp",
+          "line": 386,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"FlashLoRA backward only supports CUDA devices\");",
@@ -17881,7 +17971,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\flash_lora.cpp",
-          "line": 472,
+          "line": 484,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -17890,7 +17980,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\flash_lora.cpp",
-          "line": 480,
+          "line": 492,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"B must be 2D [rank, in_dim]\");",
@@ -17899,7 +17989,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\flash_lora.cpp",
-          "line": 486,
+          "line": 498,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"A must be 2D [out_dim, rank]\");",
@@ -17908,7 +17998,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\flash_lora.cpp",
-          "line": 496,
+          "line": 508,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -17917,7 +18007,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\flash_lora.cpp",
-          "line": 503,
+          "line": 515,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -17926,7 +18016,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\flash_lora.cpp",
-          "line": 512,
+          "line": 524,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"All tensors must be on the same device type\");",
@@ -18670,10 +18760,28 @@
         },
         {
           "file": "src\\llm\\lora_framework\\lora_layers.cpp",
-          "line": 296,
+          "line": 209,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\lora_layers.cpp",
+          "line": 303,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Weight shapes do not match\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\lora_layers.cpp",
+          "line": 326,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         }
@@ -18806,7 +18914,7 @@
       "src\\llm\\lora_framework\\lora_training_service.cpp": [
         {
           "file": "src\\llm\\lora_framework\\lora_training_service.cpp",
-          "line": 76,
+          "line": 77,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Predictions and targets must have same size\");",
@@ -18815,7 +18923,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\lora_training_service.cpp",
-          "line": 91,
+          "line": 92,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Predictions and targets must have same shape\");",
@@ -18824,7 +18932,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\lora_training_service.cpp",
-          "line": 356,
+          "line": 365,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to load training data\");",
@@ -18833,7 +18941,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\lora_training_service.cpp",
-          "line": 1222,
+          "line": 1236,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(error);",
@@ -18842,7 +18950,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\lora_training_service.cpp",
-          "line": 1268,
+          "line": 1282,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to load quantized base model\");",
@@ -18851,7 +18959,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\lora_training_service.cpp",
-          "line": 1403,
+          "line": 1417,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to load training data into GPU data loader\");",
@@ -18860,7 +18968,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\lora_training_service.cpp",
-          "line": 1466,
+          "line": 1483,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"GPU training loop failed\");",
@@ -18869,7 +18977,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\lora_training_service.cpp",
-          "line": 1975,
+          "line": 1992,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to create DistributedTrainingCoordinator\");",
@@ -18878,7 +18986,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\lora_training_service.cpp",
-          "line": 1987,
+          "line": 2004,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to initialize distributed training coordinator\");",
@@ -18887,7 +18995,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\lora_training_service.cpp",
-          "line": 2050,
+          "line": 2067,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Too many shard failures, cannot continue\");",
@@ -19153,7 +19261,7 @@
       "src\\llm\\lora_framework\\vulkan_context.cpp": [
         {
           "file": "src\\llm\\lora_framework\\vulkan_context.cpp",
-          "line": 406,
+          "line": 409,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to allocate command buffer\");",
@@ -19162,7 +19270,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vulkan_context.cpp",
-          "line": 431,
+          "line": 434,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to create fence\");",
@@ -19171,7 +19279,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vulkan_context.cpp",
-          "line": 454,
+          "line": 463,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Cannot reset invalid fence handle\");",
@@ -19180,7 +19288,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\vulkan_context.cpp",
-          "line": 458,
+          "line": 467,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to reset fence\");",
@@ -19274,7 +19382,7 @@
       "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp": [
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 70,
+          "line": 74,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to load shader: \" + shader_name + \" from \" + shader_path);",
@@ -19283,7 +19391,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 107,
+          "line": 112,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to create pipeline: \" + pipeline_name);",
@@ -19292,7 +19400,16 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 200,
+          "line": 167,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::overflow_error(std::string(context) + \": value exceeds uint32 range\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 243,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "catch (...) {",
@@ -19301,7 +19418,25 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 281,
+          "line": 260,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_matmul_shader received invalid dimensions\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 288,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (!g_directx_state.descriptors) { throw std::runtime_error(\"DirectX: descriptor heap not initializ",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 334,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"launch_matmul_shader failed: \") + e.what());",
@@ -19310,16 +19445,34 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 287,
+          "line": 342,
           "type": "uncaught_exception",
           "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"DirectX not initialized. Call initialize_directx_lora() first.\");",
+          "snippet": "throw std::invalid_argument(\"launch_add_shader received null pointer\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 354,
+          "line": 345,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_add_shader received invalid size\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 371,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (!g_directx_state.descriptors) { throw std::runtime_error(\"DirectX: descriptor heap not initializ",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 415,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"launch_add_shader failed: \") + e.what());",
@@ -19328,16 +19481,25 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 360,
+          "line": 423,
           "type": "uncaught_exception",
           "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"DirectX not initialized. Call initialize_directx_lora() first.\");",
+          "snippet": "throw std::invalid_argument(\"launch_multiply_shader received null pointer\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 413,
+          "line": 426,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_multiply_shader received invalid size\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 482,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"launch_multiply_shader failed: \") + e.what());",
@@ -19346,16 +19508,25 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 419,
+          "line": 490,
           "type": "uncaught_exception",
           "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"DirectX not initialized. Call initialize_directx_lora() first.\");",
+          "snippet": "throw std::invalid_argument(\"launch_scalar_multiply_shader received null pointer\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 472,
+          "line": 493,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_scalar_multiply_shader received invalid size\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 549,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"launch_scalar_multiply_shader failed: \") + e.what());",
@@ -19364,16 +19535,25 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 478,
+          "line": 557,
           "type": "uncaught_exception",
           "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"DirectX not initialized. Call initialize_directx_lora() first.\");",
+          "snippet": "throw std::invalid_argument(\"launch_transpose_shader received null pointer\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 532,
+          "line": 560,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_transpose_shader received invalid dimensions\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 617,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"launch_transpose_shader failed: \") + e.what());",
@@ -19382,16 +19562,34 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 541,
+          "line": 627,
           "type": "uncaught_exception",
           "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"DirectX not initialized. Call initialize_directx_lora() first.\");",
+          "snippet": "throw std::invalid_argument(\"launch_lora_grad_A_shader received null pointer\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 629,
+          "line": 630,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_lora_grad_A_shader received invalid dimensions\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 664,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (!g_directx_state.descriptors) { throw std::runtime_error(\"DirectX: descriptor heap not initializ",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 723,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"launch_lora_grad_A_shader failed: \") + e.what());",
@@ -19400,16 +19598,34 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 638,
+          "line": 733,
           "type": "uncaught_exception",
           "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"DirectX not initialized. Call initialize_directx_lora() first.\");",
+          "snippet": "throw std::invalid_argument(\"launch_lora_grad_B_shader received null pointer\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 724,
+          "line": 736,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_lora_grad_B_shader received invalid dimensions\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 768,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "if (!g_directx_state.descriptors) { throw std::runtime_error(\"DirectX: descriptor heap not initializ",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 827,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"launch_lora_grad_B_shader failed: \") + e.what());",
@@ -19418,16 +19634,25 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 738,
+          "line": 842,
           "type": "uncaught_exception",
           "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"DirectX not initialized. Call initialize_directx_lora() first.\");",
+          "snippet": "throw std::invalid_argument(\"launch_embedding_lookup_shader received null pointer\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 796,
+          "line": 845,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_embedding_lookup_shader received invalid dimensions\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 908,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"launch_embedding_lookup_shader failed: \") + e.what());",
@@ -19436,16 +19661,25 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 808,
+          "line": 921,
           "type": "uncaught_exception",
           "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"DirectX not initialized. Call initialize_directx_lora() first.\");",
+          "snippet": "throw std::invalid_argument(\"launch_sequence_mean_shader received null pointer\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 862,
+          "line": 924,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_sequence_mean_shader received invalid dimensions\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 985,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"launch_sequence_mean_shader failed: \") + e.what());",
@@ -19454,7 +19688,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 891,
+          "line": 1014,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
@@ -19463,7 +19697,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 895,
+          "line": 1018,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
@@ -19472,7 +19706,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 899,
+          "line": 1022,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
@@ -19481,7 +19715,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 903,
+          "line": 1026,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
@@ -19490,7 +19724,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 907,
+          "line": 1030,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
@@ -19499,7 +19733,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 913,
+          "line": 1036,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
@@ -19508,7 +19742,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 919,
+          "line": 1042,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
@@ -19517,7 +19751,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 930,
+          "line": 1053,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
@@ -19526,7 +19760,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 939,
+          "line": 1062,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
@@ -19537,7 +19771,43 @@
       "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp": [
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 352,
+          "line": 80,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::overflow_error(std::string(context) + \": value exceeds uint32 range\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
+          "line": 87,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(std::string(context) + \": pipeline is null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
+          "line": 89,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!pipeline->wait(kVulkanKernelWaitTimeoutNs)) {",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
+          "line": 90,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(std::string(context) + \": timed out waiting for Vulkan kernel execution\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
+          "line": 398,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Vulkan not initialized. Call initialize_vulkan_lora() first.\");",
@@ -19546,142 +19816,133 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 436,
+          "line": 483,
           "type": "uncaught_exception",
           "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"Vulkan not initialized\");",
+          "snippet": "throw std::invalid_argument(\"launch_matmul_shader received null pointer\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 466,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "pipeline->wait();",
-          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 474,
+          "line": 486,
           "type": "uncaught_exception",
           "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"Vulkan not initialized\");",
+          "snippet": "throw std::invalid_argument(\"launch_matmul_shader received invalid dimensions\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 512,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "pipeline->wait();",
-          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 518,
+          "line": 526,
           "type": "uncaught_exception",
           "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"Vulkan not initialized\");",
+          "snippet": "throw std::invalid_argument(\"launch_add_shader received null pointer\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 554,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "pipeline->wait();",
-          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 560,
+          "line": 529,
           "type": "uncaught_exception",
           "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"Vulkan not initialized\");",
+          "snippet": "throw std::invalid_argument(\"launch_add_shader received invalid size\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 595,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "pipeline->wait();",
-          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 601,
+          "line": 576,
           "type": "uncaught_exception",
           "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"Vulkan not initialized\");",
+          "snippet": "throw std::invalid_argument(\"launch_multiply_shader received null pointer\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 637,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "pipeline->wait();",
-          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 646,
+          "line": 579,
           "type": "uncaught_exception",
           "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"Vulkan not initialized\");",
+          "snippet": "throw std::invalid_argument(\"launch_multiply_shader received invalid size\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 696,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "pipeline->wait();",
-          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 705,
+          "line": 624,
           "type": "uncaught_exception",
           "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"Vulkan not initialized\");",
+          "snippet": "throw std::invalid_argument(\"launch_scalar_multiply_shader received null pointer\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 754,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "pipeline->wait();",
-          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 767,
+          "line": 627,
           "type": "uncaught_exception",
           "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"Vulkan not initialized\");",
+          "snippet": "throw std::invalid_argument(\"launch_scalar_multiply_shader received invalid size\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 770,
+          "line": 671,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_transpose_shader received null pointer\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
+          "line": 674,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_transpose_shader received invalid dimensions\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
+          "line": 721,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_lora_grad_A_shader received null pointer\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
+          "line": 724,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_lora_grad_A_shader received invalid dimensions\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
+          "line": 784,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_lora_grad_B_shader received null pointer\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
+          "line": 787,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_lora_grad_B_shader received invalid dimensions\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
+          "line": 851,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_embedding_lookup_shader received null pointer\");",
@@ -19690,7 +19951,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 773,
+          "line": 854,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_embedding_lookup_shader received invalid dimensions\");",
@@ -19699,16 +19960,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 820,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"Vulkan not initialized\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 823,
+          "line": 904,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_sequence_mean_shader received null pointer\");",
@@ -19717,7 +19969,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 826,
+          "line": 907,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_sequence_mean_shader received invalid dimensions\");",
@@ -19726,7 +19978,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 872,
+          "line": 959,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_fused_lora_forward received null pointer\");",
@@ -19735,7 +19987,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 875,
+          "line": 962,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_fused_lora_forward received invalid dimensions\");",
@@ -19744,7 +19996,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 881,
+          "line": 968,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::overflow_error(\"launch_fused_lora_forward dimensions exceed int range\");",
@@ -19753,16 +20005,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 914,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "pipeline->wait();",
-          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 932,
+          "line": 1021,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_fused_lora_backward received null pointer\");",
@@ -19771,7 +20014,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 935,
+          "line": 1024,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_fused_lora_backward received invalid dimensions\");",
@@ -19780,39 +20023,12 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 941,
+          "line": 1030,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::overflow_error(\"launch_fused_lora_backward dimensions exceed int range\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 991,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "matmul_pipeline->wait();",
-          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 999,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "elementwise_pipeline->wait();",
-          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1009,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "matmul_pipeline->wait();",
-          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
         }
       ]
     }
@@ -20708,7 +20924,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1592,
+          "line": 1594,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string tx_id_str = request.value(\"transaction_id\", \"\");",
@@ -20717,7 +20933,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1636,
+          "line": 1638,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string tx_id_str = request.value(\"transaction_id\", \"\");",
@@ -20726,7 +20942,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1676,
+          "line": 1678,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string collection = request.value(\"collection\", \"\");",
@@ -20735,7 +20951,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1677,
+          "line": 1679,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string start_vertex = request.value(\"start_vertex\", \"\");",
@@ -20744,7 +20960,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1703,
+          "line": 1705,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string direction_str = request.value(\"direction\", \"outbound\");",
@@ -20753,7 +20969,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1704,
+          "line": 1706,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "int depth_min = request.value(\"depth_min\", 1);",
@@ -20762,7 +20978,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1705,
+          "line": 1707,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "int depth_max = request.value(\"depth_max\", 3);",
@@ -20771,7 +20987,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1706,
+          "line": 1708,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "int limit     = request.value(\"limit\", 100);",
@@ -20780,7 +20996,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1707,
+          "line": 1709,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string edge_type = request.value(\"edge_type\", \"\");",
@@ -20789,7 +21005,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1760,
+          "line": 1762,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string query_str = request.value(\"query\", \"\");",
@@ -20798,7 +21014,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1854,
+          "line": 1856,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string cursor_id = request.value(\"cursor_id\", \"\");",
@@ -20807,7 +21023,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1861,
+          "line": 1863,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "const size_t batch_size = static_cast<size_t>(request.value(\"batch_size\", 100));",
@@ -20816,7 +21032,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1921,
+          "line": 1923,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string cursor_id = request.value(\"cursor_id\", \"\");",
@@ -20825,7 +21041,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1978,
+          "line": 1980,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "size_t k = request.value(\"k\", static_cast<size_t>(10));",
@@ -20834,7 +21050,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2031,
+          "line": 2033,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string collection = request.value(\"collection\", \"\");",
@@ -20843,7 +21059,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2052,
+          "line": 2054,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string query_type = request.value(\"type\", \"\");",
@@ -20852,7 +21068,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2072,
+          "line": 2074,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.value(\"limit\", static_cast<uint32_t>(100));",
@@ -20861,7 +21077,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2077,
+          "line": 2079,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (!request.contains(\"bbox\") || !request[\"bbox\"].is_object()) {",
@@ -20870,7 +21086,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2097,
+          "line": 2099,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (!request.contains(\"center\") || !request[\"center\"].is_object()) {",
@@ -20879,7 +21095,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2103,
+          "line": 2105,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (!request.contains(\"radius\")) {",
@@ -20888,7 +21104,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2192,
+          "line": 2194,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (request.collection.empty()) {",
@@ -20897,7 +21113,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2228,
+          "line": 2230,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "auto result = server_->ts_store_->query(query_opts);",
@@ -20906,7 +21122,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2234,
+          "line": 2236,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -20915,7 +21131,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2325,
+          "line": 2327,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -20924,7 +21140,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2369,
+          "line": 2371,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "auto result = server_->ts_store_->query(query_opts);",
@@ -20933,7 +21149,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2375,
+          "line": 2377,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -20942,7 +21158,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2464,
+          "line": 2466,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string process_key = request.value(\"process_definition_key\", \"\");",
@@ -20951,7 +21167,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2465,
+          "line": 2467,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "json variables = request.value(\"variables\", json::object());",
@@ -20960,7 +21176,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2466,
+          "line": 2468,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string business_key = request.value(\"business_key\", \"\");",
@@ -20969,7 +21185,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2655,
+          "line": 2657,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string instance_id = request.value(\"process_instance_id\", \"\");",
@@ -20978,7 +21194,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2656,
+          "line": 2658,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "bool include_variables = request.value(\"include_variables\", true);",
@@ -20987,7 +21203,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2657,
+          "line": 2659,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "bool include_history = request.value(\"include_history\", false);",
@@ -30926,14 +31142,14 @@
   },
   "server": {
     "total": 461,
-    "severity_critical": 25,
-    "severity_high": 157,
-    "severity_medium": 279,
+    "severity_critical": 32,
+    "severity_high": 158,
+    "severity_medium": 271,
     "by_type": {
-      "uncaught_exception": 252,
-      "no_health_check": 97,
+      "uncaught_exception": 248,
+      "no_health_check": 94,
       "no_retry_logic": 87,
-      "no_timeout": 25
+      "no_timeout": 32
     },
     "gaps_by_file": {
       "src\\server\\api_gateway.cpp": [
@@ -30988,7 +31204,7 @@
       "src\\server\\async_job_api_handler.cpp": [
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 318,
+          "line": 369,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::string final_status;",
@@ -30997,7 +31213,7 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 340,
+          "line": 391,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::string final_status;",
@@ -31006,7 +31222,7 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 356,
+          "line": 407,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -31015,7 +31231,7 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 380,
+          "line": 431,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::future_status::ready;",
@@ -31024,19 +31240,10 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 461,
+          "line": 512,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{{\"job_id\", job->id}, {\"status\", \"pending\"}}, req);",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 526,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "AsyncJobStatus current;",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         }
@@ -31687,7 +31894,7 @@
       "src\\server\\http2_session.cpp": [
         {
           "file": "src\\server\\http2_session.cpp",
-          "line": 188,
+          "line": 204,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "ssize_t readlen = nghttp2_session_mem_recv(ng2_session_, read_buffer_.data(), bytes_transferred);",
@@ -31696,18 +31903,36 @@
         },
         {
           "file": "src\\server\\http2_session.cpp",
-          "line": 200,
+          "line": 216,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "ssize_t datalen = nghttp2_session_mem_send(ng2_session_, &data);",
           "description": "socket_call without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\server\\http2_session.cpp",
+          "line": 254,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "read_timer_.async_wait([weak_self](const boost::system::error_code& ec) {",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\server\\http2_session.cpp",
+          "line": 284,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "write_timer_.async_wait([weak_self](const boost::system::error_code& ec) {",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
         }
       ],
       "src\\server\\http3_session.cpp": [
         {
           "file": "src\\server\\http3_session.cpp",
-          "line": 128,
+          "line": 132,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "cleanup_timer_.async_wait([this](boost::system::error_code ec) {",
@@ -31716,7 +31941,7 @@
         },
         {
           "file": "src\\server\\http3_session.cpp",
-          "line": 238,
+          "line": 257,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "cleanup_timer_.async_wait([this](boost::system::error_code ec) {",
@@ -31727,7 +31952,7 @@
       "src\\server\\http_server.cpp": [
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 650,
+          "line": 660,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -31736,7 +31961,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 749,
+          "line": 759,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { audit_rate_limit_per_minute_ = static_cast<uint32_t>(std::stoul(lim)); } catch (...) {}",
@@ -31745,7 +31970,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 879,
+          "line": 889,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { slo_cfg.warning_threshold = std::stod(warn_thr); } catch (...) {}",
@@ -31754,7 +31979,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 882,
+          "line": 892,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { slo_cfg.critical_threshold = std::stod(crit_thr); } catch (...) {}",
@@ -31763,7 +31988,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 918,
+          "line": 928,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { rcfg.connect_timeout_ms = std::stol(*ct); } catch (...) {}",
@@ -31772,7 +31997,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 921,
+          "line": 931,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { rcfg.request_timeout_ms = std::stol(*rt); } catch (...) {}",
@@ -31781,7 +32006,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 924,
+          "line": 934,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { rcfg.max_retries = std::stoi(*mr); } catch (...) {}",
@@ -31790,7 +32015,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 927,
+          "line": 937,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { rcfg.retry_backoff_ms = std::stol(*rb); } catch (...) {}",
@@ -31799,7 +32024,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 932,
+          "line": 942,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -31808,7 +32033,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 1118,
+          "line": 1128,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -31817,7 +32042,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 1478,
+          "line": 1488,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { opa_cfg.timeout_ms = std::stol(*tms); } catch (...) {}",
@@ -31826,7 +32051,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 1530,
+          "line": 1540,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -31835,7 +32060,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 1551,
+          "line": 1561,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "if (auto audit = weak_audit.lock()) {",
@@ -31844,7 +32069,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 1557,
+          "line": 1567,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { audit->logEvent(entry); } catch (...) {}",
@@ -31853,7 +32078,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 1820,
+          "line": 1830,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "catch (...) { THEMIS_WARN(\"Invalid THEMIS_MAX_BODY_BYTES value, using default 10MB\"); }",
@@ -31862,7 +32087,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 1884,
+          "line": 1894,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"mTLS enabled but CA cert path not configured\");",
@@ -31871,7 +32096,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 1912,
+          "line": 1922,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"TLS initialization failed: \") + e.what());",
@@ -31880,7 +32105,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 1928,
+          "line": 1938,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -31889,7 +32114,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 2137,
+          "line": 2147,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "thread.join();",
@@ -31898,7 +32123,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 2153,
+          "line": 2163,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "void HttpServer::wait() {",
@@ -31907,7 +32132,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 2156,
+          "line": 2166,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "thread.join();",
@@ -31916,7 +32141,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 2239,
+          "line": 2249,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "acceptor_.async_accept(",
@@ -31925,7 +32150,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 3342,
+          "line": 3385,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "static constexpr std::string_view kMaintStatus{\"/api/v1/maintenance/status\"};",
@@ -31934,7 +32159,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 3495,
+          "line": 3538,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "span.setAttribute(\"http.method\", std::string(http::to_string(req.method())));",
@@ -31943,7 +32168,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 3496,
+          "line": 3539,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "span.setAttribute(\"http.target\", std::string(req.target()));",
@@ -31952,7 +32177,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4020,
+          "line": 4063,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "llm_request.model_id = payload.value(\"model\", std::string{\"default\"});",
@@ -31961,7 +32186,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4021,
+          "line": 4064,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "llm_request.max_tokens = payload.value(\"max_tokens\", 256);",
@@ -31970,7 +32195,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4022,
+          "line": 4065,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "llm_request.temperature = static_cast<float>(payload.value(\"temperature\", 0.7));",
@@ -31979,7 +32204,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4075,
+          "line": 4118,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "llm_request.model_id = payload.value(\"model\", std::string{\"default\"});",
@@ -31988,7 +32213,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4076,
+          "line": 4119,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "llm_request.max_tokens = payload.value(\"max_tokens\", 512);",
@@ -31997,7 +32222,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4077,
+          "line": 4120,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "llm_request.temperature = static_cast<float>(payload.value(\"temperature\", 0.7));",
@@ -32006,7 +32231,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4112,
+          "line": 4155,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "llm_request.model_id = payload.value(\"model\", std::string{\"default\"});",
@@ -32015,7 +32240,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4113,
+          "line": 4156,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "llm_request.max_tokens = payload.value(\"max_tokens\", 512);",
@@ -32024,7 +32249,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 4114,
+          "line": 4157,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "llm_request.temperature = static_cast<float>(payload.value(\"temperature\", 0.7));",
@@ -32033,7 +32258,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6868,
+          "line": 6990,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "if (seg == \"page\") try { filter.page = std::stoi(val); } catch (...) {}",
@@ -32042,7 +32267,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6869,
+          "line": 6991,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "else if (seg == \"page_size\") try { filter.page_size = std::stoi(val); } catch (...) {}",
@@ -32051,7 +32276,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 6945,
+          "line": 7067,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { limit = std::stoi(std::string(req.target()).substr(qpos + 6)); } catch (...) {}",
@@ -32060,7 +32285,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 7225,
+          "line": 7347,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "span.setAttribute(\"http.status_code\", static_cast<int64_t>(response.result_int()));",
@@ -32069,7 +32294,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 7583,
+          "line": 7705,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -32078,7 +32303,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 7608,
+          "line": 7730,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { if (!req.body().empty()) body_json = json::parse(req.body()); } catch (...) {}",
@@ -32087,7 +32312,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 7632,
+          "line": 7754,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { body = json::parse(req.body()); } catch (...) {",
@@ -32096,7 +32321,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 7703,
+          "line": 7825,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { if (!req.body().empty()) body = json::parse(req.body()); } catch (...) {",
@@ -32105,7 +32330,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 7765,
+          "line": 7887,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { body = json::parse(req.body()); } catch (...) {",
@@ -32114,7 +32339,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 7877,
+          "line": 7999,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -32123,7 +32348,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 8008,
+          "line": 8130,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -32132,7 +32357,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 8398,
+          "line": 8520,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { return std::stoll(s); } catch (...) { return 0; }",
@@ -32141,7 +32366,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 8446,
+          "line": 8568,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) { tz_h = tz_m = 0; tz_sign = 0; }",
@@ -32150,7 +32375,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 8483,
+          "line": 8605,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { f.page = std::max(1, std::stoi(it->second)); } catch (...) {}",
@@ -32159,7 +32384,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 8490,
+          "line": 8612,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -32168,7 +32393,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 8522,
+          "line": 8644,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { f.page = std::max(1, std::stoi(it->second)); } catch (...) {}",
@@ -32177,7 +32402,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 8529,
+          "line": 8651,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -32186,7 +32411,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 8587,
+          "line": 8730,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -32195,7 +32420,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 8615,
+          "line": 8758,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -32204,7 +32429,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 8849,
+          "line": 8996,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -32213,7 +32438,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 8859,
+          "line": 9006,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -32222,7 +32447,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 8877,
+          "line": 9024,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -32231,7 +32456,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 8878,
+          "line": 9025,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -32240,7 +32465,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 8883,
+          "line": 9030,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -32249,7 +32474,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 8912,
+          "line": 9059,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -32258,7 +32483,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 9275,
+          "line": 9422,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -32267,7 +32492,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 9358,
+          "line": 9505,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -32276,7 +32501,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 9741,
+          "line": 9888,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -32285,7 +32510,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 9806,
+          "line": 9953,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -32294,7 +32519,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 9987,
+          "line": 10134,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -32303,7 +32528,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 10007,
+          "line": 10154,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -32312,7 +32537,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 10027,
+          "line": 10174,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -32321,7 +32546,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 10170,
+          "line": 10317,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -32330,7 +32555,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 10196,
+          "line": 10343,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -32339,7 +32564,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 10820,
+          "line": 10967,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw; // Re-throw to allow caller to handle as service unavailable",
@@ -32348,7 +32573,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 11939,
+          "line": 12107,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "endpoints.push_back({\"POST\", \"/api/aql\",                  \"AQL query (compat)\"});",
@@ -32357,7 +32582,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 12240,
+          "line": 12414,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "endpoints.push_back({\"POST\", \"/api/v1/graphql\",            \"GraphQL query (v1)\"});",
@@ -32366,7 +32591,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 12775,
+          "line": 12949,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { offset = std::stoull(rv.substr(0, dash)); } catch (...) {}",
@@ -32375,36 +32600,7 @@
         },
         {
           "file": "src\\server\\http_server.cpp",
-          "line": 12780,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {}",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        }
-      ],
-      "src\\server\\import_api_handler.cpp": [
-        {
-          "file": "src\\server\\import_api_handler.cpp",
-          "line": 364,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "case ImportStatus::RUNNING:   ++jobs_running;   break;",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\import_api_handler.cpp",
-          "line": 365,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "case ImportStatus::COMPLETED: ++jobs_completed; break;",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\import_api_handler.cpp",
-          "line": 377,
+          "line": 12954,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -32451,7 +32647,7 @@
         },
         {
           "file": "src\\server\\llm_api_handler.cpp",
-          "line": 1087,
+          "line": 1090,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -32460,7 +32656,7 @@
         },
         {
           "file": "src\\server\\llm_api_handler.cpp",
-          "line": 1134,
+          "line": 1137,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "auto result = assistant.query(query);",
@@ -32469,7 +32665,7 @@
         },
         {
           "file": "src\\server\\llm_api_handler.cpp",
-          "line": 1437,
+          "line": 1440,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::string status_filter;",
@@ -32478,7 +32674,7 @@
         },
         {
           "file": "src\\server\\llm_api_handler.cpp",
-          "line": 1453,
+          "line": 1456,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -32487,7 +32683,7 @@
         },
         {
           "file": "src\\server\\llm_api_handler.cpp",
-          "line": 1593,
+          "line": 1596,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": ": http::status::forbidden);",
@@ -32496,7 +32692,7 @@
         },
         {
           "file": "src\\server\\llm_api_handler.cpp",
-          "line": 1633,
+          "line": 1636,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "llm_request.stream_callback = [&](const std::string& token) {",
@@ -32505,7 +32701,7 @@
         },
         {
           "file": "src\\server\\llm_api_handler.cpp",
-          "line": 1705,
+          "line": 1708,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -32628,7 +32824,7 @@
       "src\\server\\mcp_server.cpp": [
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 474,
+          "line": 488,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (!request.contains(\"jsonrpc\") || request[\"jsonrpc\"] != \"2.0\") {",
@@ -32637,7 +32833,7 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 478,
+          "line": 492,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (!request.contains(\"method\")) {",
@@ -32646,7 +32842,7 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 483,
+          "line": 497,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "json params = request.contains(\"params\") ? request[\"params\"] : json::object();",
@@ -32655,7 +32851,7 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 832,
+          "line": 861,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "{\"description\", \"Search query (e.g., 'gpu', 'lora', 'storage')\"}",
@@ -32664,7 +32860,7 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 1255,
+          "line": 1284,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "SecondaryIndexManager::Status status;",
@@ -32673,7 +32869,7 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 1373,
+          "line": 1402,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "SecondaryIndexManager::Status status;",
@@ -32682,7 +32878,7 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 1792,
+          "line": 1821,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -32691,7 +32887,7 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 2702,
+          "line": 2734,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { fn(); } catch (...) {}",
@@ -32700,20 +32896,47 @@
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 2962,
+          "line": 2757,
           "type": "no_timeout",
           "severity": "CRITICAL",
-          "snippet": "keepalive_timer_.async_wait([this](const boost::system::error_code& ec) {",
+          "snippet": "auto self = weak_self.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\server\\mcp_server.cpp",
+          "line": 3001,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "keepalive_timer_.async_wait([weak_self](const boost::system::error_code& ec) {",
           "description": "semaphore_wait without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
         },
         {
           "file": "src\\server\\mcp_server.cpp",
-          "line": 3111,
+          "line": 3002,
           "type": "no_timeout",
           "severity": "CRITICAL",
-          "snippet": "ping_timer_.async_wait([this](const boost::system::error_code& ec) {",
+          "snippet": "auto self = weak_self.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\server\\mcp_server.cpp",
+          "line": 3153,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "ping_timer_.async_wait([weak_self](const boost::system::error_code& ec) {",
           "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\server\\mcp_server.cpp",
+          "line": 3154,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "auto self = weak_self.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
         }
       ],
@@ -33356,25 +33579,16 @@
       "src\\server\\postgres_session.cpp": [
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 605,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+          "line": 111,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (auto self = weak_self.lock()) {",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
         },
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 656,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\server\\postgres_session.cpp",
-          "line": 1181,
+          "line": 1284,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string query(buffer_.data() + offset);",
@@ -33383,16 +33597,16 @@
         },
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 1473,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {}",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+          "line": 1495,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (auto self = weak_self.lock()) {",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
         },
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 1525,
+          "line": 1701,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Invalid SELECT query\");",
@@ -33401,7 +33615,7 @@
         },
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 1750,
+          "line": 1926,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Invalid INSERT statement: missing INTO\");",
@@ -33410,7 +33624,7 @@
         },
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 1766,
+          "line": 1942,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Invalid INSERT statement: missing column list\");",
@@ -33419,7 +33633,7 @@
         },
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 1787,
+          "line": 1963,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Invalid INSERT statement: missing VALUES\");",
@@ -33428,7 +33642,7 @@
         },
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 1793,
+          "line": 1969,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Invalid INSERT statement: missing values list\");",
@@ -33437,7 +33651,7 @@
         },
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 1851,
+          "line": 2027,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Invalid UPDATE statement: missing SET\");",
@@ -33446,19 +33660,10 @@
         },
         {
           "file": "src\\server\\postgres_session.cpp",
-          "line": 1956,
+          "line": 2132,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Invalid DELETE statement: missing FROM\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\server\\postgres_session.cpp",
-          "line": 2016,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"Unsupported SQL statement type\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         }
@@ -33515,7 +33720,7 @@
       "src\\server\\query_api_handler.cpp": [
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 229,
+          "line": 269,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::pair<themis::QueryEngine::Status, size_t> res;",
@@ -33524,7 +33729,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 295,
+          "line": 335,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::pair<themis::QueryEngine::Status, std::vector<std::string>> res;",
@@ -33533,7 +33738,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 370,
+          "line": 413,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res;",
@@ -33542,7 +33747,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 447,
+          "line": 493,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -33551,7 +33756,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 465,
+          "line": 514,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { obj = nlohmann::json::parse(e.toJson()); } catch (...) { entities.push_back(e.toJson()); conti",
@@ -33560,7 +33765,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 469,
+          "line": 521,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "bool encFlag = false; try { encFlag = obj[f + \"_enc\"].get<bool>(); } catch (...) { encFlag = false; ",
@@ -33569,7 +33774,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 477,
+          "line": 529,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "std::string group_name; try { group_name = obj[f + \"_group\"].get<std::string>(); } catch (...) { gro",
@@ -33578,7 +33783,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 500,
+          "line": 552,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -33587,7 +33792,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 694,
+          "line": 760,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res1;",
@@ -33596,7 +33801,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 703,
+          "line": 769,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res2;",
@@ -33605,7 +33810,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1228,
+          "line": 1295,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) { return std::nullopt; }",
@@ -33614,7 +33819,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1237,
+          "line": 1304,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) { return std::nullopt; }",
@@ -33623,7 +33828,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1591,
+          "line": 1659,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res1;",
@@ -33632,7 +33837,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1604,
+          "line": 1672,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res2;",
@@ -33641,7 +33846,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1715,
+          "line": 1783,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) { return false; }",
@@ -33650,7 +33855,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1733,
+          "line": 1801,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) { return false; }",
@@ -33659,7 +33864,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1758,
+          "line": 1826,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) { return false; }",
@@ -33668,7 +33873,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1774,
+          "line": 1842,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) { return false; }",
@@ -33677,7 +33882,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1947,
+          "line": 2021,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -33686,7 +33891,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 1962,
+          "line": 2036,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -33695,7 +33900,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2003,
+          "line": 2077,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -33704,7 +33909,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2018,
+          "line": 2092,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -33713,7 +33918,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2070,
+          "line": 2145,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::pair<themis::QueryEngine::Status, std::vector<std::string>> statusKeys;",
@@ -33722,7 +33927,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2094,
+          "line": 2169,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -33731,7 +33936,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2106,
+          "line": 2181,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { response_body[\"result\"] = response_body[\"entities\"]; } catch (...) { /* ignore */ }",
@@ -33740,7 +33945,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2282,
+          "line": 2363,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -33749,7 +33954,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2437,
+          "line": 2524,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -33758,7 +33963,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2454,
+          "line": 2542,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res;",
@@ -33767,7 +33972,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 2687,
+          "line": 2775,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { out = std::stod(*sv); return true; } catch (...) { /* ignore */ }",
@@ -33776,7 +33981,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 3138,
+          "line": 3226,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -33785,7 +33990,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 3158,
+          "line": 3246,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { response_body[\"result\"] = response_body[\"entities\"]; } catch (...) { /* ignore */ }",
@@ -33794,7 +33999,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 3167,
+          "line": 3255,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { plan_json[\"let_pre_extracted\"] = true; } catch (...) { /* noop */ }",
@@ -33803,7 +34008,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 3472,
+          "line": 3564,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) { return def; }",
@@ -33812,7 +34017,7 @@
         },
         {
           "file": "src\\server\\query_api_handler.cpp",
-          "line": 3506,
+          "line": 3598,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -34162,7 +34367,7 @@
       "src\\server\\sse_connection_manager.cpp": [
         {
           "file": "src\\server\\sse_connection_manager.cpp",
-          "line": 401,
+          "line": 412,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "poll_timer_->async_wait([this](const boost::system::error_code& ec) {",
@@ -34435,7 +34640,16 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 259,
+          "line": 131,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\server\\voice_api_handler.cpp",
+          "line": 284,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Missing macro ID\");",
@@ -34444,7 +34658,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 263,
+          "line": 288,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Invalid macro ID\");",
@@ -34453,7 +34667,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 287,
+          "line": 312,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Invalid session ID\");",
@@ -34462,7 +34676,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 295,
+          "line": 320,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Invalid session path\");",
@@ -34471,7 +34685,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 300,
+          "line": 325,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Invalid session ID\");",
@@ -34480,7 +34694,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 321,
+          "line": 346,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Missing recording ID\");",
@@ -34489,7 +34703,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 325,
+          "line": 350,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Invalid recording ID\");",
@@ -34498,7 +34712,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 349,
+          "line": 374,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Missing profile ID\");",
@@ -34507,7 +34721,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 353,
+          "line": 378,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Invalid profile ID\");",
@@ -34516,7 +34730,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1246,
+          "line": 1271,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Invalid JSON body\");",
@@ -34525,7 +34739,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1257,
+          "line": 1282,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"trigger_phrase must be a string\");",
@@ -34534,7 +34748,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1263,
+          "line": 1288,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"trigger_phrase must not be empty\");",
@@ -34543,7 +34757,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1269,
+          "line": 1294,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"'steps' must be an array\");",
@@ -34552,7 +34766,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1283,
+          "line": 1308,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"options must be an object\");",
@@ -34561,7 +34775,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1314,
+          "line": 1339,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"name must be a string\");",
@@ -34570,7 +34784,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1318,
+          "line": 1343,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"description must be a string\");",
@@ -34579,7 +34793,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1322,
+          "line": 1347,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"tags must be an array\");",
@@ -34588,7 +34802,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1420,
+          "line": 1445,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Invalid JSON body\");",
@@ -34597,7 +34811,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1430,
+          "line": 1455,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"'steps' must be an array\");",
@@ -34606,7 +34820,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1446,
+          "line": 1471,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"options must be an object\");",
@@ -34615,7 +34829,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1477,
+          "line": 1502,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"name must be a string\");",
@@ -34624,7 +34838,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1481,
+          "line": 1506,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"description must be a string\");",
@@ -34633,7 +34847,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1485,
+          "line": 1510,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"tags must be an array\");",
@@ -34642,7 +34856,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1498,
+          "line": 1523,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"enabled must be a boolean\");",
@@ -34651,7 +34865,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1579,
+          "line": 1604,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -34660,7 +34874,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1665,
+          "line": 1690,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -34669,25 +34883,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1781,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1886,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"URL cannot be empty\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1893,
+          "line": 1806,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -34699,13 +34895,40 @@
           "line": 1911,
           "type": "uncaught_exception",
           "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"URL cannot be empty\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\server\\voice_api_handler.cpp",
+          "line": 1915,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"HTTP client pool is not initialized\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\server\\voice_api_handler.cpp",
+          "line": 1922,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\server\\voice_api_handler.cpp",
+          "line": 1940,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Access to localhost is not allowed\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1921,
+          "line": 1950,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Access to metadata endpoints is not allowed\");",
@@ -34714,7 +34937,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1928,
+          "line": 1957,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Access to private or restricted IP addresses is not allowed\");",
@@ -34723,7 +34946,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1947,
+          "line": 1976,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Audio download timed out\");",
@@ -34732,7 +34955,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1954,
+          "line": 1983,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -34741,7 +34964,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1961,
+          "line": 1990,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Downloaded audio is empty\");",
@@ -34750,7 +34973,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 2005,
+          "line": 2034,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Invalid JSON body\");",
@@ -34759,7 +34982,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 2016,
+          "line": 2045,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"user_id must be a string\");",
@@ -34768,7 +34991,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 2022,
+          "line": 2051,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"user_id must not be empty\");",
@@ -34777,7 +35000,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 2026,
+          "line": 2055,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Invalid user_id\");",
@@ -34786,7 +35009,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 2032,
+          "line": 2061,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"audio_samples must be a non-empty array\");",
@@ -34795,7 +35018,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 2114,
+          "line": 2143,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Invalid JSON body\");",
@@ -34804,7 +35027,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 2125,
+          "line": 2154,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"profile_id must be a string\");",
@@ -34813,7 +35036,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 2129,
+          "line": 2158,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"audio must be a base64 string\");",
@@ -34822,7 +35045,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 2135,
+          "line": 2164,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"profile_id must not be empty\");",
@@ -34831,7 +35054,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 2139,
+          "line": 2168,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Invalid profile_id\");",
@@ -34840,7 +35063,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 2144,
+          "line": 2173,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"audio must not be empty\");",
@@ -34849,7 +35072,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 2166,
+          "line": 2195,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Invalid JSON body\");",
@@ -34858,7 +35081,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 2177,
+          "line": 2206,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"user_id must be a string\");",
@@ -34867,7 +35090,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 2181,
+          "line": 2210,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"audio must be a base64 string\");",
@@ -34876,7 +35099,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 2187,
+          "line": 2216,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"user_id must not be empty\");",
@@ -34885,7 +35108,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 2191,
+          "line": 2220,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Invalid user_id\");",
@@ -34894,7 +35117,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 2196,
+          "line": 2225,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"audio must not be empty\");",
@@ -34903,7 +35126,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 2213,
+          "line": 2242,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": ": http::status::unauthorized;",
@@ -34912,7 +35135,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 2224,
+          "line": 2253,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Invalid JSON body\");",
@@ -34921,7 +35144,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 2236,
+          "line": 2265,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"candidate_profiles must be an array\");",
@@ -34930,7 +35153,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 2240,
+          "line": 2269,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"candidate_profiles must not be empty\");",
@@ -34939,7 +35162,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 2244,
+          "line": 2273,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"audio must be a base64 string\");",
@@ -34948,7 +35171,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 2248,
+          "line": 2277,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"audio must not be empty\");",
@@ -34957,7 +35180,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 2312,
+          "line": 2341,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Missing profile ID\");",
@@ -34966,7 +35189,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 2318,
+          "line": 2347,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::not_found, \"Not Found\", \"Voice profile not found\");",
@@ -35024,7 +35247,7 @@
       "src\\server\\wasm_handler_registry.cpp": [
         {
           "file": "src\\server\\wasm_handler_registry.cpp",
-          "line": 451,
+          "line": 480,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "already_exists ? http::status::ok : http::status::created;",
@@ -35033,7 +35256,7 @@
         },
         {
           "file": "src\\server\\wasm_handler_registry.cpp",
-          "line": 550,
+          "line": 579,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -35044,7 +35267,7 @@
       "src\\server\\websocket_session.cpp": [
         {
           "file": "src\\server\\websocket_session.cpp",
-          "line": 96,
+          "line": 95,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "ws_tls_->async_accept(",
@@ -35053,7 +35276,7 @@
         },
         {
           "file": "src\\server\\websocket_session.cpp",
-          "line": 109,
+          "line": 108,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "ws_plain_->async_accept(",
@@ -35062,7 +35285,7 @@
         },
         {
           "file": "src\\server\\websocket_session.cpp",
-          "line": 133,
+          "line": 132,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "send(welcome.dump());",
@@ -35071,7 +35294,7 @@
         },
         {
           "file": "src\\server\\websocket_session.cpp",
-          "line": 205,
+          "line": 204,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "send(resp.dump());",
@@ -35080,7 +35303,7 @@
         },
         {
           "file": "src\\server\\websocket_session.cpp",
-          "line": 232,
+          "line": 231,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "send(response.dump());",
@@ -35089,7 +35312,7 @@
         },
         {
           "file": "src\\server\\websocket_session.cpp",
-          "line": 271,
+          "line": 270,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "send(response.dump());",
@@ -35098,7 +35321,7 @@
         },
         {
           "file": "src\\server\\websocket_session.cpp",
-          "line": 278,
+          "line": 277,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "send(response.dump());",
@@ -35107,7 +35330,7 @@
         },
         {
           "file": "src\\server\\websocket_session.cpp",
-          "line": 295,
+          "line": 294,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "send(response.dump());",
@@ -35116,7 +35339,7 @@
         },
         {
           "file": "src\\server\\websocket_session.cpp",
-          "line": 307,
+          "line": 306,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "send(response.dump());",
@@ -35125,7 +35348,7 @@
         },
         {
           "file": "src\\server\\websocket_session.cpp",
-          "line": 343,
+          "line": 342,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "send(ws_resp.dump());",
@@ -35134,7 +35357,7 @@
         },
         {
           "file": "src\\server\\websocket_session.cpp",
-          "line": 351,
+          "line": 350,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "send(response.dump());",
@@ -35143,7 +35366,7 @@
         },
         {
           "file": "src\\server\\websocket_session.cpp",
-          "line": 363,
+          "line": 362,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "send(response.dump());",
@@ -35152,7 +35375,7 @@
         },
         {
           "file": "src\\server\\websocket_session.cpp",
-          "line": 374,
+          "line": 373,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "send(response.dump());",
@@ -35161,7 +35384,7 @@
         },
         {
           "file": "src\\server\\websocket_session.cpp",
-          "line": 397,
+          "line": 396,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "send(response.dump());",
@@ -35170,7 +35393,7 @@
         },
         {
           "file": "src\\server\\websocket_session.cpp",
-          "line": 400,
+          "line": 399,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "void WebSocketSession::send(const std::string& message) {",
@@ -35179,7 +35402,7 @@
         },
         {
           "file": "src\\server\\websocket_session.cpp",
-          "line": 715,
+          "line": 761,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "session->send(cdc_message.dump());",
@@ -35188,7 +35411,7 @@
         },
         {
           "file": "src\\server\\websocket_session.cpp",
-          "line": 734,
+          "line": 780,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "cdc_poll_timer_->async_wait([this](beast::error_code ec) {",
@@ -35197,7 +35420,7 @@
         },
         {
           "file": "src\\server\\websocket_session.cpp",
-          "line": 774,
+          "line": 820,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "session->send(message);",
@@ -35209,17 +35432,6 @@
         {
           "file": "src\\server\\rpc\\blob_transfer_handler.cpp",
           "line": 382,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        }
-      ],
-      "src\\server\\rpc\\rpc_service_impl.cpp": [
-        {
-          "file": "src\\server\\rpc\\rpc_service_impl.cpp",
-          "line": 1623,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -35313,7 +35525,7 @@
         },
         {
           "file": "src\\sharding\\cross_shard_transaction.cpp",
-          "line": 330,
+          "line": 414,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id) {",
@@ -35322,7 +35534,7 @@
         },
         {
           "file": "src\\sharding\\cross_shard_transaction.cpp",
-          "line": 372,
+          "line": 456,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -35331,25 +35543,7 @@
         },
         {
           "file": "src\\sharding\\cross_shard_transaction.cpp",
-          "line": 373,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "lock.lock();",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\sharding\\cross_shard_transaction.cpp",
-          "line": 383,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "lock.lock();",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\sharding\\cross_shard_transaction.cpp",
-          "line": 406,
+          "line": 457,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "lock.lock();",
@@ -35367,7 +35561,7 @@
         },
         {
           "file": "src\\sharding\\cross_shard_transaction.cpp",
-          "line": 545,
+          "line": 490,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "lock.lock();",
@@ -35376,7 +35570,7 @@
         },
         {
           "file": "src\\sharding\\cross_shard_transaction.cpp",
-          "line": 637,
+          "line": 551,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "lock.lock();",
@@ -35385,7 +35579,7 @@
         },
         {
           "file": "src\\sharding\\cross_shard_transaction.cpp",
-          "line": 774,
+          "line": 629,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "lock.lock();",
@@ -35394,7 +35588,25 @@
         },
         {
           "file": "src\\sharding\\cross_shard_transaction.cpp",
-          "line": 876,
+          "line": 721,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\sharding\\cross_shard_transaction.cpp",
+          "line": 858,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "lock.lock();",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\sharding\\cross_shard_transaction.cpp",
+          "line": 960,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (!prepare(txn.transaction_id)) {",
@@ -35403,7 +35615,7 @@
         },
         {
           "file": "src\\sharding\\cross_shard_transaction.cpp",
-          "line": 1016,
+          "line": 1155,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -35412,7 +35624,7 @@
         },
         {
           "file": "src\\sharding\\cross_shard_transaction.cpp",
-          "line": 1135,
+          "line": 1269,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "auto result = perc_coord.execute(",
@@ -35421,7 +35633,7 @@
         },
         {
           "file": "src\\sharding\\cross_shard_transaction.cpp",
-          "line": 1484,
+          "line": 1618,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "bool success = rpc_client.commit(transaction_id, commit_timestamp);",
@@ -35430,7 +35642,7 @@
         },
         {
           "file": "src\\sharding\\cross_shard_transaction.cpp",
-          "line": 2546,
+          "line": 2501,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "::sharding::ParticipantStatus status;",
@@ -38095,7 +38307,7 @@
         },
         {
           "file": "src\\storage\\pitr_manager.cpp",
-          "line": 288,
+          "line": 305,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "event.sequence, status.message);",
@@ -39796,7 +40008,7 @@
         },
         {
           "file": "src\\themis\\wire_protocol_server.cpp",
-          "line": 610,
+          "line": 644,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "handle_geo_query(req);",
@@ -39805,7 +40017,7 @@
         },
         {
           "file": "src\\themis\\wire_protocol_server.cpp",
-          "line": 618,
+          "line": 652,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "handle_timeseries_query(req);",
@@ -39814,7 +40026,7 @@
         },
         {
           "file": "src\\themis\\wire_protocol_server.cpp",
-          "line": 1090,
+          "line": 1128,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "void WireProtocolSession::handle_geo_query(",
@@ -39823,7 +40035,7 @@
         },
         {
           "file": "src\\themis\\wire_protocol_server.cpp",
-          "line": 1129,
+          "line": 1169,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "void WireProtocolSession::handle_timeseries_query(",
@@ -39832,7 +40044,7 @@
         },
         {
           "file": "src\\themis\\wire_protocol_server.cpp",
-          "line": 1612,
+          "line": 1642,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "void WireProtocolServer::async_accept() {",
@@ -39841,7 +40053,7 @@
         },
         {
           "file": "src\\themis\\wire_protocol_server.cpp",
-          "line": 1613,
+          "line": 1643,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "acceptor_.async_accept(",
@@ -39850,7 +40062,7 @@
         },
         {
           "file": "src\\themis\\wire_protocol_server.cpp",
-          "line": 1627,
+          "line": 1652,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "handle_accept(session, ec);",
@@ -39859,7 +40071,7 @@
         },
         {
           "file": "src\\themis\\wire_protocol_server.cpp",
-          "line": 1631,
+          "line": 1656,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "void WireProtocolServer::handle_accept(",
@@ -39868,7 +40080,7 @@
         },
         {
           "file": "src\\themis\\wire_protocol_server.cpp",
-          "line": 1661,
+          "line": 1686,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (should_continue) async_accept();",
@@ -39879,7 +40091,7 @@
       "include\\themis\\network\\wire_protocol_server.hpp": [
         {
           "file": "include\\themis\\network\\wire_protocol_server.hpp",
-          "line": 472,
+          "line": 492,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "void handle_geo_query(const v1::GeoQueryRequest& req);",
@@ -39888,7 +40100,7 @@
         },
         {
           "file": "include\\themis\\network\\wire_protocol_server.hpp",
-          "line": 473,
+          "line": 493,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "void handle_timeseries_query(const v1::TimeSeriesQueryRequest& req);",
@@ -39897,7 +40109,7 @@
         },
         {
           "file": "include\\themis\\network\\wire_protocol_server.hpp",
-          "line": 580,
+          "line": 600,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "void async_accept();",
@@ -39906,7 +40118,7 @@
         },
         {
           "file": "include\\themis\\network\\wire_protocol_server.hpp",
-          "line": 581,
+          "line": 601,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "void handle_accept(std::shared_ptr<WireProtocolSession> session, const boost::system::error_code& er",

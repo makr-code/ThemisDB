@@ -5,6 +5,10 @@
 **Scope:** All 18 scanners (Phase 1-4 + Phase 1-4 Enhanced + Phase 5 + Phase 6)  
 **Target Completion:** Q4 2026
 
+> Historical snapshot note (2026-05-27): canonical active issue set is
+> master #5172, categories #5184-#5194, modules #5195-#5201 plus
+> #5180/#5181/#5182.
+
 ---
 
 ## Executive Summary
@@ -26,15 +30,15 @@ PHASE 1-6 TOTAL            — 18 scanners, ~165,000–185,000 gaps
 
 | Component | Status | Details | Issues |
 |-----------|--------|---------|--------|
-| Security Scanner | ✅ DONE | 1,514 gaps, CWE-200/327/532/676/798 | [#5208](https://github.com/makr-code/ThemisDB/issues/5208) |
+| Security Scanner | ✅ DONE | 1,514 gaps, CWE-200/327/532/676/798 | [#5184](https://github.com/makr-code/ThemisDB/issues/5184) |
 | Memory Scanner | ✅ DONE | 2,227 gaps, CWE-120/125/126/190/416 | [#5209](https://github.com/makr-code/ThemisDB/issues/5209) |
-| Reliability Scanner | ✅ DONE | 14,519 gaps, timeout/retry/exception | [#5210](https://github.com/makr-code/ThemisDB/issues/5210) |
-| Concurrency Scanner | ✅ DONE | 1,834 gaps, CWE-362, deadlocks | [#5211](https://github.com/makr-code/ThemisDB/issues/5211) |
-| RAII Scanner | ✅ DONE | 1,855 gaps, resource management | [#5212](https://github.com/makr-code/ThemisDB/issues/5212) |
+| Reliability Scanner | ✅ DONE | 14,519 gaps, timeout/retry/exception | [#5185](https://github.com/makr-code/ThemisDB/issues/5185) |
+| Concurrency Scanner | ✅ DONE | 1,834 gaps, CWE-362, deadlocks | [#5186](https://github.com/makr-code/ThemisDB/issues/5186) |
+| RAII Scanner | ✅ DONE | 1,855 gaps, resource management | [#5187](https://github.com/makr-code/ThemisDB/issues/5187) |
 | Container Scanner | ✅ DONE | 7,629 gaps, O(n²) patterns, iterators | [#5213](https://github.com/makr-code/ThemisDB/issues/5213) |
-| Platform Scanner | ✅ DONE | 1,146 gaps, Windows/Linux/POSIX | [#5214](https://github.com/makr-code/ThemisDB/issues/5214) |
-| Performance Scanner | ✅ DONE | 1,017 gaps, allocations, string ops | [#5215](https://github.com/makr-code/ThemisDB/issues/5215) |
-| **Phase 1-4 Total** | **✅ DONE** | **31,720 gaps** | **[#5207](https://github.com/makr-code/ThemisDB/issues/5207)** |
+| Platform Scanner | ✅ DONE | 1,146 gaps, Windows/Linux/POSIX | [#5188](https://github.com/makr-code/ThemisDB/issues/5188) |
+| Performance Scanner | ✅ DONE | 1,017 gaps, allocations, string ops | [#5189](https://github.com/makr-code/ThemisDB/issues/5189) |
+| **Phase 1-4 Total** | **✅ DONE** | **31,720 gaps** | **[#5172](https://github.com/makr-code/ThemisDB/issues/5172)** |
 
 **Effort Delivered:** 2,800 LOC across 8 scanners  
 **Gap Quality:** Validated, CRITICAL/HIGH breakdown: 27%/27%  
@@ -204,16 +208,16 @@ PHASE 1-6 TOTAL            — 18 scanners, ~165,000–185,000 gaps
 
 | Module | Gaps | Milestone | Owner | Priority |
 |--------|------|-----------|-------|----------|
-| llm | 19,838 | v1.5.0 | [#5221](https://github.com/makr-code/ThemisDB/issues/5221) | 🔴 P0 |
-| server | 16,186 | v1.5.0 | [#5222](https://github.com/makr-code/ThemisDB/issues/5222) | 🔴 P0 |
-| sharding | 9,296 | v1.5.0 | [#5223](https://github.com/makr-code/ThemisDB/issues/5223) | 🔴 P0 |
-| index | 7,633 | v1.5.0 | [#5224](https://github.com/makr-code/ThemisDB/issues/5224) | 🔴 P0 |
-| query | 7,327 | v1.5.0 | [#5225](https://github.com/makr-code/ThemisDB/issues/5225) | 🔴 P0 |
-| storage | 6,678 | v1.5.0 | [#5226](https://github.com/makr-code/ThemisDB/issues/5226) | 🔴 P0 |
-| analytics | 5,911 | v1.5.0 | [#5227](https://github.com/makr-code/ThemisDB/issues/5227) | 🔴 P0 |
-| rag | 4,982 | v1.5.0 | [#5228](https://github.com/makr-code/ThemisDB/issues/5228) | 🔴 P0 |
-| security | 4,343 | v1.5.0 | [#5229](https://github.com/makr-code/ThemisDB/issues/5229) | 🔴 P0 |
-| content | 4,077 | v1.5.0 | [#5230](https://github.com/makr-code/ThemisDB/issues/5230) | 🔴 P0 |
+| llm | 19,838 | v1.5.0 | [#5195](https://github.com/makr-code/ThemisDB/issues/5195) | 🔴 P0 |
+| server | 16,186 | v1.5.0 | [#5196](https://github.com/makr-code/ThemisDB/issues/5196) | 🔴 P0 |
+| sharding | 9,296 | v1.5.0 | [#5197](https://github.com/makr-code/ThemisDB/issues/5197) | 🔴 P0 |
+| index | 7,633 | v1.5.0 | [#5198](https://github.com/makr-code/ThemisDB/issues/5198) | 🔴 P0 |
+| query | 7,327 | v1.5.0 | [#5199](https://github.com/makr-code/ThemisDB/issues/5199) | 🔴 P0 |
+| storage | 6,678 | v1.5.0 | [#5200](https://github.com/makr-code/ThemisDB/issues/5200) | 🔴 P0 |
+| analytics | 5,911 | v1.5.0 | [#5201](https://github.com/makr-code/ThemisDB/issues/5201) | 🔴 P0 |
+| rag | 4,982 | v1.5.0 | [#5180](https://github.com/makr-code/ThemisDB/issues/5180) | 🔴 P0 |
+| security | 4,343 | v1.5.0 | [#5181](https://github.com/makr-code/ThemisDB/issues/5181) | 🔴 P0 |
+| content | 4,077 | v1.5.0 | [#5182](https://github.com/makr-code/ThemisDB/issues/5182) | 🔴 P0 |
 
 **Strategy:** 
 1. Triage top 10 by severity (CRITICAL gaps first)

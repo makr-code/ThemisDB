@@ -43,34 +43,40 @@ inline std::vector<uint8_t> toBytes(std::string_view sv) {
 } // namespace
 // static
 std::string SecondaryIndexManager::makeFulltextTFKey(std::string_view table, std::string_view column, std::string_view token, std::string_view pk) {
-	std::string key = "fttf:";
-	key += std::string(table);
+	std::string key;
+	key.reserve(5 + table.size() + 1 + column.size() + 1 + token.size() + 1 + pk.size());
+	key += "fttf:";
+	key.append(table.data(), table.size());
 	key += ":";
-	key += std::string(column);
+	key.append(column.data(), column.size());
 	key += ":";
-	key += std::string(token);
+	key.append(token.data(), token.size());
 	key += ":";
-	key += std::string(pk);
+	key.append(pk.data(), pk.size());
 	return key;
 }
 
 // static
 std::string SecondaryIndexManager::makeFulltextDocLenKey(std::string_view table, std::string_view column, std::string_view pk) {
-	std::string key = "ftdlen:";
-	key += std::string(table);
+	std::string key;
+	key.reserve(7 + table.size() + 1 + column.size() + 1 + pk.size());
+	key += "ftdlen:";
+	key.append(table.data(), table.size());
 	key += ":";
-	key += std::string(column);
+	key.append(column.data(), column.size());
 	key += ":";
-	key += std::string(pk);
+	key.append(pk.data(), pk.size());
 	return key;
 }
 
 // static
 std::string SecondaryIndexManager::makeFulltextDocLenPrefix(std::string_view table, std::string_view column) {
-	std::string key = "ftdlen:";
-	key += std::string(table);
+	std::string key;
+	key.reserve(7 + table.size() + 1 + column.size() + 1);
+	key += "ftdlen:";
+	key.append(table.data(), table.size());
 	key += ":";
-	key += std::string(column);
+	key.append(column.data(), column.size());
 	key += ":";
 	return key;
 }
@@ -118,12 +124,29 @@ index::SpatialIndexManager* SecondaryIndexManager::getSpatialIndexManager() cons
 
 // static
 std::string SecondaryIndexManager::makeIndexMetaKey(std::string_view table, std::string_view column) {
-	return std::string("idxmeta:") + std::string(table) + ":" + std::string(column);
+	std::string key;
+	key.reserve(8 + table.size() + 1 + column.size());
+	key += "idxmeta:";
+	key.append(table.data(), table.size());
+	key += ":";
+	key.append(column.data(), column.size());
+	return key;
 }
 
 // static
 std::string SecondaryIndexManager::makeCompositeIndexMetaKey(std::string_view table, const std::vector<std::string>& columns) {
-	std::string key = std::string("idxmeta:") + std::string(table) + ":";
+	size_t total = 8 + table.size() + 1;
+	for (size_t i = 0; i < columns.size(); ++i) {
+		total += columns[i].size();
+		if (i > 0) {
+			total += 1;
+		}
+	}
+	std::string key;
+	key.reserve(total);
+	key += "idxmeta:";
+	key.append(table.data(), table.size());
+	key += ":";
 	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) key += "+";
 		key += columns[i];
@@ -139,31 +162,65 @@ std::string SecondaryIndexManager::makeIndexKey(std::string_view table, std::str
 // static
 std::string SecondaryIndexManager::makeCompositeIndexKey(std::string_view table, const std::vector<std::string>& columns, const std::vector<std::string>& values, std::string_view pk) {
 	// Format: idx:table:col1+col2:val1:val2:PK
-	std::string key = "idx:" + std::string(table) + ":";
+	std::vector<std::string> encoded_values;
+	encoded_values.reserve(values.size());
+	size_t total = 4 + table.size() + 1 + pk.size();
+	for (size_t i = 0; i < columns.size(); ++i) {
+		total += columns[i].size();
+		if (i > 0) {
+			total += 1;
+		}
+	}
+	for (const auto& value : values) {
+		encoded_values.emplace_back(encodeKeyComponent(value));
+		total += encoded_values.back().size() + 1;
+	}
+	std::string key;
+	key.reserve(total);
+	key += "idx:";
+	key.append(table.data(), table.size());
+	key += ":";
 	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) key += "+";
 		key += columns[i];
 	}
 	key += ":";
-	for (size_t i = 0; i < values.size(); ++i) {
-		key += encodeKeyComponent(values[i]);
+	for (const auto& encoded : encoded_values) {
+		key += encoded;
 		key += ":";
 	}
-	key += std::string(pk);
+	key.append(pk.data(), pk.size());
 	return key;
 }
 
 // static
 std::string SecondaryIndexManager::makeCompositeIndexPrefix(std::string_view table, const std::vector<std::string>& columns, const std::vector<std::string>& values) {
 	// Gleich wie makeCompositeIndexKey aber ohne PK am Ende
-	std::string key = "idx:" + std::string(table) + ":";
+	std::vector<std::string> encoded_values;
+	encoded_values.reserve(values.size());
+	size_t total = 4 + table.size() + 1;
+	for (size_t i = 0; i < columns.size(); ++i) {
+		total += columns[i].size();
+		if (i > 0) {
+			total += 1;
+		}
+	}
+	for (const auto& value : values) {
+		encoded_values.emplace_back(encodeKeyComponent(value));
+		total += encoded_values.back().size() + 1;
+	}
+	std::string key;
+	key.reserve(total);
+	key += "idx:";
+	key.append(table.data(), table.size());
+	key += ":";
 	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) key += "+";
 		key += columns[i];
 	}
 	key += ":";
-	for (size_t i = 0; i < values.size(); ++i) {
-		key += encodeKeyComponent(values[i]);
+	for (const auto& encoded : encoded_values) {
+		key += encoded;
 		key += ":";
 	}
 	return key;
@@ -2435,10 +2492,12 @@ SecondaryIndexManager::computeBM25Scores_(
 	auto config = getFulltextConfig(table, column).value_or(FulltextConfig{});
 	auto parsePhrases = [](std::string_view q) {
 		std::vector<std::string> phrases;
+		phrases.reserve(std::max<size_t>(1, q.size() / 16));
 		std::string cleaned;
 		cleaned.reserve(q.size());
 		bool in_quotes = false;
 		std::string current;
+		current.reserve(std::min<size_t>(q.size(), 64));
 		for (size_t i = 0; i < q.size(); ++i) {
 			char c = q[i];
 			if (c == '"') {
@@ -2456,14 +2515,18 @@ SecondaryIndexManager::computeBM25Scores_(
 	};
 	auto [phrases, cleanedQuery] = parsePhrases(query);
 	auto tokens = tokenize(cleanedQuery, config);
+	std::vector<std::unordered_set<std::string>> tokenResults;
+	tokenResults.reserve(tokens.size());
 	if (tokens.empty() && !phrases.empty()) {
 		// Fallback: use tokens from phrases to generate candidates
 		std::string concat;
+		concat.reserve(cleanedQuery.size() + query.size());
 		for (size_t i = 0; i < phrases.size(); ++i) {
 			if (i) concat.push_back(' ');
 			concat += phrases[i];
 		}
 		tokens = tokenize(concat, config);
+		tokenResults.reserve(tokens.size());
 	}
 	
 	if (tokens.empty()) {
@@ -2471,7 +2534,6 @@ SecondaryIndexManager::computeBM25Scores_(
 	}
 	
 	// For each token, get PKs from inverted index (doc frequency sets)
-	std::vector<std::unordered_set<std::string>> tokenResults;
 	for (const auto& token : tokens) {
 		std::string prefix = makeFulltextIndexPrefix(table, column, token);
 		std::unordered_set<std::string> pks;
@@ -2496,6 +2558,7 @@ SecondaryIndexManager::computeBM25Scores_(
 	std::unordered_set<std::string> intersectionSet = tokenResults[0];
 	for (size_t i = 1; i < tokenResults.size(); ++i) {
 		std::unordered_set<std::string> intersection;
+		intersection.reserve(std::min(intersectionSet.size(), tokenResults[i].size()));
 		for (const auto& pk : intersectionSet) {
 			if (tokenResults[i].count(pk)) {
 				intersection.insert(pk);
@@ -2507,6 +2570,7 @@ SecondaryIndexManager::computeBM25Scores_(
 	// Optional phrase verification on original field text (no positions stored)
 	if (!phrases.empty()) {
 		std::vector<std::string> toErase;
+		toErase.reserve(intersectionSet.size());
 		for (const auto& pk : intersectionSet) {
 			auto pkey = KeySchema::makeRelationalKey(table, pk);
 			auto blob = db_.get(pkey);
@@ -2544,6 +2608,11 @@ SecondaryIndexManager::computeBM25Scores_(
 	// - N ~ Anzahl Dokumente im Kandidaten-Universum (Vereinigung aller Token-Sets)
 	// - avgdl ~ durchschnittliche DocLength über die Kandidaten (Vereinigung)
 	std::unordered_set<std::string> universe;
+	size_t universe_hint = 0;
+	for (const auto& s : tokenResults) {
+		universe_hint += s.size();
+	}
+	universe.reserve(universe_hint);
 	for (const auto& s : tokenResults) {
 		for (const auto& pk : s) universe.insert(pk);
 	}
@@ -2551,6 +2620,7 @@ SecondaryIndexManager::computeBM25Scores_(
 
 	// DocLength laden für Kandidaten (für avgdl)
 	std::unordered_map<std::string, double> docLen;
+	docLen.reserve(universe.size());
 	double totalLen = 0.0;
 	for (const auto& pk : universe) {
 		const std::string dkey = makeFulltextDocLenKey(table, column, pk);
@@ -2576,6 +2646,7 @@ SecondaryIndexManager::computeBM25Scores_(
 
 	// Score für jede PK in der Schnittmenge berechnen
 	std::vector<FulltextResult> scored;
+	scored.reserve(intersectionSet.size());
 	for (const auto& pk : intersectionSet) {
 		double dl = docLen.count(pk) ? docLen[pk] : 0.0;
 		double s = 0.0;
@@ -2880,7 +2951,9 @@ bool SecondaryIndexManager::isNullOrEmpty_(const std::optional<std::string>& val
 // Tokenizer: Whitespace-based, converts to lowercase
 std::vector<std::string> SecondaryIndexManager::tokenize(std::string_view text) {
 	std::vector<std::string> tokens;
+	tokens.reserve(std::max<size_t>(1, text.size() / 5));
 	std::string current;
+	current.reserve(std::min<size_t>(text.size(), 32));
 	
 	for (char c : text) {
 		if (std::isspace(static_cast<unsigned char>(c)) || std::ispunct(static_cast<unsigned char>(c))) {
@@ -2980,6 +3053,7 @@ std::vector<SecondaryIndexManager::IndexStats> SecondaryIndexManager::getAllInde
 	scanMetaPrefix("pidxmeta:");
 	
 	// Get stats for each unique column
+	allStats.reserve(processedColumns.size());
 	for (const auto& column : processedColumns) {
 		allStats.push_back(getIndexStats(table, column));
 	}

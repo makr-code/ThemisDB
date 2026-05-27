@@ -43,7 +43,7 @@ sharding:
   # Cross-shard transaction configuration
   transactions:
     protocol: two_phase_commit  # or three_phase_commit, saga, percolator
-    isolation_level: snapshot_isolation
+    isolation_level: serializable
     prepare_timeout_ms: 5000
     commit_timeout_ms: 5000
     abort_timeout_ms: 5000
@@ -65,6 +65,9 @@ sharding:
     max_concurrent_shards: 10
     enable_query_pushdown: true
 ```
+
+For strict cross-shard invariants, keep `serializable` as the default.
+Use `snapshot_isolation` only for workloads where write-skew and phantom-read anomalies are acceptable.
 
 ### Node 2 & Node 3 Configuration
 

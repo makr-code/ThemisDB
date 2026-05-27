@@ -1,0 +1,250 @@
+#include <gtest/gtest.h>
+
+#include <boost/asio/io_context.hpp>
+
+#include <chrono>
+#include <filesystem>
+#include <memory>
+#include <string>
+
+#include "cdc/changefeed.h"
+#include "server/sse_connection_manager.h"
+#include "storage/rocksdb_wrapper.h"
+
+namespace {
+
+class SseConnectionManagerTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        db_path_ = (std::filesystem::temp_directory_path() /
+                    ("test_sse_connection_manager_" +
+                     std::to_string(std::chrono::steady_clock::now().time_since_epoch().count())))
+                       .string();
+        std::filesystem::create_directories(db_path_);
+
+        themis::RocksDBWrapper::Config cfg;
+        cfg.db_path = db_path_;
+        cfg.memtable_size_mb = 16;
+        cfg.block_cache_size_mb = 16;
+        storage_ = std::make_shared<themis::RocksDBWrapper>(cfg);
+        ASSERT_TRUE(storage_->open());
+
+        themis::Changefeed::RetentionPolicy rp;
+        rp.enabled = false;
+        changefeed_ = std::make_shared<themis::Changefeed>(storage_->getRawDB(), nullptr, rp);
+    }
+
+    void TearDown() override {
+        changefeed_.reset();
+        storage_->close();
+        std::filesystem::remove_all(db_path_);
+    }
+
+    std::string db_path_;
+    std::shared_ptr<themis::RocksDBWrapper> storage_;
+    std::shared_ptr<themis::Changefeed> changefeed_;
+    boost::asio::io_context ioc_;
+};
+
+TEST_F(SseConnectionManagerTest, UnregisterConnectionRemovesByIdAndIncrementsDisconnectCount) {
+    themis::server::SseConnectionManager manager(changefeed_, ioc_);
+    const auto conn_id = manager.registerConnection(/*from_seq=*/0);
+
+    auto before = manager.getStats();
+    EXPECT_EQ(before.active_connections, 1u);
+    EXPECT_EQ(before.total_disconnects, 0u);
+
+    manager.unregisterConnection(conn_id);
+    auto after_first = manager.getStats();
+    EXPECT_EQ(after_first.active_connections, 0u);
+    EXPECT_EQ(after_first.total_disconnects, 1u);
+
+    manager.unregisterConnection(conn_id);
+    auto after_second = manager.getStats();
+    EXPECT_EQ(after_second.active_connections, 0u);
+    EXPECT_EQ(after_second.total_disconnects, 1u);
+}
+
+TEST_F(SseConnectionManagerTest, UnregisterUnknownConnectionDoesNotChangeStats) {
+    themis::server::SseConnectionManager manager(changefeed_, ioc_);
+
+    const auto before = manager.getStats();
+    manager.unregisterConnection(/*conn_id=*/424242);
+    const auto after = manager.getStats();
+
+    EXPECT_EQ(after.active_connections, before.active_connections);
+    EXPECT_EQ(after.total_disconnects, before.total_disconnects);
+}
+
+TEST_F(SseConnectionManagerTest, NullChangefeedDoesNotCrashPollingPaths) {
+    themis::server::SseConnectionManager manager(/*changefeed=*/nullptr, ioc_);
+    const auto conn_id = manager.registerConnection(/*from_seq=*/0);
+
+    auto lines = manager.pollEvents(conn_id, 10);
+    auto raw = manager.pollRawEvents(conn_id, 10);
+
+    EXPECT_TRUE(lines.empty());
+    EXPECT_TRUE(raw.empty());
+    EXPECT_EQ(manager.getStats().active_connections, 1u);
+}
+
+TEST_F(SseConnectionManagerTest, ShutdownClearsAllConnectionsAndIsIdempotent) {
+    themis::server::SseConnectionManager manager(changefeed_, ioc_);
+    const auto conn_a = manager.registerConnection(/*from_seq=*/0);
+    const auto conn_b = manager.registerConnection(/*from_seq=*/10);
+
+    auto before_shutdown = manager.getStats();
+    EXPECT_EQ(before_shutdown.active_connections, 2u);
+
+    manager.shutdown();
+    auto after_first_shutdown = manager.getStats();
+    EXPECT_EQ(after_first_shutdown.active_connections, 0u);
+
+    manager.shutdown();
+    auto after_second_shutdown = manager.getStats();
+    EXPECT_EQ(after_second_shutdown.active_connections, 0u);
+
+    manager.unregisterConnection(conn_a);
+    manager.unregisterConnection(conn_b);
+    auto after_unregister = manager.getStats();
+    EXPECT_EQ(after_unregister.active_connections, 0u);
+    EXPECT_EQ(after_unregister.total_disconnects, after_second_shutdown.total_disconnects);
+}
+
+TEST_F(SseConnectionManagerTest, PollRawEventsAppliesKeyPrefixFilter) {
+    themis::Changefeed::ChangeEvent ev1;
+    ev1.type = themis::Changefeed::ChangeEventType::EVENT_PUT;
+    ev1.key = "alpha:1";
+    ev1.value = R"({"v":1})";
+    changefeed_->recordEvent(ev1);
+
+    themis::Changefeed::ChangeEvent ev2;
+    ev2.type = themis::Changefeed::ChangeEventType::EVENT_PUT;
+    ev2.key = "beta:1";
+    ev2.value = R"({"v":2})";
+    changefeed_->recordEvent(ev2);
+
+    themis::server::SseConnectionManager manager(changefeed_, ioc_);
+    const auto conn_id = manager.registerConnection(/*from_seq=*/0, /*key_prefix=*/"alpha");
+
+    auto raw_events = manager.pollRawEvents(conn_id, 10);
+    ASSERT_FALSE(raw_events.empty());
+    for (const auto& e : raw_events) {
+        EXPECT_EQ(e.key.rfind("alpha", 0), 0u);
+    }
+}
+
+TEST_F(SseConnectionManagerTest, PollRawEventsAppliesEventTypeFilter) {
+    themis::Changefeed::ChangeEvent put_event;
+    put_event.type = themis::Changefeed::ChangeEventType::EVENT_PUT;
+    put_event.key = "orders:1";
+    put_event.value = R"({"status":"new"})";
+    changefeed_->recordEvent(put_event);
+
+    themis::Changefeed::ChangeEvent del_event;
+    del_event.type = themis::Changefeed::ChangeEventType::EVENT_DELETE;
+    del_event.key = "orders:1";
+    changefeed_->recordEvent(del_event);
+
+    std::set<themis::Changefeed::ChangeEventType> only_delete{
+        themis::Changefeed::ChangeEventType::EVENT_DELETE
+    };
+    themis::server::SseConnectionManager manager(changefeed_, ioc_);
+    const auto conn_id = manager.registerConnection(
+        /*from_seq=*/0,
+        /*key_prefix=*/"",
+        only_delete);
+
+    auto raw_events = manager.pollRawEvents(conn_id, 10);
+    ASSERT_FALSE(raw_events.empty());
+    for (const auto& e : raw_events) {
+        EXPECT_EQ(e.type, themis::Changefeed::ChangeEventType::EVENT_DELETE);
+    }
+}
+
+TEST_F(SseConnectionManagerTest, DropOldestOverflowKeepsNewestRawEvents) {
+    themis::server::SseConnectionManager::ConnectionConfig cfg;
+    cfg.max_buffered_events = 2;
+    cfg.drop_oldest_on_overflow = true;
+    cfg.event_poll_interval_ms = 1000;
+
+    for (int i = 1; i <= 4; ++i) {
+        themis::Changefeed::ChangeEvent ev;
+        ev.type = themis::Changefeed::ChangeEventType::EVENT_PUT;
+        ev.key = "k" + std::to_string(i);
+        ev.value = R"({"v":1})";
+        changefeed_->recordEvent(ev);
+    }
+
+    themis::server::SseConnectionManager manager(changefeed_, ioc_, cfg);
+    const auto conn_id = manager.registerConnection(/*from_seq=*/0);
+
+    auto raw_events = manager.pollRawEvents(conn_id, 10);
+    ASSERT_EQ(raw_events.size(), 2u);
+    EXPECT_EQ(raw_events[0].key, "k3");
+    EXPECT_EQ(raw_events[1].key, "k4");
+
+    auto stats = manager.getStats();
+    EXPECT_EQ(stats.total_dropped_events, 2u);
+}
+
+TEST_F(SseConnectionManagerTest, PollEventsReturnsSseFormattedLines) {
+    // Record two events so backgroundPollTask() will buffer them.
+    for (int i = 1; i <= 2; ++i) {
+        themis::Changefeed::ChangeEvent ev;
+        ev.type = themis::Changefeed::ChangeEventType::EVENT_PUT;
+        ev.key  = "item:" + std::to_string(i);
+        ev.value = R"({"n":)" + std::to_string(i) + "}";
+        changefeed_->recordEvent(ev);
+    }
+
+    themis::server::SseConnectionManager manager(changefeed_, ioc_);
+    const auto conn_id = manager.registerConnection(/*from_seq=*/0);
+
+    auto lines = manager.pollEvents(conn_id, 10);
+    ASSERT_EQ(lines.size(), 2u);
+
+    // Each formatted SSE line must contain "id:" and "data:".
+    for (const auto& line : lines) {
+        EXPECT_NE(line.find("id:"), std::string::npos)
+            << "SSE line must contain 'id:' field: " << line;
+        EXPECT_NE(line.find("data:"), std::string::npos)
+            << "SSE line must contain 'data:' field: " << line;
+    }
+}
+
+TEST_F(SseConnectionManagerTest, PollEventsEmptyWhenNoEvents) {
+    themis::server::SseConnectionManager manager(changefeed_, ioc_);
+    const auto conn_id = manager.registerConnection(/*from_seq=*/0);
+
+    auto lines = manager.pollEvents(conn_id, 10);
+    EXPECT_TRUE(lines.empty());
+}
+
+TEST_F(SseConnectionManagerTest, PollEventsKeepsRawBufferInSync) {
+    // When pollEvents() drains formatted lines it must also drain the same count
+    // from raw_buffered_events so that a subsequent pollRawEvents() call does not
+    // re-deliver already-consumed events.
+    for (int i = 1; i <= 3; ++i) {
+        themis::Changefeed::ChangeEvent ev;
+        ev.type  = themis::Changefeed::ChangeEventType::EVENT_PUT;
+        ev.key   = "k" + std::to_string(i);
+        ev.value = "{}";
+        changefeed_->recordEvent(ev);
+    }
+
+    themis::server::SseConnectionManager manager(changefeed_, ioc_);
+    const auto conn_id = manager.registerConnection(/*from_seq=*/0);
+
+    // Drain all formatted lines via pollEvents().
+    auto lines = manager.pollEvents(conn_id, 10);
+    ASSERT_EQ(lines.size(), 3u);
+
+    // raw_buffered_events must now also be empty.
+    auto raw = manager.pollRawEvents(conn_id, 10);
+    EXPECT_TRUE(raw.empty())
+        << "pollEvents() must drain raw_buffered_events in sync; "
+        << raw.size() << " raw event(s) unexpectedly remain";
+}
+
+} // namespace

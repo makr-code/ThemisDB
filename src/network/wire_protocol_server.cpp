@@ -1537,7 +1537,7 @@ void WireProtocolServer::Session::handleBatchPut() {
 
 void WireProtocolServer::Session::handleTransactionBegin() {
     // TRANSACTION_BEGIN: begin a new transaction.
-    // Expected payload (JSON): {"isolation_level": "read_committed|snapshot", "timeout_ms": 5000}
+    // Expected payload (JSON): {"isolation_level": "read_committed|snapshot|serializable", "timeout_ms": 5000}
     if (!authenticated_.load()) {
         sendError(401, "Authentication required");
         return;
@@ -1554,6 +1554,8 @@ void WireProtocolServer::Session::handleTransactionBegin() {
         IsolationLevel isolation = IsolationLevel::ReadCommitted;
         if (isolation_str == "snapshot" || isolation_str == "repeatable_read") {
             isolation = IsolationLevel::Snapshot;
+        } else if (isolation_str == "serializable") {
+            isolation = IsolationLevel::SERIALIZABLE;
         }
 
         auto tx_id = server_->tx_manager_->beginTransaction(isolation);

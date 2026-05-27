@@ -14714,7 +14714,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1727,
+          "line": 1729,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "v[\"data\"]      = tr.vertex_data;",
@@ -14723,7 +14723,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2264,
+          "line": 2266,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "bucket_data[bucket_start_ms].push_back(point.value);",
@@ -14732,7 +14732,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2268,
+          "line": 2270,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "for (const auto& [bucket_start_ms, values] : bucket_data) {",
@@ -14741,7 +14741,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2528,
+          "line": 2530,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response[\"active_task_ids\"] = json::array();",
@@ -14750,7 +14750,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2736,
+          "line": 2738,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "event[\"data\"] = json::object();",
@@ -14759,7 +14759,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2737,
+          "line": 2739,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "event[\"data\"][\"node_id\"] = node;",
@@ -14768,7 +14768,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2743,
+          "line": 2745,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response[\"history\"] = json::array();",
@@ -14966,7 +14966,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1592,
+          "line": 1594,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string tx_id_str = request.value(\"transaction_id\", \"\");",
@@ -14975,7 +14975,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1636,
+          "line": 1638,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string tx_id_str = request.value(\"transaction_id\", \"\");",
@@ -14984,7 +14984,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1676,
+          "line": 1678,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string collection = request.value(\"collection\", \"\");",
@@ -14993,7 +14993,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1677,
+          "line": 1679,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string start_vertex = request.value(\"start_vertex\", \"\");",
@@ -15002,7 +15002,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1703,
+          "line": 1705,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string direction_str = request.value(\"direction\", \"outbound\");",
@@ -15011,7 +15011,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1704,
+          "line": 1706,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "int depth_min = request.value(\"depth_min\", 1);",
@@ -15020,7 +15020,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1705,
+          "line": 1707,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "int depth_max = request.value(\"depth_max\", 3);",
@@ -15029,7 +15029,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1706,
+          "line": 1708,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "int limit     = request.value(\"limit\", 100);",
@@ -15038,7 +15038,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1707,
+          "line": 1709,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string edge_type = request.value(\"edge_type\", \"\");",
@@ -15047,7 +15047,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1760,
+          "line": 1762,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string query_str = request.value(\"query\", \"\");",
@@ -15056,7 +15056,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1854,
+          "line": 1856,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string cursor_id = request.value(\"cursor_id\", \"\");",
@@ -15065,7 +15065,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1861,
+          "line": 1863,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "const size_t batch_size = static_cast<size_t>(request.value(\"batch_size\", 100));",
@@ -15074,7 +15074,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1921,
+          "line": 1923,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string cursor_id = request.value(\"cursor_id\", \"\");",
@@ -15083,7 +15083,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1978,
+          "line": 1980,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "size_t k = request.value(\"k\", static_cast<size_t>(10));",
@@ -15092,7 +15092,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2031,
+          "line": 2033,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string collection = request.value(\"collection\", \"\");",
@@ -15101,7 +15101,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2052,
+          "line": 2054,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string query_type = request.value(\"type\", \"\");",
@@ -15110,7 +15110,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2072,
+          "line": 2074,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.value(\"limit\", static_cast<uint32_t>(100));",
@@ -15119,7 +15119,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2077,
+          "line": 2079,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (!request.contains(\"bbox\") || !request[\"bbox\"].is_object()) {",
@@ -15128,7 +15128,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2097,
+          "line": 2099,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (!request.contains(\"center\") || !request[\"center\"].is_object()) {",
@@ -15137,7 +15137,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2103,
+          "line": 2105,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (!request.contains(\"radius\")) {",
@@ -15146,7 +15146,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2192,
+          "line": 2194,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (request.collection.empty()) {",
@@ -15155,7 +15155,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2228,
+          "line": 2230,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "auto result = server_->ts_store_->query(query_opts);",
@@ -15164,7 +15164,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2234,
+          "line": 2236,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -15173,7 +15173,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2325,
+          "line": 2327,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -15182,7 +15182,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2369,
+          "line": 2371,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "auto result = server_->ts_store_->query(query_opts);",
@@ -15191,7 +15191,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2375,
+          "line": 2377,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -15200,7 +15200,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2464,
+          "line": 2466,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string process_key = request.value(\"process_definition_key\", \"\");",
@@ -15209,7 +15209,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2465,
+          "line": 2467,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "json variables = request.value(\"variables\", json::object());",
@@ -15218,7 +15218,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2466,
+          "line": 2468,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string business_key = request.value(\"business_key\", \"\");",
@@ -15227,7 +15227,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2655,
+          "line": 2657,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string instance_id = request.value(\"process_instance_id\", \"\");",
@@ -15236,7 +15236,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2656,
+          "line": 2658,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "bool include_variables = request.value(\"include_variables\", true);",
@@ -15245,7 +15245,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2657,
+          "line": 2659,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "bool include_history = request.value(\"include_history\", false);",
@@ -15290,7 +15290,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2319,
+          "line": 2321,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto agg_result = server_->ts_store_->aggregate(query_opts);",
@@ -15488,7 +15488,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1728,
+          "line": 1730,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "vertices.push_back(std::move(v));",
@@ -15497,7 +15497,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1796,
+          "line": 1798,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "first_batch.push_back(result_json[i]);",
@@ -15506,7 +15506,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1887,
+          "line": 1889,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "batch.push_back(entry.results[i]);",
@@ -15515,7 +15515,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1970,
+          "line": 1972,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "query_vector.push_back(v.get<float>());",
@@ -15524,7 +15524,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2001,
+          "line": 2003,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "hits.push_back(std::move(hit));",
@@ -15533,7 +15533,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2153,
+          "line": 2155,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results_arr.push_back(std::move(entry));",
@@ -15542,7 +15542,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2264,
+          "line": 2266,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "bucket_data[bucket_start_ms].push_back(point.value);",
@@ -15551,7 +15551,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2393,
+          "line": 2395,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "response.buckets.push_back(bucket);",
@@ -15560,7 +15560,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2523,
+          "line": 2525,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "active_tasks.push_back(instance_id + \":\" + token.current_node);",
@@ -15569,7 +15569,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2709,
+          "line": 2711,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "active_tasks.push_back(task);",
@@ -15578,7 +15578,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2738,
+          "line": 2740,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "history.push_back(event);",
@@ -15623,7 +15623,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2413,
+          "line": 2415,
           "type": "endianness_assumption",
           "severity": "MEDIUM",
           "snippet": "uint32_t magic = htonl(0x544D4442);  // \"TMDB\" in network byte order",
@@ -15632,7 +15632,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2422,
+          "line": 2424,
           "type": "endianness_assumption",
           "severity": "MEDIUM",
           "snippet": "uint32_t payload_size_net = htonl(payload_size);  // Convert to network byte order",
@@ -15994,7 +15994,7 @@
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1812,
+          "line_number": 1814,
           "line_content": "entry.ttl_ms  = now_ms + kCursorTtlMs;",
           "context": [
             "                entry.results = result_json;",
@@ -16012,7 +16012,7 @@
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2248,
+          "line_number": 2250,
           "line_content": "int64_t time_range_ms = end_ms - start_ms;",
           "context": [
             "",
@@ -16030,7 +16030,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2258,
+          "line_number": 2260,
           "line_content": "std::map<int64_t, std::vector<double>> bucket_data;",
           "context": [
             "",
@@ -16048,7 +16048,7 @@
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2262,
+          "line_number": 2264,
           "line_content": "int64_t bucket_index = (point.timestamp_ms - start_ms) / bucket_size_ms;",
           "context": [
             "                for (const auto& point : data_points) {",
@@ -16444,7 +16444,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1803,
+          "line_number": 1805,
           "line_content": "char buf[64];",
           "context": [
             "                auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(",
@@ -16462,7 +16462,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1815,
+          "line_number": 1817,
           "line_content": "server_->cursors_[cursor_id] = std::move(entry);",
           "context": [
             "",
@@ -16480,7 +16480,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1887,
+          "line_number": 1889,
           "line_content": "batch.push_back(entry.results[i]);",
           "context": [
             "                              static_cast<size_t>(entry.results.size()));",
@@ -16498,7 +16498,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2264,
+          "line_number": 2266,
           "line_content": "bucket_data[bucket_start_ms].push_back(point.value);",
           "context": [
             "                    int64_t bucket_index = (point.timestamp_ms - start_ms) / bucket_size_ms;",
@@ -16516,7 +16516,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2276,
+          "line_number": 2278,
           "line_content": "double min_val = values[0];",
           "context": [
             "",
@@ -16534,7 +16534,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2277,
+          "line_number": 2279,
           "line_content": "double max_val = values[0];",
           "context": [
             "                    // Calculate aggregation",
@@ -16552,7 +16552,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2415,
+          "line_number": 2417,
           "line_content": "std::memcpy(&wire_response[0], &magic, 4);",
           "context": [
             "        uint32_t magic = htonl(0x544D4442);  // \"TMDB\" in network byte order",
@@ -16570,7 +16570,7 @@
           "gap_type": "UNCHECKED_MEMCPY",
           "severity": "CRITICAL",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2415,
+          "line_number": 2417,
           "line_content": "std::memcpy(&wire_response[0], &magic, 4);",
           "context": [
             "        uint32_t magic = htonl(0x544D4442);  // \"TMDB\" in network byte order",
@@ -16588,7 +16588,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2416,
+          "line_number": 2418,
           "line_content": "wire_response[4] = 0x01;  // Version 1",
           "context": [
             "        wire_response.resize(12);",
@@ -16606,7 +16606,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2417,
+          "line_number": 2419,
           "line_content": "wire_response[5] = 0x21;  // OpCode: QUERY_RESULT",
           "context": [
             "        std::memcpy(&wire_response[0], &magic, 4);",
@@ -16624,7 +16624,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2418,
+          "line_number": 2420,
           "line_content": "wire_response[6] = 0x00;  // Flags (low byte)",
           "context": [
             "        wire_response[4] = 0x01;  // Version 1",
@@ -16642,7 +16642,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2419,
+          "line_number": 2421,
           "line_content": "wire_response[7] = 0x00;  // Flags (high byte)",
           "context": [
             "        wire_response[5] = 0x21;  // OpCode: QUERY_RESULT",
@@ -16660,7 +16660,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2423,
+          "line_number": 2425,
           "line_content": "std::memcpy(&wire_response[8], &payload_size_net, 4);",
           "context": [
             "        uint32_t payload_size = static_cast<uint32_t>(response_payload.size());",
@@ -16678,7 +16678,7 @@
           "gap_type": "UNCHECKED_MEMCPY",
           "severity": "CRITICAL",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2423,
+          "line_number": 2425,
           "line_content": "std::memcpy(&wire_response[8], &payload_size_net, 4);",
           "context": [
             "        uint32_t payload_size = static_cast<uint32_t>(response_payload.size());",
@@ -17443,7 +17443,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1559,
+          "line_number": 1561,
           "var_name": "server_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17452,7 +17452,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1585,
+          "line_number": 1587,
           "var_name": "request",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17461,7 +17461,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1594,
+          "line_number": 1596,
           "var_name": "request",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17470,7 +17470,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1600,
+          "line_number": 1602,
           "var_name": "server_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17479,7 +17479,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1629,
+          "line_number": 1631,
           "var_name": "request",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17488,7 +17488,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1638,
+          "line_number": 1640,
           "var_name": "request",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17497,7 +17497,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1644,
+          "line_number": 1646,
           "var_name": "server_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17506,7 +17506,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1669,
+          "line_number": 1671,
           "var_name": "request",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17515,7 +17515,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1679,
+          "line_number": 1681,
           "var_name": "request",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17524,7 +17524,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1683,
+          "line_number": 1685,
           "var_name": "request",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17533,7 +17533,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1688,
+          "line_number": 1690,
           "var_name": "rs",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17542,7 +17542,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1713,
+          "line_number": 1715,
           "var_name": "server_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17551,7 +17551,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1753,
+          "line_number": 1755,
           "var_name": "request",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17560,7 +17560,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1762,
+          "line_number": 1764,
           "var_name": "request",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17569,7 +17569,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1781,
+          "line_number": 1783,
           "var_name": "server_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17578,7 +17578,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1792,
+          "line_number": 1794,
           "var_name": "batch_size",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17587,7 +17587,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1814,
+          "line_number": 1816,
           "var_name": "server_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17596,7 +17596,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1815,
+          "line_number": 1817,
           "var_name": "server_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17605,7 +17605,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1847,
+          "line_number": 1849,
           "var_name": "request",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17614,7 +17614,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1856,
+          "line_number": 1858,
           "var_name": "request",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17623,7 +17623,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1863,
+          "line_number": 1865,
           "var_name": "server_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17632,7 +17632,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1864,
+          "line_number": 1866,
           "var_name": "server_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17641,7 +17641,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1870,
+          "line_number": 1872,
           "var_name": "it",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17650,7 +17650,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1873,
+          "line_number": 1875,
           "var_name": "it",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17659,7 +17659,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1877,
+          "line_number": 1879,
           "var_name": "server_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17668,7 +17668,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1892,
+          "line_number": 1894,
           "var_name": "batch",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17677,7 +17677,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1893,
+          "line_number": 1895,
           "var_name": "server_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17686,7 +17686,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1914,
+          "line_number": 1916,
           "var_name": "request",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17695,7 +17695,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1923,
+          "line_number": 1925,
           "var_name": "request",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17704,7 +17704,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1928,
+          "line_number": 1930,
           "var_name": "server_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17713,7 +17713,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1929,
+          "line_number": 1931,
           "var_name": "server_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17722,7 +17722,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1955,
+          "line_number": 1957,
           "var_name": "request",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17731,7 +17731,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1963,
+          "line_number": 1965,
           "var_name": "request",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17740,7 +17740,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1973,
+          "line_number": 1975,
           "var_name": "k",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17749,7 +17749,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1979,
+          "line_number": 1981,
           "var_name": "k",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17758,7 +17758,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1982,
+          "line_number": 1984,
           "var_name": "k",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17767,7 +17767,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1987,
+          "line_number": 1989,
           "var_name": "server_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17776,7 +17776,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2023,
+          "line_number": 2025,
           "var_name": "request",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17785,7 +17785,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2032,
+          "line_number": 2034,
           "var_name": "request",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17794,7 +17794,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2037,
+          "line_number": 2039,
           "var_name": "server_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17803,7 +17803,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2094,
+          "line_number": 2096,
           "var_name": "spatial_idx",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17812,7 +17812,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2103,
+          "line_number": 2105,
           "var_name": "lon",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17821,7 +17821,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2108,
+          "line_number": 2110,
           "var_name": "lon",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17830,7 +17830,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2129,
+          "line_number": 2131,
           "var_name": "spatial_idx",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17839,7 +17839,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2197,
+          "line_number": 2199,
           "var_name": "query_start",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17848,7 +17848,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2228,
+          "line_number": 2230,
           "var_name": "server_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17857,7 +17857,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2245,
+          "line_number": 2247,
           "var_name": "bucket_size_ms",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17866,7 +17866,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2252,
+          "line_number": 2254,
           "var_name": "bucket_size_ms",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17875,7 +17875,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2319,
+          "line_number": 2321,
           "var_name": "server_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17884,7 +17884,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2321,
+          "line_number": 2323,
           "var_name": "agg_result",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17893,7 +17893,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2369,
+          "line_number": 2371,
           "var_name": "server_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17902,7 +17902,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2371,
+          "line_number": 2373,
           "var_name": "result",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17911,7 +17911,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2454,
+          "line_number": 2456,
           "var_name": "request",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17920,7 +17920,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2474,
+          "line_number": 2476,
           "var_name": "server_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17929,7 +17929,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2482,
+          "line_number": 2484,
           "var_name": "server_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17938,7 +17938,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2491,
+          "line_number": 2493,
           "var_name": "state_str",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17947,7 +17947,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2552,
+          "line_number": 2554,
           "var_name": "request",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -17956,7 +17956,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2586,
+          "line_number": 2588,
           "var_name": "server_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17965,7 +17965,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2591,
+          "line_number": 2593,
           "var_name": "resolved",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17974,7 +17974,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2592,
+          "line_number": 2594,
           "var_name": "resolved",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17983,7 +17983,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2596,
+          "line_number": 2598,
           "var_name": "server_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -17992,7 +17992,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2609,
+          "line_number": 2611,
           "var_name": "server_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -18001,7 +18001,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2645,
+          "line_number": 2647,
           "var_name": "request",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -18010,7 +18010,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2665,
+          "line_number": 2667,
           "var_name": "server_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -18019,7 +18019,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2701,
+          "line_number": 2703,
           "var_name": "active_tasks",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -18028,7 +18028,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2722,
+          "line_number": 2724,
           "var_name": "history",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -18037,7 +18037,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2731,
+          "line_number": 2733,
           "var_name": "tsIt",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -19296,7 +19296,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1563,
+          "line_number": 1565,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -19306,7 +19306,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1566,
+          "line_number": 1568,
           "class_name": "Unknown",
           "function_name": "beginTransaction",
           "issue": "Virtual function called in constructor",
@@ -19316,7 +19316,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1572,
+          "line_number": 1574,
           "class_name": "Unknown",
           "function_name": "to_string",
           "issue": "Virtual function called in constructor",
@@ -19326,7 +19326,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1574,
+          "line_number": 1576,
           "class_name": "Unknown",
           "function_name": "now",
           "issue": "Virtual function called in constructor",
@@ -19336,7 +19336,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1578,
+          "line_number": 1580,
           "class_name": "Unknown",
           "function_name": "dump",
           "issue": "Virtual function called in constructor",
@@ -19346,7 +19346,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1599,
+          "line_number": 1601,
           "class_name": "Unknown",
           "function_name": "parsePayloadJson",
           "issue": "Virtual function called in constructor",
@@ -19356,19 +19356,9 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1609,
+          "line_number": 1611,
           "class_name": "Unknown",
           "function_name": "stoull",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1616,
-          "class_name": "Unknown",
-          "function_name": "now",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -19386,7 +19376,17 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1622,
+          "line_number": 1620,
+          "class_name": "Unknown",
+          "function_name": "now",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\network\\wire_protocol_server.cpp",
+          "line_number": 1624,
           "class_name": "Unknown",
           "function_name": "dump",
           "issue": "Virtual function called in constructor",
@@ -19396,19 +19396,9 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1643,
+          "line_number": 1645,
           "class_name": "Unknown",
           "function_name": "parsePayloadJson",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1656,
-          "class_name": "Unknown",
-          "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -19426,7 +19416,17 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1662,
+          "line_number": 1660,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\network\\wire_protocol_server.cpp",
+          "line_number": 1664,
           "class_name": "Unknown",
           "function_name": "dump",
           "issue": "Virtual function called in constructor",
@@ -19436,7 +19436,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1718,
+          "line_number": 1720,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -19446,7 +19446,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1728,
+          "line_number": 1730,
           "class_name": "Unknown",
           "function_name": "array",
           "issue": "Virtual function called in constructor",
@@ -19456,19 +19456,9 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1731,
+          "line_number": 1733,
           "class_name": "Unknown",
           "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1742,
-          "class_name": "Unknown",
-          "function_name": "error",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -19486,7 +19476,17 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1748,
+          "line_number": 1746,
+          "class_name": "Unknown",
+          "function_name": "error",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\network\\wire_protocol_server.cpp",
+          "line_number": 1750,
           "class_name": "Unknown",
           "function_name": "dump",
           "issue": "Virtual function called in constructor",
@@ -19496,7 +19496,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1781,
+          "line_number": 1783,
           "class_name": "Unknown",
           "function_name": "dump",
           "issue": "Virtual function called in constructor",
@@ -19506,17 +19506,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1794,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1802,
+          "line_number": 1796,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -19528,6 +19518,16 @@
           "file_path": "src\\network\\wire_protocol_server.cpp",
           "line_number": 1804,
           "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\network\\wire_protocol_server.cpp",
+          "line_number": 1806,
+          "class_name": "Unknown",
           "function_name": "array",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
@@ -19536,19 +19536,9 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1815,
+          "line_number": 1817,
           "class_name": "Unknown",
           "function_name": "lock",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1835,
-          "class_name": "Unknown",
-          "function_name": "error",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -19566,7 +19556,17 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1841,
+          "line_number": 1839,
+          "class_name": "Unknown",
+          "function_name": "error",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\network\\wire_protocol_server.cpp",
+          "line_number": 1843,
           "class_name": "Unknown",
           "function_name": "dump",
           "issue": "Virtual function called in constructor",
@@ -19576,7 +19576,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1875,
+          "line_number": 1877,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -19586,7 +19586,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1883,
+          "line_number": 1885,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -19596,7 +19596,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1884,
+          "line_number": 1886,
           "class_name": "Unknown",
           "function_name": "now",
           "issue": "Virtual function called in constructor",
@@ -19606,19 +19606,9 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1898,
+          "line_number": 1900,
           "class_name": "Unknown",
           "function_name": "size",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1905,
-          "class_name": "Unknown",
-          "function_name": "move",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -19636,9 +19626,9 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1911,
+          "line_number": 1909,
           "class_name": "Unknown",
-          "function_name": "dump",
+          "function_name": "move",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -19646,9 +19636,9 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1941,
+          "line_number": 1913,
           "class_name": "Unknown",
-          "function_name": "if",
+          "function_name": "dump",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -19666,7 +19656,17 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1947,
+          "line_number": 1945,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\network\\wire_protocol_server.cpp",
+          "line_number": 1949,
           "class_name": "Unknown",
           "function_name": "dump",
           "issue": "Virtual function called in constructor",
@@ -19676,19 +19676,9 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 1996,
+          "line_number": 1998,
           "class_name": "Unknown",
           "function_name": "searchKnn",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2001,
-          "class_name": "Unknown",
-          "function_name": "size",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -19706,9 +19696,9 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2010,
+          "line_number": 2005,
           "class_name": "Unknown",
-          "function_name": "push_back",
+          "function_name": "size",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -19718,6 +19708,16 @@
           "file_path": "src\\network\\wire_protocol_server.cpp",
           "line_number": 2012,
           "class_name": "Unknown",
+          "function_name": "push_back",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\network\\wire_protocol_server.cpp",
+          "line_number": 2014,
+          "class_name": "Unknown",
           "function_name": "move",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
@@ -19726,7 +19726,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2016,
+          "line_number": 2018,
           "class_name": "Unknown",
           "function_name": "dump",
           "issue": "Virtual function called in constructor",
@@ -19736,7 +19736,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2121,
+          "line_number": 2123,
           "class_name": "Unknown",
           "function_name": "cos",
           "issue": "Virtual function called in constructor",
@@ -19746,7 +19746,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2138,
+          "line_number": 2140,
           "class_name": "Unknown",
           "function_name": "searchIntersects",
           "issue": "Virtual function called in constructor",
@@ -19756,7 +19756,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2153,
+          "line_number": 2155,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -19766,19 +19766,9 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2160,
+          "line_number": 2162,
           "class_name": "Unknown",
           "function_name": "value",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2166,
-          "class_name": "Unknown",
-          "function_name": "move",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -19796,7 +19786,17 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2172,
+          "line_number": 2170,
+          "class_name": "Unknown",
+          "function_name": "move",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\network\\wire_protocol_server.cpp",
+          "line_number": 2174,
           "class_name": "Unknown",
           "function_name": "dump",
           "issue": "Virtual function called in constructor",
@@ -19806,7 +19806,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2186,
+          "line_number": 2188,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -19816,7 +19816,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2203,
+          "line_number": 2205,
           "class_name": "Unknown",
           "function_name": "sendError",
           "issue": "Virtual function called in constructor",
@@ -19826,7 +19826,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2233,
+          "line_number": 2235,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -19836,7 +19836,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2281,
+          "line_number": 2283,
           "class_name": "Unknown",
           "function_name": "size",
           "issue": "Virtual function called in constructor",
@@ -19846,7 +19846,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2282,
+          "line_number": 2284,
           "class_name": "Unknown",
           "function_name": "size",
           "issue": "Virtual function called in constructor",
@@ -19856,7 +19856,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2324,
+          "line_number": 2326,
           "class_name": "Unknown",
           "function_name": "size",
           "issue": "Virtual function called in constructor",
@@ -19866,7 +19866,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2374,
+          "line_number": 2376,
           "class_name": "Unknown",
           "function_name": "query",
           "issue": "Virtual function called in constructor",
@@ -19876,7 +19876,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2402,
+          "line_number": 2404,
           "class_name": "Unknown",
           "function_name": "push_back",
           "issue": "Virtual function called in constructor",
@@ -19886,7 +19886,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2415,
+          "line_number": 2417,
           "class_name": "Unknown",
           "function_name": "serialize",
           "issue": "Virtual function called in constructor",
@@ -19896,7 +19896,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2423,
+          "line_number": 2425,
           "class_name": "Unknown",
           "function_name": "htonl",
           "issue": "Virtual function called in constructor",
@@ -19906,7 +19906,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2432,
+          "line_number": 2434,
           "class_name": "Unknown",
           "function_name": "htonl",
           "issue": "Virtual function called in constructor",
@@ -19916,7 +19916,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2444,
+          "line_number": 2446,
           "class_name": "Unknown",
           "function_name": "parsePayloadJson",
           "issue": "Virtual function called in constructor",
@@ -19926,7 +19926,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2448,
+          "line_number": 2450,
           "class_name": "Unknown",
           "function_name": "parsePayloadJson",
           "issue": "Virtual function called in constructor",
@@ -19936,7 +19936,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2465,
+          "line_number": 2467,
           "class_name": "Unknown",
           "function_name": "sendError",
           "issue": "Virtual function called in constructor",
@@ -19946,7 +19946,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2519,
+          "line_number": 2521,
           "class_name": "Unknown",
           "function_name": "array",
           "issue": "Virtual function called in constructor",
@@ -19956,19 +19956,9 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2528,
+          "line_number": 2530,
           "class_name": "Unknown",
           "function_name": "array",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2540,
-          "class_name": "Unknown",
-          "function_name": "dump",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -19986,7 +19976,17 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2546,
+          "line_number": 2544,
+          "class_name": "Unknown",
+          "function_name": "dump",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\network\\wire_protocol_server.cpp",
+          "line_number": 2548,
           "class_name": "Unknown",
           "function_name": "response_data",
           "issue": "Virtual function called in constructor",
@@ -19996,19 +19996,9 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2563,
+          "line_number": 2565,
           "class_name": "Unknown",
           "function_name": "sendError",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2633,
-          "class_name": "Unknown",
-          "function_name": "dump",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -20026,67 +20016,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2639,
-          "class_name": "Unknown",
-          "function_name": "response_data",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2699,
-          "class_name": "Unknown",
-          "function_name": "array",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2718,
-          "class_name": "Unknown",
-          "function_name": "push_back",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2723,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2736,
-          "class_name": "Unknown",
-          "function_name": "find",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2743,
-          "class_name": "Unknown",
-          "function_name": "object",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\network\\wire_protocol_server.cpp",
-          "line_number": 2760,
+          "line_number": 2637,
           "class_name": "Unknown",
           "function_name": "dump",
           "issue": "Virtual function called in constructor",
@@ -20096,7 +20026,77 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\network\\wire_protocol_server.cpp",
+          "line_number": 2641,
+          "class_name": "Unknown",
+          "function_name": "response_data",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\network\\wire_protocol_server.cpp",
+          "line_number": 2701,
+          "class_name": "Unknown",
+          "function_name": "array",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\network\\wire_protocol_server.cpp",
+          "line_number": 2720,
+          "class_name": "Unknown",
+          "function_name": "push_back",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\network\\wire_protocol_server.cpp",
+          "line_number": 2725,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\network\\wire_protocol_server.cpp",
+          "line_number": 2738,
+          "class_name": "Unknown",
+          "function_name": "find",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\network\\wire_protocol_server.cpp",
+          "line_number": 2745,
+          "class_name": "Unknown",
+          "function_name": "object",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\network\\wire_protocol_server.cpp",
           "line_number": 2762,
+          "class_name": "Unknown",
+          "function_name": "dump",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\network\\wire_protocol_server.cpp",
+          "line_number": 2764,
           "class_name": "Unknown",
           "function_name": "dump",
           "issue": "Virtual function called in constructor",
@@ -20122,7 +20122,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1804,
+          "line": 1806,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -20185,7 +20185,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1727,
+          "line": 1729,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -20194,7 +20194,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1795,
+          "line": 1797,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -20203,7 +20203,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1886,
+          "line": 1888,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -20212,7 +20212,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1969,
+          "line": 1971,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -20221,7 +20221,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2000,
+          "line": 2002,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -20230,7 +20230,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2152,
+          "line": 2154,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -20239,7 +20239,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2263,
+          "line": 2265,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -20248,7 +20248,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2392,
+          "line": 2394,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -20257,7 +20257,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2522,
+          "line": 2524,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -20266,7 +20266,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2708,
+          "line": 2710,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -20275,7 +20275,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2737,
+          "line": 2739,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -20284,7 +20284,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2737,
+          "line": 2739,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -20293,7 +20293,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2728,
+          "line": 2730,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -20329,7 +20329,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1795,
+          "line": 1797,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -20374,7 +20374,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1748,
+          "line": 1750,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -20383,7 +20383,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2016,
+          "line": 2018,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -20392,7 +20392,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2172,
+          "line": 2174,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -20401,7 +20401,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2228,
+          "line": 2230,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -20410,7 +20410,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2369,
+          "line": 2371,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -20419,7 +20419,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2448,
+          "line": 2450,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -20428,7 +20428,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2474,
+          "line": 2476,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -20455,7 +20455,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2228,
+          "line": 2230,
           "category": "observability",
           "severity": "HIGH",
           "pattern": "missing_trace_point",
@@ -20464,7 +20464,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2369,
+          "line": 2371,
           "category": "observability",
           "severity": "HIGH",
           "pattern": "missing_trace_point",
@@ -20635,7 +20635,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1663,
+          "line": 1665,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -20644,7 +20644,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1665,
+          "line": 1667,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -20653,7 +20653,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1677,
+          "line": 1679,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -20662,7 +20662,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1683,
+          "line": 1685,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -20671,7 +20671,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1684,
+          "line": 1686,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -20680,7 +20680,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1696,
+          "line": 1698,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -20689,7 +20689,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 1714,
+          "line": 1716,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -20698,7 +20698,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2197,
+          "line": 2199,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -20707,7 +20707,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2198,
+          "line": 2200,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -20716,7 +20716,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2202,
+          "line": 2204,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -20725,7 +20725,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2203,
+          "line": 2205,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -20734,7 +20734,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2206,
+          "line": 2208,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -20743,7 +20743,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2212,
+          "line": 2214,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -20752,7 +20752,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2248,
+          "line": 2250,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -20761,7 +20761,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2262,
+          "line": 2264,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -20770,7 +20770,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2263,
+          "line": 2265,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -20779,7 +20779,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2264,
+          "line": 2266,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -20788,7 +20788,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2268,
+          "line": 2270,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -20797,7 +20797,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2272,
+          "line": 2274,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -20806,7 +20806,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2336,
+          "line": 2338,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -20815,7 +20815,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2403,
+          "line": 2405,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -20824,7 +20824,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2747,
+          "line": 2749,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -20905,7 +20905,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2219,
+          "line": 2221,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -20914,7 +20914,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2579,
+          "line": 2581,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -20923,7 +20923,7 @@
         },
         {
           "file": "src\\network\\wire_protocol_server.cpp",
-          "line": 2729,
+          "line": 2731,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",

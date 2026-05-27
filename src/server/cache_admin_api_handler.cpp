@@ -38,13 +38,34 @@ bool isLikelyValidBase64PathToken(std::string_view value) {
         return false;
     }
 
-    return std::all_of(value.begin(), value.end(), [](char ch) {
+    bool saw_padding = false;
+    size_t padding_count = 0;
+    for (char ch : value) {
         const unsigned char c = static_cast<unsigned char>(ch);
-        return (c >= 'A' && c <= 'Z') ||
-               (c >= 'a' && c <= 'z') ||
-               (c >= '0' && c <= '9') ||
-               c == '+' || c == '/' || c == '=' || c == '-' || c == '_';
-    });
+        if (c == '=') {
+            saw_padding = true;
+            ++padding_count;
+            if (padding_count > 2) {
+                return false;
+            }
+            continue;
+        }
+
+        if (saw_padding) {
+            // Padding is only valid at the end.
+            return false;
+        }
+
+        // Keep the encoded token in a single path segment.
+        if (!((c >= 'A' && c <= 'Z') ||
+              (c >= 'a' && c <= 'z') ||
+              (c >= '0' && c <= '9') ||
+              c == '+' || c == '-' || c == '_')) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 bool isValidCacheAdminFilePath(const std::string& value) {
@@ -114,6 +135,7 @@ CacheAdminApiHandler::CacheAdminApiHandler(
 
 void CacheAdminApiHandler::setSloMonitor(
     std::shared_ptr<themis::cache::CacheHitRateSloMonitor> monitor) {
+    std::lock_guard<std::mutex> lock(slo_monitor_mutex_);
     slo_monitor_ = std::move(monitor);
 }
 
@@ -225,8 +247,13 @@ http::response<http::string_body> CacheAdminApiHandler::handleStats(
         };
 
         // Latency percentiles from the SLO monitor (if one is attached)
-        if (slo_monitor_) {
-            auto status = slo_monitor_->getStatus();
+        std::shared_ptr<themis::cache::CacheHitRateSloMonitor> slo_monitor;
+        {
+            std::lock_guard<std::mutex> lock(slo_monitor_mutex_);
+            slo_monitor = slo_monitor_;
+        }
+        if (slo_monitor) {
+            auto status = slo_monitor->getStatus();
             if (status.contains("latency")) {
                 body["slo"] = status["latency"];
             }
@@ -601,12 +628,13 @@ http::response<http::string_body> CacheAdminApiHandler::handleTenantStats(
                                  "Invalid path", req);
     }
     auto rest = target.substr(prefix.size());
-    auto slash = rest.rfind("/stats");
-    if (slash == std::string_view::npos) {
+    constexpr std::string_view suffix = "/stats";
+    if (rest.size() <= suffix.size() ||
+        rest.substr(rest.size() - suffix.size()) != suffix) {
         return makeErrorResponse(http::status::bad_request,
                                  "Path must end with /stats", req);
     }
-    std::string tenant_id(rest.substr(0, slash));
+    std::string tenant_id(rest.substr(0, rest.size() - suffix.size()));
     if (tenant_id.empty()) {
         return makeErrorResponse(http::status::bad_request,
                                  "Missing tenant_id path parameter", req);
@@ -654,12 +682,13 @@ http::response<http::string_body> CacheAdminApiHandler::handleUpdateTenantQuota(
         return makeErrorResponse(http::status::bad_request, "Invalid path", req);
     }
     auto rest = target.substr(prefix.size());
-    auto slash = rest.rfind("/quota");
-    if (slash == std::string_view::npos) {
+    constexpr std::string_view suffix = "/quota";
+    if (rest.size() <= suffix.size() ||
+        rest.substr(rest.size() - suffix.size()) != suffix) {
         return makeErrorResponse(http::status::bad_request,
                                  "Path must end with /quota", req);
     }
-    std::string tenant_id(rest.substr(0, slash));
+    std::string tenant_id(rest.substr(0, rest.size() - suffix.size()));
     if (tenant_id.empty()) {
         return makeErrorResponse(http::status::bad_request,
                                  "Missing tenant_id path parameter", req);
@@ -747,5 +776,3 @@ http::response<http::string_body> CacheAdminApiHandler::handlePiiEvict(
 
 } // namespace server
 } // namespace themis
-
-

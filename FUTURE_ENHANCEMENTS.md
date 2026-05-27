@@ -1,8 +1,8 @@
 # ThemisDB — Open Stub Replacement Matrix
 
-<!-- Status: current | generated: 2026-05-26 | source: src/*/FUTURE_ENHANCEMENTS.md + src/ROADMAP.md -->
+<!-- Status: current | generated: 2026-05-27 | source: src/*/FUTURE_ENHANCEMENTS.md + src/ROADMAP.md -->
 <!-- Primary (Quelle der Wahrheit): src/ROADMAP.md -->
-<!-- Datum: 2026-05-26 -->
+<!-- Datum: 2026-05-27 -->
 
 > **Purpose:** This document is the canonical "Open Stub Replacement Matrix" for ThemisDB.
 > It consolidates every open stub, mock, and documented simulation path across all source modules,
@@ -84,21 +84,21 @@
 | Phase 1-4 Gap Detection | **31,720** | ✅ Complete |
 | Phase 5 Gap Detection | **99,694** | ✅ Complete (2026-05-19) |
 | Phase 1-5 Total Gaps (historical) | **155,631** | ✅ Complete |
-| Rescan Baseline (2026-05-25) | **184,779** | ✅ ACTIVE |
+| Rescan Baseline (2026-05-27) | **185,190** | ✅ ACTIVE |
 | Phase 6 Estimated Gaps | **6,000–10,000** | ⏳ Q3-Q4 2026 |
 | Phase 7-10 Estimated Gaps | **2,950–5,350** | ⏳ Q1-Q2 2027 |
-| **Phase 1-10 Projection** | **~195,929–203,329** | ⏳ 2027-06-30 |
-| 🔴 CRITICAL Severity (rescan) | 6,025 | — |
-| 🟠 HIGH Severity (rescan) | 142,926 | — |
-| 🟡 MEDIUM Severity (rescan) | 35,828 | — |
-| ACTIONABLE (C+H, rescan) | 148,951 | — |
+| **Phase 1-10 Projection** | **~196,340–203,740** | ⏳ 2027-06-30 |
+| 🔴 CRITICAL Severity (rescan) | 5,980 | — |
+| 🟠 HIGH Severity (rescan) | 143,326 | — |
+| 🟡 MEDIUM Severity (rescan) | 35,884 | — |
+| ACTIONABLE (C+H, rescan) | 149,306 | — |
 | Modules Scanned | 65 | — |
 | **Top Gap Producers** | — | — |
-| → llm module | 19,838 gaps | 12.7% |
-| → server module | 16,183 gaps | 10.4% |
-| → sharding module | 9,296 gaps | 6.0% |
-| Estimated Fix Effort | 3,437 weeks | — |
-| Active Scanners | **13** (Phase 1-5) | ✅ |
+| → llm module | 23,737 gaps | 12.8% |
+| → server module | 17,830 gaps | 9.6% |
+| → query module | 15,305 gaps | 8.3% |
+| Estimated Fix Effort | 3,882 weeks | — |
+| Active Scanners | **27** (Phase 1-10) | ✅ |
 | Phase 6 Scanners (Planning) | 5 | ⏳ Q3-Q4 2026 |
 | Phase 7-10 Scanners (Planning) | 9 | ⏳ Q1-Q2 2027 |
 | **Total Project Scope** | 27 scanners | 2027-06-30 |
@@ -189,7 +189,7 @@ Every stub replacement **must** follow these six phases before marking `[x]`:
 > **Analysis Source:** `ai_working/` documentation suite (Phase 5 completion + Phase 6 planning)
 > **Current Status:** 
 > - ✅ Phase 1-5 Complete (155,631 gaps identified, historical baseline)
-> - ✅ Rescan 2026-05-25 Complete (184,779 gaps; critical reduced by 5,753 vs 194,852 baseline)
+> - ✅ Rescan 2026-05-27 Complete (185,190 gaps; critical reduced by 5,798 vs 194,852 baseline)
 > - 🟡 Phase 1-4 Enhancements Planned (Q3 2026, +12 patterns)
 > - 🟡 Phase 6 Design Complete (Q3-Q4 2026, 5 new scanners)
 > 
@@ -197,9 +197,9 @@ Every stub replacement **must** follow these six phases before marking `[x]`:
 > **Actual & Projected Impact:** 
 > - Phase 1-4: 31,720 gaps (+2,200–3,200 from enhancements = 33,920–34,920 total)
 > - Phase 5: +99,694 gaps (178% increase, completed)
-> - Rescan baseline: 184,779 gaps (27 scanners, 65 modules)
+> - Rescan baseline: 185,190 gaps (27 scanners, 65 modules)
 > - Phase 6: +6,000–10,000 gaps (planned)
-> - **Phase 1-6 Total from current baseline:** ~192,979–197,979 gaps
+> - **Phase 1-6 Total from current baseline:** ~193,390–198,390 gaps
 >
 > **Related Documentation:**
 > - [PHASE_5_IMPLEMENTATION_COMPLETE.md](ai_working/PHASE_5_IMPLEMENTATION_COMPLETE.md) — Phase 1-5 delivery
@@ -340,7 +340,7 @@ Every stub replacement **must** follow these six phases before marking `[x]`:
 | **Expected Gaps** | +3,500–5,000 (systemic, very high impact) |
 
 **Total Phase 6 Effort:** ~1,480 LOC over 8 weeks + 1 week integration (9 weeks total)  
-**Expected Results:** +6,000–10,000 new gaps (Rescan baseline 184,779 → Phase 1-6: 190,779–194,779)
+**Expected Results:** +6,000–10,000 new gaps (Rescan baseline 185,190 → Phase 1-6: 191,190–195,190)
 
 ---
 
@@ -505,7 +505,7 @@ Every stub replacement **must** follow these six phases before marking `[x]`:
 | **10** | P10-2 Determinism | 200 | 🟡 MEDIUM | CWE-338 | Q2 2027 Wk 5 | +100–250 |
 | — | **Phase 7-10 Total** | **~2,880** | — | — | **~12 weeks (Q1-Q2 2027)** | **+2,950–5,350** |
 
-**Phase 1-10 Projection:** 184,779 (Rescan baseline) + 2,200–3,200 (Phase 1-4 Enhancements) + 6,000–10,000 (Phase 6) + 2,950–5,350 (Phase 7-10) = **~195,929–203,329 total gaps**
+**Phase 1-10 Projection:** 185,190 (Rescan baseline) + 2,200–3,200 (Phase 1-4 Enhancements) + 6,000–10,000 (Phase 6) + 2,950–5,350 (Phase 7-10) = **~196,340–203,740 total gaps**
 
 ---
 
@@ -1294,7 +1294,7 @@ stub-replacement, module:<name>, <priority-label>
 
 ---
 
-*Last updated: 2026-05-26 | Generated from: `src/ROADMAP.md` + `src/*/FUTURE_ENHANCEMENTS.md` + `ai_working/GAP_SCAN_RESCAN_REPORT_2026-05-25.md`*
+*Last updated: 2026-05-27 | Generated from: `src/ROADMAP.md` + `src/*/FUTURE_ENHANCEMENTS.md` + `ai_working/gap_scan_v3_summary.json`*
 
 ---
 Zuletzt geprueft (Root-Sync): 2026-05-26

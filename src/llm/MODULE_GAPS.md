@@ -391,6 +391,63 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
 - `aql_train_parser.cpp` TRAIN OUTPUT clause parsing (~line 715) — `tokenize(output_clause)[0]`
   replaced with a local `output_tokens` vector + empty-check guard before index 0 is accessed.
 
+**Status (v1.22.0-pre — W1-L05 uncaught_exception batch):** Numeric parse exceptions in train parser hardened:
+- `aql_train_parser.cpp` WITH/USING numeric fields now parse via checked helpers (`parseIntegerValue`,
+  `parseDoubleValue`) that reject trailing characters, non-finite values, and out-of-range integers
+  with explicit `std::invalid_argument` messages (instead of leaking raw `std::stoi/std::stod` errors).
+- `aql_train_parser.cpp` LIST ADAPTERS `LIMIT` parsing now uses the same checked integer parser and no
+  longer accepts trailing garbage or silently swallows out-of-range parse failures.
+- `aql_train_parser.cpp` now enforces positive bounds for `LIST ADAPTERS LIMIT`, `batch_size`, and
+  `max_seq_length`, rejecting non-positive values with explicit validation errors.
+
+**Status (v1.22.0-pre — W1-L05 input_validation batch):** Remaining config/sub-config bounds added:
+- `aql_train_parser.cpp` `validateConfig()` now enforces:
+  - `lora_alpha > 0` (must be a positive scaling factor)
+  - `lora_dropout ∈ [0, 1)` (valid dropout probability range)
+  - `validation_split ∈ (0, 1]` (must be a non-zero fraction ≤ 1)
+- `aql_train_parser.cpp` `parseGraphContext()` now validates:
+  - `max_depth ≥ 1` (depth of zero or negative is not a valid traversal depth)
+  - `max_nodes ≥ 1` (at least one node must be included)
+- `aql_train_parser.cpp` `parseVectorSimilarity()` now validates:
+  - `top_k ≥ 1` (non-positive top-k is meaningless)
+  - `threshold ∈ [0, 1]` (similarity threshold must be a valid fraction)
+- `aql_train_parser.cpp` `parseDeployAdapter()` now rejects statements with no target shards
+  (missing quoted shard identifiers) with an explicit `std::invalid_argument`.
+- Regression tests added for all new validation paths in `tests/test_aql_lora_finetuner.cpp`.
+
+**Status (v1.22.0-pre — W1-L05 validateBaseModel + KV completeness batch):** Final W1-L05 gaps closed:
+- `aql_train_parser.cpp` `parseTrainAdapter()` now calls `validateBaseModel()` after `validateConfig()`
+  — empty `base_model_name` is no longer silently accepted.
+- `aql_train_parser.cpp` `parseTrainingConfig()` KV path now parses `dropout`/`lora_dropout`,
+  `validation_split`, `max_seq_length`/`seq_length`; previously these KV keys were silently ignored.
+- 4 regression tests added: `ParseTrainAdapterEmptyBaseModelThrows`,
+  `ParseTrainAdapterKVDropoutAccepted`, `ParseTrainAdapterKVValidationSplitAccepted`,
+  `ParseTrainAdapterKVMaxSeqLengthAccepted`.
+
+**Status (v1.22.0-pre — W1-L05 exception-handling batch):** JSON type-error propagation hardened:
+- `parseTrainingConfig()` `catch(...)` narrowed to `catch(const nlohmann::json::parse_error&)`:
+  a valid JSON object with wrong field types (e.g. `{"epochs": "bad"}`) now surfaces a clear
+  `std::invalid_argument` instead of silently falling through to KV parsing with defaults.
+- All `fromJSON` methods (`TrainStatementConfig`, `GraphContextConfig`, `VectorSimilarityConfig`,
+  `RelationalJoinConfig`, `AQLDistributedTrainingConfig`, `TrainAdapterStmt`, `DeployAdapterStmt`,
+  `VerifyAdapterStmt`, `ListAdaptersStmt`) now wrap field access with explicit `.get<T>()` and
+  translate `nlohmann::json::exception` into `std::invalid_argument` with field context.
+- `MultiModelEnrichment::fromJSON` now guards `relational_joins` iteration with `.is_array()` —
+  a non-array value is silently skipped instead of causing undefined iteration behaviour.
+- 5 tests added: `TrainStatementConfigFromJSONTypeMismatchThrows`,
+  `GraphContextConfigFromJSONTypeMismatchThrows`, `VectorSimilarityConfigFromJSONTypeMismatchThrows`,
+  `MultiModelEnrichmentFromJSONNonArrayRelationalJoinsIgnored`,
+  `ParseTrainAdapterJsonWithClauseTypeMismatchThrows`.
+
+**Status (v1.22.0-pre — W1-L05 numeric-exception follow-up):** Numeric parser catch scope narrowed:
+- `aql_train_parser.cpp` helper parsers `parseIntegerValue()` and `parseDoubleValue()` now catch only
+  `std::invalid_argument`/`std::out_of_range` from `std::stoll`/`std::stod` conversion paths instead
+  of `catch(...)`, preserving existing user-facing validation messages while avoiding unrelated
+  exception swallowing.
+- Added regression tests `ParseTrainAdapterInvalidLearningRateValueThrowsClearError` and
+  `ParseTrainAdapterInfiniteLearningRateThrowsClearError` to lock down malformed/trailing and
+  non-finite learning-rate parsing errors.
+
 **Status (v1.22.0-pre — W1-L06 uninitialized_access/overflow batch):** Integer-overflow guard added to `canAllocate`:
 - `gpu_memory_manager.cpp` `canAllocate()` (~line 759) — Added `size_t` overflow pre-checks
   before computing `future_vram = total_vram_used_ + vram_bytes` and

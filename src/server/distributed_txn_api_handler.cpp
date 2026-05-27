@@ -16,6 +16,7 @@
 #include "sharding/distributed_transaction.h"
 #include "utils/input_validator.h"
 #include "utils/logger.h"
+#include <cstdlib>
 #include <string_view>
 #include "utils/tracing.h"
 
@@ -26,6 +27,10 @@ using json = nlohmann::json;
 namespace {
 
 constexpr size_t kMaxDistributedTxnIdentifierLength = 256;
+constexpr std::string_view kSnapshotIsolationWarning =
+    "snapshot_isolation may permit write-skew and phantom-read anomalies; "
+    "use 'serializable' for strict invariant safety.";
+constexpr std::string_view kDefaultIsolationEnvVar = "THEMIS_DTXN_DEFAULT_ISOLATION";
 
 bool isValidDistributedTxnIdentifier(const std::string& value) {
     themis::utils::InputValidator validator;
@@ -33,6 +38,25 @@ bool isValidDistributedTxnIdentifier(const std::string& value) {
            validator.validateStringLength(value, kMaxDistributedTxnIdentifierLength) &&
            validator.validatePathSegment(value) &&
            validator.validateHeaderValue(value);
+}
+
+sharding::DistributedIsolationLevel getConfiguredDefaultIsolationLevel() {
+    const char* configured_default = std::getenv(kDefaultIsolationEnvVar.data());
+    if (configured_default == nullptr) {
+        return sharding::DistributedIsolationLevel::SERIALIZABLE;
+    }
+
+    const std::string configured(configured_default);
+    if (configured == "serializable") {
+        return sharding::DistributedIsolationLevel::SERIALIZABLE;
+    }
+    if (configured == "snapshot_isolation") {
+        return sharding::DistributedIsolationLevel::SNAPSHOT_ISOLATION;
+    }
+
+    THEMIS_WARN("Ignoring invalid {}='{}'; using serializable",
+                kDefaultIsolationEnvVar, configured);
+    return sharding::DistributedIsolationLevel::SERIALIZABLE;
 }
 
 } // namespace
@@ -78,8 +102,9 @@ DistributedTxnApiHandler::handleBegin(const http::request<http::string_body>& re
                          "'shards' must contain at least one shard ID", req);
         }
 
-        // Optional isolation_level: "snapshot_isolation" (default) or "serializable"
-        auto isolation = sharding::DistributedIsolationLevel::SNAPSHOT_ISOLATION;
+        // Optional isolation_level: "snapshot_isolation" or "serializable"
+        // Default is serializable unless overridden by THEMIS_DTXN_DEFAULT_ISOLATION.
+        auto isolation = getConfiguredDefaultIsolationLevel();
         if (body.contains("isolation_level")) {
             const std::string isolation_level_str = body["isolation_level"].get<std::string>();
             if (isolation_level_str == "serializable") {
@@ -93,13 +118,17 @@ DistributedTxnApiHandler::handleBegin(const http::request<http::string_body>& re
 
         std::string txn_id = coordinator_->beginTransaction(shard_ids, isolation);
 
-        return ok({
+        json response = {
             {"transaction_id",  txn_id},
             {"status",          "active"},
             {"shards",          shard_ids},
             {"isolation_level", isolation == sharding::DistributedIsolationLevel::SERIALIZABLE
                                     ? "serializable" : "snapshot_isolation"}
-        }, req);
+        };
+        if (isolation == sharding::DistributedIsolationLevel::SNAPSHOT_ISOLATION) {
+            response["isolation_warning"] = kSnapshotIsolationWarning;
+        }
+        return ok(response, req);
 
     } catch (const json::exception& e) {
         return error(http::status::bad_request,
@@ -368,4 +397,3 @@ DistributedTxnApiHandler::stateToString(sharding::TransactionState state) {
 }
 
 } // namespace themis::server
-

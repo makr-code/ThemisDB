@@ -283,11 +283,15 @@ private:
 
     // ── Internal helpers ──────────────────────────────────────────────────────
 
-    /// Run Phase 1: send PREPARE to all participants; return true if all agreed
-    bool runPhase1(CoordinatorTxnRecord& rec);
+    /// Run Phase 1: send PREPARE to all participants; return true if all agreed.
+    /// @param lock  A held unique_lock on mutex_. It is briefly released around
+    ///              each blocking RPC call and re-acquired before returning
+    ///              (2PC-1 fix: avoid holding mutex_ during network I/O).
+    bool runPhase1(CoordinatorTxnRecord& rec, std::unique_lock<std::mutex>& lock);
 
-    /// Run Phase 2: broadcast COMMIT or ABORT to all participants
-    void runPhase2(CoordinatorTxnRecord& rec, bool commit);
+    /// Run Phase 2: broadcast COMMIT or ABORT to all participants.
+    /// @param lock  Same as runPhase1 — released around each RPC, re-acquired.
+    void runPhase2(CoordinatorTxnRecord& rec, bool commit, std::unique_lock<std::mutex>& lock);
 
     /// Build the serialised payload for a single shard
     static std::string buildPayload(const nlohmann::json& ops);

@@ -253,6 +253,8 @@ This file groups all research influences by ThemisDB module (`src/<module>`).
 |----------|--------|---------|--------|
 | Best Practice | Karger et al. (1997) — Consistent Hash Ring | v2.1.0 | ✅ Adopted |
 | Best Practice | Austin Appleby — MurmurHash3 Sharding | v1.9.0 | ✅ Adopted |
+| Paper | Tarjan (1972) — SCC / Wait-For Graph Cycle Detection | v2.2.0 | ✅ Implemented |
+| Architecture Decision | ADR-010 — Distributed Deadlock Detection via WFG | v2.2.0 | ✅ Accepted |
 
 ---
 

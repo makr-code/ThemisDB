@@ -2,6 +2,10 @@
 
 **Status:** ✅ **COMPLETE** (19 Mai 2026, 20:00 UTC)
 
+> Update note (2026-05-27): This document preserves the historical Phase 1-10
+> execution snapshot. Canonical planning baseline for root roadmap/docs is the
+> rescan snapshot (184,779 gaps) tracked via master issue #5172.
+
 ---
 
 ## 📊 Execution Summary
@@ -20,7 +24,8 @@
 - ✅ **Per-module reports:** 65 files in `ai_working/`
 
 ### Phase 3: GitHub Issues Created
-- ✅ **Master Issue:** #5231 — [PHASE 1-5] Gap Scanner Analysis — 193,858 gaps
+- ✅ **Canonical Master Issue:** #5172 — baseline planning tracker (active)
+- ✅ **Historical Workflow Issue:** #5231 — Phase 1-10 run snapshot (193,858 gaps)
 - ✅ **Category Issues:** 11+ scanners (Security, Memory, Reliability, ...)
 - ✅ **Top 10 Module Issues:**
   - #5245: LLM Module — 24,394 gaps (CRITICAL)
@@ -40,7 +45,8 @@
 
 | Metric | Value | Notes |
 |--------|-------|-------|
-| **Total Gaps Found** | 193,858 | All Phase 1-10 |
+| **Total Gaps Found (historical workflow run)** | 193,858 | Phase 1-10 snapshot |
+| **Canonical Baseline (current planning)** | 184,779 | Rescan 2026-05-25 |
 | **CRITICAL Severity** | 11,701 | Highest priority |
 | **HIGH Severity** | 142,042 | Second priority |
 | **MEDIUM Severity** | 40,115 | Lower priority |
@@ -109,7 +115,8 @@ ai_working/
 ```
 
 ### 2. GitHub Issues (24 issues created)
-- **Master Issue:** #5231 (Overview of all gaps)
+- **Canonical Master Issue:** #5172 (planning baseline)
+- **Historical Workflow Issue:** #5231 (Phase 1-10 snapshot)
 - **Category Issues:** 11 issues (one per scanner category)
 - **Top Module Issues:** 10 issues (LLM, Server, Query, Sharding, Index, Storage, Analytics, RAG, Security, Content)
 
@@ -219,8 +226,9 @@ ai_working/
 
 **Complete workflow deployed:**
 
-1. ✅ **Gap Scan:** 193,858 gaps across 65 modules (Phase 1-10)
-2. ✅ **Consolidation:** Aggregated into structured JSON + GitHub issues
+1. ✅ **Gap Scan (historical run):** 193,858 gaps across 65 modules (Phase 1-10)
+2. ✅ **Canonical planning baseline:** 184,779 gaps (Rescan 2026-05-25, issue #5172)
+3. ✅ **Consolidation:** Aggregated into structured JSON + GitHub issues
 3. ✅ **Workflow:** 7-phase model with explicit validation, checkpoints, and error handling
 4. ✅ **Toolchain:** Ready for AI agent execution
 5. ✅ **Documentation:** Complete templates and guides

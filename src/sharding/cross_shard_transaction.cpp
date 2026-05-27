@@ -29,13 +29,105 @@
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <set>
+#include <unordered_map>
+#include <unordered_set>
 #include <fstream>
 #include <thread>
 #include <chrono>
 #include <filesystem>
+#include <limits>
+#include <random>
 
 namespace themisdb {
 namespace sharding {
+
+namespace {
+// Returns one set of nodes per independent deadlock cycle (Tarjan's SCC,
+// only components with size > 1 or a self-loop are considered cycles).
+std::vector<std::unordered_set<std::string>> collectCycles(
+    const std::map<std::string, std::vector<std::string>>& graph
+) {
+    std::vector<std::unordered_set<std::string>> cycles;
+    std::unordered_map<std::string, int> index;
+    std::unordered_map<std::string, int> lowlink;
+    std::vector<std::string> stack;
+    std::unordered_set<std::string> on_stack;
+    int next_index = 0;
+
+    std::function<void(const std::string&)> strong_connect =
+        [&](const std::string& node) {
+        index[node] = next_index;
+        lowlink[node] = next_index;
+        ++next_index;
+        stack.push_back(node);
+        on_stack.insert(node);
+
+        auto it = graph.find(node);
+        if (it != graph.end()) {
+            for (const auto& neighbor : it->second) {
+                if (graph.find(neighbor) == graph.end()) {
+                    continue;
+                }
+                if (index.find(neighbor) == index.end()) {
+                    strong_connect(neighbor);
+                    lowlink[node] = std::min(lowlink[node], lowlink[neighbor]);
+                } else if (on_stack.count(neighbor) > 0) {
+                    lowlink[node] = std::min(lowlink[node], index[neighbor]);
+                }
+            }
+        }
+
+        if (lowlink[node] != index[node]) {
+            return;
+        }
+
+        std::vector<std::string> component;
+        while (!stack.empty()) {
+            const auto current = stack.back();
+            stack.pop_back();
+            on_stack.erase(current);
+            component.push_back(current);
+            if (current == node) {
+                break;
+            }
+        }
+
+        bool is_cycle_component = component.size() > 1;
+        if (!is_cycle_component && !component.empty()) {
+            const auto self_it = graph.find(component.front());
+            if (self_it != graph.end()) {
+                is_cycle_component = std::find(
+                    self_it->second.begin(),
+                    self_it->second.end(),
+                    component.front()) != self_it->second.end();
+            }
+        }
+
+        if (is_cycle_component) {
+            cycles.push_back(
+                std::unordered_set<std::string>(component.begin(), component.end()));
+        }
+    };
+
+    for (const auto& [node, _] : graph) {
+        if (index.find(node) == index.end()) {
+            strong_connect(node);
+        }
+    }
+
+    return cycles;
+}
+
+std::unordered_set<std::string> collectCycleNodes(
+    const std::map<std::string, std::vector<std::string>>& graph
+) {
+    std::unordered_set<std::string> cycle_nodes;
+    for (auto& cycle : collectCycles(graph)) {
+        cycle_nodes.insert(cycle.begin(), cycle.end());
+    }
+    return cycle_nodes;
+}
+}  // namespace
 
 CrossShardTransactionCoordinator::CrossShardTransactionCoordinator(
     const CrossShardTransactionConfig& config,
@@ -147,6 +239,46 @@ bool CrossShardTransactionCoordinator::initialize() {
         recovery_result.details.failed_operations,
         recovery_result.details.in_doubt_transactions);
     return true;
+}
+
+void CrossShardTransactionCoordinator::reportDistributedWait(
+    const std::string& waiting_transaction_id,
+    const std::string& blocking_transaction_id,
+    const std::string& shard_id
+) {
+    if (waiting_transaction_id.empty() || blocking_transaction_id.empty() ||
+        waiting_transaction_id == blocking_transaction_id) {
+        return;
+    }
+
+    std::lock_guard<std::mutex> lock(transactions_mutex_);
+    auto waiting_it = transactions_.find(waiting_transaction_id);
+    auto blocking_it = transactions_.find(blocking_transaction_id);
+    if (waiting_it == transactions_.end() || blocking_it == transactions_.end()) {
+        return;
+    }
+
+    const auto waiting_state = waiting_it->second.state;
+    const auto blocking_state = blocking_it->second.state;
+    const bool waiting_live = waiting_state == TransactionState::ACTIVE ||
+                              waiting_state == TransactionState::PREPARING;
+    const bool blocking_live = blocking_state == TransactionState::ACTIVE ||
+                               blocking_state == TransactionState::PREPARING ||
+                               blocking_state == TransactionState::PREPARED;
+    if (!waiting_live || !blocking_live) {
+        return;
+    }
+
+    distributed_wait_for_edges_[waiting_transaction_id].insert(blocking_transaction_id);
+    spdlog::trace("Recorded distributed wait edge: {} -> {} (shard={})",
+                  waiting_transaction_id, blocking_transaction_id, shard_id);
+}
+
+void CrossShardTransactionCoordinator::clearDistributedWaits(
+    const std::string& transaction_id
+) {
+    std::lock_guard<std::mutex> lock(transactions_mutex_);
+    clearDistributedWaitEdgesLocked(transaction_id);
 }
 
 bool CrossShardTransactionCoordinator::start() {
@@ -567,6 +699,7 @@ bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id)
             persistTransactionState(transaction_id, TransactionState::ABORTED);
             spdlog::error("Transaction {} commit failed, aborted", transaction_id);
         }
+        clearDistributedWaitEdgesLocked(transaction_id);
     }
     lock.unlock();
     
@@ -634,6 +767,7 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
         it2->second.state = TransactionState::ABORTED;
         it2->second.end_time = std::chrono::system_clock::now();
         aborted_transactions_++;
+        clearDistributedWaitEdgesLocked(transaction_id);
         should_persist_aborted = true;
     }
     lock.unlock();
@@ -902,17 +1036,8 @@ bool CrossShardTransactionCoordinator::isDeadlocked(
 ) const {
     // Build wait-for graph
     auto graph = buildWaitForGraph();
-    
-    // Check if transaction_id is part of a cycle
-    std::set<std::string> visited;
-    std::set<std::string> rec_stack;
-    
-    // Start DFS from the given transaction
-    if (graph.find(transaction_id) != graph.end()) {
-        return detectCycle(graph, transaction_id, visited, rec_stack);
-    }
-    
-    return false;
+    const auto cycle_nodes = collectCycleNodes(graph);
+    return cycle_nodes.count(transaction_id) > 0;
 }
 
 std::vector<CrossShardTransaction> CrossShardTransactionCoordinator::getActiveTransactions() const {
@@ -1730,54 +1855,153 @@ void CrossShardTransactionCoordinator::deadlockDetectionThread() {
     while (running_.load()) {
         std::this_thread::sleep_for(config_.deadlock_detection_interval);
         
-        // Build wait-for graph
+        // Build wait-for graph from explicitly-reported push edges.
         auto graph = buildWaitForGraph();
-        
+
+        // Additionally, pull wait-for edges from all configured shard endpoints.
+        // This supplements the push-based reportDistributedWait() mechanism and
+        // enables detection of deadlocks involving shards that have not yet (or
+        // cannot) proactively report their local lock-wait state.
+        if (!config_.shard_endpoints.empty()) {
+            for (const auto& [shard_id, endpoint] : config_.shard_endpoints) {
+                try {
+                    std::vector<CrossShardTransactionConfig::PolledWaitForEdge> remote_edges;
+                    if (config_.polled_wait_for_edge_collector) {
+                        remote_edges = config_.polled_wait_for_edge_collector(shard_id, endpoint);
+                    } else {
+                        themis::sharding::ShardRPCClient::Config rpc_cfg;
+                        rpc_cfg.endpoint = endpoint;
+                        rpc_cfg.shard_id = shard_id;
+                        const auto timeout_ms = std::max<int64_t>(
+                            1, config_.deadlock_detection_interval.count() / 2);
+                        rpc_cfg.timeout_ms = static_cast<int>(
+                            std::min<int64_t>(timeout_ms, std::numeric_limits<int>::max()));
+                        rpc_cfg.max_retries  = 1;
+                        rpc_cfg.enable_circuit_breaker = false;
+
+                        themis::sharding::ShardRPCClient client(rpc_cfg);
+                        const auto rpc_edges = client.collectWaitForEdges();
+                        remote_edges.reserve(rpc_edges.size());
+                        for (const auto& edge : rpc_edges) {
+                            remote_edges.push_back({
+                                edge.waiting_transaction_id,
+                                edge.blocking_transaction_id
+                            });
+                        }
+                    }
+
+                    for (const auto& edge : remote_edges) {
+                        if (edge.waiting_transaction_id.empty() ||
+                            edge.blocking_transaction_id.empty() ||
+                            edge.waiting_transaction_id == edge.blocking_transaction_id) {
+                            continue;
+                        }
+
+                        // Only merge remote edges that reference known live
+                        // transactions tracked by this coordinator. Unknown or
+                        // finished transaction IDs cannot be resolved locally
+                        // and would otherwise create false-positive cycles.
+                        bool include_edge = false;
+                        {
+                            std::lock_guard<std::mutex> lock(transactions_mutex_);
+                            const auto waiting_it = transactions_.find(edge.waiting_transaction_id);
+                            const auto blocking_it = transactions_.find(edge.blocking_transaction_id);
+                            if (waiting_it != transactions_.end() &&
+                                blocking_it != transactions_.end()) {
+                                const auto waiting_state = waiting_it->second.state;
+                                const auto blocking_state = blocking_it->second.state;
+                                const bool waiting_live =
+                                    waiting_state == TransactionState::ACTIVE ||
+                                    waiting_state == TransactionState::PREPARING;
+                                const bool blocking_live =
+                                    blocking_state == TransactionState::ACTIVE ||
+                                    blocking_state == TransactionState::PREPARING ||
+                                    blocking_state == TransactionState::PREPARED;
+                                include_edge = waiting_live && blocking_live;
+                            }
+                        }
+                        if (!include_edge) {
+                            continue;
+                        }
+
+                        graph[edge.waiting_transaction_id].push_back(
+                            edge.blocking_transaction_id);
+                        spdlog::trace(
+                            "Wait-for edge (polled from {}): {} -> {}",
+                            shard_id,
+                            edge.waiting_transaction_id,
+                            edge.blocking_transaction_id);
+                    }
+                } catch (const std::exception& ex) {
+                    spdlog::debug(
+                        "Deadlock polling from shard {} ({}) skipped: {}",
+                        shard_id, endpoint, ex.what());
+                }
+            }
+        }
+
         if (graph.empty()) {
             continue;  // No active transactions with potential conflicts
         }
-        
-        // Detect cycles using DFS
-        std::set<std::string> visited;
-        std::set<std::string> rec_stack;
-        std::vector<std::string> deadlocked_txns;
-        
-        for (const auto& [node, _] : graph) {
-            if (visited.find(node) == visited.end()) {
-                if (detectCycle(graph, node, visited, rec_stack)) {
-                    // Found a cycle - all nodes in rec_stack are part of the deadlock
-                    for (const auto& txn_id : rec_stack) {
-                        deadlocked_txns.push_back(txn_id);
-                    }
-                    break;  // Handle one deadlock at a time
-                }
-            }
-        }
-        
-        if (!deadlocked_txns.empty()) {
-            spdlog::warn("Deadlock detected involving {} transactions", 
+
+        // collectCycles() returns one set per independent cycle (SCC). Each
+        // independent deadlock requires its own victim; selecting one global
+        // victim would leave concurrent independent cycles unresolved until
+        // the next detection round.
+        const auto cycles = collectCycles(graph);
+
+        for (const auto& cycle_nodes : cycles) {
+            std::vector<std::string> deadlocked_txns(
+                cycle_nodes.begin(), cycle_nodes.end());
+
+            spdlog::warn("Deadlock detected involving {} transactions",
                         deadlocked_txns.size());
-            
+
             deadlocked_transactions_++;
-            
-            // Select victim: choose the youngest transaction (most recent start time)
+
+            // Select deadlock victim according to configured policy.
             std::string victim_id;
-            std::chrono::system_clock::time_point latest_start;
-            
+            std::vector<std::pair<std::string, std::chrono::system_clock::time_point>> candidates;
             {
                 std::lock_guard<std::mutex> lock(transactions_mutex_);
-                
+
                 for (const auto& txn_id : deadlocked_txns) {
                     auto it = transactions_.find(txn_id);
                     if (it != transactions_.end()) {
-                        if (victim_id.empty() || it->second.start_time > latest_start) {
-                            victim_id = txn_id;
-                            latest_start = it->second.start_time;
-                        }
+                        candidates.emplace_back(txn_id, it->second.start_time);
                     }
                 }
             }
-            
+
+            if (!candidates.empty()) {
+                switch (config_.deadlock_victim_policy) {
+                    case DeadlockVictimPolicy::YOUNGEST: {
+                        victim_id = std::max_element(
+                            candidates.begin(),
+                            candidates.end(),
+                            [](const auto& lhs, const auto& rhs) {
+                                return lhs.second < rhs.second;
+                            })->first;
+                        break;
+                    }
+                    case DeadlockVictimPolicy::OLDEST: {
+                        victim_id = std::min_element(
+                            candidates.begin(),
+                            candidates.end(),
+                            [](const auto& lhs, const auto& rhs) {
+                                return lhs.second < rhs.second;
+                            })->first;
+                        break;
+                    }
+                    case DeadlockVictimPolicy::RANDOM: {
+                        thread_local std::mt19937 rng{std::random_device{}()};
+                        std::uniform_int_distribution<size_t> dist(0, candidates.size() - 1);
+                        victim_id = candidates[dist(rng)].first;
+                        break;
+                    }
+                }
+            }
+
             if (!victim_id.empty()) {
                 spdlog::warn("Aborting transaction {} to resolve deadlock", victim_id);
                 abort(victim_id);
@@ -1793,80 +2017,56 @@ CrossShardTransactionCoordinator::buildWaitForGraph() const {
     std::map<std::string, std::vector<std::string>> graph;
     
     std::lock_guard<std::mutex> lock(transactions_mutex_);
-    
-    // Build wait-for graph from active transactions
-    // Transaction A waits for B if:
-    // 1. Both are active or preparing
-    // 2. They have overlapping participants
-    // 3. A started after B
-    
-    std::vector<std::string> active_txn_ids;
-    for (const auto& [txn_id, txn] : transactions_) {
-        if (txn.state == TransactionState::ACTIVE ||
-            txn.state == TransactionState::PREPARING) {
-            active_txn_ids.push_back(txn_id);
+
+    // Build wait-for graph from explicit cross-shard wait reports.
+    // Edge: waiting_txn -> blocking_txn.
+    for (const auto& [waiting_txn_id, blockers] : distributed_wait_for_edges_) {
+        const auto waiting_it = transactions_.find(waiting_txn_id);
+        if (waiting_it == transactions_.end()) {
+            continue;
         }
-    }
-    
-    // For each pair of active transactions, check for potential conflicts
-    for (size_t i = 0; i < active_txn_ids.size(); ++i) {
-        const auto& txn_a_id = active_txn_ids[i];
-        const auto& txn_a = transactions_.at(txn_a_id);
-        
-        for (size_t j = i + 1; j < active_txn_ids.size(); ++j) {
-            const auto& txn_b_id = active_txn_ids[j];
-            const auto& txn_b = transactions_.at(txn_b_id);
-            
-            // Check if transactions have overlapping participants
-            bool has_overlap = false;
-            for (const auto& [shard_id_a, _] : txn_a.participants) {
-                if (txn_b.participants.find(shard_id_a) != txn_b.participants.end()) {
-                    has_overlap = true;
-                    break;
-                }
-            }
-            
-            if (has_overlap) {
-                // Determine wait-for relationship based on start time
-                // Younger transaction waits for older transaction
-                if (txn_a.start_time < txn_b.start_time) {
-                    // B waits for A
-                    graph[txn_b_id].push_back(txn_a_id);
-                    spdlog::trace("Wait-for edge: {} -> {}", txn_b_id, txn_a_id);
-                } else {
-                    // A waits for B
-                    graph[txn_a_id].push_back(txn_b_id);
-                    spdlog::trace("Wait-for edge: {} -> {}", txn_a_id, txn_b_id);
-                }
-            }
+        const auto waiting_state = waiting_it->second.state;
+        if (waiting_state != TransactionState::ACTIVE &&
+            waiting_state != TransactionState::PREPARING) {
+            continue;
         }
-    }
-    
-    // Add additional wait-for edges based on prepare status
-    // If a transaction is in PREPARING state and another has overlapping
-    // participants in ACTIVE state, the ACTIVE waits for PREPARING
-    for (const auto& [txn_id, txn] : transactions_) {
-        if (txn.state == TransactionState::PREPARING) {
-            for (const auto& [other_id, other_txn] : transactions_) {
-                if (other_id == txn_id) continue;
-                if (other_txn.state != TransactionState::ACTIVE) continue;
-                
-                // Check for overlapping participants
-                for (const auto& [shard_id, _] : txn.participants) {
-                    if (other_txn.participants.find(shard_id) != 
-                        other_txn.participants.end()) {
-                        graph[other_id].push_back(txn_id);
-                        spdlog::trace("Wait-for edge (prepare): {} -> {}", other_id, txn_id);
-                        break;
-                    }
-                }
+
+        for (const auto& blocking_txn_id : blockers) {
+            const auto blocking_it = transactions_.find(blocking_txn_id);
+            if (blocking_it == transactions_.end()) {
+                continue;
             }
+            const auto blocking_state = blocking_it->second.state;
+            if (blocking_state != TransactionState::ACTIVE &&
+                blocking_state != TransactionState::PREPARING &&
+                blocking_state != TransactionState::PREPARED) {
+                continue;
+            }
+
+            graph[waiting_txn_id].push_back(blocking_txn_id);
+            spdlog::trace("Wait-for edge (distributed): {} -> {}",
+                          waiting_txn_id, blocking_txn_id);
         }
     }
     
     spdlog::debug("Built wait-for graph with {} nodes", graph.size());
     
     return graph;
+}
+
+void CrossShardTransactionCoordinator::clearDistributedWaitEdgesLocked(
+    const std::string& transaction_id
+) {
+    distributed_wait_for_edges_.erase(transaction_id);
+    for (auto it = distributed_wait_for_edges_.begin();
+         it != distributed_wait_for_edges_.end();) {
+        it->second.erase(transaction_id);
+        if (it->second.empty()) {
+            it = distributed_wait_for_edges_.erase(it);
+        } else {
+            ++it;
+        }
+    }
 }
 
 bool CrossShardTransactionCoordinator::detectCycle(
@@ -2819,5 +3019,3 @@ size_t PercolatorCoordinator::cleanStaleLocks(
 
 } // namespace sharding
 } // namespace themisdb
-
-

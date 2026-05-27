@@ -7,7 +7,7 @@
 
 ## 📊 Gap Summary
 
-This module's gap analysis is pending. Run the gap audit to populate this document:
+Refresh this module's gap analysis with:
 
 ```bash
 python tools/gap_audit_pipeline_v2.py
@@ -29,6 +29,106 @@ python tools/gap_audit_pipeline_v2.py
     connections now get their real source IP for rate-limiting and audit logging.
 
 ## ✅ Recent Remediation (2026-05-26)
+- **W1-S05 follow-up 6 (2026-05-27) – `src/server/sse_connection_manager.cpp`,
+  `tests/test_sse_connection_manager.cpp`**
+  - Added defensive null guards around connection-pointer dereferences in
+    `unregisterConnection`, `pollEvents`, `pollRawEvents`, `needsHeartbeat`,
+    `recordHeartbeat`, and `shutdown` so stale/null map entries fail closed
+    instead of crashing.
+  - `backgroundPollTask()` now fail-closes when `changefeed_` is missing:
+    emits a warning and disables the polling loop instead of dereferencing a
+    null changefeed pointer.
+  - Added regression test `NullChangefeedDoesNotCrashPollingPaths` to verify
+    null changefeed operation remains safe (`pollEvents`/`pollRawEvents` empty,
+    no crash).
+  - Gap delta intent: reduce residual in-scope null-dereference scanner noise
+    in the W1-S05 SSE manager secondary paths with behavior-preserving guards.
+
+- **W1-S05 follow-up 5 (2026-05-27) – `tests/test_changefeed_sse_writer.cpp`,
+  `tests/CMakeLists.txt`**
+  - Added a dedicated unit-test suite (`ChangefeedSseWriterTests`) covering the
+    `SseStreamWriterFn` bridge introduced in stub #305:
+    - **Path A dispatch**: verifies that a registered writer function is called for
+      `keep_alive=true` SSE requests when `THEMIS_ENABLE_SSE` is active.
+    - **Parameter forwarding**: verifies that `conn_id`, `max_duration`, `heartbeat_ms`,
+      and `max_events_per_poll` are passed through to the writer unchanged.
+    - **Clear semantics**: verifies `clearSseStreamWriterFn()` prevents subsequent
+      requests from calling the cleared writer.
+    - **Replace semantics**: verifies `setSseStreamWriterFn()` with a new function
+      discards the previously registered one immediately.
+    - **Exception fallthrough**: verifies that a writer throwing `std::runtime_error`
+      is caught by the handler and does not propagate to the caller; response is still
+      200 OK (Path B sync loop runs to completion).
+    - **Thread-safety**: concurrent `setSseStreamWriterFn` / `clearSseStreamWriterFn`
+      calls from two threads must not crash.
+  - Gap delta intent: close the zero-coverage gap for the SSE writer bridge — the last
+    open W1-S05 item after all prior follow-ups.
+
+- **W1-S05 follow-up 4 (2026-05-27) – `src/server/sse_connection_manager.cpp`,
+  `src/server/http_server.cpp`**
+  - `shutdown()` now resets `poll_timer_` (via `unique_ptr::reset()`) immediately after
+    `cancel()`, making the method safe to call a second time (e.g. from the destructor
+    after an explicit `HttpServer::stop()`) without touching a timer whose io_context
+    may already have been destroyed.
+  - `HttpServer::stop()` now explicitly calls `sse_manager_->shutdown()` before
+    `ioc_.stop()` to guarantee that the SSE poll timer is cancelled and released while
+    the io_context executor is still alive.  Previously, C++ member-destruction order
+    (non-static members destroyed in reverse declaration order) meant `ioc_` was
+    destroyed before `sse_manager_`, so the implicit destructor-triggered `shutdown()`
+    would access a dead executor — a latent use-after-free.
+  - Gap delta intent: eliminate the residual `use_after_free` / shutdown-ordering
+    finding in the SSE manager timer lifecycle without changing any observable runtime
+    behaviour.
+
+- **W1-S13 (2026-05-27) – `src/server/http_server.cpp`, `src/server/AUDIT.md`,
+  `tests/test_server_integration_complete.cpp`**
+  - Completed HS-1 fix: added `requireAccess(req, "admin", "admin.storage.stats",
+    "/v1/admin/storage/stats")` gate to `Route::AdminStorageStatsGet`, which was the
+    only remaining case in the HS-1 group without a routing-layer auth check (the
+    other two cases, `AdminShardsPost` and `AdminShardsGet`, were gated by W1-S11).
+  - AUDIT.md HS-1 and HS-2 sections updated from "Fix required" to ✅ resolved, with
+    code snippets showing the applied gates.
+  - Added `ServerAuthEnforcementTest` coverage for all three HS-1 routes
+    (`POST /v1/admin/shards`, `GET /v1/admin/shards`, `GET /v1/admin/storage/stats`)
+    and both HS-2 WAL-apply cases (no-auth → 401, bad-token → 401, valid-token → not 401).
+  - Gap delta intent: eliminate the last open AUDIT.md "Fix required" entries and
+    provide regression coverage so HS-1/HS-2 regressions are caught automatically.
+
+- **W1-S05 follow-up (2026-05-27) – `src/server/sse_connection_manager.cpp`**
+  - `backgroundPollTask()` now snapshots per-connection poll inputs
+    (`from_sequence`, `key_prefix`, `event_types`) under `connections_mutex_`
+    and uses that immutable snapshot for the unlocked `changefeed_->listEvents(...)`
+    call.
+  - Removed the write-phase `connections_.find(id)` revalidation path and switched
+    to the already-snapshotted `shared_ptr<Connection>` with an atomic `active`
+    re-check under lock before buffering events.
+  - Gap delta intent: reduce residual `iterator_invalidation` and `data_race`
+    scanner noise in the W1-S05 SSE polling path while preserving runtime behavior.
+
+- **W1-S05 follow-up 2 (2026-05-27) – `src/server/sse_connection_manager.cpp`,
+  `tests/test_sse_connection_manager.cpp`**
+  - SSE overflow handling in `backgroundPollTask()` now evicts overflow entries in
+    bounded range erases instead of repeated `erase(begin)` loops, keeping drop-oldest
+    semantics but reducing iterator churn in the hot path.
+  - Next-poll scheduling now re-checks `running_` while holding `poll_timer_mutex_`
+    before arming `async_wait`, tightening the stop/schedule race window when the
+    last connection unregisters.
+  - Added regression test `DropOldestOverflowKeepsNewestRawEvents` to verify bounded
+    buffer behavior (newest events retained, dropped counter increments as expected).
+  - Gap delta intent: further reduce W1-S05 `data_race` / `iterator_invalidation`
+    scanner noise with behavior-preserving changes and explicit test coverage.
+
+- **W1-S05 follow-up 3 (2026-05-27) – `src/server/sse_connection_manager.cpp`**
+  - Removed `pollEventsWithSequences()`: the function was undeclared in the header,
+    never called externally, and contained a type-mismatch compile error (attempted
+    to construct `vector<pair<uint64_t,string>>` from `vector<string>` iterators).
+  - Implemented `pollEvents(conn_id, max_events)` — the public API declared in the
+    header — draining the `buffered_events` (`vector<string>`) correctly and keeping
+    `raw_buffered_events` in sync via a single range-erase, with the same rate-limiting
+    logic as `pollRawEvents()`.
+  - Gap delta intent: eliminate the dangling (unimplemented) `pollEvents` declaration,
+    fix latent compile error in the removed function, and complete the public SSE drain
+    API surface.
 
 - **W1-S12 (2026-05-26) – `include/server/postgres_session.h`, `src/server/postgres_session.cpp`**
   - PostgreSQL wire session concurrency hardening: lifecycle flags (`isAuthenticated_`,
@@ -416,7 +516,7 @@ captures in `cleanup_timer_.async_wait(...)` callbacks. Static analysers flag th
 `shared_lock<shared_mutex>`, releasing the lock, and then performed the buffer-full
 early-exit check (`conn->buffered_events.size() >= config_.max_buffered_events`) on the
 shared `Connection` struct **outside the lock**. Concurrent calls to
-`pollEventsWithSequences()` or `pollRawEventsWithSequences()` hold the exclusive lock while
+`pollEvents()` or `pollRawEvents()` hold the exclusive lock while
 erasing elements from `conn->buffered_events`, creating a data race on the vector.
 
 **Fix:** Moved the buffer-full predicate into the snapshot loop inside the
@@ -439,17 +539,18 @@ its internal locking discipline.
 **Fix:** Added a thread-safety clarification comment above the endpoint handlers section
 documenting the invariant. No code change required.
 
-#### 3. False positives documented — SSE iterator_invalidation (iterator_invalidation)
+#### 3. Iterator-path hardening — SSE `unregisterConnection()` (iterator_invalidation)
 
 **Scanner flags:** 2 CRITICAL iterator_invalidation alerts at `connections_.find()` calls in
 `unregisterConnection()` (L96) and `backgroundPollTask()` (L360).
 
-**Assessment:** Both accesses are performed under the exclusive `connections_mutex_` lock and
-the iterator is not retained after the `erase()` call. There is no iterator invalidation
-risk. The scanner analyses the `erase` call without tracking that the invalidated iterator
-is immediately discarded.
+**Assessment:** The original `unregisterConnection()` path used `find()+erase(it)` under lock
+and was functionally safe, but still triggered iterator-invalidation alerts in conservative
+static analysis.
 
-**Fix:** False positives — no code change required. The existing lock discipline is correct.
+**Fix:** Rewrote the removal path to `connections_.extract(conn_id)` and operate on the
+extracted node's mapped value (`active=false`) without retaining any map iterator after
+mutation. `backgroundPollTask()` `find()` remains a lock-protected false positive.
 
 ### Gap Delta (estimated)
 
@@ -457,7 +558,7 @@ is immediately discarded.
 |---|---|---|
 | data_race CRITICAL (sse) | 5 | 1 real race fixed (L335); 4 false positives documented |
 | data_race CRITICAL (cache_admin) | 16 | 0 real races; all 16 documented as false positives |
-| iterator_invalidation CRITICAL (sse) | 2 | 0 real gaps; both documented as false positives |
+| iterator_invalidation CRITICAL (sse) | 2 | 1 hardened in code (`extract` path), 1 false positive documented |
 
 ---
 
