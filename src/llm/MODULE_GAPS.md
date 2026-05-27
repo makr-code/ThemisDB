@@ -648,6 +648,20 @@ operations.
   `detokenizeInternal`.
 - All affected paths now fail fast with clear exceptions instead of dereferencing null pointers.
 
+#### 6. Follow-up hardening for loader/LoRA manager dereferences (2026-05-27)
+
+**Root cause:** Remaining W1-L04 null-dereference risk in `llama_wrapper.cpp` came from
+implicit assumptions that `model_loader_` / `lora_manager_` are always initialized before
+generation and adapter cleanup paths.
+
+**Fix:**
+- Added explicit `model_loader_` null checks in `generate`, `generateSpeculative`, and
+  `generateRegular` before `getOrLoadModel(...)`.
+- Guarded LoRA adapter auto-bind/remove/cleanup paths in `generate`, `generateSpeculative`,
+  and `generateRegular` behind `lora_manager_` availability checks with fail-open warnings.
+- Preserved existing generation fallback behavior while preventing null manager dereferences
+  in both happy-path and exception cleanup branches.
+
 ### Gap Delta (W1-L04 follow-up)
 
 | Metric | Before | After |
@@ -656,6 +670,7 @@ operations.
 | `inference_engine_enhanced.cpp` speculative null-plugin/decoder precondition | implicit assumption | explicit guard + early return |
 | `inference_engine_enhanced.cpp` int-range risk in vocab modulo paths | potential overflow hotspot | bounded/fallback conversion |
 | `llama_wrapper.cpp` unchecked model/vocab pointer retrieval | multiple implicit assumptions | explicit null guards + fail-fast exceptions |
+| `llama_wrapper.cpp` implicit loader/LoRA manager assumptions | potential null-manager dereference | explicit loader guards + LoRA manager-gated paths |
 
 ---
 
