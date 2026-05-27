@@ -1251,6 +1251,38 @@ Both scope files now apply the W1-S03 anchor pattern in request-facing methods: 
 
 ---
 
+## ✅ Recent Remediation (2026-05-27) — W1-S03 Extension: Null-Guard Standardisation Round 16
+
+**Scope:** `src/server/compliance_reporting_api_handler.cpp`, `src/server/policy_manager_api_handler.cpp`, `src/server/policy_template_api_handler.cpp`, `src/server/policy_validation_api_handler.cpp`, `src/server/policy_versioning_api_handler.cpp`, `src/server/review_scheduling_api_handler.cpp`, `src/server/shard_repair_api_handler.cpp`
+**Ticket:** W1-S03 (issue scope) · Priority P1
+
+### Fixes Applied
+
+#### Guarded auth middleware dereference anchoring (pointer_without_null_check / CWE-476)
+
+All scope files now apply the same W1-S03 pattern in `checkAuth(...)`: after the
+`if (!auth_ || !auth_->isEnabled())` early-return guard, `auth_` is immediately
+anchored as `auto& auth = *auth_;` and downstream authorization calls use
+`auth.authorize(...)` instead of direct `auth_->...` dereferences.
+
+| File | Member(s) anchored | Guard sites |
+|---|---|---|
+| `compliance_reporting_api_handler.cpp` | `auth_` | 1 |
+| `policy_manager_api_handler.cpp` | `auth_` | 1 |
+| `policy_template_api_handler.cpp` | `auth_` | 1 |
+| `policy_validation_api_handler.cpp` | `auth_` | 1 |
+| `policy_versioning_api_handler.cpp` | `auth_` | 1 |
+| `review_scheduling_api_handler.cpp` | `auth_` | 1 |
+| `shard_repair_api_handler.cpp` | `auth_` | 1 |
+
+### Gap Delta
+
+| Type | Before | After |
+|---|---|---|
+| `pointer_without_null_check` (W1-S03 Round 16 auth guarded derefs) | residual scanner-visible guarded `auth_` deref hits in policy/compliance/review/shard handlers | standardized with explicit post-guard local references across all scope files |
+
+---
+
 
 **Scope:** `src/server/http_server.cpp`, `include/server/http_server.h`  
 **Ticket:** W1-S02 · Priority P0  

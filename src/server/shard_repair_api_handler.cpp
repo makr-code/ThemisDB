@@ -189,6 +189,7 @@ bool ShardRepairApiHandler::checkAuth(
     if (!auth_ || !auth_->isEnabled()) {
         return true;
     }
+    auto& auth = *auth_;
 
     const auto auth_header = req[http::field::authorization];
     if (auth_header.empty()) {
@@ -204,7 +205,7 @@ bool ShardRepairApiHandler::checkAuth(
         return false;
     }
 
-    auto ar = auth_->authorize(*token, required_scope);
+    auto ar = auth.authorize(*token, required_scope);
     if (!ar.authorized) {
         out = makeErrorResponse(http::status::forbidden,
                                 "Insufficient scope: " + required_scope, req);

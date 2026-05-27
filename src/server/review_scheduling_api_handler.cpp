@@ -216,6 +216,7 @@ bool ReviewSchedulingApiHandler::checkAuth(
         THEMIS_WARN("AuthMiddleware not configured or disabled - allowing unauthenticated access to review scheduling endpoint (dev/test mode only)");
         return true;
     }
+    auto& auth = *auth_;
     
     // Extract authorization header
     const auto auth_header = req[http::field::authorization];
@@ -237,7 +238,7 @@ bool ReviewSchedulingApiHandler::checkAuth(
     std::string required_scope = auth_scope_mapper::mapPolicyRoleToScope(required_role);
     
     // Validate token and check required scope
-    auto auth_result = auth_->authorize(*token, required_scope);
+    auto auth_result = auth.authorize(*token, required_scope);
     if (!auth_result.authorized) {
         THEMIS_WARN("Authorization failed for review scheduling endpoint - user: {}, required scope: {}, reason: {}",
             auth_result.user_id.empty() ? "unknown" : auth_result.user_id,
@@ -279,4 +280,3 @@ http::response<http::string_body> ReviewSchedulingApiHandler::makeErrorResponse(
 
 } // namespace server
 } // namespace themis
-
