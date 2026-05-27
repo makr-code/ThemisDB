@@ -9,9 +9,11 @@
 #include <gtest/gtest.h>
 
 #include "server/voice_api_handler.h"
+#include "voice/voice_assistant.h"
 
 #include <boost/beast/http.hpp>
 #include <nlohmann/json.hpp>
+#include <stdexcept>
 
 namespace http = boost::beast::http;
 using json = nlohmann::json;
@@ -43,8 +45,15 @@ json parseBody(const http::response<http::string_body>& response) {
 
 class VoiceApiHandlerPathValidationTest : public ::testing::Test {
 protected:
-    VoiceApiHandler handler{nullptr};
+    VoiceApiHandlerPathValidationTest()
+        : handler{std::make_shared<voice::VoiceAssistant>(voice::VoiceAssistant::Config{})} {}
+
+    VoiceApiHandler handler;
 };
+
+TEST(VoiceApiHandlerConstructionTest, RejectsNullVoiceAssistant) {
+    EXPECT_THROW((VoiceApiHandler{nullptr}), std::invalid_argument);
+}
 
 TEST_F(VoiceApiHandlerPathValidationTest, MacroRejectsInvalidId) {
     const auto response = handler.handleRequest(

@@ -613,4 +613,66 @@ TEST_F(MCPIntegrationTest, ToolNotFound) {
     EXPECT_EQ(result["error"]["code"], -32602);  // Invalid params (tool not found)
 }
 
+TEST_F(MCPIntegrationTest, EmptyToolHandlerReturnsNotAvailableError) {
+    server_->registerTool(
+        "empty_handler_tool",
+        "Tool with intentionally empty handler",
+        json::object(),
+        McpServer::ToolHandler{});
+
+    json result = callTool("empty_handler_tool", json::object());
+
+    ASSERT_TRUE(result.contains("error"));
+    EXPECT_EQ(result["error"]["code"], -32601);
+    EXPECT_NE(
+        result["error"]["message"].get<std::string>().find("Tool handler not available"),
+        std::string::npos);
+}
+
+TEST_F(MCPIntegrationTest, EmptyResourceHandlerReturnsNotAvailableError) {
+    server_->registerResource(
+        "test://empty-resource",
+        "Resource with intentionally empty handler",
+        "application/json",
+        McpServer::ResourceHandler{});
+
+    json request = {
+        {"jsonrpc", "2.0"},
+        {"method", "resources/read"},
+        {"params", {{"uri", "test://empty-resource"}}},
+        {"id", 42}
+    };
+
+    json result = server_->handleRequest(request);
+
+    ASSERT_TRUE(result.contains("error"));
+    EXPECT_EQ(result["error"]["code"], -32601);
+    EXPECT_NE(
+        result["error"]["message"].get<std::string>().find("Resource handler not available"),
+        std::string::npos);
+}
+
+TEST_F(MCPIntegrationTest, EmptyPromptHandlerReturnsNotAvailableError) {
+    server_->registerPrompt(
+        "empty_handler_prompt",
+        "Prompt with intentionally empty handler",
+        json::object(),
+        McpServer::PromptHandler{});
+
+    json request = {
+        {"jsonrpc", "2.0"},
+        {"method", "prompts/get"},
+        {"params", {{"name", "empty_handler_prompt"}, {"arguments", json::object()}}},
+        {"id", 43}
+    };
+
+    json result = server_->handleRequest(request);
+
+    ASSERT_TRUE(result.contains("error"));
+    EXPECT_EQ(result["error"]["code"], -32601);
+    EXPECT_NE(
+        result["error"]["message"].get<std::string>().find("Prompt handler not available"),
+        std::string::npos);
+}
+
 #endif // THEMIS_ENABLE_MCP
