@@ -259,6 +259,7 @@ nlohmann::json APIGateway::executeFederatedQuery(
         throw Error(static_cast<int>(ErrorCode::ConfigurationError), 
                    "Shard router not configured for query federation");
     }
+    auto& shard_router = *shard_router_;
     
     try {
         spdlog::info("Executing federated query: user={}", auth_context.user_id);
@@ -268,7 +269,7 @@ nlohmann::json APIGateway::executeFederatedQuery(
         // - Query analysis
         // - Routing to appropriate shards
         // - Result aggregation
-        auto result = shard_router_->executeQuery(query);
+        auto result = shard_router.executeQuery(query);
         
         return result;
         
@@ -374,7 +375,8 @@ void APIGateway::registerDeprecation(
     const APIDeprecationInfo& info
 ) {
     if (version_manager_) {
-        version_manager_->registerDeprecation(endpoint, info);
+        auto& version_manager = *version_manager_;
+        version_manager.registerDeprecation(endpoint, info);
     }
 }
 
@@ -414,11 +416,12 @@ http::response<http::string_body> APIGateway::dispatchShardOperation(
         return makeErrorResponse(http::status::service_unavailable,
             "Shard router not available", req);
     }
+    auto& shard_router = *shard_router_;
     nlohmann::json result_body;
     bool ok = false;
 
     if (req.method() == http::verb::get) {
-        auto data = shard_router_->get(urn);
+        auto data = shard_router.get(urn);
         if (data) {
             result_body = *data;
             ok = true;
@@ -435,10 +438,10 @@ http::response<http::string_body> APIGateway::dispatchShardOperation(
                     std::string("Invalid JSON: ") + e.what(), req);
             }
         }
-        ok = shard_router_->put(urn, body);
+        ok = shard_router.put(urn, body);
         if (ok) result_body = {{"status", "ok"}};
     } else if (req.method() == http::verb::delete_) {
-        ok = shard_router_->del(urn);
+        ok = shard_router.del(urn);
         if (ok) result_body = {{"status", "deleted"}};
     }
 
@@ -604,6 +607,7 @@ http::response<http::string_body> APIGateway::executeRemote(
         return makeErrorResponse(http::status::service_unavailable,
                                 "Shard router not available", req);
     }
+    auto& shard_router = *shard_router_;
     
     // Check circuit breaker
     if (config_.enable_circuit_breaker) {
@@ -633,7 +637,7 @@ http::response<http::string_body> APIGateway::executeRemote(
         }
 
         // No URN found — forward as a generic query
-        auto query_result = shard_router_->executeQuery(std::string(req.target()));
+        auto query_result = shard_router.executeQuery(std::string(req.target()));
         if (config_.enable_circuit_breaker) {
             getCircuitBreaker(shard_id)->recordSuccess();
         }
@@ -662,6 +666,7 @@ http::response<http::string_body> APIGateway::executeScatterGather(
         return makeErrorResponse(http::status::service_unavailable,
                                 "Shard router not available", req);
     }
+    auto& shard_router = *shard_router_;
     
     try {
         // Parse request body as query — body is required for scatter-gather
@@ -684,7 +689,7 @@ http::response<http::string_body> APIGateway::executeScatterGather(
         }
         
         // Execute scatter-gather via shard router
-        auto results = shard_router_->scatterGather(query);
+        auto results = shard_router.scatterGather(query);
         
         // Aggregate results
         nlohmann::json response_body;

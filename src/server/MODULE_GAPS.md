@@ -751,6 +751,40 @@ non-null invariant explicit and scanner-visible.
 
 ---
 
+## ✅ Recent Remediation (2026-05-27) — W1-S03 Extension: Null-Guard Standardisation Round 4
+
+**Scope:** `src/server/api_gateway.cpp`  
+**Ticket:** W1-S03 (extension) · Priority P1
+
+### Fixes Applied
+
+#### 1. `shard_router_`/`version_manager_` non-null invariant anchoring in remaining guarded sites (pointer_without_null_check / CWE-476)
+
+**Root cause:** Several methods already performed explicit early guards
+(`if (!shard_router_) return/throw`, `if (version_manager_)`) but still called
+`shard_router_->...` / `version_manager_->...` directly afterwards. External scanners
+continued to report these as potential null-dereference patterns where guard tracking
+was weak across scopes.
+
+**Fix:** Standardized the remaining guarded call sites by binding local references
+immediately after the guard and calling methods through those references:
+
+- `executeFederatedQuery()` → `auto& shard_router = *shard_router_;`
+- `dispatchShardOperation()` → `auto& shard_router = *shard_router_;`
+- `executeRemote()` → `auto& shard_router = *shard_router_;`
+- `executeScatterGather()` → `auto& shard_router = *shard_router_;`
+- `registerDeprecation()` → `auto& version_manager = *version_manager_;`
+
+This is behavior-preserving and makes the non-null contract explicit at each usage point.
+
+### Gap Delta
+
+| Type | Before | After |
+|---|---|---|
+| `pointer_without_null_check` (api_gateway guarded deref patterns) | residual scanner hits in guarded sites | standardized in remaining `shard_router_`/`version_manager_` guarded paths |
+
+---
+
 
 
 **Scope:** `src/server/http_server.cpp`, `include/server/http_server.h`  
