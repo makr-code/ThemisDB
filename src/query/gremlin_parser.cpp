@@ -222,12 +222,22 @@ struct GremlinParser::Parser {
             return GremlinValue(false);
         }
         if (t.type == GremlinTokenType::INT_LIT) {
-            int64_t n = std::stoll(t.value);
+            int64_t n;
+            try { n = std::stoll(t.value); }
+            catch (const std::exception&) {
+                throw std::runtime_error("Integer literal '" + t.value + "' is out of range at position "
+                                         + std::to_string(t.position));
+            }
             consume();
             return GremlinValue(n);
         }
         if (t.type == GremlinTokenType::FLOAT_LIT) {
-            double d = std::stod(t.value);
+            double d;
+            try { d = std::stod(t.value); }
+            catch (const std::exception&) {
+                throw std::runtime_error("Float literal '" + t.value + "' is out of range at position "
+                                         + std::to_string(t.position));
+            }
             consume();
             return GremlinValue(d);
         }
@@ -444,7 +454,10 @@ struct GremlinParser::Parser {
             case GremlinStepKind::Limit:
                 // limit(n)
                 if (check(GremlinTokenType::INT_LIT)) {
-                    step.count = std::stoll(peek().value);
+                    try { step.count = std::stoll(peek().value); }
+                    catch (const std::exception&) {
+                        throw std::runtime_error("Gremlin limit count '" + peek().value + "' is out of range");
+                    }
                     consume();
                 }
                 break;
@@ -452,12 +465,18 @@ struct GremlinParser::Parser {
             case GremlinStepKind::Range:
                 // range(lo, hi)
                 if (check(GremlinTokenType::INT_LIT)) {
-                    step.count = std::stoll(peek().value);
+                    try { step.count = std::stoll(peek().value); }
+                    catch (const std::exception&) {
+                        throw std::runtime_error("Gremlin range start '" + peek().value + "' is out of range");
+                    }
                     consume();
                 }
                 if (check(GremlinTokenType::COMMA)) consume();
                 if (check(GremlinTokenType::INT_LIT)) {
-                    step.count2 = std::stoll(peek().value);
+                    try { step.count2 = std::stoll(peek().value); }
+                    catch (const std::exception&) {
+                        throw std::runtime_error("Gremlin range end '" + peek().value + "' is out of range");
+                    }
                     consume();
                 }
                 break;
@@ -519,7 +538,12 @@ struct GremlinParser::Parser {
                 start.values.emplace_back(peek().value);
                 consume();
             } else if (check(GremlinTokenType::INT_LIT)) {
-                start.values.emplace_back(static_cast<int64_t>(std::stoll(peek().value)));
+                int64_t iv;
+                try { iv = std::stoll(peek().value); }
+                catch (const std::exception&) {
+                    throw std::runtime_error("Integer value '" + peek().value + "' is out of range");
+                }
+                start.values.emplace_back(iv);
                 consume();
             }
         }

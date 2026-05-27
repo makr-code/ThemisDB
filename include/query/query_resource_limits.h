@@ -100,8 +100,8 @@ public:
 
 private:
     QueryResourceLimits limits_;
-    size_t row_count_;
-    size_t memory_bytes_;
+    size_t row_count_{0};
+    size_t memory_bytes_{0};
     std::chrono::steady_clock::time_point start_;
 };
 

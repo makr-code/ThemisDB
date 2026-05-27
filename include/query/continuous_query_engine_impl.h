@@ -57,7 +57,7 @@ private:
     mutable std::mutex       mutex_;
     std::condition_variable  cv_;
     std::deque<CQResult>     queue_;
-    size_t                   capacity_;
+    size_t                   capacity_{kDefaultResultQueueCapacity};
     std::atomic<bool>        cancelled_{false};
 };
 

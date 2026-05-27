@@ -72,7 +72,7 @@ public:
     void reset() noexcept;
 
 private:
-    int64_t              allowed_lateness_us_;
+    int64_t              allowed_lateness_us_{0};
     std::atomic<int64_t> max_seen_us_{0};
     std::atomic<int64_t> watermark_us_{0};
     std::atomic<uint64_t> late_processed_{0};

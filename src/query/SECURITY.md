@@ -17,7 +17,7 @@
 
 ### T1 — AQL Injection
 - **Risk:** High — unsanitized user input interpolated into AQL queries could allow data exfiltration or manipulation
-- **Mitigation:** AQL injection detector in the security module; parameterized query API separates structure from values; SPARQL/SQL inputs are parsed and translated, never executed directly
+- **Mitigation:** AQL injection detector in the security module; parameterized query API separates structure from values; SPARQL/SQL inputs are parsed and translated, never executed directly; all parser numeric conversions (`stoll`/`stod`) are wrapped in try-catch to prevent exception-based DoS from malformed numeric literals (REL-10..19, 2026-05-27)
 - **Residual risk:** Low when parameterized API is used; direct string interpolation by callers bypasses protection
 
 ### T2 — Resource Exhaustion

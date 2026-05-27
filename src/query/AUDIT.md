@@ -1,4 +1,4 @@
-<!-- Status: S0 fixed 2026-05-04 | S1 fixed 2026-05-04 | OI-05/OI-06 fixed 2026-05-26 | KL-01 closed 2026-05-26 | CCF-01..CCF-05 fixed 2026-05-27 | CQE-01..CQE-03 fixed 2026-05-27 | QE-arc-points-cast fixed 2026-05-27 | TC-01..TC-06 fixed 2026-05-27 | UNINIT-01..UNINIT-11 fixed 2026-05-27 | REL-01..REL-09 fixed 2026-05-27 | UNINIT-12..UNINIT-13 fixed 2026-05-27 | PERF-01..PERF-05 fixed 2026-05-27 | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S0 fixed 2026-05-04 | S1 fixed 2026-05-04 | OI-05/OI-06 fixed 2026-05-26 | KL-01 closed 2026-05-26 | CCF-01..CCF-05 fixed 2026-05-27 | CQE-01..CQE-03 fixed 2026-05-27 | QE-arc-points-cast fixed 2026-05-27 | TC-01..TC-06 fixed 2026-05-27 | UNINIT-01..UNINIT-11 fixed 2026-05-27 | REL-01..REL-09 fixed 2026-05-27 | UNINIT-12..UNINIT-13 fixed 2026-05-27 | PERF-01..PERF-05 fixed 2026-05-27 | UNINIT-14..UNINIT-20 fixed 2026-05-27 | REL-10..REL-19 fixed 2026-05-27 | TC-07..TC-15 fixed 2026-05-27 | IV-01 fixed 2026-05-27 | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · SECURITY.md -->
 
 # Audit Record — Query Module
@@ -296,3 +296,58 @@ std::shared_ptr<Expression> parseUnary() {
 | REL-07 | `aql_translator.cpp` | ~922 | `static_cast<int>(std::get<int64_t>(distLiteral->value))` for `maxDistance`: no range check; values > `INT_MAX` or negative are UB/nonsensical | ✅ fixed — validated `[0, 1000]` before cast; returns parse error on violation |
 | REL-08 | `aql_translator.cpp` | ~939 | `static_cast<size_t>(std::get<int64_t>(limitLiteral->value))` for `limit`: negative `int64_t` wraps to huge `size_t` | ✅ fixed — validated non-negative before cast; returns parse error on negative value |
 | REL-09 | `fulltext_functions.cpp` | ~691 | `int total = static_cast<int>(ngrams1.size() + ngrams2.size())`: `size_t` sum truncated to `int`; used as float divisor | ✅ fixed — changed to `size_t totalSz`; division uses `static_cast<double>(totalSz)` |
+
+---
+
+## UNINIT-14..20 batch — Private Member Initialization (2026-05-27)
+
+| ID | File | Member | Description | Status |
+|----|------|--------|-------------|--------|
+| UNINIT-14 | `include/query/cq_watermark.h` | `allowed_lateness_us_` | `int64_t` private member had no NSDMI — undefined on default-construction | ✅ fixed — `= 0` default initializer added |
+| UNINIT-15 | `include/query/continuous_query_engine_impl.h` | `capacity_` | `size_t` private member had no NSDMI — undefined on default-construction | ✅ fixed — `= kDefaultResultQueueCapacity` default initializer added |
+| UNINIT-16 | `include/query/synopsis_store.h` | `max_tuples_` | `size_t` private member had no NSDMI | ✅ fixed — `= 0` default initializer added |
+| UNINIT-17 | `include/query/synopsis_store.h` | `max_bytes_` | `size_t` private member had no NSDMI | ✅ fixed — `= 0` default initializer added |
+| UNINIT-18 | `include/query/query_rewrite_rule.h` | `max_iterations_` | `size_t` private member had no NSDMI | ✅ fixed — `= kDefaultMaxIterations` default initializer added |
+| UNINIT-19 | `include/query/query_resource_limits.h` | `row_count_` | `int64_t` private member had no NSDMI | ✅ fixed — `= 0` default initializer added |
+| UNINIT-20 | `include/query/query_resource_limits.h` | `memory_bytes_` | `int64_t` private member had no NSDMI | ✅ fixed — `= 0` default initializer added |
+
+---
+
+## REL-10..19 batch — Parser Numeric-Conversion Hardening (2026-05-27)
+
+| ID | File | Location | Description | Status |
+|----|------|----------|-------------|--------|
+| REL-10 | `src/query/cypher_parser.cpp` | `parseWith()` SKIP/LIMIT | `std::stoll()` unchecked — malformed or out-of-range integer literal (e.g. `"999999999999999999999"`) throws `std::out_of_range`/`std::invalid_argument` which was unhandled | ✅ fixed — wrapped in `try/catch`; rethrows `CypherParseError` |
+| REL-11 | `src/query/cypher_parser.cpp` | `parseLiteralValue()` INT_LIT/FLOAT_LIT | `stoll`/`stod` unchecked on untrusted literal text | ✅ fixed — same try-catch pattern |
+| REL-12 | `src/query/cypher_parser.cpp` | `parsePrimary()` INT_LIT/FLOAT_LIT | Same as REL-11 | ✅ fixed |
+| REL-13 | `src/query/sparql_parser.cpp` | `parseLimitOffset()` LIMIT/OFFSET | `std::stoll()` unchecked | ✅ fixed — try-catch throwing `std::runtime_error`; public `parse()` gains outer try-catch converting all exceptions to `Err<>` |
+| REL-14 | `src/query/sparql_parser.cpp` | `parseTerm()` INT_LIT/FLOAT_LIT | `stoll`/`stod` unchecked | ✅ fixed |
+| REL-15 | `src/query/sparql_parser.cpp` | `parseExpr()` INT_LIT/FLOAT_LIT | Same as REL-14 | ✅ fixed |
+| REL-16 | `src/query/sql_parser.cpp` | `parseLimitOffset()` LIMIT/OFFSET | `std::stoll()` unchecked | ✅ fixed — try-catch; public `parse()` gains outer try-catch |
+| REL-17 | `src/query/sql_parser.cpp` | `parseExpr()`/`parseValue()` INT_LIT/FLOAT_LIT | `stoll`/`stod` unchecked | ✅ fixed |
+| REL-18 | `src/query/aql_parser.cpp` | `parseSelectPart()` LIMIT / `parsePrimary()` INT_LIT/FLOAT_LIT | `stoll`/`stod` unchecked | ✅ fixed — all four call-sites wrapped in try-catch |
+| REL-19 | `src/query/gremlin_parser.cpp` | `parseLiteralValue()`, `parseStep()` Limit/Range/V() | `stoll`/`stod` unchecked on untrusted literal text | ✅ fixed — all six call-sites wrapped in try-catch |
+
+---
+
+## TC-07..15 batch — Type-Cast Safety (2026-05-27)
+
+| ID | File | Location | Description | Status |
+|----|------|----------|-------------|--------|
+| TC-07 | `src/query/aql_translator.cpp` | ~136 | `static_cast<size_t>(std::get<int64_t>(kLit->value))` for SIMILARITY k — negative value wraps to huge `size_t` | ✅ fixed — guard: `if (kv < 1) return Error(...)` before cast |
+| TC-08 | `src/query/aql_translator.cpp` | ~244 | `static_cast<size_t>(std::get<int64_t>(lim->value))` for FULLTEXT limit — same issue | ✅ fixed — guard: `if (lv < 0) return Error(...)` |
+| TC-09 | `src/query/aql_translator.cpp` | ~401 | Second SIMILARITY k path | ✅ fixed |
+| TC-10 | `src/query/aql_translator.cpp` | ~510 | Second FULLTEXT fulltextLimit path | ✅ fixed |
+| TC-11 | `src/query/aql_translator.cpp` | ~579 | Third SIMILARITY k path | ✅ fixed |
+| TC-12 | `src/query/aql_translator.cpp` | ~686 | Third FULLTEXT fulltextLimit path | ✅ fixed |
+| TC-13 | `src/query/aql_translator.cpp` | ~839,881,1191,1803 | FULLTEXT/PHRASE `limitLiteral` cast without non-negative check | ✅ fixed — guard at all four sites |
+| TC-14 | `src/query/window_evaluator.cpp` | ~431 | `leadIdx` only checked `>= size`, not `< 0` — negative user-supplied LEAD offset wraps at `static_cast<size_t>` | ✅ fixed — added `if (leadIdx < 0 || leadIdx >= size)` before cast |
+| TC-15 | `src/query/window_evaluator.cpp` | ~506 | `followIdx` same issue for LAG/window FOLLOWING | ✅ fixed — added `if (followIdx < 0) followIdx = 0;` clamp before cast |
+
+---
+
+## IV-01 — Invalid Input / Zero-Divisor (2026-05-27)
+
+| ID | File | Function | Description | Status |
+|----|------|----------|-------------|--------|
+| IV-01 | `src/query/workload_cache_strategy.cpp` | `classifyWorkload()` | `total_patterns = query_patterns_.size()` then division `avg_frequency /= total_patterns` — if called with empty map, division by zero produces NaN/Inf propagating into workload classification ratios | ✅ fixed — early-return `WorkloadType::UNKNOWN` when `total_patterns == 0` |

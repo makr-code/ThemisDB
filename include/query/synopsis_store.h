@@ -79,8 +79,8 @@ private:
     mutable std::mutex            mutex_;
     std::deque<SynopsisTuple>     tuples_;
     size_t                        total_bytes_{0};
-    size_t                        max_tuples_;
-    size_t                        max_bytes_;
+    size_t                        max_tuples_{0};
+    size_t                        max_bytes_{0};
 };
 
 }  // namespace query

@@ -394,13 +394,21 @@ struct CypherParser::Parser {
         // SKIP
         if (match(TokenType::KW_SKIP)) {
             const auto& t = expect(TokenType::INT_LIT, "Expected integer after SKIP");
-            ast.skip = std::stoll(t.value);
+            try {
+                ast.skip = std::stoll(t.value);
+            } catch (const std::exception&) {
+                throw CypherParseError{"SKIP value '" + t.value + "' is out of integer range", t.position};
+            }
         }
 
         // LIMIT
         if (match(TokenType::KW_LIMIT)) {
             const auto& t = expect(TokenType::INT_LIT, "Expected integer after LIMIT");
-            ast.limit = std::stoll(t.value);
+            try {
+                ast.limit = std::stoll(t.value);
+            } catch (const std::exception&) {
+                throw CypherParseError{"LIMIT value '" + t.value + "' is out of integer range", t.position};
+            }
         }
 
         // Allow trailing semicolon
@@ -483,12 +491,24 @@ struct CypherParser::Parser {
         if (match(TokenType::KW_FALSE)) return false;
 
         if (check(TokenType::INT_LIT)) {
-            int64_t v = std::stoll(current().value);
+            int64_t v;
+            try {
+                v = std::stoll(current().value);
+            } catch (const std::exception&) {
+                throw CypherParseError{"Integer literal '" + current().value + "' is out of range",
+                                       current().position};
+            }
             ++cursor;
             return v;
         }
         if (check(TokenType::FLOAT_LIT)) {
-            double v = std::stod(current().value);
+            double v;
+            try {
+                v = std::stod(current().value);
+            } catch (const std::exception&) {
+                throw CypherParseError{"Float literal '" + current().value + "' is out of range",
+                                       current().position};
+            }
             ++cursor;
             return v;
         }
@@ -766,12 +786,24 @@ struct CypherParser::Parser {
 
         // Numeric / string literals
         if (check(TokenType::INT_LIT)) {
-            int64_t v = std::stoll(current().value);
+            int64_t v;
+            try {
+                v = std::stoll(current().value);
+            } catch (const std::exception&) {
+                throw CypherParseError{"Integer literal '" + current().value + "' is out of range",
+                                       current().position};
+            }
             ++cursor;
             return std::make_shared<CypherLiteralExpr>(v);
         }
         if (check(TokenType::FLOAT_LIT)) {
-            double v = std::stod(current().value);
+            double v;
+            try {
+                v = std::stod(current().value);
+            } catch (const std::exception&) {
+                throw CypherParseError{"Float literal '" + current().value + "' is out of range",
+                                       current().position};
+            }
             ++cursor;
             return std::make_shared<CypherLiteralExpr>(v);
         }
