@@ -1882,6 +1882,34 @@ void CrossShardTransactionCoordinator::deadlockDetectionThread() {
                             edge.waiting_transaction_id == edge.blocking_transaction_id) {
                             continue;
                         }
+
+                        // Only merge remote edges that reference known live
+                        // transactions tracked by this coordinator. Unknown or
+                        // finished transaction IDs cannot be resolved locally
+                        // and would otherwise create false-positive cycles.
+                        bool include_edge = false;
+                        {
+                            std::lock_guard<std::mutex> lock(transactions_mutex_);
+                            const auto waiting_it = transactions_.find(edge.waiting_transaction_id);
+                            const auto blocking_it = transactions_.find(edge.blocking_transaction_id);
+                            if (waiting_it != transactions_.end() &&
+                                blocking_it != transactions_.end()) {
+                                const auto waiting_state = waiting_it->second.state;
+                                const auto blocking_state = blocking_it->second.state;
+                                const bool waiting_live =
+                                    waiting_state == TransactionState::ACTIVE ||
+                                    waiting_state == TransactionState::PREPARING;
+                                const bool blocking_live =
+                                    blocking_state == TransactionState::ACTIVE ||
+                                    blocking_state == TransactionState::PREPARING ||
+                                    blocking_state == TransactionState::PREPARED;
+                                include_edge = waiting_live && blocking_live;
+                            }
+                        }
+                        if (!include_edge) {
+                            continue;
+                        }
+
                         graph[edge.waiting_transaction_id].push_back(
                             edge.blocking_transaction_id);
                         spdlog::trace(

@@ -1078,3 +1078,42 @@ TEST(DistributedDeadlockDetectionTest, PollBasedEdgesFromShardEndpointAreDetecte
 
     coordinator->stop();
 }
+
+// Verify that poll-reported cycles for unknown transactions are ignored to
+// prevent false-positive deadlock counters and abort attempts.
+TEST(DistributedDeadlockDetectionTest, PollBasedUnknownTransactionsAreIgnored) {
+    auto consensus = std::make_shared<MockConsensusModule>();
+
+    CrossShardTransactionConfig config;
+    config.transaction_log_path = makeTempTxnLogPath("themisdb_deadlock_poll_unknown_");
+    config.enable_deadlock_detection = true;
+    config.deadlock_detection_interval = std::chrono::milliseconds(25);
+    config.shard_endpoints["shard-remote"] = "localhost:50099";
+    config.polled_wait_for_edge_collector =
+        [](const std::string&, const std::string&) {
+            return std::vector<CrossShardTransactionConfig::PolledWaitForEdge>{
+                {"txn-ghost-a", "txn-ghost-b"},
+                {"txn-ghost-b", "txn-ghost-a"}
+            };
+        };
+
+    auto coordinator = std::make_unique<CrossShardTransactionCoordinator>(config, consensus);
+    coordinator->initialize();
+    coordinator->start();
+
+    ASSERT_TRUE(coordinator->beginTransaction(
+        "txn-live", TransactionProtocol::TWO_PHASE_COMMIT,
+        IsolationLevel::SNAPSHOT_ISOLATION));
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(180));
+
+    const auto state = coordinator->getTransactionState("txn-live");
+    ASSERT_TRUE(state.has_value());
+    EXPECT_EQ(*state, TransactionState::ACTIVE);
+
+    const auto stats = coordinator->getStatistics();
+    ASSERT_TRUE(stats.contains("deadlocked_transactions"));
+    EXPECT_EQ(stats["deadlocked_transactions"].get<uint64_t>(), 0u);
+
+    coordinator->stop();
+}
