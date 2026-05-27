@@ -438,18 +438,17 @@ nlohmann::json QueryFederation::executeJoin(
     };
 
     {
-        auto eq_pos = join_condition.find('=');
-        if (eq_pos != std::string::npos) {
-            size_t rhs_start = eq_pos + 1;
-            if (rhs_start < join_condition.size() && join_condition[rhs_start] == '=') {
-                ++rhs_start;  // skip second '=' for '==' syntax
-            }
-            left_field  = extractField(join_condition.substr(0, eq_pos));
-            right_field = extractField(join_condition.substr(rhs_start));
-        } else {
-            left_field  = extractField(join_condition);
-            right_field = left_field;
+        const auto eq_pos = join_condition.find('=');
+        if (eq_pos == std::string::npos) {
+            throw std::invalid_argument(
+                "QueryFederation::executeJoin: join_condition must be an equality expression");
         }
+        size_t rhs_start = eq_pos + 1;
+        if (rhs_start < join_condition.size() && join_condition[rhs_start] == '=') {
+            ++rhs_start;  // skip second '=' for '==' syntax
+        }
+        left_field  = extractField(join_condition.substr(0, eq_pos));
+        right_field = extractField(join_condition.substr(rhs_start));
     }
     if (left_field.empty() || right_field.empty()) {
         throw std::invalid_argument(

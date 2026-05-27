@@ -196,6 +196,18 @@ TEST(QueryFederationJoinValidationTest, EmptyJoinConditionThrows) {
         std::invalid_argument);
 }
 
+TEST(QueryFederationJoinValidationTest, JoinConditionWithoutEqualityOperatorThrows) {
+    auto topology = std::make_shared<ShardTopology>();
+    auto ring     = std::make_shared<ConsistentHashRing>();
+    auto resolver = std::make_shared<URNResolver>(topology, ring);
+    auto router   = std::make_shared<InstrumentedShardRouter>(resolver);
+    QueryFederation federation(router);
+
+    EXPECT_THROW(
+        federation.executeJoin("users", "orders", "user_id"),
+        std::invalid_argument);
+}
+
 TEST(QueryFederationPlanningTest, JoinWithoutOnFallsBackToScatterGather) {
     auto topology = std::make_shared<ShardTopology>();
     auto ring     = std::make_shared<ConsistentHashRing>();
@@ -261,7 +273,7 @@ TEST(QueryFederationJoinValidationTest, OversizedShuffleJoinInputThrows) {
     QueryFederation federation(router, cfg);
 
     EXPECT_THROW(
-        federation.executeJoin("users", "orders", "user_id"),
+        federation.executeJoin("users", "orders", "users.user_id = orders.user_id"),
         std::runtime_error);
 }
 
