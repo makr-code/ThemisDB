@@ -1,7 +1,7 @@
 # server Module — Implementation Gap Analysis
 
 **Status:** In Progress  
-**Last Updated:** 2026-05-26  
+**Last Updated:** 2026-05-27  
 
 ---
 
@@ -14,6 +14,19 @@ python tools/gap_audit_pipeline_v2.py
 ```
 
 ---
+
+## ✅ Recent Remediation (2026-05-27)
+
+- **W1-S13 (2026-05-27) – `src/server/http_server.cpp`**
+  - Fixed `extractClientIP` STUB/SIMULATION: per-IP rate limiting was ineffective for
+    direct (non-proxied) connections because the function returned `""` when neither
+    `X-Forwarded-For` nor `X-Real-IP` was present.
+  - `Session::processRequest()` now erases any client-supplied `X-Themis-Peer-Addr`
+    header and injects the verified `tcp::socket::remote_endpoint().address()` before
+    calling `routeRequest`, preventing header spoofing.
+  - `SslSession::processRequest()` does the same via `stream_.lowest_layer().remote_endpoint()`.
+  - `extractClientIP` falls back to `X-Themis-Peer-Addr` after proxy headers, so direct
+    connections now get their real source IP for rate-limiting and audit logging.
 
 ## ✅ Recent Remediation (2026-05-26)
 
