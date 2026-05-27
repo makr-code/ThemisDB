@@ -324,12 +324,20 @@ void SseConnectionManager::backgroundPollTask() {
     }
     
     try {
+        struct PollTarget {
+            uint64_t id;
+            std::shared_ptr<Connection> conn;
+            uint64_t from_sequence;
+            std::string key_prefix;
+            std::set<Changefeed::ChangeEventType> event_types;
+        };
+
         // Snapshot the active connection list under a brief read lock so that
         // addConnection() / removeConnection() are not blocked for the full
         // changefeed poll duration (which may involve I/O and JSON serialisation).
         // The buffer-full early-exit check is performed here under the lock to
         // avoid an unsynchronised read of conn->buffered_events outside the lock.
-        std::vector<std::pair<uint64_t, std::shared_ptr<Connection>>> active_conns;
+        std::vector<PollTarget> active_conns;
         {
             std::shared_lock<std::shared_mutex> lock(connections_mutex_);
             active_conns.reserve(connections_.size());
@@ -344,23 +352,28 @@ void SseConnectionManager::backgroundPollTask() {
                     THEMIS_WARN("SSE connection {} buffer full, skipping poll", id);
                     continue;
                 }
-                active_conns.emplace_back(id, conn);
+                active_conns.push_back(PollTarget{
+                    id,
+                    conn,
+                    conn->current_sequence.load(std::memory_order_relaxed),
+                    conn->key_prefix,
+                    conn->event_types
+                });
             }
         }
 
-        for (auto& [id, conn] : active_conns) {
+        for (auto& target : active_conns) {
             // Query new events since last sequence — without holding connections_mutex_.
-            // current_sequence is atomic so the lock-free read is safe.
             Changefeed::ListOptions options;
-            options.from_sequence = conn->current_sequence.load(std::memory_order_relaxed);
+            options.from_sequence = target.from_sequence;
             options.limit = 100;
             
-            if (!conn->key_prefix.empty()) {
-                options.key_prefix = conn->key_prefix;
+            if (!target.key_prefix.empty()) {
+                options.key_prefix = target.key_prefix;
             }
             
-            if (!conn->event_types.empty()) {
-                options.event_types = conn->event_types;
+            if (!target.event_types.empty()) {
+                options.event_types = target.event_types;
             }
             
             auto events = changefeed_->listEvents(options);
@@ -369,10 +382,9 @@ void SseConnectionManager::backgroundPollTask() {
 
             // Re-acquire write lock briefly to append events to the connection buffer.
             std::unique_lock<std::shared_mutex> lock(connections_mutex_);
-            // Re-check active flag: the connection may have been removed while we polled.
-            auto it = connections_.find(id);
-            if (it == connections_.end() || !it->second->active) continue;
-            auto& c = *it->second;
+            // Re-check active flag: the connection may have been unregistered while we polled.
+            if (!target.conn->active.load(std::memory_order_relaxed)) continue;
+            auto& c = *target.conn;
 
             for (const auto& event : events) {
                 // Enforce capacity limit: drop oldest when configured, otherwise skip
