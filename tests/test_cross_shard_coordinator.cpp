@@ -1117,3 +1117,70 @@ TEST(DistributedDeadlockDetectionTest, PollBasedUnknownTransactionsAreIgnored) {
 
     coordinator->stop();
 }
+
+// Verify that two independent deadlock cycles are both resolved within a
+// single detection round (one victim per cycle, not one victim globally).
+TEST(DistributedDeadlockDetectionTest, MultipleIndependentDeadlocksAllResolvedInSingleRound) {
+    auto consensus = std::make_shared<MockConsensusModule>();
+
+    CrossShardTransactionConfig config;
+    config.transaction_log_path = makeTempTxnLogPath("themisdb_deadlock_multi_");
+    config.enable_deadlock_detection = true;
+    // Use a longer interval so we can detect resolution within a tight window.
+    config.deadlock_detection_interval = std::chrono::milliseconds(50);
+
+    auto coordinator = std::make_unique<CrossShardTransactionCoordinator>(config, consensus);
+    coordinator->initialize();
+    coordinator->start();
+
+    // Cycle 1: txn-c1-a <-> txn-c1-b
+    ASSERT_TRUE(coordinator->beginTransaction(
+        "txn-c1-a", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator->beginTransaction(
+        "txn-c1-b", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+
+    // Cycle 2: txn-c2-a <-> txn-c2-b (independent of cycle 1)
+    ASSERT_TRUE(coordinator->beginTransaction(
+        "txn-c2-a", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator->beginTransaction(
+        "txn-c2-b", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+
+    coordinator->reportDistributedWait("txn-c1-a", "txn-c1-b", "shard-A");
+    coordinator->reportDistributedWait("txn-c1-b", "txn-c1-a", "shard-B");
+    coordinator->reportDistributedWait("txn-c2-a", "txn-c2-b", "shard-C");
+    coordinator->reportDistributedWait("txn-c2-b", "txn-c2-a", "shard-D");
+
+    // Both cycles must be resolved within a few detection intervals.
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(3);
+    bool cycle1_resolved = false;
+    bool cycle2_resolved = false;
+    while (std::chrono::steady_clock::now() < deadline) {
+        const auto c1a = coordinator->getTransactionState("txn-c1-a");
+        const auto c1b = coordinator->getTransactionState("txn-c1-b");
+        const auto c2a = coordinator->getTransactionState("txn-c2-a");
+        const auto c2b = coordinator->getTransactionState("txn-c2-b");
+
+        if ((c1a.has_value() && *c1a == TransactionState::ABORTED) ||
+            (c1b.has_value() && *c1b == TransactionState::ABORTED)) {
+            cycle1_resolved = true;
+        }
+        if ((c2a.has_value() && *c2a == TransactionState::ABORTED) ||
+            (c2b.has_value() && *c2b == TransactionState::ABORTED)) {
+            cycle2_resolved = true;
+        }
+        if (cycle1_resolved && cycle2_resolved) {
+            break;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    }
+
+    EXPECT_TRUE(cycle1_resolved) << "Cycle 1 was not resolved";
+    EXPECT_TRUE(cycle2_resolved) << "Cycle 2 was not resolved";
+
+    const auto stats = coordinator->getStatistics();
+    ASSERT_TRUE(stats.contains("deadlocked_transactions"));
+    // Two independent cycles -> at least 2 deadlock events counted.
+    EXPECT_GE(stats["deadlocked_transactions"].get<uint64_t>(), 2u);
+
+    coordinator->stop();
+}

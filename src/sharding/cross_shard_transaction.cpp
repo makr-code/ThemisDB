@@ -41,10 +41,12 @@ namespace themisdb {
 namespace sharding {
 
 namespace {
-std::unordered_set<std::string> collectCycleNodes(
-    const std::map<std::string, std::vector<std::string>>& graph,
+// Returns one set of nodes per independent deadlock cycle (Tarjan's SCC,
+// only components with size > 1 or a self-loop are considered cycles).
+std::vector<std::unordered_set<std::string>> collectCycles(
+    const std::map<std::string, std::vector<std::string>>& graph
 ) {
-    std::unordered_set<std::string> cycle_nodes;
+    std::vector<std::unordered_set<std::string>> cycles;
     std::unordered_map<std::string, int> index;
     std::unordered_map<std::string, int> lowlink;
     std::vector<std::string> stack;
@@ -101,7 +103,8 @@ std::unordered_set<std::string> collectCycleNodes(
         }
 
         if (is_cycle_component) {
-            cycle_nodes.insert(component.begin(), component.end());
+            cycles.push_back(
+                std::unordered_set<std::string>(component.begin(), component.end()));
         }
     };
 
@@ -111,6 +114,16 @@ std::unordered_set<std::string> collectCycleNodes(
         }
     }
 
+    return cycles;
+}
+
+std::unordered_set<std::string> collectCycleNodes(
+    const std::map<std::string, std::vector<std::string>>& graph
+) {
+    std::unordered_set<std::string> cycle_nodes;
+    for (auto& cycle : collectCycles(graph)) {
+        cycle_nodes.insert(cycle.begin(), cycle.end());
+    }
     return cycle_nodes;
 }
 }  // namespace
@@ -1929,24 +1942,31 @@ void CrossShardTransactionCoordinator::deadlockDetectionThread() {
         if (graph.empty()) {
             continue;  // No active transactions with potential conflicts
         }
-        
-        const auto cycle_nodes = collectCycleNodes(graph);
-        std::vector<std::string> deadlocked_txns(
-            cycle_nodes.begin(), cycle_nodes.end());
-        
-        if (!deadlocked_txns.empty()) {
-            spdlog::warn("Deadlock detected involving {} transactions", 
+
+        // collectCycles() returns one set per independent cycle (SCC). Each
+        // independent deadlock requires its own victim; selecting one global
+        // victim would leave concurrent independent cycles unresolved until
+        // the next detection round.
+        const auto cycles = collectCycles(graph);
+
+        for (const auto& cycle_nodes : cycles) {
+            std::vector<std::string> deadlocked_txns(
+                cycle_nodes.begin(), cycle_nodes.end());
+
+            spdlog::warn("Deadlock detected involving {} transactions",
                         deadlocked_txns.size());
-            
+
             deadlocked_transactions_++;
-            
-            // Select victim: choose the youngest transaction (most recent start time)
+
+            // Select victim: choose the youngest transaction (most recent
+            // start time) from this cycle so long-running transactions are
+            // preserved where possible.
             std::string victim_id;
             std::chrono::system_clock::time_point latest_start;
-            
+
             {
                 std::lock_guard<std::mutex> lock(transactions_mutex_);
-                
+
                 for (const auto& txn_id : deadlocked_txns) {
                     auto it = transactions_.find(txn_id);
                     if (it != transactions_.end()) {
@@ -1957,7 +1977,7 @@ void CrossShardTransactionCoordinator::deadlockDetectionThread() {
                     }
                 }
             }
-            
+
             if (!victim_id.empty()) {
                 spdlog::warn("Aborting transaction {} to resolve deadlock", victim_id);
                 abort(victim_id);
