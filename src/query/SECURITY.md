@@ -1,6 +1,6 @@
 > **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
 
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-05-27 -->
 <!-- Links: README.md · ARCHITECTURE.md · SECURITY.md (root) -->
 
 # Security Policy — Query Module
