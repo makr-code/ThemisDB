@@ -352,6 +352,59 @@ TEST(CrossShardDeadlockGraphTest, AbortClearsReportedCycleEdges) {
     coordinator.stop();
 }
 
+TEST(CrossShardDeadlockGraphTest, ReportDistributedWaitIgnoresInvalidEdges) {
+    auto consensus = std::make_shared<MockConsensusModule>();
+    CrossShardTransactionConfig config;
+    config.transaction_log_path = makeTempTxnLogPath("themisdb_deadlock_invalid_edges_");
+    config.enable_deadlock_detection = false;
+
+    CrossShardTransactionCoordinator coordinator(config, consensus);
+    ASSERT_TRUE(coordinator.initialize());
+    ASSERT_TRUE(coordinator.start());
+
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-valid-a", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator.beginTransaction(
+        "txn-valid-b", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+
+    coordinator.reportDistributedWait("txn-valid-a", "txn-valid-a", "shard-self");
+    coordinator.reportDistributedWait("", "txn-valid-b", "shard-empty");
+    coordinator.reportDistributedWait("txn-valid-a", "", "shard-empty");
+    coordinator.reportDistributedWait("txn-missing", "txn-valid-b", "shard-missing");
+    coordinator.reportDistributedWait("txn-valid-a", "txn-missing", "shard-missing");
+
+    EXPECT_FALSE(coordinator.isDeadlocked("txn-valid-a"));
+    EXPECT_FALSE(coordinator.isDeadlocked("txn-valid-b"));
+    coordinator.stop();
+}
+
+TEST_F(DistributedDeadlockDetectionTest, VictimSelectionChoosesYoungestCycleMember) {
+    ASSERT_TRUE(coordinator_->beginTransaction(
+        "txn-oldest", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    ASSERT_TRUE(coordinator_->beginTransaction(
+        "txn-youngest", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+
+    coordinator_->reportDistributedWait("txn-oldest", "txn-youngest", "shard-A");
+    coordinator_->reportDistributedWait("txn-youngest", "txn-oldest", "shard-B");
+
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
+    bool resolved = false;
+    while (std::chrono::steady_clock::now() < deadline) {
+        const auto youngest = coordinator_->getTransactionState("txn-youngest");
+        const auto oldest = coordinator_->getTransactionState("txn-oldest");
+        if (youngest.has_value() && *youngest == TransactionState::ABORTED) {
+            ASSERT_TRUE(oldest.has_value());
+            EXPECT_NE(*oldest, TransactionState::ABORTED);
+            resolved = true;
+            break;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    }
+
+    EXPECT_TRUE(resolved);
+}
+
 // ============================================================================
 // Calvin Protocol Tests
 // ============================================================================
