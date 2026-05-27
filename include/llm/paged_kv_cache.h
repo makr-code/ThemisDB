@@ -54,11 +54,11 @@ public:
     
     // Get statistics
     struct Stats {
-        size_t blocks_used;
-        size_t blocks_free;
-        size_t num_sequences;
-        double fragmentation_rate;
-        double prefix_sharing_ratio;
+        size_t blocks_used = 0;
+        size_t blocks_free = 0;
+        size_t num_sequences = 0;
+        double fragmentation_rate = 0.0;
+        double prefix_sharing_ratio = 0.0;
     };
     Stats getStats() const;
 

@@ -72,10 +72,10 @@ public:
     std::string name() const override { return "nucleus"; }
 
 private:
-    float temperature_;
-    int top_k_;
-    float top_p_;
-    float repeat_penalty_;
+    float temperature_ = 0.0f;
+    int top_k_ = 0;
+    float top_p_ = 0.0f;
+    float repeat_penalty_ = 0.0f;
 };
 
 /**
@@ -95,9 +95,9 @@ public:
     std::string name() const override { return "mirostat"; }
 
 private:
-    float tau_;    // Target entropy
-    float eta_;    // Learning rate
-    float mu_;     // Current mu value (adaptive)
+    float tau_ = 0.0f;    // Target entropy
+    float eta_ = 0.0f;    // Learning rate
+    float mu_ = 0.0f;     // Current mu value (adaptive)
 };
 
 /**

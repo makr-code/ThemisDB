@@ -117,7 +117,7 @@ public:
     float getThreshold() const { return threshold_; }
     
 private:
-    float threshold_;  // Number of MAD for outlier detection (typically 2.5-3.5)
+    float threshold_ = 0.0f;  // Number of MAD for outlier detection (typically 2.5-3.5)
     
     // Helper methods
     float computeL2Norm(const std::vector<GradientTensor>& gradients) const;
@@ -155,7 +155,7 @@ public:
     ) const;
     
 private:
-    int max_byzantine_shards_;  // f parameter: max number of Byzantine shards
+    int max_byzantine_shards_ = 0;  // f parameter: max number of Byzantine shards
     
     // Helper methods
     float computeDistance(
@@ -192,7 +192,7 @@ public:
     );
     
 private:
-    int max_byzantine_shards_;  // f parameter: max number of Byzantine shards
+    int max_byzantine_shards_ = 0;  // f parameter: max number of Byzantine shards
     KrumDetector krum_detector_;  // Use Krum for selection
     
     // Helper methods

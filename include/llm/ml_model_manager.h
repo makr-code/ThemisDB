@@ -187,7 +187,7 @@ struct MLInferenceRequest {
  * @brief ML Model inference response
  */
 struct MLInferenceResponse {
-    bool success;
+    bool success = false;
     json output_data;                   // Model-specific output format
     std::string error_message;
     

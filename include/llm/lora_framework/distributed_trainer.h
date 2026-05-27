@@ -278,7 +278,7 @@ public:
 
 private:
     DistributedConfig config_;
-    bool initialized_;
+    bool initialized_ = false;
     
     // Statistics
     DistributedStats stats_;

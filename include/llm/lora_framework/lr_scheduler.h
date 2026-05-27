@@ -141,7 +141,7 @@ public:
     }
 
 private:
-    float lr_;
+    float lr_ = 0.0f;
 };
 
 /**
@@ -158,9 +158,9 @@ public:
     LRSchedulerConfig config() const override;
 
 private:
-    float start_lr_;
-    float end_lr_;
-    int total_steps_;
+    float start_lr_ = 0.0f;
+    float end_lr_ = 0.0f;
+    int total_steps_ = 0;
 };
 
 /**
@@ -177,9 +177,9 @@ public:
     LRSchedulerConfig config() const override;
 
 private:
-    float max_lr_;
-    float min_lr_;
-    int total_steps_;
+    float max_lr_ = 0.0f;
+    float min_lr_ = 0.0f;
+    int total_steps_ = 0;
 };
 
 /**
@@ -196,10 +196,10 @@ public:
     LRSchedulerConfig config() const override;
 
 private:
-    float max_lr_;
-    float min_lr_;
-    int period_;
-    int num_cycles_;
+    float max_lr_ = 0.0f;
+    float min_lr_ = 0.0f;
+    int period_ = 0;
+    int num_cycles_ = 0;
 };
 
 /**
@@ -216,10 +216,10 @@ public:
     LRSchedulerConfig config() const override;
 
 private:
-    float start_lr_;
-    float end_lr_;
-    int total_steps_;
-    float power_;
+    float start_lr_ = 0.0f;
+    float end_lr_ = 0.0f;
+    int total_steps_ = 0;
+    float power_ = 0.0f;
 };
 
 /**
@@ -236,9 +236,9 @@ public:
     LRSchedulerConfig config() const override;
 
 private:
-    float initial_lr_;
-    int step_size_;
-    float gamma_;
+    float initial_lr_ = 0.0f;
+    int step_size_ = 0;
+    float gamma_ = 0.0f;
 };
 
 /**
@@ -255,8 +255,8 @@ public:
     LRSchedulerConfig config() const override;
 
 private:
-    float initial_lr_;
-    float gamma_;
+    float initial_lr_ = 0.0f;
+    float gamma_ = 0.0f;
 };
 
 /**
@@ -273,8 +273,8 @@ public:
     LRSchedulerConfig config() const override;
 
 private:
-    float target_lr_;
-    int warmup_steps_;
+    float target_lr_ = 0.0f;
+    int warmup_steps_ = 0;
 };
 
 /**
@@ -292,10 +292,10 @@ public:
     LRSchedulerConfig config() const override;
 
 private:
-    float max_lr_;
-    float min_lr_;
-    int warmup_steps_;
-    int total_steps_;
+    float max_lr_ = 0.0f;
+    float min_lr_ = 0.0f;
+    int warmup_steps_ = 0;
+    int total_steps_ = 0;
 
 };
 
@@ -313,10 +313,10 @@ public:
     LRSchedulerConfig config() const override;
 
 private:
-    float base_lr_;
-    float max_lr_;
-    int step_size_up_;
-    int step_size_down_;
+    float base_lr_ = 0.0f;
+    float max_lr_ = 0.0f;
+    int step_size_up_ = 0;
+    int step_size_down_ = 0;
 };
 
 /**
@@ -335,11 +335,11 @@ public:
     LRSchedulerConfig config() const override;
 
 private:
-    float max_lr_;
-    float base_lr_;
-    float final_div_factor_;
-    int total_steps_;
-    float pct_start_;
+    float max_lr_ = 0.0f;
+    float base_lr_ = 0.0f;
+    float final_div_factor_ = 0.0f;
+    int total_steps_ = 0;
+    float pct_start_ = 0.0f;
 };
 
 /**
@@ -357,10 +357,10 @@ public:
     LRSchedulerConfig config() const override;
 
 private:
-    float max_lr_;
-    float min_lr_;
-    int warmup_steps_;
-    int total_steps_;
+    float max_lr_ = 0.0f;
+    float min_lr_ = 0.0f;
+    int warmup_steps_ = 0;
+    int total_steps_ = 0;
 };
 
 /**

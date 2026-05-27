@@ -127,8 +127,8 @@ private:
     bool create_fence();
     void enable_debug_layer();
     
-    int adapter_id_;
-    bool initialized_;
+    int adapter_id_ = 0;
+    bool initialized_ = false;
     std::string gpu_description_;
     
     // D3D12 objects
@@ -141,7 +141,7 @@ private:
     ComPtr<ID3D12Fence> fence_;
     
     // Synchronization
-    uint64_t fence_value_;
+    uint64_t fence_value_ = 0;
     void* fence_event_;  // HANDLE on Windows
 };
 

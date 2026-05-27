@@ -99,9 +99,9 @@ struct ConfidenceResult {
  */
 struct TokenConfidence {
     std::string token;
-    float probability;
-    float entropy;
-    int position;
+    float probability = 0.0f;
+    float entropy = 0.0f;
+    int position = 0;
 };
 
 /**

@@ -55,8 +55,8 @@ enum class LoadPhase {
  */
 struct LoadProgress {
     LoadPhase phase;
-    double phase_progress;        // 0.0-1.0 within current phase
-    double overall_percent;       // 0-100 overall progress
+    double phase_progress = 0.0;        // 0.0-1.0 within current phase
+    double overall_percent = 0.0;       // 0-100 overall progress
     std::string status_msg;
     std::chrono::steady_clock::time_point start_time;
     

@@ -125,10 +125,10 @@ public:
     
 private:
     const MultiGPUContext& ctx_;
-    int rank_;
-    int world_size_;
-    bool initialized_;
-    bool p2p_enabled_;
+    int rank_ = 0;
+    int world_size_ = 0;
+    bool initialized_ = false;
+    bool p2p_enabled_ = false;
     
     // Ring all-reduce implementation
     bool ring_allreduce(GPUTensor& tensor, bool average);

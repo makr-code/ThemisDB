@@ -85,7 +85,7 @@ public:
 private:
     std::vector<Device> devices_;
     DeviceType gpu_type_;
-    bool is_homogeneous_;
+    bool is_homogeneous_ = false;
     
     void detect_gpus(int num_gpus, const std::vector<int>& gpu_ids);
 };

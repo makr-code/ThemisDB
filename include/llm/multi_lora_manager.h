@@ -868,9 +868,9 @@ private:
         std::string event_type;  // "load", "unload", "migrate", "evict"
         std::string lora_id;
         std::string tenant_id;
-        int source_gpu;
-        int target_gpu;
-        size_t vram_bytes;
+        int source_gpu = 0;
+        int target_gpu = 0;
+        size_t vram_bytes = 0;
         std::string details;
     };
     std::vector<AuditEvent> audit_log_;

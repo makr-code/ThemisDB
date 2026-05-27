@@ -100,8 +100,8 @@ public:
     /// Known model architectures and their specifications
     struct ModelSpec {
         std::string architecture;  // e.g., "llama", "mistral"
-        int hidden_size;
-        int ffn_dimension;
+        int hidden_size = 0;
+        int ffn_dimension = 0;
         std::vector<std::string> supported_versions;
         std::string tokenizer_type;
         
@@ -199,7 +199,7 @@ public:
         bool feasible = false;
         std::vector<std::string> steps;
         std::vector<std::string> warnings;
-        double estimated_effort;  // 0.0-1.0 (training time ratio)
+        double estimated_effort = 0.0;  // 0.0-1.0 (training time ratio)
         std::string recommendation;
         
         nlohmann::json toJson() const;

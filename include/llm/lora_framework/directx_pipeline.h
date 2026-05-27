@@ -107,9 +107,9 @@ private:
     
     DirectXContext* context_;
     DirectXShader* shader_;
-    uint32_t num_root_constants_;
-    uint32_t num_uavs_;
-    uint32_t num_srvs_;
+    uint32_t num_root_constants_ = 0;
+    uint32_t num_uavs_ = 0;
+    uint32_t num_srvs_ = 0;
     
     ComPtr<ID3D12RootSignature> root_signature_;
     ComPtr<ID3D12PipelineState> pipeline_state_;

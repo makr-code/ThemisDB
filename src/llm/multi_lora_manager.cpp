@@ -575,7 +575,20 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
     }
 
     const struct llama_vocab* vocab = llama_model_get_vocab(lmodel);
+    if (!vocab) {
+        spdlog::error("batchInferenceMultiLoRA: llama_model_get_vocab returned null");
+        std::vector<InferenceResponse> error_responses(requests.size());
+        for (auto& r : error_responses) { r.success = false; r.error_message = "llama_model_get_vocab failed"; }
+        return error_responses;
+    }
+
     const int32_t n_vocab    = llama_vocab_n_tokens(vocab);
+    if (n_vocab <= 0) {
+        spdlog::error("batchInferenceMultiLoRA: invalid vocabulary size {}", n_vocab);
+        std::vector<InferenceResponse> error_responses(requests.size());
+        for (auto& r : error_responses) { r.success = false; r.error_message = "Invalid model vocabulary size"; }
+        return error_responses;
+    }
     const int32_t eos_token  = llama_vocab_eos(vocab);
     const int32_t ctx_size   = static_cast<int32_t>(llama_n_ctx(model_context));
 
@@ -683,6 +696,12 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
             for (int tok_idx = 0; tok_idx < max_new_tokens; ++tok_idx) {
                 // Greedy sampling: argmax over vocabulary logits
                 float* logits = llama_get_logits_ith(model_context, -1);
+                if (!logits) {
+                    response.success = false;
+                    response.error_message = "llama_get_logits_ith returned null";
+                    responses[idx] = response;
+                    break;
+                }
                 int32_t next_token = 0;
                 float   best_logit = logits[0];
                 for (int32_t v = 1; v < n_vocab; ++v) {
@@ -2119,7 +2138,21 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
             // Extract rank/alpha from GGUF metadata if present.
             auto it_rank = meta.config.find("lora.rank");
             if (it_rank != meta.config.end()) {
-                try { lora->rank = std::stoi(it_rank->second); } catch (...) {}
+                try {
+                    int parsed_rank = std::stoi(it_rank->second);
+                    if (parsed_rank < static_cast<int>(MIN_LORA_RANK) ||
+                        parsed_rank > static_cast<int>(MAX_LORA_RANK)) {
+                        spdlog::warn("loadLoRAInternal: LoRA '{}' rank {} from GGUF metadata "
+                                     "is outside allowed bounds [{}, {}]; clamping",
+                                     lora_id, parsed_rank,
+                                     static_cast<int>(MIN_LORA_RANK),
+                                     static_cast<int>(MAX_LORA_RANK));
+                        parsed_rank = std::clamp(parsed_rank,
+                                                 static_cast<int>(MIN_LORA_RANK),
+                                                 static_cast<int>(MAX_LORA_RANK));
+                    }
+                    lora->rank = static_cast<size_t>(parsed_rank);
+                } catch (...) {}
             }
             auto it_alpha = meta.config.find("lora.alpha");
             if (it_alpha != meta.config.end()) {

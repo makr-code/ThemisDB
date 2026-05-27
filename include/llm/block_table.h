@@ -51,16 +51,16 @@ public:
     
     // Get statistics
     struct Stats {
-        size_t num_blocks;
-        size_t num_shared_blocks;
-        size_t num_cow_blocks;
-        double sharing_ratio;
+        size_t num_blocks = 0;
+        size_t num_shared_blocks = 0;
+        size_t num_cow_blocks = 0;
+        double sharing_ratio = 0.0;
     };
     Stats getStats() const;
 
 private:
     std::shared_ptr<PagedBlockManager> block_manager_;
-    uint64_t sequence_id_;
+    uint64_t sequence_id_ = 0;
     Config config_;
     
     std::vector<int> block_ids_;          // Physical block IDs

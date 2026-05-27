@@ -73,10 +73,10 @@ public:
 
 private:
     std::string name_;
-    size_t in_dim_;
-    size_t out_dim_;
-    size_t rank_;
-    float scaling_;
+    size_t in_dim_ = 0;
+    size_t out_dim_ = 0;
+    size_t rank_ = 0;
+    float scaling_ = 1.0f;
     
     // Trainable parameters (B and A matrices)
     std::unique_ptr<Tensor> B_;  // (in_dim, rank)
@@ -115,12 +115,12 @@ private:
     std::unique_ptr<LoRALayer> v_lora_;
     std::unique_ptr<LoRALayer> o_lora_;
     
-    size_t dim_;
-    size_t rank_;
-    bool apply_to_q_;
-    bool apply_to_k_;
-    bool apply_to_v_;
-    bool apply_to_o_;
+    size_t dim_ = 0;
+    size_t rank_ = 0;
+    bool apply_to_q_ = true;
+    bool apply_to_k_ = true;
+    bool apply_to_v_ = true;
+    bool apply_to_o_ = true;
 };
 
 /**
@@ -233,9 +233,9 @@ public:
     void set_learning_rate(float lr) { learning_rate_ = lr; }
 
 private:
-    float learning_rate_;
-    float momentum_;
-    float weight_decay_;
+    float learning_rate_ = 0.0f;
+    float momentum_ = 0.0f;
+    float weight_decay_ = 0.0f;
     std::vector<Tensor*> parameters_;
     
     // Momentum buffers (for momentum > 0)
@@ -288,12 +288,12 @@ public:
     int step_count() const { return step_count_; }
 
 private:
-    float learning_rate_;
-    float beta1_;
-    float beta2_;
-    float epsilon_;
-    float weight_decay_;
-    int step_count_;
+    float learning_rate_ = 0.0f;
+    float beta1_ = 0.0f;
+    float beta2_ = 0.0f;
+    float epsilon_ = 0.0f;
+    float weight_decay_ = 0.0f;
+    int step_count_ = 0;
     std::vector<Tensor*> parameters_;
     
     // First moment estimates (momentum)
@@ -345,12 +345,12 @@ public:
     int step_count() const { return step_count_; }
 
 private:
-    float learning_rate_;
-    float beta1_;
-    float beta2_;
-    float epsilon_;
-    float weight_decay_;
-    int step_count_;
+    float learning_rate_ = 0.0f;
+    float beta1_ = 0.0f;
+    float beta2_ = 0.0f;
+    float epsilon_ = 0.0f;
+    float weight_decay_ = 0.0f;
+    int step_count_ = 0;
     std::vector<Tensor*> parameters_;
     
     // First moment estimates (momentum)
