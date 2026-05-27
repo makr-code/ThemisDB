@@ -174,6 +174,16 @@ inline float calculateUtilization(size_t used_vram, size_t max_vram_bytes) noexc
         : 0.0f;
 }
 
+inline size_t clampUsedVRAM(size_t used_vram, size_t max_vram_bytes) noexcept {
+    return std::min(used_vram, max_vram_bytes);
+}
+
+inline float calculateUtilizationPercent(size_t used_vram, size_t max_vram_bytes) noexcept {
+    return (max_vram_bytes > 0)
+        ? (static_cast<float>(used_vram) * 100.0f) / static_cast<float>(max_vram_bytes)
+        : 0.0f;
+}
+
 inline bool isGPUAvailableNoLock(const std::unordered_map<int, bool>& gpu_health_status,
                                  int gpu_device_id) noexcept {
     auto it = gpu_health_status.find(gpu_device_id);
@@ -1499,7 +1509,7 @@ GPUMemoryManager::GPUStats GPUMemoryManager::getGPUStats(int gpu_device_id) cons
     if (it != per_gpu_vram_used_.end()) {
         stats.used_vram_bytes = it->second;
     }
-    
+    stats.used_vram_bytes = clampUsedVRAM(stats.used_vram_bytes, stats.total_vram_bytes);
     stats.free_vram_bytes = stats.total_vram_bytes - stats.used_vram_bytes;
     
     // Count allocations on this GPU
@@ -1524,7 +1534,10 @@ GPUMemoryManager::GPUStats GPUMemoryManager::getGPUStats(int gpu_device_id) cons
     if (util_it != gpu_utilizations_.end()) {
         stats.utilization_percent = util_it->second;
     } else {
-        stats.utilization_percent = (stats.used_vram_bytes * 100.0f) / stats.total_vram_bytes;
+        stats.utilization_percent = calculateUtilizationPercent(
+            stats.used_vram_bytes,
+            stats.total_vram_bytes
+        );
     }
     
     // Get temperature
@@ -1558,7 +1571,7 @@ std::vector<GPUMemoryManager::GPUStats> GPUMemoryManager::getAllGPUStats() const
             if (it != per_gpu_vram_used_.end()) {
                 stats.used_vram_bytes = it->second;
             }
-            
+            stats.used_vram_bytes = clampUsedVRAM(stats.used_vram_bytes, stats.total_vram_bytes);
             stats.free_vram_bytes = stats.total_vram_bytes - stats.used_vram_bytes;
             
             // Count allocations on this GPU
@@ -1583,7 +1596,10 @@ std::vector<GPUMemoryManager::GPUStats> GPUMemoryManager::getAllGPUStats() const
             if (util_it != gpu_utilizations_.end()) {
                 stats.utilization_percent = util_it->second;
             } else {
-                stats.utilization_percent = (stats.used_vram_bytes * 100.0f) / stats.total_vram_bytes;
+                stats.utilization_percent = calculateUtilizationPercent(
+                    stats.used_vram_bytes,
+                    stats.total_vram_bytes
+                );
             }
             
             // Get temperature

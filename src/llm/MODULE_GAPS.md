@@ -409,6 +409,14 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
 - Gap delta (scope-local): 3 lock-reentry deadlock paths + 2 unguarded shared-state access paths
   in `gpu_memory_manager.cpp` are now removed from this ticket scope.
 
+**Status (v1.22.0-pre — W1-L06 stats-safety follow-up):** `gpu_memory_manager.cpp` GPU stats arithmetic hardened:
+- `getGPUStats()` and `getAllGPUStats()` now clamp `used_vram_bytes` to configured capacity before
+  deriving free VRAM, preventing unsigned underflow in defensive/stat-corruption scenarios.
+- Default utilization computation now uses a zero-capacity-safe helper and returns `0.0f` when
+  `max_vram_bytes == 0` (instead of dividing by zero).
+- Added focused regression coverage in `tests/test_multi_gpu_management.cpp` for zero-VRAM config
+  to keep per-GPU and all-GPU stats bounded and finite.
+
 **Status (v1.22.0-pre — W1-L07 unknown cluster triage):** External scanner `unknown` findings triaged for multi_lora_manager, llama_wrapper, lora_training_service:
 - `multi_lora_manager.cpp`: external_v3 reports 1227 findings vs 5 internal. `unknown` cluster
   arises from deep STL template patterns, virtual dispatch and large switch bodies the scanner

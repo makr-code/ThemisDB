@@ -183,6 +183,39 @@ TEST_F(GPUMemoryManagerMultiGPUTest, GlobalStatsReflectGPUAllocation) {
     EXPECT_TRUE(memory_manager_->freeGPU("stats-model", ptr));
 }
 
+TEST(GPUMemoryManagerStatsEdgeCases, ZeroConfiguredVRAMKeepsStatsBounded) {
+    GPUMemoryManager::Config config;
+    config.enable_multi_gpu = true;
+    config.gpu_devices = {0};
+    config.max_vram_bytes = 0;
+
+    auto manager = std::make_shared<GPUMemoryManager>(config);
+    auto stats = manager->getGPUStats(0);
+
+    EXPECT_EQ(stats.total_vram_bytes, 0u);
+    EXPECT_EQ(stats.used_vram_bytes, 0u);
+    EXPECT_EQ(stats.free_vram_bytes, 0u);
+    EXPECT_FLOAT_EQ(stats.utilization_percent, 0.0f);
+}
+
+TEST(GPUMemoryManagerStatsEdgeCases, ZeroConfiguredVRAMAllGPUStatsKeepsUtilizationFinite) {
+    GPUMemoryManager::Config config;
+    config.enable_multi_gpu = true;
+    config.gpu_devices = {0, 1};
+    config.max_vram_bytes = 0;
+
+    auto manager = std::make_shared<GPUMemoryManager>(config);
+    const auto all_stats = manager->getAllGPUStats();
+
+    ASSERT_EQ(all_stats.size(), 2u);
+    for (const auto& stats : all_stats) {
+        EXPECT_EQ(stats.total_vram_bytes, 0u);
+        EXPECT_EQ(stats.used_vram_bytes, 0u);
+        EXPECT_EQ(stats.free_vram_bytes, 0u);
+        EXPECT_FLOAT_EQ(stats.utilization_percent, 0.0f);
+    }
+}
+
 // ============================================================================
 // Adapter Load Balancer Tests
 // ============================================================================
