@@ -46,7 +46,7 @@
 |-------|------------------------------------------------------------------------|--------------|
 | KL-01 | ~~`AQLParser` instances are not thread-safe; must be per-thread or mutex-protected~~ — **Closed 2026-05-26**: `AQLParser` is stateless; every public method constructs local `Tokenizer`+`Parser` objects, so concurrent calls on a shared instance are safe. | ✅ Closed |
 | KL-02 | Performance benchmarks for vectorized and federated paths not yet published | Q2 2026 |
-| KL-03 | Full security audit (injection + resource exhaustion) in progress       | Q2 2026      |
+| KL-03 | ~~Full security audit (injection + resource exhaustion) in progress~~ — **Closed 2026-05-27**: audit findings tracked in `AUDIT.md` are resolved (CCF-01..05, CQE-01..03, TC-01..15, REL-01..19, UNINIT-01..20, PERF-01..05, IV-01). | ✅ Closed |
 
 ## Reporting a Vulnerability
 
