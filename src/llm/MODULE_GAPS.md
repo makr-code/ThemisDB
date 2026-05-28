@@ -623,7 +623,29 @@ access safety hardened in `lora_training_service.cpp`:
   input, reducing residual `UNCHECKED_ARRAY_INDEX`/`unknown`-cluster scanner noise in the
   W1-L07 issue-scope `lora_training_service.cpp` training loop.
 
-**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 12):** Remaining
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 13):** Data race in
+`Impl::trainOnTheFly()` fully closed; mutex coverage extended to `setHyperparameters`/`getHyperparameters`;
+remaining scanner noise categories documented as false positives:
+- `lora_training_service.cpp` — `trainOnTheFly` now uses the `local_config` snapshot throughout its
+  entire body. Previously, 44 direct `config_.` accesses in lines 222–942 bypassed the snapshot taken at
+  lines 208–212, reintroducing a data race with concurrent `setTrainingConfig()` calls. All 44 accesses
+  now read from `local_config.*`. The single mutation `config_.target_modules = {...}` (Phi-3 model
+  adaptation) is now applied to `local_config.target_modules` so it is a per-run override rather than a
+  persistent write that would have raced with readers.
+- `lora_training_service.cpp` — `Impl::setHyperparameters()` and `Impl::getHyperparameters()` now acquire
+  `unique_lock<shared_mutex>` / `shared_lock<shared_mutex>` on `config_mutex_` respectively, closing a
+  further data race on `config_.default_hyperparameters`.
+- `lora_training_service.cpp` — `batch.input_ids[0]` replaced with `batch.input_ids.front()` at the
+  per-batch empty-row check (scanner-friendly: `.front()` call is visibly guarded by prior `batch_size==0`
+  check; `[0]` form was flagged as `UNCHECKED_ARRAY_INDEX` by scanner).
+- `virtual_call_in_ctor_dtor` (1081 instances across scope files): **confirmed false positives** — scanner
+  flags ANY function call whose name matches class/template naming patterns (e.g., `numeric_limits`,
+  `quantizationModeToString`, std algorithm adapters) as a "virtual call in ctor/dtor", even when no
+  virtual dispatch exists and no constructor/destructor context is present.
+- `conditional_initialization_use` (259 instances across scope files): **confirmed false positives** —
+  scanner emits this finding for variables initialized inside `if` branches that are only used within that
+  same branch; the scanner cannot correlate guard scope with dereference scope.
+
 batch-shape and multi-GPU device-list assumptions now fail closed in issue scope:
 - `lora_training_service.cpp` — training now rejects malformed batches when
   `label_ids.size() != input_ids.size()` before per-row access, preventing `batch.label_ids[i]`

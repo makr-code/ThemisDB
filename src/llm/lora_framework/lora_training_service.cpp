@@ -219,7 +219,7 @@ public:
         
         try {
             // Use provided hyperparameters or default
-            auto params = hyperparameters.value_or(config_.default_hyperparameters);
+            auto params = hyperparameters.value_or(local_config.default_hyperparameters);
             
             // Define default target modules for comparison
             static const std::vector<std::string> DEFAULT_TARGET_MODULES = {
@@ -228,16 +228,16 @@ public:
             
             // Detect Phi-3 model and configure appropriate settings
             bool is_phi3_model = false;
-            if (config_.base_model_path.find("phi-3") != std::string::npos ||
-                config_.base_model_path.find("phi3") != std::string::npos ||
+            if (local_config.base_model_path.find("phi-3") != std::string::npos ||
+                local_config.base_model_path.find("phi3") != std::string::npos ||
                 adapter_id.find("phi-3") != std::string::npos ||
                 adapter_id.find("phi3") != std::string::npos) {
                 is_phi3_model = true;
                 spdlog::info("Detected Phi-3 model, applying Phi-3 specific configuration");
                 
                 // Override target modules for Phi-3's Grouped Query Attention architecture
-                if (config_.target_modules.empty() || config_.target_modules == DEFAULT_TARGET_MODULES) {
-                    config_.target_modules = {
+                if (local_config.target_modules.empty() || local_config.target_modules == DEFAULT_TARGET_MODULES) {
+                    local_config.target_modules = {
                         "qkv_proj",      // Phi-3 combined Q/K/V projection
                         "o_proj",        // Output projection
                         "gate_up_proj",  // Phi-3 combined gate/up projection (MLP)
@@ -261,8 +261,8 @@ public:
             spdlog::info("  Training samples: {}", data.size());
             spdlog::info("  Rank: {}, Alpha: {}", params.rank, params.alpha);
             spdlog::info("  Learning rate: {}", params.learning_rate);
-            if (!config_.target_modules.empty()) {
-                spdlog::info("  Target modules: {}", fmt::join(config_.target_modules, ", "));
+            if (!local_config.target_modules.empty()) {
+                spdlog::info("  Target modules: {}", fmt::join(local_config.target_modules, ", "));
             }
             
             // Initialize metrics
@@ -292,7 +292,7 @@ public:
             std::shared_ptr<ITokenizer> tokenizer;
             
             // Validate base model path is provided
-            if (config_.base_model_path.empty()) {
+            if (local_config.base_model_path.empty()) {
                 result.success = false;
                 result.error_message = "base_model_path is required for LoRA training. "
                     "llama.cpp tokenizer needs model file for correct tokenization. "
@@ -301,9 +301,9 @@ public:
                 return result;
             }
             
-            if (!std::filesystem::exists(config_.base_model_path)) {
+            if (!std::filesystem::exists(local_config.base_model_path)) {
                 result.success = false;
-                result.error_message = "Base model file not found: " + config_.base_model_path + ". "
+                result.error_message = "Base model file not found: " + local_config.base_model_path + ". "
                     "llama.cpp tokenizer requires valid GGUF model file.";
                 spdlog::error(result.error_message);
                 return result;
@@ -311,8 +311,8 @@ public:
             
             // Load llama.cpp tokenizer from base model
             try {
-                spdlog::info("Initializing llama.cpp tokenizer from: {}", config_.base_model_path);
-                tokenizer = std::make_shared<LlamaTokenizer>(config_.base_model_path);
+                spdlog::info("Initializing llama.cpp tokenizer from: {}", local_config.base_model_path);
+                tokenizer = std::make_shared<LlamaTokenizer>(local_config.base_model_path);
                 
                 // Log tokenizer info
                 size_t vocab_size = tokenizer->vocab_size();
@@ -329,25 +329,25 @@ public:
             }
             
             // QLoRA Configuration
-            bool using_qlora = config_.qlora.enabled;
+            bool using_qlora = local_config.qlora.enabled;
             QuantizationType quant_type = QuantizationType::NONE;
             
             if (using_qlora) {
                 spdlog::info("QLoRA training mode ENABLED");
-                spdlog::info("  Quantization type: {}", config_.qlora.quantization_type);
-                spdlog::info("  Block size: {}", config_.qlora.block_size);
-                spdlog::info("  Double quantization: {}", config_.qlora.use_double_quantization);
-                spdlog::info("  Layer-by-layer: {}", config_.qlora.layer_by_layer);
+                spdlog::info("  Quantization type: {}", local_config.qlora.quantization_type);
+                spdlog::info("  Block size: {}", local_config.qlora.block_size);
+                spdlog::info("  Double quantization: {}", local_config.qlora.use_double_quantization);
+                spdlog::info("  Layer-by-layer: {}", local_config.qlora.layer_by_layer);
                 
                 // Set quantization type based on configuration
-                if (config_.qlora.quantization_type == "nf4") {
+                if (local_config.qlora.quantization_type == "nf4") {
                     quant_type = QuantizationType::NF4;
                     spdlog::info("Using NF4 quantization (expected memory reduction: ~80%)");
-                } else if (config_.qlora.quantization_type == "int8") {
+                } else if (local_config.qlora.quantization_type == "int8") {
                     quant_type = QuantizationType::INT8;
                     spdlog::info("Using INT8 quantization (expected memory reduction: ~69%)");
                 } else {
-                    spdlog::warn("Unknown quantization type '{}', disabling QLoRA", config_.qlora.quantization_type);
+                    spdlog::warn("Unknown quantization type '{}', disabling QLoRA", local_config.qlora.quantization_type);
                     using_qlora = false;
                 }
             } else {
@@ -376,14 +376,14 @@ public:
             bool using_base_model = false;
             
             if (using_qlora) {
-                spdlog::info("Initializing QLoRA model with base model: {}", config_.base_model_path);
+                spdlog::info("Initializing QLoRA model with base model: {}", local_config.base_model_path);
                 
                 // Create quantized model configuration
                 QuantizedModelConfig qmodel_config;
                 qmodel_config.quantization_type = quant_type;
-                qmodel_config.block_size = config_.qlora.block_size;
-                qmodel_config.use_double_quantization = config_.qlora.use_double_quantization;
-                qmodel_config.layer_by_layer = config_.qlora.layer_by_layer;
+                qmodel_config.block_size = local_config.qlora.block_size;
+                qmodel_config.use_double_quantization = local_config.qlora.use_double_quantization;
+                qmodel_config.layer_by_layer = local_config.qlora.layer_by_layer;
                 
                 try {
                     quantized_model = std::make_unique<QuantizedModel>(qmodel_config);
@@ -397,17 +397,17 @@ public:
                 }
             } else {
                 // Standard LoRA: Try to initialize with base model if path is provided, valid, and enabled
-                if (config_.use_base_model && 
-                    !config_.base_model_path.empty() && 
-                    std::filesystem::exists(config_.base_model_path)) {
+                if (local_config.use_base_model && 
+                    !local_config.base_model_path.empty() && 
+                    std::filesystem::exists(local_config.base_model_path)) {
                     try {
-                        spdlog::info("Initializing with base model: {}", config_.base_model_path);
+                        spdlog::info("Initializing with base model: {}", local_config.base_model_path);
                         
                         // Configure LoRA-enhanced model
                         LoRAEnhancedModel::Config model_config;
-                        model_config.base_model_path = config_.base_model_path;
+                        model_config.base_model_path = local_config.base_model_path;
                         model_config.lora_config = params;
-                        model_config.target_modules = config_.target_modules;
+                        model_config.target_modules = local_config.target_modules;
                         model_config.freeze_base_model = true;
                         
                         enhanced_model = std::make_unique<LoRAEnhancedModel>(model_config);
@@ -434,12 +434,12 @@ public:
                         enhanced_model.reset();
                     }
                 } else {
-                    if (!config_.use_base_model) {
+                    if (!local_config.use_base_model) {
                         spdlog::info("Base model integration disabled (use_base_model=false)");
-                    } else if (config_.base_model_path.empty()) {
+                    } else if (local_config.base_model_path.empty()) {
                         spdlog::info("No base model path configured");
                     } else {
-                        spdlog::warn("Base model file not found: {}", config_.base_model_path);
+                        spdlog::warn("Base model file not found: {}", local_config.base_model_path);
                     }
                     spdlog::info("Using standalone LoRA layer for training");
                 }
@@ -520,9 +520,9 @@ public:
                 static_cast<size_t>(params.num_epochs));
             
             // Use production LR scheduler factory with full configuration support
-            if (config_.lr_scheduler.type != SchedulerType::CONSTANT || config_.lr_scheduler.base_lr != 1e-4f) {
+            if (local_config.lr_scheduler.type != SchedulerType::CONSTANT || local_config.lr_scheduler.base_lr != 1e-4f) {
                 // Production config has been set, use it
-                auto scheduler_config = config_.lr_scheduler;
+                auto scheduler_config = local_config.lr_scheduler;
                 scheduler_config.total_steps = total_steps;  // Update total_steps based on actual data
                 lr_scheduler = LRSchedulerFactory::create(scheduler_config);
                 spdlog::info("Using production LR scheduler: type={}", static_cast<int>(scheduler_config.type));
@@ -572,15 +572,15 @@ public:
             }
             
             // Initialize production training features
-            auto mixed_precision = std::make_unique<MixedPrecisionTrainer>(config_.mixed_precision);
-            auto gradient_accumulator = std::make_unique<GradientAccumulator>(config_.gradient_accumulation);
+            auto mixed_precision = std::make_unique<MixedPrecisionTrainer>(local_config.mixed_precision);
+            auto gradient_accumulator = std::make_unique<GradientAccumulator>(local_config.gradient_accumulation);
             
             spdlog::info("Initialized LoRA layer with {} parameters", 
                         lora_layer->parameter_count());
             spdlog::info("Production features enabled:");
             spdlog::info("  Mixed precision: {}", mixed_precision->is_enabled());
-            spdlog::info("  Gradient clipping: {}", static_cast<int>(config_.gradient_clipping.method));
-            spdlog::info("  Gradient accumulation: {} steps", config_.gradient_accumulation.accumulation_steps);
+            spdlog::info("  Gradient clipping: {}", static_cast<int>(local_config.gradient_clipping.method));
+            spdlog::info("  Gradient accumulation: {} steps", local_config.gradient_accumulation.accumulation_steps);
             
             // Training loop
             for (int epoch = 0; epoch < params.num_epochs; ++epoch) {
@@ -618,7 +618,7 @@ public:
                     auto batch = data_loader.getNextBatch();
                     
                     size_t batch_size = batch.input_ids.size();
-                    if (batch_size == 0 || batch.input_ids[0].empty()) {
+                    if (batch_size == 0 || batch.input_ids.front().empty()) {
                         spdlog::debug("Skipping empty training batch at step {}", step);
                         continue;
                     }
@@ -824,7 +824,7 @@ public:
                     if (no_overflow) {
                         // Apply gradient clipping
                         GradientStats grad_stats = GradientUtils::apply_clipping(
-                            gradients, config_.gradient_clipping
+                            gradients, local_config.gradient_clipping
                         );
                         
                         // Accumulate gradients
@@ -872,9 +872,9 @@ public:
                     }
                     
                     // Periodic checkpointing
-                    if (config_.enable_checkpointing && 
-                        config_.checkpoint_interval_steps > 0 &&
-                        current_metrics_.current_step % config_.checkpoint_interval_steps == 0) {
+                    if (local_config.enable_checkpointing && 
+                        local_config.checkpoint_interval_steps > 0 &&
+                        current_metrics_.current_step % local_config.checkpoint_interval_steps == 0) {
                         saveCheckpoint(adapter_id, params);
                     }
                     
@@ -910,7 +910,7 @@ public:
                 spdlog::info("Training stopped - saving final checkpoint");
                 
                 // Save checkpoint on stop
-                if (config_.enable_checkpointing) {
+                if (local_config.enable_checkpointing) {
                     saveCheckpoint(adapter_id, params);
                 }
             } else {
@@ -974,11 +974,13 @@ public:
     }
     
     void setHyperparameters(const LoRAHyperparameters& hyperparameters) {
+        std::unique_lock<std::shared_mutex> lock(config_mutex_);
         config_.default_hyperparameters = hyperparameters;
         spdlog::info("Updated default hyperparameters");
     }
     
     LoRAHyperparameters getHyperparameters() const {
+        std::shared_lock<std::shared_mutex> lock(config_mutex_);
         return config_.default_hyperparameters;
     }
     
