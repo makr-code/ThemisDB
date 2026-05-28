@@ -1458,9 +1458,17 @@ Fixes applied:
   on JWT token validation and `/v1/models` enumeration fallback paths so both stay
   fail-closed / empty-list resilient without leaking non-standard exceptions into
   top-level request dispatch.
+- `llm_api_handler.cpp`: `handleOpenAIChatCompletions()` now has its own
+  top-level exception boundary with deterministic `server_error` recovery,
+  so unexpected exceptions in policy/adapter setup cannot escape the OpenAI
+  route-level handler even before `handleRequest()` fallback handling.
+- `http3_session.cpp`: `Http3Handler::doAccept()` receive callback now wraps
+  `onReceive(...)` in a callback-local `try/catch` and explicitly re-arms the
+  receive loop when safe, closing a remaining async callback uncaught-exception
+  edge in the UDP accept path.
 
 ### Focused Test Coverage (2026-05-27, W1-S06 verification)
-- `tests/test_llm_w1s06_exception_boundaries.cpp`: 6 focused unit tests registered as
+- `tests/test_llm_w1s06_exception_boundaries.cpp`: 7 focused unit tests registered as
   `W1S06ExceptionBoundaryTests` in `tests/CMakeLists.txt`.
   - **EX-01** — `handleRequest()` top-level catch does not propagate; returns HTTP 500.
   - **EX-02** — No `Authorization` header → 401 (no-auth-header path).
@@ -1469,6 +1477,8 @@ Fixes applied:
     `validateBearerToken()` → 401 (exception-catch path exercised).
   - **EX-05** — `GET /v1/models` bypasses JWT gate → 200 with `{"object":"list","data":[]}`.
   - **EX-06** — Unknown route past auth gate → 404.
+  - **EX-07** — `POST /v1/chat/completions` with invalid `messages` shape returns 400
+    with structured error JSON (no exception propagation).
   - `Http3Handler` lifecycle changes (`running_` gate, `armCleanupTimer`) are verified
     by code review and documented here; direct unit-testing requires a live UDP socket
     and is deferred to integration-level tests.

@@ -168,6 +168,25 @@ TEST(W1S06OpenAICompatTest, EX05_ListModels_NoJWT_Returns200EmptyList) {
     EXPECT_TRUE(body["data"].is_array());
 }
 
+// EX-07: OpenAI chat-completions invalid request shape must fail cleanly with
+// a deterministic HTTP response (no exception propagation).
+TEST(W1S06OpenAICompatTest, EX07_ChatCompletionsInvalidMessages_Returns400) {
+    LLMApiHandler handler(nullptr, std::nullopt);
+    auto req = makeRequest(
+        http::verb::post,
+        "/v1/chat/completions",
+        "",
+        R"({"model":"demo","messages":"not-an-array"})");
+
+    http::response<http::string_body> res;
+    ASSERT_NO_THROW(res = handler.handleRequest(req));
+    EXPECT_EQ(res.result(), http::status::bad_request);
+
+    json body;
+    ASSERT_NO_THROW(body = json::parse(res.body()));
+    EXPECT_TRUE(body.contains("error"));
+}
+
 #else // !THEMIS_ENABLE_LLM
 
 // Placeholder when the LLM feature is disabled at build time.

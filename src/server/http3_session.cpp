@@ -162,7 +162,14 @@ void Http3Handler::doAccept() {
         boost::asio::buffer(recv_buffer_),
         remote_endpoint_,
         [this](boost::system::error_code ec, std::size_t bytes_transferred) {
-            onReceive(ec, bytes_transferred);
+            try {
+                onReceive(ec, bytes_transferred);
+            } catch (...) {
+                logCurrentException("HTTP/3 receive callback failed");
+                if (running_.load(std::memory_order_acquire) && socket_.is_open()) {
+                    doAccept();
+                }
+            }
         }
     );
 }

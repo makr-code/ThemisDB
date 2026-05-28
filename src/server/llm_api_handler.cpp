@@ -1603,124 +1603,130 @@ http::response<http::string_body> LLMApiHandler::handleFeedbackStats(
 http::response<http::string_body> LLMApiHandler::handleOpenAIChatCompletions(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleOpenAIChatCompletions");
+    try {
+        auto body = parseRequestBody(req);
+        if (!body) {
+            auto err = llm::OpenAICompatAdapter::buildError(
+                "Invalid JSON body", "invalid_request_error");
+            return createJsonResponse(err, http::status::bad_request);
+        }
 
-    auto body = parseRequestBody(req);
-    if (!body) {
+        // ── API key / governance check ──────────────────────────────────────
+        // When a PolicyEngine is configured, validate the caller's identity and
+        // data-classification policy before any inference work is started.
+        // Returns HTTP 401 for missing/malformed tokens, HTTP 403 for denied policy.
+        if (policy_engine_) {
+            // Collect headers from the Boost.Beast request into the flat map
+            // expected by PolicyEngine::checkInferencePermission().
+            std::unordered_map<std::string, std::string> header_map;
+            for (const auto& field : req) {
+                header_map[std::string(field.name_string())] =
+                    std::string(field.value());
+            }
+            auto perm = policy_engine_->checkInferencePermission(header_map);
+            if (!perm.allowed) {
+                auto err = llm::OpenAICompatAdapter::buildError(
+                    perm.denial_reason, "invalid_request_error",
+                    perm.http_status == 401 ? "invalid_api_key" : "policy_denied");
+                return createJsonResponse(
+                    err,
+                    perm.http_status == 401 ? http::status::unauthorized
+                                            : http::status::forbidden);
+            }
+        }
+
+        // Determine whether the client wants streaming output
+        bool streaming = false;
+        if (body->contains("stream") && (*body)["stream"].is_boolean()) {
+            streaming = (*body)["stream"].get<bool>();
+        }
+
+        // Parse the OpenAI request into an InferenceRequest
+        auto parse_result = llm::OpenAICompatAdapter::parseRequest(*body);
+        if (std::holds_alternative<std::string>(parse_result)) {
+            const std::string& msg = std::get<std::string>(parse_result);
+            auto err = llm::OpenAICompatAdapter::buildError(msg, "invalid_request_error");
+            return createJsonResponse(err, http::status::bad_request);
+        }
+        auto& llm_request = std::get<llm::InferenceRequest>(parse_result);
+
+        // Capture the model name for the response (may be empty → engine picks default)
+        const std::string model_id = llm_request.model_id;
+
+        // Pre-generate the completion ID and created timestamp so they are
+        // consistent across all chunks / the single response object
+        const std::string completion_id =
+            llm::OpenAICompatAdapter::generateCompletionId();
+
+        if (streaming) {
+            // ── Streaming path ────────────────────────────────────────────
+            // Collect SSE chunks into a single response body.
+            // In a production server with a real async HTTP layer this would
+            // write chunks incrementally; here we buffer them for compatibility
+            // with the synchronous response model used by LLMApiHandler.
+            std::string sse_body;
+
+            // Capture created timestamp once so all chunks share it
+            int64_t created = static_cast<int64_t>(
+                std::chrono::duration_cast<std::chrono::seconds>(
+                    std::chrono::system_clock::now().time_since_epoch()).count());
+
+            llm_request.stream_callback = [&](const std::string& token) {
+                sse_body += llm::OpenAICompatAdapter::buildStreamChunk(
+                    token, completion_id, model_id, created);
+            };
+
+            try {
+                auto& plugin_mgr = llm::LLMPluginManager::instance();
+                plugin_mgr.generate(llm_request);
+            } catch (const std::exception& e) {
+                auto err = llm::OpenAICompatAdapter::buildError(
+                    std::string{"Inference failed: "} + e.what(),
+                    "server_error");
+                return createJsonResponse(err, http::status::internal_server_error);
+            }
+
+            sse_body += llm::OpenAICompatAdapter::buildStreamFinalChunk(
+                completion_id, model_id, created);
+            sse_body += llm::OpenAICompatAdapter::buildStreamDone();
+
+            http::response<http::string_body> res{http::status::ok, req.version()};
+            res.set(http::field::content_type, "text/event-stream");
+            res.set(http::field::cache_control, "no-cache");
+            res.set(http::field::connection, "keep-alive");
+            res.set(http::field::server, "ThemisDB-LLM/1.7.0");
+            res.body() = std::move(sse_body);
+            res.prepare_payload();
+            return res;
+
+        } else {
+            // ── Non-streaming path ────────────────────────────────────────
+            llm::InferenceResponse llm_response;
+            try {
+                auto& plugin_mgr = llm::LLMPluginManager::instance();
+                llm_response = plugin_mgr.generate(llm_request);
+            } catch (const std::exception& e) {
+                auto err = llm::OpenAICompatAdapter::buildError(
+                    std::string{"Inference failed: "} + e.what(),
+                    "server_error");
+                return createJsonResponse(err, http::status::internal_server_error);
+            }
+
+            json response_json = llm::OpenAICompatAdapter::buildResponse(
+                llm_response, model_id, completion_id);
+
+            http::response<http::string_body> res{http::status::ok, req.version()};
+            res.set(http::field::content_type, "application/json");
+            res.set(http::field::server, "ThemisDB-LLM/1.7.0");
+            res.body() = response_json.dump();
+            res.prepare_payload();
+            return res;
+        }
+    } catch (...) {
+        logCurrentException("LLMApiHandler::handleOpenAIChatCompletions failed");
         auto err = llm::OpenAICompatAdapter::buildError(
-            "Invalid JSON body", "invalid_request_error");
-        return createJsonResponse(err, http::status::bad_request);
-    }
-
-    // ── API key / governance check ──────────────────────────────────────────
-    // When a PolicyEngine is configured, validate the caller's identity and
-    // data-classification policy before any inference work is started.
-    // Returns HTTP 401 for missing/malformed tokens, HTTP 403 for denied policy.
-    if (policy_engine_) {
-        // Collect headers from the Boost.Beast request into the flat map
-        // expected by PolicyEngine::checkInferencePermission().
-        std::unordered_map<std::string, std::string> header_map;
-        for (const auto& field : req) {
-            header_map[std::string(field.name_string())] =
-                std::string(field.value());
-        }
-        auto perm = policy_engine_->checkInferencePermission(header_map);
-        if (!perm.allowed) {
-            auto err = llm::OpenAICompatAdapter::buildError(
-                perm.denial_reason, "invalid_request_error",
-                perm.http_status == 401 ? "invalid_api_key" : "policy_denied");
-            return createJsonResponse(
-                err,
-                perm.http_status == 401 ? http::status::unauthorized
-                                        : http::status::forbidden);
-        }
-    }
-
-    // Determine whether the client wants streaming output
-    bool streaming = false;
-    if (body->contains("stream") && (*body)["stream"].is_boolean()) {
-        streaming = (*body)["stream"].get<bool>();
-    }
-
-    // Parse the OpenAI request into an InferenceRequest
-    auto parse_result = llm::OpenAICompatAdapter::parseRequest(*body);
-    if (std::holds_alternative<std::string>(parse_result)) {
-        const std::string& msg = std::get<std::string>(parse_result);
-        auto err = llm::OpenAICompatAdapter::buildError(msg, "invalid_request_error");
-        return createJsonResponse(err, http::status::bad_request);
-    }
-    auto& llm_request = std::get<llm::InferenceRequest>(parse_result);
-
-    // Capture the model name for the response (may be empty → engine picks default)
-    const std::string model_id = llm_request.model_id;
-
-    // Pre-generate the completion ID and created timestamp so they are
-    // consistent across all chunks / the single response object
-    const std::string completion_id =
-        llm::OpenAICompatAdapter::generateCompletionId();
-
-    if (streaming) {
-        // ── Streaming path ────────────────────────────────────────────────
-        // Collect SSE chunks into a single response body.
-        // In a production server with a real async HTTP layer this would
-        // write chunks incrementally; here we buffer them for compatibility
-        // with the synchronous response model used by LLMApiHandler.
-        std::string sse_body;
-
-        // Capture created timestamp once so all chunks share it
-        int64_t created = static_cast<int64_t>(
-            std::chrono::duration_cast<std::chrono::seconds>(
-                std::chrono::system_clock::now().time_since_epoch()).count());
-
-        llm_request.stream_callback = [&](const std::string& token) {
-            sse_body += llm::OpenAICompatAdapter::buildStreamChunk(
-                token, completion_id, model_id, created);
-        };
-
-        try {
-            auto& plugin_mgr = llm::LLMPluginManager::instance();
-            plugin_mgr.generate(llm_request);
-        } catch (const std::exception& e) {
-            auto err = llm::OpenAICompatAdapter::buildError(
-                std::string{"Inference failed: "} + e.what(),
-                "server_error");
-            return createJsonResponse(err, http::status::internal_server_error);
-        }
-
-        sse_body += llm::OpenAICompatAdapter::buildStreamFinalChunk(
-            completion_id, model_id, created);
-        sse_body += llm::OpenAICompatAdapter::buildStreamDone();
-
-        http::response<http::string_body> res{http::status::ok, req.version()};
-        res.set(http::field::content_type, "text/event-stream");
-        res.set(http::field::cache_control, "no-cache");
-        res.set(http::field::connection, "keep-alive");
-        res.set(http::field::server, "ThemisDB-LLM/1.7.0");
-        res.body() = std::move(sse_body);
-        res.prepare_payload();
-        return res;
-
-    } else {
-        // ── Non-streaming path ────────────────────────────────────────────
-        llm::InferenceResponse llm_response;
-        try {
-            auto& plugin_mgr = llm::LLMPluginManager::instance();
-            llm_response = plugin_mgr.generate(llm_request);
-        } catch (const std::exception& e) {
-            auto err = llm::OpenAICompatAdapter::buildError(
-                std::string{"Inference failed: "} + e.what(),
-                "server_error");
-            return createJsonResponse(err, http::status::internal_server_error);
-        }
-
-        json response_json = llm::OpenAICompatAdapter::buildResponse(
-            llm_response, model_id, completion_id);
-
-        http::response<http::string_body> res{http::status::ok, req.version()};
-        res.set(http::field::content_type, "application/json");
-        res.set(http::field::server, "ThemisDB-LLM/1.7.0");
-        res.body() = response_json.dump();
-        res.prepare_payload();
-        return res;
+            "Failed to handle chat completions request", "server_error");
+        return createJsonResponse(err, http::status::internal_server_error);
     }
 }
 
