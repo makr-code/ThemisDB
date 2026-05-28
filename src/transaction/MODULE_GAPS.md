@@ -17,6 +17,56 @@ python tools/gap_audit_pipeline_v2.py
 
 ## ✅ Recent Remediation (2026-05-28)
 
+### DTM-3 — Liveness Check Bridge for `isParticipantAlive()` (`src/transaction/distributed_transaction_manager.cpp`)
+
+**Linked issue:** DTM-3 (P1)
+
+**Problem:** `isParticipantAlive()` conservatively returned `false` for all remote
+participants (those with `callback == nullptr`) since no injectable health check
+transport was wired.  Callers such as `checkTimeouts()` could not distinguish between
+truly dead and merely bridge-unconfigured remote nodes.
+
+**Fix applied:**
+
+- Added `LivenessCheckFn` type alias to `DistributedTxnManagerConfig` —
+  `std::function<bool(endpoint, node_id)>` — and an `liveness_check_fn` optional
+  field.  When set, the coordinator invokes this function for remote participants
+  instead of falling back to the conservative `false` default.  Exceptions are
+  caught and treated as "not alive" (fail-closed).
+
+- Added `StaticLivenessCheckFn` type alias and `setLivenessCheckFn()` /
+  `clearLivenessCheckFn()` static methods — a process-wide bridge mirroring the
+  existing `setRpcPhase1Fn` / `setRpcPhase2Fn` API.
+
+- Updated `isParticipantAlive()` to check bridges in priority order:
+  1. `liveness_check_fn` — per-instance config
+  2. Static `getLivenessCheckFn()` — process-wide legacy
+  3. Conservative `false` — no bridge configured
+  4. In-process participant (non-null callback) → always `true` (unchanged)
+  5. Unknown node_id → `true` (unchanged, avoids spurious aborts)
+
+- Fixed stale `isParticipantAlive` header docstring (previously claimed "not
+  implemented in this release — returns true by default"; updated to describe the
+  bridge priority chain accurately).
+
+**Tests added** (`tests/test_transaction_distributed_2pc.cpp`):
+
+| Test | Scenario |
+|------|----------|
+| `DTM3_LivenessBridgeInstanceReturnsTrue` | Per-instance fn returning true → alive |
+| `DTM3_LivenessBridgeInstanceReturnsFalse` | Per-instance fn returning false → not alive |
+| `DTM3_LivenessBridgeInstanceExceptionIsNotAlive` | fn throwing → fail-closed not alive |
+| `DTM3_StaticLivenessBridgeIsConsulted` | Static bridge consulted when no per-instance fn |
+| `DTM3_InstanceBridgeTakesPriorityOverStaticBridge` | Per-instance overrides static bridge |
+
+**Gap delta:** DTM-3 fully resolved.  `isParticipantAlive()` now supports real
+health check injection for remote participants while preserving the conservative
+fail-closed default when no bridge is configured.
+
+---
+
+## ✅ Recent Remediation (2026-05-28)
+
 ### Stub #279 — Phase-1 PREPARE RPC Bridge (`src/transaction/distributed_transaction_manager.cpp`)
 
 **Linked issue:** #5363 (P0)

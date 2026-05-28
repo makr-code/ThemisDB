@@ -1,7 +1,7 @@
 /*
  * ThemisDB | File: distributed_transaction_manager.h | Version: 0.0.12
  * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=1, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
@@ -330,6 +330,28 @@ struct DistributedTxnManagerConfig {
         const std::set<std::string>&  affected_keys
     )>;
     std::optional<Phase1RpcFn> phase1_rpc_fn;
+
+    /**
+     * @brief Optional participant liveness check bridge for remote participants (DTM-3).
+     *
+     * When set, `isParticipantAlive()` calls this function for remote participants
+     * (those with `callback == nullptr`) to perform a real health check (e.g. a
+     * gRPC health-check ping or HTTP probe) instead of conservatively returning false.
+     *
+     * Signature: `bool(endpoint, node_id)` → true = alive/reachable
+     *   - @p endpoint  Network address of the remote participant ("host:port").
+     *   - @p node_id   Participant node identifier.
+     *
+     * Any exception thrown by the function is caught by the coordinator and treated
+     * as "not alive" (fail-closed).  When not set, the coordinator falls back to
+     * the static `LivenessCheckFn`, then conservatively returns false for all
+     * remote participants.
+     */
+    using LivenessCheckFn = std::function<bool(
+        const std::string& endpoint,
+        const std::string& node_id
+    )>;
+    std::optional<LivenessCheckFn> liveness_check_fn;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -540,13 +562,23 @@ public:
     /**
      * @brief Check whether a participant appears to be reachable.
      *
-     * For in-process participants with a non-null callback the check is always
-     * true.  For remote participants (callback == nullptr) the method attempts
-     * a lightweight ping via the endpoint (not implemented in this release —
-     * returns true by default).
+     * For in-process participants with a non-null callback the check always
+     * returns true (the object lives in the same address space and is always
+     * reachable).
+     *
+     * For remote participants (callback == nullptr) the method consults the
+     * liveness bridges in the following priority order:
+     *   1. `liveness_check_fn` in `DistributedTxnManagerConfig` (per-instance).
+     *   2. Static bridge installed via `setLivenessCheckFn()` (process-wide).
+     *   3. Conservative default: returns false (participant is treated as dead).
+     *
+     * Any exception thrown by a bridge function is caught and treated as "not
+     * alive" (fail-closed).  For node identifiers not found in any active
+     * transaction the method returns true (unknown participants are not
+     * spuriously treated as dead).
      *
      * @param node_id  Participant node identifier.
-     * @return         true if the participant appears healthy.
+     * @return         true if the participant appears healthy/reachable.
      */
     bool isParticipantAlive(const std::string& node_id) const;
 
@@ -609,6 +641,32 @@ public:
      * @brief Remove the static RPC phase-1 bridge.
      */
     static void clearRpcPhase1Fn();
+
+    // ─── Liveness check bridge (DTM-3) ───────────────────────────────────────
+
+    /// @brief Type alias for remote participant liveness check injection.
+    using StaticLivenessCheckFn = std::function<bool(const std::string& node_id,
+                                                      const std::string& endpoint)>;
+
+    /**
+     * @brief Install a process-wide liveness check function for remote participants.
+     *
+     * When set, `isParticipantAlive()` uses this function for remote participants
+     * (those with no in-process callback) as a fallback after any per-instance
+     * `liveness_check_fn` configured in `DistributedTxnManagerConfig`.
+     * Exceptions from the function are caught and treated as "not alive".
+     *
+     * @param fn Callable receiving (node_id, endpoint) → bool (true = alive).
+     */
+    static void setLivenessCheckFn(StaticLivenessCheckFn fn);
+
+    /**
+     * @brief Remove the process-wide liveness check bridge.
+     *
+     * After this call, remote participants fall back to the conservative
+     * "not alive" default until a new bridge is installed.
+     */
+    static void clearLivenessCheckFn();
 
 private:
     // ── Internal helpers ──────────────────────────────────────────────────────

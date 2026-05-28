@@ -1390,3 +1390,146 @@ TEST_F(DistributedTxnManagerTest, Stub279_StaticPhase1FnCommit) {
 
     DistributedTransactionManager::clearRpcPhase1Fn();
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DTM-3 liveness bridge tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+// DTM-3b: Per-instance liveness_check_fn returns true → isParticipantAlive true.
+TEST_F(DistributedTxnManagerTest, DTM3_LivenessBridgeInstanceReturnsTrue) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout     = 2000ms;
+    cfg.commit_timeout      = 2000ms;
+    cfg.default_txn_timeout = 60s;
+
+    std::atomic<int> liveness_calls{0};
+    cfg.liveness_check_fn = [&liveness_calls](
+            const std::string& /*endpoint*/,
+            const std::string& /*node_id*/) -> bool {
+        ++liveness_calls;
+        return true; // bridge says alive
+    };
+    cfg.phase1_rpc_fn = [](const std::string&, const std::string&,
+                            const std::set<std::string>&) { return true; };
+    cfg.remote_phase2_dispatch = [](const std::string&, const std::string&,
+                                     const std::string&, bool) { return true; };
+
+    DistributedTransactionManager mgr2("coord-liveness-true", cfg);
+    const auto tid = mgr2.beginDistributed({
+        makeRemoteParticipant("remote-alive"),
+    });
+
+    EXPECT_TRUE(mgr2.isParticipantAlive("remote-alive"))
+        << "Bridge returning true must make isParticipantAlive return true";
+    EXPECT_GE(liveness_calls.load(), 1)
+        << "liveness_check_fn must have been called";
+
+    mgr2.abortDistributed(tid);
+}
+
+// DTM-3c: Per-instance liveness_check_fn returns false → isParticipantAlive false.
+TEST_F(DistributedTxnManagerTest, DTM3_LivenessBridgeInstanceReturnsFalse) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout     = 2000ms;
+    cfg.commit_timeout      = 2000ms;
+    cfg.default_txn_timeout = 60s;
+
+    cfg.liveness_check_fn = [](const std::string& /*endpoint*/,
+                                const std::string& /*node_id*/) -> bool {
+        return false; // bridge says dead
+    };
+
+    DistributedTransactionManager mgr2("coord-liveness-false", cfg);
+    const auto tid = mgr2.beginDistributed({
+        makeRemoteParticipant("remote-dead"),
+    });
+
+    EXPECT_FALSE(mgr2.isParticipantAlive("remote-dead"))
+        << "Bridge returning false must make isParticipantAlive return false";
+
+    mgr2.abortDistributed(tid);
+}
+
+// DTM-3d: Per-instance liveness_check_fn throws → isParticipantAlive returns false (fail-closed).
+TEST_F(DistributedTxnManagerTest, DTM3_LivenessBridgeInstanceExceptionIsNotAlive) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout     = 2000ms;
+    cfg.commit_timeout      = 2000ms;
+    cfg.default_txn_timeout = 60s;
+
+    cfg.liveness_check_fn = [](const std::string& /*endpoint*/,
+                                const std::string& /*node_id*/) -> bool {
+        throw std::runtime_error("network error");
+    };
+
+    DistributedTransactionManager mgr2("coord-liveness-throw", cfg);
+    const auto tid = mgr2.beginDistributed({
+        makeRemoteParticipant("remote-throw"),
+    });
+
+    EXPECT_FALSE(mgr2.isParticipantAlive("remote-throw"))
+        << "Exception from liveness bridge must be treated as not alive (fail-closed)";
+
+    mgr2.abortDistributed(tid);
+}
+
+// DTM-3e: Static liveness bridge (setLivenessCheckFn) is consulted when no per-instance fn set.
+TEST_F(DistributedTxnManagerTest, DTM3_StaticLivenessBridgeIsConsulted) {
+    // No liveness_check_fn on config — relies on static bridge.
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout     = 2000ms;
+    cfg.commit_timeout      = 2000ms;
+    cfg.default_txn_timeout = 60s;
+
+    std::atomic<int> static_calls{0};
+    DistributedTransactionManager::setLivenessCheckFn(
+        [&static_calls](const std::string& /*node_id*/,
+                         const std::string& /*endpoint*/) -> bool {
+            ++static_calls;
+            return true;
+        });
+
+    DistributedTransactionManager mgr2("coord-static-liveness", cfg);
+    const auto tid = mgr2.beginDistributed({
+        makeRemoteParticipant("remote-static-alive"),
+    });
+
+    EXPECT_TRUE(mgr2.isParticipantAlive("remote-static-alive"))
+        << "Static liveness bridge returning true must make isParticipantAlive return true";
+    EXPECT_GE(static_calls.load(), 1)
+        << "Static liveness bridge must have been called";
+
+    mgr2.abortDistributed(tid);
+    DistributedTransactionManager::clearLivenessCheckFn();
+}
+
+// DTM-3f: Per-instance bridge takes priority over static bridge.
+TEST_F(DistributedTxnManagerTest, DTM3_InstanceBridgeTakesPriorityOverStaticBridge) {
+    // Install static bridge returning true; per-instance bridge returns false.
+    // isParticipantAlive must use per-instance bridge → false.
+    DistributedTransactionManager::setLivenessCheckFn(
+        [](const std::string& /*node_id*/,
+            const std::string& /*endpoint*/) -> bool {
+            return true; // would say alive if consulted
+        });
+
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout     = 2000ms;
+    cfg.commit_timeout      = 2000ms;
+    cfg.default_txn_timeout = 60s;
+    cfg.liveness_check_fn = [](const std::string& /*endpoint*/,
+                                const std::string& /*node_id*/) -> bool {
+        return false; // instance bridge says dead → takes priority
+    };
+
+    DistributedTransactionManager mgr2("coord-priority-liveness", cfg);
+    const auto tid = mgr2.beginDistributed({
+        makeRemoteParticipant("remote-priority-node"),
+    });
+
+    EXPECT_FALSE(mgr2.isParticipantAlive("remote-priority-node"))
+        << "Per-instance liveness_check_fn must take priority over static bridge";
+
+    mgr2.abortDistributed(tid);
+    DistributedTransactionManager::clearLivenessCheckFn();
+}
