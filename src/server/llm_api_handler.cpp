@@ -1,8 +1,8 @@
 /*
- * ThemisDB | File: llm_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 1719
- * Open Issues: TODOs=1, Stubs=1, Gaps=5, Unimpl=0, Mock=1, Sim=0, Debt=2
- * Gap Correlation: internal=5 | external_v3=349 | delta=344 | status=divergent
+ * ThemisDB | File: llm_api_handler.cpp | Version: 0.0.48 | Last Modified: 2026-05-28 05:05:00
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1856
+ * Open Issues: TODOs=0, Stubs=0, Gaps=0, Unimpl=0, Mock=0, Sim=0, Debt=0
+ * Gap Correlation: internal=0 | external_v3=349 | delta=349 | status=closed
  * External Severity (v3): C=9, H=261, M=79
  * PR: #231 Implement JWT validation for LLM API handler (2026-03-11T16:58:24Z)
  * Status: Production Ready
@@ -274,6 +274,9 @@ http::response<http::string_body> LLMApiHandler::handleInference(
             "Inference failed",
             e.what()
         );
+    } catch (...) {
+        logCurrentException("LLMApiHandler::handleInference");
+        return createErrorResponse(http::status::internal_server_error, "Inference failed");
     }
 }
 
@@ -364,6 +367,9 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
             "RAG inference failed",
             e.what()
         );
+    } catch (...) {
+        logCurrentException("LLMApiHandler::handleRAG");
+        return createErrorResponse(http::status::internal_server_error, "RAG inference failed");
     }
 }
 
@@ -423,6 +429,9 @@ http::response<http::string_body> LLMApiHandler::handleEmbed(
             "Embedding generation failed",
             e.what()
         );
+    } catch (...) {
+        logCurrentException("LLMApiHandler::handleEmbed");
+        return createErrorResponse(http::status::internal_server_error, "Embedding generation failed");
     }
 }
 
@@ -507,6 +516,9 @@ http::response<http::string_body> LLMApiHandler::handleStreamInference(
     } catch (const std::exception& e) {
         json err_event = {{"error", true}, {"message", std::string(e.what())}};
         sse_body += "event: error\ndata: " + err_event.dump() + "\n\n";
+    } catch (...) {
+        logCurrentException("LLMApiHandler::handleStreamInference");
+        sse_body += "event: error\ndata: {\"error\":true,\"message\":\"Internal error\"}\n\n";
     }
 
     http::response<http::string_body> res{http::status::ok, req.version()};
@@ -575,6 +587,9 @@ http::response<http::string_body> LLMApiHandler::handleStreamExplainAql(
     } catch (const std::exception& e) {
         json err_event = {{"error", true}, {"message", std::string(e.what())}};
         sse_body += "event: error\ndata: " + err_event.dump() + "\n\n";
+    } catch (...) {
+        logCurrentException("LLMApiHandler::handleStreamExplainAql");
+        sse_body += "event: error\ndata: {\"error\":true,\"message\":\"Internal error\"}\n\n";
     }
 
     http::response<http::string_body> res{http::status::ok, req.version()};
@@ -616,6 +631,9 @@ http::response<http::string_body> LLMApiHandler::handleListModels(
             "Failed to list models",
             e.what()
         );
+    } catch (...) {
+        logCurrentException("LLMApiHandler::handleListModels");
+        return createErrorResponse(http::status::internal_server_error, "Failed to list models");
     }
 }
 
@@ -663,6 +681,9 @@ http::response<http::string_body> LLMApiHandler::handleLoadModel(
             "Failed to load model",
             e.what()
         );
+    } catch (...) {
+        logCurrentException("LLMApiHandler::handleLoadModel");
+        return createErrorResponse(http::status::internal_server_error, "Failed to load model");
     }
 }
 
@@ -705,6 +726,9 @@ http::response<http::string_body> LLMApiHandler::handleUnloadModel(
             "Failed to unload model",
             e.what()
         );
+    } catch (...) {
+        logCurrentException("LLMApiHandler::handleUnloadModel");
+        return createErrorResponse(http::status::internal_server_error, "Failed to unload model");
     }
 }
 
@@ -745,6 +769,9 @@ http::response<http::string_body> LLMApiHandler::handleModelInfo(
             "Model not found",
             e.what()
         );
+    } catch (...) {
+        logCurrentException("LLMApiHandler::handleModelInfo");
+        return createErrorResponse(http::status::internal_server_error, "Model info retrieval failed");
     }
 }
 
@@ -792,6 +819,9 @@ http::response<http::string_body> LLMApiHandler::handleIngestModel(
             "Model ingestion failed",
             e.what()
         );
+    } catch (...) {
+        logCurrentException("LLMApiHandler::handleIngestModel");
+        return createErrorResponse(http::status::internal_server_error, "Model ingestion failed");
     }
 }
 
@@ -827,6 +857,9 @@ http::response<http::string_body> LLMApiHandler::handleListLoRAs(
             "Failed to list LoRAs",
             e.what()
         );
+    } catch (...) {
+        logCurrentException("LLMApiHandler::handleListLoRAs");
+        return createErrorResponse(http::status::internal_server_error, "Failed to list LoRAs");
     }
 }
 
@@ -880,6 +913,9 @@ http::response<http::string_body> LLMApiHandler::handleLoadLoRA(
             "Failed to load LoRA",
             e.what()
         );
+    } catch (...) {
+        logCurrentException("LLMApiHandler::handleLoadLoRA");
+        return createErrorResponse(http::status::internal_server_error, "Failed to load LoRA");
     }
 }
 
@@ -922,6 +958,9 @@ http::response<http::string_body> LLMApiHandler::handleUnloadLoRA(
             "Failed to unload LoRA",
             e.what()
         );
+    } catch (...) {
+        logCurrentException("LLMApiHandler::handleUnloadLoRA");
+        return createErrorResponse(http::status::internal_server_error, "Failed to unload LoRA");
     }
 }
 
@@ -950,6 +989,9 @@ http::response<http::string_body> LLMApiHandler::handleStats(
             "Failed to get statistics",
             e.what()
         );
+    } catch (...) {
+        logCurrentException("LLMApiHandler::handleStats");
+        return createErrorResponse(http::status::internal_server_error, "Failed to get statistics");
     }
 }
 
@@ -988,6 +1030,9 @@ http::response<http::string_body> LLMApiHandler::handleCacheStats(
             "Failed to get cache statistics",
             e.what()
         );
+    } catch (...) {
+        logCurrentException("LLMApiHandler::handleCacheStats");
+        return createErrorResponse(http::status::internal_server_error, "Failed to get cache statistics");
     }
 }
 
@@ -1012,6 +1057,9 @@ http::response<http::string_body> LLMApiHandler::handleClearCache(
             "Failed to clear caches",
             e.what()
         );
+    } catch (...) {
+        logCurrentException("LLMApiHandler::handleClearCache");
+        return createErrorResponse(http::status::internal_server_error, "Failed to clear caches");
     }
 }
 
@@ -1040,6 +1088,9 @@ http::response<http::string_body> LLMApiHandler::handleHealth(
             "Health check failed",
             e.what()
         );
+    } catch (...) {
+        logCurrentException("LLMApiHandler::handleHealth");
+        return createErrorResponse(http::status::internal_server_error, "Health check failed");
     }
 }
 
@@ -1198,6 +1249,9 @@ http::response<http::string_body> LLMApiHandler::handleDocsQuery(
             "Documentation query failed",
             e.what()
         );
+    } catch (...) {
+        logCurrentException("LLMApiHandler::handleDocsQuery");
+        return createErrorResponse(http::status::internal_server_error, "Documentation query failed");
     }
 }
 
@@ -1257,6 +1311,9 @@ http::response<http::string_body> LLMApiHandler::handleDocsConfig(
             "Configuration help failed",
             e.what()
         );
+    } catch (...) {
+        logCurrentException("LLMApiHandler::handleDocsConfig");
+        return createErrorResponse(http::status::internal_server_error, "Configuration help failed");
     }
 }
 
@@ -1318,6 +1375,9 @@ http::response<http::string_body> LLMApiHandler::handleDocsTroubleshoot(
             "Troubleshooting help failed",
             e.what()
         );
+    } catch (...) {
+        logCurrentException("LLMApiHandler::handleDocsTroubleshoot");
+        return createErrorResponse(http::status::internal_server_error, "Troubleshooting help failed");
     }
 }
 
@@ -1409,6 +1469,9 @@ http::response<http::string_body> LLMApiHandler::handleCreateFeedback(
         
     } catch (const std::exception& e) {
         return createErrorResponse(http::status::bad_request, "Invalid feedback parameters", e.what());
+    } catch (...) {
+        logCurrentException("LLMApiHandler::handleCreateFeedback");
+        return createErrorResponse(http::status::internal_server_error, "Feedback creation failed");
     }
 }
 
@@ -1546,21 +1609,32 @@ http::response<http::string_body> LLMApiHandler::handleListFeedback(
     }
     
     // Get feedback list from store
-    auto feedback_list = feedback_store.listFeedback(options);
-    
-    // Convert to JSON array
-    json feedback_array = json::array();
-    for (const auto& feedback : feedback_list) {
-        feedback_array.push_back(feedback.toJson());
+    try {
+        auto feedback_list = feedback_store.listFeedback(options);
+        
+        // Convert to JSON array
+        json feedback_array = json::array();
+        for (const auto& feedback : feedback_list) {
+            feedback_array.push_back(feedback.toJson());
+        }
+        
+        json response_data = {
+            {"feedback", feedback_array},
+            {"count", feedback_array.size()},
+            {"limit", limit}
+        };
+        
+        return createJsonResponse(response_data);
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Failed to list feedback",
+            e.what()
+        );
+    } catch (...) {
+        logCurrentException("LLMApiHandler::handleListFeedback");
+        return createErrorResponse(http::status::internal_server_error, "Failed to list feedback");
     }
-    
-    json response_data = {
-        {"feedback", feedback_array},
-        {"count", feedback_array.size()},
-        {"limit", limit}
-    };
-    
-    return createJsonResponse(response_data);
 }
 
 http::response<http::string_body> LLMApiHandler::handleFeedbackStats(
@@ -1684,6 +1758,10 @@ http::response<http::string_body> LLMApiHandler::handleOpenAIChatCompletions(
                     std::string{"Inference failed: "} + e.what(),
                     "server_error");
                 return createJsonResponse(err, http::status::internal_server_error);
+            } catch (...) {
+                logCurrentException("LLMApiHandler::handleOpenAIChatCompletions streaming");
+                auto err = llm::OpenAICompatAdapter::buildError("Inference failed", "server_error");
+                return createJsonResponse(err, http::status::internal_server_error);
             }
 
             sse_body += llm::OpenAICompatAdapter::buildStreamFinalChunk(
@@ -1709,6 +1787,10 @@ http::response<http::string_body> LLMApiHandler::handleOpenAIChatCompletions(
                 auto err = llm::OpenAICompatAdapter::buildError(
                     std::string{"Inference failed: "} + e.what(),
                     "server_error");
+                return createJsonResponse(err, http::status::internal_server_error);
+            } catch (...) {
+                logCurrentException("LLMApiHandler::handleOpenAIChatCompletions non-streaming");
+                auto err = llm::OpenAICompatAdapter::buildError("Inference failed", "server_error");
                 return createJsonResponse(err, http::status::internal_server_error);
             }
 

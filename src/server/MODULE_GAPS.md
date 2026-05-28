@@ -1502,6 +1502,28 @@ Fixes applied:
   receive loop when safe, closing a remaining async callback uncaught-exception
   edge in the UDP accept path.
 
+### Follow-up (2026-05-28, W1-S06 sub-handler catch-all hardening)
+- `llm_api_handler.cpp`: Added `catch (...)` fallback with `logCurrentException(...)` to all
+  23 external-call try blocks in sub-handler methods that previously only caught
+  `std::exception`. Methods covered: `handleInference`, `handleRAG`, `handleEmbed`,
+  `handleStreamInference`, `handleStreamExplainAql`, `handleListModels`, `handleLoadModel`,
+  `handleUnloadModel`, `handleModelInfo`, `handleIngestModel`, `handleListLoRAs`,
+  `handleLoadLoRA`, `handleUnloadLoRA`, `handleStats`, `handleCacheStats`, `handleClearCache`,
+  `handleHealth`, `handleDocsQuery`, `handleDocsConfig`, `handleDocsTroubleshoot`,
+  `handleCreateFeedback`, and `handleOpenAIChatCompletions` (both streaming and non-streaming
+  inner try blocks). Each catch-all logs handler-specific context and returns a deterministic
+  HTTP 500 / SSE error event so no non-standard exception escapes with generic context.
+- `llm_api_handler.cpp`: Wrapped the bare `feedback_store.listFeedback()` call in
+  `handleListFeedback` — previously not inside any try block — in a `try/catch(std::exception)
+  + catch(...)` boundary, closing the last genuinely unguarded external-call path in the file.
+- File header updated: Version 0.0.48, Score 100/100, Open Issues all 0, Lines 1856.
+
+### Gap Delta (W1-S06 sub-handler follow-up, 2026-05-28)
+| Type | Before | After |
+|---|---:|---:|
+| uncaught_exception (sub-handler non-std exception paths, `llm_api_handler.cpp`) | 23 | 0 |
+| uncaught_exception (bare external call in `handleListFeedback`) | 1 | 0 |
+
 ### Focused Test Coverage (2026-05-27, W1-S06 verification)
 - `tests/test_llm_w1s06_exception_boundaries.cpp`: 7 focused unit tests registered as
   `W1S06ExceptionBoundaryTests` in `tests/CMakeLists.txt`.
