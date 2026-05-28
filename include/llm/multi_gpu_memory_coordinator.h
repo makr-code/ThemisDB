@@ -88,7 +88,7 @@ public:
      * @param gpu_ids List of GPU device IDs to use
      * @return true if initialization succeeded
      */
-    bool initialize(const std::vector<int>& gpu_ids);
+    [[nodiscard]] bool initialize(const std::vector<int>& gpu_ids);
 
     /**
      * @brief Distribute model weights using tensor parallelism
@@ -100,7 +100,7 @@ public:
      * @param model_size_bytes Total model size
      * @return Distribution plan
      */
-    DistributionPlan distributeModelWeights(
+    [[nodiscard]] DistributionPlan distributeModelWeights(
         const std::vector<int>& gpu_ids,
         size_t model_size_bytes
     );
@@ -116,7 +116,7 @@ public:
      * @param layer_size_bytes Size of each layer
      * @return Distribution plan
      */
-    DistributionPlan distributeLayers(
+    [[nodiscard]] DistributionPlan distributeLayers(
         const std::vector<int>& gpu_ids,
         size_t num_layers,
         size_t layer_size_bytes
@@ -131,7 +131,7 @@ public:
      * @param total_batch_size Total batch size
      * @return Distribution plan
      */
-    DistributionPlan balanceInferenceLoad(
+    [[nodiscard]] DistributionPlan balanceInferenceLoad(
         const std::vector<int>& gpu_ids,
         size_t total_batch_size
     );
@@ -145,7 +145,7 @@ public:
      * @param gpu_ids GPUs to enable P2P for
      * @return true if P2P enabled successfully
      */
-    bool enableP2P(const std::vector<int>& gpu_ids);
+    [[nodiscard]] bool enableP2P(const std::vector<int>& gpu_ids);
 
     /**
      * @brief Get GPU device information
@@ -153,21 +153,21 @@ public:
      * @param device_id GPU device ID
      * @return Device information
      */
-    GPUDevice getGPUInfo(int device_id) const;
+    [[nodiscard]] GPUDevice getGPUInfo(int device_id) const;
 
     /**
      * @brief Get all available GPUs
      * 
      * @return List of available GPU devices
      */
-    std::vector<GPUDevice> getAllGPUs() const;
+    [[nodiscard]] std::vector<GPUDevice> getAllGPUs() const;
 
     /**
      * @brief Get least loaded GPU
      * 
      * @return Device ID of GPU with lowest utilization
      */
-    int getLeastLoadedGPU() const;
+    [[nodiscard]] int getLeastLoadedGPU() const;
 
     /**
      * @brief Check if P2P is available between two GPUs
@@ -176,7 +176,7 @@ public:
      * @param dst_gpu Destination GPU device ID
      * @return true if P2P is available
      */
-    bool canAccessPeer(int src_gpu, int dst_gpu) const;
+    [[nodiscard]] bool canAccessPeer(int src_gpu, int dst_gpu) const;
 
     /**
      * @brief Transfer data between GPUs using P2P
@@ -188,7 +188,7 @@ public:
      * @param bytes Number of bytes to transfer
      * @return true if transfer succeeded
      */
-    bool transferP2P(
+    [[nodiscard]] bool transferP2P(
         int src_gpu,
         int dst_gpu,
         const void* src_ptr,
@@ -208,7 +208,7 @@ public:
      * 
      * @return Vector of (device_id, is_healthy) pairs
      */
-    std::vector<std::pair<int, bool>> getHealthStatus() const;
+    [[nodiscard]] std::vector<std::pair<int, bool>> getHealthStatus() const;
 
 private:
     class Impl;

@@ -243,6 +243,23 @@ TEST_F(GPUMemoryManagerMultiGPUTest, PeerAccessRejectsUnknownGPUs) {
     EXPECT_FALSE(memory_manager_->canAccessPeer(99, 1));
 }
 
+TEST_F(GPUMemoryManagerMultiGPUTest, FreeGPUNullPtrReturnsFalseWithoutCrash) {
+    // Passing nullptr to freeGPU/freeCPU must return false and not crash or
+    // corrupt allocation bookkeeping.
+    EXPECT_FALSE(memory_manager_->freeGPU("any_model", nullptr));
+    EXPECT_FALSE(memory_manager_->freeCPU("any_model", nullptr));
+}
+
+TEST_F(GPUMemoryManagerMultiGPUTest, FreeNullPtrDoesNotAlterStats) {
+    auto stats_before = memory_manager_->getStats();
+    memory_manager_->freeGPU("nonexistent", nullptr);
+    memory_manager_->freeCPU("nonexistent", nullptr);
+    auto stats_after = memory_manager_->getStats();
+    EXPECT_EQ(stats_before.num_allocations, stats_after.num_allocations);
+    EXPECT_EQ(stats_before.used_vram_bytes, stats_after.used_vram_bytes);
+    EXPECT_EQ(stats_before.used_ram_bytes, stats_after.used_ram_bytes);
+}
+
 TEST_F(GPUMemoryManagerMultiGPUTest, GetLeastLoadedGPU) {
     int least_loaded = memory_manager_->getLeastLoadedGPU();
     

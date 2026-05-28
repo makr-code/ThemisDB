@@ -590,6 +590,42 @@ Vulkan/DirectX kernel execution paths:
   `wait_for_gpu`/`execute_command_list` now use a bounded timeout (30s default). Kernel launch
   paths pass explicit timeout and fail fast on GPU wait timeout instead of blocking indefinitely.
 
+**Status (v1.22.0-pre — W1-L15 batch 35):** type_conversion, oop_design nodiscard, and input_validation fixes:
+
+*type_conversion batch 35:*
+- `multi_lora_manager.cpp` — `(size_t)group_size` in quantize-per-group loop replaced with
+  `static_cast<size_t>(group_size)` (L1488). Eliminates a C-style int→size_t cast in the
+  weight-grouping path.
+
+*oop_design batch 35 — `[[nodiscard]]` API surface:*
+- `include/llm/gpu_memory_manager.h` — All public methods whose return value carries
+  semantic meaning annotated with `[[nodiscard]]`:
+  - Allocation methods: `allocateGPU` (×2), `allocateCPU` — discarding a returned pointer
+    causes a silent memory leak.
+  - Deallocation methods: `freeGPU`, `freeCPU`, `freeModel` (×2) — discarding `false`
+    silently hides deallocation failures.
+  - Query/predicate methods: `getModelVRAM`, `getModelRAM`, `getTotalVRAM`, `getTotalRAM`,
+    `getFreeVRAM`, `getFreeRAM`, `getGPUVRAM`, `getFreeGPUVRAM`, `getAvailableGPUs`,
+    `isGPUAvailable`, `canAllocate`, `getMemoryFragmentation`, `defragment`, `getStats`,
+    `getLoadedModels`, `getGPUStats`, `getAllGPUStats`, `getGPUHealth`, `getAllGPUHealth`,
+    `isGPUHealthy`, `getLeastLoadedGPU`, `getHealthyGPUs`, `getAverageGPULoad`,
+    `needsLoadRebalancing`, `enablePeerAccess`, `disablePeerAccess`, `canAccessPeer`.
+- `include/llm/multi_gpu_memory_coordinator.h` — All value-returning public methods annotated
+  with `[[nodiscard]]`: `initialize`, `distributeModelWeights`, `distributeLayers`,
+  `balanceInferenceLoad`, `enableP2P`, `getGPUInfo`, `getAllGPUs`, `getLeastLoadedGPU`,
+  `canAccessPeer`, `transferP2P`, `getHealthStatus`.
+
+*input_validation:*
+- `gpu_memory_manager.cpp::freeGPU` — early `if (!ptr) return false;` guard added before
+  acquiring the mutex. A null ptr argument cannot match any valid allocation and should
+  return `false` immediately rather than traversing the allocation map.
+- `gpu_memory_manager.cpp::freeCPU` — same null-ptr early-return guard added.
+- `tests/test_multi_gpu_management.cpp` — two new regression tests:
+  - `FreeGPUNullPtrReturnsFalseWithoutCrash`: verifies both `freeGPU`/`freeCPU` return `false`
+    on `nullptr` without crashing.
+  - `FreeNullPtrDoesNotAlterStats`: verifies that null-ptr free calls leave allocation stats
+    unchanged.
+
 ---
 
 ## ✅ Acceptance Criteria (from Issue)

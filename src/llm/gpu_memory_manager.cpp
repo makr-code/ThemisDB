@@ -698,6 +698,7 @@ void* GPUMemoryManager::allocateCPU(const std::string& model_id, size_t bytes, b
 }
 
 bool GPUMemoryManager::freeGPU(const std::string& model_id, void* ptr) {
+    if (!ptr) return false;
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = allocations_.find(model_id);
@@ -732,6 +733,7 @@ bool GPUMemoryManager::freeGPU(const std::string& model_id, void* ptr) {
 }
 
 bool GPUMemoryManager::freeCPU(const std::string& model_id, void* ptr) {
+    if (!ptr) return false;
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = allocations_.find(model_id);

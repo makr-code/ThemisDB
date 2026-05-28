@@ -88,42 +88,42 @@ public:
     static void setNvmlTemperatureFn(NvmlTemperatureFn fn);
     
     // Memory allocation
-    void* allocateGPU(const std::string& model_id, size_t bytes);
-    void* allocateCPU(const std::string& model_id, size_t bytes, bool pinned = false);
+    [[nodiscard]] void* allocateGPU(const std::string& model_id, size_t bytes);
+    [[nodiscard]] void* allocateCPU(const std::string& model_id, size_t bytes, bool pinned = false);
     
     // Multi-GPU memory allocation (v1.4.0)
-    void* allocateGPU(const std::string& model_id, size_t bytes, int gpu_device_id);
+    [[nodiscard]] void* allocateGPU(const std::string& model_id, size_t bytes, int gpu_device_id);
     
     // Memory deallocation
-    bool freeGPU(const std::string& model_id, void* ptr);
-    bool freeCPU(const std::string& model_id, void* ptr);
+    [[nodiscard]] bool freeGPU(const std::string& model_id, void* ptr);
+    [[nodiscard]] bool freeCPU(const std::string& model_id, void* ptr);
     
     // Free all memory for a model
-    bool freeModel(const std::string& model_id);
+    [[nodiscard]] bool freeModel(const std::string& model_id);
     
     // Free model memory on specific GPU (v1.4.0)
-    bool freeModel(const std::string& model_id, int gpu_device_id);
+    [[nodiscard]] bool freeModel(const std::string& model_id, int gpu_device_id);
     
     // Memory queries
-    size_t getModelVRAM(const std::string& model_id) const;
-    size_t getModelRAM(const std::string& model_id) const;
-    size_t getTotalVRAM() const;
-    size_t getTotalRAM() const;
-    size_t getFreeVRAM() const;
-    size_t getFreeRAM() const;
+    [[nodiscard]] size_t getModelVRAM(const std::string& model_id) const;
+    [[nodiscard]] size_t getModelRAM(const std::string& model_id) const;
+    [[nodiscard]] size_t getTotalVRAM() const;
+    [[nodiscard]] size_t getTotalRAM() const;
+    [[nodiscard]] size_t getFreeVRAM() const;
+    [[nodiscard]] size_t getFreeRAM() const;
     
     // Multi-GPU memory queries (v1.4.0)
-    size_t getGPUVRAM(int gpu_device_id) const;  // Used VRAM on specific GPU
-    size_t getFreeGPUVRAM(int gpu_device_id) const;  // Free VRAM on specific GPU
-    std::vector<int> getAvailableGPUs() const;  // List of available GPU IDs
-    bool isGPUAvailable(int gpu_device_id) const;  // Check if GPU is available
+    [[nodiscard]] size_t getGPUVRAM(int gpu_device_id) const;  // Used VRAM on specific GPU
+    [[nodiscard]] size_t getFreeGPUVRAM(int gpu_device_id) const;  // Free VRAM on specific GPU
+    [[nodiscard]] std::vector<int> getAvailableGPUs() const;  // List of available GPU IDs
+    [[nodiscard]] bool isGPUAvailable(int gpu_device_id) const;  // Check if GPU is available
     
     // Capacity checks
-    bool canAllocate(size_t vram_bytes, size_t ram_bytes) const;
-    size_t getMemoryFragmentation() const;  // Returns fragmentation %
+    [[nodiscard]] bool canAllocate(size_t vram_bytes, size_t ram_bytes) const;
+    [[nodiscard]] size_t getMemoryFragmentation() const;  // Returns fragmentation %
     
     // Defragmentation
-    bool defragment();
+    [[nodiscard]] bool defragment();
     
     // Statistics
     struct Stats {
@@ -164,30 +164,30 @@ public:
         int64_t last_check_timestamp_ms = 0;
     };
     
-    Stats getStats() const;
-    std::vector<std::string> getLoadedModels() const;
+    [[nodiscard]] Stats getStats() const;
+    [[nodiscard]] std::vector<std::string> getLoadedModels() const;
     
     // Per-GPU statistics and monitoring
-    GPUStats getGPUStats(int gpu_device_id) const;
-    std::vector<GPUStats> getAllGPUStats() const;
+    [[nodiscard]] GPUStats getGPUStats(int gpu_device_id) const;
+    [[nodiscard]] std::vector<GPUStats> getAllGPUStats() const;
     
     // GPU Health monitoring
-    GPUHealth getGPUHealth(int gpu_device_id) const;
-    std::vector<GPUHealth> getAllGPUHealth() const;
-    bool isGPUHealthy(int gpu_device_id) const;
+    [[nodiscard]] GPUHealth getGPUHealth(int gpu_device_id) const;
+    [[nodiscard]] std::vector<GPUHealth> getAllGPUHealth() const;
+    [[nodiscard]] bool isGPUHealthy(int gpu_device_id) const;
     void markGPUUnhealthy(int gpu_device_id, const std::string& reason);
     void markGPUHealthy(int gpu_device_id);
     
     // Load balancing queries
-    int getLeastLoadedGPU() const;  // Returns GPU with lowest utilization
-    std::vector<int> getHealthyGPUs() const;  // Returns list of healthy GPUs
-    float getAverageGPULoad() const;  // Average utilization across all GPUs
-    bool needsLoadRebalancing(float threshold) const;  // Check if rebalancing needed
+    [[nodiscard]] int getLeastLoadedGPU() const;  // Returns GPU with lowest utilization
+    [[nodiscard]] std::vector<int> getHealthyGPUs() const;  // Returns list of healthy GPUs
+    [[nodiscard]] float getAverageGPULoad() const;  // Average utilization across all GPUs
+    [[nodiscard]] bool needsLoadRebalancing(float threshold) const;  // Check if rebalancing needed
     
     // Multi-GPU peer access (v1.4.0)
-    bool enablePeerAccess(int src_gpu, int dst_gpu);
-    bool disablePeerAccess(int src_gpu, int dst_gpu);
-    bool canAccessPeer(int src_gpu, int dst_gpu) const;
+    [[nodiscard]] bool enablePeerAccess(int src_gpu, int dst_gpu);
+    [[nodiscard]] bool disablePeerAccess(int src_gpu, int dst_gpu);
+    [[nodiscard]] bool canAccessPeer(int src_gpu, int dst_gpu) const;
 
     /**
      * @brief Install runtime GPU temperature provider.
