@@ -2033,6 +2033,10 @@ bool MultiLoRAManager::loadLoRAMultiGPU(LoRASlot* lora) {
     if (!lora || !config_.multi_gpu.enabled) {
         return false;
     }
+    if (config_.multi_gpu.devices.empty()) {
+        spdlog::error("Multi-GPU load requested for LoRA {} but no devices are configured", lora->lora_id);
+        return false;
+    }
     
     spdlog::info("Loading LoRA {} across multiple GPUs", lora->lora_id);
     

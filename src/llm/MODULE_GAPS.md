@@ -623,6 +623,20 @@ access safety hardened in `lora_training_service.cpp`:
   input, reducing residual `UNCHECKED_ARRAY_INDEX`/`unknown`-cluster scanner noise in the
   W1-L07 issue-scope `lora_training_service.cpp` training loop.
 
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 12):** Remaining
+batch-shape and multi-GPU device-list assumptions now fail closed in issue scope:
+- `lora_training_service.cpp` — training now rejects malformed batches when
+  `label_ids.size() != input_ids.size()` before per-row access, preventing `batch.label_ids[i]`
+  out-of-bounds reads in all embedding/fallback loops.
+- `lora_training_service.cpp` — real-embedding averaging now uses per-row sequence lengths
+  (`batch.input_ids[i].size()`, `batch.label_ids[i].size()`) instead of global first-row length
+  assumptions, keeping token index bounds aligned with each sample.
+- `multi_lora_manager.cpp` — `loadLoRAMultiGPU` now explicitly rejects an empty
+  `config_.multi_gpu.devices` list before DATA_PARALLEL/MODEL_PARALLEL replication logic,
+  preventing `devices[0]` and zero-divisor paths when misconfigured.
+- Runtime behavior for valid configs/batches is unchanged; guards only harden fail-closed paths
+  for malformed inputs/misconfiguration to reduce residual `unknown` / bounds-check scanner noise.
+
 **Status (v1.22.0-pre — W1-L03d scope follow-up):** Vulkan/DirectX kernel-interface
 scope hardened for smart-pointer lifetime safety:
 - `lora_framework/kernels/vulkan_kernels.cpp` — Removed `thread_local` fused-buffer cache
