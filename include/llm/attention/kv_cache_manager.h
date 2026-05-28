@@ -24,6 +24,7 @@ namespace attention {
  * @brief Tensor wrapper for KV cache data
  */
 struct KVTensor {
+    virtual ~KVTensor() = default;
     std::vector<float> data;
     size_t layer_id = 0;
     size_t head_id = 0;
@@ -34,6 +35,7 @@ struct KVTensor {
  * @brief Block table for mapping logical to physical blocks
  */
 struct BlockTable {
+    virtual ~BlockTable() = default;
     std::vector<int> block_ids;     // Physical block IDs
     int num_tokens = 0;             // Total tokens in this sequence
     uint64_t sequence_id = 0;       // Sequence identifier
@@ -48,6 +50,7 @@ struct BlockTable {
  * @brief Physical block in KV cache
  */
 struct Block {
+    virtual ~Block() = default;
     int block_id = -1;
     bool is_free = true;
     int ref_count = 0;              // For prefix sharing (Copy-on-Write)

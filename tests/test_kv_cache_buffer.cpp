@@ -11,6 +11,7 @@
 #include <thread>
 #include <vector>
 #include <chrono>
+#include <limits>
 
 using namespace themis::llm;
 
@@ -68,6 +69,31 @@ TEST_F(KVCacheBufferTest, AppendMultipleTokens) {
     auto stats = buffer.getStats();
     EXPECT_EQ(stats.total_appends, n_tokens);
     EXPECT_EQ(stats.current_batch_size, n_tokens);
+}
+
+TEST_F(KVCacheBufferTest, AppendTokensRejectsPositiveTokensWhenEmbeddingDimZero) {
+    config_.embedding_dim = 0;
+    KVCacheBuffer buffer(config_);
+
+    std::vector<float> empty;
+    EXPECT_FALSE(buffer.appendTokens(1, empty, empty, 1));
+
+    auto stats = buffer.getStats();
+    EXPECT_EQ(stats.total_appends, 0);
+    EXPECT_EQ(stats.current_batch_size, 0);
+}
+
+TEST_F(KVCacheBufferTest, AppendTokensRejectsSizeComputationOverflow) {
+    config_.embedding_dim = 2;
+    KVCacheBuffer buffer(config_);
+
+    std::vector<float> empty;
+    const size_t overflowing_tokens = (std::numeric_limits<size_t>::max() / config_.embedding_dim) + 1;
+    EXPECT_THROW(buffer.appendTokens(1, empty, empty, overflowing_tokens), std::invalid_argument);
+
+    auto stats = buffer.getStats();
+    EXPECT_EQ(stats.total_appends, 0);
+    EXPECT_EQ(stats.current_batch_size, 0);
 }
 
 TEST_F(KVCacheBufferTest, AutoFlushOnBatchSizeThreshold) {

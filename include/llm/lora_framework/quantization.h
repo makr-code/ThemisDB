@@ -71,6 +71,7 @@ namespace nf4_constants {
  * to improve quantization accuracy. Typical block size: 64-128 elements.
  */
 struct QuantizationBlock {
+    virtual ~QuantizationBlock() = default;
     float scale = 0.0f;      // Scaling factor for dequantization
     float zero_point = 0.0f; // Zero point offset
     size_t size = 0;      // Number of elements in this block
@@ -87,6 +88,7 @@ struct QuantizationBlock {
  */
 class QuantizedTensor {
 public:
+    virtual ~QuantizedTensor() = default;
     QuantizedTensor() = default;
     
     /**

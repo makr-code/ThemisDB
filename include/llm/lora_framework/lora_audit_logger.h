@@ -98,6 +98,7 @@ enum class LoRAAuditEventType {
  * which LLM with which LoRA adapter generated which response.
  */
 struct LoRAInferenceAudit {
+    virtual ~LoRAInferenceAudit() = default;
     // Timestamps
     std::chrono::system_clock::time_point timestamp;
     std::chrono::milliseconds duration_ms;

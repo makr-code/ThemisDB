@@ -94,6 +94,7 @@ private:
  * @brief GPU topology information for optimized communication
  */
 struct GPUTopology {
+    virtual ~GPUTopology() = default;
     int num_gpus = 0;
     bool has_nvlink = false;
     bool has_pcie_p2p = false;

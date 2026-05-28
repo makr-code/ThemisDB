@@ -33,6 +33,7 @@ namespace llm {
  * @brief LLM output validation result
  */
 struct ValidationResult {
+    virtual ~ValidationResult() = default;
     bool is_valid = false;
     std::vector<std::string> warnings;
     std::vector<std::string> errors;

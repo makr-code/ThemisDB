@@ -22,6 +22,7 @@ namespace llm {
  * @brief Prefix cache entry storing common prompt prefixes
  */
 struct PrefixCacheEntry {
+    virtual ~PrefixCacheEntry() = default;
     std::string prefix;
     std::vector<float> embedding;
     std::vector<int> token_ids;
@@ -41,6 +42,7 @@ struct PrefixCacheEntry {
  * @brief Statistics for prefix cache
  */
 struct PrefixCacheStatistics {
+    virtual ~PrefixCacheStatistics() = default;
     size_t hits = 0;
     size_t misses = 0;
     size_t total_entries = 0;

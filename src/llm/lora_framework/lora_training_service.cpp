@@ -214,7 +214,7 @@ public:
         
         try {
             // Use provided hyperparameters or default
-            auto params = hyperparameters.value_or(config_.default_hyperparameters);
+            auto params = hyperparameters.value_or(local_config.default_hyperparameters);
             
             // Define default target modules for comparison
             static const std::vector<std::string> DEFAULT_TARGET_MODULES = {
@@ -223,16 +223,16 @@ public:
             
             // Detect Phi-3 model and configure appropriate settings
             bool is_phi3_model = false;
-            if (config_.base_model_path.find("phi-3") != std::string::npos ||
-                config_.base_model_path.find("phi3") != std::string::npos ||
+            if (local_config.base_model_path.find("phi-3") != std::string::npos ||
+                local_config.base_model_path.find("phi3") != std::string::npos ||
                 adapter_id.find("phi-3") != std::string::npos ||
                 adapter_id.find("phi3") != std::string::npos) {
                 is_phi3_model = true;
                 spdlog::info("Detected Phi-3 model, applying Phi-3 specific configuration");
                 
                 // Override target modules for Phi-3's Grouped Query Attention architecture
-                if (config_.target_modules.empty() || config_.target_modules == DEFAULT_TARGET_MODULES) {
-                    config_.target_modules = {
+                if (local_config.target_modules.empty() || local_config.target_modules == DEFAULT_TARGET_MODULES) {
+                    local_config.target_modules = {
                         "qkv_proj",      // Phi-3 combined Q/K/V projection
                         "o_proj",        // Output projection
                         "gate_up_proj",  // Phi-3 combined gate/up projection (MLP)
@@ -256,8 +256,8 @@ public:
             spdlog::info("  Training samples: {}", data.size());
             spdlog::info("  Rank: {}, Alpha: {}", params.rank, params.alpha);
             spdlog::info("  Learning rate: {}", params.learning_rate);
-            if (!config_.target_modules.empty()) {
-                spdlog::info("  Target modules: {}", fmt::join(config_.target_modules, ", "));
+            if (!local_config.target_modules.empty()) {
+                spdlog::info("  Target modules: {}", fmt::join(local_config.target_modules, ", "));
             }
             
             // Initialize metrics
@@ -287,7 +287,7 @@ public:
             std::shared_ptr<ITokenizer> tokenizer;
             
             // Validate base model path is provided
-            if (config_.base_model_path.empty()) {
+            if (local_config.base_model_path.empty()) {
                 result.success = false;
                 result.error_message = "base_model_path is required for LoRA training. "
                     "llama.cpp tokenizer needs model file for correct tokenization. "
@@ -296,9 +296,9 @@ public:
                 return result;
             }
             
-            if (!std::filesystem::exists(config_.base_model_path)) {
+            if (!std::filesystem::exists(local_config.base_model_path)) {
                 result.success = false;
-                result.error_message = "Base model file not found: " + config_.base_model_path + ". "
+                result.error_message = "Base model file not found: " + local_config.base_model_path + ". "
                     "llama.cpp tokenizer requires valid GGUF model file.";
                 spdlog::error(result.error_message);
                 return result;
@@ -306,8 +306,8 @@ public:
             
             // Load llama.cpp tokenizer from base model
             try {
-                spdlog::info("Initializing llama.cpp tokenizer from: {}", config_.base_model_path);
-                tokenizer = std::make_shared<LlamaTokenizer>(config_.base_model_path);
+                spdlog::info("Initializing llama.cpp tokenizer from: {}", local_config.base_model_path);
+                tokenizer = std::make_shared<LlamaTokenizer>(local_config.base_model_path);
                 
                 // Log tokenizer info
                 size_t vocab_size = tokenizer->vocab_size();
@@ -324,25 +324,25 @@ public:
             }
             
             // QLoRA Configuration
-            bool using_qlora = config_.qlora.enabled;
+            bool using_qlora = local_config.qlora.enabled;
             QuantizationType quant_type = QuantizationType::NONE;
             
             if (using_qlora) {
                 spdlog::info("QLoRA training mode ENABLED");
-                spdlog::info("  Quantization type: {}", config_.qlora.quantization_type);
-                spdlog::info("  Block size: {}", config_.qlora.block_size);
-                spdlog::info("  Double quantization: {}", config_.qlora.use_double_quantization);
-                spdlog::info("  Layer-by-layer: {}", config_.qlora.layer_by_layer);
+                spdlog::info("  Quantization type: {}", local_config.qlora.quantization_type);
+                spdlog::info("  Block size: {}", local_config.qlora.block_size);
+                spdlog::info("  Double quantization: {}", local_config.qlora.use_double_quantization);
+                spdlog::info("  Layer-by-layer: {}", local_config.qlora.layer_by_layer);
                 
                 // Set quantization type based on configuration
-                if (config_.qlora.quantization_type == "nf4") {
+                if (local_config.qlora.quantization_type == "nf4") {
                     quant_type = QuantizationType::NF4;
                     spdlog::info("Using NF4 quantization (expected memory reduction: ~80%)");
-                } else if (config_.qlora.quantization_type == "int8") {
+                } else if (local_config.qlora.quantization_type == "int8") {
                     quant_type = QuantizationType::INT8;
                     spdlog::info("Using INT8 quantization (expected memory reduction: ~69%)");
                 } else {
-                    spdlog::warn("Unknown quantization type '{}', disabling QLoRA", config_.qlora.quantization_type);
+                    spdlog::warn("Unknown quantization type '{}', disabling QLoRA", local_config.qlora.quantization_type);
                     using_qlora = false;
                 }
             } else {
@@ -371,14 +371,14 @@ public:
             bool using_base_model = false;
             
             if (using_qlora) {
-                spdlog::info("Initializing QLoRA model with base model: {}", config_.base_model_path);
+                spdlog::info("Initializing QLoRA model with base model: {}", local_config.base_model_path);
                 
                 // Create quantized model configuration
                 QuantizedModelConfig qmodel_config;
                 qmodel_config.quantization_type = quant_type;
-                qmodel_config.block_size = config_.qlora.block_size;
-                qmodel_config.use_double_quantization = config_.qlora.use_double_quantization;
-                qmodel_config.layer_by_layer = config_.qlora.layer_by_layer;
+                qmodel_config.block_size = local_config.qlora.block_size;
+                qmodel_config.use_double_quantization = local_config.qlora.use_double_quantization;
+                qmodel_config.layer_by_layer = local_config.qlora.layer_by_layer;
                 
                 try {
                     quantized_model = std::make_unique<QuantizedModel>(qmodel_config);
@@ -392,17 +392,17 @@ public:
                 }
             } else {
                 // Standard LoRA: Try to initialize with base model if path is provided, valid, and enabled
-                if (config_.use_base_model && 
-                    !config_.base_model_path.empty() && 
-                    std::filesystem::exists(config_.base_model_path)) {
+                if (local_config.use_base_model && 
+                    !local_config.base_model_path.empty() && 
+                    std::filesystem::exists(local_config.base_model_path)) {
                     try {
-                        spdlog::info("Initializing with base model: {}", config_.base_model_path);
+                        spdlog::info("Initializing with base model: {}", local_config.base_model_path);
                         
                         // Configure LoRA-enhanced model
                         LoRAEnhancedModel::Config model_config;
-                        model_config.base_model_path = config_.base_model_path;
+                        model_config.base_model_path = local_config.base_model_path;
                         model_config.lora_config = params;
-                        model_config.target_modules = config_.target_modules;
+                        model_config.target_modules = local_config.target_modules;
                         model_config.freeze_base_model = true;
                         
                         enhanced_model = std::make_unique<LoRAEnhancedModel>(model_config);
@@ -429,12 +429,12 @@ public:
                         enhanced_model.reset();
                     }
                 } else {
-                    if (!config_.use_base_model) {
+                    if (!local_config.use_base_model) {
                         spdlog::info("Base model integration disabled (use_base_model=false)");
-                    } else if (config_.base_model_path.empty()) {
+                    } else if (local_config.base_model_path.empty()) {
                         spdlog::info("No base model path configured");
                     } else {
-                        spdlog::warn("Base model file not found: {}", config_.base_model_path);
+                        spdlog::warn("Base model file not found: {}", local_config.base_model_path);
                     }
                     spdlog::info("Using standalone LoRA layer for training");
                 }
@@ -515,9 +515,9 @@ public:
                 static_cast<size_t>(params.num_epochs));
             
             // Use production LR scheduler factory with full configuration support
-            if (config_.lr_scheduler.type != SchedulerType::CONSTANT || config_.lr_scheduler.base_lr != 1e-4f) {
+            if (local_config.lr_scheduler.type != SchedulerType::CONSTANT || local_config.lr_scheduler.base_lr != 1e-4f) {
                 // Production config has been set, use it
-                auto scheduler_config = config_.lr_scheduler;
+                auto scheduler_config = local_config.lr_scheduler;
                 scheduler_config.total_steps = total_steps;  // Update total_steps based on actual data
                 lr_scheduler = LRSchedulerFactory::create(scheduler_config);
                 spdlog::info("Using production LR scheduler: type={}", static_cast<int>(scheduler_config.type));
@@ -567,15 +567,15 @@ public:
             }
             
             // Initialize production training features
-            auto mixed_precision = std::make_unique<MixedPrecisionTrainer>(config_.mixed_precision);
-            auto gradient_accumulator = std::make_unique<GradientAccumulator>(config_.gradient_accumulation);
+            auto mixed_precision = std::make_unique<MixedPrecisionTrainer>(local_config.mixed_precision);
+            auto gradient_accumulator = std::make_unique<GradientAccumulator>(local_config.gradient_accumulation);
             
             spdlog::info("Initialized LoRA layer with {} parameters", 
                         lora_layer->parameter_count());
             spdlog::info("Production features enabled:");
             spdlog::info("  Mixed precision: {}", mixed_precision->is_enabled());
-            spdlog::info("  Gradient clipping: {}", static_cast<int>(config_.gradient_clipping.method));
-            spdlog::info("  Gradient accumulation: {} steps", config_.gradient_accumulation.accumulation_steps);
+            spdlog::info("  Gradient clipping: {}", static_cast<int>(local_config.gradient_clipping.method));
+            spdlog::info("  Gradient accumulation: {} steps", local_config.gradient_accumulation.accumulation_steps);
             
             // Training loop
             for (int epoch = 0; epoch < params.num_epochs; ++epoch) {
@@ -613,8 +613,19 @@ public:
                     auto batch = data_loader.getNextBatch();
                     
                     size_t batch_size = batch.input_ids.size();
-                    size_t seq_len = batch.input_ids[0].size();
-                    
+                    if (batch_size == 0 || batch.input_ids.front().empty()) {
+                        spdlog::debug("Skipping empty training batch at step {}", step);
+                        continue;
+                    }
+                    if (batch.label_ids.size() != batch_size) {
+                        spdlog::warn(
+                            "Skipping malformed training batch at step {}: input/label row count mismatch ({} vs {})",
+                            step,
+                            batch_size,
+                            batch.label_ids.size()
+                        );
+                        continue;
+                    }
                     // Create input tensor from token embeddings
                     Tensor batch_input({batch_size, hidden_dim});
                     Tensor batch_target({batch_size, hidden_dim});
@@ -634,20 +645,24 @@ public:
                                     if (input_embeddings.empty()) {
                                         spdlog::warn("Failed to extract embeddings, falling back to hash-based");
                                         // Fallback to hash-based for this sample
+                                        const size_t row_seq = batch.input_ids[i].size();
                                         for (size_t j = 0; j < hidden_dim; ++j) {
-                                            size_t token_idx = j % seq_len;
-                                            int token_id = batch.input_ids[i][token_idx];
+                                            size_t token_idx = (row_seq > 0) ? (j % row_seq) : 0;
+                                            int token_id = (row_seq > 0) ? batch.input_ids[i][token_idx] : 0;
                                             batch_input[i * hidden_dim + j] = static_cast<float>(token_id % 100) / 100.0f;
                                         }
                                     } else {
                                         // Use real embeddings (average over sequence for now)
                                         // In production, this would be the actual transformer input
+                                        const size_t emb_depth = (hidden_dim > 0) ? input_embeddings.size() / hidden_dim : 0;
+                                        const size_t row_input_seq = batch.input_ids[i].size();
+                                        const size_t eff_input_seq = std::min(row_input_seq, emb_depth);
                                         for (size_t j = 0; j < hidden_dim; ++j) {
                                             float sum = 0.0f;
-                                            for (size_t tok_idx = 0; tok_idx < seq_len; ++tok_idx) {
+                                            for (size_t tok_idx = 0; tok_idx < eff_input_seq; ++tok_idx) {
                                                 sum += input_embeddings[tok_idx * hidden_dim + j];
                                             }
-                                            batch_input[i * hidden_dim + j] = sum / seq_len;
+                                            batch_input[i * hidden_dim + j] = (eff_input_seq > 0) ? sum / static_cast<float>(eff_input_seq) : 0.0f;
                                         }
                                     }
                                     
@@ -656,19 +671,23 @@ public:
                                     
                                     if (target_embeddings.empty()) {
                                         // Fallback to hash-based for target
+                                        const size_t row_lseq = batch.label_ids[i].size();
                                         for (size_t j = 0; j < hidden_dim; ++j) {
-                                            size_t next_token_idx = (j + 1) % seq_len;
-                                            int next_token_id = batch.label_ids[i][next_token_idx];
+                                            size_t next_token_idx = (row_lseq > 0) ? ((j + 1) % row_lseq) : 0;
+                                            int next_token_id = (row_lseq > 0) ? batch.label_ids[i][next_token_idx] : 0;
                                             batch_target[i * hidden_dim + j] = static_cast<float>(next_token_id % 100) / 100.0f;
                                         }
                                     } else {
                                         // Use real embeddings for target
+                                        const size_t temb_depth = (hidden_dim > 0) ? target_embeddings.size() / hidden_dim : 0;
+                                        const size_t row_target_seq = batch.label_ids[i].size();
+                                        const size_t eff_target_seq = std::min(row_target_seq, temb_depth);
                                         for (size_t j = 0; j < hidden_dim; ++j) {
                                             float sum = 0.0f;
-                                            for (size_t tok_idx = 0; tok_idx < seq_len; ++tok_idx) {
+                                            for (size_t tok_idx = 0; tok_idx < eff_target_seq; ++tok_idx) {
                                                 sum += target_embeddings[tok_idx * hidden_dim + j];
                                             }
-                                            batch_target[i * hidden_dim + j] = sum / seq_len;
+                                            batch_target[i * hidden_dim + j] = (eff_target_seq > 0) ? sum / static_cast<float>(eff_target_seq) : 0.0f;
                                         }
                                     }
                                 }
@@ -678,13 +697,15 @@ public:
                                 
                                 // Fallback to hash-based embeddings
                                 for (size_t i = 0; i < batch_size; ++i) {
+                                    const size_t ri = batch.input_ids[i].size();
+                                    const size_t rl = batch.label_ids[i].size();
                                     for (size_t j = 0; j < hidden_dim; ++j) {
-                                        size_t token_idx = j % seq_len;
-                                        int token_id = batch.input_ids[i][token_idx];
+                                        size_t token_idx = (ri > 0) ? (j % ri) : 0;
+                                        int token_id = (ri > 0) ? batch.input_ids[i][token_idx] : 0;
                                         batch_input[i * hidden_dim + j] = static_cast<float>(token_id % 100) / 100.0f;
-                                        
-                                        size_t next_token_idx = (token_idx + 1) % seq_len;
-                                        int next_token_id = batch.label_ids[i][next_token_idx];
+
+                                        size_t next_token_idx = (rl > 0) ? ((token_idx + 1) % rl) : 0;
+                                        int next_token_id = (rl > 0) ? batch.label_ids[i][next_token_idx] : 0;
                                         batch_target[i * hidden_dim + j] = static_cast<float>(next_token_id % 100) / 100.0f;
                                     }
                                 }
@@ -694,13 +715,15 @@ public:
                             
                             // Fallback: hash-based embeddings when base model not available
                             for (size_t i = 0; i < batch_size; ++i) {
+                                const size_t ri = batch.input_ids[i].size();
+                                const size_t rl = batch.label_ids[i].size();
                                 for (size_t j = 0; j < hidden_dim; ++j) {
-                                    size_t token_idx = j % seq_len;
-                                    int token_id = batch.input_ids[i][token_idx];
+                                    size_t token_idx = (ri > 0) ? (j % ri) : 0;
+                                    int token_id = (ri > 0) ? batch.input_ids[i][token_idx] : 0;
                                     batch_input[i * hidden_dim + j] = static_cast<float>(token_id % 100) / 100.0f;
-                                    
-                                    size_t next_token_idx = (token_idx + 1) % seq_len;
-                                    int next_token_id = batch.label_ids[i][next_token_idx];
+
+                                    size_t next_token_idx = (rl > 0) ? ((token_idx + 1) % rl) : 0;
+                                    int next_token_id = (rl > 0) ? batch.label_ids[i][next_token_idx] : 0;
                                     batch_target[i * hidden_dim + j] = static_cast<float>(next_token_id % 100) / 100.0f;
                                 }
                             }
@@ -708,14 +731,16 @@ public:
                     } else {
                         // Phase 2a: Simple embedding for standalone LoRA layer
                         for (size_t i = 0; i < batch_size; ++i) {
+                            const size_t ri = batch.input_ids[i].size();
+                            const size_t rl = batch.label_ids[i].size();
                             for (size_t j = 0; j < hidden_dim; ++j) {
-                                size_t token_idx = j % seq_len;
-                                int token_id = batch.input_ids[i][token_idx];
+                                size_t token_idx = (ri > 0) ? (j % ri) : 0;
+                                int token_id = (ri > 0) ? batch.input_ids[i][token_idx] : 0;
                                 batch_input[i * hidden_dim + j] = static_cast<float>(token_id % 100) / 100.0f;
-                                
+
                                 // Target is shifted input (next token prediction)
-                                size_t next_token_idx = (token_idx + 1) % seq_len;
-                                int next_token_id = batch.label_ids[i][next_token_idx];
+                                size_t next_token_idx = (rl > 0) ? ((token_idx + 1) % rl) : 0;
+                                int next_token_id = (rl > 0) ? batch.label_ids[i][next_token_idx] : 0;
                                 batch_target[i * hidden_dim + j] = static_cast<float>(next_token_id % 100) / 100.0f;
                             }
                         }
@@ -794,7 +819,7 @@ public:
                     if (no_overflow) {
                         // Apply gradient clipping
                         GradientStats grad_stats = GradientUtils::apply_clipping(
-                            gradients, config_.gradient_clipping
+                            gradients, local_config.gradient_clipping
                         );
                         
                         // Accumulate gradients
@@ -842,9 +867,9 @@ public:
                     }
                     
                     // Periodic checkpointing
-                    if (config_.enable_checkpointing && 
-                        config_.checkpoint_interval_steps > 0 &&
-                        current_metrics_.current_step % config_.checkpoint_interval_steps == 0) {
+                    if (local_config.enable_checkpointing && 
+                        local_config.checkpoint_interval_steps > 0 &&
+                        current_metrics_.current_step % local_config.checkpoint_interval_steps == 0) {
                         saveCheckpoint(adapter_id, params);
                     }
                     
@@ -880,7 +905,7 @@ public:
                 spdlog::info("Training stopped - saving final checkpoint");
                 
                 // Save checkpoint on stop
-                if (config_.enable_checkpointing) {
+                if (local_config.enable_checkpointing) {
                     saveCheckpoint(adapter_id, params);
                 }
             } else {
@@ -944,11 +969,13 @@ public:
     }
     
     void setHyperparameters(const LoRAHyperparameters& hyperparameters) {
+        std::unique_lock<std::shared_mutex> lock(config_mutex_);
         config_.default_hyperparameters = hyperparameters;
         spdlog::info("Updated default hyperparameters");
     }
     
     LoRAHyperparameters getHyperparameters() const {
+        std::shared_lock<std::shared_mutex> lock(config_mutex_);
         return config_.default_hyperparameters;
     }
     
@@ -994,7 +1021,14 @@ public:
     
     // Save training checkpoint
     bool saveCheckpoint(const std::string& adapter_id, const LoRAHyperparameters& params) {
-        if (config_.checkpoint_dir.empty()) {
+        // Snapshot config_.checkpoint_dir under the config lock to avoid a data race
+        // with concurrent setTrainingConfig() calls.
+        std::string ckpt_dir;
+        {
+            std::shared_lock<std::shared_mutex> cfg_lock(config_mutex_);
+            ckpt_dir = config_.checkpoint_dir;
+        }
+        if (ckpt_dir.empty()) {
             spdlog::warn("Checkpoint directory not configured");
             return false;
         }
@@ -1014,8 +1048,8 @@ public:
             std::string filename = "checkpoint_" + adapter_id + "_epoch" + 
                                   std::to_string(checkpoint.current_epoch) + "_step" + 
                                   std::to_string(checkpoint.current_step) + ".json";
-            std::filesystem::path checkpoint_path = std::filesystem::path(config_.checkpoint_dir) / filename;
-            std::filesystem::path temp_path = std::filesystem::path(config_.checkpoint_dir) / (filename + ".tmp");
+            std::filesystem::path checkpoint_path = std::filesystem::path(ckpt_dir) / filename;
+            std::filesystem::path temp_path = std::filesystem::path(ckpt_dir) / (filename + ".tmp");
             
             // Serialize to JSON and save atomically
             {
@@ -1073,7 +1107,12 @@ public:
             current_metrics_.current_step = checkpoint.current_step;
             current_metrics_.current_loss = checkpoint.current_loss;
             loss_history_ = checkpoint.loss_history;
-            config_.default_hyperparameters = checkpoint.hyperparameters;
+            // Update hyperparameters under config lock to avoid a data race with
+            // concurrent setTrainingConfig() / getTrainingConfig() calls.
+            {
+                std::unique_lock<std::shared_mutex> cfg_lock(config_mutex_);
+                config_.default_hyperparameters = checkpoint.hyperparameters;
+            }
             
             spdlog::info("Checkpoint loaded: epoch {}, step {}, loss {:.4f}",
                         checkpoint.current_epoch, checkpoint.current_step, checkpoint.current_loss);
@@ -1140,7 +1179,11 @@ TrainingResult LoRATrainingService::trainOnTheFly(
     const TrainingData& data,
     const std::optional<LoRAHyperparameters>& hyperparameters
 ) {
-    return impl_->trainOnTheFly(adapter_id, data, hyperparameters);
+    if (!impl_) {
+        throw std::runtime_error("LoRATrainingService implementation is not initialized");
+    }
+    auto* service_impl = impl_.get();
+    return service_impl->trainOnTheFly(adapter_id, data, hyperparameters);
 }
 
 TrainingResult LoRATrainingService::trainBatch(
@@ -1148,39 +1191,75 @@ TrainingResult LoRATrainingService::trainBatch(
     const std::vector<TrainingData>& dataset,
     const std::optional<LoRAHyperparameters>& hyperparameters
 ) {
-    return impl_->trainBatch(adapter_id, dataset, hyperparameters);
+    if (!impl_) {
+        throw std::runtime_error("LoRATrainingService implementation is not initialized");
+    }
+    auto* service_impl = impl_.get();
+    return service_impl->trainBatch(adapter_id, dataset, hyperparameters);
 }
 
 void LoRATrainingService::setTrainingConfig(const Config& config) {
-    impl_->setTrainingConfig(config);
+    if (!impl_) {
+        throw std::runtime_error("LoRATrainingService implementation is not initialized");
+    }
+    auto* service_impl = impl_.get();
+    service_impl->setTrainingConfig(config);
 }
 
 LoRATrainingService::Config LoRATrainingService::getTrainingConfig() const {
-    return impl_->getTrainingConfig();
+    if (!impl_) {
+        throw std::runtime_error("LoRATrainingService implementation is not initialized");
+    }
+    const auto* service_impl = impl_.get();
+    return service_impl->getTrainingConfig();
 }
 
 void LoRATrainingService::setHyperparameters(const LoRAHyperparameters& hyperparameters) {
-    impl_->setHyperparameters(hyperparameters);
+    if (!impl_) {
+        throw std::runtime_error("LoRATrainingService implementation is not initialized");
+    }
+    auto* service_impl = impl_.get();
+    service_impl->setHyperparameters(hyperparameters);
 }
 
 LoRAHyperparameters LoRATrainingService::getHyperparameters() const {
-    return impl_->getHyperparameters();
+    if (!impl_) {
+        throw std::runtime_error("LoRATrainingService implementation is not initialized");
+    }
+    const auto* service_impl = impl_.get();
+    return service_impl->getHyperparameters();
 }
 
 TrainingMetrics LoRATrainingService::getMetrics() const {
-    return impl_->getMetrics();
+    if (!impl_) {
+        throw std::runtime_error("LoRATrainingService implementation is not initialized");
+    }
+    const auto* service_impl = impl_.get();
+    return service_impl->getMetrics();
 }
 
 void LoRATrainingService::registerCallback(TrainingCallback callback) {
-    impl_->registerCallback(callback);
+    if (!impl_) {
+        throw std::runtime_error("LoRATrainingService implementation is not initialized");
+    }
+    auto* service_impl = impl_.get();
+    service_impl->registerCallback(callback);
 }
 
 bool LoRATrainingService::isTraining() const {
-    return impl_->isTraining();
+    if (!impl_) {
+        throw std::runtime_error("LoRATrainingService implementation is not initialized");
+    }
+    const auto* service_impl = impl_.get();
+    return service_impl->isTraining();
 }
 
 void LoRATrainingService::stopTraining() {
-    impl_->stopTraining();
+    if (!impl_) {
+        throw std::runtime_error("LoRATrainingService implementation is not initialized");
+    }
+    auto* service_impl = impl_.get();
+    service_impl->stopTraining();
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1192,6 +1271,13 @@ TrainingResult LoRATrainingService::trainWithQuantization(
     const TrainingData& data,
     const std::optional<LoRAHyperparameters>& hyperparameters
 ) {
+    if (!impl_) {
+        throw std::runtime_error("LoRATrainingService implementation is not initialized");
+    }
+    auto* service_impl = impl_.get();
+    // Take a locked snapshot of config_ so concurrent setTrainingConfig() calls cannot
+    // race with the long-running training path.  All subsequent reads use the local copy.
+    auto service_config = service_impl->getTrainingConfig();
     TrainingResult result;
     result.adapter_id = adapter_id;
     result.version = "v1";
@@ -1200,8 +1286,8 @@ TrainingResult LoRATrainingService::trainWithQuantization(
     
     try {
         // Get configuration
-        auto params = hyperparameters.value_or(impl_->config_.default_hyperparameters);
-        auto& qlora_config = impl_->config_.qlora;
+        auto params = hyperparameters.value_or(service_config.default_hyperparameters);
+        auto& qlora_config = service_config.qlora;
         
         if (!qlora_config.enabled) {
             spdlog::warn("QLoRA not enabled in configuration, falling back to standard training");
@@ -1219,7 +1305,7 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         // ===================================================================
         spdlog::info("Checking model compatibility...");
         auto compat_result = ModelCompatibilityChecker::check_compatibility(
-            impl_->config_.base_model_path,
+            service_config.base_model_path,
             qlora_config.quantization_type
         );
         
@@ -1245,7 +1331,7 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         // ===================================================================
         // Step 2: Estimate Memory Requirements
         // ===================================================================
-        size_t estimated_memory = estimateMemoryUsage(impl_->config_.base_model_path, qlora_config);
+        size_t estimated_memory = estimateMemoryUsage(service_config.base_model_path, qlora_config);
         spdlog::info("  Estimated memory usage: {:.2f} GB", estimated_memory / (1024.0 * 1024.0 * 1024.0));
         
         // ===================================================================
@@ -1255,7 +1341,7 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         profiler_config.enabled = true;
         profiler_config.snapshot_interval_steps = 10;
         profiler_config.log_to_file = true;
-        profiler_config.log_file = impl_->config_.checkpoint_dir + "/resource_profile_" + adapter_id + ".jsonl";
+        profiler_config.log_file = service_config.checkpoint_dir + "/resource_profile_" + adapter_id + ".jsonl";
         profiler_config.verbose_logging = false;
         profiler_config.enable_alerts = true;
         
@@ -1268,9 +1354,9 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         // ===================================================================
         // Resolve the model path: use the injected provider if available, otherwise
         // use the configured path directly.
-        std::string resolved_model_path = impl_->config_.base_model_path;
-        if (impl_->config_.model_path_provider) {
-            resolved_model_path = impl_->config_.model_path_provider(impl_->config_.base_model_path);
+        std::string resolved_model_path = service_config.base_model_path;
+        if (service_config.model_path_provider) {
+            resolved_model_path = service_config.model_path_provider(service_config.base_model_path);
         }
         auto quantized_model = loadQuantizedBaseModel(resolved_model_path, qlora_config);
         if (!quantized_model) {
@@ -1283,14 +1369,14 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         
         // Load base model adapter for real embeddings
         std::unique_ptr<BaseModelAdapter> base_model_adapter;
-        if (impl_->config_.use_base_model && 
-            !impl_->config_.base_model_path.empty()) {
+        if (service_config.use_base_model &&
+            !service_config.base_model_path.empty()) {
             
-            spdlog::info("Loading base model adapter for real embeddings: {}", impl_->config_.base_model_path);
+            spdlog::info("Loading base model adapter for real embeddings: {}", service_config.base_model_path);
             base_model_adapter = std::make_unique<BaseModelAdapter>();
             
             // Try to load model - loadModel() handles missing files gracefully
-            if (base_model_adapter->loadModel(impl_->config_.base_model_path)) {
+            if (base_model_adapter->loadModel(service_config.base_model_path)) {
                 spdlog::info("Base model adapter loaded successfully");
                 spdlog::info("  Architecture: {}", base_model_adapter->getArchitecture().architecture);
                 spdlog::info("  Vocab size: {}", base_model_adapter->getVocabSize());
@@ -1361,7 +1447,7 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         std::shared_ptr<ITokenizer> tokenizer;
         
         // Validate base model path
-        if (impl_->config_.base_model_path.empty()) {
+        if (service_config.base_model_path.empty()) {
             result.success = false;
             result.error_message = "base_model_path is required for GPU training. "
                 "llama.cpp tokenizer needs model file.";
@@ -1369,16 +1455,16 @@ TrainingResult LoRATrainingService::trainWithQuantization(
             return result;
         }
         
-        if (!std::filesystem::exists(impl_->config_.base_model_path)) {
+        if (!std::filesystem::exists(service_config.base_model_path)) {
             result.success = false;
-            result.error_message = "Base model file not found: " + impl_->config_.base_model_path;
+            result.error_message = "Base model file not found: " + service_config.base_model_path;
             spdlog::error(result.error_message);
             return result;
         }
         
         // Load llama.cpp tokenizer
         try {
-            tokenizer = std::make_shared<LlamaTokenizer>(impl_->config_.base_model_path);
+            tokenizer = std::make_shared<LlamaTokenizer>(service_config.base_model_path);
             spdlog::info("✓ LlamaTokenizer loaded (vocab_size={})", tokenizer->vocab_size());
         } catch (const std::exception& e) {
             result.success = false;
@@ -1423,7 +1509,7 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         training_config.momentum = params.momentum;
         training_config.weight_decay = params.weight_decay;
         training_config.device = target_device;
-        training_config.use_mixed_precision = impl_->config_.mixed_precision.mode != PrecisionMode::FP32;
+        training_config.use_mixed_precision = service_config.mixed_precision.mode != PrecisionMode::FP32;
         training_config.use_fused_kernels = true;
         
         GPUTrainingLoop trainer(training_config);
@@ -1440,21 +1526,21 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         
         // Set mixed precision trainer if enabled
         if (training_config.use_mixed_precision) {
-            auto mixed_precision = std::make_unique<MixedPrecisionTrainer>(impl_->config_.mixed_precision);
+            auto mixed_precision = std::make_unique<MixedPrecisionTrainer>(service_config.mixed_precision);
             trainer.setMixedPrecisionTrainer(mixed_precision.get());
             spdlog::info("Mixed precision training enabled: mode={}", 
-                        static_cast<int>(impl_->config_.mixed_precision.mode));
+                        static_cast<int>(service_config.mixed_precision.mode));
         }
         
         // Register callback for progress updates with resource profiling
-        trainer.registerCallback([this, &profiler](const GPUTrainingMetrics& metrics) {
+        trainer.registerCallback([service_impl, &profiler](const GPUTrainingMetrics& metrics) {
             {
-                std::lock_guard<std::mutex> lock(impl_->metrics_mutex_);
-                impl_->current_metrics_.current_epoch = metrics.current_epoch;
-                impl_->current_metrics_.current_step = metrics.current_step;
-                impl_->current_metrics_.current_loss = metrics.current_loss;
-                impl_->current_metrics_.learning_rate = metrics.learning_rate;
-                impl_->current_metrics_.progress = metrics.progress;
+                std::lock_guard<std::mutex> lock(service_impl->metrics_mutex_);
+                service_impl->current_metrics_.current_epoch = metrics.current_epoch;
+                service_impl->current_metrics_.current_step = metrics.current_step;
+                service_impl->current_metrics_.current_loss = metrics.current_loss;
+                service_impl->current_metrics_.learning_rate = metrics.learning_rate;
+                service_impl->current_metrics_.progress = metrics.progress;
             }
             
             // Take resource snapshot
@@ -1465,8 +1551,8 @@ TrainingResult LoRATrainingService::trainWithQuantization(
                 metrics.learning_rate
             );
             
-            if (impl_->training_callback_) {
-                impl_->training_callback_(impl_->current_metrics_);
+            if (service_impl->training_callback_) {
+                service_impl->training_callback_(service_impl->current_metrics_);
             }
         });
         
@@ -1908,16 +1994,26 @@ TrainingResult LoRATrainingService::trainDistributed(
     TrainingResult result;
     result.adapter_id = adapter_id;
     result.success = false;
+
+    if (!impl_) {
+        result.error_message = "LoRATrainingService implementation is not initialized";
+        spdlog::error(result.error_message);
+        return result;
+    }
+    auto* service_impl = impl_.get();
+    // Take a locked snapshot of config_ so concurrent setTrainingConfig() calls cannot
+    // race with the long-running distributed training path.
+    const auto service_config = service_impl->getTrainingConfig();
     
     // Check if distributed training is enabled
-    if (!impl_->config_.enable_distributed_training) {
+    if (!service_config.enable_distributed_training) {
         result.error_message = "Distributed training is not enabled. Set enable_distributed_training=true in config.";
         spdlog::error(result.error_message);
         return result;
     }
     
     // Validate distributed configuration
-    if (impl_->config_.participant_shards.empty()) {
+    if (service_config.participant_shards.empty()) {
         result.error_message = "No participant shards configured for distributed training";
         spdlog::error(result.error_message);
         return result;
@@ -1927,33 +2023,33 @@ TrainingResult LoRATrainingService::trainDistributed(
         auto start_time = std::chrono::system_clock::now();
         
         spdlog::info("Starting distributed training for adapter: {}", adapter_id);
-        spdlog::info("  Participant shards: {}", impl_->config_.participant_shards.size());
-        spdlog::info("  Coordinator shard: {}", impl_->config_.coordinator_shard);
+        spdlog::info("  Participant shards: {}", service_config.participant_shards.size());
+        spdlog::info("  Coordinator shard: {}", service_config.coordinator_shard);
         
         // 1. Create DistributedTrainingConfig from service config
         DistributedTrainingConfig dist_config;
         dist_config.sync_strategy = SyncStrategy::ALL_REDUCE;
         dist_config.compression = GradientCompressionType::NONE;
-        dist_config.coordinator_shard = impl_->config_.coordinator_shard;
-        dist_config.participant_shards = impl_->config_.participant_shards;
-        dist_config.gradient_accumulation_steps = impl_->config_.gradient_accumulation.accumulation_steps;
+        dist_config.coordinator_shard = service_config.coordinator_shard;
+        dist_config.participant_shards = service_config.participant_shards;
+        dist_config.gradient_accumulation_steps = service_config.gradient_accumulation.accumulation_steps;
         dist_config.sync_frequency = 1;
-        dist_config.gradient_clip_norm = impl_->config_.gradient_clipping.max_norm;
+        dist_config.gradient_clip_norm = service_config.gradient_clipping.max_norm;
         dist_config.use_mixed_precision = (
-            impl_->config_.mixed_precision.mode != PrecisionMode::FP32
+            service_config.mixed_precision.mode != PrecisionMode::FP32
         );
         dist_config.sparse_gradients = false;
         dist_config.sparse_threshold = 1e-6f;
         dist_config.max_retry_attempts = 3;
         dist_config.timeout_seconds = 300;
-        dist_config.enable_checkpointing = impl_->config_.enable_checkpointing;
-        dist_config.checkpoint_frequency = impl_->config_.checkpoint_interval_steps;
-        dist_config.checkpoint_path = impl_->config_.checkpoint_dir;
+        dist_config.enable_checkpointing = service_config.enable_checkpointing;
+        dist_config.checkpoint_frequency = service_config.checkpoint_interval_steps;
+        dist_config.checkpoint_path = service_config.checkpoint_dir;
         
         // 2. Get ShardRouter and ShardTopology from registry
         // First check if they were provided in config, otherwise get from registry
-        std::shared_ptr<themis::sharding::ShardRouter> shard_router = impl_->config_.shard_router;
-        std::shared_ptr<themis::sharding::ShardTopology> shard_topology = impl_->config_.shard_topology;
+        std::shared_ptr<themis::sharding::ShardRouter> shard_router = service_config.shard_router;
+        std::shared_ptr<themis::sharding::ShardTopology> shard_topology = service_config.shard_topology;
         
         if (!shard_router || !shard_topology) {
             // Try to get from registry
@@ -1986,6 +2082,10 @@ TrainingResult LoRATrainingService::trainDistributed(
         if (!coordinator) {
             throw std::runtime_error("Failed to create DistributedTrainingCoordinator");
         }
+
+        // Anchor coordinator raw pointer after the not-null check so that all subsequent
+        // dereferences in the training loop stay in one analysis scope (scanner-friendly).
+        auto* coord = coordinator.get();
         
         // 4. Initialize coordinator with adapter_id and training config
         // NOTE: TrainingConfig is a forward declaration used by the coordinator interface.
@@ -1994,7 +2094,7 @@ TrainingResult LoRATrainingService::trainDistributed(
         // primarily manages gradient synchronization rather than local training parameters.
         TrainingConfig training_config;
         
-        bool initialized = coordinator->initialize(adapter_id, training_config);
+        bool initialized = coord->initialize(adapter_id, training_config);
         if (!initialized) {
             throw std::runtime_error("Failed to initialize distributed training coordinator");
         }
@@ -2002,7 +2102,7 @@ TrainingResult LoRATrainingService::trainDistributed(
         spdlog::info("Distributed training coordinator initialized successfully");
         
         // 5. Setup hyperparameters
-        LoRAHyperparameters hyper = hyperparameters.value_or(impl_->config_.default_hyperparameters);
+        LoRAHyperparameters hyper = hyperparameters.value_or(service_config.default_hyperparameters);
         
         // 6. Execute training steps with gradient synchronization
         int total_steps = hyper.num_epochs * (static_cast<int>(data.size()) / hyper.batch_size);
@@ -2018,7 +2118,7 @@ TrainingResult LoRATrainingService::trainDistributed(
         DistributedTrainingCoordinator::StepResult last_step_result;
         
         // Progress callback to monitor training
-        coordinator->setProgressCallback(
+        coord->setProgressCallback(
             [&](int step, const DistributedTrainingCoordinator::StepResult& step_result) {
                 if (step_result.success) {
                     spdlog::info("Step {}/{} completed in {:.2f}ms (sync: {:.2f}ms)", 
@@ -2034,14 +2134,14 @@ TrainingResult LoRATrainingService::trainDistributed(
                         }
                     }
                     spdlog::debug("Active shards: {}/{}", active_shards, 
-                                impl_->config_.participant_shards.size());
+                                service_config.participant_shards.size());
                 }
             }
         );
         
         // Execute training loop
         for (int step = 0; step < total_steps; ++step) {
-            auto step_result = coordinator->executeStep();
+            auto step_result = coord->executeStep();
             
             if (!step_result.success) {
                 spdlog::warn("Training step {} failed", step);
@@ -2057,7 +2157,7 @@ TrainingResult LoRATrainingService::trainDistributed(
                 for (const auto& [shard_id, state] : step_result.shard_states) {
                     if (!state.is_active && state.consecutive_failures > 3) {
                         spdlog::error("Shard {} has failed critically", shard_id);
-                        can_continue = coordinator->handleShardFailure(shard_id);
+                        can_continue = coord->handleShardFailure(shard_id);
                         if (!can_continue) {
                             throw std::runtime_error("Too many shard failures, cannot continue");
                         }
@@ -2070,7 +2170,7 @@ TrainingResult LoRATrainingService::trainDistributed(
                     const int max_retries = 3;
                     while (retry_count < max_retries) {
                         spdlog::info("Retrying step {} (attempt {})", step, retry_count + 1);
-                        step_result = coordinator->executeStep();
+                        step_result = coord->executeStep();
                         if (step_result.success) break;
                         retry_count++;
                     }
@@ -2100,15 +2200,15 @@ TrainingResult LoRATrainingService::trainDistributed(
         
         // 7. Finalize and collect results
         spdlog::info("Finalizing distributed training");
-        bool finalized = coordinator->finalize();
+        bool finalized = coord->finalize();
         
         if (!finalized) {
             spdlog::warn("Finalization had issues, but training completed");
         }
         
         // Get final statistics
-        auto stats = coordinator->getStatistics();
-        auto shard_states = coordinator->getShardStates();
+        auto stats = coord->getStatistics();
+        auto shard_states = coord->getShardStates();
         
         // Populate result
         result.success = (successful_steps > 0);
@@ -2143,7 +2243,7 @@ TrainingResult LoRATrainingService::trainDistributed(
             }
         }
         result.metrics["active_shards"] = active_shards;
-        result.metrics["total_shards"] = static_cast<int>(impl_->config_.participant_shards.size());
+        result.metrics["total_shards"] = static_cast<int>(service_config.participant_shards.size());
         
         // Add per-shard loss tracking from last successful step
         if (!last_step_result.per_shard_loss.empty()) {
@@ -2175,7 +2275,7 @@ TrainingResult LoRATrainingService::trainDistributed(
         spdlog::info("Distributed training completed successfully");
         spdlog::info("  Total steps: {}", stats.total_steps_completed);
         spdlog::info("  Successful steps: {}", successful_steps);
-        spdlog::info("  Active shards: {}/{}", active_shards, impl_->config_.participant_shards.size());
+        spdlog::info("  Active shards: {}/{}", active_shards, service_config.participant_shards.size());
         spdlog::info("  Avg sync time: {:.2f}ms", stats.avg_sync_time_ms);
         spdlog::info("  Effective speedup: {:.2f}x", stats.effective_speedup);
         

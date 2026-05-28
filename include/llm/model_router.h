@@ -46,6 +46,7 @@ namespace llm {
  * @brief Single routing rule that maps a set of match criteria to a model.
  */
 struct RoutingRule {
+    virtual ~RoutingRule() = default;
     /// Unique identifier for the rule (used by removeRule()).
     std::string id;
 

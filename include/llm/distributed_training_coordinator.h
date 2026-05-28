@@ -25,6 +25,7 @@ class ShardRouter;
 class ShardTopology;
 // Minimal training configuration used for coordinator initialization
 struct TrainingConfig {
+    virtual ~TrainingConfig() = default;
     int epochs = 1;
     int total_steps = 0;
     float learning_rate = 0.0f;
@@ -69,6 +70,7 @@ enum class GradientCompressionType {
 // ============================================================================
 
 struct DistributedTrainingConfig {
+    virtual ~DistributedTrainingConfig() = default;
     SyncStrategy sync_strategy = SyncStrategy::ALL_REDUCE;
     GradientCompressionType compression = GradientCompressionType::NONE;
     
@@ -110,6 +112,7 @@ struct DistributedTrainingConfig {
 // ============================================================================
 
 struct GradientTensor {
+    virtual ~GradientTensor() = default;
     std::string layer_name;                     // "lora_layer_q_proj_A"
     std::vector<float> data;                    // Gradient values
     std::vector<int> shape;                     // Tensor dimensions
@@ -138,6 +141,7 @@ struct GradientTensor {
 // ============================================================================
 
 struct GradientExchangeMessage {
+    virtual ~GradientExchangeMessage() = default;
     std::string message_id;                     // Unique message ID
     std::string source_shard;
     std::string destination_shard;
@@ -167,6 +171,7 @@ struct GradientExchangeMessage {
 // ============================================================================
 
 struct ShardTrainingState {
+    virtual ~ShardTrainingState() = default;
     std::string shard_id;
     
     // Training progress
@@ -198,6 +203,7 @@ struct ShardTrainingState {
 // ============================================================================
 
 struct DistributedTrainingStats {
+    virtual ~DistributedTrainingStats() = default;
     int total_steps_completed = 0;
     int total_gradient_syncs = 0;
     

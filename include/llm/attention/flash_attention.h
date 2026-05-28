@@ -37,6 +37,7 @@ enum class Status {
  * @brief Tensor wrapper for attention operations
  */
 struct Tensor {
+    virtual ~Tensor() = default;
     float* data = nullptr;
     size_t size = 0;
     std::vector<int> shape;  // [batch, seq_len, num_heads, head_dim]

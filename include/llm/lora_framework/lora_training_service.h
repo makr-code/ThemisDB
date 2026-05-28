@@ -92,6 +92,7 @@ struct TrainingData {
  * @brief Training result
  */
 struct TrainingResult {
+    virtual ~TrainingResult() = default;
     bool success = false;
     std::string adapter_id;
     std::string version;
@@ -121,6 +122,7 @@ struct TrainingResult {
  * @brief Training metrics
  */
 struct TrainingMetrics {
+    virtual ~TrainingMetrics() = default;
     int current_epoch = 0;
     int total_epochs = 0;
     int current_step = 0;

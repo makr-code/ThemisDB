@@ -13,7 +13,9 @@
 
 #ifdef THEMIS_ENABLE_HTTP3
 
+#define private public
 #include "server/http3_session.h"
+#undef private
 #include <string>
 #include <vector>
 
@@ -267,6 +269,88 @@ TEST(HTTP3ProtocolTest, Http3ErrorCodes) {
     EXPECT_EQ(H3_INTERNAL_ERROR, 0x0102);
 }
 
+TEST(HTTP3ProtocolTest, EndStreamCallbackNullSessionFailsClosed) {
+    EXPECT_EQ(
+        Http3Session::http3EndStreamCallback(nullptr, 1, nullptr, nullptr),
+        NGHTTP3_ERR_CALLBACK_FAILURE
+    );
+}
+
+TEST(HTTP3ProtocolTest, EndHeadersCallbackNullSessionFailsClosed) {
+    EXPECT_EQ(
+        Http3Session::http3EndHeadersCallback(nullptr, 1, 0, nullptr, nullptr),
+        NGHTTP3_ERR_CALLBACK_FAILURE
+    );
+}
+
+TEST(HTTP3ProtocolTest, RecvDataCallbackNullSessionFailsClosed) {
+    const uint8_t payload[] = {0x01, 0x02};
+    EXPECT_EQ(
+        Http3Session::http3RecvDataCallback(nullptr, 1, payload, sizeof(payload), nullptr, nullptr),
+        NGHTTP3_ERR_CALLBACK_FAILURE
+    );
+}
+
+TEST(HTTP3ProtocolTest, DecodeHeaderCallbackInvalidInputFailsClosed) {
+    EXPECT_EQ(
+        Http3Session::http3DecodHeaderCallback(nullptr, 1, 0, nullptr, nullptr, 0, nullptr, nullptr),
+        NGHTTP3_ERR_CALLBACK_FAILURE
+    );
+}
+
+TEST(HTTP3ProtocolTest, RecvDatagramCallbackNullSessionFailsClosed) {
+    const uint8_t payload[] = {0xAB};
+    EXPECT_EQ(
+        Http3Session::recvDatagramCallback(nullptr, 0, payload, sizeof(payload), nullptr),
+        NGTCP2_ERR_CALLBACK_FAILURE
+    );
+}
+
+TEST(HTTP3ProtocolTest, HandshakeCompletedCallbackNullSessionFailsClosed) {
+    EXPECT_EQ(
+        Http3Session::handshakeCompletedCallback(nullptr, nullptr),
+        NGTCP2_ERR_CALLBACK_FAILURE
+    );
+}
+
+TEST(HTTP3ProtocolTest, RecvStreamDataCallbackNullSessionFailsClosed) {
+    const uint8_t payload[] = {0x10};
+    EXPECT_EQ(
+        Http3Session::recvStreamDataCallback(nullptr, 0, 1, 0, payload, sizeof(payload), nullptr, nullptr),
+        NGTCP2_ERR_CALLBACK_FAILURE
+    );
+}
+
+TEST(HTTP3ProtocolTest, AckStreamDataCallbackNullSessionFailsClosed) {
+    EXPECT_EQ(
+        Http3Session::ackStreamDataCallback(nullptr, 1, 0, 0, nullptr, nullptr),
+        NGTCP2_ERR_CALLBACK_FAILURE
+    );
+}
+
+TEST(HTTP3ProtocolTest, StreamCloseCallbackNullSessionFailsClosed) {
+    EXPECT_EQ(
+        Http3Session::streamCloseCallback(nullptr, 0, 1, 0, nullptr, nullptr),
+        NGTCP2_ERR_CALLBACK_FAILURE
+    );
+}
+
+TEST(HTTP3ProtocolTest, GetNewConnectionIdCallbackNullCidFailsClosed) {
+    EXPECT_EQ(
+        Http3Session::getNewConnectionIdCallback(nullptr, nullptr, nullptr, 0, nullptr),
+        NGTCP2_ERR_CALLBACK_FAILURE
+    );
+}
+
+TEST(HTTP3ProtocolTest, RecvCryptoDataCallbackNullSessionFailsClosed) {
+    const uint8_t payload[] = {0x01};
+    EXPECT_EQ(
+        Http3Session::recvCryptoDataCallback(nullptr, NGTCP2_ENCRYPTION_LEVEL_INITIAL,
+                                             0, payload, sizeof(payload), nullptr),
+        NGTCP2_ERR_CALLBACK_FAILURE
+    );
+}
+
 // ============================================================================
 // Performance Tests
 // ============================================================================
@@ -311,5 +395,3 @@ TEST(HTTP3ProtocolTest, QPackDynamicTableSize) {
 }
 
 #endif // THEMIS_ENABLE_HTTP3
-
-

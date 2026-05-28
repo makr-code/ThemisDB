@@ -92,6 +92,7 @@ struct RoutingDecision {
  * @brief Routing metrics for monitoring
  */
 struct RoutingMetrics {
+    virtual ~RoutingMetrics() = default;
     size_t total_requests = 0;
     size_t successful_routes = 0;
     size_t fallback_routes = 0;

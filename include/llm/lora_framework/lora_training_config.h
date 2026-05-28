@@ -33,6 +33,7 @@ namespace lora {
  */
 class LoRATrainingConfig {
 public:
+    virtual ~LoRATrainingConfig() = default;
     /**
      * @brief Training data source configuration
      */

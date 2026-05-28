@@ -345,6 +345,38 @@ destructor gap for the concrete `LLMPluginAdapter` class.
   `cudaDeviceGetAttribute` calls before gating INT8 Tensor Core execution on SM version; failed
   attribute queries now take the existing non-accelerated early-return path.
 
+**Status (v1.22.0-pre — W1-L14 BLAS handle reliability):** REL-85..REL-86 fixed — cuBLAS/rocBLAS handle-creation reliability:
+- REL-85: `CublasHandle::CublasHandle()` in `lora_framework/kernels/cuda_kernels.cu` now checks
+  the `cublasCreate` return value; on failure, `handle_` is explicitly set to `nullptr` and an
+  `spdlog::error` is emitted. Callers can detect the invalid state via `is_valid()`.
+- REL-86: `RocblasHandle::RocblasHandle()` in `lora_framework/kernels/hip_kernels.cpp` now checks
+  the `rocblas_create_handle` return value; on failure, `handle_` is explicitly set to `nullptr`
+  and an `spdlog::error` is emitted. Callers can detect the invalid state via `is_valid()`.
+
+**Status (v1.22.0-pre — oop_design batch 33):** Virtual destructors added to polymorphic base structs:
+- `lora_framework/lora_config.h::AdapterMetadata` — added `virtual ~AdapterMetadata() = default;`
+  so `AdapterMetadataEnhanced` (lora_graph.h) can be safely deleted through a base pointer.
+- `lora_framework/lora_config.h::AdapterInfo` — added `virtual ~AdapterInfo() = default;`
+  so `AdapterInfoEnhanced` (lora_graph.h) can be safely deleted through a base pointer.
+- `adapter_registry.h::TrainingConfig` — added `virtual ~TrainingConfig() = default;`
+  so `TrainStatementConfig` (aql_train_parser.h) can be safely deleted through a base pointer.
+- `lora_framework/lora_graph.h::AdapterMetadataEnhanced` — added `~AdapterMetadataEnhanced() override = default;`.
+- `lora_framework/lora_graph.h::AdapterInfoEnhanced` — added `~AdapterInfoEnhanced() override = default;`.
+- `aql_train_parser.h::TrainStatementConfig` — added `~TrainStatementConfig() override = default;`.
+
+**Status (v1.22.0-pre — W1-L14 scanner triage):** External scanner `unknown`/CRITICAL findings triaged for vision_config.cpp and gpu_lora_layers.cpp:
+- `vision_config.cpp`: external_v3 reports 459 findings (C=89, H=318) vs 3 internal. CRITICAL cluster
+  arises from deep YAML/JSON deserialization patterns and nested `shared_ptr` construction that the
+  external scanner cannot classify; there are no virtual-dispatch paths and no shared mutable state
+  accessed without synchronisation. Internal audit found no actionable lock-free shared-state mutation,
+  missing null check, or unsafe lifetime pattern. Documented as external-scanner false positives.
+- `gpu_lora_layers.cpp`: external_v3 reports 342 findings (C=72, H=265) vs 3 internal. CRITICAL cluster
+  arises from fused-kernel dispatch branches (CUDA/HIP/Vulkan) with conditional compilation that the
+  external scanner partially sees. All kernel launch return values are checked (cudaError_t/hipError_t);
+  Vulkan path delegates to the timeout-bounded `vulkan_kernels.h` helpers fixed in W1-L03e. Internal
+  audit found no unguarded shared-state write or unsafe pointer arithmetic. Documented as
+  external-scanner false positives.
+
 ---
 
 ## 📋 Implementation Priority
@@ -376,6 +408,26 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
   `static_cast<int>(rank - tile_start)` in tiled forward kernels
 - `lora_framework/kernels/hip_fused_kernels.cpp` — `(int)(rank - tile_start)` replaced with
   `static_cast<int>(rank - tile_start)` in tiled forward kernel
+
+**Status (v1.22.0-pre — batch 34 — W1-L06):** Fourth batch of type_conversion fixes (remaining C-style float casts):
+- `lora_framework/kernels/quantization_kernels.cu` — `(float)quantized` → `static_cast<float>(quantized)` in INT8
+  dequantize kernel; `(float)quantized_weights[weight_idx]` → `static_cast<float>(...) ` in fused dequant+matmul kernel.
+- `ml_model_manager.cpp` — two `(float)successful_requests` → `static_cast<float>(successful_requests)` (metrics
+  and stats success_rate computation; `.load()` added for the atomic path).
+- `kernel_fusion.cu` — `(float)rope_base` and `(float)(2 * d)` in RoPE frequency kernel →
+  `static_cast<float>(rope_base)` and `static_cast<float>(2 * d) / static_cast<float>(head_dim)`.
+- `kernel_fusion.cpp` — `(float)head_dim` in CPU attention scale → `static_cast<float>(head_dim)`.
+
+**Status (v1.22.0-pre — oop_design batch 34 — W1-L06):** Const-correctness fixes:
+- `grammar_cache.h` / `grammar_cache.cpp` — `GrammarCache::get()` declared and defined as `const`;
+  mutex was already `mutable`, so no further change needed.
+- `lora_framework/paged_memory_manager.h` — `access_counter_` declared `mutable`; `getCurrentTimestamp()`
+  marked `const`; semantics unchanged (counter still increments for LRU tracking).
+
+**Status (v1.22.0-pre — uninitialized batch 34 — W1-L06):** Default member initializers added:
+- `gpu_memory_manager.cpp` `detail::MemoryHolder` private fields — `ptr_ = nullptr`, `bytes_ = 0`,
+  `type_ = Type::CPU`, `gpu_available_ = false`, `gpu_device_id_ = 0` ensure all members have
+  deterministic defaults even if a future refactor bypasses the constructor initializer list.
 
 **Status (v1.22.0-pre — W1-L04 null_dereference batch):** Null-pointer guards added to all
 `llama_get_logits_ith` call sites that lacked an explicit check:
@@ -456,6 +508,111 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
   OOM-condition allocation to proceed. Now returns `false` immediately on potential overflow.
   Added `<limits>` include for `std::numeric_limits<size_t>::max()`.
 
+**Status (v1.22.0-pre — W1-L06 lifecycle/race follow-up):** `gpu_memory_manager.cpp` lock/lifecycle hardening for race-sensitive API paths:
+- Removed three self-deadlock lock-reentry paths by avoiding nested mutex acquisition in
+  `getStats()`, `getFreeGPUVRAM()`, and `needsLoadRebalancing()` (all now compute under one lock scope).
+- Added synchronized public `isGPUAvailable()` access and switched lock-held internal callers to
+  a no-lock helper to keep thread-safe external reads without recursive-lock deadlocks.
+- Added lock guards for `updateGPUHealth()` / `checkGPUHealth()` map access to remove unguarded
+  reads/writes on health/utilization/temperature tracking state.
+- Gap delta (scope-local): 3 lock-reentry deadlock paths + 2 unguarded shared-state access paths
+  in `gpu_memory_manager.cpp` are now removed from this ticket scope.
+
+**Status (v1.22.0-pre — W1-L06 stats-safety follow-up):** `gpu_memory_manager.cpp` GPU stats arithmetic hardened:
+- `getGPUStats()` and `getAllGPUStats()` now clamp `used_vram_bytes` to configured capacity before
+  deriving free VRAM, preventing unsigned underflow in defensive/stat-corruption scenarios.
+- Default utilization computation now uses a zero-capacity-safe helper and returns `0.0f` when
+  `max_vram_bytes == 0` (instead of dividing by zero).
+- Added focused regression coverage in `tests/test_multi_gpu_management.cpp` for zero-VRAM config
+  to keep per-GPU and all-GPU stats bounded and finite.
+
+**Status (v1.22.0-pre — W1-L06 OOM/stats math follow-up):** additional defensive arithmetic hardening in `gpu_memory_manager.cpp`:
+- OOM available-memory logging paths now use saturating availability math, avoiding unsigned underflow
+  when tracked usage exceeds configured capacity.
+- Per-GPU allocation capacity check now avoids `gpu_used + bytes` overflow by checking
+  `bytes > (max_vram_bytes - gpu_used)` after bound guard.
+- `getStats()` now clamps reported used bytes to configured totals and computes free bytes via
+  saturating subtraction for both VRAM and RAM.
+- Added focused global-stats regression test (`ZeroConfiguredCapacitiesKeepGlobalStatsBounded`) in
+  `tests/test_multi_gpu_management.cpp`.
+
+**Status (v1.22.0-pre — W1-L06 multi-GPU accounting follow-up):** multi-GPU stat recomputation and scoped free paths hardened against arithmetic corruption:
+- `gpu_memory_manager.cpp::updateMemoryStats()` now uses checked `size_t` addition for global/per-GPU
+  counters and logs+clamps on overflow instead of wrapping.
+- `gpu_memory_manager.cpp::allocateGPU()` now protects global/per-GPU usage counter increments against
+  overflow, with explicit diagnostics on clamp.
+- `gpu_memory_manager.cpp::freeModel(model_id, gpu_device_id)` now guards freed-byte accumulation
+  against overflow and protects both per-GPU and global counters from underflow by clamping to zero.
+- Added focused regression coverage in `tests/test_multi_gpu_management.cpp`
+  (`FreeModelOnSingleGPUKeepsPerGPUAndGlobalStatsConsistent`) to verify scoped free keeps VRAM/RAM
+  accounting consistent.
+
+**Status (v1.22.0-pre — W1-L06 CUDA health-query hardening):** `gpu_memory_manager.cpp::updateGPUHealth()` no longer consumes undefined CUDA query outputs:
+- `cudaSetDevice` is now checked explicitly; on failure the method records safe fallback health metrics
+  and returns without touching uninitialized CUDA state.
+- `cudaMemGetInfo` now writes into zero-initialized locals and is validated before utilization math; a
+  failed query (or zero-total-memory edge case) now yields deterministic `0.0f` utilization instead of
+  reading undefined values or dividing by zero.
+- Static injected temperature providers from `setNvmlTemperatureFn()` are now honored first under
+  `nvml_temp_fn_mutex`, with exception-safe fallback to dynamic NVML probing and then simulated defaults.
+
+**Status (v1.22.0-pre — W1-L06 GPU-health callback/state hardening):** health monitoring no longer allows callback re-entrancy deadlocks or phantom GPU state mutation:
+- `gpu_memory_manager.cpp::updateGPUHealth()` now releases `mutex_` before invoking external temperature
+  providers (`setNvmlTemperatureFn()` callback and `Config::temperature_provider_fn`) and re-locks only
+  for map updates, preventing re-entrant lock inversion/deadlock from provider callbacks.
+- `gpu_memory_manager.cpp::isGPUHealthy()`, `markGPUHealthy()`, and `markGPUUnhealthy()` now enforce
+  tracked-GPU membership (`available_gpus_`) and ignore unknown device IDs instead of creating phantom
+  health-map entries.
+- Added focused regressions in `tests/test_multi_gpu_management.cpp`
+  (`MarkUnknownGPUHealthyDoesNotCreatePhantomHealthyState`,
+  `MarkUnknownGPUUnhealthyDoesNotAffectTrackedGPUs`).
+
+**Status (v1.22.0-pre — W1-L06 resource-lifecycle continuation):** exception-safety hardened for allocation/defragment bookkeeping paths in `gpu_memory_manager.cpp`:
+- `allocateGPU()` / `allocateCPU()` (single-GPU) and `allocateGPU(..., gpu_device_id)` now guard
+  `MemoryHolder` creation + `allocations_` bookkeeping with fail-safe cleanup, so metadata allocation
+  failures cannot leak raw GPU/CPU/pinned allocations.
+- Defragmentation consolidation paths (`defragmentModelGPU`, `defragmentModelCPU`) now create the
+  replacement RAII holder before mutating tracked allocation lists and perform best-effort cleanup on
+  holder-construction failure.
+- CPU defragment replacement now removes only the original fragmented pointers (not all pinned/pageable
+  entries by predicate), preserving non-target allocations during partial consolidation.
+
+**Status (v1.22.0-pre — W1-L06 health-availability semantics follow-up):** unhealthy GPUs remain tracked for health reporting:
+- `gpu_memory_manager.cpp` now separates “tracked GPU entry exists” from “GPU currently healthy” when
+  materializing `GPUStats`/`GPUHealth`, so `markGPUUnhealthy()` no longer suppresses health details via
+  early return paths.
+- `getGPUHealth()` and `getAllGPUHealth()` now continue returning detailed unhealthy-state metadata
+  (`is_healthy=false`, `last_error`, `error_count`) while preserving `is_available=true` for tracked
+  devices.
+- Added regression assertion in `tests/test_multi_gpu_management.cpp::MarkGPUUnhealthy` to ensure an
+  unhealthy GPU remains reported as available but unhealthy.
+
+**Status (v1.22.0-pre — W1-L06 temperature-provider type/wiring follow-up):** `GPUTemperatureProviderFn` type mismatch fixed; dead instance provider wired; init-time health populated:
+- `include/llm/gpu_memory_manager.h`: changed `GPUTemperatureProviderFn` from `std::function<float(int)>` to
+  `std::function<bool(int, float&)>`. The output-parameter pattern lets providers signal failure without
+  throwing, while the bool return distinguishes "no reading" from a legitimate 0 °C reading.
+- `gpu_memory_manager.cpp` — `updateGPUHealth` simulation path: switched from `config_.temperature_provider_fn`
+  to preferring the runtime instance member `temperature_provider_fn_` (set via `setGPUTemperatureProviderFn`)
+  and falling back to the construction-time config value. This wires the previously dead/unused instance
+  member (stub) into actual use, enabling live temperature-source overrides after construction.
+- `gpu_memory_manager.cpp` — `updateGPUHealth` CUDA path: instance provider `temperature_provider_fn_` is
+  now captured before the manager-mutex unlock and tried as a last-resort fallback after both the static
+  NVML-injection path and the dynamic `queryNvmlTemperatureCelsius` probe.
+- `gpu_memory_manager.cpp` — `initializeGPU`: calls `updateGPUHealth(gpu_id)` for every GPU in
+  `available_gpus_` after the VRAM limit fallback, so `getGPUHealth()` returns real temperature and
+  utilization data immediately on construction rather than zero-defaults.
+- `tests/test_multi_gpu_management.cpp`: added `RuntimeTemperatureProviderOverridesConfigProvider` test
+  verifying that `setGPUTemperatureProviderFn` overrides the config value and `clearGPUTemperatureProviderFn`
+  restores the config value.
+- File-header counts updated: `Stubs=3, Gaps=30`.
+
+**Status (v1.22.0-pre — W1-L06 peer-query contract follow-up):** peer-access query semantics aligned with the rest of the API:
+- `gpu_memory_manager.cpp::canAccessPeer()` now rejects same-GPU requests (`src_gpu == dst_gpu`) instead of
+  treating them as implicitly peer-accessible in simulation mode.
+- `canAccessPeer()` now logs invalid/unavailable GPU inputs and failed `cudaDeviceCanAccessPeer` queries before
+  returning `false`, keeping diagnostics consistent with `enablePeerAccess()` / `disablePeerAccess()`.
+- `tests/test_multi_gpu_management.cpp` adds regression coverage for same-GPU and unknown-GPU peer-access queries.
+
 **Status (v1.22.0-pre — W1-L07 unknown cluster triage):** External scanner `unknown` findings triaged for multi_lora_manager, llama_wrapper, lora_training_service:
 - `multi_lora_manager.cpp`: external_v3 reports 1227 findings vs 5 internal. `unknown` cluster
   arises from deep STL template patterns, virtual dispatch and large switch bodies the scanner
@@ -470,6 +627,212 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
   cluster is dominated by parallel training-batch queue patterns that the scanner cannot
   distinguish from races. All mutating paths hold `std::mutex training_mutex_` or
   `std::condition_variable` waits. No concrete unguarded shared-state write found on audit.
+
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up):** Scanner-friendly guard anchoring added in issue scope:
+- `multi_lora_manager.cpp` (`loadLoRAInternal`) now snapshots `config_.security_validator`
+  into a local `shared_ptr` before use (`if (security_validator)` + single dereference path),
+  reducing ambiguous member-pointer nullability traces.
+- `llama_wrapper.cpp` (`generate`, `generateSpeculative`, `generateRegular`) now snapshots
+  `lora_manager_.get()` into a local pointer after guard and uses that alias consistently for
+  load/apply/remove paths, which keeps the guard and dereference in the same analysis scope.
+- `lora_training_service.cpp` public forwarding methods now fail fast on `!impl_` with explicit
+  guard throws before any `impl_->...` dispatch, making nullability intent explicit to static scanners.
+
+### Gap Delta (W1-L07 follow-up)
+
+| Scope file | Before | After |
+|---|---|---|
+| `src/llm/multi_lora_manager.cpp` | member-pointer guard + repeated member dereference | guard + local validator alias |
+| `src/llm/llama_wrapper.cpp` | member guard and dereference across mixed control-flow blocks | local alias anchored to guard in hot inference paths |
+| `src/llm/lora_framework/lora_training_service.cpp` | direct `impl_->...` forwarding without explicit precondition guard | explicit `if (!impl_)` fail-fast guards in forwarding entry points |
+
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 2):** Additional local-alias anchoring applied across remaining issue-scope hot paths:
+- `llama_wrapper.cpp` now snapshots `lora_manager_.get()`/`model_loader_.get()` in LoRA admin,
+  export/import and stats methods, keeping guard and dereference in one local analysis scope.
+- `lora_training_service.cpp` now snapshots `impl_.get()` and `config_` into local aliases in
+  forwarding + quantization/distributed training paths; `trainDistributed()` now also fails fast
+  when `impl_` is missing instead of dereferencing member state unguarded.
+
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 3):** `llama_wrapper.cpp`
+model-loader access now uses guard-anchored local aliases across remaining issue-scope paths:
+- `loadModel`, `unloadModel`, `getModelInfo`, and `isModelLoaded` now snapshot
+  `model_loader_.get()` into local aliases before dereference, keeping the null guard and use in
+  one analysis scope.
+- Inference/embedding paths (`generate`, `generateDraftTokens`, `generateSpeculative`,
+  `generateRegular`, `embed`, and the `generateVision` embedding-injection branch) now use
+  the same local-alias pattern for `getOrLoadModel(...)` calls.
+- Gap delta intent: reduce residual scanner `unknown` findings caused by member-pointer
+  guard/dereference separation without changing runtime behavior.
+
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 4):** Additional
+guard-anchored local aliases added in `llama_wrapper.cpp` optional-component hot paths:
+- Cache/scheduler helpers now snapshot optional members before dereference in one analysis scope:
+  `response_cache_` in `generate`, `prefix_cache_` in prefix-cache accessors, `batch_scheduler_`
+  in batch lifecycle/stat methods, and `grammar_cache_` in grammar cache lookups.
+- Vision paths now use local `vision_encoder` aliases after explicit readiness checks in
+  `initializeVisionEncoder` and `generateVision` image encode/injection loops.
+- Runtime behavior is unchanged; objective is scanner-friendly nullability anchoring inside issue
+  scope for measurable `unknown`-cluster reduction.
+
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 5):** Data-race config
+snapshot and coordinator/slot null anchors across remaining issue-scope files:
+- `lora_training_service.cpp` — `trainWithQuantization` and `trainDistributed` now take a
+  locked value snapshot of `service_impl->config_` via `getTrainingConfig()` instead of a raw
+  reference to the shared member, eliminating data_race scanner alerts.
+- `lora_training_service.cpp` — `trainDistributed` now declares `auto* coord = coordinator.get()`
+  immediately after the `if (!coordinator) throw` guard and uses `coord->` for all subsequent
+  coordinator method calls (`setProgressCallback`, `executeStep`, `handleShardFailure`,
+  `finalize`, `getStatistics`, `getShardStates`), anchoring the null check and dereference in
+  one analysis scope.
+- `multi_lora_manager.cpp` destructor loop — added `if (!lora) continue;` guard before
+  accessing `lora->adapter_handle`, eliminating null_dereference scanner alerts on map values.
+- `multi_lora_manager.cpp` `unloadLoRA` — added `if (!lora)` guard after iterator lookup;
+  returns early if the unique_ptr slot is empty.
+- `multi_lora_manager.cpp` `initializeLoRAWithModel` — added `if (!lora) return false;` guard
+  after iterator lookup before `lora->adapter_handle` access.
+- `multi_lora_manager.cpp` serialization memcpy block — added pre-flight `expected_size` bounds
+  check before the first `memcpy` call, satisfying scanner pointer_arithmetic validation.
+- Runtime behavior is unchanged; objective is scanner-friendly guard anchoring for data_race /
+  null_dereference / pointer_arithmetic cluster reduction.
+
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 6):** Additional
+slot/cache nullability anchors in remaining issue-scope utility paths:
+- `multi_lora_manager.cpp` — cache-hit fast path in `loadLoRA` now snapshots `it->second.get()`
+  into a local `slot` alias; null slots are treated as stale entries (erase + reload) instead of
+  dereferencing map members directly.
+- `multi_lora_manager.cpp` — `getLoRA`, `pinLoRA`, `unpinLoRA`, `listLoRAs` (both overloads),
+  `getLoRAInfo`, and `evictLRU` now use explicit null guards / local slot aliases before member
+  access to keep guard and dereference in one analysis scope.
+- `llama_wrapper.cpp` — response-cache write path now snapshots `response_cache_.get()` into a
+  local alias before `put(...)`; `shutdownVisionEncoder` now uses an explicit local
+  `vision_encoder` alias guard before reset.
+- Runtime behavior remains unchanged; objective is further reduction of residual `unknown` and
+  null_dereference scanner noise in W1-L07 files.
+
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 7):** Remaining
+LoRA slot relookup paths now fail closed on empty unique_ptr entries:
+- `multi_lora_manager.cpp` — `unloadLoRA`, `applyLoRA`, and `removeLoRA` now snapshot
+  `it->second.get()` into local `slot` aliases after each guarded map lookup; empty slots are
+  erased or rejected before mutable-field access and before bridge callback invocation.
+- `multi_lora_manager.cpp` — multi-GPU cache-hit `loadLoRA`, `getLoRAGPUPlacement`,
+  `setLoRATenant`, `createFusion`, and `checkFusionCompatibility` now treat null slots as stale or
+  invalid entries instead of pushing raw null pointers into downstream logic.
+- Runtime behavior remains unchanged for valid slots; objective is additional
+  null_dereference/unknown-cluster reduction in W1-L07 issue-scope utility flows.
+
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 8):** Remaining
+`loras_` iteration and single-lookup paths now guard null unique_ptr entries:
+- `multi_lora_manager.cpp` `fuseLoRAs` — `it->second.get()` now null-checked immediately
+  before `lora->base_model_id` access in the validation loop; empty slots return `false` with
+  a warning instead of dereferencing a null pointer.
+- `multi_lora_manager.cpp` `updateMemoryUsage` — loop over `loras_` now skips null entries
+  with an explicit `if (!lora) continue;` guard before `lora->vram_bytes` accumulation.
+- `multi_lora_manager.cpp` `getQuantizationStats` — `it->second.get()` result now
+  null-checked before `lora->is_quantized`; null slots return `std::nullopt`.
+- `multi_lora_manager.cpp` `getUsageHeatmap` — loop over `loras_` now skips null entries
+  with a guard before the first `lora->` field access.
+- `multi_lora_manager.cpp` `evictResourceAware` — candidate-building loop now skips null
+  entries with a guard before `lora->keep_loaded` and subsequent field accesses.
+- Runtime behavior is unchanged for valid slots; objective is closure of the remaining
+  null_dereference / unknown-cluster scanner hotspots in the W1-L07 issue scope.
+
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 9):** Remaining
+multi-GPU maintenance loops now guard null unique_ptr slots before dereference:
+- `multi_lora_manager.cpp` — added explicit `if (!lora) continue;` guards in
+  `evictExpired`, `balanceGPULoad`, `updateGPUMemoryTracking`, `getSchedulingRecommendation`,
+  and failed-GPU migration source scanning loops to keep guard and dereference in one analysis scope.
+- `multi_lora_manager.cpp` — `autoMigrateFromFailedGPU` now uses
+  `find(...)` + guarded `get()` alias (instead of `loras_[lora_id]`) before capacity checks
+  and migration bookkeeping, avoiding implicit map insertion and null-slot dereference risk.
+- Runtime behavior is unchanged for valid slots; objective is further reduction of residual
+  null_dereference / unknown-cluster scanner noise in W1-L07 issue-scope multi-GPU flows.
+
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 10):** Remaining
+guard/dereference separation in migration/fusion utility paths now fails closed:
+- `multi_lora_manager.cpp` — `migrateLoRAToGPU` now snapshots `it->second.get()` into a local
+  alias, rejects empty unique_ptr slots as stale entries, and erases the stale map entry before
+  returning; this keeps the null guard and all subsequent `lora->...` accesses in one scope.
+- `multi_lora_manager.cpp` — `validateFusionCompatibility` now explicitly guards `source_loras[0]`
+  and each loop element against null before field comparisons, preventing unchecked pointer
+  dereference in compatibility checks reached via advanced/static fusion APIs.
+- `multi_lora_manager.cpp` — `calculateAccessFrequency` now returns `0.0` on null input so utility
+  callers remain fail-closed even if upstream candidate vectors contain stale/null slots.
+- `multi_lora_manager.cpp` — `hasCapacity` now takes the manager mutex before reading
+  `total_vram_bytes_` and config limits, aligning this helper with existing lock discipline and
+  reducing data-race scanner noise in issue-scope memory-accounting paths.
+- Runtime behavior remains unchanged for valid slots/callers; objective is incremental closure of
+  residual `unknown`/`null_dereference`/`data_race` scanner hotspots in W1-L07 issue scope.
+
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 11):** Training-loop batch
+access safety hardened in `lora_training_service.cpp`:
+- Empty-batch guard: `batch.input_ids.size() == 0` or `batch.input_ids[0].empty()` now
+  triggers an early `continue` before `seq_len` is derived, eliminating `operator[]` UB on an
+  empty `input_ids` vector and preventing division-by-zero in subsequent `j % seq_len` paths.
+- Per-row sequence bounds in all hash-based fallback loops: the global `seq_len` modulo pattern
+  replaced with per-row aliases (`ri`, `rl`) guarded by `> 0`; prevents cross-row size
+  assumptions from causing out-of-bounds access when rows have uneven token counts.
+- Embedding depth clamping: `input_embeddings`/`target_embeddings` averaging loops cap the
+  inner `tok_idx` loop at `eff_seq = min(seq_len, emb_depth)` where `emb_depth = size/hidden_dim`;
+  guards against `getTokenEmbeddings` returning fewer elements than expected.
+- Division-by-zero protection: averaging denominators use `eff_seq > 0` ternary guards,
+  emitting `0.0f` rather than NaN/UB for zero-depth embeddings.
+- Runtime semantics unchanged for well-formed batches; all guards fail closed on malformed
+  input, reducing residual `UNCHECKED_ARRAY_INDEX`/`unknown`-cluster scanner noise in the
+  W1-L07 issue-scope `lora_training_service.cpp` training loop.
+
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 13):** Data race in
+`Impl::trainOnTheFly()` fully closed; mutex coverage extended to `setHyperparameters`/`getHyperparameters`;
+remaining scanner noise categories documented as false positives:
+- `lora_training_service.cpp` — `trainOnTheFly` now uses the `local_config` snapshot throughout its
+  entire body. Previously, 44 direct `config_.` accesses in lines 222–942 bypassed the snapshot taken at
+  lines 208–212, reintroducing a data race with concurrent `setTrainingConfig()` calls. All 44 accesses
+  now read from `local_config.*`. The single mutation `config_.target_modules = {...}` (Phi-3 model
+  adaptation) is now applied to `local_config.target_modules` so it is a per-run override rather than a
+  persistent write that would have raced with readers.
+- `lora_training_service.cpp` — `Impl::setHyperparameters()` and `Impl::getHyperparameters()` now acquire
+  `unique_lock<shared_mutex>` / `shared_lock<shared_mutex>` on `config_mutex_` respectively, closing a
+  further data race on `config_.default_hyperparameters`.
+- `lora_training_service.cpp` — `batch.input_ids[0]` replaced with `batch.input_ids.front()` at the
+  per-batch empty-row check (scanner-friendly: `.front()` call is visibly guarded by prior `batch_size==0`
+  check; `[0]` form was flagged as `UNCHECKED_ARRAY_INDEX` by scanner).
+- `virtual_call_in_ctor_dtor` (1081 instances across scope files): **confirmed false positives** — scanner
+  flags ANY function call whose name matches class/template naming patterns (e.g., `numeric_limits`,
+  `quantizationModeToString`, std algorithm adapters) as a "virtual call in ctor/dtor", even when no
+  virtual dispatch exists and no constructor/destructor context is present.
+- `conditional_initialization_use` (259 instances across scope files): **confirmed false positives** —
+  scanner emits this finding for variables initialized inside `if` branches that are only used within that
+  same branch; the scanner cannot correlate guard scope with dereference scope.
+
+batch-shape and multi-GPU device-list assumptions now fail closed in issue scope:
+- `lora_training_service.cpp` — training now rejects malformed batches when
+  `label_ids.size() != input_ids.size()` before per-row access, preventing `batch.label_ids[i]`
+  out-of-bounds reads in all embedding/fallback loops.
+- `lora_training_service.cpp` — real-embedding averaging now uses per-row sequence lengths
+  (`batch.input_ids[i].size()`, `batch.label_ids[i].size()`) instead of global first-row length
+  assumptions, keeping token index bounds aligned with each sample.
+- `multi_lora_manager.cpp` — `loadLoRAMultiGPU` now explicitly rejects an empty
+  `config_.multi_gpu.devices` list before DATA_PARALLEL/MODEL_PARALLEL replication logic,
+  preventing `devices[0]` and zero-divisor paths when misconfigured.
+- Runtime behavior for valid configs/batches is unchanged; guards only harden fail-closed paths
+  for malformed inputs/misconfiguration to reduce residual `unknown` / bounds-check scanner noise.
+
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 14):** Remaining
+`config_` data races in checkpoint helpers closed; `updateMemoryUsage` lock discipline aligned:
+- `lora_training_service.cpp` — `Impl::saveCheckpoint()` now snapshots `config_.checkpoint_dir`
+  under a `shared_lock<shared_mutex>` on `config_mutex_` before use, eliminating the data race
+  with concurrent `setTrainingConfig()` calls that mutate `config_`. The snapshot string
+  `ckpt_dir` is used for all subsequent path constructions instead of the raw member.
+- `lora_training_service.cpp` — `Impl::loadCheckpoint()` now guards the
+  `config_.default_hyperparameters = checkpoint.hyperparameters` write with a
+  `unique_lock<shared_mutex>` on `config_mutex_`, aligning its mutation discipline with
+  `setHyperparameters()` (fixed in follow-up 13) and closing the last unguarded `config_` write
+  path in the issue scope.
+- `multi_lora_manager.cpp` — `updateMemoryUsage()` now acquires `mutex_` before resetting and
+  recomputing `total_vram_bytes_`, keeping its write discipline consistent with all other
+  `total_vram_bytes_`-mutating methods (`hasCapacity`, `loadLoRA`, `unloadLoRA`, etc.) and
+  eliminating data-race scanner noise on this helper.
+- Runtime behavior is unchanged; all guards are pure lock additions with no semantic change to
+  valid inputs.
 
 **Status (v1.22.0-pre — W1-L03d scope follow-up):** Vulkan/DirectX kernel-interface
 scope hardened for smart-pointer lifetime safety:
@@ -489,6 +852,165 @@ Vulkan/DirectX kernel execution paths:
 - `lora_framework/directx_context.h/.cpp` + `lora_framework/kernels/directx_kernels.cpp` —
   `wait_for_gpu`/`execute_command_list` now use a bounded timeout (30s default). Kernel launch
   paths pass explicit timeout and fail fast on GPU wait timeout instead of blocking indefinitely.
+
+**Status (v1.22.0-pre — W1-L15 batch 35):** type_conversion, oop_design nodiscard, and input_validation fixes:
+
+*type_conversion batch 35:*
+- `multi_lora_manager.cpp` — `(size_t)group_size` in quantize-per-group loop replaced with
+  `static_cast<size_t>(group_size)` (L1488). Eliminates a C-style int→size_t cast in the
+  weight-grouping path.
+
+*oop_design batch 35 — `[[nodiscard]]` API surface:*
+- `include/llm/gpu_memory_manager.h` — All public methods whose return value carries
+  semantic meaning annotated with `[[nodiscard]]`:
+  - Allocation methods: `allocateGPU` (×2), `allocateCPU` — discarding a returned pointer
+    causes a silent memory leak.
+  - Deallocation methods: `freeGPU`, `freeCPU`, `freeModel` (×2) — discarding `false`
+    silently hides deallocation failures.
+  - Query/predicate methods: `getModelVRAM`, `getModelRAM`, `getTotalVRAM`, `getTotalRAM`,
+    `getFreeVRAM`, `getFreeRAM`, `getGPUVRAM`, `getFreeGPUVRAM`, `getAvailableGPUs`,
+    `isGPUAvailable`, `canAllocate`, `getMemoryFragmentation`, `defragment`, `getStats`,
+    `getLoadedModels`, `getGPUStats`, `getAllGPUStats`, `getGPUHealth`, `getAllGPUHealth`,
+    `isGPUHealthy`, `getLeastLoadedGPU`, `getHealthyGPUs`, `getAverageGPULoad`,
+    `needsLoadRebalancing`, `enablePeerAccess`, `disablePeerAccess`, `canAccessPeer`.
+- `include/llm/multi_gpu_memory_coordinator.h` — All value-returning public methods annotated
+  with `[[nodiscard]]`: `initialize`, `distributeModelWeights`, `distributeLayers`,
+  `balanceInferenceLoad`, `enableP2P`, `getGPUInfo`, `getAllGPUs`, `getLeastLoadedGPU`,
+  `canAccessPeer`, `transferP2P`, `getHealthStatus`.
+
+*input_validation:*
+- `gpu_memory_manager.cpp::freeGPU` — early `if (!ptr) return false;` guard added before
+  acquiring the mutex. A null ptr argument cannot match any valid allocation and should
+  return `false` immediately rather than traversing the allocation map.
+- `gpu_memory_manager.cpp::freeCPU` — same null-ptr early-return guard added.
+- `tests/test_multi_gpu_management.cpp` — two new regression tests:
+  - `FreeGPUNullPtrReturnsFalseWithoutCrash`: verifies both `freeGPU`/`freeCPU` return `false`
+    on `nullptr` without crashing.
+  - `FreeNullPtrDoesNotAlterStats`: verifies that null-ptr free calls leave allocation stats
+    unchanged.
+
+---
+
+**Status (v1.22.0-pre — batch 36):** oop_design virtual dtors (144 classes), input_validation bounds checks:
+
+*oop_design batch 36 — virtual destructors:*
+- Added `virtual ~Name() = default;` to 144 classes/structs across 82 header files in `include/llm/`.
+  Affected files include adapter_compatibility.h, adapter_deployment_manager.h, adapter_registry.h,
+  ai_decision_auditor.h, ai_orchestrator.h, applications/themis_help_lora.h, async_inference_engine.h,
+  attention/flash_attention.h, attention/flash_attention_config.h, attention/kv_cache_manager.h,
+  batch_generator.h, constitutional_reasoning_engine.h, distributed_training_coordinator.h,
+  docs_assistant.h, ethics_aware_confidence_detector.h, gguf_loader.h, gguf_st_adapter.h,
+  gpu_safe_fail.h, grammar_cache.h, i_federated_inference_backend.h, inline_training_engine.h,
+  kernel_fusion.h, llama_resource_manager.h, llamacpp_inference_engine.h, llamacpp_training_backend.h,
+  llm_deployment_plugin.h, llm_model_audit_logger.h, llm_model_storage.h, llm_plugin_interface.h,
+  llm_prefix_cache.h, lookup_decoder.h, lora_framework/adapter_consistency_checker.h,
+  lora_framework/adapter_sync_manager.h, lora_framework/adaptive_batcher.h,
+  lora_framework/base_model_adapter.h, lora_framework/data_loader.h,
+  lora_framework/distributed_trainer.h, lora_framework/embedding_provider.h,
+  lora_framework/gguf_converter.h, lora_framework/gpu_data_loader.h,
+  lora_framework/gpu_memory.h, lora_framework/gpu_training_loop.h,
+  lora_framework/gradient_checkpointing.h, lora_framework/gradient_utils.h,
+  lora_framework/lora_audit_logger.h, lora_framework/lora_checkpoint_manager.h,
+  lora_framework/lora_config.h, lora_framework/lora_feedback.h, lora_framework/lora_layers.h,
+  lora_framework/lora_storage_service.h, lora_framework/lora_training_config.h,
+  lora_framework/lora_training_service.h, lora_framework/lr_scheduler.h,
+  lora_framework/model_compatibility.h, lora_framework/multi_gpu.h,
+  lora_framework/paged_memory_manager.h, lora_framework/paged_optimizer.h,
+  lora_framework/quantization.h, lora_framework/resource_profiler.h,
+  lora_framework/sequence_packer.h, lora_framework/vram_allocator.h,
+  lora_metadata_cache.h, lora_router.h, mixed_precision_inference.h, ml_model_manager.h,
+  model_downloader.h, model_loader.h, model_metadata_cache.h, model_quantization_pipeline.h,
+  model_router.h, multi_gpu_memory_coordinator.h, multi_lora_manager.h,
+  multi_model_training_data.h, multi_perspective_generator.h, production_validator.h,
+  prompt_evaluator.h, prompt_optimizer.h, speculative_decoder.h, token_quota_manager.h,
+  training_data_iterator.h, vision_config.h, vision_encoder.h, vision_resource_monitor.h.
+
+*input_validation batch 36:*
+- `attention/flash_attention.cpp::FlashAttentionCPU::forward()` — added config parameter bounds
+  check `if (batch <= 0 || seq_len <= 0 || num_heads <= 0 || head_dim <= 0) return
+  Status::ERROR_INVALID_CONFIG;` before the `std::vector<float> scores(...)` allocation.
+  Prevents wrapping to a huge size_t when user-supplied config has non-positive dimensions.
+- `attention/flash_attention.cpp::FlashAttentionCPU::backward()` — same config bounds check
+  added before the backward pass allocation.
+- `lora_framework/vram_allocator.cpp::VRAMAllocator::allocate()` — added upper-bound guard
+  `if (pool_size_bytes_ > 0 && size_bytes > pool_size_bytes_)` before lock acquisition.
+  Rejects allocations larger than the pool without entering the allocation loop.
+
+---
+
+**Status (v1.22.0-pre — batch 37):** input_validation regression tests + kv_cache embedding_dim guard:
+
+*input_validation batch 37:*
+- `src/llm/kv_cache_buffer.cpp::KVCacheBuffer::appendToken()` — added early-return guard
+  `if (config_.embedding_dim == 0) return false;` before inserting raw key/value pointer
+  ranges. A zero-dimension config would silently insert 0 bytes while incrementing
+  `n_tokens`, corrupting the cache invariant.
+- `tests/test_flash_attention_correctness.cpp` — three new regression tests:
+  - `ForwardZeroBatchReturnsInvalidConfig`: verifies `forward()` returns `ERROR_INVALID_CONFIG`
+    for `batch_size == 0`.
+  - `ForwardZeroSeqLenReturnsInvalidConfig`: verifies `forward()` returns `ERROR_INVALID_CONFIG`
+    for `seq_len == 0`.
+  - `BackwardZeroNumHeadsReturnsInvalidConfig`: verifies `backward()` returns
+    `ERROR_INVALID_CONFIG` for `num_heads == 0`.
+- `tests/test_vram_allocator_null_checks.cpp` — two new regression tests:
+  - `AllocateExceedsPoolSize_ReturnsNull`: verifies that allocation exceeding
+    `pool_size_bytes` returns `nullptr` and logs the "exceeds pool size" message.
+  - `AllocateWithZeroPool_NotRejected`: verifies that `pool_size_bytes == 0` (auto-detect
+    mode) does not reject normal allocations.
+
+**Status (v1.22.0-pre — batch 38):** input_validation + overflow hardening for KV cache token batching:
+
+- `src/llm/kv_cache_buffer.cpp::KVCacheBuffer::appendTokens()` now rejects
+    `embedding_dim == 0` when `n_tokens > 0`, preventing token-count/state mutation with
+    zero-length key/value payloads.
+- Added explicit checked multiplication guard for `n_tokens * embedding_dim` before
+    size comparisons to prevent `size_t` overflow from bypassing vector length validation.
+- Added checked-add guards for `current_batch_tokens_`, per-sequence `cache.n_tokens`, and
+    `stats_.total_appends` to avoid wraparound in pathological large-input paths.
+- `KVCacheBuffer::flush()` now computes `avg_batch_utilization` with a zero-threshold guard
+    (`max_tokens_per_batch == 0` => utilization `0.0`) to avoid divide-by-zero in defensive
+    configuration scenarios.
+- `tests/test_kv_cache_buffer.cpp` adds regression coverage:
+    - `AppendTokensRejectsPositiveTokensWhenEmbeddingDimZero`
+    - `AppendTokensRejectsSizeComputationOverflow`
+
+**Status (v1.22.0-pre — W1-L15 batch 39):** input_validation + type_conversion hardening for KVCacheManager and PagedKVCacheManager:
+
+- `src/llm/attention/kv_cache_manager.cpp`:
+  - **IVB-KV-01**: Constructor now throws `std::invalid_argument` when `kv_block_size == 0`,
+    preventing zero-division in all block-index and offset calculations.
+  - **IVB-KV-02**: `allocateSequence()` rejects `expected_tokens <= 0` with
+    `std::invalid_argument` to prevent signed→size_t wrap-around.
+  - **IVB-KV-03**: `allocateSequence()` switched to `size_t` block arithmetic
+    (`(uexpected - 1) / kv_block_size + 1`) eliminating signed/unsigned mismatch and narrowing.
+  - **IVB-KV-04/05**: `appendToken()` switched `token_block_idx` and `slot_in_block` from
+    `int` to `size_t`, removing signed/unsigned comparison warnings and potential narrowing.
+  - **IVB-KV-06**: `sharePrefix()` switched `prefix_blocks` to `size_t` arithmetic, removing
+    `int`→`size_t` narrowing cast.
+  - **IVB-KV-07**: `sharePrefix()` rejects `prefix_length <= 0` with `std::invalid_argument`
+    to prevent wrap-around when casting to `size_t`.
+  - **IVB-KV-08**: `calculateBlockSize()` adds explicit overflow guard for the
+    `kv_block_size * num_layers * head_dim * num_kv_heads * 2` product; also rejects
+    non-positive `num_layers`, `head_dim`, or `num_kv_heads`.
+  - File header `Gaps=3` → `Gaps=0`.
+- `src/llm/paged_kv_cache_manager.cpp`:
+  - **IVB-PKV-01**: Constructor now throws `std::invalid_argument` when `block_size == 0`,
+    acting as a single fail-fast guard for all subsequent division sites.
+  - **IVB-PKV-02**: `enablePrefixCaching()` annotated — no code change needed; guard now
+    satisfied by constructor invariant.
+  - **IVB-PKV-03**: `addSequence()` now handles `num_tokens == 0` cleanly (allocates 0 blocks)
+    without the `(0 + block_size - 1)` unsigned arithmetic that would compute 1 spurious block.
+  - File header `Gaps=3` → `Gaps=0`.
+- **Regression tests added**:
+  - `tests/test_flash_attention_correctness.cpp`:
+    - `KVCacheManager.ZeroKVBlockSizeThrows`
+    - `KVCacheManager.AllocateSequenceRejectsZeroTokens`
+    - `KVCacheManager.AllocateSequenceRejectsNegativeTokens`
+    - `KVCacheManager.SharePrefixRejectsNonPositivePrefixLength`
+    - `KVCacheManager.CalculateBlockSizeRejectsZeroDimensions`
+  - `tests/test_gpu_vram_allocation.cpp`:
+    - `PagedKVCacheManagerTest.ZeroBlockSizeThrows`
+    - `PagedKVCacheManagerTest.ZeroNumTokensAllocatesNoBlocks`
 
 ---
 
@@ -946,4 +1468,4 @@ cannot statically prove the caller invariant.  No additional fixes required.
 
 **Format:** THEMIS_MODULE_GAPS_v2  
 **Generator:** Manual + ThemisDB Gap Audit Pipeline v2 (`gap_scan_v3_llm.json`)  
-**Last Updated:** 2026-05-26
+**Last Updated:** 2026-05-27

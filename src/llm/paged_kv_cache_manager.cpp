@@ -1,7 +1,7 @@
 /*
  * ThemisDB | File: paged_kv_cache_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-11 17:38:42
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 395
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Open Issues: TODOs=1, Stubs=1, Gaps=0, Unimpl=0, Mock=1, Sim=0, Debt=0
  * Gap Correlation: internal=3 | external_v3=89 | delta=86 | status=divergent
  * External Severity (v3): C=5, H=67, M=17
  * PR: #1126 Add dynamic cache routing, injectable clock abstraction, and freque... (2026-03-11T17:51:47Z)
@@ -20,6 +20,10 @@ namespace llm {
 
 PagedKVCacheManager::PagedKVCacheManager(const Config& config)
     : config_(config) {
+    // IVB-PKV-01: Guard zero block_size before any block arithmetic
+    if (config_.block_size == 0) {
+        throw std::invalid_argument("PagedKVCacheManager: block_size must be > 0");
+    }
     initializeBlocks();
 }
 
@@ -80,6 +84,7 @@ bool PagedKVCacheManager::enablePrefixCaching(
     }
     
     // Calculate number of blocks to share
+    // IVB-PKV-02: block_size > 0 is guaranteed by the constructor guard; no zero-division risk.
     size_t blocks_to_share = (prefix_length + config_.block_size - 1) / config_.block_size;
     blocks_to_share = std::min(blocks_to_share, parent_it->second.block_ids.size());
     
@@ -120,7 +125,11 @@ PagedKVCacheManager::getBlockTable(uint64_t seq_id) const {
 PagedKVCacheManager::BlockTable 
 PagedKVCacheManager::addSequence(uint64_t seq_id, size_t num_tokens) {
     // Calculate number of blocks needed
-    size_t num_blocks_needed = (num_tokens + config_.block_size - 1) / config_.block_size;
+    // IVB-PKV-03: block_size > 0 is guaranteed by the constructor guard; no zero-division risk.
+    // Handle num_tokens == 0: allocate 0 blocks (valid empty sequence).
+    size_t num_blocks_needed = (num_tokens > 0)
+        ? (num_tokens + config_.block_size - 1) / config_.block_size
+        : 0;
     
     // Allocate blocks
     std::vector<int> block_ids = allocateBlocks(num_blocks_needed);

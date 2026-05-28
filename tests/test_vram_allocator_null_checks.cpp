@@ -199,3 +199,45 @@ TEST_F(VRAMAllocatorNullCheckTest, BackendInitialization_ProperlyReported) {
         EXPECT_EQ(ptr, nullptr);
     }
 }
+
+// ─── Batch 36 input_validation regression tests ─────────────────────────────
+
+// Allocation exceeding pool_size_bytes must be rejected with nullptr (not crash
+// or silently over-allocate). We pass a small explicit pool so the guard fires.
+TEST_F(VRAMAllocatorNullCheckTest, AllocateExceedsPoolSize_ReturnsNull) {
+    // pool_size_bytes = 1 KB
+    constexpr size_t POOL = 1024;
+    VRAMAllocator allocator(BackendType::CPU, POOL);
+
+    if (!allocator.is_available()) {
+        GTEST_SKIP() << "CPU backend unavailable";
+    }
+
+    // Request more than the pool can hold — must be rejected
+    void* ptr = allocator.allocate(POOL + 1);
+    EXPECT_EQ(ptr, nullptr);
+
+    // Verify the rejection is reflected in the error log
+    std::string logs = get_logs();
+    EXPECT_NE(logs.find("exceeds pool size"), std::string::npos);
+
+    // After the rejected call, a smaller allocation within the pool must succeed
+    void* small = allocator.allocate(64);
+    EXPECT_NE(small, nullptr);
+    allocator.deallocate(small);
+}
+
+// Confirm that pool_size_bytes == 0 (auto-detect) does NOT reject normal
+// allocations — the guard is conditional on pool_size_bytes_ > 0.
+TEST_F(VRAMAllocatorNullCheckTest, AllocateWithZeroPool_NotRejected) {
+    // pool_size_bytes = 0 means "no explicit limit"
+    VRAMAllocator allocator(BackendType::CPU, /*pool_size_bytes=*/0);
+
+    if (!allocator.is_available()) {
+        GTEST_SKIP() << "CPU backend unavailable";
+    }
+
+    void* ptr = allocator.allocate(4096);
+    EXPECT_NE(ptr, nullptr);
+    allocator.deallocate(ptr);
+}

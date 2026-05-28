@@ -169,6 +169,7 @@ struct ModeSpec {
  * @brief Model entry in a ModePack.
  */
 struct ModelEntry {
+    virtual ~ModelEntry() = default;
     std::string id;
     std::string path;
     int         gpu_layers = 0;
@@ -386,6 +387,7 @@ private:
  * @brief Latency breakdown for a single orchestrator run.
  */
 struct RunLatency {
+    virtual ~RunLatency() = default;
     int64_t retrieval_ms    = 0;
     int64_t llm_ms          = 0;
     int64_t tool_calls_ms   = 0;
@@ -396,6 +398,7 @@ struct RunLatency {
  * @brief Run metadata emitted for every orchestrator execution.
  */
 struct RunMetadata {
+    virtual ~RunMetadata() = default;
     std::string mode_id;
     std::string model_id;
     std::string request_id;

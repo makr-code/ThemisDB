@@ -238,6 +238,7 @@ private:
  */
 class MemoryPressureMonitor {
 public:
+    virtual ~MemoryPressureMonitor() = default;
     enum class PressureLevel {
         NORMAL,    // < 70% memory used
         MODERATE,  // 70-85% memory used

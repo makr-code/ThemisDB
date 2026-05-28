@@ -34,6 +34,7 @@ enum class DeploymentStrategy {
 
 // Adapter placement decision
 struct AdapterPlacement {
+    virtual ~AdapterPlacement() = default;
     std::string adapter_id;
     std::string shard_id;
     DeploymentStrategy strategy;
@@ -61,6 +62,7 @@ struct DeploymentConfig {
 
 // Deployment result
 struct DeploymentResult {
+    virtual ~DeploymentResult() = default;
     bool success = false;
     std::string adapter_id;
     std::vector<std::string> deployed_shards;
@@ -75,6 +77,7 @@ struct DeploymentResult {
 
 // Shard affinity metrics
 struct ShardAffinityMetrics {
+    virtual ~ShardAffinityMetrics() = default;
     std::string shard_id;
     float data_coverage_ratio = 0.0f;      // % of training data on this shard
     float query_frequency = 0.0f;          // Expected query rate
@@ -94,6 +97,7 @@ struct ShardAffinityMetrics {
 
 // Deployment plan
 struct DeploymentPlan {
+    virtual ~DeploymentPlan() = default;
     std::string adapter_id;
     DeploymentStrategy strategy;
     std::vector<AdapterPlacement> placements;

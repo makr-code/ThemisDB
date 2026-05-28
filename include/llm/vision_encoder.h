@@ -241,6 +241,7 @@ struct VisionRequest {
  * Response from vision-enabled LLM
  */
 struct VisionResponse {
+    virtual ~VisionResponse() = default;
     bool success = false;              ///< Success flag
     std::string text;                  ///< Generated text
     std::string error_message;         ///< Error message if failed

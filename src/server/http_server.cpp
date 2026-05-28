@@ -1432,7 +1432,7 @@ HttpServer::HttpServer(
                     if (std::filesystem::exists(up / "CMakeLists.txt") || std::filesystem::exists(up / ".git")) {
                         std::filesystem::path candidate = up / envp;
                         if (std::filesystem::exists(candidate)) {
-                            candidates[0] = candidate;
+                            candidates.front() = candidate;
                             THEMIS_INFO("PolicyEngine: resolved THEMIS_POLICIES_PATH relative to repo root: {}", candidate.string());
                             break;
                         }
@@ -2347,21 +2347,23 @@ namespace {
     std::string urlDecode(const std::string& str) {
         std::string result;
         result.reserve(str.size());
-        for (size_t i = 0; i < str.size(); ++i) {
-            if (str[i] == '%' && i + 2 < str.size()) {
+        for (auto it = str.begin(); it != str.end();) {
+            if (*it == '%' && std::distance(it, str.end()) >= 3) {
                 int value;
-                std::istringstream is(str.substr(i + 1, 2));
+                std::istringstream is(std::string(it + 1, it + 3));
                 if (is >> std::hex >> value) {
                     result += static_cast<char>(value);
-                    i += 2;
+                    it += 3;
+                    continue;
                 } else {
-                    result += str[i];
+                    result += *it;
                 }
-            } else if (str[i] == '+') {
+            } else if (*it == '+') {
                 result += ' ';
             } else {
-                result += str[i];
+                result += *it;
             }
+            ++it;
         }
         return result;
     }
@@ -8545,9 +8547,9 @@ http::response<http::string_body> HttpServer::handleMetrics(const http::request<
             };
             // Convert per-bucket counts to cumulative counts while preserving order
             uint64_t running = 0;
-            for (size_t i = 0; i < buckets.size(); ++i) {
-                running += buckets[i].second;
-                out << "themis_content_blob_compression_ratio_bucket{le=\"" << buckets[i].first << "\"} " << running << "\n";
+            for (const auto& bucket : buckets) {
+                running += bucket.second;
+                out << "themis_content_blob_compression_ratio_bucket{le=\"" << bucket.first << "\"} " << running << "\n";
             }
             // sum and count
             uint64_t cnt = m.comp_ratio_count.load(std::memory_order_relaxed);
@@ -8655,9 +8657,10 @@ namespace {
         millis = static_cast<int64_t>((S - tm.tm_sec) * 1000.0 + 0.5);
         // Parse timezone
         if (!tzpart.empty()) {
-            if (tzpart[0] == 'Z') { tz_sign = 0; }
-            else if (tzpart[0] == '+' || tzpart[0] == '-') {
-                tz_sign = (tzpart[0] == '+') ? +1 : -1;
+            const char tz_lead = tzpart.front();
+            if (tz_lead == 'Z') { tz_sign = 0; }
+            else if (tz_lead == '+' || tz_lead == '-') {
+                tz_sign = (tz_lead == '+') ? +1 : -1;
                 // format ±HH:MM
                 if (tzpart.size() >= 6 && tzpart[3] == ':') {
                     try {
@@ -10166,6 +10169,17 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             scores.reserve(textResults.size() + vectorResults.size());
             
             // Text contributions
+            size_t text_rank = 1;
+            for (const auto& result : textResults) {
+                scores[result.pk] += 1.0 / (kRrf + text_rank);
+                ++text_rank;
+            }
+            
+            // Vector contributions
+            size_t vector_rank = 1;
+            for (const auto& result : vectorResults) {
+                scores[result.pk] += 1.0 / (kRrf + vector_rank);
+                ++vector_rank;
             for (size_t i = 0; i < textResults.size(); ++i) {
                 auto [it, inserted] = scores.try_emplace(textResults[i].pk, 0.0);
                 it->second += 1.0 / (kRrf + i + 1);

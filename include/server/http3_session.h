@@ -15,6 +15,7 @@
 #include <ngtcp2/ngtcp2_crypto.h>
 #include <boost/asio.hpp>
 #include <openssl/ssl.h>
+#include <atomic>
 #include <memory>
 #include <string>
 #include <functional>
@@ -129,6 +130,12 @@ private:
     static int streamCloseCallback(ngtcp2_conn* conn, uint32_t flags,
                                    int64_t stream_id, uint64_t app_error_code,
                                    void* user_data, void* stream_user_data);
+    static int getNewConnectionIdCallback(ngtcp2_conn* conn, ngtcp2_cid* cid,
+                                          uint8_t* token, size_t cidlen,
+                                          void* user_data);
+    static int recvCryptoDataCallback(ngtcp2_conn* conn, ngtcp2_encryption_level level,
+                                      uint64_t offset, const uint8_t* data,
+                                      size_t datalen, void* user_data);
     static int extendMaxStreamsCallback(ngtcp2_conn* conn,
                                         uint64_t max_streams,
                                         void* user_data);
@@ -241,6 +248,7 @@ private:
     void doAccept();
     void onReceive(boost::system::error_code ec, std::size_t bytes_transferred);
     void cleanupInactiveSessions();
+    void armCleanupTimer();
 
     /**
      * @brief Extract the QUIC destination-connection-ID from a raw UDP payload.
@@ -275,6 +283,7 @@ private:
     
     uint32_t max_idle_timeout_ms_;
     net::steady_timer cleanup_timer_;
+    std::atomic<bool> running_{false};
     Http3ProductionConfig prod_cfg_;
     Http3FallbackManager fallback_manager_;
 };

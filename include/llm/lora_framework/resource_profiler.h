@@ -25,6 +25,7 @@ using json = nlohmann::json;
  * @brief Resource usage snapshot
  */
 struct ResourceSnapshot {
+    virtual ~ResourceSnapshot() = default;
     std::chrono::system_clock::time_point timestamp;
     
     // GPU Memory (bytes)
@@ -85,6 +86,7 @@ struct ResourceSnapshot {
  * @brief Resource profiling statistics
  */
 struct ResourceStats {
+    virtual ~ResourceStats() = default;
     // Memory peaks
     size_t peak_gpu_memory = 0;
     size_t peak_cpu_memory = 0;

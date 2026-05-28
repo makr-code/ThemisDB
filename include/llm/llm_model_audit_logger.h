@@ -85,6 +85,7 @@ enum class LLMModelAuditEventType {
  * Similar to LoRAInferenceAudit but for base models.
  */
 struct LLMModelInferenceAudit {
+    virtual ~LLMModelInferenceAudit() = default;
     // Timestamps
     std::chrono::system_clock::time_point timestamp;
     std::chrono::milliseconds duration_ms;

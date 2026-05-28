@@ -603,7 +603,13 @@ hipError_t launch_mse_gradient_kernel(
 // ============================================================================
 
 RocblasHandle::RocblasHandle() {
-    rocblas_create_handle(&handle_);
+    // REL-86: check rocblas_create_handle return value; leave handle_ null on failure
+    // so callers can detect the condition via is_valid() and avoid UB.
+    rocblas_status status = rocblas_create_handle(&handle_);
+    if (status != rocblas_status_success) {
+        spdlog::error("RocblasHandle: rocblas_create_handle failed (status={})", static_cast<int>(status));
+        handle_ = nullptr;
+    }
 }
 
 RocblasHandle::~RocblasHandle() {

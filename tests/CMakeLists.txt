@@ -3306,6 +3306,43 @@ else()
 endif()
 
 # ============================================================================
+# W1-S06 Exception Boundary Tests — LLMApiHandler focused (issue #5359)
+# Verifies: handleRequest() top-level catch (EX-01), validateBearerToken()
+# fail-closed paths (EX-02..04), OpenAI /v1/models bypass (EX-05), unknown
+# route → 404 (EX-06).  Http3Handler changes verified by code review.
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_w1s06_exception_boundaries.cpp" AND THEMIS_ENABLE_LLM)
+    message(STATUS "Adding W1-S06 LLM exception boundary tests (issue #5359)")
+
+    add_executable(test_llm_w1s06_exception_boundaries
+        test_llm_w1s06_exception_boundaries.cpp
+    )
+
+    target_link_libraries(test_llm_w1s06_exception_boundaries PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_llm_w1s06_exception_boundaries PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_ENABLE_LLM=1
+    )
+
+    add_test(NAME W1S06ExceptionBoundaryTests COMMAND test_llm_w1s06_exception_boundaries)
+
+    set_tests_properties(W1S06ExceptionBoundaryTests PROPERTIES
+        LABELS "server;llm;exception-boundary;w1-s06;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  W1-S06: LLMApiHandler EX-01..06 (routing, 401, fail-closed JWT, OpenAI list-models)")
+else()
+    message(STATUS "W1-S06 exception boundary tests skipped (file not found or THEMIS_ENABLE_LLM=OFF)")
+endif()
+
+# ============================================================================
 # Cache Warmup Tests (Phase 3 - bulk warmup from query log / snapshot)
 # ============================================================================
 

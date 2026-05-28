@@ -40,6 +40,7 @@ struct OptimizationConfig {
  * @brief Prompt optimization result
  */
 struct OptimizationResult {
+    virtual ~OptimizationResult() = default;
     std::string optimized_prompt;      ///< Final optimized prompt
     double final_score = 0.0;          ///< Final evaluation score
     size_t iterations = 0;             ///< Number of iterations performed
