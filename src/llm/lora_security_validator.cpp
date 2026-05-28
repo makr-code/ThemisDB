@@ -906,9 +906,9 @@ bool LoRASecurityValidator::detectDistributionShift(
     float kurtosis = 0.0f;
     for (float w : weights) {
         float z = (w - mean) / stddev;
-        kurtosis += std::pow(z, 4);
+        kurtosis += static_cast<float>(std::pow(z, 4));
     }
-    kurtosis /= weights.size();
+    kurtosis /= static_cast<float>(weights.size());
     
     // Normal distribution has kurtosis ≈ 3
     // Significant deviation suggests anomaly

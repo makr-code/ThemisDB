@@ -261,7 +261,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 		std::vector<std::string> phraseKeys;
 		phraseKeys.reserve(results.size());
 		for (const auto& res : results) {
-			phraseKeys.push_back(res.pk);
+			phraseKeys.emplace_back(res.pk);
 		}
 		
 		child.setAttribute("index.result_count", static_cast<int64_t>(phraseKeys.size()));
@@ -282,7 +282,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 				intersectSpan.setStatus(false, structResult.error().context());
 				return Err<std::vector<std::string>>(structResult.error().code(), structResult.error().context());
 			}
-			auto structKeys = *structResult;
+			auto structKeys = std::move(*structResult);
 			
 			tbb::parallel_sort(phraseKeys.begin(), phraseKeys.end());
 			tbb::parallel_sort(structKeys.begin(), structKeys.end());
@@ -324,7 +324,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 		std::vector<std::string> fuzzyKeys;
 		fuzzyKeys.reserve(results.size());
 		for (const auto& res : results) {
-			fuzzyKeys.push_back(res.pk);
+			fuzzyKeys.emplace_back(res.pk);
 		}
 		
 		child.setAttribute("index.result_count", static_cast<int64_t>(fuzzyKeys.size()));
@@ -345,7 +345,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 				intersectSpan.setStatus(false, structResult.error().context());
 				return Err<std::vector<std::string>>(structResult.error().code(), structResult.error().context());
 			}
-			auto structKeys = *structResult;
+			auto structKeys = std::move(*structResult);
 			
 			tbb::parallel_sort(fuzzyKeys.begin(), fuzzyKeys.end());
 			tbb::parallel_sort(structKeys.begin(), structKeys.end());
@@ -386,7 +386,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 		std::vector<std::string> fulltextKeys;
 		fulltextKeys.reserve(results.size());
 		for (const auto& res : results) {
-			fulltextKeys.push_back(res.pk);
+			fulltextKeys.emplace_back(res.pk);
 		}
 		
 		child.setAttribute("index.result_count", static_cast<int64_t>(fulltextKeys.size()));
@@ -412,7 +412,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 				intersectSpan.setStatus(false, structResult.error().context());
 				return Err<std::vector<std::string>>(structResult.error().code(), structResult.error().context());
 			}
-			auto structKeys = *structResult;
+			auto structKeys = std::move(*structResult);
 			
 			// Intersect fulltext results with structural predicate results
 			// Both lists should be sorted for efficient intersection
@@ -501,7 +501,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 				intersectSpan.setStatus(false, structResult.error().context());
 				return Err<std::vector<std::string>>(structResult.error().code(), structResult.error().context());
 			}
-			auto structKeys = *structResult;
+			auto structKeys = std::move(*structResult);
 			
 			// Intersect spatial results with structural predicate results
 			tbb::parallel_sort(spatialKeys.begin(), spatialKeys.end());
@@ -650,7 +650,7 @@ QueryEngine::executeAndKeysWithScores(const ConjunctiveQuery& q) const {
 			intersectSpan.setStatus(false, structResult.error().context());
 			return Err<KeysWithScores>(structResult.error().code(), structResult.error().context());
 		}
-		auto structKeys = *structResult;
+		auto structKeys = std::move(*structResult);
 		
 		// Intersect fulltext results with structural predicate results
 		tbb::parallel_sort(fulltextKeys.begin(), fulltextKeys.end());
@@ -872,7 +872,7 @@ QueryEngine::executeOrKeys(const DisjunctiveQuery& q) const {
 				return;
 			}
 			// Sort for later union
-			auto keys = *result;
+			auto keys = std::move(*result);
 			tbb::parallel_sort(keys.begin(), keys.end());
 			all_lists[i] = std::move(keys);
 			child.setAttribute("disjunct.result_count", static_cast<int64_t>(all_lists[i].size()));
@@ -1021,7 +1021,7 @@ QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 	if (!result) {
 		return Err<std::vector<BaseEntity>>(result.error().code(), result.error().context());
 	}
-	auto keys = *result;
+	auto keys = std::move(*result);
 
 	// Parallel entity loading (same logic as executeAndEntities)
 	constexpr size_t PARALLEL_THRESHOLD = 100;
@@ -1786,7 +1786,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 			std::string coordsStr = u.substr(a+1, b-a-1);
 			std::replace(coordsStr.begin(), coordsStr.end(), ',', ' ');
 			std::istringstream iss(coordsStr); nlohmann::json arr = nlohmann::json::array(); double x,y,z;
-			while (iss>>x>>y) { if (iss>>z) arr.push_back({x,y,z}); else arr.push_back({x,y}); }
+			while (iss>>x>>y) { if (iss>>z) arr.emplace_back(nlohmann::json::array({x,y,z})); else arr.emplace_back(nlohmann::json::array({x,y})); }
 			geojson["type"]="LineString"; geojson["coordinates"]=arr;
 			return Ok(nlohmann::json(geojson));
 		}
@@ -1808,15 +1808,15 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 					continue;
 				}
 				if (pointIss >> z) {
-					ring.push_back({x, y, z});
+					ring.emplace_back(nlohmann::json::array({x, y, z}));
 				} else {
-					ring.push_back({x, y});
+					ring.emplace_back(nlohmann::json::array({x, y}));
 				}
 			}
 			if (ring.empty()) {
 				return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, "Invalid POLYGON coords");
 			}
-			nlohmann::json coords = nlohmann::json::array(); coords.push_back(ring);
+			nlohmann::json coords = nlohmann::json::array(); coords.emplace_back(std::move(ring));
 			nlohmann::json poly; poly["type"]="Polygon"; poly["coordinates"]=coords;
 			return Ok(nlohmann::json(poly));
 		}
@@ -2250,7 +2250,7 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 
 	db_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
 		std::string pk = KeySchema::extractPrimaryKey(key);
-		raw_entries.push_back({std::move(pk), {value.begin(), value.end()}});
+		raw_entries.emplace_back(RawEntry{std::move(pk), {value.begin(), value.end()}});
 		return true;
 	});
 
@@ -2266,7 +2266,7 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 		for (auto& entry : raw_entries) {
 			try {
 				BaseEntity e = BaseEntity::deserialize(entry.pk, entry.blob);
-				if (matchesPredicates(e)) out.push_back(std::move(entry.pk));
+				if (matchesPredicates(e)) out.emplace_back(std::move(entry.pk));
 			} catch (...) {
 				// skip malformed entries
 			}
@@ -2292,7 +2292,7 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 					auto& entry = raw_entries[i];
 					try {
 						BaseEntity e = BaseEntity::deserialize(entry.pk, entry.blob);
-						if (matchesPredicates(e)) local.push_back(std::move(entry.pk));
+						if (matchesPredicates(e)) local.emplace_back(std::move(entry.pk));
 					} catch (...) {
 						// skip malformed entries
 					}
@@ -2466,7 +2466,7 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 		auto [st, keys] = secIdx_->scanKeysEqual(q.table, p.column, p.value);
 		if (!st.ok) return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
 		tbb::parallel_sort(keys.begin(), keys.end());
-		lists.push_back(std::move(keys));
+		lists.emplace_back(std::move(keys));
 		child.setAttribute("index.result_count", static_cast<int64_t>(lists.back().size()));
 		child.setStatus(true);
 	}
@@ -2486,7 +2486,7 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 		auto [st, keys] = secIdx_->scanKeysRange(q.table, r.column, r.lower, r.upper, r.includeLower, r.includeUpper, bigLimit(), false);
 		if (!st.ok) return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
 		tbb::parallel_sort(keys.begin(), keys.end());
-		lists.push_back(std::move(keys));
+		lists.emplace_back(std::move(keys));
 		child.setAttribute("index.result_count", static_cast<int64_t>(lists.back().size()));
 		child.setStatus(true);
 	}
@@ -2921,7 +2921,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 							THEMIS_WARN("Expression evaluation failed in join: {}", result_or_err.error().message());
 							continue;
 						}
-						results.push_back(std::move(*result_or_err));
+						results.emplace_back(std::move(*result_or_err));
 					}
 				}
 			};
@@ -3003,7 +3003,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 						THEMIS_WARN("Expression evaluation failed in nested loop join: {}", result_or_err.error().message());
 						return;
 					}
-					results.push_back(std::move(*result_or_err));
+					results.emplace_back(std::move(*result_or_err));
 				}
 				return;
 			}
@@ -3406,7 +3406,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 		// bool needSpatial = q.spatial_constraint.has_value(); // unused currently
 		if (q.end_node == q.start_node) {
 			// Trivial path
-			allPaths.push_back({q.start_node});
+			allPaths.emplace_back(std::vector<std::string>{q.start_node});
 			span.setAttribute("query.path_count", static_cast<int64_t>(1));
 			span.setStatus(true);
 			return Ok(std::move(allPaths));
@@ -3432,7 +3432,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 				} else {
 					table = "default"; // fallback
 				}
-				vertexKeys.push_back(table + ":" + vertexPk);
+				vertexKeys.emplace_back(table + ":" + vertexPk);
 			}
 			
 			auto vertexDataList = db_->multiGet(vertexKeys);
@@ -3469,14 +3469,14 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			}
 			
 			if (pathValid && !filteredPath.empty()) {
-				allPaths.push_back(std::move(filteredPath));
+				allPaths.emplace_back(std::move(filteredPath));
 			}
 			
 			spatialSpan.setAttribute("path_valid", pathValid);
 			spatialSpan.setAttribute("batch_loaded", static_cast<int64_t>(pathResult.path.size()));
 			spatialSpan.setStatus(true);
 		} else if (!pathResult.path.empty()) {
-			allPaths.push_back(std::move(pathResult.path));
+			allPaths.emplace_back(std::move(pathResult.path));
 		}
 	} else {
 		// No end_node: BFS to find all reachable nodes up to max_depth; optimize with optional spatial constraint pruning
@@ -3524,7 +3524,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 				} else {
 					table = "default"; // fallback
 				}
-				vertexKeys.push_back(table + ":" + vertexPk);
+				vertexKeys.emplace_back(table + ":" + vertexPk);
 			}
 			auto vertexDataList = db_->multiGet(vertexKeys);
 			
@@ -3588,14 +3588,14 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 					pathResult = std::move(dijkstraResult.second);
 				}
 				if (st.ok && !pathResult.path.empty()) {
-					allPaths.push_back(std::move(pathResult.path));
+					allPaths.emplace_back(std::move(pathResult.path));
 				} else {
 					// Dijkstra unavailable for this pair — fall back to 2-hop
-					allPaths.push_back({q.start_node, node});
+					allPaths.emplace_back(std::vector<std::string>{q.start_node, node});
 				}
 			} else {
 				// Beyond lookup cap: emit a minimal reachability path
-				allPaths.push_back({q.start_node, node});
+				allPaths.emplace_back(std::vector<std::string>{q.start_node, node});
 			}
 		}
 	}
@@ -3697,7 +3697,7 @@ QueryEngine::executeGeneralTraversal(
 				result.vertex_data = nlohmann::json{{"_key", current.vertex}};
 			}
 			
-			results.push_back(std::move(result));
+			results.emplace_back(std::move(result));
 			
 			// Check result size limit to prevent memory exhaustion
 			if (results.size() >= MAX_RESULTS) {
@@ -4052,7 +4052,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			if (!st.ok) return Err<std::vector<VectorGeoResult>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
 			// Lade Entities
 			std::vector<std::string> keys; keys.reserve(vr.size());
-			for (auto& r : vr) keys.push_back(q.table + ":" + r.pk);
+			for (auto& r : vr) keys.emplace_back(q.table + ":" + r.pk);
 			auto blobs = db_->multiGet(keys);
 			for (size_t i=0;i<vr.size();++i) {
 				if (!blobs[i].has_value()) continue;
@@ -4064,7 +4064,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 					for (auto& ef : q.extra_filters) { if (!evaluateCondition(ef, ctx)) { ok = false; break; } }
 				}
 				if (!ok) continue;
-				VectorGeoResult r; r.pk = vr[i].pk; r.vector_distance = vr[i].distance; r.entity = std::move(doc); results.push_back(std::move(r));
+				VectorGeoResult r; r.pk = vr[i].pk; r.vector_distance = vr[i].distance; r.entity = std::move(doc); results.emplace_back(std::move(r));
 			}
 			return Ok(std::move(results));
 		}
@@ -4103,7 +4103,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 					r.entity = nlohmann::json::parse(std::string(val_opt->begin(), val_opt->end()));
 				} catch (...) {}
 			}
-			results.push_back(std::move(r));
+			results.emplace_back(std::move(r));
 		}
 		return Ok(std::move(results));
 	}
@@ -4150,7 +4150,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			// Load entities in batch
 			std::vector<std::string> keys;
 			keys.reserve(vr.size());
-			for (const auto& r : vr) keys.push_back(q.table + ":" + r.pk);
+			for (const auto& r : vr) keys.emplace_back(q.table + ":" + r.pk);
 			auto blobs = db_->multiGet(keys);
 
 			// Evaluate spatial filter in parallel
@@ -4179,7 +4179,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 						EvaluationContext ctx; ctx.bind("doc", doc);
 						if (evaluateCondition(q.spatial_filter, ctx)) {
 							VectorGeoResult r; r.pk = vr[i].pk; r.vector_distance = vr[i].distance; r.entity = std::move(doc);
-							buf.push_back(std::move(r));
+							buf.emplace_back(std::move(r));
 						}
 					}
 					buckets[bi] = std::move(buf);
@@ -4226,7 +4226,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			THEMIS_INFO("VectorGeo: spatial_index returned {} candidates", indexResults.size());
 			// Batch-load entities for candidates
 			std::vector<std::string> keys; keys.reserve(indexResults.size());
-			for (const auto& r : indexResults) keys.push_back(q.table + ":" + r.primary_key);
+			for (const auto& r : indexResults) keys.emplace_back(q.table + ":" + r.primary_key);
 			auto blobs = db_->multiGet(keys);
 			for (size_t i = 0; i < indexResults.size(); ++i) {
 				const auto& r = indexResults[i];
@@ -4336,7 +4336,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 					continue;
 				}
 				vgr.entity = cached->second;
-				results.push_back(std::move(vgr));
+				results.emplace_back(std::move(vgr));
 			}
 			
 			child2.setAttribute("vector_results", static_cast<int64_t>(results.size()));
@@ -4404,7 +4404,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			continue;
 		}
 		r.entity = cached->second;
-		results.push_back(std::move(r));
+		results.emplace_back(std::move(r));
 	}
 	
 	child2.setAttribute("vector_results", static_cast<int64_t>(results.size()));
@@ -4466,11 +4466,11 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 		std::vector<std::string> keys; keys.reserve(ftResults.size());
 		std::vector<std::string> pks; pks.reserve(ftResults.size());
 		std::unordered_map<std::string,double> bm25; bm25.reserve(ftResults.size());
-		for (const auto &kv : ftResults) { keys.push_back(q.table+":"+kv.pk); pks.push_back(kv.pk); bm25.try_emplace(kv.pk, kv.score); }
+		for (const auto &kv : ftResults) { keys.emplace_back(q.table+":"+kv.pk); pks.emplace_back(kv.pk); bm25.try_emplace(kv.pk, kv.score); }
 		auto blobs = db_->multiGet(keys);
 		const size_t n = pks.size(); const size_t T = std::max<unsigned>(1u, std::thread::hardware_concurrency()); const size_t CHUNK = std::max<std::size_t>(64,(n+T-1)/T);
 		std::vector<std::vector<ContentGeoResult>> buckets((n+CHUNK-1)/CHUNK); tbb::task_group tg;
-		for(size_t bi=0; bi<buckets.size(); ++bi){ tg.run([&,bi](){ size_t start=bi*CHUNK; size_t end=std::min(start+CHUNK,n); std::vector<ContentGeoResult> buf; buf.reserve(end-start); for(size_t i=start;i<end;++i){ if(!blobs[i].has_value()) continue; nlohmann::json doc; try { auto entity = BaseEntity::deserialize(pks[i], *blobs[i]); doc = nlohmann::json::parse(entity.toJson()); } catch (...) { continue; } EvaluationContext ctx; ctx.bind("doc", doc); if(!evaluateCondition(q.spatial_filter, ctx)) continue; ContentGeoResult r; r.pk=pks[i]; const auto bm25_it = bm25.find(pks[i]); r.bm25_score = (bm25_it != bm25.end()) ? bm25_it->second : 0.0; r.entity=std::move(doc); if(q.boost_by_distance && q.center_point){ const auto& docRef=r.entity; if(docRef.contains(q.geom_field)){ nlohmann::json geom; if(docRef[q.geom_field].is_string()){ try { geom=nlohmann::json::parse(docRef[q.geom_field].get<std::string>()); } catch (...) {} } else if(docRef[q.geom_field].is_object()){ geom=docRef[q.geom_field]; } if(!geom.is_null() && geom.contains("type") && geom["type"]=="Point" && geom.contains("coordinates") && geom["coordinates"].is_array() && geom["coordinates"].size()>=2){ double x=geom["coordinates"][0].get<double>(); double y=geom["coordinates"][1].get<double>(); double cx=(*q.center_point)[0]; double cy=(*q.center_point)[1]; double dx=x-cx; double dy=y-cy; r.geo_distance=std::sqrt(dx*dx+dy*dy); } } } buf.push_back(std::move(r)); } buckets[bi]=std::move(buf); }); }
+		for(size_t bi=0; bi<buckets.size(); ++bi){ tg.run([&,bi](){ size_t start=bi*CHUNK; size_t end=std::min(start+CHUNK,n); std::vector<ContentGeoResult> buf; buf.reserve(end-start); for(size_t i=start;i<end;++i){ if(!blobs[i].has_value()) continue; nlohmann::json doc; try { auto entity = BaseEntity::deserialize(pks[i], *blobs[i]); doc = nlohmann::json::parse(entity.toJson()); } catch (...) { continue; } EvaluationContext ctx; ctx.bind("doc", doc); if(!evaluateCondition(q.spatial_filter, ctx)) continue; ContentGeoResult r; r.pk=pks[i]; const auto bm25_it = bm25.find(pks[i]); r.bm25_score = (bm25_it != bm25.end()) ? bm25_it->second : 0.0; r.entity=std::move(doc); if(q.boost_by_distance && q.center_point){ const auto& docRef=r.entity; if(docRef.contains(q.geom_field)){ nlohmann::json geom; if(docRef[q.geom_field].is_string()){ try { geom=nlohmann::json::parse(docRef[q.geom_field].get<std::string>()); } catch (...) {} } else if(docRef[q.geom_field].is_object()){ geom=docRef[q.geom_field]; } if(!geom.is_null() && geom.contains("type") && geom["type"]=="Point" && geom.contains("coordinates") && geom["coordinates"].is_array() && geom["coordinates"].size()>=2){ double x=geom["coordinates"][0].get<double>(); double y=geom["coordinates"][1].get<double>(); double cx=(*q.center_point)[0]; double cy=(*q.center_point)[1]; double dx=x-cx; double dy=y-cy; r.geo_distance=std::sqrt(dx*dx+dy*dy); } } } buf.emplace_back(std::move(r)); } buckets[bi]=std::move(buf); }); }
 		tg.wait(); for(auto &b : buckets){ results.insert(results.end(), std::make_move_iterator(b.begin()), std::make_move_iterator(b.end())); }
 		child2.setAttribute("spatial_results", static_cast<int64_t>(results.size())); child2.setStatus(true);
 	} else {
@@ -4486,7 +4486,7 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 				spatialCandidates.reserve(indexResults.size());
 				cache.reserve(indexResults.size());
 				std::vector<std::string> keys; keys.reserve(indexResults.size());
-				for (auto &r : indexResults) keys.push_back(q.table+":"+r.primary_key);
+				for (auto &r : indexResults) keys.emplace_back(q.table+":"+r.primary_key);
 				auto blobs = db_->multiGet(keys);
 				for(size_t i=0;i<indexResults.size();++i){ if(!blobs[i].has_value()) continue; try { auto entity = BaseEntity::deserialize(indexResults[i].primary_key, *blobs[i]); nlohmann::json doc = nlohmann::json::parse(entity.toJson()); spatialCandidates.emplace_back(indexResults[i].primary_key); cache.emplace(indexResults[i].primary_key, std::move(doc));} catch (...) {} }
 			} else {
@@ -4510,7 +4510,7 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 			if (!all) continue;
 			ContentGeoResult r; r.pk = pk; r.entity = doc; r.bm25_score = static_cast<double>(tokenSet.size());
 			if (q.boost_by_distance && q.center_point){ if (doc.contains(q.geom_field)){ nlohmann::json geom; if(doc[q.geom_field].is_string()){ try { geom=nlohmann::json::parse(doc[q.geom_field].get<std::string>()); } catch (...) {} } else if(doc[q.geom_field].is_object()){ geom=doc[q.geom_field]; } if(!geom.is_null() && geom.contains("type") && geom["type"]=="Point" && geom.contains("coordinates") && geom["coordinates"].is_array() && geom["coordinates"].size()>=2){ double x=geom["coordinates"][0].get<double>(); double y=geom["coordinates"][1].get<double>(); double cx=(*q.center_point)[0]; double cy=(*q.center_point)[1]; double dx=x-cx; double dy=y-cy; r.geo_distance=std::sqrt(dx*dx+dy*dy); } } }
-			results.push_back(std::move(r));
+			results.emplace_back(std::move(r));
 		}
 		childFT.setAttribute("fulltext_matches", static_cast<int64_t>(results.size())); childFT.setStatus(true);
 	}

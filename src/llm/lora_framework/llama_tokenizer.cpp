@@ -94,9 +94,9 @@ std::vector<int> LlamaTokenizer::encode(const std::string& text,
     int32_t n_tokens = llama_tokenize(
         vocab,
         text.c_str(),
-        text.length(),
+        static_cast<int32_t>(text.length()),
         tokens_buffer.data(),
-        tokens_buffer.size(),
+        static_cast<int32_t>(tokens_buffer.size()),
         add_bos,   // add_bos
         false      // special (set to false, we handle special tokens manually)
     );
@@ -107,9 +107,9 @@ std::vector<int> LlamaTokenizer::encode(const std::string& text,
         n_tokens = llama_tokenize(
             vocab,
             text.c_str(),
-            text.length(),
+            static_cast<int32_t>(text.length()),
             tokens_buffer.data(),
-            tokens_buffer.size(),
+            static_cast<int32_t>(tokens_buffer.size()),
             add_bos,
             false
         );
@@ -119,7 +119,7 @@ std::vector<int> LlamaTokenizer::encode(const std::string& text,
         }
     }
     
-    tokens_buffer.resize(n_tokens);
+    tokens_buffer.resize(static_cast<size_t>(n_tokens));
     
     // Convert to std::vector<int>
     std::vector<int> result(tokens_buffer.begin(), tokens_buffer.end());

@@ -2155,7 +2155,7 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
             }
             auto it_alpha = meta.config.find("lora.alpha");
             if (it_alpha != meta.config.end()) {
-                try { lora->alpha = std::stof(it_alpha->second); } catch (...) {}
+                try { lora->alpha = static_cast<size_t>(std::stoull(it_alpha->second)); } catch (...) {}
             }
         } else {
             spdlog::debug("loadLoRAInternal: GGUF parse skipped for '{}' ({}); "

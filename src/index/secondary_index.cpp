@@ -256,7 +256,7 @@ std::string SecondaryIndexManager::makeCompositeUniqueSentinelKey_(
 		total += columns[i].size();
 	}
 	for (const auto& v : values) {
-		encodedVals.push_back(encodeKeyComponent(v));
+		encodedVals.emplace_back(encodeKeyComponent(v));
 		total += 1 + encodedVals.back().size(); // ":" + encoded
 	}
 
@@ -1065,7 +1065,7 @@ SecondaryIndexManager::scanKeysEqualPartial(std::string_view table,
 	db_.scanPrefix(prefix, [&pks](std::string_view key, std::string_view /*val*/) {
 		size_t lastColon = key.rfind(':');
 		if (lastColon != std::string_view::npos)
-			pks.emplace_back(std::string(key.substr(lastColon + 1)));
+			pks.emplace_back(key.substr(lastColon + 1));
 		return true;
 	});
 	return {Status::OK(), std::move(pks)};
@@ -1260,7 +1260,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 		metadata.fulltext_indexes = std::vector<std::string>(ftCols.begin(), ftCols.end());
 		auto partialColsMap = loadPartialIndexedColumns_(table);
 		for (const auto& [col, pred] : partialColsMap) {
-			metadata.partial_indexes.push_back(col);
+			metadata.partial_indexes.emplace_back(col);
 			metadata.partial_predicates[col] = pred;
 			metadata.partial_unique[col] = isPartialIndexUnique_(table, col);
 		}
@@ -1290,8 +1290,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 				size_t start = 0;
 				while (start < col.size()) {
 					size_t pos = col.find('+', start);
-					if (pos == std::string::npos) { columns.push_back(col.substr(start)); break; }
-					columns.push_back(col.substr(start, pos - start));
+					if (pos == std::string::npos) { columns.emplace_back(col.substr(start)); break; }
+					columns.emplace_back(col.substr(start, pos - start));
 					start = pos + 1;
 				}
 				metadata.composite_unique[col] = isUniqueCompositeIndex_(table, columns);
@@ -1363,10 +1363,10 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 			while (start < col.size()) {
 				size_t pos = col.find('+', start);
 				if (pos == std::string::npos) {
-					columns.push_back(col.substr(start));
+					columns.emplace_back(col.substr(start));
 					break;
 				}
-				columns.push_back(col.substr(start, pos - start));
+				columns.emplace_back(col.substr(start, pos - start));
 				start = pos + 1;
 			}
 			
@@ -1380,7 +1380,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 					allPresent = false;
 					break;
 				}
-				values.push_back(*maybe);
+				values.emplace_back(*maybe);
 			}
 			
 			if (!allPresent) continue; // Skip wenn nicht alle Felder vorhanden
@@ -1772,10 +1772,10 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 			while (start < col.size()) {
 				size_t pos = col.find('+', start);
 				if (pos == std::string::npos) {
-					columns.push_back(col.substr(start));
+					columns.emplace_back(col.substr(start));
 					break;
 				}
-				columns.push_back(col.substr(start, pos - start));
+				columns.emplace_back(col.substr(start, pos - start));
 				start = pos + 1;
 			}
 			
@@ -1788,7 +1788,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 					allPresent = false;
 					break;
 				}
-				values.push_back(*maybe);
+				values.emplace_back(*maybe);
 			}
 			
 			if (!allPresent) continue;
@@ -1958,7 +1958,7 @@ SecondaryIndexManager::scanKeysEqual(std::string_view table,
 			// Extract PK from sidx:table:column:value:PK
 			size_t lastColon = key.rfind(':');
 			if (lastColon != std::string_view::npos) {
-				pks.emplace_back(std::string(key.substr(lastColon + 1)));
+				pks.emplace_back(key.substr(lastColon + 1));
 			}
 			return true;
 		});
@@ -2133,7 +2133,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
             if (result.size() >= limit) return false;
             size_t lastColon = key.rfind(':');
             if (lastColon != std::string_view::npos) {
-                result.emplace_back(std::string(key.substr(lastColon+1)));
+				result.emplace_back(key.substr(lastColon+1));
             }
 			++steps;
             return true;
@@ -2142,7 +2142,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
         std::vector<std::string> tmp;
 		db_.scanRange(startKey, endKey, [&tmp, &steps](std::string_view key, std::string_view /*value*/){
             size_t lastColon = key.rfind(':');
-            if (lastColon != std::string_view::npos) tmp.emplace_back(std::string(key.substr(lastColon+1)));
+			if (lastColon != std::string_view::npos) tmp.emplace_back(key.substr(lastColon+1));
 			++steps;
             return true;
         });
@@ -2195,7 +2195,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 			db_.scanPrefix(prefix, [&sameValuePks](std::string_view key, std::string_view /*val*/){
 				size_t lastColon = key.rfind(':');
 				if (lastColon != std::string_view::npos) {
-					sameValuePks.emplace_back(std::string(key.substr(lastColon+1)));
+					sameValuePks.emplace_back(key.substr(lastColon+1));
 				}
 				return true;
 			});
@@ -2207,7 +2207,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 				// ascending: > anchorPk
 				for (const auto& pk : sameValuePks) {
 					if (pk > anchorPk) {
-						out.push_back(pk);
+						out.emplace_back(pk);
 						if (out.size() >= limit) return {Status::OK(), std::move(out)};
 					}
 				}
@@ -2216,7 +2216,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 				// sameValuePks ist aktuell aufsteigend; wir iterieren rückwärts
 				for (auto it = sameValuePks.rbegin(); it != sameValuePks.rend(); ++it) {
 					if (*it < anchorPk) {
-						out.push_back(*it);
+						out.emplace_back(*it);
 						if (out.size() >= limit) return {Status::OK(), std::move(out)};
 					}
 				}
@@ -2258,7 +2258,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 
 			// Anhängen
 			for (const auto& pk : more) {
-				out.push_back(pk);
+				out.emplace_back(pk);
 				if (out.size() >= limit) break;
 			}
 		}
@@ -2446,8 +2446,8 @@ SecondaryIndexManager::cleanupExpiredEntities(std::string_view table, std::strin
 		size_t lastColon = key.rfind(':');
 		if (lastColon != std::string_view::npos) {
 			std::string pk(key.substr(lastColon + 1));
-			expiredPKs.push_back(pk);
-			ttlKeys.push_back(std::string(key));
+			expiredPKs.emplace_back(std::move(pk));
+			ttlKeys.emplace_back(key);
 		}
 		return true;
 	});
@@ -2547,7 +2547,7 @@ SecondaryIndexManager::computeBM25Scores_(
 			return true;
 		});
 		
-		tokenResults.push_back(std::move(pks));
+		tokenResults.emplace_back(std::move(pks));
 	}
 	
 	// Intersect all sets (AND logic)
@@ -2597,7 +2597,7 @@ SecondaryIndexManager::computeBM25Scores_(
 					keep = false;
 				}
 			}
-			if (!keep) toErase.push_back(pk);
+			if (!keep) toErase.emplace_back(pk);
 		}
 		for (const auto& pk : toErase) intersectionSet.erase(pk);
 		if (intersectionSet.empty()) return {Status::OK(), {}};
@@ -2638,7 +2638,7 @@ SecondaryIndexManager::computeBM25Scores_(
 	// Vorbereiten: df je Token
 	std::vector<double> dfs;
 	dfs.reserve(tokens.size());
-	for (const auto& s : tokenResults) dfs.push_back(static_cast<double>(s.size()));
+	for (const auto& s : tokenResults) dfs.emplace_back(static_cast<double>(s.size()));
 
 	// BM25 Parameter
 	const double k1 = 1.2;
@@ -2672,7 +2672,7 @@ SecondaryIndexManager::computeBM25Scores_(
 			double term = idf * ((tf * (k1 + 1.0)) / denom);
 			s += term;
 		}
-		scored.push_back({pk, s});
+		scored.emplace_back(FulltextResult{pk, s});
 	}
 
 	// Sortieren nach Score absteigend
@@ -2684,7 +2684,11 @@ SecondaryIndexManager::computeBM25Scores_(
 	std::vector<FulltextResult> finalResults;
 	const size_t topk = std::min(scored.size(), limit);
 	finalResults.reserve(topk);
-	finalResults.insert(finalResults.end(), scored.begin(), scored.begin() + static_cast<std::ptrdiff_t>(topk));
+	finalResults.insert(
+		finalResults.end(),
+		std::make_move_iterator(scored.begin()),
+		std::make_move_iterator(scored.begin() + static_cast<std::ptrdiff_t>(topk))
+	);
 
 	return {Status::OK(), std::move(finalResults)};
 }
@@ -2760,7 +2764,7 @@ SecondaryIndexManager::scanFulltextPhrase(
 			return true;
 		});
 		
-		tokenResults.push_back(std::move(pks));
+		tokenResults.emplace_back(std::move(pks));
 	}
 	
 	// Intersect all sets (AND logic)
@@ -2813,7 +2817,7 @@ SecondaryIndexManager::scanFulltextPhrase(
 					// Check if exact phrase exists in the field
 					if (field.find(phraseNorm) != std::string::npos) {
 						// Simple scoring: 1.0 for exact match, could be enhanced with position/proximity
-						results.push_back({pk, 1.0});
+						results.emplace_back(FulltextResult{pk, 1.0});
 					}
 				}
 			} catch (...) {
@@ -2928,7 +2932,7 @@ SecondaryIndexManager::scanFulltextFuzzy(
 	results.reserve(pkScores.size());
 	
 	for (const auto& [pk, score] : pkScores) {
-		results.push_back({pk, score});
+		results.emplace_back(FulltextResult{pk, score});
 	}
 	
 	// Sort by score descending
@@ -2961,7 +2965,7 @@ std::vector<std::string> SecondaryIndexManager::tokenize(std::string_view text) 
 				// Convert to lowercase
 				std::transform(current.begin(), current.end(), current.begin(),
 					[](unsigned char c) { return std::tolower(c); });
-				tokens.push_back(std::move(current));
+				tokens.emplace_back(std::move(current));
 				current.clear();
 			}
 		} else {
@@ -2973,7 +2977,7 @@ std::vector<std::string> SecondaryIndexManager::tokenize(std::string_view text) 
 	if (!current.empty()) {
 		std::transform(current.begin(), current.end(), current.begin(),
 			[](unsigned char c) { return std::tolower(c); });
-		tokens.push_back(std::move(current));
+		tokens.emplace_back(std::move(current));
 	}
 	
 	return tokens;
@@ -3055,7 +3059,7 @@ std::vector<SecondaryIndexManager::IndexStats> SecondaryIndexManager::getAllInde
 	// Get stats for each unique column
 	allStats.reserve(processedColumns.size());
 	for (const auto& column : processedColumns) {
-		allStats.push_back(getIndexStats(table, column));
+		allStats.emplace_back(getIndexStats(table, column));
 	}
 	
 	return allStats;
@@ -3103,7 +3107,7 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 		while (pos < column.size()) {
 			size_t p = column.find('+', pos);
 			if (p == std::string::npos) p = column.size();
-			cols.push_back(column.substr(pos, p - pos));
+			cols.emplace_back(column.substr(pos, p - pos));
 			pos = p + 1;
 		}
 		if (db_.get(makeCompositeIndexMetaKey(table, cols)).has_value()) {
@@ -3125,7 +3129,7 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 	// Step 2: Delete all existing index entries
 	std::vector<std::string> keysToDelete;
 	db_.scanPrefix(indexPrefix, [&keysToDelete](std::string_view key, std::string_view) {
-		keysToDelete.push_back(std::string(key));
+		keysToDelete.emplace_back(key);
 		return true;
 	});
 
@@ -3268,7 +3272,7 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 		while (pos < column.size()) {
 			size_t p = column.find('+', pos);
 			if (p == std::string::npos) p = column.size();
-			columns.push_back(column.substr(pos, p - pos));
+			columns.emplace_back(column.substr(pos, p - pos));
 			pos = p + 1;
 		}
 
@@ -3285,7 +3289,7 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 			for (const auto& col : columns) {
 				auto maybeVal = entity.extractField(col);
 				if (!maybeVal) { if (!advance()) { aborted = true; return false; } return true; }
-				values.push_back(*maybeVal);
+				values.emplace_back(*maybeVal);
 			}
 
 			std::string ckey = makeCompositeIndexKey(table, columns, values, pk);
@@ -3412,7 +3416,7 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 	{
 		std::vector<std::string> stale;
 		db_.scanPrefix(shadowPrefix, [&stale](std::string_view k, std::string_view) {
-			stale.push_back(std::string(k));
+			stale.emplace_back(k);
 			return true;
 		});
 		for (const auto& k : stale) db_.del(k);
@@ -3924,7 +3928,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 		metadata.fulltext_indexes = std::vector<std::string>(ftColsLoad.begin(), ftColsLoad.end());
 		auto partialColsLoad = loadPartialIndexedColumns_(table);
 		for (const auto& [col, pred] : partialColsLoad) {
-			metadata.partial_indexes.push_back(col);
+			metadata.partial_indexes.emplace_back(col);
 			metadata.partial_predicates[col] = pred;
 			metadata.partial_unique[col] = isPartialIndexUnique_(table, col);
 		}
@@ -3955,8 +3959,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 				size_t start = 0;
 				while (start < col.size()) {
 					size_t pos = col.find('+', start);
-					if (pos == std::string::npos) { columns.push_back(col.substr(start)); break; }
-					columns.push_back(col.substr(start, pos - start));
+					if (pos == std::string::npos) { columns.emplace_back(col.substr(start)); break; }
+					columns.emplace_back(col.substr(start, pos - start));
 					start = pos + 1;
 				}
 				metadata.composite_unique[col] = isUniqueCompositeIndex_(table, columns);

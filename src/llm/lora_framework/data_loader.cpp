@@ -363,7 +363,7 @@ TrainingBatch DataLoader::getNextBatch() {
 
 TrainingBatch DataLoader::createBatch(const std::vector<size_t>& batch_indices) {
     TrainingBatch batch;
-    batch.batch_size = batch_indices.size();
+    batch.batch_size = static_cast<int>(batch_indices.size());
     batch.max_sequence_length = 0;
     
     // Collect samples and find max length

@@ -156,7 +156,7 @@ GradientStatistics MedianDetector::computeStatistics(
         
         // Compute mean
         float sum = 0.0f;
-        int count = 0;
+        size_t count = 0;
         for (const auto& tensor : gradients) {
             sum += std::accumulate(tensor.data.begin(), tensor.data.end(), 0.0f);
             count += tensor.data.size();
@@ -298,7 +298,7 @@ std::vector<std::string> KrumDetector::selectKrumGradients(
     }
     
     // For each gradient, compute sum of distances to k closest gradients
-    int k = n - max_byzantine_shards_ - 2;  // Number of closest neighbors to consider
+    int k = static_cast<int>(n) - max_byzantine_shards_ - 2;  // Number of closest neighbors to consider
     k = std::max(1, k);
     
     std::vector<std::pair<float, std::string>> scores;
@@ -357,7 +357,7 @@ DetectionResult KrumDetector::detectByzantineShards(
     }
     
     // Number of gradients to select
-    int m = n - max_byzantine_shards_ - 2;
+    int m = static_cast<int>(n) - max_byzantine_shards_ - 2;
     
     try {
         auto selected = selectKrumGradients(shard_gradients, m);

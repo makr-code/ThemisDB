@@ -779,7 +779,7 @@ void RocksDBWrapper::addEventListener(std::shared_ptr<rocksdb::EventListener> li
                     "listener will not take effect for the current database instance");
         return;
     }
-    options_->listeners.push_back(std::move(listener));
+    options_->listeners.emplace_back(std::move(listener));
 }
 
 std::optional<std::vector<uint8_t>> RocksDBWrapper::get(std::string_view key) {
@@ -1031,7 +1031,7 @@ bool RocksDBWrapper::putBlob(std::string_view key, const std::vector<uint8_t>& d
             const size_t this_chunk_size =
                 std::min(chunk_size, total_size - offset);
 
-            futures.push_back(std::async(
+            futures.emplace_back(std::async(
                 // Use deferred launch when there are more chunks than threads to
                 // avoid spawning more system threads than configured.
                 (i < static_cast<uint32_t>(num_threads))
@@ -1140,7 +1140,7 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::getBlob(std::string_view key
         std::vector<std::string> chunk_keys;
         chunk_keys.reserve(num_chunks);
         for (uint32_t i = 0; i < num_chunks; ++i) {
-            chunk_keys.push_back(blobChunkKey(key, i));
+            chunk_keys.emplace_back(blobChunkKey(key, i));
         }
 
         // MultiGet all chunks in one round-trip.
@@ -1157,6 +1157,7 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::getBlob(std::string_view key
         }
 
         std::vector<std::string> chunk_values;
+        chunk_values.reserve(chunk_keys.size());
         std::vector<rocksdb::Status> statuses =
             base_db->MultiGet(*read_options_, rock_keys, &chunk_values);
 
@@ -1231,6 +1232,7 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGet(
     }
 
     std::vector<std::string> values;
+    values.reserve(keys.size());
     std::vector<rocksdb::Status> statuses = base_db->MultiGet(*read_options_, rock_keys, &values);
 
     results.reserve(keys.size());
@@ -2607,6 +2609,7 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGetWithAsy
     
     // Perform MultiGet
     std::vector<std::string> values;
+    values.reserve(keys.size());
     std::vector<rocksdb::Status> statuses = base_db->MultiGet(read_opts, rock_keys, &values);
     
     // Process results

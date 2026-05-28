@@ -751,7 +751,7 @@ std::vector<json> LLMModelStorage::getEdges(
     try {
         // Scan all edge keys for this model using RocksDBWrapper::scanPrefix.
         const std::string edge_prefix = config_.key_prefix + "edge:";
-        config_.db->scanPrefix(edge_prefix, [&](std::string_view key, std::string_view value) -> bool {
+        config_.db->scanPrefix(edge_prefix, [&](std::string_view key, std::string_view) -> bool {
             // Key format after edge_prefix: from:to:type
             std::string key_suffix(key.substr(edge_prefix.size()));
             auto first_colon = key_suffix.find(':');
@@ -914,7 +914,9 @@ std::vector<std::pair<std::string, float>> LLMModelStorage::findSimilarModels(
 
                 if (norm_query > 0.0f && norm_other > 0.0f) {
                     const float similarity = dot_product / (std::sqrt(norm_query) * std::sqrt(norm_other));
-                    similar_models.emplace_back(other_model_id, similarity);
+                    if (similarity >= threshold) {
+                        similar_models.emplace_back(other_model_id, similarity);
+                    }
                 }
             } catch (...) {
                 // Skip invalid embeddings

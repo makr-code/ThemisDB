@@ -582,10 +582,10 @@ void AdamOptimizer::step() {
     step_count_++;
     
     // Compute bias correction terms
-    float bias_correction1 = 1.0f - std::pow(themis::utils::conversion::clamp_double_to_float(beta1_), 
-                                             themis::utils::conversion::safe_size_to_int32(step_count_));
-    float bias_correction2 = 1.0f - std::pow(themis::utils::conversion::clamp_double_to_float(beta2_), 
-                                             themis::utils::conversion::safe_size_to_int32(step_count_));
+    float bias_correction1 = 1.0f - static_cast<float>(std::pow(themis::utils::conversion::clamp_double_to_float(beta1_), 
+                                                               themis::utils::conversion::safe_size_to_int32(step_count_)));
+    float bias_correction2 = 1.0f - static_cast<float>(std::pow(themis::utils::conversion::clamp_double_to_float(beta2_), 
+                                                               themis::utils::conversion::safe_size_to_int32(step_count_)));
     
     for (auto* param : parameters_) {
         if (!param || !param->requires_grad) {
@@ -671,8 +671,8 @@ void AdamWOptimizer::step() {
     step_count_++;
     
     // Compute bias correction terms
-    float bias_correction1 = 1.0f - std::pow(beta1_, step_count_);
-    float bias_correction2 = 1.0f - std::pow(beta2_, step_count_);
+    float bias_correction1 = 1.0f - static_cast<float>(std::pow(beta1_, step_count_));
+    float bias_correction2 = 1.0f - static_cast<float>(std::pow(beta2_, step_count_));
     
     for (auto* param : parameters_) {
         if (!param || !param->requires_grad) {

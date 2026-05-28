@@ -66,11 +66,6 @@ void LoRATrainingService::clearModelPathProviderFn() {
     s_model_path_fn = nullptr;
 }
 
-static std::function<std::string(const std::string&)> getModelPathProviderFn() {
-    std::lock_guard<std::mutex> lock(s_model_path_fn_mutex);
-    return s_model_path_fn;
-}
-
 // Simple MSE loss function
 float compute_mse_loss(const Tensor& predictions, const Tensor& targets) {
     if (predictions.size() != targets.size()) {
@@ -249,9 +244,9 @@ public:
                 // Adjust default hyperparameters for Phi-3 if using defaults
                 if (!hyperparameters.has_value()) {
                     params.rank = 16;
-                    params.alpha = 32.0;
-                    params.learning_rate = 2e-4;
-                    params.dropout = 0.05;
+                    params.alpha = 32.0f;
+                    params.learning_rate = 2e-4f;
+                    params.dropout = 0.05f;
                     spdlog::info("  Hyperparameters optimized for Phi-3");
                 }
             }
@@ -268,7 +263,7 @@ public:
             // Initialize metrics
             current_metrics_.status = "training";
             current_metrics_.total_epochs = params.num_epochs;
-            current_metrics_.total_steps = (data.size() / params.batch_size) * params.num_epochs;
+            current_metrics_.total_steps = static_cast<int>((data.size() / params.batch_size) * params.num_epochs);
             current_metrics_.learning_rate = params.learning_rate;
             
             // Store current training context for checkpointing
@@ -610,7 +605,7 @@ public:
                         break;
                     }
                     
-                    current_metrics_.current_step = epoch * data_loader.num_batches() + step;
+                    current_metrics_.current_step = static_cast<int>(epoch * data_loader.num_batches() + step);
                     current_metrics_.progress = static_cast<float>(current_metrics_.current_step) / 
                                                static_cast<float>(current_metrics_.total_steps);
                     
@@ -725,7 +720,7 @@ public:
                             }
                         }
                     }
-                    int global_step = epoch * data_loader.num_batches() + step;
+                    int global_step = static_cast<int>(epoch * data_loader.num_batches() + step);
                     current_metrics_.current_step = global_step;
                     current_metrics_.progress = static_cast<float>(current_metrics_.current_step) / 
                                                static_cast<float>(current_metrics_.total_steps);
