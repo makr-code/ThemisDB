@@ -545,11 +545,16 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                                 std::string plain_str(plain_bytes.begin(), plain_bytes.end());
                                 
                                 // Heuristik: JSON-Strukturen erkennen und parsen
-                                if (!plain_str.empty() && (plain_str[0] == '[' || plain_str[0] == '{')) {
-                                    try {
-                                        auto parsed = nlohmann::json::parse(plain_str);
-                                        obj[f] = parsed;
-                                    } catch (...) {
+                                if (!plain_str.empty()) {
+                                    const char first_char = plain_str.front();
+                                    if (first_char == '[' || first_char == '{') {
+                                        try {
+                                            auto parsed = nlohmann::json::parse(plain_str);
+                                            obj[f] = parsed;
+                                        } catch (...) {
+                                            obj[f] = plain_str;
+                                        }
+                                    } else {
                                         obj[f] = plain_str;
                                     }
                                 } else {
@@ -688,11 +693,14 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         parseSpan.setStatus(true);
 
         // EARLY: Join-Erkennung vor Translation (Translator unterstützt keine Field==Field Prädikate)
-        if (*parse_result && (*parse_result)->traversal == nullptr && !(*parse_result)->for_nodes.empty() && (*parse_result)->for_nodes.size() >= 2) {
+        if (*parse_result && (*parse_result)->traversal == nullptr) {
+            const auto& for_nodes = (*parse_result)->for_nodes;
+            if (for_nodes.size() >= 2) {
             // Wiederverwendung der Join-Logik wie weiter unten
             auto joinSpan = Tracer::startSpan("aql.join");
-            const auto& f1_ref = (*parse_result)->for_nodes[0];
-            const auto& f2_ref = (*parse_result)->for_nodes[1];
+            const auto& f1_ref = for_nodes.front();
+            const auto second_for_node = std::next(for_nodes.begin());
+            const auto& f2_ref = *second_for_node;
             const std::string var1 = f1_ref.variable;
             const std::string var2 = f2_ref.variable;
             const std::string table1 = f1_ref.collection;
@@ -783,11 +791,12 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             std::vector<themis::BaseEntity> out;
             if (buildLeft) { for (const auto& e : rightVec) { auto k = getFieldStr(e, colRight); if (!k.has_value()) continue; auto range = hash.equal_range(*k); for (auto it = range.first; it != range.second; ++it) { const themis::BaseEntity& l = it->second; if (retVar == var1) out.push_back(l); else out.push_back(e); } } }
             else { for (const auto& e : leftVec) { auto k = getFieldStr(e, colLeft); if (!k.has_value()) continue; auto range = hash.equal_range(*k); for (auto it = range.first; it != range.second; ++it) { const themis::BaseEntity& r = it->second; if (retVar == var1) out.push_back(e); else out.push_back(r); } } }
-            if ((*parse_result) && (*parse_result)->limit) { auto off = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->offset)); auto cnt = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->count)); if (off < out.size()) { size_t last = std::min(out.size(), off + cnt); std::vector<themis::BaseEntity> tmp; tmp.reserve(last - off); for (size_t i = off; i < last; ++i) tmp.emplace_back(std::move(out[i])); out.swap(tmp); } else { out.clear(); } }
+            if ((*parse_result) && (*parse_result)->limit) { auto off = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->offset)); auto cnt = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->count)); if (off < out.size()) { size_t last = std::min(out.size(), off + cnt); auto first_it = out.begin() + static_cast<std::ptrdiff_t>(off); auto last_it = out.begin() + static_cast<std::ptrdiff_t>(last); std::vector<themis::BaseEntity> tmp; tmp.reserve(last - off); std::move(first_it, last_it, std::back_inserter(tmp)); out.swap(tmp); } else { out.clear(); } }
             nlohmann::json entities = nlohmann::json::array(); for (const auto& e : out) entities.push_back(e.toJson()); nlohmann::json response_body = {{"table_left", table1}, {"table_right", table2}, {"count", out.size()}, {"entities", applyMasking(entities, req)}};
             if (explain) { response_body["query"] = aql_query; response_body["ast"] = (*parse_result)->toJSON(); nlohmann::json jp; jp["on_left"] = (*joinCols).first; jp["on_right"] = (*joinCols).second; response_body["join"] = jp; }
             joinSpan.setAttribute("join.output_count", static_cast<int64_t>(out.size())); joinSpan.setStatus(true); span.setAttribute("aql.result_count", static_cast<int64_t>(out.size())); span.setStatus(true);
             return makeResponse(http::status::ok, response_body.dump(), req);
+            }
         }
 
     // Translate AST to Query (relational oder traversal)
@@ -1114,7 +1123,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             auto* v = dynamic_cast<VariableExpr*>(fa->object.get());
                             if (!v) return false;
                             if (v->name != "v" && v->name != "e") return false;
-                            var = v->name[0];
+                            if (v->name.empty()) return false;
+                            var = v->name.front();
                             field = fa->field;
                             return true;
                         };
@@ -1175,7 +1185,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         auto* v = dynamic_cast<VariableExpr*>(fa->object.get());
                         if (!v) return false;
                         if (v->name != "v" && v->name != "e") return false;
-                        var = v->name[0];
+                        if (v->name.empty()) return false;
+                        var = v->name.front();
                         field = fa->field;
                         return true;
                     };
@@ -1320,10 +1331,11 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     if (fname == "path.all" || fname == "path.any" || fname == "path.none") {
                         // Expect two arguments: variable name (v or e) and a predicate expression
                         if (fe->arguments.size() != 2) return false;
-                        auto* varExpr = dynamic_cast<const VariableExpr*>(fe->arguments[0].get());
+                        const auto& path_args = fe->arguments;
+                        auto* varExpr = dynamic_cast<const VariableExpr*>(path_args.front().get());
                         if (!varExpr) return false;
                         std::string varName = varExpr->name; // 'v' or 'e'
-                        const Expression* inner = fe->arguments[1].get();
+                        const Expression* inner = path_args.back().get();
                         // Reconstruct path from startVertex to vpk using parent map
                         std::vector<std::string> pathNodes;
                         std::vector<std::string> pathEdges; // edges between pathNodes[i] -> pathNodes[i+1]
@@ -1355,11 +1367,13 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 all = all && r;
                             }
                         } else if (varName == "e") {
-                            // Iterate over edges; align edge i with nodes i -> i+1
-                            for (size_t i = 0; i < pathEdges.size(); ++i) {
-                                const auto& eid2 = pathEdges[i];
-                                // For edge evaluation, set vpk to the 'to' vertex (pathNodes[i+1]) and eid to edge id
-                                bool r = evalBoolExpr(inner, pathNodes[i+1], std::optional<std::string>(eid2));
+                            // Iterate over edges; align edge[i] with node[i+1] (to-vertex).
+                            // pathNodes.size() == pathEdges.size()+1 by construction, so the
+                            // node iterator always has a valid next element for each edge.
+                            auto nit = pathNodes.begin() + 1; // start at the first 'to' vertex
+                            for (const auto& eid2 : pathEdges) {
+                                // For edge evaluation, set vpk to the 'to' vertex and eid to edge id
+                                bool r = evalBoolExpr(inner, *nit++, std::optional<std::string>(eid2));
                                 any = any || r;
                                 all = all && r;
                             }
@@ -1386,7 +1400,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             auto* v = dynamic_cast<const VariableExpr*>(fa->object.get());
                             if (!v) return false;
                             if (v->name != "v" && v->name != "e") return false;
-                            var = v->name[0]; field = fa->field; return true;
+                            if (v->name.empty()) return false;
+                            var = v->name.front(); field = fa->field; return true;
                         };
                         auto mapOp = [&](BinaryOperator bop)->std::optional<SimplePred::Op>{
                             switch (bop) {
@@ -1526,11 +1541,14 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     }
                 }
                     // Joins via doppeltem FOR (MVP): Wenn mehrere FOR-Klauseln vorhanden sind und keine Traversal-Query aktiv ist
-                    if ((*parse_result) && (*parse_result)->traversal == nullptr && !(*parse_result)->for_nodes.empty() && (*parse_result)->for_nodes.size() >= 2) {
+                    if ((*parse_result) && (*parse_result)->traversal == nullptr) {
+                        const auto& for_nodes = (*parse_result)->for_nodes;
+                        if (for_nodes.size() >= 2) {
                         auto joinSpan = Tracer::startSpan("aql.join");
                         // Beschränkung: Genau zwei FOR-Klauseln, Equality-Join über FILTER lhs.field == rhs.field
-                        const auto& f1 = (*parse_result)->for_nodes[0];
-                        const auto& f2 = (*parse_result)->for_nodes[1];
+                        const auto& f1 = for_nodes.front();
+                        const auto second_for_node = std::next(for_nodes.begin());
+                        const auto& f2 = *second_for_node;
                         const std::string var1 = f1.variable;
                         const std::string var2 = f2.variable;
                         const std::string table1 = f1.collection;
@@ -1738,7 +1756,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             if (off < out.size()) {
                                 size_t last = std::min(out.size(), off + cnt);
                                 std::vector<themis::BaseEntity> tmp; tmp.reserve(last - off);
-                                for (size_t i = off; i < last; ++i) tmp.emplace_back(std::move(out[i]));
+                                auto first_it = out.begin() + static_cast<std::ptrdiff_t>(off);
+                                auto last_it = out.begin() + static_cast<std::ptrdiff_t>(last);
+                                std::move(first_it, last_it, std::back_inserter(tmp));
                                 out.swap(tmp);
                             } else {
                                 out.clear();
@@ -1761,6 +1781,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         span.setAttribute("aql.result_count", static_cast<int64_t>(out.size()));
                         span.setStatus(true);
                         return makeResponse(http::status::ok, response_body.dump(), req);
+                        }
                     }
 
             }
@@ -2204,7 +2225,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             if (jq.for_nodes.size() == 1 && jq.collect) {
                 // Reconstruct ConjunctiveQuery from JoinQuery
                 themis::ConjunctiveQuery cq;
-                cq.table = jq.for_nodes[0].collection;
+                const auto& first_for_node = jq.for_nodes.front();
+                cq.table = first_for_node.collection;
                 
                 // Convert simple equality filters to predicates
                 using namespace themis::query;
@@ -2229,7 +2251,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 
                                 // Verify it's rooted at the FOR variable
                                 if (auto* rootVar = dynamic_cast<VariableExpr*>(cur)) {
-                                    if (rootVar->name == jq.for_nodes[0].variable) {
+                                    if (rootVar->name == first_for_node.variable) {
                                         std::string col;
                                         for (auto it = parts.rbegin(); it != parts.rend(); ++it) {
                                             if (!col.empty()) col += ".";
@@ -2293,13 +2315,13 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 }
                 
                 // Determine table name for response (use first FOR collection)
-                std::string table = jq.for_nodes.empty() ? std::string("unknown") : jq.for_nodes[0].collection;
+                std::string table = jq.for_nodes.empty() ? std::string("unknown") : jq.for_nodes.front().collection;
 
                 // Fallback: Single-FOR + LET + Object/Projection RETURN produced no results due to join-path edge case
                 if (entities.empty() && jq.for_nodes.size() == 1 && !jq.let_nodes.empty() && jq.return_node) {
                     try {
                         THEMIS_WARN("Join path returned 0 rows; applying single-FOR LET projection fallback");
-                        const auto& forNode = jq.for_nodes[0];
+                        const auto& forNode = jq.for_nodes.front();
                         const std::string prefix = forNode.collection + ":";
                         // Minimal evaluator for LET + object projection
                         bool fallback_scan_timed_out = false;
@@ -2440,7 +2462,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         return false;
                 }
             };
-            const auto& spec = (*parse_result)->sort->specifications[0];
+            const auto& spec = (*parse_result)->sort->specifications.front();
             sortAsc = spec.ascending;
             if (exprContainsFn(spec.expression, "bm25") || exprContainsFn(spec.expression, "fulltext_score")) {
                 sortByScoreFunction = true;
@@ -2681,7 +2703,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 size_t last = std::min(sliced.size(), off + cnt);
                 std::vector<themis::BaseEntity> tmp;
                 tmp.reserve(last - off);
-                for (size_t i = off; i < last; ++i) tmp.emplace_back(std::move(sliced[i]));
+                auto first_it = sliced.begin() + static_cast<std::ptrdiff_t>(off);
+                auto last_it = sliced.begin() + static_cast<std::ptrdiff_t>(last);
+                std::move(first_it, last_it, std::back_inserter(tmp));
                 sliced.swap(tmp);
             } else {
                 sliced.clear();
@@ -2743,9 +2767,10 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             std::string groupVarName;
             std::string groupColumn;
             if (!collect.groups.empty()) {
-                groupVarName = collect.groups[0].first;
-                if (collect.groups[0].second) {
-                    groupColumn = extractColumn(collect.groups[0].second);
+                const auto& first_group = collect.groups.front();
+                groupVarName = first_group.first;
+                if (first_group.second) {
+                    groupColumn = extractColumn(first_group.second);
                 }
             }
 
@@ -3038,7 +3063,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     if (name == "bm25") {
                         // One-arg function: BM25(doc). Returns score for provided document object by _key/_pk
                         if (fc->arguments.size() != 1) return 0.0;
-                        auto arg = evalExpr(fc->arguments[0], ent, env);
+                        auto arg = evalExpr(fc->arguments.front(), ent, env);
                         if (arg.is_object()) {
                             std::string pk;
                             if (arg.contains("_key") && arg["_key"].is_string()) pk = arg["_key"].get<std::string>();
@@ -3058,8 +3083,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     auto evalArg = [&](size_t i)->nlohmann::json{ return (i<fc->arguments.size()) ? evalExpr(fc->arguments[i], ent, env) : nlohmann::json(); };
                     if (name == "concat") {
                         std::string out;
-                        for (size_t i=0;i<fc->arguments.size();++i) {
-                            auto a = evalArg(i);
+                        for (const auto& arg : fc->arguments) {
+                            auto a = evalExpr(arg, ent, env);
                             if (a.is_string()) out += a.get<std::string>();
                             else if (a.is_number()) out += std::to_string(a.get<double>());
                             else if (a.is_boolean()) out += (a.get<bool>()?"true":"false");
@@ -3121,7 +3146,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         return nullptr;
                     }
                     if (name == "coalesce") {
-                        for (size_t i=0;i<fc->arguments.size();++i) { auto a = evalArg(i); if (!a.is_null()) return a; }
+                        for (const auto& arg : fc->arguments) { auto a = evalExpr(arg, ent, env); if (!a.is_null()) return a; }
                         return nullptr;
                     }
                     // Unsupported function in MVP eval
@@ -3540,14 +3565,17 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
             // Basic URL-decode: replace '+' with ' ' and %XX with char
             std::string decoded;
             decoded.reserve(raw.size());
-            for (size_t i = 0; i < raw.size(); ) {
-                if (raw[i] == '+') { decoded += ' '; ++i; }
-                else if (raw[i] == '%' && i + 2 < raw.size()) {
-                    char hex[3] = {raw[i+1], raw[i+2], '\0'};
+            for (auto it = raw.begin(); it != raw.end(); ) {
+                if (*it == '+') {
+                    decoded += ' ';
+                    ++it;
+                } else if (*it == '%' && std::distance(it, raw.end()) >= 3) {
+                    char hex[3] = {*(it + 1), *(it + 2), '\0'};
                     decoded += static_cast<char>(std::strtol(hex, nullptr, 16));
-                    i += 3;
+                    it += 3;
                 } else {
-                    decoded += raw[i++];
+                    decoded += *it;
+                    ++it;
                 }
             }
             return decoded;

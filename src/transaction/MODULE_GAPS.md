@@ -1,17 +1,121 @@
 # transaction Module — Implementation Gap Analysis
 
-**Status:** Documentation Pending  
-**Last Updated:** Unknown  
+**Status:** In Progress  
+**Last Updated:** 2026-05-28  
 
 ---
 
 ## 📊 Gap Summary
 
-This module's gap analysis is pending. Run the gap audit to populate this document:
+Refresh this module's gap analysis with:
 
 ```bash
 python tools/gap_audit_pipeline_v2.py
 ```
+
+---
+
+## ✅ Recent Remediation (2026-05-28)
+
+### DTM-3 — Liveness Check Bridge for `isParticipantAlive()` (`src/transaction/distributed_transaction_manager.cpp`)
+
+**Linked issue:** DTM-3 (P1)
+
+**Problem:** `isParticipantAlive()` conservatively returned `false` for all remote
+participants (those with `callback == nullptr`) since no injectable health check
+transport was wired.  Callers such as `checkTimeouts()` could not distinguish between
+truly dead and merely bridge-unconfigured remote nodes.
+
+**Fix applied:**
+
+- Added `LivenessCheckFn` type alias to `DistributedTxnManagerConfig` —
+  `std::function<bool(endpoint, node_id)>` — and an `liveness_check_fn` optional
+  field.  When set, the coordinator invokes this function for remote participants
+  instead of falling back to the conservative `false` default.  Exceptions are
+  caught and treated as "not alive" (fail-closed).
+
+- Added `StaticLivenessCheckFn` type alias and `setLivenessCheckFn()` /
+  `clearLivenessCheckFn()` static methods — a process-wide bridge mirroring the
+  existing `setRpcPhase1Fn` / `setRpcPhase2Fn` API.
+
+- Updated `isParticipantAlive()` to check bridges in priority order:
+  1. `liveness_check_fn` — per-instance config
+  2. Static `getLivenessCheckFn()` — process-wide legacy
+  3. Conservative `false` — no bridge configured
+  4. In-process participant (non-null callback) → always `true` (unchanged)
+  5. Unknown node_id → `true` (unchanged, avoids spurious aborts)
+
+- Fixed stale `isParticipantAlive` header docstring (previously claimed "not
+  implemented in this release — returns true by default"; updated to describe the
+  bridge priority chain accurately).
+
+**Tests added** (`tests/test_transaction_distributed_2pc.cpp`):
+
+| Test | Scenario |
+|------|----------|
+| `DTM3_LivenessBridgeInstanceReturnsTrue` | Per-instance fn returning true → alive |
+| `DTM3_LivenessBridgeInstanceReturnsFalse` | Per-instance fn returning false → not alive |
+| `DTM3_LivenessBridgeInstanceExceptionIsNotAlive` | fn throwing → fail-closed not alive |
+| `DTM3_StaticLivenessBridgeIsConsulted` | Static bridge consulted when no per-instance fn |
+| `DTM3_InstanceBridgeTakesPriorityOverStaticBridge` | Per-instance overrides static bridge |
+
+**Gap delta:** DTM-3 fully resolved.  `isParticipantAlive()` now supports real
+health check injection for remote participants while preserving the conservative
+fail-closed default when no bridge is configured.
+
+---
+
+## ✅ Recent Remediation (2026-05-28)
+
+### Stub #279 — Phase-1 PREPARE RPC Bridge (`src/transaction/distributed_transaction_manager.cpp`)
+
+**Linked issue:** #5363 (P0)
+
+**Problem:** `runPhase1Unlocked()` had no mechanism to send PREPARE to remote
+participants (those with `callback == nullptr`).  When a Phase-2 bridge was
+configured, the coordinator assumed remote participants voted YES without asking
+them, which violates strict 2PC correctness.  When no Phase-2 bridge was
+configured, the coordinator voted ABORT for remote participants without contacting
+them.
+
+**Fix applied:**
+
+- Added `remote_phase1_dispatch` to `DistributedTxnManagerConfig` — a function
+  injected at construction time that delivers a PREPARE request to a remote
+  participant and returns its COMMIT/ABORT vote.
+  Signature: `bool(txn_id, node_id, endpoint, affected_keys)`.
+
+- Added `Phase1RpcFn` / `phase1_rpc_fn` to `DistributedTxnManagerConfig` — a
+  simpler bridge variant with signature `bool(endpoint, txn_id, affected_keys)`.
+
+- Added `setRpcPhase1Fn` / `clearRpcPhase1Fn` static methods — process-wide
+  legacy bridge mirroring the existing `setRpcPhase2Fn` / `clearRpcPhase2Fn` API.
+
+- Updated `runPhase1Unlocked()` to check bridges in priority order:
+  1. `phase1_rpc_fn` — per-instance config
+  2. `remote_phase1_dispatch` — per-instance config
+  3. Static `getRpcPhase1Fn()` — process-wide legacy
+  4. Phase-2-bridge-only compat path (warns, assumes YES — backwards compat)
+  5. No bridge → fail-closed ABORT vote
+
+- Empty `endpoint` for a remote participant is now a hard ABORT vote with an
+  error log, instead of silently falling through.
+
+**Tests added** (`tests/test_transaction_distributed_2pc.cpp`):
+
+| Test | Scenario |
+|------|----------|
+| `Stub279_Phase1RpcFnYesVoteAllowsCommit` | Remote votes YES → COMMIT succeeds |
+| `Stub279_Phase1RpcFnNoVoteAbortsTransaction` | Remote votes NO → ABORT |
+| `Stub279_Phase1RpcFnExceptionIsAbortVote` | RPC exception → fail-closed ABORT |
+| `Stub279_RemotePhase1DispatchCommit` | `remote_phase1_dispatch` bridge works |
+| `Stub279_PureRemoteTransactionSucceedsWithPhase1Rpc` | 3-shard all-remote 2PC commit |
+| `Stub279_StaticPhase1FnCommit` | Static `setRpcPhase1Fn` bridge works |
+
+**Gap delta:** Stub #279 Phase-1 closed.  Remote participants now participate in
+Phase-1 voting when a bridge is configured, making pure-remote 2PC transactions
+correct.  The backwards-compat Phase-2-only path is retained with a WARN to guide
+operators toward full Phase-1 wiring.
 
 ---
 

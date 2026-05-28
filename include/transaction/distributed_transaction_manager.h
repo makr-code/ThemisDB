@@ -1,7 +1,7 @@
 /*
  * ThemisDB | File: distributed_transaction_manager.h | Version: 0.0.12
  * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=1, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
@@ -226,6 +226,27 @@ struct DistributedTxnManagerConfig {
     size_t max_active_transactions = 10000;
 
     /**
+     * @brief Optional remote phase-1 dispatcher for callback-less participants.
+     *
+     * When a participant has no in-process callback (`Participant::callback == nullptr`),
+     * the coordinator invokes this function to send a PREPARE request and collect
+     * the participant's COMMIT/ABORT vote.
+     *
+     * @param txn_id       Distributed transaction identifier.
+     * @param node_id      Participant node/shard identifier.
+     * @param endpoint     Participant endpoint (e.g. host:port).
+     * @param affected_keys Keys that the participant must lock/validate.
+     * @return true if the participant votes COMMIT; false for ABORT.
+     * @throws Any exception is caught by the coordinator and treated as an ABORT vote.
+     */
+    std::function<bool(
+        const std::string& txn_id,
+        const std::string& node_id,
+        const std::string& endpoint,
+        const std::set<std::string>& affected_keys
+    )> remote_phase1_dispatch;
+
+    /**
      * @brief Optional remote phase-2 dispatcher for callback-less participants.
      *
      * When a participant has no in-process callback (`Participant::callback == nullptr`),
@@ -284,6 +305,53 @@ struct DistributedTxnManagerConfig {
         bool               do_commit
     )>;
     std::optional<Phase2RpcFn> phase2_rpc_fn;
+
+    /**
+     * @brief Remote Phase-1 RPC bridge for callback-less participants.
+     *
+     * When set, runPhase1Unlocked() calls this function for every participant
+     * whose `callback` pointer is null and whose `endpoint` is non-empty,
+     * sending a PREPARE request and receiving the participant's COMMIT/ABORT vote.
+     *
+     * Signature: `bool(endpoint, txn_id, affected_keys)` → true = COMMIT vote
+     *   - @p endpoint       Network address of the remote participant.
+     *   - @p txn_id         Transaction identifier.
+     *   - @p affected_keys  Keys that the participant must lock/validate.
+     *
+     * Any exception thrown by the function is caught by the coordinator and
+     * treated as an ABORT vote.  When not set, the coordinator falls back to
+     * `remote_phase1_dispatch`, then the static `RpcPhase1Fn`, and finally
+     * (for backwards compatibility) skips the Phase-1 vote when a Phase-2
+     * bridge is configured.
+     */
+    using Phase1RpcFn = std::function<bool(
+        const std::string&            endpoint,
+        const std::string&            txn_id,
+        const std::set<std::string>&  affected_keys
+    )>;
+    std::optional<Phase1RpcFn> phase1_rpc_fn;
+
+    /**
+     * @brief Optional participant liveness check bridge for remote participants (DTM-3).
+     *
+     * When set, `isParticipantAlive()` calls this function for remote participants
+     * (those with `callback == nullptr`) to perform a real health check (e.g. a
+     * gRPC health-check ping or HTTP probe) instead of conservatively returning false.
+     *
+     * Signature: `bool(endpoint, node_id)` → true = alive/reachable
+     *   - @p endpoint  Network address of the remote participant ("host:port").
+     *   - @p node_id   Participant node identifier.
+     *
+     * Any exception thrown by the function is caught by the coordinator and treated
+     * as "not alive" (fail-closed).  When not set, the coordinator falls back to
+     * the static `LivenessCheckFn`, then conservatively returns false for all
+     * remote participants.
+     */
+    using LivenessCheckFn = std::function<bool(
+        const std::string& endpoint,
+        const std::string& node_id
+    )>;
+    std::optional<LivenessCheckFn> liveness_check_fn;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -494,13 +562,23 @@ public:
     /**
      * @brief Check whether a participant appears to be reachable.
      *
-     * For in-process participants with a non-null callback the check is always
-     * true.  For remote participants (callback == nullptr) the method attempts
-     * a lightweight ping via the endpoint (not implemented in this release —
-     * returns true by default).
+     * For in-process participants with a non-null callback the check always
+     * returns true (the object lives in the same address space and is always
+     * reachable).
+     *
+     * For remote participants (callback == nullptr) the method consults the
+     * liveness bridges in the following priority order:
+     *   1. `liveness_check_fn` in `DistributedTxnManagerConfig` (per-instance).
+     *   2. Static bridge installed via `setLivenessCheckFn()` (process-wide).
+     *   3. Conservative default: returns false (participant is treated as dead).
+     *
+     * Any exception thrown by a bridge function is caught and treated as "not
+     * alive" (fail-closed).  For node identifiers not found in any active
+     * transaction the method returns true (unknown participants are not
+     * spuriously treated as dead).
      *
      * @param node_id  Participant node identifier.
-     * @return         true if the participant appears healthy.
+     * @return         true if the participant appears healthy/reachable.
      */
     bool isParticipantAlive(const std::string& node_id) const;
 
@@ -541,6 +619,54 @@ public:
      * @brief Remove the RPC phase-2 bridge (reverts to skip-if-no-callback).
      */
     static void clearRpcPhase2Fn();
+
+    // ─── RPC phase-1 bridge (stub #279 — Phase-1 PREPARE) ────────────────────
+
+    /// @brief Type alias for remote phase-1 PREPARE RPC injection.
+    using RpcPhase1Fn = std::function<bool(const std::string& node_id,
+                                           const std::string& txn_id,
+                                           const std::set<std::string>& affected_keys)>;
+
+    /**
+     * @brief Install a remote phase-1 RPC callback for participants without a
+     *        local callback.  When set, callback-less participants receive a
+     *        PREPARE request via this function and their returned vote is
+     *        collected by the coordinator (true = COMMIT, false = ABORT).
+     *        Exceptions are treated as ABORT votes.
+     * @param fn Callable receiving (node_id, txn_id, affected_keys) → bool.
+     */
+    static void setRpcPhase1Fn(RpcPhase1Fn fn);
+
+    /**
+     * @brief Remove the static RPC phase-1 bridge.
+     */
+    static void clearRpcPhase1Fn();
+
+    // ─── Liveness check bridge (DTM-3) ───────────────────────────────────────
+
+    /// @brief Type alias for remote participant liveness check injection.
+    using StaticLivenessCheckFn = std::function<bool(const std::string& node_id,
+                                                      const std::string& endpoint)>;
+
+    /**
+     * @brief Install a process-wide liveness check function for remote participants.
+     *
+     * When set, `isParticipantAlive()` uses this function for remote participants
+     * (those with no in-process callback) as a fallback after any per-instance
+     * `liveness_check_fn` configured in `DistributedTxnManagerConfig`.
+     * Exceptions from the function are caught and treated as "not alive".
+     *
+     * @param fn Callable receiving (node_id, endpoint) → bool (true = alive).
+     */
+    static void setLivenessCheckFn(StaticLivenessCheckFn fn);
+
+    /**
+     * @brief Remove the process-wide liveness check bridge.
+     *
+     * After this call, remote participants fall back to the conservative
+     * "not alive" default until a new bridge is installed.
+     */
+    static void clearLivenessCheckFn();
 
 private:
     // ── Internal helpers ──────────────────────────────────────────────────────
