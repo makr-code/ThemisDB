@@ -306,6 +306,35 @@ TEST(HTTP3ProtocolTest, RecvDatagramCallbackNullSessionFailsClosed) {
     );
 }
 
+TEST(HTTP3ProtocolTest, HandshakeCompletedCallbackNullSessionFailsClosed) {
+    EXPECT_EQ(
+        Http3Session::handshakeCompletedCallback(nullptr, nullptr),
+        NGTCP2_ERR_CALLBACK_FAILURE
+    );
+}
+
+TEST(HTTP3ProtocolTest, RecvStreamDataCallbackNullSessionFailsClosed) {
+    const uint8_t payload[] = {0x10};
+    EXPECT_EQ(
+        Http3Session::recvStreamDataCallback(nullptr, 0, 1, 0, payload, sizeof(payload), nullptr, nullptr),
+        NGTCP2_ERR_CALLBACK_FAILURE
+    );
+}
+
+TEST(HTTP3ProtocolTest, AckStreamDataCallbackNullSessionFailsClosed) {
+    EXPECT_EQ(
+        Http3Session::ackStreamDataCallback(nullptr, 1, 0, 0, nullptr, nullptr),
+        NGTCP2_ERR_CALLBACK_FAILURE
+    );
+}
+
+TEST(HTTP3ProtocolTest, StreamCloseCallbackNullSessionFailsClosed) {
+    EXPECT_EQ(
+        Http3Session::streamCloseCallback(nullptr, 0, 1, 0, nullptr, nullptr),
+        NGTCP2_ERR_CALLBACK_FAILURE
+    );
+}
+
 // ============================================================================
 // Performance Tests
 // ============================================================================
@@ -350,4 +379,3 @@ TEST(HTTP3ProtocolTest, QPackDynamicTableSize) {
 }
 
 #endif // THEMIS_ENABLE_HTTP3
-

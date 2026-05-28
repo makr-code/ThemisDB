@@ -1,7 +1,7 @@
 # server Module — Implementation Gap Analysis
 
 **Status:** In Progress  
-**Last Updated:** 2026-05-27  
+**Last Updated:** 2026-05-28  
 
 ---
 
@@ -16,6 +16,16 @@ python tools/gap_audit_pipeline_v2.py
 ---
 
 ## ✅ Recent Remediation (2026-05-27)
+
+- **W1-S06 follow-up 2 (2026-05-28) – `src/server/http3_session.cpp`,
+  `tests/test_http3_protocol.cpp`**
+  - Hardened remaining ngtcp2 callback boundaries in `Http3Session`
+    (`handshakeCompletedCallback`, `recvStreamDataCallback`,
+    `ackStreamDataCallback`, `streamCloseCallback`) so callback-local
+    exceptions and null `user_data` fail closed with
+    `NGTCP2_ERR_CALLBACK_FAILURE`.
+  - Added focused callback regression tests for these ngtcp2 entrypoints to
+    verify null-session fail-closed return codes.
 
 - **W1-S06 follow-up (2026-05-28) – `src/server/http3_session.cpp`,
   `tests/test_http3_protocol.cpp`**
