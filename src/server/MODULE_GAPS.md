@@ -17,6 +17,17 @@ python tools/gap_audit_pipeline_v2.py
 
 ## ✅ Recent Remediation (2026-05-27)
 
+- **W1-S06 follow-up 3 (2026-05-28) – `src/server/http3_session.cpp`,
+  `include/server/http3_session.h`, `tests/test_http3_protocol.cpp`**
+  - Replaced inline ngtcp2 callback lambdas (`get_new_connection_id`,
+    `recv_crypto_data`) with dedicated `Http3Session` callback methods and
+    wrapped both in fail-closed try/catch boundaries.
+  - Added null/invalid-input fail-closed guards for callback inputs (`cid`,
+    `user_data`, and non-zero-length null crypto data buffers), returning
+    `NGTCP2_ERR_CALLBACK_FAILURE` on bad callback state.
+  - Added focused callback regression tests to verify fail-closed behavior for
+    null CID and null-session crypto callback paths.
+
 - **W1-S06 follow-up 2 (2026-05-28) – `src/server/http3_session.cpp`,
   `tests/test_http3_protocol.cpp`**
   - Hardened remaining ngtcp2 callback boundaries in `Http3Session`

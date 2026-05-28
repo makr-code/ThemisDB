@@ -335,6 +335,22 @@ TEST(HTTP3ProtocolTest, StreamCloseCallbackNullSessionFailsClosed) {
     );
 }
 
+TEST(HTTP3ProtocolTest, GetNewConnectionIdCallbackNullCidFailsClosed) {
+    EXPECT_EQ(
+        Http3Session::getNewConnectionIdCallback(nullptr, nullptr, nullptr, 0, nullptr),
+        NGTCP2_ERR_CALLBACK_FAILURE
+    );
+}
+
+TEST(HTTP3ProtocolTest, RecvCryptoDataCallbackNullSessionFailsClosed) {
+    const uint8_t payload[] = {0x01};
+    EXPECT_EQ(
+        Http3Session::recvCryptoDataCallback(nullptr, NGTCP2_ENCRYPTION_LEVEL_INITIAL,
+                                             0, payload, sizeof(payload), nullptr),
+        NGTCP2_ERR_CALLBACK_FAILURE
+    );
+}
+
 // ============================================================================
 // Performance Tests
 // ============================================================================

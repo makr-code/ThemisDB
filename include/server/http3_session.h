@@ -130,6 +130,12 @@ private:
     static int streamCloseCallback(ngtcp2_conn* conn, uint32_t flags,
                                    int64_t stream_id, uint64_t app_error_code,
                                    void* user_data, void* stream_user_data);
+    static int getNewConnectionIdCallback(ngtcp2_conn* conn, ngtcp2_cid* cid,
+                                          uint8_t* token, size_t cidlen,
+                                          void* user_data);
+    static int recvCryptoDataCallback(ngtcp2_conn* conn, ngtcp2_encryption_level level,
+                                      uint64_t offset, const uint8_t* data,
+                                      size_t datalen, void* user_data);
     static int extendMaxStreamsCallback(ngtcp2_conn* conn,
                                         uint64_t max_streams,
                                         void* user_data);

@@ -436,18 +436,8 @@ void Http3Session::start() {
     callbacks.acked_stream_data_offset = ackStreamDataCallback;
     callbacks.stream_close = streamCloseCallback;
     callbacks.extend_max_local_streams_bidi = extendMaxStreamsCallback;
-    callbacks.get_new_connection_id = [](ngtcp2_conn* /*conn*/, ngtcp2_cid* cid,
-                                         uint8_t* /*token*/, size_t /*cidlen*/,
-                                         void* /*user_data*/) -> int {
-        generateConnectionIdCallback(cid);
-        return 0;
-    };
-    callbacks.recv_crypto_data = [](ngtcp2_conn* conn, ngtcp2_encryption_level level,
-                                    uint64_t offset, const uint8_t* data, size_t datalen,
-                                    void* user_data) -> int {
-        auto* self = static_cast<Http3Session*>(user_data);
-        return self->feedCryptoData(level, data, datalen);
-    };
+    callbacks.get_new_connection_id = getNewConnectionIdCallback;
+    callbacks.recv_crypto_data = recvCryptoDataCallback;
     callbacks.recv_datagram = recvDatagramCallback;
     
     // Enable QUIC datagram support (RFC 9221): advertise max_datagram_frame_size
@@ -978,6 +968,42 @@ int Http3Session::streamCloseCallback(ngtcp2_conn* /*conn*/, uint32_t /*flags*/,
         return 0;
     } catch (...) {
         logCurrentException("HTTP/3 streamCloseCallback failed");
+        return NGTCP2_ERR_CALLBACK_FAILURE;
+    }
+}
+
+int Http3Session::getNewConnectionIdCallback(ngtcp2_conn* /*conn*/, ngtcp2_cid* cid,
+                                             uint8_t* /*token*/, size_t /*cidlen*/,
+                                             void* /*user_data*/) {
+    try {
+        if (!cid) {
+            THEMIS_ERROR("HTTP/3 getNewConnectionIdCallback: null cid");
+            return NGTCP2_ERR_CALLBACK_FAILURE;
+        }
+        generateConnectionIdCallback(cid);
+        return 0;
+    } catch (...) {
+        logCurrentException("HTTP/3 getNewConnectionIdCallback failed");
+        return NGTCP2_ERR_CALLBACK_FAILURE;
+    }
+}
+
+int Http3Session::recvCryptoDataCallback(ngtcp2_conn* /*conn*/, ngtcp2_encryption_level level,
+                                         uint64_t /*offset*/, const uint8_t* data,
+                                         size_t datalen, void* user_data) {
+    try {
+        auto* self = static_cast<Http3Session*>(user_data);
+        if (!self) {
+            THEMIS_ERROR("HTTP/3 recvCryptoDataCallback: null session");
+            return NGTCP2_ERR_CALLBACK_FAILURE;
+        }
+        if (datalen > 0 && !data) {
+            THEMIS_ERROR("HTTP/3 recvCryptoDataCallback: null data with non-zero length");
+            return NGTCP2_ERR_CALLBACK_FAILURE;
+        }
+        return self->feedCryptoData(level, data, datalen);
+    } catch (...) {
+        logCurrentException("HTTP/3 recvCryptoDataCallback failed");
         return NGTCP2_ERR_CALLBACK_FAILURE;
     }
 }
