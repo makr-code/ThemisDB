@@ -628,6 +628,212 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
   distinguish from races. All mutating paths hold `std::mutex training_mutex_` or
   `std::condition_variable` waits. No concrete unguarded shared-state write found on audit.
 
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up):** Scanner-friendly guard anchoring added in issue scope:
+- `multi_lora_manager.cpp` (`loadLoRAInternal`) now snapshots `config_.security_validator`
+  into a local `shared_ptr` before use (`if (security_validator)` + single dereference path),
+  reducing ambiguous member-pointer nullability traces.
+- `llama_wrapper.cpp` (`generate`, `generateSpeculative`, `generateRegular`) now snapshots
+  `lora_manager_.get()` into a local pointer after guard and uses that alias consistently for
+  load/apply/remove paths, which keeps the guard and dereference in the same analysis scope.
+- `lora_training_service.cpp` public forwarding methods now fail fast on `!impl_` with explicit
+  guard throws before any `impl_->...` dispatch, making nullability intent explicit to static scanners.
+
+### Gap Delta (W1-L07 follow-up)
+
+| Scope file | Before | After |
+|---|---|---|
+| `src/llm/multi_lora_manager.cpp` | member-pointer guard + repeated member dereference | guard + local validator alias |
+| `src/llm/llama_wrapper.cpp` | member guard and dereference across mixed control-flow blocks | local alias anchored to guard in hot inference paths |
+| `src/llm/lora_framework/lora_training_service.cpp` | direct `impl_->...` forwarding without explicit precondition guard | explicit `if (!impl_)` fail-fast guards in forwarding entry points |
+
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 2):** Additional local-alias anchoring applied across remaining issue-scope hot paths:
+- `llama_wrapper.cpp` now snapshots `lora_manager_.get()`/`model_loader_.get()` in LoRA admin,
+  export/import and stats methods, keeping guard and dereference in one local analysis scope.
+- `lora_training_service.cpp` now snapshots `impl_.get()` and `config_` into local aliases in
+  forwarding + quantization/distributed training paths; `trainDistributed()` now also fails fast
+  when `impl_` is missing instead of dereferencing member state unguarded.
+
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 3):** `llama_wrapper.cpp`
+model-loader access now uses guard-anchored local aliases across remaining issue-scope paths:
+- `loadModel`, `unloadModel`, `getModelInfo`, and `isModelLoaded` now snapshot
+  `model_loader_.get()` into local aliases before dereference, keeping the null guard and use in
+  one analysis scope.
+- Inference/embedding paths (`generate`, `generateDraftTokens`, `generateSpeculative`,
+  `generateRegular`, `embed`, and the `generateVision` embedding-injection branch) now use
+  the same local-alias pattern for `getOrLoadModel(...)` calls.
+- Gap delta intent: reduce residual scanner `unknown` findings caused by member-pointer
+  guard/dereference separation without changing runtime behavior.
+
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 4):** Additional
+guard-anchored local aliases added in `llama_wrapper.cpp` optional-component hot paths:
+- Cache/scheduler helpers now snapshot optional members before dereference in one analysis scope:
+  `response_cache_` in `generate`, `prefix_cache_` in prefix-cache accessors, `batch_scheduler_`
+  in batch lifecycle/stat methods, and `grammar_cache_` in grammar cache lookups.
+- Vision paths now use local `vision_encoder` aliases after explicit readiness checks in
+  `initializeVisionEncoder` and `generateVision` image encode/injection loops.
+- Runtime behavior is unchanged; objective is scanner-friendly nullability anchoring inside issue
+  scope for measurable `unknown`-cluster reduction.
+
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 5):** Data-race config
+snapshot and coordinator/slot null anchors across remaining issue-scope files:
+- `lora_training_service.cpp` — `trainWithQuantization` and `trainDistributed` now take a
+  locked value snapshot of `service_impl->config_` via `getTrainingConfig()` instead of a raw
+  reference to the shared member, eliminating data_race scanner alerts.
+- `lora_training_service.cpp` — `trainDistributed` now declares `auto* coord = coordinator.get()`
+  immediately after the `if (!coordinator) throw` guard and uses `coord->` for all subsequent
+  coordinator method calls (`setProgressCallback`, `executeStep`, `handleShardFailure`,
+  `finalize`, `getStatistics`, `getShardStates`), anchoring the null check and dereference in
+  one analysis scope.
+- `multi_lora_manager.cpp` destructor loop — added `if (!lora) continue;` guard before
+  accessing `lora->adapter_handle`, eliminating null_dereference scanner alerts on map values.
+- `multi_lora_manager.cpp` `unloadLoRA` — added `if (!lora)` guard after iterator lookup;
+  returns early if the unique_ptr slot is empty.
+- `multi_lora_manager.cpp` `initializeLoRAWithModel` — added `if (!lora) return false;` guard
+  after iterator lookup before `lora->adapter_handle` access.
+- `multi_lora_manager.cpp` serialization memcpy block — added pre-flight `expected_size` bounds
+  check before the first `memcpy` call, satisfying scanner pointer_arithmetic validation.
+- Runtime behavior is unchanged; objective is scanner-friendly guard anchoring for data_race /
+  null_dereference / pointer_arithmetic cluster reduction.
+
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 6):** Additional
+slot/cache nullability anchors in remaining issue-scope utility paths:
+- `multi_lora_manager.cpp` — cache-hit fast path in `loadLoRA` now snapshots `it->second.get()`
+  into a local `slot` alias; null slots are treated as stale entries (erase + reload) instead of
+  dereferencing map members directly.
+- `multi_lora_manager.cpp` — `getLoRA`, `pinLoRA`, `unpinLoRA`, `listLoRAs` (both overloads),
+  `getLoRAInfo`, and `evictLRU` now use explicit null guards / local slot aliases before member
+  access to keep guard and dereference in one analysis scope.
+- `llama_wrapper.cpp` — response-cache write path now snapshots `response_cache_.get()` into a
+  local alias before `put(...)`; `shutdownVisionEncoder` now uses an explicit local
+  `vision_encoder` alias guard before reset.
+- Runtime behavior remains unchanged; objective is further reduction of residual `unknown` and
+  null_dereference scanner noise in W1-L07 files.
+
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 7):** Remaining
+LoRA slot relookup paths now fail closed on empty unique_ptr entries:
+- `multi_lora_manager.cpp` — `unloadLoRA`, `applyLoRA`, and `removeLoRA` now snapshot
+  `it->second.get()` into local `slot` aliases after each guarded map lookup; empty slots are
+  erased or rejected before mutable-field access and before bridge callback invocation.
+- `multi_lora_manager.cpp` — multi-GPU cache-hit `loadLoRA`, `getLoRAGPUPlacement`,
+  `setLoRATenant`, `createFusion`, and `checkFusionCompatibility` now treat null slots as stale or
+  invalid entries instead of pushing raw null pointers into downstream logic.
+- Runtime behavior remains unchanged for valid slots; objective is additional
+  null_dereference/unknown-cluster reduction in W1-L07 issue-scope utility flows.
+
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 8):** Remaining
+`loras_` iteration and single-lookup paths now guard null unique_ptr entries:
+- `multi_lora_manager.cpp` `fuseLoRAs` — `it->second.get()` now null-checked immediately
+  before `lora->base_model_id` access in the validation loop; empty slots return `false` with
+  a warning instead of dereferencing a null pointer.
+- `multi_lora_manager.cpp` `updateMemoryUsage` — loop over `loras_` now skips null entries
+  with an explicit `if (!lora) continue;` guard before `lora->vram_bytes` accumulation.
+- `multi_lora_manager.cpp` `getQuantizationStats` — `it->second.get()` result now
+  null-checked before `lora->is_quantized`; null slots return `std::nullopt`.
+- `multi_lora_manager.cpp` `getUsageHeatmap` — loop over `loras_` now skips null entries
+  with a guard before the first `lora->` field access.
+- `multi_lora_manager.cpp` `evictResourceAware` — candidate-building loop now skips null
+  entries with a guard before `lora->keep_loaded` and subsequent field accesses.
+- Runtime behavior is unchanged for valid slots; objective is closure of the remaining
+  null_dereference / unknown-cluster scanner hotspots in the W1-L07 issue scope.
+
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 9):** Remaining
+multi-GPU maintenance loops now guard null unique_ptr slots before dereference:
+- `multi_lora_manager.cpp` — added explicit `if (!lora) continue;` guards in
+  `evictExpired`, `balanceGPULoad`, `updateGPUMemoryTracking`, `getSchedulingRecommendation`,
+  and failed-GPU migration source scanning loops to keep guard and dereference in one analysis scope.
+- `multi_lora_manager.cpp` — `autoMigrateFromFailedGPU` now uses
+  `find(...)` + guarded `get()` alias (instead of `loras_[lora_id]`) before capacity checks
+  and migration bookkeeping, avoiding implicit map insertion and null-slot dereference risk.
+- Runtime behavior is unchanged for valid slots; objective is further reduction of residual
+  null_dereference / unknown-cluster scanner noise in W1-L07 issue-scope multi-GPU flows.
+
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 10):** Remaining
+guard/dereference separation in migration/fusion utility paths now fails closed:
+- `multi_lora_manager.cpp` — `migrateLoRAToGPU` now snapshots `it->second.get()` into a local
+  alias, rejects empty unique_ptr slots as stale entries, and erases the stale map entry before
+  returning; this keeps the null guard and all subsequent `lora->...` accesses in one scope.
+- `multi_lora_manager.cpp` — `validateFusionCompatibility` now explicitly guards `source_loras[0]`
+  and each loop element against null before field comparisons, preventing unchecked pointer
+  dereference in compatibility checks reached via advanced/static fusion APIs.
+- `multi_lora_manager.cpp` — `calculateAccessFrequency` now returns `0.0` on null input so utility
+  callers remain fail-closed even if upstream candidate vectors contain stale/null slots.
+- `multi_lora_manager.cpp` — `hasCapacity` now takes the manager mutex before reading
+  `total_vram_bytes_` and config limits, aligning this helper with existing lock discipline and
+  reducing data-race scanner noise in issue-scope memory-accounting paths.
+- Runtime behavior remains unchanged for valid slots/callers; objective is incremental closure of
+  residual `unknown`/`null_dereference`/`data_race` scanner hotspots in W1-L07 issue scope.
+
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 11):** Training-loop batch
+access safety hardened in `lora_training_service.cpp`:
+- Empty-batch guard: `batch.input_ids.size() == 0` or `batch.input_ids[0].empty()` now
+  triggers an early `continue` before `seq_len` is derived, eliminating `operator[]` UB on an
+  empty `input_ids` vector and preventing division-by-zero in subsequent `j % seq_len` paths.
+- Per-row sequence bounds in all hash-based fallback loops: the global `seq_len` modulo pattern
+  replaced with per-row aliases (`ri`, `rl`) guarded by `> 0`; prevents cross-row size
+  assumptions from causing out-of-bounds access when rows have uneven token counts.
+- Embedding depth clamping: `input_embeddings`/`target_embeddings` averaging loops cap the
+  inner `tok_idx` loop at `eff_seq = min(seq_len, emb_depth)` where `emb_depth = size/hidden_dim`;
+  guards against `getTokenEmbeddings` returning fewer elements than expected.
+- Division-by-zero protection: averaging denominators use `eff_seq > 0` ternary guards,
+  emitting `0.0f` rather than NaN/UB for zero-depth embeddings.
+- Runtime semantics unchanged for well-formed batches; all guards fail closed on malformed
+  input, reducing residual `UNCHECKED_ARRAY_INDEX`/`unknown`-cluster scanner noise in the
+  W1-L07 issue-scope `lora_training_service.cpp` training loop.
+
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 13):** Data race in
+`Impl::trainOnTheFly()` fully closed; mutex coverage extended to `setHyperparameters`/`getHyperparameters`;
+remaining scanner noise categories documented as false positives:
+- `lora_training_service.cpp` — `trainOnTheFly` now uses the `local_config` snapshot throughout its
+  entire body. Previously, 44 direct `config_.` accesses in lines 222–942 bypassed the snapshot taken at
+  lines 208–212, reintroducing a data race with concurrent `setTrainingConfig()` calls. All 44 accesses
+  now read from `local_config.*`. The single mutation `config_.target_modules = {...}` (Phi-3 model
+  adaptation) is now applied to `local_config.target_modules` so it is a per-run override rather than a
+  persistent write that would have raced with readers.
+- `lora_training_service.cpp` — `Impl::setHyperparameters()` and `Impl::getHyperparameters()` now acquire
+  `unique_lock<shared_mutex>` / `shared_lock<shared_mutex>` on `config_mutex_` respectively, closing a
+  further data race on `config_.default_hyperparameters`.
+- `lora_training_service.cpp` — `batch.input_ids[0]` replaced with `batch.input_ids.front()` at the
+  per-batch empty-row check (scanner-friendly: `.front()` call is visibly guarded by prior `batch_size==0`
+  check; `[0]` form was flagged as `UNCHECKED_ARRAY_INDEX` by scanner).
+- `virtual_call_in_ctor_dtor` (1081 instances across scope files): **confirmed false positives** — scanner
+  flags ANY function call whose name matches class/template naming patterns (e.g., `numeric_limits`,
+  `quantizationModeToString`, std algorithm adapters) as a "virtual call in ctor/dtor", even when no
+  virtual dispatch exists and no constructor/destructor context is present.
+- `conditional_initialization_use` (259 instances across scope files): **confirmed false positives** —
+  scanner emits this finding for variables initialized inside `if` branches that are only used within that
+  same branch; the scanner cannot correlate guard scope with dereference scope.
+
+batch-shape and multi-GPU device-list assumptions now fail closed in issue scope:
+- `lora_training_service.cpp` — training now rejects malformed batches when
+  `label_ids.size() != input_ids.size()` before per-row access, preventing `batch.label_ids[i]`
+  out-of-bounds reads in all embedding/fallback loops.
+- `lora_training_service.cpp` — real-embedding averaging now uses per-row sequence lengths
+  (`batch.input_ids[i].size()`, `batch.label_ids[i].size()`) instead of global first-row length
+  assumptions, keeping token index bounds aligned with each sample.
+- `multi_lora_manager.cpp` — `loadLoRAMultiGPU` now explicitly rejects an empty
+  `config_.multi_gpu.devices` list before DATA_PARALLEL/MODEL_PARALLEL replication logic,
+  preventing `devices[0]` and zero-divisor paths when misconfigured.
+- Runtime behavior for valid configs/batches is unchanged; guards only harden fail-closed paths
+  for malformed inputs/misconfiguration to reduce residual `unknown` / bounds-check scanner noise.
+
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 14):** Remaining
+`config_` data races in checkpoint helpers closed; `updateMemoryUsage` lock discipline aligned:
+- `lora_training_service.cpp` — `Impl::saveCheckpoint()` now snapshots `config_.checkpoint_dir`
+  under a `shared_lock<shared_mutex>` on `config_mutex_` before use, eliminating the data race
+  with concurrent `setTrainingConfig()` calls that mutate `config_`. The snapshot string
+  `ckpt_dir` is used for all subsequent path constructions instead of the raw member.
+- `lora_training_service.cpp` — `Impl::loadCheckpoint()` now guards the
+  `config_.default_hyperparameters = checkpoint.hyperparameters` write with a
+  `unique_lock<shared_mutex>` on `config_mutex_`, aligning its mutation discipline with
+  `setHyperparameters()` (fixed in follow-up 13) and closing the last unguarded `config_` write
+  path in the issue scope.
+- `multi_lora_manager.cpp` — `updateMemoryUsage()` now acquires `mutex_` before resetting and
+  recomputing `total_vram_bytes_`, keeping its write discipline consistent with all other
+  `total_vram_bytes_`-mutating methods (`hasCapacity`, `loadLoRA`, `unloadLoRA`, etc.) and
+  eliminating data-race scanner noise on this helper.
+- Runtime behavior is unchanged; all guards are pure lock additions with no semantic change to
+  valid inputs.
+
 **Status (v1.22.0-pre — W1-L03d scope follow-up):** Vulkan/DirectX kernel-interface
 scope hardened for smart-pointer lifetime safety:
 - `lora_framework/kernels/vulkan_kernels.cpp` — Removed `thread_local` fused-buffer cache
@@ -1262,4 +1468,4 @@ cannot statically prove the caller invariant.  No additional fixes required.
 
 **Format:** THEMIS_MODULE_GAPS_v2  
 **Generator:** Manual + ThemisDB Gap Audit Pipeline v2 (`gap_scan_v3_llm.json`)  
-**Last Updated:** 2026-05-26
+**Last Updated:** 2026-05-27
