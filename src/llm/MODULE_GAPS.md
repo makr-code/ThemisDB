@@ -579,6 +579,17 @@ LoRA slot relookup paths now fail closed on empty unique_ptr entries:
 - Runtime behavior is unchanged for valid slots; objective is closure of the remaining
   null_dereference / unknown-cluster scanner hotspots in the W1-L07 issue scope.
 
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 9):** Remaining
+multi-GPU maintenance loops now guard null unique_ptr slots before dereference:
+- `multi_lora_manager.cpp` — added explicit `if (!lora) continue;` guards in
+  `evictExpired`, `balanceGPULoad`, `updateGPUMemoryTracking`, `getSchedulingRecommendation`,
+  and failed-GPU migration source scanning loops to keep guard and dereference in one analysis scope.
+- `multi_lora_manager.cpp` — `autoMigrateFromFailedGPU` now uses
+  `find(...)` + guarded `get()` alias (instead of `loras_[lora_id]`) before capacity checks
+  and migration bookkeeping, avoiding implicit map insertion and null-slot dereference risk.
+- Runtime behavior is unchanged for valid slots; objective is further reduction of residual
+  null_dereference / unknown-cluster scanner noise in W1-L07 issue-scope multi-GPU flows.
+
 **Status (v1.22.0-pre — W1-L03d scope follow-up):** Vulkan/DirectX kernel-interface
 scope hardened for smart-pointer lifetime safety:
 - `lora_framework/kernels/vulkan_kernels.cpp` — Removed `thread_local` fused-buffer cache

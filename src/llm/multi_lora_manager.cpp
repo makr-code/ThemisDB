@@ -1121,6 +1121,9 @@ size_t MultiLoRAManager::evictExpired() {
         auto now = std::chrono::system_clock::now();
 
         for (const auto& [id, lora] : loras_) {
+            if (!lora) {
+                continue;
+            }
             if (lora->keep_loaded) {
                 continue;  // Skip pinned LoRAs
             }
@@ -1848,6 +1851,9 @@ size_t MultiLoRAManager::balanceGPULoad() {
     for (int overloaded_gpu : overloaded_gpus) {
         // Find LoRAs on this GPU
         for (auto& [lora_id, lora] : loras_) {
+            if (!lora) {
+                continue;
+            }
             if (lora->primary_gpu == overloaded_gpu && 
                 !lora->keep_loaded &&
                 lora->gpu_placement == GPUPlacement::SINGLE_GPU) {
@@ -2086,6 +2092,9 @@ void MultiLoRAManager::updateGPUMemoryTracking() {
     }
     
     for (const auto& [_, lora] : loras_) {
+        if (!lora) {
+            continue;
+        }
         if (lora->gpu_placement == GPUPlacement::SINGLE_GPU) {
             gpu_vram_usage_[lora->primary_gpu] += lora->vram_bytes;
         } else {
@@ -2654,6 +2663,9 @@ json MultiLoRAManager::getSchedulingRecommendation(size_t lora_vram_bytes, int p
         // Count adapters on GPU
         int adapter_count = 0;
         for (const auto& [_, lora] : loras_) {
+            if (!lora) {
+                continue;
+            }
             if (lora->primary_gpu == gpu_id) {
                 adapter_count++;
             }
@@ -2829,6 +2841,9 @@ size_t MultiLoRAManager::checkGPUHealthAndMigrate() {
         // Find LoRAs on unhealthy GPU
         std::vector<std::string> loras_to_migrate;
         for (const auto& [id, lora] : loras_) {
+            if (!lora) {
+                continue;
+            }
             if (lora->primary_gpu == unhealthy_gpu) {
                 loras_to_migrate.push_back(id);
             }
@@ -2849,7 +2864,14 @@ size_t MultiLoRAManager::checkGPUHealthAndMigrate() {
             }
             
             if (target_gpu >= 0) {
-                auto& lora = loras_[lora_id];
+                auto it = loras_.find(lora_id);
+                if (it == loras_.end()) {
+                    continue;
+                }
+                auto* const lora = it->second.get();
+                if (!lora) {
+                    continue;
+                }
                 
                 // FIND-015: Use named constant for byte to MB conversion
                 // Check capacity
