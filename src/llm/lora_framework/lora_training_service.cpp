@@ -618,6 +618,10 @@ public:
                     auto batch = data_loader.getNextBatch();
                     
                     size_t batch_size = batch.input_ids.size();
+                    if (batch_size == 0 || batch.input_ids[0].empty()) {
+                        spdlog::debug("Skipping empty training batch at step {}", step);
+                        continue;
+                    }
                     size_t seq_len = batch.input_ids[0].size();
                     
                     // Create input tensor from token embeddings
@@ -639,20 +643,23 @@ public:
                                     if (input_embeddings.empty()) {
                                         spdlog::warn("Failed to extract embeddings, falling back to hash-based");
                                         // Fallback to hash-based for this sample
+                                        const size_t row_seq = batch.input_ids[i].size();
                                         for (size_t j = 0; j < hidden_dim; ++j) {
-                                            size_t token_idx = j % seq_len;
-                                            int token_id = batch.input_ids[i][token_idx];
+                                            size_t token_idx = (row_seq > 0) ? (j % row_seq) : 0;
+                                            int token_id = (row_seq > 0) ? batch.input_ids[i][token_idx] : 0;
                                             batch_input[i * hidden_dim + j] = static_cast<float>(token_id % 100) / 100.0f;
                                         }
                                     } else {
                                         // Use real embeddings (average over sequence for now)
                                         // In production, this would be the actual transformer input
+                                        const size_t emb_depth = (hidden_dim > 0) ? input_embeddings.size() / hidden_dim : 0;
+                                        const size_t eff_input_seq = std::min(seq_len, emb_depth);
                                         for (size_t j = 0; j < hidden_dim; ++j) {
                                             float sum = 0.0f;
-                                            for (size_t tok_idx = 0; tok_idx < seq_len; ++tok_idx) {
+                                            for (size_t tok_idx = 0; tok_idx < eff_input_seq; ++tok_idx) {
                                                 sum += input_embeddings[tok_idx * hidden_dim + j];
                                             }
-                                            batch_input[i * hidden_dim + j] = sum / seq_len;
+                                            batch_input[i * hidden_dim + j] = (eff_input_seq > 0) ? sum / static_cast<float>(eff_input_seq) : 0.0f;
                                         }
                                     }
                                     
@@ -661,19 +668,22 @@ public:
                                     
                                     if (target_embeddings.empty()) {
                                         // Fallback to hash-based for target
+                                        const size_t row_lseq = batch.label_ids[i].size();
                                         for (size_t j = 0; j < hidden_dim; ++j) {
-                                            size_t next_token_idx = (j + 1) % seq_len;
-                                            int next_token_id = batch.label_ids[i][next_token_idx];
+                                            size_t next_token_idx = (row_lseq > 0) ? ((j + 1) % row_lseq) : 0;
+                                            int next_token_id = (row_lseq > 0) ? batch.label_ids[i][next_token_idx] : 0;
                                             batch_target[i * hidden_dim + j] = static_cast<float>(next_token_id % 100) / 100.0f;
                                         }
                                     } else {
                                         // Use real embeddings for target
+                                        const size_t temb_depth = (hidden_dim > 0) ? target_embeddings.size() / hidden_dim : 0;
+                                        const size_t eff_target_seq = std::min(seq_len, temb_depth);
                                         for (size_t j = 0; j < hidden_dim; ++j) {
                                             float sum = 0.0f;
-                                            for (size_t tok_idx = 0; tok_idx < seq_len; ++tok_idx) {
+                                            for (size_t tok_idx = 0; tok_idx < eff_target_seq; ++tok_idx) {
                                                 sum += target_embeddings[tok_idx * hidden_dim + j];
                                             }
-                                            batch_target[i * hidden_dim + j] = sum / seq_len;
+                                            batch_target[i * hidden_dim + j] = (eff_target_seq > 0) ? sum / static_cast<float>(eff_target_seq) : 0.0f;
                                         }
                                     }
                                 }
@@ -683,13 +693,15 @@ public:
                                 
                                 // Fallback to hash-based embeddings
                                 for (size_t i = 0; i < batch_size; ++i) {
+                                    const size_t ri = batch.input_ids[i].size();
+                                    const size_t rl = batch.label_ids[i].size();
                                     for (size_t j = 0; j < hidden_dim; ++j) {
-                                        size_t token_idx = j % seq_len;
-                                        int token_id = batch.input_ids[i][token_idx];
+                                        size_t token_idx = (ri > 0) ? (j % ri) : 0;
+                                        int token_id = (ri > 0) ? batch.input_ids[i][token_idx] : 0;
                                         batch_input[i * hidden_dim + j] = static_cast<float>(token_id % 100) / 100.0f;
-                                        
-                                        size_t next_token_idx = (token_idx + 1) % seq_len;
-                                        int next_token_id = batch.label_ids[i][next_token_idx];
+
+                                        size_t next_token_idx = (rl > 0) ? ((token_idx + 1) % rl) : 0;
+                                        int next_token_id = (rl > 0) ? batch.label_ids[i][next_token_idx] : 0;
                                         batch_target[i * hidden_dim + j] = static_cast<float>(next_token_id % 100) / 100.0f;
                                     }
                                 }
@@ -699,13 +711,15 @@ public:
                             
                             // Fallback: hash-based embeddings when base model not available
                             for (size_t i = 0; i < batch_size; ++i) {
+                                const size_t ri = batch.input_ids[i].size();
+                                const size_t rl = batch.label_ids[i].size();
                                 for (size_t j = 0; j < hidden_dim; ++j) {
-                                    size_t token_idx = j % seq_len;
-                                    int token_id = batch.input_ids[i][token_idx];
+                                    size_t token_idx = (ri > 0) ? (j % ri) : 0;
+                                    int token_id = (ri > 0) ? batch.input_ids[i][token_idx] : 0;
                                     batch_input[i * hidden_dim + j] = static_cast<float>(token_id % 100) / 100.0f;
-                                    
-                                    size_t next_token_idx = (token_idx + 1) % seq_len;
-                                    int next_token_id = batch.label_ids[i][next_token_idx];
+
+                                    size_t next_token_idx = (rl > 0) ? ((token_idx + 1) % rl) : 0;
+                                    int next_token_id = (rl > 0) ? batch.label_ids[i][next_token_idx] : 0;
                                     batch_target[i * hidden_dim + j] = static_cast<float>(next_token_id % 100) / 100.0f;
                                 }
                             }
@@ -713,14 +727,16 @@ public:
                     } else {
                         // Phase 2a: Simple embedding for standalone LoRA layer
                         for (size_t i = 0; i < batch_size; ++i) {
+                            const size_t ri = batch.input_ids[i].size();
+                            const size_t rl = batch.label_ids[i].size();
                             for (size_t j = 0; j < hidden_dim; ++j) {
-                                size_t token_idx = j % seq_len;
-                                int token_id = batch.input_ids[i][token_idx];
+                                size_t token_idx = (ri > 0) ? (j % ri) : 0;
+                                int token_id = (ri > 0) ? batch.input_ids[i][token_idx] : 0;
                                 batch_input[i * hidden_dim + j] = static_cast<float>(token_id % 100) / 100.0f;
-                                
+
                                 // Target is shifted input (next token prediction)
-                                size_t next_token_idx = (token_idx + 1) % seq_len;
-                                int next_token_id = batch.label_ids[i][next_token_idx];
+                                size_t next_token_idx = (rl > 0) ? ((token_idx + 1) % rl) : 0;
+                                int next_token_id = (rl > 0) ? batch.label_ids[i][next_token_idx] : 0;
                                 batch_target[i * hidden_dim + j] = static_cast<float>(next_token_id % 100) / 100.0f;
                             }
                         }

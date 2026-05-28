@@ -606,6 +606,23 @@ guard/dereference separation in migration/fusion utility paths now fails closed:
 - Runtime behavior remains unchanged for valid slots/callers; objective is incremental closure of
   residual `unknown`/`null_dereference`/`data_race` scanner hotspots in W1-L07 issue scope.
 
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 11):** Training-loop batch
+access safety hardened in `lora_training_service.cpp`:
+- Empty-batch guard: `batch.input_ids.size() == 0` or `batch.input_ids[0].empty()` now
+  triggers an early `continue` before `seq_len` is derived, eliminating `operator[]` UB on an
+  empty `input_ids` vector and preventing division-by-zero in subsequent `j % seq_len` paths.
+- Per-row sequence bounds in all hash-based fallback loops: the global `seq_len` modulo pattern
+  replaced with per-row aliases (`ri`, `rl`) guarded by `> 0`; prevents cross-row size
+  assumptions from causing out-of-bounds access when rows have uneven token counts.
+- Embedding depth clamping: `input_embeddings`/`target_embeddings` averaging loops cap the
+  inner `tok_idx` loop at `eff_seq = min(seq_len, emb_depth)` where `emb_depth = size/hidden_dim`;
+  guards against `getTokenEmbeddings` returning fewer elements than expected.
+- Division-by-zero protection: averaging denominators use `eff_seq > 0` ternary guards,
+  emitting `0.0f` rather than NaN/UB for zero-depth embeddings.
+- Runtime semantics unchanged for well-formed batches; all guards fail closed on malformed
+  input, reducing residual `UNCHECKED_ARRAY_INDEX`/`unknown`-cluster scanner noise in the
+  W1-L07 issue-scope `lora_training_service.cpp` training loop.
+
 **Status (v1.22.0-pre — W1-L03d scope follow-up):** Vulkan/DirectX kernel-interface
 scope hardened for smart-pointer lifetime safety:
 - `lora_framework/kernels/vulkan_kernels.cpp` — Removed `thread_local` fused-buffer cache
