@@ -390,4 +390,22 @@ TEST_F(GPUVRAMAllocationTest, Integration_CompleteWorkflow) {
     EXPECT_EQ(stats.num_sequences, 2);
 }
 
-// Main function
+// ============================================================================
+// PagedKVCacheManager Input Validation Tests (batch 39)
+// ============================================================================
+
+TEST(PagedKVCacheManagerTest, ZeroBlockSizeThrows) {
+    PagedKVCacheManager::Config config;
+    config.num_blocks  = 64;
+    config.block_size  = 0;  // invalid
+    EXPECT_THROW(PagedKVCacheManager{config}, std::invalid_argument);
+}
+
+TEST(PagedKVCacheManagerTest, ZeroNumTokensAllocatesNoBlocks) {
+    PagedKVCacheManager::Config config;
+    config.num_blocks  = 64;
+    config.block_size  = 16;
+    PagedKVCacheManager mgr(config);
+    auto table = mgr.addSequence(1, 0);
+    EXPECT_EQ(table.block_ids.size(), 0u);
+}

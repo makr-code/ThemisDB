@@ -611,4 +611,50 @@ TEST(FlashAttentionCPU, BackwardZeroNumHeadsReturnsInvalidConfig) {
     EXPECT_EQ(fa.backward(t, t, t, t), Status::ERROR_INVALID_CONFIG);
 }
 
+// ============================================================================
+// KVCacheManager Input Validation Tests (batch 39)
+// ============================================================================
+
+TEST(KVCacheManager, ZeroKVBlockSizeThrows) {
+    FlashAttentionConfig config;
+    config.num_kv_blocks = 128;
+    config.kv_block_size = 0;  // invalid
+    EXPECT_THROW(KVCacheManager{config}, std::invalid_argument);
+}
+
+TEST(KVCacheManager, AllocateSequenceRejectsZeroTokens) {
+    FlashAttentionConfig config;
+    config.num_kv_blocks = 128;
+    config.kv_block_size = 16;
+    KVCacheManager mgr(config);
+    EXPECT_THROW(mgr.allocateSequence(1, 0), std::invalid_argument);
+}
+
+TEST(KVCacheManager, AllocateSequenceRejectsNegativeTokens) {
+    FlashAttentionConfig config;
+    config.num_kv_blocks = 128;
+    config.kv_block_size = 16;
+    KVCacheManager mgr(config);
+    EXPECT_THROW(mgr.allocateSequence(1, -5), std::invalid_argument);
+}
+
+TEST(KVCacheManager, SharePrefixRejectsNonPositivePrefixLength) {
+    FlashAttentionConfig config;
+    config.num_kv_blocks = 128;
+    config.kv_block_size = 16;
+    KVCacheManager mgr(config);
+    mgr.allocateSequence(1, 32);
+    EXPECT_THROW(mgr.sharePrefix(2, 1, 0),  std::invalid_argument);
+    EXPECT_THROW(mgr.sharePrefix(3, 1, -1), std::invalid_argument);
+}
+
+TEST(KVCacheManager, CalculateBlockSizeRejectsZeroDimensions) {
+    FlashAttentionConfig config;
+    config.num_kv_blocks = 0;  // avoid actual block allocation
+    config.kv_block_size = 16;
+    config.num_layers    = 0;  // invalid — should throw inside calculateBlockSize
+    // The constructor calls calculateBlockSize; invalid_argument expected.
+    EXPECT_THROW(KVCacheManager{config}, std::invalid_argument);
+}
+
 

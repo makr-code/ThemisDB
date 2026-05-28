@@ -711,6 +711,44 @@ Vulkan/DirectX kernel execution paths:
     - `AppendTokensRejectsPositiveTokensWhenEmbeddingDimZero`
     - `AppendTokensRejectsSizeComputationOverflow`
 
+**Status (v1.22.0-pre — W1-L15 batch 39):** input_validation + type_conversion hardening for KVCacheManager and PagedKVCacheManager:
+
+- `src/llm/attention/kv_cache_manager.cpp`:
+  - **IVB-KV-01**: Constructor now throws `std::invalid_argument` when `kv_block_size == 0`,
+    preventing zero-division in all block-index and offset calculations.
+  - **IVB-KV-02**: `allocateSequence()` rejects `expected_tokens <= 0` with
+    `std::invalid_argument` to prevent signed→size_t wrap-around.
+  - **IVB-KV-03**: `allocateSequence()` switched to `size_t` block arithmetic
+    (`(uexpected - 1) / kv_block_size + 1`) eliminating signed/unsigned mismatch and narrowing.
+  - **IVB-KV-04/05**: `appendToken()` switched `token_block_idx` and `slot_in_block` from
+    `int` to `size_t`, removing signed/unsigned comparison warnings and potential narrowing.
+  - **IVB-KV-06**: `sharePrefix()` switched `prefix_blocks` to `size_t` arithmetic, removing
+    `int`→`size_t` narrowing cast.
+  - **IVB-KV-07**: `sharePrefix()` rejects `prefix_length <= 0` with `std::invalid_argument`
+    to prevent wrap-around when casting to `size_t`.
+  - **IVB-KV-08**: `calculateBlockSize()` adds explicit overflow guard for the
+    `kv_block_size * num_layers * head_dim * num_kv_heads * 2` product; also rejects
+    non-positive `num_layers`, `head_dim`, or `num_kv_heads`.
+  - File header `Gaps=3` → `Gaps=0`.
+- `src/llm/paged_kv_cache_manager.cpp`:
+  - **IVB-PKV-01**: Constructor now throws `std::invalid_argument` when `block_size == 0`,
+    acting as a single fail-fast guard for all subsequent division sites.
+  - **IVB-PKV-02**: `enablePrefixCaching()` annotated — no code change needed; guard now
+    satisfied by constructor invariant.
+  - **IVB-PKV-03**: `addSequence()` now handles `num_tokens == 0` cleanly (allocates 0 blocks)
+    without the `(0 + block_size - 1)` unsigned arithmetic that would compute 1 spurious block.
+  - File header `Gaps=3` → `Gaps=0`.
+- **Regression tests added**:
+  - `tests/test_flash_attention_correctness.cpp`:
+    - `KVCacheManager.ZeroKVBlockSizeThrows`
+    - `KVCacheManager.AllocateSequenceRejectsZeroTokens`
+    - `KVCacheManager.AllocateSequenceRejectsNegativeTokens`
+    - `KVCacheManager.SharePrefixRejectsNonPositivePrefixLength`
+    - `KVCacheManager.CalculateBlockSizeRejectsZeroDimensions`
+  - `tests/test_gpu_vram_allocation.cpp`:
+    - `PagedKVCacheManagerTest.ZeroBlockSizeThrows`
+    - `PagedKVCacheManagerTest.ZeroNumTokensAllocatesNoBlocks`
+
 ---
 
 ## ✅ Acceptance Criteria (from Issue)
