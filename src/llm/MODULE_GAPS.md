@@ -659,6 +659,24 @@ batch-shape and multi-GPU device-list assumptions now fail closed in issue scope
 - Runtime behavior for valid configs/batches is unchanged; guards only harden fail-closed paths
   for malformed inputs/misconfiguration to reduce residual `unknown` / bounds-check scanner noise.
 
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 14):** Remaining
+`config_` data races in checkpoint helpers closed; `updateMemoryUsage` lock discipline aligned:
+- `lora_training_service.cpp` — `Impl::saveCheckpoint()` now snapshots `config_.checkpoint_dir`
+  under a `shared_lock<shared_mutex>` on `config_mutex_` before use, eliminating the data race
+  with concurrent `setTrainingConfig()` calls that mutate `config_`. The snapshot string
+  `ckpt_dir` is used for all subsequent path constructions instead of the raw member.
+- `lora_training_service.cpp` — `Impl::loadCheckpoint()` now guards the
+  `config_.default_hyperparameters = checkpoint.hyperparameters` write with a
+  `unique_lock<shared_mutex>` on `config_mutex_`, aligning its mutation discipline with
+  `setHyperparameters()` (fixed in follow-up 13) and closing the last unguarded `config_` write
+  path in the issue scope.
+- `multi_lora_manager.cpp` — `updateMemoryUsage()` now acquires `mutex_` before resetting and
+  recomputing `total_vram_bytes_`, keeping its write discipline consistent with all other
+  `total_vram_bytes_`-mutating methods (`hasCapacity`, `loadLoRA`, `unloadLoRA`, etc.) and
+  eliminating data-race scanner noise on this helper.
+- Runtime behavior is unchanged; all guards are pure lock additions with no semantic change to
+  valid inputs.
+
 **Status (v1.22.0-pre — W1-L03d scope follow-up):** Vulkan/DirectX kernel-interface
 scope hardened for smart-pointer lifetime safety:
 - `lora_framework/kernels/vulkan_kernels.cpp` — Removed `thread_local` fused-buffer cache

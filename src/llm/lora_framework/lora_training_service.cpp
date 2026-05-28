@@ -1026,7 +1026,14 @@ public:
     
     // Save training checkpoint
     bool saveCheckpoint(const std::string& adapter_id, const LoRAHyperparameters& params) {
-        if (config_.checkpoint_dir.empty()) {
+        // Snapshot config_.checkpoint_dir under the config lock to avoid a data race
+        // with concurrent setTrainingConfig() calls.
+        std::string ckpt_dir;
+        {
+            std::shared_lock<std::shared_mutex> cfg_lock(config_mutex_);
+            ckpt_dir = config_.checkpoint_dir;
+        }
+        if (ckpt_dir.empty()) {
             spdlog::warn("Checkpoint directory not configured");
             return false;
         }
@@ -1046,8 +1053,8 @@ public:
             std::string filename = "checkpoint_" + adapter_id + "_epoch" + 
                                   std::to_string(checkpoint.current_epoch) + "_step" + 
                                   std::to_string(checkpoint.current_step) + ".json";
-            std::filesystem::path checkpoint_path = std::filesystem::path(config_.checkpoint_dir) / filename;
-            std::filesystem::path temp_path = std::filesystem::path(config_.checkpoint_dir) / (filename + ".tmp");
+            std::filesystem::path checkpoint_path = std::filesystem::path(ckpt_dir) / filename;
+            std::filesystem::path temp_path = std::filesystem::path(ckpt_dir) / (filename + ".tmp");
             
             // Serialize to JSON and save atomically
             {
@@ -1105,7 +1112,12 @@ public:
             current_metrics_.current_step = checkpoint.current_step;
             current_metrics_.current_loss = checkpoint.current_loss;
             loss_history_ = checkpoint.loss_history;
-            config_.default_hyperparameters = checkpoint.hyperparameters;
+            // Update hyperparameters under config lock to avoid a data race with
+            // concurrent setTrainingConfig() / getTrainingConfig() calls.
+            {
+                std::unique_lock<std::shared_mutex> cfg_lock(config_mutex_);
+                config_.default_hyperparameters = checkpoint.hyperparameters;
+            }
             
             spdlog::info("Checkpoint loaded: epoch {}, step {}, loss {:.4f}",
                         checkpoint.current_epoch, checkpoint.current_step, checkpoint.current_loss);

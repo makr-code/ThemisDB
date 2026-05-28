@@ -1334,6 +1334,7 @@ bool MultiLoRAManager::hasCapacity(size_t vram_bytes) const {
 }
 
 void MultiLoRAManager::updateMemoryUsage() {
+    std::lock_guard<std::mutex> lock(mutex_);
     // Recalculate from scratch
     total_vram_bytes_ = 0;
     
