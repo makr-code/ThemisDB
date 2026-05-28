@@ -96,6 +96,7 @@ struct SchedulerConfig {
  * @brief Training metrics and statistics
  */
 struct TrainingMetrics {
+    virtual ~TrainingMetrics() = default;
     int epoch = 0;
     int step = 0;
     float loss = 0.0f;
@@ -127,6 +128,7 @@ using CheckpointCallback = std::function<void(const std::string& checkpoint_path
  * @brief Training state for checkpointing
  */
 struct TrainingState {
+    virtual ~TrainingState() = default;
     int current_epoch = 0;
     int current_step = 0;
     float best_loss = std::numeric_limits<float>::max();

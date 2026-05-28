@@ -42,6 +42,7 @@ namespace lora {
  */
 class SequencePacker {
 public:
+    virtual ~SequencePacker() = default;
     /**
      * @brief Packed batch representation
      */

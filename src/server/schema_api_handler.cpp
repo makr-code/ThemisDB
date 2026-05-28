@@ -77,7 +77,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetSchema(
         }
 
         // Get full schema from SchemaManager
-        auto schema_json = schema_mgr.toJSON();
+        auto schema_json = schema_mgr_->toJSON();
         res.body() = schema_json.dump(2);  // Pretty print with 2-space indent
         res.prepare_payload();
         
@@ -122,7 +122,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetTables(
         }
 
         // Get all tables from SchemaManager
-        auto tables = schema_mgr.getAllTables();
+        auto tables = schema_mgr_->getAllTables();
         span.setAttribute("schema.table_count", static_cast<int64_t>(tables.size()));
         
         json response;
@@ -219,7 +219,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetTable(
         span.setAttribute("schema.table_name", table_name);
         
         // Get specific table schema
-        auto table_opt = schema_mgr.getTable(table_name);
+        auto table_opt = schema_mgr_->getTable(table_name);
         
         if (!table_opt.has_value()) {
             span.setStatus(false, "Table not found");
@@ -280,7 +280,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetCapabilities(
         }
 
         // Get capabilities from SchemaManager
-        auto capabilities_json = schema_mgr.getCapabilitiesJSON();
+        auto capabilities_json = schema_mgr_->getCapabilitiesJSON();
         res.body() = capabilities_json.dump(2);
         res.prepare_payload();
         
@@ -423,11 +423,11 @@ http::response<http::string_body> SchemaApiHandler::handlePutSchema(
         }
 
         // Store schema
-        bool success = schema_mgr.setTableSchema(table_name, schema);
+        bool success = schema_mgr_->setTableSchema(table_name, schema);
         
         if (!success) {
             // Get validation error
-            std::string validation_error = schema_mgr.validateSchema(schema);
+            std::string validation_error = schema_mgr_->validateSchema(schema);
             
             json error_resp;
             error_resp["status"] = "error";
@@ -524,7 +524,7 @@ http::response<http::string_body> SchemaApiHandler::handlePatchSchema(
         }
 
         // Apply patch
-        bool success = schema_mgr.patchTableSchema(table_name, updates);
+        bool success = schema_mgr_->patchTableSchema(table_name, updates);
         
         if (!success) {
             json error_resp;
@@ -983,7 +983,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetDiff(
     }
 
     try {
-        auto result = version_mgr.diffVersions(table_name, version_a, version_b);
+        auto result = version_mgr_->diffVersions(table_name, version_a, version_b);
         if (!result.ok) {
             return makeError(req, http::status::not_found, result.error_message);
         }
@@ -1168,7 +1168,7 @@ http::response<http::string_body> SchemaApiHandler::handleSchemaImport(
 
                 // Audit
                 if (audit_log_) {
-                    audit_log.record(schema.name, "import", "", "bulk schema import", 0,
+                    audit_log_->record(schema.name, "import", "", "bulk schema import", 0,
                                        {{"source", "schema_import_api"}});
                 }
                 imported.push_back(schema.name);
@@ -1215,6 +1215,7 @@ http::response<http::string_body> SchemaApiHandler::handleBatchConstraintValidat
         return makeError(req, http::status::service_unavailable,
                          "Constraint engine not available");
     }
+    auto& schema_constraints = *schema_constraints_;
     try {
         // Extract table name from /api/v1/metadata/constraints/validate/:table
         std::string target = std::string(req.target());
@@ -1307,7 +1308,6 @@ http::response<http::string_body> SchemaApiHandler::handleGetColumnLineage(
             "Column lineage tracker not available");
     }
     auto& column_lineage_tracker = *column_lineage_tracker_;
-    auto& column_lineage_tracker = *column_lineage_tracker_;
 
     try {
         const std::string base    = "/api/v1/metadata/lineage/";
@@ -1364,6 +1364,7 @@ http::response<http::string_body> SchemaApiHandler::handleRecordLineageDerivatio
         return makeError(req, http::status::service_unavailable,
             "Column lineage tracker not available");
     }
+    auto& column_lineage_tracker = *column_lineage_tracker_;
 
     try {
         json body = json::parse(req.body());

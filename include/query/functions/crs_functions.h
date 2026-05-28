@@ -118,16 +118,16 @@ struct UTMZone {
  * @brief EPSG code mapping
  */
 struct EPSGDefinition {
-    int code;
+    int code = 0;
     std::string name;
     std::string type;           // "geographic" or "projected"
     Ellipsoid ellipsoid;
-    int utmZone;                // For UTM-based systems
-    bool utmNorth;
-    double centralMeridian;     // For other projections
-    double scaleFactor;
-    double falseEasting;
-    double falseNorthing;
+    int utmZone = 0;            // For UTM-based systems
+    bool utmNorth = false;
+    double centralMeridian = 0.0;     // For other projections
+    double scaleFactor = 1.0;
+    double falseEasting = 0.0;
+    double falseNorthing = 0.0;
 };
 
 // EPSG code database
@@ -717,9 +717,15 @@ public:
                 geom["crs"]["properties"].contains("name")) {
                 std::string name = geom["crs"]["properties"]["name"];
                 // Parse EPSG code from name like "EPSG:4326"
+                // REL-21: wrap stoi() — the suffix after ':' may be non-numeric or
+                // out-of-range; fall through to the default WGS84 (4326) on failure.
                 size_t colonPos = name.find(':');
                 if (colonPos != std::string::npos) {
-                    return std::stoi(name.substr(colonPos + 1));
+                    try {
+                        return std::stoi(name.substr(colonPos + 1));
+                    } catch (const std::exception&) {
+                        // Fall through to default 4326
+                    }
                 }
             }
             // Default to WGS84

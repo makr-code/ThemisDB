@@ -7,14 +7,14 @@
  */
 
 #include <gtest/gtest.h>
-
-// Disable legacy AQL translator tests
-#if 0
 #include "query/aql_parser.h"
 #include "query/aql_translator.h"
 
 using namespace themis;
 using namespace themis::query;
+
+// Disable legacy AQL translator tests
+#if 0
 
 // ============================================================================
 // Basic Translation Tests
@@ -349,4 +349,51 @@ TEST(AQLTranslatorTest, BooleanLiteralValue) {
 
 TEST(AQLTranslatorTest, DISABLED_AQLTranslatorLegacy) {
     GTEST_SKIP() << "Skipping legacy AQL translator tests";
+}
+
+// ====================================================
+// REL-07/REL-08: FUZZY() argument range validation (issue #5177)
+// ====================================================
+
+TEST(AQLTranslatorTest, FuzzyMaxDistanceNegativeReturnsError) {
+    AQLParser parser;
+    // A negative maxDistance should be rejected at translation time.
+    auto parseResult = parser.parse(
+        "FOR d IN docs FILTER FUZZY(d.text, 'hello', -1) RETURN d");
+    ASSERT_TRUE(parseResult.has_value()) << parseResult.error().message();
+    auto translateResult = AQLTranslator::translate(*parseResult);
+    EXPECT_FALSE(translateResult.success);
+    EXPECT_FALSE(translateResult.error_message.empty());
+}
+
+TEST(AQLTranslatorTest, FuzzyMaxDistanceTooLargeReturnsError) {
+    AQLParser parser;
+    // maxDistance > 1000 should be rejected.
+    auto parseResult = parser.parse(
+        "FOR d IN docs FILTER FUZZY(d.text, 'hello', 9999) RETURN d");
+    ASSERT_TRUE(parseResult.has_value()) << parseResult.error().message();
+    auto translateResult = AQLTranslator::translate(*parseResult);
+    EXPECT_FALSE(translateResult.success);
+    EXPECT_FALSE(translateResult.error_message.empty());
+}
+
+TEST(AQLTranslatorTest, FuzzyLimitNegativeReturnsError) {
+    AQLParser parser;
+    // A negative limit should be rejected at translation time.
+    auto parseResult = parser.parse(
+        "FOR d IN docs FILTER FUZZY(d.text, 'hello', 2, -5) RETURN d");
+    ASSERT_TRUE(parseResult.has_value()) << parseResult.error().message();
+    auto translateResult = AQLTranslator::translate(*parseResult);
+    EXPECT_FALSE(translateResult.success);
+    EXPECT_FALSE(translateResult.error_message.empty());
+}
+
+TEST(AQLTranslatorTest, FuzzyValidArgumentsSucceed) {
+    AQLParser parser;
+    auto parseResult = parser.parse(
+        "FOR d IN docs FILTER FUZZY(d.text, 'hello', 3, 500) RETURN d");
+    ASSERT_TRUE(parseResult.has_value()) << parseResult.error().message();
+    auto translateResult = AQLTranslator::translate(*parseResult);
+    // Must succeed with well-formed arguments.
+    EXPECT_TRUE(translateResult.success) << translateResult.error_message;
 }

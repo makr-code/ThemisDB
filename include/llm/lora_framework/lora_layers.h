@@ -257,6 +257,7 @@ private:
  */
 class AdamOptimizer {
 public:
+    virtual ~AdamOptimizer() = default;
     /**
      * @brief Construct Adam optimizer
      * @param learning_rate Learning rate (α), default 1e-4
@@ -314,6 +315,7 @@ private:
  */
 class AdamWOptimizer {
 public:
+    virtual ~AdamWOptimizer() = default;
     /**
      * @brief Construct AdamW optimizer
      * @param learning_rate Learning rate (α), default 1e-4

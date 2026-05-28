@@ -26,7 +26,7 @@ GrammarCache::GrammarCache(const Config& config)
                   config_.max_cached_grammars, config_.enabled);
 }
 
-std::shared_ptr<Grammar> GrammarCache::get(const std::string& name) {
+std::shared_ptr<Grammar> GrammarCache::get(const std::string& name) const {
     if (!config_.enabled) {
         return nullptr;
     }

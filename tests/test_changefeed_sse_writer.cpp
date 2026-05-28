@@ -39,6 +39,14 @@ namespace http  = beast::http;
 using themis::server::ChangefeedApiHandler;
 using themis::server::SseConnectionManager;
 
+#ifndef THEMIS_ENABLE_SSE
+
+TEST(ChangefeedSseWriterFeatureGateTest, DisabledWhenSseFeatureOff) {
+    GTEST_SKIP() << "SSE feature is disabled in this build";
+}
+
+#else
+
 namespace {
 
 // ---------------------------------------------------------------------------
@@ -297,3 +305,5 @@ TEST_F(ChangefeedSseWriterTest, SseDisabledSetClearAreNoOps) {
 #endif // THEMIS_ENABLE_SSE
 
 } // namespace
+
+#endif

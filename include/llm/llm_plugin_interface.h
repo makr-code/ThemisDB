@@ -84,6 +84,7 @@ struct LLMCapabilities {
  * @brief Model information
  */
 struct ModelInfo {
+    virtual ~ModelInfo() = default;
     std::string name;              // e.g., "mistral-7b-instruct"
     std::string path;              // Path to model file
     std::string format;            // e.g., "gguf", "safetensors"
@@ -108,6 +109,7 @@ struct ModelInfo {
  * @brief LoRA adapter information
  */
 struct LoRAInfo {
+    virtual ~LoRAInfo() = default;
     std::string id;                // Unique identifier
     std::string name;              // Human-readable name
     std::string path;              // Path to LoRA weights
@@ -193,6 +195,7 @@ struct InferenceRequest {
  * @brief Inference response
  */
 struct InferenceResponse {
+    virtual ~InferenceResponse() = default;
     std::string request_id;      // Mirrors request id if provided
     std::string text;              // Generated text
     std::string model_id;          // Model identifier used
@@ -241,6 +244,7 @@ struct InferenceResponse {
  * retrieved chunks.  Setting it to 0 triggers the 4 096-token fallback.
  */
 struct RAGContext {
+    virtual ~RAGContext() = default;
     std::string query;             // User query
     std::string collection_name;
     int top_k = 0;

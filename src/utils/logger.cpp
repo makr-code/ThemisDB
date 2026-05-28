@@ -34,6 +34,8 @@
 namespace themis {
 namespace utils {
 
+LogMetrics Logger::metrics_{};
+
 namespace {
 /// Minimal JSON-string escape for embedding a value inside "…".
 /// Only escapes characters that would break JSON: backslash and double-quote.

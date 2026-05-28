@@ -98,6 +98,7 @@ struct ConfidenceResult {
  * @brief Token-level confidence information
  */
 struct TokenConfidence {
+    virtual ~TokenConfidence() = default;
     std::string token;
     float probability = 0.0f;
     float entropy = 0.0f;

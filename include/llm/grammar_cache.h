@@ -27,6 +27,7 @@ namespace llm {
  */
 class GrammarCache {
 public:
+    virtual ~GrammarCache() = default;
     /**
      * @brief Configuration for grammar cache
      */
@@ -52,7 +53,7 @@ public:
      * @param name Grammar name (e.g., "json_strict", "xml")
      * @return Shared pointer to grammar or nullptr if not found
      */
-    std::shared_ptr<Grammar> get(const std::string& name);
+    std::shared_ptr<Grammar> get(const std::string& name) const;
     
     /**
      * @brief Put a grammar into cache

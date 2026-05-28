@@ -596,7 +596,13 @@ cudaError_t launch_mse_gradient_kernel(
 // ============================================================================
 
 CublasHandle::CublasHandle() {
-    cublasCreate(&handle_);
+    // REL-85: check cublasCreate return value; leave handle_ null on failure so
+    // callers can detect the condition via is_valid() and avoid UB.
+    cublasStatus_t status = cublasCreate(&handle_);
+    if (status != CUBLAS_STATUS_SUCCESS) {
+        spdlog::error("CublasHandle: cublasCreate failed (status={})", static_cast<int>(status));
+        handle_ = nullptr;
+    }
 }
 
 CublasHandle::~CublasHandle() {

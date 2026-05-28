@@ -18,6 +18,7 @@
 #include <ngtcp2/ngtcp2_crypto_openssl.h>
 #include <cstring>
 #include <random>
+#include <exception>
 
 namespace themis {
 namespace server {
@@ -44,6 +45,20 @@ static uint64_t getTimestamp() {
     return std::chrono::duration_cast<std::chrono::nanoseconds>(
         std::chrono::steady_clock::now().time_since_epoch()
     ).count();
+}
+
+static void logCurrentException(const char* context) {
+    try {
+        auto ex = std::current_exception();
+        if (ex) {
+            std::rethrow_exception(ex);
+        }
+        THEMIS_ERROR("{}: unknown exception", context);
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("{}: {}", context, e.what());
+    } catch (...) {
+        THEMIS_ERROR("{}: non-standard exception", context);
+    }
 }
 
 // ============================================================================
@@ -121,44 +136,50 @@ SSL_CTX* Http3Handler::createSslContext(const std::string& cert_path,
 
 void Http3Handler::start() {
     THEMIS_INFO("HTTP/3 handler started, waiting for QUIC connections");
+    running_.store(true, std::memory_order_release);
     doAccept();
-    
-    // Start cleanup timer (every 30 seconds).
-    // Lifetime assumption: Http3Handler's io_context must be stopped (or this
-    // object's stop() must be called) before the handler is destroyed.  stop()
-    // cancels the timer; the async_wait callback checks the error code and will
-    // not call cleanupInactiveSessions() for operation_aborted completions.
-    cleanup_timer_.expires_after(std::chrono::seconds(30));
-    cleanup_timer_.async_wait([this](boost::system::error_code ec) {
-        if (!ec) {
-            try {
-                cleanupInactiveSessions();
-            } catch (const std::exception& e) {
-                THEMIS_ERROR("HTTP/3 cleanup timer error: {}", e.what());
-            }
-        }
-    });
+    armCleanupTimer();
 }
 
 void Http3Handler::stop() {
-    socket_.close();
-    cleanup_timer_.cancel();
+    if (!running_.exchange(false, std::memory_order_acq_rel)) {
+        return;
+    }
+    boost::system::error_code ignored;
+    socket_.cancel(ignored);
+    socket_.close(ignored);
+    cleanup_timer_.cancel(ignored);
     sessions_.clear();
     THEMIS_INFO("HTTP/3 handler stopped");
 }
 
 void Http3Handler::doAccept() {
+    if (!running_.load(std::memory_order_acquire) || !socket_.is_open()) {
+        return;
+    }
+
     socket_.async_receive_from(
         boost::asio::buffer(recv_buffer_),
         remote_endpoint_,
         [this](boost::system::error_code ec, std::size_t bytes_transferred) {
-            onReceive(ec, bytes_transferred);
+            try {
+                onReceive(ec, bytes_transferred);
+            } catch (...) {
+                logCurrentException("HTTP/3 receive callback failed");
+                if (running_.load(std::memory_order_acquire) && socket_.is_open()) {
+                    doAccept();
+                }
+            }
         }
     );
 }
 
 void Http3Handler::onReceive(boost::system::error_code ec, std::size_t bytes_transferred) {
     if (ec) {
+        if (ec == boost::asio::error::operation_aborted ||
+            ec == boost::asio::error::bad_descriptor) {
+            return;
+        }
         THEMIS_ERROR("HTTP/3 UDP receive error: {}", ec.message());
         doAccept(); // Continue accepting
         return;
@@ -224,12 +245,38 @@ void Http3Handler::onReceive(boost::system::error_code ec, std::size_t bytes_tra
             session->start();
             session->handlePacket(recv_buffer_.data(), bytes_transferred, remote_endpoint_);
         }
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("HTTP/3 onReceive error: {}", e.what());
+    } catch (...) {
+        logCurrentException("HTTP/3 onReceive error");
     }
     
     doAccept(); // Continue accepting
 }
+void Http3Handler::armCleanupTimer() {
+    if (!running_.load(std::memory_order_acquire)) {
+        return;
+    }
+
+    // Start cleanup timer (every 30 seconds).
+    // stop() cancels pending waits and flips running_ so callbacks fail-close
+    // during teardown and do not re-arm cleanup.
+    cleanup_timer_.expires_after(std::chrono::seconds(30));
+    cleanup_timer_.async_wait([this](boost::system::error_code ec) {
+        if (ec || !running_.load(std::memory_order_acquire)) {
+            return;
+        }
+
+        try {
+            cleanupInactiveSessions();
+        } catch (...) {
+            logCurrentException("HTTP/3 cleanup timer error");
+        }
+
+        if (running_.load(std::memory_order_acquire)) {
+            armCleanupTimer();
+        }
+    });
+}
+
 void Http3Handler::cleanupInactiveSessions() {
     for (auto it = sessions_.begin(); it != sessions_.end(); ) {
         if (!it->second->isActive()) {
@@ -251,18 +298,6 @@ void Http3Handler::cleanupInactiveSessions() {
 
     // Sweep expired fallback entries
     fallback_manager_.purgeExpired();
-    
-    // Reschedule cleanup
-    cleanup_timer_.expires_after(std::chrono::seconds(30));
-    cleanup_timer_.async_wait([this](boost::system::error_code ec) {
-        if (!ec) {
-            try {
-                cleanupInactiveSessions();
-            } catch (const std::exception& e) {
-                THEMIS_ERROR("HTTP/3 cleanup timer error: {}", e.what());
-            }
-        }
-    });
 }
 
 // static
@@ -401,18 +436,8 @@ void Http3Session::start() {
     callbacks.acked_stream_data_offset = ackStreamDataCallback;
     callbacks.stream_close = streamCloseCallback;
     callbacks.extend_max_local_streams_bidi = extendMaxStreamsCallback;
-    callbacks.get_new_connection_id = [](ngtcp2_conn* /*conn*/, ngtcp2_cid* cid,
-                                         uint8_t* /*token*/, size_t /*cidlen*/,
-                                         void* /*user_data*/) -> int {
-        generateConnectionIdCallback(cid);
-        return 0;
-    };
-    callbacks.recv_crypto_data = [](ngtcp2_conn* conn, ngtcp2_encryption_level level,
-                                    uint64_t offset, const uint8_t* data, size_t datalen,
-                                    void* user_data) -> int {
-        auto* self = static_cast<Http3Session*>(user_data);
-        return self->feedCryptoData(level, data, datalen);
-    };
+    callbacks.get_new_connection_id = getNewConnectionIdCallback;
+    callbacks.recv_crypto_data = recvCryptoDataCallback;
     callbacks.recv_datagram = recvDatagramCallback;
     
     // Enable QUIC datagram support (RFC 9221): advertise max_datagram_frame_size
@@ -467,8 +492,8 @@ void Http3Session::start() {
         if (!ec) {
             try {
                 onTimeout();
-            } catch (const std::exception& e) {
-                THEMIS_ERROR("HTTP/3 idle timeout handler error: {}", e.what());
+            } catch (...) {
+                logCurrentException("HTTP/3 idle timeout handler error");
             }
         }
     });
@@ -503,8 +528,8 @@ void Http3Session::handlePacket(const uint8_t* data, size_t len, const udp::endp
         if (!ec) {
             try {
                 onTimeout();
-            } catch (const std::exception& e) {
-                THEMIS_ERROR("HTTP/3 idle timeout handler error: {}", e.what());
+            } catch (...) {
+                logCurrentException("HTTP/3 idle timeout handler error");
             }
         }
     });
@@ -850,63 +875,137 @@ int Http3Session::feedCryptoData(ngtcp2_encryption_level level, const uint8_t* d
 
 // ngtcp2 Callbacks
 int Http3Session::handshakeCompletedCallback(ngtcp2_conn* /*conn*/, void* user_data) {
-    auto* self = static_cast<Http3Session*>(user_data);
-    self->handshake_complete_ = true;
+    try {
+        auto* self = static_cast<Http3Session*>(user_data);
+        if (!self) {
+            THEMIS_ERROR("HTTP/3 handshakeCompletedCallback: null session");
+            return NGTCP2_ERR_CALLBACK_FAILURE;
+        }
 
-    // Record handshake completion time for performance benchmarking
-    self->metrics_.handshake_end_us = std::chrono::duration_cast<std::chrono::microseconds>(
-        std::chrono::steady_clock::now().time_since_epoch()).count();
+        self->handshake_complete_ = true;
 
-    // Check if 0-RTT early data was accepted by the TLS layer
-    if (self->ssl_ && SSL_get_early_data_status(self->ssl_) == SSL_EARLY_DATA_ACCEPTED) {
-        self->metrics_.zero_rtt_used = true;
-        THEMIS_INFO("HTTP/3 QUIC handshake completed (0-RTT accepted) in {}µs",
-                    self->metrics_.handshake_end_us - self->metrics_.handshake_start_us);
-    } else {
-        THEMIS_INFO("HTTP/3 QUIC handshake completed in {}µs",
-                    self->metrics_.handshake_end_us - self->metrics_.handshake_start_us);
+        // Record handshake completion time for performance benchmarking
+        self->metrics_.handshake_end_us = std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::steady_clock::now().time_since_epoch()).count();
+
+        // Check if 0-RTT early data was accepted by the TLS layer
+        if (self->ssl_ && SSL_get_early_data_status(self->ssl_) == SSL_EARLY_DATA_ACCEPTED) {
+            self->metrics_.zero_rtt_used = true;
+            THEMIS_INFO("HTTP/3 QUIC handshake completed (0-RTT accepted) in {}µs",
+                        self->metrics_.handshake_end_us - self->metrics_.handshake_start_us);
+        } else {
+            THEMIS_INFO("HTTP/3 QUIC handshake completed in {}µs",
+                        self->metrics_.handshake_end_us - self->metrics_.handshake_start_us);
+        }
+        return 0;
+    } catch (...) {
+        logCurrentException("HTTP/3 handshakeCompletedCallback failed");
+        return NGTCP2_ERR_CALLBACK_FAILURE;
     }
-    return 0;
 }
 
 int Http3Session::recvStreamDataCallback(ngtcp2_conn* /*conn*/, uint32_t /*flags*/,
                                          int64_t stream_id, uint64_t /*offset*/,
                                          const uint8_t* data, size_t datalen,
                                          void* user_data, void* /*stream_user_data*/) {
-    auto* self = static_cast<Http3Session*>(user_data);
-    if (!self->http3_conn_) {
+    try {
+        auto* self = static_cast<Http3Session*>(user_data);
+        if (!self) {
+            THEMIS_ERROR("HTTP/3 recvStreamDataCallback: null session");
+            return NGTCP2_ERR_CALLBACK_FAILURE;
+        }
+
+        if (!self->http3_conn_) {
+            return 0;
+        }
+
+        // Feed to nghttp3
+        nghttp3_ssize nread = nghttp3_conn_read_stream(
+            self->http3_conn_, stream_id, data, datalen, 0
+        );
+
+        if (nread < 0) {
+            THEMIS_WARN("HTTP/3: nghttp3_conn_read_stream failed: {}", nghttp3_strerror(nread));
+            return NGTCP2_ERR_CALLBACK_FAILURE;
+        }
+
         return 0;
-    }
-    
-    // Feed to nghttp3
-    nghttp3_ssize nread = nghttp3_conn_read_stream(
-        self->http3_conn_, stream_id, data, datalen, 0
-    );
-    
-    if (nread < 0) {
-        THEMIS_WARN("HTTP/3: nghttp3_conn_read_stream failed: {}", nghttp3_strerror(nread));
+    } catch (...) {
+        logCurrentException("HTTP/3 recvStreamDataCallback failed");
         return NGTCP2_ERR_CALLBACK_FAILURE;
     }
-    
-    return 0;
 }
 
 int Http3Session::ackStreamDataCallback(ngtcp2_conn* /*conn*/, int64_t stream_id,
-                                        uint64_t offset, uint64_t datalen,
+                                        uint64_t /*offset*/, uint64_t datalen,
                                         void* user_data, void* /*stream_user_data*/) {
-    auto* self = static_cast<Http3Session*>(user_data);
-    if (self->http3_conn_) {
-        nghttp3_conn_add_ack_offset(self->http3_conn_, stream_id, datalen);
+    try {
+        auto* self = static_cast<Http3Session*>(user_data);
+        if (!self) {
+            THEMIS_ERROR("HTTP/3 ackStreamDataCallback: null session");
+            return NGTCP2_ERR_CALLBACK_FAILURE;
+        }
+        if (self->http3_conn_) {
+            nghttp3_conn_add_ack_offset(self->http3_conn_, stream_id, datalen);
+        }
+        return 0;
+    } catch (...) {
+        logCurrentException("HTTP/3 ackStreamDataCallback failed");
+        return NGTCP2_ERR_CALLBACK_FAILURE;
     }
-    return 0;
 }
 
 int Http3Session::streamCloseCallback(ngtcp2_conn* /*conn*/, uint32_t /*flags*/,
                                       int64_t stream_id, uint64_t /*app_error_code*/,
                                       void* user_data, void* /*stream_user_data*/) {
-    auto* self = static_cast<Http3Session*>(user_data);
-    self->streams_.erase(stream_id);
-    return 0;
+    try {
+        auto* self = static_cast<Http3Session*>(user_data);
+        if (!self) {
+            THEMIS_ERROR("HTTP/3 streamCloseCallback: null session");
+            return NGTCP2_ERR_CALLBACK_FAILURE;
+        }
+        self->streams_.erase(stream_id);
+        return 0;
+    } catch (...) {
+        logCurrentException("HTTP/3 streamCloseCallback failed");
+        return NGTCP2_ERR_CALLBACK_FAILURE;
+    }
+}
+
+int Http3Session::getNewConnectionIdCallback(ngtcp2_conn* /*conn*/, ngtcp2_cid* cid,
+                                             uint8_t* /*token*/, size_t /*cidlen*/,
+                                             void* /*user_data*/) {
+    try {
+        if (!cid) {
+            THEMIS_ERROR("HTTP/3 getNewConnectionIdCallback: null cid");
+            return NGTCP2_ERR_CALLBACK_FAILURE;
+        }
+        generateConnectionIdCallback(cid);
+        return 0;
+    } catch (...) {
+        logCurrentException("HTTP/3 getNewConnectionIdCallback failed");
+        return NGTCP2_ERR_CALLBACK_FAILURE;
+    }
+}
+
+int Http3Session::recvCryptoDataCallback(ngtcp2_conn* /*conn*/, ngtcp2_encryption_level level,
+                                         uint64_t /*offset*/, const uint8_t* data,
+                                         size_t datalen, void* user_data) {
+    try {
+        auto* self = static_cast<Http3Session*>(user_data);
+        if (!self) {
+            THEMIS_ERROR("HTTP/3 recvCryptoDataCallback: null session");
+            return NGTCP2_ERR_CALLBACK_FAILURE;
+        }
+        if (datalen > 0 && !data) {
+            THEMIS_ERROR("HTTP/3 recvCryptoDataCallback: null data with non-zero length");
+            return NGTCP2_ERR_CALLBACK_FAILURE;
+        }
+        return self->feedCryptoData(level, data, datalen);
+    } catch (...) {
+        logCurrentException("HTTP/3 recvCryptoDataCallback failed");
+        return NGTCP2_ERR_CALLBACK_FAILURE;
+    }
 }
 
 int Http3Session::extendMaxStreamsCallback(ngtcp2_conn* /*conn*/,
@@ -918,9 +1017,19 @@ int Http3Session::extendMaxStreamsCallback(ngtcp2_conn* /*conn*/,
 int Http3Session::recvDatagramCallback(ngtcp2_conn* /*conn*/, uint32_t /*flags*/,
                                        const uint8_t* data, size_t datalen,
                                        void* user_data) {
-    auto* self = static_cast<Http3Session*>(user_data);
-    self->datagram_dispatcher_.dispatch(data, datalen);
-    return 0;
+    try {
+        auto* self = static_cast<Http3Session*>(user_data);
+        if (!self) {
+            THEMIS_ERROR("HTTP/3 recvDatagramCallback: null session");
+            return NGTCP2_ERR_CALLBACK_FAILURE;
+        }
+
+        self->datagram_dispatcher_.dispatch(data, datalen);
+        return 0;
+    } catch (...) {
+        logCurrentException("HTTP/3 recvDatagramCallback failed");
+        return NGTCP2_ERR_CALLBACK_FAILURE;
+    }
 }
 
 bool Http3Session::sendDatagram(uint64_t       context_id,
@@ -999,54 +1108,94 @@ bool Http3Session::sendDatagram(uint64_t       context_id,
 int Http3Session::http3RecvDataCallback(nghttp3_conn* /*conn*/, int64_t stream_id,
                                         const uint8_t* data, size_t datalen,
                                         void* user_data, void* /*stream_user_data*/) {
-    auto* self = static_cast<Http3Session*>(user_data);
-    auto& stream = self->streams_[stream_id];
-    stream.body.append(reinterpret_cast<const char*>(data), datalen);
-    return 0;
+    try {
+        auto* self = static_cast<Http3Session*>(user_data);
+        if (!self) {
+            THEMIS_ERROR("HTTP/3 http3RecvDataCallback: null session");
+            return NGHTTP3_ERR_CALLBACK_FAILURE;
+        }
+
+        auto& stream = self->streams_[stream_id];
+        stream.body.append(reinterpret_cast<const char*>(data), datalen);
+        return 0;
+    } catch (...) {
+        logCurrentException("HTTP/3 http3RecvDataCallback failed");
+        return NGHTTP3_ERR_CALLBACK_FAILURE;
+    }
 }
 
 int Http3Session::http3DecodHeaderCallback(nghttp3_conn* /*conn*/, int64_t stream_id,
                                            int32_t /*token*/, nghttp3_rcbuf* name,
                                            nghttp3_rcbuf* value, uint8_t /*flags*/,
                                            void* user_data, void* /*stream_user_data*/) {
-    auto* self = static_cast<Http3Session*>(user_data);
-    auto& stream = self->streams_[stream_id];
-    
-    std::string name_str(reinterpret_cast<const char*>(nghttp3_rcbuf_get_buf(name).base),
-                         nghttp3_rcbuf_get_buf(name).len);
-    std::string value_str(reinterpret_cast<const char*>(nghttp3_rcbuf_get_buf(value).base),
-                          nghttp3_rcbuf_get_buf(value).len);
-    
-    if (name_str == ":method") {
-        stream.method = value_str;
-    } else if (name_str == ":path") {
-        stream.path = value_str;
-    } else if (name_str == ":scheme") {
-        stream.scheme = value_str;
-    } else if (name_str == ":authority") {
-        stream.authority = value_str;
-    } else {
-        stream.headers[name_str] = value_str;
+    try {
+        auto* self = static_cast<Http3Session*>(user_data);
+        if (!self || !name || !value) {
+            THEMIS_ERROR("HTTP/3 http3DecodHeaderCallback: invalid callback input");
+            return NGHTTP3_ERR_CALLBACK_FAILURE;
+        }
+
+        auto& stream = self->streams_[stream_id];
+
+        std::string name_str(reinterpret_cast<const char*>(nghttp3_rcbuf_get_buf(name).base),
+                             nghttp3_rcbuf_get_buf(name).len);
+        std::string value_str(reinterpret_cast<const char*>(nghttp3_rcbuf_get_buf(value).base),
+                              nghttp3_rcbuf_get_buf(value).len);
+
+        if (name_str == ":method") {
+            stream.method = value_str;
+        } else if (name_str == ":path") {
+            stream.path = value_str;
+        } else if (name_str == ":scheme") {
+            stream.scheme = value_str;
+        } else if (name_str == ":authority") {
+            stream.authority = value_str;
+        } else {
+            stream.headers[name_str] = value_str;
+        }
+
+        return 0;
+    } catch (...) {
+        logCurrentException("HTTP/3 http3DecodHeaderCallback failed");
+        return NGHTTP3_ERR_CALLBACK_FAILURE;
     }
-    
-    return 0;
 }
 
 int Http3Session::http3EndHeadersCallback(nghttp3_conn* /*conn*/, int64_t stream_id,
                                           int /*fin*/, void* user_data,
                                           void* /*stream_user_data*/) {
-    auto* self = static_cast<Http3Session*>(user_data);
-    auto& stream = self->streams_[stream_id];
-    stream.headers_complete = true;
-    stream.stream_id = stream_id;
-    return 0;
+    try {
+        auto* self = static_cast<Http3Session*>(user_data);
+        if (!self) {
+            THEMIS_ERROR("HTTP/3 http3EndHeadersCallback: null session");
+            return NGHTTP3_ERR_CALLBACK_FAILURE;
+        }
+
+        auto& stream = self->streams_[stream_id];
+        stream.headers_complete = true;
+        stream.stream_id = stream_id;
+        return 0;
+    } catch (...) {
+        logCurrentException("HTTP/3 http3EndHeadersCallback failed");
+        return NGHTTP3_ERR_CALLBACK_FAILURE;
+    }
 }
 
 int Http3Session::http3EndStreamCallback(nghttp3_conn* /*conn*/, int64_t stream_id,
                                          void* user_data, void* /*stream_user_data*/) {
-    auto* self = static_cast<Http3Session*>(user_data);
-    self->processStream(stream_id);
-    return 0;
+    try {
+        auto* self = static_cast<Http3Session*>(user_data);
+        if (!self) {
+            THEMIS_ERROR("HTTP/3 http3EndStreamCallback: null session");
+            return NGHTTP3_ERR_CALLBACK_FAILURE;
+        }
+
+        self->processStream(stream_id);
+        return 0;
+    } catch (...) {
+        logCurrentException("HTTP/3 http3EndStreamCallback failed");
+        return NGHTTP3_ERR_CALLBACK_FAILURE;
+    }
 }
 
 } // namespace server

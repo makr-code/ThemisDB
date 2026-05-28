@@ -32,6 +32,7 @@ namespace testing {
  */
 class ProductionValidator {
 public:
+    virtual ~ProductionValidator() = default;
     struct ValidationConfig {
         // Stress test duration
         std::chrono::hours stress_test_duration{72};
@@ -232,6 +233,7 @@ private:
  */
 class PerformanceRegressionDetector {
 public:
+    virtual ~PerformanceRegressionDetector() = default;
     struct Baseline {
         double avg_latency_ms = 0.0;
         double p99_latency_ms = 0.0;

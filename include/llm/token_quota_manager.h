@@ -21,6 +21,7 @@ namespace llm {
  * @brief Result of a quota admission check.
  */
 struct QuotaCheckResult {
+    virtual ~QuotaCheckResult() = default;
     bool allowed = true;         ///< false if the request was denied by quota
     std::string reason;          ///< human-readable explanation when denied
     size_t tokens_used = 0;          ///< tokens consumed in the current window

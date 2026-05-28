@@ -522,3 +522,23 @@ TEST_F(WorkloadCacheStrategyTest, EdgeCase_ZeroSelectivity) {
     // Should handle zero selectivity gracefully
     EXPECT_DOUBLE_EQ(char_.selectivity(), 1.0);
 }
+
+// ============================================================================
+// IV-01 — Zero-divisor guard: classifyWorkload() with empty pattern map
+// (issue #5177)
+// ============================================================================
+
+TEST_F(WorkloadCacheStrategyTest, ClassifyWorkload_EmptyPatterns_ReturnsUnknown) {
+    // Set min_samples_for_detection to 0 so the "insufficient samples" guard
+    // in detectWorkload() does NOT short-circuit before reaching classifyWorkload().
+    // With an empty query_patterns_ map the pre-fix code divided by zero;
+    // the IV-01 fix adds an early-return UNKNOWN guard at the top of
+    // classifyWorkload() so this must complete without UB.
+    WorkloadCacheStrategy::Config cfg = config_;
+    cfg.min_samples_for_detection = 0;
+
+    WorkloadCacheStrategy strategy(cfg);
+    // No queries recorded → query_patterns_ is empty.
+    WorkloadType result = strategy.detectWorkload();
+    EXPECT_EQ(result, WorkloadType::UNKNOWN);
+}

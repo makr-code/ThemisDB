@@ -54,6 +54,7 @@ enum class ModelArchitecture {
  * @brief Model metadata extracted from file
  */
 struct ModelMetadata {
+    virtual ~ModelMetadata() = default;
     std::string model_path;
     ModelFormat format = ModelFormat::UNKNOWN;
     ModelArchitecture architecture = ModelArchitecture::UNKNOWN;

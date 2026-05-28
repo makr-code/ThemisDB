@@ -1358,7 +1358,6 @@ bool MultiLoRAManager::quantizeLoRA(LoRASlot* lora) {
             }
         }
 
-        size_t num_weights = weights.size();
         if (weights.empty()) {
             spdlog::warn("quantizeLoRA: empty weight vector for LoRA '{}', aborting", lora->lora_id);
             return false;
@@ -1485,7 +1484,7 @@ void MultiLoRAManager::quantizeINT4(LoRASlot* lora, const std::vector<float>& we
         // Quantize per group
         for (size_t g = 0; g < num_groups; ++g) {
             size_t start_idx = g * group_size;
-            size_t end_idx = std::min(start_idx + (size_t)group_size, num_weights);
+            size_t end_idx = std::min(start_idx + static_cast<size_t>(group_size), num_weights);
             size_t group_len = end_idx - start_idx;
             
             // Calculate scale for this group

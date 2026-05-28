@@ -529,7 +529,7 @@ std::vector<std::string> LoRASecurityValidator::detectWeightAnomalies(
     
     // Calculate statistics
     float mean = calculateMean(weights);
-    float stddev = calculateStdDev(weights, mean);
+    calculateStdDev(weights, mean);
     
     // Find outliers
     auto outlier_indices = findOutliers(weights, config_.anomaly_threshold);
@@ -1090,7 +1090,7 @@ float EmbeddingAnomalyDetector::getAnomalyScore(const std::vector<float>& embedd
     }
     
     // Calculate distance from baseline
-    float euclidean_dist = calculateEuclideanDistance(embedding, mean_embedding_);
+    calculateEuclideanDistance(embedding, mean_embedding_);
     float cosine_sim = calculateCosineSimilarity(embedding, mean_embedding_);
     
     // Normalize to 0-1 score

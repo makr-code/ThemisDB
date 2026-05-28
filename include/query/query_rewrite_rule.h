@@ -215,7 +215,7 @@ public:
 
 private:
     std::vector<std::shared_ptr<IQueryRewriteRule>> rules_;
-    size_t max_iterations_;
+    size_t max_iterations_{kDefaultMaxIterations};
 };
 
 } // namespace query

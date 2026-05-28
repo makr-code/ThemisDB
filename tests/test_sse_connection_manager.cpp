@@ -11,6 +11,14 @@
 #include "server/sse_connection_manager.h"
 #include "storage/rocksdb_wrapper.h"
 
+#ifndef THEMIS_ENABLE_SSE
+
+TEST(SseConnectionManagerFeatureGateTest, DisabledWhenSseFeatureOff) {
+    GTEST_SKIP() << "SSE feature is disabled in this build";
+}
+
+#else
+
 namespace {
 
 class SseConnectionManagerTest : public ::testing::Test {
@@ -248,3 +256,5 @@ TEST_F(SseConnectionManagerTest, PollEventsKeepsRawBufferInSync) {
 }
 
 } // namespace
+
+#endif

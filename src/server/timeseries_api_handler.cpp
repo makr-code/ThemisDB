@@ -52,6 +52,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handlePut(
         span.setStatus(false, "feature_disabled");
         return makeErrorResponse(http::status::not_implemented, "Time-series feature not enabled", req);
     }
+    auto& ts_store = *ts_store_;
     
     try {
         nlohmann::json body = nlohmann::json::parse(req.body());
@@ -113,6 +114,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleQuery(
         span.setStatus(false, "feature_disabled");
         return makeErrorResponse(http::status::not_implemented, "Time-series feature not enabled", req);
     }
+    auto& ts_store = *ts_store_;
     
     try {
         nlohmann::json body = nlohmann::json::parse(req.body());
@@ -187,6 +189,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregate(
         span.setStatus(false, "feature_disabled");
         return makeErrorResponse(http::status::not_implemented, "Time-series feature not enabled", req);
     }
+    auto& ts_store = *ts_store_;
     
     try {
         nlohmann::json body = nlohmann::json::parse(req.body());
@@ -460,7 +463,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleRetentionGet(
         }
 
         if (ts_store_) {
-            const auto& config = ts_store.getConfig();
+            const auto& config = ts_store_->getConfig();
             if (config.late_arrival_window_ms > 0) {
                 policies.push_back({
                     {"name", "late_arrival_window"},
@@ -557,6 +560,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handlePrometheusRemoteWr
         return makeErrorResponse(http::status::not_implemented,
                                  "Time-series feature not enabled", req);
     }
+    auto& ts_store = *ts_store_;
 
     try {
         const std::string& body = req.body();

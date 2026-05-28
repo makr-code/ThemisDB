@@ -318,6 +318,11 @@ http::response<http::string_body> LoRAApiHandler::handleCreateAdapter(
     if (!body) {
         return createErrorResponse(http::status::bad_request, "Invalid JSON body");
     }
+
+    if (!orchestrator_) {
+        return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
+    }
+    auto& orchestrator = *orchestrator_;
     
     try {
         std::string adapter_id;
@@ -386,6 +391,11 @@ http::response<http::string_body> LoRAApiHandler::handleGetAdapter(
     if (adapter_id.empty()) {
         return createErrorResponse(http::status::bad_request, "Missing adapter_id");
     }
+
+    if (!orchestrator_) {
+        return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
+    }
+    auto& orchestrator = *orchestrator_;
     
     try {
         auto adapter_info = orchestrator.getAdapter(adapter_id);
@@ -429,6 +439,11 @@ http::response<http::string_body> LoRAApiHandler::handleUpdateAdapter(
     if (!body) {
         return createErrorResponse(http::status::bad_request, "Invalid JSON body");
     }
+
+    if (!orchestrator_) {
+        return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
+    }
+    auto& orchestrator = *orchestrator_;
     
     try {
         // Extract additional training data
@@ -481,6 +496,11 @@ http::response<http::string_body> LoRAApiHandler::handleDeleteAdapter(
     if (adapter_id.empty()) {
         return createErrorResponse(http::status::bad_request, "Missing adapter_id");
     }
+
+    if (!orchestrator_) {
+        return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
+    }
+    auto& orchestrator = *orchestrator_;
     
     try {
         // Parse query parameters for version
@@ -519,6 +539,11 @@ http::response<http::string_body> LoRAApiHandler::handleDeleteAdapter(
 http::response<http::string_body> LoRAApiHandler::handleListAdapters(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleListAdapters");
+
+    if (!orchestrator_) {
+        return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
+    }
+    auto& orchestrator = *orchestrator_;
     
     try {
         // Parse query parameters
@@ -635,6 +660,11 @@ http::response<http::string_body> LoRAApiHandler::handleLoadAdapter(
     if (adapter_id.empty()) {
         return createErrorResponse(http::status::bad_request, "Missing adapter_id");
     }
+
+    if (!orchestrator_) {
+        return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
+    }
+    auto& orchestrator = *orchestrator_;
     
     try {
         // Trigger hot-load asynchronously; returns a job_id immediately.
@@ -675,6 +705,11 @@ http::response<http::string_body> LoRAApiHandler::handleUnloadAdapter(
     if (adapter_id.empty()) {
         return createErrorResponse(http::status::bad_request, "Missing adapter_id");
     }
+
+    if (!orchestrator_) {
+        return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
+    }
+    auto& orchestrator = *orchestrator_;
     
     try {
         bool success = orchestrator.unloadAdapter(adapter_id, false);
@@ -720,6 +755,11 @@ http::response<http::string_body> LoRAApiHandler::handleAdapterStatus(
     if (adapter_id.empty()) {
         return createErrorResponse(http::status::bad_request, "Missing adapter_id");
     }
+
+    if (!orchestrator_) {
+        return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
+    }
+    auto& orchestrator = *orchestrator_;
     
     try {
         bool is_loaded = orchestrator.isLoaded(adapter_id);
@@ -771,6 +811,11 @@ http::response<http::string_body> LoRAApiHandler::handleHotLoadStatus(
     if (adapter_id.empty()) {
         return createErrorResponse(http::status::bad_request, "Missing adapter_id");
     }
+
+    if (!orchestrator_) {
+        return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
+    }
+    auto& orchestrator = *orchestrator_;
 
     try {
         // Find the most recent loading job for this adapter.
@@ -924,6 +969,11 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAQuery(
 http::response<http::string_body> LoRAApiHandler::handleLoRAStats(
     const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handleLoRAStats");
+
+    if (!orchestrator_) {
+        return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
+    }
+    auto& orchestrator = *orchestrator_;
     
     try {
         auto stats = orchestrator.getStats();
@@ -951,6 +1001,11 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAStats(
 http::response<http::string_body> LoRAApiHandler::handleLoRAHealth(
     const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handleLoRAHealth");
+
+    if (!orchestrator_) {
+        return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
+    }
+    auto& orchestrator = *orchestrator_;
     
     try {
         bool healthy = orchestrator.healthCheck();
@@ -1087,6 +1142,11 @@ http::response<http::string_body> LoRAApiHandler::handleReceiveAdapter(
     if (!body) {
         return createErrorResponse(http::status::bad_request, "Invalid JSON body");
     }
+
+    if (!orchestrator_) {
+        return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
+    }
+    auto& orchestrator = *orchestrator_;
     
     try {
         // Extract metadata

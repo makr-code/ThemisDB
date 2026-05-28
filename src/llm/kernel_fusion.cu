@@ -417,7 +417,7 @@ __global__ void fusedRoPEKernel(
     
     // Apply RoPE to pairs of dimensions
     for (int d = 0; d < head_dim; d += 2) {
-        float freq = 1.0f / powf((float)rope_base, (float)(2 * d) / head_dim);
+        float freq = 1.0f / powf(static_cast<float>(rope_base), static_cast<float>(2 * d) / static_cast<float>(head_dim));
         float angle = position * freq;
         float cos_val = cosf(angle);
         float sin_val = sinf(angle);

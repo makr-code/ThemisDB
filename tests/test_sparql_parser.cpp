@@ -452,3 +452,40 @@ TEST(SPARQLTranspilerTest, EmptyWhereClause) {
     EXPECT_NE(aql.find("RETURN {}"), std::string::npos);
     EXPECT_EQ(aql.find("FOR"), std::string::npos);
 }
+
+// ============================================================================
+// SPARQLParser – Numeric overflow guards (REL-13..15, issue #5177)
+// ============================================================================
+
+static bool sparqlParseError(const std::string& sparql) {
+    SPARQLParser parser;
+    auto result = parser.parse(sparql);
+    return !result.has_value();
+}
+
+// LIMIT with out-of-range integer is rejected
+TEST(SPARQLParserTest, LimitOverflowIsError) {
+    EXPECT_TRUE(sparqlParseError("SELECT * WHERE { ?s ?p ?o } LIMIT 99999999999999999999"));
+}
+
+// OFFSET with out-of-range integer is rejected
+TEST(SPARQLParserTest, OffsetOverflowIsError) {
+    EXPECT_TRUE(sparqlParseError("SELECT * WHERE { ?s ?p ?o } LIMIT 10 OFFSET 99999999999999999999"));
+}
+
+// Integer literal overflow in a filter expression is rejected
+TEST(SPARQLParserTest, IntLiteralOverflowIsError) {
+    EXPECT_TRUE(sparqlParseError(
+        "SELECT * WHERE { ?s <ex:id> 99999999999999999999 }"));
+}
+
+// Float literal overflow in a filter expression is rejected
+TEST(SPARQLParserTest, FloatLiteralOverflowIsError) {
+    EXPECT_TRUE(sparqlParseError(
+        "SELECT * WHERE { ?s <ex:score> 1e99999 }"));
+}
+
+// Valid LIMIT / OFFSET are still accepted after adding the guard
+TEST(SPARQLParserTest, ValidLimitOffsetStillAccepted) {
+    EXPECT_FALSE(sparqlParseError("SELECT * WHERE { ?s ?p ?o } LIMIT 100 OFFSET 50"));
+}

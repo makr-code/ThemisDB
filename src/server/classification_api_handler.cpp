@@ -30,7 +30,6 @@ nlohmann::json ClassificationApiHandler::listRules() {
                 {"total", 0}
             };
         }
-        auto& pii_detector = *pii_detector_;
         
         // Return supported PII types as classification rules
         nlohmann::json items = nlohmann::json::array();

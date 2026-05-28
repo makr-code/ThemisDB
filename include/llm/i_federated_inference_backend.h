@@ -23,6 +23,7 @@ namespace themis::llm {
  * all-must-succeed, majority-vote, …) or aggregate partial results.
  */
 struct FanOutInstanceResult {
+    virtual ~FanOutInstanceResult() = default;
     std::string instance_id;     ///< Instance that was targeted
     InferenceResponse response;  ///< Populated when success == true
     bool success = false;        ///< True when the instance returned a valid response

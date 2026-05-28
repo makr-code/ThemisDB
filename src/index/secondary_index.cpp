@@ -2648,7 +2648,8 @@ SecondaryIndexManager::computeBM25Scores_(
 	std::vector<FulltextResult> scored;
 	scored.reserve(intersectionSet.size());
 	for (const auto& pk : intersectionSet) {
-		double dl = docLen.count(pk) ? docLen[pk] : 0.0;
+		const auto itLen = docLen.find(pk);
+		double dl = (itLen != docLen.end()) ? itLen->second : 0.0;
 		double s = 0.0;
 		for (size_t i = 0; i < tokens.size(); ++i) {
 			const auto& token = tokens[i];
@@ -2681,10 +2682,9 @@ SecondaryIndexManager::computeBM25Scores_(
 
 	// Top-k Ergebnisse extrahieren
 	std::vector<FulltextResult> finalResults;
-	finalResults.reserve(std::min(scored.size(), limit));
-	for (size_t i = 0; i < scored.size() && i < limit; ++i) {
-		finalResults.push_back(scored[i]);
-	}
+	const size_t topk = std::min(scored.size(), limit);
+	finalResults.reserve(topk);
+	finalResults.insert(finalResults.end(), scored.begin(), scored.begin() + static_cast<std::ptrdiff_t>(topk));
 
 	return {Status::OK(), std::move(finalResults)};
 }
@@ -2705,7 +2705,7 @@ SecondaryIndexManager::scanFulltext(
 	std::vector<std::string> pks;
 	pks.reserve(results.size());
 	for (const auto& result : results) {
-		pks.push_back(result.pk);
+		pks.emplace_back(result.pk);
 	}
 	
 	return {Status::OK(), std::move(pks)};

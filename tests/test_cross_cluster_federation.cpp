@@ -109,6 +109,35 @@ TEST(CrossClusterFederatorTest, RegisterEmptyUrlThrows) {
     EXPECT_THROW(fed.registerCluster(ep), std::invalid_argument);
 }
 
+TEST(CrossClusterFederatorTest, RegisterInvalidUrlSchemeThrows) {
+    CrossClusterFederator fed;
+    for (const std::string& bad_url : {"file:///etc/passwd", "ftp://host/path",
+                                       "ws://host:8080", "no-scheme"}) {
+        ClusterEndpoint ep;
+        ep.cluster_id = "c1";
+        ep.base_url   = bad_url;
+        EXPECT_THROW(fed.registerCluster(ep), std::invalid_argument)
+            << "expected throw for url: " << bad_url;
+    }
+}
+
+TEST(CrossClusterFederatorTest, RegisterHttpAndHttpsUrlAccepted) {
+    CrossClusterFederator fed;
+    fed.registerCluster(makeEndpoint("c1", "http://c1:8080"));
+    fed.registerCluster(makeEndpoint("c2", "https://c2:443"));
+    EXPECT_EQ(fed.listClusters().size(), 2u);
+}
+
+TEST(CrossClusterFederatorTest, RegisterAuthTokenWithCrLfThrows) {
+    CrossClusterFederator fed;
+    for (const std::string& bad_token : {"abc\rdef", "abc\ndef", "abc\r\nx"}) {
+        ClusterEndpoint ep = makeEndpoint("c1", "https://c1:443");
+        ep.auth_token = bad_token;
+        EXPECT_THROW(fed.registerCluster(ep), std::invalid_argument)
+            << "expected throw for token with control chars";
+    }
+}
+
 // ════════════════════════════════════════════════════════════════════════════
 // Cost estimation tests
 // ════════════════════════════════════════════════════════════════════════════

@@ -330,6 +330,7 @@ json TaskSchedulerApiHandler::getExecutionHistory(
     if (!scheduler_) {
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
+    auto& scheduler = *scheduler_;
 
     auto audit_mgr = scheduler.getAuditManager();
     if (!audit_mgr) {
@@ -1015,6 +1016,7 @@ json TaskSchedulerApiHandler::exportToKubernetesCronJobJson(const std::string& t
     if (!scheduler_) {
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
+    auto& scheduler = *scheduler_;
     try {
         auto task_ptr = scheduler.getTask(task_id);
         if (!task_ptr) {
@@ -1035,6 +1037,7 @@ json TaskSchedulerApiHandler::exportToKubernetesCronJobYaml(const std::string& t
     if (!scheduler_) {
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
+    auto& scheduler = *scheduler_;
     try {
         auto task_ptr = scheduler.getTask(task_id);
         if (!task_ptr) {

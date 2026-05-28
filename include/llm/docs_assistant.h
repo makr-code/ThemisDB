@@ -40,6 +40,7 @@ using json = nlohmann::json;
  * @brief Represents a single documentation document
  */
 struct DocumentEntry {
+    virtual ~DocumentEntry() = default;
     std::string file_path;
     std::string file_hash;
     std::string file_name;
@@ -119,6 +120,7 @@ struct DocsAssistantConfig {
  * @brief Query result from documentation search
  */
 struct DocsQueryResult {
+    virtual ~DocsQueryResult() = default;
     std::vector<DocumentEntry> relevant_docs;
     std::string generated_answer;
     float confidence_score = 0.0f;

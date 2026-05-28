@@ -89,6 +89,10 @@ public:
         const int head_dim  = config_.head_dim;
         const float scale   = config_.scale;
 
+        if (batch <= 0 || seq_len <= 0 || num_heads <= 0 || head_dim <= 0) {
+            return Status::ERROR_INVALID_CONFIG;
+        }
+
         // Per-query scaled dot-product attention:
         //   S[i,j] = scale * sum_d Q[b,h,i,d] * K[b,h,j,d]
         //   A[i,j] = softmax(S[i,:])   (with optional causal mask j>i → -∞)
@@ -174,6 +178,10 @@ public:
         const int num_heads = config_.num_heads;
         const int head_dim  = config_.head_dim;
         const float scale   = config_.scale;
+
+        if (batch <= 0 || seq_len <= 0 || num_heads <= 0 || head_dim <= 0) {
+            return Status::ERROR_INVALID_CONFIG;
+        }
 
         // We need Q and K to recompute forward attention weights.
         // Because the caller may pass the same tensors for Q/K/V as in forward,

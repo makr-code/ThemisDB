@@ -33,6 +33,7 @@ namespace llm {
  * and persistent pinning support.
  */
 struct GPUBackendConfig {
+    virtual ~GPUBackendConfig() = default;
     // Backend Selection (Vulkan prioritized)
     acceleration::BackendType preferred_backend = acceleration::BackendType::VULKAN;
     std::vector<acceleration::BackendType> fallback_backends = {

@@ -42,6 +42,7 @@ struct ModelDownloadConfig {
  * @brief Result of model download operation
  */
 struct ModelDownloadResult {
+    virtual ~ModelDownloadResult() = default;
     bool success = false;
     std::string model_path;           // Path to downloaded model
     std::string error_message;

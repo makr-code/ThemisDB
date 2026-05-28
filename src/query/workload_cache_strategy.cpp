@@ -237,6 +237,9 @@ WorkloadType WorkloadCacheStrategy::detectWorkload() {
 WorkloadType WorkloadCacheStrategy::classifyWorkload() const {
     // Calculate aggregate metrics
     size_t total_patterns = query_patterns_.size();
+    if (total_patterns == 0) {
+        return WorkloadType::UNKNOWN;
+    }
     double avg_frequency = 0.0;
     size_t avg_result_size = 0;
     size_t high_freq_count = 0;

@@ -536,6 +536,17 @@ static http::request<http::string_body> makeChatRequest(
     return req;
 }
 
+/// Helper: build a minimal Boost.Beast HTTP GET request for /v1/models.
+static http::request<http::string_body> makeModelsRequest(
+    const std::string& auth_header = "") {
+
+    http::request<http::string_body> req{http::verb::get, "/v1/models", 11};
+    if (!auth_header.empty()) {
+        req.set(http::field::authorization, auth_header);
+    }
+    return req;
+}
+
 } // anonymous namespace
 
 class LLMApiHandlerPolicyTest : public ::testing::Test {
@@ -626,4 +637,28 @@ TEST_F(LLMApiHandlerPolicyTest, SetPolicyEngine_NullDetaches) {
 
     EXPECT_NE(res.result_int(), 401)
         << "After detaching PolicyEngine, handler must not return 401";
+}
+
+TEST_F(LLMApiHandlerPolicyTest, OpenAIModelsEndpoint_ReturnsListShapeWithoutPolicy) {
+    auto req = makeModelsRequest();
+    auto res = handler_->handleRequest(req);
+
+    ASSERT_EQ(res.result_int(), 200);
+    ASSERT_EQ(res[http::field::content_type], "application/json");
+
+    json body = json::parse(res.body());
+    ASSERT_TRUE(body.contains("object"));
+    ASSERT_TRUE(body.contains("data"));
+    EXPECT_EQ(body["object"], "list");
+    EXPECT_TRUE(body["data"].is_array());
+}
+
+TEST_F(LLMApiHandlerPolicyTest, OpenAIModelsEndpoint_DoesNotRequirePolicyAuthHeader) {
+    handler_->setPolicyEngine(&policy_engine_);
+
+    auto req = makeModelsRequest();
+    auto res = handler_->handleRequest(req);
+
+    EXPECT_NE(res.result_int(), 401);
+    EXPECT_NE(res.result_int(), 403);
 }

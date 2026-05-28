@@ -94,7 +94,14 @@ public:
                 }
                 
                 std::string index_str = working_path.substr(pos + 1, close - pos - 1);
-                int index = std::stoi(index_str);
+                // REL-22: wrap stoi() — index_str comes from user input and may be
+                // non-numeric or out-of-range (e.g. "[abc]", "[999999999999]").
+                int index;
+                try {
+                    index = std::stoi(index_str);
+                } catch (const std::exception&) {
+                    throw std::runtime_error("Invalid JSONPath: array index '" + index_str + "' is not a valid integer");
+                }
                 segments.push_back(Segment(index));
                 pos = close + 1;
             } else {

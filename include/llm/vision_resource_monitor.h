@@ -23,6 +23,7 @@ namespace themis::llm {
  * @brief Resource usage statistics
  */
 struct VisionResourceUsage {
+    virtual ~VisionResourceUsage() = default;
     size_t current_memory_mb = 0;
     size_t peak_memory_mb = 0;
     size_t current_vram_mb = 0;
@@ -56,6 +57,7 @@ struct VisionResourceUsage {
  */
 class RateLimiter {
 public:
+    virtual ~RateLimiter() = default;
     RateLimiter(size_t rate_per_minute, size_t burst_size);
     
     /**
@@ -94,6 +96,7 @@ private:
  */
 class QuotaTracker {
 public:
+    virtual ~QuotaTracker() = default;
     QuotaTracker(const VisionResourceQuota& quota);
     
     /**

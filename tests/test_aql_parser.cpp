@@ -530,4 +530,32 @@ TEST(AQLParserTest, DISABLED_AQLParserLegacy) {
     GTEST_SKIP() << "Skipping legacy AQL parser tests";
 }
 
+// ============================================================================
+// Traversal depth input validation (issue #5177)
+// ============================================================================
+
+// Negative min depth must be rejected
+TEST(AQLParserTest, TraversalNegativeMinDepthIsError) {
+    AQLParser parser;
+    auto result = parser.parse(
+        "FOR v IN -1..2 OUTBOUND \"users/1\" GRAPH \"g\" RETURN v");
+    EXPECT_FALSE(result.has_value());
+}
+
+// Max depth exceeding kMaxTraversalDepth (1000) must be rejected
+TEST(AQLParserTest, TraversalExceedingMaxDepthIsError) {
+    AQLParser parser;
+    auto result = parser.parse(
+        "FOR v IN 1..1001 OUTBOUND \"users/1\" GRAPH \"g\" RETURN v");
+    EXPECT_FALSE(result.has_value());
+}
+
+// Max depth exactly at kMaxTraversalDepth (1000) must be accepted
+TEST(AQLParserTest, TraversalAtDepthBoundaryIsAccepted) {
+    AQLParser parser;
+    auto result = parser.parse(
+        "FOR v IN 1..1000 OUTBOUND \"users/1\" GRAPH \"g\" RETURN v");
+    EXPECT_TRUE(result.has_value());
+}
+
 

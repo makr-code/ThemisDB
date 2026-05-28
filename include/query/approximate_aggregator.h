@@ -107,8 +107,8 @@ public:
     int precision() const { return precision_; }
 
 private:
-    int precision_;
-    int num_registers_;
+    int precision_ = 12;
+    int num_registers_ = 1 << 12;
     std::vector<uint8_t> registers_;
 };
 
@@ -153,14 +153,14 @@ public:
 
 private:
     struct Centroid {
-        double mean;
-        double weight;
+        double mean = 0.0;
+        double weight = 0.0;
     };
 
     void compress();
 
-    double quantile_;
-    int compression_;
+    double quantile_ = 0.5;
+    int compression_ = 100;
     std::vector<Centroid> centroids_;
     double total_weight_ = 0.0;
 };
@@ -205,8 +205,8 @@ public:
     size_t totalSeen() const { return total_seen_; }
 
 private:
-    AggregationType type_;
-    size_t sample_size_;
+    AggregationType type_ = AggregationType::AVG;
+    size_t sample_size_ = 10'000;
     size_t total_seen_ = 0;
     std::vector<double> reservoir_;
     uint64_t rng_state_ = 0x123456789abcdefULL;

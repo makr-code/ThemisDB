@@ -10,6 +10,7 @@
  */
 
 #include "llm/lora_framework/gpu_memory.h"
+#include <spdlog/spdlog.h>
 #include <stdexcept>
 
 // Backend-specific detection

@@ -1006,6 +1006,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
 
         json arr = json::array();
         if (alertmanager_) {
+            auto& alertmanager = *alertmanager_;
             for (const auto& alert : alertmanager.getActiveAlerts()) {
                 json a;
                 a["alert_id"]   = alert.alert_id;
@@ -1033,8 +1034,8 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
         json body;
         body["alerts"] = arr;
         body["count"]  = arr.size();
-        body["alertmanager_enabled"] = (alertmanager_ != nullptr) &&
-                                       alertmanager.getConfig().enabled;
+        body["alertmanager_enabled"] =
+            (alertmanager_ != nullptr) && alertmanager_->getConfig().enabled;
         return makeResponse(http::status::ok, body.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error,
@@ -1117,13 +1118,13 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityHealt
         {
             json am;
             if (alertmanager_) {
-                const auto& cfg = alertmanager.getConfig();
+                const auto& cfg = alertmanager_->getConfig();
                 am["enabled"]      = cfg.enabled;
                 am["endpoint_url"] = cfg.endpoint_url;
                 am["active_alerts"] = static_cast<int>(
-                    alertmanager.getActiveAlerts().size());
+                    alertmanager_->getActiveAlerts().size());
                 if (cfg.enabled) {
-                    auto conn = alertmanager.testConnection();
+                    auto conn = alertmanager_->testConnection();
                     am["reachable"] = conn.has_value();
                     if (!conn) {
                         am["error"]  = conn.error().message();

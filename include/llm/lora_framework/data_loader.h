@@ -44,6 +44,7 @@ struct InstructionDataSample {
  * @brief Batch of training samples
  */
 struct TrainingBatch {
+    virtual ~TrainingBatch() = default;
     std::vector<std::vector<int>> input_ids;      // [batch_size, seq_len]
     std::vector<std::vector<int>> label_ids;      // [batch_size, seq_len]
     std::vector<size_t> sequence_lengths;         // Actual lengths before padding
@@ -145,6 +146,7 @@ private:
  * @brief Data loader configuration
  */
 struct DataLoaderConfig {
+    virtual ~DataLoaderConfig() = default;
     DatasetFormat format = DatasetFormat::JSONL;
     int max_sequence_length = 2048;
     int batch_size = 1;

@@ -120,6 +120,7 @@ void fusedRMSNormLinear(
  */
 class KernelFusionManager {
 public:
+    virtual ~KernelFusionManager() = default;
     struct Config {
         bool enable_fusion = true;
         bool enable_ln_linear_fusion = true;

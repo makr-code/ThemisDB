@@ -34,6 +34,7 @@ enum class ModelFormat {
  * Most fields are inferred from the model's config.json if not specified.
  */
 struct QuantizationPipelineConfig {
+    virtual ~QuantizationPipelineConfig() = default;
     /// Target internal quantization type (inferred if NONE)
     lora::QuantizationType target_type = lora::QuantizationType::NONE;
     /// Block size for internal quantization (default 64)
@@ -73,6 +74,7 @@ struct QuantizationPipelineConfig {
  */
 class ModelQuantizationPipeline {
 public:
+    virtual ~ModelQuantizationPipeline() = default;
     /**
      * @brief Load a pre-quantized model
      *

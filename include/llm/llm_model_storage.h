@@ -33,6 +33,7 @@ using json = nlohmann::json;
  * and all other ThemisDB data: BaseEntity → Document/Graph/Vector.
  */
 struct LLMModelMetadata {
+    virtual ~LLMModelMetadata() = default;
     // Identity
     std::string model_id;              // Unique identifier (e.g., "llama-2-7b")
     std::string model_name;            // Display name
