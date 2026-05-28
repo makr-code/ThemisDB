@@ -1,6 +1,6 @@
 /*
  * ThemisDB | File: llm_api_handler.cpp | Version: 0.0.48 | Last Modified: 2026-05-28 05:05:00
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1856
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1860
  * Open Issues: TODOs=0, Stubs=0, Gaps=0, Unimpl=0, Mock=0, Sim=0, Debt=0
  * Gap Correlation: internal=0 | external_v3=349 | delta=349 | status=closed
  * External Severity (v3): C=9, H=261, M=79
@@ -340,6 +340,10 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
             } catch (const std::exception& ve) {
                 THEMIS_WARN("LLMApiHandler::handleRAG: vector retrieval skipped ({}); "
                             "proceeding with empty document context", ve.what());
+            } catch (...) {
+                logCurrentException("LLMApiHandler::handleRAG embed");
+                THEMIS_WARN("LLMApiHandler::handleRAG: vector retrieval skipped (non-standard exception); "
+                            "proceeding with empty document context");
             }
         }
         
