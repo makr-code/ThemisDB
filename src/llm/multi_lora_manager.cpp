@@ -870,7 +870,11 @@ bool MultiLoRAManager::fuseLoRAs(
             return false;
         }
         
-        auto* lora = it->second.get();
+        auto* const lora = it->second.get();
+        if (!lora) {
+            spdlog::warn("fuseLoRAs: LoRA {} is stored in an empty slot", lora_ids[i]);
+            return false;
+        }
         source_loras.push_back(lora);
         
         // Verify all LoRAs are for the same base model
@@ -1330,6 +1334,9 @@ void MultiLoRAManager::updateMemoryUsage() {
     total_vram_bytes_ = 0;
     
     for (const auto& [_, lora] : loras_) {
+        if (!lora) {
+            continue;
+        }
         total_vram_bytes_ += lora->vram_bytes;
     }
 }
@@ -1342,7 +1349,10 @@ std::optional<QuantizationStats> MultiLoRAManager::getQuantizationStats(const st
         return std::nullopt;
     }
     
-    const auto* lora = it->second.get();
+    const auto* const lora = it->second.get();
+    if (!lora) {
+        return std::nullopt;
+    }
     if (!lora->is_quantized) {
         return std::nullopt;
     }
@@ -2444,6 +2454,9 @@ json MultiLoRAManager::getUsageHeatmap() const {
     json heatmap = json::array();
     
     for (const auto& [id, lora] : loras_) {
+        if (!lora) {
+            continue;
+        }
         json entry;
         entry["lora_id"] = id;
         entry["tenant_id"] = lora->tenant_id;
@@ -2497,6 +2510,9 @@ size_t MultiLoRAManager::evictResourceAware(int gpu_id, size_t target_vram_mb) {
     auto now = std::chrono::system_clock::now();
     
     for (auto& [id, lora] : loras_) {
+        if (!lora) {
+            continue;
+        }
         // Skip pinned LoRAs
         if (lora->keep_loaded) {
             continue;

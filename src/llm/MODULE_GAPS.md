@@ -563,6 +563,22 @@ LoRA slot relookup paths now fail closed on empty unique_ptr entries:
 - Runtime behavior remains unchanged for valid slots; objective is additional
   null_dereference/unknown-cluster reduction in W1-L07 issue-scope utility flows.
 
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 8):** Remaining
+`loras_` iteration and single-lookup paths now guard null unique_ptr entries:
+- `multi_lora_manager.cpp` `fuseLoRAs` — `it->second.get()` now null-checked immediately
+  before `lora->base_model_id` access in the validation loop; empty slots return `false` with
+  a warning instead of dereferencing a null pointer.
+- `multi_lora_manager.cpp` `updateMemoryUsage` — loop over `loras_` now skips null entries
+  with an explicit `if (!lora) continue;` guard before `lora->vram_bytes` accumulation.
+- `multi_lora_manager.cpp` `getQuantizationStats` — `it->second.get()` result now
+  null-checked before `lora->is_quantized`; null slots return `std::nullopt`.
+- `multi_lora_manager.cpp` `getUsageHeatmap` — loop over `loras_` now skips null entries
+  with a guard before the first `lora->` field access.
+- `multi_lora_manager.cpp` `evictResourceAware` — candidate-building loop now skips null
+  entries with a guard before `lora->keep_loaded` and subsequent field accesses.
+- Runtime behavior is unchanged for valid slots; objective is closure of the remaining
+  null_dereference / unknown-cluster scanner hotspots in the W1-L07 issue scope.
+
 **Status (v1.22.0-pre — W1-L03d scope follow-up):** Vulkan/DirectX kernel-interface
 scope hardened for smart-pointer lifetime safety:
 - `lora_framework/kernels/vulkan_kernels.cpp` — Removed `thread_local` fused-buffer cache
