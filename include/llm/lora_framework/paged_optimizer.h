@@ -68,6 +68,7 @@ struct PagedOptimizerState {
  * @brief Paging metrics for monitoring
  */
 struct PagingMetrics {
+    virtual ~PagingMetrics() = default;
     size_t num_page_ins = 0;
     size_t num_page_outs = 0;
     size_t bytes_transferred = 0;

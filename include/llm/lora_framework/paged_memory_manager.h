@@ -33,6 +33,7 @@ using PageID = uint64_t;
  * and paged between them.
  */
 struct PagedBuffer {
+    virtual ~PagedBuffer() = default;
     PageID id = 0;
     size_t size_bytes = 0;
     void* cpu_ptr = nullptr;
@@ -46,6 +47,7 @@ struct PagedBuffer {
  * @brief Page information for tracking
  */
 struct PageInfo {
+    virtual ~PageInfo() = default;
     PageID id = 0;
     size_t size_bytes = 0;
     Device device = Device::cpu();
@@ -62,6 +64,7 @@ struct PageInfo {
 template<typename Key, typename Value>
 class LRUCache {
 public:
+    virtual ~LRUCache() = default;
     explicit LRUCache(size_t capacity) : capacity_(capacity) {}
     
     void put(const Key& key, const Value& value) {
@@ -274,10 +277,10 @@ private:
     size_t active_set_size_ = 0;
     
     // Access counter for LRU
-    uint64_t access_counter_ = 0;
+    mutable uint64_t access_counter_ = 0;
     
     // Helper to get current timestamp for LRU
-    uint64_t getCurrentTimestamp() {
+    uint64_t getCurrentTimestamp() const {
         return access_counter_++;
     }
     

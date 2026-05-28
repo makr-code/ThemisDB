@@ -240,7 +240,7 @@ void fusedSoftmaxDropoutAttention(
 #ifdef THEMIS_ENABLE_CUDA
     if (isCudaAvailable()) {
         // Use Flash Attention kernel which fuses softmax and attention
-        float scale = 1.0f / sqrtf((float)head_dim);
+        float scale = 1.0f / sqrtf(static_cast<float>(head_dim));
         
         // Note: This requires pre-computed Q, K, V
         // Flash Attention handles softmax + attention in one pass

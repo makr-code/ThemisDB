@@ -118,6 +118,7 @@ struct MLModelConfig {
  * @brief ML Model instance information
  */
 struct MLModelInstance {
+    virtual ~MLModelInstance() = default;
     std::string instance_id;
     std::string model_id;
     MLModelStatus status;
@@ -175,6 +176,7 @@ struct MLModelInstance {
  * @brief ML Model inference request
  */
 struct MLInferenceRequest {
+    virtual ~MLInferenceRequest() = default;
     std::string model_id;
     std::string model_version;          // Optional: specific version, or "latest"
     json input_data;                    // Model-specific input format

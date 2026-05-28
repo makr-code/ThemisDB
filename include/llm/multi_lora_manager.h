@@ -111,6 +111,7 @@ struct LoRAQuantizationConfig {
  * @brief Quantization statistics for a LoRA adapter
  */
 struct QuantizationStats {
+    virtual ~QuantizationStats() = default;
     std::string lora_id;
     QuantizationMode mode = QuantizationMode::NONE;
     
@@ -156,6 +157,7 @@ enum class SchedulingStrategy {
  * - Context-based: different weights per request type
  */
 struct AlphaSchedule {
+    virtual ~AlphaSchedule() = default;
     std::string schedule_id;
     FusionStrategy strategy = FusionStrategy::STATIC;
     SchedulingStrategy scheduling_strategy = SchedulingStrategy::LINEAR;
@@ -217,6 +219,7 @@ struct FusionConfig {
  * @brief Fusion cache entry metadata
  */
 struct FusionCacheEntry {
+    virtual ~FusionCacheEntry() = default;
     std::string fusion_id;
     std::vector<std::string> source_lora_ids;
     std::vector<float> weights;
@@ -236,6 +239,7 @@ struct FusionCacheEntry {
  * @brief Fusion performance metrics
  */
 struct FusionMetrics {
+    virtual ~FusionMetrics() = default;
     std::string fusion_id;
     FusionStrategy strategy;
     
@@ -258,6 +262,7 @@ struct FusionMetrics {
  * Represents a loaded LoRA adapter with its metadata and handle.
  */
 struct LoRASlot {
+    virtual ~LoRASlot() = default;
     std::string lora_id;
     std::string path;
     std::string base_model_id;

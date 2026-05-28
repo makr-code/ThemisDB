@@ -38,6 +38,7 @@ enum class DeploymentMode {
  * @brief Source configuration for model deployment
  */
 struct ModelSource {
+    virtual ~ModelSource() = default;
     std::string type;              // "local", "ollama", "http", "https"
     std::string location;          // Path or URL
     std::string checksum_type;     // "sha256", "md5", etc.
@@ -101,6 +102,7 @@ struct DeploymentConfig {
  * @brief Status of a deployed model
  */
 struct ModelStatus {
+    virtual ~ModelStatus() = default;
     std::string model_id;
     std::string model_path;
     std::string version;

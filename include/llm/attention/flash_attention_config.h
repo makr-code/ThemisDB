@@ -89,6 +89,7 @@ struct FlashAttentionConfig {
  * @brief Memory statistics for attention operations
  */
 struct AttentionMemoryStats {
+    virtual ~AttentionMemoryStats() = default;
     size_t total_memory_bytes = 0;
     size_t kv_cache_bytes = 0;
     size_t activation_bytes = 0;

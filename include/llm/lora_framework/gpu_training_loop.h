@@ -33,6 +33,7 @@ class BaseModelAdapter;
  * @brief Training metrics for GPU training
  */
 struct GPUTrainingMetrics {
+    virtual ~GPUTrainingMetrics() = default;
     int current_epoch = 0;
     int total_epochs = 0;
     int current_step = 0;
@@ -55,6 +56,7 @@ using GPUTrainingCallback = std::function<void(const GPUTrainingMetrics&)>;
  * @brief Configuration for GPU training loop
  */
 struct GPUTrainingConfig {
+    virtual ~GPUTrainingConfig() = default;
     // Basic training parameters
     int num_epochs = 3;
     float learning_rate = 1e-4f;

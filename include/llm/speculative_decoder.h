@@ -49,6 +49,7 @@ namespace llm {
  */
 class SpeculativeDecoder {
 public:
+    virtual ~SpeculativeDecoder() = default;
     // ── Configuration ────────────────────────────────────────────────
 
     struct Config {

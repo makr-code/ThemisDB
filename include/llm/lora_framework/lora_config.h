@@ -23,6 +23,7 @@ using json = nlohmann::json;
  * @brief LoRA hyperparameters for training
  */
 struct LoRAHyperparameters {
+    virtual ~LoRAHyperparameters() = default;
     int rank = 8;                          // LoRA rank (r)
     float alpha = 16.0f;                   // LoRA alpha scaling
     float dropout = 0.1f;                  // Dropout rate
@@ -140,6 +141,7 @@ struct QLoRAConfig {
  * @brief LoRA adapter metadata
  */
 struct AdapterMetadata {
+    virtual ~AdapterMetadata() = default;
     std::string adapter_id;
     std::string version;
     std::string base_model;
@@ -203,6 +205,7 @@ struct AdapterMetadata {
  * @brief LoRA adapter information
  */
 struct AdapterInfo {
+    virtual ~AdapterInfo() = default;
     std::string adapter_id;
     std::string version;
     std::string base_model;
@@ -232,6 +235,7 @@ struct AdapterInfo {
  * @brief Cache statistics for adapter manager
  */
 struct CacheStats {
+    virtual ~CacheStats() = default;
     size_t total_loads = 0;
     size_t cache_hits = 0;
     size_t cache_misses = 0;

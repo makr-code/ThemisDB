@@ -42,6 +42,7 @@ class LoRAStorageService;
  * @brief Sync status for an adapter
  */
 struct AdapterSyncStatus {
+    virtual ~AdapterSyncStatus() = default;
     std::string adapter_id;
     bool is_synced = false;
     std::string local_version;               // Version string
@@ -57,6 +58,7 @@ struct AdapterSyncStatus {
  * @brief Sync job result
  */
 struct SyncJobResult {
+    virtual ~SyncJobResult() = default;
     int adapters_checked = 0;
     int adapters_synced = 0;
     int adapters_failed = 0;

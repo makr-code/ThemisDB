@@ -56,6 +56,7 @@ struct ModelLicense {
  * @brief Model metadata with license information
  */
 struct VisionModelMetadata {
+    virtual ~VisionModelMetadata() = default;
     std::string model_id;                ///< Unique model identifier
     std::string model_name;              ///< Human-readable name
     std::string version;                 ///< Model version
@@ -72,6 +73,7 @@ struct VisionModelMetadata {
  * @brief Resource limits for vision processing
  */
 struct VisionResourceLimits {
+    virtual ~VisionResourceLimits() = default;
     size_t max_memory_mb = 0;                ///< Maximum memory usage
     size_t max_memory_per_request_mb = 0;    ///< Memory per request
     size_t max_vram_mb = 0;                  ///< Maximum VRAM usage
@@ -89,6 +91,7 @@ struct VisionResourceLimits {
  * @brief Rate limiting configuration
  */
 struct VisionRateLimits {
+    virtual ~VisionRateLimits() = default;
     bool enabled = false;                        ///< Rate limiting enabled
     size_t requests_per_minute = 0;          ///< Requests per minute
     size_t requests_per_hour = 0;            ///< Requests per hour
@@ -101,6 +104,7 @@ struct VisionRateLimits {
  * @brief Resource quota tracking
  */
 struct VisionResourceQuota {
+    virtual ~VisionResourceQuota() = default;
     bool enabled = false;                        ///< Quota enforcement enabled
     std::string enforcement;             ///< Enforcement mode: soft, hard
     size_t daily_requests = 0;               ///< Daily request quota
@@ -114,6 +118,7 @@ struct VisionResourceQuota {
  * @brief Monitoring configuration
  */
 struct VisionMonitoringConfig {
+    virtual ~VisionMonitoringConfig() = default;
     bool enabled = false;                        ///< Monitoring enabled
     bool track_latency = false;                  ///< Track latency metrics
     bool track_throughput = false;               ///< Track throughput metrics
@@ -145,6 +150,7 @@ struct VisionMonitoringConfig {
  * @brief Security configuration for vision processing
  */
 struct VisionSecurityConfig {
+    virtual ~VisionSecurityConfig() = default;
     // Input validation
     struct ValidationConfig {
         bool enabled = false;
@@ -198,6 +204,7 @@ struct VisionSecurityConfig {
  * @brief Pipeline configuration
  */
 struct VisionPipelineConfig {
+    virtual ~VisionPipelineConfig() = default;
     std::string stability;               ///< Stability level: development, staging, production
     
     // Error handling

@@ -28,6 +28,7 @@ namespace lora {
  * @brief Adapter weights representation
  */
 struct AdapterWeights {
+    virtual ~AdapterWeights() = default;
     std::vector<uint8_t> data;        // Binary weight data
     LoRAHyperparameters hyperparameters;
     size_t size_bytes = 0;

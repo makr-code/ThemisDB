@@ -62,6 +62,7 @@ struct PerspectiveResponse {
  * @brief Multi-perspective generation result
  */
 struct MultiPerspectiveResult {
+    virtual ~MultiPerspectiveResult() = default;
     // Original query
     std::string query;
     

@@ -37,6 +37,7 @@ namespace lora {
  */
 class AdaptiveBatcher {
 public:
+    virtual ~AdaptiveBatcher() = default;
     struct Config {
         size_t min_batch_size = 1;
         size_t max_batch_size = 32;

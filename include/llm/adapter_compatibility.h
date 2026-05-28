@@ -20,6 +20,7 @@ namespace llm {
 /// Validates LoRA adapter compatibility with base models
 class AdapterCompatibilityValidator {
 public:
+    virtual ~AdapterCompatibilityValidator() = default;
     /// Validation level
     enum class ValidationLevel {
         STRICT,      // All checks must pass

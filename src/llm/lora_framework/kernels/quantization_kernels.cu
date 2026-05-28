@@ -287,7 +287,7 @@ __global__ void dequantize_int8_kernel(
     float scale = scales[block_id];
     
     int8_t quantized = input[idx];
-    output[idx] = (float)quantized * scale;
+    output[idx] = static_cast<float>(quantized) * scale;
 }
 
 // ============================================================================
@@ -356,7 +356,7 @@ __global__ void fused_dequant_matmul_int8_kernel(
         size_t block_id = weight_idx / block_size;
         
         float scale = scales[block_id];
-        float weight = (float)quantized_weights[weight_idx] * scale;
+        float weight = static_cast<float>(quantized_weights[weight_idx]) * scale;
         
         sum += input[row * K + k] * weight;
     }

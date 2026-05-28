@@ -24,6 +24,7 @@ namespace llm {
 
 /// Semantic versioning for adapters
 struct AdapterVersion {
+    virtual ~AdapterVersion() = default;
     int major = 1;
     int minor = 0;
     int patch = 0;
@@ -83,6 +84,7 @@ struct AdapterProvenance {
 
 /// Training configuration
 struct TrainingConfig {
+    virtual ~TrainingConfig() = default;
     std::string dataset_name;
     size_t num_samples = 0;
     int epochs = 3;
@@ -104,6 +106,7 @@ struct TrainingConfig {
 
 /// Quality metrics from training
 struct QualityMetrics {
+    virtual ~QualityMetrics() = default;
     double final_loss = 0.0;
     double perplexity = 0.0;
     double accuracy = 0.0;
@@ -129,6 +132,7 @@ enum class AdapterRole {
 
 /// Adapter metadata - Complete information about a LoRA adapter
 struct AdapterMetadata {
+    virtual ~AdapterMetadata() = default;
     // Identification
     std::string adapter_id;          // Unique identifier (includes base_model)
     AdapterVersion version;

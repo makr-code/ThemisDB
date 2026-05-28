@@ -26,6 +26,7 @@ namespace lora {
  * @brief GPU batch for training
  */
 struct GPUBatch {
+    virtual ~GPUBatch() = default;
     GPUTensor input_ids;      // Tokenized input (batch_size, seq_len)
     GPUTensor attention_mask; // Attention mask (batch_size, seq_len)
     GPUTensor labels;         // Target labels (batch_size, seq_len)

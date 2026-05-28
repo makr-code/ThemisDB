@@ -27,6 +27,7 @@ namespace themis::llm {
 /// Extended training configuration for TRAIN statement
 /// Extends the base TrainingConfig with TRAIN-specific options
 struct TrainStatementConfig : public TrainingConfig {
+    ~TrainStatementConfig() override = default;
     // Base model configuration (not in base TrainingConfig)
     std::string base_model_name;               // e.g., "mistral-7b", "llama-3-8b"
     

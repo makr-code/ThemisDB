@@ -249,6 +249,7 @@ struct LoRAGraphPath {
  * @brief Enhanced adapter metadata with graph and vector support
  */
 struct AdapterMetadataEnhanced : public AdapterMetadata {
+    ~AdapterMetadataEnhanced() override = default;
     // Graph information
     std::vector<LoRAGraphEdge> edges;           // All edges connected to this adapter
     LoRAGraphPath lineage_path;                 // Path from base model to this adapter
@@ -336,6 +337,7 @@ struct AdapterMetadataEnhanced : public AdapterMetadata {
  * @brief Enhanced adapter info with graph path and vectors
  */
 struct AdapterInfoEnhanced : public AdapterInfo {
+    ~AdapterInfoEnhanced() override = default;
     // Graph path
     LoRAGraphPath graph_path;
     

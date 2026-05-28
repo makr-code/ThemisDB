@@ -35,6 +35,7 @@ enum class DistributedBackend {
  * @brief Configuration for distributed training
  */
 struct DistributedConfig {
+    virtual ~DistributedConfig() = default;
     DistributedBackend backend = DistributedBackend::NONE;
     int world_size = 1;                 // Total number of processes
     int rank = 0;                       // Current process rank
@@ -72,6 +73,7 @@ struct DistributedConfig {
  * @brief Statistics for distributed training
  */
 struct DistributedStats {
+    virtual ~DistributedStats() = default;
     int world_size = 1;
     int rank = 0;
     float communication_time_ms = 0.0f;

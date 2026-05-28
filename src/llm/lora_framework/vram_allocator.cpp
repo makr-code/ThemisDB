@@ -504,6 +504,11 @@ void* VRAMAllocator::allocate(size_t size_bytes, size_t alignment) {
     if (!initialized_ || size_bytes == 0) {
         return nullptr;
     }
+    if (pool_size_bytes_ > 0 && size_bytes > pool_size_bytes_) {
+        spdlog::error("VRAMAllocator::allocate: requested {} bytes exceeds pool size {} bytes",
+                      size_bytes, pool_size_bytes_);
+        return nullptr;
+    }
     
     std::lock_guard<std::mutex> lock(mutex_);
     

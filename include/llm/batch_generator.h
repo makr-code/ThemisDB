@@ -62,6 +62,7 @@ struct BatchConfig {
  * @brief A batch of training examples
  */
 struct TrainingBatch {
+    virtual ~TrainingBatch() = default;
     std::vector<TrainingSample> examples;
     
     // Tokenized data (prepared for model input)
@@ -85,6 +86,7 @@ struct TrainingBatch {
  * @brief Statistics about batch generation
  */
 struct BatchStatistics {
+    virtual ~BatchStatistics() = default;
     int total_batches = 0;
     int total_examples = 0;
     int total_tokens = 0;

@@ -42,6 +42,7 @@ namespace llm {
  * @brief Constitutional principle for self-critique
  */
 struct ConstitutionalPrinciple {
+    virtual ~ConstitutionalPrinciple() = default;
     std::string id;
     std::string name;
     std::string description;
@@ -58,6 +59,7 @@ struct ConstitutionalPrinciple {
  * @brief Result of constitutional reasoning
  */
 struct ConstitutionalReasoningResult {
+    virtual ~ConstitutionalReasoningResult() = default;
     // Original response
     std::string original_response;
     

@@ -90,6 +90,7 @@ private:
  * @brief Model cache entry with metadata
  */
 struct CachedModel {
+    virtual ~CachedModel() = default;
     std::string model_id;
     std::string model_path;
     ModelInfo info;
