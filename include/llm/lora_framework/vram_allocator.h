@@ -23,6 +23,7 @@ namespace lora {
  * @brief GPU VRAM memory block descriptor
  */
 struct VRAMBlock {
+    virtual ~VRAMBlock() = default;
     void* ptr = nullptr;           // GPU memory pointer
     size_t size = 0;               // Size in bytes
     bool is_free = true;           // Allocation status

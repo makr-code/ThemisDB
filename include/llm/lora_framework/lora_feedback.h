@@ -27,6 +27,7 @@ using json = nlohmann::json;
  * LoRA adapters for continuous learning and improvement.
  */
 struct Feedback {
+    virtual ~Feedback() = default;
     std::string id;                               // Unique feedback ID
     std::string adapter_id;                       // Associated LoRA adapter ID
     std::string user_id;                          // User who provided feedback
@@ -150,6 +151,7 @@ struct Feedback {
  * @brief Filter options for feedback queries
  */
 struct FeedbackFilter {
+    virtual ~FeedbackFilter() = default;
     std::optional<std::string> adapter_id;        // Filter by adapter
     std::optional<std::string> user_id;           // Filter by user
     std::optional<int> min_rating;                // Minimum rating

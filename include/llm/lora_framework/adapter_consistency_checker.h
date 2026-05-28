@@ -22,6 +22,7 @@ namespace lora {
  * @brief Result of consistency check
  */
 struct ConsistencyCheckResult {
+    virtual ~ConsistencyCheckResult() = default;
     bool is_valid = false;
     std::string checksum;          // SHA-256 hex
     std::string signature;         // Digital signature (if enabled)

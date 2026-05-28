@@ -25,6 +25,7 @@ namespace lora {
  * @brief Layer information from base model
  */
 struct BaseLayerInfo {
+    virtual ~BaseLayerInfo() = default;
     std::string name;              // Layer name (e.g., "layers.0.attention.wq")
     std::vector<size_t> shape;     // Tensor shape
     size_t in_features = 0;            // Input dimension
@@ -37,6 +38,7 @@ struct BaseLayerInfo {
  * @brief Model architecture information
  */
 struct ModelArchitectureInfo {
+    virtual ~ModelArchitectureInfo() = default;
     std::string architecture;      // "llama", "mistral", "gpt-neox"
     int num_layers = 0;                // Number of transformer layers
     int hidden_size = 0;               // Hidden dimension

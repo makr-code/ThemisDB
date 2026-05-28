@@ -28,6 +28,7 @@ namespace lora {
  * @brief Cached embedding entry
  */
 struct EmbeddingCache {
+    virtual ~EmbeddingCache() = default;
     std::string text;
     std::vector<float> embedding;  // Real embedding from model, not hash-based
     std::chrono::system_clock::time_point cached_at;
@@ -45,6 +46,7 @@ struct EmbeddingCache {
  * @brief Statistics for embedding cache
  */
 struct EmbeddingCacheStats {
+    virtual ~EmbeddingCacheStats() = default;
     size_t total_requests = 0;
     size_t cache_hits = 0;
     size_t cache_misses = 0;

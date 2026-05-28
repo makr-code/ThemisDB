@@ -61,6 +61,7 @@ namespace llm {
  */
 class LookupDecoder {
 public:
+    virtual ~LookupDecoder() = default;
     // ── Hash helper (public for unit-testing) ────────────────────────
 
     struct VectorHash {

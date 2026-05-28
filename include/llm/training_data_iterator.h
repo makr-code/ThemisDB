@@ -23,6 +23,7 @@ namespace llm {
 /// Extends JSONLLMExporter for data export functionality
 class TrainingDataIterator {
 public:
+    virtual ~TrainingDataIterator() = default;
     /// Configuration for training data iteration
     struct Config {
         // Batch configuration

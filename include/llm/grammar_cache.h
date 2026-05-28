@@ -27,6 +27,7 @@ namespace llm {
  */
 class GrammarCache {
 public:
+    virtual ~GrammarCache() = default;
     /**
      * @brief Configuration for grammar cache
      */

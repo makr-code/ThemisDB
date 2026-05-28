@@ -41,6 +41,7 @@ struct EvaluationMetrics {
  * @brief Aggregated evaluation results
  */
 struct AggregatedMetrics {
+    virtual ~AggregatedMetrics() = default;
     double overall_score = 0.0;        ///< Overall weighted score
     double mean_similarity = 0.0;      ///< Mean semantic similarity
     double std_similarity = 0.0;       ///< Standard deviation of similarity

@@ -42,6 +42,7 @@ enum class SchedulerType {
  * @brief Configuration for learning rate scheduler
  */
 struct LRSchedulerConfig {
+    virtual ~LRSchedulerConfig() = default;
     SchedulerType type = SchedulerType::CONSTANT;
     float base_lr = 1e-4f;              // Base learning rate
     float min_lr = 1e-6f;               // Minimum learning rate

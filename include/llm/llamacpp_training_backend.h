@@ -21,6 +21,7 @@ namespace llm {
 
 // llama.cpp configuration for model loading
 struct LlamaCppConfig {
+    virtual ~LlamaCppConfig() = default;
     std::string model_path;              // Path to base model GGUF file
     int n_ctx = 2048;                    // Context length
     int n_batch = 512;                   // Batch size for prompt processing
@@ -99,6 +100,7 @@ namespace TargetModules {
 
 // Training step result
 struct TrainingStepResult {
+    virtual ~TrainingStepResult() = default;
     float loss = 0.0f;                          // Training loss
     float grad_norm = 0.0f;                     // Gradient norm (for monitoring)
     int num_tokens = 0;                      // Number of tokens processed
@@ -120,6 +122,7 @@ struct TrainingStepResult {
 
 // Evaluation result
 struct EvaluationResult {
+    virtual ~EvaluationResult() = default;
     float loss = 0.0f;                          // Evaluation loss
     float perplexity = 0.0f;                    // Perplexity
     int num_tokens = 0;                      // Number of tokens evaluated
@@ -139,6 +142,7 @@ struct EvaluationResult {
 
 // Checkpoint data structure
 struct CheckpointData {
+    virtual ~CheckpointData() = default;
     int epoch = 0;                           // Current epoch
     int global_step = 0;                     // Global training step
     std::map<std::string, std::vector<float>> lora_weights;  // LoRA weight matrices

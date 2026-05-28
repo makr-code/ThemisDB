@@ -83,6 +83,7 @@ struct GGUFSTConfig {
 
 /// GGUF-ST Section Header
 struct SectionHeader {
+    virtual ~SectionHeader() = default;
     char magic[4];          // Section identifier
     uint32_t version = 0;       // Section format version
     uint64_t data_size = 0;     // Size of data following header
@@ -94,6 +95,7 @@ struct SectionHeader {
 /// Extends BlobStorageManager for storage operations
 class GGUFSTAdapter {
 public:
+    virtual ~GGUFSTAdapter() = default;
     explicit GGUFSTAdapter(
         std::shared_ptr<storage::BlobStorageManager> storage,
         const GGUFSTConfig& config = {}

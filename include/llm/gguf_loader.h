@@ -65,6 +65,7 @@ enum class GGUFValueType : uint32_t {
 
 // GGUF tensor metadata
 struct TensorMetadata {
+    virtual ~TensorMetadata() = default;
     std::string name;
     std::vector<int64_t> shape;
     GGMLType type;      // GGML quantization type
@@ -77,6 +78,7 @@ struct TensorMetadata {
 
 // GGUF file metadata
 struct GGUFMetadata {
+    virtual ~GGUFMetadata() = default;
     uint32_t version = 0;
     std::string architecture;  // "llama", "mistral", etc.
     std::unordered_map<std::string, std::string> config;

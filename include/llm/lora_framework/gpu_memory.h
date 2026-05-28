@@ -33,6 +33,7 @@ enum class DeviceType {
  * @brief Device descriptor
  */
 struct Device {
+    virtual ~Device() = default;
     DeviceType type = DeviceType::CPU;
     int device_id = 0;  // For multi-GPU systems
     

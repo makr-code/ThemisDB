@@ -29,6 +29,7 @@ namespace llm {
  * - Unified monitoring with other ThemisDB caches
  */
 struct ModelMetadata {
+    virtual ~ModelMetadata() = default;
     std::string model_id;
     std::string path;
     size_t size_bytes = 0;

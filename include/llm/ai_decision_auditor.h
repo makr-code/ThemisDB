@@ -34,6 +34,7 @@ using json = nlohmann::json;
  * Complies with EU AI Act, GDPR Article 22, and eIDAS requirements.
  */
 struct AIDecisionAudit {
+    virtual ~AIDecisionAudit() = default;
     // Identification
     std::string decision_id;           // Unique decision ID
     std::string user_id;               // User who triggered decision

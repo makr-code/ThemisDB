@@ -628,6 +628,53 @@ Vulkan/DirectX kernel execution paths:
 
 ---
 
+**Status (v1.22.0-pre — batch 36):** oop_design virtual dtors (144 classes), input_validation bounds checks:
+
+*oop_design batch 36 — virtual destructors:*
+- Added `virtual ~Name() = default;` to 144 classes/structs across 82 header files in `include/llm/`.
+  Affected files include adapter_compatibility.h, adapter_deployment_manager.h, adapter_registry.h,
+  ai_decision_auditor.h, ai_orchestrator.h, applications/themis_help_lora.h, async_inference_engine.h,
+  attention/flash_attention.h, attention/flash_attention_config.h, attention/kv_cache_manager.h,
+  batch_generator.h, constitutional_reasoning_engine.h, distributed_training_coordinator.h,
+  docs_assistant.h, ethics_aware_confidence_detector.h, gguf_loader.h, gguf_st_adapter.h,
+  gpu_safe_fail.h, grammar_cache.h, i_federated_inference_backend.h, inline_training_engine.h,
+  kernel_fusion.h, llama_resource_manager.h, llamacpp_inference_engine.h, llamacpp_training_backend.h,
+  llm_deployment_plugin.h, llm_model_audit_logger.h, llm_model_storage.h, llm_plugin_interface.h,
+  llm_prefix_cache.h, lookup_decoder.h, lora_framework/adapter_consistency_checker.h,
+  lora_framework/adapter_sync_manager.h, lora_framework/adaptive_batcher.h,
+  lora_framework/base_model_adapter.h, lora_framework/data_loader.h,
+  lora_framework/distributed_trainer.h, lora_framework/embedding_provider.h,
+  lora_framework/gguf_converter.h, lora_framework/gpu_data_loader.h,
+  lora_framework/gpu_memory.h, lora_framework/gpu_training_loop.h,
+  lora_framework/gradient_checkpointing.h, lora_framework/gradient_utils.h,
+  lora_framework/lora_audit_logger.h, lora_framework/lora_checkpoint_manager.h,
+  lora_framework/lora_config.h, lora_framework/lora_feedback.h, lora_framework/lora_layers.h,
+  lora_framework/lora_storage_service.h, lora_framework/lora_training_config.h,
+  lora_framework/lora_training_service.h, lora_framework/lr_scheduler.h,
+  lora_framework/model_compatibility.h, lora_framework/multi_gpu.h,
+  lora_framework/paged_memory_manager.h, lora_framework/paged_optimizer.h,
+  lora_framework/quantization.h, lora_framework/resource_profiler.h,
+  lora_framework/sequence_packer.h, lora_framework/vram_allocator.h,
+  lora_metadata_cache.h, lora_router.h, mixed_precision_inference.h, ml_model_manager.h,
+  model_downloader.h, model_loader.h, model_metadata_cache.h, model_quantization_pipeline.h,
+  model_router.h, multi_gpu_memory_coordinator.h, multi_lora_manager.h,
+  multi_model_training_data.h, multi_perspective_generator.h, production_validator.h,
+  prompt_evaluator.h, prompt_optimizer.h, speculative_decoder.h, token_quota_manager.h,
+  training_data_iterator.h, vision_config.h, vision_encoder.h, vision_resource_monitor.h.
+
+*input_validation batch 36:*
+- `attention/flash_attention.cpp::FlashAttentionCPU::forward()` — added config parameter bounds
+  check `if (batch <= 0 || seq_len <= 0 || num_heads <= 0 || head_dim <= 0) return
+  Status::ERROR_INVALID_CONFIG;` before the `std::vector<float> scores(...)` allocation.
+  Prevents wrapping to a huge size_t when user-supplied config has non-positive dimensions.
+- `attention/flash_attention.cpp::FlashAttentionCPU::backward()` — same config bounds check
+  added before the backward pass allocation.
+- `lora_framework/vram_allocator.cpp::VRAMAllocator::allocate()` — added upper-bound guard
+  `if (pool_size_bytes_ > 0 && size_bytes > pool_size_bytes_)` before lock acquisition.
+  Rejects allocations larger than the pool without entering the allocation loop.
+
+---
+
 ## ✅ Acceptance Criteria (from Issue)
 
 - [x] All CRITICAL gaps addressed (S0/S1/S2 security findings all fixed; LoRA validator integrated)

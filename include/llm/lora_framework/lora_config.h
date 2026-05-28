@@ -23,6 +23,7 @@ using json = nlohmann::json;
  * @brief LoRA hyperparameters for training
  */
 struct LoRAHyperparameters {
+    virtual ~LoRAHyperparameters() = default;
     int rank = 8;                          // LoRA rank (r)
     float alpha = 16.0f;                   // LoRA alpha scaling
     float dropout = 0.1f;                  // Dropout rate
@@ -234,6 +235,7 @@ struct AdapterInfo {
  * @brief Cache statistics for adapter manager
  */
 struct CacheStats {
+    virtual ~CacheStats() = default;
     size_t total_loads = 0;
     size_t cache_hits = 0;
     size_t cache_misses = 0;

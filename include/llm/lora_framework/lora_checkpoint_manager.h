@@ -61,6 +61,7 @@ namespace lora {
  * @brief Snapshot of training state attached to a checkpoint.
  */
 struct CheckpointMeta {
+    virtual ~CheckpointMeta() = default;
     std::string adapter_id;          ///< Unique adapter identifier
     uint64_t    step        = 0;     ///< Global training step at checkpoint
     uint32_t    epoch       = 0;     ///< Epoch at checkpoint

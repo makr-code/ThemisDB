@@ -29,6 +29,7 @@ namespace llm {
  * - Unified monitoring with other ThemisDB caches
  */
 struct LoRAMetadata {
+    virtual ~LoRAMetadata() = default;
     std::string lora_id;
     std::string path;
     std::string base_model_id;

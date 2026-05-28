@@ -53,6 +53,7 @@ namespace llm {
  * @brief Inference request with priority and metadata
  */
 struct AsyncInferenceRequest {
+    virtual ~AsyncInferenceRequest() = default;
     InferenceRequest request;
     int priority = 0;              // Higher = more urgent
     std::string request_id;        // Unique request ID

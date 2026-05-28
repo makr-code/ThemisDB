@@ -30,6 +30,7 @@ using llm::FeedbackType;  // Make FeedbackType available in this namespace
  * @brief Performance metrics for ThemisHelpLoRA
  */
 struct PerformanceMetrics {
+    virtual ~PerformanceMetrics() = default;
     int64_t total_queries = 0;
     int64_t successful_queries = 0;
     int64_t failed_queries = 0;
@@ -42,6 +43,7 @@ struct PerformanceMetrics {
  * @brief Feedback statistics
  */
 struct FeedbackStats {
+    virtual ~FeedbackStats() = default;
     size_t total_feedback = 0;
     size_t positive_feedback = 0;
     size_t negative_feedback = 0;

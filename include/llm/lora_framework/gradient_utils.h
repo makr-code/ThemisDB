@@ -82,6 +82,7 @@ struct GradientAccumulationConfig {
  * @brief Gradient statistics
  */
 struct GradientStats {
+    virtual ~GradientStats() = default;
     float global_norm = 0.0f;       // L2 norm of all gradients
     float max_gradient = 0.0f;      // Maximum absolute gradient value
     float min_gradient = 0.0f;      // Minimum gradient value

@@ -29,6 +29,7 @@ class RelationalJoinProvider;
  * @brief Graph context enrichment result
  */
 struct GraphContext {
+    virtual ~GraphContext() = default;
     std::vector<std::string> related_nodes;
     std::vector<std::string> relationship_types;
     std::vector<std::string> paths;
@@ -119,6 +120,7 @@ struct MultiModelEnrichmentConfig {
  * @brief Statistics about multi-model enrichment
  */
 struct EnrichmentStatistics {
+    virtual ~EnrichmentStatistics() = default;
     int total_examples = 0;
     int graph_enriched = 0;
     int vector_enriched = 0;
