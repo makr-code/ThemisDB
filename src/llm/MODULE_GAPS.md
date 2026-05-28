@@ -695,6 +695,22 @@ Vulkan/DirectX kernel execution paths:
   - `AllocateWithZeroPool_NotRejected`: verifies that `pool_size_bytes == 0` (auto-detect
     mode) does not reject normal allocations.
 
+**Status (v1.22.0-pre — batch 38):** input_validation + overflow hardening for KV cache token batching:
+
+- `src/llm/kv_cache_buffer.cpp::KVCacheBuffer::appendTokens()` now rejects
+    `embedding_dim == 0` when `n_tokens > 0`, preventing token-count/state mutation with
+    zero-length key/value payloads.
+- Added explicit checked multiplication guard for `n_tokens * embedding_dim` before
+    size comparisons to prevent `size_t` overflow from bypassing vector length validation.
+- Added checked-add guards for `current_batch_tokens_`, per-sequence `cache.n_tokens`, and
+    `stats_.total_appends` to avoid wraparound in pathological large-input paths.
+- `KVCacheBuffer::flush()` now computes `avg_batch_utilization` with a zero-threshold guard
+    (`max_tokens_per_batch == 0` => utilization `0.0`) to avoid divide-by-zero in defensive
+    configuration scenarios.
+- `tests/test_kv_cache_buffer.cpp` adds regression coverage:
+    - `AppendTokensRejectsPositiveTokensWhenEmbeddingDimZero`
+    - `AppendTokensRejectsSizeComputationOverflow`
+
 ---
 
 ## ✅ Acceptance Criteria (from Issue)

@@ -11,6 +11,7 @@
 
 #include "llm/kv_cache_buffer.h"
 #include <algorithm>
+#include <limits>
 #include <stdexcept>
 
 namespace themis {
@@ -60,12 +61,31 @@ bool KVCacheBuffer::appendToken(int sequence_id, const float* key, const float* 
 
 bool KVCacheBuffer::appendTokens(int sequence_id, const std::vector<float>& keys,
                                  const std::vector<float>& values, size_t n_tokens) {
-    if (keys.size() != n_tokens * config_.embedding_dim ||
-        values.size() != n_tokens * config_.embedding_dim) {
+    if (config_.embedding_dim == 0 && n_tokens > 0) {
+        return false;
+    }
+
+    if (config_.embedding_dim != 0 &&
+        n_tokens > (std::numeric_limits<size_t>::max() / config_.embedding_dim)) {
+        throw std::invalid_argument("n_tokens * embedding_dim overflows size_t");
+    }
+
+    const size_t expected_elements = n_tokens * config_.embedding_dim;
+
+    if (keys.size() != expected_elements ||
+        values.size() != expected_elements) {
         throw std::invalid_argument("Keys/values size mismatch with n_tokens and embedding_dim");
+    }
+
+    if (current_batch_tokens_ > (std::numeric_limits<size_t>::max() - n_tokens)) {
+        throw std::overflow_error("current batch token count overflow");
     }
     
     auto& cache = getCacheForSequence(sequence_id);
+
+    if (cache.n_tokens > (std::numeric_limits<size_t>::max() - n_tokens)) {
+        throw std::overflow_error("sequence token count overflow");
+    }
     
     // Append all keys and values
     cache.keys.insert(cache.keys.end(), keys.begin(), keys.end());
@@ -77,6 +97,9 @@ bool KVCacheBuffer::appendTokens(int sequence_id, const std::vector<float>& keys
     // Update stats
     {
         std::lock_guard<std::mutex> lock(stats_mutex_);
+        if (stats_.total_appends > (std::numeric_limits<size_t>::max() - n_tokens)) {
+            throw std::overflow_error("stats total_appends overflow");
+        }
         stats_.total_appends += n_tokens;
         stats_.current_batch_size = current_batch_tokens_;
     }
@@ -101,7 +124,11 @@ void KVCacheBuffer::flush() {
         stats_.total_tokens_cached += current_batch_tokens_;
         
         // Update average batch utilization
-        double current_utilization = static_cast<double>(current_batch_tokens_) / config_.max_tokens_per_batch;
+        double current_utilization = 0.0;
+        if (config_.max_tokens_per_batch != 0) {
+            current_utilization = static_cast<double>(current_batch_tokens_) /
+                                  static_cast<double>(config_.max_tokens_per_batch);
+        }
         stats_.avg_batch_utilization = 
             (stats_.avg_batch_utilization * (stats_.total_flushes - 1) + current_utilization) / stats_.total_flushes;
         
