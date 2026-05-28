@@ -953,9 +953,19 @@ int Http3Session::extendMaxStreamsCallback(ngtcp2_conn* /*conn*/,
 int Http3Session::recvDatagramCallback(ngtcp2_conn* /*conn*/, uint32_t /*flags*/,
                                        const uint8_t* data, size_t datalen,
                                        void* user_data) {
-    auto* self = static_cast<Http3Session*>(user_data);
-    self->datagram_dispatcher_.dispatch(data, datalen);
-    return 0;
+    try {
+        auto* self = static_cast<Http3Session*>(user_data);
+        if (!self) {
+            THEMIS_ERROR("HTTP/3 recvDatagramCallback: null session");
+            return NGTCP2_ERR_CALLBACK_FAILURE;
+        }
+
+        self->datagram_dispatcher_.dispatch(data, datalen);
+        return 0;
+    } catch (...) {
+        logCurrentException("HTTP/3 recvDatagramCallback failed");
+        return NGTCP2_ERR_CALLBACK_FAILURE;
+    }
 }
 
 bool Http3Session::sendDatagram(uint64_t       context_id,
@@ -1034,54 +1044,94 @@ bool Http3Session::sendDatagram(uint64_t       context_id,
 int Http3Session::http3RecvDataCallback(nghttp3_conn* /*conn*/, int64_t stream_id,
                                         const uint8_t* data, size_t datalen,
                                         void* user_data, void* /*stream_user_data*/) {
-    auto* self = static_cast<Http3Session*>(user_data);
-    auto& stream = self->streams_[stream_id];
-    stream.body.append(reinterpret_cast<const char*>(data), datalen);
-    return 0;
+    try {
+        auto* self = static_cast<Http3Session*>(user_data);
+        if (!self) {
+            THEMIS_ERROR("HTTP/3 http3RecvDataCallback: null session");
+            return NGHTTP3_ERR_CALLBACK_FAILURE;
+        }
+
+        auto& stream = self->streams_[stream_id];
+        stream.body.append(reinterpret_cast<const char*>(data), datalen);
+        return 0;
+    } catch (...) {
+        logCurrentException("HTTP/3 http3RecvDataCallback failed");
+        return NGHTTP3_ERR_CALLBACK_FAILURE;
+    }
 }
 
 int Http3Session::http3DecodHeaderCallback(nghttp3_conn* /*conn*/, int64_t stream_id,
                                            int32_t /*token*/, nghttp3_rcbuf* name,
                                            nghttp3_rcbuf* value, uint8_t /*flags*/,
                                            void* user_data, void* /*stream_user_data*/) {
-    auto* self = static_cast<Http3Session*>(user_data);
-    auto& stream = self->streams_[stream_id];
-    
-    std::string name_str(reinterpret_cast<const char*>(nghttp3_rcbuf_get_buf(name).base),
-                         nghttp3_rcbuf_get_buf(name).len);
-    std::string value_str(reinterpret_cast<const char*>(nghttp3_rcbuf_get_buf(value).base),
-                          nghttp3_rcbuf_get_buf(value).len);
-    
-    if (name_str == ":method") {
-        stream.method = value_str;
-    } else if (name_str == ":path") {
-        stream.path = value_str;
-    } else if (name_str == ":scheme") {
-        stream.scheme = value_str;
-    } else if (name_str == ":authority") {
-        stream.authority = value_str;
-    } else {
-        stream.headers[name_str] = value_str;
+    try {
+        auto* self = static_cast<Http3Session*>(user_data);
+        if (!self || !name || !value) {
+            THEMIS_ERROR("HTTP/3 http3DecodHeaderCallback: invalid callback input");
+            return NGHTTP3_ERR_CALLBACK_FAILURE;
+        }
+
+        auto& stream = self->streams_[stream_id];
+
+        std::string name_str(reinterpret_cast<const char*>(nghttp3_rcbuf_get_buf(name).base),
+                             nghttp3_rcbuf_get_buf(name).len);
+        std::string value_str(reinterpret_cast<const char*>(nghttp3_rcbuf_get_buf(value).base),
+                              nghttp3_rcbuf_get_buf(value).len);
+
+        if (name_str == ":method") {
+            stream.method = value_str;
+        } else if (name_str == ":path") {
+            stream.path = value_str;
+        } else if (name_str == ":scheme") {
+            stream.scheme = value_str;
+        } else if (name_str == ":authority") {
+            stream.authority = value_str;
+        } else {
+            stream.headers[name_str] = value_str;
+        }
+
+        return 0;
+    } catch (...) {
+        logCurrentException("HTTP/3 http3DecodHeaderCallback failed");
+        return NGHTTP3_ERR_CALLBACK_FAILURE;
     }
-    
-    return 0;
 }
 
 int Http3Session::http3EndHeadersCallback(nghttp3_conn* /*conn*/, int64_t stream_id,
                                           int /*fin*/, void* user_data,
                                           void* /*stream_user_data*/) {
-    auto* self = static_cast<Http3Session*>(user_data);
-    auto& stream = self->streams_[stream_id];
-    stream.headers_complete = true;
-    stream.stream_id = stream_id;
-    return 0;
+    try {
+        auto* self = static_cast<Http3Session*>(user_data);
+        if (!self) {
+            THEMIS_ERROR("HTTP/3 http3EndHeadersCallback: null session");
+            return NGHTTP3_ERR_CALLBACK_FAILURE;
+        }
+
+        auto& stream = self->streams_[stream_id];
+        stream.headers_complete = true;
+        stream.stream_id = stream_id;
+        return 0;
+    } catch (...) {
+        logCurrentException("HTTP/3 http3EndHeadersCallback failed");
+        return NGHTTP3_ERR_CALLBACK_FAILURE;
+    }
 }
 
 int Http3Session::http3EndStreamCallback(nghttp3_conn* /*conn*/, int64_t stream_id,
                                          void* user_data, void* /*stream_user_data*/) {
-    auto* self = static_cast<Http3Session*>(user_data);
-    self->processStream(stream_id);
-    return 0;
+    try {
+        auto* self = static_cast<Http3Session*>(user_data);
+        if (!self) {
+            THEMIS_ERROR("HTTP/3 http3EndStreamCallback: null session");
+            return NGHTTP3_ERR_CALLBACK_FAILURE;
+        }
+
+        self->processStream(stream_id);
+        return 0;
+    } catch (...) {
+        logCurrentException("HTTP/3 http3EndStreamCallback failed");
+        return NGHTTP3_ERR_CALLBACK_FAILURE;
+    }
 }
 
 } // namespace server

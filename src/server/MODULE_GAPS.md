@@ -17,6 +17,20 @@ python tools/gap_audit_pipeline_v2.py
 
 ## ✅ Recent Remediation (2026-05-27)
 
+- **W1-S06 follow-up (2026-05-28) – `src/server/http3_session.cpp`,
+  `tests/test_http3_protocol.cpp`**
+  - Hardened remaining nghttp3/ngtcp2 callback boundaries in `Http3Session`
+    (`http3RecvDataCallback`, `http3DecodHeaderCallback`,
+    `http3EndHeadersCallback`, `http3EndStreamCallback`,
+    `recvDatagramCallback`) so callback-local exceptions are caught and
+    converted to `*_ERR_CALLBACK_FAILURE` instead of propagating through
+    transport callbacks.
+  - Added fail-closed null/invalid-input checks for callback `user_data` and
+    header buffer pointers to prevent undefined behavior under malformed
+    callback inputs.
+  - Added focused regression tests validating fail-closed return codes for the
+    hardened callback entrypoints.
+
 - **W1-S13 (2026-05-27) – `src/server/http_server.cpp`**
   - Fixed `extractClientIP` STUB/SIMULATION: per-IP rate limiting was ineffective for
     direct (non-proxied) connections because the function returned `""` when neither
