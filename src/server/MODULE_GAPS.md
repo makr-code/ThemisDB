@@ -15,6 +15,23 @@ python tools/gap_audit_pipeline_v2.py
 
 ---
 
+## ✅ Recent Remediation (2026-05-28)
+
+- **W1-S07 final cleanup (2026-05-28) – `src/server/query_api_handler.cpp`**
+  - Replaced the last three integer-indexed loop patterns inside the AQL eval engine:
+    1. `pathEdges[i]`/`pathNodes[i+1]` edge–vertex alignment loop replaced with a
+       parallel-iterator walk (`auto nit = pathNodes.begin()+1`; range-for over `pathEdges`),
+       eliminating the two `UNCHECKED_ARRAY_INDEX` hotspots while preserving the
+       `pathNodes.size() == pathEdges.size()+1` semantic.
+    2. `concat` function argument loop replaced with a range-for over `fc->arguments`
+       calling `evalExpr` directly, eliminating the indexed-`evalArg` dispatch.
+    3. `coalesce` function argument loop similarly replaced with a range-for.
+  - The `evalArg` lambda (`fc->arguments[i]` guarded by bounds check) is retained for
+    the remaining named-arity functions (substring/length/abs/…) that address arguments
+    by position; no change to those call sites.
+  - Gap delta: **3** residual indexed-access hotspots removed from the W1-S07 scope;
+    `http_server.cpp` already clean.
+
 ## ✅ Recent Remediation (2026-05-27)
 
 - **W1-S07 closure (2026-05-27) – `src/server/query_api_handler.cpp`, `src/server/http_server.cpp`**

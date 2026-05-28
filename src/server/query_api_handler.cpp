@@ -1367,11 +1367,13 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 all = all && r;
                             }
                         } else if (varName == "e") {
-                            // Iterate over edges; align edge i with nodes i -> i+1
-                            for (size_t i = 0; i < pathEdges.size(); ++i) {
-                                const auto& eid2 = pathEdges[i];
-                                // For edge evaluation, set vpk to the 'to' vertex (pathNodes[i+1]) and eid to edge id
-                                bool r = evalBoolExpr(inner, pathNodes[i+1], std::optional<std::string>(eid2));
+                            // Iterate over edges; align edge[i] with node[i+1] (to-vertex).
+                            // pathNodes.size() == pathEdges.size()+1 by construction, so the
+                            // node iterator always has a valid next element for each edge.
+                            auto nit = pathNodes.begin() + 1; // start at the first 'to' vertex
+                            for (const auto& eid2 : pathEdges) {
+                                // For edge evaluation, set vpk to the 'to' vertex and eid to edge id
+                                bool r = evalBoolExpr(inner, *nit++, std::optional<std::string>(eid2));
                                 any = any || r;
                                 all = all && r;
                             }
@@ -3081,8 +3083,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     auto evalArg = [&](size_t i)->nlohmann::json{ return (i<fc->arguments.size()) ? evalExpr(fc->arguments[i], ent, env) : nlohmann::json(); };
                     if (name == "concat") {
                         std::string out;
-                        for (size_t i=0;i<fc->arguments.size();++i) {
-                            auto a = evalArg(i);
+                        for (const auto& arg : fc->arguments) {
+                            auto a = evalExpr(arg, ent, env);
                             if (a.is_string()) out += a.get<std::string>();
                             else if (a.is_number()) out += std::to_string(a.get<double>());
                             else if (a.is_boolean()) out += (a.get<bool>()?"true":"false");
@@ -3144,7 +3146,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         return nullptr;
                     }
                     if (name == "coalesce") {
-                        for (size_t i=0;i<fc->arguments.size();++i) { auto a = evalArg(i); if (!a.is_null()) return a; }
+                        for (const auto& arg : fc->arguments) { auto a = evalExpr(arg, ent, env); if (!a.is_null()) return a; }
                         return nullptr;
                     }
                     // Unsupported function in MVP eval
