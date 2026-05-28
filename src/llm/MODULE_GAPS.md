@@ -590,6 +590,22 @@ multi-GPU maintenance loops now guard null unique_ptr slots before dereference:
 - Runtime behavior is unchanged for valid slots; objective is further reduction of residual
   null_dereference / unknown-cluster scanner noise in W1-L07 issue-scope multi-GPU flows.
 
+**Status (v1.22.0-pre — W1-L07 unknown-cluster guard follow-up 10):** Remaining
+guard/dereference separation in migration/fusion utility paths now fails closed:
+- `multi_lora_manager.cpp` — `migrateLoRAToGPU` now snapshots `it->second.get()` into a local
+  alias, rejects empty unique_ptr slots as stale entries, and erases the stale map entry before
+  returning; this keeps the null guard and all subsequent `lora->...` accesses in one scope.
+- `multi_lora_manager.cpp` — `validateFusionCompatibility` now explicitly guards `source_loras[0]`
+  and each loop element against null before field comparisons, preventing unchecked pointer
+  dereference in compatibility checks reached via advanced/static fusion APIs.
+- `multi_lora_manager.cpp` — `calculateAccessFrequency` now returns `0.0` on null input so utility
+  callers remain fail-closed even if upstream candidate vectors contain stale/null slots.
+- `multi_lora_manager.cpp` — `hasCapacity` now takes the manager mutex before reading
+  `total_vram_bytes_` and config limits, aligning this helper with existing lock discipline and
+  reducing data-race scanner noise in issue-scope memory-accounting paths.
+- Runtime behavior remains unchanged for valid slots/callers; objective is incremental closure of
+  residual `unknown`/`null_dereference`/`data_race` scanner hotspots in W1-L07 issue scope.
+
 **Status (v1.22.0-pre — W1-L03d scope follow-up):** Vulkan/DirectX kernel-interface
 scope hardened for smart-pointer lifetime safety:
 - `lora_framework/kernels/vulkan_kernels.cpp` — Removed `thread_local` fused-buffer cache

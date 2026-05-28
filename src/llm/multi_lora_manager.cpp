@@ -1326,6 +1326,7 @@ bool MultiLoRAManager::importLoRA(
 }
 
 bool MultiLoRAManager::hasCapacity(size_t vram_bytes) const {
+    std::lock_guard<std::mutex> lock(mutex_);
     // FIND-015: Use named constant for byte to MB conversion
     size_t vram_mb = vram_bytes / BYTES_PER_MB;
     size_t total_mb = total_vram_bytes_ / BYTES_PER_MB;
@@ -2716,7 +2717,12 @@ bool MultiLoRAManager::migrateLoRAToGPU(const std::string& lora_id, int target_g
         return false;
     }
     
-    auto& lora = it->second;
+    auto* const lora = it->second.get();
+    if (!lora) {
+        spdlog::warn("Cannot migrate LoRA {}: slot is empty (stale entry)", lora_id);
+        loras_.erase(it);
+        return false;
+    }
     int source_gpu = lora->primary_gpu;
     
     if (source_gpu == target_gpu) {
@@ -2988,6 +2994,9 @@ void MultiLoRAManager::logGPUTransferEvent(const std::string& event_type,
 
 double MultiLoRAManager::calculateAccessFrequency(const LoRASlot* lora,
                                                  const std::chrono::system_clock::time_point& now) const {
+    if (!lora) {
+        return 0.0;
+    }
     // Calculate access frequency (accesses per hour)
     // Protect against division by zero and negative age due to clock adjustments
     auto age_seconds = std::chrono::duration_cast<std::chrono::seconds>(
@@ -3590,9 +3599,17 @@ bool MultiLoRAManager::validateFusionCompatibility(
     }
     
     const auto* first = source_loras[0];
+    if (!first) {
+        spdlog::debug("Fusion compatibility check failed: first source LoRA is null");
+        return false;
+    }
     
     for (size_t i = 1; i < source_loras.size(); ++i) {
         const auto* lora = source_loras[i];
+        if (!lora) {
+            spdlog::debug("Fusion compatibility check failed: source LoRA at index {} is null", i);
+            return false;
+        }
         
         // Check base model match
         if (lora->base_model_id != first->base_model_id) {
