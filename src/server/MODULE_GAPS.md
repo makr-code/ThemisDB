@@ -1,7 +1,7 @@
 # server Module — Implementation Gap Analysis
 
 **Status:** In Progress  
-**Last Updated:** 2026-05-27  
+**Last Updated:** 2026-05-28  
 
 ---
 
@@ -16,6 +16,41 @@ python tools/gap_audit_pipeline_v2.py
 ---
 
 ## ✅ Recent Remediation (2026-05-27)
+
+- **W1-S06 follow-up 3 (2026-05-28) – `src/server/http3_session.cpp`,
+  `include/server/http3_session.h`, `tests/test_http3_protocol.cpp`**
+  - Replaced inline ngtcp2 callback lambdas (`get_new_connection_id`,
+    `recv_crypto_data`) with dedicated `Http3Session` callback methods and
+    wrapped both in fail-closed try/catch boundaries.
+  - Added null/invalid-input fail-closed guards for callback inputs (`cid`,
+    `user_data`, and non-zero-length null crypto data buffers), returning
+    `NGTCP2_ERR_CALLBACK_FAILURE` on bad callback state.
+  - Added focused callback regression tests to verify fail-closed behavior for
+    null CID and null-session crypto callback paths.
+
+- **W1-S06 follow-up 2 (2026-05-28) – `src/server/http3_session.cpp`,
+  `tests/test_http3_protocol.cpp`**
+  - Hardened remaining ngtcp2 callback boundaries in `Http3Session`
+    (`handshakeCompletedCallback`, `recvStreamDataCallback`,
+    `ackStreamDataCallback`, `streamCloseCallback`) so callback-local
+    exceptions and null `user_data` fail closed with
+    `NGTCP2_ERR_CALLBACK_FAILURE`.
+  - Added focused callback regression tests for these ngtcp2 entrypoints to
+    verify null-session fail-closed return codes.
+
+- **W1-S06 follow-up (2026-05-28) – `src/server/http3_session.cpp`,
+  `tests/test_http3_protocol.cpp`**
+  - Hardened remaining nghttp3/ngtcp2 callback boundaries in `Http3Session`
+    (`http3RecvDataCallback`, `http3DecodHeaderCallback`,
+    `http3EndHeadersCallback`, `http3EndStreamCallback`,
+    `recvDatagramCallback`) so callback-local exceptions are caught and
+    converted to `*_ERR_CALLBACK_FAILURE` instead of propagating through
+    transport callbacks.
+  - Added fail-closed null/invalid-input checks for callback `user_data` and
+    header buffer pointers to prevent undefined behavior under malformed
+    callback inputs.
+  - Added focused regression tests validating fail-closed return codes for the
+    hardened callback entrypoints.
 
 - **W1-S13 (2026-05-27) – `src/server/http_server.cpp`**
   - Fixed `extractClientIP` STUB/SIMULATION: per-IP rate limiting was ineffective for
@@ -1421,6 +1456,89 @@ Fixes applied:
   even when a single-packet handler path throws.
 - `http3_session.cpp` GAP-019 annotation updated to "fixed" — code already uses
   `std::random_device` directly; annotation now reflects the resolved status.
+
+---
+
+## ✅ Recent Remediation (2026-05-27 — W1-S06 exception/timeouts follow-up)
+
+**Scope:** `src/server/llm_api_handler.cpp`, `src/server/http3_session.cpp`
+
+### Changes
+- `llm_api_handler.cpp`: replaced remaining silent `catch (...) {}` parsing sites
+  with typed exception handling and diagnostic logging (`max_tokens`, feedback `limit`,
+  request-body JSON parsing). `validateBearerToken()` and `/v1/models` list-model path
+  now log `std::exception::what()` and keep an explicit non-standard-exception fallback.
+- `http3_session.cpp`: hardened receive-loop shutdown edges (`stop()` now cancels +
+  closes socket with error-code overloads, `doAccept()` no-ops on closed socket,
+  `onReceive()` exits cleanly for `operation_aborted`/`bad_descriptor`).
+
+### Gap Delta (W1-S06 scope)
+| Type | Before | After |
+|---|---:|---:|
+| uncaught_exception (silent catch-all in `llm_api_handler.cpp`) | 5 | 0 |
+| no_timeout / async-lifecycle edge (`http3_session.cpp` accept loop stop path) | 2 | 0 |
+
+### Follow-up (2026-05-27, W1-S06 scope continuation)
+- `llm_api_handler.cpp`: `LLMApiHandler::handleRequest()` now wraps full dispatch
+  in a top-level `try/catch` boundary and converts unexpected failures into a
+  deterministic `500 Internal Server Error` response with diagnostic logging.
+- `http3_session.cpp` + `http3_session.h`: introduced `Http3Handler::running_`
+  lifecycle gate and centralized timer arming (`armCleanupTimer()`) so cleanup
+  callbacks fail-close after `stop()` and cannot silently re-arm during teardown.
+- `llm_api_handler.cpp` + `http3_session.cpp`: replaced duplicated
+  `catch (const std::exception&)` / `catch (...)` logging branches with local
+  `logCurrentException(...)` helpers so all W1-S06 exception boundaries extract
+  active exception details consistently while preserving existing fail-closed behavior.
+- `llm_api_handler.cpp`: restored explicit non-standard-exception fallback handling
+  on JWT token validation and `/v1/models` enumeration fallback paths so both stay
+  fail-closed / empty-list resilient without leaking non-standard exceptions into
+  top-level request dispatch.
+- `llm_api_handler.cpp`: `handleOpenAIChatCompletions()` now has its own
+  top-level exception boundary with deterministic `server_error` recovery,
+  so unexpected exceptions in policy/adapter setup cannot escape the OpenAI
+  route-level handler even before `handleRequest()` fallback handling.
+- `http3_session.cpp`: `Http3Handler::doAccept()` receive callback now wraps
+  `onReceive(...)` in a callback-local `try/catch` and explicitly re-arms the
+  receive loop when safe, closing a remaining async callback uncaught-exception
+  edge in the UDP accept path.
+
+### Follow-up (2026-05-28, W1-S06 sub-handler catch-all hardening)
+- `llm_api_handler.cpp`: Added `catch (...)` fallback with `logCurrentException(...)` to all
+  23 external-call try blocks in sub-handler methods that previously only caught
+  `std::exception`. Methods covered: `handleInference`, `handleRAG`, `handleEmbed`,
+  `handleStreamInference`, `handleStreamExplainAql`, `handleListModels`, `handleLoadModel`,
+  `handleUnloadModel`, `handleModelInfo`, `handleIngestModel`, `handleListLoRAs`,
+  `handleLoadLoRA`, `handleUnloadLoRA`, `handleStats`, `handleCacheStats`, `handleClearCache`,
+  `handleHealth`, `handleDocsQuery`, `handleDocsConfig`, `handleDocsTroubleshoot`,
+  `handleCreateFeedback`, and `handleOpenAIChatCompletions` (both streaming and non-streaming
+  inner try blocks). Each catch-all logs handler-specific context and returns a deterministic
+  HTTP 500 / SSE error event so no non-standard exception escapes with generic context.
+- `llm_api_handler.cpp`: Wrapped the bare `feedback_store.listFeedback()` call in
+  `handleListFeedback` — previously not inside any try block — in a `try/catch(std::exception)
+  + catch(...)` boundary, closing the last genuinely unguarded external-call path in the file.
+- File header updated: Version 0.0.48, Score 100/100, Open Issues all 0, Lines 1856.
+
+### Gap Delta (W1-S06 sub-handler follow-up, 2026-05-28)
+| Type | Before | After |
+|---|---:|---:|
+| uncaught_exception (sub-handler non-std exception paths, `llm_api_handler.cpp`) | 23 | 0 |
+| uncaught_exception (bare external call in `handleListFeedback`) | 1 | 0 |
+
+### Focused Test Coverage (2026-05-27, W1-S06 verification)
+- `tests/test_llm_w1s06_exception_boundaries.cpp`: 7 focused unit tests registered as
+  `W1S06ExceptionBoundaryTests` in `tests/CMakeLists.txt`.
+  - **EX-01** — `handleRequest()` top-level catch does not propagate; returns HTTP 500.
+  - **EX-02** — No `Authorization` header → 401 (no-auth-header path).
+  - **EX-03** — Bearer token present but `jwt_validator_` null → 401 (fail-closed).
+  - **EX-04** — Malformed JWT (2-part token) → `parseAndValidate()` throws; caught by
+    `validateBearerToken()` → 401 (exception-catch path exercised).
+  - **EX-05** — `GET /v1/models` bypasses JWT gate → 200 with `{"object":"list","data":[]}`.
+  - **EX-06** — Unknown route past auth gate → 404.
+  - **EX-07** — `POST /v1/chat/completions` with invalid `messages` shape returns 400
+    with structured error JSON (no exception propagation).
+  - `Http3Handler` lifecycle changes (`running_` gate, `armCleanupTimer`) are verified
+    by code review and documented here; direct unit-testing requires a live UDP socket
+    and is deferred to integration-level tests.
 
 ---
 
