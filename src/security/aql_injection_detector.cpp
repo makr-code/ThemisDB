@@ -21,6 +21,14 @@
 namespace themis {
 namespace security {
 
+namespace {
+bool isBlankInput(const std::string& value) {
+    return std::all_of(value.begin(), value.end(), [](unsigned char ch) {
+        return std::isspace(ch) != 0;
+    });
+}
+}  // namespace
+
 // ============================================================================
 // Public Methods
 // ============================================================================
@@ -31,6 +39,12 @@ AQLInjectionDetector::validateParameterizedQuery(
     const std::vector<std::string>& parameters
 ) {
     InjectionCheckResult result;
+
+    if (aql_template.empty() || isBlankInput(aql_template)) {
+        result.is_safe = false;
+        result.error_message = "AQL template must not be empty";
+        return result;
+    }
     
     // Step 1: Validate AQL template syntax is valid
     if (!isValidAQLTemplate(aql_template)) {
@@ -67,6 +81,12 @@ AQLInjectionDetector::validateParameterizedQuery(
 AQLInjectionDetector::InjectionCheckResult 
 AQLInjectionDetector::validateAQLAST(const std::string& aql) {
     InjectionCheckResult result;
+
+    if (aql.empty() || isBlankInput(aql)) {
+        result.is_safe = false;
+        result.error_message = "AQL query must not be empty";
+        return result;
+    }
     
     // Step 1: Parse AQL into AST
     auto parse_result = parseAQL(aql);
@@ -130,6 +150,12 @@ AQLInjectionDetector::validateForReadOnlyContext(const std::string& aql) {
 AQLInjectionDetector::InjectionCheckResult
 AQLInjectionDetector::validateUnboundedForLoops(const std::string& aql) {
     InjectionCheckResult result;
+
+    if (aql.empty() || isBlankInput(aql)) {
+        result.is_safe = false;
+        result.error_message = "AQL query must not be empty";
+        return result;
+    }
 
     // Step 1: Parse query into AST.
     auto parse_result = parseAQL(aql);

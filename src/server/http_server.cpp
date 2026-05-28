@@ -139,6 +139,7 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "server/pii_api_handler.h"
 #if THEMIS_ENABLE_LLM
 #include "server/feedback_api_handler.h"
+#include "llm/docs_assistant.h"
 #include "llm/lora_framework/lora_feedback_storage.h"
 #include "llm/lora_framework/feedback_plugin.h"
 #include "llm/lora_framework/lora_training_config.h"
@@ -3865,6 +3866,42 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             try {
                 auto& plugin_mgr = themis::llm::LLMPluginManager::instance();
+                auto tryBootstrapDefaultModel = [&plugin_mgr]() -> bool {
+                    const std::array<const char*, 2> env_names = {
+                        "THEMIS_DEMO_LLM_MODEL_PATH",
+                        "THEMIS_LLM_DEFAULT_MODEL_PATH"
+                    };
+
+                    for (const auto* env_name : env_names) {
+                        const char* env_value = std::getenv(env_name);
+                        if (!env_value || env_value[0] == '\0') {
+                            continue;
+                        }
+
+                        const std::string model_path = env_value;
+                        if (!std::filesystem::exists(model_path)) {
+                            THEMIS_WARN("LLM bootstrap skipped: {} points to missing path '{}'",
+                                        env_name, model_path);
+                            continue;
+                        }
+
+                        try {
+                            THEMIS_INFO("LLM bootstrap: trying to load default model from {}='{}'",
+                                        env_name, model_path);
+                            if (!themis::llm::createLlamaWrapper("llamacpp", model_path, json::object())) {
+                                continue;
+                            }
+                            if (plugin_mgr.loadModel("default", model_path)) {
+                                THEMIS_INFO("LLM bootstrap: default model loaded successfully");
+                                return true;
+                            }
+                        } catch (const std::exception& e) {
+                            THEMIS_WARN("LLM bootstrap from {} failed: {}", env_name, e.what());
+                        }
+                    }
+
+                    return false;
+                };
 
                 if (path_only == "/api/v1/llm/ready" && method == http::verb::get) {
                     const auto health = plugin_mgr.getHealthStatus();
@@ -4076,7 +4113,20 @@ http::response<http::string_body> HttpServer::routeRequest(
                     llm_request.max_tokens = payload.value("max_tokens", 256);
                     llm_request.temperature = static_cast<float>(payload.value("temperature", 0.7));
 
-                    auto llm_response = plugin_mgr.generate(llm_request);
+                    themis::llm::InferenceResponse llm_response;
+                    try {
+                        llm_response = plugin_mgr.generate(llm_request);
+                    } catch (const std::exception& e) {
+                        const std::string msg = e.what();
+                        const bool retryable =
+                            msg.find("No default LLM plugin available") != std::string::npos ||
+                            msg.find("UNINITIALIZED") != std::string::npos ||
+                            msg.find("Current state: ERROR") != std::string::npos;
+                        if (!retryable || !tryBootstrapDefaultModel()) {
+                            throw;
+                        }
+                        llm_response = plugin_mgr.generate(llm_request);
+                    }
                     json body = {
                         {"text", llm_response.text},
                         {"model", llm_response.model_id.empty() ? llm_request.model_id : llm_response.model_id},
@@ -4155,8 +4205,11 @@ http::response<http::string_body> HttpServer::routeRequest(
                         return response;
                     } catch (const std::exception& e) {
                         const std::string msg = e.what();
-                        if (msg.find("No default LLM plugin available") != std::string::npos) {
-                            if (themis::llm::createLlamaWrapper("llamacpp", "", json::object())) {
+                        const bool retryable =
+                            msg.find("No default LLM plugin available") != std::string::npos ||
+                            msg.find("UNINITIALIZED") != std::string::npos ||
+                            msg.find("Current state: ERROR") != std::string::npos;
+                        if (retryable && tryBootstrapDefaultModel()) {
                                 themis::llm::RAGContext rag_context;
                                 rag_context.query = query;
                                 rag_context.collection_name = collection;
@@ -4184,10 +4237,169 @@ http::response<http::string_body> HttpServer::routeRequest(
                                 } catch (const std::exception&) {
                                     throw;
                                 }
-                            }
                         }
                         throw;
                     }
+                }
+
+                if (path_only == "/api/v1/llm/docs/query" && method == http::verb::post) {
+                    json payload;
+                    try {
+                        payload = json::parse(req.body());
+                    } catch (const json::exception& e) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            std::string("invalid JSON: ") + e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    const std::string query = payload.value("query", std::string{});
+                    if (query.empty()) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            "query is required", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    static llm::DocsAssistant assistant;
+                    static bool initialized = false;
+                    if (!initialized) {
+                        if (!assistant.loadDatabase()) {
+                            auto response = makeErrorResponse(http::status::service_unavailable,
+                                "Documentation database not available", req);
+                            applyGovernanceHeaders(req, response);
+                            return response;
+                        }
+                        initialized = true;
+                    }
+
+                    auto result = assistant.query(query);
+                    json response_body = {
+                        {"query", query},
+                        {"answer", result.generated_answer},
+                        {"confidence_score", result.confidence_score},
+                        {"documents_searched", result.total_docs_searched},
+                        {"documents_used", result.docs_included_in_context},
+                        {"search_time_ms", result.search_time_ms.count()},
+                        {"generation_time_ms", result.generation_time_ms.count()}
+                    };
+
+                    json docs_array = json::array();
+                    for (const auto& doc : result.relevant_docs) {
+                        docs_array.push_back({
+                            {"file_name", doc.file_name},
+                            {"relevance_score", doc.relevance_score},
+                            {"content_preview", doc.text_content.substr(0, 200) + "..."}
+                        });
+                    }
+                    response_body["relevant_documents"] = docs_array;
+
+                    auto response = makeResponse(http::status::ok, response_body.dump(), req);
+                    applyGovernanceHeaders(req, response);
+                    auto end = std::chrono::steady_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                    recordLatency(duration);
+                    span.setStatus(true);
+                    return response;
+                }
+
+                if (path_only == "/api/v1/llm/docs/config" && method == http::verb::post) {
+                    json payload;
+                    try {
+                        payload = json::parse(req.body());
+                    } catch (const json::exception& e) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            std::string("invalid JSON: ") + e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    const std::string topic = payload.value("topic", std::string{});
+                    if (topic.empty()) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            "topic is required", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    static llm::DocsAssistant assistant;
+                    static bool initialized = false;
+                    if (!initialized) {
+                        if (!assistant.loadDatabase()) {
+                            auto response = makeErrorResponse(http::status::service_unavailable,
+                                "Documentation database not available", req);
+                            applyGovernanceHeaders(req, response);
+                            return response;
+                        }
+                        initialized = true;
+                    }
+
+                    auto result = assistant.getConfigHelp(topic);
+                    json response_body = {
+                        {"topic", topic},
+                        {"configuration_help", result.generated_answer},
+                        {"confidence_score", result.confidence_score},
+                        {"documents_used", result.docs_included_in_context}
+                    };
+
+                    auto response = makeResponse(http::status::ok, response_body.dump(), req);
+                    applyGovernanceHeaders(req, response);
+                    auto end = std::chrono::steady_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                    recordLatency(duration);
+                    span.setStatus(true);
+                    return response;
+                }
+
+                if (path_only == "/api/v1/llm/docs/troubleshoot" && method == http::verb::post) {
+                    json payload;
+                    try {
+                        payload = json::parse(req.body());
+                    } catch (const json::exception& e) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            std::string("invalid JSON: ") + e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    std::string issue = payload.value("error", std::string{});
+                    if (issue.empty()) {
+                        issue = payload.value("issue", std::string{});
+                    }
+                    if (issue.empty()) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            "error or issue is required", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    static llm::DocsAssistant assistant;
+                    static bool initialized = false;
+                    if (!initialized) {
+                        if (!assistant.loadDatabase()) {
+                            auto response = makeErrorResponse(http::status::service_unavailable,
+                                "Documentation database not available", req);
+                            applyGovernanceHeaders(req, response);
+                            return response;
+                        }
+                        initialized = true;
+                    }
+
+                    auto result = assistant.getTroubleshootingHelp(issue);
+                    json response_body = {
+                        {"error", issue},
+                        {"troubleshooting_help", result.generated_answer},
+                        {"confidence_score", result.confidence_score},
+                        {"documents_used", result.docs_included_in_context}
+                    };
+
+                    auto response = makeResponse(http::status::ok, response_body.dump(), req);
+                    applyGovernanceHeaders(req, response);
+                    auto end = std::chrono::steady_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                    recordLatency(duration);
+                    span.setStatus(true);
+                    return response;
                 }
 
                 if (path_only == "/api/v1/llm/lora/adapters" && method == http::verb::post) {
@@ -10167,19 +10379,8 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             int kRrf = body.value("k_rrf", 60);
             std::unordered_map<std::string, double> scores;
             scores.reserve(textResults.size() + vectorResults.size());
-            
+
             // Text contributions
-            size_t text_rank = 1;
-            for (const auto& result : textResults) {
-                scores[result.pk] += 1.0 / (kRrf + text_rank);
-                ++text_rank;
-            }
-            
-            // Vector contributions
-            size_t vector_rank = 1;
-            for (const auto& result : vectorResults) {
-                scores[result.pk] += 1.0 / (kRrf + vector_rank);
-                ++vector_rank;
             for (size_t i = 0; i < textResults.size(); ++i) {
                 auto [it, inserted] = scores.try_emplace(textResults[i].pk, 0.0);
                 it->second += 1.0 / (kRrf + i + 1);
@@ -10289,6 +10490,10 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
 http::response<http::string_body> HttpServer::handleContentFilterSchemaGet(
     const http::request<http::string_body>& req
 ) {
+    if (!storage_) {
+        return makeErrorResponse(http::status::service_unavailable, "Storage engine not available", req);
+    }
+
     try {
         auto v = storage_->get("config:content_filter_schema");
         json resp;
@@ -10309,6 +10514,10 @@ http::response<http::string_body> HttpServer::handleContentFilterSchemaGet(
 http::response<http::string_body> HttpServer::handleContentFilterSchemaPut(
     const http::request<http::string_body>& req
 ) {
+    if (!storage_) {
+        return makeErrorResponse(http::status::service_unavailable, "Storage engine not available", req);
+    }
+
     try {
         json body = json::parse(req.body());
         if (!body.is_object() || !body.contains("field_map") || !body["field_map"].is_object()) {
@@ -10330,6 +10539,10 @@ http::response<http::string_body> HttpServer::handleContentConfigGet(
     const http::request<http::string_body>& req
 ) {
     auto span = Tracer::startSpan("handleContentConfigGet");
+    if (!storage_) {
+        span.setStatus(false, "storage_unavailable");
+        return makeErrorResponse(http::status::service_unavailable, "Storage engine not available", req);
+    }
     
     try {
         auto v = storage_->get("config:content");
@@ -10360,6 +10573,10 @@ http::response<http::string_body> HttpServer::handleContentConfigPut(
     const http::request<http::string_body>& req
 ) {
     auto span = Tracer::startSpan("handleContentConfigPut");
+    if (!storage_) {
+        span.setStatus(false, "storage_unavailable");
+        return makeErrorResponse(http::status::service_unavailable, "Storage engine not available", req);
+    }
     
     try {
         json body = json::parse(req.body());
@@ -10452,6 +10669,10 @@ http::response<http::string_body> HttpServer::handleContentConfigPut(
 http::response<http::string_body> HttpServer::handleEdgeWeightConfigGet(
     const http::request<http::string_body>& req
 ) {
+    if (!storage_) {
+        return makeErrorResponse(http::status::service_unavailable, "Storage engine not available", req);
+    }
+
     try {
         auto v = storage_->get("config:edge_weights");
         json resp;
@@ -10472,6 +10693,10 @@ http::response<http::string_body> HttpServer::handleEdgeWeightConfigGet(
 http::response<http::string_body> HttpServer::handleEdgeWeightConfigPut(
     const http::request<http::string_body>& req
 ) {
+    if (!storage_) {
+        return makeErrorResponse(http::status::service_unavailable, "Storage engine not available", req);
+    }
+
     try {
         json body = json::parse(req.body());
         if (!body.is_object() || !body.contains("weights") || !body["weights"].is_object()) {
@@ -10507,6 +10732,10 @@ http::response<http::string_body> HttpServer::handleEncryptionSchemaGet(
         if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
         if (auto resp = requireAccess(req, "config:read", "config.read", path_only)) return *resp;
     }
+
+    if (!storage_) {
+        return makeErrorResponse(http::status::service_unavailable, "Storage engine not available", req);
+    }
     
     try {
         auto schema_bytes = storage_->get("config:encryption_schema");
@@ -10541,6 +10770,10 @@ http::response<http::string_body> HttpServer::handleEncryptionSchemaPut(
         auto qpos = path_only.find('?');
         if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
         if (auto resp = requireAccess(req, "config:write", "config.write", path_only)) return *resp;
+    }
+
+    if (!storage_) {
+        return makeErrorResponse(http::status::service_unavailable, "Storage engine not available", req);
     }
     
     try {

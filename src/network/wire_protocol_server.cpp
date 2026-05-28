@@ -47,6 +47,7 @@
 #include <map>  // For multi-bucket aggregation
 #include <algorithm>  // For std::min/max
 #include <cmath>      // For std::cos, std::acos (GEO_QUERY distance)
+#include <cctype>     // For std::isspace/std::isdigit
 #include <spdlog/spdlog.h>  // For WPS-3 misconfiguration error log
 
 using json = nlohmann::json;
@@ -54,6 +55,31 @@ using json = nlohmann::json;
 namespace themis::network {
 
 namespace {
+
+constexpr std::size_t kMaxWireIdentifierLength = 256;
+
+bool hasControlCharacters(std::string_view value) {
+    return std::any_of(value.begin(), value.end(), [](unsigned char ch) {
+        return ch < 0x20 || ch == 0x7F;
+    });
+}
+
+bool isReasonableWireIdentifier(std::string_view value) {
+    return !value.empty() && value.size() <= kMaxWireIdentifierLength &&
+           !hasControlCharacters(value);
+}
+
+bool isBlankString(std::string_view value) {
+    return std::all_of(value.begin(), value.end(), [](unsigned char ch) {
+        return std::isspace(ch) != 0;
+    });
+}
+
+bool isUnsignedIntegerString(std::string_view value) {
+    return !value.empty() && std::all_of(value.begin(), value.end(), [](unsigned char ch) {
+        return std::isdigit(ch) != 0;
+    });
+}
 
 // CRC32 (ISO-HDLC / Ethernet) – same polynomial as used in stream_protocol.cpp
 // and WAL storage.  Used to verify wire-frame checksums.
@@ -1199,11 +1225,20 @@ void WireProtocolServer::Session::handleGet() {
 
     try {
         json request = parsePayloadJson(payload_buffer_);
+        if ((request.contains("collection") && !request["collection"].is_string()) ||
+            (request.contains("key") && !request["key"].is_string())) {
+            sendError(400, "Invalid 'collection' or 'key' type in GET request");
+            return;
+        }
         std::string collection = request.value("collection", "");
         std::string key = request.value("key", "");
 
         if (collection.empty() || key.empty()) {
             sendError(400, "Missing 'collection' or 'key' in GET request");
+            return;
+        }
+        if (!isReasonableWireIdentifier(collection) || !isReasonableWireIdentifier(key)) {
+            sendError(400, "Invalid 'collection' or 'key' in GET request");
             return;
         }
 
@@ -1254,11 +1289,20 @@ void WireProtocolServer::Session::handlePut() {
 
     try {
         json request = parsePayloadJson(payload_buffer_);
+        if ((request.contains("collection") && !request["collection"].is_string()) ||
+            (request.contains("key") && !request["key"].is_string())) {
+            sendError(400, "Invalid 'collection' or 'key' type in PUT request");
+            return;
+        }
         std::string collection = request.value("collection", "");
         std::string key = request.value("key", "");
 
         if (collection.empty() || key.empty()) {
             sendError(400, "Missing 'collection' or 'key' in PUT request");
+            return;
+        }
+        if (!isReasonableWireIdentifier(collection) || !isReasonableWireIdentifier(key)) {
+            sendError(400, "Invalid 'collection' or 'key' in PUT request");
             return;
         }
         if (!request.contains("value")) {
@@ -1306,11 +1350,20 @@ void WireProtocolServer::Session::handleDelete() {
 
     try {
         json request = parsePayloadJson(payload_buffer_);
+        if ((request.contains("collection") && !request["collection"].is_string()) ||
+            (request.contains("key") && !request["key"].is_string())) {
+            sendError(400, "Invalid 'collection' or 'key' type in DELETE request");
+            return;
+        }
         std::string collection = request.value("collection", "");
         std::string key = request.value("key", "");
 
         if (collection.empty() || key.empty()) {
             sendError(400, "Missing 'collection' or 'key' in DELETE request");
+            return;
+        }
+        if (!isReasonableWireIdentifier(collection) || !isReasonableWireIdentifier(key)) {
+            sendError(400, "Invalid 'collection' or 'key' in DELETE request");
             return;
         }
 
@@ -1346,10 +1399,18 @@ void WireProtocolServer::Session::handleBatchGet() {
 
     try {
         json request = parsePayloadJson(payload_buffer_);
+        if (request.contains("collection") && !request["collection"].is_string()) {
+            sendError(400, "Invalid 'collection' type in BATCH_GET request");
+            return;
+        }
         std::string collection = request.value("collection", "");
 
         if (collection.empty()) {
             sendError(400, "Missing 'collection' in BATCH_GET request");
+            return;
+        }
+        if (!isReasonableWireIdentifier(collection)) {
+            sendError(400, "Invalid 'collection' in BATCH_GET request");
             return;
         }
         if (!request.contains("keys") || !request["keys"].is_array()) {
@@ -1374,7 +1435,15 @@ void WireProtocolServer::Session::handleBatchGet() {
         std::vector<std::string> storage_keys;
         storage_keys.reserve(keys_arr.size());
         for (const auto& key_val : keys_arr) {
+            if (!key_val.is_string()) {
+                sendError(400, "Each element in 'keys' must be a string in BATCH_GET request");
+                return;
+            }
             const std::string key = key_val.get<std::string>();
+            if (!isReasonableWireIdentifier(key)) {
+                sendError(400, "Each 'keys' element must be a valid identifier in BATCH_GET request");
+                return;
+            }
             client_keys.push_back(key);
             storage_keys.push_back(collection + ":" + key);
         }
@@ -1434,10 +1503,18 @@ void WireProtocolServer::Session::handleBatchPut() {
 
     try {
         json request = parsePayloadJson(payload_buffer_);
+        if (request.contains("collection") && !request["collection"].is_string()) {
+            sendError(400, "Invalid 'collection' type in BATCH_PUT request");
+            return;
+        }
         std::string collection = request.value("collection", "");
 
         if (collection.empty()) {
             sendError(400, "Missing 'collection' in BATCH_PUT request");
+            return;
+        }
+        if (!isReasonableWireIdentifier(collection)) {
+            sendError(400, "Invalid 'collection' in BATCH_PUT request");
             return;
         }
         if (!request.contains("items") || !request["items"].is_array()) {
@@ -1469,12 +1546,39 @@ void WireProtocolServer::Session::handleBatchPut() {
         json results = json::array();
         uint32_t failure_count = 0;
         for (const auto& item_val : items_arr) {
+            if (!item_val.is_object()) {
+                json r;
+                r["key"] = "";
+                r["success"] = false;
+                r["error"] = "Each item must be an object";
+                results.push_back(std::move(r));
+                ++failure_count;
+                continue;
+            }
+            if (item_val.contains("key") && !item_val["key"].is_string()) {
+                json r;
+                r["key"] = "";
+                r["success"] = false;
+                r["error"] = "Invalid 'key' type in item";
+                results.push_back(std::move(r));
+                ++failure_count;
+                continue;
+            }
             const std::string key = item_val.value("key", "");
             if (key.empty()) {
                 json r;
                 r["key"] = "";
                 r["success"] = false;
                 r["error"] = "Missing 'key' in item";
+                results.push_back(std::move(r));
+                ++failure_count;
+                continue;
+            }
+            if (!isReasonableWireIdentifier(key)) {
+                json r;
+                r["key"] = key;
+                r["success"] = false;
+                r["error"] = "Invalid 'key' in item";
                 results.push_back(std::move(r));
                 ++failure_count;
                 continue;
@@ -1549,6 +1653,23 @@ void WireProtocolServer::Session::handleTransactionBegin() {
 
     try {
         json request = parsePayloadJson(payload_buffer_);
+        if (request.contains("isolation_level") && !request["isolation_level"].is_string()) {
+            sendError(400, "Invalid 'isolation_level' type in TRANSACTION_BEGIN request");
+            return;
+        }
+        if (request.contains("timeout_ms") && !request["timeout_ms"].is_number_integer()) {
+            sendError(400, "Invalid 'timeout_ms' type in TRANSACTION_BEGIN request");
+            return;
+        }
+        if (request.contains("timeout_ms")) {
+            const auto timeout_ms = request["timeout_ms"].get<int64_t>();
+            constexpr int64_t kMinTransactionTimeoutMs = 1;
+            constexpr int64_t kMaxTransactionTimeoutMs = 3'600'000;
+            if (timeout_ms < kMinTransactionTimeoutMs || timeout_ms > kMaxTransactionTimeoutMs) {
+                sendError(400, "'timeout_ms' must be between 1 and 3600000 in TRANSACTION_BEGIN request");
+                return;
+            }
+        }
         std::string isolation_str = request.value("isolation_level", "read_committed");
 
         IsolationLevel isolation = IsolationLevel::ReadCommitted;
@@ -1556,6 +1677,9 @@ void WireProtocolServer::Session::handleTransactionBegin() {
             isolation = IsolationLevel::Snapshot;
         } else if (isolation_str == "serializable") {
             isolation = IsolationLevel::SERIALIZABLE;
+        } else if (isolation_str != "read_committed") {
+            sendError(400, "Invalid 'isolation_level' in TRANSACTION_BEGIN request");
+            return;
         }
 
         auto tx_id = server_->tx_manager_->beginTransaction(isolation);
@@ -1591,14 +1715,28 @@ void WireProtocolServer::Session::handleTransactionCommit() {
 
     try {
         json request = parsePayloadJson(payload_buffer_);
+        if (request.contains("transaction_id") && !request["transaction_id"].is_string()) {
+            sendError(400, "Invalid 'transaction_id' type in TRANSACTION_COMMIT request");
+            return;
+        }
         std::string tx_id_str = request.value("transaction_id", "");
 
         if (tx_id_str.empty()) {
             sendError(400, "Missing 'transaction_id' in TRANSACTION_COMMIT request");
             return;
         }
+        if (!isUnsignedIntegerString(tx_id_str)) {
+            sendError(400, "Invalid 'transaction_id' in TRANSACTION_COMMIT request");
+            return;
+        }
 
-        TransactionManager::TransactionId tx_id = std::stoull(tx_id_str);
+        TransactionManager::TransactionId tx_id = 0;
+        try {
+            tx_id = std::stoull(tx_id_str);
+        } catch (const std::exception&) {
+            sendError(400, "Invalid numeric 'transaction_id' in TRANSACTION_COMMIT request");
+            return;
+        }
         auto status = server_->tx_manager_->commitTransaction(tx_id);
 
         json response;
@@ -1635,14 +1773,28 @@ void WireProtocolServer::Session::handleTransactionAbort() {
 
     try {
         json request = parsePayloadJson(payload_buffer_);
+        if (request.contains("transaction_id") && !request["transaction_id"].is_string()) {
+            sendError(400, "Invalid 'transaction_id' type in TRANSACTION_ABORT request");
+            return;
+        }
         std::string tx_id_str = request.value("transaction_id", "");
 
         if (tx_id_str.empty()) {
             sendError(400, "Missing 'transaction_id' in TRANSACTION_ABORT request");
             return;
         }
+        if (!isUnsignedIntegerString(tx_id_str)) {
+            sendError(400, "Invalid 'transaction_id' in TRANSACTION_ABORT request");
+            return;
+        }
 
-        TransactionManager::TransactionId tx_id = std::stoull(tx_id_str);
+        TransactionManager::TransactionId tx_id = 0;
+        try {
+            tx_id = std::stoull(tx_id_str);
+        } catch (const std::exception&) {
+            sendError(400, "Invalid numeric 'transaction_id' in TRANSACTION_ABORT request");
+            return;
+        }
         bool aborted = server_->tx_manager_->rollbackTransaction(tx_id);
 
         json response;
@@ -1675,6 +1827,22 @@ void WireProtocolServer::Session::handleGraphTraverse() {
 
     try {
         json request = parsePayloadJson(payload_buffer_);
+        if ((request.contains("collection") && !request["collection"].is_string()) ||
+            (request.contains("start_vertex") && !request["start_vertex"].is_string())) {
+            sendError(400, "Invalid 'collection' or 'start_vertex' type in GRAPH_TRAVERSE request");
+            return;
+        }
+        if ((request.contains("direction") && !request["direction"].is_string()) ||
+            (request.contains("edge_type") && !request["edge_type"].is_string())) {
+            sendError(400, "Invalid 'direction' or 'edge_type' type in GRAPH_TRAVERSE request");
+            return;
+        }
+        if ((request.contains("depth_min") && !request["depth_min"].is_number_integer()) ||
+            (request.contains("depth_max") && !request["depth_max"].is_number_integer()) ||
+            (request.contains("limit") && !request["limit"].is_number_integer())) {
+            sendError(400, "Invalid 'depth_min', 'depth_max', or 'limit' type in GRAPH_TRAVERSE request");
+            return;
+        }
         std::string collection = request.value("collection", "");
         std::string start_vertex = request.value("start_vertex", "");
 
@@ -1684,6 +1852,10 @@ void WireProtocolServer::Session::handleGraphTraverse() {
         }
         if (start_vertex.empty()) {
             sendError(400, "Missing 'start_vertex' field in GRAPH_TRAVERSE request");
+            return;
+        }
+        if (!isReasonableWireIdentifier(collection) || !isReasonableWireIdentifier(start_vertex)) {
+            sendError(400, "Invalid 'collection' or 'start_vertex' field in GRAPH_TRAVERSE request");
             return;
         }
 
@@ -1707,6 +1879,30 @@ void WireProtocolServer::Session::handleGraphTraverse() {
         int depth_max = request.value("depth_max", 3);
         int limit     = request.value("limit", 100);
         std::string edge_type = request.value("edge_type", "");
+
+        if (!edge_type.empty() && !isReasonableWireIdentifier(edge_type)) {
+            sendError(400, "Invalid 'edge_type' in GRAPH_TRAVERSE request");
+            return;
+        }
+
+        if (direction_str != "outbound" && direction_str != "inbound" && direction_str != "any") {
+            sendError(400, "Invalid 'direction' in GRAPH_TRAVERSE request (expected: outbound, inbound, any)");
+            return;
+        }
+        if (depth_min < 1) {
+            sendError(400, "'depth_min' must be >= 1 in GRAPH_TRAVERSE request");
+            return;
+        }
+        constexpr int kMaxTraversalDepth = 64;
+        if (depth_max < depth_min || depth_max > kMaxTraversalDepth) {
+            sendError(400, "'depth_max' must be >= depth_min and <= 64 in GRAPH_TRAVERSE request");
+            return;
+        }
+        constexpr int kMaxTraversalLimit = 10000;
+        if (limit < 1 || limit > kMaxTraversalLimit) {
+            sendError(400, "'limit' must be between 1 and 10000 in GRAPH_TRAVERSE request");
+            return;
+        }
 
         themis::TraversalDirection direction = themis::TraversalDirection::OUTBOUND;
         if (direction_str == "inbound")  direction = themis::TraversalDirection::INBOUND;
@@ -1759,10 +1955,27 @@ void WireProtocolServer::Session::handleQuery() {
 
     try {
         json request = parsePayloadJson(payload_buffer_);
+        if (request.contains("query") && !request["query"].is_string()) {
+            sendError(400, "Invalid 'query' type in QUERY_AQL request");
+            return;
+        }
+        if (request.contains("batch_size") && !request["batch_size"].is_number_integer()) {
+            sendError(400, "Invalid 'batch_size' type in QUERY_AQL request");
+            return;
+        }
         std::string query_str = request.value("query", "");
 
         if (query_str.empty()) {
             sendError(400, "Missing 'query' field in QUERY_AQL request");
+            return;
+        }
+        if (isBlankString(query_str)) {
+            sendError(400, "'query' in QUERY_AQL request must not be blank");
+            return;
+        }
+        constexpr size_t kMaxQueryStringLength = 1'048'576;
+        if (query_str.size() > kMaxQueryStringLength) {
+            sendError(400, "'query' exceeds maximum length in QUERY_AQL request");
             return;
         }
 
@@ -1785,7 +1998,13 @@ void WireProtocolServer::Session::handleQuery() {
         json response;
         if (result) {
             const auto& result_json = result.value();
-            const size_t batch_size = static_cast<size_t>(request.value("batch_size", 100));
+            int batch_size_i = request.value("batch_size", 100);
+            constexpr int kMaxQueryBatchSize = 10000;
+            if (batch_size_i < 1 || batch_size_i > kMaxQueryBatchSize) {
+                sendError(400, "'batch_size' must be between 1 and 10000 in QUERY request");
+                return;
+            }
+            const size_t batch_size = static_cast<size_t>(batch_size_i);
 
             bool has_more = false;
             json first_batch;
@@ -1853,14 +2072,32 @@ void WireProtocolServer::Session::handleCursorNext() {
 
     try {
         json request = parsePayloadJson(payload_buffer_);
+        if (request.contains("cursor_id") && !request["cursor_id"].is_string()) {
+            sendError(400, "Invalid 'cursor_id' type in CURSOR_NEXT request");
+            return;
+        }
+        if (request.contains("batch_size") && !request["batch_size"].is_number_integer()) {
+            sendError(400, "Invalid 'batch_size' type in CURSOR_NEXT request");
+            return;
+        }
         std::string cursor_id = request.value("cursor_id", "");
 
         if (cursor_id.empty()) {
             sendError(400, "Missing 'cursor_id' in CURSOR_NEXT request");
             return;
         }
+        if (!isReasonableWireIdentifier(cursor_id)) {
+            sendError(400, "Invalid 'cursor_id' in CURSOR_NEXT request");
+            return;
+        }
 
-        const size_t batch_size = static_cast<size_t>(request.value("batch_size", 100));
+        int batch_size_i = request.value("batch_size", 100);
+        constexpr int kMaxCursorBatchSize = 10000;
+        if (batch_size_i < 1 || batch_size_i > kMaxCursorBatchSize) {
+            sendError(400, "'batch_size' must be between 1 and 10000 in CURSOR_NEXT request");
+            return;
+        }
+        const size_t batch_size = static_cast<size_t>(batch_size_i);
 
         std::lock_guard<std::mutex> lock(server_->cursors_mutex_);
         auto it = server_->cursors_.find(cursor_id);
@@ -1920,10 +2157,18 @@ void WireProtocolServer::Session::handleCursorClose() {
 
     try {
         json request = parsePayloadJson(payload_buffer_);
+        if (request.contains("cursor_id") && !request["cursor_id"].is_string()) {
+            sendError(400, "Invalid 'cursor_id' type in CURSOR_CLOSE request");
+            return;
+        }
         std::string cursor_id = request.value("cursor_id", "");
 
         if (cursor_id.empty()) {
             sendError(400, "Missing 'cursor_id' in CURSOR_CLOSE request");
+            return;
+        }
+        if (!isReasonableWireIdentifier(cursor_id)) {
+            sendError(400, "Invalid 'cursor_id' in CURSOR_CLOSE request");
             return;
         }
 
@@ -1967,9 +2212,26 @@ void WireProtocolServer::Session::handleVectorSearch() {
             return;
         }
 
+        constexpr size_t kMaxVectorDimensions = 16384;
+        const auto& vector_json = request["vector"];
+        if (vector_json.size() > kMaxVectorDimensions) {
+            sendError(400, "VECTOR_SEARCH vector exceeds maximum dimension of 16384");
+            return;
+        }
+
         std::vector<float> query_vector;
-        for (const auto& v : request["vector"]) {
-            query_vector.push_back(v.get<float>());
+        query_vector.reserve(vector_json.size());
+        for (const auto& v : vector_json) {
+            if (!v.is_number()) {
+                sendError(400, "VECTOR_SEARCH 'vector' must contain only numeric values");
+                return;
+            }
+            const float value = v.get<float>();
+            if (!std::isfinite(value)) {
+                sendError(400, "VECTOR_SEARCH 'vector' must not contain NaN/Inf values");
+                return;
+            }
+            query_vector.push_back(value);
         }
 
         if (query_vector.empty()) {
@@ -2088,11 +2350,20 @@ void WireProtocolServer::Session::handleGeoQuery() {
                 sendError(400, "'bbox' must contain: minx, miny, maxx, maxy");
                 return;
             }
-            geo::MBR query_bbox(
-                bbox_json["minx"].get<double>(),
-                bbox_json["miny"].get<double>(),
-                bbox_json["maxx"].get<double>(),
-                bbox_json["maxy"].get<double>());
+            const double minx = bbox_json["minx"].get<double>();
+            const double miny = bbox_json["miny"].get<double>();
+            const double maxx = bbox_json["maxx"].get<double>();
+            const double maxy = bbox_json["maxy"].get<double>();
+            if (!std::isfinite(minx) || !std::isfinite(miny) ||
+                !std::isfinite(maxx) || !std::isfinite(maxy)) {
+                sendError(400, "'bbox' values must be finite numbers");
+                return;
+            }
+            if (minx > maxx || miny > maxy) {
+                sendError(400, "'bbox' must satisfy minx <= maxx and miny <= maxy");
+                return;
+            }
+            geo::MBR query_bbox(minx, miny, maxx, maxy);
             search_results = spatial_idx->searchIntersects(collection, query_bbox);
 
         } else if (query_type == "near") {
@@ -2114,6 +2385,18 @@ void WireProtocolServer::Session::handleGeoQuery() {
             const double lon    = center["lon"].get<double>();
             const double lat    = center["lat"].get<double>();
             const double radius = request["radius"].get<double>();
+            if (!std::isfinite(lon) || !std::isfinite(lat) || !std::isfinite(radius)) {
+                sendError(400, "'center' and 'radius' must be finite numbers");
+                return;
+            }
+            if (lon < -180.0 || lon > 180.0 || lat < -90.0 || lat > 90.0) {
+                sendError(400, "'center' coordinates out of range (lon: [-180,180], lat: [-90,90])");
+                return;
+            }
+            if (radius <= 0.0) {
+                sendError(400, "'radius' must be greater than 0");
+                return;
+            }
 
             // Approximate bounding box for the radius query.
             // 1 degree latitude ≈ 111 km; 1 degree longitude varies with latitude.
@@ -2463,12 +2746,33 @@ void WireProtocolServer::Session::handleBpmnStartProcess() {
         // Expected format: { "process_definition_key": "...", "variables": {...}, "business_key": "..." }
         json request = parsePayloadJson(payload_buffer_);
 
+        if (request.contains("process_definition_key") && !request["process_definition_key"].is_string()) {
+            sendError(400, "Invalid process_definition_key: expected string");
+            return;
+        }
+        if (request.contains("variables") && !request["variables"].is_object()) {
+            sendError(400, "Invalid variables: expected object");
+            return;
+        }
+        if (request.contains("business_key") && !request["business_key"].is_string()) {
+            sendError(400, "Invalid business_key: expected string");
+            return;
+        }
+
         std::string process_key = request.value("process_definition_key", "");
         json variables = request.value("variables", json::object());
         std::string business_key = request.value("business_key", "");
 
         if (process_key.empty()) {
             sendError(400, "Missing process_definition_key");
+            return;
+        }
+        if (!isReasonableWireIdentifier(process_key)) {
+            sendError(400, "Invalid process_definition_key: must be <= 256 chars and contain no control characters");
+            return;
+        }
+        if (!business_key.empty() && !isReasonableWireIdentifier(business_key)) {
+            sendError(400, "Invalid business_key: must be <= 256 chars and contain no control characters");
             return;
         }
 
@@ -2561,12 +2865,33 @@ void WireProtocolServer::Session::handleBpmnTaskComplete() {
         // Expected format: { "task_id": "...", "variables": {...}, "assignee": "..." }
         json request = parsePayloadJson(payload_buffer_);
 
+        if (request.contains("task_id") && !request["task_id"].is_string()) {
+            sendError(400, "Invalid task_id: expected string");
+            return;
+        }
+        if (request.contains("variables") && !request["variables"].is_object()) {
+            sendError(400, "Invalid variables: expected object");
+            return;
+        }
+        if (request.contains("assignee") && !request["assignee"].is_string()) {
+            sendError(400, "Invalid assignee: expected string");
+            return;
+        }
+
         std::string task_id = request.value("task_id", "");
         json variables = request.value("variables", json::object());
         std::string assignee = request.value("assignee", username_);
 
         if (task_id.empty()) {
             sendError(400, "Missing task_id");
+            return;
+        }
+        if (!isReasonableWireIdentifier(task_id)) {
+            sendError(400, "Invalid task_id: must be <= 256 chars and contain no control characters");
+            return;
+        }
+        if (!assignee.empty() && !isReasonableWireIdentifier(assignee)) {
+            sendError(400, "Invalid assignee: must be <= 256 chars and contain no control characters");
             return;
         }
 
@@ -2581,6 +2906,14 @@ void WireProtocolServer::Session::handleBpmnTaskComplete() {
         if (colon_pos != std::string::npos) {
             instance_id = task_id.substr(0, colon_pos);
             node_id = task_id.substr(colon_pos + 1);
+            if (instance_id.empty() || node_id.empty()) {
+                sendError(400, "Invalid task_id format: expected '<instance_id>:<node_id>'");
+                return;
+            }
+            if (!isReasonableWireIdentifier(instance_id) || !isReasonableWireIdentifier(node_id)) {
+                sendError(400, "Invalid task_id format: instance_id/node_id must be <= 256 chars and contain no control characters");
+                return;
+            }
         } else {
             // Resolve a token-only task_id via ProcessGraphManager.
             // Scans active tokens to find the matching token_id and extracts
@@ -2654,12 +2987,29 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
         // Expected format: { "process_instance_id": "...", "include_variables": true/false, "include_history": true/false }
         json request = parsePayloadJson(payload_buffer_);
 
+        if (request.contains("process_instance_id") && !request["process_instance_id"].is_string()) {
+            sendError(400, "Invalid process_instance_id: expected string");
+            return;
+        }
+        if (request.contains("include_variables") && !request["include_variables"].is_boolean()) {
+            sendError(400, "Invalid include_variables: expected boolean");
+            return;
+        }
+        if (request.contains("include_history") && !request["include_history"].is_boolean()) {
+            sendError(400, "Invalid include_history: expected boolean");
+            return;
+        }
+
         std::string instance_id = request.value("process_instance_id", "");
         bool include_variables = request.value("include_variables", true);
         bool include_history = request.value("include_history", false);
 
         if (instance_id.empty()) {
             sendError(400, "Missing process_instance_id");
+            return;
+        }
+        if (!isReasonableWireIdentifier(instance_id)) {
+            sendError(400, "Invalid process_instance_id: must be <= 256 chars and contain no control characters");
             return;
         }
 

@@ -39,7 +39,10 @@
  * Commands:
  *   health                       Show server liveness/readiness status
  *   version                      Print server version string
+ *   capabilities                 Show server capability map
  *   query <aql>                  Execute an AQL query
+ *   batch-insert --collection C  Import JSONL payload via /entities/batch
+ *   api <METHOD> <PATH>          Generic HTTP passthrough to any endpoint
  *   get    <id>                  Get an entity by key
  *   put    <id> <json-body>      Create or update an entity
  *   delete <id>                  Delete an entity
@@ -55,7 +58,10 @@
  *   snapshot create [tag]        Create a snapshot tag
  *   admin stats                  Show observability health / node stats
  *   admin cache                  Show cache health and statistics
+ *   self-report                  Bundle self-disclosure (content + health)
  *   index recommend [table]      Show automatic index recommendations
+ *   chat [options] <prompt>      Chat mode via LLM or RAG
+ *   agent [options] <task>       Agent mode with planning response
  *   rag query [--collection C] [--top-k N] [--lora ID] <question>
  *                                AgenticRAG natural-language query
  *   repl                         Start interactive REPL (with history)
@@ -68,7 +74,10 @@
  */
 
 #include <algorithm>
+#include <cctype>
+#include <fstream>
 #include <cstdlib>
+#include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -115,6 +124,7 @@ namespace Color {
 }
 
 static bool g_use_color = true;
+static bool g_help_routes_json = false;
 
 static std::string col(const std::string& c, const std::string& s) {
     return g_use_color ? c + s + Color::Reset : s;
@@ -149,6 +159,7 @@ struct ThemisCtlGlobalOptions {
     std::string token;
     int timeout = 30;
     bool raw_json = false;
+    bool routes_json = false;
     bool no_color = false;
     bool show_help = false;
     std::vector<std::string> remaining_args;
@@ -171,6 +182,10 @@ bool parse_global_options(const std::vector<std::string>& args,
         }
         if (arg == "--json") {
             options.raw_json = true;
+            continue;
+        }
+        if (arg == "--routes-json") {
+            options.routes_json = true;
             continue;
         }
         if (is_help_flag(arg)) {
@@ -246,6 +261,7 @@ static httplib::Headers makeHeaders() {
 
 static Response httpGet(const std::string& path) {
     httplib::Client cli(g_ctx.host, g_ctx.port);
+    cli.set_follow_location(true);
     cli.set_connection_timeout(g_ctx.timeout);
     cli.set_read_timeout(g_ctx.timeout);
     auto res = cli.Get(path.c_str(), makeHeaders());
@@ -256,6 +272,7 @@ static Response httpGet(const std::string& path) {
 static Response httpPost(const std::string& path, const std::string& body,
                          const std::string& ctype = "application/json") {
     httplib::Client cli(g_ctx.host, g_ctx.port);
+    cli.set_follow_location(true);
     cli.set_connection_timeout(g_ctx.timeout);
     cli.set_read_timeout(g_ctx.timeout);
     auto res = cli.Post(path.c_str(), makeHeaders(), body, ctype.c_str());
@@ -266,6 +283,7 @@ static Response httpPost(const std::string& path, const std::string& body,
 static Response httpPut(const std::string& path, const std::string& body,
                         const std::string& ctype = "application/json") {
     httplib::Client cli(g_ctx.host, g_ctx.port);
+    cli.set_follow_location(true);
     cli.set_connection_timeout(g_ctx.timeout);
     cli.set_read_timeout(g_ctx.timeout);
     auto res = cli.Put(path.c_str(), makeHeaders(), body, ctype.c_str());
@@ -275,11 +293,59 @@ static Response httpPut(const std::string& path, const std::string& body,
 
 static Response httpDelete(const std::string& path) {
     httplib::Client cli(g_ctx.host, g_ctx.port);
+    cli.set_follow_location(true);
     cli.set_connection_timeout(g_ctx.timeout);
     cli.set_read_timeout(g_ctx.timeout);
     auto res = cli.Delete(path.c_str(), makeHeaders());
     if (!res) return {-1, "Connection error: " + httplib::to_string(res.error())};
     return {res->status, res->body};
+}
+
+static Response httpRequest(const std::string& method,
+                            const std::string& path,
+                            const std::string& body = "",
+                            const std::string& ctype = "application/json") {
+    std::string upper = method;
+    std::transform(upper.begin(), upper.end(), upper.begin(),
+                   [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
+
+    httplib::Client cli(g_ctx.host, g_ctx.port);
+    cli.set_follow_location(true);
+    cli.set_connection_timeout(g_ctx.timeout);
+    cli.set_read_timeout(g_ctx.timeout);
+
+    if (upper == "GET") {
+        auto res = cli.Get(path.c_str(), makeHeaders());
+        if (!res) return {-1, "Connection error: " + httplib::to_string(res.error())};
+        return {res->status, res->body};
+    }
+    if (upper == "POST") {
+        auto res = cli.Post(path.c_str(), makeHeaders(), body, ctype.c_str());
+        if (!res) return {-1, "Connection error: " + httplib::to_string(res.error())};
+        return {res->status, res->body};
+    }
+    if (upper == "PUT") {
+        auto res = cli.Put(path.c_str(), makeHeaders(), body, ctype.c_str());
+        if (!res) return {-1, "Connection error: " + httplib::to_string(res.error())};
+        return {res->status, res->body};
+    }
+    if (upper == "DELETE") {
+        auto res = cli.Delete(path.c_str(), makeHeaders());
+        if (!res) return {-1, "Connection error: " + httplib::to_string(res.error())};
+        return {res->status, res->body};
+    }
+    if (upper == "PATCH") {
+        auto res = cli.Patch(path.c_str(), makeHeaders(), body, ctype.c_str());
+        if (!res) return {-1, "Connection error: " + httplib::to_string(res.error())};
+        return {res->status, res->body};
+    }
+    if (upper == "HEAD") {
+        auto res = cli.Head(path.c_str(), makeHeaders());
+        if (!res) return {-1, "Connection error: " + httplib::to_string(res.error())};
+        return {res->status, ""};
+    }
+
+    return {-1, "Unsupported HTTP method: " + method};
 }
 
 // ============================================================================
@@ -323,6 +389,106 @@ static int handleResponse(const Response& r, const std::string& success_msg = ""
         std::cout << "[" << ok() << "] " << success_msg << "\n";
     }
     return 0;
+}
+
+static Response httpGetWithApplicationRedirect(const std::string& path) {
+    Response r = httpGet(path);
+    if (r.status != 301) {
+        return r;
+    }
+
+    try {
+        auto moved = json::parse(r.body);
+        const auto location = moved.value("location", std::string{});
+        if (!location.empty()) {
+            return httpGet(location);
+        }
+    } catch (...) {
+        // Fall through with original 301 response.
+    }
+    return r;
+}
+
+static bool tryCollectOpenApiRoutes(std::vector<std::pair<std::string, std::string>>& routes,
+                                    std::string& warning) {
+    routes.clear();
+    Response spec = httpGetWithApplicationRedirect("/api/openapi.json");
+    if (spec.status == -1) {
+        warning = spec.body;
+        return false;
+    }
+    if (!spec.ok()) {
+        warning = "HTTP " + std::to_string(spec.status);
+        return false;
+    }
+
+    try {
+        auto openapi = json::parse(spec.body);
+        auto paths_it = openapi.find("paths");
+        if (paths_it == openapi.end() || !paths_it->is_object()) {
+            warning = "OpenAPI response has no 'paths' object";
+            return false;
+        }
+
+        for (const auto& [path, methods] : paths_it->items()) {
+            if (!methods.is_object()) {
+                continue;
+            }
+            for (const auto& [method, _] : methods.items()) {
+                std::string m = method;
+                std::transform(m.begin(), m.end(), m.begin(),
+                               [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
+                routes.emplace_back(m, path);
+            }
+        }
+
+        std::sort(routes.begin(), routes.end(), [](const auto& a, const auto& b) {
+            return (a.second == b.second) ? (a.first < b.first) : (a.second < b.second);
+        });
+        if (routes.empty()) {
+            warning = "OpenAPI routes list is empty";
+            return false;
+        }
+        return true;
+    } catch (...) {
+        warning = "OpenAPI could not be parsed";
+        return false;
+    }
+}
+
+static std::vector<std::pair<std::string, std::string>>
+generateRoutesFromCapabilities(const json& caps) {
+    std::vector<std::pair<std::string, std::string>> routes;
+
+    // Core routes expected in almost all builds.
+    routes.emplace_back("GET", "/health/live");
+    routes.emplace_back("GET", "/health/ready");
+    routes.emplace_back("GET", "/version");
+    routes.emplace_back("POST", "/api/aql");
+    routes.emplace_back("GET", "/entities/{key}");
+    routes.emplace_back("PUT", "/entities/{key}");
+    routes.emplace_back("DELETE", "/entities/{key}");
+
+    if (caps.contains("schema_awareness") && caps["schema_awareness"].is_object() &&
+        caps["schema_awareness"].value("enabled", false)) {
+        routes.emplace_back("GET", "/api/v1/schema");
+    }
+
+    if (caps.contains("geo") && caps["geo"].is_object() && caps["geo"].value("enabled", false)) {
+        routes.emplace_back("POST", "/spatial/index/create");
+        routes.emplace_back("GET", "/spatial/metrics");
+    }
+
+    if (caps.contains("vector") && caps["vector"].is_object()) {
+        routes.emplace_back("POST", "/vector/search");
+        routes.emplace_back("POST", "/vector/batch_insert");
+    }
+
+    std::sort(routes.begin(), routes.end(), [](const auto& a, const auto& b) {
+        return (a.second == b.second) ? (a.first < b.first) : (a.second < b.second);
+    });
+    routes.erase(std::unique(routes.begin(), routes.end()), routes.end());
+    return routes;
 }
 
 // ============================================================================
@@ -389,6 +555,119 @@ static int cmdVersion(const std::vector<std::string>& /*args*/) {
     return 0;
 }
 
+// ── capabilities ──────────────────────────────────────────────────────────────
+
+static int cmdCapabilities(const std::vector<std::string>& args) {
+    bool show_openapi = false;
+    for (const auto& arg : args) {
+        if (arg == "--openapi" || arg == "--routes") {
+            show_openapi = true;
+            continue;
+        }
+        std::cerr << "Usage: themisctl capabilities [--openapi]\n";
+        return 2;
+    }
+
+    Response caps = httpGetWithApplicationRedirect("/api/capabilities");
+    if (caps.status == -1) {
+        std::cerr << "[" << fail() << "] " << caps.body << "\n";
+        return 3;
+    }
+    if (caps.status == 404) {
+        if (!g_ctx.raw_json) {
+            std::cout << "[" << warn() << "] /api/capabilities not available on this server build\n";
+            Response v = httpGet("/version");
+            if (v.ok()) {
+                try {
+                    auto j = json::parse(v.body);
+                    if (j.contains("version")) {
+                        kv("version", j["version"].get<std::string>());
+                    }
+                } catch (...) {
+                    std::cout << v.body << "\n";
+                }
+            }
+            std::cout << "Use 'themisctl api <METHOD> <PATH>' for full generic endpoint access.\n";
+        }
+        if (!show_openapi) {
+            return 0;
+        }
+    }
+    if (!caps.ok() && caps.status != 404) {
+        std::cerr << "[" << fail() << "] HTTP " << caps.status << "\n";
+        try { std::cerr << json::parse(caps.body).dump(2) << "\n"; }
+        catch (...) { std::cerr << caps.body << "\n"; }
+        return 1;
+    }
+
+    if (caps.ok() && g_ctx.raw_json && !show_openapi) {
+        printJson(caps.body);
+        return 0;
+    }
+
+    if (caps.ok()) {
+        try {
+        auto c = json::parse(caps.body);
+        std::cout << col(Color::Bold, "Server capabilities") << "\n";
+        if (c.contains("edition") && c["edition"].is_object()) {
+            kv("edition", c["edition"].value("name", "unknown"));
+        }
+        if (c.contains("build") && c["build"].is_object()) {
+            kv("build", c["build"].value("type", "unknown"));
+        }
+        if (c.contains("geo") && c["geo"].is_object()) {
+            kv("geo.enabled", c["geo"].value("enabled", false) ? "true" : "false");
+        }
+        if (c.contains("vector") && c["vector"].is_object()) {
+            kv("vector.gpu_compiled", c["vector"].value("gpu_compiled", false) ? "true" : "false");
+        }
+        if (!g_ctx.raw_json) {
+            std::cout << c.dump(2) << "\n";
+        }
+        } catch (...) {
+            std::cout << caps.body << "\n";
+        }
+    }
+
+    if (!show_openapi) {
+        return 0;
+    }
+
+    std::vector<std::pair<std::string, std::string>> routes;
+    std::string openapi_warning;
+    if (tryCollectOpenApiRoutes(routes, openapi_warning)) {
+        std::cout << "\n" << col(Color::Bold, "OpenAPI routes")
+                  << " (" << routes.size() << ")\n";
+        for (const auto& [method, path] : routes) {
+            std::cout << "  " << col(Color::Cyan, method) << " " << path << "\n";
+        }
+        return 0;
+    }
+
+    if (!g_ctx.raw_json) {
+        std::cout << "\n[" << warn() << "] OpenAPI route discovery unavailable: "
+                  << openapi_warning << "\n";
+    }
+
+    if (caps.ok()) {
+        try {
+            auto c = json::parse(caps.body);
+            auto cap_routes = generateRoutesFromCapabilities(c);
+            if (!cap_routes.empty() && !g_ctx.raw_json) {
+                std::cout << col(Color::Bold, "Capability profile routes")
+                          << " (" << cap_routes.size() << ")\n";
+                for (const auto& [method, path] : cap_routes) {
+                    std::cout << "  " << col(Color::Cyan, method) << " " << path << "\n";
+                }
+            }
+        } catch (...) {
+            // Keep silent: capability route list is best-effort.
+        }
+    }
+
+    return 0;
+}
+
 // ── query ─────────────────────────────────────────────────────────────────────
 
 static int cmdQuery(const std::vector<std::string>& args) {
@@ -417,6 +696,275 @@ static int cmdQuery(const std::vector<std::string>& args) {
     }
     printJson(r.body);
     return 0;
+}
+
+// ── api ───────────────────────────────────────────────────────────────────────
+
+static int cmdApi(const std::vector<std::string>& args) {
+    if (args.size() < 2) {
+        std::cerr << "Usage: themisctl api <METHOD> <PATH> [--body <data>] [--body-file <file>] [--stdin] [--content-type <type>]\n";
+        return 2;
+    }
+
+    const std::string method = args[0];
+    const std::string path = args[1];
+
+    std::string body;
+    std::string content_type = "application/json";
+
+    for (size_t i = 2; i < args.size(); ++i) {
+        if (args[i] == "--body") {
+            if (i + 1 >= args.size()) {
+                std::cerr << "--body requires a value\n";
+                return 2;
+            }
+            body = args[++i];
+            continue;
+        }
+        if (args[i] == "--body-file") {
+            if (i + 1 >= args.size()) {
+                std::cerr << "--body-file requires a file path\n";
+                return 2;
+            }
+            std::ifstream in(args[++i], std::ios::binary);
+            if (!in) {
+                std::cerr << "[" << fail() << "] Cannot open file: " << args[i] << "\n";
+                return 2;
+            }
+            std::ostringstream oss;
+            oss << in.rdbuf();
+            body = oss.str();
+            continue;
+        }
+        if (args[i] == "--stdin") {
+            std::ostringstream oss;
+            oss << std::cin.rdbuf();
+            body = oss.str();
+            continue;
+        }
+        if (args[i] == "--content-type") {
+            if (i + 1 >= args.size()) {
+                std::cerr << "--content-type requires a value\n";
+                return 2;
+            }
+            content_type = args[++i];
+            continue;
+        }
+
+        std::cerr << "Unknown option for api: " << args[i] << "\n";
+        return 2;
+    }
+
+    Response r = httpRequest(method, path, body, content_type);
+    if (r.status == -1) {
+        std::cerr << "[" << fail() << "] " << r.body << "\n";
+        return 3;
+    }
+
+    if (!r.ok()) {
+        std::cerr << "[" << fail() << "] HTTP " << r.status << "\n";
+        if (!r.body.empty()) {
+            try { std::cerr << json::parse(r.body).dump(2) << "\n"; }
+            catch (...) { std::cerr << r.body << "\n"; }
+        }
+        return 1;
+    }
+
+    if (!r.body.empty()) {
+        printJson(r.body);
+    } else if (!g_ctx.raw_json) {
+        std::cout << "[" << ok() << "] HTTP " << r.status << "\n";
+    }
+
+    return 0;
+}
+
+// ── batch-insert ───────────────────────────────────────────────────────────────
+
+static int cmdBatchInsert(const std::vector<std::string>& args) {
+    std::string collection;
+    size_t batch_size = 500;
+    bool edges_mode = false;
+
+    for (size_t i = 0; i < args.size(); ++i) {
+        if (args[i] == "--collection") {
+            if (i + 1 >= args.size()) {
+                std::cerr << "Usage: themisctl batch-insert --collection <name> [--batch-size <n>] [--edges] < data.jsonl\n";
+                return 2;
+            }
+            collection = args[++i];
+            continue;
+        }
+        if (args[i] == "--batch-size") {
+            if (i + 1 >= args.size()) {
+                std::cerr << "Usage: themisctl batch-insert --collection <name> [--batch-size <n>] [--edges] < data.jsonl\n";
+                return 2;
+            }
+            try {
+                batch_size = static_cast<size_t>(std::stoul(args[++i]));
+            } catch (...) {
+                std::cerr << "[" << fail() << "] --batch-size requires a positive integer\n";
+                return 2;
+            }
+            if (batch_size == 0) {
+                std::cerr << "[" << fail() << "] --batch-size must be > 0\n";
+                return 2;
+            }
+            continue;
+        }
+        if (args[i] == "--edges") {
+            edges_mode = true;
+            continue;
+        }
+
+        std::cerr << "Unknown option for batch-insert: " << args[i] << "\n";
+        return 2;
+    }
+
+    if (collection.empty()) {
+        std::cerr << "Usage: themisctl batch-insert --collection <name> [--batch-size <n>] [--edges] < data.jsonl\n";
+        return 2;
+    }
+
+    auto flush_ops = [](json& operations, size_t& succeeded, size_t& failed) -> int {
+        if (operations.empty()) {
+            return 0;
+        }
+
+        json req;
+        req["operations"] = operations;
+        Response r = httpPost("/entities/batch", req.dump());
+        if (r.status == -1) {
+            std::cerr << "[" << fail() << "] " << r.body << "\n";
+            return 3;
+        }
+        if (!r.ok()) {
+            bool fallback_to_put = false;
+            if (r.status == 400) {
+                try {
+                    auto err = json::parse(r.body);
+                    const std::string msg = err.value("message", "");
+                    if (msg.find("missing required field: key") != std::string::npos) {
+                        fallback_to_put = true;
+                    }
+                } catch (...) {
+                    // Keep default false.
+                }
+            }
+
+            if (fallback_to_put) {
+                for (const auto& op : operations) {
+                    if (!op.contains("key") || !op["key"].is_string()) {
+                        ++failed;
+                        continue;
+                    }
+                    const std::string key = op["key"].get<std::string>();
+                    json put_body;
+                    put_body["key"] = key;
+                    if (op.contains("blob")) {
+                        put_body["blob"] = op["blob"];
+                    }
+                    Response put_res = httpPut("/entities/" + key, put_body.dump());
+                    if (put_res.ok()) {
+                        ++succeeded;
+                    } else {
+                        ++failed;
+                    }
+                }
+                operations.clear();
+                return 0;
+            }
+
+            std::cerr << "[" << fail() << "] HTTP " << r.status << "\n";
+            try { std::cerr << json::parse(r.body).dump(2) << "\n"; }
+            catch (...) { std::cerr << r.body << "\n"; }
+            return 1;
+        }
+
+        try {
+            auto body = json::parse(r.body);
+            succeeded += static_cast<size_t>(body.value("succeeded", 0));
+            failed += static_cast<size_t>(body.value("failed", 0));
+        } catch (...) {
+            succeeded += operations.size();
+        }
+
+        operations.clear();
+        return 0;
+    };
+
+    json operations = json::array();
+    std::string line;
+    size_t line_no = 0;
+    size_t row_no = 0;
+    size_t succeeded = 0;
+    size_t failed = 0;
+
+    while (std::getline(std::cin, line)) {
+        ++line_no;
+        if (line.empty()) {
+            continue;
+        }
+
+        json doc;
+        try {
+            doc = json::parse(line);
+            if (!doc.is_object()) {
+                std::cerr << "[" << warn() << "] line " << line_no << ": not a JSON object, skipped\n";
+                ++failed;
+                continue;
+            }
+        } catch (const std::exception& e) {
+            std::cerr << "[" << warn() << "] line " << line_no << ": invalid JSON (" << e.what() << "), skipped\n";
+            ++failed;
+            continue;
+        }
+
+        ++row_no;
+        std::string key;
+        if (doc.contains("_key") && doc["_key"].is_string() && !doc["_key"].get<std::string>().empty()) {
+            const auto k = doc["_key"].get<std::string>();
+            key = (k.find(':') == std::string::npos) ? (collection + ":" + k) : k;
+        } else {
+            std::ostringstream oss;
+            oss << collection << ":" << (edges_mode ? "edge_" : "row_")
+                << std::setw(6) << std::setfill('0') << row_no;
+            key = oss.str();
+        }
+
+        json op;
+        op["op"] = "put";
+        op["key"] = key;
+        op["blob"] = line;
+        operations.push_back(std::move(op));
+
+        if (operations.size() >= batch_size) {
+            const int rc = flush_ops(operations, succeeded, failed);
+            if (rc != 0) {
+                return rc;
+            }
+        }
+    }
+
+    const int rc = flush_ops(operations, succeeded, failed);
+    if (rc != 0) {
+        return rc;
+    }
+
+    if (!g_ctx.raw_json) {
+        std::cout << "[" << ok() << "] batch-insert complete\n";
+        kv("collection", collection);
+        kv("succeeded", std::to_string(succeeded));
+        kv("failed", std::to_string(failed));
+    } else {
+        json out;
+        out["collection"] = collection;
+        out["succeeded"] = succeeded;
+        out["failed"] = failed;
+        std::cout << out.dump(2) << "\n";
+    }
+
+    return (failed == 0) ? 0 : 1;
 }
 
 // ── get ──────────────────────────────────────────────────────────────────────
@@ -878,6 +1426,135 @@ static int cmdAdmin(const std::vector<std::string>& args) {
     return 2;
 }
 
+// ── self-report ──────────────────────────────────────────────────────────────
+
+static int cmdSelfReport(const std::vector<std::string>& args) {
+    if (!args.empty()) {
+        std::cerr << "Usage: themisctl self-report\n";
+        return 2;
+    }
+
+    struct Probe {
+        std::string name;
+        std::string path;
+        bool required = false;
+        bool use_redirect = false;
+    };
+
+    const std::vector<Probe> probes = {
+        {"health_live", "/health/live", true, false},
+        {"health_ready", "/health/ready", true, false},
+        {"version", "/version", true, false},
+        {"capabilities", "/api/capabilities", false, true},
+        {"schema", "/api/v1/schema", false, false},
+        {"observability", "/api/v1/observability/health", false, false},
+        {"cache", "/v1/admin/cache/health", false, false},
+        {"llm_health", "/api/v1/llm/health", false, false},
+    };
+
+    json out;
+    out["host"] = g_ctx.host;
+    out["port"] = g_ctx.port;
+    out["sections"] = json::object();
+
+    int required_failures = 0;
+    int optional_failures = 0;
+    int connection_failures = 0;
+
+    for (const auto& p : probes) {
+        Response r = p.use_redirect ? httpGetWithApplicationRedirect(p.path) : httpGet(p.path);
+
+        json section;
+        section["path"] = p.path;
+        section["required"] = p.required;
+        section["http_status"] = r.status;
+        section["ok"] = r.ok();
+
+        if (r.status == -1) {
+            section["error"] = r.body;
+            ++connection_failures;
+            if (p.required) ++required_failures;
+            else ++optional_failures;
+        } else {
+            try {
+                section["body"] = json::parse(r.body);
+            } catch (...) {
+                section["raw_body"] = r.body;
+            }
+
+            if (!r.ok()) {
+                if (p.required) ++required_failures;
+                else ++optional_failures;
+            }
+        }
+
+        out["sections"][p.name] = section;
+    }
+
+    // Cache fallback probe for builds exposing stats but not health endpoint.
+    if (out["sections"]["cache"]["http_status"].is_number_integer() &&
+        out["sections"]["cache"]["http_status"].get<int>() != 200) {
+        Response cache_stats = httpGet("/v1/admin/cache/stats");
+        json fallback;
+        fallback["path"] = "/v1/admin/cache/stats";
+        fallback["http_status"] = cache_stats.status;
+        fallback["ok"] = cache_stats.ok();
+        if (cache_stats.status == -1) {
+            fallback["error"] = cache_stats.body;
+        } else {
+            try { fallback["body"] = json::parse(cache_stats.body); }
+            catch (...) { fallback["raw_body"] = cache_stats.body; }
+        }
+        out["sections"]["cache_fallback"] = fallback;
+    }
+
+    out["summary"] = {
+        {"required_failures", required_failures},
+        {"optional_failures", optional_failures},
+        {"connection_failures", connection_failures},
+        {"overall_ok", required_failures == 0}
+    };
+
+    if (g_ctx.raw_json) {
+        std::cout << out.dump(2) << "\n";
+    } else {
+        std::cout << col(Color::Bold, "ThemisDB Self Report") << "\n";
+        kv("target", g_ctx.host + ":" + std::to_string(g_ctx.port));
+        kv("required_failures", std::to_string(required_failures),
+           required_failures == 0 ? Color::Green : Color::Red);
+        kv("optional_failures", std::to_string(optional_failures),
+           optional_failures == 0 ? Color::Green : Color::Yellow);
+
+        auto print_probe_line = [&](const std::string& name, const json& section) {
+            const int status = section.value("http_status", -1);
+            const bool ok_state = section.value("ok", false);
+            const std::string label = ok_state ? ok() : (status == -1 ? fail() : warn());
+            std::cout << "  [" << label << "] " << name
+                      << " (" << section.value("path", "?")
+                      << ") status=" << status << "\n";
+        };
+
+        for (const auto& [name, section] : out["sections"].items()) {
+            print_probe_line(name, section);
+        }
+
+        if (out["sections"].contains("schema")) {
+            const auto& schema_section = out["sections"]["schema"];
+            if (schema_section.value("ok", false) && schema_section.contains("body")) {
+                const auto& body = schema_section["body"];
+                if (body.is_object()) {
+                    kv("schema_keys", std::to_string(body.size()));
+                } else if (body.is_array()) {
+                    kv("schema_items", std::to_string(body.size()));
+                }
+            }
+        }
+    }
+
+    if (connection_failures > 0) return 3;
+    return (required_failures == 0) ? 0 : 1;
+}
+
 // ── index ─────────────────────────────────────────────────────────────────────
 //
 // index recommend [table]   — GET /api/v1/metadata/index_recommendations[/:table]
@@ -983,6 +1660,463 @@ static int cmdIndex(const std::vector<std::string>& args) {
 //   request format: {"query": "...", "collection": "...", "top_k": N,
 //   "lora_adapter": "..."}.  Response fields: "text", "query",
 //   "documents_retrieved", "tokens_generated", "inference_time_ms", "cache_hit".
+
+struct LlmRequestOptions {
+    bool use_rag = false;
+    bool interactive = false;
+    std::string collection;
+    int top_k = 5;
+    std::string lora_id;
+    std::string model_id;
+    int max_tokens = 256;
+    double temperature = 0.7;
+};
+
+static Response invokeLlmEndpoint(const std::string& user_text,
+                                  const LlmRequestOptions& options,
+                                  std::string& endpoint_used) {
+    json req;
+    if (options.use_rag) {
+        req["query"] = user_text;
+        req["top_k"] = options.top_k;
+        if (!options.collection.empty()) req["collection"] = options.collection;
+        if (!options.lora_id.empty()) req["lora_adapter"] = options.lora_id;
+        if (!options.model_id.empty()) req["model"] = options.model_id;
+        req["max_tokens"] = options.max_tokens;
+        req["temperature"] = options.temperature;
+        endpoint_used = "/api/v1/llm/rag";
+        return httpPost(endpoint_used, req.dump());
+    }
+
+    req["prompt"] = user_text;
+    if (!options.model_id.empty()) req["model"] = options.model_id;
+    if (!options.lora_id.empty()) req["lora_adapter"] = options.lora_id;
+    req["max_tokens"] = options.max_tokens;
+    req["temperature"] = options.temperature;
+    endpoint_used = "/api/v1/llm/inference";
+    return httpPost(endpoint_used, req.dump());
+}
+
+static int printLlmResult(const Response& r,
+                          const std::string& endpoint_used,
+                          const std::string& mode,
+                          const std::string& input_text) {
+    if (r.status == -1) {
+        if (g_ctx.raw_json) {
+            json out;
+            out["mode"] = mode;
+            out["endpoint"] = endpoint_used;
+            out["input"] = input_text;
+            out["ok"] = false;
+            out["error"] = {
+                {"type", "connection"},
+                {"message", r.body}
+            };
+            std::cout << out.dump(2) << "\n";
+            return 3;
+        }
+        std::cerr << "[" << fail() << "] " << r.body << "\n";
+        return 3;
+    }
+    if (!r.ok()) {
+        if (g_ctx.raw_json) {
+            json out;
+            out["mode"] = mode;
+            out["endpoint"] = endpoint_used;
+            out["input"] = input_text;
+            out["ok"] = false;
+            out["http_status"] = r.status;
+            try { out["error"] = json::parse(r.body); }
+            catch (...) { out["error"] = json{{"message", r.body}}; }
+            std::cout << out.dump(2) << "\n";
+            return 1;
+        }
+        std::cerr << "[" << fail() << "] HTTP " << r.status << "\n";
+        try { std::cerr << json::parse(r.body).dump(2) << "\n"; }
+        catch (...) { std::cerr << r.body << "\n"; }
+        return 1;
+    }
+
+    try {
+        json body = json::parse(r.body);
+        const std::string text = body.value("text", std::string{});
+        if (g_ctx.raw_json) {
+            json out;
+            out["mode"] = mode;
+            out["endpoint"] = endpoint_used;
+            out["input"] = input_text;
+            out["ok"] = true;
+            out["response"] = body;
+            std::cout << out.dump(2) << "\n";
+            return 0;
+        }
+
+        std::cout << col(Color::Bold, "assistant") << ":\n";
+        if (!text.empty()) {
+            std::cout << text << "\n";
+        } else {
+            std::cout << body.dump(2) << "\n";
+        }
+        return 0;
+    } catch (...) {
+        if (g_ctx.raw_json) {
+            json out;
+            out["mode"] = mode;
+            out["endpoint"] = endpoint_used;
+            out["input"] = input_text;
+            out["ok"] = true;
+            out["raw_response"] = r.body;
+            std::cout << out.dump(2) << "\n";
+        } else {
+            std::cout << r.body << "\n";
+        }
+        return 0;
+    }
+}
+
+static bool parseLlmCommonOptions(const std::vector<std::string>& args,
+                                  size_t start_index,
+                                  LlmRequestOptions& opts,
+                                  std::vector<std::string>& text_parts,
+                                  const std::string& usage) {
+    for (size_t i = start_index; i < args.size(); ++i) {
+        if (args[i] == "--rag") {
+            opts.use_rag = true;
+            continue;
+        }
+        if (args[i] == "--interactive") {
+            opts.interactive = true;
+            continue;
+        }
+        if (args[i] == "--collection" && i + 1 < args.size()) {
+            opts.collection = args[++i];
+            continue;
+        }
+        if (args[i] == "--top-k" && i + 1 < args.size()) {
+            try { opts.top_k = std::stoi(args[++i]); }
+            catch (...) { std::cerr << "[" << fail() << "] --top-k requires integer\n"; return false; }
+            continue;
+        }
+        if (args[i] == "--lora" && i + 1 < args.size()) {
+            opts.lora_id = args[++i];
+            continue;
+        }
+        if (args[i] == "--model" && i + 1 < args.size()) {
+            opts.model_id = args[++i];
+            continue;
+        }
+        if (args[i] == "--max-tokens" && i + 1 < args.size()) {
+            try { opts.max_tokens = std::stoi(args[++i]); }
+            catch (...) { std::cerr << "[" << fail() << "] --max-tokens requires integer\n"; return false; }
+            continue;
+        }
+        if (args[i] == "--temperature" && i + 1 < args.size()) {
+            try { opts.temperature = std::stod(args[++i]); }
+            catch (...) { std::cerr << "[" << fail() << "] --temperature requires number\n"; return false; }
+            continue;
+        }
+
+        // Remaining args are prompt/task text.
+        for (; i < args.size(); ++i) text_parts.push_back(args[i]);
+        break;
+    }
+
+    if (!opts.interactive && text_parts.empty()) {
+        std::cerr << usage << "\n";
+        return false;
+    }
+    return true;
+}
+
+static std::string joinParts(const std::vector<std::string>& parts) {
+    std::string out;
+    for (size_t i = 0; i < parts.size(); ++i) {
+        if (i > 0) out += ' ';
+        out += parts[i];
+    }
+    return out;
+}
+
+struct DocsHelpOptions {
+    std::string mode = "lora";  // rag | llm | lora
+    std::string user_id = "themisctl";
+    std::string lora_id;
+    std::string model_id;
+    int max_tokens = 256;
+    double temperature = 0.2;
+};
+
+static bool parseDocsHelpOptions(const std::vector<std::string>& args,
+                                 DocsHelpOptions& opts,
+                                 std::vector<std::string>& question_parts,
+                                 const std::string& usage) {
+    for (size_t i = 0; i < args.size(); ++i) {
+        if (args[i] == "--mode" && i + 1 < args.size()) {
+            opts.mode = args[++i];
+            std::transform(opts.mode.begin(), opts.mode.end(), opts.mode.begin(),
+                           [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+            continue;
+        }
+        if (args[i] == "--user-id" && i + 1 < args.size()) {
+            opts.user_id = args[++i];
+            continue;
+        }
+        if (args[i] == "--lora" && i + 1 < args.size()) {
+            opts.lora_id = args[++i];
+            continue;
+        }
+        if (args[i] == "--model" && i + 1 < args.size()) {
+            opts.model_id = args[++i];
+            continue;
+        }
+        if (args[i] == "--max-tokens" && i + 1 < args.size()) {
+            try { opts.max_tokens = std::stoi(args[++i]); }
+            catch (...) { std::cerr << "[" << fail() << "] --max-tokens requires integer\n"; return false; }
+            continue;
+        }
+        if (args[i] == "--temperature" && i + 1 < args.size()) {
+            try { opts.temperature = std::stod(args[++i]); }
+            catch (...) { std::cerr << "[" << fail() << "] --temperature requires number\n"; return false; }
+            continue;
+        }
+        if (args[i] == "--help" || args[i] == "-h" || args[i] == "/?") {
+            std::cerr << usage << "\n";
+            return false;
+        }
+
+        for (; i < args.size(); ++i) {
+            question_parts.push_back(args[i]);
+        }
+        break;
+    }
+
+    if (opts.mode != "rag" && opts.mode != "llm" && opts.mode != "lora") {
+        std::cerr << "[" << fail() << "] --mode must be one of: rag, llm, lora\n";
+        return false;
+    }
+
+    if (question_parts.empty()) {
+        std::cerr << usage << "\n";
+        return false;
+    }
+    return true;
+}
+
+static Response invokeDocsHelpEndpoint(const std::string& question,
+                                       const DocsHelpOptions& opts,
+                                       std::string& endpoint_used) {
+    endpoint_used = "/api/v1/llm/docs/query";
+    json req;
+
+    if (opts.mode == "rag") {
+        req["query"] = question;
+    } else if (opts.mode == "llm") {
+        req["query"] = std::string("[LLM mode] ") + question;
+    } else {
+        req["query"] = std::string("[LoRA mode] ") + question;
+        if (!opts.lora_id.empty()) {
+            req["lora_adapter"] = opts.lora_id;
+        }
+    }
+
+    if (!opts.model_id.empty()) {
+        req["model"] = opts.model_id;
+    }
+    req["user_id"] = opts.user_id;
+    req["max_tokens"] = opts.max_tokens;
+    req["temperature"] = opts.temperature;
+    return httpPost(endpoint_used, req.dump());
+}
+
+static int printDocsHelpResult(const Response& r,
+                               const std::string& endpoint_used,
+                               const std::string& mode,
+                               const std::string& input_text) {
+    if (r.status == -1) {
+        if (g_ctx.raw_json) {
+            json out;
+            out["mode"] = mode;
+            out["endpoint"] = endpoint_used;
+            out["input"] = input_text;
+            out["ok"] = false;
+            out["error"] = { {"type", "connection"}, {"message", r.body} };
+            std::cout << out.dump(2) << "\n";
+            return 3;
+        }
+        std::cerr << "[" << fail() << "] " << r.body << "\n";
+        return 3;
+    }
+    if (!r.ok()) {
+        if (g_ctx.raw_json) {
+            json out;
+            out["mode"] = mode;
+            out["endpoint"] = endpoint_used;
+            out["input"] = input_text;
+            out["ok"] = false;
+            out["http_status"] = r.status;
+            try { out["error"] = json::parse(r.body); }
+            catch (...) { out["error"] = json{{"message", r.body}}; }
+            std::cout << out.dump(2) << "\n";
+            return 1;
+        }
+        std::cerr << "[" << fail() << "] HTTP " << r.status << "\n";
+        try { std::cerr << json::parse(r.body).dump(2) << "\n"; }
+        catch (...) { std::cerr << r.body << "\n"; }
+        return 1;
+    }
+
+    try {
+        auto body = json::parse(r.body);
+        if (g_ctx.raw_json) {
+            json out;
+            out["mode"] = mode;
+            out["endpoint"] = endpoint_used;
+            out["input"] = input_text;
+            out["ok"] = true;
+            out["response"] = body;
+            std::cout << out.dump(2) << "\n";
+            return 0;
+        }
+
+        std::cout << col(Color::Bold, "themis-help") << " (" << mode << "):\n";
+        if (body.contains("answer") && body["answer"].is_string()) {
+            std::cout << body["answer"].get<std::string>() << "\n";
+            return 0;
+        }
+        if (body.contains("result") && body["result"].is_array() && !body["result"].empty()) {
+            const auto& first = body["result"][0];
+            if (first.is_string()) {
+                std::cout << first.get<std::string>() << "\n";
+            } else {
+                std::cout << body.dump(2) << "\n";
+            }
+            return 0;
+        }
+        std::cout << body.dump(2) << "\n";
+        return 0;
+    } catch (...) {
+        if (g_ctx.raw_json) {
+            json out;
+            out["mode"] = mode;
+            out["endpoint"] = endpoint_used;
+            out["input"] = input_text;
+            out["ok"] = true;
+            out["raw_response"] = r.body;
+            std::cout << out.dump(2) << "\n";
+        } else {
+            std::cout << r.body << "\n";
+        }
+        return 0;
+    }
+}
+
+static int cmdDocsHelp(const std::vector<std::string>& args) {
+    const std::string usage =
+        "Usage: themisctl help [--mode rag|llm|lora] [--user-id <id>] [--lora <id>] "
+        "[--model <id>] [--max-tokens <n>] [--temperature <t>] <question>\n"
+        "  rag  = docs.db-backed RAG help\n"
+        "  llm  = docs.db-backed LLM-style help\n"
+        "  lora = docs.db-backed LoRA-style help";
+
+    DocsHelpOptions opts;
+    std::vector<std::string> question_parts;
+    if (!parseDocsHelpOptions(args, opts, question_parts, usage)) {
+        return 2;
+    }
+
+    const std::string question = joinParts(question_parts);
+    std::string endpoint;
+    Response r = invokeDocsHelpEndpoint(question, opts, endpoint);
+    return printDocsHelpResult(r, endpoint, opts.mode, question);
+}
+
+// ── chat ──────────────────────────────────────────────────────────────────────
+
+static int cmdChat(const std::vector<std::string>& args) {
+    const std::string usage =
+        "Usage: themisctl chat [--rag] [--collection <name>] [--top-k <n>] [--lora <id>] "
+        "[--model <id>] [--max-tokens <n>] [--temperature <t>] [--interactive] <prompt>";
+
+    LlmRequestOptions opts;
+    std::vector<std::string> prompt_parts;
+    if (!parseLlmCommonOptions(args, 0, opts, prompt_parts, usage)) {
+        return 2;
+    }
+
+    if (opts.interactive) {
+        std::cout << col(Color::Bold, "ThemisDB Chat Mode") << "\n"
+                  << "Type your prompt and press Enter. Type 'exit' or 'quit' to leave.\n\n";
+        while (true) {
+            std::cout << col(Color::Green, "you") << ": " << std::flush;
+            std::string line;
+            if (!std::getline(std::cin, line)) {
+                std::cout << "\n";
+                break;
+            }
+            if (line == "exit" || line == "quit") break;
+            if (line.empty()) continue;
+
+            std::string endpoint;
+            Response r = invokeLlmEndpoint(line, opts, endpoint);
+            const int rc = printLlmResult(r, endpoint, "chat", line);
+            if (rc != 0) return rc;
+            std::cout << "\n";
+        }
+        return 0;
+    }
+
+    const std::string prompt = joinParts(prompt_parts);
+    std::string endpoint;
+    Response r = invokeLlmEndpoint(prompt, opts, endpoint);
+    return printLlmResult(r, endpoint, "chat", prompt);
+}
+
+// ── agent ─────────────────────────────────────────────────────────────────────
+
+static int cmdAgent(const std::vector<std::string>& args) {
+    const std::string usage =
+        "Usage: themisctl agent [--rag] [--collection <name>] [--top-k <n>] [--lora <id>] "
+        "[--model <id>] [--max-tokens <n>] [--temperature <t>] [--interactive] <task>";
+
+    LlmRequestOptions opts;
+    opts.use_rag = true; // Agent mode defaults to RAG.
+    std::vector<std::string> task_parts;
+    if (!parseLlmCommonOptions(args, 0, opts, task_parts, usage)) {
+        return 2;
+    }
+
+    auto wrapAgentPrompt = [](const std::string& task) {
+        return std::string("You are ThemisDB Agent. Solve the task with this structure: ") +
+               "1) Short plan, 2) Answer, 3) Risks, 4) Next steps. Task: " + task;
+    };
+
+    if (opts.interactive) {
+        std::cout << col(Color::Bold, "ThemisDB Agent Mode") << "\n"
+                  << "Type your task and press Enter. Type 'exit' or 'quit' to leave.\n\n";
+        while (true) {
+            std::cout << col(Color::Green, "task") << ": " << std::flush;
+            std::string line;
+            if (!std::getline(std::cin, line)) {
+                std::cout << "\n";
+                break;
+            }
+            if (line == "exit" || line == "quit") break;
+            if (line.empty()) continue;
+
+            std::string endpoint;
+            Response r = invokeLlmEndpoint(wrapAgentPrompt(line), opts, endpoint);
+            const int rc = printLlmResult(r, endpoint, "agent", line);
+            if (rc != 0) return rc;
+            std::cout << "\n";
+        }
+        return 0;
+    }
+
+    const std::string task = joinParts(task_parts);
+    std::string endpoint;
+    Response r = invokeLlmEndpoint(wrapAgentPrompt(task), opts, endpoint);
+    return printLlmResult(r, endpoint, "agent", task);
+}
 
 static int cmdRag(const std::vector<std::string>& args) {
     // Usage: rag query [--collection C] [--top-k N] [--lora ID] <question...>
@@ -1205,6 +2339,53 @@ static int cmdRepl(const std::vector<std::string>& /*args*/) {
 // ============================================================================
 
 static void printHelp(const char* prog) {
+    if (g_help_routes_json) {
+        json out;
+        out["source"] = "fallback";
+        out["warnings"] = json::array();
+        out["routes"] = json::array();
+
+        std::vector<std::pair<std::string, std::string>> routes;
+        std::string openapi_warning;
+        if (tryCollectOpenApiRoutes(routes, openapi_warning)) {
+            out["source"] = "openapi";
+        } else {
+            if (!openapi_warning.empty()) {
+                out["warnings"].push_back(std::string("openapi: ") + openapi_warning);
+            }
+
+            Response caps = httpGetWithApplicationRedirect("/api/capabilities");
+            if (caps.ok()) {
+                try {
+                    auto c = json::parse(caps.body);
+                    routes = generateRoutesFromCapabilities(c);
+                    out["source"] = "capabilities";
+                } catch (...) {
+                    out["warnings"].push_back("capabilities: parse failed");
+                }
+            } else {
+                if (caps.status == -1) {
+                    out["warnings"].push_back(std::string("capabilities: ") + caps.body);
+                } else {
+                    out["warnings"].push_back(
+                        std::string("capabilities: HTTP ") + std::to_string(caps.status));
+                }
+            }
+        }
+
+        if (routes.empty()) {
+            routes = generateRoutesFromCapabilities(json::object());
+            out["source"] = "fallback";
+        }
+
+        for (const auto& [method, path] : routes) {
+            out["routes"].push_back({{"method", method}, {"path", path}});
+        }
+
+        std::cout << out.dump(2) << "\n";
+        return;
+    }
+
     std::cout
         << col(Color::Bold, "themisctl") << " — ThemisDB unified management CLI\n\n"
         << "Usage: " << prog << " [global-options] <command> [command-options]\n\n"
@@ -1214,6 +2395,7 @@ static void printHelp(const char* prog) {
         << "  --token <jwt>   Bearer auth token   ($THEMIS_TOKEN)\n"
         << "  --timeout <s>   Request timeout     (default: 30 s)\n"
         << "  --json          Print raw JSON responses\n"
+        << "  --routes-json   With --help, print generated endpoints as JSON\n"
         << "  --no-color      Disable ANSI color output\n"
         << "  --help, -h, /?  Print this help\n\n"
         << col(Color::Bold, "Commands") << ":\n"
@@ -1221,8 +2403,14 @@ static void printHelp(const char* prog) {
             << "                       Check server liveness and readiness\n"
         << "  " << col(Color::Cyan, "version")
             << "                      Print server version information\n"
+        << "  " << col(Color::Cyan, "capabilities")
+            << " [--openapi]         Show capabilities and optional route list\n"
         << "  " << col(Color::Cyan, "query") << " <aql>"
             << "                  Execute an AQL query\n"
+        << "  " << col(Color::Cyan, "api") << " <METHOD> <PATH> [--body <data>|--body-file <file>|--stdin]"
+            << "\n                              Generic HTTP call for any endpoint\n"
+        << "  " << col(Color::Cyan, "batch-insert") << " --collection <name> [--batch-size <n>] [--edges]"
+            << "\n                              Import JSONL rows via /entities/batch\n"
         << "  " << col(Color::Cyan, "get") << " <id>"
             << "                    Retrieve an entity by key\n"
         << "  " << col(Color::Cyan, "put") << " <id> <json>"
@@ -1237,8 +2425,16 @@ static void printHelp(const char* prog) {
         << "  " << col(Color::Cyan, "snapshot") << " list|create [tag]\n"
         << "  " << col(Color::Cyan, "admin") << " stats|cache"
             << "             Show observability/cache statistics\n"
+        << "  " << col(Color::Cyan, "self-report")
+            << "                  Bundle self-disclosure (content + health)\n"
         << "  " << col(Color::Cyan, "index") << " recommend [table]"
             << "        Show automatic index recommendations\n"
+        << "  " << col(Color::Cyan, "help") << " [--mode rag|llm|lora] [--user-id <id>] <question>"
+            << "\n                              ThemisDB docs.db-backed Hilfe (RAG/LLM/LoRA)\n"
+        << "  " << col(Color::Cyan, "chat") << " [--rag] [--collection <name>] [--top-k <n>] [--lora <id>]"
+            << "\n                              Chat via LLM inference or RAG\n"
+        << "  " << col(Color::Cyan, "agent") << " [--rag] [--collection <name>] [--top-k <n>] [--lora <id>]"
+            << "\n                              Agent mode (planning-style response)\n"
         << "  " << col(Color::Cyan, "rag") << " query [--collection <name>] [--top-k <n>] [--lora <id>] <question>"
             << "\n                              AgenticRAG natural-language query\n"
         << "  " << col(Color::Cyan, "repl")
@@ -1246,7 +2442,11 @@ static void printHelp(const char* prog) {
         << col(Color::Bold, "Examples") << ":\n"
         << "  " << prog << " health\n"
         << "  " << prog << " --host db.internal --port 9000 version\n"
+        << "  " << prog << " capabilities --openapi\n"
         << "  " << prog << " query 'FOR d IN users FILTER d.active == true RETURN d'\n"
+        << "  " << prog << " api GET /api/v1/observability/health\n"
+        << "  " << prog << " api POST /entities/batch --body-file ops.json\n"
+        << "  " << prog << " batch-insert --collection demo_articles < demo_articles.jsonl\n"
         << "  " << prog << " get user:42\n"
         << "  " << prog << " put user:42 '{\"name\":\"Alice\",\"active\":true}'\n"
         << "  " << prog << " delete user:42\n"
@@ -1260,11 +2460,60 @@ static void printHelp(const char* prog) {
         << "  " << prog << " snapshot create v1.2.0\n"
         << "  " << prog << " admin stats\n"
         << "  " << prog << " --json admin cache\n"
+        << "  " << prog << " --json self-report\n"
         << "  " << prog << " index recommend\n"
         << "  " << prog << " index recommend users\n"
+        << "  " << prog << " help --mode lora How do I configure sharding safely?\n"
+        << "  " << prog << " chat --rag --collection demo_articles --lora legal-lora Explain ACID briefly\n"
+        << "  " << prog << " --json agent --collection demo_articles --top-k 5 Analyze transaction risk\n"
         << "  " << prog << " rag query 'Welche Unterlagen fehlen für den Bauantrag?'\n"
         << "  " << prog << " rag query --collection procs --top-k 10 What is the next step?\n"
         << "  " << prog << " repl\n";
+
+    std::cout << "\n" << col(Color::Bold, "Generated endpoints (live from server)") << ":\n";
+    std::vector<std::pair<std::string, std::string>> routes;
+    std::string openapi_warning;
+    if (tryCollectOpenApiRoutes(routes, openapi_warning)) {
+        for (const auto& [method, path] : routes) {
+            std::cout << "  " << col(Color::Cyan, method) << " " << path << "\n";
+        }
+        return;
+    }
+
+    std::cout << "  [" << warn() << "] OpenAPI-Discovery nicht verfuegbar: "
+              << openapi_warning << "\n";
+
+    Response caps = httpGetWithApplicationRedirect("/api/capabilities");
+    if (caps.ok()) {
+        try {
+            auto c = json::parse(caps.body);
+            auto cap_routes = generateRoutesFromCapabilities(c);
+            if (!cap_routes.empty()) {
+                std::cout << "  " << col(Color::Bold, "Capability profile routes") << ":\n";
+                for (const auto& [method, path] : cap_routes) {
+                    std::cout << "    " << col(Color::Cyan, method) << " " << path << "\n";
+                }
+                return;
+            }
+        } catch (...) {
+            // Keep fallback warning below.
+        }
+    }
+
+    if (caps.status == -1) {
+        std::cout << "  [" << warn() << "] Server nicht erreichbar: " << caps.body << "\n";
+    } else {
+        std::cout << "  [" << warn() << "] /api/capabilities nicht verfuegbar (HTTP "
+                  << caps.status << ")\n";
+    }
+    auto fallback_routes = generateRoutesFromCapabilities(json::object());
+    if (!fallback_routes.empty()) {
+        std::cout << "  " << col(Color::Bold, "Fallback profile routes") << ":\n";
+        for (const auto& [method, path] : fallback_routes) {
+            std::cout << "    " << col(Color::Cyan, method) << " " << path << "\n";
+        }
+    }
+    std::cout << "  [" << warn() << "] Verwende: themisctl api <METHOD> <PATH> fuer direkte Aufrufe\n";
 }
 
 // ============================================================================
@@ -1277,7 +2526,10 @@ static int dispatchCommand(const std::string& cmd,
     static const std::unordered_map<std::string, CmdFn> dispatch = {
         {"health",   cmdHealth},
         {"version",  cmdVersion},
+        {"capabilities", cmdCapabilities},
         {"query",    cmdQuery},
+        {"api",      cmdApi},
+        {"batch-insert", cmdBatchInsert},
         {"get",      cmdGet},
         {"put",      cmdPut},
         {"delete",   cmdDelete},
@@ -1286,12 +2538,22 @@ static int dispatchCommand(const std::string& cmd,
         {"branch",   cmdBranch},
         {"snapshot", cmdSnapshot},
         {"admin",    cmdAdmin},
+        {"self-report", cmdSelfReport},
         {"index",    cmdIndex},
+        {"chat",     cmdChat},
+        {"agent",    cmdAgent},
         {"rag",      cmdRag},
         {"repl",     cmdRepl},
     };
 
-    if (cmd == "help" || is_help_flag(cmd)) {
+    if (cmd == "help") {
+        if (cmd_args.empty()) {
+            printHelp("themisctl");
+            return 0;
+        }
+        return cmdDocsHelp(cmd_args);
+    }
+    if (is_help_flag(cmd)) {
         printHelp("themisctl");
         return 0;
     }
@@ -1331,18 +2593,19 @@ int main(int argc, char* argv[]) {
         return 2;
     }
 
+    g_use_color = !parsed_options.no_color;
+    g_ctx.raw_json = parsed_options.raw_json;
+    g_help_routes_json = parsed_options.routes_json;
+    g_ctx.host = parsed_options.host;
+    g_ctx.port = parsed_options.port;
+    g_ctx.token = parsed_options.token;
+    g_ctx.timeout = parsed_options.timeout;
+    all_args = parsed_options.remaining_args;
+
     if (parsed_options.show_help) {
         printHelp(argv[0]);
         return 0;
     }
-
-    g_use_color = !parsed_options.no_color;
-    g_ctx.raw_json = parsed_options.raw_json;
-    g_ctx.host = std::move(parsed_options.host);
-    g_ctx.port = parsed_options.port;
-    g_ctx.token = std::move(parsed_options.token);
-    g_ctx.timeout = parsed_options.timeout;
-    all_args = std::move(parsed_options.remaining_args);
 
     if (all_args.empty()) {
         printHelp(argv[0]);

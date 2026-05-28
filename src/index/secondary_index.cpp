@@ -759,7 +759,7 @@ SecondaryIndexManager::getFulltextConfig(std::string_view table, std::string_vie
 		if (configJson.contains("stopwords") && configJson["stopwords"].is_array()) {
 			config.stopwords.clear();
 			for (const auto& s : configJson["stopwords"]) {
-				if (s.is_string()) config.stopwords.push_back(s.get<std::string>());
+				if (s.is_string()) config.stopwords.emplace_back(s.get<std::string>());
 			}
 		}
 		config.normalize_umlauts = configJson.value("normalize_umlauts", false);
@@ -2502,7 +2502,7 @@ SecondaryIndexManager::computeBM25Scores_(
 			char c = q[i];
 			if (c == '"') {
 				if (in_quotes) {
-					if (!current.empty()) { phrases.push_back(current); current.clear(); }
+					if (!current.empty()) { phrases.emplace_back(current); current.clear(); }
 					in_quotes = false;
 				} else {
 					in_quotes = true;
@@ -3393,7 +3393,7 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 		while (pos < column.size()) {
 			size_t p = column.find('+', pos);
 			if (p == std::string::npos) p = column.size();
-			cols.push_back(column.substr(pos, p - pos));
+			cols.emplace_back(column.substr(pos, p - pos));
 			pos = p + 1;
 		}
 		if (db_.get(makeCompositeIndexMetaKey(table, cols)).has_value()) {
@@ -3530,7 +3530,7 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 		while (pos < column.size()) {
 			size_t p = column.find('+', pos);
 			if (p == std::string::npos) p = column.size();
-			cols.push_back(column.substr(pos, p - pos));
+			cols.emplace_back(column.substr(pos, p - pos));
 			pos = p + 1;
 		}
 		bool aborted = false;
@@ -3543,7 +3543,7 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 			for (const auto& col : cols) {
 				auto mv = entity.extractField(col);
 				if (!mv) { if (!advance()) { aborted = true; return false; } return true; }
-				values.push_back(*mv);
+				values.emplace_back(*mv);
 			}
 			writeShadow(makeCompositeIndexKey(table, cols, values, pk), pk);
 			if (!advance()) { aborted = true; return false; }
@@ -3624,7 +3624,7 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 		while (pos < columnStr.size()) {
 			size_t p = columnStr.find('+', pos);
 			if (p == std::string::npos) p = columnStr.size();
-			cols.push_back(columnStr.substr(pos, p - pos));
+			cols.emplace_back(columnStr.substr(pos, p - pos));
 			pos = p + 1;
 		}
 		std::string metaKey = makeCompositeIndexMetaKey(table, cols);
@@ -4039,10 +4039,10 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 			while (start < col.size()) {
 				size_t pos = col.find('+', start);
 				if (pos == std::string::npos) {
-					columns.push_back(col.substr(start));
+					columns.emplace_back(col.substr(start));
 					break;
 				}
-				columns.push_back(col.substr(start, pos - start));
+				columns.emplace_back(col.substr(start, pos - start));
 				start = pos + 1;
 			}
 			
@@ -4056,7 +4056,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 					allPresent = false;
 					break;
 				}
-				values.push_back(*maybe);
+				values.emplace_back(*maybe);
 			}
 			
 			if (!allPresent) continue; // Skip wenn nicht alle Felder vorhanden
@@ -4461,10 +4461,10 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 			while (start < col.size()) {
 				size_t pos = col.find('+', start);
 				if (pos == std::string::npos) {
-					columns.push_back(col.substr(start));
+					columns.emplace_back(col.substr(start));
 					break;
 				}
-				columns.push_back(col.substr(start, pos - start));
+				columns.emplace_back(col.substr(start, pos - start));
 				start = pos + 1;
 			}
 			
@@ -4477,7 +4477,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 					allPresent = false;
 					break;
 				}
-				values.push_back(*maybe);
+				values.emplace_back(*maybe);
 			}
 			
 			if (!allPresent) continue;

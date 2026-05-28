@@ -687,6 +687,13 @@ http::response<http::string_body> VoiceApiHandler::handleVoiceCommand(
             );
         }
         auto audio_data = decodeBase64((*body)["audio_base64"]);
+        if (audio_data.empty()) {
+            return createErrorResponse(
+                http::status::bad_request,
+                "Bad Request",
+                "audio_base64 did not decode to valid non-empty audio data"
+            );
+        }
         auto audio_response = voice_assistant_->processVoiceCommand(audio_data, session_id);
         
         json result;
@@ -757,6 +764,13 @@ http::response<http::string_body> VoiceApiHandler::handleStreamCommand(
         );
     }
     auto audio_data = decodeBase64((*body)["audio_base64"]);
+    if (audio_data.empty()) {
+        return createErrorResponse(
+            http::status::bad_request,
+            "Bad Request",
+            "audio_base64 did not decode to valid non-empty audio data"
+        );
+    }
 
     // Collect all segments delivered by the streaming STT pipeline.
     // streamProcessVoiceCommand invokes the callback synchronously from the
@@ -843,6 +857,13 @@ http::response<http::string_body> VoiceApiHandler::handleRecordCall(
             );
         }
         audio_data = decodeBase64((*body)["audio_base64"]);
+        if (audio_data.empty()) {
+            return createErrorResponse(
+                http::status::bad_request,
+                "Bad Request",
+                "audio_base64 did not decode to valid non-empty audio data"
+            );
+        }
     } else {
         return createErrorResponse(
             http::status::bad_request,
@@ -960,6 +981,13 @@ http::response<http::string_body> VoiceApiHandler::handleGenerateProtocol(
             );
         }
         audio_data = decodeBase64((*body)["audio_base64"]);
+        if (audio_data.empty()) {
+            return createErrorResponse(
+                http::status::bad_request,
+                "Bad Request",
+                "audio_base64 did not decode to valid non-empty audio data"
+            );
+        }
     } else {
         return createErrorResponse(
             http::status::bad_request,
@@ -1577,6 +1605,7 @@ http::response<http::string_body> VoiceApiHandler::handleListRecordings(
     const http::request<http::string_body>& req
 ) {
     auto span = Tracer::startSpan("handleListRecordings");
+    constexpr std::size_t kMaxQueryLimit = 1000;
     std::string tier_str = parseQueryParam(std::string(req.target()), "tier");
     voice::StorageTier tier = voice::StorageTier::HOT;
     if (!tier_str.empty()) {
@@ -1597,9 +1626,18 @@ http::response<http::string_body> VoiceApiHandler::handleListRecordings(
     std::string limit_str = parseQueryParam(std::string(req.target()), "limit");
     if (!limit_str.empty()) {
         try {
-            int v = std::stoi(limit_str);
-            if (v > 0) limit = static_cast<size_t>(v);
-        } catch (...) {}
+            const long long parsed_limit = std::stoll(limit_str);
+            if (parsed_limit <= 0 || parsed_limit > static_cast<long long>(kMaxQueryLimit)) {
+                return createErrorResponse(
+                    http::status::bad_request, "Bad Request",
+                    "limit must be between 1 and 1000");
+            }
+            limit = static_cast<size_t>(parsed_limit);
+        } catch (const std::exception&) {
+            return createErrorResponse(
+                http::status::bad_request, "Bad Request",
+                "limit must be an integer between 1 and 1000");
+        }
     }
 
     auto records = voice_assistant_->audioStorage().listRecords(tier, limit);
@@ -1672,6 +1710,7 @@ http::response<http::string_body> VoiceApiHandler::handleSearchTranscripts(
     const http::request<http::string_body>& req
 ) {
     auto span = Tracer::startSpan("handleSearchTranscripts");
+    constexpr std::size_t kMaxQueryLimit = 1000;
     std::string query = parseQueryParam(std::string(req.target()), "q");
     if (query.empty()) {
         return createErrorResponse(
@@ -1683,9 +1722,18 @@ http::response<http::string_body> VoiceApiHandler::handleSearchTranscripts(
     std::string limit_str = parseQueryParam(std::string(req.target()), "limit");
     if (!limit_str.empty()) {
         try {
-            int v = std::stoi(limit_str);
-            if (v > 0) limit = static_cast<size_t>(v);
-        } catch (...) {}
+            const long long parsed_limit = std::stoll(limit_str);
+            if (parsed_limit <= 0 || parsed_limit > static_cast<long long>(kMaxQueryLimit)) {
+                return createErrorResponse(
+                    http::status::bad_request, "Bad Request",
+                    "limit must be between 1 and 1000");
+            }
+            limit = static_cast<size_t>(parsed_limit);
+        } catch (const std::exception&) {
+            return createErrorResponse(
+                http::status::bad_request, "Bad Request",
+                "limit must be an integer between 1 and 1000");
+        }
     }
 
     auto records = voice_assistant_->audioStorage().searchTranscripts(query, limit);
@@ -2075,7 +2123,13 @@ http::response<http::string_body> VoiceApiHandler::handleAuthEnroll(
                 http::status::bad_request, "Bad Request",
                 "Each element in audio_samples must not be empty");
         }
-        audio_samples.push_back(decodeBase64(sample));
+        auto decoded_sample = decodeBase64(sample);
+        if (decoded_sample.empty()) {
+            return createErrorResponse(
+                http::status::bad_request, "Bad Request",
+                "Each element in audio_samples must decode to non-empty audio data");
+        }
+        audio_samples.push_back(std::move(decoded_sample));
     }
 
     voice::EnrollmentConfig enroll_cfg;
@@ -2174,6 +2228,11 @@ http::response<http::string_body> VoiceApiHandler::handleAuthVerify(
     }
 
     const auto audio = decodeBase64((*body)["audio"].get<std::string>());
+    if (audio.empty()) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request",
+            "audio must decode to non-empty audio data");
+    }
 
     auto result = voice_assistant_->verifyVoiceSpeaker(profile_id, audio);
 
@@ -2226,6 +2285,11 @@ http::response<http::string_body> VoiceApiHandler::handleAuthAuthenticate(
     }
 
     const auto audio = decodeBase64((*body)["audio"].get<std::string>());
+    if (audio.empty()) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request",
+            "audio must decode to non-empty audio data");
+    }
 
     auto result = voice_assistant_->authenticateSpeaker(user_id, audio);
 
@@ -2295,6 +2359,11 @@ http::response<http::string_body> VoiceApiHandler::handleAuthIdentify(
     }
 
     const auto audio = decodeBase64((*body)["audio"].get<std::string>());
+    if (audio.empty()) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request",
+            "audio must decode to non-empty audio data");
+    }
 
     auto result = voice_assistant_->identifyVoiceProfiles(candidates, audio);
 

@@ -35,7 +35,7 @@ using namespace themis::geo;
 TEST(TemporalSpatialQueryBuilder, TSB01_MissingTemporal_Throws) {
     TemporalSpatialQueryBuilder builder;
     static_cast<void>(builder.withinBBox(MBR{0.0, 0.0, 10.0, 10.0}));
-    EXPECT_THROW(builder.build(), std::logic_error);
+    EXPECT_THROW(static_cast<void>(builder.build()), std::logic_error);
 }
 
 // ---------------------------------------------------------------------------
@@ -45,7 +45,7 @@ TEST(TemporalSpatialQueryBuilder, TSB01_MissingTemporal_Throws) {
 TEST(TemporalSpatialQueryBuilder, TSB02_MissingSpatial_Throws) {
     TemporalSpatialQueryBuilder builder;
     static_cast<void>(builder.atTime(1'000'000LL));
-    EXPECT_THROW(builder.build(), std::logic_error);
+    EXPECT_THROW(static_cast<void>(builder.build()), std::logic_error);
 }
 
 // ---------------------------------------------------------------------------
@@ -120,11 +120,10 @@ TEST(TemporalSpatialQueryBuilder, TSB08_Reset_ClearsConstraints) {
 
     // Build succeeds
     EXPECT_NO_THROW({
-        auto q = builder.build();
-        static_cast<void>(q);
+        static_cast<void>(builder.build());
     });
 
     // After reset, build() must throw
     builder.reset();
-    EXPECT_THROW(builder.build(), std::logic_error);
+    EXPECT_THROW(static_cast<void>(builder.build()), std::logic_error);
 }

@@ -184,7 +184,6 @@ namespace gguf_blocks {
     
     // Q4_K_M block (256 values)
     struct Q4KBlock {
-        virtual ~Q4KBlock() = default;
         uint8_t qs[128];        // Quantized values (4 bits each, packed)
         uint8_t scales[12];     // Scales and mins (mixed)
         uint16_t d = 0;             // Delta (FP16)
@@ -194,7 +193,6 @@ namespace gguf_blocks {
     
     // Q8_0 block (32 values)
     struct Q8_0Block {
-        virtual ~Q8_0Block() = default;
         uint16_t d = 0;             // Scale (FP16)
         int8_t qs[32];          // Quantized values (INT8)
     };

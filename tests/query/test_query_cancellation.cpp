@@ -132,7 +132,7 @@ TEST(QueryCancellerTest, ReregisterReplacesToken) {
     canceller.cancel("req-004");
     EXPECT_TRUE(token2->isCancelled());
     // token1 is no longer tracked; its state is unspecified but must not crash.
-    EXPECT_NO_THROW(token1->isCancelled());
+    EXPECT_NO_THROW(static_cast<void>(token1->isCancelled()));
 }
 
 TEST(QueryCancellerTest, ScopedRegistration_UnregistersOnDestruction) {

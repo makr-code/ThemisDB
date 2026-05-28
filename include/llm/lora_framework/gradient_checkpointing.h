@@ -50,7 +50,6 @@ enum class LayerType {
  * @brief Configuration for gradient checkpointing
  */
 struct CheckpointConfig {
-    virtual ~CheckpointConfig() = default;
     CheckpointStrategy strategy = CheckpointStrategy::SQRT_N;
     int checkpoint_frequency = 0;  ///< For UNIFORM strategy
     bool checkpoint_attention = true;
@@ -65,7 +64,6 @@ struct CheckpointConfig {
  * @brief Statistics for gradient checkpointing
  */
 struct CheckpointStats {
-    virtual ~CheckpointStats() = default;
     size_t memory_saved_bytes = 0;
     size_t recomputation_time_ms = 0;
     float memory_reduction_pct = 0.0f;
@@ -83,7 +81,12 @@ using ForwardFunction = std::function<GPUTensor(const GPUTensor&)>;
  * @brief Checkpoint data for a layer
  */
 struct CheckpointData {
-    virtual ~CheckpointData() = default;
+    CheckpointData() = default;
+    ~CheckpointData() = default;
+    CheckpointData(const CheckpointData&) = delete;
+    CheckpointData& operator=(const CheckpointData&) = delete;
+    CheckpointData(CheckpointData&&) noexcept = default;
+    CheckpointData& operator=(CheckpointData&&) noexcept = default;
     GPUTensor input;                  ///< Input tensor to the layer
     ForwardFunction forward_fn;       ///< Function to recompute forward pass
     size_t activation_size_bytes = 0; ///< Size of activation memory saved

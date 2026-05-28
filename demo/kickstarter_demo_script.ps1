@@ -23,10 +23,11 @@ function Resolve-ThemisBinary {
 }
 
 $THEMISCTL = Resolve-ThemisBinary -BinaryName "themisctl.exe"
-$SERVER_HOST = "localhost"
+$SERVER_HOST = "127.0.0.1"
 $DEMO_COLLECTION = "demo_articles"
 $DEMO_GRAPH = "demo_knowledge_graph"
 $DEMO_VECTORS = "demo_embeddings"
+$DEMO_NO_PAUSE = ($env:THEMIS_DEMO_NO_PAUSE -eq "1")
 
 # Colors
 function Write-Header {
@@ -49,6 +50,144 @@ function Write-Info {
     Write-Host ""
 }
 
+function Write-Request {
+    param(
+        [string]$CommandText,
+        [string]$Body = ""
+    )
+
+    Write-Host "[REQUEST] $CommandText" -ForegroundColor Magenta
+    if (-not [string]::IsNullOrWhiteSpace($Body)) {
+        Write-Host "          body: $Body" -ForegroundColor DarkMagenta
+    }
+    Write-Host ""
+}
+
+function Pause-DemoStep {
+    param([string]$NextSection)
+
+    if ($DEMO_NO_PAUSE) {
+        if ([string]::IsNullOrWhiteSpace($NextSection)) {
+            Write-Host "[AUTO] Continuing without key pause (THEMIS_DEMO_NO_PAUSE=1)." -ForegroundColor DarkGray
+        } else {
+            Write-Host "[AUTO] Continuing without key pause (next: $NextSection)." -ForegroundColor DarkGray
+        }
+        Write-Host ""
+        return
+    }
+
+    if ([string]::IsNullOrWhiteSpace($NextSection)) {
+        Write-Host "Press any key to continue..." -ForegroundColor DarkGray
+    } else {
+        Write-Host "Press any key to continue... (next: $NextSection)" -ForegroundColor DarkGray
+    }
+
+    try {
+        [void][System.Console]::ReadKey($true)
+    } catch {
+        # Fallback for hosts where ReadKey is not available.
+        Read-Host | Out-Null
+    }
+    Write-Host ""
+}
+
+function Test-FeatureReadiness {
+    param(
+        [string]$Name,
+        [scriptblock]$Probe
+    )
+
+    Write-Host "[PRECHECK] $Name" -ForegroundColor Cyan
+    $probeOutput = & $Probe 2>&1
+    $ok = ($LASTEXITCODE -eq 0)
+
+    if ($ok) {
+        Write-Host "[PRECHECK] OK: $Name" -ForegroundColor Green
+    } else {
+        Write-Host "[PRECHECK] FAIL: $Name" -ForegroundColor Yellow
+        if ($probeOutput) {
+            $probeOutput | Select-Object -First 8 | ForEach-Object { Write-Host "  $_" -ForegroundColor DarkYellow }
+        }
+    }
+
+    Write-Host ""
+    return $ok
+}
+
+function Resolve-DemoLlmModelPath {
+    if (-not [string]::IsNullOrWhiteSpace($env:THEMIS_DEMO_LLM_MODEL_PATH)) {
+        if (Test-Path $env:THEMIS_DEMO_LLM_MODEL_PATH) {
+            return $env:THEMIS_DEMO_LLM_MODEL_PATH
+        }
+        Write-Host "[PRECHECK] WARN: THEMIS_DEMO_LLM_MODEL_PATH gesetzt, aber Datei nicht gefunden: $($env:THEMIS_DEMO_LLM_MODEL_PATH)" -ForegroundColor Yellow
+        return $null
+    }
+
+    $modelRoot = ".\models"
+    if (Test-Path $modelRoot) {
+        # Prefer known-good phi4 model for demo reliability.
+        $preferred = Get-ChildItem -Path $modelRoot -Filter "*phi4*.gguf" -File -Recurse -ErrorAction SilentlyContinue | Select-Object -First 1
+        if ($preferred) {
+            Write-Host "[PRECHECK] INFO: Auto-selected default LLM model: $($preferred.FullName)" -ForegroundColor Cyan
+            return $preferred.FullName
+        }
+
+        $fallback = Get-ChildItem -Path $modelRoot -Filter "*.gguf" -File -Recurse -ErrorAction SilentlyContinue | Select-Object -First 1
+        if ($fallback) {
+            Write-Host "[PRECHECK] INFO: Auto-selected fallback LLM model: $($fallback.FullName)" -ForegroundColor Cyan
+            return $fallback.FullName
+        }
+    }
+
+    Write-Host "[PRECHECK] INFO: Kein lokales GGUF-Modell gefunden (erwartet z. B. .\\models\\phi4.gguf)." -ForegroundColor DarkYellow
+
+    return $null
+}
+
+function Try-AutoLoadLlmDefaultModel {
+    param([string]$ModelPath)
+
+    if ([string]::IsNullOrWhiteSpace($ModelPath)) {
+        Write-Host "[PRECHECK] INFO: Kein lokales GGUF-Modell fuer Auto-Load gefunden." -ForegroundColor DarkYellow
+        return $false
+    }
+
+    $body = @{ model_id = "default"; path = $ModelPath } | ConvertTo-Json -Compress
+    Write-Host "[PRECHECK] Attempting auto-load of default LLM model..." -ForegroundColor Cyan
+    Write-Host "[REQUEST] $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/models/load" -ForegroundColor Magenta
+    Write-Host "          body: $body" -ForegroundColor DarkMagenta
+    Write-Host ""
+
+    & $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/models/load --body $body
+    $ok = ($LASTEXITCODE -eq 0)
+    if ($ok) {
+        Write-Host "[PRECHECK] OK: model auto-load succeeded." -ForegroundColor Green
+    } else {
+        Write-Host "[PRECHECK] FAIL: model auto-load failed." -ForegroundColor Yellow
+    }
+    Write-Host ""
+    return $ok
+}
+
+function Resolve-DocsDatabasePath {
+    $candidates = @(
+        ".\data\docs_artifact.json",
+        ".\data\docs_database.json",
+        ".\data\docs.db",
+        ".\docs_artifact.json",
+        ".\docs_database.json",
+        ".\docs.db"
+    )
+
+    foreach ($candidate in $candidates) {
+        if (Test-Path $candidate) {
+            return (Resolve-Path $candidate).Path
+        }
+    }
+
+    return $null
+}
+
 # ============================================================================
 # PRE-FLIGHT: Server starten und Demo-Daten laden
 # ============================================================================
@@ -57,14 +196,32 @@ $THEMIS_SERVER  = Resolve-ThemisBinary -BinaryName "themis_server.exe"
 $SERVER_DB_PATH = ".\demo\data\themis_db"
 $SERVER_PORT    = 8765
 $serverProcess  = $null
+$demoWarnings = New-Object System.Collections.Generic.List[string]
 
 function Test-ServerRunning {
     try {
-        $out = & $THEMISCTL schema --host $SERVER_HOST --port $SERVER_PORT 2>&1
+        $out = & $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT health 2>&1
         return ($LASTEXITCODE -eq 0)
     } catch {
         return $false
     }
+}
+
+function Test-DemoDataPresent {
+    $keys = @(
+        "demo_articles:art_0001",
+        "demo_embeddings:vec_0001",
+        "demo_knowledge_graph:node_0001"
+    )
+
+    foreach ($key in $keys) {
+        & $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT get $key 2>&1 | Out-Null
+        if ($LASTEXITCODE -ne 0) {
+            return $false
+        }
+    }
+
+    return $true
 }
 
 if (-not (Test-Path $THEMISCTL)) {
@@ -111,13 +268,32 @@ if (-not (Test-ServerRunning)) {
     Write-Host "[PRE-FLIGHT] Server laeuft. Lade Demo-Daten..." -ForegroundColor Green
     $setupScript = ".\demo\setup\setup_demo_data.ps1"
     if (Test-Path $setupScript) {
-        & $setupScript -ThemisctlPath $THEMISCTL -ServerHost $SERVER_HOST -DataDir ".\demo\data"
+        & $setupScript -ThemisctlPath $THEMISCTL -ServerHost $SERVER_HOST -ServerPort $SERVER_PORT -DataDir ".\demo\data"
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "[ABORT] setup_demo_data.ps1 failed." -ForegroundColor Red
+            if ($serverProcess -and -not $serverProcess.HasExited) { $serverProcess.Kill() }
+            exit 1
+        }
     } else {
         Write-Host "[WARN] setup_demo_data.ps1 nicht gefunden – Demo laeuft ohne Beispieldaten." -ForegroundColor Yellow
     }
     Write-Host ""
 } else {
     Write-Host "[PRE-FLIGHT] Server bereits erreichbar unter ${SERVER_HOST}:$SERVER_PORT." -ForegroundColor Green
+    if (-not (Test-DemoDataPresent)) {
+        Write-Host "[PRE-FLIGHT] Demo-Daten fehlen. Starte setup_demo_data.ps1..." -ForegroundColor Yellow
+        $setupScript = ".\demo\setup\setup_demo_data.ps1"
+        if (Test-Path $setupScript) {
+            & $setupScript -ThemisctlPath $THEMISCTL -ServerHost $SERVER_HOST -ServerPort $SERVER_PORT -DataDir ".\demo\data"
+            if ($LASTEXITCODE -ne 0) {
+                Write-Host "[ABORT] setup_demo_data.ps1 failed." -ForegroundColor Red
+                exit 1
+            }
+        } else {
+            Write-Host "[ABORT] setup_demo_data.ps1 nicht gefunden." -ForegroundColor Red
+            exit 1
+        }
+    }
     Write-Host ""
 }
 
@@ -132,98 +308,219 @@ if ($serverProcess) {
     } | Out-Null
 }
 
+$section6GraphExplainBody = '{"query_type":"k_hop","start_vertex":"demo_knowledge_graph:node_0001","max_depth":1}'
+$llmInferenceBody = '{"prompt":"Summarize the impact of ACID transactions for distributed databases in two sentences.","max_tokens":96,"temperature":0.2}'
+$ragQueryBody = '{"query":"What are the latest papers on quantum computing by MIT?","collection":"demo_articles","top_k":3,"max_tokens":192,"temperature":0.2}'
+$docsHelpQueryBody = '{"query":"How do I configure sharding and RAG safely in ThemisDB?","user_id":"demo","max_tokens":128,"temperature":0.2}'
+
+Write-Header "ThemisDB Demo - Runtime Pre-Checks"
+
+$llmInferenceReady = Test-FeatureReadiness -Name "Section 5 LLM inference endpoint" -Probe {
+    & $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/inference --body $llmInferenceBody
+}
+
+if (-not $llmInferenceReady) {
+    $autoModelPath = Resolve-DemoLlmModelPath
+    $autoLoadOk = Try-AutoLoadLlmDefaultModel -ModelPath $autoModelPath
+    if ($autoLoadOk) {
+        $llmInferenceReady = Test-FeatureReadiness -Name "Section 5 LLM inference endpoint (after auto-load)" -Probe {
+            & $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/inference --body $llmInferenceBody
+        }
+    }
+}
+
+$section6ProbeReady = Test-FeatureReadiness -Name "Section 6 graph query explain endpoint" -Probe {
+    & $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/graph/query/explain --body $section6GraphExplainBody
+}
+
+$ragReady = Test-FeatureReadiness -Name "Section 7 RAG endpoint" -Probe {
+    & $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/rag --body $ragQueryBody
+}
+
+$docsHelpReady = Test-FeatureReadiness -Name "Section 8 docs.db help endpoint" -Probe {
+    & $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/docs/query --body $docsHelpQueryBody
+}
+
+if (-not $docsHelpReady) {
+    $docsDbPath = Resolve-DocsDatabasePath
+    if ([string]::IsNullOrWhiteSpace($docsDbPath)) {
+        Write-Host "[PRECHECK] INFO: keine docs-Datenbank gefunden (erwartet z. B. .\\data\\docs_artifact.json oder .\\data\\docs_database.json)." -ForegroundColor DarkYellow
+    } else {
+        Write-Host "[PRECHECK] INFO: docs-Datenbank gefunden unter $docsDbPath, aber Endpoint bleibt nicht ready." -ForegroundColor DarkYellow
+    }
+    Write-Host ""
+}
+
 Write-Header "ThemisDB Multi-Model Database - Live Demo"
 
 # ============================================================================
 # SECTION 1: System Status & Schema
 # ============================================================================
 Write-Section "[1] Checking ThemisDB Server Status..."
-& $THEMISCTL schema --host $SERVER_HOST --port $SERVER_PORT 2>$null | Select-Object -First 20
+Write-Request -CommandText "$THEMISCTL --host $SERVER_HOST --port $SERVER_PORT schema"
+& $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT schema 2>$null | Select-Object -First 20
 Write-Info "Server is running and responding to queries."
+Pause-DemoStep -NextSection "[2] Document Read-Back"
 
 # ============================================================================
-# SECTION 2: Document & Full-Text Search (SQL-like)
+# SECTION 2: Document Read-Back (Compatibility Mode)
 # ============================================================================
-Write-Section "[2] Document Search - Finding Articles About AI"
-Write-Host "Query:" -ForegroundColor Cyan
-Write-Host "  FOR doc IN $DEMO_COLLECTION" -ForegroundColor Gray
-Write-Host "    FILTER doc.title LIKE '%AI%' OR doc.content LIKE '%machine learning%'" -ForegroundColor Gray
-Write-Host "    SORT doc.published DESC" -ForegroundColor Gray
-Write-Host "    LIMIT 5" -ForegroundColor Gray
-Write-Host "    RETURN { title: doc.title, published: doc.published, score: doc.relevance }" -ForegroundColor Gray
+Write-Section "[2] Document Read-Back - Sample Entity"
+Write-Host "Compatibility mode: reading imported demo document via primary key." -ForegroundColor Cyan
+Write-Request -CommandText "$THEMISCTL --host $SERVER_HOST --port $SERVER_PORT get demo_articles:art_0001"
+& $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT get "demo_articles:art_0001"
+if ($LASTEXITCODE -ne 0) {
+    $demoWarnings.Add("Section 2 failed: demo_articles sample not readable")
+}
 Write-Host ""
-Write-Host "Results:" -ForegroundColor Cyan
-& $THEMISCTL query --host $SERVER_HOST --port $SERVER_PORT `
-  "FOR doc IN $DEMO_COLLECTION FILTER doc.title LIKE '%AI%' OR doc.content LIKE '%machine learning%' SORT doc.published DESC LIMIT 5 RETURN { title: doc.title, published: doc.published, score: doc.relevance }"
-Write-Host ""
+Pause-DemoStep -NextSection "[3] Vector Payload Read-Back"
 
 # ============================================================================
-# SECTION 3: Vector Search (Semantic Search)
+# SECTION 3: Vector Payload Read-Back (Compatibility Mode)
 # ============================================================================
-Write-Section "[3] Vector Search - Semantic Similarity"
-Write-Host "Query: Find 5 most similar articles to 'neural network optimization'" -ForegroundColor Cyan
+Write-Section "[3] Vector Payload Read-Back"
+Write-Host "Compatibility mode: reading imported vector payload via key." -ForegroundColor Cyan
 Write-Host ""
-& $THEMISCTL query --host $SERVER_HOST --port $SERVER_PORT `
-  "FOR doc IN $DEMO_VECTORS LET similarity = COSINE_SIMILARITY(doc.embedding, @query_embedding) FILTER similarity > 0.7 SORT similarity DESC LIMIT 5 RETURN { title: doc.title, similarity: ROUND(similarity, 3) }" `
-  --bind-var query_embedding="[0.1, -0.2, 0.8, ...]"
+Write-Request -CommandText "$THEMISCTL --host $SERVER_HOST --port $SERVER_PORT get demo_embeddings:vec_0001"
+& $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT get "demo_embeddings:vec_0001"
+if ($LASTEXITCODE -ne 0) {
+    $demoWarnings.Add("Section 3 failed: demo_embeddings sample not readable")
+}
 Write-Host ""
+Pause-DemoStep -NextSection "[4] Graph Node Read-Back"
 
 # ============================================================================
-# SECTION 4: Graph Traversal (Multi-hop Relationships)
+# SECTION 4: Graph Node Read-Back (Compatibility Mode)
 # ============================================================================
-Write-Section "[4] Graph Navigation - Knowledge Graph Traversal"
-Write-Host "Query: Find all researchers and their published papers (2 hops)" -ForegroundColor Cyan
+Write-Section "[4] Graph Node Read-Back"
+Write-Host "Compatibility mode: reading imported graph node via key." -ForegroundColor Cyan
 Write-Host ""
-Write-Host "FOR researcher IN $DEMO_GRAPH" -ForegroundColor Gray
-Write-Host "  FILTER researcher.type == 'researcher'" -ForegroundColor Gray
-Write-Host "  FOR paper IN 1..2 OUTBOUND researcher._id graph_edges" -ForegroundColor Gray
-Write-Host "    FILTER paper.type == 'paper'" -ForegroundColor Gray
-Write-Host "    RETURN { researcher: researcher.name, paper: paper.title, citations: paper.citation_count }" -ForegroundColor Gray
+Write-Request -CommandText "$THEMISCTL --host $SERVER_HOST --port $SERVER_PORT get demo_knowledge_graph:node_0001"
+& $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT get "demo_knowledge_graph:node_0001"
+if ($LASTEXITCODE -ne 0) {
+    $demoWarnings.Add("Section 4 failed: demo_knowledge_graph sample not readable")
+}
 Write-Host ""
-& $THEMISCTL query --host $SERVER_HOST --port $SERVER_PORT `
-  "FOR researcher IN $DEMO_GRAPH FILTER researcher.type == 'researcher' FOR paper IN 1..2 OUTBOUND researcher._id graph_edges FILTER paper.type == 'paper' RETURN { researcher: researcher.name, paper: paper.title, citations: paper.citation_count } LIMIT 8"
-Write-Host ""
+Pause-DemoStep -NextSection "[5] LLM Inference Probe"
 
 # ============================================================================
-# SECTION 5: LLM Features - RAG (Retrieval-Augmented Generation)
+# SECTION 5: LLM Inference Probe
 # ============================================================================
-Write-Section "[5] RAG Query - LLM-Powered Natural Language to SQL"
-Write-Host "User Question: 'What are the latest research papers on quantum computing by MIT researchers?'" -ForegroundColor Cyan
+Write-Section "[5] LLM Inference Probe"
+Write-Host "Calling direct LLM inference endpoint with a short summarization task." -ForegroundColor Cyan
 Write-Host ""
-Write-Host "ThemisDB LLM Agent processes this and executes:" -ForegroundColor Yellow
-& $THEMISCTL rag query `
-  --collection $DEMO_COLLECTION `
-  --top-k 3 `
-  "What are the latest papers on quantum computing by MIT?" `
-    --host $SERVER_HOST --port $SERVER_PORT
+if (-not $llmInferenceReady) {
+    Write-Host "[SKIP] Section 5 skipped by pre-check (LLM inference not ready)." -ForegroundColor Yellow
+    $demoWarnings.Add("Section 5 skipped by pre-check: LLM inference endpoint unavailable on current build/runtime")
+} else {
+    Write-Request -CommandText "$THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/inference" -Body $llmInferenceBody
+    & $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/inference --body $llmInferenceBody
+    if ($LASTEXITCODE -ne 0) {
+        $demoWarnings.Add("Section 5 warning: LLM inference endpoint unavailable on current build/runtime")
+        Write-Host "[INFO] Fetching LLM health diagnostics..." -ForegroundColor Yellow
+        Write-Request -CommandText "$THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api GET /api/v1/llm/health"
+        & $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api GET /api/v1/llm/health
+    }
+}
 Write-Host ""
+Pause-DemoStep -NextSection "[6] Complex Query Probe"
 
 # ============================================================================
-# SECTION 6: Complex Multi-Model Join
+# SECTION 6: Complex Query Probe
 # ============================================================================
-Write-Section "[6] Multi-Model Data Fusion - Documents + Vectors + Graph"
-Write-Host "Query: Researcher + their papers (vector similarity) + collaboration network" -ForegroundColor Cyan
+Write-Section "[6] Complex Query Probe"
+Write-Host "Executing graph query planning probe via /api/v1/graph/query/explain (k_hop)." -ForegroundColor Cyan
 Write-Host ""
-& $THEMISCTL query --host $SERVER_HOST --port $SERVER_PORT `
-  "FOR researcher IN $DEMO_GRAPH FILTER researcher.type == 'researcher' LET papers = (FOR paper IN $DEMO_VECTORS FILTER paper.author_id == researcher._id LET sim = COSINE_SIMILARITY(paper.embedding, @topic_embedding) FILTER sim > 0.6 RETURN { title: paper.title, similarity: sim }) LET collaborators = (FOR collab IN 1 OUTBOUND researcher._id graph_edges FILTER collab.type == 'researcher' RETURN collab.name) RETURN { researcher: researcher.name, paper_count: LENGTH(papers), top_papers: SLICE(papers, 0, 2), collaborators: collaborators } LIMIT 5" `
-  --bind-var topic_embedding="[0.2, 0.5, -0.1, ...]"
+if (-not $section6ProbeReady) {
+    Write-Host "[SKIP] Section 6 skipped by pre-check (graph query explain endpoint not ready)." -ForegroundColor Yellow
+    $demoWarnings.Add("Section 6 skipped by pre-check: graph query explain endpoint unavailable on current build/runtime")
+} else {
+    Write-Request -CommandText "$THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/graph/query/explain" -Body $section6GraphExplainBody
+    & $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/graph/query/explain --body $section6GraphExplainBody
+    if ($LASTEXITCODE -ne 0) {
+        $demoWarnings.Add("Section 6 warning: graph query explain endpoint unavailable on current build/runtime")
+    }
+}
 Write-Host ""
+Pause-DemoStep -NextSection "[7] RAG Capability Probe"
 
 # ============================================================================
-# SECTION 7: Performance & Statistics
+# SECTION 7: RAG Capability Probe
 # ============================================================================
-Write-Section "[7] System Performance Metrics"
-& $THEMISCTL admin stats --host $SERVER_HOST --port $SERVER_PORT | Select-String -Pattern "queries|throughput|latency|cache"
+Write-Section "[7] RAG Capability Probe"
+Write-Host "Checking whether RAG endpoint is currently available on this build." -ForegroundColor Cyan
 Write-Host ""
+if (-not $ragReady) {
+    Write-Host "[SKIP] Section 7 skipped by pre-check (RAG endpoint not ready)." -ForegroundColor Yellow
+    $demoWarnings.Add("Section 7 skipped by pre-check: RAG endpoint unavailable on current build/runtime")
+} else {
+    Write-Request -CommandText "$THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/rag" -Body $ragQueryBody
+    & $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/rag --body $ragQueryBody
+    if ($LASTEXITCODE -ne 0) {
+        $demoWarnings.Add("Section 7 warning: RAG endpoint unavailable on current build/runtime")
+    }
+}
+Write-Host ""
+Pause-DemoStep -NextSection "[8] Themis Help Probe"
 
 # ============================================================================
-# SECTION 8: Index Recommendations
+# SECTION 8: Themis Help Probe (docs.db)
 # ============================================================================
-Write-Section "[8] Automatic Index Recommendation"
+Write-Section "[8] Themis Help Probe (docs.db)"
+Write-Host "Running ThemisDB-specific help mode (RAG/LLM/LoRA) backed by compiled docs.db." -ForegroundColor Cyan
+Write-Host ""
+if (-not $docsHelpReady) {
+    Write-Host "[SKIP] Section 8 skipped by pre-check (docs.db help endpoint unavailable)." -ForegroundColor Yellow
+    $demoWarnings.Add("Section 8 skipped by pre-check: docs.db help mode (lora) unavailable on current build/runtime")
+} else {
+    Write-Request -CommandText "$THEMISCTL --host $SERVER_HOST --port $SERVER_PORT help --mode lora \"How do I configure sharding and RAG safely in ThemisDB?\""
+    & $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT help --mode lora "How do I configure sharding and RAG safely in ThemisDB?"
+    if ($LASTEXITCODE -ne 0) {
+        $demoWarnings.Add("Section 8 warning: docs.db help mode (lora) unavailable on current build/runtime")
+    }
+}
+Write-Host ""
+Pause-DemoStep -NextSection "[9] CRUD Consistency Check"
+
+# ============================================================================
+# SECTION 9: CRUD Consistency Check
+# ============================================================================
+Write-Section "[9] CRUD Consistency Check"
+Write-Host "Write a probe entity and read it back (compatibility check)." -ForegroundColor Cyan
+Write-Host ""
+$runtimeProbeBody = @{ blob = '{"title":"Runtime Probe","content":"Compatibility mode"}' } | ConvertTo-Json -Compress
+Write-Request -CommandText "$THEMISCTL --host $SERVER_HOST --port $SERVER_PORT put demo_articles:runtime_probe" -Body $runtimeProbeBody
+& $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT put "demo_articles:runtime_probe" $runtimeProbeBody
+if ($LASTEXITCODE -ne 0) {
+    $demoWarnings.Add("Section 9 failed: runtime_probe write failed")
+}
+Write-Request -CommandText "$THEMISCTL --host $SERVER_HOST --port $SERVER_PORT get demo_articles:runtime_probe"
+& $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT get "demo_articles:runtime_probe"
+if ($LASTEXITCODE -ne 0) {
+    $demoWarnings.Add("Section 9 failed: runtime_probe readback failed")
+}
+Write-Host ""
+Pause-DemoStep -NextSection "[10] System Performance Metrics"
+
+# ============================================================================
+# SECTION 10: Performance & Statistics
+# ============================================================================
+Write-Section "[10] System Performance Metrics"
+Write-Request -CommandText "$THEMISCTL --host $SERVER_HOST --port $SERVER_PORT admin stats"
+& $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT admin stats | Select-String -Pattern "queries|throughput|latency|cache"
+Write-Host ""
+Pause-DemoStep -NextSection "[11] Automatic Index Recommendation"
+
+# ============================================================================
+# SECTION 11: Index Recommendations
+# ============================================================================
+Write-Section "[11] Automatic Index Recommendation"
 Write-Host "ThemisDB analyzes query patterns and recommends optimizations:" -ForegroundColor Yellow
 Write-Host ""
-& $THEMISCTL index recommend --host $SERVER_HOST --port $SERVER_PORT $DEMO_COLLECTION
+Write-Request -CommandText "$THEMISCTL --host $SERVER_HOST --port $SERVER_PORT index recommend $DEMO_COLLECTION"
+& $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT index recommend $DEMO_COLLECTION
 Write-Host ""
+Pause-DemoStep -NextSection "Closing Summary"
 
 # ============================================================================
 # CLOSING
@@ -232,19 +529,28 @@ Write-Header "Demo Complete!"
 Write-Host "Key Features Demonstrated:" -ForegroundColor Green
 Write-Host "  " -NoNewline
 Write-Host "✓" -ForegroundColor Green -NoNewline
-Write-Host " Document/Full-Text Search (SQL-like AQL queries)"
+Write-Host " Document read-back via entity keys"
 Write-Host "  " -NoNewline
 Write-Host "✓" -ForegroundColor Green -NoNewline
-Write-Host " Vector Search (Semantic similarity)"
+Write-Host " Vector payload read-back"
 Write-Host "  " -NoNewline
 Write-Host "✓" -ForegroundColor Green -NoNewline
-Write-Host " Graph Traversal (Multi-hop relationships)"
+Write-Host " Graph payload read-back"
 Write-Host "  " -NoNewline
 Write-Host "✓" -ForegroundColor Green -NoNewline
-Write-Host " RAG Agent (LLM-powered natural language queries)"
+Write-Host " RAG capability probe"
 Write-Host "  " -NoNewline
 Write-Host "✓" -ForegroundColor Green -NoNewline
-Write-Host " Multi-Model Data Fusion (Documents + Vectors + Graph)"
+Write-Host " LLM inference probe"
+Write-Host "  " -NoNewline
+Write-Host "✓" -ForegroundColor Green -NoNewline
+Write-Host " Graph query planning probe"
+Write-Host "  " -NoNewline
+Write-Host "✓" -ForegroundColor Green -NoNewline
+Write-Host " docs.db help mode (RAG/LLM/LoRA)"
+Write-Host "  " -NoNewline
+Write-Host "✓" -ForegroundColor Green -NoNewline
+Write-Host " CRUD consistency check"
 Write-Host "  " -NoNewline
 Write-Host "✓" -ForegroundColor Green -NoNewline
 Write-Host " Performance Analytics"
@@ -252,5 +558,17 @@ Write-Host "  " -NoNewline
 Write-Host "✓" -ForegroundColor Green -NoNewline
 Write-Host " Automatic Index Recommendations"
 Write-Host ""
-Write-Host "ThemisDB is fully operational and ready for production use!" -ForegroundColor Green
+if ($demoWarnings.Count -eq 0) {
+    Write-Host "ThemisDB demo checks passed. System appears operational for this scenario." -ForegroundColor Green
+} else {
+    $onlyDocsDbCaveat = ($demoWarnings.Count -eq 1 -and $demoWarnings[0].Contains("Section 8 skipped by pre-check"))
+    Write-Host "Demo completed with caveats:" -ForegroundColor Yellow
+    foreach ($w in $demoWarnings) {
+        Write-Host "  - $w" -ForegroundColor Yellow
+    }
+    if ($onlyDocsDbCaveat) {
+        Write-Host "Primary remaining blocker: docs database artifact for Section 8 (help mode)." -ForegroundColor Yellow
+    }
+    Write-Host 'ThemisDB is partially operational for this scenario. See warnings above.' -ForegroundColor Yellow
+}
 Write-Host ""

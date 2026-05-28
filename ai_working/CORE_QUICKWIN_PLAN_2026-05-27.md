@@ -8,6 +8,11 @@ Scope: core, server, query, sharding, index, storage, network, transaction, secu
 
 Reduce high-volume, low-risk gap patterns quickly in core components without architecture redesign.
 
+## Current Status
+
+- Package A: completed in the focused server, query, index, and storage slices.
+- Package B: in progress, with storage/null guards in server handlers, QueryEngine storage-backed paths, empty-input guards in AQL injection validation, range/finite checks in wire protocol vector/geo handlers, decoded-audio validation guards across voice API endpoints, strict query-limit validation in voice listing/search endpoints, graph/query/cursor range guards in the wire protocol, strict BPMN wire-request type validation, BPMN identifier hygiene checks (length/control-character guards), QUERY/CURSOR hardening for blank AQL and invalid cursor identifiers, expanded core wire input hygiene for GET/PUT/DELETE/BATCH/TRANSACTION/GRAPH handlers, and explicit JSON type-guards before core wire string extraction.
+
 ## Priority Patterns (Core Set)
 
 1. type_conversion: 4679

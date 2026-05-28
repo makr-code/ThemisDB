@@ -51,16 +51,6 @@ static std::shared_ptr<MockKeyProvider> makeProvider(const std::string& kek_id) 
     return provider;
 }
 
-static ExportEncryptionConfig makeConfig(const std::string& kek_id,
-                                          std::shared_ptr<KeyProvider> kp,
-                                          const std::string& job_id = "test-job-001") {
-    ExportEncryptionConfig cfg;
-    cfg.kek_id       = kek_id;
-    cfg.job_id       = job_id;
-    cfg.key_provider = std::move(kp);
-    return cfg;
-}
-
 // ─────────────────────────────────────────────────────────────────────────────
 // Test fixture
 // ─────────────────────────────────────────────────────────────────────────────

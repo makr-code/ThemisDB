@@ -102,17 +102,6 @@ TEST(StreamingIngestionTest, Chunker_UpdateConfigAffectsNextChunk) {
 // Stream-building helpers (no ContentManager dependency needed for unit tests)
 // ---------------------------------------------------------------------------
 
-// Helper: build an std::istringstream with n_lines lines of text
-static std::istringstream makeTextStream(int n_lines, const std::string& line_content = "Hello, streaming world!") {
-    std::string content;
-    content.reserve(n_lines * (line_content.size() + 1));
-    for (int i = 0; i < n_lines; ++i) {
-        content += line_content;
-        content += '\n';
-    }
-    return std::istringstream(content);
-}
-
 // ---------------------------------------------------------------------------
 // Streaming MIME type classification – validate the logic used in ingestStream
 // ---------------------------------------------------------------------------

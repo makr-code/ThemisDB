@@ -12,7 +12,8 @@
 
 param(
     [string]$ThemisctlPath = ".\build\windows-release\bin\themisctl.exe",
-    [string]$ServerHost = "localhost:8765",
+    [string]$ServerHost = "127.0.0.1",
+    [int]$ServerPort = 8765,
     [string]$DataDir = ".\demo\data"
 )
 
@@ -43,6 +44,36 @@ function Write-Error-Custom {
     Write-Host "ERROR: $($args[0])" -ForegroundColor Red
 }
 
+function Import-JsonlViaPut {
+    param(
+        [string]$Collection,
+        [string]$FilePath,
+        [string]$KeyPrefix
+    )
+
+    if (-not (Test-Path $FilePath)) {
+        throw "File not found: $FilePath"
+    }
+
+    $lineNumber = 0
+    foreach ($line in Get-Content $FilePath) {
+        if ([string]::IsNullOrWhiteSpace($line)) {
+            continue
+        }
+
+        $lineNumber++
+        $key = "{0}:{1}{2:d4}" -f $Collection, $KeyPrefix, $lineNumber
+        $payload = '{"blob":' + (ConvertTo-Json $line -Compress) + '}'
+
+        & $ThemisctlPath --host $ServerHost --port $ServerPort put $key $payload 2>&1 | Out-Null
+        if ($LASTEXITCODE -ne 0) {
+            throw "put failed for key $key"
+        }
+    }
+
+    return $lineNumber
+}
+
 # =============================================================================
 # SETUP
 # =============================================================================
@@ -61,10 +92,10 @@ Write-Success "✓ themisctl found at $ThemisctlPath"
 # Check server is running
 Write-Section "[1] Checking ThemisDB Server..."
 try {
-    & $ThemisctlPath schema --host $ServerHost 2>&1 | Out-Null
-    Write-Success "✓ Server is running at $ServerHost"
+    & $ThemisctlPath --host $ServerHost --port $ServerPort health 2>&1 | Out-Null
+    Write-Success "✓ Server is running at ${ServerHost}:$ServerPort"
 } catch {
-    Write-Error-Custom "Cannot connect to server at $ServerHost"
+    Write-Error-Custom "Cannot connect to server at ${ServerHost}:$ServerPort"
     Write-Host "Start the server first with: themisctl server --port 8765"
     exit 1
 }
@@ -99,10 +130,10 @@ Write-Section "[3] Importing Data into ThemisDB..."
 Write-Info "  → Importing demo_articles collection..."
 $articlesFile = "$DataDir\demo_articles.jsonl"
 if (Test-Path $articlesFile) {
-    $articleCount = @(Get-Content $articlesFile).Count
+    $articleCount = @(Get-Content $articlesFile | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }).Count
     try {
-        Get-Content $articlesFile | & $ThemisctlPath batch-insert --collection demo_articles --host $ServerHost 2>&1 | Out-Null
-        Write-Success "    ✓ Imported $articleCount articles"
+        $imported = Import-JsonlViaPut -Collection "demo_articles" -FilePath $articlesFile -KeyPrefix "art_"
+        Write-Success "    ✓ Imported $imported articles"
     } catch {
         Write-Error-Custom "Failed to import articles: $_"
     }
@@ -114,10 +145,10 @@ if (Test-Path $articlesFile) {
 Write-Info "  → Importing demo_embeddings collection..."
 $embeddingsFile = "$DataDir\demo_embeddings.jsonl"
 if (Test-Path $embeddingsFile) {
-    $embeddingCount = @(Get-Content $embeddingsFile).Count
+    $embeddingCount = @(Get-Content $embeddingsFile | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }).Count
     try {
-        Get-Content $embeddingsFile | & $ThemisctlPath batch-insert --collection demo_embeddings --host $ServerHost 2>&1 | Out-Null
-        Write-Success "    ✓ Imported $embeddingCount embeddings"
+        $imported = Import-JsonlViaPut -Collection "demo_embeddings" -FilePath $embeddingsFile -KeyPrefix "vec_"
+        Write-Success "    ✓ Imported $imported embeddings"
     } catch {
         Write-Error-Custom "Failed to import embeddings: $_"
     }
@@ -129,10 +160,10 @@ if (Test-Path $embeddingsFile) {
 Write-Info "  → Importing demo_knowledge_graph collection (nodes)..."
 $nodesFile = "$DataDir\demo_knowledge_graph_nodes.jsonl"
 if (Test-Path $nodesFile) {
-    $nodeCount = @(Get-Content $nodesFile).Count
+    $nodeCount = @(Get-Content $nodesFile | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }).Count
     try {
-        Get-Content $nodesFile | & $ThemisctlPath batch-insert --collection demo_knowledge_graph --host $ServerHost 2>&1 | Out-Null
-        Write-Success "    ✓ Imported $nodeCount nodes"
+        $imported = Import-JsonlViaPut -Collection "demo_knowledge_graph" -FilePath $nodesFile -KeyPrefix "node_"
+        Write-Success "    ✓ Imported $imported nodes"
     } catch {
         Write-Error-Custom "Failed to import graph nodes: $_"
     }
@@ -144,10 +175,10 @@ if (Test-Path $nodesFile) {
 Write-Info "  → Importing demo_knowledge_graph collection (edges)..."
 $edgesFile = "$DataDir\demo_knowledge_graph_edges.jsonl"
 if (Test-Path $edgesFile) {
-    $edgeCount = @(Get-Content $edgesFile).Count
+    $edgeCount = @(Get-Content $edgesFile | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }).Count
     try {
-        Get-Content $edgesFile | & $ThemisctlPath batch-insert --collection demo_knowledge_graph --edges --host $ServerHost 2>&1 | Out-Null
-        Write-Success "    ✓ Imported $edgeCount edges"
+        $imported = Import-JsonlViaPut -Collection "demo_knowledge_graph" -FilePath $edgesFile -KeyPrefix "edge_"
+        Write-Success "    ✓ Imported $imported edges"
     } catch {
         Write-Error-Custom "Failed to import graph edges: $_"
     }
@@ -160,27 +191,40 @@ if (Test-Path $edgesFile) {
 # =============================================================================
 
 Write-Section "[4] Verifying Data..."
+$verificationFailed = $false
 
 try {
-    Write-Info "  → Querying demo_articles..."
-    $articleResult = & $ThemisctlPath query --host $ServerHost "FOR doc IN demo_articles RETURN doc" | Out-String
-    if ($articleResult) {
+    Write-Info "  → Reading demo_articles sample..."
+    & $ThemisctlPath --host $ServerHost --port $ServerPort get "demo_articles:art_0001" 2>&1 | Out-Null
+    if ($LASTEXITCODE -eq 0) {
         Write-Success "    ✓ demo_articles collection is accessible"
+    } else {
+        throw "demo_articles sample lookup failed"
     }
-    
-    Write-Info "  → Querying demo_embeddings..."
-    $embeddingResult = & $ThemisctlPath query --host $ServerHost "FOR vec IN demo_embeddings LIMIT 1 RETURN vec" | Out-String
-    if ($embeddingResult) {
+
+    Write-Info "  → Reading demo_embeddings sample..."
+    & $ThemisctlPath --host $ServerHost --port $ServerPort get "demo_embeddings:vec_0001" 2>&1 | Out-Null
+    if ($LASTEXITCODE -eq 0) {
         Write-Success "    ✓ demo_embeddings collection is accessible"
+    } else {
+        throw "demo_embeddings sample lookup failed"
     }
-    
-    Write-Info "  → Querying demo_knowledge_graph..."
-    $graphResult = & $ThemisctlPath query --host $ServerHost "FOR node IN demo_knowledge_graph LIMIT 1 RETURN node" | Out-String
-    if ($graphResult) {
+
+    Write-Info "  → Reading demo_knowledge_graph sample..."
+    & $ThemisctlPath --host $ServerHost --port $ServerPort get "demo_knowledge_graph:node_0001" 2>&1 | Out-Null
+    if ($LASTEXITCODE -eq 0) {
         Write-Success "    ✓ demo_knowledge_graph collection is accessible"
+    } else {
+        throw "demo_knowledge_graph sample lookup failed"
     }
 } catch {
     Write-Error-Custom "Verification failed: $_"
+    $verificationFailed = $true
+}
+
+if ($verificationFailed) {
+    Write-Error-Custom "Setup finished with verification errors"
+    exit 1
 }
 
 # =============================================================================

@@ -230,9 +230,9 @@ void TensorIndexManager::dropTenantIndexes(const std::string& tenant_id) {
 
     {
         std::lock_guard<std::mutex> lock(legacy_bridge_mutex_);
-        const std::string prefix = tenant_id + ":";
+        const std::string bridge_prefix = tenant_id + ":";
         for (auto it = legacy_bridge_cache_.begin(); it != legacy_bridge_cache_.end();) {
-            if (it->first.rfind(prefix, 0) == 0) {
+            if (it->first.rfind(bridge_prefix, 0) == 0) {
                 it = legacy_bridge_cache_.erase(it);
             } else {
                 ++it;

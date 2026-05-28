@@ -116,10 +116,6 @@ static TTTrain makeTT(const std::vector<float>& data,
     return std::move(t);
 }
 
-static TTTrain makeTT(std::size_t n, unsigned seed, double eps = 0.05) {
-    return makeTT(randVec(n, seed), {n, 1}, eps);  // 2D degenerate
-}
-
 static std::shared_ptr<TensorNetworkStorageEngine> makeEngine() {
     auto backend = std::make_shared<InMemoryTensorBackend>();
     TensorStorageConfig cfg;

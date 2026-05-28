@@ -24,6 +24,7 @@
 #include <algorithm>
 #include <cctype>
 #include <cmath>
+#include <cstdlib>
 #include <set>
 
 namespace themis {
@@ -510,6 +511,15 @@ std::vector<SchemaManager::PropertyInfo> SchemaManager::discoverProperties(
     std::string_view table_name,
     size_t sample_size
 ) {
+    static const std::set<std::string> kInternalBinaryKeyspaces = {
+        "dek",
+        "kek"
+    };
+    if (kInternalBinaryKeyspaces.contains(std::string(table_name))) {
+        spdlog::debug("SchemaManager: Skipping property sampling for internal keyspace '{}'", table_name);
+        return {};
+    }
+
     std::map<std::string, PropertyInfo> property_map;
     
     try {
@@ -807,9 +817,14 @@ void SchemaManager::buildCache() {
         schema.properties = discoverProperties(table_name);
         schema.indexes = discoverIndexes(table_name);
 
-        // Stable fallback when metadata cache is cold: probe known properties
-        // via explicit index-existence checks instead of broad stats scans.
-        if (schema.indexes.empty() && index_mgr_) {
+        // Optional fallback probing is disabled by default because some builds
+        // may expose unsafe index-manager states for arbitrary discovered keys.
+        // Re-enable only for controlled diagnostics via env toggle.
+        const bool enable_fallback_index_probe = [] {
+            const char* raw = std::getenv("THEMIS_SCHEMA_INDEX_FALLBACK_PROBE");
+            return raw != nullptr && std::string_view(raw) == "1";
+        }();
+        if (schema.indexes.empty() && index_mgr_ && enable_fallback_index_probe) {
             std::set<std::string> seen;
             auto add_index = [&](const std::string& col, const std::string& type, bool unique) {
                 const std::string key = type + ":" + col;

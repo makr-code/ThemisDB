@@ -1984,7 +1984,7 @@ set_tests_properties(DynamicFeatureFlagTests PROPERTIES
 add_test(NAME RuntimeLicenseGateTests
     COMMAND themis_tests --gtest_filter=RuntimeLicenseGateInit.*:RuntimeLicenseGate.*)
 set_tests_properties(RuntimeLicenseGateTests PROPERTIES
-    LABELS "license;runtime;gate;themis;unit"
+    LABELS "license;runtime;license-gate;themis;unit"
     TIMEOUT 60
 )
 
@@ -1998,7 +1998,7 @@ set_tests_properties(RuntimeLicenseGateTests PROPERTIES
 add_test(NAME GateResultFocusedTests
     COMMAND themis_tests --gtest_filter=GateResult.*:GateResultCheckFeature*:LicenseInfo.*)
 set_tests_properties(GateResultFocusedTests PROPERTIES
-    LABELS "license;gate;result;denial-reason;themis;unit"
+    LABELS "license;license-gate;result;denial-reason;themis;unit"
     TIMEOUT 60
 )
 
@@ -16472,9 +16472,120 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_manager.cpp")
         OpenSSL::Crypto
         Threads::Threads
     )
-    # Covered by themis_tests; focused duplicate remains executable-only due
-    # binary-specific instability in this wrapper on Windows.
+    add_test(NAME SchemaManagerFocusedTests
+        COMMAND test_schema_manager_focused
+            --gtest_filter=SchemaManagerTest.InternalBinaryKeyspacesDoNotCrashSchemaExport
+    )
+    set_tests_properties(SchemaManagerFocusedTests PROPERTIES
+        LABELS "metadata;schema;focused;std-gate"
+        TIMEOUT 180
+    )
     message(STATUS "  SchemaManager: automatic table discovery, property type detection, adaptive TTL, changefeeds")
+endif()
+
+if(WIN32 AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_manager.cpp")
+    set(_themis_schema_smoke_script "${CMAKE_CURRENT_SOURCE_DIR}/integration/server_schema_endpoint_smoke.ps1")
+    set(_themis_core_contract_script "${CMAKE_CURRENT_SOURCE_DIR}/integration/server_core_endpoint_contract.ps1")
+    set(_themis_error_contract_script "${CMAKE_CURRENT_SOURCE_DIR}/integration/server_error_path_contract.ps1")
+    set(_themis_restart_resilience_script "${CMAKE_CURRENT_SOURCE_DIR}/integration/server_restart_resilience.ps1")
+    set(_themis_schema_soak_script "${CMAKE_CURRENT_SOURCE_DIR}/integration/server_schema_endpoint_soak.ps1")
+    set(_themis_std_gate_check_script "${CMAKE_CURRENT_SOURCE_DIR}/integration/validate_std_gate.ps1")
+    if(EXISTS "${_themis_schema_smoke_script}")
+        add_test(NAME ServerSchemaEndpointSmoke
+            COMMAND powershell -NoProfile -ExecutionPolicy Bypass
+                -File "${_themis_schema_smoke_script}"
+                -ServerExe "${CMAKE_BINARY_DIR}/bin/themis_server.exe"
+                -CtlExe "${CMAKE_BINARY_DIR}/bin/themisctl.exe"
+        )
+        set_tests_properties(ServerSchemaEndpointSmoke PROPERTIES
+            LABELS "server;endpoint;schema;smoke;process;std-gate"
+            TIMEOUT 240
+        )
+    endif()
+
+    if(EXISTS "${_themis_std_gate_check_script}")
+        add_test(NAME StdGateCompositionTests
+            COMMAND powershell -NoProfile -ExecutionPolicy Bypass
+                -File "${_themis_std_gate_check_script}"
+                -SourceDir "${CMAKE_SOURCE_DIR}"
+                -BuildDir "${CMAKE_BINARY_DIR}"
+                -Preset "windows-release-gate"
+                -RequiredTestsCsv "SchemaManagerFocusedTests,ServerSchemaEndpointSmoke,ServerCoreEndpointContract,ServerErrorPathContract,ServerRestartResilience"
+        )
+        set_tests_properties(StdGateCompositionTests PROPERTIES
+            LABELS "std-gate;gate-contract;meta"
+            TIMEOUT 60
+        )
+    endif()
+
+    if(EXISTS "${_themis_core_contract_script}")
+        add_test(NAME ServerCoreEndpointContract
+            COMMAND powershell -NoProfile -ExecutionPolicy Bypass
+                -File "${_themis_core_contract_script}"
+                -ServerExe "${CMAKE_BINARY_DIR}/bin/themis_server.exe"
+                -CtlExe "${CMAKE_BINARY_DIR}/bin/themisctl.exe"
+        )
+        set_tests_properties(ServerCoreEndpointContract PROPERTIES
+            LABELS "server;endpoint;contract;schema;health;version;std-gate"
+            TIMEOUT 240
+        )
+    endif()
+
+    if(EXISTS "${_themis_error_contract_script}")
+        add_test(NAME ServerErrorPathContract
+            COMMAND powershell -NoProfile -ExecutionPolicy Bypass
+                -File "${_themis_error_contract_script}"
+                -ServerExe "${CMAKE_BINARY_DIR}/bin/themis_server.exe"
+                -CtlExe "${CMAKE_BINARY_DIR}/bin/themisctl.exe"
+        )
+        set_tests_properties(ServerErrorPathContract PROPERTIES
+            LABELS "server;endpoint;contract;error;negative;std-gate"
+            TIMEOUT 180
+        )
+    endif()
+
+    if(EXISTS "${_themis_restart_resilience_script}")
+        add_test(NAME ServerRestartResilience
+            COMMAND powershell -NoProfile -ExecutionPolicy Bypass
+                -File "${_themis_restart_resilience_script}"
+                -ServerExe "${CMAKE_BINARY_DIR}/bin/themis_server.exe"
+                -CtlExe "${CMAKE_BINARY_DIR}/bin/themisctl.exe"
+        )
+        set_tests_properties(ServerRestartResilience PROPERTIES
+            LABELS "server;endpoint;restart;resilience;process;std-gate"
+            TIMEOUT 300
+        )
+    endif()
+
+    if(EXISTS "${_themis_schema_soak_script}")
+        add_test(NAME ServerSchemaEndpointSoak
+            COMMAND powershell -NoProfile -ExecutionPolicy Bypass
+                -File "${_themis_schema_soak_script}"
+                -ServerExe "${CMAKE_BINARY_DIR}/bin/themis_server.exe"
+                -CtlExe "${CMAKE_BINARY_DIR}/bin/themisctl.exe"
+                -Iterations 30
+                -DelayMs 200
+        )
+        set_tests_properties(ServerSchemaEndpointSoak PROPERTIES
+            LABELS "server;endpoint;schema;soak;process;std-gate-soak"
+            TIMEOUT 300
+        )
+    endif()
+
+    if(EXISTS "${_themis_std_gate_check_script}")
+        add_test(NAME StdGateSoakCompositionTests
+            COMMAND powershell -NoProfile -ExecutionPolicy Bypass
+                -File "${_themis_std_gate_check_script}"
+                -SourceDir "${CMAKE_SOURCE_DIR}"
+                -BuildDir "${CMAKE_BINARY_DIR}"
+                -Preset "windows-release-gate-soak"
+                -RequiredTestsCsv "SchemaManagerFocusedTests,ServerSchemaEndpointSmoke,ServerCoreEndpointContract,ServerErrorPathContract,ServerRestartResilience,ServerSchemaEndpointSoak"
+        )
+        set_tests_properties(StdGateSoakCompositionTests PROPERTIES
+            LABELS "std-gate-soak;gate-contract;meta"
+            TIMEOUT 60
+        )
+    endif()
 endif()
 
 # Metadata - StatisticsCollector focused tests

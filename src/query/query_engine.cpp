@@ -204,6 +204,12 @@ Result<std::vector<std::string>>
 QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndKeys");
 	span.setAttribute("query.table", q.table);
+	if (!db_) {
+		return Err<std::vector<std::string>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			"Storage backend not available"
+		);
+	}
 	span.setAttribute("query.eq_count", static_cast<int64_t>(q.predicates.size()));
 	span.setAttribute("query.range_count", static_cast<int64_t>(q.rangePredicates.size()));
 	span.setAttribute("query.order_by", q.orderBy.has_value());
@@ -699,6 +705,12 @@ Result<std::vector<BaseEntity>>
 QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndEntities");
 	span.setAttribute("query.table", q.table);
+	if (!db_) {
+		return Err<std::vector<BaseEntity>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			"Storage backend not available"
+		);
+	}
 
 	// QE-2: enforce collection-level access control before any I/O
 	if (collection_access_checker_ && !collection_access_checker_(q.table, collection_access_caller_id_)) {

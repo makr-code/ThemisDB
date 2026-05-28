@@ -9,169 +9,229 @@ Diese Anleitung erklärt, wie du ein unbearbeitetes Screen-Recording der ThemisD
 
 ## 1. Vorbereitung
 
-### A. System prüfen
+### A. System prüfen und Binary bauen
 ```powershell
-# 1. ThemisDB Server starten
 cd C:\Projects\ThemisDB
 cmake --build --preset windows-release --target themisctl
-
-# 2. Server läuft (in separatem Terminal)
-build\windows-release\bin\themisctl --version
 ```
 
-### B. Test-Daten laden
+### B. Optional: Server manuell starten (wenn nicht bereits aktiv)
 ```powershell
-# Stelle sicher, dass die Demo-Collections existieren:
-# - demo_articles (vollständige Dokumente mit Text)
-# - demo_embeddings (Vektordaten, Semantic Search)
-# - demo_knowledge_graph (Graph mit Nodes: researcher, paper)
-
-# Daten ggf. per Import-Tool laden:
-.\build\windows-release\bin\themisdb-import --collection demo_articles data/demo_articles.jsonl
+.\build-msvc-windows-release\bin\themis_server.exe --db .\demo\data\themis_db --port 8765 --allow-degraded-build --allow-stub-hsm
 ```
 
-### C. Bildschirm vorbereiten
-- Terminal auf **hohe Auflösung** stellen (mindestens 1920x1080)
-- Font-Größe erhöhen (Terminal leserlich, aber nicht zu groß)
-- Farbschema auf Hell oder Dunkel (konsistent)
-- Alle anderen Fenster schließen oder minimieren
+### B1. Docs-Datenbank fuer Section 8 bereitstellen (empfohlen)
+```powershell
+.\tools\build_docs_db.ps1 -SkipBuild -OutputDir .\artifacts\docs-db -Force
+Copy-Item .\artifacts\docs-db\docs_database.json .\data\docs_database.json -Force
+Copy-Item .\artifacts\docs-db\docs_artifact.json .\data\docs_artifact.json -Force
+```
+
+Hinweis: Nicht direkt nach `.\data` bauen, da das Build-Skript den Zielordner bei `-Force` rekursiv leert.
+
+### B2. Zwei-Terminal-Setup (fuer das Video empfohlen)
+- Terminal 1: nur Server-Logs (themis_server.exe)
+- Terminal 2: nur CLI-Kommandos (themisctl.exe / themis_ctrl.exe)
+
+Beispiel-Setup:
+
+Terminal 1 (Server laeuft durchgehend)
+```powershell
+cd C:\Projects\ThemisDB
+.\build-msvc-windows-release\bin\themis_server.exe --db .\demo\data\themis_db --port 8765 --allow-degraded-build --allow-stub-hsm
+```
+
+Terminal 2 (Demo-Kommandos)
+```powershell
+cd C:\Projects\ThemisDB
+.\demo\kickstarter_demo_script.ps1
+```
+
+### C. Empfohlener Weg: Komplettskript verwenden
+```powershell
+.\demo\kickstarter_demo_script.ps1
+```
+
+Fuer einen automatisierten Probe-/CI-Lauf ohne Tastaturstopps:
+```powershell
+$env:THEMIS_DEMO_NO_PAUSE='1'
+.\demo\kickstarter_demo_script.ps1
+```
+
+Das PS1 übernimmt:
+- Pre-Flight (Server erreichbar?)
+- Automatisches Laden von Demo-Daten bei Bedarf
+- Die komplette Demo-Reihenfolge in einem Durchlauf
+
+### D. Bildschirm vorbereiten
+- Terminal auf mindestens 1920x1080
+- Gut lesbare Schriftgröße
+- Keine störenden Fenster/Notifications
 
 ---
+## 2. Aufnahme starten
 
-## 2. Video-Recording
+### Option A: OBS Studio (empfohlen)
+- Display oder Window Capture auf das Terminal
+- 1920x1080, H.264, MP4
+- Eine durchgehende Aufnahme ohne Schnitte
 
-### Option A: OBS Studio (kostenlos, empfohlen)
-```bash
-# 1. OBS Studio herunterladen: https://obsproject.com/
-# 2. Neue Scene erstellen
-# 3. Source: "Display Capture" oder "Window Capture" (VS Code Terminal)
-# 4. Canvas size: 1920x1080 oder 1280x720
-# 5. Encoding: H.264, 60 FPS, höhere Bitrate (6000 kbps)
-# 6. Output: MP4 Format
-# 7. Recording starten
-```
-
-### Option B: Windows Screenshot-Tool
-```powershell
-# Einfache Alternative (Windows 10+)
-# Win + Shift + S -> Video Recording starten
-# Terminal-Output wird aufgezeichnet
-```
+### Option B: Windows Bordmittel
+- Screen Recording mit Win+G (Xbox Game Bar)
+- Ebenfalls als ein durchgehender Take aufnehmen
 
 ---
+## 3. Demo-Ablauf (Stand: kickstarter_demo_script.ps1)
 
-## 3. Demo-Ablauf (ca. 10-15 Minuten)
+Nutze fuer das Video bevorzugt den Komplettlauf:
 
-### **Phase 1: Start & Setup (1-2 Min)**
 ```powershell
-# Zeige das Terminal
-# Erkläre: "Das ist ThemisDB - ein Multi-Model Database System"
-
-# Starte den REPL:
-.\build\windows-release\bin\themisctl repl --host localhost:8765
-
-# Oder direkt die Demo:
-.\build\windows-release\bin\themisctl schema --host localhost:8765
+.\demo\kickstarter_demo_script.ps1
 ```
 
-**Was zu sagen ist:**
-- "ThemisDB läuft bereits und akzeptiert Anfragen."
-- "Das Schema zeigt unsere verschiedenen Datenmodelle: Dokumente, Vektoren, Graphen."
+Empfohlene Darstellung im Recording:
+- Links: Terminal 1 mit laufendem themis_server.exe (Live-Logs)
+- Rechts: Terminal 2 mit themisctl-/Demo-Script-Kommandos
+- So ist Ursache/Wirkung direkt sichtbar (Request in Terminal 2, Reaktion in Terminal 1)
 
----
+Die folgenden Punkte sind exakt die im Script ausgefuehrten Phasen inklusive Beispiel-Eingabe und erwarteter Ausgabe.
 
-### **Phase 2: Document Search (2-3 Min)**
+### Phase 1: System Status & Schema
+
+**Beispiel-Eingabe**
 ```powershell
-# Ausführe die erste Query
-themisctl query --host localhost:8765 \
-  "FOR doc IN demo_articles \
-   FILTER doc.title LIKE '%AI%' OR doc.content LIKE '%machine learning%' \
-   SORT doc.published DESC \
-   LIMIT 5 \
-   RETURN { title: doc.title, published: doc.published }"
+& $THEMISCTL --host 127.0.0.1 --port 8765 schema
 ```
 
-**Was zu sagen ist:**
-- "Das ist eine klassische Dokumentsuche - ähnlich wie SQL."
-- "ThemisDB sucht Millionen von Dokumenten nach Text-Filtern."
-- "Die Ergebnisse kommen live zurück."
+**Erwartete Ausgabe**
+- Schema-/Collection-Informationen als JSON oder strukturierte Liste
+- Kommentar im Demo-Script: "Server is running and responding to queries."
 
----
+### Phase 2: Document Read-Back
 
-### **Phase 3: Vector Search - Semantic (2-3 Min)**
+**Beispiel-Eingabe**
 ```powershell
-themisctl query --host localhost:8765 \
-  "FOR doc IN demo_embeddings \
-   LET similarity = COSINE_SIMILARITY(doc.embedding, @query) \
-   FILTER similarity > 0.7 \
-   SORT similarity DESC \
-   LIMIT 5 \
-   RETURN { title: doc.title, similarity: similarity }"
+& $THEMISCTL --host 127.0.0.1 --port 8765 get "demo_articles:art_0001"
 ```
 
-**Was zu sagen ist:**
-- "Das ist Vector Search - semantische Ähnlichkeit, nicht Text-Matching."
-- "ThemisDB vergleicht Millionen von Embeddings mit hoher Geschwindigkeit."
-- "Dies ist ideal für AI-Modelle und Similarity-Suche."
+**Erwartete Ausgabe**
+- JSON-Dokument fuer den Key demo_articles:art_0001
+- Bei Fehler: Warning "Section 2 failed: demo_articles sample not readable"
 
----
+### Phase 3: Vector Payload Read-Back
 
-### **Phase 4: Graph Traversal (2-3 Min)**
+**Beispiel-Eingabe**
 ```powershell
-themisctl query --host localhost:8765 \
-  "FOR researcher IN demo_knowledge_graph \
-   FILTER researcher.type == 'researcher' \
-   FOR paper IN 1..2 OUTBOUND researcher._id graph_edges \
-     FILTER paper.type == 'paper' \
-   RETURN { \
-     researcher: researcher.name, \
-     paper: paper.title \
-   } \
-   LIMIT 8"
+& $THEMISCTL --host 127.0.0.1 --port 8765 get "demo_embeddings:vec_0001"
 ```
 
-**Was zu sagen ist:**
-- "Das ist Graph-Navigation - Multi-Hop-Beziehungen."
-- "ThemisDB findet Pfade zwischen Knoten (z.B. Forscher -> Paper -> Konferenzen)."
-- "Das funktioniert mit Millionen von Nodes und Edges."
+**Erwartete Ausgabe**
+- JSON mit Vektor-Payload
+- Bei Fehler: Warning "Section 3 failed: demo_embeddings sample not readable"
 
----
+### Phase 4: Graph Node Read-Back
 
-### **Phase 5: RAG + LLM Features (2-3 Min)**
+**Beispiel-Eingabe**
 ```powershell
-themisctl rag query \
-  --collection demo_articles \
-  --top-k 3 \
-  "What are the latest papers on quantum computing by MIT?"
+& $THEMISCTL --host 127.0.0.1 --port 8765 get "demo_knowledge_graph:node_0001"
 ```
 
-**Was zu sagen ist:**
-- "Das ist unser RAG (Retrieval-Augmented Generation) Agent."
-- "Der LLM versteht die natürlichsprachige Frage, nicht SQL."
-- "ThemisDB findet die relevantesten Daten und gibt eine AI-generierte Antwort."
+**Erwartete Ausgabe**
+- JSON fuer den Graph-Knoten
+- Bei Fehler: Warning "Section 4 failed: demo_knowledge_graph sample not readable"
 
----
+### Phase 5: LLM Inference Probe
 
-### **Phase 6: Performance & Stats (1-2 Min)**
+**Beispiel-Eingabe**
 ```powershell
-themisctl admin stats --host localhost:8765
+$llmInferenceBody = '{"prompt":"Summarize the impact of ACID transactions for distributed databases in two sentences.","max_tokens":96,"temperature":0.2}'
+& $THEMISCTL --host 127.0.0.1 --port 8765 api POST /api/v1/llm/inference --body $llmInferenceBody
 ```
 
-**Was zu sagen ist:**
-- "Live-Statistiken zeigen Durchsatz, Latenz, Cache-Hit-Rate."
-- "ThemisDB verarbeitet Tausende Queries pro Sekunde."
-- "System ist in Produktion stabil und skalierbar."
-
----
-
-### **Phase 7: Index Recommendations (1 Min)**
+**Erwartete Ausgabe**
+- Erfolg: JSON mit LLM-Antwort
+- Haeufig in degradierten Setups: HTTP 500 mit Hinweis auf nicht initialisiertes LLM
+- Dann folgt im Script automatisch ein Model-Auto-Load (bevorzugt `.\\models\\phi4.gguf`, sonst erstes `.gguf`) und danach ein erneuter Probe-Call:
 ```powershell
-themisctl index recommend --host localhost:8765 --collection demo_articles
+& $THEMISCTL --host 127.0.0.1 --port 8765 api GET /api/v1/llm/health
 ```
 
-**Was zu sagen ist:**
-- "ThemisDB analysiert Query-Muster automatisch."
-- "Es empfiehlt Optimierungen und Indizes zur Speedup."
+### Phase 6: Graph Query Planning Probe
+
+**Beispiel-Eingabe**
+```powershell
+$section6GraphExplainBody = '{"query_type":"k_hop","start_vertex":"demo_knowledge_graph:node_0001","max_depth":1}'
+& $THEMISCTL --host 127.0.0.1 --port 8765 api POST /api/v1/graph/query/explain --body $section6GraphExplainBody
+```
+
+**Erwartete Ausgabe**
+- Erfolg: JSON mit Optimizer-/Planungsdaten (Algorithmus, geschätzte Kosten, Alternativen)
+- Bei deaktiviertem Graph-Optimizer: Section wird per Pre-Check als Caveat geskippt
+
+### Phase 7: RAG Capability Probe
+
+**Beispiel-Eingabe**
+```powershell
+$ragQueryBody = '{"query":"What are the latest papers on quantum computing by MIT?","collection":"demo_articles","top_k":3,"max_tokens":192,"temperature":0.2}'
+& $THEMISCTL --host 127.0.0.1 --port 8765 api POST /api/v1/llm/rag --body $ragQueryBody
+```
+
+**Erwartete Ausgabe**
+- Erfolg: Antworttext plus Retrieval-Metriken
+- Bei LLM-Initialisierungsproblemen: Warning in der Demo-Zusammenfassung
+
+### Phase 8: Themis Help Probe (docs.db)
+
+**Beispiel-Eingabe**
+```powershell
+& $THEMISCTL --host 127.0.0.1 --port 8765 help --mode lora "How do I configure sharding and RAG safely in ThemisDB?"
+```
+
+**Erwartete Ausgabe**
+- Erfolg: themis-spezifische Hilfsantwort auf Basis docs.db
+- Wenn docs-Datenbank fehlt: typischerweise HTTP 503 und Caveat-Warning
+
+### Phase 9: CRUD Consistency Check
+
+**Beispiel-Eingabe**
+```powershell
+$runtimeProbeBody = @{ blob = '{"title":"Runtime Probe","content":"Compatibility mode"}' } | ConvertTo-Json -Compress
+& $THEMISCTL --host 127.0.0.1 --port 8765 put "demo_articles:runtime_probe" $runtimeProbeBody
+& $THEMISCTL --host 127.0.0.1 --port 8765 get "demo_articles:runtime_probe"
+```
+
+**Erwartete Ausgabe**
+- PUT erfolgreich (z. B. "Entity stored")
+- GET liefert denselben Datensatz zurueck
+
+### Phase 10: Performance & Statistics
+
+**Beispiel-Eingabe**
+```powershell
+& $THEMISCTL --host 127.0.0.1 --port 8765 admin stats
+```
+
+**Erwartete Ausgabe**
+- Metriken zu Query/Throughput/Latency/Cache (je nach Build unterschiedlich detailliert)
+
+### Phase 11: Automatic Index Recommendation
+
+**Beispiel-Eingabe**
+```powershell
+& $THEMISCTL --host 127.0.0.1 --port 8765 index recommend demo_articles
+```
+
+**Erwartete Ausgabe**
+- Empfehlungsliste (ADD/DROP) mit Spalten und Nutzenbewertung
+
+### Finale Demo-Ausgabe
+
+Am Ende zeigt das Script immer:
+- "Demo Complete!"
+- Feature-Liste
+- Entweder:
+   - "ThemisDB demo checks passed."
+   - oder "Demo completed with caveats:" inklusive konkreter Warnungen
 
 ---
 

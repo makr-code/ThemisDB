@@ -123,6 +123,25 @@ TEST_F(SchemaManagerTest, DiscoverSingleTable) {
     EXPECT_TRUE(found_active) << "Should find 'active' property";
 }
 
+TEST_F(SchemaManagerTest, InternalBinaryKeyspacesDoNotCrashSchemaExport) {
+    // Simulate internal security keyspaces that store opaque binary payloads,
+    // not BaseEntity-serialized records.
+    std::vector<uint8_t> opaque_kek = {0x00, 0xFF, 0x13, 0x37, 0x42, 0x10};
+    std::vector<uint8_t> opaque_dek = {0xAB, 0xCD, 0xEF, 0x01, 0x02, 0x03};
+
+    db_->put("kek:active", opaque_kek);
+    db_->put("dek:v1", opaque_dek);
+
+    SchemaManager schema_mgr(*db_, index_mgr_.get());
+
+    json exported;
+    EXPECT_NO_THROW(exported = schema_mgr.toJSON())
+        << "Schema export must ignore internal binary keyspaces instead of crashing";
+
+    ASSERT_TRUE(exported.contains("status"));
+    EXPECT_EQ(exported["status"], "success");
+}
+
 TEST_F(SchemaManagerTest, DiscoverMultipleTables) {
     // Insert data into multiple tables
     BaseEntity user1 = BaseEntity::fromFields("u1", {{"name", std::string("Alice")}});
