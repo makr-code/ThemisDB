@@ -675,6 +675,28 @@ Vulkan/DirectX kernel execution paths:
 
 ---
 
+**Status (v1.22.0-pre — batch 37):** input_validation regression tests + kv_cache embedding_dim guard:
+
+*input_validation batch 37:*
+- `src/llm/kv_cache_buffer.cpp::KVCacheBuffer::appendToken()` — added early-return guard
+  `if (config_.embedding_dim == 0) return false;` before inserting raw key/value pointer
+  ranges. A zero-dimension config would silently insert 0 bytes while incrementing
+  `n_tokens`, corrupting the cache invariant.
+- `tests/test_flash_attention_correctness.cpp` — three new regression tests:
+  - `ForwardZeroBatchReturnsInvalidConfig`: verifies `forward()` returns `ERROR_INVALID_CONFIG`
+    for `batch_size == 0`.
+  - `ForwardZeroSeqLenReturnsInvalidConfig`: verifies `forward()` returns `ERROR_INVALID_CONFIG`
+    for `seq_len == 0`.
+  - `BackwardZeroNumHeadsReturnsInvalidConfig`: verifies `backward()` returns
+    `ERROR_INVALID_CONFIG` for `num_heads == 0`.
+- `tests/test_vram_allocator_null_checks.cpp` — two new regression tests:
+  - `AllocateExceedsPoolSize_ReturnsNull`: verifies that allocation exceeding
+    `pool_size_bytes` returns `nullptr` and logs the "exceeds pool size" message.
+  - `AllocateWithZeroPool_NotRejected`: verifies that `pool_size_bytes == 0` (auto-detect
+    mode) does not reject normal allocations.
+
+---
+
 ## ✅ Acceptance Criteria (from Issue)
 
 - [x] All CRITICAL gaps addressed (S0/S1/S2 security findings all fixed; LoRA validator integrated)

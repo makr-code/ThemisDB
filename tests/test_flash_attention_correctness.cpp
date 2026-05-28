@@ -555,4 +555,60 @@ TEST(FlashAttentionCPU, BackwardInvalidTensorReturnsError) {
     EXPECT_EQ(fa.backward(invalid, valid, valid, valid), Status::ERROR_INVALID_TENSOR);
 }
 
+// ─── Batch 36 input_validation regression tests ─────────────────────────────
+
+// forward() with batch_size == 0 must return ERROR_INVALID_CONFIG (not crash or
+// silently allocate a zero-element vector that later confuses callers).
+TEST(FlashAttentionCPU, ForwardZeroBatchReturnsInvalidConfig) {
+    FlashAttentionConfig cfg;
+    cfg.batch_size  = 0;  // invalid
+    cfg.seq_len     = 8;
+    cfg.num_heads   = 2;
+    cfg.head_dim    = 16;
+    FlashAttention fa(Backend::CPU, cfg);
+
+    const size_t sz = 8 * 2 * 16;
+    std::vector<float> buf(sz, 1.0f);
+    Tensor q, k, v, out;
+    q.data = buf.data(); q.size = sz; q.shape = {0, 8, 2, 16};
+    k = q; v = q; out = q;
+
+    EXPECT_EQ(fa.forward(q, k, v, out), Status::ERROR_INVALID_CONFIG);
+}
+
+// forward() with seq_len == 0 must also return ERROR_INVALID_CONFIG.
+TEST(FlashAttentionCPU, ForwardZeroSeqLenReturnsInvalidConfig) {
+    FlashAttentionConfig cfg;
+    cfg.batch_size  = 1;
+    cfg.seq_len     = 0;  // invalid
+    cfg.num_heads   = 2;
+    cfg.head_dim    = 16;
+    FlashAttention fa(Backend::CPU, cfg);
+
+    const size_t sz = 64;
+    std::vector<float> buf(sz, 1.0f);
+    Tensor q, k, v, out;
+    q.data = buf.data(); q.size = sz; q.shape = {1, 0, 2, 16};
+    k = q; v = q; out = q;
+
+    EXPECT_EQ(fa.forward(q, k, v, out), Status::ERROR_INVALID_CONFIG);
+}
+
+// backward() with num_heads == 0 must return ERROR_INVALID_CONFIG.
+TEST(FlashAttentionCPU, BackwardZeroNumHeadsReturnsInvalidConfig) {
+    FlashAttentionConfig cfg;
+    cfg.batch_size  = 1;
+    cfg.seq_len     = 8;
+    cfg.num_heads   = 0;  // invalid
+    cfg.head_dim    = 16;
+    FlashAttention fa(Backend::CPU, cfg);
+
+    const size_t sz = 8 * 16;
+    std::vector<float> buf(sz, 1.0f);
+    Tensor t;
+    t.data = buf.data(); t.size = sz; t.shape = {1, 8, 0, 16};
+
+    EXPECT_EQ(fa.backward(t, t, t, t), Status::ERROR_INVALID_CONFIG);
+}
+
 
