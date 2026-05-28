@@ -60,6 +60,30 @@ static DistributedTransactionManager::RpcPhase2Fn getRpcPhase2Fn() {
     return s_rpc_phase2_fn;
 }
 
+// ============================================================================
+// RPC phase-1 bridge (stub #279 — Phase-1 PREPARE extension)
+// ============================================================================
+
+namespace {
+static std::mutex s_rpc_phase1_fn_mutex;
+static DistributedTransactionManager::RpcPhase1Fn s_rpc_phase1_fn;
+} // namespace
+
+void DistributedTransactionManager::setRpcPhase1Fn(RpcPhase1Fn fn) {
+    std::lock_guard<std::mutex> lock(s_rpc_phase1_fn_mutex);
+    s_rpc_phase1_fn = std::move(fn);
+}
+
+void DistributedTransactionManager::clearRpcPhase1Fn() {
+    std::lock_guard<std::mutex> lock(s_rpc_phase1_fn_mutex);
+    s_rpc_phase1_fn = nullptr;
+}
+
+static DistributedTransactionManager::RpcPhase1Fn getRpcPhase1Fn() {
+    std::lock_guard<std::mutex> lock(s_rpc_phase1_fn_mutex);
+    return s_rpc_phase1_fn;
+}
+
 namespace {
 /// Format a system_clock time-point as ISO-8601 for WAL/log data.
 std::string formatTimePoint(std::chrono::system_clock::time_point tp) {
@@ -728,31 +752,107 @@ bool DistributedTransactionManager::runPhase1Unlocked(const TransactionId& txn_i
 
     for (const auto& part : parts) {
         if (!part.callback) {
+            const std::string ep  = part.endpoint;
+            const std::string nid = part.node_id;
+            const std::string tid = txn_id;
+            const std::string cid = coordinator_id_;
+            const std::set<std::string> keys = part.affected_keys;
+
+            if (ep.empty()) {
+                THEMIS_ERROR("DistributedTransactionManager [{}] cannot send Phase-1 PREPARE for "
+                             "remote participant node={} — empty endpoint; voting ABORT",
+                             coordinator_id_, part.node_id);
+                futures.push_back(submitTask([nid]() -> VoteResult {
+                    return {nid, true, /*can_commit=*/false};
+                }));
+                continue;
+            }
+
+            // Phase-1 RPC bridge — three layers of injection mirroring Phase-2.
+            // Preference order: phase1_rpc_fn > remote_phase1_dispatch > static RpcPhase1Fn.
+            if (config_.phase1_rpc_fn) {
+                auto rpc_fn = *config_.phase1_rpc_fn;
+                futures.push_back(submitTask([rpc_fn, ep, nid, tid, cid, keys]() -> VoteResult {
+                    try {
+                        const bool vote = rpc_fn(ep, tid, keys);
+                        if (!vote) {
+                            THEMIS_WARN("2PC Phase-1 RPC ABORT vote from node={} txn={} coordinator={}",
+                                        nid, tid, cid);
+                        }
+                        return {nid, true, vote};
+                    } catch (const std::exception& ex) {
+                        THEMIS_ERROR("2PC Phase-1 RPC threw for node={} txn={} coordinator={}: {}",
+                                     nid, tid, cid, ex.what());
+                        return {nid, true, /*can_commit=*/false};
+                    }
+                }));
+                continue;
+            }
+
+            if (config_.remote_phase1_dispatch) {
+                auto dispatch = config_.remote_phase1_dispatch;
+                futures.push_back(submitTask([dispatch, ep, nid, tid, cid, keys]() -> VoteResult {
+                    try {
+                        const bool vote = dispatch(tid, nid, ep, keys);
+                        if (!vote) {
+                            THEMIS_WARN("2PC remote_phase1_dispatch ABORT vote from node={} txn={} coordinator={}",
+                                        nid, tid, cid);
+                        }
+                        return {nid, true, vote};
+                    } catch (const std::exception& ex) {
+                        THEMIS_ERROR("2PC remote_phase1_dispatch threw for node={} txn={} coordinator={}: {}",
+                                     nid, tid, cid, ex.what());
+                        return {nid, true, /*can_commit=*/false};
+                    }
+                }));
+                continue;
+            }
+
+            if (auto legacy_p1_fn = getRpcPhase1Fn()) {
+                futures.push_back(submitTask([legacy_p1_fn, ep, nid, tid, cid, keys]() -> VoteResult {
+                    try {
+                        const bool vote = legacy_p1_fn(nid, tid, keys);
+                        if (!vote) {
+                            THEMIS_WARN("2PC legacy Phase-1 RPC ABORT vote from node={} txn={} coordinator={}",
+                                        nid, tid, cid);
+                        }
+                        return {nid, true, vote};
+                    } catch (const std::exception& ex) {
+                        THEMIS_ERROR("2PC legacy Phase-1 RPC threw for node={} txn={} coordinator={}: {}",
+                                     nid, tid, cid, ex.what());
+                        return {nid, true, /*can_commit=*/false};
+                    }
+                }));
+                continue;
+            }
+
             const bool has_remote_phase2_bridge =
                 static_cast<bool>(config_.phase2_rpc_fn) ||
                 static_cast<bool>(config_.remote_phase2_dispatch) ||
                 static_cast<bool>(getRpcPhase2Fn());
 
             if (has_remote_phase2_bridge) {
-                // #279 compatibility: callback-less remote participants can be
-                // resolved in Phase-2 via dispatcher, so they do not cast a
-                // blocking Phase-1 vote.
-                const std::string nid = part.node_id;
+                // Backwards-compatibility path: a Phase-2 bridge is configured but
+                // no Phase-1 bridge is available.  Skip the Phase-1 vote and assume
+                // can_commit=true so Phase-2 can still deliver COMMIT/ABORT.
+                // WARNING: this violates strict 2PC correctness — remote participants
+                // are sent COMMIT without having been asked to PREPARE.  Configure a
+                // phase1_rpc_fn / remote_phase1_dispatch / setRpcPhase1Fn to send
+                // actual PREPARE requests to remote nodes.
+                THEMIS_WARN("DistributedTransactionManager [{}] txn={} participant {} has no Phase-1 "
+                            "RPC bridge — skipping PREPARE vote (Phase-2 bridge is configured). "
+                            "Configure phase1_rpc_fn to eliminate this 2PC correctness gap.",
+                            coordinator_id_, txn_id, part.node_id);
                 futures.push_back(submitTask([nid]() -> VoteResult {
                     return {nid, /*voted=*/false, /*can_commit=*/true};
                 }));
                 continue;
             }
 
-            // DTM-1 fix: Remote participant without a registered callback cannot
-            // be contacted for a PREPARE vote.  Treat as ABORT vote (safe
-            // conservative choice) rather than unconditionally granting COMMIT.
-            // Once a real RPC transport is wired, replace this branch with an
-            // actual Phase-1 RPC call to part.endpoint.
+            // No Phase-1 or Phase-2 bridge: fail-closed with ABORT vote.
             THEMIS_WARN("DistributedTransactionManager [{}] txn={} participant {} has no callback "
-                        "(remote) — voting ABORT (DTM-1: real RPC not yet wired)",
+                        "(remote) — voting ABORT (no RPC bridge configured)",
                         coordinator_id_, txn_id, part.node_id);
-            const std::string nid = part.node_id;
             futures.push_back(submitTask([nid]() -> VoteResult {
                 return {nid, true, /*can_commit=*/false};
             }));

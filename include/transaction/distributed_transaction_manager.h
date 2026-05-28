@@ -226,6 +226,27 @@ struct DistributedTxnManagerConfig {
     size_t max_active_transactions = 10000;
 
     /**
+     * @brief Optional remote phase-1 dispatcher for callback-less participants.
+     *
+     * When a participant has no in-process callback (`Participant::callback == nullptr`),
+     * the coordinator invokes this function to send a PREPARE request and collect
+     * the participant's COMMIT/ABORT vote.
+     *
+     * @param txn_id       Distributed transaction identifier.
+     * @param node_id      Participant node/shard identifier.
+     * @param endpoint     Participant endpoint (e.g. host:port).
+     * @param affected_keys Keys that the participant must lock/validate.
+     * @return true if the participant votes COMMIT; false for ABORT.
+     * @throws Any exception is caught by the coordinator and treated as an ABORT vote.
+     */
+    std::function<bool(
+        const std::string& txn_id,
+        const std::string& node_id,
+        const std::string& endpoint,
+        const std::set<std::string>& affected_keys
+    )> remote_phase1_dispatch;
+
+    /**
      * @brief Optional remote phase-2 dispatcher for callback-less participants.
      *
      * When a participant has no in-process callback (`Participant::callback == nullptr`),
@@ -284,6 +305,31 @@ struct DistributedTxnManagerConfig {
         bool               do_commit
     )>;
     std::optional<Phase2RpcFn> phase2_rpc_fn;
+
+    /**
+     * @brief Remote Phase-1 RPC bridge for callback-less participants.
+     *
+     * When set, runPhase1Unlocked() calls this function for every participant
+     * whose `callback` pointer is null and whose `endpoint` is non-empty,
+     * sending a PREPARE request and receiving the participant's COMMIT/ABORT vote.
+     *
+     * Signature: `bool(endpoint, txn_id, affected_keys)` → true = COMMIT vote
+     *   - @p endpoint       Network address of the remote participant.
+     *   - @p txn_id         Transaction identifier.
+     *   - @p affected_keys  Keys that the participant must lock/validate.
+     *
+     * Any exception thrown by the function is caught by the coordinator and
+     * treated as an ABORT vote.  When not set, the coordinator falls back to
+     * `remote_phase1_dispatch`, then the static `RpcPhase1Fn`, and finally
+     * (for backwards compatibility) skips the Phase-1 vote when a Phase-2
+     * bridge is configured.
+     */
+    using Phase1RpcFn = std::function<bool(
+        const std::string&            endpoint,
+        const std::string&            txn_id,
+        const std::set<std::string>&  affected_keys
+    )>;
+    std::optional<Phase1RpcFn> phase1_rpc_fn;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -541,6 +587,28 @@ public:
      * @brief Remove the RPC phase-2 bridge (reverts to skip-if-no-callback).
      */
     static void clearRpcPhase2Fn();
+
+    // ─── RPC phase-1 bridge (stub #279 — Phase-1 PREPARE) ────────────────────
+
+    /// @brief Type alias for remote phase-1 PREPARE RPC injection.
+    using RpcPhase1Fn = std::function<bool(const std::string& node_id,
+                                           const std::string& txn_id,
+                                           const std::set<std::string>& affected_keys)>;
+
+    /**
+     * @brief Install a remote phase-1 RPC callback for participants without a
+     *        local callback.  When set, callback-less participants receive a
+     *        PREPARE request via this function and their returned vote is
+     *        collected by the coordinator (true = COMMIT, false = ABORT).
+     *        Exceptions are treated as ABORT votes.
+     * @param fn Callable receiving (node_id, txn_id, affected_keys) → bool.
+     */
+    static void setRpcPhase1Fn(RpcPhase1Fn fn);
+
+    /**
+     * @brief Remove the static RPC phase-1 bridge.
+     */
+    static void clearRpcPhase1Fn();
 
 private:
     // ── Internal helpers ──────────────────────────────────────────────────────
