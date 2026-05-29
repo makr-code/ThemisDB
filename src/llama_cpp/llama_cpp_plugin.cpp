@@ -347,19 +347,76 @@ llm::InferenceResponse LlamaCppPlugin::generateRAG(
     const themis::rag::AssembledContext ctx =
         assembler.assemble(chunks, /*system_prompt=*/"", request.prompt);
 
-    // Build the augmented prompt from the assembled (budget-respecting) context.
-    std::ostringstream augmented_prompt;
-    for (const auto& c : ctx.chunks_used) {
-        augmented_prompt << c.content << "\n";
+    std::string rag_mode = "text";
+    if (request.metadata.is_object()) {
+        const auto rag_mode_it = request.metadata.find("rag_mode");
+        if (rag_mode_it != request.metadata.end() && rag_mode_it->is_string()) {
+            rag_mode = rag_mode_it->get<std::string>();
+        }
     }
-    augmented_prompt << request.prompt;
 
     llm::InferenceRequest augmented = request;
-    augmented.prompt    = augmented_prompt.str();
+
+    // Build the augmented prompt from the assembled (budget-respecting) context.
+    // Optional hybrid mode compacts retrieved chunks into fixed-size memory slots
+    // to reduce prompt-token pressure while preserving high-signal evidence.
+    if (rag_mode == "tensor_hybrid" || rag_mode == "tensor_prefix") {
+        int rag_tensor_slots = 6;
+        int rag_tensor_slot_chars = 280;
+        if (request.metadata.is_object()) {
+            const auto slots_it = request.metadata.find("rag_tensor_slots");
+            if (slots_it != request.metadata.end() && slots_it->is_number_integer()) {
+                rag_tensor_slots = slots_it->get<int>();
+            }
+            const auto chars_it = request.metadata.find("rag_tensor_slot_chars");
+            if (chars_it != request.metadata.end() && chars_it->is_number_integer()) {
+                rag_tensor_slot_chars = chars_it->get<int>();
+            }
+        }
+        rag_tensor_slots = std::clamp(rag_tensor_slots, 1, 16);
+        rag_tensor_slot_chars = std::clamp(rag_tensor_slot_chars, 80, 1200);
+
+        std::vector<themis::rag::RetrievedChunk> ranked_chunks = ctx.chunks_used;
+        std::stable_sort(
+            ranked_chunks.begin(),
+            ranked_chunks.end(),
+            [](const themis::rag::RetrievedChunk& a, const themis::rag::RetrievedChunk& b) {
+                return a.relevance_score > b.relevance_score;
+            });
+
+        const size_t slot_count = std::min(
+            ranked_chunks.size(), static_cast<size_t>(rag_tensor_slots));
+
+        std::ostringstream compact_prompt;
+        compact_prompt << "SYSTEM: Use the semantic memory slots below as the primary evidence. "
+                          "When uncertain, say so and cite slot source ids.\n\n";
+        for (size_t i = 0; i < slot_count; ++i) {
+            std::string slot_text = ranked_chunks[i].content;
+            if (slot_text.size() > static_cast<size_t>(rag_tensor_slot_chars)) {
+                slot_text = slot_text.substr(0, static_cast<size_t>(rag_tensor_slot_chars));
+            }
+            compact_prompt << "[MEMORY_SLOT id=" << (i + 1)
+                           << " source=\"" << ranked_chunks[i].source
+                           << "\" relevance=" << ranked_chunks[i].relevance_score
+                           << "]\n";
+            compact_prompt << slot_text << "\n";
+            compact_prompt << "[/MEMORY_SLOT]\n\n";
+        }
+        compact_prompt << "User Question: " << request.prompt;
+        augmented.prompt = compact_prompt.str();
+    } else {
+        std::ostringstream augmented_prompt;
+        for (const auto& c : ctx.chunks_used) {
+            augmented_prompt << c.content << "\n";
+        }
+        augmented_prompt << request.prompt;
+        augmented.prompt = augmented_prompt.str();
+    }
+
     // Clamp max_tokens to the remaining response budget.
     augmented.max_tokens = themis::rag::RAGContextAssembler::computeMaxTokens(
         llm::ContextWindowBudget::compute(
-            context_length_, /*system=*/"", request.prompt,
+            context_length_, /*system=*/"", augmented.prompt,
             cfg.min_response_tokens),
         request.max_tokens);
 

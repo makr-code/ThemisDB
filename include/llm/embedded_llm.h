@@ -48,6 +48,10 @@ public:
         std::string model_id = "default";
         int n_gpu_layers = 0;          // 0 = CPU only
         int n_ctx = 4096;              // Context size
+        /// @brief Batch size passed to llama_context. Must be >= the longest
+        /// prompt that will be submitted in a single llama_decode call.
+        /// Defaults to n_ctx so RAG/docs prompts are never truncated.
+        int n_batch = 4096;
         int n_threads = 4;             // CPU threads
         bool enable_caching = true;    // Response caching
         bool enable_streaming = false; // Default: no streaming

@@ -1093,7 +1093,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         
         // 3. Prepare batch for prompt evaluation
         llama_batch batch = llama_batch_get_one(prompt_tokens.data(), static_cast<int32_t>(prompt_tokens.size()));
-        
+
         // 3. Evaluate prompt (populate KV cache)
         if (llama_decode(lctx, batch) != 0) {
             throw std::runtime_error("Failed to evaluate prompt");

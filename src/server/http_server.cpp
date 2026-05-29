@@ -3888,7 +3888,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                         try {
                             THEMIS_INFO("LLM bootstrap: trying to load default model from {}='{}'",
                                         env_name, model_path);
-                            if (!themis::llm::createLlamaWrapper("llamacpp", model_path, json::object())) {
+                            // Register plugin backend first; loadModel below performs
+                            // the single authoritative model-load operation.
+                            if (!themis::llm::createLlamaWrapper("llamacpp", "", json::object())) {
                                 continue;
                             }
                             if (plugin_mgr.loadModel("default", model_path)) {
@@ -4059,11 +4061,20 @@ http::response<http::string_body> HttpServer::routeRequest(
                     } catch (const std::exception& e) {
                         const std::string msg = e.what();
                         if (msg.find("No default LLM plugin available") != std::string::npos) {
-                            if (themis::llm::createLlamaWrapper("llamacpp", model_path, json::object())) {
+                            // Register plugin without eager model load and retry once.
+                            if (themis::llm::createLlamaWrapper("llamacpp", "", json::object())) {
                                 load_ok = plugin_mgr.loadModel(model_id, model_path);
                             }
                         } else {
                             throw;
+                        }
+                    }
+
+                    if (!load_ok && plugin_mgr.getDefaultPlugin() == nullptr) {
+                        // Some manager paths report "no default plugin" via false
+                        // (without throwing). Bootstrap once and retry loading.
+                        if (themis::llm::createLlamaWrapper("llamacpp", "", json::object())) {
+                            load_ok = plugin_mgr.loadModel(model_id, model_path);
                         }
                     }
 

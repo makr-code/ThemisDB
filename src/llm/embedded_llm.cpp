@@ -31,7 +31,8 @@ EmbeddedLLM::EmbeddedLLM(const Config& config)
     LlamaWrapper::Config wrapper_config;
     wrapper_config.n_gpu_layers = config.n_gpu_layers;
     wrapper_config.n_ctx = config.n_ctx;
-    
+    wrapper_config.n_batch = config.n_batch > 0 ? config.n_batch : config.n_ctx;
+
     wrapper_ = std::make_unique<LlamaWrapper>(wrapper_config);
     
     // Initialize ethical guidelines if enabled

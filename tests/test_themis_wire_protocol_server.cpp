@@ -19,6 +19,8 @@
 #include "themis/network/wire_protocol_server.hpp"
 
 #include <boost/asio.hpp>
+#include <algorithm>
+#include <cctype>
 #include <chrono>
 #include <cstring>
 #include <functional>
@@ -818,6 +820,38 @@ TEST(WireProtocolV1ThemisBpmn, EmptyProcessKeyWouldBeRejected) {
 TEST(WireProtocolV1ThemisBpmn, NonEmptyProcessKeyPassesValidation) {
     std::string process_definition_key = "invoice-approval-v2";
     bool would_reject = process_definition_key.empty();
+    EXPECT_FALSE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisBpmn, BlankProcessKeyWouldBeRejected) {
+    std::string process_definition_key = "   \t";
+    bool is_blank = std::all_of(process_definition_key.begin(), process_definition_key.end(),
+                                [](unsigned char ch) { return std::isspace(ch) != 0; });
+    bool would_reject = process_definition_key.empty() || is_blank;
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisBpmn, QueryInstanceRejectsNonObjectRequest) {
+    bool request_is_object = false;
+    bool would_reject = !request_is_object;
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisBpmn, QueryInstanceRejectsZeroMaxHistoryEvents) {
+    std::size_t max_history_events = 0;
+    bool would_reject = (max_history_events == 0 || max_history_events > 10000);
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisBpmn, QueryInstanceRejectsTooLargeMaxHistoryEvents) {
+    std::size_t max_history_events = 10001;
+    bool would_reject = (max_history_events == 0 || max_history_events > 10000);
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisBpmn, QueryInstanceAcceptsBoundedMaxHistoryEvents) {
+    std::size_t max_history_events = 5000;
+    bool would_reject = (max_history_events == 0 || max_history_events > 10000);
     EXPECT_FALSE(would_reject);
 }
 

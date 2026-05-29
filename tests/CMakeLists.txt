@@ -9140,7 +9140,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_lora_enhanced_retriever.cpp")
     add_executable(test_lora_enhanced_retriever_focused
         rag/test_lora_enhanced_retriever.cpp
         ${THEMIS_ROOT_DIR}/src/rag/lora_enhanced_retriever.cpp
-        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_lora_enhanced_retriever_focused PRIVATE
@@ -9149,6 +9148,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_lora_enhanced_retriever.cpp")
 
     target_link_libraries(test_lora_enhanced_retriever_focused PRIVATE
         ${TEST_LIBS}
+        themis_base
         Threads::Threads
     )
 

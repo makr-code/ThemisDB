@@ -293,6 +293,7 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
     std::string query;
     std::string collection;
     int top_k = 5;
+    std::string rag_mode = "text";
     std::string lora_id;
     
     try {
@@ -308,6 +309,10 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
         
         if (body->contains("top_k")) {
             top_k = json_value_to<int>(body->at("top_k"));
+        }
+
+        if (body->contains("rag_mode")) {
+            rag_mode = json_value_to<std::string>(body->at("rag_mode"));
         }
         
         if (body->contains("lora_adapter")) {
@@ -351,6 +356,13 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
         llm::InferenceRequest llm_request;
         llm_request.prompt = query;
         llm_request.lora_adapter_id = lora_id;
+        llm_request.metadata["rag_mode"] = rag_mode;
+        if (body->contains("rag_tensor_slots")) {
+            llm_request.metadata["rag_tensor_slots"] = body->at("rag_tensor_slots");
+        }
+        if (body->contains("rag_tensor_slot_chars")) {
+            llm_request.metadata["rag_tensor_slot_chars"] = body->at("rag_tensor_slot_chars");
+        }
 
         // Call LLMPluginManager for RAG inference
         auto llm_response = plugin_mgr.generateRAG(rag_context, llm_request);
@@ -358,6 +370,7 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
         json response_data = {
             {"text", llm_response.text},
             {"query", query},
+            {"rag_mode_effective", rag_mode},
             {"documents_retrieved", static_cast<int>(rag_context.documents.size())},
             {"tokens_generated", llm_response.tokens_generated},
             {"inference_time_ms", llm_response.inference_time_ms},
@@ -662,7 +675,19 @@ http::response<http::string_body> LLMApiHandler::handleLoadModel(
     // Call LLMPluginManager to load model
     try {
         auto& plugin_mgr = llm::LLMPluginManager::instance();
-        plugin_mgr.loadModel(model_id, path);
+        bool loaded = plugin_mgr.loadModel(model_id, path);
+        if (!loaded && plugin_mgr.getDefaultPlugin() == nullptr) {
+            if (llm::createLlamaWrapper("llamacpp", "", json::object())) {
+                loaded = plugin_mgr.loadModel(model_id, path);
+            }
+        }
+        if (!loaded) {
+            return createErrorResponse(
+                http::status::internal_server_error,
+                "Failed to load model",
+                "Plugin returned false while loading model"
+            );
+        }
         
         json response_data = {
             {"model_id", model_id},
