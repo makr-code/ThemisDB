@@ -77,7 +77,9 @@ std::pair<std::string, uint16_t> splitHostPort(const std::string &addr) {
             return {"", 0};
         }
         return {host, static_cast<uint16_t>(port)};
-    } catch (...) {
+    } catch (const std::invalid_argument &) {
+        return {"", 0};
+    } catch (const std::out_of_range &) {
         return {"", 0};
     }
 }
@@ -484,7 +486,14 @@ bool RedisCache::readReply(SocketFd fd, std::string &out) noexcept {
 
     if (type == '$') {
         // Bulk string
-        int len = std::stoi(rest);
+        int len = 0;
+        try {
+            len = std::stoi(rest);
+        } catch (const std::invalid_argument &) {
+            return false;
+        } catch (const std::out_of_range &) {
+            return false;
+        }
         if (len < 0) {
             out = "";
             return true;
@@ -507,14 +516,23 @@ bool RedisCache::readReply(SocketFd fd, std::string &out) noexcept {
         }
         // consume trailing CRLF
         std::string crlf;
-        readLine(fd, crlf);
+        if (!readLine(fd, crlf)) {
+            return false;
+        }
         out = std::move(data);
         return true;
     }
 
     if (type == '*') {
         // Array – used for KEYS / SCAN responses; return first element.
-        int count = std::stoi(rest);
+        int count = 0;
+        try {
+            count = std::stoi(rest);
+        } catch (const std::invalid_argument &) {
+            return false;
+        } catch (const std::out_of_range &) {
+            return false;
+        }
         if (count <= 0) {
             out = "";
             return true;
@@ -522,7 +540,9 @@ bool RedisCache::readReply(SocketFd fd, std::string &out) noexcept {
         // Read all array elements; for SIZE we only count.
         std::string elem;
         for (int i = 0; i < count; ++i) {
-            readReply(fd, elem);
+            if (!readReply(fd, elem)) {
+                return false;
+            }
         }
         out = std::to_string(count);
         return true;
@@ -602,7 +622,9 @@ std::optional<CacheEntry> RedisCache::decodeEntry(const std::string &raw) {
         e.timestamp_ms = std::stoull(raw.substr(nl1 + 1, nl2 - nl1 - 1));
         e.payload      = raw.substr(nl2 + 1);
         return e;
-    } catch (...) {
+    } catch (const std::invalid_argument &) {
+        return std::nullopt;
+    } catch (const std::out_of_range &) {
         return std::nullopt;
     }
 }
@@ -709,7 +731,9 @@ void RedisCache::invalidatePattern(std::string_view pattern) {
 
             // First element: new cursor
             std::string cur_reply;
-            readReply(nc->fd, cur_reply);
+            if (!readReply(nc->fd, cur_reply)) {
+                break;
+            }
             cursor = cur_reply;
 
             // Second element: array of keys
@@ -719,11 +743,17 @@ void RedisCache::invalidatePattern(std::string_view pattern) {
             }
 
             int num_keys = 0;
-            try { num_keys = std::stoi(count_line.substr(1)); } catch (...) {}
+            try {
+                num_keys = std::stoi(count_line.substr(1));
+            } catch (const std::invalid_argument &) {
+            } catch (const std::out_of_range &) {
+            }
 
             for (int i = 0; i < num_keys; ++i) {
                 std::string k;
-                readReply(nc->fd, k);
+                if (!readReply(nc->fd, k)) {
+                    break;
+                }
                 if (!k.empty()) {
                     // Use sendCommandLocked because nc->mutex is already held.
                     // DEL is best-effort: if it fails the connection is marked
@@ -833,7 +863,13 @@ bool RedisCache::readPubSubMessage(SocketFd fd, std::string &channel_out, std::s
     }
 
     int count = 0;
-    try { count = std::stoi(line.substr(1)); } catch (...) { return false; }
+    try {
+        count = std::stoi(line.substr(1));
+    } catch (const std::invalid_argument &) {
+        return false;
+    } catch (const std::out_of_range &) {
+        return false;
+    }
 
     std::vector<std::string> parts;
     for (int i = 0; i < count; ++i) {
@@ -876,7 +912,8 @@ size_t RedisCache::size() const {
         auto reply = sendCommand(*nc, {"DBSIZE"});
         if (reply) {
             try { total += static_cast<size_t>(std::stoull(*reply)); }
-            catch (...) {}
+            catch (const std::invalid_argument &) {}
+            catch (const std::out_of_range &) {}
         }
     }
     return total;

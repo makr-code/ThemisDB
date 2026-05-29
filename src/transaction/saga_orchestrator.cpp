@@ -239,25 +239,7 @@ StepState SAGAOrchestrator::executeStep(const SAGAStep& step,
 
         try {
             if (timeout.count() > 0) {
-                auto promise = std::make_shared<std::promise<void>>();
-                auto fut = promise->get_future();
-                auto forward = step.forward;
-                std::thread([promise, forward = std::move(forward)]() mutable {
-                    try {
-                        forward();
-                        promise->set_value();
-                    } catch (const std::exception& ex) {
-                        promise->set_exception(
-                            std::make_exception_ptr(std::runtime_error(ex.what())));
-                    } catch (const std::string& ex) {
-                        promise->set_exception(
-                            std::make_exception_ptr(std::runtime_error(ex)));
-                    } catch (const char* ex) {
-                        promise->set_exception(
-                            std::make_exception_ptr(
-                                std::runtime_error(ex ? ex : "<null>")));
-                    }
-                }).detach();
+                auto fut = std::async(std::launch::async, step.forward);
                 if (fut.wait_for(timeout) == std::future_status::timeout) {
                     throw std::runtime_error("step timed out");
                 }

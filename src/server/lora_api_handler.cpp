@@ -21,6 +21,7 @@
 #include "llm/inference_engine_enhanced.h"
 #include "utils/zstd_codec.h"
 #include "utils/cursor.h"
+#include "utils/logger.h"
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <regex>
@@ -370,6 +371,13 @@ http::response<http::string_body> LoRAApiHandler::handleCreateAdapter(
             {"status", "training"},
             {"job_id", job_id}
         };
+
+        THEMIS_INFO(
+            "LoRAApiHandler::handleCreateAdapter accepted: adapter_id='{}' base_model='{}' job_id='{}'",
+            adapter_id,
+            base_model,
+            job_id
+        );
         
         return createJsonResponse(response_data, http::status::created);
         
@@ -675,6 +683,12 @@ http::response<http::string_body> LoRAApiHandler::handleLoadAdapter(
             {"job_id",     job_id},
             {"status",     "loading"}
         };
+
+        THEMIS_INFO(
+            "LoRAApiHandler::handleLoadAdapter accepted: adapter_id='{}' job_id='{}'",
+            adapter_id,
+            job_id
+        );
         
         // 202 Accepted: the load is in progress; poll /load-status for completion.
         return createJsonResponse(response_data, http::status::accepted);
@@ -726,6 +740,8 @@ http::response<http::string_body> LoRAApiHandler::handleUnloadAdapter(
             {"adapter_id", adapter_id},
             {"status", "unloaded"}
         };
+
+        THEMIS_INFO("LoRAApiHandler::handleUnloadAdapter success: adapter_id='{}'", adapter_id);
         
         return createJsonResponse(response_data);
         
@@ -950,6 +966,15 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAQuery(
             {"inference_time_ms", duration.count()},
             {"audit_id", "audit_" + std::to_string(std::chrono::system_clock::now().time_since_epoch().count())}
         };
+
+        THEMIS_INFO(
+            "LoRAApiHandler::handleLoRAQuery success: model_id='{}' adapter_id='{}' prompt_len={} tokens_used={} inference_time_ms={}",
+            model_id.empty() ? "default" : model_id,
+            adapter_id,
+            prompt.size(),
+            tokens_used,
+            duration.count()
+        );
         
         return createJsonResponse(response_data);
         

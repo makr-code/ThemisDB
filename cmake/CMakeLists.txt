@@ -1753,6 +1753,7 @@ set(THEMIS_CORE_SOURCES
     ../src/transaction/saga.cpp
     ../src/transaction/distributed_saga.cpp
     ../src/transaction/saga_orchestrator.cpp
+    ../src/transaction/saga_plugin_bridge.cpp
     ../src/transaction/snapshot_manager.cpp
     ../src/transaction/merge_engine.cpp
     ../src/transaction/branch_manager.cpp
@@ -4845,12 +4846,23 @@ else()
     option(THEMIS_BUILD_ENTERPRISE_PLUGINS "Build enterprise plugins" ON)
 endif()
 
+option(THEMIS_PLUGIN_SAGA_ORCHESTRATOR "Build the SAGA orchestrator plugin" ON)
+
 # Ethics AI Plugin: always available when THEMIS_PLUGIN_ETHICS_AI is set,
 # regardless of THEMIS_BUILD_ENTERPRISE_PLUGINS (dev-override supported).
 if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${THEMIS_ROOT_DIR}/src/ethics_ai/CMakeLists.txt")
     if(NOT TARGET ethics_ai_plugin)
         add_subdirectory(${THEMIS_ROOT_DIR}/src/ethics_ai
                          ${CMAKE_CURRENT_BINARY_DIR}/src/ethics_ai)
+    endif()
+endif()
+
+# SAGA Orchestrator Plugin (DLL) – explicit transaction orchestration module.
+# Kept outside enterprise-only gates so it can be used in focused quickwin builds.
+if(THEMIS_PLUGIN_SAGA_ORCHESTRATOR AND EXISTS "${THEMIS_ROOT_DIR}/src/transaction/saga_plugin/CMakeLists.txt")
+    if(NOT TARGET saga_orchestrator_plugin)
+        add_subdirectory(${THEMIS_ROOT_DIR}/src/transaction/saga_plugin
+                         ${CMAKE_CURRENT_BINARY_DIR}/src/transaction/saga_plugin)
     endif()
 endif()
 

@@ -145,7 +145,7 @@ Die folgenden Punkte sind exakt die im Script ausgefuehrten Phasen inklusive Bei
 **Beispiel-Eingabe**
 ```powershell
 $llmInferenceBody = '{"prompt":"Summarize the impact of ACID transactions for distributed databases in two sentences.","max_tokens":96,"temperature":0.2}'
-& $THEMISCTL --host 127.0.0.1 --port 8765 api POST /api/v1/llm/inference --body $llmInferenceBody
+$llmInferenceBody | & $THEMISCTL --timeout 180 --host 127.0.0.1 --port 8765 api POST /api/v1/llm/inference --stdin --content-type application/json
 ```
 
 **Erwartete Ausgabe**
@@ -161,7 +161,7 @@ $llmInferenceBody = '{"prompt":"Summarize the impact of ACID transactions for di
 **Beispiel-Eingabe**
 ```powershell
 $section6GraphExplainBody = '{"query_type":"k_hop","start_vertex":"demo_knowledge_graph:node_0001","max_depth":1}'
-& $THEMISCTL --host 127.0.0.1 --port 8765 api POST /api/v1/graph/query/explain --body $section6GraphExplainBody
+$section6GraphExplainBody | & $THEMISCTL --timeout 180 --host 127.0.0.1 --port 8765 api POST /api/v1/graph/query/explain --stdin --content-type application/json
 ```
 
 **Erwartete Ausgabe**
@@ -173,7 +173,7 @@ $section6GraphExplainBody = '{"query_type":"k_hop","start_vertex":"demo_knowledg
 **Beispiel-Eingabe**
 ```powershell
 $ragQueryBody = '{"query":"What are the latest papers on quantum computing by MIT?","collection":"demo_articles","top_k":3,"max_tokens":192,"temperature":0.2}'
-& $THEMISCTL --host 127.0.0.1 --port 8765 api POST /api/v1/llm/rag --body $ragQueryBody
+$ragQueryBody | & $THEMISCTL --timeout 180 --host 127.0.0.1 --port 8765 api POST /api/v1/llm/rag --stdin --content-type application/json
 ```
 
 **Erwartete Ausgabe**
@@ -277,7 +277,7 @@ Nach dem Video: Mache Screenshots von:
 
 4. **Query-Ergebnisse in JSON/JSONL Format**
    ```powershell
-   '{"query_type":"k_hop","start_vertex":"demo_knowledge_graph:node_0001","max_depth":1}' | .\build-msvc-windows-release\bin\themisctl.exe --host 127.0.0.1 --port 8765 api POST /api/v1/graph/query/explain --stdin --content-type application/json
+   '{"query_type":"k_hop","start_vertex":"demo_knowledge_graph:node_0001","max_depth":1}' | .\build-msvc-windows-release\bin\themisctl.exe --timeout 180 --host 127.0.0.1 --port 8765 api POST /api/v1/graph/query/explain --stdin --content-type application/json
    # Screenshot der formatierten Ausgabe
    ```
 

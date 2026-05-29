@@ -15,6 +15,9 @@ Important copy/paste note:
 - In PowerShell, do not paste the prompt prefix (`PS C:\...>`). Paste only the command itself.
 - Example: use `& $THEMISCTL ...`, not `PS C:\Projects\ThemisDB> & $THEMISCTL ...`.
 
+Unified query command pattern (for recognizability):
+- `'{"query":"...",...}' | & $THEMISCTL --timeout 180 --host 127.0.0.1 --port 8765 api POST <endpoint> --stdin --content-type application/json`
+
 ## Step 1 - Open workspace and define themisctl
 
 Speaker text:
@@ -114,10 +117,10 @@ Speaker text:
 
 PowerShell prompt:
 ```powershell
-PS C:\Projects\ThemisDB> & $THEMISCTL --timeout 180 --host 127.0.0.1 --port 8765 api POST /api/v1/llm/models/load --body "$(@{ model_id = 'default'; path = 'C:\Projects\ThemisDB\models\phi4.gguf' } | ConvertTo-Json -Compress)"
+PS C:\Projects\ThemisDB> '{"model_id":"default","path":"C:\\Projects\\ThemisDB\\models\\phi4.gguf"}' | & $THEMISCTL --timeout 180 --host 127.0.0.1 --port 8765 api POST /api/v1/llm/models/load --stdin --content-type application/json
 ```
 
-Most robust fallback (bypass `--body` quoting entirely via stdin):
+Path-safe fallback (works even if variable was not set):
 ```powershell
 '{"model_id":"default","path":"C:\\Projects\\ThemisDB\\models\\phi4.gguf"}' | .\build-msvc-windows-release\bin\themisctl.exe --timeout 180 --host 127.0.0.1 --port 8765 api POST /api/v1/llm/models/load --stdin --content-type application/json
 ```
@@ -175,6 +178,11 @@ hit_max_tokens    : True
 non_empty_text    : True
 ```
 
+Expected server console line (INFO, shortened):
+```text
+... [info] LLMApiHandler::handleInference success: model='default' prompt_len=85 tokens_generated=64 inference_time_ms=7388.06 lora='<none>'
+```
+
 ## Step 6 - Graph query planner explain
 
 Speaker text:
@@ -182,7 +190,7 @@ Speaker text:
 
 PowerShell prompt:
 ```powershell
-PS C:\Projects\ThemisDB> '{"query_type":"k_hop","start_vertex":"demo_knowledge_graph:node_0001","max_depth":1}' | & $THEMISCTL --host 127.0.0.1 --port 8765 api POST /api/v1/graph/query/explain --stdin --content-type application/json
+PS C:\Projects\ThemisDB> '{"query_type":"k_hop","start_vertex":"demo_knowledge_graph:node_0001","max_depth":1}' | & $THEMISCTL --timeout 180 --host 127.0.0.1 --port 8765 api POST /api/v1/graph/query/explain --stdin --content-type application/json
 ```
 
 Expected result (real, shortened):
@@ -217,6 +225,37 @@ Expected result (real, shortened):
 }
 ```
 
+Expected server console line (INFO, shortened):
+```text
+... [info] LLMApiHandler::handleRAG success: query_len=57 collection='demo_articles' top_k=3 docs_retrieved=3 tokens_generated=96 inference_time_ms=11044.54 cache_hit=false rag_mode='enhanced' lora='<none>'
+```
+
+## Step 7b - Optional LoRA query endpoint (observability proof)
+
+Speaker text:
+"If an adapter is available, I run a LoRA-specific query to verify adapter-level request logging on the server console."
+
+PowerShell prompt (optional):
+```powershell
+PS C:\Projects\ThemisDB> '{"model_id":"default","adapter_id":"demo_adapter","prompt":"Summarize why adapter-based fine-tuning helps domain adaptation.","max_tokens":64,"temperature":0.2}' | & $THEMISCTL --timeout 180 --host 127.0.0.1 --port 8765 api POST /api/v1/llm/lora/query --stdin --content-type application/json
+```
+
+Expected result (target, shortened):
+```json
+{
+  "adapter_id": "demo_adapter",
+  "inference_time_ms": 7000.0,
+  "model_id": "default",
+  "response": "...",
+  "tokens_used": 64
+}
+```
+
+Expected server console line (INFO, shortened):
+```text
+... [info] LoRAApiHandler::handleLoRAQuery success: model_id='default' adapter_id='demo_adapter' prompt_len=66 tokens_used=64 inference_time_ms=7000
+```
+
 ## Step 8 - AQL showcase (query endpoint)
 
 Speaker text:
@@ -224,7 +263,7 @@ Speaker text:
 
 PowerShell prompt:
 ```powershell
-PS C:\Projects\ThemisDB> '{"query":"FOR d IN demo_articles LIMIT 1 RETURN d"}' | & $THEMISCTL --timeout 60 --host 127.0.0.1 --port 8765 api POST /query/aql --stdin --content-type application/json
+PS C:\Projects\ThemisDB> '{"query":"FOR d IN demo_articles LIMIT 1 RETURN d"}' | & $THEMISCTL --timeout 180 --host 127.0.0.1 --port 8765 api POST /query/aql --stdin --content-type application/json
 ```
 
 Expected result (target, shortened):
@@ -278,7 +317,7 @@ type Query {
 
 PowerShell prompt (advanced query via stdin):
 ```powershell
-PS C:\Projects\ThemisDB> '{"query":"query GraphDashboard($start: ID!, $depth: Int!) { apiVersion schemaVersion kHop: graphTraversal(startNode: $start, depth: $depth, direction: \"out\") { id labels properties } }","variables":{"start":"demo_knowledge_graph:node_0001","depth":1}}' | & $THEMISCTL --timeout 60 --host 127.0.0.1 --port 8765 api POST /graphql --stdin --content-type application/json
+PS C:\Projects\ThemisDB> '{"query":"query GraphDashboard($start: ID!, $depth: Int!) { apiVersion schemaVersion kHop: graphTraversal(startNode: $start, depth: $depth, direction: \"out\") { id labels properties } }","variables":{"start":"demo_knowledge_graph:node_0001","depth":1}}' | & $THEMISCTL --timeout 180 --host 127.0.0.1 --port 8765 api POST /graphql --stdin --content-type application/json
 ```
 
 Expected result (shortened):

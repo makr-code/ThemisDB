@@ -879,6 +879,7 @@ set(THEMIS_TRANSACTION_SOURCES
     ../src/transaction/saga.cpp
     ../src/transaction/distributed_saga.cpp
     ../src/transaction/saga_orchestrator.cpp
+    ../src/transaction/saga_plugin_bridge.cpp
     ../src/transaction/snapshot_manager.cpp
     ../src/transaction/branch_manager.cpp
     ../src/transaction/merge_engine.cpp

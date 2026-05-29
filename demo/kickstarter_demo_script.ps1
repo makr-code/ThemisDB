@@ -159,7 +159,7 @@ function Try-AutoLoadLlmDefaultModel {
     Write-Host "          body: $body" -ForegroundColor DarkMagenta
     Write-Host ""
 
-    & $THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/models/load --body $body
+    $body | & $THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/models/load --stdin --content-type application/json
     $ok = ($LASTEXITCODE -eq 0)
     if ($ok) {
         Write-Host "[PRECHECK] OK: model auto-load succeeded." -ForegroundColor Green
@@ -317,7 +317,7 @@ $docsHelpQueryBody = '{"query":"How do I configure sharding and RAG safely in Th
 Write-Header "ThemisDB Demo - Runtime Pre-Checks"
 
 $llmInferenceReady = Test-FeatureReadiness -Name "Section 5 LLM inference endpoint" -Probe {
-    & $THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/inference --body $llmInferenceBody
+    $llmInferenceBody | & $THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/inference --stdin --content-type application/json
 }
 
 if (-not $llmInferenceReady) {
@@ -325,21 +325,21 @@ if (-not $llmInferenceReady) {
     $autoLoadOk = Try-AutoLoadLlmDefaultModel -ModelPath $autoModelPath
     if ($autoLoadOk) {
         $llmInferenceReady = Test-FeatureReadiness -Name "Section 5 LLM inference endpoint (after auto-load)" -Probe {
-            & $THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/inference --body $llmInferenceBody
+            $llmInferenceBody | & $THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/inference --stdin --content-type application/json
         }
     }
 }
 
 $section6ProbeReady = Test-FeatureReadiness -Name "Section 6 graph query explain endpoint" -Probe {
-    & $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/graph/query/explain --body $section6GraphExplainBody
+    $section6GraphExplainBody | & $THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/graph/query/explain --stdin --content-type application/json
 }
 
 $ragReady = Test-FeatureReadiness -Name "Section 7 RAG endpoint" -Probe {
-    & $THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/rag --body $ragQueryBody
+    $ragQueryBody | & $THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/rag --stdin --content-type application/json
 }
 
 $docsHelpReady = Test-FeatureReadiness -Name "Section 8 docs.db help endpoint" -Probe {
-    & $THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/docs/query --body $docsHelpQueryBody
+    $docsHelpQueryBody | & $THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/docs/query --stdin --content-type application/json
 }
 
 if (-not $docsHelpReady) {
@@ -415,7 +415,7 @@ if (-not $llmInferenceReady) {
     $demoWarnings.Add("Section 5 skipped by pre-check: LLM inference endpoint unavailable on current build/runtime")
 } else {
     Write-Request -CommandText "$THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/inference" -Body $llmInferenceBody
-    & $THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/inference --body $llmInferenceBody
+    $llmInferenceBody | & $THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/inference --stdin --content-type application/json
     if ($LASTEXITCODE -ne 0) {
         $demoWarnings.Add("Section 5 warning: LLM inference endpoint unavailable on current build/runtime")
         Write-Host "[INFO] Fetching LLM health diagnostics..." -ForegroundColor Yellow
@@ -437,7 +437,7 @@ if (-not $section6ProbeReady) {
     $demoWarnings.Add("Section 6 skipped by pre-check: graph query explain endpoint unavailable on current build/runtime")
 } else {
     Write-Request -CommandText "$THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/graph/query/explain" -Body $section6GraphExplainBody
-    & $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/graph/query/explain --body $section6GraphExplainBody
+    $section6GraphExplainBody | & $THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/graph/query/explain --stdin --content-type application/json
     if ($LASTEXITCODE -ne 0) {
         $demoWarnings.Add("Section 6 warning: graph query explain endpoint unavailable on current build/runtime")
     }
@@ -456,7 +456,7 @@ if (-not $ragReady) {
     $demoWarnings.Add("Section 7 skipped by pre-check: RAG endpoint unavailable on current build/runtime")
 } else {
     Write-Request -CommandText "$THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/rag" -Body $ragQueryBody
-    & $THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/rag --body $ragQueryBody
+    $ragQueryBody | & $THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/rag --stdin --content-type application/json
     if ($LASTEXITCODE -ne 0) {
         $demoWarnings.Add("Section 7 warning: RAG endpoint unavailable on current build/runtime")
     }

@@ -12,6 +12,7 @@ Reduce high-volume, low-risk gap patterns quickly in core components without arc
 
 - Package A: completed in the focused server, query, index, and storage slices.
 - Package B: completed, with storage/null guards in server handlers, QueryEngine storage-backed paths, empty-input guards in AQL injection validation, range/finite checks in wire protocol vector/geo handlers, decoded-audio validation guards across voice API endpoints, strict query-limit validation in voice listing/search endpoints, graph/query/cursor range guards in the wire protocol, strict BPMN wire-request type validation, BPMN identifier hygiene checks (length/control-character guards), QUERY/CURSOR hardening for blank AQL and invalid cursor identifiers, expanded core wire input hygiene for GET/PUT/DELETE/BATCH/TRANSACTION/GRAPH handlers, and explicit JSON type-guards before core wire string extraction.
+- Package C: transaction slice advanced with SAGA plugin runtime hardening (manifest/signature runtime asset wiring) and focused bridge tests for successful bind+execute plus missing-binary failure behavior.
 
 ## Priority Patterns (Core Set)
 

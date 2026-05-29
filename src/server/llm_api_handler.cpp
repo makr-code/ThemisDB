@@ -285,6 +285,15 @@ http::response<http::string_body> LLMApiHandler::handleInference(
             {"tokens_per_second", tokens_per_second},
             {"ms_per_token", ms_per_token}
         };
+
+        THEMIS_INFO(
+            "LLMApiHandler::handleInference success: model='{}' prompt_len={} tokens_generated={} inference_time_ms={:.2f} lora='{}'",
+            resolved_model,
+            prompt_length,
+            tokens_generated,
+            inference_time_ms,
+            lora_id.empty() ? "<none>" : lora_id
+        );
         
         return createJsonResponse(http::status::ok, response_body);
     } catch (const std::exception& e) {
@@ -395,6 +404,19 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
             {"inference_time_ms", llm_response.inference_time_ms},
             {"cache_hit", llm_response.cache_hit}
         };
+
+        THEMIS_INFO(
+            "LLMApiHandler::handleRAG success: query_len={} collection='{}' top_k={} docs_retrieved={} tokens_generated={} inference_time_ms={:.2f} cache_hit={} rag_mode='{}' lora='{}'",
+            query.size(),
+            collection,
+            top_k,
+            rag_context.documents.size(),
+            llm_response.tokens_generated,
+            llm_response.inference_time_ms,
+            llm_response.cache_hit,
+            rag_mode,
+            lora_id.empty() ? "<none>" : lora_id
+        );
 
         return createJsonResponse(response_data);
     } catch (const std::exception& e) {
@@ -889,6 +911,8 @@ http::response<http::string_body> LLMApiHandler::handleListLoRAs(
             {"loras", loras},
             {"total", static_cast<int>(loras.size())}
         };
+
+        THEMIS_INFO("LLMApiHandler::handleListLoRAs success: total={}", loras.size());
         
         return createJsonResponse(response_data);
     } catch (const std::exception& e) {
@@ -945,6 +969,13 @@ http::response<http::string_body> LLMApiHandler::handleLoadLoRA(
             {"status", "loaded"},
             {"message", "LoRA loaded successfully"}
         };
+
+        THEMIS_INFO(
+            "LLMApiHandler::handleLoadLoRA success: lora_id='{}' base_model='{}' path='{}'",
+            lora_id,
+            base_model.empty() ? "<unknown>" : base_model,
+            path.empty() ? "<unspecified>" : path
+        );
         
         return createJsonResponse(response_data);
     } catch (const std::exception& e) {
@@ -990,6 +1021,8 @@ http::response<http::string_body> LLMApiHandler::handleUnloadLoRA(
             {"status", "unloaded"},
             {"message", "LoRA unloaded successfully"}
         };
+
+        THEMIS_INFO("LLMApiHandler::handleUnloadLoRA success: lora_id='{}'", lora_id);
         
         return createJsonResponse(response_data);
     } catch (const std::exception& e) {

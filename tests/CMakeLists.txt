@@ -125,6 +125,7 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_bottleneck_analytics\\.cpp$")
 # test_sla_monitoring references ProcessGraphManager not available in unified context.
 # Compiled as dedicated target SlaMonitoringTests.
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_sla_monitoring\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_saga_plugin_bridge\\.cpp$")
 # test_knowledge_graph_retriever_reasoning uses deleted copy ctor on KnowledgeGraphReasoner.
 # Compiled as dedicated target test_knowledge_graph_reasoner_focused.
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_knowledge_graph_retriever_reasoning\\.cpp$")
@@ -5109,6 +5110,57 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_stream_protocol_extended.cpp")
         LABELS "sharding;streaming;compression;lz4;zstd;focused;unit"
         TIMEOUT 120
     )
+endif()
+
+# ============================================================================
+# SAGA Plugin Bridge Focused Tests
+# Validates runtime plugin binding path for transaction SAGA orchestrator DLL.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_saga_plugin_bridge.cpp")
+    message(STATUS "Adding SAGA Plugin Bridge focused tests")
+
+    add_executable(test_saga_plugin_bridge_focused
+        test_saga_plugin_bridge.cpp
+    )
+
+    target_include_directories(test_saga_plugin_bridge_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_saga_plugin_bridge_focused PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        themis_base
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_saga_plugin_bridge_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    if(TARGET saga_orchestrator_plugin_runtime_assets)
+        add_dependencies(test_saga_plugin_bridge_focused saga_orchestrator_plugin_runtime_assets)
+    elseif(TARGET saga_orchestrator_plugin)
+        add_dependencies(test_saga_plugin_bridge_focused saga_orchestrator_plugin)
+    endif()
+
+    if(WIN32)
+        themis_sync_runtime_dlls_for_target(test_saga_plugin_bridge_focused)
+        add_dependencies(test_saga_plugin_bridge_focused sync_test_runtime_dlls)
+    endif()
+
+    add_test(NAME SagaPluginBridgeFocusedTests
+        COMMAND test_saga_plugin_bridge_focused)
+
+    set_tests_properties(SagaPluginBridgeFocusedTests PROPERTIES
+        LABELS "transaction;saga;plugin;bridge;focused;unit"
+        TIMEOUT 90
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_saga_plugin_bridge_focused>
+    )
+else()
+    message(STATUS "SAGA Plugin Bridge focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saga_plugin_bridge.cpp")
 endif()
 
 # Vector Index Comprehensive Tests

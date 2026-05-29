@@ -21,7 +21,7 @@ message(STATUS "Processing ThemisDB plugin manifests (plugins/)")
 # plugins/ tree directly. Each delegated CMakeLists guards against duplicate
 # target creation.
 
-if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ethics_ai/CMakeLists.txt")
+if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ethics_ai/CMakeLists.txt" AND NOT TARGET ethics_ai_plugin)
     message(STATUS "  - Ethics AI compatibility entry point")
     add_subdirectory(ethics_ai)
 endif()
@@ -31,7 +31,7 @@ if(THEMIS_PLUGIN_RPC_GRPC AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rpc/grpc/CMake
     add_subdirectory(rpc/grpc)
 endif()
 
-if(THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/image_analysis/CMakeLists.txt")
+if(THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/image_analysis/CMakeLists.txt" AND NOT TARGET themis_image_onnx_clip)
     message(STATUS "  - Image Analysis compatibility entry point")
     add_subdirectory(image_analysis)
 endif()
@@ -43,7 +43,7 @@ endif()
 
 # Scraper Plugin – agentic gap-detection web scraper
 option(THEMIS_PLUGIN_SCRAPER "Build the agentic Scraper Plugin" ON)
-if(THEMIS_PLUGIN_SCRAPER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/scraper/CMakeLists.txt")
+if(THEMIS_PLUGIN_SCRAPER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/scraper/CMakeLists.txt" AND NOT TARGET scraper_plugin)
     message(STATUS "  - Scraper Plugin (agentic gap-detection scraper)")
     add_subdirectory(scraper)
 endif()
@@ -67,6 +67,13 @@ option(THEMIS_PLUGIN_LLAMA_CPP "Build the llama_cpp LLM backend plugin" ON)
 if(THEMIS_PLUGIN_LLAMA_CPP AND EXISTS "${THEMIS_ROOT_DIR}/src/llama_cpp/CMakeLists.txt")
     message(STATUS "  - llama_cpp Plugin (LLM backend)")
     add_subdirectory("${THEMIS_ROOT_DIR}/src/llama_cpp" "${CMAKE_CURRENT_BINARY_DIR}/llama_cpp")
+endif()
+
+# SAGA Orchestrator Plugin – transaction SAGA as DLL/plugin
+option(THEMIS_PLUGIN_SAGA_ORCHESTRATOR "Build the SAGA orchestrator plugin" ON)
+if(THEMIS_PLUGIN_SAGA_ORCHESTRATOR AND EXISTS "${THEMIS_ROOT_DIR}/src/transaction/saga_plugin/CMakeLists.txt" AND NOT TARGET saga_orchestrator_plugin)
+    message(STATUS "  - SAGA Orchestrator Plugin (transaction workflow orchestration)")
+    add_subdirectory("${THEMIS_ROOT_DIR}/src/transaction/saga_plugin" "${CMAKE_CURRENT_BINARY_DIR}/saga_plugin")
 endif()
 
 # GPU Impact Analysis Plugin (enterprise/non-open source)
