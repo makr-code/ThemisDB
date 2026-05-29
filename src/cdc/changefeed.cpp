@@ -53,7 +53,11 @@ class SequenceIncrementOperator : public rocksdb::AssociativeMergeOperator {
                 try {
                     base = std::stoull(std::string(existing_value->data(),
                                                    existing_value->size()));
-                } catch (...) {
+                } catch (const std::exception&) {
+                    base = 0;
+                } catch (const std::string&) {
+                    base = 0;
+                } catch (const char*) {
                     base = 0;
                 }
             }
@@ -195,7 +199,10 @@ uint64_t Changefeed::loadInitialSequence() const {
         // Legacy decimal-string format (backward compatibility)
         try {
             return std::stoull(seq_value);
-        } catch (...) {}
+        } catch (const std::exception&) {
+        } catch (const std::string&) {
+        } catch (const char*) {
+        }
     }
 
     if (s.IsNotFound()) {
@@ -232,7 +239,13 @@ uint64_t Changefeed::scanMaxSequence() const {
             if (seq > max_seq) {
                 max_seq = seq;
             }
-        } catch (...) {
+        } catch (const nlohmann::json::exception&) {
+            // Skip unparseable entries
+        } catch (const std::exception&) {
+            // Skip unparseable entries
+        } catch (const std::string&) {
+            // Skip unparseable entries
+        } catch (const char*) {
             // Skip unparseable entries
         }
     }
@@ -268,7 +281,13 @@ Changefeed::Changefeed(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *
                 ? db_->GetOptions(cf_)
                 : db_->GetOptions();
             merge_available = (opts.merge_operator != nullptr);
-        } catch (...) {
+        } catch (const std::exception&) {
+            // If introspection fails, default to disabled (safe — prevents error state).
+            merge_available = false;
+        } catch (const std::string&) {
+            // If introspection fails, default to disabled (safe — prevents error state).
+            merge_available = false;
+        } catch (const char*) {
             // If introspection fails, default to disabled (safe — prevents error state).
             merge_available = false;
         }
@@ -1153,9 +1172,16 @@ void Changefeed::notifySubscribers(const ChangeEvent &event) {
         if (entry.filter.matches(event)) {
             try {
                 entry.callback(event);
-            } catch (...) {
+            } catch (const std::exception &ex) {
                 // Callbacks must not throw; log and continue.
-                THEMIS_WARN("Changefeed: subscriber callback threw an exception — ignored");
+                THEMIS_WARN("Changefeed: subscriber callback threw an exception: {} — ignored", ex.what());
+            } catch (const std::string &ex) {
+                // Callbacks must not throw; log and continue.
+                THEMIS_WARN("Changefeed: subscriber callback threw an exception: {} — ignored", ex);
+            } catch (const char *ex) {
+                // Callbacks must not throw; log and continue.
+                THEMIS_WARN("Changefeed: subscriber callback threw an exception: {} — ignored",
+                            (ex ? ex : "<null>"));
             }
         }
     }

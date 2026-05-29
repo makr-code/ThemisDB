@@ -174,7 +174,11 @@ std::string LEKManager::getLEKForDate(const std::string& date_str) {
         auto key_id = lekKeyId(date_str);
         lek_cache_[date_str] = key_id;
         return key_id;
-    } catch (...) {
+    } catch (const std::exception &) {
+        return ""; // LEK not found for this date
+    } catch (const std::string &) {
+        return ""; // LEK not found for this date
+    } catch (const char *) {
         return ""; // LEK not found for this date
     }
 }
@@ -211,7 +215,11 @@ bool LEKManager::revokeKey(const std::string& date_str) {
     if (db_) {
         try {
             db_->put("lek_revoked:" + date_str, "1");
-        } catch (...) {
+        } catch (const std::exception &) {
+            // Persistence is best-effort; revocation is already in-memory
+        } catch (const std::string &) {
+            // Persistence is best-effort; revocation is already in-memory
+        } catch (const char *) {
             // Persistence is best-effort; revocation is already in-memory
         }
     }
@@ -245,7 +253,11 @@ bool LEKManager::isExpired(const std::string& date_str, int max_age_days) {
         auto age_days = std::chrono::duration_cast<std::chrono::hours>(
             std::chrono::system_clock::now() - key_time).count() / 24;
         return age_days > max_age_days;
-    } catch (...) {
+    } catch (const std::exception &) {
+        return false;
+    } catch (const std::string &) {
+        return false;
+    } catch (const char *) {
         return false;
     }
 }
@@ -268,7 +280,11 @@ bool LEKManager::migrateKey(const std::string& old_date, const std::string& new_
             }
         }
         return true;
-    } catch (...) {
+    } catch (const std::exception &) {
+        return false;
+    } catch (const std::string &) {
+        return false;
+    } catch (const char *) {
         return false;
     }
 }
@@ -371,8 +387,10 @@ void LEKManager::autoRotationLoop(std::chrono::seconds check_interval,
         } catch (const std::exception& e) {
             // Errors are non-fatal; the worker continues to the next interval
             spdlog::error("LEKManager auto-rotation error: {}", e.what());
-        } catch (...) {
-            spdlog::error("LEKManager auto-rotation: unknown error");
+        } catch (const std::string& e) {
+            spdlog::error("LEKManager auto-rotation error: {}", e);
+        } catch (const char* e) {
+            spdlog::error("LEKManager auto-rotation error: {}", (e ? e : "<null>"));
         }
     }
     rotation_running_.store(false);

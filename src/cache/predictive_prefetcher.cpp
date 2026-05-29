@@ -323,13 +323,26 @@ void PredictivePrefetcher::saveModel(RocksDBWrapper *db) {
     // Step 2: batch-delete all existing prefix keys
     if (!stale_keys.empty()) {
         auto batch = db->createWriteBatch();
+        if (!batch) {
+            THEMIS_WARN("PredictivePrefetcher::saveModel: failed to create delete batch");
+            return;
+        }
         for (const auto &k : stale_keys) {
             batch->del(k);
         }
-        batch->commit();
+        if (!batch->commit()) {
+            THEMIS_WARN("PredictivePrefetcher::saveModel: failed to commit delete batch");
+            return;
+        }
     }
 
     // Step 3: write the current in-memory snapshot
+    auto write_batch = db->createWriteBatch();
+    if (!write_batch) {
+        THEMIS_WARN("PredictivePrefetcher::saveModel: failed to create write batch");
+        return;
+    }
+
     for (const auto &[from, successors] : transitions_) {
         for (const auto &[to, count] : successors) {
             std::string key = std::string(PREFETCH_MODEL_PREFIX) + from + "::" + to;
@@ -345,8 +358,14 @@ void PredictivePrefetcher::saveModel(RocksDBWrapper *db) {
                 }
             }
 
-            db->put(key, val.dump());
+            const std::string payload = val.dump();
+            std::vector<uint8_t> bytes(payload.begin(), payload.end());
+            write_batch->put(key, bytes);
         }
+    }
+
+    if (!write_batch->commit()) {
+        THEMIS_WARN("PredictivePrefetcher::saveModel: failed to commit write batch");
     }
 }
 
@@ -357,7 +376,7 @@ void PredictivePrefetcher::loadModel(RocksDBWrapper *db) {
 
     std::lock_guard<std::mutex> lock(mutex_);
 
-    db->scanPrefix(PREFETCH_MODEL_PREFIX, [&](std::string_view raw_key, std::string_view raw_value) {
+    auto load_row = [&](std::string_view raw_key, std::string_view raw_value) {
         // Strip the prefix to get "from::to"
         std::string_view pair_view = raw_key.substr(sizeof(PREFETCH_MODEL_PREFIX) - 1);
         const std::string pair_str(pair_view);
@@ -378,7 +397,13 @@ void PredictivePrefetcher::loadModel(RocksDBWrapper *db) {
         nlohmann::json val;
         try {
             val = nlohmann::json::parse(raw_value);
-        } catch (...) {
+        } catch (const nlohmann::json::exception&) {
+            return true;
+        } catch (const std::exception&) {
+            return true;
+        } catch (const std::string&) {
+            return true;
+        } catch (const char*) {
             return true;
         }
 
@@ -417,7 +442,22 @@ void PredictivePrefetcher::loadModel(RocksDBWrapper *db) {
             }
         }
         return true;
+    };
+
+    size_t prefix_rows_seen = 0;
+    db->scanPrefix(PREFETCH_MODEL_PREFIX, [&](std::string_view raw_key, std::string_view raw_value) {
+        ++prefix_rows_seen;
+        return load_row(raw_key, raw_value);
     });
+
+    // Some RocksDB configurations may not return rows with prefix_same_as_start.
+    // Fallback to a lexicographic range scan when the prefix scan yields no rows.
+    if (prefix_rows_seen == 0) {
+        const std::string range_start = PREFETCH_MODEL_PREFIX;
+        std::string range_end = range_start;
+        range_end.push_back(static_cast<char>(0xFF));
+        db->scanRange(range_start, range_end, load_row);
+    }
 }
 
 } // namespace cache

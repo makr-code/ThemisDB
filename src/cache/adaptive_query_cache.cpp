@@ -113,6 +113,9 @@ AdaptiveQueryCache::AdaptiveQueryCache(const Config &config) : config_(config) {
                 db_config.max_background_jobs = 2;
 
                 l3_db_ = std::make_shared<RocksDBWrapper>(db_config);
+                if (!l3_db_->open()) {
+                    throw std::runtime_error("Failed to open L3 cache (RocksDB) at: " + config_.l3_db_path);
+                }
                 THEMIS_INFO("L3 cache (RocksDB) initialized at: {}", config_.l3_db_path);
                 break; // Success
             } catch (const std::exception &e) {
@@ -2441,7 +2444,13 @@ bool AdaptiveQueryCache::contains(const std::string &fingerprint) const {
         try {
             std::lock_guard<std::mutex> lock(l3_mutex_);
             return l3_db_->get(QUERY_CACHE_PREFIX + fingerprint).has_value();
-        } catch (...) {}
+        } catch (const std::exception &e) {
+            THEMIS_DEBUG("AdaptiveQueryCache::contains: L3 lookup failed: {}", e.what());
+        } catch (const std::string &e) {
+            THEMIS_DEBUG("AdaptiveQueryCache::contains: L3 lookup failed: {}", e);
+        } catch (const char *e) {
+            THEMIS_DEBUG("AdaptiveQueryCache::contains: L3 lookup failed: {}", (e ? e : "<null>"));
+        }
     }
 
     return false;

@@ -113,7 +113,17 @@ std::future<HTTPResponse> HTTPClientPool::post(
             releaseConnection(client);
             requests_served_++;
             promise->set_value(std::move(response));
-        } catch (...) {
+        } catch (const std::exception &) {
+            if (client) {
+                releaseConnection(client);
+            }
+            promise->set_exception(std::current_exception());
+        } catch (const std::string &) {
+            if (client) {
+                releaseConnection(client);
+            }
+            promise->set_exception(std::current_exception());
+        } catch (const char *) {
             if (client) {
                 releaseConnection(client);
             }
@@ -140,7 +150,17 @@ std::future<HTTPResponse> HTTPClientPool::get(
             releaseConnection(client);
             requests_served_++;
             promise->set_value(std::move(response));
-        } catch (...) {
+        } catch (const std::exception &) {
+            if (client) {
+                releaseConnection(client);
+            }
+            promise->set_exception(std::current_exception());
+        } catch (const std::string &) {
+            if (client) {
+                releaseConnection(client);
+            }
+            promise->set_exception(std::current_exception());
+        } catch (const char *) {
             if (client) {
                 releaseConnection(client);
             }
@@ -334,7 +354,15 @@ void HTTPClientPool::warmup(size_t num_connections) {
                 
                 stripe->connections.push_back(pooled);
                 connections_created_.fetch_add(1, std::memory_order_relaxed);
-            } catch (...) {
+            } catch (const std::exception &) {
+                total_connections_.fetch_sub(1);  // Roll back on failure
+                // Stop warmup on first failure to avoid cascading errors
+                break;
+            } catch (const std::string &) {
+                total_connections_.fetch_sub(1);  // Roll back on failure
+                // Stop warmup on first failure to avoid cascading errors
+                break;
+            } catch (const char *) {
                 total_connections_.fetch_sub(1);  // Roll back on failure
                 // Stop warmup on first failure to avoid cascading errors
                 break;

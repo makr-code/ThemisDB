@@ -245,7 +245,11 @@ std::vector<ProjectStateTransition> ProjectLifecycle::getAuditTrail(
             trail.push_back(
                 ProjectStateTransition::fromJson(
                     json::parse(std::string(val))));
-        } catch (...) {}
+        } catch (const nlohmann::json::exception &) {
+        } catch (const std::exception &) {
+        } catch (const std::string &) {
+        } catch (const char *) {
+        }
         return true;
     });
 

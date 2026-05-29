@@ -55,8 +55,12 @@ void Saga::compensate() {
         } catch (const std::exception& e) {
             THEMIS_ERROR("SAGA: Compensation failed for '{}': {}", it->operation_name, e.what());
             // Continue with other compensations
-        } catch (...) {
-            THEMIS_ERROR("SAGA: Unknown error during compensation of '{}'", it->operation_name);
+        } catch (const std::string& e) {
+            THEMIS_ERROR("SAGA: Compensation failed for '{}': {}", it->operation_name, e);
+        } catch (const char* e) {
+            THEMIS_ERROR("SAGA: Compensation failed for '{}': {}",
+                         it->operation_name,
+                         (e ? e : "<null>"));
         }
     }
     
@@ -146,9 +150,14 @@ void Saga::compensateWithRetry(int max_retries,
             } catch (const std::exception& e) {
                 THEMIS_WARN("SAGA: Compensation failed for '{}' (attempt {}): {}",
                             it->operation_name, attempt + 1, e.what());
-            } catch (...) {
-                THEMIS_WARN("SAGA: Unknown error during compensation of '{}' (attempt {})",
-                            it->operation_name, attempt + 1);
+            } catch (const std::string& e) {
+                THEMIS_WARN("SAGA: Compensation failed for '{}' (attempt {}): {}",
+                            it->operation_name, attempt + 1, e);
+            } catch (const char* e) {
+                THEMIS_WARN("SAGA: Compensation failed for '{}' (attempt {}): {}",
+                            it->operation_name,
+                            attempt + 1,
+                            (e ? e : "<null>"));
             }
         }
 

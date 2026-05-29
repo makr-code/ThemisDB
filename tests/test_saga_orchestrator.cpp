@@ -236,6 +236,22 @@ TEST(SAGAOrchestratorTest, AC3_RetryPolicies_StepFailsAfterAllRetries) {
     EXPECT_EQ(attempts.load(), 3);
 }
 
+TEST(SAGAOrchestratorTest, AC3_RetryPolicies_CStringExceptionFailsClosed) {
+    SAGAOrchestrator orch;
+
+    SAGADefinition saga;
+    saga.id   = "retry-cstr";
+    saga.name = "cstr_fail";
+    SAGAStep s;
+    s.name        = "bad";
+    s.max_retries = 0;
+    s.forward     = []() { throw "cstr failure"; };
+    saga.steps.push_back(std::move(s));
+
+    auto result = orch.execute(saga);
+    EXPECT_FALSE(result.ok);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // AC-4: Timeout management
 // ─────────────────────────────────────────────────────────────────────────────

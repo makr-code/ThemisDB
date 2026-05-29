@@ -98,7 +98,11 @@ bool VoiceAssistant::initialize() {
         initialized_ = true;
         return true;
         
-    } catch (...) {
+    } catch (const std::exception&) {
+        return false;
+    } catch (const std::string&) {
+        return false;
+    } catch (const char*) {
         return false;
     }
 }

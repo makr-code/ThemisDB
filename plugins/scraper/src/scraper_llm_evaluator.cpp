@@ -48,7 +48,9 @@ bool ScraperLLMEvaluator::isLlmAvailable() const {
     try {
         auto &mgr = themis::llm::LLMPluginManager::instance();
         return !mgr.listPlugins().empty() && mgr.getDefaultPlugin() != nullptr;
-    } catch (...) {
+    } catch (const std::exception &) {
+    } catch (const std::string &) {
+    } catch (const char *) {
     }
 #endif
     return false;
@@ -222,7 +224,11 @@ EvaluationResult ScraperLLMEvaluator::evaluate(const std::string &text, const st
 
             const auto response = themis::llm::LLMPluginManager::instance().generate(req);
             return parseLlmResponse(response.text, threshold);
-        } catch (...) {
+        } catch (const std::exception &) {
+            // Fall through to heuristic on any LLM error
+        } catch (const std::string &) {
+            // Fall through to heuristic on any LLM error
+        } catch (const char *) {
             // Fall through to heuristic on any LLM error
         }
     }

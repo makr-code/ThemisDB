@@ -282,7 +282,20 @@ std::vector<json> CdcWebSocketHandler::pollEvents(Changefeed &feed) {
                         if (!group_manager_->consumerHandlesKey(sub.group_id, sub.consumer_id, ev.key)) {
                             continue; // Belongs to a different consumer's partition
                         }
-                    } catch (...) {
+                    } catch (const std::exception &e) {
+                        THEMIS_WARN("CdcWebSocketHandler: consumer partition check failed for "
+                                    "subscription '{}' (group='{}', consumer='{}'): {}",
+                                    id, sub.group_id, sub.consumer_id, e.what());
+                        // Group may have been deleted; fall through to deliver anyway
+                    } catch (const std::string &e) {
+                        THEMIS_WARN("CdcWebSocketHandler: consumer partition check failed for "
+                                    "subscription '{}' (group='{}', consumer='{}'): {}",
+                                    id, sub.group_id, sub.consumer_id, e);
+                        // Group may have been deleted; fall through to deliver anyway
+                    } catch (const char *e) {
+                        THEMIS_WARN("CdcWebSocketHandler: consumer partition check failed for "
+                                    "subscription '{}' (group='{}', consumer='{}'): {}",
+                                    id, sub.group_id, sub.consumer_id, (e ? e : "<null>"));
                         // Group may have been deleted; fall through to deliver anyway
                     }
                 }

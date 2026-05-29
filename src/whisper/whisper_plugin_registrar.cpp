@@ -47,7 +47,13 @@ bool WhisperPluginAdapter::initialize(const char* config_json) {
             }
         }
         return false;
-    } catch (...) {
+    } catch (const nlohmann::json::exception&) {
+        return false;
+    } catch (const std::exception&) {
+        return false;
+    } catch (const std::string&) {
+        return false;
+    } catch (const char*) {
         return false;
     }
 }

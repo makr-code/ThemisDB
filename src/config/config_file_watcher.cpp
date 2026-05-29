@@ -116,7 +116,73 @@ bool ConfigFileWatcher::start() {
     running_.store(true, std::memory_order_release);
     try {
         thread_ = std::thread(&ConfigFileWatcher::watchLoop, this);
-    } catch (...) {
+    } catch (const std::system_error &) {
+        running_.store(false, std::memory_order_release);
+        // Roll back OS resources allocated above
+#if defined(__linux__)
+        if (pipe_write_fd_ != -1) {
+            ::close(pipe_write_fd_);
+            pipe_write_fd_ = -1;
+        }
+        if (pipe_read_fd_ != -1) {
+            ::close(pipe_read_fd_);
+            pipe_read_fd_ = -1;
+        }
+#elif defined(__APPLE__)
+        if (pipe_write_fd_ != -1) {
+            ::close(pipe_write_fd_);
+            pipe_write_fd_ = -1;
+        }
+        if (pipe_read_fd_ != -1) {
+            ::close(pipe_read_fd_);
+            pipe_read_fd_ = -1;
+        }
+        if (kqueue_fd_ != -1) {
+            ::close(kqueue_fd_);
+            kqueue_fd_ = -1;
+        }
+#elif defined(_WIN32)
+        if (stop_event_ != nullptr) {
+            CloseHandle(static_cast<HANDLE>(stop_event_));
+            stop_event_ = nullptr;
+        }
+#endif
+        spdlog::warn("ConfigFileWatcher: failed to start watcher thread for '{}'", watch_path_);
+        return false;
+    } catch (const std::string &) {
+        running_.store(false, std::memory_order_release);
+        // Roll back OS resources allocated above
+#if defined(__linux__)
+        if (pipe_write_fd_ != -1) {
+            ::close(pipe_write_fd_);
+            pipe_write_fd_ = -1;
+        }
+        if (pipe_read_fd_ != -1) {
+            ::close(pipe_read_fd_);
+            pipe_read_fd_ = -1;
+        }
+#elif defined(__APPLE__)
+        if (pipe_write_fd_ != -1) {
+            ::close(pipe_write_fd_);
+            pipe_write_fd_ = -1;
+        }
+        if (pipe_read_fd_ != -1) {
+            ::close(pipe_read_fd_);
+            pipe_read_fd_ = -1;
+        }
+        if (kqueue_fd_ != -1) {
+            ::close(kqueue_fd_);
+            kqueue_fd_ = -1;
+        }
+#elif defined(_WIN32)
+        if (stop_event_ != nullptr) {
+            CloseHandle(static_cast<HANDLE>(stop_event_));
+            stop_event_ = nullptr;
+        }
+#endif
+        spdlog::warn("ConfigFileWatcher: failed to start watcher thread for '{}'", watch_path_);
+        return false;
+    } catch (const char *) {
         running_.store(false, std::memory_order_release);
         // Roll back OS resources allocated above
 #if defined(__linux__)
@@ -507,7 +573,11 @@ void ConfigFileWatcher::watchLoopKqueue() {
                             register_path(entry_path);
                         }
                     }
-                } catch (...) {}
+                } catch (const std::filesystem::filesystem_error &) {
+                } catch (const std::exception &) {
+                } catch (const std::string &) {
+                } catch (const char *) {
+                }
                 scheduleCallback();
             } else if (isWatchedExtension(path)) {
                 spdlog::debug("ConfigFileWatcher: kqueue event for '{}'", path);

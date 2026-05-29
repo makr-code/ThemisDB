@@ -272,7 +272,13 @@ void ConfigMetricsExporter::updateMetricsCollector() {
         const auto emit = [&](const std::string& name, double value) {
             try {
                 fn(name, value);
-            } catch (...) {
+            } catch (const std::exception &) {
+                // Fail closed: metrics sinks are optional integration hooks and
+                // must not affect production collector updates.
+            } catch (const std::string &) {
+                // Fail closed: metrics sinks are optional integration hooks and
+                // must not affect production collector updates.
+            } catch (const char *) {
                 // Fail closed: metrics sinks are optional integration hooks and
                 // must not affect production collector updates.
             }

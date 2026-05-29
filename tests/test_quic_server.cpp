@@ -300,6 +300,20 @@ TEST(QUICClientTest, ParseUrlInvalidScheme) {
     EXPECT_FALSE(QUICClient::parseUrl("quic://noport", host, port));
 }
 
+TEST(QUICClientTest, ParseUrlInvalidPortStringRejected) {
+    std::string host;
+    uint16_t    port = 0;
+    EXPECT_FALSE(QUICClient::parseUrl("quic://server.example.com:not-a-port", host, port));
+    EXPECT_FALSE(QUICClient::parseUrl("quic://server.example.com:", host, port));
+}
+
+TEST(QUICClientTest, ParseUrlOutOfRangePortRejected) {
+    std::string host;
+    uint16_t    port = 0;
+    EXPECT_FALSE(QUICClient::parseUrl("quic://server.example.com:70000", host, port));
+    EXPECT_FALSE(QUICClient::parseUrl("quic://server.example.com:999999999999", host, port));
+}
+
 // QS-36
 TEST(QUICClientTest, VerifyTlsDisabledLogsVerifyNoneFallback) {
     auto previous_logger = spdlog::default_logger();

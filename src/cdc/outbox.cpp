@@ -143,7 +143,15 @@ uint64_t OutboxWriter::nextSequence() {
 
     uint64_t next = 1;
     if (s.ok()) {
-        try { next = std::stoull(seq_value) + 1; } catch (...) { next = 1; }
+        try {
+            next = std::stoull(seq_value) + 1;
+        } catch (const std::exception&) {
+            next = 1;
+        } catch (const std::string&) {
+            next = 1;
+        } catch (const char*) {
+            next = 1;
+        }
     }
 
     rocksdb::WriteOptions write_opts;

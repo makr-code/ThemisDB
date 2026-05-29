@@ -170,7 +170,13 @@ std::optional<std::string> PIIPseudonymizer::revealPII(const std::string& pii_uu
         
         return original;
         
-    } catch (...) {
+    } catch (const nlohmann::json::exception &) {
+        return std::nullopt;
+    } catch (const std::exception &) {
+        return std::nullopt;
+    } catch (const std::string &) {
+        return std::nullopt;
+    } catch (const char *) {
         return std::nullopt;
     }
 }
@@ -261,7 +267,10 @@ bool PIIPseudonymizer::softDeletePII(const std::string& pii_uuid, const std::str
             txn->rollback();
             THEMIS_WARN("PIIPseudonymizer: softDeletePII JSON parse/update failed for {}: {}", pii_uuid, e.what());
             return false;
-        } catch (...) {
+        } catch (const std::string &) {
+            txn->rollback();
+            return false;
+        } catch (const char *) {
             txn->rollback();
             return false;
         }
@@ -281,7 +290,13 @@ std::vector<std::string> PIIPseudonymizer::findPIIForEntity(const std::string& e
     try {
         auto index = nlohmann::json::parse(*index_str);
         return index["pii_uuids"].get<std::vector<std::string>>();
-    } catch (...) {
+    } catch (const nlohmann::json::exception &) {
+        return {};
+    } catch (const std::exception &) {
+        return {};
+    } catch (const std::string &) {
+        return {};
+    } catch (const char *) {
         return {};
     }
 }

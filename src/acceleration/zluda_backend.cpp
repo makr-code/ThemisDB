@@ -211,8 +211,13 @@ public:
                 std::cerr << "ZLUDA: computeDistances callback failed: " << e.what()
                           << " (fail-closed -> returning empty result)" << std::endl;
                 return {};
-            } catch (...) {
-                std::cerr << "ZLUDA: computeDistances callback failed"
+            } catch (const std::string& e) {
+                std::cerr << "ZLUDA: computeDistances callback failed: " << e
+                          << " (fail-closed -> returning empty result)" << std::endl;
+                return {};
+            } catch (const char* e) {
+                std::cerr << "ZLUDA: computeDistances callback failed: "
+                          << (e ? e : "<null>")
                           << " (fail-closed -> returning empty result)" << std::endl;
                 return {};
             }
@@ -262,8 +267,13 @@ public:
                 std::cerr << "ZLUDA: batchKnnSearch callback failed: " << e.what()
                           << " (fail-closed -> returning empty result)" << std::endl;
                 return {};
-            } catch (...) {
-                std::cerr << "ZLUDA: batchKnnSearch callback failed"
+            } catch (const std::string& e) {
+                std::cerr << "ZLUDA: batchKnnSearch callback failed: " << e
+                          << " (fail-closed -> returning empty result)" << std::endl;
+                return {};
+            } catch (const char* e) {
+                std::cerr << "ZLUDA: batchKnnSearch callback failed: "
+                          << (e ? e : "<null>")
                           << " (fail-closed -> returning empty result)" << std::endl;
                 return {};
             }

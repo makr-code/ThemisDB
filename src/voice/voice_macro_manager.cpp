@@ -211,7 +211,19 @@ StepResult executeStep(int index,
         case StepType::WAIT: {
             // action stores the delay in ms as a string
             int delay_ms = 0;
-            try { delay_ms = std::stoi(step.action); } catch (...) {}
+            try {
+                delay_ms = std::stoi(step.action);
+            } catch (const std::invalid_argument&) {
+                delay_ms = 0;
+            } catch (const std::out_of_range&) {
+                delay_ms = 0;
+            } catch (const std::exception&) {
+                delay_ms = 0;
+            } catch (const std::string&) {
+                delay_ms = 0;
+            } catch (const char*) {
+                delay_ms = 0;
+            }
             if (delay_ms > 0 && delay_ms <= 60000) {
                 std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
             }
@@ -456,7 +468,13 @@ std::vector<MacroID> VoiceMacroManager::importMacros(const std::string& json_str
     json arr;
     try {
         arr = json::parse(json_str);
-    } catch (...) {
+    } catch (const nlohmann::json::exception&) {
+        return imported_ids;
+    } catch (const std::exception&) {
+        return imported_ids;
+    } catch (const std::string&) {
+        return imported_ids;
+    } catch (const char*) {
         return imported_ids;
     }
 
@@ -474,7 +492,13 @@ std::vector<MacroID> VoiceMacroManager::importMacros(const std::string& json_str
             MacroID id = m.macro_id;
             impl_->macros[id] = std::move(m);
             imported_ids.push_back(id);
-        } catch (...) {
+        } catch (const nlohmann::json::exception&) {
+            // Skip malformed entries
+        } catch (const std::exception&) {
+            // Skip malformed entries
+        } catch (const std::string&) {
+            // Skip malformed entries
+        } catch (const char*) {
             // Skip malformed entries
         }
     }

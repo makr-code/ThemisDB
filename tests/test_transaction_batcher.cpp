@@ -294,6 +294,16 @@ TEST_F(TransactionBatcherTest, ExceptionInCommitFn_ReturnsError) {
     EXPECT_NE(st.message.find("commit blew up"), std::string::npos);
 }
 
+TEST_F(TransactionBatcherTest, CStringExceptionInCommitFn_ReturnsError) {
+    auto f = batcher_->submitAsync([]() -> TransactionBatcher::Status {
+        throw "commit cstr blew up";
+    });
+
+    auto st = f.get();
+    EXPECT_FALSE(st.ok);
+    EXPECT_NE(st.message.find("commit cstr blew up"), std::string::npos);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // AC-13  Stats: batches_flushed increments
 // ─────────────────────────────────────────────────────────────────────────────

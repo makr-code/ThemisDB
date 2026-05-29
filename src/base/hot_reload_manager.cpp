@@ -422,7 +422,9 @@ void HotReloadManager::notify(const std::string &name, ReloadPhase phase) {
             cb(name, phase);
         } catch (const std::exception &ex) {
             spdlog::warn("HotReloadManager: reload callback threw: {}", ex.what());
-        } catch (...) {
+        } catch (const std::string &) {
+            spdlog::warn("HotReloadManager: reload callback threw unknown exception");
+        } catch (const char *) {
             spdlog::warn("HotReloadManager: reload callback threw unknown exception");
         }
     }

@@ -173,7 +173,11 @@ DistributedTransactionManager::~DistributedTransactionManager() {
     {
         std::lock_guard<std::mutex> lock(batch_mutex_);
         for (auto& entry : batch_queue_) {
-            try { entry.result.set_value(false); } catch (...) {}
+            try {
+                entry.result.set_value(false);
+            } catch (const std::future_error&) {
+                // Promise already satisfied/broken — ignore during shutdown drain.
+            }
         }
         batch_queue_.clear();
     }
@@ -660,10 +664,15 @@ bool DistributedTransactionManager::isParticipantAlive(const std::string& node_i
                         "node={}: {} — treating as not alive",
                         coordinator_id_, node_id, e.what());
             return false;
-        } catch (...) {
-            THEMIS_WARN("DistributedTransactionManager [{}] liveness_check_fn threw (unknown) for "
-                        "node={} — treating as not alive",
-                        coordinator_id_, node_id);
+        } catch (const std::string& e) {
+            THEMIS_WARN("DistributedTransactionManager [{}] liveness_check_fn threw for "
+                        "node={}: {} — treating as not alive",
+                        coordinator_id_, node_id, e);
+            return false;
+        } catch (const char* e) {
+            THEMIS_WARN("DistributedTransactionManager [{}] liveness_check_fn threw for "
+                        "node={}: {} — treating as not alive",
+                        coordinator_id_, node_id, (e ? e : "<null>"));
             return false;
         }
     }
@@ -677,10 +686,15 @@ bool DistributedTransactionManager::isParticipantAlive(const std::string& node_i
                         "node={}: {} — treating as not alive",
                         coordinator_id_, node_id, e.what());
             return false;
-        } catch (...) {
-            THEMIS_WARN("DistributedTransactionManager [{}] static liveness check threw (unknown) "
-                        "for node={} — treating as not alive",
-                        coordinator_id_, node_id);
+        } catch (const std::string& e) {
+            THEMIS_WARN("DistributedTransactionManager [{}] static liveness check threw for "
+                        "node={}: {} — treating as not alive",
+                        coordinator_id_, node_id, e);
+            return false;
+        } catch (const char* e) {
+            THEMIS_WARN("DistributedTransactionManager [{}] static liveness check threw for "
+                        "node={}: {} — treating as not alive",
+                        coordinator_id_, node_id, (e ? e : "<null>"));
             return false;
         }
     }
@@ -1224,12 +1238,24 @@ void DistributedTransactionManager::batchFlushLoop() {
             bool result = false;
             try {
                 result = runPhase1Unlocked(entry.txn_id);
-            } catch (...) {
+            } catch (const std::exception& ex) {
+                THEMIS_WARN("DistributedTransactionManager [{}] batch Phase-1 failed for txn {}: {}",
+                            coordinator_id_, entry.txn_id, ex.what());
+                result = false;
+            } catch (const std::string& ex) {
+                THEMIS_WARN("DistributedTransactionManager [{}] batch Phase-1 failed for txn {}: {}",
+                            coordinator_id_, entry.txn_id, ex);
+                result = false;
+            } catch (const char* ex) {
+                THEMIS_WARN("DistributedTransactionManager [{}] batch Phase-1 failed for txn {}: {}",
+                            coordinator_id_, entry.txn_id, (ex ? ex : "<null>"));
                 result = false;
             }
             try {
                 entry.result.set_value(result);
-            } catch (...) {}
+            } catch (const std::future_error&) {
+                // Promise already satisfied/broken — ignore in flush loop.
+            }
         }
     }
 }

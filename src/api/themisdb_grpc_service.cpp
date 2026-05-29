@@ -251,7 +251,12 @@ private:
                 std::string ver_str;
                 if (db_->get(versionKey(storage_key), ver_str)) {
                     try { new_version = std::stoull(ver_str) + 1; }
-                    catch (...) {
+                    catch (const std::invalid_argument&) {
+                        THEMIS_WARN("UpdateDocument: malformed version counter '{}' for key '{}'; "
+                                    "resetting to 1", ver_str, storage_key);
+                        new_version = 1;
+                    }
+                    catch (const std::out_of_range&) {
                         THEMIS_WARN("UpdateDocument: malformed version counter '{}' for key '{}'; "
                                     "resetting to 1", ver_str, storage_key);
                         new_version = 1;
@@ -424,7 +429,22 @@ private:
                     row->set_data(*result);
                     row->set_has_more(false);
                 }
-            } catch (...) {
+            } catch (const nlohmann::json::exception&) {
+                // Fall back to raw payload when response is not valid JSON.
+                auto* row = resp->add_rows();
+                row->set_data(*result);
+                row->set_has_more(false);
+            } catch (const std::exception&) {
+                // Fall back to raw payload when response is not valid JSON.
+                auto* row = resp->add_rows();
+                row->set_data(*result);
+                row->set_has_more(false);
+            } catch (const std::string&) {
+                // Fall back to raw payload when response is not valid JSON.
+                auto* row = resp->add_rows();
+                row->set_data(*result);
+                row->set_has_more(false);
+            } catch (const char*) {
                 // Fall back to raw payload when response is not valid JSON.
                 auto* row = resp->add_rows();
                 row->set_data(*result);
@@ -855,7 +875,10 @@ void ThemisDBGrpcService::buildImpl() {
         } catch (const std::exception& e) {
             THEMIS_ERROR("ThemisDBGrpcService: service callback failed: {}", e.what());
             service_ptr_ = nullptr;
-        } catch (...) {
+        } catch (const std::string&) {
+            THEMIS_ERROR("ThemisDBGrpcService: service callback failed: unknown error");
+            service_ptr_ = nullptr;
+        } catch (const char*) {
             THEMIS_ERROR("ThemisDBGrpcService: service callback failed: unknown error");
             service_ptr_ = nullptr;
         }

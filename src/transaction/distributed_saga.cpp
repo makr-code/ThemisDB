@@ -426,8 +426,12 @@ DistributedSagaStatus DistributedSagaCoordinator::executeStep(
         } catch (const std::exception& e) {
             last_status = DistributedSagaStatus::Error(
                 std::string("exception: ") + e.what());
-        } catch (...) {
-            last_status = DistributedSagaStatus::Error("unknown exception");
+        } catch (const std::string& e) {
+            last_status = DistributedSagaStatus::Error(
+                std::string("exception: ") + e);
+        } catch (const char* e) {
+            last_status = DistributedSagaStatus::Error(
+                std::string("exception: ") + (e ? e : "<null>"));
         }
 
         {
@@ -544,8 +548,12 @@ DistributedSagaStatus DistributedSagaCoordinator::compensateStep(
         } catch (const std::exception& e) {
             last_status = DistributedSagaStatus::Error(
                 std::string("compensation exception: ") + e.what());
-        } catch (...) {
-            last_status = DistributedSagaStatus::Error("unknown compensation exception");
+        } catch (const std::string& e) {
+            last_status = DistributedSagaStatus::Error(
+                std::string("compensation exception: ") + e);
+        } catch (const char* e) {
+            last_status = DistributedSagaStatus::Error(
+                std::string("compensation exception: ") + (e ? e : "<null>"));
         }
 
         if (last_status.ok) return DistributedSagaStatus::OK();
@@ -613,8 +621,9 @@ void DistributedSagaCoordinator::journalWrite(
             f << ",\"detail\":\"" << escaped << "\"";
         }
         f << "}\n";
-    } catch (...) {
-        // Journal write failures are non-fatal
+    } catch (const std::exception& e) {
+        // Journal write failures are non-fatal.
+        THEMIS_WARN("DSAGA[{}]: journal write failed: {}", saga_id, e.what());
     }
 }
 
@@ -716,8 +725,8 @@ std::vector<std::string> DistributedSagaCoordinator::recoverInProgressSAGAs() {
             if (!sid.empty() && !event.empty()) {
                 latest_event[sid] = event;
             }
-        } catch (...) {
-            // Malformed lines are silently skipped
+        } catch (const nlohmann::json::exception&) {
+            // Malformed lines are skipped.
         }
     }
 

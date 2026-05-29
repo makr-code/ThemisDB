@@ -1497,6 +1497,28 @@ TEST_F(DistributedTxnManagerTest, DTM3_LivenessBridgeInstanceExceptionIsNotAlive
     mgr2.abortDistributed(tid);
 }
 
+TEST_F(DistributedTxnManagerTest, DTM3_LivenessBridgeInstanceCStringExceptionIsNotAlive) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout     = 2000ms;
+    cfg.commit_timeout      = 2000ms;
+    cfg.default_txn_timeout = 60s;
+
+    cfg.liveness_check_fn = [](const std::string& /*endpoint*/,
+                                const std::string& /*node_id*/) -> bool {
+        throw "network cstr error";
+    };
+
+    DistributedTransactionManager mgr2("coord-liveness-throw-cstr", cfg);
+    const auto tid = mgr2.beginDistributed({
+        makeRemoteParticipant("remote-throw-cstr"),
+    });
+
+    EXPECT_FALSE(mgr2.isParticipantAlive("remote-throw-cstr"))
+        << "CString exception from liveness bridge must be treated as not alive";
+
+    mgr2.abortDistributed(tid);
+}
+
 // DTM-3e: Static liveness bridge (setLivenessCheckFn) is consulted when no per-instance fn set.
 TEST_F(DistributedTxnManagerTest, DTM3_StaticLivenessBridgeIsConsulted) {
     // No liveness_check_fn on config — relies on static bridge.
@@ -1522,6 +1544,30 @@ TEST_F(DistributedTxnManagerTest, DTM3_StaticLivenessBridgeIsConsulted) {
         << "Static liveness bridge returning true must make isParticipantAlive return true";
     EXPECT_GE(static_calls.load(), 1)
         << "Static liveness bridge must have been called";
+
+    mgr2.abortDistributed(tid);
+    DistributedTransactionManager::clearLivenessCheckFn();
+}
+
+TEST_F(DistributedTxnManagerTest, DTM3_StaticLivenessBridgeStringExceptionIsNotAlive) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout     = 2000ms;
+    cfg.commit_timeout      = 2000ms;
+    cfg.default_txn_timeout = 60s;
+
+    DistributedTransactionManager::setLivenessCheckFn(
+        [](const std::string& /*node_id*/,
+           const std::string& /*endpoint*/) -> bool {
+            throw std::string("static bridge failure");
+        });
+
+    DistributedTransactionManager mgr2("coord-static-liveness-throw-string", cfg);
+    const auto tid = mgr2.beginDistributed({
+        makeRemoteParticipant("remote-static-throw-string"),
+    });
+
+    EXPECT_FALSE(mgr2.isParticipantAlive("remote-static-throw-string"))
+        << "String exception from static liveness bridge must be treated as not alive";
 
     mgr2.abortDistributed(tid);
     DistributedTransactionManager::clearLivenessCheckFn();

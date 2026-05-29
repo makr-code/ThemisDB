@@ -147,7 +147,9 @@ float NoiseSuppressor::processRNNoiseFrames(
     if (fn) {
         try {
             return fn(samples_48k, vad_threshold);
-        } catch (...) {
+        } catch (const std::exception&) {
+        } catch (const std::string&) {
+        } catch (const char*) {
         }
     }
 

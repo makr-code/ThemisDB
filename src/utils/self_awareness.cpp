@@ -72,7 +72,13 @@ SelfAwareness::Config SelfAwareness::Config::loadFromYAML(const std::string& yam
             }
         }
         
-    } catch (...) {
+    } catch (const YAML::Exception &) {
+        // Use defaults if config fails to load
+    } catch (const std::exception &) {
+        // Use defaults if config fails to load
+    } catch (const std::string &) {
+        // Use defaults if config fails to load
+    } catch (const char *) {
         // Use defaults if config fails to load
     }
     
@@ -568,7 +574,13 @@ void SelfAwareness::persistSnapshot(const Snapshot& snapshot) {
         if (ofs) {
             ofs << snapshot.toJSON().dump(2) << "\n";
         }
-    } catch (...) {
+    } catch (const std::filesystem::filesystem_error &) {
+        // Snapshot persistence is best-effort; do not propagate errors
+    } catch (const std::exception &) {
+        // Snapshot persistence is best-effort; do not propagate errors
+    } catch (const std::string &) {
+        // Snapshot persistence is best-effort; do not propagate errors
+    } catch (const char *) {
         // Snapshot persistence is best-effort; do not propagate errors
     }
 }
@@ -616,16 +628,32 @@ void SelfAwareness::loadSnapshots() {
                             auto epoch_ms = std::stoll(fname.substr(sep + 1));
                             s.timestamp = std::chrono::system_clock::time_point(
                                 std::chrono::milliseconds(epoch_ms));
-                        } catch (...) {}
+                        } catch (const std::invalid_argument &) {
+                        } catch (const std::out_of_range &) {
+                        } catch (const std::string &) {
+                        } catch (const char *) {
+                        }
                     }
                 }
                 s.triggered_by = j.value("triggered_by", "loaded");
                 snapshots_.push_back(std::move(s));
-            } catch (...) {
+            } catch (const nlohmann::json::exception &) {
+                // Skip malformed files
+            } catch (const std::exception &) {
+                // Skip malformed files
+            } catch (const std::string &) {
+                // Skip malformed files
+            } catch (const char *) {
                 // Skip malformed files
             }
         }
-    } catch (...) {
+    } catch (const std::filesystem::filesystem_error &) {
+        // Snapshot loading is best-effort
+    } catch (const std::exception &) {
+        // Snapshot loading is best-effort
+    } catch (const std::string &) {
+        // Snapshot loading is best-effort
+    } catch (const char *) {
         // Snapshot loading is best-effort
     }
 }

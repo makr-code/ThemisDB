@@ -160,7 +160,15 @@ std::optional<std::string> ConfigEncryptedStore::tryGet(const std::string &confi
     }
     try {
         return decryptBlob(it->second);
-    } catch (...) {
+    } catch (const ConfigEncryptionException &) {
+        return std::nullopt;
+    } catch (const nlohmann::json::exception &) {
+        return std::nullopt;
+    } catch (const std::exception &) {
+        return std::nullopt;
+    } catch (const std::string &) {
+        return std::nullopt;
+    } catch (const char *) {
         return std::nullopt;
     }
 }

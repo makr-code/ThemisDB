@@ -193,7 +193,19 @@ static bool decodeHexString(const std::string &hexStr, std::vector<uint8_t> &out
             outBytes.push_back(byte);
         }
         return true;
-    } catch (...) {
+    } catch (const std::invalid_argument &) {
+        outBytes.clear();
+        return false;
+    } catch (const std::out_of_range &) {
+        outBytes.clear();
+        return false;
+    } catch (const std::exception &) {
+        outBytes.clear();
+        return false;
+    } catch (const std::string &) {
+        outBytes.clear();
+        return false;
+    } catch (const char *) {
         outBytes.clear();
         return false;
     }
@@ -1157,7 +1169,13 @@ bool PluginSecurityAuditor::exportEvents(const std::string &outputPath) const {
 
         return true;
 
-    } catch (...) {
+    } catch (const nlohmann::json::exception &) {
+        return false;
+    } catch (const std::exception &) {
+        return false;
+    } catch (const std::string &) {
+        return false;
+    } catch (const char *) {
         return false;
     }
 }

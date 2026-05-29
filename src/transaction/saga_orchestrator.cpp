@@ -246,11 +246,16 @@ StepState SAGAOrchestrator::executeStep(const SAGAStep& step,
                     try {
                         forward();
                         promise->set_value();
-                    } catch (...) {
-                        try {
-                            promise->set_exception(std::current_exception());
-                        } catch (...) {
-                        }
+                    } catch (const std::exception& ex) {
+                        promise->set_exception(
+                            std::make_exception_ptr(std::runtime_error(ex.what())));
+                    } catch (const std::string& ex) {
+                        promise->set_exception(
+                            std::make_exception_ptr(std::runtime_error(ex)));
+                    } catch (const char* ex) {
+                        promise->set_exception(
+                            std::make_exception_ptr(
+                                std::runtime_error(ex ? ex : "<null>")));
                     }
                 }).detach();
                 if (fut.wait_for(timeout) == std::future_status::timeout) {
@@ -264,8 +269,12 @@ StepState SAGAOrchestrator::executeStep(const SAGAStep& step,
             return StepState::COMPLETED;
         } catch (const std::exception& ex) {
             journalWrite(saga_id, "step_exception", step.name + ": " + ex.what());
-        } catch (...) {
-            journalWrite(saga_id, "step_exception", step.name + ": unknown exception");
+        } catch (const std::string& ex) {
+            journalWrite(saga_id, "step_exception", step.name + ": " + ex);
+        } catch (const char* ex) {
+            journalWrite(saga_id,
+                         "step_exception",
+                         step.name + ": " + std::string(ex ? ex : "<null>"));
         }
 
         if (attempt < step.max_retries) {
@@ -309,8 +318,12 @@ void SAGAOrchestrator::compensateStep(const SAGAStep& step,
     } catch (const std::exception& ex) {
         status_rec.failure_reason += " | compensation failed for " + step.name + ": " + ex.what();
         status_rec.step_states[step.name] = StepState::FAILED;
-    } catch (...) {
-        status_rec.failure_reason += " | compensation failed for " + step.name + ": unknown exception";
+    } catch (const std::string& ex) {
+        status_rec.failure_reason += " | compensation failed for " + step.name + ": " + ex;
+        status_rec.step_states[step.name] = StepState::FAILED;
+    } catch (const char* ex) {
+        status_rec.failure_reason +=
+            " | compensation failed for " + step.name + ": " + std::string(ex ? ex : "<null>");
         status_rec.step_states[step.name] = StepState::FAILED;
     }
 }

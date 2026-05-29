@@ -752,7 +752,13 @@ Executor::Result Executor::execute(const Document &document, const ExecutionCont
             "ERR_EXECUTION_FAILED",
             context.mask_errors
         );
-    } catch (...) {
+    } catch (const std::string&) {
+        result.addError(
+            "Unknown execution error",
+            "ERR_EXECUTION_FAILED",
+            context.mask_errors
+        );
+    } catch (const char*) {
         result.addError(
             "Unknown execution error",
             "ERR_EXECUTION_FAILED",

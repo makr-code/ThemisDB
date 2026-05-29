@@ -253,7 +253,11 @@ bool VLLMClient::healthCheck() {
         
         return (res == CURLE_OK && http_code == 200);
         
-    } catch (...) {
+    } catch (const std::exception&) {
+        return false;
+    } catch (const std::string&) {
+        return false;
+    } catch (const char*) {
         return false;
     }
 }

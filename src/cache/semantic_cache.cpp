@@ -31,7 +31,13 @@ std::optional<SemanticCache::CacheEntry> SemanticCache::CacheEntry::fromJson(con
         entry.timestamp_ms = j.at("timestamp_ms").get<int64_t>();
         entry.ttl_seconds  = j.at("ttl_seconds").get<int>();
         return entry;
-    } catch (...) {
+    } catch (const nlohmann::json::exception&) {
+        return std::nullopt;
+    } catch (const std::exception&) {
+        return std::nullopt;
+    } catch (const std::string&) {
+        return std::nullopt;
+    } catch (const char*) {
         return std::nullopt;
     }
 }
@@ -157,7 +163,16 @@ std::optional<SemanticCache::CacheEntry> SemanticCache::query(const std::string 
     nlohmann::json j;
     try {
         j = nlohmann::json::parse(value);
-    } catch (...) {
+    } catch (const nlohmann::json::exception&) {
+        miss_count_.fetch_add(1, std::memory_order_relaxed);
+        return std::nullopt;
+    } catch (const std::exception&) {
+        miss_count_.fetch_add(1, std::memory_order_relaxed);
+        return std::nullopt;
+    } catch (const std::string&) {
+        miss_count_.fetch_add(1, std::memory_order_relaxed);
+        return std::nullopt;
+    } catch (const char*) {
         miss_count_.fetch_add(1, std::memory_order_relaxed);
         return std::nullopt;
     }
@@ -222,7 +237,31 @@ uint64_t SemanticCache::clearExpired() {
                 }
                 removed++;
             }
-        } catch (...) {
+        } catch (const nlohmann::json::exception&) {
+            // Invalid entry, remove it.
+            if (cf_handle_) {
+                batch.Delete(cf_handle_, it->key());
+            } else {
+                batch.Delete(it->key());
+            }
+            removed++;
+        } catch (const std::exception&) {
+            // Invalid entry, remove it.
+            if (cf_handle_) {
+                batch.Delete(cf_handle_, it->key());
+            } else {
+                batch.Delete(it->key());
+            }
+            removed++;
+        } catch (const std::string&) {
+            // Invalid entry, remove it.
+            if (cf_handle_) {
+                batch.Delete(cf_handle_, it->key());
+            } else {
+                batch.Delete(it->key());
+            }
+            removed++;
+        } catch (const char*) {
             // Invalid entry, remove it
             if (cf_handle_) {
                 batch.Delete(cf_handle_, it->key());

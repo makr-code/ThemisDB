@@ -166,7 +166,15 @@ void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann:
             msg2.ttl_seconds = ttl_seconds;
             msg2.tenant_id   = tenant_id;
             bool ok = false;
-            try { ok = fn(channel_, serializeMessage(msg2)); } catch (...) { ok = false; }
+            try {
+                ok = fn(channel_, serializeMessage(msg2));
+            } catch (const std::exception&) {
+                ok = false;
+            } catch (const std::string&) {
+                ok = false;
+            } catch (const char*) {
+                ok = false;
+            }
             std::lock_guard<std::mutex> slk(stats_mutex_);
             if (ok) {
                 ++messages_published_;
@@ -231,7 +239,15 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
             msg2.key       = pattern;
             msg2.tenant_id = tenant_id;
             bool ok = false;
-            try { ok = fn(channel_, serializeMessage(msg2)); } catch (...) { ok = false; }
+            try {
+                ok = fn(channel_, serializeMessage(msg2));
+            } catch (const std::exception&) {
+                ok = false;
+            } catch (const std::string&) {
+                ok = false;
+            } catch (const char*) {
+                ok = false;
+            }
             std::lock_guard<std::mutex> slk(stats_mutex_);
             if (ok) {
                 ++messages_published_;
@@ -422,7 +438,11 @@ void RedisCacheCoordinator::subscribeLoop() {
                     mc.addCounter("cache.redis.reconnect", 1);
                 } catch (const std::exception &ex) {
                     THEMIS_DEBUG("RedisCacheCoordinator: metric emit failed: {}", ex.what());
-                } catch (...) {}
+                } catch (const std::string &ex) {
+                    THEMIS_DEBUG("RedisCacheCoordinator: metric emit failed: {}", ex);
+                } catch (const char *ex) {
+                    THEMIS_DEBUG("RedisCacheCoordinator: metric emit failed: {}", (ex ? ex : "<null>"));
+                }
 
                 THEMIS_WARN("RedisCacheCoordinator: subscribe connect failed; "
                             "retrying in {} ms (back-off)",
@@ -498,7 +518,11 @@ void RedisCacheCoordinator::subscribeLoop() {
                 mc.addCounter("cache.redis.reconnect", 1);
             } catch (const std::exception &ex) {
                 THEMIS_DEBUG("RedisCacheCoordinator: metric emit failed: {}", ex.what());
-            } catch (...) {}
+            } catch (const std::string &ex) {
+                THEMIS_DEBUG("RedisCacheCoordinator: metric emit failed: {}", ex);
+            } catch (const char *ex) {
+                THEMIS_DEBUG("RedisCacheCoordinator: metric emit failed: {}", (ex ? ex : "<null>"));
+            }
 
             THEMIS_WARN("RedisCacheCoordinator: subscriber connection lost; "
                         "reconnecting in {} ms (back-off)",

@@ -348,7 +348,9 @@ SearchResultPage HtmlSearchEngine::parseResults(const std::string &html, const s
             items = doc.select_nodes(xp.c_str());
             if (!items.empty())
                 break;
-        } catch (...) {
+        } catch (const std::exception &) {
+        } catch (const std::string &) {
+        } catch (const char *) {
         }
     }
 
@@ -423,7 +425,9 @@ SearchResultPage HtmlSearchEngine::parseResults(const std::string &html, const s
                     break;
                 }
             }
-        } catch (...) {
+        } catch (const std::exception &) {
+        } catch (const std::string &) {
+        } catch (const char *) {
         }
     }
 
@@ -443,7 +447,11 @@ SearchResultPage HtmlSearchEngine::parseResults(const std::string &html, const s
             if (!num.empty())
                 page.total_results = std::stoi(num);
         }
-    } catch (...) {
+    } catch (const std::invalid_argument &) {
+    } catch (const std::out_of_range &) {
+    } catch (const std::exception &) {
+    } catch (const std::string &) {
+    } catch (const char *) {
     }
 
 #else

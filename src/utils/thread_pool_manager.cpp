@@ -65,8 +65,11 @@ void ThreadPool::workerLoop() {
             } catch (const std::exception& e) {
                 spdlog::error("Task {} failed with exception: {}", task->getName(), e.what());
                 total_failed_++;
-            } catch (...) {
-                spdlog::error("Task {} failed with unknown exception", task->getName());
+            } catch (const std::string& e) {
+                spdlog::error("Task {} failed with exception: {}", task->getName(), e);
+                total_failed_++;
+            } catch (const char* e) {
+                spdlog::error("Task {} failed with exception: {}", task->getName(), (e ? e : "<null>"));
                 total_failed_++;
             }
             double latency_ms = std::chrono::duration<double, std::milli>(

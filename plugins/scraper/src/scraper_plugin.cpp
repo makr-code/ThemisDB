@@ -207,7 +207,11 @@ std::string ScraperPlugin::fetchPage(const std::string &url) const {
     if (http_fn_) {
         try {
             return http_fn_(url, config_.crawl_options.user_agent);
-        } catch (...) {
+        } catch (const std::exception &) {
+            return {};
+        } catch (const std::string &) {
+            return {};
+        } catch (const char *) {
             return {};
         }
     }

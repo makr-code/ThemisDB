@@ -277,7 +277,9 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
         SignatureResult sig;
         if (pki_) {
             try { sig = pki_->signHash(hash); }
-            catch (...) { sig.ok = false; }
+            catch (const std::exception &) { sig.ok = false; }
+            catch (const std::string &) { sig.ok = false; }
+            catch (const char *) { sig.ok = false; }
         }
 
         auto jblob = themis::EncryptedBlob{blob}.toJson();
@@ -304,7 +306,9 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
         SignatureResult sig;
         if (pki_) {
             try { sig = pki_->signHash(hash); }
-            catch (...) { sig.ok = false; }
+            catch (const std::exception &) { sig.ok = false; }
+            catch (const std::string &) { sig.ok = false; }
+            catch (const char *) { sig.ok = false; }
         }
         record["payload"] = {
             {"type", "plaintext"},
@@ -854,7 +858,16 @@ size_t AuditLogger::archiveOldEntries(std::chrono::system_clock::time_point olde
                     kept_entries.push_back(line);
                 }
                 
-            } catch (...) {
+            } catch (const nlohmann::json::exception &) {
+                // Keep unparseable entries to avoid data loss
+                kept_entries.push_back(line);
+            } catch (const std::exception &) {
+                // Keep unparseable entries to avoid data loss
+                kept_entries.push_back(line);
+            } catch (const std::string &) {
+                // Keep unparseable entries to avoid data loss
+                kept_entries.push_back(line);
+            } catch (const char *) {
                 // Keep unparseable entries to avoid data loss
                 kept_entries.push_back(line);
             }
@@ -944,7 +957,16 @@ size_t AuditLogger::purgeOldEntries(std::chrono::system_clock::time_point older_
                     kept_entries.push_back(line);
                 }
                 
-            } catch (...) {
+            } catch (const nlohmann::json::exception &) {
+                // Keep unparseable entries to avoid data loss
+                kept_entries.push_back(line);
+            } catch (const std::exception &) {
+                // Keep unparseable entries to avoid data loss
+                kept_entries.push_back(line);
+            } catch (const std::string &) {
+                // Keep unparseable entries to avoid data loss
+                kept_entries.push_back(line);
+            } catch (const char *) {
                 // Keep unparseable entries to avoid data loss
                 kept_entries.push_back(line);
             }
@@ -1344,7 +1366,13 @@ std::vector<AuditLogger::AuditLogEntry> AuditLogger::searchEntries(
 
             if (query.max_results > 0 && results.size() >= query.max_results) break;
 
-        } catch (...) {
+        } catch (const nlohmann::json::exception &) {
+            // Skip malformed lines
+        } catch (const std::exception &) {
+            // Skip malformed lines
+        } catch (const std::string &) {
+            // Skip malformed lines
+        } catch (const char *) {
             // Skip malformed lines
         }
     }
@@ -1432,7 +1460,13 @@ AuditLogger::ComplianceReport AuditLogger::generateComplianceReport(
             std::string user = payload.value("user_id", payload.value("user", std::string{"system"}));
             user_counts[user] = user_counts.value(user, 0) + 1;
 
-        } catch (...) {
+        } catch (const nlohmann::json::exception &) {
+            // Skip malformed lines
+        } catch (const std::exception &) {
+            // Skip malformed lines
+        } catch (const std::string &) {
+            // Skip malformed lines
+        } catch (const char *) {
             // Skip malformed lines
         }
     }
@@ -1483,7 +1517,13 @@ void HashChainAuditWriter::loadOrInitChainHead(const std::string& chain_seed) {
                 seq_ = seq;
                 return;
             }
-        } catch (...) {
+        } catch (const nlohmann::json::exception &) {
+            // Fall through to re-initialise on corrupted file.
+        } catch (const std::exception &) {
+            // Fall through to re-initialise on corrupted file.
+        } catch (const std::string &) {
+            // Fall through to re-initialise on corrupted file.
+        } catch (const char *) {
             // Fall through to re-initialise on corrupted file.
         }
     }
@@ -1532,7 +1572,11 @@ HashChainAuditWriter::HashChainAuditWriter(HashChainAuditWriterConfig cfg,
     try {
         fs::create_directories(fs::path(cfg_.log_path).parent_path());
         fs::create_directories(fs::path(cfg_.chain_head_path).parent_path());
-    } catch (...) {}
+    } catch (const std::filesystem::filesystem_error &) {
+    } catch (const std::exception &) {
+    } catch (const std::string &) {
+    } catch (const char *) {
+    }
 
     loadOrInitChainHead(chain_seed);
 

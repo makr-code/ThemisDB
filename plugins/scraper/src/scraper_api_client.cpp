@@ -154,7 +154,13 @@ std::string HttpScraperApiClient::buildBody(const ApiEndpointConfig &cfg, const 
         };
         walk(j);
         return out.str();
-    } catch (...) {
+    } catch (const nlohmann::json::exception &) {
+        return json_text; // return raw on parse error
+    } catch (const std::exception &) {
+        return json_text; // return raw on parse error
+    } catch (const std::string &) {
+        return json_text; // return raw on parse error
+    } catch (const char *) {
         return json_text; // return raw on parse error
     }
 }
@@ -209,7 +215,10 @@ std::string HttpScraperApiClient::buildBody(const ApiEndpointConfig &cfg, const 
             }
             out.push_back(std::move(r));
         }
-    } catch (...) {
+    } catch (const nlohmann::json::exception &) {
+    } catch (const std::exception &) {
+    } catch (const std::string &) {
+    } catch (const char *) {
     }
     return out;
 }
@@ -274,7 +283,13 @@ std::vector<ApiResult> HttpScraperApiClient::fetchAll(const ApiEndpointConfig &c
                 } else {
                     break; // no cursor returned
                 }
-            } catch (...) {
+            } catch (const nlohmann::json::exception &) {
+                break;
+            } catch (const std::exception &) {
+                break;
+            } catch (const std::string &) {
+                break;
+            } catch (const char *) {
                 break;
             }
             if (cursor.empty()) {
@@ -293,7 +308,10 @@ std::vector<ApiResult> HttpScraperApiClient::fetchAll(const ApiEndpointConfig &c
                     break;
                 }
             }
-        } catch (...) {
+        } catch (const nlohmann::json::exception &) {
+        } catch (const std::exception &) {
+        } catch (const std::string &) {
+        } catch (const char *) {
         }
     }
 

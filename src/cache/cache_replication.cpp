@@ -122,7 +122,17 @@ void CacheReplicationManager::probeUnhealthyReplicas() {
             bool alive = false;
             try {
                 alive = state.listener->ping();
-            } catch (...) {
+            } catch (const std::exception& ex) {
+                THEMIS_WARN("CacheReplicationManager: ping exception from replica '{}': {}",
+                            state.listener->replicaId(), ex.what());
+                alive = false;
+            } catch (const std::string& ex) {
+                THEMIS_WARN("CacheReplicationManager: ping exception from replica '{}': {}",
+                            state.listener->replicaId(), ex);
+                alive = false;
+            } catch (const char* ex) {
+                THEMIS_WARN("CacheReplicationManager: ping exception from replica '{}': {}",
+                            state.listener->replicaId(), (ex ? ex : "<null>"));
                 alive = false;
             }
 
@@ -246,7 +256,13 @@ void CacheReplicationManager::dispatch(const CacheReplicationEvent &event) {
             THEMIS_WARN("CacheReplicationManager: exception from replica '{}': {}", state.listener->replicaId(),
                         ex.what());
             ok = false;
-        } catch (...) {
+        } catch (const std::string &ex) {
+            THEMIS_WARN("CacheReplicationManager: exception from replica '{}': {}",
+                        state.listener->replicaId(), ex);
+            ok = false;
+        } catch (const char *ex) {
+            THEMIS_WARN("CacheReplicationManager: exception from replica '{}': {}",
+                        state.listener->replicaId(), (ex ? ex : "<null>"));
             ok = false;
         }
 

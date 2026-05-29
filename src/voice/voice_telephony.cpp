@@ -217,7 +217,12 @@ SipCallSession::SipCallSession(Config config)
 SipCallSession::~SipCallSession() {
     if (impl_ && (impl_->state == CallState::ACTIVE ||
                   impl_->state == CallState::CONNECTING)) {
-        try { end(); } catch (...) {}
+        try {
+            end();
+        } catch (const std::exception&) {
+        } catch (const std::string&) {
+        } catch (const char*) {
+        }
     }
 }
 
@@ -451,7 +456,12 @@ WebRtcCallSession::WebRtcCallSession(Config config)
 WebRtcCallSession::~WebRtcCallSession() {
     if (impl_ && (impl_->state == CallState::ACTIVE ||
                   impl_->state == CallState::CONNECTING)) {
-        try { end(); } catch (...) {}
+        try {
+            end();
+        } catch (const std::exception&) {
+        } catch (const std::string&) {
+        } catch (const char*) {
+        }
     }
 }
 

@@ -586,7 +586,12 @@ AiInferenceResult AiHardwareDispatcher::dispatchAppleANE([[maybe_unused]] AiInfe
         } catch (const std::exception& e) {
             return makeError(BackendType::NPU_APPLE,
                              std::string("Injected Apple ANE dispatch failed: ") + e.what());
-        } catch (...) {
+        } catch (const std::string& e) {
+            return makeError(BackendType::NPU_APPLE,
+                             std::string("Injected Apple ANE dispatch failed: ") + e);
+        } catch (const char* e) {
+            return makeError(BackendType::NPU_APPLE,
+                             std::string("Injected Apple ANE dispatch failed: ") + (e ? e : "<null>"));
             return makeError(BackendType::NPU_APPLE, "Injected Apple ANE dispatch failed");
         }
     }

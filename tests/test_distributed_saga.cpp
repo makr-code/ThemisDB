@@ -851,6 +851,31 @@ TEST(DistributedSagaRecoveryTest, RecoverCompensatingSaga) {
     std::remove(journal.c_str());
 }
 
+TEST(DistributedSagaRecoveryTest, RecoverSkipsMalformedJournalLines) {
+    std::string journal = "/tmp/test_saga_malformed_recovery_" +
+        std::to_string(std::chrono::system_clock::now().time_since_epoch().count()) +
+        ".jsonl";
+
+    {
+        std::ofstream f(journal);
+        f << "not-json" << "\n";
+        f << R"({"ts":1000,"saga_id":"orphan-malformed","event":"STARTED"})" << "\n";
+        f << R"({"ts":2000,"saga_id":"done-malformed","event":"STARTED"})" << "\n";
+        f << R"({"ts":3000,"saga_id":"done-malformed","event":"COMPLETED"})" << "\n";
+    }
+
+    DistributedSagaCoordinator::Config cfg;
+    cfg.journal_path = journal;
+    DistributedSagaCoordinator c(cfg);
+
+    auto recovered = c.recoverInProgressSAGAs();
+
+    ASSERT_EQ(recovered.size(), 1u);
+    EXPECT_EQ(recovered[0], "orphan-malformed");
+
+    std::remove(journal.c_str());
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // visualize()
 // ─────────────────────────────────────────────────────────────────────────────

@@ -640,7 +640,9 @@ bool QUICClient::parseUrl(const std::string& url,
             return false;
         }
         port = static_cast<uint16_t>(p);
-    } catch (...) {
+    } catch (const std::invalid_argument&) {
+        return false;
+    } catch (const std::out_of_range&) {
         return false;
     }
     return !host.empty();

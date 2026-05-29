@@ -53,7 +53,13 @@ static bool validateGeoJSONBasic(const json& geojson) {
         }
         
         return true;
-    } catch (...) {
+    } catch (const nlohmann::json::exception &) {
+        return false;
+    } catch (const std::exception &) {
+        return false;
+    } catch (const std::string &) {
+        return false;
+    } catch (const char *) {
         return false;
     }
 }
@@ -75,7 +81,13 @@ static bool validateGeoJSONBasic(const json& geojson) {
         }
         
         return true;
-    } catch (...) {
+    } catch (const nlohmann::json::exception &) {
+        return false;
+    } catch (const std::exception &) {
+        return false;
+    } catch (const std::string &) {
+        return false;
+    } catch (const char *) {
         return false;
     }
 }
@@ -108,7 +120,13 @@ void GeoIndexHooks::onEntityPut(
             try {
                 std::string blob_str(reinterpret_cast<const char*>(blob.data()), blob.size());
                 j = nlohmann::json::parse(blob_str);
-            } catch (...) {
+            } catch (const nlohmann::json::exception &) {
+                throw;
+            } catch (const std::exception &) {
+                throw;
+            } catch (const std::string &) {
+                throw;
+            } catch (const char *) {
                 throw;
             }
         } else {

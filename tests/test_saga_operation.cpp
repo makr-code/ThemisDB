@@ -182,6 +182,27 @@ TEST_F(SagaOperationTest, DeleteEntityWithCompensation_NoopForMissingKey) {
     EXPECT_EQ(saga.stepCount(), 0u);
 }
 
+TEST_F(SagaOperationTest, SagaCompensate_CStringExceptionDoesNotAbortOtherSteps) {
+    Saga saga;
+    bool second_compensated = false;
+
+    saga.addStep("first", []() { throw "first failed"; });
+    saga.addStep("second", [&second_compensated]() { second_compensated = true; });
+
+    EXPECT_NO_THROW(saga.compensate());
+    EXPECT_TRUE(second_compensated);
+}
+
+TEST_F(SagaOperationTest, SagaCompensateWithRetry_CStringExceptionIncrementsFailureMetric) {
+    Saga saga;
+    saga.addStep("retry-fail", []() { throw "retry failed"; });
+
+    EXPECT_NO_THROW(saga.compensateWithRetry(1, std::chrono::milliseconds(1)));
+
+    auto metrics = saga.getMetrics();
+    EXPECT_EQ(metrics.failed_compensations, 1u);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // indexPutWithCompensation – compensation removes index entries via idx.erase()
 // ─────────────────────────────────────────────────────────────────────────────

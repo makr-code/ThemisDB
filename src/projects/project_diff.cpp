@@ -123,7 +123,10 @@ DeltaSet ProjectDiff::diff(
         if (!storage_->get("snap_data:" + snap_uuid, content_str))
             return json::array();
         try { return json::parse(content_str); }
-        catch (...) { return json::array(); }
+        catch (const nlohmann::json::exception &) { return json::array(); }
+        catch (const std::exception &) { return json::array(); }
+        catch (const std::string &) { return json::array(); }
+        catch (const char *) { return json::array(); }
     };
 
     const json from_docs = loadContent(from_snap);

@@ -503,8 +503,9 @@ void WireProtocolServer::handleAccept(std::shared_ptr<Session> session, const bo
         std::string remote_ip = "unknown";
         try {
             remote_ip = session->socket_.remote_endpoint().address().to_string();
-        } catch (...) {
-            // Fall back to unknown if we can't get the endpoint
+        } catch (const std::exception& e) {
+            std::cerr << "[WireProtocol] Failed to resolve remote endpoint: "
+                      << e.what() << ". Using fallback client_ip=unknown.\n";
         }
 
         if (!checkConnectionLimit(remote_ip)) {
@@ -1323,7 +1324,7 @@ void WireProtocolServer::Session::handleGet() {
             std::string value_str(value_bytes.begin(), value_bytes.end());
             try {
                 response["value"] = json::parse(value_str);
-            } catch (...) {
+            } catch (const json::exception&) {
                 response["value"] = value_str;
             }
             response["found"] = true;
@@ -1562,7 +1563,7 @@ void WireProtocolServer::Session::handleBatchGet() {
                 std::string value_str(value_bytes.begin(), value_bytes.end());
                 try {
                     item["value"] = json::parse(value_str);
-                } catch (...) {
+                } catch (const json::exception&) {
                     item["value"] = value_str;
                 }
                 item["found"] = true;
@@ -2859,8 +2860,9 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
                     std::string error_msg = "Time-series query failed";
                     try {
                         error_msg = std::string("Time-series query failed: ") + result.error().message();
-                    } catch (...) {
-                        // Fallback if error() access fails
+                    } catch (const std::exception& e) {
+                        std::cerr << "[WireProtocol] TS query error-message extraction failed: "
+                                  << e.what() << "\n";
                     }
                     sendError(0x0005, error_msg);
                     return;
@@ -2950,8 +2952,9 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
                     std::string error_msg = "Time-series aggregation failed";
                     try {
                         error_msg = std::string("Time-series aggregation failed: ") + agg_result.error().message();
-                    } catch (...) {
-                        // Fallback if error() access fails
+                    } catch (const std::exception& e) {
+                        std::cerr << "[WireProtocol] TS aggregation error-message extraction failed: "
+                                  << e.what() << "\n";
                     }
                     sendError(0x0005, error_msg);
                     return;
@@ -3000,8 +3003,9 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
                 std::string error_msg = "Time-series query failed";
                 try {
                     error_msg = std::string("Time-series query failed: ") + result.error().message();
-                } catch (...) {
-                    // Fallback if error() access fails
+                } catch (const std::exception& e) {
+                    std::cerr << "[WireProtocol] TS raw-query error-message extraction failed: "
+                              << e.what() << "\n";
                 }
                 sendError(0x0005, error_msg);
                 return;

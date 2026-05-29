@@ -1120,8 +1120,15 @@ bool VulkanVectorBackend::isAvailable() const noexcept {
     if (fn) {
         try {
             return fn();
-        } catch (...) {
-            std::cerr << "[OpenGL] stub availability callback failed" << std::endl;
+        } catch (const std::exception& e) {
+            std::cerr << "[OpenGL] stub availability callback failed: " << e.what() << std::endl;
+            return false;
+        } catch (const std::string& e) {
+            std::cerr << "[OpenGL] stub availability callback failed: " << e << std::endl;
+            return false;
+        } catch (const char* e) {
+            std::cerr << "[OpenGL] stub availability callback failed: "
+                      << (e ? e : "<null>") << std::endl;
             return false;
         }
     }
@@ -1249,7 +1256,13 @@ bool VulkanVectorBackend::initialize() {
         try {
             initialized_ = fn();
             return initialized_;
-        } catch (...) {
+        } catch (const std::exception&) {
+            initialized_ = false;
+            return false;
+        } catch (const std::string&) {
+            initialized_ = false;
+            return false;
+        } catch (const char*) {
             initialized_ = false;
             return false;
         }
@@ -1408,7 +1421,11 @@ std::vector<float> VulkanVectorBackend::computeDistances(
     if (fn) {
         try {
             return fn(queries, numQueries, dim, vectors, numVectors, useL2);
-        } catch (...) {
+        } catch (const std::exception&) {
+            return {};
+        } catch (const std::string&) {
+            return {};
+        } catch (const char*) {
             return {};
         }
     }
@@ -1517,7 +1534,11 @@ std::vector<std::vector<std::pair<uint32_t, float>>> VulkanVectorBackend::batchK
     if (fn) {
         try {
             return fn(queries, numQueries, dim, vectors, numVectors, k, useL2);
-        } catch (...) {
+        } catch (const std::exception&) {
+            return {};
+        } catch (const std::string&) {
+            return {};
+        } catch (const char*) {
             return {};
         }
     }
@@ -3134,8 +3155,15 @@ bool OpenGLVectorBackend::isAvailable() const noexcept {
     if (fn) {
         try {
             return fn();
-        } catch (...) {
-            std::cerr << "[OpenGL] stub availability callback failed" << std::endl;
+        } catch (const std::exception& e) {
+            std::cerr << "[OpenGL] stub availability callback failed: " << e.what() << std::endl;
+            return false;
+        } catch (const std::string& e) {
+            std::cerr << "[OpenGL] stub availability callback failed: " << e << std::endl;
+            return false;
+        } catch (const char* e) {
+            std::cerr << "[OpenGL] stub availability callback failed: "
+                      << (e ? e : "<null>") << std::endl;
             return false;
         }
     }
@@ -3210,7 +3238,11 @@ bool OpenGLVectorBackend::initialize() {
     if (fn) {
         try {
             return fn();
-        } catch (...) {
+        } catch (const std::exception&) {
+            return false;
+        } catch (const std::string&) {
+            return false;
+        } catch (const char*) {
             return false;
         }
     }
@@ -3298,8 +3330,15 @@ std::vector<float> OpenGLVectorBackend::computeDistances(
     if (fn) {
         try {
             return fn(queries, numQueries, dim, vectors, numVectors, useL2);
-        } catch (...) {
-            std::cerr << "[OpenGL] stub computeDistances callback failed" << std::endl;
+        } catch (const std::exception& e) {
+            std::cerr << "[OpenGL] stub computeDistances callback failed: " << e.what() << std::endl;
+            return {};
+        } catch (const std::string& e) {
+            std::cerr << "[OpenGL] stub computeDistances callback failed: " << e << std::endl;
+            return {};
+        } catch (const char* e) {
+            std::cerr << "[OpenGL] stub computeDistances callback failed: "
+                      << (e ? e : "<null>") << std::endl;
             return {};
         }
     }
@@ -3398,8 +3437,15 @@ std::vector<std::vector<std::pair<uint32_t, float>>> OpenGLVectorBackend::batchK
     if (fn) {
         try {
             return fn(queries, numQueries, dim, vectors, numVectors, k, useL2);
-        } catch (...) {
-            std::cerr << "[OpenGL] stub batchKnnSearch callback failed" << std::endl;
+        } catch (const std::exception& e) {
+            std::cerr << "[OpenGL] stub batchKnnSearch callback failed: " << e.what() << std::endl;
+            return {};
+        } catch (const std::string& e) {
+            std::cerr << "[OpenGL] stub batchKnnSearch callback failed: " << e << std::endl;
+            return {};
+        } catch (const char* e) {
+            std::cerr << "[OpenGL] stub batchKnnSearch callback failed: "
+                      << (e ? e : "<null>") << std::endl;
             return {};
         }
     }

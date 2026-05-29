@@ -347,8 +347,11 @@ void TransactionBatcher::executeBatch(std::vector<PendingEntry>& batch)
             st = entry.commit_fn();
         } catch (const std::exception& ex) {
             st = Status::Error(std::string("exception in commit_fn: ") + ex.what());
-        } catch (...) {
-            st = Status::Error("unknown exception in commit_fn");
+        } catch (const std::string& ex) {
+            st = Status::Error(std::string("exception in commit_fn: ") + ex);
+        } catch (const char* ex) {
+            st = Status::Error(std::string("exception in commit_fn: ") +
+                               std::string(ex ? ex : "<null>"));
         }
 
         if (st.ok) ++committed; else ++failed;
