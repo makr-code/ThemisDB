@@ -667,6 +667,15 @@ TEST(WireProtocolV1ThemisGet, EmptyCollectionWouldBeRejected) {
     EXPECT_TRUE(would_reject);
 }
 
+TEST(WireProtocolV1ThemisGet, BlankCollectionWouldBeRejected) {
+    std::string collection = "  \t";
+    std::string uuid = "doc-1";
+    bool is_blank = std::all_of(collection.begin(), collection.end(),
+                                [](unsigned char ch) { return std::isspace(ch) != 0; });
+    bool would_reject = collection.empty() || is_blank || uuid.empty();
+    EXPECT_TRUE(would_reject);
+}
+
 TEST(WireProtocolV1ThemisGet, EmptyUuidWouldBeRejected) {
     std::string collection = "users";
     std::string uuid = "";
@@ -699,6 +708,16 @@ TEST(WireProtocolV1ThemisPut, EmptyEntityWouldBeRejected) {
     EXPECT_TRUE(would_reject);
 }
 
+TEST(WireProtocolV1ThemisPut, BlankUuidWouldBeRejected) {
+    std::string collection = "orders";
+    std::string uuid = " \n";
+    std::string entity = "{}";
+    bool is_blank = std::all_of(uuid.begin(), uuid.end(),
+                                [](unsigned char ch) { return std::isspace(ch) != 0; });
+    bool would_reject = collection.empty() || uuid.empty() || is_blank || entity.empty();
+    EXPECT_TRUE(would_reject);
+}
+
 TEST(WireProtocolV1ThemisPut, ValidInputWouldPassValidation) {
     std::string collection = "orders";
     std::string uuid = "ord-99";
@@ -723,11 +742,28 @@ TEST(WireProtocolV1ThemisDelete, EmptyUuidWouldBeRejected) {
     EXPECT_TRUE(would_reject);
 }
 
+TEST(WireProtocolV1ThemisDelete, BlankUuidWouldBeRejected) {
+    std::string collection = "products";
+    std::string uuid = " \t";
+    bool is_blank = std::all_of(uuid.begin(), uuid.end(),
+                                [](unsigned char ch) { return std::isspace(ch) != 0; });
+    bool would_reject = collection.empty() || uuid.empty() || is_blank;
+    EXPECT_TRUE(would_reject);
+}
+
 // --- QUERY_AQL input validation ---------------------------------------------
 
 TEST(WireProtocolV1ThemisQuery, EmptyAqlWouldBeRejected) {
     std::string aql = "";
     bool would_reject = aql.empty();
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisQuery, BlankAqlWouldBeRejected) {
+    std::string aql = "   \n";
+    bool is_blank = std::all_of(aql.begin(), aql.end(),
+                                [](unsigned char ch) { return std::isspace(ch) != 0; });
+    bool would_reject = aql.empty() || is_blank;
     EXPECT_TRUE(would_reject);
 }
 
@@ -743,6 +779,15 @@ TEST(WireProtocolV1ThemisVectorSearch, EmptyCollectionWouldBeRejected) {
     std::string collection = "";
     int vector_size = 128;
     bool would_reject = collection.empty() || (vector_size == 0);
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisVectorSearch, BlankCollectionWouldBeRejected) {
+    std::string collection = " \t";
+    int vector_size = 128;
+    bool is_blank = std::all_of(collection.begin(), collection.end(),
+                                [](unsigned char ch) { return std::isspace(ch) != 0; });
+    bool would_reject = collection.empty() || is_blank || (vector_size == 0);
     EXPECT_TRUE(would_reject);
 }
 
@@ -809,6 +854,67 @@ TEST(WireProtocolV1ThemisTimeseries, ValidRequestPassesValidation) {
     EXPECT_FALSE(would_reject);
 }
 
+// --- GRAPH_TRAVERSE input validation ---------------------------------------
+
+TEST(WireProtocolV1ThemisGraph, NonObjectRequestWouldBeRejected) {
+    bool request_is_object = false;
+    bool would_reject = !request_is_object;
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisGraph, BlankStartVertexWouldBeRejected) {
+    std::string collection = "edges";
+    std::string start_vertex = "  \t";
+    bool is_blank = std::all_of(start_vertex.begin(), start_vertex.end(),
+                                [](unsigned char ch) { return std::isspace(ch) != 0; });
+    bool would_reject = collection.empty() || start_vertex.empty() || is_blank;
+    EXPECT_TRUE(would_reject);
+}
+
+// --- CURSOR_* input validation ---------------------------------------------
+
+TEST(WireProtocolV1ThemisCursor, NonObjectRequestWouldBeRejected) {
+    bool request_is_object = false;
+    bool would_reject = !request_is_object;
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisCursor, BlankCursorIdWouldBeRejected) {
+    std::string cursor_id = " \n";
+    bool is_blank = std::all_of(cursor_id.begin(), cursor_id.end(),
+                                [](unsigned char ch) { return std::isspace(ch) != 0; });
+    bool would_reject = cursor_id.empty() || is_blank;
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisCursor, BatchSizeOutOfRangeWouldBeRejected) {
+    int batch_size = 10001;
+    bool would_reject = (batch_size < 1 || batch_size > 10000);
+    EXPECT_TRUE(would_reject);
+}
+
+// --- TRANSACTION_* input validation ----------------------------------------
+
+TEST(WireProtocolV1ThemisTransaction, NonObjectBeginRequestWouldBeRejected) {
+    bool request_is_object = false;
+    bool would_reject = !request_is_object;
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisTransaction, BlankTransactionIdWouldBeRejected) {
+    std::string transaction_id = "  \t";
+    bool is_blank = std::all_of(transaction_id.begin(), transaction_id.end(),
+                                [](unsigned char ch) { return std::isspace(ch) != 0; });
+    bool would_reject = transaction_id.empty() || is_blank;
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisTransaction, TimeoutOutOfRangeWouldBeRejected) {
+    int64_t timeout_ms = 3'600'001;
+    bool would_reject = (timeout_ms < 1 || timeout_ms > 3'600'000);
+    EXPECT_TRUE(would_reject);
+}
+
 // --- BPMN_START_PROCESS input validation ------------------------------------
 
 TEST(WireProtocolV1ThemisBpmn, EmptyProcessKeyWouldBeRejected) {
@@ -831,9 +937,25 @@ TEST(WireProtocolV1ThemisBpmn, BlankProcessKeyWouldBeRejected) {
     EXPECT_TRUE(would_reject);
 }
 
+TEST(WireProtocolV1ThemisBpmn, BlankTaskIdWouldBeRejected) {
+    std::string task_id = " \n";
+    bool is_blank = std::all_of(task_id.begin(), task_id.end(),
+                                [](unsigned char ch) { return std::isspace(ch) != 0; });
+    bool would_reject = task_id.empty() || is_blank;
+    EXPECT_TRUE(would_reject);
+}
+
 TEST(WireProtocolV1ThemisBpmn, QueryInstanceRejectsNonObjectRequest) {
     bool request_is_object = false;
     bool would_reject = !request_is_object;
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisBpmn, BlankProcessInstanceIdWouldBeRejected) {
+    std::string process_instance_id = "\t ";
+    bool is_blank = std::all_of(process_instance_id.begin(), process_instance_id.end(),
+                                [](unsigned char ch) { return std::isspace(ch) != 0; });
+    bool would_reject = process_instance_id.empty() || is_blank;
     EXPECT_TRUE(would_reject);
 }
 

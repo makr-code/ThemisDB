@@ -570,7 +570,8 @@ bool createLlamaWrapper(
         if (config.contains("n_ctx")) {
             plugin_config.n_ctx = config["n_ctx"].get<int>();
         }
-        if (config.contains("n_batch")) {
+        const bool has_n_batch = config.contains("n_batch");
+        if (has_n_batch) {
             plugin_config.n_batch = config["n_batch"].get<int>();
         }
         if (config.contains("n_threads")) {
@@ -614,6 +615,12 @@ bool createLlamaWrapper(
             }
         }
         
+        // Keep decode batch at least as large as context window unless explicitly
+        // overridden, otherwise large RAG/docs prompts can hit GGML n_batch asserts.
+        if (!has_n_batch && plugin_config.n_ctx > 0) {
+            plugin_config.n_batch = plugin_config.n_ctx;
+        }
+
         auto plugin = std::make_unique<LlamaWrapper>(plugin_config);
         
         // Load model if path provided

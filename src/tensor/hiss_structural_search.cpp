@@ -423,13 +423,28 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
     const auto dense_tensor = train.reconstruct();
     const auto padded_dense_elements = denseElementCount(padded_grid_sizes);
     std::vector<float> padded_dense_tensor(padded_dense_elements, 0.0f);
-    std::copy(dense_tensor.begin(), dense_tensor.end(), padded_dense_tensor.begin());
+
+    // For non-power-of-two physical shapes the valid payload does not occupy a
+    // contiguous prefix in the padded tensor. Place each dense value via the
+    // reversible physical->QTT index mapping and keep true padding slots zero.
+    QTTMappingDescriptor dense_to_qtt;
+    dense_to_qtt.grid_sizes = resolved_grid_sizes;
+    dense_to_qtt.padded_grid_sizes = padded_grid_sizes;
+    dense_to_qtt.bit_depths = bit_depths;
+    for (std::size_t physical_idx = 0; physical_idx < dense_tensor.size(); ++physical_idx) {
+        const auto qtt_idx = dense_to_qtt.physicalToQTT(physical_idx);
+        padded_dense_tensor[qtt_idx] = dense_tensor[physical_idx];
+    }
+
     storage::TensorTrainDecomposer decomposer;
     storage::TensorTrainConfig cfg;
-    cfg.eps = train.achieved_eps > 0.0
-                  ? std::max(train.achieved_eps, kMinQuanticsEpsilon)
-                  : kMinQuanticsEpsilon;
-    cfg.max_rank = train.maxRank();
+    // exposeQuantics is used as a reversible reshape bridge; keep decomposition
+    // tolerance tight regardless of the source train's achieved approximation.
+    cfg.eps = kMinQuanticsEpsilon;
+    // QTT re-encoding must preserve dense values (including padded layout)
+    // for reversible mapping tests. The source train's rank can be too small
+    // for the reshaped quantics tensor, so keep at least a full-rank budget.
+    cfg.max_rank = std::max(train.maxRank(), padded_dense_elements);
 
     auto decomposed = decomposer.decompose(padded_dense_tensor, quantics_mode_sizes, cfg);
     auto reshaped_train = std::move(decomposed.first);

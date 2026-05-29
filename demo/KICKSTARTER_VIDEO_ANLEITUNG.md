@@ -277,7 +277,7 @@ Nach dem Video: Mache Screenshots von:
 
 4. **Query-Ergebnisse in JSON/JSONL Format**
    ```powershell
-   themisctl query --output-format json ...
+   '{"query_type":"k_hop","start_vertex":"demo_knowledge_graph:node_0001","max_depth":1}' | .\build-msvc-windows-release\bin\themisctl.exe --host 127.0.0.1 --port 8765 api POST /api/v1/graph/query/explain --stdin --content-type application/json
    # Screenshot der formatierten Ausgabe
    ```
 

@@ -27,6 +27,7 @@ $SERVER_HOST = "127.0.0.1"
 $DEMO_COLLECTION = "demo_articles"
 $DEMO_GRAPH = "demo_knowledge_graph"
 $DEMO_VECTORS = "demo_embeddings"
+$LLM_TIMEOUT_SECONDS = 180
 $DEMO_NO_PAUSE = ($env:THEMIS_DEMO_NO_PAUSE -eq "1")
 
 # Colors
@@ -154,11 +155,11 @@ function Try-AutoLoadLlmDefaultModel {
 
     $body = @{ model_id = "default"; path = $ModelPath } | ConvertTo-Json -Compress
     Write-Host "[PRECHECK] Attempting auto-load of default LLM model..." -ForegroundColor Cyan
-    Write-Host "[REQUEST] $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/models/load" -ForegroundColor Magenta
+    Write-Host "[REQUEST] $THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/models/load" -ForegroundColor Magenta
     Write-Host "          body: $body" -ForegroundColor DarkMagenta
     Write-Host ""
 
-    & $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/models/load --body $body
+    & $THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/models/load --body $body
     $ok = ($LASTEXITCODE -eq 0)
     if ($ok) {
         Write-Host "[PRECHECK] OK: model auto-load succeeded." -ForegroundColor Green
@@ -309,14 +310,14 @@ if ($serverProcess) {
 }
 
 $section6GraphExplainBody = '{"query_type":"k_hop","start_vertex":"demo_knowledge_graph:node_0001","max_depth":1}'
-$llmInferenceBody = '{"prompt":"Summarize the impact of ACID transactions for distributed databases in two sentences.","max_tokens":96,"temperature":0.2}'
-$ragQueryBody = '{"query":"What are the latest papers on quantum computing by MIT?","collection":"demo_articles","top_k":3,"max_tokens":192,"temperature":0.2}'
-$docsHelpQueryBody = '{"query":"How do I configure sharding and RAG safely in ThemisDB?","user_id":"demo","max_tokens":128,"temperature":0.2}'
+$llmInferenceBody = '{"prompt":"Summarize the impact of ACID transactions for distributed databases in two sentences.","max_tokens":64,"temperature":0.2}'
+$ragQueryBody = '{"query":"What are the latest papers on quantum computing by MIT?","collection":"demo_articles","top_k":3,"max_tokens":96,"temperature":0.2}'
+$docsHelpQueryBody = '{"query":"How do I configure sharding and RAG safely in ThemisDB?","user_id":"demo","max_tokens":64,"temperature":0.2}'
 
 Write-Header "ThemisDB Demo - Runtime Pre-Checks"
 
 $llmInferenceReady = Test-FeatureReadiness -Name "Section 5 LLM inference endpoint" -Probe {
-    & $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/inference --body $llmInferenceBody
+    & $THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/inference --body $llmInferenceBody
 }
 
 if (-not $llmInferenceReady) {
@@ -324,7 +325,7 @@ if (-not $llmInferenceReady) {
     $autoLoadOk = Try-AutoLoadLlmDefaultModel -ModelPath $autoModelPath
     if ($autoLoadOk) {
         $llmInferenceReady = Test-FeatureReadiness -Name "Section 5 LLM inference endpoint (after auto-load)" -Probe {
-            & $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/inference --body $llmInferenceBody
+            & $THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/inference --body $llmInferenceBody
         }
     }
 }
@@ -334,11 +335,11 @@ $section6ProbeReady = Test-FeatureReadiness -Name "Section 6 graph query explain
 }
 
 $ragReady = Test-FeatureReadiness -Name "Section 7 RAG endpoint" -Probe {
-    & $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/rag --body $ragQueryBody
+    & $THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/rag --body $ragQueryBody
 }
 
 $docsHelpReady = Test-FeatureReadiness -Name "Section 8 docs.db help endpoint" -Probe {
-    & $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/docs/query --body $docsHelpQueryBody
+    & $THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/docs/query --body $docsHelpQueryBody
 }
 
 if (-not $docsHelpReady) {
@@ -413,13 +414,13 @@ if (-not $llmInferenceReady) {
     Write-Host "[SKIP] Section 5 skipped by pre-check (LLM inference not ready)." -ForegroundColor Yellow
     $demoWarnings.Add("Section 5 skipped by pre-check: LLM inference endpoint unavailable on current build/runtime")
 } else {
-    Write-Request -CommandText "$THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/inference" -Body $llmInferenceBody
-    & $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/inference --body $llmInferenceBody
+    Write-Request -CommandText "$THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/inference" -Body $llmInferenceBody
+    & $THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/inference --body $llmInferenceBody
     if ($LASTEXITCODE -ne 0) {
         $demoWarnings.Add("Section 5 warning: LLM inference endpoint unavailable on current build/runtime")
         Write-Host "[INFO] Fetching LLM health diagnostics..." -ForegroundColor Yellow
-        Write-Request -CommandText "$THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api GET /api/v1/llm/health"
-        & $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api GET /api/v1/llm/health
+        Write-Request -CommandText "$THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api GET /api/v1/llm/health"
+        & $THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api GET /api/v1/llm/health
     }
 }
 Write-Host ""
@@ -454,8 +455,8 @@ if (-not $ragReady) {
     Write-Host "[SKIP] Section 7 skipped by pre-check (RAG endpoint not ready)." -ForegroundColor Yellow
     $demoWarnings.Add("Section 7 skipped by pre-check: RAG endpoint unavailable on current build/runtime")
 } else {
-    Write-Request -CommandText "$THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/rag" -Body $ragQueryBody
-    & $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/rag --body $ragQueryBody
+    Write-Request -CommandText "$THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/rag" -Body $ragQueryBody
+    & $THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT api POST /api/v1/llm/rag --body $ragQueryBody
     if ($LASTEXITCODE -ne 0) {
         $demoWarnings.Add("Section 7 warning: RAG endpoint unavailable on current build/runtime")
     }
@@ -473,8 +474,8 @@ if (-not $docsHelpReady) {
     Write-Host "[SKIP] Section 8 skipped by pre-check (docs.db help endpoint unavailable)." -ForegroundColor Yellow
     $demoWarnings.Add("Section 8 skipped by pre-check: docs.db help mode (lora) unavailable on current build/runtime")
 } else {
-    Write-Request -CommandText "$THEMISCTL --host $SERVER_HOST --port $SERVER_PORT help --mode lora \"How do I configure sharding and RAG safely in ThemisDB?\""
-    & $THEMISCTL --host $SERVER_HOST --port $SERVER_PORT help --mode lora "How do I configure sharding and RAG safely in ThemisDB?"
+    Write-Request -CommandText "$THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT help --mode lora \"How do I configure sharding and RAG safely in ThemisDB?\""
+    & $THEMISCTL --timeout $LLM_TIMEOUT_SECONDS --host $SERVER_HOST --port $SERVER_PORT help --mode lora "How do I configure sharding and RAG safely in ThemisDB?"
     if ($LASTEXITCODE -ne 0) {
         $demoWarnings.Add("Section 8 warning: docs.db help mode (lora) unavailable on current build/runtime")
     }

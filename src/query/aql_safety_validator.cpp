@@ -42,10 +42,10 @@ struct MutationPattern {
 /// "CREATE COLLECTION" and "DROP " are exceptions that use a longer prefix
 /// or rely on context to avoid false positives.
 static constexpr MutationPattern kMutationPatterns[] = {
+    {"UPSERT ",           "UPSERT"},
     {"INSERT ",           "INSERT"},
     {"UPDATE ",           "UPDATE"},
     {"REPLACE ",          "REPLACE"},
-    {"UPSERT ",           "UPSERT"},
     {"REMOVE ",           "REMOVE"},
     {"DROP ",             "DROP"},
     {"TRUNCATE ",         "TRUNCATE"},
@@ -80,23 +80,30 @@ AqlSafetyValidator::validate(const std::string& aql_query) const {
     const std::string upper = toUpper(aql_query);
 
     // --- Single-keyword scan ------------------------------------------------
+    const MutationPattern* first_match = nullptr;
+    std::size_t first_pos = std::string::npos;
     for (const auto& pat : kMutationPatterns) {
         const std::string_view needle{pat.keyword};
         const std::size_t pos = findKeyword(upper, needle);
-        if (pos != std::string::npos) {
-            return Violation{
-                pat.label,
-                pos,
-                fmt::format(
-                    "AQL_READ_ONLY_VIOLATION: Mutation keyword '{}' detected "
-                    "at position {} in an enforce_read_only context. "
-                    "Only read-only AQL (FOR/FILTER/RETURN) is allowed for "
-                    "this MCP tool. If you need to modify data, use the "
-                    "explicit write tools (put_entity, delete_entity) which "
-                    "have a proper approval workflow.",
-                    pat.label, pos)
-            };
+        if (pos != std::string::npos && (first_match == nullptr || pos < first_pos)) {
+            first_match = &pat;
+            first_pos = pos;
         }
+    }
+
+    if (first_match != nullptr) {
+        return Violation{
+            first_match->label,
+            first_pos,
+            fmt::format(
+                "AQL_READ_ONLY_VIOLATION: Mutation keyword '{}' detected "
+                "at position {} in an enforce_read_only context. "
+                "Only read-only AQL (FOR/FILTER/RETURN) is allowed for "
+                "this MCP tool. If you need to modify data, use the "
+                "explicit write tools (put_entity, delete_entity) which "
+                "have a proper approval workflow.",
+                first_match->label, first_pos)
+        };
     }
 
     // --- FOR … REMOVE compound pattern -------------------------------------

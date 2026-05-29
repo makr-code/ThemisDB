@@ -11,12 +11,13 @@ demo/
 ├── kickstarter_demo_script.ps1    ⭐ RUN THIS - Vollständige automatisierte Demo
 ├── kickstarter_demo_script.sh     # Bash-Version für Linux/macOS
 ├── QUICKSTART.md                  ⭐ START HERE - 5-Minuten Quick-Start
-├── DEMO_QUERIES.md                # 50+ Copy-Paste ready AQL Queries
+├── DEMO_QUERIES.md                # Aktueller Live-Runbook (PowerShell + Expected Output)
 ├── KICKSTARTER_VIDEO_ANLEITUNG.md # Ausführliche Deutsche Anleitung
 ├── README.md                       # Diese Datei
 ├── setup/
-│   ├── init-demo.ps1              # Legacy setup script (erstellt Daten+Queries)
-│   └── setup-demo.ps1             # Erweiterte Setup-Optionen
+│   ├── setup_demo_data.ps1        # Demo-Daten generieren + importieren
+│   ├── generate_demo_data.py      # Erzeugt JSONL-Daten nach demo/data
+│   └── SETUP_INSTRUCTIONS.md      # Setup-Details und Troubleshooting
 ├── queries/                        # 6 Demo-Queries (alle Use-Cases)
 │   ├── 1_relational_join.sql       # SQL: Relational mit JOIN
 │   ├── 2_vector_search.sql         # Vector: Semantic Search
@@ -264,7 +265,7 @@ Nach Video + Screenshots:
 
 ## ✨ Success Checklist
 
-- [ ] ✅ Demo-Umgebung initialisiert (`init-demo.ps1` ausgeführt)
+- [ ] ✅ Demo-Umgebung initialisiert (`setup_demo_data.ps1` ausgeführt)
 - [ ] 📹 Video aufgenommen (4-5 Min, single-take, MP4)
 - [ ] 📸 6 Screenshots erstellt (HD, PNG)
 - [ ] 📝 English-Transkription hinzugefügt

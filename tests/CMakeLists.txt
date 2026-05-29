@@ -1357,6 +1357,11 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/storage/pitr_manager.cpp
             ${THEMIS_ROOT_DIR}/src/auth/auth_error.cpp
             ${THEMIS_ROOT_DIR}/src/auth/mtls_authenticator.cpp
+            # Redis cache coordinator is intentionally not part of themis_core
+            # because the monolithic core path favors distributed_cache_coordinator.
+            # The unified test binary still needs the RedisCacheCoordinator symbols
+            # for the hiredis bridge tests, so compile this source directly here.
+            ${THEMIS_ROOT_DIR}/src/cache/redis_cache_coordinator.cpp
             # test_hsm_provider_stub is appended conditionally below
             ${THEMIS_ROOT_DIR}/src/cdc/dead_letter_queue.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/consumer_group.cpp

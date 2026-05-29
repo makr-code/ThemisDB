@@ -257,14 +257,33 @@ http::response<http::string_body> LLMApiHandler::handleInference(
         auto& plugin_mgr = llm::LLMPluginManager::instance();
         auto llm_response = plugin_mgr.generate(llm_request);
 
-        // Create response
+        // Create response with backward-compatible base fields plus quality-oriented KPIs.
+        const std::string resolved_model =
+            llm_response.model_id.empty() ? (model_id.empty() ? "default" : model_id) : llm_response.model_id;
+        const auto prompt_length = static_cast<int>(prompt.length());
+        const auto generated_length = static_cast<int>(llm_response.text.length());
+        const auto tokens_generated = llm_response.tokens_generated;
+        const auto inference_time_ms = llm_response.inference_time_ms;
+        const double safe_inference_time_ms = inference_time_ms > 0.0 ? inference_time_ms : 1.0;
+        const int safe_tokens_generated = tokens_generated > 0 ? tokens_generated : 1;
+        const double tokens_per_second =
+            static_cast<double>(tokens_generated) * 1000.0 / safe_inference_time_ms;
+        const double ms_per_token = static_cast<double>(inference_time_ms) / static_cast<double>(safe_tokens_generated);
+        const bool hit_max_tokens_limit = max_tokens > 0 && tokens_generated >= max_tokens;
+        const bool non_empty_text = !llm_response.text.empty();
+
         json response_body = {
             {"text", llm_response.text},
-            {"model", llm_response.model_id.empty() ? (model_id.empty() ? "default" : model_id) : llm_response.model_id},
-            {"prompt_length", prompt.length()},
-            {"generated_length", llm_response.text.length()},
-            {"tokens_generated", llm_response.tokens_generated},
-            {"inference_time_ms", llm_response.inference_time_ms}
+            {"model", resolved_model},
+            {"prompt_length", prompt_length},
+            {"generated_length", generated_length},
+            {"tokens_generated", tokens_generated},
+            {"inference_time_ms", inference_time_ms},
+            {"max_tokens_requested", max_tokens},
+            {"hit_max_tokens_limit", hit_max_tokens_limit},
+            {"non_empty_text", non_empty_text},
+            {"tokens_per_second", tokens_per_second},
+            {"ms_per_token", ms_per_token}
         };
         
         return createJsonResponse(http::status::ok, response_body);

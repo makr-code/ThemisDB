@@ -11,7 +11,7 @@
 #>
 
 param(
-    [string]$ThemisctlPath = ".\build\windows-release\bin\themisctl.exe",
+    [string]$ThemisctlPath = "",
     [string]$ServerHost = "127.0.0.1",
     [int]$ServerPort = 8765,
     [string]$DataDir = ".\demo\data"
@@ -42,6 +42,22 @@ function Write-Success {
 
 function Write-Error-Custom {
     Write-Host "ERROR: $($args[0])" -ForegroundColor Red
+}
+
+function Resolve-ThemisctlPath {
+    $candidates = @(
+        ".\build-msvc-windows-release\bin\themisctl.exe",
+        ".\build\windows-release\bin\themisctl.exe",
+        ".\build\msvc-ninja-release\bin\themisctl.exe"
+    )
+
+    foreach ($candidate in $candidates) {
+        if (Test-Path $candidate) {
+            return $candidate
+        }
+    }
+
+    return $null
 }
 
 function Import-JsonlViaPut {
@@ -79,6 +95,10 @@ function Import-JsonlViaPut {
 # =============================================================================
 
 Write-Header "ThemisDB Demo Data Setup"
+
+if ([string]::IsNullOrWhiteSpace($ThemisctlPath)) {
+    $ThemisctlPath = Resolve-ThemisctlPath
+}
 
 # Check themisctl exists
 if (-not (Test-Path $ThemisctlPath)) {
@@ -130,7 +150,6 @@ Write-Section "[3] Importing Data into ThemisDB..."
 Write-Info "  → Importing demo_articles collection..."
 $articlesFile = "$DataDir\demo_articles.jsonl"
 if (Test-Path $articlesFile) {
-    $articleCount = @(Get-Content $articlesFile | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }).Count
     try {
         $imported = Import-JsonlViaPut -Collection "demo_articles" -FilePath $articlesFile -KeyPrefix "art_"
         Write-Success "    ✓ Imported $imported articles"
@@ -145,7 +164,6 @@ if (Test-Path $articlesFile) {
 Write-Info "  → Importing demo_embeddings collection..."
 $embeddingsFile = "$DataDir\demo_embeddings.jsonl"
 if (Test-Path $embeddingsFile) {
-    $embeddingCount = @(Get-Content $embeddingsFile | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }).Count
     try {
         $imported = Import-JsonlViaPut -Collection "demo_embeddings" -FilePath $embeddingsFile -KeyPrefix "vec_"
         Write-Success "    ✓ Imported $imported embeddings"
@@ -160,7 +178,6 @@ if (Test-Path $embeddingsFile) {
 Write-Info "  → Importing demo_knowledge_graph collection (nodes)..."
 $nodesFile = "$DataDir\demo_knowledge_graph_nodes.jsonl"
 if (Test-Path $nodesFile) {
-    $nodeCount = @(Get-Content $nodesFile | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }).Count
     try {
         $imported = Import-JsonlViaPut -Collection "demo_knowledge_graph" -FilePath $nodesFile -KeyPrefix "node_"
         Write-Success "    ✓ Imported $imported nodes"
@@ -175,7 +192,6 @@ if (Test-Path $nodesFile) {
 Write-Info "  → Importing demo_knowledge_graph collection (edges)..."
 $edgesFile = "$DataDir\demo_knowledge_graph_edges.jsonl"
 if (Test-Path $edgesFile) {
-    $edgeCount = @(Get-Content $edgesFile | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }).Count
     try {
         $imported = Import-JsonlViaPut -Collection "demo_knowledge_graph" -FilePath $edgesFile -KeyPrefix "edge_"
         Write-Success "    ✓ Imported $imported edges"

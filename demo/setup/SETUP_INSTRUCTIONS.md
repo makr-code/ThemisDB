@@ -144,7 +144,7 @@ FOR researcher IN demo_knowledge_graph
 
 ### Requirements
 - Python 3.7+
-- `themisctl` gebaut (oder `build\windows-release\bin\themisctl.exe`)
+- `themisctl` gebaut (z. B. `build-msvc-windows-release\bin\themisctl.exe`)
 - ThemisDB Server läuft auf `localhost:8765`
 
 ### Was das Setup-Script tut
@@ -171,6 +171,27 @@ Führt aus:
 2. Jede JSONL-Datei in themisctl importieren
 3. Alle Collections verifizieren
 
+### Ablage in der ThemisDB Demo-DB (wichtig)
+
+Die Demo-Daten werden nicht nur als Dateien erzeugt, sondern per `themisctl put` in die laufende Demo-DB geschrieben.
+
+- Physischer DB-Pfad im Demo-Flow:
+  - `./demo/data/themis_db` (wenn der Server wie im Runbook mit `--db .\\demo\\data\\themis_db` gestartet wird)
+- Primärschlüssel-Schema pro Collection:
+  - `demo_articles:art_0001 ... art_0013`
+  - `demo_embeddings:vec_0001 ...`
+  - `demo_knowledge_graph:node_0001 ...` und `demo_knowledge_graph:edge_0001 ...`
+- Payload-Schema beim Import:
+  - Das Setup schreibt `{"blob":"<jsonl-zeile-als-string>"}`
+  - Quelle: `Import-JsonlViaPut` in `demo/setup/setup_demo_data.ps1`
+
+Beispiel (manuell inspizieren):
+
+```powershell
+& .\build-msvc-windows-release\bin\themisctl.exe --host 127.0.0.1 --port 8765 get demo_articles:art_0001
+& .\build-msvc-windows-release\bin\themisctl.exe --host 127.0.0.1 --port 8765 get demo_knowledge_graph:node_0001
+```
+
 ---
 
 ## 📋 Troubleshooting
@@ -187,7 +208,7 @@ cmake --build --preset windows-release --target themisctl
 ### "Server connection refused"
 ```powershell
 # In separatem Terminal: Server starten
-.\build\windows-release\bin\themisctl server --port 8765
+.\build-msvc-windows-release\bin\themis_server.exe --db .\demo\data\themis_db --port 8765 --allow-degraded-build --allow-stub-hsm
 
 # Dann in anderem Terminal: Setup-Script laufen
 .\demo\setup\setup_demo_data.ps1
@@ -218,7 +239,7 @@ Get-Content .\demo\data\demo_articles.jsonl | themisctl batch-insert --collectio
 ## 📚 Weitere Ressourcen
 
 - **[QUICKSTART.md](../QUICKSTART.md)** — 5-Minuten Demo-Start
-- **[DEMO_QUERIES.md](../DEMO_QUERIES.md)** — 50+ Copy-Paste Queries
+- **[DEMO_QUERIES.md](../DEMO_QUERIES.md)** — Aktueller PowerShell Live-Runbook
 - **[README.md](../README.md)** — Vollständiger Überblick
 
 ---
@@ -265,7 +286,7 @@ LIMIT 8
 - [ ] Alle 3 Collections importiert
 - [ ] Queries aus DEMO_QUERIES.md funktionieren
 - [ ] Server läuft stabil (keine Crashes)
-- [ ] Test-Query mit `themisctl query` funktioniert
+- [ ] API-Spotcheck aus DEMO_QUERIES.md (Schema + Graph Explain) funktioniert
 - [ ] Terminal font ist groß genug für Video
 
 ---

@@ -1,369 +1,357 @@
-# ThemisDB Demo Queries - Copy & Paste Ready
+# ThemisDB Live Demo - Step by Step (Speaker + PowerShell + Expected Output)
 
-Use these queries directly in themisctl for the Kickstarter demo video.
+This is one continuous walkthrough.
+Each step always follows the same structure:
 
----
+1. Speaker text (what you say)
+2. PowerShell prompt (what you type)
+3. Expected result (real, shortened output)
 
-## 1. SYSTEM STATUS
+Real output source logs for these snippets:
+- ai_working/demo_run_real_output_latest.log
+- ai_working/themisctl_real_output_latest.log
 
-### Check Server Health
-```aql
-RETURN { status: "OK", version: "1.0", timestamp: NOW() }
+Important copy/paste note:
+- In PowerShell, do not paste the prompt prefix (`PS C:\...>`). Paste only the command itself.
+- Example: use `& $THEMISCTL ...`, not `PS C:\Projects\ThemisDB> & $THEMISCTL ...`.
+
+## Step 1 - Open workspace and define themisctl
+
+Speaker text:
+"I am running the demo live from a Windows PowerShell session in the ThemisDB workspace."
+
+PowerShell prompt:
+```powershell
+PS C:\> Set-Location C:\Projects\ThemisDB
+PS C:\Projects\ThemisDB> $THEMISCTL = ".\build-msvc-windows-release\bin\themisctl.exe"
 ```
 
-### View All Collections
-```aql
-FOR collection IN collections
-RETURN collection.name
+Expected result:
+```text
+(no output is expected for variable assignment)
 ```
 
----
-
-## 2. DOCUMENT SEARCH (Full-Text, SQL-like)
-
-### Simple Filter
-```aql
-FOR doc IN demo_articles
-  FILTER doc.title LIKE '%AI%'
-  LIMIT 5
-  RETURN doc
+PowerShell prompt (sanity check for this window):
+```powershell
+PS C:\Projects\ThemisDB> $THEMISCTL
+PS C:\Projects\ThemisDB> Test-Path $THEMISCTL
 ```
 
-### Advanced Text Search with Sort
-```aql
-FOR doc IN demo_articles
-  FILTER doc.title LIKE '%machine%' OR doc.content LIKE '%learning%'
-  SORT doc.published DESC
-  LIMIT 10
-  RETURN {
-    title: doc.title,
-    published: doc.published,
-    author: doc.author,
-    snippet: SUBSTRING(doc.content, 0, 100)
-  }
+Expected result:
+```text
+.\build-msvc-windows-release\bin\themisctl.exe
+True
 ```
 
-### Aggregation Example
-```aql
-FOR doc IN demo_articles
-  FILTER doc.category == 'research'
-  COLLECT category = doc.category WITH COUNT INTO count
-  RETURN { category: category, count: count }
+If `$THEMISCTL` is empty in your current window, run this fallback before Step 3:
+```powershell
+PS C:\Projects\ThemisDB> $THEMISCTL = ".\build-msvc-windows-release\bin\themisctl.exe"
 ```
 
----
+## Step 2 - Start ThemisDB server (separate PowerShell window)
 
-## 3. VECTOR SEARCH (Semantic/Similarity)
+Speaker text:
+"In a second PowerShell window, I start the ThemisDB server exactly like the demo script, including the two required compatibility switches."
 
-### Basic Vector Query
-```aql
-FOR doc IN demo_embeddings
-  LET similarity = COSINE_SIMILARITY(doc.embedding, [0.1, -0.2, 0.8, 0.3])
-  FILTER similarity > 0.7
-  SORT similarity DESC
-  LIMIT 5
-  RETURN {
-    title: doc.title,
-    similarity: ROUND(similarity, 3)
-  }
+PowerShell prompt:
+```powershell
+PS C:\> Set-Location C:\Projects\ThemisDB; $SERVER_DB_PATH = ".\demo\data\themis_db"; New-Item -ItemType Directory -Path $SERVER_DB_PATH -Force | Out-Null; .\build-msvc-windows-release\bin\themis_server.exe --db "$SERVER_DB_PATH" --port 8765 --allow-degraded-build --allow-stub-hsm
 ```
 
-### Vector Search with Ranking
-```aql
-FOR doc IN demo_embeddings
-  LET sim = COSINE_SIMILARITY(doc.embedding, @query_vec)
-  FILTER sim > 0.5
-  SORT sim DESC
-  LIMIT 10
-  RETURN {
-    doc_id: doc._id,
-    title: doc.title,
-    score: ROUND(sim * 100, 1)  // Convert to percentage
-  }
+Required switches from `demo/kickstarter_demo_script.ps1`:
+- `--allow-degraded-build`
+- `--allow-stub-hsm`
+
+Expected result (real, shortened):
+```text
+[PRE-FLIGHT] Server laeuft. Lade Demo-Daten...
+...
+Server is running and responding to queries.
 ```
 
-### Multi-Vector Fusion (Hybrid Search)
-```aql
-FOR doc IN demo_embeddings
-  LET vec_sim = COSINE_SIMILARITY(doc.embedding, @query_embedding)
-  LET text_match = (doc.title LIKE @keyword OR doc.tags CONTAINS @keyword) ? 1.0 : 0.0
-  LET combined_score = (vec_sim * 0.7) + (text_match * 0.3)
-  FILTER combined_score > 0.5
-  SORT combined_score DESC
-  LIMIT 5
-  RETURN {
-    title: doc.title,
-    vector_score: ROUND(vec_sim, 3),
-    text_match: text_match,
-    final_score: ROUND(combined_score, 3)
-  }
+Demo-Datenablage (wichtig fuer den Live-Call):
+- Physischer DB-Pfad: `./demo/data/themis_db`
+- Keys in der Demo-DB folgen dem Schema `<collection>:<prefix><nnnn>`
+  - z. B. `demo_articles:art_0001`, `demo_embeddings:vec_0001`, `demo_knowledge_graph:node_0001`
+- Import-Payload ist ein Wrapper mit `blob`:
+  - `{"blob":"<jsonl-zeile-als-string>"}`
+
+## Step 3 - Verify server reachability
+
+Speaker text:
+"First, I verify the server is reachable before running AI and graph endpoints."
+
+PowerShell prompt:
+```powershell
+PS C:\Projects\ThemisDB> & $THEMISCTL --host 127.0.0.1 --port 8765 schema
 ```
 
----
-
-## 4. GRAPH NAVIGATION (Relationships)
-
-### Simple Graph Traversal (1 Hop)
-```aql
-FOR researcher IN demo_graph
-  FILTER researcher.type == 'researcher'
-  FOR paper IN 1 OUTBOUND researcher._id graph_edges
-    FILTER paper.type == 'paper'
-  LIMIT 5
-  RETURN {
-    researcher: researcher.name,
-    paper: paper.title
-  }
+Path-safe fallback (works even if variable was not set):
+```powershell
+PS C:\Projects\ThemisDB> .\build-msvc-windows-release\bin\themisctl.exe --host 127.0.0.1 --port 8765 schema
 ```
 
-### Multi-Hop Traversal (2-3 Hops)
-```aql
-FOR researcher IN demo_graph
-  FILTER researcher.type == 'researcher'
-  FOR connection IN 1..2 OUTBOUND researcher._id graph_edges
-  LIMIT 8
-  RETURN {
-    researcher: researcher.name,
-    depth: 1,
-    connected_entity: connection.name,
-    type: connection.type
-  }
+Expected result (real, shortened):
+```text
+Server is running and responding to queries.
 ```
 
-### Path Finding
-```aql
-FOR start IN demo_graph
-  FILTER start.name == 'Alice'
-  FOR end IN demo_graph
-    FILTER end.name == 'Charlie'
-    FOR path IN PATHS(start._id, end._id, 1..3, 'graph_edges')
-    RETURN {
-      path_length: LENGTH(path.vertices),
-      nodes: [v.name FOR v IN path.vertices],
-      edges: LENGTH(path.edges)
+## Step 4 - Explain resilience behavior (auto model load)
+
+Speaker text:
+"If no default LLM plugin is active, the flow auto-loads the configured model so the demo can continue."
+
+PowerShell prompt:
+```powershell
+PS C:\Projects\ThemisDB> & $THEMISCTL --timeout 180 --host 127.0.0.1 --port 8765 api POST /api/v1/llm/models/load --body "$(@{ model_id = 'default'; path = 'C:\Projects\ThemisDB\models\phi4.gguf' } | ConvertTo-Json -Compress)"
+```
+
+Most robust fallback (bypass `--body` quoting entirely via stdin):
+```powershell
+'{"model_id":"default","path":"C:\\Projects\\ThemisDB\\models\\phi4.gguf"}' | .\build-msvc-windows-release\bin\themisctl.exe --timeout 180 --host 127.0.0.1 --port 8765 api POST /api/v1/llm/models/load --stdin --content-type application/json
+```
+
+Expected result (real, shortened):
+```text
+[PRECHECK] FAIL: Section 5 LLM inference endpoint
+  "message": "LLM endpoint failure: No default LLM plugin available"
+...
+[PRECHECK] OK: model auto-load succeeded.
+```
+
+## Step 5 - LLM inference
+
+Speaker text:
+"Now I run direct model inference and show latency plus token count from the live response."
+
+PowerShell prompt:
+```powershell
+PS C:\Projects\ThemisDB> '{"prompt":"Summarize the impact of ACID transactions for distributed databases in two sentences.","max_tokens":64,"temperature":0.2}' | & $THEMISCTL --timeout 180 --host 127.0.0.1 --port 8765 api POST /api/v1/llm/inference --stdin --content-type application/json
+```
+
+PowerShell prompt (KPI overlay for model identity and inference validity):
+```powershell
+PS C:\Projects\ThemisDB> $inferRaw = '{"prompt":"Summarize the impact of ACID transactions for distributed databases in two sentences.","max_tokens":64,"temperature":0.2}' | & $THEMISCTL --timeout 180 --host 127.0.0.1 --port 8765 api POST /api/v1/llm/inference --stdin --content-type application/json; $infer = $inferRaw | ConvertFrom-Json; [pscustomobject]@{ model_alias = $infer.model; model_path = 'C:\Projects\ThemisDB\models\phi4.gguf'; tokens_generated = [int]$infer.tokens_generated; inference_time_ms = [math]::Round([double]$infer.inference_time_ms,2); tokens_per_sec = [math]::Round(([double]$infer.tokens_generated * 1000.0) / [Math]::Max([double]$infer.inference_time_ms,1.0),2); chars_generated = [int]$infer.text.Length; chars_per_token = [math]::Round(([double]$infer.text.Length) / [Math]::Max([double]$infer.tokens_generated,1.0),2); hit_max_tokens = ([int]$infer.tokens_generated -ge 64); non_empty_text = ([string]::IsNullOrWhiteSpace($infer.text) -eq $false) } | Format-List
+```
+
+Expected result (real, shortened):
+```json
+{
+  "generated_length": 395,
+  "hit_max_tokens_limit": true,
+  "inference_time_ms": 7563.83984375,
+  "max_tokens_requested": 64,
+  "model": "default",
+  "ms_per_token": 118.18499755859375,
+  "non_empty_text": true,
+  "prompt_length": 85,
+  "text": "assistantACID transactions ensure data integrity ...",
+  "tokens_generated": 64,
+  "tokens_per_second": 8.461310831810273
+}
+```
+
+Expected KPI overlay (real example, shortened):
+```text
+model_alias       : default
+model_path        : C:\Projects\ThemisDB\models\phi4.gguf
+tokens_generated  : 64
+inference_time_ms : 7388.06
+tokens_per_sec    : 8.66
+chars_generated   : 395
+chars_per_token   : 6.17
+hit_max_tokens    : True
+non_empty_text    : True
+```
+
+## Step 6 - Graph query planner explain
+
+Speaker text:
+"This call shows how the graph planner selects an algorithm and reports estimated execution cost."
+
+PowerShell prompt:
+```powershell
+PS C:\Projects\ThemisDB> '{"query_type":"k_hop","start_vertex":"demo_knowledge_graph:node_0001","max_depth":1}' | & $THEMISCTL --host 127.0.0.1 --port 8765 api POST /api/v1/graph/query/explain --stdin --content-type application/json
+```
+
+Expected result (real, shortened):
+```json
+{
+  "algorithm": "BFS",
+  "estimated_time_ms": 0.11199999999999999,
+  "pattern": "K-Hop Neighborhood",
+  "use_index": true,
+  "use_cache": true
+}
+```
+
+## Step 7 - RAG endpoint
+
+Speaker text:
+"Now we combine retrieval and generation. The response includes retrieved document count and inference timing."
+
+PowerShell prompt:
+```powershell
+PS C:\Projects\ThemisDB> '{"query":"What are the latest papers on quantum computing by MIT?","collection":"demo_articles","top_k":3,"max_tokens":96,"temperature":0.2}' | & $THEMISCTL --timeout 180 --host 127.0.0.1 --port 8765 api POST /api/v1/llm/rag --stdin --content-type application/json
+```
+
+Expected result (real, shortened):
+```json
+{
+  "documents_retrieved": 3,
+  "inference_time_ms": 11044.544921875,
+  "model": "default",
+  "text": "assistantAs a large language model, I can't provide real-time updates ...",
+  "tokens_generated": 96
+}
+```
+
+## Step 8 - AQL showcase (query endpoint)
+
+Speaker text:
+"This AQL showcase runs a direct query against the AQL endpoint and returns matching records with metadata."
+
+PowerShell prompt:
+```powershell
+PS C:\Projects\ThemisDB> '{"query":"FOR d IN demo_articles LIMIT 1 RETURN d"}' | & $THEMISCTL --timeout 60 --host 127.0.0.1 --port 8765 api POST /query/aql --stdin --content-type application/json
+```
+
+Expected result (target, shortened):
+```json
+{
+  "result": [
+    {
+      "id": "demo_articles:article_001",
+      "blob": "..."
     }
+  ],
+  "execution_time_ms": 0.0,
+  "count": 1
+}
 ```
 
-### Degree Centrality (Find Important Nodes)
-```aql
-FOR node IN demo_graph
-  LET in_degree = (
-    FOR edge IN graph_edges
-    FILTER edge._to == node._id
-    RETURN 1
-  )
-  LET out_degree = (
-    FOR edge IN graph_edges
-    FILTER edge._from == node._id
-    RETURN 1
-  )
-  SORT (LENGTH(in_degree) + LENGTH(out_degree)) DESC
-  LIMIT 5
-  RETURN {
-    name: node.name,
-    in_degree: LENGTH(in_degree),
-    out_degree: LENGTH(out_degree),
-    total: LENGTH(in_degree) + LENGTH(out_degree)
+Observed fallback in some current builds (known limitation):
+```json
+{
+  "error": true,
+  "status_code": 400,
+  "message": "Query execution failed: ... Optimized entity execution failed for table 'demo_articles' ..."
+}
+```
+
+## Step 9 - GraphQL showcase (schema + query)
+
+Speaker text:
+"Now I run a richer GraphQL operation with variables, aliases, and multiple root fields to show schema and graph access in one call."
+
+PowerShell prompt (schema):
+```powershell
+PS C:\Projects\ThemisDB> & $THEMISCTL --host 127.0.0.1 --port 8765 api GET /graphql/schema
+```
+
+Expected result (schema, shortened SDL):
+```graphql
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+type Query {
+  document(collection: String!, id: ID!): Document
+  documents(collection: String!, limit: Int, offset: Int): [Document!]!
+  aql(query: String!, variables: JSON): JSON
+  graphTraversal(startNode: ID!, depth: Int, direction: String): [Node!]!
+}
+```
+
+PowerShell prompt (advanced query via stdin):
+```powershell
+PS C:\Projects\ThemisDB> '{"query":"query GraphDashboard($start: ID!, $depth: Int!) { apiVersion schemaVersion kHop: graphTraversal(startNode: $start, depth: $depth, direction: \"out\") { id labels properties } }","variables":{"start":"demo_knowledge_graph:node_0001","depth":1}}' | & $THEMISCTL --timeout 60 --host 127.0.0.1 --port 8765 api POST /graphql --stdin --content-type application/json
+```
+
+Expected result (shortened):
+```json
+{
+  "data": {
+    "apiVersion": "1.8.0-rc1",
+    "kHop": null,
+    "schemaVersion": "2.0.0"
   }
+}
 ```
 
----
-
-## 5. ADVANCED: MULTI-MODEL FUSION
-
-### Document + Vector + Graph Join
-```aql
-FOR article IN demo_articles
-  FILTER article.category == 'research'
-  LET related_vectors = (
-    FOR vec IN demo_embeddings
-    LET sim = COSINE_SIMILARITY(vec.embedding, article.embedding)
-    FILTER sim > 0.6
-    SORT sim DESC
-    LIMIT 3
-    RETURN { title: vec.title, similarity: ROUND(sim, 2) }
-  )
-  LET author_node = (
-    FOR node IN demo_graph
-    FILTER node.name == article.author
-    RETURN node
-  )[0]
-  LET co_authors = (
-    FOR collaborator IN 1 OUTBOUND author_node._id graph_edges
-    FILTER collaborator.type == 'researcher'
-    RETURN collaborator.name
-  )
-  RETURN {
-    article: article.title,
-    author: article.author,
-    similar_papers: related_vectors,
-    collaborators: co_authors,
-    publication_year: article.published
-  }
+Optional interpretation line for live demo:
+```text
+If graph resolvers are active in the current runtime profile, `kHop` returns node rows instead of null.
 ```
 
----
+## Step 10 - Documentation-aware help
 
-## 6. LLM & RAG FEATURES
+Speaker text:
+"This is docs-aware help mode. It answers an operational question using ThemisDB documentation context."
 
-### Natural Language Query (RAG)
-```bash
-themisctl rag query \
-  --collection demo_articles \
-  --top-k 3 \
-  "What are the latest advances in machine learning for drug discovery?"
+PowerShell prompt:
+```powershell
+PS C:\Projects\ThemisDB> & $THEMISCTL --timeout 180 --host 127.0.0.1 --port 8765 help --mode lora "How do I configure sharding and RAG safely in ThemisDB?"
 ```
 
-### Multi-Collection RAG
-```bash
-themisctl rag query \
-  --collection demo_articles \
-  --collection demo_embeddings \
-  --top-k 5 \
-  "Explain quantum computing and its applications"
+Expected result (real, shortened):
+```text
+themis-help (lora):
+assistantTo configure sharding and Retrieval-Augmented Generation (RAG) safely in ThemisDB, you can follow these general guidelines...
 ```
 
-### RAG with Constraints
-```bash
-themisctl rag query \
-  --collection demo_articles \
-  --top-k 3 \
-  --filter "published > 2024-01-01" \
-  --lang en \
-  "Recent developments in AI safety"
+## Step 11 - CRUD consistency probe
+
+Speaker text:
+"I now write and read back a probe entity to show that core data operations remain consistent during AI traffic."
+
+PowerShell prompt:
+```powershell
+PS C:\Projects\ThemisDB> & $THEMISCTL --host 127.0.0.1 --port 8765 put demo_articles:runtime_probe '{"blob":"{\"title\":\"Runtime Probe\",\"content\":\"Compatibility mode\"}"}'
+PS C:\Projects\ThemisDB> & $THEMISCTL --host 127.0.0.1 --port 8765 get demo_articles:runtime_probe
 ```
 
----
-
-## 7. PERFORMANCE & MONITORING
-
-### Query Explain (Execution Plan)
-```bash
-themisctl query --explain \
-  "FOR doc IN demo_articles FILTER doc.title LIKE '%AI%' LIMIT 5 RETURN doc"
+Expected result (real, shortened):
+```text
+[OK] Entity 'demo_articles:runtime_probe' stored.
+(then JSON entity on readback)
 ```
 
-### Query with Timing
-```bash
-themisctl query --show-timing \
-  "FOR doc IN demo_articles \
-   FILTER doc.category == 'research' \
-   SORT doc.published DESC \
-   LIMIT 100 \
-   RETURN doc"
+## Step 12 - Index recommendation
+
+Speaker text:
+"Finally, I check optimization guidance from the system recommender."
+
+PowerShell prompt:
+```powershell
+PS C:\Projects\ThemisDB> & $THEMISCTL --host 127.0.0.1 --port 8765 index recommend demo_articles
 ```
 
-### System Statistics
-```bash
-themisctl admin stats
+Expected result (real):
+```text
+(no recommendations for demo_articles)
 ```
 
-### Index Status
-```bash
-themisctl admin indexes --collection demo_articles
+## Step 13 - Full scripted run (optional, end-to-end proof)
+
+Speaker text:
+"As a final proof, I can run the complete scripted flow and capture everything to a logfile."
+
+PowerShell prompt:
+```powershell
+PS C:\Projects\ThemisDB> $env:THEMIS_DEMO_NO_PAUSE = '1'
+PS C:\Projects\ThemisDB> pwsh -NoProfile -ExecutionPolicy Bypass -File .\demo\kickstarter_demo_script.ps1 2>&1 | Tee-Object -FilePath .\ai_working\demo_run_real_output_latest.log
 ```
 
----
-
-## 8. INTERACTIVE REPL MODE
-
-### Start REPL
-```bash
-themisctl repl --host localhost:8765
+Expected result (real, shortened):
+```text
+Demo Complete!
+...
+ThemisDB demo checks passed. System appears operational for this scenario.
 ```
 
-### Inside REPL - Example Queries
-```
-> FOR doc IN demo_articles LIMIT 3 RETURN doc
-> EXPLAIN SELECT * FROM demo_articles WHERE category = 'AI'
-> SHOW COLLECTIONS
-> SHOW INDEXES demo_articles
-> SHOW STATS
-> EXIT
-```
+## 60-90s Fast Pitch Sequence
 
----
-
-## 9. BATCH OPERATIONS
-
-### Insert Multiple Documents
-```bash
-cat << 'EOF' | themisctl batch-insert --collection demo_articles
-{"title": "New AI Paper", "author": "Jane Doe", "content": "...", "category": "research"}
-{"title": "Machine Learning Guide", "author": "John Smith", "content": "...", "category": "tutorial"}
-EOF
-```
-
-### Export Results to File
-```bash
-themisctl query \
-  "FOR doc IN demo_articles FILTER doc.category = 'research' LIMIT 100 RETURN doc" \
-  --output-format jsonl > results.jsonl
-```
-
-### Import from External Source
-```bash
-themisctl batch-insert --collection demo_articles < data/articles.jsonl
-```
-
----
-
-## 10. PRACTICAL DEMO COMBINATIONS
-
-### "Show Search Capabilities" (1 min)
-```bash
-# 1. Text Search
-themisctl query "FOR doc IN demo_articles FILTER doc.title LIKE '%AI%' LIMIT 5 RETURN doc.title"
-
-# 2. Vector Search
-themisctl query "FOR doc IN demo_embeddings LIMIT 5 RETURN {title: doc.title, score: doc.score}"
-
-# 3. Graph
-themisctl query "FOR r IN demo_graph FILTER r.type == 'researcher' FOR p IN 1 OUTBOUND r._id graph_edges LIMIT 5 RETURN {name: r.name, connected_to: p.name}"
-```
-
-### "Show AI Features" (1.5 min)
-```bash
-# 1. RAG Query
-themisctl rag query --collection demo_articles --top-k 3 "What is machine learning?"
-
-# 2. Performance Stats
-themisctl admin stats
-
-# 3. Query Recommendations
-themisctl index recommend --collection demo_articles
-```
-
-### "Full System Demo" (10 min)
-```bash
-# Run all demo script
-.\demo\kickstarter_demo_script.ps1
-```
-
----
-
-## TIPS FOR DEMO VIDEO
-
-✓ **Read the query first**: "Next query demonstrates graph traversal..."
-✓ **Pause between queries**: Let results be seen
-✓ **Comment on results**: "See how fast that completed? Millions of documents..."
-✓ **Show stats**: Always run `admin stats` to prove performance
-✓ **Vary the data**: Use different collections (documents, vectors, graphs)
-✓ **Explain concepts**: Connect query to real use-case
-
----
-
-## COMMON DEMO FLOW (12 min)
-
-1. **Intro** (30 sec): "This is ThemisDB..."
-2. **Document Search** (2 min): Text queries, filtering, sorting
-3. **Vector Search** (2 min): Semantic similarity, embeddings
-4. **Graph** (2 min): Traversal, relationships, multi-hop
-5. **RAG/LLM** (2.5 min): Natural language, AI agent
-6. **Performance** (1 min): Stats, throughput, latency
-7. **Recommendations** (1 min): Index optimization, system insights
-8. **Closing** (30 sec): "Fully operational, production-ready"
-
----
-
-**Total: ~12 minutes - Perfect for Kickstarter!**
+If you need a very short live version, run Steps 3, 5, 6, 8, 9, and 10 in order.

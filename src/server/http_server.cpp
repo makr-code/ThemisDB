@@ -4138,11 +4138,33 @@ http::response<http::string_body> HttpServer::routeRequest(
                         }
                         llm_response = plugin_mgr.generate(llm_request);
                     }
+                    const std::string resolved_model =
+                        llm_response.model_id.empty() ? llm_request.model_id : llm_response.model_id;
+                    const int tokens_generated = llm_response.tokens_generated;
+                    const double inference_time_ms = llm_response.inference_time_ms;
+                    const int safe_tokens_generated = tokens_generated > 0 ? tokens_generated : 1;
+                    const double safe_inference_time_ms = inference_time_ms > 0.0 ? inference_time_ms : 1.0;
+                    const double tokens_per_second =
+                        static_cast<double>(tokens_generated) * 1000.0 / safe_inference_time_ms;
+                    const double ms_per_token =
+                        static_cast<double>(inference_time_ms) / static_cast<double>(safe_tokens_generated);
+                    const int max_tokens_requested = llm_request.max_tokens;
+                    const bool hit_max_tokens_limit =
+                        max_tokens_requested > 0 && tokens_generated >= max_tokens_requested;
+                    const bool non_empty_text = !llm_response.text.empty();
+
                     json body = {
                         {"text", llm_response.text},
-                        {"model", llm_response.model_id.empty() ? llm_request.model_id : llm_response.model_id},
-                        {"tokens_generated", llm_response.tokens_generated},
-                        {"inference_time_ms", llm_response.inference_time_ms}
+                        {"model", resolved_model},
+                        {"tokens_generated", tokens_generated},
+                        {"inference_time_ms", inference_time_ms},
+                        {"max_tokens_requested", max_tokens_requested},
+                        {"hit_max_tokens_limit", hit_max_tokens_limit},
+                        {"non_empty_text", non_empty_text},
+                        {"prompt_length", static_cast<int>(prompt.size())},
+                        {"generated_length", static_cast<int>(llm_response.text.size())},
+                        {"tokens_per_second", tokens_per_second},
+                        {"ms_per_token", ms_per_token}
                     };
 
                     http::response<http::string_body> response = makeResponse(http::status::ok, body.dump(), req);
