@@ -300,6 +300,36 @@ TEST_F(PITRManagerComprehensiveTest, RestoreContinueOnError) {
     EXPECT_TRUE(status.ok);
 }
 
+// Test: Replay errors must fail closed even when continue-on-error is selected.
+TEST_F(PITRManagerComprehensiveTest, RestoreContinueOnErrorStillFailsClosedOnReplayErrors) {
+    // Create a PUT and a DELETE without recoverable previous value.
+    Changefeed::ChangeEvent put_event;
+    put_event.type = Changefeed::ChangeEventType::EVENT_PUT;
+    put_event.key = "users:1";
+    put_event.value = R"({"name":"Alice"})";
+    put_event.timestamp_ms = 1000;
+    changefeed_->recordEvent(put_event);
+
+    Changefeed::ChangeEvent delete_event;
+    delete_event.type = Changefeed::ChangeEventType::EVENT_DELETE;
+    delete_event.key = "users:1";
+    delete_event.value = std::nullopt;
+    delete_event.before_snapshot = std::nullopt;
+    delete_event.timestamp_ms = 2000;
+    changefeed_->recordEvent(delete_event);
+
+    ASSERT_EQ(changefeed_->getLatestSequence(), 2u);
+
+    PITRManager::RestoreOptions options;
+    options.dry_run = false;
+    options.create_backup = false;
+    options.abort_on_first_error = false;
+
+    auto status = pitr_mgr_->restoreToSequence(1, options);
+    EXPECT_FALSE(status.ok);
+    EXPECT_THAT(status.message, ::testing::HasSubstr("WAL replay encountered"));
+}
+
 // Test: Preview with empty database
 TEST_F(PITRManagerComprehensiveTest, PreviewEmptyDatabase) {
     // Don't add any events

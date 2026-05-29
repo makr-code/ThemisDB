@@ -532,6 +532,22 @@ TEST_F(CloudBackupTest, LegacyMockEnvDoesNotBypassMissingCallbacks) {
     EXPECT_FALSE(success);
 }
 
+TEST_F(CloudBackupTest, CreateBackupFailsClosedWithoutBackupManager) {
+    CloudBackupConfig config;
+    config.provider = "s3";
+    config.s3_bucket = "test-bucket";
+    config.s3_region = "us-east-1";
+    config.local_backup_dir = local_backup_dir_.string();
+
+    coordinator_ = std::make_unique<CloudBackupCoordinator>(
+        cloud_agent_, nullptr, config
+    );
+
+    std::vector<std::string> shard_ids = {"shard1"};
+    bool success = coordinator_->createBackup("backup-no-backup-manager", shard_ids);
+    EXPECT_FALSE(success);
+}
+
 // Test: Restore backup (mock mode)
 TEST_F(CloudBackupTest, RestoreBackupMockMode) {
     CloudBackupConfig config;

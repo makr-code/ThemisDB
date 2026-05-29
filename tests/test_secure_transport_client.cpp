@@ -15,6 +15,27 @@
 
 using namespace themis::sharding;
 
+namespace themis::sharding {
+struct SecureTransportClientTestAccess {
+    static void setLz4CompressFn(
+        SecureTransportClient& client,
+        std::function<bool(const std::string&, std::string&)> fn) {
+        client.setLz4CompressFn(std::move(fn));
+    }
+
+    static bool compressData(SecureTransportClient& client,
+                             const std::string& input,
+                             std::string& output,
+                             std::string* codec) {
+        return client.compressData(input, output, codec);
+    }
+
+    static void clearLz4CompressFn(SecureTransportClient& client) {
+        client.clearLz4CompressFn();
+    }
+};
+}  // namespace themis::sharding
+
 /**
  * Test suite for SecureTransportClient
  */
@@ -110,6 +131,49 @@ TEST_F(SecureTransportClientTest, RetryConfiguration) {
     
     SecureTransportClient client(config_);
     EXPECT_FALSE(client.isReady());
+}
+
+TEST_F(SecureTransportClientTest, Lz4CompressionPathSetsCodecAndCompresses) {
+    config_.compression = SecureTransportClient::Config::CompressionType::LZ4;
+    config_.compression_threshold = 1;
+    SecureTransportClient client(config_);
+
+    SecureTransportClientTestAccess::setLz4CompressFn(
+        client,
+        [](const std::string& input, std::string& output) {
+            if (input.size() < 4) {
+                return false;
+            }
+            output.assign(input.begin(), input.begin() + static_cast<std::ptrdiff_t>(input.size() / 2));
+            return true;
+        });
+
+    const std::string input(4096, 'A');
+    std::string compressed;
+    std::string codec;
+
+    const bool applied = SecureTransportClientTestAccess::compressData(client, input, compressed, &codec);
+    EXPECT_TRUE(applied);
+    EXPECT_EQ(codec, "lz4");
+    EXPECT_FALSE(compressed.empty());
+    EXPECT_LT(compressed.size(), input.size());
+}
+
+TEST_F(SecureTransportClientTest, Lz4CompressionFailsClosedWhenBridgeUnavailable) {
+    config_.compression = SecureTransportClient::Config::CompressionType::LZ4;
+    config_.compression_threshold = 1;
+    SecureTransportClient client(config_);
+
+    SecureTransportClientTestAccess::clearLz4CompressFn(client);
+
+    const std::string input(4096, 'A');
+    std::string compressed;
+    std::string codec;
+
+    const bool applied = SecureTransportClientTestAccess::compressData(client, input, compressed, &codec);
+    EXPECT_FALSE(applied);
+    EXPECT_TRUE(compressed.empty());
+    EXPECT_TRUE(codec.empty());
 }
 
 /**

@@ -93,7 +93,18 @@ PS C:\Projects\ThemisDB> .\build-msvc-windows-release\bin\themisctl.exe --host 1
 
 Expected result (real, shortened):
 ```text
-Server is running and responding to queries.
+(no output is also valid on success in current themisctl builds)
+```
+
+Optional explicit reachability check (with visible output):
+```powershell
+PS C:\Projects\ThemisDB> & $THEMISCTL --host 127.0.0.1 --port 8765 health
+```
+
+Expected result (real):
+```text
+liveness: healthy
+readiness: healthy
 ```
 
 ## Step 4 - Explain resilience behavior (auto model load)

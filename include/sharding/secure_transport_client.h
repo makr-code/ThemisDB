@@ -14,10 +14,13 @@
 #include <nlohmann/json.hpp>
 #include <string>
 #include <vector>
+#include <functional>
 #include <memory>
 #include <optional>
 
 namespace themis::sharding {
+
+struct SecureTransportClientTestAccess;
 
 /**
  * @brief Secure Transport Client
@@ -120,6 +123,8 @@ public:
     std::shared_ptr<MTLSClient> getMTLSClient() const;
     
 private:
+    friend struct SecureTransportClientTestAccess;
+
     Config config_;
     std::shared_ptr<MTLSClient> mtls_client_;
 

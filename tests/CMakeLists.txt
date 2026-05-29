@@ -3010,10 +3010,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_api_grpc_server.cpp")
         target_compile_definitions(test_api_grpc_server PRIVATE THEMIS_ENABLE_GRPC)
     endif()
 
-    target_compile_definitions(test_api_grpc_server PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
     target_include_directories(test_api_grpc_server PRIVATE
         ${THEMIS_ROOT_DIR}/include
     )
@@ -3051,10 +3047,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_themisdb_grpc_service.cpp")
         target_link_libraries(test_themisdb_grpc_service PRIVATE gRPC::grpc++)
         target_compile_definitions(test_themisdb_grpc_service PRIVATE THEMIS_ENABLE_GRPC)
     endif()
-
-    target_compile_definitions(test_themisdb_grpc_service PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
 
     target_include_directories(test_themisdb_grpc_service PRIVATE
         ${THEMIS_ROOT_DIR}/include
@@ -28760,11 +28752,25 @@ foreach(_tgt IN LISTS _focused_test_targets)
             target_link_libraries(${_tgt} PRIVATE fmt::fmt)
         endif()
     endif()
+
+    # Focused executables should import exported symbols from themis_base.
+    # Keep THEMIS_TEST_BUILD only on themis_tests (handled above via continue()).
+    get_target_property(_tgt_defs ${_tgt} COMPILE_DEFINITIONS)
+    if(_tgt_defs)
+        set(_defs_before "${_tgt_defs}")
+        list(REMOVE_ITEM _tgt_defs "THEMIS_TEST_BUILD" "THEMIS_TEST_BUILD=1")
+        if(NOT "${_defs_before}" STREQUAL "${_tgt_defs}")
+            set_property(TARGET ${_tgt} PROPERTY COMPILE_DEFINITIONS ${_tgt_defs})
+            message(STATUS "${_tgt}: removed THEMIS_TEST_BUILD (use Logger dllimport via themis_base)")
+        endif()
+    endif()
 endforeach()
 unset(_focused_test_targets)
 unset(_logger_src_variants)
 unset(_tgt_srcs)
 unset(_logger_removed)
+unset(_tgt_defs)
+unset(_defs_before)
 
 # =========================================================================
 # Tensor Network Module — focused test targets (Phase 1–6)

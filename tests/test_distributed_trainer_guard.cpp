@@ -35,6 +35,24 @@ TEST(DistributedTrainerGuardFocusedTest, InitializeFailsForInvalidRankInSinglePr
     EXPECT_FALSE(trainer.initialize());
 }
 
+TEST(DistributedTrainerGuardFocusedTest, InitializeFailsForNegativeRankInSingleProcess) {
+    DistributedConfig cfg;
+    cfg.world_size = 1;
+    cfg.rank = -1;
+
+    DistributedTrainer trainer(cfg);
+    EXPECT_FALSE(trainer.initialize());
+}
+
+TEST(DistributedTrainerGuardFocusedTest, InitializeFailsForRankEqualWorldSize) {
+    DistributedConfig cfg;
+    cfg.world_size = 4;
+    cfg.rank = 4;
+
+    DistributedTrainer trainer(cfg);
+    EXPECT_FALSE(trainer.initialize());
+}
+
 TEST(DistributedTrainerGuardFocusedTest, InitializeSucceedsForValidSingleProcessConfig) {
     DistributedConfig cfg;
     cfg.world_size = 1;

@@ -89,6 +89,58 @@ TEST(WireProtocolV1Config, RequireAuthFalseWithEmptyToken) {
 }
 
 // ============================================================================
+// Startup dependency validation (fail-closed)
+// ============================================================================
+
+TEST(WireProtocolV1Startup, MissingQueryEnginePreventsStart) {
+    WireProtocolServer::Config cfg;
+    cfg.port = 0;
+    cfg.require_auth = false;
+
+    WireProtocolServer server(
+        cfg,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr);
+
+    server.start();
+    EXPECT_FALSE(server.isRunning());
+}
+
+TEST(WireProtocolV1Startup, GeoBridgeAloneCannotBypassQueryEngineGate) {
+    setNetworkGeoQueryFn([](const std::string&, double, double, double, int) {
+        return nlohmann::json::array();
+    });
+
+    WireProtocolServer::Config cfg;
+    cfg.port = 0;
+    cfg.require_auth = false;
+
+    WireProtocolServer server(
+        cfg,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr);
+
+    server.start();
+    EXPECT_FALSE(server.isRunning());
+
+    setNetworkGeoQueryFn(nullptr);
+}
+
+// ============================================================================
 // Auth decision logic — mirrors handleAuthRequest() logic
 // ============================================================================
 

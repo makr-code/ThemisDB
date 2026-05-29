@@ -63,9 +63,10 @@ class WireProtocolWebSocketSession;
 /**
  * @brief Geospatial query injection bridge for the JSON wire protocol.
  *
- * When set via setNetworkGeoQueryFn(), GEO_QUERY messages received on the
- * JSON wire protocol port are dispatched to this function instead of
- * returning the hard-coded GEO_NOT_INTEGRATED error.
+ * When set via setNetworkGeoQueryFn(), GEO_QUERY "near" messages can be
+ * dispatched to this function when no SpatialIndexManager is configured.
+ * This closes the previous startup/runtime mismatch where the server accepted
+ * a geo bridge during bootstrap but still returned GEO_NOT_INTEGRATED.
  *
  * The function receives the collection name, centre coordinates (WGS84
  * decimal degrees), search radius in metres, and result limit.  It must
@@ -212,6 +213,9 @@ public:
      * Creates separate IO context and worker threads,
      * isolated from HTTP server to prevent interference.
      * Enforces transport security validation before starting.
+    * Enforces fail-closed runtime dependency checks: QueryEngine must be
+    * present and at least one geospatial backend (SpatialIndexManager or
+    * GeoQueryFn bridge) must be configured.
      */
     void start();
 

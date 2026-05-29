@@ -64,7 +64,7 @@ public:
     struct RestoreOptions {
         bool dry_run = false;                           // Preview only, don't apply changes
         bool create_backup = true;                      // Auto-backup before restore
-        bool abort_on_first_error = true;              // Stop on first error
+        bool abort_on_first_error = true;              // Stop immediately on first replay error; otherwise continue scanning but still fail closed at end
         std::vector<std::string> tables;               // Empty = all tables, otherwise selective
         uint64_t max_events_to_replay = 0;             // 0 = unlimited, otherwise limit
         std::string backup_tag = "before_pitr_restore"; // Tag name for auto-backup

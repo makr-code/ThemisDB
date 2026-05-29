@@ -113,6 +113,9 @@ bool SecureTransportClient::compressData(const std::string& data,
             const bool compressed_ok = lz4CompressFn_ && lz4CompressFn_(data, lz4_output);
             if (compressed_ok && !lz4_output.empty() && lz4_output.size() < data.size()) {
                 compressed = std::move(lz4_output);
+                if (compression_codec != nullptr) {
+                    *compression_codec = "lz4";
+                }
                 spdlog::debug("SecureTransportClient: LZ4 compressed {} -> {} bytes (ratio: {:.2f}x)",
                              data.size(), compressed.size(),
                              static_cast<double>(data.size()) / compressed.size());

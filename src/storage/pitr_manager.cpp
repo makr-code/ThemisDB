@@ -274,6 +274,8 @@ PITRManager::Status PITRManager::replayBackward(uint64_t from_sequence, uint64_t
     std::reverse(events.begin(), events.end());
 
     // Apply each event in reverse
+    uint64_t replay_errors = 0;
+    std::string first_replay_error;
     for (const auto& event : events) {
         // Apply table filter
         if (!options.tables.empty()) {
@@ -297,6 +299,10 @@ PITRManager::Status PITRManager::replayBackward(uint64_t from_sequence, uint64_t
         if (!options.dry_run) {
             auto status = applyEventReverse(event);
             if (!status.ok) {
+                replay_errors++;
+                if (first_replay_error.empty()) {
+                    first_replay_error = status.message;
+                }
                 if (options.abort_on_first_error) {
                     THEMIS_ERROR("Failed to apply event {}: {}", event.sequence, status.message);
                     return status;
@@ -308,6 +314,12 @@ PITRManager::Status PITRManager::replayBackward(uint64_t from_sequence, uint64_t
         }
 
         progress_.events_processed++;
+    }
+
+    if (replay_errors > 0) {
+        return Status::Error(
+            "WAL replay encountered " + std::to_string(replay_errors) +
+            " error(s); first error: " + first_replay_error);
     }
 
     return Status::OK();

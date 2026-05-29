@@ -11,10 +11,7 @@ Reduce high-volume, low-risk gap patterns quickly in core components without arc
 ## Current Status
 
 - Package A: completed in the focused server, query, index, and storage slices.
-- Package B: in progress, with storage/null guards in server handlers, QueryEngine storage-backed paths, empty-input guards in AQL injection validation, range/finite checks in wire protocol vector/geo handlers, decoded-audio validation guards across voice API endpoints, strict query-limit validation in voice listing/search endpoints, graph/query/cursor range guards in the wire protocol, strict BPMN wire-request type validation, BPMN identifier hygiene checks (length/control-character guards), QUERY/CURSOR hardening for blank AQL and invalid cursor identifiers, expanded core wire input hygiene for GET/PUT/DELETE/BATCH/TRANSACTION/GRAPH handlers, and explicit JSON type-guards before core wire string extraction.
-- Package B (latest): additional VECTOR_SEARCH ingress hardening (strict type checks for k/collection, identifier guard on optional collection, bounded positive k parsing), GEO_QUERY ingress hardening (strict collection/type/limit type guards, identifier guard for collection, bounded limit range, and explicit numeric guards for bbox/center/radius fields), TimeSeries ingress bounds/type validation (aggregation range, timestamp cast/window limits, bucket-size constraints), BPMN ingress payload/variables/query guards (max payload size, request-object checks, variables object type/field-count limits, strict variable-name hygiene, bounded max_history_events, and explicit history truncation signaling), AUTH ingress hardening (payload size bound, JSON-object/type checks, username identifier hygiene), and core CRUD/BATCH/transaction/graph/cursor ingress hardening (payload size limits, JSON-object checks, and blank-identifier rejection in GET/PUT/DELETE/BATCH_GET/BATCH_PUT/TRANSACTION_*/GRAPH_TRAVERSE/CURSOR_*), plus focused WireProtocolV1 mirror tests for the new blank/object/range guards including BPMN task/process-instance blanks.
-- Validation delta: unified `themis_tests` link blocker for `RedisCacheCoordinator` symbols resolved by explicit test-target source wiring; targeted CTest rerun (`ThemisWireProtocolV1Tests`, `ThemisWireDeprecatedBridgeTests`) passed and direct gtest filter `WireProtocolV1Themis*` passed 61/61.
-- Validation delta (ctest carry-over): previously listed failures from `testFailure` (`LlmBenchContinuousBatchScheduler` + nine `WirePerfBenchmark*` entries) were re-run via focused CTest regex and passed 10/10.
+- Package B: completed, with storage/null guards in server handlers, QueryEngine storage-backed paths, empty-input guards in AQL injection validation, range/finite checks in wire protocol vector/geo handlers, decoded-audio validation guards across voice API endpoints, strict query-limit validation in voice listing/search endpoints, graph/query/cursor range guards in the wire protocol, strict BPMN wire-request type validation, BPMN identifier hygiene checks (length/control-character guards), QUERY/CURSOR hardening for blank AQL and invalid cursor identifiers, expanded core wire input hygiene for GET/PUT/DELETE/BATCH/TRANSACTION/GRAPH handlers, and explicit JSON type-guards before core wire string extraction.
 
 ## Priority Patterns (Core Set)
 
@@ -38,7 +35,7 @@ Top concrete fix types:
 ## Delivery Model
 
 - Week 1: Package A + Package B
-- Week 2: Package C + Package D + Package E
+- Week 2: Package C + Package D + Package E + Package F (clean RAG wiring)
 - Validate after each package with re-scan on touched modules only.
 
 ## Package A (Highest ROI): Copy and Container Overhead
@@ -160,6 +157,34 @@ Primary files:
 Expected impact:
 - visible reliability improvements and fewer operational false negatives
 
+## Package F: Clean RAG Wiring (Production Path)
+
+Target types:
+- integration_gap
+- runtime_wiring
+- input_validation
+- observability
+
+Core actions:
+- align default plugin path so budget-aware RAG logic is active on live API requests
+- finalize RAG retrieval wiring in HTTP handler (remove migration fallback behavior)
+- ensure RAG request metadata and token-budget clamping remain consistent end-to-end
+- add focused integration tests for RAG request -> retrieval -> plugin -> response path
+- add lightweight telemetry checks for documents_retrieved, token budget, and failure reasons
+
+Primary files:
+- src/server/llm_api_handler.cpp
+- src/llm/llm_plugin_manager.cpp
+- src/llm/llama_wrapper.cpp
+- src/llama_cpp/llama_cpp_plugin.cpp
+- src/server/http_server.cpp
+- tests/*llm* (focused integration coverage)
+
+Expected impact:
+- activate already-implemented RAG efficiency primitives on the production path
+- reduce duplicate implementation risk for adaptive-thinking follow-up work
+- improve RAG reliability and cost/quality behavior with low-to-moderate change risk
+
 ## Suggested 2-Week Sequence
 
 Day 1-2:
@@ -183,6 +208,12 @@ Day 9:
 Day 10:
 - Package D and E minimal baseline changes
 
+Day 11:
+- Package F wiring changes (plugin selection + API retrieval path)
+
+Day 12:
+- Package F focused integration tests + telemetry checks + stabilization
+
 ## Validation Checklist
 
 After each package:
@@ -195,6 +226,7 @@ After each package:
 
 - measurable drop in the top fix types: copy_overhead, uncaught_exception, null_dereference, pointer_arithmetic
 - measurable drop in type_conversion/input_validation/determinism for server/query/index/storage/network
+- RAG live-path verification completed (budget-aware context assembly active and retrieval wiring enabled)
 - no regression in focused module test suites
 
 ## Next Step

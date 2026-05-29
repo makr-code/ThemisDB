@@ -240,6 +240,30 @@ TEST_F(DistributedTxnManagerTest, CommitCallsOnCommitOnAllParticipants) {
     EXPECT_EQ(p3->abortCount(),  0);
 }
 
+// ---------------------------------------------------------------------------
+// DTM-Phase2 fail-closed: deadline expiry must not report a successful COMMIT
+// ---------------------------------------------------------------------------
+TEST_F(DistributedTxnManagerTest, Phase2DeadlineExpiryFailsClosedOnCommit) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout = 2000ms;
+    cfg.commit_timeout = 0ms;  // force immediate Phase-2 deadline expiry
+    cfg.default_txn_timeout = 60s;
+
+    auto mgr2 = std::make_unique<DistributedTransactionManager>("coord-phase2-deadline", cfg);
+    const auto tid = mgr2->beginDistributed({makeParticipant("n1", p1.get())});
+
+    ASSERT_TRUE(mgr2->prepareDistributed(tid).ok);
+
+    const auto commit_status = mgr2->commitDistributed(tid);
+    EXPECT_FALSE(commit_status.ok)
+        << "Phase-2 deadline expiry must fail closed and return an error";
+
+    const auto rec = mgr2->getTransaction(tid);
+    ASSERT_TRUE(rec.has_value());
+    EXPECT_EQ(rec->state, DistributedTxnState::COMMITTING)
+        << "Failed Phase-2 delivery must leave txn in COMMITTING for recovery";
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // AC-6: abortDistributed calls onAbort on all participants
 // ─────────────────────────────────────────────────────────────────────────────

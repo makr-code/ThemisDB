@@ -702,21 +702,49 @@ public:
                    backup_id, shard_ids.size());
         
         try {
+            if (backup_id.empty()) {
+                THEMIS_ERROR("Cloud backup failed: backup_id must not be empty");
+                return false;
+            }
+            if (shard_ids.empty()) {
+                THEMIS_ERROR("Cloud backup failed: shard list must not be empty");
+                return false;
+            }
+            if (!backup_manager_) {
+                THEMIS_ERROR("Cloud backup failed: BackupManager is not configured");
+                return false;
+            }
             if (!storage_provider_) {
                 THEMIS_ERROR("Cloud backup failed: provider '{}' is not fully configured",
                              config_.provider);
                 return false;
             }
 
-            // 1. Create local backup using BackupManager
+            // 1. Create a real local backup snapshot using BackupManager.
             auto timestamp = std::chrono::system_clock::now();
             std::string local_backup_dir = config_.local_backup_dir + "/" + backup_id;
             
             fs::create_directories(local_backup_dir);
+
+            auto full_backup_result = backup_manager_->createFullBackup(local_backup_dir);
+            if (!full_backup_result) {
+                THEMIS_ERROR("Cloud backup failed: BackupManager::createFullBackup failed: {}",
+                             full_backup_result.error().message());
+                return false;
+            }
+            const std::string snapshot_path = full_backup_result.value();
+            if (!fs::exists(snapshot_path)) {
+                THEMIS_ERROR("Cloud backup failed: snapshot path does not exist: {}",
+                             snapshot_path);
+                return false;
+            }
             
-            // 2. For each shard, create backup and upload to cloud
+            // 2. Upload the generated snapshot artifact for each requested shard key.
             for (const auto& shard_id : shard_ids) {
-                std::string shard_backup_path = local_backup_dir + "/" + shard_id;
+                if (shard_id.empty()) {
+                    THEMIS_ERROR("Cloud backup failed: shard id must not be empty");
+                    return false;
+                }
                 
                 // Create backup metadata
                 nlohmann::json metadata;
@@ -726,19 +754,10 @@ public:
                 metadata["version"] = "1.0";
                 
                 // Save metadata
-                std::string metadata_path = shard_backup_path + ".json";
+                std::string metadata_path = local_backup_dir + "/" + shard_id + ".json";
                 std::ofstream metadata_file(metadata_path);
                 metadata_file << metadata.dump(2);
                 metadata_file.close();
-                
-                // Create a backup file for this shard.
-                // When BackupManager integration is complete, replace with:
-                //   backup_manager->createShardBackup(shard_id, shard_backup_path)
-                std::ofstream backup_file(shard_backup_path);
-                backup_file << "Backup for shard: " << shard_id << "\n";
-                backup_file << "Backup ID: " << backup_id << "\n";
-                backup_file << "Timestamp: " << std::chrono::system_clock::to_time_t(timestamp) << "\n";
-                backup_file.close();
                 
                 // Upload to cloud storage
                 std::string remote_path = config_.backup_prefix + "/" + backup_id + "/" + shard_id;
@@ -748,7 +767,7 @@ public:
                 upload_metadata["shard_id"] = shard_id;
                 
                 if (storage_provider_) {
-                    bool uploaded = storage_provider_->upload(shard_backup_path, 
+                    bool uploaded = storage_provider_->upload(snapshot_path, 
                                                              remote_path, 
                                                              upload_metadata);
                     if (!uploaded) {

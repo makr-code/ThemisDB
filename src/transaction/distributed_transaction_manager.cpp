@@ -1125,6 +1125,7 @@ bool DistributedTransactionManager::runPhase2Unlocked(
         if (remaining <= std::chrono::milliseconds(0)) {
             THEMIS_WARN("DistributedTransactionManager [{}] Phase-2 deadline expired for txn={}",
                         coordinator_id_, txn_id);
+            all_delivered = false;
             break;
         }
         const auto status = fut.wait_for(remaining);

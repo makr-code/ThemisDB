@@ -15,6 +15,7 @@
 
 #include "network/wire_protocol_server.h"
 #include <stdexcept>
+#include "network/wire_bootstrap_validation.h"
 #include "network/wire_protocol_helpers.h"
 #ifdef THEMIS_ENABLE_WEBSOCKET
 #  include "network/wire_protocol_websocket.h"
@@ -252,10 +253,13 @@ void WireProtocolServer::start() {
         has_geo_callback = static_cast<bool>(g_network_geo_query_fn);
     }
     const bool has_geo_backend = static_cast<bool>(spatial_index_) || has_geo_callback;
-    if (!has_query_engine || !has_geo_backend) {
-        std::cerr << "[WireProtocol] Startup refused: missing required runtime backends "
-                  << "(query_engine=" << has_query_engine
-                  << ", geo_backend=" << has_geo_backend << ").\n";
+    if (!wire_bootstrap::validateRequiredBackends(
+            "WireProtocol",
+            {
+                {"query_engine", has_query_engine},
+                {"geo_backend", has_geo_backend},
+            },
+            std::cerr)) {
         return;
     }
     
@@ -2504,7 +2508,87 @@ void WireProtocolServer::Session::handleGeoQuery() {
             return;
         }
 
+        std::string query_type = request.value("type", "");
+        if (query_type.empty()) {
+            sendError(400,
+                "Missing 'type' field in GEO_QUERY request "
+                "(expected: within, near, intersects)");
+            return;
+        }
+
         auto spatial_idx = server_->spatial_index_;
+
+        GeoQueryFn geo_bridge;
+        {
+            std::lock_guard<std::mutex> lock(g_network_geo_fn_mutex);
+            geo_bridge = g_network_geo_query_fn;
+        }
+
+        if (!spatial_idx && query_type == "near" && geo_bridge) {
+            if (!request.contains("center") || !request["center"].is_object()) {
+                sendError(400,
+                    "Missing or invalid 'center' in GEO_QUERY near-request "
+                    "(expected: {lon, lat})");
+                return;
+            }
+            if (!request.contains("radius")) {
+                sendError(400, "Missing 'radius' (meters) in GEO_QUERY near-request");
+                return;
+            }
+
+            const auto& center = request["center"];
+            if (!center.contains("lon") || !center.contains("lat")) {
+                sendError(400, "'center' must contain: lon, lat");
+                return;
+            }
+            if (!center["lon"].is_number() || !center["lat"].is_number() ||
+                !request["radius"].is_number()) {
+                sendError(400, "'center.lon', 'center.lat' and 'radius' must be numeric");
+                return;
+            }
+
+            const double lon = center["lon"].get<double>();
+            const double lat = center["lat"].get<double>();
+            const double radius = request["radius"].get<double>();
+            if (!std::isfinite(lon) || !std::isfinite(lat) || !std::isfinite(radius)) {
+                sendError(400, "'center' and 'radius' must be finite numbers");
+                return;
+            }
+            if (lon < -180.0 || lon > 180.0 || lat < -90.0 || lat > 90.0) {
+                sendError(400, "'center' coordinates out of range (lon: [-180,180], lat: [-90,90])");
+                return;
+            }
+            if (radius <= 0.0) {
+                sendError(400, "'radius' must be greater than 0");
+                return;
+            }
+
+            constexpr uint32_t kMaxGeoQueryLimit = 10000;
+            int64_t limit_i = request.value("limit", static_cast<int64_t>(100));
+            if (limit_i < 1 || limit_i > static_cast<int64_t>(kMaxGeoQueryLimit)) {
+                sendError(400, "'limit' must be between 1 and 10000 in GEO_QUERY request");
+                return;
+            }
+            const int limit = static_cast<int>(limit_i);
+
+            const auto bridge_results = geo_bridge(collection, lat, lon, radius, limit);
+            if (!bridge_results.is_array()) {
+                sendError(0x0007,
+                    "GEO_QUERY bridge returned invalid payload (expected JSON array)");
+                return;
+            }
+
+            json response;
+            response["success"] = true;
+            response["collection"] = collection;
+            response["type"] = query_type;
+            response["results"] = bridge_results;
+            response["count"] = bridge_results.size();
+            std::string rs = response.dump();
+            asyncWriteResponse({rs.begin(), rs.end()});
+            return;
+        }
+
         if (!spatial_idx) {
             // Spatial index not configured — redirect to HTTP REST API.
             json response;
@@ -2516,14 +2600,6 @@ void WireProtocolServer::Session::handleGeoQuery() {
             response["collection"] = collection;
             std::string rs = response.dump();
             asyncWriteResponse({rs.begin(), rs.end()});
-            return;
-        }
-
-        std::string query_type = request.value("type", "");
-        if (query_type.empty()) {
-            sendError(400,
-                "Missing 'type' field in GEO_QUERY request "
-                "(expected: within, near, intersects)");
             return;
         }
 

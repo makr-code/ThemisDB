@@ -45,6 +45,15 @@ Win + Shift + R  # Starte Video-Aufnahme
 | 6 | **RAG LLM Query** | `themisctl api POST /api/v1/llm/rag --stdin --content-type application/json` | 2 min |
 | 7 | **Recommendations** | `themisctl --host 127.0.0.1 --port 8765 index recommend demo_articles` | 1 min |
 
+Hinweis zu Schritt 1:
+- In aktuellen `themisctl`-Builds kann `schema` bei Erfolg ohne Ausgabe enden.
+- Für sichtbare Reachability-Ausgabe nutze alternativ:
+
+```powershell
+.\build-msvc-windows-release\bin\themisctl.exe --host 127.0.0.1 --port 8765 health
+# Erwartet: liveness: healthy / readiness: healthy
+```
+
 **Gesamtdauer:** ~10-12 Minuten (optimal)
 
 ---

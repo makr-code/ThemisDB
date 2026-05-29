@@ -23,6 +23,7 @@
 // migration window.
 
 #include "themis/network/wire_protocol_server.hpp"
+#include "network/wire_bootstrap_validation.h"
 #include "query/aql_runner.h"
 #include "index/spatial_index.h"
 #include "timeseries/tsstore.h"
@@ -1546,12 +1547,15 @@ void WireProtocolServer::start() {
         std::lock_guard<std::mutex> lock(state_mutex_);
         const auto bootstrap_state = collectProtobufBootstrapState(
             aql_query_fn_, geo_query_fn_, timeseries_query_fn_, graph_traverse_fn_);
-        if (!bootstrap_state.has_all_required()) {
-            std::cerr << "[WireV1] Start refused: missing required protobuf wire callbacks "
-                      << "(aql=" << bootstrap_state.has_aql
-                      << ", geo=" << bootstrap_state.has_geo
-                      << ", timeseries=" << bootstrap_state.has_timeseries
-                      << ", graph=" << bootstrap_state.has_graph << ")\n";
+        if (!network::wire_bootstrap::validateRequiredBackends(
+                "WireV1",
+                {
+                    {"aql", bootstrap_state.has_aql},
+                    {"geo", bootstrap_state.has_geo},
+                    {"timeseries", bootstrap_state.has_timeseries},
+                    {"graph", bootstrap_state.has_graph},
+                },
+                std::cerr)) {
             return;
         }
     }
