@@ -170,9 +170,6 @@ RedisCache::RedisCache(const RedisCacheConfig &config)
     // Build the consistent hash ring.
     buildHashRing();
 
-    // Start background pub/sub subscriber thread.
-    sub_thread_ = std::thread(&RedisCache::subscriberLoop, this);
-
     THEMIS_INFO("RedisCache: initialized with {} node(s), {} ring positions", nodes_.size(), hash_ring_.size());
 }
 
@@ -792,8 +789,25 @@ void RedisCache::publishInvalidation(const std::string &key_or_pattern) {
 }
 
 void RedisCache::subscribeInvalidations(InvalidationCallback cb) {
-    std::lock_guard<std::mutex> lock(inv_cb_mutex_);
-    inv_callback_ = std::move(cb);
+    {
+        std::lock_guard<std::mutex> lock(inv_cb_mutex_);
+        inv_callback_ = std::move(cb);
+    }
+
+    if (inv_callback_) {
+        ensureSubscriberLoopStarted();
+    }
+}
+
+void RedisCache::ensureSubscriberLoopStarted() {
+    if (stop_.load(std::memory_order_acquire) || config_.invalidation_channel.empty() || nodes_.empty()) {
+        return;
+    }
+
+    std::lock_guard<std::mutex> lock(sub_thread_mutex_);
+    if (!sub_thread_.joinable()) {
+        sub_thread_ = std::thread(&RedisCache::subscriberLoop, this);
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -801,9 +815,19 @@ void RedisCache::subscribeInvalidations(InvalidationCallback cb) {
 // ---------------------------------------------------------------------------
 
 void RedisCache::subscriberLoop() {
+    const int reconnect_sleep_ms = std::max(1, config_.reconnect_interval_ms);
+    auto sleepWithStop = [this](int total_ms) {
+        constexpr int kSleepSliceMs = 50;
+        for (int elapsed = 0;
+             elapsed < total_ms && !stop_.load(std::memory_order_relaxed);
+             elapsed += kSleepSliceMs) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(kSleepSliceMs));
+        }
+    };
+
     while (!stop_.load(std::memory_order_relaxed)) {
         if (nodes_.empty()) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(config_.reconnect_interval_ms));
+            sleepWithStop(reconnect_sleep_ms);
             continue;
         }
 
@@ -819,7 +843,7 @@ void RedisCache::subscriberLoop() {
         }
 
         if (fd == kInvalidSocket) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(config_.reconnect_interval_ms));
+            sleepWithStop(reconnect_sleep_ms);
             continue;
         }
 

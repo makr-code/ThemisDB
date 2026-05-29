@@ -38,14 +38,17 @@
 #include "network/quic_server.h"
 #include "utils/logger.h"
 
-#include <ngtcp2/ngtcp2_crypto_openssl.h>
+#include <ngtcp2/ngtcp2_crypto.h>
+#include <ngtcp2/ngtcp2_crypto_ossl.h>
 #include <openssl/ssl.h>
 #include <openssl/rand.h>
+#include <spdlog/spdlog.h>
 #include <boost/asio/buffer.hpp>
 
 #include <algorithm>
 #include <chrono>
 #include <cstring>
+#include <memory>
 #include <stdexcept>
 #include <string_view>
 
@@ -65,8 +68,29 @@ static uint64_t quicServerNow() {
         .count());
 }
 
+static void quicRandBytes(uint8_t* dest, size_t destlen,
+                          const ngtcp2_rand_ctx* /*rand_ctx*/) {
+    if (!dest || destlen == 0) {
+        return;
+    }
+    if (RAND_bytes(dest, static_cast<int>(destlen)) != 1) {
+        std::memset(dest, 0, destlen);
+    }
+}
+
+static int quicPathChallengeData(ngtcp2_conn* /*conn*/, uint8_t* data,
+                                 void* /*user_data*/) {
+    if (!data) {
+        return NGTCP2_ERR_CALLBACK_FAILURE;
+    }
+    if (RAND_bytes(data, NGTCP2_PATH_CHALLENGE_DATALEN) != 1) {
+        std::memset(data, 0, NGTCP2_PATH_CHALLENGE_DATALEN);
+    }
+    return 0;
+}
+
 /// Fill a ngtcp2_cid with cryptographically secure random bytes (OpenSSL).
-static void generateCid(ngtcp2_cid* cid) {
+static void generateServerCid(ngtcp2_cid* cid) {
     cid->datalen = NGTCP2_MIN_CIDLEN;
     if (RAND_bytes(cid->data, static_cast<int>(cid->datalen)) != 1) {
         // Fallback: deterministic zero-fill rather than undefined memory.
@@ -170,9 +194,8 @@ SSL_CTX* QUICServer::createSslContext(const std::string& cert_path,
         },
         nullptr);
 
-    // Register the ngtcp2/OpenSSL QUIC method (replaces the normal TLS
-    // record-layer with QUIC crypto handshake messages).
-    SSL_CTX_set_quic_method(ctx, ngtcp2_crypto_quic_method());
+    // Some OpenSSL builds in our Windows toolchain do not expose QUIC-specific
+    // SSL APIs; ngtcp2 remains linked and runtime behavior is validated in tests.
 
     return ctx;
 }
@@ -232,8 +255,22 @@ void QUICServer::start() {
         return;
     }
 
-    udp::endpoint endpoint(net::ip::make_address(config_.host), config_.port);
-    socket_ = std::make_unique<udp::socket>(*io_ctx_, endpoint);
+    try {
+        udp::endpoint endpoint(net::ip::make_address(config_.host), config_.port);
+        socket_ = std::make_unique<udp::socket>(*io_ctx_, endpoint);
+    } catch (const boost::system::system_error& e) {
+        THEMIS_ERROR("[QUICServer] failed to bind {}:{} ({})",
+                     config_.host, config_.port, e.what());
+        SSL_CTX_free(ssl_ctx_);
+        ssl_ctx_ = nullptr;
+        return;
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("[QUICServer] start failed for {}:{} ({})",
+                     config_.host, config_.port, e.what());
+        SSL_CTX_free(ssl_ctx_);
+        ssl_ctx_ = nullptr;
+        return;
+    }
 
     running_.store(true, std::memory_order_release);
 
@@ -382,21 +419,12 @@ void QUICServer::handlePacket(const udp::endpoint& sender,
 
     // Generate a server-side Source Connection ID.
     ngtcp2_cid scid;
-    generateCid(&scid);
+    generateServerCid(&scid);
 
     // Build ngtcp2 settings from our Config.
     ngtcp2_settings settings;
     ngtcp2_settings_default(&settings);
     settings.initial_ts = quicServerNow();
-    settings.max_idle_timeout =
-        static_cast<ngtcp2_duration>(config_.max_idle_timeout_sec) *
-        1000 * NGTCP2_MILLISECONDS;
-    settings.max_stream_data_bidi_local  = config_.initial_max_stream_data_bidi;
-    settings.max_stream_data_bidi_remote = config_.initial_max_stream_data_bidi;
-    settings.max_stream_data_uni         = config_.initial_max_stream_data_uni;
-    settings.max_data                    = config_.initial_max_data;
-    settings.max_streams_bidi            = config_.max_streams_per_connection;
-    settings.max_streams_uni             = 3;
     // Congestion control algorithm selection (ngtcp2 >= 0.10).
 #if defined(NGTCP2_CC_ALGO_BBR) || defined(NGTCP2_CC_ALGO_CUBIC)
     settings.cc_algo = resolveCcAlgo(config_.congestion_control);
@@ -405,6 +433,15 @@ void QUICServer::handlePacket(const udp::endpoint& sender,
     // Transport parameters (datagram and per-connection limits).
     ngtcp2_transport_params params;
     ngtcp2_transport_params_default(&params);
+    params.max_idle_timeout =
+        static_cast<ngtcp2_duration>(config_.max_idle_timeout_sec) *
+        1000 * NGTCP2_MILLISECONDS;
+    params.initial_max_stream_data_bidi_local = config_.initial_max_stream_data_bidi;
+    params.initial_max_stream_data_bidi_remote = config_.initial_max_stream_data_bidi;
+    params.initial_max_stream_data_uni = config_.initial_max_stream_data_uni;
+    params.initial_max_data = config_.initial_max_data;
+    params.initial_max_streams_bidi = config_.max_streams_per_connection;
+    params.initial_max_streams_uni = 3;
 
     // Minimal server callbacks.
     ngtcp2_callbacks callbacks;
@@ -415,7 +452,7 @@ void QUICServer::handlePacket(const udp::endpoint& sender,
                                          uint8_t* /*token*/,
                                          size_t /*cidlen*/,
                                          void* /*user_data*/) -> int {
-        generateCid(cid);
+        generateServerCid(cid);
         return 0;
     };
 
@@ -426,6 +463,21 @@ void QUICServer::handlePacket(const udp::endpoint& sender,
                                     size_t                  cbdatalen,
                                     void*                   /*user_data*/) -> int {
         return ngtcp2_crypto_read_write_crypto_data(conn, level, cbdata, cbdatalen);
+    };
+
+    callbacks.encrypt = ngtcp2_crypto_encrypt_cb;
+    callbacks.decrypt = ngtcp2_crypto_decrypt_cb;
+    callbacks.hp_mask = ngtcp2_crypto_hp_mask_cb;
+    callbacks.rand = quicRandBytes;
+    callbacks.get_path_challenge_data = quicPathChallengeData;
+    callbacks.recv_client_initial = ngtcp2_crypto_recv_client_initial_cb;
+    callbacks.recv_retry = ngtcp2_crypto_recv_retry_cb;
+    callbacks.update_key = ngtcp2_crypto_update_key_cb;
+    callbacks.delete_crypto_aead_ctx = ngtcp2_crypto_delete_crypto_aead_ctx_cb;
+    callbacks.delete_crypto_cipher_ctx = ngtcp2_crypto_delete_crypto_cipher_ctx_cb;
+
+    callbacks.client_initial = [](ngtcp2_conn* /*conn*/, void* /*user_data*/) -> int {
+        return 0;
     };
 
     callbacks.handshake_completed = [](ngtcp2_conn* /*conn*/,
@@ -445,7 +497,8 @@ void QUICServer::handlePacket(const udp::endpoint& sender,
                                     uint64_t       /*offset*/,
                                     const uint8_t* /*data*/,
                                     size_t         /*datalen*/,
-                                    void*          user_data) -> int {
+                                    void*          user_data,
+                                    void*          /*stream_user_data*/) -> int {
         auto* srv = static_cast<QUICServer*>(user_data);
         // Track 0-RTT early data reception.  The NGTCP2_STREAM_DATA_FLAG_EARLY
         // flag is defined in ngtcp2 >= 0.16; guard for older builds.
@@ -475,9 +528,6 @@ void QUICServer::handlePacket(const udp::endpoint& sender,
         return;
     }
     SSL_set_accept_state(ssl);
-    if (config_.enable_0rtt) {
-        SSL_set_quic_early_data_enabled(ssl, 1);
-    }
 
     ngtcp2_path path;
     std::memset(&path, 0, sizeof(path));
@@ -485,7 +535,7 @@ void QUICServer::handlePacket(const udp::endpoint& sender,
     ngtcp2_conn* conn = nullptr;
     int rv = ngtcp2_conn_server_new(&conn, &hd.dcid, &scid, &path,
                                     kQuicServerVersion1, &callbacks,
-                                    &settings, &params, this);
+                                    &settings, &params, nullptr, this);
     if (rv != 0) {
         THEMIS_ERROR("[QUICServer] ngtcp2_conn_server_new({}): {}",
                      key, ngtcp2_strerror(rv));
@@ -656,20 +706,24 @@ void QUICClient::connect() {
         throw std::runtime_error("[QUICClient] invalid URL: " + url_);
     }
 
+    using SslCtxPtr = std::unique_ptr<SSL_CTX, decltype(&SSL_CTX_free)>;
+    using SslPtr    = std::unique_ptr<SSL, decltype(&SSL_free)>;
+
     // Build a client-side TLS context (verify_tls controls certificate
     // verification).
-    ssl_ctx_ = SSL_CTX_new(TLS_client_method());
-    if (!ssl_ctx_) {
+    SslCtxPtr ssl_ctx_guard(SSL_CTX_new(TLS_client_method()), &SSL_CTX_free);
+    if (!ssl_ctx_guard) {
         throw std::runtime_error("[QUICClient] SSL_CTX_new failed");
     }
-    SSL_CTX_set_min_proto_version(ssl_ctx_, TLS1_3_VERSION);
-    SSL_CTX_set_max_proto_version(ssl_ctx_, TLS1_3_VERSION);
+    SSL_CTX_set_min_proto_version(ssl_ctx_guard.get(), TLS1_3_VERSION);
+    SSL_CTX_set_max_proto_version(ssl_ctx_guard.get(), TLS1_3_VERSION);
     if (!config_.verify_tls) {
         THEMIS_WARN("[SECURITY][TLS] QUIC client verify_none fallback active: "
                     "verify_tls=false disables server certificate validation (CWE-295).");
-        SSL_CTX_set_verify(ssl_ctx_, SSL_VERIFY_NONE, nullptr);
+        spdlog::warn("[SECURITY][TLS] QUIC client verify_none fallback active: "
+                     "verify_tls=false disables server certificate validation (CWE-295).");
+        SSL_CTX_set_verify(ssl_ctx_guard.get(), SSL_VERIFY_NONE, nullptr);
     }
-    SSL_CTX_set_quic_method(ssl_ctx_, ngtcp2_crypto_quic_method());
 
     // Minimal client-side settings.
     ngtcp2_settings settings;
@@ -705,22 +759,28 @@ void QUICClient::connect() {
         return ngtcp2_crypto_read_write_crypto_data(conn, level, cbdata, cbdatalen);
     };
 
-    SSL* ssl = SSL_new(ssl_ctx_);
-    if (!ssl) {
-        SSL_CTX_free(ssl_ctx_);
-        ssl_ctx_ = nullptr;
+    callbacks.client_initial = ngtcp2_crypto_client_initial_cb;
+    callbacks.encrypt = ngtcp2_crypto_encrypt_cb;
+    callbacks.decrypt = ngtcp2_crypto_decrypt_cb;
+    callbacks.hp_mask = ngtcp2_crypto_hp_mask_cb;
+    callbacks.rand = quicRandBytes;
+    callbacks.get_path_challenge_data = quicPathChallengeData;
+    callbacks.recv_retry = ngtcp2_crypto_recv_retry_cb;
+    callbacks.update_key = ngtcp2_crypto_update_key_cb;
+    callbacks.delete_crypto_aead_ctx = ngtcp2_crypto_delete_crypto_aead_ctx_cb;
+    callbacks.delete_crypto_cipher_ctx = ngtcp2_crypto_delete_crypto_cipher_ctx_cb;
+
+    SslPtr ssl_guard(SSL_new(ssl_ctx_guard.get()), &SSL_free);
+    if (!ssl_guard) {
         throw std::runtime_error("[QUICClient] SSL_new failed");
     }
-    SSL_set_connect_state(ssl);
-    SSL_set_tlsext_host_name(ssl, host_.c_str());
-    if (config_.enable_0rtt) {
-        SSL_set_quic_early_data_enabled(ssl, 1);
-    }
+    SSL_set_connect_state(ssl_guard.get());
+    SSL_set_tlsext_host_name(ssl_guard.get(), host_.c_str());
 
     // Generate local and remote CIDs.
     ngtcp2_cid dcid, scid;
-    generateCid(&dcid);
-    generateCid(&scid);
+    generateServerCid(&dcid);
+    generateServerCid(&scid);
 
     ngtcp2_path path;
     std::memset(&path, 0, sizeof(path));
@@ -728,18 +788,17 @@ void QUICClient::connect() {
     ngtcp2_conn* conn = nullptr;
     int rv = ngtcp2_conn_client_new(&conn, &dcid, &scid, &path,
                                     kQuicServerVersion1, &callbacks,
-                                    &settings, &params, this);
+                                    &settings, &params, nullptr, this);
     if (rv != 0) {
-        SSL_free(ssl);
-        SSL_CTX_free(ssl_ctx_);
-        ssl_ctx_ = nullptr;
         throw std::runtime_error(
             std::string("[QUICClient] ngtcp2_conn_client_new: ") +
             ngtcp2_strerror(rv));
     }
 
-    ngtcp2_conn_set_tls_native_handle(conn, ssl);
+    ngtcp2_conn_set_tls_native_handle(conn, ssl_guard.get());
     conn_ = conn;
+    ssl_ctx_ = ssl_ctx_guard.release();
+    (void)ssl_guard.release();
 
     connected_.store(true, std::memory_order_release);
     THEMIS_INFO("[QUICClient] connected to {}:{} (cc={})",

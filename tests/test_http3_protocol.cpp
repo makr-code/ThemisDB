@@ -243,15 +243,15 @@ TEST(HTTP3ProtocolTest, PathValidation) {
 
 TEST(HTTP3ProtocolTest, QuicErrorCodes) {
     // QUIC transport error codes
-    const uint64_t NO_ERROR = 0x00;
-    const uint64_t INTERNAL_ERROR = 0x01;
-    const uint64_t CONNECTION_REFUSED = 0x02;
-    const uint64_t FLOW_CONTROL_ERROR = 0x03;
-    const uint64_t STREAM_LIMIT_ERROR = 0x04;
+    const uint64_t QUIC_NO_ERROR = 0x00;
+    const uint64_t QUIC_INTERNAL_ERROR = 0x01;
+    const uint64_t QUIC_CONNECTION_REFUSED = 0x02;
+    const uint64_t QUIC_FLOW_CONTROL_ERROR = 0x03;
+    const uint64_t QUIC_STREAM_LIMIT_ERROR = 0x04;
     
-    EXPECT_EQ(NO_ERROR, 0x00);
-    EXPECT_EQ(INTERNAL_ERROR, 0x01);
-    EXPECT_EQ(CONNECTION_REFUSED, 0x02);
+    EXPECT_EQ(QUIC_NO_ERROR, 0x00);
+    EXPECT_EQ(QUIC_INTERNAL_ERROR, 0x01);
+    EXPECT_EQ(QUIC_CONNECTION_REFUSED, 0x02);
 }
 
 TEST(HTTP3ProtocolTest, Http3ErrorCodes) {

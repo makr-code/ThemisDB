@@ -329,6 +329,7 @@ private:
 
     /// Publish a cluster-wide invalidation message for key_or_pattern.
     void publishInvalidation(const std::string& key_or_pattern);
+    void ensureSubscriberLoopStarted();
 
     void subscriberLoop();
     void subscriberSession(SocketFd fd);
@@ -338,6 +339,7 @@ private:
     void dispatchInvalidation(const std::string& payload);
 
     std::thread            sub_thread_;
+    std::mutex             sub_thread_mutex_;
     std::atomic<bool>      stop_{false};
     std::atomic<bool>      sub_connected_{false};
 

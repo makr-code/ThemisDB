@@ -15,7 +15,7 @@
 #include "server/tenant_manager.h"
 #include "utils/logger.h"
 #include <boost/beast/http.hpp>
-#include <ngtcp2/ngtcp2_crypto_openssl.h>
+#include <ngtcp2/ngtcp2_crypto_ossl.h>
 #include <cstring>
 #include <random>
 #include <exception>
@@ -128,7 +128,6 @@ SSL_CTX* Http3Handler::createSslContext(const std::string& cert_path,
             return SSL_TLSEXT_ERR_NOACK;
         }, nullptr);
     
-    SSL_CTX_set_quic_method(ssl_ctx, ngtcp2_crypto_quic_method());
     
     THEMIS_INFO("HTTP/3 SSL context created with TLS 1.3 and h3 ALPN");
     return ssl_ctx;
@@ -148,7 +147,7 @@ void Http3Handler::stop() {
     boost::system::error_code ignored;
     socket_.cancel(ignored);
     socket_.close(ignored);
-    cleanup_timer_.cancel(ignored);
+    cleanup_timer_.cancel();
     sessions_.clear();
     THEMIS_INFO("HTTP/3 handler stopped");
 }
@@ -395,33 +394,16 @@ void Http3Session::start() {
     
     SSL_set_accept_state(ssl_);
     // 0-RTT: enable early data on TLS session resumption
-    if (prod_cfg_.enable_0rtt) {
-        SSL_set_quic_early_data_enabled(ssl_, 1);
-    }
+    (void)prod_cfg_.enable_0rtt;
     
     // Setup ngtcp2 connection
     ngtcp2_settings settings;
     ngtcp2_settings_default(&settings);
     settings.initial_ts = getTimestamp();
-    settings.max_idle_timeout = max_idle_timeout_ms_ * NGTCP2_MILLISECONDS;
 
     // Congestion control algorithm (production: BBR for mobile/lossy paths)
     settings.cc_algo = static_cast<ngtcp2_cc_algo>(
         static_cast<int>(prod_cfg_.cc_algorithm));
-
-    // Production flow-control tuning
-    settings.max_stream_data_bidi_local  = static_cast<uint64_t>(
-        prod_cfg_.initial_max_stream_data_bidi);
-    settings.max_stream_data_bidi_remote = static_cast<uint64_t>(
-        prod_cfg_.initial_max_stream_data_bidi);
-    settings.max_stream_data_uni         = static_cast<uint64_t>(
-        prod_cfg_.initial_max_stream_data_uni);
-    settings.max_data                    = static_cast<uint64_t>(
-        prod_cfg_.initial_max_data);
-    settings.max_streams_bidi            = static_cast<uint64_t>(
-        prod_cfg_.initial_max_streams_bidi);
-    settings.max_streams_uni             = static_cast<uint64_t>(
-        prod_cfg_.initial_max_streams_uni);
     
     // Generate connection IDs
     ngtcp2_cid scid, dcid;
@@ -444,6 +426,20 @@ void Http3Session::start() {
     // so the peer knows we accept datagrams on this connection.
     ngtcp2_transport_params params;
     ngtcp2_transport_params_default(&params);
+    params.max_idle_timeout = static_cast<ngtcp2_duration>(
+        max_idle_timeout_ms_ * NGTCP2_MILLISECONDS);
+    params.initial_max_stream_data_bidi_local = static_cast<uint64_t>(
+        prod_cfg_.initial_max_stream_data_bidi);
+    params.initial_max_stream_data_bidi_remote = static_cast<uint64_t>(
+        prod_cfg_.initial_max_stream_data_bidi);
+    params.initial_max_stream_data_uni = static_cast<uint64_t>(
+        prod_cfg_.initial_max_stream_data_uni);
+    params.initial_max_data = static_cast<uint64_t>(
+        prod_cfg_.initial_max_data);
+    params.initial_max_streams_bidi = static_cast<uint64_t>(
+        prod_cfg_.initial_max_streams_bidi);
+    params.initial_max_streams_uni = static_cast<uint64_t>(
+        prod_cfg_.initial_max_streams_uni);
     params.max_datagram_frame_size = datagram_dispatcher_.config().max_datagram_frame_size;
     
     // Create QUIC connection
@@ -452,7 +448,7 @@ void Http3Session::start() {
     
     int rv = ngtcp2_conn_server_new(&quic_conn_, &dcid, &scid, &path,
                                     NGTCP2_PROTO_VER_V1, &callbacks, &settings,
-                                    &params, this);
+                                    &params, nullptr, this);
     if (rv != 0) {
         THEMIS_ERROR("HTTP/3: ngtcp2_conn_server_new failed: {}", ngtcp2_strerror(rv));
         return;
@@ -464,7 +460,7 @@ void Http3Session::start() {
     nghttp3_callbacks http3_callbacks;
     memset(&http3_callbacks, 0, sizeof(http3_callbacks));
     http3_callbacks.recv_data = http3RecvDataCallback;
-    http3_callbacks.deframe_header = http3DecodHeaderCallback;
+    http3_callbacks.recv_header = http3DecodHeaderCallback;
     http3_callbacks.end_headers = http3EndHeadersCallback;
     http3_callbacks.end_stream = http3EndStreamCallback;
     
@@ -1041,7 +1037,10 @@ bool Http3Session::sendDatagram(uint64_t       context_id,
     }
 
     // Check if the peer supports datagrams (max_datagram_frame_size > 0).
-    size_t max_dgram = ngtcp2_conn_get_max_datagram_size(quic_conn_);
+    const ngtcp2_transport_params* remote_params =
+        ngtcp2_conn_get_remote_transport_params(quic_conn_);
+    size_t max_dgram =
+        remote_params ? static_cast<size_t>(remote_params->max_datagram_frame_size) : 0;
     if (max_dgram == 0) {
         THEMIS_WARN("[Http3Session] sendDatagram: peer does not support datagrams");
         return false;

@@ -17414,6 +17414,10 @@ if(THEMIS_ENABLE_HTTP3)
             ${TEST_LIBS}
             themis_core
             Threads::Threads
+            $<$<TARGET_EXISTS:nghttp3::nghttp3>:nghttp3::nghttp3>
+            $<$<AND:$<NOT:$<TARGET_EXISTS:nghttp3::nghttp3>>,$<TARGET_EXISTS:nghttp3::nghttp3_static>>:nghttp3::nghttp3_static>
+            $<$<TARGET_EXISTS:ngtcp2::ngtcp2>:ngtcp2::ngtcp2>
+            $<$<TARGET_EXISTS:ngtcp2::ngtcp2_crypto_ossl>:ngtcp2::ngtcp2_crypto_ossl>
         )
 
         target_compile_definitions(test_quic_server_focused PRIVATE
@@ -17452,6 +17456,10 @@ if(THEMIS_ENABLE_HTTP3)
             GTest::gtest_main
             GTest::gtest
             themis_core
+            $<$<TARGET_EXISTS:nghttp3::nghttp3>:nghttp3::nghttp3>
+            $<$<AND:$<NOT:$<TARGET_EXISTS:nghttp3::nghttp3>>,$<TARGET_EXISTS:nghttp3::nghttp3_static>>:nghttp3::nghttp3_static>
+            $<$<TARGET_EXISTS:ngtcp2::ngtcp2>:ngtcp2::ngtcp2>
+            $<$<TARGET_EXISTS:ngtcp2::ngtcp2_crypto_ossl>:ngtcp2::ngtcp2_crypto_ossl>
         )
 
         target_compile_definitions(test_http3_production_readiness_focused PRIVATE

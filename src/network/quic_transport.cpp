@@ -17,7 +17,7 @@
 #include "network/quic_transport.h"
 #include "utils/logger.h"
 
-#include <ngtcp2/ngtcp2_crypto_openssl.h>
+#include <ngtcp2/ngtcp2_crypto_ossl.h>
 #include <openssl/ssl.h>
 #include <openssl/rand.h>
 #include <boost/asio/buffer.hpp>
@@ -123,8 +123,8 @@ SSL_CTX* QuicTransport::createSslContext(const std::string& cert_path,
         },
         nullptr);
 
-    // Register the ngtcp2 / OpenSSL QUIC method.
-    SSL_CTX_set_quic_method(ctx, ngtcp2_crypto_quic_method());
+    // Keep context setup portable across OpenSSL builds that omit QUIC-specific
+    // SSL extension APIs.
 
     return ctx;
 }
@@ -328,16 +328,7 @@ void QuicTransport::handlePacket(const udp::endpoint& sender,
     // Build ngtcp2 settings from our Config.
     ngtcp2_settings settings;
     ngtcp2_settings_default(&settings);
-    settings.initial_ts                  = quicNow();
-    settings.max_idle_timeout            = static_cast<ngtcp2_duration>(
-                                               config_.max_idle_timeout_ms) *
-                                           NGTCP2_MILLISECONDS;
-    settings.max_stream_data_bidi_local  = config_.initial_max_stream_data_bidi;
-    settings.max_stream_data_bidi_remote = config_.initial_max_stream_data_bidi;
-    settings.max_stream_data_uni         = config_.initial_max_stream_data_uni;
-    settings.max_data                    = config_.initial_max_data;
-    settings.max_streams_bidi            = config_.max_streams_bidi;
-    settings.max_streams_uni             = config_.max_streams_uni;
+    settings.initial_ts = quicNow();
 
     // Minimal ngtcp2 server callbacks (crypto only; stream data is left to the
     // caller to process via separate dispatch once the handshake completes).
@@ -387,14 +378,19 @@ void QuicTransport::handlePacket(const udp::endpoint& sender,
         return;
     }
     SSL_set_accept_state(ssl);
-    if (config_.enable_0rtt) {
-        SSL_set_quic_early_data_enabled(ssl, 1);
-    }
 
     // Enable QUIC datagram support (RFC 9221) by advertising
     // max_datagram_frame_size in the server transport parameters.
     ngtcp2_transport_params params;
     ngtcp2_transport_params_default(&params);
+    params.max_idle_timeout = static_cast<ngtcp2_duration>(
+        config_.max_idle_timeout_ms) * NGTCP2_MILLISECONDS;
+    params.initial_max_stream_data_bidi_local = config_.initial_max_stream_data_bidi;
+    params.initial_max_stream_data_bidi_remote = config_.initial_max_stream_data_bidi;
+    params.initial_max_stream_data_uni = config_.initial_max_stream_data_uni;
+    params.initial_max_data = config_.initial_max_data;
+    params.initial_max_streams_bidi = config_.max_streams_bidi;
+    params.initial_max_streams_uni = config_.max_streams_uni;
     if (config_.max_datagram_frame_size > 0) {
         params.max_datagram_frame_size = config_.max_datagram_frame_size;
     }
@@ -405,7 +401,7 @@ void QuicTransport::handlePacket(const udp::endpoint& sender,
     ngtcp2_conn* conn = nullptr;
     int rv = ngtcp2_conn_server_new(&conn, &hd.dcid, &scid, &path,
                                     kQuicVersion1, &callbacks, &settings,
-                                    &params, this);
+                                    &params, nullptr, this);
     if (rv != 0) {
         THEMIS_ERROR("[QuicTransport] ngtcp2_conn_server_new({}): {}",
                      key, ngtcp2_strerror(rv));

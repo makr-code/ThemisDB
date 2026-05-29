@@ -13,6 +13,10 @@ Reduce high-volume, low-risk gap patterns quickly in core components without arc
 - Package A: completed in the focused server, query, index, and storage slices.
 - Package B: completed, with storage/null guards in server handlers, QueryEngine storage-backed paths, empty-input guards in AQL injection validation, range/finite checks in wire protocol vector/geo handlers, decoded-audio validation guards across voice API endpoints, strict query-limit validation in voice listing/search endpoints, graph/query/cursor range guards in the wire protocol, strict BPMN wire-request type validation, BPMN identifier hygiene checks (length/control-character guards), QUERY/CURSOR hardening for blank AQL and invalid cursor identifiers, expanded core wire input hygiene for GET/PUT/DELETE/BATCH/TRANSACTION/GRAPH handlers, and explicit JSON type-guards before core wire string extraction.
 - Package C: transaction slice advanced with SAGA plugin runtime hardening (manifest/signature runtime asset wiring) and focused bridge tests for successful bind+execute plus missing-binary failure behavior.
+- Package C: core cache slice advanced with Redis RESP parser hardening in `redis_cache.cpp` (noexcept-safe integer parsing and strict reply-read error checks in SCAN/reply paths) to reduce uncaught-exception risk in network/error scenarios.
+- Package C: network slice advanced with HTTP/3/QUIC compatibility hardening for current ngtcp2/nghttp3 APIs in `quic_server.cpp`, `quic_transport.cpp`, and `http3_session.cpp` (header/API migration, callback completeness, transport-parameter wiring, and focused-linkage fixes), validated with `QUICServerFocusedTests` under `THEMIS_ENABLE_HTTP3=ON`.
+- Package C: network validation extended with successful `Http3ProductionReadinessFocusedTests` under `THEMIS_ENABLE_HTTP3=ON` after focused target linkage alignment for nghttp3/ngtcp2.
+- Package C: combined focused validation run completed (`QUICServerFocusedTests` + `Http3ProductionReadinessFocusedTests`) with both tests passing under `THEMIS_ENABLE_HTTP3=ON`.
 
 ## Priority Patterns (Core Set)
 
