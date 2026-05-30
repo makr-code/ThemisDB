@@ -438,6 +438,7 @@ TEST_F(RedisCacheTest, ConcernsContext_ConfigRedisCacheAdapterValidates) {
     auto result = core::ConfigValidator::validateAdapterConfig(
         cfg.loggerAdapter, cfg.tracerAdapter, cfg.metricsAdapter,
         cfg.cacheAdapter, cfg.circuitBreakerAdapter,
-        cfg.featureFlagsAdapter, cfg.auditAdapter);
+        cfg.featureFlagsAdapter, cfg.auditAdapter,
+        "noop", cfg.cacheRedisUrl);
     EXPECT_TRUE(result.valid) << result.formatErrors();
 }

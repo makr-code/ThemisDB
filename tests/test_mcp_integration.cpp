@@ -606,6 +606,60 @@ TEST_F(MCPIntegrationTest, ResourceRead) {
 }
 
 // ============================================================================
+// AI Safety (ASL-10) Rollback Path Validation Tests
+// ============================================================================
+
+TEST_F(MCPIntegrationTest, AIRollbackRejectsEmptySnapshotId) {
+    json result = server_->handleAiRollback("");
+
+    EXPECT_EQ(result["status"], "error");
+    EXPECT_EQ(result["error_code"], "INVALID_SNAPSHOT_ID");
+}
+
+TEST_F(MCPIntegrationTest, AIRollbackRejectsPathSeparators) {
+    json result = server_->handleAiRollback("nested/snapshot");
+
+    EXPECT_EQ(result["status"], "error");
+    EXPECT_EQ(result["error_code"], "INVALID_SNAPSHOT_ID");
+}
+
+TEST_F(MCPIntegrationTest, AIRollbackRejectsWindowsDrivePrefix) {
+    json result = server_->handleAiRollback("C:\\temp\\snapshot");
+
+    EXPECT_EQ(result["status"], "error");
+    EXPECT_EQ(result["error_code"], "INVALID_SNAPSHOT_ID");
+}
+
+TEST_F(MCPIntegrationTest, AIRollbackRejectsPercentEncodedTraversalPayload) {
+    json result = server_->handleAiRollback("%2e%2e%2fsecret");
+
+    EXPECT_EQ(result["status"], "error");
+    EXPECT_EQ(result["error_code"], "INVALID_SNAPSHOT_ID");
+}
+
+TEST_F(MCPIntegrationTest, AIRollbackRejectsControlCharacters) {
+    const std::string invalid_snapshot_id = std::string("snapshot") + '\n' + "001";
+    json result = server_->handleAiRollback(invalid_snapshot_id);
+
+    EXPECT_EQ(result["status"], "error");
+    EXPECT_EQ(result["error_code"], "INVALID_SNAPSHOT_ID");
+}
+
+TEST_F(MCPIntegrationTest, AIRollbackRejectsUnsupportedSpecialCharacter) {
+    json result = server_->handleAiRollback("snapshot:001");
+
+    EXPECT_EQ(result["status"], "error");
+    EXPECT_EQ(result["error_code"], "INVALID_SNAPSHOT_ID");
+}
+
+TEST_F(MCPIntegrationTest, AIRollbackAcceptsSimpleSnapshotIdAndFailsClosedWhenMissing) {
+    json result = server_->handleAiRollback("snapshot_valid_001");
+
+    EXPECT_EQ(result["status"], "error");
+    EXPECT_NE(result["error_code"], "INVALID_SNAPSHOT_ID");
+}
+
+// ============================================================================
 // Error Handling Tests
 // ============================================================================
 

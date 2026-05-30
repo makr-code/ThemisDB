@@ -688,7 +688,7 @@ std::vector<llm::InferenceResponse> LlamaCppPlugin::generateBatch(
 
 // ── dynamic-loading entry points ──────────────────────────────────────────────
 
-#ifndef THEMIS_TEST_BUILD
+#if !defined(THEMIS_TEST_BUILD) && defined(THEMIS_PLUGIN_EXPORTS)
 extern "C" THEMIS_PLUGIN_EXPORT
 themis::llm::ILLMPlugin* themis_llm_create() {
     return new themis::llamacpp::LlamaCppPlugin();

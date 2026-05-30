@@ -18,6 +18,57 @@ Important copy/paste note:
 Unified query command pattern (for recognizability):
 - `'{"query":"...",...}' | & $THEMISCTL --timeout 180 --host 127.0.0.1 --port 8765 api POST <endpoint> --stdin --content-type application/json`
 
+## Red Line - One-Liner Sequence (general -> specific, easy -> advanced)
+
+Use this compact sequence for live sessions. It follows the same mental model each time:
+platform up -> tooling ready -> health -> deterministic retrieval -> graph context -> model load -> similarity/RAG -> generation.
+
+1) Workspace + themisctl (tool control) in one line:
+```powershell
+PS C:\Projects\ThemisDB> Set-Location C:\Projects\ThemisDB; $THEMISCTL = ".\build-msvc-windows-release\bin\themisctl.exe"; & $THEMISCTL --version
+```
+
+2) Server start in one line (separate PowerShell window):
+```powershell
+PS C:\Projects\ThemisDB> $SERVER_EXE = ".\build-msvc-windows-release\bin\themis_server.exe"; $SERVER_DB_PATH = ".\demo\data\themis_db"; New-Item -ItemType Directory -Path $SERVER_DB_PATH -Force | Out-Null; & $SERVER_EXE --db "$SERVER_DB_PATH" --port 8765 --allow-degraded-build --allow-stub-hsm
+```
+
+3) Health check in one line:
+```powershell
+PS C:\Projects\ThemisDB> & $THEMISCTL --host 127.0.0.1 --port 8765 health
+```
+
+4) Deterministic retrieval in one line (lightweight entry point):
+```powershell
+PS C:\Projects\ThemisDB> & $THEMISCTL --host 127.0.0.1 --port 8765 api GET /entities/demo_articles:art_0001
+```
+
+5) Graph + network context in one line:
+```powershell
+PS C:\Projects\ThemisDB> '{"query":"query GraphDashboard($start: ID!, $depth: Int!) { apiVersion schemaVersion kHop: graphTraversal(startNode: $start, depth: $depth, direction: \"out\") { id labels properties } }","variables":{"start":"demo_knowledge_graph:node_0001","depth":1}}' | & $THEMISCTL --timeout 180 --host 127.0.0.1 --port 8765 api POST /graphql --stdin --content-type application/json
+```
+
+6) Load LLM in one line:
+```powershell
+PS C:\Projects\ThemisDB> '{"model_id":"default","path":"C:\\Projects\\ThemisDB\\models\\phi4.gguf"}' | & $THEMISCTL --timeout 180 --host 127.0.0.1 --port 8765 api POST /api/v1/llm/models/load --stdin --content-type application/json
+```
+
+7) Generate narrative summary in one line (non-deterministic wording):
+```powershell
+PS C:\Projects\ThemisDB> '{"prompt":"Summarize the key trends in the demo administrative-law dataset in 3 bullet points.","max_tokens":96,"temperature":0.2}' | & $THEMISCTL --timeout 180 --host 127.0.0.1 --port 8765 api POST /api/v1/llm/inference --stdin --content-type application/json
+```
+
+8) RAG summary after model load (context-grounded, wording may vary):
+```powershell
+PS C:\Projects\ThemisDB> '{"query":"Fasse fuer demo_articles konkrete Fallmuster zusammen und nenne, wenn vorhanden, Verfahrensart, Rechtsgrundlage und Verfahrensstand. Keine Methodik erklaeren.","collection":"demo_articles","top_k":3,"max_tokens":120,"temperature":0.1}' | & $THEMISCTL --timeout 180 --host 127.0.0.1 --port 8765 api POST /api/v1/llm/rag --stdin --content-type application/json
+```
+Hinweis: `documents_retrieved` in der RAG-Antwort entspricht dem gesetzten `top_k` (hier 3), nicht der Gesamtzahl in `demo_articles`.
+
+9) Deterministic readback for moderation safety:
+```powershell
+PS C:\Projects\ThemisDB> & $THEMISCTL --host 127.0.0.1 --port 8765 api GET /entities/demo_articles:art_0001
+```
+
 ## Step 1 - Open workspace and define themisctl
 
 Speaker text:
@@ -58,8 +109,10 @@ Speaker text:
 
 PowerShell prompt:
 ```powershell
-PS C:\> Set-Location C:\Projects\ThemisDB; $SERVER_DB_PATH = ".\demo\data\themis_db"; New-Item -ItemType Directory -Path $SERVER_DB_PATH -Force | Out-Null; .\build-msvc-windows-release\bin\themis_server.exe --db "$SERVER_DB_PATH" --port 8765 --allow-degraded-build --allow-stub-hsm
+PS C:\> Set-Location C:\Projects\ThemisDB; $SERVER_EXE = ".\build-msvc-windows-release\bin\themis_server.exe"; $SERVER_DB_PATH = ".\demo\data\themis_db"; New-Item -ItemType Directory -Path $SERVER_DB_PATH -Force | Out-Null; & $SERVER_EXE --db "$SERVER_DB_PATH" --port 8765 --allow-degraded-build --allow-stub-hsm
 ```
+
+Hinweis: Es wird bewusst der zuletzt kompilierte MSVC-Build verwendet (`.\build-msvc-windows-release\bin\themis_server.exe`).
 
 Required switches from `demo/kickstarter_demo_script.ps1`:
 - `--allow-degraded-build`
@@ -76,7 +129,7 @@ Demo-Datenablage (wichtig fuer den Live-Call):
 - Physischer DB-Pfad: `./demo/data/themis_db`
 - Keys in der Demo-DB folgen dem Schema `<collection>:<prefix><nnnn>`
   - z. B. `demo_articles:art_0001`, `demo_embeddings:vec_0001`, `demo_knowledge_graph:node_0001`
-- Import-Payload ist ein Wrapper mit `blob`:
+- Import erfolgt ueber Entities; das Feld `blob` ist dabei ein JSON-Textfeld (kein Binary-Blob):
   - `{"blob":"<jsonl-zeile-als-string>"}`
 
 ## Step 3 - Verify server reachability
@@ -136,7 +189,7 @@ Expected result (real, shortened):
 ## Step 5 - LLM inference
 
 Speaker text:
-"Now I run direct model inference and show latency plus token count from the live response."
+"Now I run direct model inference. This is a narrative summary step: latency and tokens are deterministic metrics, but wording can vary."
 
 PowerShell prompt:
 ```powershell
@@ -145,7 +198,7 @@ PS C:\Projects\ThemisDB> '{"prompt":"Summarize the impact of ACID transactions f
 
 PowerShell prompt (KPI overlay for model identity and inference validity):
 ```powershell
-PS C:\Projects\ThemisDB> $inferRaw = '{"prompt":"Summarize the impact of ACID transactions for distributed databases in two sentences.","max_tokens":64,"temperature":0.2}' | & $THEMISCTL --timeout 180 --host 127.0.0.1 --port 8765 api POST /api/v1/llm/inference --stdin --content-type application/json; $infer = $inferRaw | ConvertFrom-Json; [pscustomobject]@{ model_alias = $infer.model; model_path = 'C:\Projects\ThemisDB\models\phi4.gguf'; tokens_generated = [int]$infer.tokens_generated; inference_time_ms = [math]::Round([double]$infer.inference_time_ms,2); tokens_per_sec = [math]::Round(([double]$infer.tokens_generated * 1000.0) / [Math]::Max([double]$infer.inference_time_ms,1.0),2); chars_generated = [int]$infer.text.Length; chars_per_token = [math]::Round(([double]$infer.text.Length) / [Math]::Max([double]$infer.tokens_generated,1.0),2); hit_max_tokens = ([int]$infer.tokens_generated -ge 64); non_empty_text = ([string]::IsNullOrWhiteSpace($infer.text) -eq $false) } | Format-List
+PS C:\Projects\ThemisDB> $inferRaw = ('{"prompt":"Summarize the impact of ACID transactions for distributed databases in two sentences.","max_tokens":64,"temperature":0.2}' | & $THEMISCTL --timeout 180 --host 127.0.0.1 --port 8765 api POST /api/v1/llm/inference --stdin --content-type application/json); $infer = $inferRaw | ConvertFrom-Json; [pscustomobject]@{ model_alias = $infer.model; model_path = 'C:\Projects\ThemisDB\models\phi4.gguf'; tokens_generated = [int]$infer.tokens_generated; inference_time_ms = [math]::Round([double]$infer.inference_time_ms,2); tokens_per_sec = [math]::Round(([double]$infer.tokens_generated * 1000.0) / [Math]::Max([double]$infer.inference_time_ms,1.0),2); chars_generated = [int]$infer.text.Length; chars_per_token = [math]::Round(([double]$infer.text.Length) / [Math]::Max([double]$infer.tokens_generated,1.0),2); hit_max_tokens = ([int]$infer.tokens_generated -ge 64); non_empty_text = ([string]::IsNullOrWhiteSpace($infer.text) -eq $false) } | Format-List
 ```
 
 Expected result (real, shortened):
@@ -207,27 +260,45 @@ Expected result (real, shortened):
 ## Step 7 - RAG endpoint
 
 Speaker text:
-"Now we combine retrieval and generation. The response includes retrieved document count and inference timing."
+"Now we combine retrieval and generation with a specificity check. If the answer is generic, I immediately fall back to deterministic entities output for factual moderation safety."
 
 PowerShell prompt:
 ```powershell
-PS C:\Projects\ThemisDB> '{"query":"What are the latest papers on quantum computing by MIT?","collection":"demo_articles","top_k":3,"max_tokens":96,"temperature":0.2}' | & $THEMISCTL --timeout 180 --host 127.0.0.1 --port 8765 api POST /api/v1/llm/rag --stdin --content-type application/json
+PS C:\Projects\ThemisDB> '{"query":"Fasse fuer demo_articles konkrete Fallmuster zusammen und nenne, wenn vorhanden, Verfahrensart, Rechtsgrundlage und Verfahrensstand. Keine Methodik erklaeren.","collection":"demo_articles","top_k":3,"max_tokens":120,"temperature":0.1}' | & $THEMISCTL --timeout 180 --host 127.0.0.1 --port 8765 api POST /api/v1/llm/rag --stdin --content-type application/json
+```
+
+PowerShell prompt (specificity gate: generic answer detection):
+```powershell
+PS C:\Projects\ThemisDB> $ragRaw = ('{"query":"Fasse fuer demo_articles konkrete Fallmuster zusammen und nenne, wenn vorhanden, Verfahrensart, Rechtsgrundlage und Verfahrensstand. Keine Methodik erklaeren.","collection":"demo_articles","top_k":3,"max_tokens":120,"temperature":0.1}' | & $THEMISCTL --timeout 180 --host 127.0.0.1 --port 8765 api POST /api/v1/llm/rag --stdin --content-type application/json); $rag = $ragRaw | ConvertFrom-Json; [pscustomobject]@{ documents_retrieved = [int]$rag.documents_retrieved; tokens_generated = [int]$rag.tokens_generated; inference_time_ms = [math]::Round([double]$rag.inference_time_ms,2); has_case_id = ($rag.text -match 'case_[0-9]{4}'); has_legal_basis = ($rag.text -match 'VwVfG|VwGO|BauGB|BImSchG|AufenthG|DSGVO|UVgO|WHG|DenkmSchG'); generic_fallback_signal = ($rag.text -match 'keinen Zugriff|hypothetisch|allgemeine Beispiele|No relevant information found') } | Format-List
 ```
 
 Expected result (real, shortened):
 ```json
 {
   "documents_retrieved": 3,
-  "inference_time_ms": 11044.544921875,
+  "inference_time_ms": 13630.65234375,
   "model": "default",
-  "text": "assistantAs a large language model, I can't provide real-time updates ...",
-  "tokens_generated": 96
+  "text": "assistant... (kann je nach Modellstand weiterhin generisch sein)",
+  "tokens_generated": 120
 }
 ```
+Interpretation: `documents_retrieved = 3` bedeutet "Top-3 Retrieval-Treffer", waehrend die Collection `demo_articles` weiterhin 108 Dokumente enthalten kann.
+
+Expected specificity gate (target interpretation):
+```text
+documents_retrieved     : 3
+tokens_generated        : 120
+inference_time_ms       : <value>
+has_case_id             : False|True
+has_legal_basis         : False|True
+generic_fallback_signal : True|False
+```
+
+If `generic_fallback_signal` is `True`, continue with Step 8 for deterministic factual readback.
 
 Expected server console line (INFO, shortened):
 ```text
-... [info] LLMApiHandler::handleRAG success: query_len=57 collection='demo_articles' top_k=3 docs_retrieved=3 tokens_generated=96 inference_time_ms=11044.54 cache_hit=false rag_mode='enhanced' lora='<none>'
+... [info] LLMApiHandler::handleRAG success: collection='demo_articles' top_k=3 docs_retrieved=3 tokens_generated=120 inference_time_ms=13630.65 cache_hit=false rag_mode='enhanced' lora='<none>'
 ```
 
 ## Step 7b - Optional LoRA query endpoint (observability proof)
@@ -256,37 +327,29 @@ Expected server console line (INFO, shortened):
 ... [info] LoRAApiHandler::handleLoRAQuery success: model_id='default' adapter_id='demo_adapter' prompt_len=66 tokens_used=64 inference_time_ms=7000
 ```
 
-## Step 8 - AQL showcase (query endpoint)
+## Step 8 - Entities showcase (stable readback)
 
 Speaker text:
-"This AQL showcase runs a direct query against the AQL endpoint and returns matching records with metadata."
+"This step uses the stable entities endpoint for deterministic readback of a real administrative-law case record."
 
 PowerShell prompt:
 ```powershell
-PS C:\Projects\ThemisDB> '{"query":"FOR d IN demo_articles LIMIT 1 RETURN d"}' | & $THEMISCTL --timeout 180 --host 127.0.0.1 --port 8765 api POST /query/aql --stdin --content-type application/json
+PS C:\Projects\ThemisDB> & $THEMISCTL --host 127.0.0.1 --port 8765 api GET /entities/demo_articles:art_0001
 ```
 
-Expected result (target, shortened):
+Expected result (real, shortened):
 ```json
 {
-  "result": [
-    {
-      "id": "demo_articles:article_001",
-      "blob": "..."
-    }
-  ],
-  "execution_time_ms": 0.0,
-  "count": 1
+  "blob": "{\"id\": \"doc_001\", \"case_id\": \"case_0001\", \"authority_id\": \"auth_001\", \"procedure_type\": \"Baugenehmigung\", ...}",
+  "key": "demo_articles:art_0001"
 }
 ```
 
-Observed fallback in some current builds (known limitation):
-```json
-{
-  "error": true,
-  "status_code": 400,
-  "message": "Query execution failed: ... Optimized entity execution failed for table 'demo_articles' ..."
-}
+Interpretation for live demo:
+```text
+The demo data is read via /entities/<key>.
+In this runtime profile, writes require a JSON body with field `blob` (stringified JSON), not raw binary payloads.
+Use this output as factual anchor if LLM wording is generic.
 ```
 
 ## Step 9 - GraphQL showcase (schema + query)
@@ -310,7 +373,6 @@ schema {
 type Query {
   document(collection: String!, id: ID!): Document
   documents(collection: String!, limit: Int, offset: Int): [Document!]!
-  aql(query: String!, variables: JSON): JSON
   graphTraversal(startNode: ID!, depth: Int, direction: String): [Node!]!
 }
 ```
@@ -352,6 +414,8 @@ themis-help (lora):
 assistantTo configure sharding and Retrieval-Augmented Generation (RAG) safely in ThemisDB, you can follow these general guidelines...
 ```
 
+Hinweis: In den aktuellen Demo-Logs beginnt die Antwort direkt mit `assistant` ohne Leerzeichen vor dem Text; das ist das beobachtete Runtime-Format.
+
 ## Step 11 - CRUD consistency probe
 
 Speaker text:
@@ -359,14 +423,20 @@ Speaker text:
 
 PowerShell prompt:
 ```powershell
-PS C:\Projects\ThemisDB> & $THEMISCTL --host 127.0.0.1 --port 8765 put demo_articles:runtime_probe '{"blob":"{\"title\":\"Runtime Probe\",\"content\":\"Compatibility mode\"}"}'
-PS C:\Projects\ThemisDB> & $THEMISCTL --host 127.0.0.1 --port 8765 get demo_articles:runtime_probe
+PS C:\Projects\ThemisDB> $probePayload = @{ key = 'demo_articles:runtime_probe'; blob = (@{ title = 'Runtime Probe'; content = 'Compatibility mode' } | ConvertTo-Json -Compress) } | ConvertTo-Json -Compress; $probePayload | & $THEMISCTL --host 127.0.0.1 --port 8765 api POST /entities --stdin --content-type application/json
+PS C:\Projects\ThemisDB> & $THEMISCTL --host 127.0.0.1 --port 8765 api GET /entities/demo_articles:runtime_probe
+PS C:\Projects\ThemisDB> & $THEMISCTL --host 127.0.0.1 --port 8765 api DELETE /entities/demo_articles:runtime_probe
 ```
+Hinweis: Dieser `api POST /entities --stdin`-Pfad ist in PowerShell robuster als `put <key> <json>`, weil kein natives Argument-Quoting fuer JSON erforderlich ist.
 
 Expected result (real, shortened):
 ```text
-[OK] Entity 'demo_articles:runtime_probe' stored.
-(then JSON entity on readback)
+{
+  "blob_size": 56,
+  "key": "demo_articles:runtime_probe",
+  "success": true
+}
+(then JSON entity on readback via `/entities/...`)
 ```
 
 ## Step 12 - Index recommendation

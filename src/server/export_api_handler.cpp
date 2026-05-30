@@ -40,6 +40,23 @@ namespace {
 
 constexpr size_t kMaxExportFieldLength = 256;
 
+std::filesystem::path resolveExportOutputDir() {
+    std::error_code ec;
+    auto base_dir = std::filesystem::temp_directory_path(ec);
+    if (ec || base_dir.empty()) {
+        ec.clear();
+        base_dir = std::filesystem::current_path(ec);
+        if (ec || base_dir.empty()) {
+            base_dir = std::filesystem::path(".");
+        }
+    }
+
+    auto export_dir = base_dir / "themis_exports";
+    ec.clear();
+    std::filesystem::create_directories(export_dir, ec);
+    return export_dir;
+}
+
 bool isValidExportField(std::string_view value) {
     themis::utils::InputValidator validator;
     return validator.validateStringLength(std::string(value), kMaxExportFieldLength) &&
@@ -103,8 +120,8 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
 
         // Generate export ID and output path
         std::string export_id = generateExportId();
-        std::filesystem::create_directories("/tmp/themis_exports");
-        std::string output_path = "/tmp/themis_exports/export_" + export_id + ".jsonl";
+        std::string output_path =
+            (resolveExportOutputDir() / ("export_" + export_id + ".jsonl")).string();
 
         // Configure export options
         exporters::ExportOptions export_options;

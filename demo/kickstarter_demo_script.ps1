@@ -8,9 +8,9 @@ function Resolve-ThemisBinary {
     param([string]$BinaryName)
 
     $candidates = @(
-        ".\\build\\windows-release\\bin\\$BinaryName",
         ".\\build-msvc-windows-release\\bin\\$BinaryName",
-        ".\\build\\msvc-ninja-release\\bin\\$BinaryName"
+        ".\\build\\msvc-ninja-release\\bin\\$BinaryName",
+        ".\\build\\windows-release\\bin\\$BinaryName"
     )
 
     foreach ($candidate in $candidates) {

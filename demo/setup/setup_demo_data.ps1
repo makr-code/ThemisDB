@@ -60,34 +60,86 @@ function Resolve-ThemisctlPath {
     return $null
 }
 
-function Import-JsonlViaPut {
+function Import-JsonlViaBatchInsert {
     param(
         [string]$Collection,
         [string]$FilePath,
-        [string]$KeyPrefix
+        [switch]$Edges
     )
 
     if (-not (Test-Path $FilePath)) {
         throw "File not found: $FilePath"
     }
 
-    $lineNumber = 0
-    foreach ($line in Get-Content $FilePath) {
-        if ([string]::IsNullOrWhiteSpace($line)) {
+    $lineCount = (Get-Content $FilePath | Where-Object { -not [string]::IsNullOrWhiteSpace($_) } | Measure-Object).Count
+    if ($lineCount -eq 0) {
+        return 0
+    }
+
+    $maxRetries = 8
+    $attempt = 0
+    while ($attempt -lt $maxRetries) {
+        $attempt++
+
+        if ($Edges) {
+            $batchOutput = Get-Content $FilePath | & $ThemisctlPath --host $ServerHost --port $ServerPort batch-insert --collection $Collection --edges --batch-size 200 2>&1
+        } else {
+            $batchOutput = Get-Content $FilePath | & $ThemisctlPath --host $ServerHost --port $ServerPort batch-insert --collection $Collection --batch-size 200 2>&1
+        }
+
+        if ($LASTEXITCODE -eq 0) {
+            return $lineCount
+        }
+
+        $msg = ($batchOutput | Out-String).Trim()
+        if ($msg -match 'HTTP 429|Too Many Requests') {
+            $retryAfter = 1
+            if ($msg -match 'retry_after_seconds"\s*:\s*(\d+)') {
+                $retryAfter = [Math]::Max([int]$Matches[1], 1)
+            }
+            Start-Sleep -Seconds ($retryAfter + 1)
             continue
         }
 
-        $lineNumber++
-        $key = "{0}:{1}{2:d4}" -f $Collection, $KeyPrefix, $lineNumber
-        $payload = '{"blob":' + (ConvertTo-Json $line -Compress) + '}'
-
-        & $ThemisctlPath --host $ServerHost --port $ServerPort put $key $payload 2>&1 | Out-Null
-        if ($LASTEXITCODE -ne 0) {
-            throw "put failed for key $key"
+        if ([string]::IsNullOrWhiteSpace($msg)) {
+            throw "batch-insert failed for collection $Collection"
         }
+
+        throw "batch-insert failed for collection ${Collection}: $msg"
     }
 
-    return $lineNumber
+    throw "batch-insert failed for collection $Collection after $maxRetries retries"
+}
+
+function Test-KeyAccessible {
+    param(
+        [string]$Key
+    )
+
+    $maxRetries = 10
+    $attempt = 0
+
+    while ($attempt -lt $maxRetries) {
+        $attempt++
+        $out = & $ThemisctlPath --host $ServerHost --port $ServerPort get $Key 2>&1
+        if ($LASTEXITCODE -eq 0) {
+            return $true
+        }
+
+        $msg = ($out | Out-String).Trim()
+        if ($msg -match 'HTTP 429|Too Many Requests') {
+            $retryAfter = 1
+            if ($msg -match 'retry_after_seconds"\s*:\s*(\d+)') {
+                $retryAfter = [Math]::Max([int]$Matches[1], 1)
+            }
+            Start-Sleep -Seconds ($retryAfter + 1)
+            continue
+        }
+
+        break
+    }
+
+    return $false
 }
 
 # =============================================================================
@@ -146,12 +198,18 @@ try {
 
 Write-Section "[3] Importing Data into ThemisDB..."
 
+$articlesImported = 0
+$embeddingsImported = 0
+$nodesImported = 0
+$edgesImported = 0
+
 # Import Articles
 Write-Info "  → Importing demo_articles collection..."
 $articlesFile = "$DataDir\demo_articles.jsonl"
 if (Test-Path $articlesFile) {
     try {
-        $imported = Import-JsonlViaPut -Collection "demo_articles" -FilePath $articlesFile -KeyPrefix "art_"
+        $imported = Import-JsonlViaBatchInsert -Collection "demo_articles" -FilePath $articlesFile
+        $articlesImported = $imported
         Write-Success "    ✓ Imported $imported articles"
     } catch {
         Write-Error-Custom "Failed to import articles: $_"
@@ -165,7 +223,8 @@ Write-Info "  → Importing demo_embeddings collection..."
 $embeddingsFile = "$DataDir\demo_embeddings.jsonl"
 if (Test-Path $embeddingsFile) {
     try {
-        $imported = Import-JsonlViaPut -Collection "demo_embeddings" -FilePath $embeddingsFile -KeyPrefix "vec_"
+        $imported = Import-JsonlViaBatchInsert -Collection "demo_embeddings" -FilePath $embeddingsFile
+        $embeddingsImported = $imported
         Write-Success "    ✓ Imported $imported embeddings"
     } catch {
         Write-Error-Custom "Failed to import embeddings: $_"
@@ -179,7 +238,8 @@ Write-Info "  → Importing demo_knowledge_graph collection (nodes)..."
 $nodesFile = "$DataDir\demo_knowledge_graph_nodes.jsonl"
 if (Test-Path $nodesFile) {
     try {
-        $imported = Import-JsonlViaPut -Collection "demo_knowledge_graph" -FilePath $nodesFile -KeyPrefix "node_"
+        $imported = Import-JsonlViaBatchInsert -Collection "demo_knowledge_graph" -FilePath $nodesFile
+        $nodesImported = $imported
         Write-Success "    ✓ Imported $imported nodes"
     } catch {
         Write-Error-Custom "Failed to import graph nodes: $_"
@@ -193,7 +253,8 @@ Write-Info "  → Importing demo_knowledge_graph collection (edges)..."
 $edgesFile = "$DataDir\demo_knowledge_graph_edges.jsonl"
 if (Test-Path $edgesFile) {
     try {
-        $imported = Import-JsonlViaPut -Collection "demo_knowledge_graph" -FilePath $edgesFile -KeyPrefix "edge_"
+        $imported = Import-JsonlViaBatchInsert -Collection "demo_knowledge_graph" -FilePath $edgesFile -Edges
+        $edgesImported = $imported
         Write-Success "    ✓ Imported $imported edges"
     } catch {
         Write-Error-Custom "Failed to import graph edges: $_"
@@ -211,24 +272,21 @@ $verificationFailed = $false
 
 try {
     Write-Info "  → Reading demo_articles sample..."
-    & $ThemisctlPath --host $ServerHost --port $ServerPort get "demo_articles:art_0001" 2>&1 | Out-Null
-    if ($LASTEXITCODE -eq 0) {
+    if (Test-KeyAccessible -Key "demo_articles:art_0001") {
         Write-Success "    ✓ demo_articles collection is accessible"
     } else {
         throw "demo_articles sample lookup failed"
     }
 
     Write-Info "  → Reading demo_embeddings sample..."
-    & $ThemisctlPath --host $ServerHost --port $ServerPort get "demo_embeddings:vec_0001" 2>&1 | Out-Null
-    if ($LASTEXITCODE -eq 0) {
+    if (Test-KeyAccessible -Key "demo_embeddings:vec_0001") {
         Write-Success "    ✓ demo_embeddings collection is accessible"
     } else {
         throw "demo_embeddings sample lookup failed"
     }
 
     Write-Info "  → Reading demo_knowledge_graph sample..."
-    & $ThemisctlPath --host $ServerHost --port $ServerPort get "demo_knowledge_graph:node_0001" 2>&1 | Out-Null
-    if ($LASTEXITCODE -eq 0) {
+    if (Test-KeyAccessible -Key "demo_knowledge_graph:node_0001") {
         Write-Success "    ✓ demo_knowledge_graph collection is accessible"
     } else {
         throw "demo_knowledge_graph sample lookup failed"
@@ -259,7 +317,7 @@ Write-Host "Data files location:" -ForegroundColor Cyan
 Write-Host "  $DataDir" -ForegroundColor Gray
 Write-Host ""
 Write-Host "Collections created:" -ForegroundColor Cyan
-Write-Host "  • demo_articles (13 research articles)" -ForegroundColor Gray
-Write-Host "  • demo_embeddings (128-dimensional vectors)" -ForegroundColor Gray
-Write-Host "  • demo_knowledge_graph (researchers, papers, conferences + relationships)" -ForegroundColor Gray
+Write-Host "  • demo_articles ($articlesImported administrative case documents)" -ForegroundColor Gray
+Write-Host "  • demo_embeddings ($embeddingsImported vectors, 128 dimensions)" -ForegroundColor Gray
+Write-Host "  • demo_knowledge_graph ($nodesImported nodes + $edgesImported edges)" -ForegroundColor Gray
 Write-Host ""

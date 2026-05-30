@@ -69,6 +69,23 @@ struct Crc32Table {
 };
 inline constexpr Crc32Table kCrc32Table{};
 
+fs::path resolveBlobCheckpointDir() {
+    std::error_code ec;
+    auto base_dir = fs::temp_directory_path(ec);
+    if (ec || base_dir.empty()) {
+        ec.clear();
+        base_dir = fs::current_path(ec);
+        if (ec || base_dir.empty()) {
+            base_dir = fs::path(".");
+        }
+    }
+
+    auto checkpoint_dir = base_dir / "themis_blob_checkpoints";
+    ec.clear();
+    fs::create_directories(checkpoint_dir, ec);
+    return checkpoint_dir;
+}
+
 /// Compute CRC-32 (Ethernet) over @p buf using the precomputed table.
 inline uint32_t crc32_table(const uint8_t* buf, size_t len) noexcept {
     uint32_t crc = 0xFFFFFFFFu;
@@ -443,15 +460,7 @@ private:
     }
     
     std::string GetCheckpointPath(const std::string& checkpoint_id) const {
-        // Store checkpoints in /tmp/themis_blob_checkpoints/
-        fs::path checkpoint_dir = "/tmp/themis_blob_checkpoints";
-        std::error_code ec;
-        fs::create_directories(checkpoint_dir, ec);
-        if (ec) {
-            // Failed to create directory, but return path anyway
-            // SaveCheckpoint will handle the error
-        }
-        return (checkpoint_dir / (checkpoint_id + ".json")).string();
+        return (resolveBlobCheckpointDir() / (checkpoint_id + ".json")).string();
     }
     
     BlobStatus SaveCheckpoint() {

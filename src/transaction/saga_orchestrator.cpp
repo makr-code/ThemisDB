@@ -257,6 +257,8 @@ StepState SAGAOrchestrator::executeStep(const SAGAStep& step,
             journalWrite(saga_id,
                          "step_exception",
                          step.name + ": " + std::string(ex ? ex : "<null>"));
+        } catch (...) {
+            journalWrite(saga_id, "step_exception", step.name + ": unknown exception");
         }
 
         if (attempt < step.max_retries) {
@@ -306,6 +308,9 @@ void SAGAOrchestrator::compensateStep(const SAGAStep& step,
     } catch (const char* ex) {
         status_rec.failure_reason +=
             " | compensation failed for " + step.name + ": " + std::string(ex ? ex : "<null>");
+        status_rec.step_states[step.name] = StepState::FAILED;
+    } catch (...) {
+        status_rec.failure_reason += " | compensation failed for " + step.name + ": unknown exception";
         status_rec.step_states[step.name] = StepState::FAILED;
     }
 }
@@ -449,7 +454,19 @@ SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {
             }
 
             for (auto& future : futures) {
-                results.push_back(future.get());
+                try {
+                    results.push_back(future.get());
+                } catch (const std::exception& ex) {
+                    results.push_back({std::string{}, StepState::FAILED});
+                    if (failure_reason.empty()) {
+                        failure_reason = std::string("wave step threw: ") + ex.what();
+                    }
+                } catch (...) {
+                    results.push_back({std::string{}, StepState::FAILED});
+                    if (failure_reason.empty()) {
+                        failure_reason = "wave step threw unknown exception";
+                    }
+                }
             }
         } else {
             for (const auto& name : wave) {

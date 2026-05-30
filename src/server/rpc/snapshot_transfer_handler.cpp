@@ -25,6 +25,7 @@
 #include <sstream>
 #include <chrono>
 #include <thread>
+#include <cstdlib>
 #include <filesystem>
 #include <spdlog/spdlog.h>
 
@@ -32,6 +33,41 @@ namespace themis {
 namespace rpc {
 
 namespace fs = std::filesystem;
+
+namespace {
+
+fs::path resolveSnapshotRootDir() {
+    std::error_code ec;
+    auto base_dir = fs::temp_directory_path(ec);
+    if (ec || base_dir.empty()) {
+        ec.clear();
+        base_dir = fs::current_path(ec);
+        if (ec || base_dir.empty()) {
+            base_dir = fs::path(".");
+        }
+    }
+
+    auto snapshot_root = base_dir / "themis_snapshots";
+    ec.clear();
+    fs::create_directories(snapshot_root, ec);
+    return snapshot_root;
+}
+
+fs::path resolveDefaultDbDataDir() {
+    if (const char* env_path = std::getenv("THEMIS_DB_PATH");
+        env_path != nullptr && env_path[0] != '\0') {
+        return fs::path(env_path);
+    }
+
+    std::error_code ec;
+    auto cwd = fs::current_path(ec);
+    if (ec || cwd.empty()) {
+        return fs::path("data") / "rocksdb";
+    }
+    return cwd / "data" / "rocksdb";
+}
+
+} // namespace
 
 // Implementation class (PIMPL pattern)
 class SnapshotTransferHandler::Impl {
@@ -66,7 +102,7 @@ public:
         }
         
         // Create checkpoint directory
-        snapshot_dir_ = "/tmp/themis_snapshots/" + config_.snapshot_id;
+        snapshot_dir_ = (resolveSnapshotRootDir() / config_.snapshot_id).string();
         fs::create_directories(snapshot_dir_);
         
         // Create RocksDB checkpoint
@@ -219,7 +255,7 @@ public:
                 spdlog::error("Cannot initialize snapshot directory: snapshot_id is empty");
                 return SnapshotStatus::ERROR_INVALID_CONFIG;
             }
-            snapshot_dir_ = "/tmp/themis_snapshots/" + chunk.snapshot_id();
+            snapshot_dir_ = (resolveSnapshotRootDir() / chunk.snapshot_id()).string();
             
             // Create the snapshot directory if it doesn't exist
             try {
@@ -360,7 +396,7 @@ public:
             db_data_dir = db_->GetName();
         } else {
             // Best-effort default; callers should inject db_ via SetDB() before calling.
-            db_data_dir = "/var/lib/themisdb/rocksdb";
+            db_data_dir = resolveDefaultDbDataDir().string();
             spdlog::warn("FinalizeSnapshot: no RocksDB instance injected, "
                          "using default data dir '{}'", db_data_dir);
         }

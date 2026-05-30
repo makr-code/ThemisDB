@@ -3202,8 +3202,15 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeGroupBy(
 	// Compute aggregations
 	std::vector<nlohmann::json> results;
 	results.reserve(groups.size());
+	std::vector<std::string> sorted_group_keys;
+	sorted_group_keys.reserve(groups.size());
+	for (const auto& [group_key, _] : groups) {
+		sorted_group_keys.push_back(group_key);
+	}
+	std::sort(sorted_group_keys.begin(), sorted_group_keys.end());
 	
-	for (const auto& [key_str, docs] : groups) {
+	for (const auto& key_str : sorted_group_keys) {
+		const auto& docs = groups.at(key_str);
 		EvaluationContext ctx;
 		
 		// Bind group key variable

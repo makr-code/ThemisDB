@@ -1,419 +1,329 @@
 #!/usr/bin/env python3
 """
 ThemisDB Kickstarter Demo Data Generator
-Generates comprehensive demo datasets for:
-- Document Search (articles with text)
-- Vector Search (embeddings)
-- Graph Navigation (knowledge graph)
+Generates realistic public-administration demo datasets for:
+- Document Search (administrative law case documents)
+- Vector Search (embeddings per case)
+- Graph Navigation (authorities, cases, applicants, courts)
 """
 
 import json
 import random
-from datetime import datetime, timedelta
+from datetime import date, timedelta
 from pathlib import Path
 
 # Configuration
-DEMO_DATA_DIR = Path(__file__).parent.parent / "data"  # Goes to demo/data, not demo/setup/data
+DEMO_DATA_DIR = Path(__file__).parent.parent / "data"
 DEMO_DATA_DIR.mkdir(exist_ok=True)
+RNG = random.Random(20260530)
 
-# =============================================================================
-# 1. DOCUMENT DATA (Articles for Full-Text Search)
-# =============================================================================
+DOC_COUNT = 108
+EMBEDDING_DIM = 128
 
-ARTICLES = [
-    # AI & Machine Learning
-    {
-        "id": "doc_001",
-        "title": "Deep Learning Architectures for Computer Vision",
-        "author": "Dr. Alice Johnson",
-        "category": "research",
-        "published": "2024-03-15",
-        "content": "This paper explores state-of-the-art deep learning architectures including ResNet, Vision Transformer, and YOLO v8. We demonstrate novel techniques for improving model efficiency and accuracy on large-scale image classification tasks.",
-        "tags": ["AI", "deep-learning", "computer-vision", "neural-networks"],
-        "citation_count": 342
-    },
-    {
-        "id": "doc_002",
-        "title": "Machine Learning Pipeline Optimization",
-        "author": "Prof. Bob Chen",
-        "category": "tutorial",
-        "published": "2024-02-10",
-        "content": "A comprehensive guide to building and optimizing machine learning pipelines. Covers data preprocessing, feature engineering, model selection, and hyperparameter tuning. Includes real-world examples from industry.",
-        "tags": ["machine-learning", "optimization", "data-science", "pipeline"],
-        "citation_count": 156
-    },
-    {
-        "id": "doc_003",
-        "title": "Transformer Models and Natural Language Processing",
-        "author": "Dr. Carol Williams",
-        "category": "research",
-        "published": "2024-04-01",
-        "content": "Explores the architecture and applications of transformer models in NLP. Includes analysis of BERT, GPT-4, and specialized models for machine translation, sentiment analysis, and question answering.",
-        "tags": ["NLP", "transformers", "language-models", "AI"],
-        "citation_count": 512
-    },
-    
-    # Quantum Computing
-    {
-        "id": "doc_004",
-        "title": "Quantum Error Correction and NISQ Algorithms",
-        "author": "Dr. David Martinez",
-        "category": "research",
-        "published": "2024-05-12",
-        "content": "Investigation of quantum error correction codes and their implementation on near-term quantum devices. Discusses surface codes, topological codes, and practical deployment challenges.",
-        "tags": ["quantum-computing", "quantum-algorithms", "error-correction", "NISQ"],
-        "citation_count": 287
-    },
-    {
-        "id": "doc_005",
-        "title": "Quantum Machine Learning: A Practical Perspective",
-        "author": "Prof. Emma Davis",
-        "category": "tutorial",
-        "published": "2024-03-25",
-        "content": "Practical guide to quantum machine learning algorithms including VQE, QAOA, and quantum neural networks. Includes implementation examples using Qiskit and Cirq frameworks.",
-        "tags": ["quantum", "machine-learning", "quantum-ml", "algorithms"],
-        "citation_count": 198
-    },
-    
-    # Data Science & Analytics
-    {
-        "id": "doc_006",
-        "title": "Time Series Analysis and Forecasting",
-        "author": "Dr. Frank Wilson",
-        "category": "research",
-        "published": "2024-01-20",
-        "content": "Advanced techniques for time series analysis including ARIMA, exponential smoothing, and neural network-based forecasting. Case studies from finance, weather prediction, and IoT sensors.",
-        "tags": ["time-series", "forecasting", "analytics", "data-science"],
-        "citation_count": 234
-    },
-    {
-        "id": "doc_007",
-        "title": "Graph Neural Networks for Knowledge Discovery",
-        "author": "Dr. Grace Lee",
-        "category": "research",
-        "published": "2024-04-18",
-        "content": "Comprehensive review of graph neural networks (GNNs) including GCN, GraphSAGE, and Graph Attention Networks. Applications in recommendation systems, knowledge graphs, and molecular modeling.",
-        "tags": ["graph-neural-networks", "GNN", "knowledge-graphs", "deep-learning"],
-        "citation_count": 423
-    },
-    
-    # Data Engineering
-    {
-        "id": "doc_008",
-        "title": "Distributed Data Processing at Scale",
-        "author": "Prof. Henry Kim",
-        "category": "tutorial",
-        "published": "2024-02-28",
-        "content": "Building and maintaining distributed data processing systems. Covers Apache Spark, Kafka, and cloud-based solutions. Real-world architecture patterns and failure handling strategies.",
-        "tags": ["data-engineering", "distributed-systems", "big-data", "spark"],
-        "citation_count": 189
-    },
-    {
-        "id": "doc_009",
-        "title": "Vector Databases for Semantic Search",
-        "author": "Dr. Isabel Rodriguez",
-        "category": "research",
-        "published": "2024-05-01",
-        "content": "Novel approaches to vector database design for efficient semantic search at scale. Discusses indexing strategies, distance metrics, and optimization techniques for billion-scale embeddings.",
-        "tags": ["vector-databases", "semantic-search", "embeddings", "information-retrieval"],
-        "citation_count": 267
-    },
-    
-    # Database Systems
-    {
-        "id": "doc_010",
-        "title": "Multi-Model Database Architecture",
-        "author": "Dr. Jack Anderson",
-        "category": "research",
-        "published": "2024-03-08",
-        "content": "Design and implementation of multi-model databases supporting relational, document, graph, and time-series data in a unified system. Query optimization and data consistency challenges.",
-        "tags": ["databases", "multi-model", "system-design", "architecture"],
-        "citation_count": 156
-    },
-    {
-        "id": "doc_011",
-        "title": "Transaction Processing in Distributed Databases",
-        "author": "Prof. Karen Thompson",
-        "category": "research",
-        "published": "2024-04-22",
-        "content": "Deep dive into transaction processing, ACID properties, and consistency models. Comparison of pessimistic and optimistic concurrency control in distributed settings.",
-        "tags": ["transactions", "ACID", "databases", "concurrency"],
-        "citation_count": 312
-    },
-    
-    # AI Security & Ethics
-    {
-        "id": "doc_012",
-        "title": "Adversarial Robustness in Deep Learning",
-        "author": "Dr. Lisa Chang",
-        "category": "research",
-        "published": "2024-05-10",
-        "content": "Analysis of adversarial attacks on neural networks and defense mechanisms. Discusses robustness certification, adversarial training, and evaluation frameworks.",
-        "tags": ["AI-security", "adversarial-examples", "robustness", "deep-learning"],
-        "citation_count": 378
-    },
-    {
-        "id": "doc_013",
-        "title": "Ethical Considerations in AI Systems",
-        "author": "Prof. Michael Brown",
-        "category": "tutorial",
-        "published": "2024-02-14",
-        "content": "Comprehensive overview of ethical challenges in AI including bias, fairness, transparency, and accountability. Guidelines for responsible AI development and deployment.",
-        "tags": ["AI-ethics", "fairness", "transparency", "responsibility"],
-        "citation_count": 289
-    },
+AUTHORITIES = [
+    ("auth_001", "Landratsamt Muenchen", "Oberbayern"),
+    ("auth_002", "Stadt Koeln Ordnungsamt", "Koeln"),
+    ("auth_003", "Bezirksamt Hamburg-Mitte", "Hamburg"),
+    ("auth_004", "Regierungspraesidium Stuttgart", "Stuttgart"),
+    ("auth_005", "Kreisverwaltung Mainz-Bingen", "Rheinland-Pfalz"),
+    ("auth_006", "Stadt Leipzig Bauordnungsamt", "Leipzig"),
+    ("auth_007", "Landratsamt Karlsruhe", "Karlsruhe"),
+    ("auth_008", "Stadt Dortmund Sozialamt", "Dortmund"),
+    ("auth_009", "Bezirksregierung Duesseldorf", "Duesseldorf"),
+    ("auth_010", "Landesamt fuer Umwelt Brandenburg", "Brandenburg"),
+    ("auth_011", "Stadt Frankfurt Auslaenderbehoerde", "Frankfurt"),
+    ("auth_012", "Landratsamt Nuernberger Land", "Mittelfranken"),
 ]
 
-# =============================================================================
-# 2. VECTOR DATA (Embeddings for Semantic Search)
-# =============================================================================
-
-def generate_mock_embedding(seed):
-    """Generate a mock embedding vector"""
-    random.seed(seed)
-    return [random.uniform(-1, 1) for _ in range(128)]
-
-VECTORS = [
-    {
-        "id": f"vec_{i:03d}",
-        "doc_id": article["id"],
-        "title": article["title"],
-        "author": article["author"],
-        "embedding": generate_mock_embedding(i),
-        "score": random.uniform(0.7, 1.0),
-        "relevance_tags": article["tags"]
-    }
-    for i, article in enumerate(ARTICLES)
+PROCEDURE_TYPES = [
+    "Baugenehmigung",
+    "Gewerbeuntersagung",
+    "Immissionsschutzauflage",
+    "Denkmalschutzanordnung",
+    "Aufenthaltstitel",
+    "Foerderbescheid",
+    "Wasserrechtliche Erlaubnis",
+    "Vergaberechtliche Entscheidung",
+    "Datenschutzanordnung",
 ]
 
-# =============================================================================
-# 3. GRAPH DATA (Knowledge Graph with Nodes and Edges)
-# =============================================================================
-
-RESEARCHERS = [
-    {"id": "res_001", "name": "Dr. Alice Johnson", "affiliation": "MIT", "field": "Deep Learning"},
-    {"id": "res_002", "name": "Prof. Bob Chen", "affiliation": "Stanford", "field": "ML Engineering"},
-    {"id": "res_003", "name": "Dr. Carol Williams", "affiliation": "Berkeley", "field": "NLP"},
-    {"id": "res_004", "name": "Dr. David Martinez", "affiliation": "Oxford", "field": "Quantum Computing"},
-    {"id": "res_005", "name": "Prof. Emma Davis", "affiliation": "Cambridge", "field": "Quantum ML"},
-    {"id": "res_006", "name": "Dr. Frank Wilson", "affiliation": "CMU", "field": "Time Series"},
-    {"id": "res_007", "name": "Dr. Grace Lee", "affiliation": "Toronto", "field": "Graph Learning"},
-    {"id": "res_008", "name": "Prof. Henry Kim", "affiliation": "Seoul National", "field": "Distributed Systems"},
-    {"id": "res_009", "name": "Dr. Isabel Rodriguez", "affiliation": "ETH Zurich", "field": "Vector Databases"},
-    {"id": "res_010", "name": "Dr. Jack Anderson", "affiliation": "Bell Labs", "field": "Database Systems"},
+LEGAL_BASES = [
+    "VwVfG",
+    "VwGO",
+    "BauGB",
+    "BImSchG",
+    "AufenthG",
+    "DSGVO",
+    "UVgO",
+    "WHG",
+    "DenkmSchG",
 ]
 
-PAPERS = [
-    {"id": "paper_001", "title": "Deep Learning Architectures for Computer Vision", "year": 2024},
-    {"id": "paper_002", "title": "Machine Learning Pipeline Optimization", "year": 2024},
-    {"id": "paper_003", "title": "Transformer Models and Natural Language Processing", "year": 2024},
-    {"id": "paper_004", "title": "Quantum Error Correction and NISQ Algorithms", "year": 2024},
-    {"id": "paper_005", "title": "Quantum Machine Learning: A Practical Perspective", "year": 2024},
-    {"id": "paper_006", "title": "Vector Databases for Semantic Search", "year": 2024},
-    {"id": "paper_007", "title": "Multi-Model Database Architecture", "year": 2024},
+CASE_STATUS = ["erlassen", "angefochten", "teilweise aufgehoben", "bestaetigt", "in Vollzug"]
+COURTS = [
+    ("court_001", "VG Berlin"),
+    ("court_002", "VG Muenchen"),
+    ("court_003", "VG Koeln"),
+    ("court_004", "OVG NRW"),
+    ("court_005", "VGH Baden-Wuerttemberg"),
 ]
 
-CONFERENCES = [
-    {"id": "conf_001", "name": "NeurIPS 2024", "location": "Vancouver"},
-    {"id": "conf_002", "name": "ICML 2024", "location": "Vienna"},
-    {"id": "conf_003", "name": "ICCV 2024", "location": "Milan"},
-    {"id": "conf_004", "name": "VLDB 2024", "location": "Singapore"},
-]
 
-GRAPH_NODES = []
-GRAPH_EDGES = []
+def make_embedding(seed: int) -> list[float]:
+    local = random.Random(seed)
+    return [round(local.uniform(-1.0, 1.0), 6) for _ in range(EMBEDDING_DIM)]
 
-# Add researcher nodes
-for researcher in RESEARCHERS:
-    GRAPH_NODES.append({
-        "id": f"node_{researcher['id']}",
-        "_key": researcher["id"],
-        "type": "researcher",
-        "name": researcher["name"],
-        "affiliation": researcher["affiliation"],
-        "field": researcher["field"]
-    })
 
-# Add paper nodes
-for paper in PAPERS:
-    GRAPH_NODES.append({
-        "id": f"node_{paper['id']}",
-        "_key": paper["id"],
-        "type": "paper",
-        "title": paper["title"],
-        "year": paper["year"]
-    })
+def build_articles() -> list[dict]:
+    base_day = date(2023, 1, 2)
+    articles: list[dict] = []
 
-# Add conference nodes
-for conference in CONFERENCES:
-    GRAPH_NODES.append({
-        "id": f"node_{conference['id']}",
-        "_key": conference["id"],
-        "type": "conference",
-        "name": conference["name"],
-        "location": conference["location"]
-    })
+    for idx in range(1, DOC_COUNT + 1):
+        authority_id, authority_name, region = AUTHORITIES[(idx - 1) % len(AUTHORITIES)]
+        procedure = PROCEDURE_TYPES[(idx - 1) % len(PROCEDURE_TYPES)]
+        legal_basis = LEGAL_BASES[(idx - 1) % len(LEGAL_BASES)]
+        status = CASE_STATUS[(idx - 1) % len(CASE_STATUS)]
 
-# Create edges (relationships)
-EDGE_DEFINITIONS = [
-    # Researcher -> Paper (wrote)
-    ("res_001", "paper_001", "wrote"),
-    ("res_002", "paper_002", "wrote"),
-    ("res_003", "paper_003", "wrote"),
-    ("res_004", "paper_004", "wrote"),
-    ("res_005", "paper_005", "wrote"),
-    ("res_009", "paper_006", "wrote"),
-    ("res_010", "paper_007", "wrote"),
-    
-    # Paper -> Paper (cites)
-    ("paper_003", "paper_001", "cites"),
-    ("paper_005", "paper_004", "cites"),
-    ("paper_006", "paper_001", "cites"),
-    ("paper_007", "paper_001", "cites"),
-    
-    # Researcher -> Researcher (collaborates)
-    ("res_001", "res_003", "collaborates_with"),
-    ("res_004", "res_005", "collaborates_with"),
-    ("res_007", "res_009", "collaborates_with"),
-    
-    # Paper -> Conference (presented_at)
-    ("paper_001", "conf_003", "presented_at"),
-    ("paper_003", "conf_002", "presented_at"),
-    ("paper_004", "conf_001", "presented_at"),
-    ("paper_006", "conf_004", "presented_at"),
-]
+        case_id = f"case_{idx:04d}"
+        applicant_id = f"app_{((idx - 1) % 40) + 1:03d}"
+        published = (base_day + timedelta(days=3 * idx)).isoformat()
 
-for from_id, to_id, relationship in EDGE_DEFINITIONS:
-    GRAPH_EDGES.append({
-        "id": f"edge_{from_id}_{to_id}_{relationship}",
-        "_from": f"node_{from_id}",
-        "_to": f"node_{to_id}",
-        "type": relationship,
-        "weight": random.uniform(0.5, 1.0)
-    })
+        related = []
+        if idx > 3:
+            related.append(f"case_{idx - 1:04d}")
+            if idx % 5 == 0:
+                related.append(f"case_{idx - 3:04d}")
 
-# =============================================================================
-# WRITING FUNCTIONS
-# =============================================================================
+        content = (
+            f"Bescheid zum Verfahren {procedure} im Verwaltungsfall {case_id}. "
+            f"Zustaendige Behoerde: {authority_name}. "
+            f"Rechtsgrundlage: {legal_basis}. "
+            f"Aktueller Verfahrensstand: {status}. "
+            f"Pruefung der Tatbestandsmerkmale, Ermessensausuebung und Verhaeltnismaessigkeit "
+            f"wurden dokumentiert. Region: {region}."
+        )
 
-def write_articles_jsonl():
-    """Write demo_articles.jsonl"""
-    output_file = DEMO_DATA_DIR / "demo_articles.jsonl"
-    with open(output_file, "w") as f:
-        for article in ARTICLES:
-            f.write(json.dumps(article) + "\n")
-    print("[OK] Created {} with {} articles".format(output_file, len(ARTICLES)))
+        articles.append(
+            {
+                "id": f"doc_{idx:03d}",
+                "case_id": case_id,
+                "applicant_id": applicant_id,
+                "authority_id": authority_id,
+                "authority_name": authority_name,
+                "region": region,
+                "title": f"Verwaltungsrechtlicher Bescheid {case_id} ({procedure})",
+                "author": authority_name,
+                "category": "verwaltungsrecht",
+                "procedure_type": procedure,
+                "legal_basis": legal_basis,
+                "status": status,
+                "published": published,
+                "district_code": f"D-{(idx % 16) + 1:02d}",
+                "related_case_ids": related,
+                "content": content,
+                "tags": [
+                    "verwaltungsrecht",
+                    procedure.lower().replace(" ", "-"),
+                    legal_basis.lower(),
+                    status.replace(" ", "-"),
+                ],
+                "citation_count": 20 + (idx % 80),
+            }
+        )
 
-def write_embeddings_jsonl():
-    """Write demo_embeddings.jsonl"""
-    output_file = DEMO_DATA_DIR / "demo_embeddings.jsonl"
-    with open(output_file, "w") as f:
-        for vector in VECTORS:
-            f.write(json.dumps(vector) + "\n")
-    print("[OK] Created {} with {} embeddings".format(output_file, len(VECTORS)))
+    return articles
 
-def write_graph_jsonl():
-    """Write demo_knowledge_graph_nodes.jsonl and demo_knowledge_graph_edges.jsonl"""
-    nodes_file = DEMO_DATA_DIR / "demo_knowledge_graph_nodes.jsonl"
-    edges_file = DEMO_DATA_DIR / "demo_knowledge_graph_edges.jsonl"
-    
-    with open(nodes_file, "w") as f:
-        for node in GRAPH_NODES:
-            f.write(json.dumps(node) + "\n")
-    print("[OK] Created {} with {} nodes".format(nodes_file, len(GRAPH_NODES)))
-    
-    with open(edges_file, "w") as f:
-        for edge in GRAPH_EDGES:
-            f.write(json.dumps(edge) + "\n")
-    print("[OK] Created {} with {} edges".format(edges_file, len(GRAPH_EDGES)))
 
-def write_summary():
-    """Write summary of generated data"""
+def build_vectors(articles: list[dict]) -> list[dict]:
+    vectors: list[dict] = []
+    for idx, article in enumerate(articles, start=1):
+        vectors.append(
+            {
+                "id": f"vec_{idx:03d}",
+                "doc_id": article["id"],
+                "case_id": article["case_id"],
+                "authority_id": article["authority_id"],
+                "title": article["title"],
+                "procedure_type": article["procedure_type"],
+                "embedding": make_embedding(idx * 7919),
+                "score": round(0.72 + ((idx % 25) / 100.0), 4),
+                "relevance_tags": article["tags"],
+            }
+        )
+    return vectors
+
+
+def build_graph(articles: list[dict]) -> tuple[list[dict], list[dict]]:
+    nodes: list[dict] = []
+    edges: list[dict] = []
+
+    # Authority nodes
+    for auth_id, auth_name, region in AUTHORITIES:
+        nodes.append(
+            {
+                "id": f"node_{auth_id}",
+                "_key": auth_id,
+                "type": "authority",
+                "name": auth_name,
+                "region": region,
+            }
+        )
+
+    # Applicant nodes
+    for i in range(1, 41):
+        app_id = f"app_{i:03d}"
+        nodes.append(
+            {
+                "id": f"node_{app_id}",
+                "_key": app_id,
+                "type": "applicant",
+                "name": f"Antragsteller {i:03d}",
+                "sector": ["Bau", "Umwelt", "Gewerbe", "Soziales"][i % 4],
+            }
+        )
+
+    # Court nodes
+    for court_id, court_name in COURTS:
+        nodes.append(
+            {
+                "id": f"node_{court_id}",
+                "_key": court_id,
+                "type": "court",
+                "name": court_name,
+            }
+        )
+
+    # Case nodes + relationships
+    for idx, article in enumerate(articles, start=1):
+        case_id = article["case_id"]
+        app_id = article["applicant_id"]
+        auth_id = article["authority_id"]
+
+        nodes.append(
+            {
+                "id": f"node_{case_id}",
+                "_key": case_id,
+                "type": "case",
+                "title": article["title"],
+                "status": article["status"],
+                "legal_basis": article["legal_basis"],
+                "published": article["published"],
+            }
+        )
+
+        edges.append(
+            {
+                "id": f"edge_{auth_id}_{case_id}_issued",
+                "_from": f"node_{auth_id}",
+                "_to": f"node_{case_id}",
+                "type": "issued",
+                "weight": round(0.8 + ((idx % 10) / 50.0), 3),
+            }
+        )
+
+        edges.append(
+            {
+                "id": f"edge_{case_id}_{app_id}_concerns",
+                "_from": f"node_{case_id}",
+                "_to": f"node_{app_id}",
+                "type": "concerns",
+                "weight": 1.0,
+            }
+        )
+
+        if idx % 3 == 0:
+            court_id, _ = COURTS[idx % len(COURTS)]
+            edges.append(
+                {
+                    "id": f"edge_{case_id}_{court_id}_appealed_at",
+                    "_from": f"node_{case_id}",
+                    "_to": f"node_{court_id}",
+                    "type": "appealed_at",
+                    "weight": 0.9,
+                }
+            )
+
+        for related_case_id in article["related_case_ids"]:
+            edges.append(
+                {
+                    "id": f"edge_{case_id}_{related_case_id}_references",
+                    "_from": f"node_{case_id}",
+                    "_to": f"node_{related_case_id}",
+                    "type": "references",
+                    "weight": 0.7,
+                }
+            )
+
+    return nodes, edges
+
+
+def write_jsonl(path: Path, rows: list[dict]) -> None:
+    with path.open("w", encoding="utf-8") as fh:
+        for row in rows:
+            fh.write(json.dumps(row, ensure_ascii=False) + "\n")
+
+
+def write_summary(articles: list[dict], vectors: list[dict], graph_nodes: list[dict], graph_edges: list[dict]) -> None:
     summary_file = DEMO_DATA_DIR / "DATA_SUMMARY.md"
-    with open(summary_file, "w") as f:
+    node_type_counts: dict[str, int] = {}
+    for n in graph_nodes:
+        node_type_counts[n["type"]] = node_type_counts.get(n["type"], 0) + 1
+
+    with summary_file.open("w", encoding="utf-8") as f:
         f.write("# ThemisDB Demo Data Summary\n\n")
-        
-        f.write("## Document Collection (demo_articles)\n")
-        f.write(f"- **Total Articles:** {len(ARTICLES)}\n")
-        f.write(f"- **Topics:** AI, Machine Learning, Quantum Computing, Data Science, Databases\n")
-        f.write(f"- **Fields:** title, author, category, published, content, tags, citation_count\n\n")
-        
-        f.write("## Vector Collection (demo_embeddings)\n")
-        f.write(f"- **Total Embeddings:** {len(VECTORS)}\n")
-        f.write(f"- **Dimensions:** 128\n")
-        f.write(f"- **Fields:** id, doc_id, title, author, embedding, score, relevance_tags\n\n")
-        
-        f.write("## Graph Collection (demo_knowledge_graph)\n")
-        f.write(f"- **Total Nodes:** {len(GRAPH_NODES)}\n")
-        f.write(f"- **Node Types:** researcher ({len([n for n in GRAPH_NODES if n['type'] == 'researcher'])}), paper ({len([n for n in GRAPH_NODES if n['type'] == 'paper'])}), conference ({len([n for n in GRAPH_NODES if n['type'] == 'conference'])})\n")
-        f.write(f"- **Total Edges:** {len(GRAPH_EDGES)}\n")
-        f.write(f"- **Relationship Types:** wrote, cites, collaborates_with, presented_at\n\n")
-        
-        f.write("## Import Instructions\n\n")
-        f.write("```powershell\n")
-        f.write("# Import document collection\n")
-        f.write("themisctl batch-insert --collection demo_articles < demo_articles.jsonl\n\n")
-        f.write("# Import vector collection\n")
-        f.write("themisctl batch-insert --collection demo_embeddings < demo_embeddings.jsonl\n\n")
-        f.write("# Import graph collection\n")
-        f.write("themisctl batch-insert --collection demo_knowledge_graph < demo_knowledge_graph_nodes.jsonl\n")
-        f.write("themisctl batch-insert --collection demo_knowledge_graph --edges < demo_knowledge_graph_edges.jsonl\n")
-        f.write("```\n\n")
-        
-        f.write("## Sample Queries\n\n")
-        f.write("### Document Search\n")
-        f.write("```aql\n")
-        f.write("FOR doc IN demo_articles\n")
-        f.write("  FILTER doc.title LIKE '%AI%' OR doc.content LIKE '%machine learning%'\n")
-        f.write("  SORT doc.published DESC\n")
-        f.write("  LIMIT 5\n")
-        f.write("  RETURN doc\n")
-        f.write("```\n\n")
-        
-        f.write("### Vector Search\n")
-        f.write("```aql\n")
-        f.write("FOR vec IN demo_embeddings\n")
-        f.write("  LET similarity = COSINE_SIMILARITY(vec.embedding, @query_embedding)\n")
-        f.write("  FILTER similarity > 0.7\n")
-        f.write("  SORT similarity DESC\n")
-        f.write("  LIMIT 5\n")
-        f.write("  RETURN { title: vec.title, similarity: similarity }\n")
-        f.write("```\n\n")
-        
-        f.write("### Graph Traversal\n")
-        f.write("```aql\n")
-        f.write("FOR researcher IN demo_knowledge_graph\n")
-        f.write("  FILTER researcher.type == 'researcher'\n")
-        f.write("  FOR paper IN 1..2 OUTBOUND researcher._id graph_edges\n")
-        f.write("    FILTER paper.type == 'paper'\n")
-        f.write("  RETURN { researcher: researcher.name, paper: paper.title }\n")
-        f.write("```\n")
-    
-    print("[OK] Created {}".format(summary_file))
+        f.write("## Verwaltungsrechtliche Demo-Daten\n")
+        f.write(f"- **Dokumente (demo_articles):** {len(articles)}\n")
+        f.write(f"- **Vektoren (demo_embeddings):** {len(vectors)}\n")
+        f.write(f"- **Graph-Knoten (demo_knowledge_graph):** {len(graph_nodes)}\n")
+        f.write(f"- **Graph-Kanten (demo_knowledge_graph):** {len(graph_edges)}\n\n")
 
-# =============================================================================
-# MAIN
-# =============================================================================
+        f.write("## Relationale Felder im Dokumentmodell\n")
+        f.write("- case_id, applicant_id, authority_id\n")
+        f.write("- procedure_type, legal_basis, status, region\n")
+        f.write("- related_case_ids als Fall-Referenzen\n\n")
 
-def main():
-    print("\n" + "="*60)
+        f.write("## Graph-Node-Typen\n")
+        for node_type in sorted(node_type_counts):
+            f.write(f"- {node_type}: {node_type_counts[node_type]}\n")
+
+        f.write("\n## Hinweis\n")
+        f.write("Die Ingestion erfolgt im Demo-Setup weiterhin ueber Key/Blob-Payloads.\n")
+
+
+def main() -> None:
+    print("\n" + "=" * 60)
     print("ThemisDB Demo Data Generator")
-    print("="*60 + "\n")
-    
-    write_articles_jsonl()
-    write_embeddings_jsonl()
-    write_graph_jsonl()
-    write_summary()
-    
-    print("\n" + "="*60)
+    print("=" * 60 + "\n")
+
+    articles = build_articles()
+    vectors = build_vectors(articles)
+    graph_nodes, graph_edges = build_graph(articles)
+
+    articles_file = DEMO_DATA_DIR / "demo_articles.jsonl"
+    vectors_file = DEMO_DATA_DIR / "demo_embeddings.jsonl"
+    graph_nodes_file = DEMO_DATA_DIR / "demo_knowledge_graph_nodes.jsonl"
+    graph_edges_file = DEMO_DATA_DIR / "demo_knowledge_graph_edges.jsonl"
+
+    write_jsonl(articles_file, articles)
+    print(f"[OK] Created {articles_file} with {len(articles)} articles")
+
+    write_jsonl(vectors_file, vectors)
+    print(f"[OK] Created {vectors_file} with {len(vectors)} embeddings")
+
+    write_jsonl(graph_nodes_file, graph_nodes)
+    print(f"[OK] Created {graph_nodes_file} with {len(graph_nodes)} nodes")
+
+    write_jsonl(graph_edges_file, graph_edges)
+    print(f"[OK] Created {graph_edges_file} with {len(graph_edges)} edges")
+
+    write_summary(articles, vectors, graph_nodes, graph_edges)
+    print(f"[OK] Created {DEMO_DATA_DIR / 'DATA_SUMMARY.md'}")
+
+    print("\n" + "=" * 60)
     print("Demo data generation complete!")
-    print("="*60)
-    print("\nGenerated files in: {}\n".format(DEMO_DATA_DIR.absolute()))
-    print("Next steps:")
-    print("1. Start ThemisDB server")
-    print("2. Run themisctl to import collections")
-    print("3. Execute demo queries from DEMO_QUERIES.md")
-    print("\n")
+    print("=" * 60)
+    print(f"\nGenerated files in: {DEMO_DATA_DIR.absolute()}\n")
+
 
 if __name__ == "__main__":
     main()

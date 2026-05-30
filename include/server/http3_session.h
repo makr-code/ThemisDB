@@ -111,14 +111,13 @@ public:
      */
     Http3DatagramDispatcher& datagramDispatcher() { return datagram_dispatcher_; }
 
-private:
-    // QUIC connection management
-    void doRead();
-    void onRead(boost::system::error_code ec, std::size_t bytes_transferred);
-    void doWrite();
-    void onTimeout();
-    
-    // ngtcp2 callbacks
+    /**
+     * @brief QUIC and HTTP/3 callback entry points used by ngtcp2/nghttp3.
+     *
+     * These callbacks are part of the session's externally registered protocol
+     * surface and are also exercised directly by protocol-focused unit tests to
+     * validate fail-closed behavior on invalid inputs.
+     */
     static int handshakeCompletedCallback(ngtcp2_conn* conn, void* user_data);
     static int recvStreamDataCallback(ngtcp2_conn* conn, uint32_t flags,
                                       int64_t stream_id, uint64_t offset,
@@ -142,8 +141,7 @@ private:
     static int recvDatagramCallback(ngtcp2_conn* conn, uint32_t flags,
                                     const uint8_t* data, size_t datalen,
                                     void* user_data);
-    
-    // nghttp3 callbacks
+
     static int http3RecvDataCallback(nghttp3_conn* conn, int64_t stream_id,
                                      const uint8_t* data, size_t datalen,
                                      void* user_data, void* stream_user_data);
@@ -156,6 +154,13 @@ private:
                                        void* stream_user_data);
     static int http3EndStreamCallback(nghttp3_conn* conn, int64_t stream_id,
                                       void* user_data, void* stream_user_data);
+
+private:
+    // QUIC connection management
+    void doRead();
+    void onRead(boost::system::error_code ec, std::size_t bytes_transferred);
+    void doWrite();
+    void onTimeout();
     
     // Stream data management
     struct StreamData {

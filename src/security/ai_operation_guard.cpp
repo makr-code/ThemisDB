@@ -427,7 +427,8 @@ std::string AiOperationGuard::extractCollection(
         if (sep != std::string::npos) {
             return key.substr(0, sep);
         }
-        return {};
+        // Fallback: explicit "collection" field (e.g. {"collection":"users","key":"id"})
+        return args.value("collection", "");
     }
     if (tool_name == "create_index" || tool_name == "drop_index" ||
         tool_name == "list_indexes") {

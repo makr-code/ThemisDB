@@ -42,6 +42,7 @@
 #include <chrono>
 #include <fmt/format.h>
 #include <regex>
+#include <cctype>
 
 #if defined(_WIN32)
 #include <windows.h>
@@ -75,7 +76,7 @@ McpServer::McpServer(asio::io_context& io_context, const Config& config)
     guard_cfg.approval_threshold     = themis::security::OperationClass::DESTRUCTIVE;
     guard_cfg.approval_timeout_s     = 60;
     guard_cfg.auto_snapshot          = true;
-    guard_cfg.snapshot_dir           = "/var/themis/ai-snapshots";
+    guard_cfg.snapshot_dir           = themis::security::themisDefaultSnapshotDir();
     guard_cfg.environment            = "development";  // Override via attachConfig()
     guard_cfg.block_critical_in_prod = true;
     operation_guard_ = std::make_unique<themis::security::AiOperationGuard>(std::move(guard_cfg));
@@ -2588,6 +2589,43 @@ void McpServer::purgeExpiredApprovals() {
 // ============================================================================
 
 json McpServer::handleAiRollback(const std::string& snapshot_id) {
+    auto hasWindowsDrivePrefix = [](const std::string& value) {
+        return value.size() >= 2 &&
+               std::isalpha(static_cast<unsigned char>(value[0])) &&
+               value[1] == ':';
+    };
+    auto isSafeSnapshotId = [](const std::string& value) {
+        constexpr size_t kMaxSnapshotIdLength = 128;
+        if (value.empty() || value.size() > kMaxSnapshotIdLength) {
+            return false;
+        }
+
+        for (const unsigned char ch : value) {
+            if (std::iscntrl(ch)) {
+                return false;
+            }
+            const bool is_alnum = std::isalnum(ch) != 0;
+            const bool is_allowed_symbol = (ch == '_') || (ch == '-') || (ch == '.');
+            if (!is_alnum && !is_allowed_symbol) {
+                return false;
+            }
+        }
+        return true;
+    };
+    auto isPathWithinBase = [](const std::filesystem::path& child,
+                               const std::filesystem::path& base) {
+        const std::filesystem::path rel = child.lexically_relative(base);
+        if (rel.empty() || rel.is_absolute()) {
+            return false;
+        }
+        for (const auto& part : rel) {
+            if (part == "..") {
+                return false;
+            }
+        }
+        return true;
+    };
+
     if (!db_ || !db_->isOpen()) {
         spdlog::warn("AI Safety ASL-10: rollback requested but database not attached/open");
         return {
@@ -2600,9 +2638,13 @@ json McpServer::handleAiRollback(const std::string& snapshot_id) {
     // Security: reject path traversal and absolute paths.
     // Use lexically_normal() to normalise the path and verify it stays
     // within the allowed snapshot directory after resolution.
-    if (snapshot_id.find("..") != std::string::npos ||
+    if (!isSafeSnapshotId(snapshot_id) ||
+        snapshot_id.find("..") != std::string::npos ||
         snapshot_id.find('%') != std::string::npos ||
-        (!snapshot_id.empty() && (snapshot_id[0] == '/' || snapshot_id[0] == '\\'))) {
+        snapshot_id.find('/') != std::string::npos ||
+        snapshot_id.find('\\') != std::string::npos ||
+        hasWindowsDrivePrefix(snapshot_id) ||
+        std::filesystem::path(snapshot_id).is_absolute()) {
         spdlog::warn("AI Safety ASL-10: rejected invalid snapshot_id='{}'", snapshot_id);
         return {
             {"status",  "error"},
@@ -2613,16 +2655,26 @@ json McpServer::handleAiRollback(const std::string& snapshot_id) {
 
     const std::string snap_base = operation_guard_
         ? operation_guard_->config().snapshot_dir
-        : "/var/themis/ai-snapshots";
-    const std::filesystem::path snapshot_path =
-        (std::filesystem::path(snap_base) / snapshot_id).lexically_normal();
-
-    // Verify the resolved path stays within the snapshot directory.
+        : themis::security::themisDefaultSnapshotDir();
     const std::filesystem::path base_normal =
         std::filesystem::path(snap_base).lexically_normal();
-    const std::string snap_str  = snapshot_path.string();
-    const std::string base_str  = base_normal.string();
-    if (snap_str.rfind(base_str, 0) != 0) {
+    const std::filesystem::path snapshot_path =
+        (base_normal / snapshot_id).lexically_normal();
+
+    std::error_code ec;
+    const std::filesystem::path base_abs = std::filesystem::absolute(base_normal, ec).lexically_normal();
+    if (ec) {
+        spdlog::warn("AI Safety ASL-10: failed to resolve snapshot base path '{}'", snap_base);
+        return {
+            {"status",  "error"},
+            {"error_code", "INVALID_SNAPSHOT_ID"},
+            {"message", "Invalid snapshot ID"}
+        };
+    }
+    ec.clear();
+    const std::filesystem::path snapshot_abs =
+        std::filesystem::absolute(snapshot_path, ec).lexically_normal();
+    if (ec || !isPathWithinBase(snapshot_abs, base_abs)) {
         spdlog::warn("AI Safety ASL-10: path escape attempt, snapshot_id='{}'", snapshot_id);
         return {
             {"status",  "error"},
@@ -2630,6 +2682,9 @@ json McpServer::handleAiRollback(const std::string& snapshot_id) {
             {"message", "Invalid snapshot ID"}
         };
     }
+
+    // Verify the resolved path stays within the snapshot directory.
+    const std::string snap_str = snapshot_abs.string();
 
     spdlog::info("AI Safety ASL-10: restoring checkpoint snapshot_id='{}' path='{}'",
                  snapshot_id, snap_str);
@@ -2672,7 +2727,7 @@ json McpServer::handleAiRollback(const std::string& snapshot_id) {
 json McpServer::toolAiCleanupSnapshots(const json& /*args*/) {
     const std::string snap_dir = operation_guard_
         ? operation_guard_->config().snapshot_dir
-        : "/var/themis/ai-snapshots";
+        : themis::security::themisDefaultSnapshotDir();
 
     const int safe_retention_days = (snapshot_retention_days_ > 0) ? snapshot_retention_days_ : 7;
     const int safe_max_gb         = (snapshot_max_total_gb_ > 0) ? snapshot_max_total_gb_ : 100;

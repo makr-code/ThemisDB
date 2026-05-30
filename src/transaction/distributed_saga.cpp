@@ -365,10 +365,22 @@ DistributedSagaStatus DistributedSagaCoordinator::executeWave(
     // Collect results
     DistributedSagaStatus wave_status;
     for (size_t i = 0; i < futures.size(); ++i) {
-        auto st = futures[i].get();
-        if (!st.ok && wave_status.ok) {
-            wave_status    = st;
-            failure_reason = "Step '" + wave[i] + "' failed: " + st.message;
+        try {
+            auto st = futures[i].get();
+            if (!st.ok && wave_status.ok) {
+                wave_status    = st;
+                failure_reason = "Step '" + wave[i] + "' failed: " + st.message;
+            }
+        } catch (const std::exception& e) {
+            if (wave_status.ok) {
+                wave_status    = DistributedSagaStatus::Error(e.what());
+                failure_reason = "Step '" + wave[i] + "' threw: " + e.what();
+            }
+        } catch (...) {
+            if (wave_status.ok) {
+                wave_status    = DistributedSagaStatus::Error("unknown exception in step");
+                failure_reason = "Step '" + wave[i] + "' threw unknown exception";
+            }
         }
     }
     return wave_status;
@@ -432,6 +444,8 @@ DistributedSagaStatus DistributedSagaCoordinator::executeStep(
         } catch (const char* e) {
             last_status = DistributedSagaStatus::Error(
                 std::string("exception: ") + (e ? e : "<null>"));
+        } catch (...) {
+            last_status = DistributedSagaStatus::Error("unknown exception");
         }
 
         {
@@ -554,6 +568,8 @@ DistributedSagaStatus DistributedSagaCoordinator::compensateStep(
         } catch (const char* e) {
             last_status = DistributedSagaStatus::Error(
                 std::string("compensation exception: ") + (e ? e : "<null>"));
+        } catch (...) {
+            last_status = DistributedSagaStatus::Error("unknown compensation exception");
         }
 
         if (last_status.ok) return DistributedSagaStatus::OK();

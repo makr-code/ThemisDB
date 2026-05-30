@@ -17,7 +17,8 @@ cmake --build --preset windows-release --target themisctl
 
 ### B. Optional: Server manuell starten (wenn nicht bereits aktiv)
 ```powershell
-.\build-msvc-windows-release\bin\themis_server.exe --db .\demo\data\themis_db --port 8765 --allow-degraded-build --allow-stub-hsm
+$SERVER_EXE = ".\build-msvc-windows-release\bin\themis_server.exe"
+& $SERVER_EXE --db .\demo\data\themis_db --port 8765 --allow-degraded-build --allow-stub-hsm
 ```
 
 ### B1. Docs-Datenbank fuer Section 8 bereitstellen (empfohlen)
@@ -38,7 +39,8 @@ Beispiel-Setup:
 Terminal 1 (Server laeuft durchgehend)
 ```powershell
 cd C:\Projects\ThemisDB
-.\build-msvc-windows-release\bin\themis_server.exe --db .\demo\data\themis_db --port 8765 --allow-degraded-build --allow-stub-hsm
+$SERVER_EXE = ".\build-msvc-windows-release\bin\themis_server.exe"
+& $SERVER_EXE --db .\demo\data\themis_db --port 8765 --allow-degraded-build --allow-stub-hsm
 ```
 
 Terminal 2 (Demo-Kommandos)

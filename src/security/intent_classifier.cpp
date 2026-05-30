@@ -94,8 +94,7 @@ static const Feature kPrivEscFeatures[] = {
 // for AI Safety callers; standard callers keep 0.85 for backwards compat).
 
 static const Feature kDataDestructionFeatures[] = {
-    {"FOR ",              0.05},  // FOR alone is benign; weight raised by combos
-    {" REMOVE ",         0.65},  // REMOVE keyword in any AQL context
+    {" REMOVE ",         0.65},  // REMOVE keyword in any AQL context; FOR+REMOVE handled by forRemoveWithoutFilterWeight
     {"REMOVE @",         0.40},  // Parametrised single-key delete (bind var)
     {"TRUNCATE ",        0.80},  // TRUNCATE collection
     {"DROP COLLECTION",  0.95},  // Full collection drop → nearly always CRITICAL

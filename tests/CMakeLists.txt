@@ -125,7 +125,6 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_bottleneck_analytics\\.cpp$")
 # test_sla_monitoring references ProcessGraphManager not available in unified context.
 # Compiled as dedicated target SlaMonitoringTests.
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_sla_monitoring\\.cpp$")
-list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_saga_plugin_bridge\\.cpp$")
 # test_knowledge_graph_retriever_reasoning uses deleted copy ctor on KnowledgeGraphReasoner.
 # Compiled as dedicated target test_knowledge_graph_reasoner_focused.
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_knowledge_graph_retriever_reasoning\\.cpp$")
@@ -1358,10 +1357,8 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/storage/pitr_manager.cpp
             ${THEMIS_ROOT_DIR}/src/auth/auth_error.cpp
             ${THEMIS_ROOT_DIR}/src/auth/mtls_authenticator.cpp
-            # Redis cache coordinator is intentionally not part of themis_core
-            # because the monolithic core path favors distributed_cache_coordinator.
-            # The unified test binary still needs the RedisCacheCoordinator symbols
-            # for the hiredis bridge tests, so compile this source directly here.
+            # Redis hiredis bridge tests reference RedisCacheCoordinator directly,
+            # so the monolithic test binary must link the hiredis-backed source.
             ${THEMIS_ROOT_DIR}/src/cache/redis_cache_coordinator.cpp
             # test_hsm_provider_stub is appended conditionally below
             ${THEMIS_ROOT_DIR}/src/cdc/dead_letter_queue.cpp
@@ -5110,57 +5107,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_stream_protocol_extended.cpp")
         LABELS "sharding;streaming;compression;lz4;zstd;focused;unit"
         TIMEOUT 120
     )
-endif()
-
-# ============================================================================
-# SAGA Plugin Bridge Focused Tests
-# Validates runtime plugin binding path for transaction SAGA orchestrator DLL.
-# ============================================================================
-
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_saga_plugin_bridge.cpp")
-    message(STATUS "Adding SAGA Plugin Bridge focused tests")
-
-    add_executable(test_saga_plugin_bridge_focused
-        test_saga_plugin_bridge.cpp
-    )
-
-    target_include_directories(test_saga_plugin_bridge_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
-
-    target_link_libraries(test_saga_plugin_bridge_focused PRIVATE
-        GTest::gtest
-        GTest::gtest_main
-        themis_base
-        themis_core
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_saga_plugin_bridge_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    if(TARGET saga_orchestrator_plugin_runtime_assets)
-        add_dependencies(test_saga_plugin_bridge_focused saga_orchestrator_plugin_runtime_assets)
-    elseif(TARGET saga_orchestrator_plugin)
-        add_dependencies(test_saga_plugin_bridge_focused saga_orchestrator_plugin)
-    endif()
-
-    if(WIN32)
-        themis_sync_runtime_dlls_for_target(test_saga_plugin_bridge_focused)
-        add_dependencies(test_saga_plugin_bridge_focused sync_test_runtime_dlls)
-    endif()
-
-    add_test(NAME SagaPluginBridgeFocusedTests
-        COMMAND test_saga_plugin_bridge_focused)
-
-    set_tests_properties(SagaPluginBridgeFocusedTests PROPERTIES
-        LABELS "transaction;saga;plugin;bridge;focused;unit"
-        TIMEOUT 90
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_saga_plugin_bridge_focused>
-    )
-else()
-    message(STATUS "SAGA Plugin Bridge focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saga_plugin_bridge.cpp")
 endif()
 
 # Vector Index Comprehensive Tests
@@ -17414,10 +17360,6 @@ if(THEMIS_ENABLE_HTTP3)
             ${TEST_LIBS}
             themis_core
             Threads::Threads
-            $<$<TARGET_EXISTS:nghttp3::nghttp3>:nghttp3::nghttp3>
-            $<$<AND:$<NOT:$<TARGET_EXISTS:nghttp3::nghttp3>>,$<TARGET_EXISTS:nghttp3::nghttp3_static>>:nghttp3::nghttp3_static>
-            $<$<TARGET_EXISTS:ngtcp2::ngtcp2>:ngtcp2::ngtcp2>
-            $<$<TARGET_EXISTS:ngtcp2::ngtcp2_crypto_ossl>:ngtcp2::ngtcp2_crypto_ossl>
         )
 
         target_compile_definitions(test_quic_server_focused PRIVATE
@@ -17456,10 +17398,6 @@ if(THEMIS_ENABLE_HTTP3)
             GTest::gtest_main
             GTest::gtest
             themis_core
-            $<$<TARGET_EXISTS:nghttp3::nghttp3>:nghttp3::nghttp3>
-            $<$<AND:$<NOT:$<TARGET_EXISTS:nghttp3::nghttp3>>,$<TARGET_EXISTS:nghttp3::nghttp3_static>>:nghttp3::nghttp3_static>
-            $<$<TARGET_EXISTS:ngtcp2::ngtcp2>:ngtcp2::ngtcp2>
-            $<$<TARGET_EXISTS:ngtcp2::ngtcp2_crypto_ossl>:ngtcp2::ngtcp2_crypto_ossl>
         )
 
         target_compile_definitions(test_http3_production_readiness_focused PRIVATE
@@ -28775,6 +28713,14 @@ foreach(_tgt IN LISTS _focused_test_targets)
         if(_logger_removed)
             set_property(TARGET ${_tgt} PROPERTY SOURCES ${_tgt_srcs})
             message(STATUS "${_tgt}: removed logger.cpp (Logger dllimport via themis_base)")
+
+            # logger.cpp is no longer compiled into this target, therefore
+            # Logger must be imported from themis_base (dllimport path).
+            get_target_property(_tgt_defs ${_tgt} COMPILE_DEFINITIONS)
+            if(_tgt_defs)
+                list(REMOVE_ITEM _tgt_defs "THEMIS_TEST_BUILD" "THEMIS_TEST_BUILD=1")
+                set_property(TARGET ${_tgt} PROPERTY COMPILE_DEFINITIONS ${_tgt_defs})
+            endif()
         endif()
         # If the target compiles olap.cpp directly it also needs themis_core
         # linked (for GPUQueryAccelerator + GPUGraphCache transitive deps).
@@ -28812,25 +28758,11 @@ foreach(_tgt IN LISTS _focused_test_targets)
             target_link_libraries(${_tgt} PRIVATE fmt::fmt)
         endif()
     endif()
-
-    # Focused executables should import exported symbols from themis_base.
-    # Keep THEMIS_TEST_BUILD only on themis_tests (handled above via continue()).
-    get_target_property(_tgt_defs ${_tgt} COMPILE_DEFINITIONS)
-    if(_tgt_defs)
-        set(_defs_before "${_tgt_defs}")
-        list(REMOVE_ITEM _tgt_defs "THEMIS_TEST_BUILD" "THEMIS_TEST_BUILD=1")
-        if(NOT "${_defs_before}" STREQUAL "${_tgt_defs}")
-            set_property(TARGET ${_tgt} PROPERTY COMPILE_DEFINITIONS ${_tgt_defs})
-            message(STATUS "${_tgt}: removed THEMIS_TEST_BUILD (use Logger dllimport via themis_base)")
-        endif()
-    endif()
 endforeach()
 unset(_focused_test_targets)
 unset(_logger_src_variants)
 unset(_tgt_srcs)
 unset(_logger_removed)
-unset(_tgt_defs)
-unset(_defs_before)
 
 # =========================================================================
 # Tensor Network Module — focused test targets (Phase 1–6)

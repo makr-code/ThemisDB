@@ -37,13 +37,14 @@ Win + Shift + R  # Starte Video-Aufnahme
 
 | Nummer | Feature | Command | Zeit |
 |--------|---------|---------|------|
-| 1 | **Schema Check** | `themisctl --host 127.0.0.1 --port 8765 schema` | 30 sec |
-| 2 | **LLM Inference** | `themisctl api POST /api/v1/llm/inference --stdin --content-type application/json` | 2 min |
-| 3 | **Graph Explain** | `themisctl api POST /api/v1/graph/query/explain --stdin --content-type application/json` | 2 min |
-| 4 | **AQL Endpoint** | `themisctl api POST /query/aql --stdin --content-type application/json` | 2 min |
-| 5 | **GraphQL Schema + Query** | `themisctl api GET /graphql/schema` und `POST /graphql` | 2 min |
+| 1 | **Health Check** | `themisctl --host 127.0.0.1 --port 8765 health` | 30 sec |
+| 2 | **Deterministic Retrieval** | `themisctl api GET /entities/demo_articles:art_0001` | 1 min |
+| 3 | **Graph Vernetzung** | `themisctl api POST /graphql --stdin --content-type application/json` | 2 min |
+| 4 | **LLM Model Load** | `themisctl api POST /api/v1/llm/models/load --stdin --content-type application/json` | 1 min |
+| 5 | **LLM Zusammenfassung** | `themisctl api POST /api/v1/llm/inference --stdin --content-type application/json` | 2 min |
 | 6 | **RAG LLM Query** | `themisctl api POST /api/v1/llm/rag --stdin --content-type application/json` | 2 min |
-| 7 | **Recommendations** | `themisctl --host 127.0.0.1 --port 8765 index recommend demo_articles` | 1 min |
+| 7 | **Entities Readback (Safe Anchor)** | `themisctl api GET /entities/demo_articles:art_0001` | 1 min |
+| 8 | **Recommendations** | `themisctl --host 127.0.0.1 --port 8765 index recommend demo_articles` | 1 min |
 
 Hinweis zu Schritt 1:
 - In aktuellen `themisctl`-Builds kann `schema` bei Erfolg ohne Ausgabe enden.
@@ -154,15 +155,13 @@ $THEMISCTL = ".\build-msvc-windows-release\bin\themisctl.exe"
 ```
 
 ### Queries geben Fehler zurück?
-- Prüfe Syntax (AQL Query Language)
-- Prüfe ob Collections existieren
-- Prüfe ob Server antwortet
+- Prüfe zuerst Reachability: `themisctl --host 127.0.0.1 --port 8765 health`
+- Nutze fuer den Live-Call bevorzugt die im Runbook dokumentierten stabilen Endpunkte.
 
 ---
 
 ## 📚 Weitere Ressourcen
 
-- **AQL Query Language Docs**: [docs/aql.md](../../docs/en/query/aql.md)
 - **themisctl Manual**: [docs/themisctl.md](../../docs/en/tools/themisctl.md)
 - **RAG Features**: [docs/rag.md](../../docs/en/features/rag.md)
 

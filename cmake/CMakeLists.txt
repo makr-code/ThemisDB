@@ -3211,6 +3211,19 @@ if(THEMIS_BUILD_MODULAR)
             target_link_libraries(themis_core INTERFACE ${_themis_mod})
         endif()
     endforeach()
+
+    # HTTP/3 / QUIC linkage for modular build.
+    # QUIC code uses helpers from ngtcp2_crypto_ossl (e.g. ngtcp2_crypto_encrypt_cb)
+    # that are not provided by ngtcp2::ngtcp2 alone.
+    if(THEMIS_ENABLE_HTTP3 AND nghttp3_FOUND AND ngtcp2_FOUND)
+        if(TARGET themis_network)
+            target_link_libraries(themis_network PUBLIC nghttp3::nghttp3 ngtcp2::ngtcp2)
+            if(TARGET ngtcp2::ngtcp2_crypto_ossl)
+                target_link_libraries(themis_network PUBLIC ngtcp2::ngtcp2_crypto_ossl)
+            endif()
+            target_compile_definitions(themis_network PUBLIC THEMIS_ENABLE_HTTP3)
+        endif()
+    endif()
     
     message(STATUS "Created themis_core interface library linking: ${THEMIS_ALL_MODULES}")
     
@@ -3931,6 +3944,9 @@ endif()
 # HTTP/3 Protocol Support
 if(THEMIS_ENABLE_HTTP3 AND nghttp3_FOUND AND ngtcp2_FOUND)
     target_link_libraries(themis_core PUBLIC nghttp3::nghttp3 ngtcp2::ngtcp2)
+    if(TARGET ngtcp2::ngtcp2_crypto_ossl)
+        target_link_libraries(themis_core PUBLIC ngtcp2::ngtcp2_crypto_ossl)
+    endif()
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_HTTP3)
     message(STATUS "HTTP/3 support enabled and linked to themis_core")
 endif()

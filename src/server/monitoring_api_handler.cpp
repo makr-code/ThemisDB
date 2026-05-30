@@ -28,8 +28,10 @@
 #include "utils/tracing.h"
 #include "observability/metrics_collector.h"
 #include "config/config_metrics_exporter.h"
+#include <algorithm>
 #include <ctime>
 #include <sstream>
+#include <vector>
 #ifndef _WIN32
 #include <sys/resource.h>
 #endif
@@ -695,38 +697,48 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         try {
             auto& plugin_manager = themis::plugins::PluginManager::instance();
             auto all_stats = plugin_manager.getMetrics().getAllStats();
+            std::vector<std::string> sorted_plugin_names;
+            sorted_plugin_names.reserve(all_stats.size());
+            for (const auto& [plugin_name, _] : all_stats) {
+                sorted_plugin_names.push_back(plugin_name);
+            }
+            std::sort(sorted_plugin_names.begin(), sorted_plugin_names.end());
             
             if (!all_stats.empty()) {
                 out += "\n# HELP themis_plugin_loads_total Total number of plugin loads\n";
                 out += "# TYPE themis_plugin_loads_total counter\n";
-                for (const auto& [plugin_name, stats] : all_stats) {
+                for (const auto& plugin_name : sorted_plugin_names) {
                     out += "themis_plugin_loads_total{plugin=\"" + plugin_name + "\"} 1\n";
                 }
                 
                 out += "\n# HELP themis_plugin_reloads_total Total number of plugin reloads\n";
                 out += "# TYPE themis_plugin_reloads_total counter\n";
-                for (const auto& [plugin_name, stats] : all_stats) {
+                for (const auto& plugin_name : sorted_plugin_names) {
+                    const auto& stats = all_stats.at(plugin_name);
                     out += "themis_plugin_reloads_total{plugin=\"" + plugin_name + "\"} " 
                          + std::to_string(stats.reload_count) + "\n";
                 }
                 
                 out += "\n# HELP themis_plugin_errors_total Total number of plugin errors\n";
                 out += "# TYPE themis_plugin_errors_total counter\n";
-                for (const auto& [plugin_name, stats] : all_stats) {
+                for (const auto& plugin_name : sorted_plugin_names) {
+                    const auto& stats = all_stats.at(plugin_name);
                     out += "themis_plugin_errors_total{plugin=\"" + plugin_name + "\"} " 
                          + std::to_string(stats.errors) + "\n";
                 }
                 
                 out += "\n# HELP themis_plugin_function_calls_total Total number of plugin function calls\n";
                 out += "# TYPE themis_plugin_function_calls_total counter\n";
-                for (const auto& [plugin_name, stats] : all_stats) {
+                for (const auto& plugin_name : sorted_plugin_names) {
+                    const auto& stats = all_stats.at(plugin_name);
                     out += "themis_plugin_function_calls_total{plugin=\"" + plugin_name + "\"} " 
                          + std::to_string(stats.function_calls) + "\n";
                 }
                 
                 out += "\n# HELP themis_plugin_load_duration_seconds Plugin load duration\n";
                 out += "# TYPE themis_plugin_load_duration_seconds histogram\n";
-                for (const auto& [plugin_name, stats] : all_stats) {
+                for (const auto& plugin_name : sorted_plugin_names) {
+                    const auto& stats = all_stats.at(plugin_name);
                     double load_seconds = stats.load_time.count() / 1000.0;
                     out += "themis_plugin_load_duration_seconds_sum{plugin=\"" + plugin_name + "\"} " 
                          + std::to_string(load_seconds) + "\n";
@@ -735,14 +747,16 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
                 
                 out += "\n# HELP themis_plugin_memory_bytes Plugin memory usage in bytes\n";
                 out += "# TYPE themis_plugin_memory_bytes gauge\n";
-                for (const auto& [plugin_name, stats] : all_stats) {
+                for (const auto& plugin_name : sorted_plugin_names) {
+                    const auto& stats = all_stats.at(plugin_name);
                     out += "themis_plugin_memory_bytes{plugin=\"" + plugin_name + "\"} " 
                          + std::to_string(stats.memory_bytes) + "\n";
                 }
                 
                 out += "\n# HELP themis_plugin_call_latency_milliseconds Plugin call latency metrics\n";
                 out += "# TYPE themis_plugin_call_latency_milliseconds summary\n";
-                for (const auto& [plugin_name, stats] : all_stats) {
+                for (const auto& plugin_name : sorted_plugin_names) {
+                    const auto& stats = all_stats.at(plugin_name);
                     if (stats.function_calls > 0) {
                         out += "themis_plugin_call_latency_milliseconds{plugin=\"" + plugin_name 
                              + "\",quantile=\"0.95\"} " + std::to_string(stats.p95_call_latency_ms) + "\n";
@@ -842,10 +856,17 @@ http::response<http::string_body> MonitoringApiHandler::handlePluginMetrics(
     try {
         auto& plugin_manager = themis::plugins::PluginManager::instance();
         auto all_stats = plugin_manager.getMetrics().getAllStats();
+        std::vector<std::string> sorted_plugin_names;
+        sorted_plugin_names.reserve(all_stats.size());
+        for (const auto& [plugin_name, _] : all_stats) {
+            sorted_plugin_names.push_back(plugin_name);
+        }
+        std::sort(sorted_plugin_names.begin(), sorted_plugin_names.end());
         
         json response;
         
-        for (const auto& [plugin_name, stats] : all_stats) {
+        for (const auto& plugin_name : sorted_plugin_names) {
+            const auto& stats = all_stats.at(plugin_name);
             // Convert loaded_at to ISO 8601 string
             auto time_t_val = std::chrono::system_clock::to_time_t(stats.loaded_at);
             std::tm tm_val;
@@ -1007,7 +1028,16 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
         json arr = json::array();
         if (alertmanager_) {
             auto& alertmanager = *alertmanager_;
-            for (const auto& alert : alertmanager.getActiveAlerts()) {
+            auto active_alerts = alertmanager.getActiveAlerts();
+            std::sort(active_alerts.begin(), active_alerts.end(),
+                      [](const auto& lhs, const auto& rhs) {
+                          if (lhs.fired_at != rhs.fired_at) {
+                              return lhs.fired_at < rhs.fired_at;
+                          }
+                          return lhs.alert_id < rhs.alert_id;
+                      });
+
+            for (const auto& alert : active_alerts) {
                 json a;
                 a["alert_id"]   = alert.alert_id;
                 a["alert_name"] = alert.alert_name;
@@ -1026,7 +1056,13 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
                 std::strftime(ts, sizeof(ts), "%Y-%m-%dT%H:%M:%SZ", &tm_buf);
                 a["fired_at"] = ts;
                 json labels = json::object();
-                for (const auto& [k, v] : alert.labels) { labels[k] = v; }
+                std::vector<std::pair<std::string, std::string>> sorted_labels(
+                    alert.labels.begin(), alert.labels.end());
+                std::sort(sorted_labels.begin(), sorted_labels.end(),
+                          [](const auto& lhs, const auto& rhs) {
+                              return lhs.first < rhs.first;
+                          });
+                for (const auto& [k, v] : sorted_labels) { labels[k] = v; }
                 a["labels"] = labels;
                 arr.push_back(a);
             }
@@ -1186,7 +1222,6 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
         ).count();
 
         // Build a minimal metrics snapshot for the HTML table
-        // We reuse the text metrics output from handleMetrics() but wrap it in HTML.
         // Gather a fresh copy via MonitoringApiHandler::handleMetrics() internals is complex,
         // so we call through the existing implementation.
         // Build an artificial GET /metrics request to reuse the implementation.
@@ -1199,21 +1234,18 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
         std::istringstream iss(prom_text);
         std::string line;
         while (std::getline(iss, line)) {
-            if (line.empty() || line[0] == '#') continue;
             auto sp = line.rfind(' ');
             if (sp == std::string::npos) continue;
             rows.emplace_back(line.substr(0, sp), line.substr(sp + 1));
         }
 
         std::string html;
-        html.reserve(8192);
         html += "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n";
         html += "<meta charset=\"UTF-8\">\n";
         html += "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n";
         html += "<title>ThemisDB Metrics</title>\n";
         html += "<style>\n";
         html += "body{font-family:monospace;background:#1a1a2e;color:#e0e0e0;margin:0;padding:16px}\n";
-        html += "h1{color:#00d4ff;margin-bottom:4px;}\n";
         html += "p.sub{color:#888;margin-top:0;font-size:0.85em}\n";
         html += "table{border-collapse:collapse;width:100%;margin-top:12px}\n";
         html += "th{background:#16213e;color:#00d4ff;padding:6px 12px;text-align:left;";
@@ -1222,7 +1254,6 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
         html += "tr:hover td{background:#16213e}\n";
         html += ".val{text-align:right;color:#00ff9f}\n";
         html += "a{color:#00d4ff;text-decoration:none}a:hover{text-decoration:underline}\n";
-        html += "</style>\n</head>\n<body>\n";
         html += "<h1>ThemisDB Metrics Dashboard</h1>\n";
         html += "<p class=\"sub\">Version: <b>" + version + "</b> &nbsp;|&nbsp; ";
         html += "Uptime: <b>" + std::to_string(uptime_seconds) + "s</b> &nbsp;|&nbsp; ";

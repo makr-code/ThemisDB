@@ -208,7 +208,8 @@ cmake --build --preset windows-release --target themisctl
 ### "Server connection refused"
 ```powershell
 # In separatem Terminal: Server starten
-.\build-msvc-windows-release\bin\themis_server.exe --db .\demo\data\themis_db --port 8765 --allow-degraded-build --allow-stub-hsm
+$SERVER_EXE = ".\build-msvc-windows-release\bin\themis_server.exe"
+& $SERVER_EXE --db .\demo\data\themis_db --port 8765 --allow-degraded-build --allow-stub-hsm
 
 # Dann in anderem Terminal: Setup-Script laufen
 .\demo\setup\setup_demo_data.ps1

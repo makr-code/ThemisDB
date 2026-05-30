@@ -1,21 +1,165 @@
-{"id": "node_res_001", "_key": "res_001", "type": "researcher", "name": "Dr. Alice Johnson", "affiliation": "MIT", "field": "Deep Learning"}
-{"id": "node_res_002", "_key": "res_002", "type": "researcher", "name": "Prof. Bob Chen", "affiliation": "Stanford", "field": "ML Engineering"}
-{"id": "node_res_003", "_key": "res_003", "type": "researcher", "name": "Dr. Carol Williams", "affiliation": "Berkeley", "field": "NLP"}
-{"id": "node_res_004", "_key": "res_004", "type": "researcher", "name": "Dr. David Martinez", "affiliation": "Oxford", "field": "Quantum Computing"}
-{"id": "node_res_005", "_key": "res_005", "type": "researcher", "name": "Prof. Emma Davis", "affiliation": "Cambridge", "field": "Quantum ML"}
-{"id": "node_res_006", "_key": "res_006", "type": "researcher", "name": "Dr. Frank Wilson", "affiliation": "CMU", "field": "Time Series"}
-{"id": "node_res_007", "_key": "res_007", "type": "researcher", "name": "Dr. Grace Lee", "affiliation": "Toronto", "field": "Graph Learning"}
-{"id": "node_res_008", "_key": "res_008", "type": "researcher", "name": "Prof. Henry Kim", "affiliation": "Seoul National", "field": "Distributed Systems"}
-{"id": "node_res_009", "_key": "res_009", "type": "researcher", "name": "Dr. Isabel Rodriguez", "affiliation": "ETH Zurich", "field": "Vector Databases"}
-{"id": "node_res_010", "_key": "res_010", "type": "researcher", "name": "Dr. Jack Anderson", "affiliation": "Bell Labs", "field": "Database Systems"}
-{"id": "node_paper_001", "_key": "paper_001", "type": "paper", "title": "Deep Learning Architectures for Computer Vision", "year": 2024}
-{"id": "node_paper_002", "_key": "paper_002", "type": "paper", "title": "Machine Learning Pipeline Optimization", "year": 2024}
-{"id": "node_paper_003", "_key": "paper_003", "type": "paper", "title": "Transformer Models and Natural Language Processing", "year": 2024}
-{"id": "node_paper_004", "_key": "paper_004", "type": "paper", "title": "Quantum Error Correction and NISQ Algorithms", "year": 2024}
-{"id": "node_paper_005", "_key": "paper_005", "type": "paper", "title": "Quantum Machine Learning: A Practical Perspective", "year": 2024}
-{"id": "node_paper_006", "_key": "paper_006", "type": "paper", "title": "Vector Databases for Semantic Search", "year": 2024}
-{"id": "node_paper_007", "_key": "paper_007", "type": "paper", "title": "Multi-Model Database Architecture", "year": 2024}
-{"id": "node_conf_001", "_key": "conf_001", "type": "conference", "name": "NeurIPS 2024", "location": "Vancouver"}
-{"id": "node_conf_002", "_key": "conf_002", "type": "conference", "name": "ICML 2024", "location": "Vienna"}
-{"id": "node_conf_003", "_key": "conf_003", "type": "conference", "name": "ICCV 2024", "location": "Milan"}
-{"id": "node_conf_004", "_key": "conf_004", "type": "conference", "name": "VLDB 2024", "location": "Singapore"}
+{"id": "node_auth_001", "_key": "auth_001", "type": "authority", "name": "Landratsamt Muenchen", "region": "Oberbayern"}
+{"id": "node_auth_002", "_key": "auth_002", "type": "authority", "name": "Stadt Koeln Ordnungsamt", "region": "Koeln"}
+{"id": "node_auth_003", "_key": "auth_003", "type": "authority", "name": "Bezirksamt Hamburg-Mitte", "region": "Hamburg"}
+{"id": "node_auth_004", "_key": "auth_004", "type": "authority", "name": "Regierungspraesidium Stuttgart", "region": "Stuttgart"}
+{"id": "node_auth_005", "_key": "auth_005", "type": "authority", "name": "Kreisverwaltung Mainz-Bingen", "region": "Rheinland-Pfalz"}
+{"id": "node_auth_006", "_key": "auth_006", "type": "authority", "name": "Stadt Leipzig Bauordnungsamt", "region": "Leipzig"}
+{"id": "node_auth_007", "_key": "auth_007", "type": "authority", "name": "Landratsamt Karlsruhe", "region": "Karlsruhe"}
+{"id": "node_auth_008", "_key": "auth_008", "type": "authority", "name": "Stadt Dortmund Sozialamt", "region": "Dortmund"}
+{"id": "node_auth_009", "_key": "auth_009", "type": "authority", "name": "Bezirksregierung Duesseldorf", "region": "Duesseldorf"}
+{"id": "node_auth_010", "_key": "auth_010", "type": "authority", "name": "Landesamt fuer Umwelt Brandenburg", "region": "Brandenburg"}
+{"id": "node_auth_011", "_key": "auth_011", "type": "authority", "name": "Stadt Frankfurt Auslaenderbehoerde", "region": "Frankfurt"}
+{"id": "node_auth_012", "_key": "auth_012", "type": "authority", "name": "Landratsamt Nuernberger Land", "region": "Mittelfranken"}
+{"id": "node_app_001", "_key": "app_001", "type": "applicant", "name": "Antragsteller 001", "sector": "Umwelt"}
+{"id": "node_app_002", "_key": "app_002", "type": "applicant", "name": "Antragsteller 002", "sector": "Gewerbe"}
+{"id": "node_app_003", "_key": "app_003", "type": "applicant", "name": "Antragsteller 003", "sector": "Soziales"}
+{"id": "node_app_004", "_key": "app_004", "type": "applicant", "name": "Antragsteller 004", "sector": "Bau"}
+{"id": "node_app_005", "_key": "app_005", "type": "applicant", "name": "Antragsteller 005", "sector": "Umwelt"}
+{"id": "node_app_006", "_key": "app_006", "type": "applicant", "name": "Antragsteller 006", "sector": "Gewerbe"}
+{"id": "node_app_007", "_key": "app_007", "type": "applicant", "name": "Antragsteller 007", "sector": "Soziales"}
+{"id": "node_app_008", "_key": "app_008", "type": "applicant", "name": "Antragsteller 008", "sector": "Bau"}
+{"id": "node_app_009", "_key": "app_009", "type": "applicant", "name": "Antragsteller 009", "sector": "Umwelt"}
+{"id": "node_app_010", "_key": "app_010", "type": "applicant", "name": "Antragsteller 010", "sector": "Gewerbe"}
+{"id": "node_app_011", "_key": "app_011", "type": "applicant", "name": "Antragsteller 011", "sector": "Soziales"}
+{"id": "node_app_012", "_key": "app_012", "type": "applicant", "name": "Antragsteller 012", "sector": "Bau"}
+{"id": "node_app_013", "_key": "app_013", "type": "applicant", "name": "Antragsteller 013", "sector": "Umwelt"}
+{"id": "node_app_014", "_key": "app_014", "type": "applicant", "name": "Antragsteller 014", "sector": "Gewerbe"}
+{"id": "node_app_015", "_key": "app_015", "type": "applicant", "name": "Antragsteller 015", "sector": "Soziales"}
+{"id": "node_app_016", "_key": "app_016", "type": "applicant", "name": "Antragsteller 016", "sector": "Bau"}
+{"id": "node_app_017", "_key": "app_017", "type": "applicant", "name": "Antragsteller 017", "sector": "Umwelt"}
+{"id": "node_app_018", "_key": "app_018", "type": "applicant", "name": "Antragsteller 018", "sector": "Gewerbe"}
+{"id": "node_app_019", "_key": "app_019", "type": "applicant", "name": "Antragsteller 019", "sector": "Soziales"}
+{"id": "node_app_020", "_key": "app_020", "type": "applicant", "name": "Antragsteller 020", "sector": "Bau"}
+{"id": "node_app_021", "_key": "app_021", "type": "applicant", "name": "Antragsteller 021", "sector": "Umwelt"}
+{"id": "node_app_022", "_key": "app_022", "type": "applicant", "name": "Antragsteller 022", "sector": "Gewerbe"}
+{"id": "node_app_023", "_key": "app_023", "type": "applicant", "name": "Antragsteller 023", "sector": "Soziales"}
+{"id": "node_app_024", "_key": "app_024", "type": "applicant", "name": "Antragsteller 024", "sector": "Bau"}
+{"id": "node_app_025", "_key": "app_025", "type": "applicant", "name": "Antragsteller 025", "sector": "Umwelt"}
+{"id": "node_app_026", "_key": "app_026", "type": "applicant", "name": "Antragsteller 026", "sector": "Gewerbe"}
+{"id": "node_app_027", "_key": "app_027", "type": "applicant", "name": "Antragsteller 027", "sector": "Soziales"}
+{"id": "node_app_028", "_key": "app_028", "type": "applicant", "name": "Antragsteller 028", "sector": "Bau"}
+{"id": "node_app_029", "_key": "app_029", "type": "applicant", "name": "Antragsteller 029", "sector": "Umwelt"}
+{"id": "node_app_030", "_key": "app_030", "type": "applicant", "name": "Antragsteller 030", "sector": "Gewerbe"}
+{"id": "node_app_031", "_key": "app_031", "type": "applicant", "name": "Antragsteller 031", "sector": "Soziales"}
+{"id": "node_app_032", "_key": "app_032", "type": "applicant", "name": "Antragsteller 032", "sector": "Bau"}
+{"id": "node_app_033", "_key": "app_033", "type": "applicant", "name": "Antragsteller 033", "sector": "Umwelt"}
+{"id": "node_app_034", "_key": "app_034", "type": "applicant", "name": "Antragsteller 034", "sector": "Gewerbe"}
+{"id": "node_app_035", "_key": "app_035", "type": "applicant", "name": "Antragsteller 035", "sector": "Soziales"}
+{"id": "node_app_036", "_key": "app_036", "type": "applicant", "name": "Antragsteller 036", "sector": "Bau"}
+{"id": "node_app_037", "_key": "app_037", "type": "applicant", "name": "Antragsteller 037", "sector": "Umwelt"}
+{"id": "node_app_038", "_key": "app_038", "type": "applicant", "name": "Antragsteller 038", "sector": "Gewerbe"}
+{"id": "node_app_039", "_key": "app_039", "type": "applicant", "name": "Antragsteller 039", "sector": "Soziales"}
+{"id": "node_app_040", "_key": "app_040", "type": "applicant", "name": "Antragsteller 040", "sector": "Bau"}
+{"id": "node_court_001", "_key": "court_001", "type": "court", "name": "VG Berlin"}
+{"id": "node_court_002", "_key": "court_002", "type": "court", "name": "VG Muenchen"}
+{"id": "node_court_003", "_key": "court_003", "type": "court", "name": "VG Koeln"}
+{"id": "node_court_004", "_key": "court_004", "type": "court", "name": "OVG NRW"}
+{"id": "node_court_005", "_key": "court_005", "type": "court", "name": "VGH Baden-Wuerttemberg"}
+{"id": "node_case_0001", "_key": "case_0001", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0001 (Baugenehmigung)", "status": "erlassen", "legal_basis": "VwVfG", "published": "2023-01-05"}
+{"id": "node_case_0002", "_key": "case_0002", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0002 (Gewerbeuntersagung)", "status": "angefochten", "legal_basis": "VwGO", "published": "2023-01-08"}
+{"id": "node_case_0003", "_key": "case_0003", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0003 (Immissionsschutzauflage)", "status": "teilweise aufgehoben", "legal_basis": "BauGB", "published": "2023-01-11"}
+{"id": "node_case_0004", "_key": "case_0004", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0004 (Denkmalschutzanordnung)", "status": "bestaetigt", "legal_basis": "BImSchG", "published": "2023-01-14"}
+{"id": "node_case_0005", "_key": "case_0005", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0005 (Aufenthaltstitel)", "status": "in Vollzug", "legal_basis": "AufenthG", "published": "2023-01-17"}
+{"id": "node_case_0006", "_key": "case_0006", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0006 (Foerderbescheid)", "status": "erlassen", "legal_basis": "DSGVO", "published": "2023-01-20"}
+{"id": "node_case_0007", "_key": "case_0007", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0007 (Wasserrechtliche Erlaubnis)", "status": "angefochten", "legal_basis": "UVgO", "published": "2023-01-23"}
+{"id": "node_case_0008", "_key": "case_0008", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0008 (Vergaberechtliche Entscheidung)", "status": "teilweise aufgehoben", "legal_basis": "WHG", "published": "2023-01-26"}
+{"id": "node_case_0009", "_key": "case_0009", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0009 (Datenschutzanordnung)", "status": "bestaetigt", "legal_basis": "DenkmSchG", "published": "2023-01-29"}
+{"id": "node_case_0010", "_key": "case_0010", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0010 (Baugenehmigung)", "status": "in Vollzug", "legal_basis": "VwVfG", "published": "2023-02-01"}
+{"id": "node_case_0011", "_key": "case_0011", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0011 (Gewerbeuntersagung)", "status": "erlassen", "legal_basis": "VwGO", "published": "2023-02-04"}
+{"id": "node_case_0012", "_key": "case_0012", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0012 (Immissionsschutzauflage)", "status": "angefochten", "legal_basis": "BauGB", "published": "2023-02-07"}
+{"id": "node_case_0013", "_key": "case_0013", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0013 (Denkmalschutzanordnung)", "status": "teilweise aufgehoben", "legal_basis": "BImSchG", "published": "2023-02-10"}
+{"id": "node_case_0014", "_key": "case_0014", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0014 (Aufenthaltstitel)", "status": "bestaetigt", "legal_basis": "AufenthG", "published": "2023-02-13"}
+{"id": "node_case_0015", "_key": "case_0015", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0015 (Foerderbescheid)", "status": "in Vollzug", "legal_basis": "DSGVO", "published": "2023-02-16"}
+{"id": "node_case_0016", "_key": "case_0016", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0016 (Wasserrechtliche Erlaubnis)", "status": "erlassen", "legal_basis": "UVgO", "published": "2023-02-19"}
+{"id": "node_case_0017", "_key": "case_0017", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0017 (Vergaberechtliche Entscheidung)", "status": "angefochten", "legal_basis": "WHG", "published": "2023-02-22"}
+{"id": "node_case_0018", "_key": "case_0018", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0018 (Datenschutzanordnung)", "status": "teilweise aufgehoben", "legal_basis": "DenkmSchG", "published": "2023-02-25"}
+{"id": "node_case_0019", "_key": "case_0019", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0019 (Baugenehmigung)", "status": "bestaetigt", "legal_basis": "VwVfG", "published": "2023-02-28"}
+{"id": "node_case_0020", "_key": "case_0020", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0020 (Gewerbeuntersagung)", "status": "in Vollzug", "legal_basis": "VwGO", "published": "2023-03-03"}
+{"id": "node_case_0021", "_key": "case_0021", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0021 (Immissionsschutzauflage)", "status": "erlassen", "legal_basis": "BauGB", "published": "2023-03-06"}
+{"id": "node_case_0022", "_key": "case_0022", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0022 (Denkmalschutzanordnung)", "status": "angefochten", "legal_basis": "BImSchG", "published": "2023-03-09"}
+{"id": "node_case_0023", "_key": "case_0023", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0023 (Aufenthaltstitel)", "status": "teilweise aufgehoben", "legal_basis": "AufenthG", "published": "2023-03-12"}
+{"id": "node_case_0024", "_key": "case_0024", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0024 (Foerderbescheid)", "status": "bestaetigt", "legal_basis": "DSGVO", "published": "2023-03-15"}
+{"id": "node_case_0025", "_key": "case_0025", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0025 (Wasserrechtliche Erlaubnis)", "status": "in Vollzug", "legal_basis": "UVgO", "published": "2023-03-18"}
+{"id": "node_case_0026", "_key": "case_0026", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0026 (Vergaberechtliche Entscheidung)", "status": "erlassen", "legal_basis": "WHG", "published": "2023-03-21"}
+{"id": "node_case_0027", "_key": "case_0027", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0027 (Datenschutzanordnung)", "status": "angefochten", "legal_basis": "DenkmSchG", "published": "2023-03-24"}
+{"id": "node_case_0028", "_key": "case_0028", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0028 (Baugenehmigung)", "status": "teilweise aufgehoben", "legal_basis": "VwVfG", "published": "2023-03-27"}
+{"id": "node_case_0029", "_key": "case_0029", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0029 (Gewerbeuntersagung)", "status": "bestaetigt", "legal_basis": "VwGO", "published": "2023-03-30"}
+{"id": "node_case_0030", "_key": "case_0030", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0030 (Immissionsschutzauflage)", "status": "in Vollzug", "legal_basis": "BauGB", "published": "2023-04-02"}
+{"id": "node_case_0031", "_key": "case_0031", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0031 (Denkmalschutzanordnung)", "status": "erlassen", "legal_basis": "BImSchG", "published": "2023-04-05"}
+{"id": "node_case_0032", "_key": "case_0032", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0032 (Aufenthaltstitel)", "status": "angefochten", "legal_basis": "AufenthG", "published": "2023-04-08"}
+{"id": "node_case_0033", "_key": "case_0033", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0033 (Foerderbescheid)", "status": "teilweise aufgehoben", "legal_basis": "DSGVO", "published": "2023-04-11"}
+{"id": "node_case_0034", "_key": "case_0034", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0034 (Wasserrechtliche Erlaubnis)", "status": "bestaetigt", "legal_basis": "UVgO", "published": "2023-04-14"}
+{"id": "node_case_0035", "_key": "case_0035", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0035 (Vergaberechtliche Entscheidung)", "status": "in Vollzug", "legal_basis": "WHG", "published": "2023-04-17"}
+{"id": "node_case_0036", "_key": "case_0036", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0036 (Datenschutzanordnung)", "status": "erlassen", "legal_basis": "DenkmSchG", "published": "2023-04-20"}
+{"id": "node_case_0037", "_key": "case_0037", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0037 (Baugenehmigung)", "status": "angefochten", "legal_basis": "VwVfG", "published": "2023-04-23"}
+{"id": "node_case_0038", "_key": "case_0038", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0038 (Gewerbeuntersagung)", "status": "teilweise aufgehoben", "legal_basis": "VwGO", "published": "2023-04-26"}
+{"id": "node_case_0039", "_key": "case_0039", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0039 (Immissionsschutzauflage)", "status": "bestaetigt", "legal_basis": "BauGB", "published": "2023-04-29"}
+{"id": "node_case_0040", "_key": "case_0040", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0040 (Denkmalschutzanordnung)", "status": "in Vollzug", "legal_basis": "BImSchG", "published": "2023-05-02"}
+{"id": "node_case_0041", "_key": "case_0041", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0041 (Aufenthaltstitel)", "status": "erlassen", "legal_basis": "AufenthG", "published": "2023-05-05"}
+{"id": "node_case_0042", "_key": "case_0042", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0042 (Foerderbescheid)", "status": "angefochten", "legal_basis": "DSGVO", "published": "2023-05-08"}
+{"id": "node_case_0043", "_key": "case_0043", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0043 (Wasserrechtliche Erlaubnis)", "status": "teilweise aufgehoben", "legal_basis": "UVgO", "published": "2023-05-11"}
+{"id": "node_case_0044", "_key": "case_0044", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0044 (Vergaberechtliche Entscheidung)", "status": "bestaetigt", "legal_basis": "WHG", "published": "2023-05-14"}
+{"id": "node_case_0045", "_key": "case_0045", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0045 (Datenschutzanordnung)", "status": "in Vollzug", "legal_basis": "DenkmSchG", "published": "2023-05-17"}
+{"id": "node_case_0046", "_key": "case_0046", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0046 (Baugenehmigung)", "status": "erlassen", "legal_basis": "VwVfG", "published": "2023-05-20"}
+{"id": "node_case_0047", "_key": "case_0047", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0047 (Gewerbeuntersagung)", "status": "angefochten", "legal_basis": "VwGO", "published": "2023-05-23"}
+{"id": "node_case_0048", "_key": "case_0048", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0048 (Immissionsschutzauflage)", "status": "teilweise aufgehoben", "legal_basis": "BauGB", "published": "2023-05-26"}
+{"id": "node_case_0049", "_key": "case_0049", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0049 (Denkmalschutzanordnung)", "status": "bestaetigt", "legal_basis": "BImSchG", "published": "2023-05-29"}
+{"id": "node_case_0050", "_key": "case_0050", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0050 (Aufenthaltstitel)", "status": "in Vollzug", "legal_basis": "AufenthG", "published": "2023-06-01"}
+{"id": "node_case_0051", "_key": "case_0051", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0051 (Foerderbescheid)", "status": "erlassen", "legal_basis": "DSGVO", "published": "2023-06-04"}
+{"id": "node_case_0052", "_key": "case_0052", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0052 (Wasserrechtliche Erlaubnis)", "status": "angefochten", "legal_basis": "UVgO", "published": "2023-06-07"}
+{"id": "node_case_0053", "_key": "case_0053", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0053 (Vergaberechtliche Entscheidung)", "status": "teilweise aufgehoben", "legal_basis": "WHG", "published": "2023-06-10"}
+{"id": "node_case_0054", "_key": "case_0054", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0054 (Datenschutzanordnung)", "status": "bestaetigt", "legal_basis": "DenkmSchG", "published": "2023-06-13"}
+{"id": "node_case_0055", "_key": "case_0055", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0055 (Baugenehmigung)", "status": "in Vollzug", "legal_basis": "VwVfG", "published": "2023-06-16"}
+{"id": "node_case_0056", "_key": "case_0056", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0056 (Gewerbeuntersagung)", "status": "erlassen", "legal_basis": "VwGO", "published": "2023-06-19"}
+{"id": "node_case_0057", "_key": "case_0057", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0057 (Immissionsschutzauflage)", "status": "angefochten", "legal_basis": "BauGB", "published": "2023-06-22"}
+{"id": "node_case_0058", "_key": "case_0058", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0058 (Denkmalschutzanordnung)", "status": "teilweise aufgehoben", "legal_basis": "BImSchG", "published": "2023-06-25"}
+{"id": "node_case_0059", "_key": "case_0059", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0059 (Aufenthaltstitel)", "status": "bestaetigt", "legal_basis": "AufenthG", "published": "2023-06-28"}
+{"id": "node_case_0060", "_key": "case_0060", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0060 (Foerderbescheid)", "status": "in Vollzug", "legal_basis": "DSGVO", "published": "2023-07-01"}
+{"id": "node_case_0061", "_key": "case_0061", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0061 (Wasserrechtliche Erlaubnis)", "status": "erlassen", "legal_basis": "UVgO", "published": "2023-07-04"}
+{"id": "node_case_0062", "_key": "case_0062", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0062 (Vergaberechtliche Entscheidung)", "status": "angefochten", "legal_basis": "WHG", "published": "2023-07-07"}
+{"id": "node_case_0063", "_key": "case_0063", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0063 (Datenschutzanordnung)", "status": "teilweise aufgehoben", "legal_basis": "DenkmSchG", "published": "2023-07-10"}
+{"id": "node_case_0064", "_key": "case_0064", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0064 (Baugenehmigung)", "status": "bestaetigt", "legal_basis": "VwVfG", "published": "2023-07-13"}
+{"id": "node_case_0065", "_key": "case_0065", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0065 (Gewerbeuntersagung)", "status": "in Vollzug", "legal_basis": "VwGO", "published": "2023-07-16"}
+{"id": "node_case_0066", "_key": "case_0066", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0066 (Immissionsschutzauflage)", "status": "erlassen", "legal_basis": "BauGB", "published": "2023-07-19"}
+{"id": "node_case_0067", "_key": "case_0067", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0067 (Denkmalschutzanordnung)", "status": "angefochten", "legal_basis": "BImSchG", "published": "2023-07-22"}
+{"id": "node_case_0068", "_key": "case_0068", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0068 (Aufenthaltstitel)", "status": "teilweise aufgehoben", "legal_basis": "AufenthG", "published": "2023-07-25"}
+{"id": "node_case_0069", "_key": "case_0069", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0069 (Foerderbescheid)", "status": "bestaetigt", "legal_basis": "DSGVO", "published": "2023-07-28"}
+{"id": "node_case_0070", "_key": "case_0070", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0070 (Wasserrechtliche Erlaubnis)", "status": "in Vollzug", "legal_basis": "UVgO", "published": "2023-07-31"}
+{"id": "node_case_0071", "_key": "case_0071", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0071 (Vergaberechtliche Entscheidung)", "status": "erlassen", "legal_basis": "WHG", "published": "2023-08-03"}
+{"id": "node_case_0072", "_key": "case_0072", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0072 (Datenschutzanordnung)", "status": "angefochten", "legal_basis": "DenkmSchG", "published": "2023-08-06"}
+{"id": "node_case_0073", "_key": "case_0073", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0073 (Baugenehmigung)", "status": "teilweise aufgehoben", "legal_basis": "VwVfG", "published": "2023-08-09"}
+{"id": "node_case_0074", "_key": "case_0074", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0074 (Gewerbeuntersagung)", "status": "bestaetigt", "legal_basis": "VwGO", "published": "2023-08-12"}
+{"id": "node_case_0075", "_key": "case_0075", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0075 (Immissionsschutzauflage)", "status": "in Vollzug", "legal_basis": "BauGB", "published": "2023-08-15"}
+{"id": "node_case_0076", "_key": "case_0076", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0076 (Denkmalschutzanordnung)", "status": "erlassen", "legal_basis": "BImSchG", "published": "2023-08-18"}
+{"id": "node_case_0077", "_key": "case_0077", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0077 (Aufenthaltstitel)", "status": "angefochten", "legal_basis": "AufenthG", "published": "2023-08-21"}
+{"id": "node_case_0078", "_key": "case_0078", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0078 (Foerderbescheid)", "status": "teilweise aufgehoben", "legal_basis": "DSGVO", "published": "2023-08-24"}
+{"id": "node_case_0079", "_key": "case_0079", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0079 (Wasserrechtliche Erlaubnis)", "status": "bestaetigt", "legal_basis": "UVgO", "published": "2023-08-27"}
+{"id": "node_case_0080", "_key": "case_0080", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0080 (Vergaberechtliche Entscheidung)", "status": "in Vollzug", "legal_basis": "WHG", "published": "2023-08-30"}
+{"id": "node_case_0081", "_key": "case_0081", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0081 (Datenschutzanordnung)", "status": "erlassen", "legal_basis": "DenkmSchG", "published": "2023-09-02"}
+{"id": "node_case_0082", "_key": "case_0082", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0082 (Baugenehmigung)", "status": "angefochten", "legal_basis": "VwVfG", "published": "2023-09-05"}
+{"id": "node_case_0083", "_key": "case_0083", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0083 (Gewerbeuntersagung)", "status": "teilweise aufgehoben", "legal_basis": "VwGO", "published": "2023-09-08"}
+{"id": "node_case_0084", "_key": "case_0084", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0084 (Immissionsschutzauflage)", "status": "bestaetigt", "legal_basis": "BauGB", "published": "2023-09-11"}
+{"id": "node_case_0085", "_key": "case_0085", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0085 (Denkmalschutzanordnung)", "status": "in Vollzug", "legal_basis": "BImSchG", "published": "2023-09-14"}
+{"id": "node_case_0086", "_key": "case_0086", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0086 (Aufenthaltstitel)", "status": "erlassen", "legal_basis": "AufenthG", "published": "2023-09-17"}
+{"id": "node_case_0087", "_key": "case_0087", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0087 (Foerderbescheid)", "status": "angefochten", "legal_basis": "DSGVO", "published": "2023-09-20"}
+{"id": "node_case_0088", "_key": "case_0088", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0088 (Wasserrechtliche Erlaubnis)", "status": "teilweise aufgehoben", "legal_basis": "UVgO", "published": "2023-09-23"}
+{"id": "node_case_0089", "_key": "case_0089", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0089 (Vergaberechtliche Entscheidung)", "status": "bestaetigt", "legal_basis": "WHG", "published": "2023-09-26"}
+{"id": "node_case_0090", "_key": "case_0090", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0090 (Datenschutzanordnung)", "status": "in Vollzug", "legal_basis": "DenkmSchG", "published": "2023-09-29"}
+{"id": "node_case_0091", "_key": "case_0091", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0091 (Baugenehmigung)", "status": "erlassen", "legal_basis": "VwVfG", "published": "2023-10-02"}
+{"id": "node_case_0092", "_key": "case_0092", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0092 (Gewerbeuntersagung)", "status": "angefochten", "legal_basis": "VwGO", "published": "2023-10-05"}
+{"id": "node_case_0093", "_key": "case_0093", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0093 (Immissionsschutzauflage)", "status": "teilweise aufgehoben", "legal_basis": "BauGB", "published": "2023-10-08"}
+{"id": "node_case_0094", "_key": "case_0094", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0094 (Denkmalschutzanordnung)", "status": "bestaetigt", "legal_basis": "BImSchG", "published": "2023-10-11"}
+{"id": "node_case_0095", "_key": "case_0095", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0095 (Aufenthaltstitel)", "status": "in Vollzug", "legal_basis": "AufenthG", "published": "2023-10-14"}
+{"id": "node_case_0096", "_key": "case_0096", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0096 (Foerderbescheid)", "status": "erlassen", "legal_basis": "DSGVO", "published": "2023-10-17"}
+{"id": "node_case_0097", "_key": "case_0097", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0097 (Wasserrechtliche Erlaubnis)", "status": "angefochten", "legal_basis": "UVgO", "published": "2023-10-20"}
+{"id": "node_case_0098", "_key": "case_0098", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0098 (Vergaberechtliche Entscheidung)", "status": "teilweise aufgehoben", "legal_basis": "WHG", "published": "2023-10-23"}
+{"id": "node_case_0099", "_key": "case_0099", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0099 (Datenschutzanordnung)", "status": "bestaetigt", "legal_basis": "DenkmSchG", "published": "2023-10-26"}
+{"id": "node_case_0100", "_key": "case_0100", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0100 (Baugenehmigung)", "status": "in Vollzug", "legal_basis": "VwVfG", "published": "2023-10-29"}
+{"id": "node_case_0101", "_key": "case_0101", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0101 (Gewerbeuntersagung)", "status": "erlassen", "legal_basis": "VwGO", "published": "2023-11-01"}
+{"id": "node_case_0102", "_key": "case_0102", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0102 (Immissionsschutzauflage)", "status": "angefochten", "legal_basis": "BauGB", "published": "2023-11-04"}
+{"id": "node_case_0103", "_key": "case_0103", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0103 (Denkmalschutzanordnung)", "status": "teilweise aufgehoben", "legal_basis": "BImSchG", "published": "2023-11-07"}
+{"id": "node_case_0104", "_key": "case_0104", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0104 (Aufenthaltstitel)", "status": "bestaetigt", "legal_basis": "AufenthG", "published": "2023-11-10"}
+{"id": "node_case_0105", "_key": "case_0105", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0105 (Foerderbescheid)", "status": "in Vollzug", "legal_basis": "DSGVO", "published": "2023-11-13"}
+{"id": "node_case_0106", "_key": "case_0106", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0106 (Wasserrechtliche Erlaubnis)", "status": "erlassen", "legal_basis": "UVgO", "published": "2023-11-16"}
+{"id": "node_case_0107", "_key": "case_0107", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0107 (Vergaberechtliche Entscheidung)", "status": "angefochten", "legal_basis": "WHG", "published": "2023-11-19"}
+{"id": "node_case_0108", "_key": "case_0108", "type": "case", "title": "Verwaltungsrechtlicher Bescheid case_0108 (Datenschutzanordnung)", "status": "teilweise aufgehoben", "legal_basis": "DenkmSchG", "published": "2023-11-22"}
