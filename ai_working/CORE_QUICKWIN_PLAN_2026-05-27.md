@@ -27,6 +27,35 @@ Reduce high-volume, low-risk gap patterns quickly in core components without arc
 - Package D: determinism and rollback path-hardening advanced with stable ordering for observability alerts (`monitoring_api_handler.cpp`), deterministic GROUP BY emission order in query execution (`query_engine.cpp`), and stricter/cross-platform snapshot ID validation plus base-path containment checks in MCP rollback (`mcp_server.cpp`); validated with successful `AiSnapshotCleanupTests`.
 - Package D: MCP rollback hardening now test-backed in `tests/test_mcp_integration.cpp` with focused negative/edge cases for snapshot ID validation (`empty`, path-separator payload, Windows drive-prefix payload, and valid simple ID fail-closed path). Build validated via successful `themis_tests` link; runtime execution is gated by `THEMIS_ENABLE_MCP` in the active preset.
 - Package D: MCP rollback input hardening extended with explicit snapshot-ID allowlist (alnum + `_-.`, bounded length, control-byte rejection) and additional negative tests for percent-encoded traversal payload, control characters, and unsupported special characters (`:`). Build validated with successful `themis_network` + `themis_tests` targets.
+- Package D: monitoring determinism extended in `monitoring_api_handler.cpp` by sorting plugin metric emission order (both `/metrics` and `/api/plugins/metrics`) and stabilizing alert-label emission order in observability alerts to reduce hash-order drift in JSON/Prometheus outputs.
+- Package D: query determinism extended in `query_engine.cpp` (`ObjectConstruct` expression evaluation) by sorting object field keys before JSON materialization, reducing hash-order-dependent output drift in object-returning query expressions.
+- Package D: query determinism further extended in `query_engine.cpp` nested-loop join path by sorting `EvaluationContext` bindings before assembling LET-evaluation context JSON (`currentDoc`), reducing map-iteration-order drift in multi-variable query execution.
+- Package D: ranking determinism extended in `query_engine.cpp` geo pipelines by adding stable PK tie-breakers in vector-distance and BM25/geo-score sorts, preventing nondeterministic ordering for equal-score candidates under parallel sort.
+- Package D: graph-traversal determinism improved in `query_engine.cpp` by sorting reachable node IDs before recursive path reconstruction and sorting adjacency expansions in general BFS traversal (target PK, edge ID, graph ID).
+- Package D: join determinism hardened in `query_engine.cpp` by adding a stable JSON tie-breaker for equal SORT expression values in `executeJoin`, avoiding parallel sort instability on equal keys.
+- Package D: hash-join determinism strengthened in `query_engine.cpp` by sorting each hash bucket (stable `_key`/JSON fallback) before probe emission, reducing scan-order drift for same-key join matches.
+- Package D: hash-join probe determinism extended in `query_engine.cpp` by sorting CTE probe documents via stable `_key`/JSON order before probing, improving reproducibility without explicit SORT.
+- Package D: hash-join scan-probe determinism aligned in `query_engine.cpp` by buffering scanned probe docs, applying the same stable `_key`/JSON ordering, and only then probing buckets.
+- Package D: nested-loop join determinism extended in `query_engine.cpp` by sorting CTE input documents per FOR step via stable `_key`/JSON order before filter evaluation and recursion.
+- Package D: nested-loop non-CTE determinism aligned in `query_engine.cpp` by buffering table-scan docs, sorting them with the same stable `_key`/JSON key, and recursing in deterministic order.
+- Package D: join result determinism finalized in `query_engine.cpp` by applying a stable default JSON ordering when no explicit SORT clause is present (before LIMIT processing).
+- Package D: vector-geo brute-force determinism improved in `query_engine.cpp` by adding a PK tie-breaker for equal L2 distances before top-k truncation.
+- Package D: group-by aggregation determinism improved in `query_engine.cpp` by sorting documents per group with a stable `_key`/JSON key before SUM/AVG/MIN/MAX evaluation.
+- Package D: determinism helper cleanup in `query_engine.cpp` by consolidating duplicated stable JSON ordering lambdas into shared `stableJsonOrderKey`/`stableJsonLess` utilities across join and group-by paths.
+- Package D: final comparator hardening in `query_engine.cpp` brute-force vector path by adding PK tie-breaker on equal distances in `tmp` ranking prior to top-k selection.
+- Package D: deterministic intersection planning refinement in `query_engine.cpp` by adding a lexical tie-breaker for equal-sized lists in `intersectSortedLists_` sorting.
+- Package D: content-geo determinism refined in `query_engine.cpp` by sorting spatial-first candidate PKs before fulltext token matching to stabilize downstream ranking input.
+- Package D: determinism comparator cleanup in `query_engine.cpp` by replacing redundant wrapper lambdas with direct `stableJsonLess` usage in join/nested-loop sorting sites.
+- Package D: join default-order consistency updated in `query_engine.cpp` by switching no-SORT result ordering to shared `stableJsonLess` comparator.
+- Package D: comparator unification finalized in `query_engine.cpp` by introducing `stableJsonPtrLess` and removing the last pointer-wrapper lambda in group-by ordering.
+- Package D: join sort fallback consistency improved in `query_engine.cpp` by switching expression-evaluation fallback/tie handling from raw `dump()` ordering to shared `stableJsonLess`.
+- Package D: monitoring API determinism extended in `monitoring_api_handler.cpp` by sorting `modules` arrays by name and `supported_api_versions` by semantic version before JSON emission.
+- Package D: metrics HTML determinism refined in `monitoring_api_handler.cpp` by sorting parsed Prometheus table rows by metric name/value before rendering.
+- Package D: metrics text determinism refined in `monitoring_api_handler.cpp` by sorting `rocksdb_files_level` rows by level key before Prometheus emission.
+- Package D: observability alert ordering hardened in `monitoring_api_handler.cpp` with an additional `alert_name` tie-breaker after `fired_at` and `alert_id`.
+- Package D: rocksdb level metric ordering improved in `monitoring_api_handler.cpp` by sorting `files_per_level` numerically for `L<n>` keys with lexical fallback.
+- Package D: observability alert comparator finalized in `monitoring_api_handler.cpp` with an additional `message` tie-breaker after `fired_at`, `alert_id`, and `alert_name`.
+- Package D: range-aware predicate planning determinism improved in `query_engine.cpp` by adding explicit `column`/`value` tie-breakers when selectivities are equal.
 
 ## Priority Patterns (Core Set)
 

@@ -142,6 +142,26 @@ std::vector<std::string> QueryEngine::listCollections() const {
 
 static const std::string kEvalDocVar = "doc";
 
+static std::string stableJsonOrderKey(const nlohmann::json& doc) {
+	if (doc.contains("_key") && doc["_key"].is_string()) {
+		return doc["_key"].get<std::string>();
+	}
+	return doc.dump();
+}
+
+static bool stableJsonLess(const nlohmann::json& a, const nlohmann::json& b) {
+	const std::string keyA = stableJsonOrderKey(a);
+	const std::string keyB = stableJsonOrderKey(b);
+	if (keyA == keyB) {
+		return a.dump() < b.dump();
+	}
+	return keyA < keyB;
+}
+
+static bool stableJsonPtrLess(const nlohmann::json* a, const nlohmann::json* b) {
+	return stableJsonLess(*a, *b);
+}
+
 /// Parse `expression` as an AQL expression and evaluate it against `ctx`.
 /// Returns false on parse or evaluation errors.
 static bool evalAqlExpression(const std::string& expression,
@@ -803,7 +823,12 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 std::vector<std::string>
 QueryEngine::intersectSortedLists_(std::vector<std::vector<std::string>> lists) {
 	// Sortiere nach Größe, beginne mit kleinsten Listen für effiziente Schnittmenge
-	tbb::parallel_sort(lists.begin(), lists.end(), [](const auto& a, const auto& b){ return a.size() < b.size(); });
+	tbb::parallel_sort(lists.begin(), lists.end(), [](const auto& a, const auto& b) {
+		if (a.size() == b.size()) {
+			return a < b;
+		}
+		return a.size() < b.size();
+	});
 	if (lists.empty()) return {};
 	
 	std::vector<std::string> result = lists.front();
@@ -2100,7 +2125,15 @@ static Result<nlohmann::json> qe_evalExpr(const std::shared_ptr<themis::query::E
 		case ASTNodeType::ObjectConstruct: {
 			auto obj = std::static_pointer_cast<ObjectConstructExpr>(expr);
 			nlohmann::json o = nlohmann::json::object();
+			std::vector<std::pair<std::string, std::shared_ptr<Expression>>> sorted_fields;
+			sorted_fields.reserve(obj->fields.size());
 			for (const auto& [k, e] : obj->fields) {
+				sorted_fields.emplace_back(k, e);
+			}
+			std::sort(sorted_fields.begin(), sorted_fields.end(),
+				[](const auto& lhs, const auto& rhs) { return lhs.first < rhs.first; });
+
+			for (const auto& [k, e] : sorted_fields) {
 				auto fieldRes = qe_evalExpr(e, ctx);
 				if (!fieldRes) return fieldRes;
 				o[k] = *fieldRes;
@@ -2462,6 +2495,12 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 					if (it_a != tbl_stats.column_stats.end()) sel_a = it_a->second.selectivity;
 					auto it_b = tbl_stats.column_stats.find(b.column);
 					if (it_b != tbl_stats.column_stats.end()) sel_b = it_b->second.selectivity;
+					if (sel_a == sel_b) {
+						if (a.column != b.column) {
+							return a.column < b.column;
+						}
+						return a.value < b.value;
+					}
 					return sel_a < sel_b;  // lower selectivity = more discriminating
 				});
 		}
@@ -2836,6 +2875,10 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 			
 			// Phase 4.4: Check if probe side is a CTE
 			auto probe_cte = initial_context.getCTE(probe_for.collection);
+
+			for (auto& [join_key, bucket] : hash_table) {
+				std::sort(bucket.begin(), bucket.end(), stableJsonLess);
+			}
 		
 			auto processProbeDoc = [&](const nlohmann::json& doc) {
 				// Apply pushed-down filters
@@ -2941,12 +2984,15 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 			// Execute probe based on CTE or table
 			if (probe_cte.has_value()) {
 				// Probe from CTE
-				for (const auto& doc : probe_cte.value()) {
+				auto ordered_probe_docs = probe_cte.value();
+				std::sort(ordered_probe_docs.begin(), ordered_probe_docs.end(), stableJsonLess);
+				for (const auto& doc : ordered_probe_docs) {
 					processProbeDoc(doc);
 				}
 			} else {
 				// Probe from table scan
 				const std::string probe_prefix = KeySchema::makeRelationalKey(probe_for.collection, "");
+				std::vector<nlohmann::json> ordered_probe_docs;
 				db_->scanPrefix(probe_prefix, [&](std::string_view key, std::string_view value) -> bool {
 					std::string pk = KeySchema::extractPrimaryKey(key);
 					std::vector<uint8_t> blob(value.begin(), value.end());
@@ -2954,10 +3000,14 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 						BaseEntity entity = BaseEntity::deserialize(pk, blob);
 						nlohmann::json doc = nlohmann::json::parse(entity.toJson());
 						doc["_key"] = pk;
-						processProbeDoc(doc);
+						ordered_probe_docs.emplace_back(std::move(doc));
 					} catch (...) {}
 					return true;
 				});
+				std::sort(ordered_probe_docs.begin(), ordered_probe_docs.end(), stableJsonLess);
+				for (const auto& doc : ordered_probe_docs) {
+					processProbeDoc(doc);
+				}
 			}
 			
 			// Apply SORT/LIMIT and return
@@ -2978,7 +3028,14 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 				query::LetEvaluator letEval;
 				if (secIdx_) letEval.setSecondaryIndexManager(secIdx_);
 				nlohmann::json currentDoc; // Aggregate all bindings for LET evaluation
+				std::vector<std::pair<std::string, nlohmann::json>> sorted_bindings;
+				sorted_bindings.reserve(ctx.bindings.size());
 				for (const auto& [var, val] : ctx.bindings) {
+					sorted_bindings.emplace_back(var, val);
+				}
+				std::sort(sorted_bindings.begin(), sorted_bindings.end(),
+					[](const auto& lhs, const auto& rhs) { return lhs.first < rhs.first; });
+				for (const auto& [var, val] : sorted_bindings) {
 					currentDoc.emplace(var, val);
 				}
 				
@@ -3027,7 +3084,9 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 			auto cte_data = ctx.getCTE(for_node.collection);
 			if (cte_data.has_value()) {
 				// Iterate over CTE results instead of table scan
-				for (const auto& doc : cte_data.value()) {
+				auto ordered_cte_docs = cte_data.value();
+				std::sort(ordered_cte_docs.begin(), ordered_cte_docs.end(), stableJsonLess);
+				for (const auto& doc : ordered_cte_docs) {
 					// Apply pushed-down filters
 					auto push_filters = single_var_filters.find(for_node.variable);
 					if (push_filters != single_var_filters.end()) {
@@ -3058,6 +3117,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 			
 			// Get pushed-down filters for this variable
 			auto push_filters = single_var_filters.find(for_node.variable);
+			std::vector<nlohmann::json> ordered_scan_docs;
 			
 			db_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {
 				// Extract PK
@@ -3083,18 +3143,24 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 						}
 						if (!pass) return true; // Skip this document
 					}
-					
-					// Bind current variable
-					EvaluationContext newCtx = ctx;
-					newCtx.bind(for_node.variable, doc);
-					
-					// Recurse to next FOR level
-					nestedLoop(depth + 1, newCtx);
+
+					ordered_scan_docs.emplace_back(std::move(doc));
 				} catch (...) {
 					// Skip malformed entities
 				}
 				return true; // Continue iteration
 			});
+
+			std::sort(ordered_scan_docs.begin(), ordered_scan_docs.end(), stableJsonLess);
+
+			for (const auto& doc : ordered_scan_docs) {
+				// Bind current variable
+				EvaluationContext newCtx = ctx;
+				newCtx.bind(for_node.variable, doc);
+
+				// Recurse to next FOR level
+				nestedLoop(depth + 1, newCtx);
+			}
 		};
 		
 		nestedLoop(0, initial_context);
@@ -3112,10 +3178,15 @@ apply_sort_limit:
 			auto valB_or_err = evaluateExpression(spec.expression, ctxB);
 			// If either evaluation fails, fall back to comparing original jsons
 			if (!valA_or_err || !valB_or_err) {
-				return a.dump() < b.dump();
+				return stableJsonLess(a, b);
+			}
+			if (*valA_or_err == *valB_or_err) {
+				return stableJsonLess(a, b);
 			}
 			return spec.ascending ? (*valA_or_err < *valB_or_err) : (*valA_or_err > *valB_or_err);
 		});
+	} else {
+		std::sort(results.begin(), results.end(), stableJsonLess);
 	}
 	
 	// Apply LIMIT if specified
@@ -3211,6 +3282,12 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeGroupBy(
 	
 	for (const auto& key_str : sorted_group_keys) {
 		const auto& docs = groups.at(key_str);
+		std::vector<const nlohmann::json*> ordered_docs;
+		ordered_docs.reserve(docs.size());
+		for (const auto& doc : docs) {
+			ordered_docs.push_back(&doc);
+		}
+		std::sort(ordered_docs.begin(), ordered_docs.end(), stableJsonPtrLess);
 		EvaluationContext ctx;
 		
 		// Bind group key variable
@@ -3230,9 +3307,9 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeGroupBy(
 				aggValue = static_cast<int64_t>(docs.size());
 			} else if (funcUpper == "SUM") {
 				double sum = 0.0;
-				for (const auto& doc : docs) {
+				for (const auto* doc : ordered_docs) {
 					EvaluationContext docCtx;
-					docCtx.bind(for_node.variable, doc);
+					docCtx.bind(for_node.variable, *doc);
 					auto val_or_err = evaluateExpression(agg.argument, docCtx);
 					if (val_or_err && val_or_err->is_number()) {
 						sum += val_or_err->get<double>();
@@ -3242,9 +3319,9 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeGroupBy(
 			} else if (funcUpper == "AVG") {
 				double sum = 0.0;
 				int count = 0;
-				for (const auto& doc : docs) {
+				for (const auto* doc : ordered_docs) {
 					EvaluationContext docCtx;
-					docCtx.bind(for_node.variable, doc);
+					docCtx.bind(for_node.variable, *doc);
 					auto val_or_err = evaluateExpression(agg.argument, docCtx);
 					if (val_or_err && val_or_err->is_number()) {
 						sum += val_or_err->get<double>();
@@ -3254,9 +3331,9 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeGroupBy(
 				aggValue = (count > 0) ? (sum / count) : 0.0;
 			} else if (funcUpper == "MIN") {
 				double minVal = std::numeric_limits<double>::max();
-				for (const auto& doc : docs) {
+				for (const auto* doc : ordered_docs) {
 					EvaluationContext docCtx;
-					docCtx.bind(for_node.variable, doc);
+					docCtx.bind(for_node.variable, *doc);
 					auto val_or_err = evaluateExpression(agg.argument, docCtx);
 					if (val_or_err && val_or_err->is_number()) {
 						minVal = std::min(minVal, val_or_err->get<double>());
@@ -3265,9 +3342,9 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeGroupBy(
 				aggValue = minVal;
 			} else if (funcUpper == "MAX") {
 				double maxVal = std::numeric_limits<double>::lowest();
-				for (const auto& doc : docs) {
+				for (const auto* doc : ordered_docs) {
 					EvaluationContext docCtx;
-					docCtx.bind(for_node.variable, doc);
+					docCtx.bind(for_node.variable, *doc);
 					auto val_or_err = evaluateExpression(agg.argument, docCtx);
 					if (val_or_err && val_or_err->is_number()) {
 						maxVal = std::max(maxVal, val_or_err->get<double>());
@@ -3582,6 +3659,8 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			spatialSpan.setAttribute("batch_loaded", static_cast<int64_t>(vertexDataList.size()));
 			spatialSpan.setStatus(true);
 		}
+
+		std::sort(reachableNodes.begin(), reachableNodes.end());
 		
 		// Reconstruct actual multi-hop paths from start_node to each reachable
 		// node using Dijkstra.  For large result sets we cap the number of
@@ -3760,6 +3839,15 @@ QueryEngine::executeGeneralTraversal(
 		}
 		
 		// Filter by graph ID and optional edge type
+		std::sort(neighbors.begin(), neighbors.end(), [](const auto& a, const auto& b) {
+			if (a.targetPk != b.targetPk) {
+				return a.targetPk < b.targetPk;
+			}
+			if (a.edgeId != b.edgeId) {
+				return a.edgeId < b.edgeId;
+			}
+			return a.graphId < b.graphId;
+		});
 		for (const auto& adj : neighbors) {
 			// Filter by graph ID - adj.graphId contains the graph namespace
 			if (!graphId.empty() && graphId != "default" && !adj.graphId.empty() && adj.graphId != graphId) {
@@ -4111,7 +4199,12 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			tmp.emplace_back(pk, d);
 			return true;
 		});
-		tbb::parallel_sort(tmp.begin(), tmp.end(), [](auto&a,auto&b){return a.second<b.second;});
+		tbb::parallel_sort(tmp.begin(), tmp.end(), [](auto& a, auto& b) {
+			if (a.second == b.second) {
+				return a.first < b.first;
+			}
+			return a.second < b.second;
+		});
 		for (size_t i=0;i<std::min(tmp.size(),k);++i) {
 			VectorGeoResult r;
 			r.pk = tmp[i].first;
@@ -4209,7 +4302,12 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 				results.insert(results.end(), std::make_move_iterator(b.begin()), std::make_move_iterator(b.end()));
 			}
 			// Sort by vector distance and keep top-k
-			tbb::parallel_sort(results.begin(), results.end(), [](const auto& a, const auto& b){ return a.vector_distance < b.vector_distance; });
+			tbb::parallel_sort(results.begin(), results.end(), [](const auto& a, const auto& b){
+				if (a.vector_distance == b.vector_distance) {
+					return a.pk < b.pk;
+				}
+				return a.vector_distance < b.vector_distance;
+			});
 			if (results.size() > q.k) results.resize(q.k);
 			child0.setAttribute("vector_first_after_spatial", static_cast<int64_t>(results.size()));
 			child0.setStatus(true);
@@ -4410,7 +4508,12 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 	
 	// Sort by distance and take top-k
 	tbb::parallel_sort(vectorResults.begin(), vectorResults.end(),
-	          [](const auto& a, const auto& b) { return a.second < b.second; });
+	          [](const auto& a, const auto& b) {
+			  if (a.second == b.second) {
+				  return a.first < b.first;
+			  }
+			  return a.second < b.second;
+		  });
 	
 	size_t resultCount = std::min(vectorResults.size(), q.k);
 	for (size_t i = 0; i < resultCount; ++i) {
@@ -4514,6 +4617,7 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 		}
 		childS.setAttribute("spatial_candidates", static_cast<int64_t>(spatialCandidates.size())); childS.setStatus(true);
 		if (spatialCandidates.empty()) { span.setAttribute("result_count", static_cast<int64_t>(0)); span.setStatus(true); return Ok(std::vector<ContentGeoResult>{}); }
+		std::sort(spatialCandidates.begin(), spatialCandidates.end());
 		// Fulltext-Evaluation (naiv) über Kandidaten: AND aller Tokens
 		auto childFT = Tracer::startSpan("phase2.fulltext_eval");
 		auto tokens = SecondaryIndexManager::tokenize(q.fulltext_query);
@@ -4535,9 +4639,21 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 	}
 	// Ranking
 	if (q.boost_by_distance) {
-		tbb::parallel_sort(results.begin(), results.end(), [](const auto& a, const auto& b){ double sa = a.bm25_score - (a.geo_distance.value_or(0.0)*0.1); double sb = b.bm25_score - (b.geo_distance.value_or(0.0)*0.1); return sa>sb; });
+		tbb::parallel_sort(results.begin(), results.end(), [](const auto& a, const auto& b){
+			double sa = a.bm25_score - (a.geo_distance.value_or(0.0)*0.1);
+			double sb = b.bm25_score - (b.geo_distance.value_or(0.0)*0.1);
+			if (sa == sb) {
+				return a.pk < b.pk;
+			}
+			return sa > sb;
+		});
 	} else {
-		tbb::parallel_sort(results.begin(), results.end(), [](const auto& a, const auto& b){ return a.bm25_score > b.bm25_score; });
+		tbb::parallel_sort(results.begin(), results.end(), [](const auto& a, const auto& b){
+			if (a.bm25_score == b.bm25_score) {
+				return a.pk < b.pk;
+			}
+			return a.bm25_score > b.bm25_score;
+		});
 	}
 	if (results.size() > q.limit) results.resize(q.limit);
 	span.setAttribute("result_count", static_cast<int64_t>(results.size())); span.setStatus(true); return Ok(std::move(results));

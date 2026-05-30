@@ -291,6 +291,19 @@ http::response<http::string_body> MonitoringApiHandler::handleVersion(
                 modules_disabled.push_back(module_info);
             }
         }
+
+        auto sort_modules_by_name = [](json& modules) {
+            std::sort(modules.begin(), modules.end(), [](const json& a, const json& b) {
+                const std::string name_a = a.value("name", "");
+                const std::string name_b = b.value("name", "");
+                if (name_a == name_b) {
+                    return a.dump() < b.dump();
+                }
+                return name_a < name_b;
+            });
+        };
+        sort_modules_by_name(modules_compiled);
+        sort_modules_by_name(modules_disabled);
         
         response["modules"] = {
             {"compiled_in", modules_compiled},
@@ -329,6 +342,18 @@ http::response<http::string_body> MonitoringApiHandler::handleVersion(
                     {"patch", v.patch}
                 });
             }
+            std::sort(supported.begin(), supported.end(), [](const json& a, const json& b) {
+                const int major_a = a.value("major", 0);
+                const int major_b = b.value("major", 0);
+                if (major_a != major_b) return major_a < major_b;
+                const int minor_a = a.value("minor", 0);
+                const int minor_b = b.value("minor", 0);
+                if (minor_a != minor_b) return minor_a < minor_b;
+                const int patch_a = a.value("patch", 0);
+                const int patch_b = b.value("patch", 0);
+                if (patch_a != patch_b) return patch_a < patch_b;
+                return a.dump() < b.dump();
+            });
             response["supported_api_versions"] = supported;
         }
         
@@ -653,11 +678,32 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         out += "rocksdb_memtable_size_bytes " + std::to_string(memtable_bytes) + "\n";
 
         if (r.contains("files_per_level") && r["files_per_level"].is_object()) {
+            std::vector<std::pair<std::string, uint64_t>> level_rows;
             for (auto it = r["files_per_level"].begin(); it != r["files_per_level"].end(); ++it) {
-                std::string level = it.key();
                 uint64_t val = 0;
                 if (it.value().is_number_integer()) val = static_cast<uint64_t>(it.value().get<int64_t>());
                 else if (it.value().is_number_unsigned()) val = it.value().get<uint64_t>();
+                level_rows.emplace_back(it.key(), val);
+            }
+            auto parse_level_index = [](const std::string& level) -> int {
+                if (level.size() > 1 && (level[0] == 'L' || level[0] == 'l')) {
+                    try {
+                        return std::stoi(level.substr(1));
+                    } catch (...) {
+                    }
+                }
+                return -1;
+            };
+            std::sort(level_rows.begin(), level_rows.end(),
+                      [&](const auto& lhs, const auto& rhs) {
+                          const int lhs_idx = parse_level_index(lhs.first);
+                          const int rhs_idx = parse_level_index(rhs.first);
+                          if (lhs_idx >= 0 && rhs_idx >= 0 && lhs_idx != rhs_idx) {
+                              return lhs_idx < rhs_idx;
+                          }
+                          return lhs.first < rhs.first;
+                      });
+            for (const auto& [level, val] : level_rows) {
                 out += "rocksdb_files_level{level=\"" + level + "\"} " + std::to_string(val) + "\n";
             }
         }
@@ -1034,7 +1080,13 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
                           if (lhs.fired_at != rhs.fired_at) {
                               return lhs.fired_at < rhs.fired_at;
                           }
-                          return lhs.alert_id < rhs.alert_id;
+                          if (lhs.alert_id != rhs.alert_id) {
+                              return lhs.alert_id < rhs.alert_id;
+                          }
+                          if (lhs.alert_name != rhs.alert_name) {
+                              return lhs.alert_name < rhs.alert_name;
+                          }
+                          return lhs.message < rhs.message;
                       });
 
             for (const auto& alert : active_alerts) {
@@ -1238,6 +1290,12 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
             if (sp == std::string::npos) continue;
             rows.emplace_back(line.substr(0, sp), line.substr(sp + 1));
         }
+        std::sort(rows.begin(), rows.end(), [](const auto& a, const auto& b) {
+            if (a.first == b.first) {
+                return a.second < b.second;
+            }
+            return a.first < b.first;
+        });
 
         std::string html;
         html += "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n";
