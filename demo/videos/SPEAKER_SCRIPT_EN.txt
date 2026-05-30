@@ -24,7 +24,7 @@
    no slides, no animations, just the real system.
 
    What you are about to see is a single database handling
-   relational queries, graph traversal, vector search, time-series,
+   relational, graph, vector data within a Single monolitic enclosure
    and even local AI inference — all with full ACID guarantees.
 
    Let me show you."
