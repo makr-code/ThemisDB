@@ -1,51 +1,59 @@
-# PERFORMANCE_EXPECTATIONS — src/acceleration
-
-<!-- Status: current | validated: 2026-05-10 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+# PERFORMANCE_EXPECTATIONS - src/acceleration
 
 ## Scope
+- Module: src/acceleration
+- This file defines measurable Acceleration module performance expectations for release gating.
 
-- Modul: `src/acceleration`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Latenz,
-  Throughput, Speedup) für Release-Gates im Acceleration-Modul.
-- Primärquelle: `benchmarks/bench_cuda_vs_cpu.cpp`; Baselines in
-  `benchmarks/baselines/acceleration/baseline.json`.
+## Benchmark Reference
+- Relevant benchmark files:
+  - benchmarks/bench_acceleration_dispatch.cpp
+  - benchmarks/bench_cuda_vs_cpu.cpp
+  - benchmarks/bench_multi_gpu_scaling.cpp
+  - benchmarks/bench_gpu_backends.cpp
+  - benchmarks/bench_gpu_module.cpp
+  - benchmarks/bench_gpu_hardware_capability.cpp
 
-## Benchmark-Bezug
+## Specific Expectations
+| Target ID | Expectation | Benchmark case |
+|---|---|---|
+| ACC-1 | dispatch-path overhead remains within release baseline budget | BENCHMARK_REGISTER_F(AnnDispatchBenchFixture, L2Distance), BENCHMARK_REGISTER_F(AnnDispatchBenchFixture, CosineDistance), BENCHMARK_REGISTER_F(AnnDispatchBenchFixture, TopK) |
+| ACC-2 | geo-dispatch overhead remains bounded | BENCHMARK_REGISTER_F(GeoDispatchBenchFixture, HaversineBatch) |
+| ACC-3 | single-vs-multi-GPU scaling remains bounded | BM_SingleGPU_TrainingStep, BM_TwoGPU_DataParallel, BM_FourGPU_DataParallel |
+| ACC-4 | gradient-sync and comm-compute overhead remains bounded | BM_GradientSync_Overhead, BM_CommCompute_Ratio |
+| ACC-5 | backend distance-computation performance remains within release baseline budget | BM_CPUBackend_DistanceComputation, BM_CUDABackend_DistanceComputation, BM_HIPBackend_DistanceComputation, BM_VulkanBackend_DistanceComputation |
+| ACC-6 | backend init and throughput behavior remains bounded | BM_BackendInitializationOverhead, BM_ThroughputComparison |
+| ACC-7 | gpu-module memory and policy path overhead remains bounded | BM_MemoryManager_TryAllocate, BM_MemoryPool_Acquire_Release, BM_Policy_CheckAllowed, BM_Config_Validate |
+| ACC-8 | capability-probe and load-balancer overhead remains bounded | BM_GPUHardwareCapabilityProbe, BM_GpuNVLinkTopologyDetect, BM_GpuLoadBalancer_LeastLoaded |
+| ACC-9 | CUDA-vs-CPU acceleration ratio remains within release baseline budget | BM_CPU_ANN_L2Distance, BM_CUDA_ANN_L2Distance, BM_CPU_BatchKNN, BM_CUDA_BatchKNN |
+| ACC-10 | fallback and capability-gate behavior remains bounded in disabled/guarded paths | BM_MultiGPUScaling_GPUDisabled, BM_GPUModule_GPUDisabled, BM_GpuP2PTransfer_FeatureGateCheck |
 
-Relevante Benchmark-Dateien für dieses Modul:
+## Module Hard Gates (v1.0 docs baseline)
 
-- `benchmarks/bench_cuda_vs_cpu.cpp` — CUDA vs. CPU ANN-Latenz/Throughput (JSON-Output)
-- `benchmarks/multi_gpu_bench.cpp` — Multi-GPU-Skalierungseffizienz (NCCL/RCCL)
-- CI-Regression-Gate: `.github/workflows/acceleration-benchmark-ci.yml`
-  (minor 5 %, major 10 %, critical 20 % Regression-Schwellen)
+| Gate ID | Expectation | Measurement |
+|---|---|---|
+| AG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| AG-2 | dispatch and backend path p99 <= release threshold | p99 from mapped bench_acceleration_dispatch and bench_gpu_backends cases |
+| AG-3 | multi-device path p99 <= release threshold | p99 from mapped bench_multi_gpu_scaling cases |
+| AG-4 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
 
-## Spezifische Erwartungswerte
+## Validation
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- For proxy-only targets, keep follow-up benchmark hardening explicitly tracked.
 
-| Ziel-ID | Beschreibung | Erwartungswert | Benchmark-Fall |
-|---|---|---|---|
-| ACC-1 | CUDA ANN-Latenz (1M × 128-dim float32 L2, single GPU) | < 8 ms auf RTX 3090 | `BenchCudaVsCpu_L2_1M_128dim` |
-| ACC-2 | CUDA ANN-Throughput ggü. CPU AVX2 | ≥ 10× Speedup | `BenchCudaVsCpu_Throughput` |
-| ACC-3 | GPU-Speicherbedarf (10M × 128-dim Vektoren) | < 2 GB device memory | `BenchCudaVsCpu_MemoryFootprint` |
-| ACC-4 | CPU-Fallback-Latenz ggü. SIMD-Baseline | ≤ 2× Overhead | `BenchCudaVsCpu_CpuFallback` |
-| ACC-5 | CUDA HNSW k=1024 single-pass (dynamisches Shared Memory) | SM-Nutzung ≤ 32 KB; keine Regression ggü. k=256 | `BenchCudaHnsw_LargeK` |
-| ACC-6 | Multi-GPU ANN p99-Latenz (100M × 128-dim, 4× A100 80 GB, k=100) | < 15 ms | `BenchMultiGpu_p99_4xA100` |
-| ACC-7 | `mergeTopK`-Overhead (worldSize=4, k=100, NVLink-3) | < 500 µs | `BenchMultiGpu_MergeTopK` |
-| ACC-8 | Multi-GPU lineare Skalierungseffizienz (1→4 GPUs) | ≥ 75 % | `BenchMultiGpu_ScalingEfficiency` |
-| ACC-9 | `VLLMResourceManager::getStats()` Aufruflatenz (Linux) | < 2 ms | `BenchVllmResourceStats` |
-| ACC-10 | CI-Regressionsschwelle Throughput | ≤ 5 % (minor) / ≤ 10 % (major) / ≤ 20 % (critical) | `acceleration-benchmark-ci.yml` |
+## Sourcecode Verification (Module: acceleration/performance)
 
-## Validierung
-
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil
-  (`cmake --preset linux-release`) reproduzierbar laufen und die Zielwerte erreichen.
-- ACC-6 bis ACC-8 sind Hardware-abhängig (4× A100); bei fehlender Hardware werden diese
-  Benchmarks als `SKIPPED` markiert; die Zielwerte bleiben verbindlich für Produktions-Releases.
-- ACC-5 und ACC-10 sind CI-pflichtig und blockieren bei Überschreitung der Schwellen.
-
-## Quellen
-
-- `src/acceleration/FUTURE_ENHANCEMENTS.md` — Abschnitt "CUDA Kernel Completion" und
-  "NCCL/RCCL Distributed mergeTopK", "CUDA HNSW Kernel: Remove Silent k > kMaxK Clamping"
-- `src/acceleration/ROADMAP.md` — Phase 5: Performance/Hardening
-- `src/acceleration/ARCHITECTURE.md` — Abschnitt 7 (Performance Architecture)
+- Verified benchmark sources:
+  - benchmarks/bench_acceleration_dispatch.cpp
+  - benchmarks/bench_cuda_vs_cpu.cpp
+  - benchmarks/bench_multi_gpu_scaling.cpp
+  - benchmarks/bench_gpu_backends.cpp
+  - benchmarks/bench_gpu_module.cpp
+  - benchmarks/bench_gpu_hardware_capability.cpp
+- Verified mapping surfaces:
+  - dispatch and geo-dispatch benchmarks
+  - backend and gpu-module performance benchmarks
+  - multi-GPU scaling and overhead benchmarks
+  - capability and fallback/feature-gate benchmarks
+- Result:
+  - Referenced benchmark cases exist in current benchmark sources.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

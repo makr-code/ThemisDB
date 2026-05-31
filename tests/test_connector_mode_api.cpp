@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: test_connector_mode_api.cpp | Version: 0.0.10
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * ThemisDB | File: test_connector_mode_api.cpp | Version: 0.0.10 | Last Modified: 2026-05-31 11:10:47
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 948
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
@@ -609,13 +610,25 @@ TEST_F(ConnectorApiLiveTest, IngestWorkspaceDocsAndRunRag) {
     ASSERT_NO_THROW(rag_body = json::parse(rag_res->body));
     EXPECT_TRUE(rag_body.contains("text"));
     EXPECT_TRUE(rag_body.contains("model"));
+    EXPECT_TRUE(rag_body.contains("collection_effective"));
     EXPECT_TRUE(rag_body.contains("rag_mode_effective"));
+    EXPECT_TRUE(rag_body.contains("retrieval_attempted"));
     EXPECT_TRUE(rag_body.contains("documents_retrieved"));
+    EXPECT_TRUE(rag_body.contains("documents_rejected"));
     EXPECT_TRUE(rag_body.contains("top_k_effective"));
     EXPECT_TRUE(rag_body.contains("max_context_tokens_effective"));
     EXPECT_TRUE(rag_body.contains("response_budget_tokens_effective"));
+    if (rag_body.contains("collection_effective")) {
+        EXPECT_EQ(rag_body.value("collection_effective", std::string{}), "docs");
+    }
+    if (rag_body.contains("retrieval_attempted")) {
+        EXPECT_TRUE(rag_body.value("retrieval_attempted", false));
+    }
     if (rag_body.contains("rag_mode_effective")) {
         EXPECT_EQ(rag_body.value("rag_mode_effective", std::string{}), "text");
+    }
+    if (rag_body.contains("documents_rejected")) {
+        EXPECT_GE(rag_body.value("documents_rejected", -1), 0);
     }
     if (rag_body.contains("top_k_effective")) {
         EXPECT_EQ(rag_body.value("top_k_effective", 0), 3);
@@ -862,10 +875,16 @@ TEST_F(ConnectorApiLiveTest, LlmReadyAfterDownloadAndRagSummarizesDocuments) {
                 << "RAG response missing 'text' field (query: " << query << ")";
             EXPECT_TRUE(rag_body.contains("model"))
                 << "RAG response missing 'model'";
+            EXPECT_TRUE(rag_body.contains("collection_effective"))
+                << "RAG response missing 'collection_effective'";
             EXPECT_TRUE(rag_body.contains("rag_mode_effective"))
                 << "RAG response missing 'rag_mode_effective'";
+            EXPECT_TRUE(rag_body.contains("retrieval_attempted"))
+                << "RAG response missing 'retrieval_attempted'";
             EXPECT_TRUE(rag_body.contains("documents_retrieved"))
                 << "RAG response missing 'documents_retrieved'";
+            EXPECT_TRUE(rag_body.contains("documents_rejected"))
+                << "RAG response missing 'documents_rejected'";
             EXPECT_TRUE(rag_body.contains("top_k_effective"))
                 << "RAG response missing 'top_k_effective'";
             EXPECT_TRUE(rag_body.contains("max_context_tokens_effective"))
@@ -877,9 +896,21 @@ TEST_F(ConnectorApiLiveTest, LlmReadyAfterDownloadAndRagSummarizesDocuments) {
                 EXPECT_EQ(rag_body.value("top_k_effective", 0), 3)
                     << "Unexpected top_k_effective value";
             }
+            if (rag_body.contains("collection_effective")) {
+                EXPECT_EQ(rag_body.value("collection_effective", std::string{}), "docs")
+                    << "Unexpected collection_effective value";
+            }
+            if (rag_body.contains("retrieval_attempted")) {
+                EXPECT_TRUE(rag_body.value("retrieval_attempted", false))
+                    << "retrieval_attempted should be true when collection is provided";
+            }
             if (rag_body.contains("rag_mode_effective")) {
                 EXPECT_EQ(rag_body.value("rag_mode_effective", std::string{}), "text")
                     << "Unexpected rag_mode_effective value";
+            }
+            if (rag_body.contains("documents_rejected")) {
+                EXPECT_GE(rag_body.value("documents_rejected", -1), 0)
+                    << "documents_rejected must be non-negative";
             }
             if (rag_body.contains("max_context_tokens_effective")) {
                 EXPECT_GE(rag_body.value("max_context_tokens_effective", -1), 0)

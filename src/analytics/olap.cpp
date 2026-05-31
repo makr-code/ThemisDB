@@ -1,5 +1,5 @@
 /*
- * ThemisDB | File: olap.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * ThemisDB | File: olap.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 2052
  * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=20, H=59, M=121, L=0
  * PR History (last 5): #4929 [Docs][analytics] Refresh m... (2026-05-10) | #4626 fix(analytics): replace who... (2026-04-13) | #4339 Analytics module: stats.h u... (2026-03-19) | #4328 Implement Arrow zero-copy I... (2026-03-18) | #4317 feat(analytics): SIMD Vecto... (2026-03-18)

@@ -1,6 +1,6 @@
 /*
- * ThemisDB | File: llm_api_handler.cpp | Version: 0.0.48 | Last Modified: 2026-05-31 11:10:47
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 2033
+ * ThemisDB | File: llm_api_handler.cpp | Version: 0.0.48 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 2098
  * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=2, C=15, H=69, M=52, L=0
  * PR History (last 5): #5405 W1-S06: Close remaining unc... (2026-05-28) | #4187 feat(llm): OpenAI-compatibl... (2026-03-13) | #3268 [llm] OpenAI-compatible /v1... (2026-03-12) | #3139 feat(aql): Stream natural l... (2026-03-12) | #3068 [llm] OpenAI-compatible /v1... (2026-03-12)
  * Status: Production Ready
@@ -455,7 +455,7 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
             std::string{},
             query,
             static_cast<std::size_t>(response_budget_tokens));
-        rag_context.max_context_tokens = static_cast<int>(normalized_budget.model_context_tokens);
+        rag_context.max_context_tokens = static_cast<int>(normalized_budget.model_max_tokens);
         rag_context.response_budget_tokens = static_cast<int>(normalized_budget.reserved_response_tokens);
 
         auto& plugin_mgr = llm::LLMPluginManager::instance();
@@ -561,7 +561,9 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
             {"text", llm_response.text},
             {"model", llm_response.model_id.empty() ? llm_request.model_id : llm_response.model_id},
             {"query", query},
+            {"collection_effective", collection},
             {"rag_mode_effective", rag_mode},
+            {"retrieval_attempted", !collection.empty()},
             {"documents_retrieved", static_cast<int>(rag_context.documents.size())},
             {"documents_rejected", static_cast<int>(rejected_documents)},
             {"top_k_effective", rag_context.top_k},

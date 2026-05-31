@@ -1,6 +1,6 @@
 > ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
 
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog — Acceleration Module
@@ -9,6 +9,9 @@ All notable changes to the Acceleration module are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
+
+### Changed
+- Documentation governance sync: roadmap/future/audit/readme/architecture/security/performance docs aligned to source-verifiable statements; planning remains in roadmap/future and history remains in changelog.
 
 ### Documentation
 - `src/acceleration/README.md`: Added **Public API Entry Points** table, **Configuration Surface** section (build flags + runtime knobs: `CapabilityRequirements`, `RetryPolicy`, `VLLMResourceManager::Config`), **Error Cases & Limits** section, usage snippet, and troubleshooting quick links; fixed build preset (`linux-ninja-release` → `linux-release`).

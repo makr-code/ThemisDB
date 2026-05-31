@@ -427,10 +427,22 @@ protected:
                     return;
                 }
                 std::string query = body["query"].get<std::string>();
+                std::string collection = body.value("collection", std::string{});
+                int top_k_effective = body.value("top_k", 5);
+                int max_context_tokens_effective = body.value("max_context_tokens", 0);
+                int response_budget_tokens_effective = body.value("response_budget_tokens", 512);
+                std::string rag_mode_effective = body.value("rag_mode", std::string{"text"});
                 json resp = {
                     {"text",               "Das Bauamt benötigt noch den Lageplan und die Baugenehmigung."},
                     {"query",              query},
+                    {"collection_effective", collection},
+                    {"rag_mode_effective",  rag_mode_effective},
+                    {"retrieval_attempted", !collection.empty()},
                     {"documents_retrieved",3},
+                    {"documents_rejected", 0},
+                    {"top_k_effective", top_k_effective},
+                    {"max_context_tokens_effective", max_context_tokens_effective < 0 ? 0 : max_context_tokens_effective},
+                    {"response_budget_tokens_effective", response_budget_tokens_effective <= 0 ? 1 : response_budget_tokens_effective},
                     {"tokens_generated",   42},
                     {"inference_time_ms",  17},
                     {"cache_hit",          false}
@@ -1103,6 +1115,35 @@ TEST_F(ThemisctlHttpTest, TRQ05_RagQuery_RawJson_ReturnsParseable) {
         json j = json::parse(capOut.str());
         EXPECT_TRUE(j.contains("text"));
         EXPECT_TRUE(j.contains("documents_retrieved"));
+        EXPECT_TRUE(j.contains("collection_effective"));
+        EXPECT_TRUE(j.contains("rag_mode_effective"));
+        EXPECT_TRUE(j.contains("retrieval_attempted"));
+        EXPECT_TRUE(j.contains("documents_rejected"));
+        EXPECT_TRUE(j.contains("top_k_effective"));
+        EXPECT_TRUE(j.contains("max_context_tokens_effective"));
+        EXPECT_TRUE(j.contains("response_budget_tokens_effective"));
+    });
+}
+
+// TRQ-07: raw_json with collection/top-k validates effective RAG contract fields
+TEST_F(ThemisctlHttpTest, TRQ07_RagQuery_RawJson_EffectiveFieldsMatchFlags) {
+    g_ctx.raw_json = true;
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdRag({"query", "--collection", "procs", "--top-k", "10", "What is the next step?"});
+    std::cout.rdbuf(old);
+    g_ctx.raw_json = false;
+
+    EXPECT_EQ(rc, 0);
+    EXPECT_NO_THROW({
+        json j = json::parse(capOut.str());
+        EXPECT_EQ(j.value("collection_effective", std::string{}), "procs");
+        EXPECT_EQ(j.value("rag_mode_effective", std::string{}), "text");
+        EXPECT_TRUE(j.value("retrieval_attempted", false));
+        EXPECT_EQ(j.value("top_k_effective", 0), 10);
+        EXPECT_GE(j.value("max_context_tokens_effective", -1), 0);
+        EXPECT_GT(j.value("response_budget_tokens_effective", 0), 0);
+        EXPECT_GE(j.value("documents_rejected", -1), 0);
     });
 }
 

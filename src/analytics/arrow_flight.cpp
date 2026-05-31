@@ -1,5 +1,5 @@
 /*
- * ThemisDB | File: arrow_flight.cpp | Version: 0.0.15 | Last Modified: 2026-05-21 16:50:40
+ * ThemisDB | File: arrow_flight.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 933
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=10, M=26, L=0
  * PR History (last 5): #3478 docs(analytics): sync READM... (2026-03-12) | #2987 [analytics] Implement Arrow... (2026-03-12)

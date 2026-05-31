@@ -1,90 +1,53 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release --target test_ai_plugin_generator_focused`
+# ThemisDB AI Module
 
-# AI Module
-
-<!-- Status: current | validated: 2026-05-11 -->
-<!-- Links: ROADMAP.md · FUTURE_ENHANCEMENTS.md · include/ai/README.md · src/plugins/ROADMAP.md · src/plugins/FUTURE_ENHANCEMENTS.md · docs/de/plugins/README.md -->
-
-Dokumentation der produktiven Implementierung in `src/ai/`.
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Module Purpose
 
-Das Modul stellt eine minimale, produktive Basis für AI-gestützte Plugin-Generierung bereit (`AIPluginGenerator`), inklusive Prompt-Validierung und strukturiertem Fehlerverhalten für den aktuell noch nicht verdrahteten LLM-Aufrufpfad.
+The AI module provides plugin code generation via `AIPluginGenerator`.
+It validates prompts, calls a configured endpoint, parses JSON responses, and maps results to `GeneratedPlugin`.
 
-## Subsystem Scope
+## Relevant Interfaces
 
-**In scope:** Konstruktion des Generators, Prompt-Validierung, Fehlerweitergabe in `generatePlugin()`, Debug-Logging über `spdlog`.
+| Interface / File | Role |
+|---|---|
+| ai_plugin_generator.cpp | runtime flow for validation, endpoint invocation, response parsing |
+| include/ai/ai_plugin_generator.h | public API and configuration contract |
+| AIPluginGenerator::validatePrompt | enforces required prompt constraints |
+| AIPluginGenerator::generatePlugin | orchestrates request and response mapping |
 
-**Out of scope:** Echte HTTP/LLM-Integration, JSON-Response-Parsing, Security-Sandbox-Buildpipeline (Phase-2-Arbeiten).
+## Scope
 
-## Relevant Implementation Components
+In scope:
+- prompt validation for plugin generation requests
+- endpoint invocation with bounded timeouts
+- structured error handling for transport, HTTP, and JSON failures
+- response mapping to `GeneratedPlugin` plus manifest defaults
 
-| Datei / Komponente | Rolle |
-| --- | --- |
-| `ai_plugin_generator.cpp` | Implementiert `AIPluginGenerator::{validatePrompt, generatePlugin}` |
-| `AIPluginGenerator::validatePrompt` | Prüft `description` auf Leerwert und 8192-Zeichen-Limit |
-| `AIPluginGenerator::generatePlugin` | Führt Validierung aus und liefert derzeit einen strukturierten Phase-1-Fehler zurück |
+Out of scope:
+- quality of endpoint model output beyond basic structural checks
+- full sandbox build pipeline for generated artifacts
+- higher-level plugin lifecycle orchestration outside the generator contract
 
-## Runtime Behavior, Fehlerfälle und Grenzen
+## Runtime Behavior and Limits
 
-- `validatePrompt()` liefert Fehler (`ERR_PLUGIN_LOAD_FAILED`), wenn:
-  - `prompt.description` leer ist.
-  - `prompt.description` länger als 8192 Zeichen ist.
-- `generatePlugin()` ruft zuerst `validatePrompt()` auf und propagiert dessen Fehler unverändert.
-- Bei gültigem Prompt wird aktuell **kein** LLM-Endpunkt aufgerufen; stattdessen wird ein strukturierter Fehler mit Endpunkt-Kontext zurückgegeben (`LLM endpoint not yet wired`).
-- Limit: Es wird aktuell kein `GeneratedPlugin` zurückgegeben (Phase-1-Implementierung).
+- `validatePrompt` rejects empty descriptions and descriptions longer than 8192 characters.
+- `generatePlugin` always validates input before I/O.
+- Endpoint invocation uses either `Config::endpoint_invoke_fn` or built-in curl path.
+- Non-2xx responses and invalid JSON return structured `ERR_PLUGIN_LOAD_FAILED` errors.
+- Responses must include non-empty `implementation_code`; otherwise generation fails.
+- Debug logging truncates prompt content to a bounded prefix.
 
-## Usage Snippet
+## Sourcecode Verification (Module: ai/readme)
 
-```cpp
-#include "ai/ai_plugin_generator.h"
-
-using namespace themis::plugins::ai;
-
-AIPluginGenerator::Config cfg;
-cfg.llm_endpoint = "http://localhost:8080";
-
-AIPluginGenerator generator(cfg);
-
-PluginGenerationPrompt prompt;
-prompt.description = "Generate a blob storage plugin";
-prompt.type = themis::plugins::PluginType::BLOB_STORAGE;
-
-auto result = generator.generatePlugin(prompt);
-if (!result) {
-    // Phase-1 expected path: structured error
-    std::cerr << result.error().message() << std::endl;
-}
-```
-
-## Installation
-
-Das Modul wird über den normalen ThemisDB-Build eingebunden; es ist keine separate Installation nötig.
-
-## Troubleshooting
-
-- **Fehler: `prompt description must not be empty`**
-  `PluginGenerationPrompt::description` vor Aufruf von `generatePlugin()` befüllen.
-- **Fehler: `prompt description exceeds 8192-character limit`**
-  Prompt kürzen oder in mehrere Teilprompts splitten.
-- **Fehler: `LLM endpoint not yet wired`**
-  Erwartetes Verhalten der aktuellen Phase; siehe Roadmap/Future-Enhancements für den geplanten Integrationspfad.
-
-## Verifikation / Tests
-
-- Fokus-Testziel: `AIPluginGeneratorFocusedTests` (`tests/test_ai_plugin_generator.cpp`, APG-01..06).
-
-## Siehe auch
-
-- Public API: [`../../include/ai/README.md`](../../include/ai/README.md)
-- AI-Roadmap: [`ROADMAP.md`](./ROADMAP.md)
-- AI-Future-Enhancements: [`FUTURE_ENHANCEMENTS.md`](./FUTURE_ENHANCEMENTS.md)
-- Architektur: [`ARCHITECTURE.md`](./ARCHITECTURE.md)
-- Audit: [`AUDIT.md`](./AUDIT.md)
-- Security: [`SECURITY.md`](./SECURITY.md)
-- Changelog: [`CHANGELOG.md`](./CHANGELOG.md)
-- Plugin-Roadmap (AIPluginGenerator-Einträge): [`../plugins/ROADMAP.md`](../plugins/ROADMAP.md)
-- Plugin-Future-Enhancements: [`../plugins/FUTURE_ENHANCEMENTS.md`](../plugins/FUTURE_ENHANCEMENTS.md)
-- Modulübergreifende Roadmap: [`../ROADMAP.md`](../ROADMAP.md)
-- Modulübergreifende Future Enhancements: [`../FUTURE_ENHANCEMENTS.md`](../FUTURE_ENHANCEMENTS.md)
-- Sekundärdoku (DE): [`../../docs/de/plugins/README.md`](../../docs/de/plugins/README.md)
+- Verified files:
+  - src/ai/ai_plugin_generator.cpp
+  - include/ai/ai_plugin_generator.h
+- Verified behavior surfaces:
+  - validation-first execution path
+  - endpoint call path with timeout and HTTP code checks
+  - fail-closed JSON parsing and mandatory implementation payload check
+- Note:
+  - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
+  - historical completion remains in CHANGELOG.md

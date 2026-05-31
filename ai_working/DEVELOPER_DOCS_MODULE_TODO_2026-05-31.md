@@ -134,91 +134,91 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] llama_cpp
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [x] llama_cpp (extern gepflegtes Submodule; out of scope fuer diesen Sweep)
+  - [ ] README.md (out of scope: externes Submodule)
+  - [ ] ARCHITECTURE.md (out of scope: externes Submodule)
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [ ] ROADMAP.md (out of scope: externes Submodule)
+  - [ ] FUTURE_ENHANCEMENTS.md (out of scope: externes Submodule)
+  - [ ] CHANGELOG.md (out of scope: externes Submodule)
+  - [ ] SECURITY.md (out of scope: externes Submodule)
+  - [ ] AUDIT.md (out of scope: externes Submodule)
+  - [ ] PERFORMANCE_EXPECTATIONS.md (out of scope: externes Submodule)
+  - [ ] PRODUCTION_REQUIREMENTS.md (out of scope: externes Submodule)
+  - [ ] VCCDB Design.md (out of scope: externes Submodule)
+- [x] whisper (extern gepflegtes Submodule; out of scope fuer diesen Sweep)
+  - [ ] README.md (out of scope: externes Submodule)
+  - [ ] ARCHITECTURE.md (out of scope: externes Submodule)
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [ ] ROADMAP.md (out of scope: externes Submodule)
+  - [ ] FUTURE_ENHANCEMENTS.md (out of scope: externes Submodule)
+  - [ ] CHANGELOG.md (out of scope: externes Submodule)
+  - [ ] SECURITY.md (out of scope: externes Submodule)
+  - [ ] AUDIT.md (out of scope: externes Submodule)
+  - [ ] PERFORMANCE_EXPECTATIONS.md (out of scope: externes Submodule)
+  - [ ] PRODUCTION_REQUIREMENTS.md (out of scope: externes Submodule)
+  - [ ] VCCDB Design.md (out of scope: externes Submodule)
+- [x] stable_diffusion (extern gepflegtes Submodule; out of scope fuer diesen Sweep)
+  - [ ] README.md (out of scope: externes Submodule)
+  - [ ] ARCHITECTURE.md (out of scope: externes Submodule)
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [ ] ROADMAP.md (out of scope: externes Submodule)
+  - [ ] FUTURE_ENHANCEMENTS.md (out of scope: externes Submodule)
+  - [ ] CHANGELOG.md (out of scope: externes Submodule)
+  - [ ] SECURITY.md (out of scope: externes Submodule)
+  - [ ] AUDIT.md (out of scope: externes Submodule)
+  - [ ] PERFORMANCE_EXPECTATIONS.md (out of scope: externes Submodule)
+  - [ ] PRODUCTION_REQUIREMENTS.md (out of scope: externes Submodule)
+  - [ ] VCCDB Design.md (out of scope: externes Submodule)
+- [~] rag
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] whisper
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] voice
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
-- [ ] stable_diffusion
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
-- [ ] rag
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
-- [ ] voice
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 
 ## Welle 3 (Restliche Produktivmodule)
 
-- [ ] acceleration
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] acceleration
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] ai
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] ai
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [ ] analytics

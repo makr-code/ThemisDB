@@ -1,5 +1,5 @@
 /*
- * ThemisDB | File: aql_confidence_scorer.cpp | Version: 0.0.39 | Last Modified: 2026-05-21 16:50:40
+ * ThemisDB | File: aql_confidence_scorer.cpp | Version: 0.0.39 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 270
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=1, M=5, L=0
  * PR History (last 5): #4161 feat(aql): Runtime-configur... (2026-03-13) | #3139 feat(aql): Stream natural l... (2026-03-12) | #3044 feat(aql): Replace bench_hy... (2026-03-12) | #3022 [aql] API stability guarant... (2026-03-12) | #3002 [aql] Few-shot AQL Example ... (2026-03-12)

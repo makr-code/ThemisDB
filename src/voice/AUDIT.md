@@ -1,49 +1,52 @@
-> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+# Audit Report - Voice Module
 
-<!-- Status: current | validated: 2026-04-19 -->
-# Audit Report — Voice Module
-**Last Audit:** 2026-04-19 | **Status:** ✅ Pass
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+
+## Module Identity
+
+| Field | Value |
+|---|---|
+| Module | voice |
+| Source path | src/voice/ |
+| Audit date | 2026-05-31 |
+| Audited by | Copilot (source code analysis) |
+| Status | In progress - source alignment refreshed for roadmap/future/audit workflow |
 
 ## Summary
 
 | Metric | Result |
-|--------|--------|
-| Build System Registration | ✅ Verified |
-| Source Files | 19 (`.cpp` in `src/voice/`) |
-| Test Coverage | ✅ Present |
-| Open TODOs | Low |
+|---|---|
+| Build system registration | Verified in prior module audits; current pass focused on source-verifiable documentation alignment |
+| Source file coverage | Focused verification on assistant/session, preprocessing, streaming/telephony, and security/auth surfaces |
+| Critical findings | No new unresolved critical finding introduced by this documentation refresh |
 
-## Source Files Audited
+## Sourcecode Verification (Module: voice)
 
-| File | Purpose |
-|------|---------|
-| `audio_preprocessing.cpp` | Audio preprocessing and normalization |
-| `emotion_analyzer.cpp` | Speaker emotion signal analysis |
-| `voice_accessibility.cpp` | Accessibility features (captions, hearing-aid adaptation) |
-| `voice_assistant.cpp` | Orchestrator with session management |
-| `voice_assistant_llm.cpp` | LLM-backed intent and response generation |
-| `voice_audio_storage.cpp` | Audio recording persistence and retrieval |
-| `voice_authenticator.cpp` | Speaker verification and authentication flow |
-| `voice_batch_processor.cpp` | Batch transcription and audio processing |
-| `voice_browser_streaming.cpp` | Browser-based WebRTC audio streaming handler |
-| `voice_error_handler.cpp` | Error handling and graceful degradation for voice pipelines |
-| `voice_intent_detector.cpp` | Intent classification from transcribed text |
-| `voice_macro_manager.cpp` | Voice macro and shortcut management |
-| `voice_meeting_support.cpp` | Real-time meeting transcription and protocol generation |
-| `voice_model_cache.cpp` | Caching layer for loaded ASR/TTS models |
-| `voice_security.cpp` | Voice session security, replay-attack prevention |
-| `voice_session_manager.cpp` | Session lifecycle, context persistence |
-| `voice_telephony.cpp` | SIP/WebRTC connectivity |
-| `voice_tts_customizer.cpp` | TTS voice profile and prosody customization |
-| `wake_word_detector.cpp` | Always-on wake word detection |
+- Scope files:
+  - src/voice/README.md
+  - src/voice/ARCHITECTURE.md
+  - src/voice/ROADMAP.md
+  - src/voice/FUTURE_ENHANCEMENTS.md
+  - src/voice/CHANGELOG.md
+  - src/voice/SECURITY.md
+  - src/voice/AUDIT.md
+  - src/voice/PERFORMANCE_EXPECTATIONS.md
+- Verified symbols and behavior surfaces:
+  - assistant and orchestration surfaces -> src/voice/voice_assistant.cpp, src/voice/voice_assistant_llm.cpp
+  - preprocessing and detection surfaces -> src/voice/audio_preprocessing.cpp, src/voice/wake_word_detector.cpp, src/voice/voice_intent_detector.cpp
+  - session/auth/security surfaces -> src/voice/voice_session_manager.cpp, src/voice/voice_authenticator.cpp, src/voice/voice_security.cpp
+  - streaming and telephony surfaces -> src/voice/voice_browser_streaming.cpp, src/voice/voice_telephony.cpp
+  - storage and batch surfaces -> src/voice/voice_audio_storage.cpp, src/voice/voice_batch_processor.cpp
+- Verified feature/runtime gates:
+  - session and streaming lifecycle behavior
+  - auth/security guard behavior
+  - preprocessing/intent and assistant integration behavior
+- Result:
+  - Core documentation statements for the Voice module were aligned against current source surfaces.
+  - Future planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md; implementation history remains in CHANGELOG.md.
 
-## Findings
+## Open Review Points
 
-- Finding: Real-time meeting transcription | Evidence: `src/voice/voice_meeting_support.cpp` | Status: resolved (PR #3434)
-- Finding: Telephony bridge (SIP/WebRTC) | Evidence: `src/voice/voice_telephony.cpp`, `include/voice/voice_telephony.h` | Status: resolved
-- Finding: Voice biometric authentication | Evidence: `src/voice/voice_authenticator.cpp`, `include/voice/voice_auth.h` | Status: resolved
-- Finding: Liveness detection anti-spoofing enhancement planned | Evidence: `include/voice/voice_auth.h` (`LivenessScore` struct defined) | Status: open
-
-## Compliance
-- GDPR: Explicit consent required before recording; PII detection on transcripts; configurable retention
-- HIPAA: Medical meeting transcriptions must use HIPAA-compliant storage configuration
+- Continue benchmark-to-target hardening for long-running multi-session and telephony/browser mixes.
+- Keep security and architecture statements synchronized with backend integration changes.

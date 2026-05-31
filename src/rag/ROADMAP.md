@@ -1,290 +1,71 @@
-> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
-
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
-
 # RAG Module Roadmap
 
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+
 ## Current Status
-v2.0.0 – Production-ready Retrieval-Augmented Generation system. 27 implementation files covering evaluation, knowledge gap detection, ethical compliance, multi-judge orchestration, streaming retrieval, cross-encoder re-ranking, hybrid BM25+vector retrieval, batch evaluation, calibration, LRU evaluation caching, REPLUG-style LLM-scored fusion, and Constitutional AI / RLAIF training pipeline.
 
-## Completed ✅
-- [x] RAGJudge – main orchestrator for multi-dimensional evaluation
-- [x] KnowledgeGapDetector – three-level gap detection system
-- [x] LLM integration bridge to InferenceEngineEnhanced
-- [x] FaithfulnessEvaluator – fact-checking against retrieved sources
-- [x] RelevanceEvaluator – query-answer alignment scoring (TF-cosine semantic similarity)
-- [x] CompletenessEvaluator – query aspect coverage measurement
-- [x] CoherenceEvaluator – structure and readability scoring
-- [x] BiasDetector – ethical compliance checking
-- [x] ClaimExtractor – atomic claim decomposition
-- [x] ResponseParser – LLM evaluation response parsing
-- [x] PromptTemplates – template and few-shot example management
-- [x] JudgeConfig – configuration validation
-- [x] RubricEvaluator – custom rubric evaluation
-- [x] JudgeEnsemble – multi-judge voting strategies
-- [x] PairwiseComparator – head-to-head response comparison
-- [x] CoTEvaluator – chain-of-thought evaluation
-- [x] GEvalEvaluator – G-Eval framework (Liu et al., 2023)
-- [x] LLMJudgeIntegration – judge orchestration
-- [x] LLMMetaAnalyzer – performance meta-analysis
-- [x] Fast (~100 ms), Balanced (~500 ms), and Thorough (~2 s) evaluation modes
-- [x] StreamingRetriever – incremental context window filling (Issue: #2437)
-- [x] CrossEncoderReranker – re-ranking with heuristic scorer and ONNX stub (Issue: #2247)
-- [x] HallucinationDashboard – rolling-window hallucination rate tracking (Issue: #2438)
-- [x] DocumentSummarizer – multi-document summarization before context injection (Issue: #2239)
-- [x] KnowledgeGraphRetriever – knowledge graph-augmented retrieval with entity linking (Issue: #2242)
-- [x] DocumentSplitter – configurable chunk size, overlap, and strategy for document splitting (Issue: #2238)
-- [x] HybridRetriever – BM25 + vector fusion with configurable RRF weights (Issue: #1968)
-- [x] RAGJudge::extractClaims() – LLM-first + heuristic fallback dispatch (Issue: #1296, Target: Q1 2026) — Inputs: answer text; Outputs: vector of claim strings; Errors: JSON parse failure falls back to heuristic; Tests: unit + LLM mock; Perf: <500ms for 1k-char input
-- [x] RAGJudge::verifyClaimAgainstDocuments() – NLI → LLM → semantic fallback dispatch (Issue: #1296, Target: Q1 2026) — Inputs: claim + documents; Outputs: bool support decision; Errors: NLI/LLM failure cascades to term-overlap; Tests: unit + NLI mock; Perf: <200ms per claim
-- [x] NLIFaithfulnessVerifier integrated into RAGJudge for entailment-based claim verification (Issue: #1296, Target: Q1 2026) — Member of RAGJudge::Impl; threshold: 0.7; graceful degradation when model not loaded
-- [x] FaithfulnessEvaluator::extractClaims() – LLM-first + sentence-boundary fallback (Issue: #1296, Target: Q1 2026) — Inputs: answer text; Outputs: vector of Claim structs; Errors: JSON parse failure falls back to regex; LLM confidence: 0.9, heuristic confidence: 0.6
-- [x] LearningMetrics – sliding-window metrics with mean/std-dev/trend export (Issue: #1296, Target: Q1 2026) — Tracks accuracy, faithfulness, relevance, completeness, coherence; CSV export; thread-safe with std::mutex
-- [x] Citation highlighting (map answer sentences to source chunks) (Issue: #2436, #2000)
-- [x] Online learning from evaluation feedback – adaptive retrieval via Bayesian optimization over `top_k` and `similarity_threshold`, driven by both user feedback and RAGJudge evaluation confidence scores; `getOptimizedRetrievalParams()` API (Issue: #2244)
-- [x] EvaluationCache – thread-safe LRU cache with TTL expiry, invalidation triggers, and statistics tracking (`evaluation_cache.cpp`)
-- [x] CalibrationManager – temperature scaling, Platt scaling, and isotonic regression to align judge scores with human annotations; ECE/Brier/correlation metrics (`calibration_manager.cpp`)
-- [x] BatchEvaluator – parallel batch processing with configurable worker threads, async evaluation via futures/promises, and aggregated statistics (`batch_evaluator.cpp`)
-- [x] `batchConvertToRetrievedDocuments` – implemented with `EmbeddingFunction` callback; sequential per-query K-NN search; no placeholder / DO NOT USE warning removed (`rag_integration_helpers.h`)
-- [x] `RAGIngestionBridge` — connects `IngestionToolbox` to the RAG pipeline (`include/rag/rag_ingestion_bridge.h`, `src/rag/rag_ingestion_bridge.cpp`; `themis::rag` namespace): `indexDocument()`, `enrichRetrievedDocuments()`, `extractEntitiesForContext()`, `buildEntityContext()`; `IndexResult` return type; thread-safe (v0.1.0)
+Production-grade RAG runtime with retrieval fusion, context assembly, evaluation, ingestion bridge integration, and safety controls in active use.
 
-## In Progress 🚧
-*(none currently in progress)*
+## In Progress
 
-## Planned Features 📋
+- [~] Ingestion bridge and context-hydration hardening for fail-closed retrieval inputs (Target: Q3 2026)
+- [~] Budget and truncation consistency across assembler, adaptive retrieval, and multi-step orchestration (Target: Q3 2026)
+- [~] Benchmark and regression gate consolidation for RAG-heavy release profiles (Target: Q3 2026)
 
-### Short-term (Next 3-6 months)
+## Planned Features
 
-- [x] `OntologyAwareRetriever` — ontologiegesteuertes Entity-Retrieval via `OntologyManager` (Target: Q4 2026)
-  - Affected: `include/rag/ontology_aware_retriever.h` (new), `src/rag/ontology_aware_retriever.cpp` (new)
-  - Inputs: Query-Text + Domain-Ontologie-Pfad; Outputs: `RetrievedDocument`-Liste mit Ontologie-Kontext
-  - Expected behavior: Entity-Linking nutzt `OntologyManager::isA()` für Oberbegriff-Expansion;
-    Retrievalpfade folgen erlaubten Relationstypen aus `allowedEdgeTypes()`;
-    `KnowledgeGraphRetriever` wird um Reasoner-Hooks erweitert
-  - Constraints: ≤ 50 ms Latenz für top-20 Retrieval auf Graphen mit ≤ 1 M Knoten
-  - Errors: unbekannte Entities → Fallback auf BM25; Ontologie nicht geladen → Standard-Retrieval
-  - Tests: OAR-01..OAR-08 in `tests/rag/test_ontology_aware_retriever.cpp`
-  - Perf: Entity-Expansion ≤ 5 ms; Gesamtlatenz top-20 ≤ 50 ms
+### Short-term (3-6 months)
+- [ ] Expand deterministic regressions for retrieval/evaluation edge cases under mixed backend conditions (Target: Q4 2026)
+- [ ] Strengthen diagnostics for quality-gate deny decisions and retrieval fallback causes (Target: Q4 2026)
+- [ ] Harden safety and sanitization behavior against evolving prompt-injection patterns (Target: Q4 2026)
 
-### Long-term (6-12 months)
-- [x] Agentic RAG with iterative retrieval loops (`rag/agentic_rag.cpp`) (Issue: #2241)
-- [x] Multi-modal RAG (image + text retrieval) (`rag/multimodal_rag.cpp`) (Issue: #2243)
-- [x] Online learning from evaluation feedback (adaptive retrieval) (Issue: #2244)
-- [x] Distributed RAG evaluation across multiple judge models (Issue: #2245) — `rag/distributed_rag_evaluator.h/.cpp`; thread-pool parallel dispatch; MEAN/WEIGHTED_MEAN/MAJORITY_VOTING/BEST_OF_N aggregation; inter-judge agreement metric; factory helpers
-- [x] Performance benchmarks (recall@10, latency targets) — `benchmarks/bench_rag_evaluation.cpp`; recall@K harness; FAST/BALANCED/THOROUGH latency; batch throughput; DistributedRAGEvaluator benchmark; PromptInjectionDetector scan throughput; end-to-end pipeline
-- [x] Security audit (prompt injection in retrieved context) — `rag/prompt_injection_detector.h/.cpp`; pattern-based detection (instruction-override, system-prompt-leak, delimiter-escape, role-injection, markup-injection, Unicode bidi); density threshold; PromptInjectionSanitizer; full unit test coverage
-- [x] Semantisches-Netz-Integration: `KnowledgeGraphRetriever` + `KnowledgeGraphReasoner` für Multi-Hop-Reasoning (Target: Q3 2027)
-  - Affected: `include/rag/knowledge_graph_retriever.h`, `src/rag/knowledge_graph_retriever.cpp`
-  - Expected behavior: `retrieve()` triggert automatisch `KnowledgeGraphReasoner::infer()` für
-    bis zu `max_inference_hops` Hops; Inferenzketten werden als Zusatzkontext eingefügt;
-    Erklärungsketten sind in `RetrievedDocument.metadata["reasoning_chain"]` abrufbar
-  - Constraints: Multi-Hop-Reasoning ≤ 200 ms P99 (≤ 5 Hops, ≤ 100 k Kanten)
-  - Errors: Reasoning-Timeout → Fallback auf direkte KG-Abfrage ohne Inferenz
-  - Tests: KGR-RAG-01..KGR-RAG-06 in `tests/rag/test_knowledge_graph_retriever_reasoning.cpp`
-- [x] LoRA-Enhanced Domain Retrieval für Mustererkennung (Target: Q2 2027)
-  - Affected: `include/rag/lora_enhanced_retriever.h` (new), `src/rag/lora_enhanced_retriever.cpp` (new)
-  - Expected behavior: Domänenspezifische LoRA-Adapter (z. B. „legal_rag_v1", „medical_rag_v1")
-    re-ranken Retrievalergebnisse; `MultiLoRAManager::selectAdapterForQuery()` wählt Adapter
-    anhand von Query-Embedding-Ähnlichkeit zur Adapter-Domäne
-  - Constraints: LoRA-Re-Ranking ≤ 100 ms für top-50 Dokumente; Guard `THEMIS_ENABLE_LLM`
-  - Errors: kein passender Adapter → Standard-RRF-Fusion; Adapter-Load-Fehler → Fallback
-  - Tests: LER-01..LER-06 in `tests/rag/test_lora_enhanced_retriever.cpp`
-  - Perf: Re-Ranking-Verbesserung MRR@10 ≥ +5% gegenüber reiner RRF-Baseline
-  - Wissensrepräsentation: LoRA-Adapter kodiert implizit domänenspezifische Konzepthierarchien
+### Mid-term (6-12 months)
+- [ ] Re-baseline RAG latency and throughput envelopes across representative production mixes (Target: Q1 2027)
+- [ ] Extend distributed and topology-sensitive retrieval evaluation coverage (Target: Q1 2027)
+- [ ] Improve operator-facing observability for budget, routing, and quality-gate behavior (Target: Q1 2027)
 
 ## Implementation Phases
 
-### Phase 1: Evaluation Pipeline & Multi-Judge System (Status: Completed ✅)
-- [x] `RAGJudge` – main orchestrator for multi-dimensional evaluation
-- [x] `KnowledgeGapDetector` – three-level gap detection system
-- [x] LLM integration bridge to `InferenceEngineEnhanced`
-- [x] `FaithfulnessEvaluator`, `RelevanceEvaluator`, `CompletenessEvaluator`, `CoherenceEvaluator`
-- [x] `BiasDetector` – ethical compliance checking
-- [x] `ClaimExtractor`, `ResponseParser`, `PromptTemplates`, `JudgeConfig`
-- [x] `RubricEvaluator`, `JudgeEnsemble`, `PairwiseComparator`
-- [x] `CoTEvaluator`, `GEvalEvaluator` (Liu et al., 2023), `LLMJudgeIntegration`, `LLMMetaAnalyzer`
-- [x] Fast (~100 ms), Balanced (~500 ms), and Thorough (~2 s) evaluation modes
+### Phase 1: Design / API Contract
+- [ ] Freeze canonical retrieved-document shape and context assembly contract for all RAG entry paths (Target: Q3 2026)
+- [ ] Define explicit failure contracts for missing metadata, empty retrieval, and backend-unavailable states (Target: Q3 2026)
 
-### Phase 2: Streaming Retrieval & Re-Ranking (Status: Completed ✅)
-- [x] Streaming retrieval with incremental context window filling
-- [x] Re-ranking layer with cross-encoder model integration
-- [x] Hallucination rate tracking dashboard
+### Phase 2: Core Implementation
+- [ ] Complete ingestion bridge hardening for full index-to-context hydration paths (Target: Q4 2026)
+- [ ] Align adaptive and multi-step retrieval orchestration to shared budget semantics (Target: Q4 2026)
 
-### Phase 3: Hybrid Retrieval & Citation Highlighting (Status: Completed ✅)
-- [x] Hybrid retrieval (BM25 + vector) with configurable RRF weights
-- [x] Citation highlighting (map answer sentences to source chunks)
-- [x] Configurable chunk size and overlap for document splitting
-- [x] Multi-document summarization before context injection
-- [x] Per-query evaluation report export (JSON / HTML) (Issue: #2240)
+### Phase 3: Error Handling and Edge Cases
+- [ ] Enforce fail-closed handling on malformed context, invalid budgets, and partial retrieval failures (Target: Q4 2026)
+- [ ] Standardize fallback behavior for optional model/acceleration/runtime dependencies (Target: Q4 2026)
 
-### Phase 4: Agentic & Knowledge-Graph RAG (Status: Completed ✅)
-- [x] Agentic RAG with iterative retrieval loops (`rag/agentic_rag.cpp`)
-- [x] Knowledge graph-augmented retrieval (entity linking)
-- [x] Multi-modal RAG (image + text retrieval) (`rag/multimodal_rag.cpp`)
-- [x] Online learning from evaluation feedback (adaptive retrieval)
+### Phase 4: Tests
+- [ ] Expand focused regressions for ingestion bridge, budget propagation, and deterministic tie-breaking (Target: Q4 2026)
+- [ ] Extend safety and prompt-injection regressions with adversarial retrieval payloads (Target: Q4 2026)
 
-### Phase 5: Distributed Evaluation, Benchmarks & Security (Status: Completed ✅)
-- [x] Distributed RAG evaluation across multiple judge models (`rag/distributed_rag_evaluator.h/.cpp`) (Issue: #2245) — thread-pool parallel dispatch; MEAN/WEIGHTED_MEAN/MAJORITY_VOTING/BEST_OF_N aggregation; factory helpers
-- [x] Performance benchmark harness (`benchmarks/bench_rag_evaluation.cpp`) — recall@K (K=1/5/10/20/50); FAST/BALANCED/THOROUGH latency; batch throughput; end-to-end pipeline benchmark
-- [x] Prompt injection detection and sanitization (`rag/prompt_injection_detector.h/.cpp`) — security audit for retrieved context; pattern-based heuristic detector; PromptInjectionSanitizer with configurable thresholds
+### Phase 5: Performance and Hardening
+- [ ] Lock benchmark-backed release gates for retrieval, evaluation, and end-to-end RAG latency (Target: Q4 2026)
+- [ ] Validate sustained-load behavior for cache, context assembly, and evaluator paths (Target: Q4 2026)
 
-### Phase 6: REPLUG Co-Training & Constitutional AI / RLAIF (Status: Completed ✅)
-- [x] `ReplugRetriever` — REPLUG-style LLM-scored retrieval fusion (`rag/replug_retriever.h/.cpp`) (Target: Q1 2026) — Inputs: query + RetrievedDocument list; Outputs: ReplugFusionResult with fused scores; λ interpolation, softmax temperature, min_retrieval_score filter, REPLUG-LSR weight update via KL gradient; ILLMScorer plugin; HeuristicLLMScorer (Jaccard); 30 unit tests
-- [x] `RLAIFTrainer` — Constitutional AI + RLAIF preference dataset generation (`rag/rlaif_trainer.h/.cpp`) (Target: Q1 2026) — Inputs: query + draft response; Outputs: PreferencePair (prompt, chosen, rejected); critique-revision loop; IAIJudge plugin; HeuristicAIJudge; AIPrinciple registry; processBatch(); RLAIFConfig; 30 unit tests
+### Phase 6: Documentation and Acceptance
+- [ ] Keep rag docs source-aligned with explicit sourcecode verification evidence per cycle (Target: ongoing)
+- [ ] Keep completed roadmap items exclusively in changelog (Target: ongoing)
 
-### Phase 7: Context-Window Management & Token Budget (Status: Completed ✅)
-- [x] `ContextWindowBudget` — central token-budget model (`include/llm/context_window_budget.h`) (Target: Q2 2026) — Inputs: model_ctx, system_prompt, query, min_response; Outputs: available_context_tokens, reserved_response_tokens; heuristic estimator ceil(chars/3.5); 20% floor on response reservation; fallback 4096; 30 unit tests
-- [x] `RAGContextAssembler` — budget-aware chunk selection (`include/rag/rag_context_assembler.h`, `src/rag/rag_context_assembler.cpp`) (Target: Q2 2026) — Greedy Fill with Response Guard; truncation with configurable marker; computeMaxTokens(); 30 unit tests
-- [x] `MultiStepRAGOrchestrator` — Map-Reduce and Iterative strategies (`include/rag/multi_step_rag.h`, `src/rag/multi_step_rag.cpp`) (Target: Q2 2026) — Map: batch partitioning bounded by context budget; Reduce: partial-answer synthesis; Iterative: gap-detection loop, max_iterations guard, deduplication; factory helpers; 15 unit tests
-- [x] `LlamaCppPlugin::loadModel()` reads `n_ctx`/`context_length` from config JSON → `ModelInfo::context_length`; fallback 4096 (Target: Q2 2026)
-- [x] `LlamaCppPlugin::generateRAG()` replaced naive doc concat with `RAGContextAssembler`; `max_tokens` capped via `computeMaxTokens()` (Target: Q2 2026)
-- [x] `RAGContext::max_context_tokens` set to 0 (dynamic fallback); `response_budget_tokens` field added (Target: Q2 2026)
-- [x] `RAGPromptConfig::reserved_response_tokens` field added (default: 512) (Target: Q2 2026)
-- [x] `MultiHopReasoner` — multi-hop reasoning with query decomposition (`include/rag/multi_hop_reasoner.h`, `src/rag/multi_hop_reasoner.cpp`) (Target: Q2 2026) — heuristic + LLM-based decomposition; per-hop retrieval + inference with context injection; answer composition; factory helpers (single-hop, balanced, deep-reasoning); 15 unit tests
-- [x] `AdaptiveRetrieval` — adaptive retrieval depth based on query complexity (`include/rag/adaptive_retrieval.h`, `src/rag/adaptive_retrieval.cpp`) (Target: Q2 2026) — QueryComplexity tiers (SIMPLE/MODERATE/COMPLEX/VERY_COMPLEX); connective/question-word heuristic; IComplexityScorer plugin; top_k + similarity_threshold scaling; factory helpers (lightweight, balanced, high-recall); 15 unit tests
+## Production Readiness Checklist
 
-### Phase 8: Loop 1–4 Explicit Orchestration & Federated RLAIF — IMPL-A2 + IMPL-A3 (Status: Completed ✅)
+- [ ] API and behavior contracts verified by focused RAG regressions
+- [ ] Safety and policy checks verified on all externally reachable RAG entry points
+- [ ] Performance expectations validated through mapped release-profile benchmarks
+- [ ] Failure handling validated for timeout, cancellation, and degraded backend modes
+- [ ] Audit and changelog documentation synchronized with implementation deltas
 
-> *Paper 1 — §4.4 The Four Self-Optimising Loops / §5.4 ContinuousLearningOrchestrator*
-> Issues: [IMPL-A2](../../docs/issues/lora_loops/IMPL-A2-loop-orchestration.md) · [IMPL-A3](../../docs/issues/lora_loops/IMPL-A3-federation-hooks.md)
+## Known Issues and Limitations
 
-- [x] Expose explicit named loop-trigger methods on `ContinuousLearningOrchestrator` (Implemented: 2026-04-19):
-  - `triggerLoop1QueryExecution(const QueryExecutionOutcome&)` (Loop 1 — ≤ 10 ms BaoOptimizer feedback)
-  - `triggerLoop2WorkloadAdaptation()` (Loop 2 — 60 s interval, `WorkloadAdaptiveOptimizer` + HNSW)
-  - `triggerLoop3IndexLifecycle()` (Loop 3 — hours/days, `IndexSuggestionEngine`)
-  - `triggerLoop4AdapterImprovement()` (Loop 4 — weekly, `IncrementalLoRATrainer`)
-- [x] Add `FEDERATED_ROUND_START` event type to `ContinuousLearningOrchestrator` (IMPL-A3)
-  - Fired after Loop 4 completes; 24 h minimum interval guard
-  - Invokes `ILoRAFederationCoordinator::startRound()` when coordinator is injected
-- [x] Add `setFederationCoordinator(ILoRAFederationCoordinator*)` DI setter
-- [x] Loop-interference cooldown guard: `setOptimizationCooldown(seconds)` + per-loop timestamp map (RQ10)
-- [x] JSON context serialiser `serializeLoopContext()` → JSON ≤ 8 000 chars / ≈ 2 000 tokens
-- [x] `RAGIngestionBridge::indexOptimizerLog()` extension: index optimizer-log documents for RAG retrieval
-- [x] 14 unit tests in `tests/test_clo_loops.cpp` (`test_clo_loops_focused` CMake target):
-  - `CLO-L1-01` … `CLO-L1-03`: Loop 1 trigger, outcome in context JSON, completion handler
-  - `CLO-L2-01` … `CLO-L2-03`: Loop 2 trigger, context JSON, completion handler
-  - `CLO-L3-01` … `CLO-L3-02`: Loop 3 advisory guardrail pass, context JSON
-  - `CLO-L4-01` … `CLO-L4-02`: Loop 4 trigger, context JSON
-  - `CLO-FED-01`: `FEDERATED_ROUND_START` fires after Loop 4 (no throw when coordinator absent)
-  - `CLO-COOL-01`: 60 s cooldown blocks second trigger; different loop unaffected
-  - `SerializeContext_EmptyBeforeTrigger`, `SerializeContext_MultipleLoopsPresent`
-- [x] `LoopPhase` enum on `ContinuousLearningOrchestrator`: `LOOP_1_HNSW_QUERY`, `LOOP_2_WORKLOAD`, `LOOP_3_SCHEMA_INDEX`, `LOOP_4_RLAIF`  (`include/rag/continuous_learning_orchestrator.h:249`)
-- [x] `triggerLoop(LoopPhase)` — explicitly trigger a named learning loop; returns `LoopResult` (`include/rag/continuous_learning_orchestrator.h:283`)
-- [x] `registerLoopCompletionHandler(LoopPhase, handler)` — per-phase completion callback (`include/rag/continuous_learning_orchestrator.h:293`)
-- [x] `TriggerEvent::FEDERATED_ROUND_START` — fired automatically after a successful Loop-4 run with `guardrail_passed == true` (`include/rag/continuous_learning_orchestrator.h:309`)
-- [x] `setFederationCoordinator(ILoRAFederationCoordinator*)` DI setter (`include/rag/continuous_learning_orchestrator.h:326`)
-- [x] `setTrainerForFederation(IncrementalLoRATrainer*)` DI setter (`include/rag/continuous_learning_orchestrator.h:342`)
-- [x] Loop-interference cooldown guard: shared `OptimizationLock` with per-resource cooldown (RQ10)
-- [x] JSON context serialiser for Loop 1–3 outcome signals → `≤ 2 000 tokens` context block
-- [x] `RAGIngestionBridge` extension: index optimizer-log documents for RAG retrieval
-- [x] 12 new unit tests in `tests/test_continuous_learning_orchestrator_loops.cpp`:
-  - `CLO-L1-01` … `CLO-L1-03`: Loop 1 trigger updates BaoOptimizer hint
-  - `CLO-L2-01` … `CLO-L2-03`: Loop 2 trigger updates WorkloadAdaptiveOptimizer
-  - `CLO-L3-01` … `CLO-L3-02`: Loop 3 trigger calls IndexSuggestionEngine
-  - `CLO-L4-01` … `CLO-L4-02`: Loop 4 trigger calls IncrementalLoRATrainer
-  - `CLO-FED-01`: `FEDERATED_ROUND_START` fires after Loop 4 + 24 h guard respected
-  - `CLO-COOL-01`: cooldown guard prevents concurrent loop interference
-
-### Phase 9: AI Reliability & Safety Evaluation Program (Status: Completed ✅)
-- [x] Benchmark design completed (Target: Q2 2026): cross-domain goldenset harness (legal/medical/financial) via `RAGTestCase` batches, red-team injection scenarios via `AdversarialTester`, and standardized severity-ready outputs in `BatchEvaluationResult`.
-- [x] Measurement pipeline completed (Target: Q2 2026): deterministic offline replay via `BatchEvaluator::evaluateBatch`, online hallucination drift monitoring/alerting via `HallucinationDashboard`, and decision traceability coverage metrics (`traceable_decisions`/`untraceable_decisions`) in `BatchEvaluationResult`.
-- [x] Guardrail optimization completed (Target: Q2 2026): prompt-injection scenario accounting + success-rate tracking, bias/fairness drift detection (`bias_fairness_drift_rate`), groundedness computation (`groundedness_rate`), and cost-to-quality efficiency metric (`cost_to_quality_efficiency`) in `BatchEvaluator`.
-- [x] Release gates completed (Target: Q2 2026): configurable gate thresholds in `BatchEvaluatorConfig` (hallucination, groundedness, injection success, bias drift, p95 latency, cost efficiency, traceability) with blocking decision (`release_gates_passed`) and explicit regression reasons (`failed_release_gates`).
-- [x] Focused validation completed: `tests/test_rag_batch_evaluator.cpp` covers injection success-rate computation, traceability coverage, bounded reliability-score ranges, and release-gate blocking behavior.
-
-### Phase 10: Ontologie-Integration & Semantisches Netz (Status: Completed ✅, Target: Q4 2026 – Q3 2027)
-- [x] `OntologyAwareRetriever` — Entity-Expansion via `OntologyManager::isA()`; erlaubte Pfade via `allowedEdgeTypes()` (Target: Q4 2026)
-  → `include/rag/ontology_aware_retriever.h`, `src/rag/ontology_aware_retriever.cpp`
-- [x] `KnowledgeGraphRetriever` + `KnowledgeGraphReasoner` Integration: Multi-Hop-Reasoning bis 5 Hops; Erklärungsketten im Dokument-Metadata (Target: Q2 2027)
-  → `include/rag/knowledge_graph_retriever.h`, `src/rag/knowledge_graph_retriever.cpp`
-- [x] `LoRAEnhancedRetriever` — LoRA-Adapter-Re-Ranking für domänenspezifisches Retrieval; MRR@10 ≥ +5% (Target: Q2 2027)
-  → `include/rag/lora_enhanced_retriever.h`, `src/rag/lora_enhanced_retriever.cpp`
-- [x] Tests: OAR-01..OAR-08, KGR-RAG-01..KGR-RAG-06, LER-01..LER-06
-  → `tests/rag/test_ontology_aware_retriever.cpp`, `tests/rag/test_knowledge_graph_retriever_reasoning.cpp`, `tests/rag/test_lora_enhanced_retriever.cpp`
-
-
-- [x] Unit tests coverage > 80% (streaming_retriever: 28 test cases; reranker: 30+ test cases; document_splitter: 37 test cases)
-- [x] Unit tests coverage > 80% (streaming_retriever: 28 tests; reranker: 30+ tests; hybrid_retriever: 31 tests)
-- [x] Unit tests for LearningMetrics (test_learning_metrics.cpp: recordEvaluation, computeMetrics, exportMetrics, printReport, window enforcement)
-- [x] Unit tests for ClaimExtractor (test_claim_extractor.cpp: extract, verify, calculateFaithfulness, SelfConsistencyEvaluator)
-- [x] Unit tests for CitationHighlighter (test_rag_citation_highlighter.cpp: comprehensive coverage; available in all build variants)
-- [x] Unit tests for EvaluationReportExporter (test_rag_evaluation_report_exporter.cpp: JSON/HTML export; file I/O; edge cases; factory; available in all build variants)
-- [x] Unit tests for DistributedRAGEvaluator (test_rag_distributed_evaluator.cpp: construction validation, aggregation strategies, meta fields, factory helpers, batch evaluate)
-- [x] Unit tests for PromptInjectionDetector and Sanitizer (test_rag_prompt_injection.cpp: benign pass-through, instruction override, system-prompt leak, delimiter escape, role injection, markup injection, Unicode bidi, sanitizer truncation/replacement)
-- [x] Unit tests for ReplugRetriever (test_rag_replug_retriever.cpp: ILLMScorer, HeuristicLLMScorer, fuse(), top_k truncation, min_retrieval_score filtering, weight updates, factory helpers; 30 tests)
-- [x] Unit tests for RLAIFTrainer (test_rag_rlaif_trainer.cpp: IAIJudge, HeuristicAIJudge, runTrainingStep(), createPreferencePair(), processBatch(), principle management, dataset access, stats; 30 tests)
-- [x] Unit tests for ContextWindowBudget (test_context_window_budget.cpp: estimateTokens, tokensToChars, compute, reserved_response_tokens enforcement, available_context_tokens arithmetic, helpers; 30 tests)
-- [x] Unit tests for RagContextAssembler (test_rag_context_assembler.cpp: empty edge cases, single chunk fit/truncation, greedy fill, response-guard, truncation marker, computeMaxTokens; 30 tests)
-- [x] Unit tests for MultiStepRAGOrchestrator (test_multi_step_rag.cpp: map-reduce single-pass, multi-batch, iterative cap, factory helpers; 15 tests)
-- [x] Unit tests for MultiHopReasoner (test_rag_multi_hop_reasoner.cpp: 15 tests — A config/factory, B decomposition heuristic+LLM, C pipeline single/multi/error cases)
-- [x] Unit tests for AdaptiveRetrieval (test_rag_adaptive_retrieval.cpp: 15 tests — A config/factory, B complexity analysis, C params + custom scorer injection)
-- [x] Performance benchmarks (benchmarks/bench_rag_evaluation.cpp: recall@K harness, FAST/BALANCED/THOROUGH latency, distributed evaluator, injection scan throughput, end-to-end pipeline)
-- [x] Integration tests (full pipeline: retrieve → generate → evaluate) — `test_rag_pipeline_integration.cpp` (heuristic/FAST mode, no live LLM required)
-- [x] Performance benchmarks (recall@10, latency per mode)
-- [x] Security audit (prompt injection in retrieved context)
-- [x] Documentation complete (streaming_retriever.h, reranker.h, hybrid_retriever.h: full Doxygen API docs)
-- [x] API stability guaranteed (streaming_retriever API: stable; CrossEncoderConfig: stable; HybridRetrieverConfig: stable)
-
-## Known Issues & Limitations
-- Evaluation accuracy depends on quality of the injected LLM judge model.
-- Thorough mode (~2 s latency) is not suitable for real-time interactive use.
-- No built-in document chunking strategy: now provided by `DocumentSplitter` (configurable chunk size, overlap, and strategy).
-
-## DELEGATE-52 Benchmark Integration
-
-> **Scientific basis:** Laban et al., "LLMs Corrupt Your Documents When You Delegate" (arXiv:2604.15597)
->
-> **Status:** Phase 1–6 Completed ✅ (Target: Q3 2026)
-
-### Current Status
-
-Implemented in `include/rag/delegate_evaluator.h` + `src/rag/delegate_evaluator.cpp`.
-18 unit tests in `tests/test_delegate_evaluator.cpp` (CTest target: `DelegateEvaluatorFocusedTests`).
-Performance benchmark in `benchmarks/bench_delegate_evaluator.cpp`.
-
-### Completed
-
-- [x] `IDomainEvaluator` interface — RS\@k in `[0.0, 1.0]`, clamped (Target: Q2 2026)
-- [x] `JsonDocumentEvaluator` — field-level overlap; non-JSON fallback to `PlainTextEvaluator` (Target: Q2 2026)
-- [x] `AqlQueryEvaluator` — token-level Jaccard similarity (Target: Q2 2026)
-- [x] `PlainTextEvaluator` — normalised Levenshtein edit distance (Target: Q2 2026)
-- [x] `XmlProcessEvaluator` — element-count + attribute overlap (ARIS/BPMN domain) (Target: Q2 2026)
-- [x] `MarkdownEvaluator` — delegates to `PlainTextEvaluator` (Target: Q2 2026)
-- [x] `RoundTripSimulator::run()` — k forward→backward rounds; RS\@k history; catastrophic counter (Target: Q2 2026)
-- [x] `DelegateEvaluatorFactory` — `createForDomain()`, `createSimulator()` (Target: Q2 2026)
-- [x] Edge-case handling: empty documents, `EditFn` exceptions (`EDIT_FAILED`), 0 rounds → RS\@0 = 1.0 (Target: Q2 2026)
-- [x] 18 unit tests DE-01..DE-18 + ancillary checks (Target: Q2 2026)
-- [x] `BM_DelegateEvaluator_JsonRoundTrip_10k` benchmark (Target: Q3 2026)
-- [x] Doxygen API docs for all public APIs (Target: Q2 2026)
-
-### Planned
-
-- [x] Extend to 10+ domains via `IDomainEvaluator` plugin (Target: Q4 2026)
-- [x] Connect `RoundTripSimulator` to `AgenticRAG` as a pre-production safety net (Target: Q4 2026)
-  → `AgenticRAGConfig::RelayGuardConfig`; `AgenticRAGResult::delegate_relay`; best-effort post-loop relay; `tests/test_agentic_rag_relay.cpp` (ARR-01..04)
-- [x] Persist RS\@k history via `IDocumentStore` for trend analysis (Target: Q1 2027)
-  → `IRoundTripEditor` + `StoreBackedRoundTripEditor` (`include/document/round_trip_editor.h`, `src/document/round_trip_editor.cpp`);
-    `RelayResult::persistence_write_failures` counter; DE-16/DE-16b tests
-
-### Domain Comparison
-
-| Aspect | DELEGATE-52 (Paper) | ThemisDB-Umsetzung |
-|---|---|---|
-| Domains | 52 | 4 Kerndomänen (JSON, AQL, Text, XML) — erweiterbar |
-| EditFn | Real LLM via OpenAI/Azure | Injizierbare `EditFn`-Lambda (LLM-agnostisch) |
-| Dataset | 234 HuggingFace environments | Synthetische In-Process-Fixtures |
-| RS\@k | Domänenspezifische Scorer aus Repo | Eigene Scorer, methodisch äquivalent |
-| Ziel | Benchmark 19 LLMs | Qualitätssicherung agentischer Workflows |
+- Some deployment-dependent runtime combinations still need broader benchmark evidence.
+- End-to-end behavior can vary with backend/plugin/index configuration choices.
+- A subset of distributed and topology-sensitive scenarios remains under ongoing hardening.
 
 ## Breaking Changes
-- Evaluator scoring API (0–1 float range) is stable from v1.x.
-- JudgeConfig fields may gain new optional parameters; backward-compatible.
 
-## Latente Symbole (Unused-Functions-Audit)
-
-_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
-
-### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
-
-- `ABTestingFramework` – A/B-Testing für RAG-Pipelines (Retrieval-/Ranking-Strategien)
-  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+- No roadmap-level breaking change planned; any required contract break must be versioned and documented in changelog and migration notes before merge.

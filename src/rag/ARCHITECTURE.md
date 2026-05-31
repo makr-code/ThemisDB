@@ -1,243 +1,71 @@
-# RAG Module — Architecture Guide
+# RAG Module - Architecture Guide
 
-> **Status:** 2026-04-19 – Architekturtext gegen realen Sourcecode verifizieren; Abweichungen mit `<!-- TODO -->` markiert.
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-**Version:** 1.1
-**Last Updated:** 2026-05-12
-**Module Path:** `src/rag/`
-
----
-
-## Scientific References
-
-| Paper | Relevance |
-|---|---|
-| Laban et al., "LLMs Corrupt Your Documents When You Delegate" (arXiv:2604.15597) | Basis for `delegate_evaluator.cpp` — RS\@k metric, round-trip corruption measurement, catastrophic threshold |
-| Liu et al., "G-Eval: NLG Evaluation Using GPT-4 with Better Human Alignment" (2023) | Basis for `geval_evaluator.cpp` |
-
----
+Version: 1.0
+Last Updated: 2026-05-31
+Module Path: src/rag/
 
 ## 1. Overview
 
-The RAG (Retrieval-Augmented Generation) module implements ThemisDB's full RAG pipeline:
-hybrid retrieval (vector + BM25 with Reciprocal Rank Fusion), streaming MMR-based context
-filling, multi-dimensional LLM-judge evaluation (faithfulness, relevance, completeness,
-coherence, bias), knowledge gap detection, hallucination monitoring, and continuous learning.
+The RAG module implements retrieval, context construction, evaluation, and guardrail surfaces for retrieval-augmented generation workflows.
 
-The module also provides an agentic RAG variant (`agentic_rag.cpp`) that uses iterative
-retrieval and self-evaluation loops for complex multi-hop queries.
+## 2. Architecture Surfaces
 
----
-
-## 2. Design Principles
-
-- **Quality by Default** – every RAG answer is evaluated by multiple dimensions;
-  low-quality answers are flagged before delivery.
-- **Hybrid Retrieval** – vector similarity and BM25 lexical search are fused using
-  Reciprocal Rank Fusion (RRF) to combine semantic and lexical relevance.
-- **Streaming Context** – `streaming_retriever.cpp` fills the context window incrementally,
-  token-budget-aware, with MMR deduplication to avoid redundant context.
-- **Multi-Judge Evaluation** – faithfulness, relevance, completeness, coherence, and bias
-  are evaluated independently and combined by a judge ensemble.
-- **Continuous Learning** – the continuous learning orchestrator feeds evaluation results
-  back into the system to improve retrieval and generation over time.
-
----
-
-## 3. Component Architecture
-
-### 3.1 Key Components
-
-| File | Role |
+| Surface | Source files |
 |---|---|
-| `hybrid_retriever.cpp` | Vector + BM25 hybrid retrieval with RRF fusion (`HybridRetriever`) |
-| `streaming_retriever.cpp` | Token-budget-aware streaming context filling with MMR (`StreamingRetriever`) |
-| `document_splitter.cpp` | Split documents into retrieval-friendly chunks (`DocumentSplitter`) |
-| `document_summarizer.cpp` | Summarize long documents for context window |
-| `agentic_rag.cpp` | Iterative multi-hop agentic RAG |
-| `rag_judge.cpp` | Multi-dimensional evaluation orchestrator (`RAGJudge`) |
-| `faithfulness_evaluator.cpp` | Fact-checking: are claims grounded in sources? |
-| `relevance_evaluator.cpp` | Query-answer alignment score |
-| `completeness_evaluator.cpp` | Query aspect coverage |
-| `coherence_evaluator.cpp` | Structure and readability score |
-| `bias_detector.cpp` | Ethical bias checking |
-| `claim_extractor.cpp` | Extract atomic claims for fact-checking |
-| `cot_evaluator.cpp` | Chain-of-thought quality evaluation |
-| `geval_evaluator.cpp` | G-Eval framework (Liu et al., 2023) |
-| `judge_ensemble.cpp` | Multi-judge voting strategies (majority, weighted) |
-| `pairwise_comparator.cpp` | Head-to-head answer comparison |
-| `rubric_evaluator.cpp` | Custom rubric-based evaluation |
-| `llm_judge_integration.cpp` | LLM-as-judge orchestration |
-| `llm_meta_analyzer.cpp` | Meta-analysis of judge performance |
-| `knowledge_gap_detector.cpp` | Three-level gap detection (concept, temporal, domain) |
-| `llm_integration.cpp` | LLM bridge for generation (`LLMIntegration`) |
-| `citation_highlighter.cpp` | Source citation extraction and highlighting |
-| `hallucination_dashboard.cpp` | Hallucination monitoring and alerting |
-| `ab_testing_framework.cpp` | A/B testing for RAG pipeline variants |
-| `bayesian_optimizer.cpp` | Bayesian hyperparameter optimization for RAG config |
-| `continuous_learning_orchestrator.cpp` | Feedback loop for continuous improvement (`ContinuousLearningOrchestrator`; `themis::rag::learning` namespace); `triggerLoop(LoopPhase)`, `setFederationCoordinator()`, `setTrainerForFederation()` |
-| `continuous_learning_client.cpp` | Client for continuous learning service |
-| `rag_ingestion_bridge.cpp` | Connects `IngestionToolbox` to RAG pipeline (`RAGIngestionBridge`; `themis::rag` namespace): `indexDocument()`, `enrichRetrievedDocuments()`, `buildEntityContext()` |
-| `response_parser.cpp` | Parse LLM evaluation responses |
-| `prompt_templates.cpp` | RAG-specific prompt templates |
-| `judge_config.cpp` | Judge configuration validation |
-| `http_metrics_client.cpp` | HTTP metrics export to external monitoring |
-| `prompt_injection_detector.cpp` | Pattern-based prompt injection detection (`PromptInjectionDetector`, `PromptInjectionSanitizer`) |
-| `delegate_evaluator.cpp` | DELEGATE-52 round-trip corruption benchmark (`RoundTripSimulator`, `IDomainEvaluator` variants; see arXiv:2604.15597) |
+| Retrieval fusion and ranking | src/rag/hybrid_retriever.cpp, src/rag/reranker.cpp, src/rag/replug_retriever.cpp |
+| Context assembly and orchestration | src/rag/streaming_retriever.cpp, src/rag/rag_context_assembler.cpp, src/rag/multi_step_rag.cpp |
+| Evaluation and quality control | src/rag/rag_judge.cpp, src/rag/faithfulness_evaluator.cpp, src/rag/quality_control_pipeline.cpp |
+| Adaptive and iterative retrieval | src/rag/adaptive_retrieval.cpp, src/rag/agentic_rag.cpp, src/rag/multi_hop_reasoner.cpp |
+| Ingestion bridge and enrichment | src/rag/rag_ingestion_bridge.cpp, src/rag/document_splitter.cpp |
+| Safety and sanitization | src/rag/prompt_injection_detector.cpp, src/rag/bias_detector.cpp |
+| Metrics and reporting | src/rag/hallucination_dashboard.cpp, src/rag/evaluation_report_exporter.cpp |
+| Reliability benchmarking | src/rag/delegate_evaluator.cpp, src/rag/batch_evaluator.cpp |
 
-### 3.2 Component Diagram
+## 3. Runtime Control Flow
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                  RAG Query (user question)                       │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │
-┌──────────────────────────▼──────────────────────────────────────┐
-│                    HybridRetriever                               │
-│  VectorSearch(question_embedding) + BM25(keywords)              │
-│  → Reciprocal Rank Fusion → ranked candidates                   │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │ candidates
-┌──────────────────────────▼──────────────────────────────────────┐
-│                    StreamingRetriever                            │
-│  MMR deduplication → token-budget-aware context fill            │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │ context
-┌──────────────────────────▼──────────────────────────────────────┐
-│              LLM Integration (src/llm/)                         │
-│  prompt = question + context → LLM → answer                     │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │ answer
-┌──────────────────────────▼──────────────────────────────────────┐
-│                     RAG Judge                                    │
-│  Faithfulness │ Relevance │ Completeness │ Coherence │ Bias      │
-│  → JudgeEnsemble → combined score                               │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │ evaluation result
-┌──────────────────────────▼──────────────────────────────────────┐
-│    ContinuousLearningOrchestrator: feed metrics → improve       │
-└──────────────────────────────────────────────────────────────────┘
-```
+1. Query enters retrieval path.
+2. Hybrid or adaptive retriever selects candidate chunks.
+3. Context assembler builds bounded prompt context.
+4. Generation and evaluation stages run with quality/safety checks.
+5. Result, citations, and diagnostics are emitted to downstream handlers.
 
----
+## 4. Integration Boundaries
 
-## 4. Data Flow
-
-### 4.1 Standard RAG Query
-
-```
-RAG(question: "What is ThemisDB?")
-    │
-    ├─ embed question → query_vector
-    ├─ hybrid_retriever: vector_search(k=20) + bm25_search(k=20) → RRF → top 20
-    ├─ streaming_retriever: MMR dedup + token budget → context (≤2000 tokens)
-    ├─ llm.generate(prompt = system + context + question) → answer
-    ├─ rag_judge.evaluate(question, answer, context):
-    │       faithfulness: 0.92, relevance: 0.88, completeness: 0.85
-    │       coherence: 0.91, bias: none
-    │       overall: 0.89 (PASS)
-    └─ return {answer, citations, score: 0.89}
-```
-
-### 4.2 Agentic RAG (Multi-Hop)
-
-```
-Complex query: "Compare X and Y in the context of Z"
-    │
-    ├─ AgenticRAG: decompose → sub-questions [Q1, Q2, Q3]
-    ├─ for each sub-question: standard RAG pipeline
-    ├─ KnowledgeGapDetector: any gaps in sub-answers?
-    │       → gap found → retrieve additional context → re-generate
-    └─ synthesize final answer from sub-answers
-```
-
----
-
-## 5. Integration Points
-
-| Direction | Module | Interface |
-|---|---|---|
-| **Uses** | `src/llm/` | LLM generation and embedding |
-| **Uses** | `src/index/` | Vector search and inverted index for BM25 |
-| **Uses** | `src/search/` | BM25 full-text search |
-| **Uses** | `src/prompt_engineering/` | RAG-specific prompt templates |
-| **Called by** | `src/server/` | RAG API endpoints |
-| **Called by** | `src/aql/` | LLM RAG command |
-
----
-
-## 6. Threading & Concurrency Model
-
-- RAG pipeline runs per-request; multiple concurrent requests are handled by the
-  server's thread pool.
-- `HybridRetriever` parallelizes vector and BM25 search using `std::async`.
-- Judge evaluators run in parallel for independent dimensions.
-- `ContinuousLearningOrchestrator` runs on a background thread.
-
----
-
-## 7. Performance Architecture
-
-| Mode | Latency | Use Case |
-|---|---|---|
-| Fast | ~100 ms | High-throughput production |
-| Balanced | ~500 ms | Standard RAG pipeline |
-| Thorough | ~2 s | Research, benchmarking |
-
-| Technique | Detail |
+| Direction | Integration |
 |---|---|
-| RRF fusion | Combines vector + lexical without requiring score normalization |
-| MMR deduplication | Reduces redundant context; improves answer diversity |
-| Token budget | Avoids exceeding LLM context window |
-| Judge parallelism | 5 judge dimensions evaluated concurrently |
+| Used by | API handlers, orchestration layers, AI runtime features |
+| Uses | llm module, index/search surfaces, ingestion inputs |
+| Exposes | retrieval APIs, context assembly outputs, evaluation and safety signals |
 
----
+## 5. Concurrency Model
 
-## 8. Security Considerations
+- Retrieval and evaluation components run under concurrent request load.
+- Shared caches and metrics paths are coordinated in component implementations.
+- Iterative workflows enforce bounded loops and explicit stop conditions.
 
-- LLM outputs are evaluated for bias and ethical compliance before delivery.
-- Citation highlighter links claims to source documents for auditability.
-- Hallucination dashboard monitors and alerts on elevated hallucination rates.
-- RAG queries are scoped to the authenticated tenant's accessible documents.
+## 6. Known Limits
 
----
+- retrieval quality and latency depend on configured backend and index state
+- benchmark coverage for all deployment topologies is still evolving
+- environment-dependent backend availability can alter runtime envelopes
 
-## 9. Configuration
+## 7. Sourcecode Verification (Module: rag/architecture)
 
-| Parameter | Default | Description |
-|---|---|---|
-| `rag.retrieval.vector_k` | 20 | Vector candidates per query |
-| `rag.retrieval.bm25_k` | 20 | BM25 candidates per query |
-| `rag.context.max_tokens` | 2000 | Context window token budget |
-| `rag.judge.enabled` | true | Enable multi-dimensional evaluation |
-| `rag.judge.min_score` | 0.7 | Minimum acceptable quality score |
-| `rag.mode` | "balanced" | fast / balanced / thorough |
-
----
-
-## 10. Error Handling
-
-| Error Type | Strategy |
-|---|---|
-| No retrieval results | Return "I don't have information on this topic" |
-| LLM timeout | Return retrieval results without generation |
-| Low judge score | Flag answer with quality warning; optionally retry |
-| Knowledge gap detected | Retrieve additional context; re-generate |
-
----
-
-## 11. Known Limitations & Future Work
-
-- Agentic RAG multi-hop is experimental; reasoning loop depth is bounded.
-- BM25 requires an inverted index; currently depends on the search module's index.
-- `ContinuousLearningOrchestrator` loop-interference cooldown guard (shared `OptimizationLock`) and JSON context serialiser for loop outcome signals are planned (Phase 8 remaining items).
-- Multi-modal RAG (images + text) is implemented (`multimodal_rag.cpp`) but requires model support from the llm module.
-
----
-
-## 12. References
-
-- `src/rag/README.md` — module overview
-- `src/rag/QUALITY_CONTROL_README.md` — quality control framework
-- `docs/rag/` — RAG documentation
-- `ARCHITECTURE.md` (root) — full system architecture
+- Verified files:
+  - src/rag/hybrid_retriever.cpp
+  - src/rag/reranker.cpp
+  - src/rag/streaming_retriever.cpp
+  - src/rag/rag_context_assembler.cpp
+  - src/rag/rag_judge.cpp
+  - src/rag/quality_control_pipeline.cpp
+  - src/rag/adaptive_retrieval.cpp
+  - src/rag/rag_ingestion_bridge.cpp
+  - src/rag/prompt_injection_detector.cpp
+  - src/rag/delegate_evaluator.cpp
+- Verified interfaces and behavior:
+  - retrieval and ranking integration
+  - context and evaluation orchestration
+  - safety and reliability benchmark surfaces
