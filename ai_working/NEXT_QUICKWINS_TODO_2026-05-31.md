@@ -2,14 +2,22 @@
 
 Generated: 2026-05-31
 Source scan: [ai_working/gap_scan_v3_summary.json](ai_working/gap_scan_v3_summary.json), [ai_working/gap_scan_v3_confidence_review.json](ai_working/gap_scan_v3_confidence_review.json)
+PR prep handoff: [ai_working/QUICKWINS_PR_PREP_2026-05-31.md](ai_working/QUICKWINS_PR_PREP_2026-05-31.md)
+PR copy-ready text: [ai_working/PR_DESCRIPTION_QUICKWINS_2026-05-31.md](ai_working/PR_DESCRIPTION_QUICKWINS_2026-05-31.md)
+Commit split plan: [ai_working/COMMIT_PLAN_QUICKWINS_2026-05-31.md](ai_working/COMMIT_PLAN_QUICKWINS_2026-05-31.md)
 
 ## Snapshot
-- Total gaps: 38201
-- Actionable (critical + high): 20875
+- Total gaps: 38257
+- Actionable (critical + high): 20928
 - Top modules by high-confidence queue: llm, rag, replication, sharding
 - Dominant high-confidence categories: llm_ai_safety, distributed_consistency, audit_logging
 
 ## Execution Update (2026-05-31)
+- Consolidated closure pass (QW-1..QW-8 core regressions):
+  - Focused suite run completed: `21 tests from 9 suites`.
+  - Result: `20 passed`, `1 skipped` (feature-gated path in focused kernel suite).
+  - Covered representative guardrails across rag prompt safety, replication fail-closed + causality metadata, llm/training prompt policy rejection, sharding determinism, and LoRA kernel hardening.
+
 - QW-1 started: centralized prompt sanitization guard added in runtime evaluation path.
   - Implemented in [src/rag/rag_judge.cpp](src/rag/rag_judge.cpp) and [src/rag/batch_evaluator.cpp](src/rag/batch_evaluator.cpp).
   - Defense-in-depth behavior: document-level blocking visibility is preserved, while downstream evaluators receive sanitized prompt text.
@@ -19,6 +27,16 @@ Source scan: [ai_working/gap_scan_v3_summary.json](ai_working/gap_scan_v3_summar
     - `RAGJudgeTest.RAS04_HighSeverityFoundButNotBlocked`
     - `BatchEvaluatorTest.EvaluateBatchInputsReturnsResults`
     - `BatchEvaluatorTest.EvaluateAsyncReturnsHandle`
+  - Additional focused unsafe-payload coverage in [tests/test_rag_batch_evaluator.cpp](tests/test_rag_batch_evaluator.cpp):
+    - `BatchEvaluatorTest.EvaluateBatchHandlesUnsafePromptPayloads`
+  - Verification in this environment (re-run):
+    - focused pass (6/6):
+      - `RAGJudgeTest.RAS01_BenignDocumentsNotBlocked`
+      - `RAGJudgeTest.RAS02_HighSeverityInjectionBlocked`
+      - `RAGJudgeTest.RAS04_HighSeverityFoundButNotBlocked`
+      - `BatchEvaluatorTest.EvaluateBatchInputsReturnsResults`
+      - `BatchEvaluatorTest.EvaluateAsyncReturnsHandle`
+      - `BatchEvaluatorTest.EvaluateBatchHandlesUnsafePromptPayloads`
 
 - QW-2 started: replication quorum/ack fail-closed guards for write confirmation path.
   - Implemented in [src/replication/replication_manager.cpp](src/replication/replication_manager.cpp) (`waitForReplication`):
@@ -35,6 +53,21 @@ Source scan: [ai_working/gap_scan_v3_summary.json](ai_working/gap_scan_v3_summar
     - `ThreeWayMergeTest.EmptyConflictSetFailsClosed`
     - `FieldLevelMergeTest.EmptyConflictSetFailsClosed`
   - Verification: both conflict-resolver fail-closed tests pass (2/2).
+  - Causality/version metadata hardening for conflict winners:
+    - [src/replication/replication_manager.cpp](src/replication/replication_manager.cpp):
+      - `LastWriteWinsResolver::resolve(...)` now enriches winner with merged vector-clock frontier, merged dependencies, max HLC, and recomputed checksum
+      - `CRDTMergeResolver::resolve(...)` now recomputes checksum after merged payload replacement
+    - [src/replication/conflict_resolution.cpp](src/replication/conflict_resolution.cpp):
+      - `ThreeWayMergeResolver::resolve(...)` and `FieldLevelMergeResolver::resolve(...)` now return causality-enriched winners (merged vector clock/dependencies, max HLC, recomputed checksum)
+  - Added stale-version/causality regression tests in [tests/test_replication_new_features.cpp](tests/test_replication_new_features.cpp):
+    - `ThreeWayMergeTest.WinnerCarriesMergedCausalMetadata`
+    - `FieldLevelMergeTest.WinnerCarriesMergedCausalMetadata`
+  - Verification in this environment:
+    - focused pass (4/4):
+      - `ReplicationManagerErrorHandling.SyncModeWithoutReplicaStreamsFailsClosed`
+      - `ReplicationManagerErrorHandling.SemiSyncImpossibleQuorumFailsClosed`
+      - `ThreeWayMergeTest.WinnerCarriesMergedCausalMetadata`
+      - `FieldLevelMergeTest.WinnerCarriesMergedCausalMetadata`
 
 - QW-3 started: structured audit logging for authentication-sensitive voice assistant flows.
   - Implemented in [src/voice/voice_assistant.cpp](src/voice/voice_assistant.cpp) and [include/voice/voice_assistant.h](include/voice/voice_assistant.h):
@@ -121,10 +154,15 @@ Source scan: [ai_working/gap_scan_v3_summary.json](ai_working/gap_scan_v3_summar
     - `LoRAKernelInterfaceHardeningTest.VulkanInitializedInvalidDimensionsFailClosed`
   - Guard-fix follow-up:
     - replaced brittle `size()==0` precondition checks with `shape().empty()` for cached activation validation in [src/llm/lora_framework/gpu_lora_layers.cpp](src/llm/lora_framework/gpu_lora_layers.cpp)
+  - Additional fail-closed hardening for non-finite scaling values:
+    - [src/llm/lora_framework/kernels/vulkan_kernels.cpp](src/llm/lora_framework/kernels/vulkan_kernels.cpp): reject non-finite `scaling`/`scalar` in scalar multiply, grad-A, fused forward, fused backward launchers
+    - [src/llm/lora_framework/kernels/directx_kernels.cpp](src/llm/lora_framework/kernels/directx_kernels.cpp): reject non-finite `alpha`/`scaling`/`scalar` in matmul, scalar multiply, grad-A launchers
+    - [tests/test_lora_kernel_interface_hardening.cpp](tests/test_lora_kernel_interface_hardening.cpp): Vulkan initialized path now asserts non-finite fused-forward scaling fails closed
   - Verification in this environment:
     - built target `themis_tests` successfully
     - focused suite passed `LoRAKernelInterfaceHardeningTest.*`: 6 passed, 1 skipped (DirectX feature-off skip)
     - re-run after HIP launcher patch and guard-fix remained green
+    - re-run after Vulkan/DirectX non-finite scaling guards remained green
 
 - QW-7 started: one shared safety helper for prompt assembly.
   - Implemented shared helper in [include/llm/prompt_safety_utils.h](include/llm/prompt_safety_utils.h):
@@ -154,11 +192,19 @@ Source scan: [ai_working/gap_scan_v3_summary.json](ai_working/gap_scan_v3_summar
     - adds stable item-keying for net-new detection across snapshots
   - Verification in this environment:
     - static diagnostics on scanner script are clean (`tools/gap_scanner_v3.py`)
-    - runtime execution of full scanner not run in this step (long-running pipeline)
+    - full scanner run completed successfully:
+      - `c:/Projects/ThemisDB/.venv/Scripts/python.exe tools/gap_scanner_v3.py . ai_working`
+      - output summary: `Total Gaps Found: 38257`, `ACTIONABLE (C+H): 20928`
+    - generated artifacts validated:
+      - [ai_working/gap_scan_v3_preflight_actionable_queue.json](ai_working/gap_scan_v3_preflight_actionable_queue.json)
+        - `actionable_count=2000`
+        - `critical_high_confidence_count=1906`
+        - `net_new_critical_high_confidence_count=398`
+      - [ai_working/gap_scan_v3_preflight_summary.md](ai_working/gap_scan_v3_preflight_summary.md)
 
 ## Prioritized Quickwins
 
-- [ ] QW-1: Add prompt input sanitization guard rails in RAG judge and batch evaluator (Target: Next Sprint)
+- [x] QW-1: Add prompt input sanitization guard rails in RAG judge and batch evaluator (Target: Next Sprint)
   - Scope: [src/rag/rag_judge.cpp](src/rag/rag_judge.cpp), [src/rag/batch_evaluator.cpp](src/rag/batch_evaluator.cpp)
   - Why now: High concentration of CRITICAL llm_ai_safety findings in top review queue.
   - Acceptance:
@@ -166,7 +212,7 @@ Source scan: [ai_working/gap_scan_v3_summary.json](ai_working/gap_scan_v3_summar
     - Reject or neutralize common injection patterns before LLM dispatch.
     - Add focused unit tests for safe and unsafe prompt payloads.
 
-- [ ] QW-2: Harden replication write/ack path with explicit consensus checks (Target: Next Sprint)
+- [x] QW-2: Harden replication write/ack path with explicit consensus checks (Target: Next Sprint)
   - Scope: [src/replication/replication_manager.cpp](src/replication/replication_manager.cpp), [src/replication/conflict_resolution.cpp](src/replication/conflict_resolution.cpp)
   - Why now: Highest file-level count in confidence review and high distributed_consistency risk.
   - Acceptance:
@@ -198,7 +244,7 @@ Source scan: [ai_working/gap_scan_v3_summary.json](ai_working/gap_scan_v3_summar
     - Explicit handling for missing metrics and stale state.
     - Add deterministic replay test with fixed seed and repeated runs.
 
-- [~] QW-6: Add GPU kernel input validation and bounds checks in LoRA kernels (Target: Next Sprint)
+- [x] QW-6: Add GPU kernel input validation and bounds checks in LoRA kernels (Target: Next Sprint)
   - Scope: [src/llm/lora_framework/kernels/vulkan_kernels.cpp](src/llm/lora_framework/kernels/vulkan_kernels.cpp), [src/llm/lora_framework/kernels/directx_kernels.cpp](src/llm/lora_framework/kernels/directx_kernels.cpp), [src/llm/lora_framework/kernels/hip_fused_kernels.cpp](src/llm/lora_framework/kernels/hip_fused_kernels.cpp), [src/llm/lora_framework/gpu_lora_layers.cpp](src/llm/lora_framework/gpu_lora_layers.cpp)
   - Why now: Concentrated gpu_memory_safety findings in top files.
   - Acceptance:
@@ -214,7 +260,7 @@ Source scan: [ai_working/gap_scan_v3_summary.json](ai_working/gap_scan_v3_summar
     - Consistent sanitizer policy and telemetry tags.
     - Remove duplicate ad-hoc sanitization branches replaced by helper.
 
-- [~] QW-8: Add a high-confidence triage gate in CI preflight report (Target: Next Sprint)
+- [x] QW-8: Add a high-confidence triage gate in CI preflight report (Target: Next Sprint)
   - Scope: [tools/gap_scanner_v3.py](tools/gap_scanner_v3.py), [ai_working/gap_scan_v3_confidence_review.json](ai_working/gap_scan_v3_confidence_review.json)
   - Why now: Keeps quickwins aligned with current highest-confidence risks.
   - Acceptance:
