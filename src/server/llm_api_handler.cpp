@@ -25,6 +25,7 @@
 #include "query/query_engine.h"
 #include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
+#include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <regex>
@@ -458,6 +459,17 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
         rag_context.max_context_tokens = static_cast<int>(normalized_budget.model_max_tokens);
         rag_context.response_budget_tokens = static_cast<int>(normalized_budget.reserved_response_tokens);
 
+        spdlog::info(
+            "LLMApiHandler::handleRAG request: query_len={} collection='{}' top_k={} rag_mode='{}' model='{}' max_context_tokens={} response_budget_tokens={} request_max_tokens={}",
+            query.size(),
+            collection,
+            top_k,
+            rag_mode,
+            model_id.empty() ? std::string{"default"} : model_id,
+            rag_context.max_context_tokens,
+            rag_context.response_budget_tokens,
+            max_tokens);
+
         auto& plugin_mgr = llm::LLMPluginManager::instance();
 
         if (!query_engine_) {
@@ -467,6 +479,7 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
                 "Call setQueryEngine() before using /api/v1/llm/rag"
             );
         }
+
 
         std::size_t rejected_documents = 0;
         if (!collection.empty() && top_k > 0) {
@@ -538,6 +551,13 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
                 );
             }
         }
+
+        spdlog::info(
+            "LLMApiHandler::handleRAG retrieval prepared: retrieval_attempted={} docs={} rejected={} top_k_effective={}",
+            !collection.empty(),
+            rag_context.documents.size(),
+            rejected_documents,
+            rag_context.top_k);
         
         // Prepare inference request
         llm::InferenceRequest llm_request;

@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 - Plugin-based adapter loading without recompile (Issue #1706)
 - Documentation refresh (Welle 1): core README/ARCHITECTURE/ROADMAP/SECURITY/AUDIT/PRODUCTION_REQUIREMENTS/FUTURE_ENHANCEMENTS aligned with current source and verified issue mapping.
+- PERFORMANCE_EXPECTATIONS aligned to direct core DI/logging/cache benchmark cases in `benchmarks/bench_di_logging.cpp`; stale TPCC/vector parent proxies removed.
 
 ### Roadmap Completion Archive (moved from ROADMAP on 2026-05-31)
 - ConcernsContext: central DI hub for cross-cutting concerns

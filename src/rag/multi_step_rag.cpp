@@ -18,6 +18,8 @@
 #include <stdexcept>
 #include "llm/context_window_budget.h"
 
+#include <spdlog/spdlog.h>
+
 #include <algorithm>
 #include <exception>
 #include <future>
@@ -229,8 +231,20 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
 {
     MultiStepRAGResult result;
 
+    spdlog::info(
+        "MultiStepRAG::runMapReduce start: query_chars={} docs={} max_map_steps={} parallel_map={} max_response_tokens={}",
+        query.size(),
+        documents.size(),
+        config_.max_map_steps,
+        config_.enable_parallel_map,
+        config_.max_response_tokens);
+
     if (documents.empty() || !infer) {
         result.final_answer = "";
+        spdlog::info(
+            "MultiStepRAG::runMapReduce short-circuit: docs={} infer_ready={}",
+            documents.size(),
+            static_cast<bool>(infer));
         return result;
     }
 
@@ -253,6 +267,11 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
         result.was_truncated  = false;
         result.context_overflow = false;
         result.steps.push_back(result.final_answer);
+        spdlog::info(
+            "MultiStepRAG::runMapReduce single-pass: chunks_used={} max_tokens={} answer_chars={}",
+            single.chunks_used.size(),
+            max_tok,
+            result.final_answer.size());
         return result;
     }
 
@@ -262,6 +281,13 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
 
     const auto batches = partitionIntoBatches(documents, query);
     const int  map_max_tok = config_.max_response_tokens;
+
+    spdlog::info(
+        "MultiStepRAG::runMapReduce map-phase: batches={} context_overflow={} truncated={} map_max_tokens={}",
+        batches.size(),
+        result.context_overflow,
+        result.was_truncated,
+        map_max_tok);
 
     if (config_.enable_parallel_map && batches.size() > 1u) {
         // F-029: Launch all map steps in parallel.
@@ -303,11 +329,16 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
 
     if (result.steps.empty()) {
         result.final_answer = "";
+        spdlog::info("MultiStepRAG::runMapReduce complete: no partial answers generated");
         return result;
     }
 
     if (result.steps.size() == 1u) {
         result.final_answer = result.steps.front();
+        spdlog::info(
+            "MultiStepRAG::runMapReduce complete: steps={} final_answer_chars={}",
+            result.steps_executed,
+            result.final_answer.size());
         return result;
     }
 
@@ -316,6 +347,11 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
         buildReducePrompt(result.steps, query);
     result.final_answer  = infer(reduce_prompt, config_.max_response_tokens);
     ++result.steps_executed;
+
+    spdlog::info(
+        "MultiStepRAG::runMapReduce complete: steps={} final_answer_chars={} used_reduce_phase=1",
+        result.steps_executed,
+        result.final_answer.size());
 
     return result;
 }
@@ -331,6 +367,13 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
     const RetrievalFn&                 retrieve) const
 {
     MultiStepRAGResult result;
+
+    spdlog::info(
+        "MultiStepRAG::runIterative start: query_chars={} seed_docs={} max_iterations={} retrieval_top_k={}",
+        query.size(),
+        documents.size(),
+        config_.max_iterations,
+        config_.retrieval_top_k);
 
     if (!infer) return result;
 
@@ -352,6 +395,14 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
                 config_.assembler.min_response_tokens),
             config_.max_response_tokens);
 
+        spdlog::info(
+            "MultiStepRAG::runIterative iter={} accumulated_docs={} chunks_used={} truncated={} max_tokens={}",
+            iter,
+            accumulated.size(),
+            ctx.chunks_used.size(),
+            ctx.was_truncated,
+            max_tok);
+
         result.final_answer = infer(prompt, max_tok);
         result.steps.push_back(result.final_answer);
         ++result.steps_executed;
@@ -367,13 +418,23 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
         ++result.steps_executed;
 
         const auto aspects = parseOpenAspects(gap_response);
-        if (aspects.empty()) break; // answer is complete
+        if (aspects.empty()) {
+            spdlog::info(
+                "MultiStepRAG::runIterative complete: iteration={} no open aspects remaining",
+                iter);
+            break; // answer is complete
+        }
 
         // Retrieve additional documents for the first uncovered aspect.
         const std::string refined_query = aspects.front();
         const auto new_docs = retrieve(refined_query, config_.retrieval_top_k);
 
-        if (new_docs.empty()) break;
+        if (new_docs.empty()) {
+            spdlog::info(
+                "MultiStepRAG::runIterative complete: iteration={} refinement query produced no new docs",
+                iter);
+            break;
+        }
 
         // Deduplicate by source before accumulating.
         for (const auto& nd : new_docs) {
@@ -385,6 +446,13 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
             if (!already_present) accumulated.push_back(nd);
         }
     }
+
+    spdlog::info(
+        "MultiStepRAG::runIterative complete: steps={} final_answer_chars={} truncated={} context_overflow={}",
+        result.steps_executed,
+        result.final_answer.size(),
+        result.was_truncated,
+        result.context_overflow);
 
     return result;
 }

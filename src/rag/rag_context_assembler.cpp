@@ -17,6 +17,8 @@
 
 #include "rag/rag_context_assembler.h"
 
+#include <spdlog/spdlog.h>
+
 #include <algorithm>
 #include <cmath>
 #include <limits>
@@ -77,10 +79,23 @@ AssembledContext RAGContextAssembler::assemble(
         query,
         config_.min_response_tokens);
 
+    spdlog::info(
+        "RAGContextAssembler::assemble start: input_chunks={} query_chars={} model_ctx={} context_budget={} response_budget={}",
+        chunks.size(),
+        query.size(),
+        config_.model_context_tokens,
+        budget.available_context_tokens,
+        budget.reserved_response_tokens);
+
     AssembledContext result;
     result.tokens_remaining_for_response = budget.reserved_response_tokens;
 
     if (!budget.hasContextBudget() || chunks.empty()) {
+        spdlog::info(
+            "RAGContextAssembler::assemble short-circuit: has_context_budget={} input_chunks={} response_tokens_remaining={}",
+            budget.hasContextBudget(),
+            chunks.size(),
+            result.tokens_remaining_for_response);
         return result;
     }
 
@@ -135,6 +150,13 @@ AssembledContext RAGContextAssembler::assemble(
     // ── Step 5: Re-compute response budget after context fill ────────────────
     result.tokens_remaining_for_response =
         budget.responseBudgetAfterContext(result.tokens_used);
+
+    spdlog::info(
+        "RAGContextAssembler::assemble complete: used_chunks={} tokens_used={} truncated={} response_tokens_remaining={}",
+        result.chunks_used.size(),
+        result.tokens_used,
+        result.was_truncated,
+        result.tokens_remaining_for_response);
 
     return result;
 }

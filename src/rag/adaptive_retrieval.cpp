@@ -14,6 +14,8 @@
 
 #include "rag/adaptive_retrieval.h"
 
+#include <spdlog/spdlog.h>
+
 #include <algorithm>
 #include <cmath>
 #include <limits>
@@ -300,6 +302,15 @@ AdaptiveRetrievalParams AdaptiveRetrieval::computeParams(
     params.analysis             = analyzeComplexity(query);
     params.top_k                = complexityToTopK(params.analysis.complexity);
     params.similarity_threshold = complexityToThreshold(params.analysis.complexity);
+
+    spdlog::info(
+        "AdaptiveRetrieval::computeParams query_chars={} complexity={} raw_score={:.3f} top_k={} similarity_threshold={:.3f}",
+        query.size(),
+        complexityToString(params.analysis.complexity),
+        params.analysis.raw_score,
+        params.top_k,
+        params.similarity_threshold);
+
     return params;
 }
 

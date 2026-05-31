@@ -1,24 +1,46 @@
-> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+# Security - Utils Module
 
-<!-- Status: current | validated: 2026-04-06 -->
-# Security — Utils Module
-> Report vulnerabilities via [SECURITY.md](../../../SECURITY.md).
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+
+Report vulnerabilities via project-level SECURITY.md.
+
+## Security Scope
+
+Security in the utils module focuses on safe shared-helper behavior for audit logging, privacy processing, key derivation, compression boundaries, and defensive failure handling in reusable runtime support code.
 
 ## Threat Model
 
-| Threat | Mitigation |
-|--------|-----------|
-| PII leakage via audit logs | `AuditLogger` redacts PII fields; streaming PII detector flags sensitive values |
-| Key material in logs | HKDF keys and derived secrets never logged; only key IDs referenced |
-| Audit log tampering | Tamper-evident hash-chain audit writer; each entry links to previous hash |
-| Weak key derivation | HKDF (RFC 5869) with SHA-256; minimum salt length enforced |
-| Bloom filter false-negative exploitation | Bloom filter used for performance only; never as sole security check |
+| Threat | Current Mitigation Surface |
+|---|---|
+| audit or log integrity regressions | dedicated audit and structured logging surfaces |
+| privacy leakage through shared helpers | PII scan and pseudonymization code paths |
+| unsafe key-handling regressions | HKDF and LEK management helper paths |
+| hidden degradation in shared runtime helpers | explicit utility-layer error handling and follow-up hardening |
 
-## Security Controls
-- `AuditLogger` is append-only and tamper-evident (hash-chain)
-- PII detector applied before writing to logs or external systems
-- HKDF key derivation follows RFC 5869
-- Error messages sanitized to avoid leaking internal state
+## Implemented Security Controls
 
-## Known Limitations
-- Sampled logger may miss security-relevant events if sampling rate is too low — use 100% sampling for auth/audit paths
+- audit and logging behavior is kept in dedicated utility surfaces.
+- privacy scan and pseudonymization paths are isolated from unrelated runtime helpers.
+- key derivation and local key lifecycle logic remain explicit and separable.
+- compression and runtime helper boundaries are documented and benchmarked where hot-path relevant.
+
+## Security Follow-ups
+
+- deepen validation around privacy false-negative and pseudonymization edge behavior.
+- tighten key-material handling and lifecycle diagnostics across helper boundaries.
+- broaden stress and failure-path coverage for shared runtime helper misuse or overload.
+
+## Sourcecode Verification (Module: utils/security)
+
+- Verified files:
+  - src/utils/audit_logger.cpp
+  - src/utils/pii_detection_engine.cpp
+  - src/utils/pii_pseudonymizer.cpp
+  - src/utils/hkdf_helper.cpp
+  - src/utils/lek_manager.cpp
+  - src/utils/input_validator.cpp
+- Verified controls:
+  - dedicated audit and privacy helper surfaces
+  - explicit key-derivation and local key lifecycle paths
+  - bounded shared-helper failure behavior

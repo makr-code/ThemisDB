@@ -1,101 +1,135 @@
-# AI Safety Architecture — Developer Reference
+# AI Safety Architecture - Security Module
 
-> **Für:** Backend-Entwickler, Security Engineers, Reviewer
->
-> Diese Seite beschreibt den **aktuellen** AI-Safety-Stand im Security-Modul.
-> Vollständige Betriebs-/Nutzerdokumentation: `docs/de/security/ai_safety/`.
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · SECURITY.md -->
 
-## 1) Zweck und Status
+## Purpose
 
-Der AI Safety Layer schützt KI-getriebene Datenbankoperationen (MCP/agentic Tool-Use)
-vor destruktiven oder unkontrollierten Aktionen durch mehrschichtige, deterministische
-Kontrollen.
+This document describes the AI-safety-relevant control surfaces that are implemented directly in `src/security/`. It focuses on source-verifiable controls for classifying risky AI-driven operations, detecting prompt or query abuse patterns, masking sensitive output, and enforcing request trust policies.
 
-- **Status:** produktiv integriert; Implementierungsfortschritt wird in
-  `src/security/ROADMAP.md` (Phase 5: AI Safety Layer) geführt.
-- **Nicht mehr gültig:** Die frühere Annahme „Planungs-/Stub-Stand Phase 1–4“ ist veraltet.
+## Scope
 
-## 2) Aktuelles Bedrohungsmodell (AI-spezifisch)
+In scope:
+- AI-oriented destructive-operation classification in `ai_operation_guard.cpp`
+- rule-based intent classification for malicious or destructive query patterns
+- canonical prompt-injection pattern registry shared across consumers
+- PII redaction and query-result masking policies
+- zero-trust request verification and behavioral anomaly scoring
 
-| Bedrohung | Beispiel | Primäre Controls |
+Out of scope:
+- authentication flow ownership in `src/auth/`
+- full server-side approval orchestration and transport UX
+- storage rollback/checkpoint execution semantics
+- module-wide cryptography and key-provider architecture already covered by `ARCHITECTURE.md`
+
+## Threat Model
+
+| Threat | Example | Primary security-module control |
 |---|---|---|
-| Unbeabsichtigte Datenlöschung | `delete_entity`, `DROP INDEX`, unbeschränkte `REMOVE`-Queries | `AiOperationGuard`, Human-in-the-Loop Approval, Dry-Run Preview |
-| Prompt-/Tool-Missbrauch | Agent führt mutierende AQL im read-only Kontext aus | `AqlSafetyValidator`, Modus-Flags (`enforce_read_only`) |
-| Falsche Umgebungsannahme | Agent behandelt Produktion wie Dev/Test | Environment Restrictions aus `config/security.yaml` |
-| Fehlende Wiederherstellbarkeit | Destruktive Aktion ohne Rollback-Punkt | Pre-Operation Snapshot + Rollback-API |
-| Fehlende Forensik | Keine nachvollziehbare KI-Aktionsspur | AI Session Audit Trail Events |
+| destructive AI-issued operation | `delete_entity`, `drop_index`, unfiltered AQL `REMOVE` | `AiOperationGuard` classification and environment blocking |
+| malicious query intent | injection, exfiltration, privilege escalation, schema mutation | `IntentClassifier` rule-based scoring |
+| prompt injection payload reuse across subsystems | override or jailbreak patterns inside retrieved/context text | `PromptInjectionPatternRegistry` canonical shared pattern set |
+| sensitive output leakage | PII in logs, labels, query results, or attributes | `PIIRedactionPolicy`, `QueryMaskingPolicy` |
+| untrusted request context | weak token verification, disallowed IP origin, rising session risk | `ZeroTrustPolicyEnforcer` |
+| suspicious session behavior | burst rate, off-hours access, privileged action on new resource | `BehavioralAnomalyDetector` |
 
-## 3) Control-Architektur (aktuell)
+## Control Architecture
 
-1. **AQL Read-Only Enforcer**
-   `include/query/aql_safety_validator.h`, `src/query/aql_safety_validator.cpp`
-   Blockiert mutierende AQL-Operationen in read-only Tool-Kontexten.
+### 1. Destructive Operation Guard
 
-2. **Destructive Operation Guard (DOG)**
-   `include/security/ai_operation_guard.h`, `src/security/ai_operation_guard.cpp`
-   Klassifiziert Operationen (`READ_ONLY`, `WRITE_SAFE`, `DESTRUCTIVE`, `CRITICAL`).
+- Files:
+  - `src/security/ai_operation_guard.cpp`
+  - `include/security/ai_operation_guard.h`
+- Verified behavior:
+  - classifies tool and AQL requests into `READ_ONLY`, `WRITE_SAFE`, `DESTRUCTIVE`, or `CRITICAL`
+  - escalates access against system collections to `CRITICAL`
+  - can hard-block requests through environment checks before approval flow
+  - builds preview and approval-response payloads, including configured `auto_snapshot` and `snapshot_dir` metadata
+- Important limit:
+  - this component documents and emits approval-related metadata, but actual approval transport and rollback execution are owned outside this file.
 
-3. **Human-in-the-Loop Gate (HILG)**
-   `src/server/mcp_server.cpp`, `src/server/http_server.cpp`
-   Approval/Denial-Flow für riskante Operationen inkl. Pending-Approval-Verwaltung.
+### 2. Intent Classification
 
-4. **Environment Isolation Guard**
-   `config/security.yaml` (`environment`, `ai_agent_restrictions`)
-   Erzwingt Umgebungsgrenzen (z. B. produktionsspezifische Restriktionen).
+- Files:
+  - `src/security/intent_classifier.cpp`
+  - `include/security/intent_classifier.h`
+- Verified behavior:
+  - scores query text for SQL injection, data exfiltration, privilege escalation, data destruction, and schema mutation
+  - uses a rule-based classifier by default
+  - supports injected inference backends for a future LoRA-backed path
+  - can emit alerts only when confidence clears a caller-supplied threshold
+- Important limit:
+  - the current default classifier is explicitly documented in source as a rule-based placeholder rather than the final LoRA-backed implementation.
 
-5. **Pre-Operation Snapshot + Rollback**
-   `McpServer` + Storage Checkpoint/Restore-Hooks
-   Sicherung vor Ausführung destruktiver/critical Operationen mit Rollback-Pfad.
+### 3. Shared Prompt Injection Patterns
 
-6. **AI Session Audit Trail**
-   `src/utils/audit_logger.cpp` (AI-Eventtypen)
-   Manipulationssichere Nachvollziehbarkeit von Tool-Aufrufen, Approvals und Ausführung.
+- Files:
+  - `src/security/prompt_injection_pattern_registry.cpp`
+  - `include/security/prompt_injection_pattern_registry.h`
+- Verified behavior:
+  - owns the canonical singleton registry returned by `defaultRegistry()`
+  - centralizes shared override, jailbreak, system-prompt-leak, special-token, and persona-takeover patterns
+  - exposes a shared keyword list for downstream prompt-injection detectors
+- Integration boundary:
+  - this registry is a shared source of patterns for consumers in other modules, but does not itself execute the downstream detection workflow.
 
-## 4) Betriebsgrenzen / Operating Limits
+### 4. Redaction and Masking
 
-- Der AI Safety Layer schützt **KI-initiierte Tool-Pfade** (MCP/Agentic-Workflows), nicht
-  beliebige externe Non-AI Admin- oder Direktzugriffe.
-- Schutzwirkung hängt von korrekter Modus-/Umgebungskonfiguration ab
-  (`config/ai_ml/llm/modes/default.yaml`, `config/security.yaml`).
-- Der Layer ergänzt, ersetzt aber nicht:
-  - Authentifizierung (`src/auth/**`)
-  - klassische Autorisierung/RBAC/RLS (`src/security/rbac.cpp`, `row_level_security.cpp`)
-  - Krypto-/Key-Management (Vault/HSM/PKI).
-- Performance-/Chaos-/Erweiterungsziele werden in `ROADMAP.md` und
-  `FUTURE_ENHANCEMENTS.md` weitergeführt; diese Datei beschreibt den Architekturvertrag.
+- Files:
+  - `src/security/pii_redaction_policy.cpp`
+  - `src/security/query_masking_policy.cpp`
+  - `include/security/pii_redaction_policy.h`
+  - `include/security/query_masking_policy.h`
+- Verified behavior:
+  - `PIIRedactionPolicy` redacts free-text logs, labels, and attribute values using `utils::PIIDetector`
+  - `QueryMaskingPolicy` masks result JSON for non-privileged callers and supports explicit field declarations plus automatic PII detection
+  - both controls fail through explicit initialization paths rather than silently disabling detection logic
 
-## 5) Abgrenzung zu HSM-/Auth-/Policy-Dokumenten
+### 5. Request Trust and Session Risk
 
-| Thema | Führendes Dokument |
+- Files:
+  - `src/security/zero_trust_policy_enforcer.cpp`
+  - `src/security/behavioral_anomaly_detector.cpp`
+  - `include/security/zero_trust_policy_enforcer.h`
+  - `include/security/behavioral_anomaly_detector.h`
+- Verified behavior:
+  - `ZeroTrustPolicyEnforcer` performs token verification, network-policy evaluation, risk-score revocation, and trust-score computation
+  - token verification and empty-policy handling are fail-closed by default unless explicitly relaxed for tests or rollout modes
+  - `BehavioralAnomalyDetector` scores burst rate, off-hours access, privileged action escalation, and unusual resource access within a session window
+
+## Operating Limits
+
+- These controls primarily govern AI-relevant safety surfaces inside the security module; they do not replace auth, RBAC/RLS, or cryptographic provider controls.
+- Some AI-safety outcomes depend on caller-supplied configuration, thresholds, and upstream orchestration.
+- Server-owned approval UX, snapshot execution, and transport-specific flow control must be documented in the owning module, not here.
+- Performance and hardening follow-ups remain tracked in `ROADMAP.md` and `FUTURE_ENHANCEMENTS.md`.
+
+## Boundaries
+
+| Topic | Owning document |
 |---|---|
-| Modulweite Sicherheitsarchitektur (Krypto, RBAC, HSM, PKI) | `src/security/ARCHITECTURE.md` |
-| Security Threat Model & Controls (gesamt) | `src/security/SECURITY.md` |
-| Security Audit-Findings / Remediation-Status | `src/security/AUDIT.md` |
-| AuthN/Auth-Flow (JWT/OIDC/MFA/Session) | `src/auth/ARCHITECTURE.md` |
-| Governance/Policy/Compliance-Layer | `src/governance/ARCHITECTURE.md` |
-| AI-Safety Betriebsdoku (Runbook, Validator, Snapshot, Audit Trail) | `docs/de/security/ai_safety/README.md` |
+| module-wide security architecture | `src/security/ARCHITECTURE.md` |
+| global threat model and controls | `src/security/SECURITY.md` |
+| audit findings and remediation status | `src/security/AUDIT.md` |
+| authentication and auth-flow details | `src/auth/ARCHITECTURE.md` |
+| governance and compliance policy layer | `src/governance/ARCHITECTURE.md` |
 
-## 6) Review- & Audit-Nachweis (Dokument-Update)
+## Sourcecode Verification (Module: security/ai-safety-architecture)
 
-**Review-Referenzen (Pflichtquellen):**
-- `docs/DOCUMENTATION_REVIEW_GUIDELINES.md`
-- `docs/SYSTEMATISCHER_REVIEWPLAN.md`
-- `docs/de/development/SOURCE_CODE_AUDIT.md`
-- `docs/audit-framework/AUDIT_RUNBOOK.md`
-
-**Durchgeführte Checks für dieses Update (2026-05-13):**
-- ✅ Fachreview gegen Security-Kerndokumente (`SECURITY.md`, `ARCHITECTURE.md`, `AUDIT.md`, `ROADMAP.md`)
-- ✅ Sourcecode-/Dokumentationsaudit der AI-Safety-Pfade und Referenzdateien
-  (`include/security/ai_operation_guard.h`, `src/security/ai_operation_guard.cpp`,
-  `include/query/aql_safety_validator.h`, `src/query/aql_safety_validator.cpp`,
-  `src/security/intent_classifier.cpp`, `src/server/mcp_server.cpp`, `src/server/http_server.cpp`)
-- ✅ Ergebnis verlinkt über die oben genannten Kern-/Audit-Dokumente und
-  `docs/de/security/ai_safety/AI_SAFETY_ARCHITECTURE.md`
-- ✅ Betroffene Datei im Review festgehalten: `src/security/AI_SAFETY_ARCHITECTURE.md`
-
-## 7) Verwandte Dokumente
-
-- `src/security/README.md`
-- `src/security/ROADMAP.md`
-- `src/security/FUTURE_ENHANCEMENTS.md`
-- `docs/de/security/ai_safety/README.md`
+- Verified files:
+  - `src/security/ai_operation_guard.cpp`
+  - `src/security/intent_classifier.cpp`
+  - `src/security/prompt_injection_pattern_registry.cpp`
+  - `src/security/pii_redaction_policy.cpp`
+  - `src/security/query_masking_policy.cpp`
+  - `src/security/zero_trust_policy_enforcer.cpp`
+  - `src/security/behavioral_anomaly_detector.cpp`
+- Verified behavior surfaces:
+  - AI-operation classification and environment blocking
+  - rule-based malicious intent scoring and alert thresholding
+  - shared prompt-injection pattern registry ownership
+  - PII redaction and query-result masking
+  - zero-trust verification and session-anomaly scoring
+- Result:
+  - source-verifiable AI-safety controls are documented conservatively
+  - prior over-assertive claims about approval transport, rollback execution, and broader orchestration have been removed from this module-local architecture reference

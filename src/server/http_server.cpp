@@ -25,6 +25,8 @@
 #include <openssl/x509.h>
 #include <openssl/x509v3.h>
 
+#include <spdlog/spdlog.h>
+
 // Windows macros undefine - MUST be before any includes
 #ifdef ERROR
 #undef ERROR
@@ -4234,8 +4236,26 @@ http::response<http::string_body> HttpServer::routeRequest(
                         rag_context.query = query;
                         rag_context.collection_name = collection;
                         rag_context.top_k = top_k;
-                        rag_context.max_context_tokens = max_context_tokens;
-                        rag_context.response_budget_tokens = response_budget_tokens;
+                        const auto normalized_budget = themis::llm::ContextWindowBudget::compute(
+                            static_cast<std::size_t>(max_context_tokens),
+                            std::string{},
+                            query,
+                            static_cast<std::size_t>(response_budget_tokens));
+                        rag_context.max_context_tokens =
+                            static_cast<int>(normalized_budget.model_max_tokens);
+                        rag_context.response_budget_tokens =
+                            static_cast<int>(normalized_budget.reserved_response_tokens);
+
+                        spdlog::info(
+                            "HttpServer /api/v1/llm/rag dispatch: query_len={} collection='{}' top_k={} rag_mode='{}' model='{}' max_context_tokens={} response_budget_tokens={} request_max_tokens={}",
+                            query.size(),
+                            collection,
+                            top_k,
+                            rag_mode,
+                            payload.value("model", std::string{"default"}),
+                            rag_context.max_context_tokens,
+                            rag_context.response_budget_tokens,
+                            max_tokens);
 
                         themis::llm::InferenceRequest llm_request;
                         llm_request.prompt = query;
@@ -4254,6 +4274,12 @@ http::response<http::string_body> HttpServer::routeRequest(
                         }
 
                         auto llm_response = plugin_mgr.generateRAG(rag_context, llm_request);
+                        spdlog::info(
+                            "HttpServer /api/v1/llm/rag complete: docs={} tokens_generated={} inference_time_ms={:.2f} rag_mode='{}'",
+                            rag_context.documents.size(),
+                            llm_response.tokens_generated,
+                            llm_response.inference_time_ms,
+                            rag_mode);
                         return json{
                             {"text", llm_response.text},
                             {"model", llm_response.model_id.empty() ? llm_request.model_id : llm_response.model_id},

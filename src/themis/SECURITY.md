@@ -1,27 +1,47 @@
-> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+# Security - Themis Core Module
 
-<!-- Status: current | validated: 2026-04-06 -->
-# Security — Themis Module
-> Report vulnerabilities via [SECURITY.md](../../../SECURITY.md).
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+
+Report vulnerabilities via project-level SECURITY.md.
+
+## Security Scope
+
+Security in the themis core module focuses on deterministic license/edition decisions, secure module verification and loading, integrity-preserving dependency resolution, and explicit wire-runtime fault signaling.
 
 ## Threat Model
 
-| Threat | Mitigation |
-|--------|-----------|
-| Malicious module injection | Authenticode (Windows) + GPG (Linux) signature verification before load |
-| Module tampering after load | SHA-256 hash verification via `ModuleHashVerifier` |
-| License bypass | License validation cryptographically signed; server-side verification available |
-| Registry MITM | `pinned_public_key` (sha256// format) enforces certificate pinning on registry connections |
-| Unsigned module execution | `ModuleSecurityPolicy::allowUnsigned` disabled by default in production |
-| Zone.Identifier bypass (Windows) | `Zone.Identifier` ADS check blocks internet-downloaded modules |
+| Threat | Current Mitigation Surface |
+|---|---|
+| invalid/forged license acceptance | explicit license verification behavior |
+| tampered module loading | hash/signature verification and security policy checks |
+| dependency graph manipulation | deterministic resolver outcomes and load-order checks |
+| opaque wire runtime degradation | explicit wire server error and session signaling |
 
-## Security Controls
-- Authenticode signature verification on Windows; GPG via `posix_spawn` on Linux
-- SHA-256 manifest-based integrity checking for all loaded modules
-- Certificate pinning on remote registry client
-- Module trust levels: `TRUSTED`, `VERIFIED`, `UNTRUSTED`
-- OCSP/CRL revocation checking for certificates
-- Development mode clearly separated from production mode
+## Implemented Security Controls
 
-## Known Limitations
-- GPG verification requires `gpg` binary on PATH on Linux
+- license/edition gate operations expose explicit allow/deny results.
+- module hash/signature verification paths are explicit and diagnosable.
+- loader security policy outcomes remain deterministic.
+- wire runtime failures remain observable and non-silent.
+
+## Security Follow-ups
+
+- broaden fault-injection coverage for signature and dependency edge cases.
+- deepen stress coverage for concurrent wire session admission pressure.
+- tighten diagnostics taxonomy across license/load/verify incidents.
+
+## Sourcecode Verification (Module: themis/security)
+
+- Verified files:
+  - src/themis/license_info.cpp
+  - src/themis/edition_manager.cpp
+  - src/themis/module_hash_verifier.cpp
+  - src/themis/module_signature_verifier.cpp
+  - src/themis/module_security.cpp
+  - src/themis/module_loader.cpp
+  - src/themis/wire_protocol_server.cpp
+- Verified controls:
+  - explicit gating and verification signaling
+  - deterministic secure module loading outcomes
+  - observable wire-runtime fault behavior

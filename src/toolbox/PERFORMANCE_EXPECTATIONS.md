@@ -1,46 +1,49 @@
-# PERFORMANCE_EXPECTATIONS — src/toolbox
+# PERFORMANCE_EXPECTATIONS - src/toolbox
 
 ## Scope
-- Modul: `src/toolbox`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
-## Benchmark-Bezug
-- Dieses Modul nutzt die Ziel-ID-Matrix des Parent-Moduls `search` als Referenzpfad.
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_rag_hybrid_retriever.cpp`
+- Module: src/toolbox
+- This file defines measurable toolbox module performance expectations for release gating.
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Benchmark Reference
+
+- No dedicated toolbox-native benchmark file is present in current benchmark sources.
+- Verified adjacent proxy benchmark files:
+  - benchmarks/bench_ingestion_extraction.cpp
+  - benchmarks/bench_ingestion_quality_judge.cpp
+  - benchmarks/bench_text_extraction.cpp
+  - benchmarks/bench_content_processor_paths.cpp
+
+## Specific Expectations
+
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| SE-1 | Siehe Zielbeschreibung: Hybrid Search P99 (10M-Doc-Index) | `BM_RRF_Balanced` |
-| SE-2 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_RRF_BM25Only` |
-| SE-3 | Siehe Zielbeschreibung: Facet Counting (1k distinct, 100k Docs) | `BM_RRF_VectorOnly` |
-| SE-4 | Siehe Zielbeschreibung: LTR Re-Ranking (Top-100) | `BM_Linear_Balanced` |
-| SE-5 | Siehe Zielbeschreibung: Autocomplete P99 (1M-Term-Dict) | `BM_ConfigConstruction` |
-| SE-6 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_RRF_Disjoint` |
+| TBXP-1 | extraction and extractor-construction-adjacent paths remain bounded | DeonticExtractionFixture/BatchExtraction_Scaling, DeonticExtractionFixture/LongText_MultiParagraph, DeonticExtractionFixture/ExtractEntities_FullDocument, LlmAdapterFixture/BuildExtractorFn, LlmAdapterFixture/BuildExtractor_Factory, LlmAdapterFixture/ExtractorFn_Throughput |
+| TBXP-2 | text quality and helper-evaluation-adjacent paths remain bounded | BM_QJ01_EvaluateNullBackend, BM_QJ02_EvaluateSingleDimension, AllDimsFixture/QJ03_EvaluateAllDimensions, BM_QJ05_EvaluateEntityScaling, BM_QJ06_EvaluateBulletListParsing, BM_QJ11_FeedbackLoopJudgeOnly |
+| TBXP-3 | text extraction and content-processor-adjacent paths remain bounded | BM_PDFExtraction, BM_DOCXExtraction, BM_HTMLExtraction, BM_PlainTextExtraction, BM_ConcurrentExtraction, BM_OfficeProcessorPath, BM_OcrProcessorPath, BM_ArchiveProcessorPath |
 
-## Modulspezifische harte Grenzwerte (v1.9.0)
+## Module Hard Gates (v1.0 docs baseline)
 
-| Gate-ID | Erwartungswert | Messregel |
+| Gate ID | Expectation | Measurement |
 |---|---|---|
-| TBG-1 | <= 85 ms (Toolbox Hybrid Search P99) | p99 aus `BM_RRF_Balanced` |
-| TBG-2 | >= 14000 qps (Toolbox BM25 Throughput) | mean aus `BM_RRF_BM25Only` |
-| TBG-3 | <= 28 ms (Toolbox Re-Ranking P95) | p95 aus `BM_Linear_Balanced` |
-| TBG-4 | Regression <= 8 % gegen letzte Release-Baseline | `(current - baseline) / baseline` |
+| TBXG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| TBXG-2 | toolbox-adjacent hot-path p99 <= release threshold | p99 from mapped proxy benchmark cases |
+| TBXG-3 | No mapped proxy benchmark case missing in release run | benchmark run manifest completeness |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+## Validation
 
-## Numerische Mindestziele (Release Gate)
+- Expectations are met when the mapped proxy benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- Dedicated toolbox benchmarks should replace these proxy mappings as soon as native suites are introduced.
 
-| Gate-ID | Erwartungswert | Messregel |
-|---|---|---|
-| NG-1 Latenz P95 | <= 50 ms | p95 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-2 Latenz P99 | <= 100 ms | p99 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-3 Throughput-Stabilitaet | Regression <= 10 % gegen letzte Baseline | `(current - baseline) / baseline` |
+## Sourcecode Verification (Module: toolbox/performance)
 
-Hinweis:
-- Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
-- Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+- Verified benchmark sources:
+  - benchmarks/bench_ingestion_extraction.cpp
+  - benchmarks/bench_ingestion_quality_judge.cpp
+  - benchmarks/bench_text_extraction.cpp
+  - benchmarks/bench_content_processor_paths.cpp
+- Verified mapping surfaces:
+  - extraction, quality-judge-adjacent, text extraction, and content-processor-adjacent behavior
+- Result:
+  - Referenced proxy benchmark cases exist in current benchmark sources.
+  - Release gates remain tied to reproducible proxy runs until dedicated toolbox suites exist.

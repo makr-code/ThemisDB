@@ -1,29 +1,30 @@
-> ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
+> WARNING: Historical changelog entries describe implementation state at the time they were recorded.
 
-<!-- Status: current | validated: 2026-04-06 -->
-# Changelog — Updates Module
-Based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+
+# Changelog - Updates Module
+
+All notable changes to the updates module are documented here.
+The format is based on Keep a Changelog.
 
 ## [Unreleased]
 
-## [1.5.0] — 2026-03-12
-### Added
-- Blue/green deployment support with traffic switchover (PR #3421)
-- CoordinatedUpdateManager for cross-module atomic updates (PR #3422)
-- Update history log with rollback support (PR #3420)
-- HSM-backed SigningService for update package verification (PR #3438)
-- Binary delta updates to minimize download size
-- Canary rollout with configurable traffic percentage
-- Dry-run migration preview before applying schema changes
-- Pre-flight health checks before update execution
-- Multi-node coordinated updates with quorum acknowledgement
-- Notification webhooks for update lifecycle events
-- Build system audit: all 21 source files registered; 10 focused test targets
+### Changed
+- Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
+- Performance expectations updated to explicit verified benchmark symbols from the update pipeline benchmark suite.
 
-## [1.0.0] — 2024-01-01
+## [2.1.x] - 2026
+
 ### Added
-- `HotReloadEngine` for zero-downtime module updates
-- Release manifest management and verification
-- Schema migration framework with rollback
-- Digital signature verification for update packages
-- Automatic backup before applying updates
+- rollback, patch, and coordinated rollout hardening improvements.
+
+## [2.0.x] - 2025-2026
+
+### Added
+- expanded update state, migration, and rollout-control surfaces.
+
+## [1.x] - 2024-2025
+
+### Added
+- foundational update orchestration and migration infrastructure.

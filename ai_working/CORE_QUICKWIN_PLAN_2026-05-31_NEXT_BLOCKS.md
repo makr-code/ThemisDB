@@ -27,8 +27,11 @@ Close the next small, production-relevant RAG blocks without reopening broad arc
   - `AdaptiveRetrievalFocusedTests.*` is green (16/16), including invalid-config clamp coverage.
   - `AgenticRAG` now sanitises `max_session_tokens` at ingress to keep budget-overflow sentinels representable (`SIZE_MAX` -> `SIZE_MAX-1`).
   - `ARG_BUD.*` remains green (6/6), including max-size budget sanitisation coverage.
+  - `ARG_BUD` focused execution no longer pays per-test setup cost: shared-agent fixture wiring plus suite-level warm-up keep heavy initialization outside the assertion path, and the focused tests now run at 0 ms each after warm-up.
   - `MultiStepRAGOrchestrator` now sanitises budget-relevant ingress config (`model_context_tokens`, `min_response_tokens`, `max_response_tokens`, `max_map_steps`) before orchestration.
   - `MultiStepRAGFocusedTests.*` remains green (16/16), including invalid-budget sanitisation coverage.
+  - `LlamaCppPlugin::generateRAG(...)` now derives response max-tokens from the same effective context-window override used during assembly, avoiding plugin-side budget drift when `rag_context.max_context_tokens` is set.
+  - `LlamaCppPluginFocusedTests.E*` is green (4/4), including explicit context-window override coverage.
 - Remaining gaps are now primarily:
   - Package G deeper normalization follow-ups across downstream consumers.
   - Package H cross-component budget consistency hardening.
@@ -43,9 +46,9 @@ Close the next small, production-relevant RAG blocks without reopening broad arc
   - Primary files: `src/rag/rag_ingestion_bridge.cpp`, `src/llm/docs_assistant.cpp`, `src/server/llm_api_handler.cpp`, `tests/test_rag_ingestion_bridge.cpp`.
 
 - [~] Package H: budget-aware context assembly and retrieval control.
-  - [~] Align `RAGContextAssembler`, `MultiStepRAG`, `AdaptiveRetrieval`, and the `AgenticRAGBudget` path to the same token-budget math and truncation rules.
+  - [~] Align `RAGContextAssembler`, `MultiStepRAG`, `AdaptiveRetrieval`, and the `AgenticRAGBudget` path to the same token-budget math and truncation rules (plugin-side response-budget drift for explicit context overrides is now closed in `LlamaCppPlugin::generateRAG(...)`).
   - [~] Clamp invalid or overflow-prone budgets at ingress and preserve deterministic selection order when chunk scores tie (context tie-break + adaptive clamp + agentic session-budget overflow guard + multistep budget sanitisation + central `computeMaxTokens` int-overflow guard done; remaining cross-component budget ingress hardening pending).
-  - [ ] Reduce timeout sensitivity in the focused budget suite by separating heavy fixture work from the assertion path where needed.
+  - [x] Reduce timeout sensitivity in the focused budget suite by separating heavy fixture work from the assertion path where needed (ARG_BUD now uses shared fixture wiring plus suite-level warm-up; focused assertion cases run without embedded warm-up cost).
   - Primary files: `src/rag/rag_context_assembler.cpp`, `src/rag/multi_step_rag.cpp`, `src/rag/adaptive_retrieval.cpp`, `tests/test_agentic_rag_budget.cpp`, `tests/test_rag_context_assembler.cpp`, `tests/test_rag_adaptive_retrieval.cpp`, `tests/test_multi_step_rag.cpp`.
 
 - [~] Package I: live regression and telemetry coverage.

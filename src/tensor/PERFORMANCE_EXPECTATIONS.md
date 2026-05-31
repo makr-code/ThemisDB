@@ -1,36 +1,47 @@
-# PERFORMANCE_EXPECTATIONS — src/tensor
+# PERFORMANCE_EXPECTATIONS - src/tensor
 
 ## Scope
 
-- Modul: src/tensor
-- Diese Datei dokumentiert modulspezifische Performance-Erwartungen fuer TensorFingerprintGraph und Tensor-Index-Pfade.
-- Primarquelle fuer Benchmark-Zuordnung: benchmarks/benchmark_target_mapping.json.
+- Module: src/tensor
+- This file defines measurable tensor module performance expectations for release gating.
 
-## Benchmark-Bezug
+## Benchmark Reference
 
-- Relevante Benchmark-Dateien:
+- Relevant benchmark files:
   - benchmarks/bench_tensor_fingerprint_graph.cpp
   - benchmarks/bench_tensor_fingerprint.cpp
+  - benchmarks/bench_tensor_deduplication_manager.cpp
 
-## Spezifische Erwartungswerte
+## Specific Expectations
 
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| TFG-1 Insert-Latenz | <= 10 ms pro Tensor (bis 100K Nodes) | BM_TFG_Insert_SingleNode |
-| TFG-2 Similarity Query | <= 50 ms (findSimilar, bis 100K Nodes) | BM_TFG_FindSimilar |
-| TFG-3 Neighbour Lookup | <= 5 ms (neighbours) | BM_TFG_Neighbours |
-| TFG-4 Persisted Export | Full-Graph-Export ohne unkontrolliertes Wachstum, p95 <= 500 ms bei 10K Nodes | BM_TFG_ExportPersistedGraph |
-| TNS-1 Insert Throughput | >= 1,000 Inserts/s im Referenzprofil | BM_TFG_Insert_Throughput |
-| TNS-2 Concurrent Reads | Skalierungsfaktor >= 1.8x zwischen 1 und 4 Threads | BM_TFG_ConcurrentReads |
+| TENP-1 | tensor fingerprint graph insert/query/neighbour operations remain bounded | BM_TFG_Insert_Throughput, BM_TFG_Insert_SingleNode, BM_TFG_FindSimilar, BM_TFG_Neighbours |
+| TENP-2 | tensor fingerprint graph concurrent-read and metadata/export paths remain bounded | BM_TFG_ConcurrentReads, BM_TFG_NodeCount, BM_TFG_ExportPersistedGraph |
+| TENP-3 | tensor fingerprint fixture insert/similarity/storage-ratio paths remain bounded | FingerprintInsertFixture/BM_FingerprintInsert, FindSimilarFixture/BM_FindSimilar_100K, StorageReductionFixture/BM_StorageReductionRatio |
+| TENP-4 | tensor dedup snapshot/replay throughput paths remain bounded | BM_TDM_SnapshotRestoreRoundTrip, BM_TDM_JournalReplayThroughput |
 
-## Integritaetsziele (aktuell nicht als dedizierter Performance-Benchmark messbar)
+## Module Hard Gates (v1.0 docs baseline)
 
-| Ziel-ID | Erwartungswert | Nachweis |
+| Gate ID | Expectation | Measurement |
 |---|---|---|
-| TDM-1 Snapshot/Restore Integritaet | Konsistente Wiederherstellung von Topologie und Records | TensorDeduplicationManagerSnapshotTest (TDM-12..TDM-24) |
-| TDM-2 Journal-Replay/Kompaktion | Replizierbarer Replay nach Post-Snapshot Mutationen | TensorDeduplicationManagerSnapshotTest (TDM-18/19/22/23/24) |
+| TENG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| TENG-2 | tensor hot-path p99 <= release threshold | p99 from mapped tensor benchmark cases |
+| TENG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
 
-## Validierung
+## Validation
 
-- TFG-1..TFG-4 und TNS-1..TNS-2 gelten als erfuellt, wenn die Benchmarks reproduzierbar laufen und die Schwellwerte erreichen.
-- TDM-1/TDM-2 sind Integritaetsziele; dedizierte Performance-Benchmarks bleiben Folgeaufgabe.
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- Mapping should be expanded as additional tensor benchmark scenarios are introduced.
+
+## Sourcecode Verification (Module: tensor/performance)
+
+- Verified benchmark sources:
+  - benchmarks/bench_tensor_fingerprint_graph.cpp
+  - benchmarks/bench_tensor_fingerprint.cpp
+  - benchmarks/bench_tensor_deduplication_manager.cpp
+- Verified mapping surfaces:
+  - fingerprint graph, fingerprint fixtures, and dedup snapshot/replay behavior
+- Result:
+  - Referenced benchmark cases exist in current benchmark sources.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

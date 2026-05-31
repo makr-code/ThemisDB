@@ -13,6 +13,7 @@ The format is based on Keep a Changelog.
 ### Changed
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
 - Performance expectations updated to explicit verified governance benchmark symbols from governance policy latency benchmark suite.
+- `AI_ML_IMPACT_ASSESSMENT.md` narrowed from a repo-wide inventory to a governance-owned, source-verifiable impact assessment for model-governance, compliance-reporting, masking, lineage, and transfer-control paths.
 
 ## [1.9.0] - 2026-04-09
 

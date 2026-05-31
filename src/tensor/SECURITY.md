@@ -1,81 +1,46 @@
-> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+# Security - Tensor Module
 
-<!-- Status: current | validated: 2026-05-13 -->
-<!-- Links: README.md · ARCHITECTURE.md · AUDIT.md · ROADMAP.md -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-# Security — Tensor Module
+Report vulnerabilities via project-level SECURITY.md.
 
-> Report vulnerabilities via the project-level [SECURITY.md](../../SECURITY.md).
+## Security Scope
+
+Security in the tensor module focuses on deterministic index/bridge behavior, explicit fingerprint graph and replay-adjacent fault signaling, and bounded tensor structural runtime paths.
 
 ## Threat Model
 
-| Threat | Mitigation |
-|--------|-----------|
-| Tenant data leakage via shared in-memory index | Tenant key isolation enforced in-memory via `IndexHandle::key()` prefix scheme (`__ttmgr__:<tenant>:<collection>:<field>`); RocksDB-level isolation deferred to Phase 2 — see `AUDIT.md` finding TEN-01 |
-| Malformed input vectors (NaN / Inf / zero-dim) | `FlatTensorIndex::addFlat()` rejects `dim == 0`; TT-SVD decomposition is called with validated shape; NaN/Inf propagation from upstream is the caller's responsibility (no internal sanitisation in Phase 1) |
-| GGML zero-copy memory bridge exposing DB internals | `TensorMmapBridge` returns raw float pointers pinned to DB address space; callers MUST NOT write to these pointers; the bridge is documented as read-only; Phase-3 hardening will introduce `const float*` interface |
-| Sensitive tenant/collection names in keys and logs | Key segments are validated via `makeKey()` (rejects empty or slash-containing components); debug logs use key strings, not vector data |
-| Mmap pages accessible across address space | `TensorMmapBridge` uses `MAP_ANONYMOUS` + memcpy in Phase 3 stub (no shared memory with other processes); real `MAP_SHARED` on SST files is deferred to Q1 2027 |
-| Stub paths silently returning incorrect results | All stubs emit `THEMIS_WARN` macros at runtime; Phase-1 stubs return `false` or `nullptr`, never silently succeed with wrong data |
-| Deserialization attacks via `load()` | `FlatTensorIndex::load()` and `HnswTTBridge::load()` are Phase-1 stubs returning `false`; no deserialization occurs in Phase 1 |
+| Threat | Current Mitigation Surface |
+|---|---|
+| silent tensor index routing inconsistency | explicit tensor manager/index outcomes |
+| hidden graph-export or neighbour-path failures | observable fingerprint graph result surfaces |
+| opaque bridge ingestion failure | explicit bridge result signaling |
+| unobserved tensor replay/integrity regressions | dedicated dedup benchmark and test coverage surfaces |
 
-## Security Controls
+## Implemented Security Controls
 
-- **Tenant key isolation (in-memory):** The `__ttmgr__:<tenant>:<collection>:<field>`
-  key scheme isolates tenant data in the in-memory hash map.
-  `makeKey()` throws `std::invalid_argument` on empty or slash-containing arguments,
-  preventing key-separator injection.
-- **Input validation:** `addFlat()` and `add()` reject zero-dimension vectors and
-  duplicate IDs, returning `false` without modifying index state.
-- **Thread safety:** All `TensorIndexManager` public methods are protected by a
-  `shared_mutex`.  Read operations run concurrently; write operations take an
-  exclusive lock.
-- **No global mutable state:** All state is encapsulated in index instances and the
-  `TensorIndexManager`; no process-global variables.
-- **Stub warning at runtime:** Every stub emits a `THEMIS_WARN` log entry on
-  invocation, ensuring that stub paths are visible in production log analysis.
-- **No raw new/delete:** Smart pointers (`std::unique_ptr`, `std::shared_ptr`)
-  are used throughout; RAII ensures deterministic cleanup of index instances.
+- tensor index and bridge operations expose explicit outcomes.
+- fingerprint graph operations remain observable and diagnosable.
+- replay/snapshot-adjacent flows are represented by dedicated benchmark/test paths.
+- structural helper failures remain explicit and non-silent.
 
-## Phase-2 Security Requirements (RocksDB Persistence)
+## Security Follow-ups
 
-When RocksDB persistence is added (Phase 2, Target Q4 2026), the following
-controls MUST be applied:
+- broaden fault-injection coverage for bridge and fingerprint export edge cases.
+- deepen stress coverage for concurrent tensor graph access patterns.
+- tighten diagnostics taxonomy across tensor index and graph incident classes.
 
-- **RocksDB key isolation:** Apply the same `isValidTenantComponent()` guard
-  used by `src/index/index_manager.cpp` (#1872) to prevent cross-tenant key
-  enumeration via prefix scans.
-- **RocksDB key separator injection protection:** Validate that tenant, collection,
-  and field name segments do not contain the key separator character before writing.
-- **Compaction filter access control:** `TensorCompactionFilter` must not expose
-  core data across tenant boundaries during background compaction.
+## Sourcecode Verification (Module: tensor/security)
 
-## Phase-3 Security Requirements (GGML Zero-Copy Bridge)
-
-- **Read-only pointer contract:** Replace `float*` return type from
-  `TensorIndexManager::ggmlCorePtrs()` with `const float*` to enforce read-only
-  access at compile time.
-- **Page alignment validation:** `TensorNetworkStorageEngine` must validate that
-  core buffers are page-aligned (`sysconf(_SC_PAGESIZE)`) before exposing them
-  via `TensorMmapBridge`.
-- **GGUF v3 provenance metadata:** All code paths writing TT-cores to storage
-  MUST attach `ProvenanceRecord` metadata.  This is a hard requirement for
-  regulated-industry deployments.
-
-## Known Limitations
-
-- Tenant key isolation is enforced in-memory only in Phase 1.  There is no
-  RocksDB-level access control preventing a process with DB access from
-  reading another tenant's keys.  See `AUDIT.md` finding TEN-01.
-- NaN/Inf values in input vectors are not explicitly sanitised before
-  TT-SVD decomposition; callers are responsible for input validation.
-- `TensorMmapBridge` is not thread-safe; it must be used from a single
-  inference thread.
-
-## Dependency Security
-
-- `src/storage/tensor_train_decomposer` — internal; no third-party parsing.
-- `src/storage/tensor_network_storage_engine` (Phase 2) — RocksDB; apply
-  standard RocksDB hardening (encryption at rest, ColumnFamily ACLs).
-- `src/index` (HYBRID mode) — HNSW navigation; review hnswlib CVE tracker
-  before enabling Phase-2 HYBRID mode.
+- Verified files:
+  - src/tensor/tensor_index_manager.cpp
+  - src/tensor/tensor_core_bridge.cpp
+  - src/tensor/tensor_ingestion_bridge.cpp
+  - src/tensor/tensor_fingerprint_graph.cpp
+  - src/tensor/hnsw_tt_bridge.cpp
+  - src/tensor/tnsr_task.cpp
+- Verified controls:
+  - explicit index/bridge fault signaling
+  - observable fingerprint graph behavior
+  - diagnosable tensor structural/runtime failure surfaces

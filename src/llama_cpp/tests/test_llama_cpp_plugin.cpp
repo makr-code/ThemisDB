@@ -11,12 +11,13 @@
  * @file test_llama_cpp_plugin.cpp
  * @brief Unit tests for the llama_cpp LLM plugin
  *
- * Test suite: LlamaCppPluginFocusedTests (56 tests)
+ * Test suite: LlamaCppPluginFocusedTests (57 tests)
  *   Group A (3)  – loadModel: succeeds, double-load, unload
  *   Group B (3)  – getModelInfo: before/after load, model_id
  *   Group C (3)  – isModelLoaded: initially false, after load, after unload
  *   Group D (3)  – generate: uninit returns error, stub echoes prompt, success flag
- *   Group E (3)  – generateRAG: prepends context, calls generate internally
+ *   Group E (4)  – generateRAG: prepends context, calls generate internally,
+ *                  respects explicit context-window override for response budget
  *   Group F (3)  – embed: returns empty when not loaded, non-empty when loaded
  *   Group G (3)  – LoRA: loadLoRA, listLoRAs, unloadLoRA
  *   Group H (3)  – LoRA: duplicate id replaced, unload nonexistent returns false
@@ -168,6 +169,38 @@ TEST(LlamaCppPluginFocusedTests, E3_GenerateRAGUninitReturnsError) {
     RAGContext::Document d; d.content = "ctx"; d.relevance_score = 1.0f;
     ctx.documents = {d};
     EXPECT_FALSE(p.generateRAG(ctx, req).success);
+}
+
+TEST(LlamaCppPluginFocusedTests, E4_GenerateRAGHonoursExplicitContextOverrideForMaxTokens) {
+    LlamaCppPlugin p;
+    p.loadModel("", {});
+
+    int observed_max_tokens = -1;
+    p.setGenerateFn([&](const InferenceRequest& request) {
+        observed_max_tokens = request.max_tokens;
+        InferenceResponse response;
+        response.success = true;
+        response.text = "ok";
+        return response;
+    });
+
+    InferenceRequest req;
+    req.prompt = "query";
+    req.max_tokens = 999;
+
+    RAGContext ctx;
+    ctx.query = req.prompt;
+    ctx.max_context_tokens = 100;
+    ctx.response_budget_tokens = 20;
+    RAGContext::Document d;
+    d.content = "doc";
+    d.relevance_score = 1.0f;
+    ctx.documents = {d};
+
+    const auto response = p.generateRAG(ctx, req);
+    EXPECT_TRUE(response.success);
+    EXPECT_EQ(observed_max_tokens, 20)
+        << "generateRAG must derive max_tokens from the effective RAG context window override";
 }
 
 // ── Group F – embed ───────────────────────────────────────────────────────────

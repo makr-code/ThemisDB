@@ -1,61 +1,71 @@
-> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks ueberfuehren. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
-
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
-
 # Storage Module Roadmap
 
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+
 ## Current Status
-Production-grade RocksDB-based storage stack with MVCC, WAL, backup/PITR, multi-backend blob storage, encryption/signature controls, and operational tooling in active use.
+
+Production-capable storage runtime exists for durable persistence, MVCC/WAL lifecycle behavior, backup/PITR flows, blob/tiering behavior, and storage audit/integrity surfaces.
 
 ## In Progress
-- [~] Storage hardening wave for concurrency, durability defaults, and migration safety (Target: Q3 2026)
-  - [ ] Finalize remaining storage fault-injection and chaos coverage for failover and blob recovery paths (Target: Q3 2026)
-  - [ ] Tighten durability and shutdown behavior checks for high-concurrency write paths (Target: Q3 2026)
+
+- [~] hardening failure-path behavior under sustained write/load and maintenance overlap (Target: Q3 2026)
+- [~] improving diagnostics consistency across storage, replay, and recovery stages (Target: Q3 2026)
+- [~] stabilizing benchmark-backed release guardrails for storage hot paths (Target: Q3 2026)
 
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] Harden tiered-storage migration verification (copy-then-delete invariants, rollback semantics, observability) (Target: Q4 2026)
-- [ ] Expand distributed rate and storage coordination tests for mixed shard/network failure patterns (Target: Q4 2026)
-- [ ] Introduce stricter production durability presets and operator guardrails (Target: Q4 2026)
+- [ ] tighten deterministic behavior under heavy WAL replay and compaction pressure (Target: Q4 2026)
+- [ ] expand stress coverage for blob/tiering and PITR edge scenarios (Target: Q4 2026)
+- [ ] improve operator-facing diagnostics for recovery and maintenance incidents (Target: Q4 2026)
 
 ### Mid-term (6-12 months)
-- [ ] Persistent high-performance vector index backend beyond flat-scan baseline (Target: Q1 2027)
-- [ ] Extended online schema migration safety checks for large datasets and long-running backfills (Target: Q1 2027)
-- [ ] Tensor-storage phase hardening with backend and benchmark completion (Target: Q1 2027)
+- [ ] re-baseline p95/p99 envelopes for write/replay/recovery-sensitive paths (Target: Q1 2027)
+- [ ] broaden benchmark depth for mount-latency and storage allocator edge paths (Target: Q1 2027)
+- [ ] harden long-run reliability under sustained mixed read/write pressure (Target: Q1 2027)
 
 ## Implementation Phases
 
-### Phase 1: Concurrency and Lifecycle Safety
-- [ ] Validate no-operation-after-close invariants across all RocksDB wrapper entry points (Target: Q3 2026)
-- [ ] Expand stress tests for transaction + background maintenance interactions (Target: Q3 2026)
+### Phase 1: Design / API Contract
+- [ ] freeze storage wrapper/engine/recovery contracts for current major line (Target: Q3 2026)
+- [ ] define explicit error taxonomy for durability and recovery incident classes (Target: Q3 2026)
 
-### Phase 2: Durability and Recovery
-- [ ] Strengthen default durability profile guidance and runtime warnings for non-sync writes (Target: Q4 2026)
-- [ ] Extend PITR/WAL replay validation under partial-failure scenarios (Target: Q4 2026)
+### Phase 2: Core Implementation
+- [ ] complete hardening for WAL/MVCC and backup/PITR internals (Target: Q4 2026)
+- [ ] align tiered/blob/redundancy behavior to bounded runtime contracts (Target: Q4 2026)
 
-### Phase 3: Blob and Tier Migration Reliability
-- [ ] Add end-to-end chaos scenarios for backend outage, recovery, and re-replication (Target: Q4 2026)
-- [ ] Validate migration correctness under concurrent read/write pressure (Target: Q4 2026)
+### Phase 3: Error Handling and Edge Cases
+- [ ] standardize fail-safe behavior for replay faults, storage pressure, and recovery errors (Target: Q4 2026)
+- [ ] unify diagnostics across persistence, maintenance, and recovery incident classes (Target: Q4 2026)
 
-### Phase 4: Performance and Capacity Hardening
-- [ ] Re-baseline write amplification, compaction pressure, and cache hit targets on representative workloads (Target: Q1 2027)
-- [ ] Add bounded-overhead guarantees for audit/signature paths under peak ingest (Target: Q1 2027)
+### Phase 4: Tests
+- [ ] expand focused regressions for replay, PITR, and tiered/blob edge scenarios (Target: Q4 2026)
+- [ ] extend deterministic stress fixtures for mixed write + maintenance workloads (Target: Q4 2026)
 
-### Phase 5: Documentation and Release Readiness
-- [ ] Keep storage docs source-aligned after each hardening cycle with explicit sourcecode verification evidence (Target: ongoing)
-- [ ] Keep completed roadmap work exclusively in changelog (Target: ongoing)
+### Phase 5: Performance and Hardening
+- [ ] lock benchmark-backed release gates for storage hot paths (Target: Q4 2026)
+- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+
+### Phase 6: Documentation and Acceptance
+- [x] core storage module docs aligned to source-verifiable behavior
+- [x] roadmap/future planning separated from historical changelog entries
 
 ## Production Readiness Checklist
-- Status: Tracking in progress
-- Nachweise: focused storage tests, WAL/PITR suites, blob backend tests, performance benchmarks
-- Hinweis: Abgeschlossene Arbeit wird ausschliesslich in CHANGELOG dokumentiert.
+
+- [x] core storage surfaces documented and source-verified
+- [x] module-level security and failure behavior documented
+- [x] benchmark mapping documented in performance expectations
+- [ ] remaining hardening tasks closed for durability/recovery edge paths
+- [ ] release benchmark stabilization complete
 
 ## Known Issues and Limitations
-- Some chaos/fault-injection scenarios for multi-backend blob failover remain incomplete.
-- Persistent vector-index backend depth is still limited beyond current in-memory baseline.
-- Some long-horizon migration and distributed failure envelopes require additional evidence.
+
+- runtime behavior depends on storage configuration, backend profile, and workload shape.
+- selected replay/recovery/tiering edge scenarios need continued hardening.
+- benchmark depth should continue expanding for advanced storage workloads.
 
 ## Breaking Changes
-- Storage public APIs in active major lines remain additive-first.
-- Key schema and migration contracts require explicit compatibility handling before any breaking evolution.
+
+No breaking storage contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.

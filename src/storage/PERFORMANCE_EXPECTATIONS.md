@@ -1,62 +1,45 @@
-# PERFORMANCE_EXPECTATIONS — src/storage
+# PERFORMANCE_EXPECTATIONS - src/storage
 
 ## Scope
-- Modul: `src/storage`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
-## Benchmark-Bezug
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_storage_performance.cpp`
-  - `benchmarks/bench_tpcc.cpp`
-  - `benchmarks/bench_vector_search.cpp`
+- Module: src/storage
+- This file defines measurable storage module performance expectations for release gating.
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Benchmark Reference
+
+- Relevant benchmark files:
+  - benchmarks/bench_storage_performance.cpp
+  - benchmarks/bench_user_storage_mount_latency.cpp
+
+## Specific Expectations
+
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| BM-1 | OLTP New-Order darf keine signifikante Regression ggü. Baseline zeigen | `BENCHMARK_REGISTER_F(TPCCLiteFixture, NewOrderTransaction)` |
-| BM-2 | OLTP Payment darf keine signifikante Regression ggü. Baseline zeigen | `BENCHMARK_REGISTER_F(TPCCLiteFixture, PaymentTransaction)` |
-| BM-3 | OLTP Stock-Level darf keine signifikante Regression ggü. Baseline zeigen | `BENCHMARK_REGISTER_F(TPCCLiteFixture, StockLevelTransaction)` |
-| BM-4 | Vector-Search efSearch bleibt im Baseline-Korridor | `BM_VectorSearch_efSearch` |
-| BM-5 | Sustained write no-sync bleibt im Baseline-Korridor | `BM_Storage_SustainedWrite_NoSync` |
-| BM-6 | Sustained batched write bleibt im Baseline-Korridor | `BM_Storage_SustainedWrite_Batched` |
-| BM-7 | WAL group-commit batch bleibt im Baseline-Korridor | `BM_WAL_GroupCommit_Batch` |
+| STGP-1 | allocator and memory path behavior remain bounded under representative allocation patterns | BM_Allocator_System_Small, BM_Allocator_Themis_Small, BM_Allocator_System_Large, BM_Allocator_Themis_Large, BM_Allocator_Mixed, BM_Memory_RegularPages_Sequential, BM_Memory_HugePages_Sequential, BM_Memory_RegularPages_Random, BM_Memory_HugePages_Random, BM_Memory_Overhead |
+| STGP-2 | storage sustained-write and WAL group-commit paths remain bounded | BM_Storage_SustainedWrite_NoSync, BM_Storage_SustainedWrite_Batched, BM_Storage_SustainedWrite_FullSync, BM_WAL_GroupCommit_Batch |
+| STGP-3 | RCU read/write helper behavior remains bounded | BM_RCU_Read_SingleThread, BM_RCU_Write_WithSync, BM_RCU_Read_MultiThread |
+| STGP-4 | user storage mount and mount-dispatch helper paths remain bounded | GocryptfsBenchFixture/Initialize, GocryptfsBenchFixture/CheckAvailability, GocryptfsBenchFixture/IsMounted, GocryptfsBenchFixture/MountContainer_FastFail, GocryptfsBenchFixture/UnmountContainer_FastFail, GocryptfsBenchFixture/MountUnmountCycle, BM_MountDispatch_NoKDF, GocryptfsBenchFixture/BackendMeta |
 
-## Modulspezifische harte Grenzwerte (v1.9.0)
+## Module Hard Gates (v1.0 docs baseline)
 
-| Gate-ID | Erwartungswert | Messregel |
+| Gate ID | Expectation | Measurement |
 |---|---|---|
-| SG-1 | >= 18000 txn/s (TPC-C NewOrder Throughput) | mean aus `BENCHMARK_REGISTER_F(TPCCLiteFixture, NewOrderTransaction)` |
-| SG-2 | <= 35 ms (TPC-C StockLevel Latenz P95) | p95 aus `BENCHMARK_REGISTER_F(TPCCLiteFixture, StockLevelTransaction)` |
-| SG-3 | <= 30 ms (VectorSearch Latenz P99) | p99 aus `BM_VectorSearch_efSearch` |
-| SG-4 | Regression <= 8 % gegen letzte Release-Baseline | `(current - baseline) / baseline` |
+| STGG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| STGG-2 | storage hot-path p99 <= release threshold | p99 from mapped storage benchmark cases |
+| STGG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+## Validation
 
-## Numerische Mindestziele (Release Gate)
-
-| Gate-ID | Erwartungswert | Messregel |
-|---|---|---|
-| NG-1 Latenz P95 | <= 50 ms | p95 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-2 Latenz P99 | <= 100 ms | p99 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-3 Throughput-Stabilitaet | Regression <= 10 % gegen letzte Baseline | `(current - baseline) / baseline` |
-
-Hinweis:
-- Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
-- Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- Mapping should be expanded as additional storage benchmark scenarios are introduced.
 
 ## Sourcecode Verification (Module: storage/performance)
 
-- Gepruefte Benchmark-Quellen:
-  - `benchmarks/bench_storage_performance.cpp`
-  - `benchmarks/bench_tpcc.cpp`
-  - `benchmarks/bench_vector_search.cpp`
-- Gepruefte Ziel-Fall-Zuordnung:
-  - TPC-C fixture benchmarks (`BENCHMARK_REGISTER_F(TPCCLiteFixture, ...)`)
-  - storage sustained-write and WAL group-commit benchmarks (`BM_Storage_*`, `BM_WAL_GroupCommit_Batch`)
-  - vector search regression signal (`BM_VectorSearch_efSearch`)
-- Ergebnis:
-  - Referenzierte Benchmark-Faelle existieren im aktuellen Benchmark-Source.
-  - Erwartungswerte bleiben an reproduzierbare Release-Profil-Messungen und Baseline-Vergleich gebunden.
+- Verified benchmark sources:
+  - benchmarks/bench_storage_performance.cpp
+  - benchmarks/bench_user_storage_mount_latency.cpp
+- Verified mapping surfaces:
+  - allocator/memory, RCU, sustained-write/WAL, and mount-latency behavior
+- Result:
+  - Referenced benchmark cases exist in current benchmark sources.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

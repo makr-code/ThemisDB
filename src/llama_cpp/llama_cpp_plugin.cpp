@@ -20,6 +20,10 @@
 #else
 namespace spdlog {
 template <typename... Args>
+inline void info(const char*, Args&&...) {}
+template <typename... Args>
+inline void debug(const char*, Args&&...) {}
+template <typename... Args>
 inline void warn(const char*, Args&&...) {}
 } // namespace spdlog
 #endif
@@ -341,10 +345,6 @@ llm::InferenceResponse LlamaCppPlugin::generateRAG(
                    ? static_cast<size_t>(request.max_tokens)
                    : llm::kDefaultMinResponseTokens);
 
-    themis::rag::RAGContextAssembler assembler(cfg);
-    const themis::rag::AssembledContext ctx =
-        assembler.assemble(chunks, /*system_prompt=*/"", request.prompt);
-
     std::string rag_mode = "text";
     if (request.metadata.is_object()) {
         const auto rag_mode_it = request.metadata.find("rag_mode");
@@ -352,6 +352,26 @@ llm::InferenceResponse LlamaCppPlugin::generateRAG(
             rag_mode = rag_mode_it->get<std::string>();
         }
     }
+
+    spdlog::info(
+        "LlamaCppPlugin::generateRAG start: docs={} rag_mode='{}' query_chars={} model_ctx={} response_budget={} request_max_tokens={}",
+        rag_context.documents.size(),
+        rag_mode,
+        request.prompt.size(),
+        cfg.model_context_tokens,
+        cfg.min_response_tokens,
+        request.max_tokens);
+
+    themis::rag::RAGContextAssembler assembler(cfg);
+    const themis::rag::AssembledContext ctx =
+        assembler.assemble(chunks, /*system_prompt=*/"", request.prompt);
+
+    spdlog::info(
+        "LlamaCppPlugin::generateRAG assembled: chunks_used={} tokens_used={} truncated={} response_tokens_remaining={}",
+        ctx.chunks_used.size(),
+        ctx.tokens_used,
+        ctx.was_truncated,
+        ctx.tokens_remaining_for_response);
 
     llm::InferenceRequest augmented = request;
 
@@ -414,9 +434,15 @@ llm::InferenceResponse LlamaCppPlugin::generateRAG(
     // Clamp max_tokens to the remaining response budget.
     augmented.max_tokens = themis::rag::RAGContextAssembler::computeMaxTokens(
         llm::ContextWindowBudget::compute(
-            context_length_, /*system=*/"", augmented.prompt,
+            cfg.model_context_tokens, /*system=*/"", augmented.prompt,
             cfg.min_response_tokens),
         request.max_tokens);
+
+    spdlog::info(
+        "LlamaCppPlugin::generateRAG dispatch: rag_mode='{}' prompt_chars={} effective_max_tokens={}",
+        rag_mode,
+        augmented.prompt.size(),
+        augmented.max_tokens);
 
     return generate(augmented);
 }
