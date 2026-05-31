@@ -1,87 +1,62 @@
-> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+# Audit Report - Prompt Engineering Module
 
-<!-- Status: current | validated: 2026-04-19 -->
-<!-- Links: README.md · ARCHITECTURE.md · SECURITY.md -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-# Audit Record — Prompt Engineering Module
+## Summary
 
-## Module Identity
+| Metric | Result |
+|---|---|
+| Build registration | pass |
+| Source set size | pass (module core files present) |
+| Focused test presence | pass |
+| Open hardening findings | yes |
+| Critical blockers | none identified |
 
-| Field        | Value                              |
-|--------------|------------------------------------|
-| Module       | prompt_engineering                 |
-| Source path  | `src/prompt_engineering/`          |
-| Audit date   | 2026-04-19                         |
-| Audited by   | ThemisDB core team                 |
-| Status       | Production-ready                   |
+## Verified Files
 
-## Source File Inventory
+- src/prompt_engineering/prompt_manager.cpp
+- src/prompt_engineering/prompt_version_control.cpp
+- src/prompt_engineering/prompt_optimizer.cpp
+- src/prompt_engineering/prompt_evaluator.cpp
+- src/prompt_engineering/feedback_collector.cpp
+- src/prompt_engineering/prompt_engineering_metrics.cpp
+- src/prompt_engineering/prompt_template_compiler.cpp
+- src/prompt_engineering/prompt_template_validator.cpp
+- src/prompt_engineering/prompt_regression_runner.cpp
+- src/prompt_engineering/prompt_performance_tracker.cpp
+- src/prompt_engineering/prompt_ab_experiment.cpp
 
-| File | Purpose | Test Coverage |
-|-------|---------|---------------|
-| `chain_of_thought.cpp` | ChainOfThoughtBuilder for multi-step reasoning prompts | ✅ Covered |
-| `context_window_manager.cpp` | Context window budget management and token counting | ✅ Covered |
-| `cot_tracer.cpp` | Chain-of-thought execution tracer and step logger | ✅ Covered |
-| `dspy_module.cpp` | DSPy-style declarative prompt programming module | ✅ Covered |
-| `feedback_collector.cpp` | 10 feedback types, Z-score outlier detection, FNV-1a checksum | ✅ Covered |
-| `llm_reflection_adapter.cpp` | LLM self-reflection adapter for prompt improvement | ✅ Covered |
-| `meta_prompt_generator.cpp` | MetaPromptGenerator via ILLMProvider interface | ✅ Covered |
-| `prompt_ab_experiment.cpp` | A/B experiment framework for prompt variants | ✅ Covered |
-| `prompt_engineering_integration.cpp` | Unified integration facade | ✅ Covered |
-| `prompt_engineering_metrics.cpp` | Prometheus metrics with crash-safe snapshot/restore | ✅ Covered |
-| `prompt_evaluator.cpp` | Semantic similarity + Welch's t-test significance | ✅ Covered |
-| `prompt_injection_detector.cpp` | 10-pattern injection detection and sanitize() | ✅ Covered |
-| `prompt_library_io.cpp` | Prompt library import/export (YAML, JSON) | ✅ Covered |
-| `prompt_manager.cpp` | CRUD + RocksDB persistence + YAML bulk-load | ✅ Covered |
-| `prompt_optimizer.cpp` | Automated template improvement | ✅ Covered |
-| `prompt_performance_tracker.cpp` | Per-template latency histograms | ✅ Covered |
-| `prompt_regression_runner.cpp` | Automated prompt regression test runner | ✅ Covered |
-| `prompt_template_compiler.cpp` | Prompt template compilation and placeholder resolution | ✅ Covered |
-| `prompt_template_validator.cpp` | Prompt template syntax and schema validation | ✅ Covered |
-| `prompt_version_control.cpp` | Git-like branches/commits/diffs | ✅ Covered |
-| `protegi_optimizer.cpp` | ProTeGi automatic prompt optimization via gradient-free search | ✅ Covered |
-| `rag_prompt_builder.cpp` | Budget-aware chunk selection + citations | ✅ Covered |
-| `reflection_tuner.cpp` | Reflection-based iterative prompt tuning | ✅ Covered |
-| `self_improvement_orchestrator.cpp` | Evaluator + optimizer feedback loop | ✅ Covered |
-| `system_prompt_manager.cpp` | System-prompt lifecycle and versioning | ✅ Covered |
-| `tree_of_thoughts.cpp` | Tree-of-Thoughts multi-path reasoning framework | ✅ Covered |
+## Findings
 
-**Total: 26 source files**
+### Open
 
-## Test Coverage
+1. [PE-AUD-01] adversarial template and injection edge hardening remains active.
+- Severity: medium
+- Evidence: roadmap/future retain active hardening for adversarial and malformed template paths.
+- Action: expand deterministic regressions and diagnostics for injection/validation incidents.
 
-| Metric           | Value  |
-|------------------|--------|
-| Line coverage    | > 80%  |
-| Branch coverage  | > 80%  |
+2. [PE-AUD-02] optimization/evaluation diagnostics need deeper consistency.
+- Severity: medium
+- Evidence: active follow-up work for optimizer/evaluator failure taxonomy alignment.
+- Action: unify incident classification and operator-facing diagnostics.
 
-## Security Audit Summary
+3. [PE-AUD-03] advanced benchmark depth should grow beyond current baseline coverage.
+- Severity: low
+- Evidence: core benchmark mapping is valid; advanced workflows need broader direct benchmarks.
+- Action: add benchmark depth for complex concurrent/adversarial prompt workflows.
 
-| Control                          | Status      | Notes                                       |
-|----------------------------------|-------------|---------------------------------------------|
-| Prompt injection detection       | ✅ Complete | 10 patterns, sanitize() enforced            |
-| Structural-only placeholder sub  | ✅ Complete | No expression evaluation                    |
-| Feedback audit checksum (FNV-1a) | ✅ Complete | Every entry checksummed                     |
-| A/B statistical significance     | ✅ Complete | erfc-based normal CDF gates                 |
-| Version control authorization    | ⚠️ Server  | RBAC at server layer; not in-module         |
-| Token counting / context budget  | ❌ Open     | Caller responsibility; no guard in module   |
+### Closed
 
-## Open Items
+- core prompt engineering runtime surfaces are present and source-verified.
+- documentation set is synchronized to source-verifiable claims.
+- changelog/roadmap role separation is aligned to module governance pattern.
 
-All previously open items have been resolved. See ROADMAP.md for planned future features.
+## Compliance Snapshot
 
-| ID    | Description                                         | Status  |
-|-------|-----------------------------------------------------|---------|
-| OI-01 | Typed DSL for structured prompt authoring           | ✅ Implemented (v2.1.0) — `PromptTemplateCompiler`, `CompiledPromptTemplate`, `PromptTemplateValidator` |
-| OI-02 | Token counting and context-window budget manager    | ✅ Implemented — `ContextWindowBudgetManager` in `context_window_manager.cpp` |
-| OI-03 | Chain-of-thought execution tracer                   | ✅ Implemented — `IChainOfThoughtTracer`, `RecordingCoTTracer`, `CoTTraceCollector` in `cot_tracer.cpp` |
-| OI-04 | Prompt regression suite                             | ✅ Implemented — `PromptRegressionRunner` in `prompt_regression_runner.cpp` |
-
-## Build Audit
-
-| Check                       | Result     |
-|-----------------------------|------------|
-| Compilation (all 26 files) | ✅ Pass    |
-| Static analysis             | ✅ Pass    |
-| Test coverage > 80%         | ✅ Pass    |
-| Audit completed             | 2026-03-12 |
+| Requirement | Status |
+|---|---|
+| Source-verifiable behavior claims | pass |
+| Structured forward planning in roadmap/future | pass |
+| Historical completion tracked in changelog | pass |
+| Core module docs synchronized | pass |

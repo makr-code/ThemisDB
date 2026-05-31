@@ -1,54 +1,53 @@
-> ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
+> WARNING: Historical changelog entries describe implementation state at the time they were recorded.
 
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-# Changelog — Graph Module
+# Changelog - Graph Module
 
-All notable changes to the Graph module are documented here.
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+All notable changes to the graph module are documented here.
+The format is based on Keep a Changelog.
 
 ## [Unreleased]
 
-- GPU-accelerated BFS/DFS kernels (issue #1829)
-- ANN/GNN integration for graph embeddings
-- Extended unit test coverage (issue #1830)
-
-## [1.3.0] — 2026-03-xx
-### Added
-- EXPLAIN HTTP endpoint for graph query plan inspection
-- Scheduled semantic edge refresh with vector similarity scoring and temporal decay
-- Distributed graph query support across shards with shard-isolated execution
 ### Changed
-- Cost-based query optimizer extended with cardinality estimation for multi-hop paths
-- Parallel BFS/DFS refactored to use work-stealing thread pool
-### Fixed
-- Edge weight overflow in large-graph traversals with high-cardinality nodes
-- Race condition in parallel traversal when visiting shared frontier nodes
+- Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
+- Performance expectations updated to explicit verified graph benchmark symbols from traversal, optimizer, and tensor-fingerprint benchmark suites.
 
-## [1.2.0] — 2025-09-01
+## [1.3.0] - 2026-03-01
+
 ### Added
-- Subgraph isomorphism via VF2 algorithm with pruning heuristics
-- Path constraint validation for node/edge filter expressions
-- Cost-based query optimizer with rule-based rewriting pass
+- EXPLAIN endpoint support and scheduled semantic edge refresh support.
+
 ### Changed
-- BFS/DFS parallelism level now configurable via `graph.traversal.parallelism`
-### Fixed
-- VF2 matching producing duplicate candidate mappings on symmetric graphs
+- optimizer and parallel traversal internals refined for production stability.
 
-## [1.1.0] — 2025-03-01
+### Fixed
+- traversal and concurrency correctness issues in large/fan-out graph scenarios.
+
+## [1.2.0] - 2025-09-01
+
 ### Added
-- Parallel BFS and DFS traversal using thread-local frontier queues
-- Distributed graph queries with cross-shard edge resolution
-- Query timeout enforcement to prevent unbounded traversals
+- subgraph isomorphism support, path-constraint validation, and optimizer rewrite integration.
+
 ### Changed
-- Internal adjacency representation migrated from CSR to hybrid CSR/hash-map for dynamic graphs
-### Fixed
-- Incorrect shortest-path result when negative-weight edges present in BFS mode
+- configurable traversal parallelism behavior.
 
-## [1.0.0] — 2024-01-01
+### Fixed
+- duplicate-candidate behavior in symmetric matching scenarios.
+
+## [1.1.0] - 2025-03-01
+
 ### Added
-- Initial implementation of property graph traversal engine
-- Basic BFS/DFS with depth and hop-count limits
-- AQL graph pattern matching integration
-- Edge and node property filtering
+- parallel BFS/DFS traversal and distributed query support.
+
+### Changed
+- adjacency representation improvements for dynamic graph workloads.
+
+### Fixed
+- shortest-path correctness issue for invalid negative-weight assumptions in BFS mode.
+
+## [1.0.0] - 2024-01-01
+
+### Added
+- foundational graph traversal, pattern matching integration, and property filtering paths.

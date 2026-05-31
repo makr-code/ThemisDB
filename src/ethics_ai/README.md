@@ -1,150 +1,71 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release --target <target>`
-
-<!-- Status: current | validated: 2026-05-12 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
-
 # ThemisDB Ethics AI Module
 
-**Version:** 0.3.x
-**Status:** 🟡 Beta
-**Last Updated:** 2026-05-12
-**Module Path:** `src/ethics_ai/`
-**Public Header Path:** `include/ethics_ai/`
-**Namespace:** `themis::plugins::ethics`
-
----
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Module Purpose
 
-The Ethics AI module provides a multi-philosophy decision pipeline for ThemisDB. It combines
-profile-driven argument generation, argument persistence, context retrieval, and decision
-synthesis into a plugin-compatible runtime component.
+The ethics_ai module provides multi-philosophy ethics reasoning runtime surfaces for ThemisDB, including discourse orchestration, argument persistence, philosophy profile loading, RAG context assembly, decision evaluation, and plugin integration.
 
-Core outcomes:
-- initialise ethical debates over one or more philosophy schools,
-- generate/store/retrieve argument and decision artifacts,
-- enrich decisions with RAG context from stored argument data,
-- evaluate decisions with a 5-dimension scoring model,
-- expose runtime metrics for observability.
+## Relevant Interfaces
 
----
+| Interface / File | Role |
+|---|---|
+| ethics_ai_plugin.cpp | plugin lifecycle and runtime wiring |
+| discourse_engine.cpp | debate initialization, continuation, and decision synthesis |
+| argument_store.cpp | argument/decision/profile storage and retrieval |
+| philosophy_loader.cpp | philosophy profile loading and validation |
+| rag_context_engine.cpp | context retrieval and semantic lookup paths |
+| ethics_evaluator.cpp | decision scoring and metrics surfaces |
+| chain_visualizer.cpp | argument chain export (DOT/Mermaid) |
+| ethics_profile_registry.cpp | profile registry/index behavior |
+| ethics_selection_router.cpp | profile/school routing strategy |
+| convergence_marker_engine.cpp | convergence marker generation |
+| cross_school_tension_resolver.cpp | cross-school tension and opposition routing |
+| prior_round_compressor.cpp | prior-round context compression logic |
+| synthesis_matrix_builder.cpp | synthesis matrix assembly |
+| llm_cascade_router.cpp | LLM cascade routing |
 
-## Entry Points and Main Components
+## Scope
 
-### Public API Entry Points (`include/ethics_ai/`)
+In scope:
+- ethics debate orchestration and decision synthesis contracts
+- profile loading/selection and argument store integration
+- context assembly, evaluation, and observability surfaces
+- plugin-level ethics runtime wiring
 
-| Header | Primary Contract |
-|--------|------------------|
-| `ethics_ai/ethics_ai_plugin_interface.h` | `IEthicsAIPlugin` lifecycle + decision/storage/retrieval/evaluation/config APIs |
-| `ethics_ai/ethics_ai_types.h` | Shared enums/structs (`EthicalArgument`, `EthicalDecision`, `PhilosophyProfile`, `RAGContext`, `Status`, etc.) |
-| `ethics_ai/*.h` (router/compressor/validator/memory helpers) | Optional strategy and budget components used by extended debate workflows |
+Out of scope:
+- unrelated plugin subsystems outside ethics_ai interfaces
+- external model ownership beyond module integration contracts
+- non-ethics business logic in unrelated domains
 
-### Source Components (`src/ethics_ai/`)
+## Runtime Behavior and Limits
 
-| File | Class / Role |
-|------|--------------|
-| `ethics_ai_plugin.cpp` | `EthicsAIPlugin` implementation of `IEthicsAIPlugin`, wiring loader/store/RAG/evaluator |
-| `discourse_engine.cpp` | `EthicalDiscourseEngine` orchestration for debate init, rounds, and synthesis |
-| `argument_store.cpp` | `ArgumentStore` persistence of arguments, decisions, profiles, and chains |
-| `philosophy_loader.cpp` | `PhilosophyLoader` profile loading and YAML validation |
-| `rag_context_engine.cpp` | `RAGContextEngine` context retrieval patterns |
-| `ethics_evaluator.cpp` | `EthicsEvaluator` scoring and metrics helpers |
-| `chain_visualizer.cpp` | DOT/Mermaid export for argument chain visualisation |
-| `*_router/*.cpp`-style helpers | Selection/compression/convergence/tournament support in multi-school debates |
+- module behavior depends on loaded philosophy profiles and runtime config.
+- decision quality and consensus outputs depend on argument/profile quality.
+- some advanced generation and embedding paths remain configuration-dependent.
 
----
+## Sourcecode Verification (Module: ethics_ai/readme)
 
-## Runtime Behavior
-
-1. Plugin initialization creates and wires loader, store, RAG engine, discourse engine, and evaluator.
-2. Optional `philosophy_dir` configuration triggers profile loading during initialization.
-3. Operational calls are fail-fast when uninitialized (`Status::Error("Plugin not initialized")`).
-4. Debate and decision methods update internal metrics counters.
-5. Metrics are exposed as Prometheus text and dashboard JSON snapshots.
-
----
-
-## Configuration
-
-| Key | Type | Default | Effect |
-|-----|------|---------|--------|
-| `philosophy_dir` | string | unset | Loads philosophy profiles during `initialize()` if present |
-
-Other keys can be stored via `setConfig()` / `getConfig()`, but only consumed keys affect runtime behavior.
-
----
-
-## Installation
-
-This module is built as part of ThemisDB. Build via the project presets and include
-the module through the plugin system/runtime used in your environment.
-
----
-
-## Error Cases and Limits
-
-### Common Error Cases
-
-- Plugin lifecycle misuse (API called before successful `initialize()`).
-- Unknown or missing philosophy profile IDs.
-- Invalid profile path / YAML parse errors.
-- Missing argument/decision/chain IDs in store lookups.
-- Empty school sets for debate workflows.
-
-### Current Limits
-
-- LLM-backed argument generation is not fully enabled by default module flow.
-- Real embedding-backed semantic retrieval remains a planned enhancement.
-- Runtime quality depends on the loaded profile quality/coverage.
-
-For planned completion work, see roadmap and enhancement docs linked below.
-
----
-
-## Usage Snippet
-
-```cpp
-#include "ethics_ai/ethics_ai_plugin_interface.h"
-
-using themis::plugins::ethics::IEthicsAIPlugin;
-using themis::plugins::ethics::EthicalDecision;
-
-IEthicsAIPlugin* ethics = /* injected via plugin manager */ nullptr;
-
-if (ethics && ethics->initialize(R"({"philosophy_dir":"plugins/ethics_ai/philosophies"})")) {
-    auto result = ethics->makeDecision(
-        "Should a medical triage AI prioritize maximum survival probability?",
-        {"utilitarianism", "kantian_ethics", "care_ethics"},
-        "bioethics",
-        true
-    );
-
-    if (std::holds_alternative<EthicalDecision>(result)) {
-        const auto& decision = std::get<EthicalDecision>(result);
-        // decision.decision_text / decision.confidence / decision.consensus_level
-    }
-}
-```
-
----
-
-## Troubleshooting
-
-- **`Plugin not initialized`**: verify successful `initialize()` call and configuration parsing.
-- **Profile loading errors**: validate `philosophy_dir` path and YAML syntax/content.
-- **`Philosophy profile not found`**: align request school IDs with loaded profiles.
-- **Unexpectedly low consensus/confidence**: inspect school mix and argument strength distribution.
-- **No useful RAG context**: ensure argument store has domain-relevant historical arguments.
-
----
-
-## See Also
-
-- Public headers overview: [`../../include/ethics_ai/README.md`](../../include/ethics_ai/README.md)
-- Architecture: [`ARCHITECTURE.md`](ARCHITECTURE.md)
-- Security: [`SECURITY.md`](SECURITY.md)
-- Roadmap: [`ROADMAP.md`](ROADMAP.md)
-- Future enhancements: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)
-- Module index (DE): [`../../docs/de/ethics_ai/README.md`](../../docs/de/ethics_ai/README.md)
-- Primary sources (DE): [`../../docs/de/ethics_ai/PRIMARY_SOURCES.md`](../../docs/de/ethics_ai/PRIMARY_SOURCES.md)
-- Primary sources (EN): [`../../docs/en/ethics_ai/PRIMARY_SOURCES.md`](../../docs/en/ethics_ai/PRIMARY_SOURCES.md)
+- Verified files:
+  - src/ethics_ai/ethics_ai_plugin.cpp
+  - src/ethics_ai/discourse_engine.cpp
+  - src/ethics_ai/argument_store.cpp
+  - src/ethics_ai/philosophy_loader.cpp
+  - src/ethics_ai/rag_context_engine.cpp
+  - src/ethics_ai/ethics_evaluator.cpp
+  - src/ethics_ai/chain_visualizer.cpp
+  - src/ethics_ai/ethics_profile_registry.cpp
+  - src/ethics_ai/ethics_selection_router.cpp
+  - src/ethics_ai/convergence_marker_engine.cpp
+  - src/ethics_ai/cross_school_tension_resolver.cpp
+  - src/ethics_ai/prior_round_compressor.cpp
+  - src/ethics_ai/synthesis_matrix_builder.cpp
+  - src/ethics_ai/llm_cascade_router.cpp
+- Verified behavior surfaces:
+  - ethics decision/discourse orchestration and plugin lifecycle behavior
+  - profile/store/RAG/evaluator integration boundaries
+  - advanced context/routing/compression utility surfaces
+- Note:
+  - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
+  - historical entries remain in CHANGELOG.md

@@ -1,94 +1,71 @@
-> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
-
 # Projects Module Roadmap
+
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
-v1.0.0 — Core project management features implemented: lifecycle state machine, snapshot
-versioning, structural diff/merge, template instantiation, and collaboration session management.
+Production-capable project-domain runtime exists for lifecycle transitions, snapshot/version behavior, structural diff/merge, template-based initialization, and bounded collaboration metrics/audit surfaces.
 
-## Completed ✅
+## In Progress
 
-- [x] `ProjectLifecycle` — state-machine transitions with guard validation (`project_lifecycle.cpp`)
-- [x] `ProjectVersioning` — snapshot creation, listing, and restoration (`project_versioning.cpp`)
-- [x] `ProjectDiff` / `ProjectMerge` — structural delta computation and three-way merge (`project_diff.cpp`)
-- [x] `ProjectTemplate` — built-in templates (`BLANK`, `ANALYTICS`, `ML_PIPELINE`, `REPORT`) and custom YAML/JSON instantiation (`project_template.cpp`)
-- [x] `CollaborationManager` — concurrent editing sessions with `READ/WRITE/ADMIN/OWNER` permission enforcement (`collaboration_manager.cpp`)
-- [x] `IProjectAuditLog` interface — append-only audit trail for project operations (`include/projects/project_audit_log.h`)
-- [x] `IProjectBundleManager` interface — project bundle import/export (`include/projects/project_bundle.h`)
+- [~] hardening edge-case behavior for snapshot restore and conflict-heavy merge scenarios (Target: Q3 2026)
+- [~] collaboration lock contention and permission diagnostic consistency improvements (Target: Q3 2026)
+- [~] benchmark coverage expansion for module-native collaboration/template paths (Target: Q3 2026)
 
-## In Progress 🚧
+## Planned Features
 
-*(none currently in progress)*
+### Short-term (3-6 months)
+- [ ] tighten deterministic behavior for high-churn project mutation workloads (Target: Q4 2026)
+- [ ] expand focused stress coverage for lifecycle/snapshot/collaboration incidents (Target: Q4 2026)
+- [ ] improve operator-facing diagnostics for project conflict triage (Target: Q4 2026)
 
-## Planned Features 📋
-
-### Short-term (2026-Q3) — Completed ✅
-- [x] Unit and integration tests for all lifecycle transition paths (Target: 2026-Q3) — `tests/test_projects.cpp` PL-01..PL-07; `tests/test_project_collaboration_concurrent.cpp` CC-08 lifecycle race
-- [x] Unit tests for `ProjectDiff` conflict detection and `ProjectMerge` three-way merge (Target: 2026-Q3) — `tests/test_projects.cpp` PD-01..PD-07
-- [x] Unit tests for `ProjectVersioning` round-trips and snapshot restore (Target: 2026-Q3) — `tests/test_projects.cpp` PV-01..PV-06
-- [x] Integration tests for concurrent collaboration session scenarios (Target: 2026-Q3) — `tests/test_project_collaboration_concurrent.cpp` CC-01..CC-08
-- [x] REST API endpoints for project bundle export/import via `IProjectBundleManager` (Target: 2026-Q3) — interface in `include/projects/project_bundle.h`
-
-### Medium-term (2026-Q4)
-- [x] Operational hardening: Prometheus metrics for collaboration session counts and diff computation latency (Target: 2026-Q4)
-- [ ] Security review: permission enforcement edge cases in `CollaborationManager` (Target: 2026-Q4)
+### Mid-term (6-12 months)
+- [ ] re-baseline p95/p99 envelopes for snapshot and collaboration-sensitive paths (Target: Q1 2027)
+- [ ] add module-native benchmark depth for template/collaboration surfaces (Target: Q1 2027)
+- [ ] validate long-run reliability under sustained multi-actor project traffic (Target: Q1 2027)
 
 ## Implementation Phases
 
-### Phase 1: Core Implementation (Status: Completed ✅)
-- [x] `ProjectLifecycle` state machine with guard validation
-- [x] `ProjectVersioning` snapshot model with `SnapshotMeta`
-- [x] `ProjectDiff` delta types (`ADDED`, `REMOVED`, `MODIFIED`, `MOVED`) and `DeltaSet`
-- [x] `ProjectTemplate` with built-in templates and custom schema support
-- [x] `CollaborationManager` with `Permission`, `User`, `Change` model
+### Phase 1: Design / API Contract
+- [ ] freeze lifecycle/versioning/diff/collaboration contract boundaries for current major line (Target: Q3 2026)
+- [ ] define explicit error taxonomy for project-domain failure classes (Target: Q3 2026)
 
-### Phase 2: Interfaces & Integration (Status: Completed ✅)
-- [x] `IProjectAuditLog` interface with `ProjectAuditAction` enum
-- [x] `IProjectBundleManager` interface with `ProjectBundleManifest`
+### Phase 2: Core Implementation
+- [ ] complete hardening for lifecycle/versioning internals and restore guards (Target: Q4 2026)
+- [ ] align diff/template/collaboration behavior to bounded runtime contracts (Target: Q4 2026)
 
-### Phase 3: Tests (Status: Completed ✅ 2026-04-21)
-- [x] Unit tests for lifecycle transitions and invalid-transition rejection — `ProjectsModuleTests` (PL-01..PL-07) in `tests/test_projects.cpp`
-- [x] Unit tests for versioning round-trips and snapshot restore — `ProjectsModuleTests` (PV-01..PV-06) in `tests/test_projects.cpp`
-- [x] Unit tests for `ProjectDiff` conflict detection and `ProjectMerge` three-way merge — `ProjectsModuleTests` (PD-01..PD-07) in `tests/test_projects.cpp`
-- [x] Integration tests for concurrent collaboration session scenarios — `ProjectCollaborationConcurrentTests` (CC-01..CC-08) in `tests/test_project_collaboration_concurrent.cpp`
+### Phase 3: Error Handling and Edge Cases
+- [ ] standardize fail-safe behavior for invalid transitions, snapshot faults, and lock contention (Target: Q4 2026)
+- [ ] unify diagnostics across lifecycle/versioning/collaboration incident classes (Target: Q4 2026)
 
-### Phase 4: Observability & Security Hardening (Status: In Progress 🚧)
-- [x] `InMemoryProjectAuditLog` concrete implementation — `include/projects/in_memory_project_audit_log.h` + `src/projects/in_memory_project_audit_log.cpp` (PAL-01..PAL-06 tests in `tests/test_project_collaboration_concurrent.cpp`)
-- [x] Audit log integration for all state-changing operations (Target: 2026-Q4) — `CollaborationManager::setAuditLog()` DI setter wires `notifyChange()` → `IProjectAuditLog::record()`
-- [x] Prometheus metrics for collaboration session counts and diff computation latency (Target: 2026-Q4)
+### Phase 4: Tests
+- [ ] expand focused regressions for conflict-heavy merge and collaboration contention paths (Target: Q4 2026)
+- [ ] extend deterministic stress fixtures for snapshot/version mutation workloads (Target: Q4 2026)
+
+### Phase 5: Performance and Hardening
+- [ ] lock benchmark-backed release gates for project module hot paths (Target: Q4 2026)
+- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+
+### Phase 6: Documentation and Acceptance
+- [x] core projects module docs aligned to source-verifiable behavior
+- [x] roadmap/future planning separated from historical changelog entries
 
 ## Production Readiness Checklist
 
-- [x] Core implementation complete (5 source files, 7 header interfaces)
-- [x] Test coverage for critical lifecycle and merge paths — `ProjectsModuleTests` + `ProjectCollaborationConcurrentTests` (CC-01..CC-08)
-- [x] Observability: audit logging hooked up via `setAuditLog()` DI on `CollaborationManager`; PAL-01..PAL-06 tests
-- [x] Prometheus metrics: collaboration session counts and diff latency (2026-Q4)
-- [ ] Security review complete
+- [x] core project-domain surfaces documented and source-verified
+- [x] module-level security and failure behavior documented
+- [x] benchmark mapping documented in performance expectations
+- [ ] remaining hardening tasks closed for lifecycle/snapshot/collaboration edge paths
+- [ ] release benchmark stabilization complete
 
-## Known Issues & Limitations
+## Known Issues and Limitations
 
-- `ProjectMerge` returns conflicts for the caller to resolve; no automatic conflict resolution is applied.
-- Real-time transport for collaboration (WebSocket/SSE) is handled by the server module, not here.
-- REST API for `IProjectBundleManager` (export/import) is planned for 2026-Q3.
+- runtime behavior depends on workload shape, snapshot size, and collaboration contention profile.
+- dedicated benchmark depth for collaboration/template internals is still incomplete.
+- conflict-heavy merge scenarios require continued deterministic hardening.
 
 ## Breaking Changes
 
-None.
-
-## Latente Symbole (Unused-Functions-Audit)
-
-_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
-
-### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
-
-- `DocumentManager` – Verwaltet Dokument-Lifecycle in Projekten; Interface in project_lifecycle.h
-  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
-
-### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
-
-- `uploadDocument` – Lädt Dokument in den DocumentManager hoch
-- `getDocumentBlob` – Gibt rohen Blob eines Dokuments zurück
-- `getDocumentChunks` – Gibt Text-Chunks eines Dokuments zurück (für RAG-Pipeline)
-  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
-
+No breaking project contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.

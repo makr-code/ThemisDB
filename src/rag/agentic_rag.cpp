@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <atomic>
 #include <chrono>
+#include <limits>
 #include <sstream>
 #include <unordered_set>
 
@@ -28,6 +29,20 @@ namespace themis::rag::agentic {
 // Internal helpers
 // ---------------------------------------------------------------------------
 namespace {
+
+AgenticRAGConfig sanitizeConfig(const AgenticRAGConfig& cfg)
+{
+    AgenticRAGConfig out = cfg;
+
+    // The budget logic uses an internal "budget + 1" sentinel to detect
+    // overflow/exceeded conditions. Clamp SIZE_MAX to keep that sentinel
+    // representable and avoid wrap-around.
+    if (out.max_session_tokens == std::numeric_limits<size_t>::max()) {
+        out.max_session_tokens = std::numeric_limits<size_t>::max() - 1u;
+    }
+
+    return out;
+}
 
 /**
  * Build a flat vector of IDs for the RetrievalFn signature.
@@ -96,14 +111,15 @@ struct AgenticRAG::Impl {
 // ===========================================================================
 
 AgenticRAG::AgenticRAG()
-    : impl_(std::make_unique<Impl>(AgenticRAGConfig{}))
+    : impl_(std::make_unique<Impl>(sanitizeConfig(AgenticRAGConfig{})))
 {}
 
 AgenticRAG::AgenticRAG(const AgenticRAGConfig& config)
-    : impl_(std::make_unique<Impl>(config))
+    : impl_(std::make_unique<Impl>(sanitizeConfig(config)))
 {
+    const auto safe_cfg = sanitizeConfig(config);
     THEMIS_DEBUG("AgenticRAG created: max_iterations={}, quality_threshold={:.2f}",
-                 config.max_iterations, config.quality_threshold);
+                 safe_cfg.max_iterations, safe_cfg.quality_threshold);
 }
 
 AgenticRAG::~AgenticRAG() = default;
@@ -117,9 +133,10 @@ AgenticRAGConfig AgenticRAG::getConfig() const {
 }
 
 void AgenticRAG::setConfig(const AgenticRAGConfig& config) {
-    impl_->config = config;
-    impl_->judge.setConfig(config.judge_config);
-    impl_->gap_detector.setConfig(config.gap_config);
+    const auto safe_cfg = sanitizeConfig(config);
+    impl_->config = safe_cfg;
+    impl_->judge.setConfig(safe_cfg.judge_config);
+    impl_->gap_detector.setConfig(safe_cfg.gap_config);
 }
 
 // ---------------------------------------------------------------------------

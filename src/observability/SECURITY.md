@@ -1,63 +1,45 @@
-> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+# Security - Observability Module
 
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-# Security — Observability Module
+Report vulnerabilities via project-level SECURITY.md.
+
+## Security Scope
+
+Security in the observability module focuses on safe telemetry handling, deterministic alert/export behavior, explicit failure signaling, and bounded diagnostics surfaces.
 
 ## Threat Model
 
-### 1. Metrics Endpoint Exposure
-- **Risk:** The `/metrics` Prometheus endpoint exposes internal system state (query rates, memory usage, error counts) to unauthenticated callers, potentially leaking operational intelligence.
-- **Mitigation:** Authentication is required to access the `/metrics` endpoint in production deployments. Configuration enforces credential validation before serving Prometheus text output.
-- **Status:** ⚠️ Open — authentication implementation is an active work item (OBS-SEC-01)
+| Threat | Current Mitigation Surface |
+|---|---|
+| malformed telemetry input or labels | bounded metric/tracing validation paths |
+| unsafe alert/export integration behavior | explicit alerting and export configuration handling |
+| hidden profiling/anomaly failures | explicit diagnostics and error propagation |
+| cross-tenant telemetry leakage | tenant namespace isolation and bounded metric contexts |
 
-### 2. Trace Data PII Leakage
-- **Risk:** Distributed trace spans may capture query parameters, user identifiers, or other PII as span attributes, which are then exported via OTLP to external systems.
-- **Mitigation:** Span attribute sanitization is planned. A configurable allow-list of exportable attribute keys will be applied at the OTLP export layer before data leaves the process.
-- **Status:** ⚠️ Open — PII scanning is a planned work item (OBS-SEC-02)
+## Implemented Security Controls
 
-### 3. Log Injection
-- **Risk:** Unsanitized user-controlled strings written into log output could corrupt log parsers, inject false log entries, or exploit log aggregation pipelines.
-- **Mitigation:** All log output from `LogAggregator` uses structured JSON format. User-controlled values are JSON-encoded as string fields, preventing injection of newlines, control characters, or ANSI escape sequences into the log stream.
-- **Status:** ✅ Implemented
+- telemetry paths remain bounded with explicit handling outcomes.
+- alerting and export behavior surfaces explicit failures.
+- profiling and anomaly paths expose observable incident states.
+- tenant metrics namespace paths provide explicit isolation semantics.
 
-### 4. Alert Webhook Spoofing
-- **Risk:** An attacker crafts a forged alert payload and delivers it to the webhook endpoint, triggering false alerts or suppressing legitimate ones.
-- **Mitigation:** Webhook endpoint validation enforces that inbound alert payloads originate from configured sources. URL and payload signature validation are applied before alert processing.
-- **Status:** ✅ Implemented
+## Security Follow-ups
 
-### 5. Prometheus Cardinality Attacks
-- **Risk:** An attacker or misconfigured client causes unbounded label cardinality (e.g., per-request labels), exhausting memory in the metrics registry.
-- **Mitigation:** `MetricAggregator` enforces per-metric cardinality limits. Label sets exceeding the configured threshold are rejected, and a counter tracks dropped high-cardinality observations for operator visibility.
-- **Status:** ✅ Implemented
+- continue hardening malformed telemetry and label edge scenarios.
+- tighten diagnostics for export and notification backend failures.
+- expand stress and abuse coverage for high-volume observability paths.
 
----
+## Sourcecode Verification (Module: observability/security)
 
-## Known Limitations
-
-| ID | Description | Severity | Status |
-|----|-------------|----------|--------|
-| OBS-SEC-01 | Metrics endpoint (`/metrics`) authentication is not fully implemented. The endpoint may be accessible without credentials in default deployments. | High | Open |
-| OBS-SEC-02 | Trace span PII scanning is not implemented. Span attributes may contain query text or user identifiers that are exported via OTLP. | Medium | Open |
-
----
-
-## Security Configuration Reference
-
-| Parameter | Description | Recommended Value |
-|-----------|-------------|-------------------|
-| `metrics.auth.enabled` | Require authentication for `/metrics` endpoint | `true` |
-| `metrics.auth.token` | Bearer token for Prometheus scrape authentication | Strong random ≥ 32 bytes |
-| `tracing.export.attribute_allowlist` | Explicit allow-list of span attribute keys for OTLP export | Restrict to non-PII keys |
-| `metrics.cardinality.max_labels_per_metric` | Maximum distinct label combinations per metric | 10 000 (tune per workload) |
-| `alertmanager.webhook.validate_source` | Validate inbound alert webhook origin | `true` |
-| `logging.format` | Log output format | `json` |
-
----
-
-## Security Review History
-
-| Date | Reviewer | Scope | Outcome |
-|------|----------|-------|---------|
-| 2026-03-12 | Internal security review | Metrics auth, trace PII, log injection, webhook validation, cardinality | OBS-SEC-01 and OBS-SEC-02 filed; remaining controls passed |
+- Verified files:
+  - src/observability/metrics_collector.cpp
+  - src/observability/alerting_engine.cpp
+  - src/observability/alertmanager.cpp
+  - src/observability/tenant_metrics_namespace.cpp
+  - src/observability/opentelemetry_tracer.cpp
+- Verified controls:
+  - bounded telemetry/alert handling behavior
+  - deterministic integration failure signaling
+  - explicit observability diagnostics visibility

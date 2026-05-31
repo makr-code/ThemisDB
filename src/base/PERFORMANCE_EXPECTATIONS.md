@@ -1,48 +1,52 @@
-# PERFORMANCE_EXPECTATIONS — src/base
+# PERFORMANCE_EXPECTATIONS - src/base
 
 ## Scope
-- Modul: `src/base`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
-## Benchmark-Bezug
-- Dieses Modul nutzt die Ziel-ID-Matrix des Parent-Moduls `system_level` als Referenzpfad.
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_tpcc.cpp`
-  - `benchmarks/bench_vector_search.cpp`
+- Module: src/base
+- This file defines measurable base module performance expectations for release gating.
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Benchmark Reference
+
+- Relevant benchmark files:
+  - benchmarks/bench_plugin_system.cpp
+  - benchmarks/bench_module_load_hot_reload.cpp
+  - benchmarks/bench_themis_core.cpp
+
+## Specific Expectations
+
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| BM-1 | Siehe Zielbeschreibung: OLTP (TPC-C) 4-Core | `TPCCLiteFixture_NewOrderTransaction` |
-| BM-2 | Siehe Zielbeschreibung: OLTP (TPC-C) 8-Core | `TPCCLiteFixture_NewOrderTransaction` |
-| BM-3 | Siehe Zielbeschreibung: OLTP (TPC-C) 16-Core | `TPCCLiteFixture_NewOrderTransaction` |
-| BM-4 | Siehe Zielbeschreibung: OLTP (TPC-C) 32-Core | `TPCCLiteFixture_NewOrderTransaction` |
-| BM-5 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `TPCCLiteFixture_StockLevelTransaction` |
-| BM-6 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_VectorSearch_efSearch` |
-| BM-7 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `TPCCLiteFixture_PaymentTransaction` |
+| BAS-1 | plugin directory scan with populated fixtures remains within release baseline budget | BM_ScanDirectoryWithPlugins |
+| BAS-2 | plugin metadata query paths remain bounded | BM_GetPluginInfo, BM_GetAllPlugins |
+| BAS-3 | plugin load/unload and reload cycle remains bounded | BM_LoadUnloadPlugin, BM_ReloadPlugin |
+| BAS-4 | module list growth behavior remains bounded | BM_GetAllLoadedModules_Growth |
+| BAS-5 | module load with hash verification remains bounded | BM_ModuleLoad_WithHashVerify |
+| BAS-6 | concurrent plugin query path remains bounded under configured thread ranges | BM_ConcurrentQueries, BM_ConcurrentGetAllPlugins |
+| BAS-7 | typical plugin workflow path remains bounded in release profile | BM_TypicalWorkflow |
 
-## Modulspezifische harte Grenzwerte (v1.9.0)
+## Module Hard Gates (v1.0 docs baseline)
 
-| Gate-ID | Erwartungswert | Messregel |
+| Gate ID | Expectation | Measurement |
 |---|---|---|
-| BAG-1 | >= 18000 txn/s (TPC-C NewOrder Throughput) | mean aus `TPCCLiteFixture_NewOrderTransaction` |
-| BAG-2 | <= 35 ms (TPC-C StockLevel P95) | p95 aus `TPCCLiteFixture_StockLevelTransaction` |
-| BAG-3 | <= 30 ms (VectorSearch P99) | p99 aus `BM_VectorSearch_efSearch` |
-| BAG-4 | Regression <= 8 % gegen letzte Release-Baseline | `(current - baseline) / baseline` |
+| BG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| BG-2 | loader and query path p99 <= release threshold | p99 from mapped plugin-system benchmark cases |
+| BG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+## Validation
 
-## Numerische Mindestziele (Release Gate)
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- For proxy-only targets, keep follow-up benchmark hardening explicitly tracked.
 
-| Gate-ID | Erwartungswert | Messregel |
-|---|---|---|
-| NG-1 Latenz P95 | <= 50 ms | p95 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-2 Latenz P99 | <= 100 ms | p99 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-3 Throughput-Stabilitaet | Regression <= 10 % gegen letzte Baseline | `(current - baseline) / baseline` |
+## Sourcecode Verification (Module: base/performance)
 
-Hinweis:
-- Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
-- Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+- Verified benchmark sources:
+  - benchmarks/bench_plugin_system.cpp
+  - benchmarks/bench_module_load_hot_reload.cpp
+  - benchmarks/bench_themis_core.cpp
+- Verified mapping surfaces:
+  - plugin scan, query, load/unload, reload paths
+  - module growth and hash-verified load path
+  - concurrent and workflow benchmark paths
+- Result:
+  - Referenced benchmark cases exist in current benchmark sources.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

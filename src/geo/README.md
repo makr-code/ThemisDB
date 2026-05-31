@@ -1,186 +1,80 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release --target <target>`
+# ThemisDB Geo Module
 
-# Geospatial Module
-
-Geospatial query processing and indexing implementation for ThemisDB.
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Module Purpose
 
-Implements geospatial query processing and spatial indexing for ThemisDB, providing 2D/3D spatial queries, geometry operations, and GPU-accelerated spatial processing with CPU fallback.
-
-## Subsystem Scope
-
-**In scope:** CPU-based spatial query processing (contains, intersects, distance), S2/H3 cell indexing, GPU-accelerated backend (CUDA/ROCm) with CPU fallback, 2D and 3D geometry operations, full GeoJSON RFC 7946 parsing, R-tree spatial indexing, raster data queries, temporal-spatial queries, geo-clustering (DBSCAN, k-means), tile server integration.
-
-**Out of scope:** Routing/navigation algorithms, full spherical WGS-84 ellipsoid geometry (planned), real-time streaming geo-updates.
+The geo module provides geospatial query and indexing runtime surfaces for ThemisDB, including CPU/GPU spatial operations, indexing, GeoJSON geometry handling, clustering, raster workflows, temporal-spatial querying, and tile integration.
 
 ## Relevant Interfaces
 
-- `cpu_backend.cpp` — primary CPU-based geospatial backend; implements `CpuExactBackend` and `ApproximateCpuBackend`
-- `boost_cpu_exact_backend.cpp` — Boost.Geometry exact computation (optional, requires `THEMIS_GEO_BOOST_BACKEND`)
-- `gpu_backend_stub.cpp` — GPU dispatch orchestrator with circuit-breaker CPU fallback
-- `gpu_backend_cuda.cu` — CUDA kernel dispatch for distance and containment (`THEMIS_GEO_CUDA=ON`)
-- `gpu_backend_hip.cpp` — ROCm/HIP kernel dispatch for AMD hardware (`THEMIS_ENABLE_HIP=ON`)
-- `gpu_backend_production.cpp` — production GPU backend wrapper (metrics, audit log)
-- `geo_rtree.cpp` — R-tree spatial index (`GeoRTree`) for sub-linear CPU query performance
-- `rtree_cursor.h` / `rtree_cursor.cpp` — pull-based cursor API: `IRTreeCursor`, `IGeoIndex`, `GeoRTreeIndex`; supports `openRangeCursor(MBR)` and `openKNNCursor(Coordinate, k)`; stale-cursor detection on index mutation
-- `geo_json_geometry.h` / `geo_json_geometry.cpp` — OOP geometry class hierarchy: `IGeoJSONGeometry` (abstract base), `GeoPoint`, `GeoLineString`, `GeoPolygon`, `GeoMultiPolygon`, `GeoGeometryCollection`; `BBox`, `ValidationResult`, `CrsId`; right-hand-rule enforcement; RFC 7946 WGS-84 coordinate validation
-- `spatial_join_filter.h` / `spatial_join_filter.cpp` — composable spatial predicate hierarchy: `ISpatialJoinFilter` (abstract), `IntersectsFilter`, `ContainsFilter`, `WithinFilter`, `TouchesFilter`, `DWithinFilter`; logical combinators `AndFilter`, `OrFilter`, `NotFilter`; `SpatialJoinFilter` factory namespace
-- `temporal_spatial_query_builder.h` / `temporal_spatial_query_builder.cpp` — fluent builder: `ITemporalSpatialQueryBuilder`, `TemporalSpatialQueryBuilder`, `BuiltTemporalSpatialQuery`; `TimeWindowType` enum (`POINT_IN_TIME`, `INTERVAL`, `SLIDING_WINDOW`)
-- `raster_query_interface.h` / `raster_query_interface.cpp` — typed raster query interface: `IRasterQueryInterface`, `RasterGridQueryImpl`, `NoOpRasterQueryImpl`; `RasterConfig` (max tile size), `RasterStatus`, `RasterResult`; guarded by `THEMIS_ENABLE_RASTER`
-- `spatial_join.cpp` — spatial JOIN finding all pairs within a configurable distance threshold
-- `geo_clustering.cpp` — DBSCAN and k-means clustering for geo point datasets
-- `raster.cpp` — raster grid queries (elevation sampling, bbox extraction, Gaussian KDE heatmaps)
-- `temporal_spatial_query.cpp` — location-at-time-T queries over versioned document tables (`TemporalSpatialQuery`)
-- `tile_server.cpp` — map tile server integration
-- `device_detector.cpp` — runtime GPU device discovery and capability reporting
-- `geo_faiss_knn.cpp` — FAISS GPU k-NN bridge (`GeoFaissKnn`, `GeoKnnResult`) via ECEF 3D projection
-- `getBackendForPrecision(GeoPrecisionMode)` — factory to select exact or approximate backend at call-site
+| Interface / File | Role |
+|---|---|
+| cpu_backend.cpp | CPU exact/approximate spatial execution paths |
+| boost_cpu_exact_backend.cpp | boost-based exact spatial backend |
+| gpu_backend_stub.cpp | GPU dispatch and safe CPU fallback |
+| gpu_backend_cuda.cu | CUDA geo kernel execution paths |
+| gpu_backend_hip.cpp | HIP/ROCm geo backend paths |
+| gpu_backend_production.cpp | production GPU backend wrapper |
+| geo_rtree.cpp | R-tree indexing runtime |
+| rtree_cursor.cpp | cursor-based geo index access |
+| geo_json_geometry.cpp | GeoJSON geometry type hierarchy and validation |
+| spatial_join.cpp | spatial join execution paths |
+| spatial_join_filter.cpp | composable spatial join filters |
+| geo_clustering.cpp | geo clustering algorithms |
+| raster.cpp | raster query implementation |
+| raster_query_interface.cpp | typed raster query interface |
+| temporal_spatial_query.cpp | temporal-spatial query execution |
+| temporal_spatial_query_builder.cpp | temporal-spatial query builder |
+| tile_server.cpp | tile integration runtime |
+| device_detector.cpp | runtime device/capability detection |
+| geo_faiss_knn.cpp | FAISS-based geo k-NN bridge |
 
-## Current Delivery Status
+## Scope
 
-**Maturity:** 🟢 Production-Ready — CPU and GPU-accelerated backends fully operational. v2.5.0 adds the pull-based R-tree cursor API, fluent temporal-spatial query builder, typed raster query interface, GeoJSON geometry class hierarchy, and composable spatial join filters. CUDA kernels for ST_BUFFER/UNION/DIFFERENCE remain deferred (CPU fallback active).
+In scope:
+- spatial geometry/query/index operations on CPU and GPU backends
+- GeoJSON geometry parsing/validation and spatial join/clustering/raster/temporal features
+- backend selection, fallback, and device capability detection
 
-## Components
+Out of scope:
+- navigation/routing engines
+- external map service ownership outside tile integration contracts
+- unrelated non-geospatial domain logic
 
-- CPU-based geospatial backend (`cpu_backend.cpp`, `boost_cpu_exact_backend.cpp`)
-- GPU-accelerated geospatial backend (`gpu_backend_stub.cpp`, `gpu_backend_cuda.cu`, `gpu_backend_hip.cpp`, `gpu_backend_production.cpp`)
-- R-tree spatial index (`geo_rtree.cpp`) and pull-based cursor API (`rtree_cursor.h/cpp`)
-- Spatial JOIN support (`spatial_join.cpp`)
-- Composable spatial join filters (`spatial_join_filter.h/cpp`)
-- Geo-point clustering: DBSCAN and k-means (`geo_clustering.cpp`)
-- Raster data queries (`raster.cpp`) and typed raster query interface (`raster_query_interface.h/cpp`)
-- Temporal-spatial queries (`temporal_spatial_query.cpp`) and fluent temporal-spatial query builder (`temporal_spatial_query_builder.h/cpp`)
-- GeoJSON geometry class hierarchy (`geo_json_geometry.h/cpp`)
-- Tile server integration (`tile_server.cpp`)
-- GPU device detection (`device_detector.cpp`)
-- FAISS GPU k-NN bridge (`geo_faiss_knn.cpp`)
+## Runtime Behavior and Limits
 
-## Features
+- backend behavior depends on compile/runtime device capabilities and feature flags.
+- GPU paths may fall back to CPU under unsupported/degraded conditions.
+- exact/approximate precision mode affects performance and result behavior trade-offs.
 
-- 2D and 3D spatial queries
-- Geometry operations: contains, intersects, distance, ST_BUFFER, ST_UNION, ST_DIFFERENCE
-- Full GeoJSON RFC 7946 support (all 7 geometry types including `GeometryCollection` and `MultiPolygon`)
-- **GeoJSON geometry class hierarchy**: `IGeoJSONGeometry` abstract base with concrete `GeoPoint`, `GeoLineString`, `GeoPolygon`, `GeoMultiPolygon`, `GeoGeometryCollection`; `BBox`, `ValidationResult`, `CrsId`; right-hand-rule enforcement on `GeoPolygon`
-- S2/H3 cell indexing support
-- R-tree spatial index for sub-linear query performance on large collections
-- **Pull-based R-tree cursor API**: `IRTreeCursor` / `IGeoIndex` / `GeoRTreeIndex` — `openRangeCursor(MBR)` and `openKNNCursor(Coordinate, k)`; `CursorStatus::STALE` returned on index mutation
-- GPU acceleration for large-scale queries (CUDA + ROCm/HIP; CPU fallback via circuit-breaker when no device is present)
-- **Configurable precision mode**: `GeoPrecisionMode::Exact` (full geometric algorithms, no false positives) and `GeoPrecisionMode::Approximate` (MBR-based fast pre-filter, no false negatives); selected via `getBackendForPrecision()`
-- Spatial JOIN (all pairs within distance threshold)
-- **Composable spatial join filters**: `ISpatialJoinFilter` with `IntersectsFilter`, `ContainsFilter`, `WithinFilter`, `TouchesFilter`, `DWithinFilter`; logical `AndFilter`, `OrFilter`, `NotFilter`; `SpatialJoinFilter` factory namespace
-- Geo-point clustering: DBSCAN and k-means
-- Raster data queries (elevation sampling, bounding-box extraction, Gaussian KDE heatmaps)
-- **Typed raster query interface**: `IRasterQueryInterface` / `RasterGridQueryImpl` / `NoOpRasterQueryImpl`; `RasterConfig` max-tile-size guard; `RasterStatus` error codes; compile-time `THEMIS_ENABLE_RASTER` guard
-- Temporal-spatial queries (location at time T, entities within distance at time T)
-- **Fluent temporal-spatial query builder**: `ITemporalSpatialQueryBuilder` / `TemporalSpatialQueryBuilder` / `BuiltTemporalSpatialQuery`; `TimeWindowType` (`POINT_IN_TIME`, `INTERVAL`, `SLIDING_WINDOW`); validates presence of both temporal and spatial constraints at `build()`
-- Tile server integration for map visualization
+## Sourcecode Verification (Module: geo/readme)
 
-## Public API & Entry Points
-
-- Public module headers: [`../../include/geo/README.md`](../../include/geo/README.md)
-- Primary API gateway: `include/geo/spatial_backend.h` (`ISpatialComputeBackend`, `GeoPrecisionMode`, `getBackendForPrecision()`)
-- Indexing API: `include/geo/geo_rtree.h`, `include/geo/rtree_cursor.h`
-- Geometry API: `include/geo/geo_json_geometry.h`
-- Raster API: `include/geo/raster.h`, `include/geo/raster_query_interface.h`
-- Temporal-spatial API: `include/geo/temporal_spatial_query.h`, `include/geo/temporal_spatial_query_builder.h`
-- Query extensions/filters: `include/geo/geo_ops_ext.h`, `include/geo/spatial_join_filter.h`
-
-## Configuration Options
-
-### Build-time flags
-
-- `THEMIS_GEO_BOOST_BACKEND` — enables Boost.Geometry exact backend path.
-- `THEMIS_GEO_CUDA` — enables CUDA geo kernel dispatch path.
-- `THEMIS_GEO_HIP` / `THEMIS_ENABLE_HIP` — enables HIP/ROCm geo backend.
-- `THEMIS_ENABLE_RASTER` — enables full raster query implementation.
-
-### Runtime parameters (see `ARCHITECTURE.md` §9)
-
-- `geo.backend` — CPU or GPU backend preference with safe CPU fallback.
-- `geo.precision_mode` — `"exact"` / `"approximate"` backend behavior.
-- `geo.rtree.max_node_size` — R-tree capacity tuning.
-- `geo.gpu.batch_size` — batch size for GPU geo execution.
-
-## Runtime Behavior, Error Cases, and Limits
-
-- GPU execution is fail-safe: backend errors and unavailable devices trigger CPU fallback via circuit-breaker path.
-- GeoJSON coordinates are validated (WGS-84 bounds, NaN/Inf checks); invalid inputs return structured errors.
-- Raster calls surface typed errors via `RasterStatus` (`NOT_SUPPORTED`, `INVALID_BBOX`, `TILE_TOO_LARGE`, `BACKEND_ERROR`).
-- Cursor iteration can become invalid after index mutation; `IRTreeCursor::next()` returns `CursorStatus::STALE`.
-- Known constraints:
-  - GPU `ST_BUFFER` / `ST_UNION` / `ST_DIFFERENCE` currently delegate to CPU implementations.
-  - GPU DBSCAN has a max dataset-size threshold (`GpuClusteringConfig::gpu_dbscan_max_n`, default 32768) before CPU fallback.
-  - Spherical WGS-84 ellipsoid geometry remains tracked as planned work.
-
-## Usage Snippets
-
-### Select precision mode backend
-
-```cpp
-#include "geo/spatial_backend.h"
-
-using namespace themis::geo;
-auto* exact_backend = getBackendForPrecision(GeoPrecisionMode::Exact);
-```
-
-### Open a range cursor on the R-tree index
-
-```cpp
-#include "geo/rtree_cursor.h"
-
-using namespace themis::geo;
-GeoRTreeIndex index;
-auto cursor = index.openRangeCursor(MBR{13.0, 52.0, 14.0, 53.0});
-```
-
-### Create a GeoJSON point and validate
-
-```cpp
-#include "geo/geo_json_geometry.h"
-
-using namespace themis::geo;
-GeoPoint point({13.4050, 52.5200}, CrsId::WGS84);
-auto validation = point.validate();
-```
-
-## Troubleshooting
-
-- Operational guide for common geo failures: [`../../docs/troubleshooting/geo_troubleshooting.md`](../../docs/troubleshooting/geo_troubleshooting.md)
-- GPU backend incident/runbook guidance: [`../../docs/de/features/gpu_runbooks.md`](../../docs/de/features/gpu_runbooks.md)
-- Security assumptions and controls: [`SECURITY.md`](SECURITY.md)
-
-## Documentation
-
-For geospatial documentation, see:
-- [GPU Backend Runbook](../../docs/de/features/gpu_runbooks.md) — device discovery, circuit-breaker fallback, metrics, audit log, on-call procedures
-- [GPU Roadmap](../../docs/gpu_roadmap.md) — production readiness status, completed geo backend work, remaining CUDA/ROCm items
-- [ROADMAP.md](ROADMAP.md) — module roadmap, completed phases, planned features
-- [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) — planned enhancements beyond the roadmap (spherical geometry, precision mode, scientific references)
-
-## Scientific References
-
-1. Guttman, A. (1984). **R-Trees: A Dynamic Index Structure for Spatial Searching**. *Proceedings of the 1984 ACM SIGMOD International Conference on Management of Data*, 47–57. https://doi.org/10.1145/602259.602266
-
-2. Haverkort, H. J., & van Walderveen, F. (2008). **Locality and Bounding-Box Quality of Two-Dimensional Space-Filling Curves**. *Computational Geometry*, 42(5), 341–352. https://doi.org/10.1016/j.comgeo.2008.09.007
-
-3. Open Geospatial Consortium. (2010). **OpenGIS® Implementation Standard for Geographic Information – Simple Feature Access – Part 1: Common Architecture (Version 1.2.1)**. OGC 06-103r4. https://www.ogc.org/standards/sfa
-
-4. Haran, M. (2011). **Gaussian Random Field Models for Spatial Data**. *Handbook of Markov Chain Monte Carlo*, 449–478. https://doi.org/10.1201/b10905-19
-
-5. Brinkhoff, T., Kriegel, H.-P., & Seeger, B. (1993). **Efficient Processing of Spatial Joins Using R-Trees**. *Proceedings of the 1993 ACM SIGMOD International Conference on Management of Data*, 237–246. https://doi.org/10.1145/170035.170075
-
-6. Ester, M., Kriegel, H.-P., Sander, J., & Xu, X. (1996). **A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise**. *Proceedings of the 2nd International Conference on Knowledge Discovery and Data Mining (KDD-96)*, 226–231. https://dl.acm.org/doi/10.5555/3001460.3001507
-
-7. Vincenty, T. (1975). **Direct and Inverse Solutions of Geodesics on the Ellipsoid with Application of Nested Equations**. *Survey Review*, 23(176), 88–93. https://doi.org/10.1179/sre.1975.23.176.88
-
-8. Greiner, G., & Hormann, K. (1998). **Efficient Clipping of Arbitrary Polygons**. *ACM Transactions on Graphics*, 17(2), 71–83. https://doi.org/10.1145/274363.274364
-
-## Installation
-
-This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
-
-## Usage
-
-The implementation files in this module are compiled into the ThemisDB library.
-See [`../../include/geo/README.md`](../../include/geo/README.md) for the public API.
+- Verified files:
+  - src/geo/cpu_backend.cpp
+  - src/geo/boost_cpu_exact_backend.cpp
+  - src/geo/gpu_backend_stub.cpp
+  - src/geo/gpu_backend_cuda.cu
+  - src/geo/gpu_backend_hip.cpp
+  - src/geo/gpu_backend_production.cpp
+  - src/geo/geo_rtree.cpp
+  - src/geo/rtree_cursor.cpp
+  - src/geo/geo_json_geometry.cpp
+  - src/geo/spatial_join.cpp
+  - src/geo/spatial_join_filter.cpp
+  - src/geo/geo_clustering.cpp
+  - src/geo/raster.cpp
+  - src/geo/raster_query_interface.cpp
+  - src/geo/temporal_spatial_query.cpp
+  - src/geo/temporal_spatial_query_builder.cpp
+  - src/geo/tile_server.cpp
+  - src/geo/device_detector.cpp
+  - src/geo/geo_faiss_knn.cpp
+- Verified behavior surfaces:
+  - CPU/GPU spatial backends with deterministic fallback behavior
+  - indexing, geometry, join, clustering, raster, and temporal-spatial paths
+  - runtime device/precision integration boundaries
+- Note:
+  - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
+  - historical entries remain in CHANGELOG.md

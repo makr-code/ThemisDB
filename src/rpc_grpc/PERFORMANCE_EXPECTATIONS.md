@@ -1,30 +1,42 @@
-# PERFORMANCE_EXPECTATIONS — src/rpc_grpc
+# PERFORMANCE_EXPECTATIONS - src/rpc_grpc
 
 ## Scope
-- Modul: `src/rpc_grpc`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
-## Benchmark-Bezug
-- Dieses Modul nutzt die Ziel-ID-Matrix des Parent-Moduls `network` als Referenzpfad.
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_api_endpoints.cpp`
-  - `benchmarks/bench_security.cpp`
-  - `benchmarks/bench_stream_protocol.cpp`
+- Module: src/rpc_grpc
+- This file defines measurable rpc_grpc module performance expectations for release gating.
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Benchmark Reference
+
+- Relevant benchmark files:
+  - benchmarks/bench_wal_apply_grpc.cpp
+
+## Specific Expectations
+
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| NET-1 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_GraphQL_Execute_MockResolver` |
-| NET-2 | Siehe Zielbeschreibung: TLS 1.3 Handshake P99 | `BM_AES256GCM_Encrypt_1KB` |
-| NET-3 | Siehe Zielbeschreibung: TLS 1.3 Session Resumption P99 | `BM_AES256GCM_Encrypt_64KB` |
-| NET-4 | Siehe Zielbeschreibung: WebSocket Round-Trip P99 | `BM_GraphQL_Parse_Simple_Cached` |
-| NET-5 | Siehe Zielbeschreibung: QUIC 0-RTT Resumption P99 | `BM_AES256GCM_Decrypt_1MB` |
-| NET-6 | Siehe Zielbeschreibung: UDP Fast-Path GET P99 | `BM_GraphQL_Parse_Complex_Uncached` |
-| SP-1 | > 50 M ops/s | `BM_StreamProtocol_FrameHeaderBuild` |
-| SP-2 | < 1 ms (16 KiB Payload) | `BM_StreamProtocol_LZ4Roundtrip` |
-| SP-3 | < 5 ms (10k Samples) | `BM_StreamProtocol_MetricsSnapshot` |
+| RPCP-1 | gRPC WAL apply throughput remains bounded for raw payload paths | WalGrpcApplyFixture/ApplyWalBatch (Args: 1-0, 10-0, 50-0) |
+| RPCP-2 | gRPC WAL apply throughput remains bounded for compressed payload paths | WalGrpcApplyFixture/ApplyWalBatch (Args: 1-1, 10-1, 50-1) |
+| RPCP-3 | batched apply service path remains stable under iteration/reset cycles | WalGrpcApplyFixture/ApplyWalBatch (all registered args) |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+## Module Hard Gates (v1.0 docs baseline)
+
+| Gate ID | Expectation | Measurement |
+|---|---|---|
+| RPCG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| RPCG-2 | rpc_grpc hot-path p99 <= release threshold | p99 from mapped wal-apply gRPC benchmark cases |
+| RPCG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
+
+## Validation
+
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- Mapping should be expanded as additional rpc_grpc benchmark scenarios are introduced.
+
+## Sourcecode Verification (Module: rpc_grpc/performance)
+
+- Verified benchmark sources:
+  - benchmarks/bench_wal_apply_grpc.cpp
+- Verified mapping surfaces:
+  - WAL apply gRPC raw/compressed and batch stability behavior
+- Result:
+  - Referenced benchmark case exists in current benchmark source.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

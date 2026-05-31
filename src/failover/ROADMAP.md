@@ -1,44 +1,71 @@
-> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+# Failover Module Roadmap
 
-# failover roadmap
-
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
-- [x] Automatic failover orchestration implemented (Target: Q2 2026)
-- [x] Disaster recovery plan execution pipeline implemented (Target: Q2 2026)
-- [x] Queue-pressure and retry telemetry thresholds added (Target: Q3 2026)
-- [x] Chaos + failover end-to-end scenario matrix added (Target: Q3 2026)
+
+Production failover runtime exists across automatic failover orchestration, disaster recovery plan execution, and queue/retry telemetry surfaces.
 
 ## In Progress
-- [ ] Cross-region traffic manager integration (Target: Q3 2026)
+
+- [~] hardening dependency-degraded and multi-step recovery edge behavior (Target: Q3 2026)
+- [~] benchmark stabilization for recovery lifecycle hot paths (Target: Q3 2026)
+- [~] diagnostics consistency improvements for failover queue pressure and DR failures (Target: Q3 2026)
+
+## Planned Features
+
+### Short-term (3-6 months)
+- [ ] tighten deterministic behavior under concurrent multi-node failover storms (Target: Q4 2026)
+- [ ] expand regressions for fencing/quorum dependency edge scenarios (Target: Q4 2026)
+- [ ] improve operator diagnostics for DR-step failure and retry escalation (Target: Q4 2026)
+
+### Mid-term (6-12 months)
+- [ ] re-baseline p95/p99 envelopes for failover and recovery orchestration overhead (Target: Q1 2027)
+- [ ] add dedicated benchmark coverage for failover manager and DR step pipelines (Target: Q1 2027)
+- [ ] harden long-running reliability under repeated failover/recovery cycles (Target: Q1 2027)
 
 ## Implementation Phases
+
 ### Phase 1: Design / API Contract
-- [x] Define failover and DR state/step enums and result contracts (Target: Q2 2026)
+- [ ] freeze failover/recovery manager contracts for active major line (Target: Q3 2026)
+- [ ] define explicit error taxonomy for queue, dependency, and DR-step failure classes (Target: Q3 2026)
+
 ### Phase 2: Core Implementation
-- [x] Implement auto failover queue + worker loops (Target: Q2 2026)
-- [x] Implement DR step execution and validation flow (Target: Q2 2026)
-### Phase 3: Error Handling & Edge Cases
-- [x] Handle missing managers and dry-run behavior (Target: Q2 2026)
+- [ ] complete hardening for queue/worker orchestration and DR-step internals (Target: Q4 2026)
+- [ ] align dependency/fencing integration behavior to bounded runtime contracts (Target: Q4 2026)
+
+### Phase 3: Error Handling and Edge Cases
+- [ ] standardize fail-closed behavior for invalid plans and unsafe transition scenarios (Target: Q4 2026)
+- [ ] unify diagnostics across queue saturation, retry, and DR-step failures (Target: Q4 2026)
+
 ### Phase 4: Tests
-- [x] Add focused unit test suite for AutoFailoverManager — 39 tests covering lifecycle, state machine, manual failover, queue pressure, config management, statistics, event callbacks, failure tracking, last-result, and edge cases (Target: Q2 2026)
-- [x] Add chaos + failover end-to-end scenario matrix (Target: Q3 2026)
-### Phase 5: Performance/Hardening
-- [x] Introduce queue-pressure and retry telemetry thresholds (Target: Q3 2026)
-### Phase 6: Documentation & Acceptance
-- [x] Baseline module documentation created (Target: Q2 2026)
+- [ ] expand focused regressions for queue pressure and dependency-degraded recovery scenarios (Target: Q4 2026)
+- [ ] extend deterministic fixture coverage for DR-step permutation and timeout cases (Target: Q4 2026)
+
+### Phase 5: Performance and Hardening
+- [ ] lock benchmark-backed release gates for failover/recovery hot paths (Target: Q4 2026)
+- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+
+### Phase 6: Documentation and Acceptance
+- [x] core failover module docs aligned to source-verifiable behavior
+- [x] roadmap/future planning separated from historical changelog entries
 
 ## Production Readiness Checklist
-- [x] No stub/todo markers in core source files
-- [x] Orchestrator lifecycle and state transitions implemented
-- [x] Queue-pressure telemetry (current_queue_depth, max_queue_depth_observed, tasks_dropped_queue_full, queue_pressure_events)
-- [x] Retry telemetry (total_retry_attempts, successful_retries, failed_retries)
-- [x] QUEUE_PRESSURE event emitted when queue fill ratio >= queue_pressure_threshold
-- [ ] Extended multi-region failover soak tests
 
-## Known Issues & Limitations
-- Some integration outcomes depend on external manager availability.
+- [x] core failover surfaces documented and source-verified
+- [x] module-level security and failure behavior documented
+- [x] benchmark mapping documented in performance expectations
+- [ ] remaining hardening tasks closed for dependency/queue/DR-step edge paths
+- [ ] release benchmark stabilization complete
+
+## Known Issues and Limitations
+
+- runtime outcomes partially depend on external manager availability and behavior.
+- selected high-pressure queue and dependency edge scenarios require continued hardening.
+- dedicated failover-native benchmark coverage is currently limited.
 
 ## Breaking Changes
-- None currently planned.
+
+No breaking failover contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.

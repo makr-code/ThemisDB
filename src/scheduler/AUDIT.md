@@ -1,41 +1,60 @@
-<!-- Status: current | validated: 2026-04-19 -->
+# Audit Report - Scheduler Module
+
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
-
-# Audit Report — Scheduler Module
-
-> ⚠️ **Auditstand:** Dieser Befund gilt für den Stand bei Erstellung. Erneute Prüfung gegen aktuellen Code empfohlen.
-
-**Last Audit:** 2026-04-19 | **Auditor:** Copilot | **Status:** ✅ Pass
 
 ## Summary
 
 | Metric | Result |
-|--------|--------|
-| Build System Registration | ✅ Verified |
-| Test Coverage | ✅ Present |
-| Open TODOs | Low |
-| Source Files | 9 (`.cpp` in `src/scheduler/`) |
-| Security Issues | None critical |
+|---|---|
+| Build registration | pass |
+| Source set size | pass (module core files present) |
+| Focused test presence | pass |
+| Open hardening findings | yes |
+| Critical blockers | none identified |
 
-## Source Files Audited
+## Verified Files
 
-| File | Purpose |
-|------|---------|
-| `distributed_task_coordinator.cpp` | Distributed task scheduling across nodes |
-| `event_trigger.cpp` | Event-based task trigger evaluation |
-| `external_scheduler_adapter.cpp` | Adapter for external schedulers (cron, k8s jobs) |
-| `hybrid_retention_manager.cpp` | Hybrid time- and count-based retention for task logs |
-| `task_anomaly_detector.cpp` | Anomaly detection for scheduled task execution patterns |
-| `task_audit_event.cpp` | Task lifecycle audit event data structures |
-| `task_audit_manager.cpp` | Persists and queries task execution audit trail |
-| `task_result_store.cpp` | Stores and retrieves task execution results |
-| `task_scheduler.cpp` | Core scheduler: priority queuing, cron expressions, retry logic |
+- src/scheduler/task_scheduler.cpp
+- src/scheduler/hybrid_retention_manager.cpp
+- src/scheduler/distributed_task_coordinator.cpp
+- src/scheduler/external_scheduler_adapter.cpp
+- src/scheduler/task_audit_manager.cpp
+- src/scheduler/task_result_store.cpp
+- src/scheduler/task_anomaly_detector.cpp
+- src/scheduler/event_trigger.cpp
+- src/scheduler/task_audit_event.cpp
 
 ## Findings
 
-### Resolved
-- Finding: Build system registration | Evidence: cmake/CMakeLists.txt, cmake/ModularBuild.cmake | Status: resolved
-- Finding: All public APIs have test coverage | Evidence: tests/test_task_scheduler.cpp, tests/test_task_scheduler_dynamic_scaling.cpp, tests/test_task_scheduler_triggers.cpp, tests/test_distributed_task_coordinator.cpp, tests/test_task_audit.cpp, tests/test_task_result_store.cpp, tests/test_external_scheduler_adapter.cpp, tests/test_task_scheduler_auth_context.cpp | Status: resolved
-
 ### Open
-- None critical
+
+1. [SCH-AUD-01] concurrency-heavy register/execute hardening remains active.
+- Severity: medium
+- Evidence: roadmap/future retain active hardening for concurrent mutation scenarios.
+- Action: extend deterministic stress and race-path regression coverage.
+
+2. [SCH-AUD-02] distributed/external coordination diagnostics need deeper consistency.
+- Severity: medium
+- Evidence: active follow-up work for integration incident taxonomy.
+- Action: unify diagnostics across distributed and adapter failure paths.
+
+3. [SCH-AUD-03] benchmark depth should broaden for advanced integration scenarios.
+- Severity: low
+- Evidence: core benchmark mapping is valid while advanced integration coverage remains limited.
+- Action: add direct benchmark cases for distributed/external scheduler workflows.
+
+### Closed
+
+- core scheduler runtime surfaces are present and source-verified.
+- documentation set is synchronized to source-verifiable claims.
+- changelog/roadmap role separation is aligned to module governance pattern.
+
+## Compliance Snapshot
+
+| Requirement | Status |
+|---|---|
+| Source-verifiable behavior claims | pass |
+| Structured forward planning in roadmap/future | pass |
+| Historical completion tracked in changelog | pass |
+| Core module docs synchronized | pass |

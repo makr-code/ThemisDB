@@ -10,18 +10,20 @@
  * @file test_rag_context_assembler.cpp
  * @brief Unit tests for RAGContextAssembler — Greedy Fill with Response Guard.
  *
- * Test suite: RagContextAssemblerFocusedTests (30 tests)
+ * Test suite: RagContextAssemblerFocusedTests (32 tests)
  *   Group A (5)  – empty input edge cases
  *   Group B (5)  – single chunk: fits, too large, truncation
- *   Group C (5)  – multiple chunks: greedy fill in relevance order
+ *   Group C (6)  – multiple chunks: greedy fill in relevance order
  *   Group D (5)  – response-guard: tokens_remaining_for_response
  *   Group E (5)  – truncation marker and allow_partial_chunk flag
- *   Group F (5)  – computeMaxTokens static helper
+ *   Group F (6)  – computeMaxTokens static helper
  */
 
 #include <gtest/gtest.h>
 #include "rag/rag_context_assembler.h"
 #include "llm/context_window_budget.h"
+
+#include <limits>
 
 using namespace themis::rag;
 using namespace themis::llm;
@@ -219,6 +221,28 @@ TEST(RagContextAssemblerFocusedTests, C5_BudgetExhaustedChunksNotAdded) {
     EXPECT_LT(ctx.chunks_used.size(), 20u);
 }
 
+TEST(RagContextAssemblerFocusedTests, C6_EqualRelevanceUsesDeterministicTieBreak) {
+    RAGContextAssemblerConfig cfg;
+    cfg.model_context_tokens = 4096u;
+    cfg.min_response_tokens  = 512u;
+    RAGContextAssembler asm_{cfg};
+
+    std::vector<RetrievedChunk> chunks = {
+        makeChunk("third", 0.7f, "src-z"),
+        makeChunk("first", 0.7f, "src-b"),
+        makeChunk("second", 0.7f, "src-a"),
+    };
+    chunks[0].chunk_id = "c3";
+    chunks[1].chunk_id = "c1";
+    chunks[2].chunk_id = "c2";
+
+    const auto ctx = asm_.assemble(chunks, "", "");
+    ASSERT_EQ(ctx.chunks_used.size(), 3u);
+    EXPECT_EQ(ctx.chunks_used[0].chunk_id, "c1");
+    EXPECT_EQ(ctx.chunks_used[1].chunk_id, "c2");
+    EXPECT_EQ(ctx.chunks_used[2].chunk_id, "c3");
+}
+
 // ── Group D – response-guard ──────────────────────────────────────────────────
 
 TEST(RagContextAssemblerFocusedTests, D1_ResponseBudgetPositiveAfterAssembly) {
@@ -369,4 +393,13 @@ TEST(RagContextAssemblerFocusedTests, F5_LargerWindowLargerMaxTokens) {
     const auto b2 = ContextWindowBudget::compute(32768u, "", "", 512u);
     EXPECT_GE(RAGContextAssembler::computeMaxTokens(b2),
               RAGContextAssembler::computeMaxTokens(b1));
+}
+
+TEST(RagContextAssemblerFocusedTests, F6_ComputeMaxTokensClampsToIntMax) {
+    ContextWindowBudget b;
+    b.model_max_tokens = std::numeric_limits<size_t>::max();
+    b.reserved_response_tokens = std::numeric_limits<size_t>::max();
+
+    const int result = RAGContextAssembler::computeMaxTokens(b, 0);
+    EXPECT_EQ(result, std::numeric_limits<int>::max());
 }

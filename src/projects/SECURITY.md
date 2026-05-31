@@ -1,28 +1,45 @@
-> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+# Security - Projects Module
 
-# Security — Projects Module
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-> Report vulnerabilities via the project-level [SECURITY.md](../../../SECURITY.md).
+Report vulnerabilities via project-level SECURITY.md.
+
+## Security Scope
+
+Security in the projects module focuses on lifecycle transition integrity, snapshot restore integrity checks, permission/lock enforcement for collaboration, and explicit non-silent conflict/failure signaling.
 
 ## Threat Model
 
-| Threat | Mitigation |
-|--------|-----------|
-| Unauthorized project state transitions | `ProjectLifecycle` guards every transition; invalid transitions rejected with an error |
-| Privilege escalation in collaboration sessions | `CollaborationManager` enforces `Permission` enum at every session operation; callers without `WRITE` or higher cannot submit changes |
-| Audit log tampering | `IProjectAuditLog` is append-only; entries include actor identity and timestamp |
-| Sensitive project data in export bundles | `IProjectBundleManager` export options (`BundleExportOptions`) allow callers to control what is included; encryption at rest handled by the storage module |
-| Invalid input to diff/merge | `ProjectDiff` and `ProjectMerge` validate both versions exist before computing deltas |
+| Threat | Current Mitigation Surface |
+|---|---|
+| unauthorized lifecycle mutation | transition validation and actor-aware state paths |
+| snapshot tampering or corrupted restore inputs | integrity checks before restore apply |
+| unauthorized collaboration mutation | permission checks and lock ownership enforcement |
+| hidden merge/data consistency loss | explicit conflict surfaces and deterministic error returns |
 
-## Security Controls
+## Implemented Security Controls
 
-- Permission-gated collaboration: all session writes require at minimum `WRITE` permission
-- State-machine guards: `ProjectLifecycle` rejects all unauthorized or invalid state transitions
-- Append-only audit trail: `IProjectAuditLog` records actor identity, action, and timestamp for every project operation
-- No secrets or credentials are stored by this module; key management is handled by `src/security/`
+- lifecycle and collaboration mutations are validation-gated.
+- snapshot restore applies integrity checks before persistence.
+- lock ownership mismatch is surfaced explicitly.
+- audit and metrics surfaces keep project operations observable.
 
-## Known Limitations
+## Security Follow-ups
 
-- Test coverage for permission enforcement edge cases in `CollaborationManager` is not yet confirmed; security-focused tests are planned for 2026-Q4.
-- Merge conflict resolution in `ProjectMerge` returns unresolved conflicts to the caller; no automatic policy is applied.
+- expand fuzz/stress paths for malformed snapshot metadata/payloads.
+- tighten permission diagnostics for multi-actor collaboration incidents.
+- deepen lock-contention/retry deterministic behavior coverage.
 
+## Sourcecode Verification (Module: projects/security)
+
+- Verified files:
+  - src/projects/project_lifecycle.cpp
+  - src/projects/project_versioning.cpp
+  - src/projects/collaboration_manager.cpp
+  - src/projects/project_diff.cpp
+  - src/projects/in_memory_project_audit_log.cpp
+- Verified controls:
+  - validation-gated lifecycle/collaboration mutations
+  - deterministic snapshot integrity/restore behavior
+  - explicit conflict and lock-failure signaling

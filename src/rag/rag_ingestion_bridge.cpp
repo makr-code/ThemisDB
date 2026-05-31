@@ -71,18 +71,43 @@ IndexResult RAGIngestionBridge::indexDocument(
     ctx.manifest.extension      = "";
     ctx.raw_text                = text;
 
-    auto engine = toolbox_->workflowEngine();
-    auto result = engine->execute(ctx);
-    if (!result) {
-        return IndexResult{
-            .ok         = false,
-            .doc_id     = doc_id,
-            .collection = collection,
-            .error      = "workflow execution failed"
-        };
+    ingestion::BaseEntitySet entity_set;
+    bool used_workflow_fallback = false;
+
+    if (auto engine = toolbox_->workflowEngine()) {
+        auto result = engine->execute(ctx);
+        if (result) {
+            entity_set = result.value();
+        } else {
+            // Keep indexing available even when workflow execution is unavailable
+            // by creating a minimal but fully hydrated retrieval payload.
+            used_workflow_fallback = true;
+        }
+    } else {
+        used_workflow_fallback = true;
     }
 
-    const ingestion::BaseEntitySet& entity_set = result.value();
+    if (used_workflow_fallback) {
+        entity_set.source_file_id = doc_id;
+        entity_set.quality_score = 0.0;
+
+        auto entities = toolbox_->extractEntities(text);
+        for (auto& entity : entities) {
+            if (entity.source_file_id.empty()) {
+                entity.source_file_id = doc_id;
+            }
+        }
+        entity_set.nodes = std::move(entities);
+
+        ingestion::VectorRecord fallback_chunk;
+        fallback_chunk.chunk_id = doc_id + "#0";
+        fallback_chunk.source_file_id = doc_id;
+        fallback_chunk.text_snippet = text;
+        fallback_chunk.metadata["collection"] = collection;
+        fallback_chunk.metadata["source"] = doc_id;
+        entity_set.chunks.push_back(std::move(fallback_chunk));
+    }
+
     std::size_t vector_count = 0;
     std::size_t entity_count = entity_set.nodes.size();
 
@@ -130,6 +155,9 @@ std::size_t RAGIngestionBridge::enrichRetrievedDocuments(
     for (auto& doc : docs) {
         if (doc.content.empty() || doc.id.empty()) {
             continue;
+        }
+        if (doc.metadata["content"].empty()) {
+            doc.metadata["content"] = doc.content;
         }
         if (doc.metadata["source"].empty()) {
             doc.metadata["source"] = doc.id;

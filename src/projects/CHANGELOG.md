@@ -1,22 +1,30 @@
-> ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
+> WARNING: Historical changelog entries describe implementation state at the time they were recorded.
 
-<!-- Status: current | validated: 2026-04-19 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-# Changelog — Projects Module (Implementation)
+# Changelog - Projects Module
 
-All notable implementation-level changes to the Projects module are documented here.
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
-For public API changes see `../../include/projects/CHANGELOG.md`.
+All notable changes to the projects module are documented here.
+The format is based on Keep a Changelog.
 
 ## [Unreleased]
-- Real-time collaboration session management improvements (Target: Q3 2026)
 
-## [1.0.0] — 2024-01-01
+### Changed
+- Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
+- Performance expectations updated to explicit verified benchmark symbols from versioning and projection-related benchmark suites.
+
+## [2.1.x] - 2026
 
 ### Added
-- `project_lifecycle.cpp`: Project lifecycle state machine (draft / active / archived / deleted)
-- `project_versioning.cpp`: Version control and snapshot management for project documents
-- `project_template.cpp`: Project template instantiation and schema initialization
-- `project_diff.cpp`: Structural diff and delta computation for project versions
-- `collaboration_manager.cpp`: Real-time collaboration session management
+- project lifecycle, snapshot/versioning, collaboration, and diff/merge hardening improvements.
+
+## [2.0.x] - 2025-2026
+
+### Added
+- extended project management and collaboration support surfaces.
+
+## [1.x] - 2024-2025
+
+### Added
+- foundational project lifecycle and snapshot infrastructure.

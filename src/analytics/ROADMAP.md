@@ -1,224 +1,71 @@
-> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
-
 # Analytics Module Roadmap
 
-**Version:** 2.0.0
-**Status:** 🟢 Production-Ready
-**Last Updated:** 2026-04-19
-**Module Path:** `src/analytics/`
-
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
-Production-ready for core OLAP, data export, process mining, text analytics, LLM integration, CEP engine, streaming aggregation windows, incremental materialized views, real-time anomaly detection, model serving / online inference pipeline, and predictive analytics / time-series forecasting.
 
-## Completed ✅
-- [x] OLAP engine with GROUP BY, CUBE, ROLLUP, and GROUPING SETS
-- [x] Window functions (ROW_NUMBER, SUM OVER, AVG OVER with frame specs)
-- [x] Statistical aggregations (COUNT, SUM, AVG, MIN, MAX, STDDEV, VARIANCE, MEDIAN, PERCENTILE)
-- [x] Hash-based aggregation with result caching
-- [x] Columnar (Arrow) RecordBatch storage always available
-- [x] JSON and CSV export (no external dependencies)
-- [x] Optional Apache Arrow IPC, Parquet (with compression), and Feather export
-- [x] Process mining: Alpha Miner, Heuristic Miner, Inductive Miner
-- [x] Conformance checking (token replay and alignment-based)
-- [x] Process pattern matcher (graph, vector, behavioral, hybrid similarity)
-- [x] NLP text analyzer (tokenization, TF-IDF, NER, sentiment, keyword extraction)
-- [x] LLM process analyzer (OpenAI, Anthropic, Azure OpenAI, llama.cpp)
-- [x] Diff engine (changefeed-backed git-like diffs)
-- [x] SIMD-accelerated aggregations (AVX2)
-- [x] Thread-safe OLAPEngine for concurrent queries
-- [x] CEP full engine (NFA pattern matching, EPL parser, window+aggregation pipeline, alert dispatch, CDC integration) (`analytics/cep_engine.cpp`)
-- [x] CEP: EPL (Event Processing Language) parser: `CREATE RULE … AS`, SELECT aggregations (COUNT/SUM/AVG/MIN/MAX/FIRST/LAST/STDDEV/VARIANCE/PERCENTILE/DISTINCT_COUNT/COLLECT/TOPN with AS alias), GROUP BY, parenthesized WINDOW specs with human-readable time units (ms/s/minutes/hours/days), PATTERN WITHIN with time units, ACTION dispatch (alert/webhook/db_write/log/slack/kafka/email), multi-line EPL normalization (`analytics/cep_engine.cpp`)
-- [x] CEP stateful pattern matching with checkpointing: `PatternMatcher::serializeState()`/`restoreState()`, `RuleEngine::serializeMatcherStates()`/`restoreMatcherStates()`, full NFA partial-match persistence across restarts (`analytics/cep_engine.cpp`)
-- [x] Streaming aggregation windows: TumblingWindow, SlidingWindow, SessionWindow, HoppingWindow with watermark support (`analytics/streaming_window.cpp`)
-- [x] Incremental materialized views with delta-maintenance for all 10 aggregation functions, Welford STDDEV/VARIANCE, COUNT_DISTINCT ref-counting (`analytics/incremental_view.cpp`)
-- [x] Real-time anomaly detection: Z-Score, Modified Z-Score (MAD), IQR, Isolation Forest, LOF, Ensemble with adaptive learning (`analytics/anomaly_detection.cpp`)
-- [x] AutoML integration for automated model selection: Logistic Regression, Decision Tree, Random Forest, Gradient Boosting, KNN, Linear Regression with hyperparameter search, feature engineering, ensemble generation, and SHAP-based explanations (`analytics/automl.cpp`)
-- [x] CEP engine-level backpressure handling and buffer management: engine queue depth limit, drop policy, backpressure signal at configurable threshold, Prometheus metrics (`analytics/cep_engine.cpp`)
-- [x] Integration with external ML tools: ONNX Runtime (local inference) and TensorFlow Serving (REST API) via unified `MLServingClient` abstraction with `DataPoint` integration and graceful degradation when backends are absent (`analytics/ml_serving.cpp`)
-- [x] Model serving and online inference pipeline: thread-safe named+versioned model registry, online/batch inference, class-probability output, per-model health metrics, serialization round-trip (`analytics/model_serving.cpp`)
-- [x] Predictive analytics and time-series forecasting: LINEAR_REGRESSION, EXP_SMOOTHING, Holt-Winters triple exponential smoothing, ARIMA (AR+I+MA via Yule–Walker), ENSEMBLE with weighted combination; confidence intervals, seasonal decomposition, accuracy metrics (MAE, RMSE, MAPE, sMAPE), model serialization round-trip (`analytics/forecasting.cpp`)
-- [x] Predictive analytics and time-series forecasting (Issue: #1473)
-- [x] Forecasting v1.9.0 enhancements (Issue: #4054): `predictBatch()` (batch forecasting across N series), `update(double)` (O(1) incremental ETS/ARIMA/LR state absorption), parallel auto-tune grid search via `std::async` (9 α tasks), FNV-1a 64-bit fit-result cache (O(1) repeated-fit bypass) — 17 new tests in `ForecastingBatchStreamingTests`
-- [x] AutoML integration for automated model selection (Issue: #1485) ✅
-- [x] Advanced graph analytics: betweenness centrality, Louvain community detection (Issue: #1475)
-- [x] Integration with external ML tools (ONNX Runtime, TensorFlow Serving) (Issue: #1476) ✅
-- [x] Multi-language NLP support (beyond English) (Issue: #1478)
-- [x] Full morphological lemmatization (Issue: #1479)
-- [x] Arrow Flight RPC support for remote analytics: in-process + optional native gRPC transport (Issue: #1472) (`analytics/arrow_flight.cpp`)
-- [x] **Multi-stream join engine** — `IStreamingJoin` / `HashJoin` / `IntervalJoin` (Issue: #4576) (2026-04-12)
-  - `include/analytics/streaming_join.h` + `src/analytics/streaming_join.cpp`
-  - `HashJoin`: composite-key hash table, inner/left-outer join, multi-batch build, configurable `max_build_rows`
-  - `IntervalJoin`: `before_ms`/`after_ms`/`slack_ms` time-window join with LRU probe-side pruning
-  - 15 focused tests (SJ-01…SJ-15) in `tests/analytics/test_streaming_join.cpp`
+Production analytics runtime exists across OLAP, streaming/CEP, forecasting, anomaly detection, model-serving integration, and distributed analytics coordination.
 
-## In Progress 🚧
-*(none — all Phase 3 items completed)*
+## In Progress
 
-## Planned Features 📋
+- [~] hardening of streaming and distributed runtime limits under sustained load (Target: Q3 2026)
+- [~] benchmark and release-gate consolidation for analytics-critical paths (Target: Q3 2026)
+- [~] consistency hardening for optional dependency and fallback behavior (Target: Q3 2026)
 
-### Short-term (Next 3-6 months)
-- [P] GPU-accelerated OLAP aggregations (CUDA) (Issue: #1469)
-- [P] Zero-copy Arrow data transfer optimizations (Issue: #1471)
+## Planned Features
 
-### Long-term (6-12 months)
+### Short-term (3-6 months)
+- [ ] strengthen bounded-memory behavior in high-cardinality streaming windows (Target: Q4 2026)
+- [ ] extend integration regression coverage for serving and export failure classes (Target: Q4 2026)
+- [ ] improve distributed merge diagnostics and operator-facing telemetry (Target: Q4 2026)
 
-- [ ] CUDA geospatial distance and containment kernels (Target: Q3 2026)
-  - Inputs: WGS84 points/polygons, batch-size up to 1e6
-  - Outputs: distance matrix + containment bitset
-  - Constraints: deterministic FP tolerance ≤ 1e-6
-  - Errors: invalid geometry (NaN/Inf coordinates), polygon self-intersection, overflow during Haversine distance
-  - Tests: unit + property-based + GPU/CPU parity
-  - Perf: ≥ 8x speedup vs CPU baseline on RTX-class GPU
-- [x] Federated analytics query dispatch across multiple ThemisDB clusters (Target: Q3 2026)
-  - Affected: `src/analytics/distributed_analytics.cpp`, `include/analytics/distributed_analytics.h`
-  - Expected behavior: scatter-gather with partial failure tolerance; partial results returned if <20% shards fail
-  - Errors: shard unreachable → skip with warning; tenant isolation violation → reject with PERMISSION_DENIED
-  - Tests: FED-01..FED-08 (`tests/analytics/test_distributed_analytics.cpp`)
-  - Perf: fan-out latency ≤ 200 ms for 16 shards on LAN
-  - Per-tenant data isolation at the `SourceRegistry` boundary
-- [x] SARIMA and Prophet-style forecasting models (Target: Q4 2026)
-  - Affected: `src/analytics/forecasting.cpp`, `include/analytics/forecasting.h`
-  - Note: `ForecastMethod::SARIMA` and `ForecastMethod::PROPHET` enum values are already defined (`include/analytics/forecasting.h:154-155`) but switch-case handlers are not yet implemented
-  - Expected behavior: `fit()`/`predict()` API unchanged; extends existing switch branches
-  - Errors: insufficient data for seasonal period (< 2 × seasonality), NaN in input series → structured error
-  - Tests: unit tests for fit/predict/evaluate/serialize round-trip; parity vs Python statsmodels reference
-  - Perf: SARIMA fit ≤ 5 s for series of length 10 000
-  - Confidence intervals and decomposition retained
-- [x] AutoML ONNX export and deployment pipeline (Target: Q4 2026)
-  - Affected: `src/analytics/automl.cpp`, `include/analytics/automl.h`
-  - Expected behavior: `AutoMLModel::exportONNX(path)` serializes trained model; loadable by `MLServingClient`
-  - Expected behavior: `AutoML::exportONNX(path)` serializes trained model; loadable by `MLServingClient` <!-- TODO: verify exact method signature when implemented -->
-  - Errors: unsupported model type → `UNSUPPORTED_OPERATION`; serialization failure → structured error with cause
-  - Tests: unit test export → load → infer round-trip; ONNX opset compatibility for all supported algorithms
-  - Perf: export time ≤ 500 ms for any model trained on ≤ 1M samples
+### Mid-term (6-12 months)
+- [ ] add/expand dedicated benchmarks for currently proxy-covered analytics paths (Target: Q1 2027)
+- [ ] re-baseline analytics latency and throughput envelopes per representative hardware profile (Target: Q1 2027)
+- [ ] harden cross-cluster security and reliability controls in federated analytics scenarios (Target: Q1 2027)
 
-- [~] **Expertensystem-Engine** (CEP + Rule-Engine + ML-Inferenz) (Target: Q2 2027)
-  - Affected: `include/analytics/expert_system_engine.h` ✅, `src/analytics/expert_system_engine.cpp` ✅,
-    `include/analytics/knowledge_base.h` ✅, `src/analytics/knowledge_base.cpp` ✅,
-    Integration mit `src/analytics/cep_engine.cpp` (EPL extension pending), `src/analytics/model_serving.cpp` ✅
-  - **Implemented 2026-05-07**: ExpertSystemEngine with forward/backward chaining, KnowledgeBase YAML rules,
-    ML scorer injection, explain() JSON proof traces; tests ES-01..ES-20 + KB-01..KB-08.
-  - Open: KnowledgeGraphReasoner triple exchange integration (Target: Q3 2027)
-  - Detail: `src/analytics/FUTURE_ENHANCEMENTS.md` → Expert System Engine
+## Implementation Phases
 
-- [~] **AI/ML + LoRA Mustererkennung und Auswertung** (Target: Q3 2027)
-  - Affected: `include/analytics/lora_pattern_classifier.h` ✅, `src/analytics/lora_pattern_classifier.cpp` ✅,
-    Integration mit `src/llm/multi_lora_manager.cpp` (via injection fn), `src/analytics/cep_engine.cpp` (EPL pending),
-    `src/analytics/model_serving.cpp`
-  - Scope: LoRA-fine-tuned LLM-Adapter übernehmen domänenspezifische Mustererkennung in
-    Ereignisströmen und Analyseresultaten. `LoRAPatternClassifier` wrapped `MultiLoRAManager`
-    und liefert klassenspezifische Labels + Konfidenzwerte für:
-    (1) CEP-Ereignismuster (z. B. Betrugssequenzen, Compliance-Verstöße, Anomalie-Cluster)
-    (2) Zeitreihen-Muster (Trend, Saisonalität, Ausreißer) — Ergänzung zu `forecasting.cpp`
-    (3) Graph-Pfad-Muster (Hub-Spoke, Authority-Chain) via `KnowledgeGraphReasoner`
-  - Expected behavior:
-    - `LoRAPatternClassifier::classify(events, adapter_id)` → `PatternResult` mit Label + Konfidenz
-    - `LoRAPatternClassifier::selectAdapter(context)` → wählt Adapter via Embedding-Ähnlichkeit
-    - `LoRAPatternClassifier::batchClassify(event_batch)` → parallele Klassifikation via Thread-Pool
-    - Integration in CEP: `CEPEngine::setLoRAPatternClassifier(classifier)` → Adapter-Klassifikation
-      wird als zusätzlicher Filtertyp in EPL-Regeln nutzbar: `PATTERN CLASSIFIED_AS "fraud_sequence"`
-    - Integration in `ExpertSystemEngine::setMLScorer()` für ML-augmentierte Regelprämissen
-  - Constraints: LoRA-Adapter-Inference ≤ 100 ms pro Batch ≤ 64 Events; Guard `THEMIS_ENABLE_LLM`;
-    Fallback: AutoML-Klassifikator (`automl.cpp`) wenn LoRA nicht verfügbar
-  - Errors: kein passender Adapter → AutoML-Fallback; Adapter-Load-Fehler → Fehlerprotokoll + Fallback
-  - Tests: LPC-01..LPC-15 in `tests/analytics/test_lora_pattern_classifier.cpp`
-    - LPC-01..LPC-05: Einzelereignis-Klassifikation mit Mock-Adapter
-    - LPC-06..LPC-08: Batch-Klassifikation + Thread-Pool
-    - LPC-09..LPC-11: Adapter-Selektion via Embedding-Ähnlichkeit
-    - LPC-12..LPC-13: CEP-Integration (`PATTERN CLASSIFIED_AS`)
-    - LPC-14..LPC-15: AutoML-Fallback-Verhalten
-  - Perf: Batch-Klassifikation 64 Events ≤ 100 ms; Adapter-Selektion ≤ 5 ms
-  - Mustererkennung-Ziele (messbar):
-    - Betrugssequenzen im CEP-Strom: Precision ≥ 0.90, Recall ≥ 0.85
-    - Zeitreihen-Anomalie-Klassifikation: F1 ≥ 0.88 auf Benchmark-Datensatz
-    - Graph-Pfad-Muster: Adapter-Konfidenz für bekannte Strukturmuster ≥ 0.80
-  - Detail: `src/analytics/FUTURE_ENHANCEMENTS.md` → AI/ML + LoRA Pattern Classification
+### Phase 1: Design / API Contract
+- [ ] freeze analytics runtime contracts for critical execution paths (Target: Q3 2026)
+- [ ] define explicit failure classes for unsupported dependency/capability states (Target: Q3 2026)
 
-### Phase 1: Core Analytics Engine (Status: Completed ✅)
-- [x] OLAP engine with GROUP BY, CUBE, ROLLUP, and GROUPING SETS (`analytics/olap_engine.cpp`)
-- [x] Window functions: ROW_NUMBER, SUM OVER, AVG OVER with frame specifications
-- [x] Statistical aggregations (COUNT, SUM, AVG, MIN, MAX, STDDEV, VARIANCE, MEDIAN, PERCENTILE)
-- [x] Hash-based aggregation with result caching
-- [x] Columnar Arrow RecordBatch storage always available
-- [x] JSON, CSV, Parquet, and Feather export (`analytics/exporters/`)
-- [x] Process mining: Alpha Miner, Heuristic Miner, Inductive Miner (`analytics/process_mining/`)
-- [x] Conformance checking (token replay and alignment-based)
-- [x] NLP text analyzer: tokenization, TF-IDF, NER, sentiment, keyword extraction (`analytics/nlp_analyzer.cpp`)
-- [x] LLM process analyzer with OpenAI, Anthropic, Azure OpenAI, llama.cpp providers
-- [x] Diff engine (changefeed-backed git-like diffs, `analytics/diff_engine.cpp`)
-- [x] SIMD-accelerated aggregations (AVX2) in `analytics/simd_aggregations.cpp`
-- [x] Thread-safe OLAPEngine for concurrent queries
+### Phase 2: Core Implementation
+- [ ] complete remaining runtime hardening in streaming and distributed high-load scenarios (Target: Q4 2026)
+- [ ] align serving/export integration behavior to shared bounded execution policy (Target: Q4 2026)
 
-### Phase 2: Streaming & Incremental Analytics (Status: Completed ✅)
-- [x] CEP full engine implementation in `analytics/cep_engine.cpp`
-- [x] Streaming aggregation windows (tumbling/sliding/session/hopping) in `analytics/streaming_window.cpp`
-- [x] Incremental materialized views in `analytics/incremental_view.cpp`
+### Phase 3: Error Handling and Edge Cases
+- [ ] standardize fail-closed behavior across optional-backend and degraded states (Target: Q4 2026)
+- [ ] enforce consistent diagnostics for parse/input/state validation failures (Target: Q4 2026)
 
-### Phase 3: Distributed & ML-Augmented Analytics (Status: Completed ✅)
-- [x] Columnar execution engine with vectorized operator pipeline (`analytics/columnar_execution.cpp`)
-- [x] LLVM-JIT compilation for hot aggregation paths (`analytics/jit_aggregation.cpp`): hot-path detection and template-specialised aggregation dispatch; LLVM MCJIT backend reserved behind `THEMIS_HAS_LLVM_JIT` compile flag (Issue: #1482)
-- [x] Distributed analytics sharding across cluster nodes (Issue: #1483)
-- [x] Predictive analytics and time-series forecasting integration (Issue: #1484)
-- [x] AutoML integration for automated model selection
-- [x] Model serving and online inference pipeline (`analytics/model_serving.cpp`) (Issue: #1477)
+### Phase 4: Tests
+- [ ] expand focused regressions for high-load streaming, distributed merge, and integration failure paths (Target: Q4 2026)
+- [ ] extend deterministic fixture coverage for optional dependency off/on matrixes (Target: Q4 2026)
 
-### Phase 4: Expert System Engine (Status: In Progress [~], Target: Q2 2027)
-- [x] `ExpertSystemEngine` — forward/backward chaining Framework
-  (Target: Q2 2027) → `include/analytics/expert_system_engine.h`, `src/analytics/expert_system_engine.cpp`
-- [x] `KnowledgeBase` — persistent fact working memory (subject, predicate, object triples);
-  in-memory with FIFO eviction at 10 000 facts, YAML rule loader (Target: Q2 2027) → `include/analytics/knowledge_base.h`, `src/analytics/knowledge_base.cpp`
-- [x] YAML rule format (Horn clauses), `KnowledgeBase::loadRulesFromYaml()` (Target: Q2 2027)
-- [x] ML-scorer injection: `ExpertSystemEngine::setMLScorer(ModelServingEngine*)` + `setMLScorerFn()` (Target: Q3 2027)
-- [x] Explain component: `explain(fact_id)` → JSON Proof-Trace (Target: Q3 2027)
-- [ ] Integration with `KnowledgeGraphReasoner` (Graph module) for triple exchange (Target: Q3 2027)
-- [x] Tests: ES-01..ES-20 + KB-01..KB-08 in `tests/analytics/test_expert_system_engine.cpp` (Target: Q3 2027)
+### Phase 5: Performance and Hardening
+- [ ] lock benchmark-backed release gates for analytics-critical paths (Target: Q4 2026)
+- [ ] validate p95/p99 behavior under representative production load profiles (Target: Q4 2026)
 
-### Phase 5: AI/ML + LoRA Mustererkennung (Status: In Progress [~], Target: Q3 2027)
-- [x] `LoRAPatternClassifier` — LoRA-adapter-based pattern classification in CEP event streams,
-  time series and graph paths (Target: Q3 2027)
-  → `include/analytics/lora_pattern_classifier.h`, `src/analytics/lora_pattern_classifier.cpp`
-- [ ] EPL extension: `PATTERN CLASSIFIED_AS "..."` + `EXPERT_SYSTEM_CONFIRMS(...)` (Target: Q4 2027)
-- [ ] `CEPEngine::setLoRAPatternClassifier()` for adapter-based event filtering (Target: Q4 2027)
-- [x] AutoML fallback when `THEMIS_ENABLE_LLM=OFF` (Target: Q3 2027)
-- [x] Tests: LPC-01..LPC-15 in `tests/analytics/test_lora_pattern_classifier.cpp` (Target: Q4 2027)
+### Phase 6: Documentation and Acceptance
+- [x] core analytics module docs aligned to source-verifiable behavior
+- [x] roadmap remains forward-looking while changelog captures historical completion
 
+## Production Readiness Checklist
 
-- [x] Unit tests (OLAP, Arrow export, process mining, NLP, diff engine, forecasting)
-- [x] Unit tests coverage > 80% (test files added for all Phase 2 components; all three Phase 2 test suites active in CI)
-- [x] Integration tests (query module, index module, CDC)
-- [x] CEP engine integration tests (`tests/analytics/test_cep_engine.cpp`) — including stateful checkpoint lifecycle (`StatefulCheckpointPreservesPartialMatches`, `CheckpointWithNoPartialMatchesIsClean`)
-- [x] Forecasting unit tests (`tests/analytics/test_forecasting.cpp`) — TimeSeries, all five algorithms, fit/predict/evaluate/decompose, serialize/deserialize, edge cases
-- [x] Anomaly detection unit tests (`tests/analytics/test_anomaly_detection.cpp`) — all 6 algorithms, streaming, serialize round-trip
-- [x] AutoML unit tests (`tests/analytics/test_automl.cpp`) — classification, regression, feature engineering, ensemble, SHAP, serialize
-- [x] Distributed analytics unit tests (`tests/analytics/test_distributed_analytics.cpp`) — shard management, scatter-gather, partial failure
-- [x] Process pattern matcher unit tests (`tests/analytics/test_process_pattern_matcher.cpp`) — graph/vector/behavioral/hybrid similarity, conformance
-- [x] Arrow export + analytics_export unit tests (`tests/analytics/test_arrow_export.cpp`) — RecordBatch, JSON/CSV, optional Parquet/Feather/IPC, sanitization
-- [x] Process mining LLM integration tests (`tests/analytics/test_process_mining_llm.cpp`) — conformance, compliance rules, fraud detection, activity prediction
-- [x] Standalone focused test targets registered in `tests/CMakeLists.txt` for all 14 analytics test files
-- [x] All analytics sources registered in `cmake/CMakeLists.txt` and `cmake/ModularBuild.cmake`
-- [x] Arrow Flight RPC (`analytics/arrow_flight.cpp`) — in-process + optional native gRPC transport (Issue: #1472)
-- [x] Performance benchmarks (OLAP, export, process mining, graph, NLP)
-- [x] Security audit (LLM API key handling, data export sanitization)
-- [x] Documentation complete (API docs, OLAP guide, process mining guide)
-- [x] API stability guaranteed for OLAP, export, and process mining
-- [x] Windows platform compatibility: whole-class `_WIN32` stub removed from `olap.cpp`; SIMD guarded per-instruction; Windows CI workflow at `.github/workflows/02-feature-modules_analytics_windows-olap-ci.yml` (Issue: #238)
+- [x] core runtime surfaces documented with source verification
+- [x] security and failure behavior documented at module level
+- [x] mapped benchmark expectations documented
+- [ ] dedicated benchmark coverage complete for all critical paths
+- [ ] remaining hardening tasks closed for sustained-load reliability
 
-## Known Issues & Limitations
-- NLP text analyzer uses rule-based approaches — not suitable as a replacement for full NLP frameworks
-- LLM analyzer requires external API keys; responses are non-deterministic
-- Arrow-dependent formats (Parquet, Feather, IPC) require compile-time flag `THEMIS_HAS_ARROW`; when Arrow is absent, `exportToParquet()` / `exportCollectionToParquet()` return `false` with a `spdlog::warn` message
-- Graph analytics advanced algorithms (betweenness centrality, Louvain community detection) are now implemented as AQL functions in `include/query/functions/graph_extensions.h`
-- Windows: `ProcessMining` is gated behind the opt-in flag `THEMIS_PROCESS_MINING_WINDOWS_STUB`; the flag is off by default so the full implementation is used
+## Known Issues and Limitations
+
+- benchmark coverage is still mixed between direct and proxy mappings for some targets.
+- behavior and availability remain partially capability-dependent on optional integrations.
+- continued hardening is required for cross-cluster/federated scenarios.
 
 ## Breaking Changes
-- Arrow export format options may expand in v1.7.0 (additive, non-breaking)
 
-## See Also
-
-- **Implementation README**: [`README.md`](./README.md)
-- **Architecture**: [`ARCHITECTURE.md`](./ARCHITECTURE.md)
-- **Future Enhancements**: [`FUTURE_ENHANCEMENTS.md`](./FUTURE_ENHANCEMENTS.md)
-- **API Documentation**: [`../../include/analytics/README.md`](../../include/analytics/README.md)
-- **Secondary Docs (de)**: [`../../docs/de/analytics/README.md`](../../docs/de/analytics/README.md)
+No breaking module contract planned. Any contract-breaking change requires explicit migration notes and changelog entry before merge.

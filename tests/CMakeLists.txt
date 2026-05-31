@@ -6823,7 +6823,7 @@ endif()
 
 # AgenticRAG session token-budget cap tests (Gap 4 — AI_ML_IMPACT_ASSESSMENT.md §7)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_agentic_rag_budget.cpp")
-    message(STATUS "Adding AgenticRAG budget cap tests (Gap 4 — ARG_BUD_01..05)")
+    message(STATUS "Adding AgenticRAG budget cap tests (Gap 4 — ARG_BUD_01..06)")
     add_executable(test_agentic_rag_budget_focused
         test_agentic_rag_budget.cpp
         ${THEMIS_ROOT_DIR}/src/rag/agentic_rag.cpp
@@ -6846,7 +6846,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_agentic_rag_budget.cpp")
         LABELS "rag;agentic-rag;budget;token-budget;gap4;unit"
         TIMEOUT 60
     )
-    message(STATUS "  AgenticRAGBudget: ARG_BUD_01..05 budget cap, BUDGET_EXCEEDED stop reason, tokens_consumed")
+    message(STATUS "  AgenticRAGBudget: ARG_BUD_01..06 budget cap, BUDGET_EXCEEDED stop reason, tokens_consumed")
 endif()
 
 # AgenticRAG DELEGATE-52 relay guard tests (ARR-01..04)

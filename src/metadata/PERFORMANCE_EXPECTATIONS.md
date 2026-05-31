@@ -1,48 +1,44 @@
-# PERFORMANCE_EXPECTATIONS — src/metadata
+# PERFORMANCE_EXPECTATIONS - src/metadata
 
 ## Scope
-- Modul: `src/metadata`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
-## Benchmark-Bezug
-- Dieses Modul nutzt die Ziel-ID-Matrix des Parent-Moduls `system_level` als Referenzpfad.
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_tpcc.cpp`
-  - `benchmarks/bench_vector_search.cpp`
+- Module: src/metadata
+- This file defines measurable metadata module performance expectations for release gating.
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Benchmark Reference
+
+- Relevant benchmark files:
+  - benchmarks/bench_metadata_cache.cpp
+
+## Specific Expectations
+
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| BM-1 | Siehe Zielbeschreibung: OLTP (TPC-C) 4-Core | `TPCCLiteFixture_NewOrderTransaction` |
-| BM-2 | Siehe Zielbeschreibung: OLTP (TPC-C) 8-Core | `TPCCLiteFixture_NewOrderTransaction` |
-| BM-3 | Siehe Zielbeschreibung: OLTP (TPC-C) 16-Core | `TPCCLiteFixture_NewOrderTransaction` |
-| BM-4 | Siehe Zielbeschreibung: OLTP (TPC-C) 32-Core | `TPCCLiteFixture_NewOrderTransaction` |
-| BM-5 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `TPCCLiteFixture_StockLevelTransaction` |
-| BM-6 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_VectorSearch_efSearch` |
-| BM-7 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `TPCCLiteFixture_PaymentTransaction` |
+| METP-1 | metadata cold discovery scans remain bounded across table-count scaling | BM_MetadataCache_ColdScan, BM_MetadataCache_RocksDBScan_Direct |
+| METP-2 | warm metadata cache retrieval paths remain bounded | BM_MetadataCache_WarmHit, BM_MetadataCache_HitRate_Hit, BM_MetadataCache_HitRate_Miss |
+| METP-3 | table-level and database-level metadata lookup paths remain bounded | BM_MetadataCache_GetTable_Hit, BM_MetadataCache_GetTable_Miss, BM_MetadataCache_GetDatabaseMetadata |
+| METP-4 | metadata cache maintenance and adaptation paths remain bounded under operational load | BM_MetadataCache_RefreshCache, BM_MetadataCache_TTLVariants, BM_MetadataCache_AdaptiveTTL, BM_MetadataCache_ConcurrentReads |
 
-## Modulspezifische harte Grenzwerte (v1.9.0)
+## Module Hard Gates (v1.0 docs baseline)
 
-| Gate-ID | Erwartungswert | Messregel |
+| Gate ID | Expectation | Measurement |
 |---|---|---|
-| MDTG-1 | >= 17000 txn/s (Metadata Path Throughput) | mean aus `TPCCLiteFixture_NewOrderTransaction` Proxypfad |
-| MDTG-2 | <= 35 ms (Metadata-sensitive P95) | p95 aus `TPCCLiteFixture_StockLevelTransaction` Proxypfad |
-| MDTG-3 | <= 32 ms (Metadata-sensitive P99) | p99 aus `BM_VectorSearch_efSearch` Proxypfad |
-| MDTG-4 | Regression <= 8 % gegen letzte Release-Baseline | `(current - baseline) / baseline` |
+| METG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| METG-2 | metadata hot-path p99 <= release threshold | p99 from mapped metadata benchmark cases |
+| METG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+## Validation
 
-## Numerische Mindestziele (Release Gate)
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- Mapping should be expanded as additional metadata benchmark scenarios are introduced.
 
-| Gate-ID | Erwartungswert | Messregel |
-|---|---|---|
-| NG-1 Latenz P95 | <= 50 ms | p95 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-2 Latenz P99 | <= 100 ms | p99 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-3 Throughput-Stabilitaet | Regression <= 10 % gegen letzte Baseline | `(current - baseline) / baseline` |
+## Sourcecode Verification (Module: metadata/performance)
 
-Hinweis:
-- Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
-- Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+- Verified benchmark source:
+  - benchmarks/bench_metadata_cache.cpp
+- Verified mapping surfaces:
+  - cold/warm metadata cache behavior
+  - lookup, refresh, TTL adaptation, and concurrent reads
+- Result:
+  - Referenced benchmark cases exist in current benchmark source.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

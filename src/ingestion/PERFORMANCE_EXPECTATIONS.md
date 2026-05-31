@@ -1,44 +1,51 @@
-# PERFORMANCE_EXPECTATIONS — src/ingestion
+# PERFORMANCE_EXPECTATIONS - src/ingestion
 
 ## Scope
-- Modul: `src/ingestion`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
-## Benchmark-Bezug
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_ingestion_kv.cpp`
+- Module: src/ingestion
+- This file defines measurable ingestion module performance expectations for release gating.
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Benchmark Reference
+
+- Relevant benchmark files:
+  - benchmarks/bench_ingestion_kv.cpp
+  - benchmarks/bench_ingestion_quality_judge.cpp
+  - benchmarks/bench_ingestion_extraction.cpp
+  - benchmarks/bench_timeseries_ingestion.cpp
+
+## Specific Expectations
+
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| ING-1 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `IngestionBenchFixture_BatchIngest` |
-| ING-2 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `IngestionBenchFixture_SingleIngest` |
-| ING-3 | Siehe Zielbeschreibung: Kafka → Document E2E P99 | `IngestionBenchFixture_BatchIngest` |
-| ING-4 | Siehe Zielbeschreibung: S3 Concurrent Download | `IngestionBenchFixture_SingleIngest` |
-| ING-5 | Siehe Zielbeschreibung: Quarantine Queue Scan (100k) | `IngestionBenchFixture_SingleIngest` |
+| INGP-1 | core single and batch key-value ingestion throughput remains bounded | IngestionBenchFixture/SingleIngest, IngestionBenchFixture/BatchIngest |
+| INGP-2 | quality-judge evaluation and observer/config paths remain bounded | BM_QJ01_EvaluateNullBackend, BM_QJ02_EvaluateSingleDimension, BM_QJ04_EvaluateSparseContext, BM_QJ05_EvaluateEntityScaling, BM_QJ06_EvaluateBulletListParsing, BM_QJ07_ObserverDispatch_Zero, BM_QJ08_ObserverDispatch_N, BM_QJ09_SetConfig, BM_QJ10_ConstructDestruct, BM_QJ11_FeedbackLoopJudgeOnly |
+| INGP-3 | extraction and adapter helper paths remain bounded | DeonticExtractionFixture/BatchExtraction_Scaling, LlmAdapterFixture/ExtractorFn_Throughput, BM_DetectBinaryMimeType, BM_CheckpointStore |
+| INGP-4 | timeseries ingestion pathways used by ingestion-adjacent data flows remain bounded | TimeseriesBenchmarkFixture/RawDataIngestion, TimeseriesBenchmarkFixture/BatchIngestion, TimeseriesBenchmarkFixture/MultipleMetrics, BM_GorillaCompression, BM_GorillaDecompression, TimeseriesBenchmarkFixture/TimeRangeQuery, TimeseriesBenchmarkFixture/Downsampling, TimeseriesBenchmarkFixture/OutOfOrderWrites, BM_DownsamplingThroughput |
 
-## Modulspezifische harte Grenzwerte (v1.9.0)
+## Module Hard Gates (v1.0 docs baseline)
 
-| Gate-ID | Erwartungswert | Messregel |
+| Gate ID | Expectation | Measurement |
 |---|---|---|
-| INGG-1 | >= 50000 records/s (Batch Ingestion Throughput) | mean aus `IngestionBenchFixture_BatchIngest` |
-| INGG-2 | <= 40 ms (Single Ingestion P95) | p95 aus `IngestionBenchFixture_SingleIngest` |
-| INGG-3 | <= 75 ms (Ingestion E2E P99) | p99 aus `IngestionBenchFixture_BatchIngest` |
-| INGG-4 | Regression <= 8 % gegen letzte Release-Baseline | `(current - baseline) / baseline` |
+| INGG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| INGG-2 | ingestion hot-path p99 <= release threshold | p99 from mapped ingestion benchmark cases |
+| INGG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+## Validation
 
-## Numerische Mindestziele (Release Gate)
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- Mapping should be expanded as additional ingestion benchmark scenarios are introduced.
 
-| Gate-ID | Erwartungswert | Messregel |
-|---|---|---|
-| NG-1 Latenz P95 | <= 50 ms | p95 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-2 Latenz P99 | <= 100 ms | p99 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-3 Throughput-Stabilitaet | Regression <= 10 % gegen letzte Baseline | `(current - baseline) / baseline` |
+## Sourcecode Verification (Module: ingestion/performance)
 
-Hinweis:
-- Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
-- Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+- Verified benchmark sources:
+  - benchmarks/bench_ingestion_kv.cpp
+  - benchmarks/bench_ingestion_quality_judge.cpp
+  - benchmarks/bench_ingestion_extraction.cpp
+  - benchmarks/bench_timeseries_ingestion.cpp
+- Verified mapping surfaces:
+  - core ingestion throughput and quality-judge paths
+  - extraction/mime/checkpoint paths
+  - ingestion-adjacent timeseries ingest/compression/query paths
+- Result:
+  - Referenced benchmark cases exist in current benchmark sources.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

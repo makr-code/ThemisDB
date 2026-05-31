@@ -27,12 +27,36 @@
 
 #include "rag/agentic_rag.h"
 
+#include <limits>
 #include <string>
 #include <vector>
 
 using namespace themis::rag::agentic;
 
 namespace {
+
+AgenticRAGConfig makeFastBudgetConfig()
+{
+    AgenticRAGConfig cfg;
+
+    // Keep budget tests independent of heavyweight LLM-driven judge paths.
+    cfg.judge_config.mode = themis::rag::judge::EvaluationMode::FAST;
+    cfg.judge_config.enable_claim_verification = false;
+    cfg.judge_config.enable_citation_check = false;
+    cfg.judge_config.enable_ethical_evaluation = false;
+    cfg.judge_config.enable_prompt_injection_screening = false;
+    cfg.judge_config.cache_evaluations = false;
+
+    cfg.gap_config.mode = themis::rag::knowledge_gap::DetectionMode::FAST;
+    cfg.gap_config.enable_self_consistency_check = false;
+    cfg.gap_config.enable_flare = false;
+    cfg.gap_config.enable_claim_verification = false;
+    cfg.gap_config.enable_query_aspect_analysis = false;
+    cfg.gap_config.enable_token_probability = false;
+    cfg.gap_config.enable_ethical_gap_detection = false;
+
+    return cfg;
+}
 
 // Helper: build a list of N fake documents, each with content of a given length.
 std::vector<themis::rag::judge::RetrievedDocument> makeDocs(size_t count, size_t content_len = 100)
@@ -55,7 +79,7 @@ std::vector<themis::rag::judge::RetrievedDocument> makeDocs(size_t count, size_t
 // ARG_BUD_01 – no budget → behaviour unchanged
 // ---------------------------------------------------------------------------
 TEST(ARG_BUD, ARG_BUD_01_NoBudgetPreservesExistingBehaviour) {
-    AgenticRAGConfig cfg;
+    AgenticRAGConfig cfg = makeFastBudgetConfig();
     cfg.max_session_tokens = 0;   // disabled
     cfg.max_iterations     = 1;
     AgenticRAG agent(cfg);
@@ -73,7 +97,7 @@ TEST(ARG_BUD, ARG_BUD_01_NoBudgetPreservesExistingBehaviour) {
 // ARG_BUD_02 – budget of 1 → BUDGET_EXCEEDED on first iteration
 // ---------------------------------------------------------------------------
 TEST(ARG_BUD, ARG_BUD_02_TinyBudgetTriggersExceeded) {
-    AgenticRAGConfig cfg;
+    AgenticRAGConfig cfg = makeFastBudgetConfig();
     cfg.max_session_tokens = 1;   // every doc+query estimate exceeds this
     cfg.max_iterations     = 10;  // many iterations available, but budget stops it
     AgenticRAG agent(cfg);
@@ -90,7 +114,7 @@ TEST(ARG_BUD, ARG_BUD_02_TinyBudgetTriggersExceeded) {
 // ARG_BUD_03 – large budget → loop runs until natural stop
 // ---------------------------------------------------------------------------
 TEST(ARG_BUD, ARG_BUD_03_LargeBudgetDoesNotInterfere) {
-    AgenticRAGConfig cfg;
+    AgenticRAGConfig cfg = makeFastBudgetConfig();
     cfg.max_session_tokens = 1'000'000;  // effectively unlimited
     cfg.max_iterations     = 2;
     AgenticRAG agent(cfg);
@@ -121,7 +145,7 @@ TEST(ARG_BUD, ARG_BUD_04_BudgetExceededEnumDistinct) {
 // ARG_BUD_05 – tokens_consumed > 0 when budget enforcement is active
 // ---------------------------------------------------------------------------
 TEST(ARG_BUD, ARG_BUD_05_TokensConsumedPopulatedWithBudget) {
-    AgenticRAGConfig cfg;
+    AgenticRAGConfig cfg = makeFastBudgetConfig();
     cfg.max_session_tokens = 1'000'000;  // large — won't exceed
     cfg.max_iterations     = 1;
     AgenticRAG agent(cfg);
@@ -134,4 +158,31 @@ TEST(ARG_BUD, ARG_BUD_05_TokensConsumedPopulatedWithBudget) {
 
     EXPECT_GT(result.tokens_consumed, 0u)
         << "tokens_consumed must be > 0 when max_session_tokens > 0 and docs are present";
+}
+
+// ---------------------------------------------------------------------------
+// ARG_BUD_06 – SIZE_MAX budget is sanitized to avoid internal sentinel overflow
+// ---------------------------------------------------------------------------
+TEST(ARG_BUD, ARG_BUD_06_MaxSizeBudgetIsSanitized) {
+    AgenticRAGConfig cfg = makeFastBudgetConfig();
+    cfg.max_session_tokens = std::numeric_limits<size_t>::max();
+    cfg.max_iterations = 1;
+    AgenticRAG agent(cfg);
+
+    const auto max_size = std::numeric_limits<size_t>::max();
+    EXPECT_EQ(agent.getConfig().max_session_tokens, max_size - 1u)
+        << "SIZE_MAX must be clamped to keep internal budget+1 sentinel representable";
+
+    const auto docs = makeDocs(1, 32);
+    const auto result = agent.run("q", docs);
+    EXPECT_NE(result.stop_reason, StopReason::BUDGET_EXCEEDED)
+        << "Sanitized near-unlimited budget must not fail immediately for small inputs";
+    EXPECT_GT(result.tokens_consumed, 0u);
+
+    AgenticRAGConfig cfg2 = makeFastBudgetConfig();
+    cfg2.max_session_tokens = max_size;
+    cfg2.max_iterations = 1;
+    agent.setConfig(cfg2);
+    EXPECT_EQ(agent.getConfig().max_session_tokens, max_size - 1u)
+        << "setConfig must apply the same budget sanitization";
 }

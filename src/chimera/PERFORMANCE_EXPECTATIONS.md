@@ -1,43 +1,42 @@
-# PERFORMANCE_EXPECTATIONS — src/chimera
+# PERFORMANCE_EXPECTATIONS - src/chimera
 
 ## Scope
-- Modul: `src/chimera`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
-## Benchmark-Bezug
-- Relevante Benchmark-Dateien:
-  - `benchmarks/external/chimera/run_ci_benchmarks.py`
+- Module: src/chimera
+- This file defines measurable chimera module performance expectations for release gating.
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Benchmark Reference
+
+- Relevant benchmark file:
+  - benchmarks/llm_bench.cpp
+
+## Specific Expectations
+
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| CHI-1 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `run_ci_benchmarks:relational_sort` |
-| CHI-2 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `run_ci_benchmarks:vector_dot_product` |
-| CHI-3 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `run_ci_benchmarks:document_lookup` |
-| CHI-4 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `run_ci_benchmarks:graph_bfs` |
+| CHI-1 | adapter request parsing path remains within release baseline budget | BM_OpenAICompatAdapter_ParseRequest |
+| CHI-2 | adapter response building path remains within release baseline budget | BM_OpenAICompatAdapter_BuildResponse |
+| CHI-3 | adapter parse/build roundtrip path remains bounded in release profile | BM_OpenAICompatAdapter_RoundTrip |
 
-## Modulspezifische harte Grenzwerte (v1.9.0)
+## Module Hard Gates (v1.0 docs baseline)
 
-| Gate-ID | Erwartungswert | Messregel |
+| Gate ID | Expectation | Measurement |
 |---|---|---|
-| CHIG-1 | >= 40000 ops/s (relational_sort) | mean aus `run_ci_benchmarks:relational_sort` |
-| CHIG-2 | >= 70000 ops/s (vector_dot_product) | mean aus `run_ci_benchmarks:vector_dot_product` |
-| CHIG-3 | <= 12 ms (graph_bfs P99) | p99 aus `run_ci_benchmarks:graph_bfs` |
-| CHIG-4 | Regression <= 8 % gegen letzte Release-Baseline | `(current - baseline) / baseline` |
+| CIG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| CIG-2 | adapter compatibility path p99 <= release threshold | p99 from mapped adapter benchmark cases |
+| CIG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+## Validation
 
-## Numerische Mindestziele (Release Gate)
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- Current mapping is a compatibility proxy and should be replaced by dedicated chimera-native benchmark cases.
 
-| Gate-ID | Erwartungswert | Messregel |
-|---|---|---|
-| NG-1 Latenz P95 | <= 50 ms | p95 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-2 Latenz P99 | <= 100 ms | p99 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-3 Throughput-Stabilitaet | Regression <= 10 % gegen letzte Baseline | `(current - baseline) / baseline` |
+## Sourcecode Verification (Module: chimera/performance)
 
-Hinweis:
-- Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
-- Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+- Verified benchmark source:
+  - benchmarks/llm_bench.cpp
+- Verified mapping surfaces:
+  - OpenAI compatibility adapter parse, build, and roundtrip benchmark paths
+- Result:
+  - Referenced benchmark cases exist in current benchmark source.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

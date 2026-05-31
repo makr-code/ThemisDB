@@ -221,436 +221,436 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] analytics
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] analytics
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] api
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] api
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] aql
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] aql
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] auth
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] auth
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] base
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] base
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] cache
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] cache
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] cdc
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] cdc
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] chaos
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] chaos
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] chimera
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] chimera
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] config
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] config
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] content
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] content
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] distributed_knowledge
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] distributed_knowledge
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] document
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] document
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] ethics_ai
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] ethics_ai
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] exporters
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] exporters
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] failover
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] failover
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] geo
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] geo
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] governance
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] governance
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] gpu
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] gpu
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] graph
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] graph
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] importers
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] importers
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] index
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] index
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] ingestion
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] ingestion
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] maintenance
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] maintenance
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] metadata
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] metadata
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] observability
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] observability
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] onnx_clip
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [x] onnx_clip (submodule, docs upstream - local sweep skipped)
+  - [x] README.md (n/a submodule)
+  - [x] ARCHITECTURE.md (n/a submodule)
+  - [x] MODULE_GAPS.md (n/a submodule)
+  - [x] ROADMAP.md (n/a submodule)
+  - [x] FUTURE_ENHANCEMENTS.md (n/a submodule)
+  - [x] CHANGELOG.md (n/a submodule)
+  - [x] SECURITY.md (n/a submodule)
+  - [x] AUDIT.md (n/a submodule)
+  - [x] PERFORMANCE_EXPECTATIONS.md (n/a submodule)
+  - [x] PRODUCTION_REQUIREMENTS.md (n/a submodule)
+  - [x] VCCDB Design.md (n/a submodule)
+- [~] performance
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] performance
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] plugins
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] plugins
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] process
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] process
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] projects
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] projects
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] prompt_engineering
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] prompt_engineering
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] replication
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] replication
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] rpc_grpc
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] rpc_grpc
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] scheduler
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] scheduler
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
+- [~] scraper
+  - [x] README.md
+  - [x] ARCHITECTURE.md
   - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
-- [ ] scraper
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [ ] search

@@ -1,65 +1,48 @@
-> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+# Security - Graph Module
 
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-# Security — Graph Module
-
-> For reporting security vulnerabilities, see the project-level [SECURITY.md](../../../SECURITY.md).
+Report vulnerabilities via project-level SECURITY.md.
 
 ## Security Scope
 
-The Graph module handles property graph traversal, path constraint evaluation, AQL-based graph pattern matching, and distributed cross-shard edge queries. Security controls apply to all traversal entry points, query planning, and shard communication.
+Security in the graph module focuses on constraint-safe traversal, bounded execution behavior, deterministic fallback handling for advanced routes, and prevention of unsafe cross-context graph access patterns.
 
 ## Threat Model
 
-| Threat | Mitigation |
-|--------|------------|
-| Path traversal injection via malicious node/edge filter expressions in path constraints | Path constraint validator rejects expressions containing unsanitized user input; allow-listed operators only |
-| DoS via unbounded graph queries (infinite loops, exponential fan-out) | Per-query timeout limits enforced in `parallel_traversal.cpp`; max-depth and max-hop limits required |
-| AQL injection via graph pattern matching | AQL pattern inputs are validated and parameterised before execution; raw string interpolation is prohibited |
-| Cross-shard edge traversal exposing shard topology to untrusted callers | Shard-isolated execution model; cross-shard requests use internal service credentials; shard identifiers are never returned to client |
-| Information leakage via EXPLAIN endpoint | EXPLAIN output is access-controlled; unauthenticated requests receive HTTP 401 |
-| Denial of service via subgraph isomorphism (VF2) on adversarial graphs | VF2 candidate-set size capped; backtracking depth limited; execution budget enforced |
+| Threat | Current Mitigation Surface |
+|---|---|
+| unconstrained traversal expansion | explicit path/depth/result constraints and validation gates |
+| unsafe semantic or reasoning input effects | ontology/rule validation and bounded reasoning behavior |
+| degraded acceleration path correctness risk | deterministic fallback behavior for GPU/distributed routes |
+| cross-context data exposure in graph execution | explicit graph/edge/node constraint and policy checks |
+| hidden query-planning regressions | explain/rewrite/telemetry surfaces for observable behavior |
 
-## Security Controls
+## Implemented Security Controls
 
-### Input Validation
-- Path constraint expressions are parsed by a dedicated validator in `path_constraints.cpp` before reaching the traversal engine.
-- Node and edge filter predicates are type-checked against the schema; unknown field references are rejected.
-- AQL graph patterns undergo injection detection (keyword and operator allow-listing) before compilation.
+- path constraints gate traversal breadth/depth and required/forbidden entities.
+- planner and execution flows surface explicit outcomes for invalid inputs.
+- advanced routes (distributed/GPU) expose bounded fallback behavior.
+- semantic and reasoning paths rely on explicit ontology/rule constraints.
 
-### Query Execution Limits
-- Maximum traversal depth: configurable, default 100 hops.
-- Maximum result set size: configurable, default 10 000 paths.
-- Wall-clock query timeout: configurable, default 30 s; enforced via cooperative cancellation tokens.
+## Security Follow-ups
 
-### Distributed Execution
-- Cross-shard edge traversal uses mTLS between shard agents.
-- Shard topology (host/port mapping) is kept server-side only; clients receive only result data.
-- Shard-isolated execution ensures one tenant's traversal cannot read another tenant's subgraph.
+- continue hardening distributed and GPU edge-case behavior under partial capability.
+- tighten diagnostics around invalid semantic input and denial paths.
+- expand abuse-case coverage for high fan-out and mixed-constraint scenarios.
 
-### EXPLAIN Endpoint
-- Accessible only to authenticated, authorised users (role: `graph_admin` or `query_explain`).
-- Returns logical query plan only; physical shard addresses are redacted.
+## Sourcecode Verification (Module: graph/security)
 
-## Data Handling
-
-- Edge properties may contain sensitive user data; access is governed by the calling user's graph-level ACL.
-- Traversal result sets are streamed and not persisted in query logs.
-- Vector similarity scores used in scheduled edge refresh are stored in dedicated index partitions, not in raw edge records.
-
-## Known Limitations
-
-- VF2 subgraph isomorphism does not yet implement full adversarial input hardening for graphs exceeding 10 000 nodes (see issue #1832).
-- AQL injection detection covers standard AQL operators; custom UDF function names require manual review.
-- GPU-accelerated BFS/DFS (planned, issue #1829) will require additional VRAM isolation review before production enablement.
-
-## Dependency Security
-
-| Dependency | Usage | Review Status |
-|------------|-------|---------------|
-| AQL engine | Graph pattern compilation | Reviewed; parameterised API used |
-| RocksDB | Adjacency/property storage | Reviewed; key prefix isolation enforced |
-| gRPC/mTLS | Cross-shard communication | Reviewed; certificate pinning enabled |
-| Thread pool (work-stealing) | Parallel traversal | Reviewed; no shared mutable state across tenants |
+- Verified files:
+  - src/graph/path_constraints.cpp
+  - src/graph/graph_query_optimizer.cpp
+  - src/graph/distributed_graph.cpp
+  - src/graph/gpu_traversal.cpp
+  - src/graph/knowledge_graph_reasoner.cpp
+  - src/graph/ontology_manager.cpp
+  - src/graph/explain_plan.cpp
+- Verified controls:
+  - constraint-gated traversal and bounded planning behavior
+  - deterministic fallback handling for advanced execution routes
+  - semantic validation and observable error surfaces

@@ -1,53 +1,46 @@
-> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+# Security - Prompt Engineering Module
 
-<!-- Status: current | validated: 2026-04-06 -->
-<!-- Links: README.md · ARCHITECTURE.md · SECURITY.md (root) -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-# Security Policy — Prompt Engineering Module
+Report vulnerabilities via project-level SECURITY.md.
 
-## Supported Versions
+## Security Scope
 
-| Version | Security Fixes |
-|---------|---------------|
-| 2.0.x   | ✅ Active      |
-| 1.4.x   | ✅ Active      |
-| < 1.4   | ❌ EOL         |
+Security in the prompt_engineering module focuses on prompt-template validation boundaries, safe context injection behavior, explicit version history/accountability, and non-silent failure signaling in optimization/evaluation paths.
 
 ## Threat Model
 
-### T1 — Prompt Injection Attacks
-- **Risk:** High — malicious user input could hijack LLM instructions
-- **Mitigation:** `PromptInjectionDetector` with 10 built-in patterns, keyword/syntax scoring, and `sanitize()` method applied before template rendering
-- **Residual risk:** Low for known patterns; novel jailbreak patterns require detector updates
+| Threat | Current Mitigation Surface |
+|---|---|
+| malformed or unsafe templates | validation-gated template lifecycle paths |
+| unsafe or uncontrolled context substitution | bounded context injection contract |
+| hidden prompt revision drift | explicit version commit/history behavior |
+| silent quality regression in optimization loops | explicit evaluation/feedback/metrics outcomes |
 
-### T2 — Template Variable Injection
-- **Risk:** Medium — `{placeholder}` substitution could be abused if values are evaluated
-- **Mitigation:** Substitution is purely structural string replacement; no expression evaluation occurs
-- **Residual risk:** Negligible — no code execution path from placeholder values
+## Implemented Security Controls
 
-### T3 — Version Control Authorization
-- **Risk:** Medium — unauthorized users modifying prompt versions or rolling back to vulnerable templates
-- **Mitigation:** RBAC enforced at the server layer; version control operations require authenticated sessions
-- **Residual risk:** Low — authorization is not enforced inside the module itself; depends on server layer
+- prompt template creation and validation are explicit and gated.
+- template misses/invalid inputs return deterministic outcomes.
+- revision history remains explicit via version control surfaces.
+- feedback and metrics paths keep prompt behavior observable.
 
-### T4 — Feedback Poisoning
-- **Risk:** Medium — crafted feedback entries could skew evaluator scores and optimizer decisions
-- **Mitigation:** FNV-1a audit checksum on every `FeedbackCollector` entry; tampered entries are detectable
-- **Residual risk:** Low — checksums detect tampering; bulk injection from authenticated users is an operational risk
+## Security Follow-ups
 
-### T5 — A/B Test Manipulation
-- **Risk:** Low — inflating sample counts or skewing distributions to force false significance
-- **Mitigation:** erfc-based normal CDF p-value gates enforce statistical significance before accepting A/B results
-- **Residual risk:** Negligible under honest usage; adversarial data injection falls under T4
+- expand adversarial template and injection edge-case coverage.
+- tighten diagnostics for optimization/evaluation failure classes.
+- deepen stress coverage for concurrent template/version operations.
 
-## Known Limitations
+## Sourcecode Verification (Module: prompt_engineering/security)
 
-| ID    | Description                                                              | Target Fix |
-|-------|--------------------------------------------------------------------------|------------|
-| KL-01 | `ContextWindowBudgetManager` enforces a budget cap but does not use model-specific BPE tokenization; the `CharDivisionCounter` is an approximation | Planned    |
-| KL-02 | Injection detector covers 10 known patterns; novel patterns require updates | Ongoing |
-
-## Reporting a Vulnerability
-
-Report via the project's private security disclosure channel (see root `SECURITY.md`).
-Do **not** open public issues for security vulnerabilities.
+- Verified files:
+  - src/prompt_engineering/prompt_manager.cpp
+  - src/prompt_engineering/prompt_template_validator.cpp
+  - src/prompt_engineering/prompt_version_control.cpp
+  - src/prompt_engineering/prompt_optimizer.cpp
+  - src/prompt_engineering/prompt_evaluator.cpp
+  - src/prompt_engineering/prompt_injection_detector.cpp
+- Verified controls:
+  - validation-gated template operations
+  - deterministic miss/error handling for prompt lifecycle paths
+  - explicit observability via versioning/feedback/metrics

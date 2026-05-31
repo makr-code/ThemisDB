@@ -1,47 +1,45 @@
-> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+# Architecture - Chimera Module
 
-# chimera architecture
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Scope
+## Overview
 
-Dieses Dokument beschreibt den Realstand des Moduls `chimera` in `src/chimera/` und `include/chimera/`.
+The chimera module currently centers on a single adapter implementation that exposes ThemisDB access through unified adapter contracts. It supports simulation-first behavior with optional engine-backed dispatch where available.
 
-## Current Runtime Architecture
+## Main Execution Planes
 
-### Implementierte Komponenten
+1. Adapter lifecycle plane
+- connect/disconnect and capability reporting behavior
+- operation preconditions and connection-state gates
 
-- `src/chimera/themisdb_adapter.cpp`
-  - Referenzadapter `chimera::ThemisDBAdapter`
-  - In-Memory-Simulation für Relational/Vector/Graph/Document
-  - Optionaler Engine-Dispatch über injizierte `themis::QueryEngine`, `VectorIndexManager`, `GraphIndexManager`
-  - Async-Operationen, Streaming-Resultate, Prepared Statements
-- `include/chimera/themisdb_adapter.hpp`
-  - Public Header für `ThemisDBAdapter`, `ThemisDBResultStream`, `ThemisDBPreparedStatement`
-- `include/chimera/database_adapter.hpp`
-  - CHIMERA-Basisinterfaces (inkl. Erweiterungen für Streaming/Prepared Statements)
+2. Dispatch plane
+- simulation-mode execution for adapter contract coverage
+- conditional engine-backed dispatch for available integration paths
 
-### Datenfluss (vereinfacht)
+3. Error and observability plane
+- structured result/error behavior for unsupported paths
+- adapter-level consistency of capability and operation outcomes
 
-1. `connect()` validiert Connection-String und setzt Verbindungsstatus.
-2. Aufrufe wie `execute_query`, `search_vectors`, `traverse` prüfen Verbindungsstatus.
-3. Falls Engine-Pointer gesetzt:
-   - Dispatch in ThemisDB-Enginepfade (falls `THEMISDB_ENGINE_AVAILABLE` kompiliert ist).
-4. Sonst:
-   - In-Memory-Simulationspfade auf `table_store_`, `vector_store_`, `graph_nodes_`, `doc_store_`.
-5. Optional:
-   - Streaming via `execute_query_stream`.
-   - Prepared Statements via `prepare`, `bind`, `execute`, `list_prepared`.
+## Core Contracts
 
-## Verifizierte Grenzen
+| Contract | Behavior |
+|---|---|
+| adapter interfaces | provide unified multi-model adapter operation surfaces |
+| lifecycle interfaces | enforce connection-state and operation preconditions |
+| error contracts | provide structured failures for unsupported/unavailable paths |
 
-- Es existiert **nur** der ThemisDB-Referenzadapter im Modulpfad `src/chimera/`.
-- Adapter-Factory- und weitere Vendor-Adapter-Dateien sind im Modulpfad aktuell nicht vorhanden.
-- Mehrere Engine-Dispatch-Pfade liefern `ErrorCode::NOT_IMPLEMENTED`, wenn `THEMISDB_ENGINE_AVAILABLE` nicht definiert ist.
-- Include-Dokumentation (`include/chimera/README.md`) ist vorhanden.
+## Failure Semantics
 
-## Testabdeckung (direkt chimera-bezogen)
+- operations without valid connection state fail with structured connection errors.
+- unavailable engine-backed paths fail explicitly with not-implemented style errors.
+- adapter state remains process-local and non-persistent.
 
-- `tests/chimera/test_chimera_streaming.cpp`
-- `tests/chimera/test_chimera_prepared_statements.cpp`
+## Sourcecode Verification (Module: chimera/architecture)
 
-Diese Tests validieren primär Streaming-/Prepared-Statement-Verhalten im Simulationsmodus.
+- Verified files:
+  - src/chimera/themisdb_adapter.cpp
+- Verified architecture claims:
+  - single-adapter module composition in current source layout
+  - explicit lifecycle and dispatch plane separation
+  - bounded structured error behavior for unsupported paths

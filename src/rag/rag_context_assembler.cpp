@@ -19,6 +19,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <limits>
 
 namespace themis::rag {
 
@@ -88,9 +89,18 @@ AssembledContext RAGContextAssembler::assemble(
     ordered.reserve(chunks.size());
     for (const auto& c : chunks) ordered.push_back(&c);
 
-    std::stable_sort(ordered.begin(), ordered.end(),
+    std::sort(ordered.begin(), ordered.end(),
         [](const RetrievedChunk* a, const RetrievedChunk* b) {
-            return a->relevance_score > b->relevance_score;
+            if (a->relevance_score != b->relevance_score) {
+                return a->relevance_score > b->relevance_score;
+            }
+            if (a->chunk_id != b->chunk_id) {
+                return a->chunk_id < b->chunk_id;
+            }
+            if (a->source != b->source) {
+                return a->source < b->source;
+            }
+            return a->content < b->content;
         });
 
     // ── Step 3 & 4: Greedy fill with optional truncation ────────────────────
@@ -138,7 +148,10 @@ int RAGContextAssembler::computeMaxTokens(
     int                        user_max)
 {
     // Tokens available for the response = reserved_response_tokens (minimum).
-    int computed = static_cast<int>(budget.reserved_response_tokens);
+    constexpr size_t kIntMaxAsSizeT =
+        static_cast<size_t>(std::numeric_limits<int>::max());
+    const size_t clamped = std::min(budget.reserved_response_tokens, kIntMaxAsSizeT);
+    int computed = static_cast<int>(clamped);
     if (computed <= 0) computed = 1;
 
     if (user_max > 0) {

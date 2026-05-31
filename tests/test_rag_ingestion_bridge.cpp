@@ -353,4 +353,23 @@ TEST(RAGIngestionBridgeTest, RI29_EnrichBackfillsSourceMetadata) {
     static_cast<void>(bridge.enrichRetrievedDocuments(docs));
     ASSERT_TRUE(docs[0].metadata.contains("source"));
     EXPECT_EQ(docs[0].metadata.at("source"), "doc-42");
+    ASSERT_TRUE(docs[0].metadata.contains("content"));
+    EXPECT_EQ(docs[0].metadata.at("content"), "Simple text for enrichment");
+}
+
+// RI-30 — enrichRetrievedDocuments backfills missing content metadata from doc.content
+TEST(RAGIngestionBridgeTest, RI30_EnrichBackfillsContentMetadata) {
+    RAGIngestionBridge bridge(makeToolbox());
+    std::vector<judge::RetrievedDocument> docs;
+
+    judge::RetrievedDocument doc;
+    doc.id = "doc-99";
+    doc.content = "Canonical content field for downstream RAG";
+    docs.push_back(doc);
+
+    static_cast<void>(bridge.enrichRetrievedDocuments(docs));
+    ASSERT_TRUE(docs[0].metadata.contains("content"));
+    EXPECT_EQ(docs[0].metadata.at("content"), "Canonical content field for downstream RAG");
+    ASSERT_TRUE(docs[0].metadata.contains("source"));
+    EXPECT_EQ(docs[0].metadata.at("source"), "doc-99");
 }

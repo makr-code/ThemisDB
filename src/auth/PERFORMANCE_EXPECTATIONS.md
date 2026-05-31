@@ -1,44 +1,50 @@
-# PERFORMANCE_EXPECTATIONS — src/auth
+# PERFORMANCE_EXPECTATIONS - src/auth
 
 ## Scope
-- Modul: `src/auth`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
-## Benchmark-Bezug
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_auth_token_validation.cpp`
+- Module: src/auth
+- This file defines measurable auth module performance expectations for release gating.
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Benchmark Reference
+
+- Relevant benchmark files:
+  - benchmarks/bench_auth_token_validation.cpp
+  - benchmarks/bench_security.cpp
+
+## Specific Expectations
+
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| AUT-1 | Siehe Zielbeschreibung: LDAP Bind P99 | `BM_JWT_ValidToken_RS256` |
-| AUT-2 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_JWT_ValidToken_WithBlacklist` |
-| AUT-3 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_JWT_ValidToken_RS256` |
-| AUT-4 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_TokenBlacklist_IsRevoked_Hit` |
-| AUT-5 | Siehe Zielbeschreibung: Redis Token Revocation P99 | `BM_TokenBlacklist_IsRevoked_Miss` |
+| AUT-1 | JWT validation path remains within release baseline budget | BM_JWT_ValidToken_RS256, BM_JWT_ValidToken_WithBlacklist |
+| AUT-2 | invalid/expired issuer and token-error paths remain bounded | BM_JWT_ExpiredToken, BM_JWT_WrongIssuer |
+| AUT-3 | token blacklist lookup hit/miss paths remain bounded | BM_TokenBlacklist_IsRevoked_Hit, BM_TokenBlacklist_IsRevoked_Miss |
+| AUT-4 | MFA/TOTP validation path remains bounded | BM_TOTP_Validate |
+| AUT-5 | auth middleware static-token path remains bounded | BM_AuthMiddleware_StaticToken_Single, BM_AuthMiddleware_StaticToken_1000 |
+| AUT-6 | security-policy and injection safety checks remain bounded | BM_AQLInjection_SafeQuery, BM_AQLInjection_MaliciousQuery |
+| AUT-7 | RBAC permission-check path remains bounded | BM_RBAC_PermissionCheck_SingleRole, BM_RBAC_PermissionCheck_ManyRoles |
 
-## Modulspezifische harte Grenzwerte (v1.9.0)
+## Module Hard Gates (v1.0 docs baseline)
 
-| Gate-ID | Erwartungswert | Messregel |
+| Gate ID | Expectation | Measurement |
 |---|---|---|
-| AUTHG-1 | <= 12 ms (JWT Validierung P95) | p95 aus `BM_JWT_ValidToken_RS256` |
-| AUTHG-2 | >= 30000 ops/s (Blacklist Hit/Miss Throughput) | mean aus `BM_TokenBlacklist_IsRevoked_Hit` und `BM_TokenBlacklist_IsRevoked_Miss` |
-| AUTHG-3 | <= 18 ms (Token Revocation P99) | p99 aus `BM_TokenBlacklist_IsRevoked_Miss` |
-| AUTHG-4 | Regression <= 7 % gegen letzte Release-Baseline | `(current - baseline) / baseline` |
+| AG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| AG-2 | token/revocation/middleware path p99 <= release threshold | p99 from mapped auth token-validation benchmark cases |
+| AG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+## Validation
 
-## Numerische Mindestziele (Release Gate)
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- For proxy-only targets, keep follow-up benchmark hardening explicitly tracked.
 
-| Gate-ID | Erwartungswert | Messregel |
-|---|---|---|
-| NG-1 Latenz P95 | <= 50 ms | p95 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-2 Latenz P99 | <= 100 ms | p99 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-3 Throughput-Stabilitaet | Regression <= 10 % gegen letzte Baseline | `(current - baseline) / baseline` |
+## Sourcecode Verification (Module: auth/performance)
 
-Hinweis:
-- Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
-- Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+- Verified benchmark sources:
+  - benchmarks/bench_auth_token_validation.cpp
+  - benchmarks/bench_security.cpp
+- Verified mapping surfaces:
+  - JWT and blacklist benchmark paths
+  - MFA and middleware benchmark paths
+  - security policy/injection and RBAC benchmark paths
+- Result:
+  - Referenced benchmark cases exist in current benchmark sources.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

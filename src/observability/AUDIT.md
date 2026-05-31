@@ -1,89 +1,72 @@
-> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+# Audit Report - Observability Module
 
-<!-- Status: current | validated: 2026-04-19 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-# Audit Report — Observability Module
+## Summary
 
-## Module Overview
+| Metric | Result |
+|---|---|
+| Build registration | pass |
+| Source set size | 20+ implementation files in src/observability |
+| Focused test presence | pass |
+| Open hardening findings | yes |
+| Critical blockers | none identified |
 
-The Observability module provides enterprise-grade monitoring, tracing, profiling, and alerting for ThemisDB. It covers Prometheus metrics export, distributed tracing (OpenTelemetry/W3C), structured logging, continuous profiling, eBPF kernel tracing, ML-based anomaly detection, SLO/SLA reporting, and custom alert rule management.
+## Verified Files
 
----
+- src/observability/metrics_collector.cpp
+- src/observability/alertmanager.cpp
+- src/observability/alerting_engine.cpp
+- src/observability/tracer.cpp
+- src/observability/opentelemetry_tracer.cpp
+- src/observability/continuous_profiler.cpp
+- src/observability/query_profiler.cpp
+- src/observability/storage_profiler.cpp
+- src/observability/performance_analyzer.cpp
+- src/observability/metrics_stream_server.cpp
+- src/observability/metric_aggregator.cpp
+- src/observability/advanced_metrics.cpp
+- src/observability/metric_anomaly_detector.cpp
+- src/observability/ml_anomaly_detector.cpp
+- src/observability/distributed_flame_graph.cpp
+- src/observability/root_cause_analyzer.cpp
+- src/observability/log_aggregator.cpp
+- src/observability/log_search_engine.cpp
+- src/observability/tenant_metrics_namespace.cpp
+- src/observability/ebpf_tracer.cpp
+- src/observability/slo_reporter.cpp
 
-## Source File Inventory
+## Findings
 
-| # | File | Description | Status |
-|---|------|-------------|--------|
-| 1 | `advanced_metrics.cpp` | Advanced metric computation: percentiles, histograms, moving averages | ✅ Complete |
-| 2 | `alerting_engine.cpp` | AlertingEngine with predefined CPU/memory/latency/error-rate/disk rules | ✅ Complete |
-| 3 | `alertmanager.cpp` | Alertmanager integration — alert routing to external receivers | ✅ Complete |
-| 4 | `continuous_profiler.cpp` | Continuous profiling pipeline with adaptive sampling | ✅ Complete |
-| 5 | `distributed_flame_graph.cpp` | Distributed flame graph collection and rendering | ✅ Complete |
-| 6 | `ebpf_tracer.cpp` | eBPF-based kernel tracing for low-overhead system profiling | ✅ Complete |
-| 7 | `log_aggregator.cpp` | Structured JSON logging with correlation ID propagation | ✅ Complete |
-| 8 | `log_search_engine.cpp` | Full-text search over structured log entries by correlation/span ID | ✅ Complete |
-| 9 | `metric_aggregator.cpp` | Metric aggregation: rate, histogram, cardinality operators | ✅ Complete |
-| 10 | `metric_anomaly_detector.cpp` | ML-based anomaly detection on metric time series | ✅ Complete |
-| 11 | `metrics_collector.cpp` | MetricsCollector — Prometheus text-format `/metrics` endpoint | ✅ Complete |
-| 12 | `metrics_stream_server.cpp` | Streaming metrics server for real-time metric push consumers | ✅ Complete |
-| 13 | `ml_anomaly_detector.cpp` | Advanced ML anomaly detector with model lifecycle management | ✅ Complete |
-| 14 | `opentelemetry_tracer.cpp` | Native OpenTelemetry SDK integration for OTLP export | ✅ Complete |
-| 15 | `performance_analyzer.cpp` | Automated performance recommendations from profiler data | ✅ Complete |
-| 16 | `query_profiler.cpp` | Per-phase and per-operator query timing | ✅ Complete |
-| 17 | `root_cause_analyzer.cpp` | Automated root cause analysis from correlated metrics and traces | ✅ Complete |
-| 18 | `slo_reporter.cpp` | SLO/SLA compliance reporting with burn-rate alert generation | ✅ Complete |
-| 19 | `storage_profiler.cpp` | RocksDB statistics collection and exposure | ✅ Complete |
-| 20 | `tenant_metrics_namespace.cpp` | Per-tenant metrics namespace isolation and routing | ✅ Complete |
-| 21 | `tracer.cpp` | Distributed tracing — OpenTelemetry-compatible, W3C Trace Context | ✅ Complete |
+### Open
 
-**Total: 21 source files**
+1. [OBS-AUD-01] high-contention telemetry edge-case hardening remains active.
+- Severity: medium
+- Evidence: roadmap/future retain active work for deterministic behavior under heavy contention.
+- Action: close deterministic regressions across mixed metrics/tracing/profiling high-load paths.
 
----
+2. [OBS-AUD-02] backend/export diagnostics need further tightening.
+- Severity: medium
+- Evidence: active follow-up work for export/notification backend incident visibility.
+- Action: unify taxonomy and diagnostics for observability backend fault classes.
 
-## Test Coverage
+3. [OBS-AUD-03] benchmark depth should broaden for distributed observability workloads.
+- Severity: low
+- Evidence: core goal and collector mapping is valid, while broader distributed scenarios need deeper benchmark coverage.
+- Action: add benchmark depth for advanced distributed observability workflows.
 
-| Test Target | Scope | Status |
-|-------------|-------|--------|
-| `ObservabilityProfilersFocusedTests` | QueryProfiler, StorageProfiler, PerformanceAnalyzer integration | ✅ Covered |
-| `ObservabilityHardeningFocusedTests` | Resilience under high cardinality, missing data, error injection | ✅ Covered |
-| `test_alerting_engine` | Predefined rules: CPU, memory, latency, error-rate, disk | ✅ Covered |
-| `test_metrics_exemplar` | Exemplar attachment to histogram observations | ✅ Covered |
-| `test_alert_rules` | Custom alert rule API (AlertRuleManager) CRUD and evaluation | ✅ Covered |
-| `test_ebpf_tracer` | eBPF program load, event capture, metric emission | ✅ Covered |
-| `test_metric_anomaly_detector` | ML model training, inference, anomaly flagging | ✅ Covered |
-| `test_distributed_flame_graph` | Flame graph collection, merge, render pipeline | ✅ Covered |
-| `test_slo_reporter` | SLO window evaluation, burn-rate threshold, alert generation | ✅ Covered |
-| `test_metrics_aggregation` | Rate, histogram, and cardinality aggregation correctness | ✅ Covered |
+### Closed
 
----
+- core observability runtime surfaces are present and source-verified.
+- documentation set is synchronized to source-verifiable claims.
+- changelog/roadmap role separation is aligned to module governance pattern.
 
-## Open Items
+## Compliance Snapshot
 
-| ID | Description | Priority | Target |
-|----|-------------|----------|--------|
-| OBS-OPEN-01 | Security audit: metrics endpoint authentication (OBS-SEC-01) | High | Q3 2026 |
-| OBS-OPEN-02 | Security audit: trace span PII scanning and sanitization (OBS-SEC-02) | Medium | Q3 2026 |
-| OBS-OPEN-03 | Prometheus integration test suite (end-to-end scrape validation) | Medium | Q4 2026 |
-| OBS-OPEN-05 | OTLP exemplar linking — `IExemplarReservoir` interface (`otlp_exemplar.h`) not yet integrated in export pipeline | Low | Q3 2026 |
-
----
-
-## Export Endpoints
-
-| Endpoint | Protocol | Description |
-|----------|----------|-------------|
-| `/metrics` | HTTP (Prometheus text) | Prometheus scrape endpoint |
-| OTLP gRPC | gRPC | OpenTelemetry trace/metric export |
-| OTLP HTTP | HTTP/JSON | OpenTelemetry trace/metric export (alternative) |
-| `/healthz/live` | HTTP | Kubernetes liveness probe |
-| `/healthz/ready` | HTTP | Kubernetes readiness probe |
-
----
-
-## Audit Sign-off
-
-| Date | Auditor | Verdict |
-|------|---------|---------|
-| 2026-03-12 | Internal module audit | Passed with conditions — OBS-OPEN-01 and OBS-OPEN-02 must be resolved before security certification |
-| 2026-04-19 | Source file inventory update | Updated — 7 new source files added; total updated to 21; OBS-OPEN-04 resolved (log_search_engine.cpp implemented) |
+| Requirement | Status |
+|---|---|
+| Source-verifiable behavior claims | pass |
+| Structured forward planning in roadmap/future | pass |
+| Historical completion tracked in changelog | pass |
+| Core module docs synchronized | pass |

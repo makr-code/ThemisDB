@@ -1,77 +1,67 @@
-> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+# Audit Report - Exporters Module
 
-<!-- Status: current | validated: 2026-04-19 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
-
-# Audit Report — Exporters Module
-
-**Last Audit:** 2026-04-19
-**Auditor:** Copilot
-**Status:** ✅ Pass
 
 ## Summary
 
 | Metric | Result |
-|--------|--------|
-| Build System Registration | ✅ Verified |
-| Source Files | 16 (`.cpp` in `src/exporters/`) |
-| Test Coverage | ✅ Production-ready; all 5 phases complete |
-| Open TODOs | 15 files contain TODOs (cross-collection join, ONNX export pipeline) |
-| Open Stubs | 0 (all planned features implemented) |
-| Security Issues | None (authorization enforcement confirmed for all 6 exporters) |
+|---|---|
+| Build registration | pass |
+| Source set size | 16 implementation files in src/exporters |
+| Focused test presence | pass |
+| Open hardening findings | yes |
+| Critical blockers | none identified |
 
-## Build System
+## Verified Files
 
-- All exporter source files registered in `cmake/CMakeLists.txt` and `cmake/ModularBuild.cmake`.
-- `themis-export` CLI binary registered as standalone executable.
-- Arrow/Parquet guarded by `THEMIS_ENABLE_ARROW` and `THEMIS_ENABLE_PARQUET`.
-- Hugging Face Hub client guarded by `THEMIS_ENABLE_HUGGINGFACE_HUB`.
-
-## Source Files Audited
-
-| File | Purpose |
-|------|---------|
-| `aql_predicate_filter.cpp` | AQL predicate-based export filtering |
-| `arrow_ipc_exporter.cpp` | Apache Arrow IPC file and stream export |
-| `data_augmentation.cpp` | Synthetic training data augmentation |
-| `export_encryption.cpp` | AES-256-GCM export file encryption |
-| `export_format_registry.cpp` | Singleton registry for 13 built-in formats |
-| `exporter_metrics.cpp` | Per-exporter Prometheus metrics |
-| `format_template.cpp` | Instruction-tuning format templates (Alpaca, ShareGPT, ChatML, OpenAI) |
-| `huggingface_exporter.cpp` | Hugging Face Datasets-compatible export |
-| `huggingface_hub_client.cpp` | Hub direct upload with authorization and audit |
-| `incremental_exporter.cpp` | Delta export with watermark and checkpoint |
-| `join_exporter.cpp` | Cross-collection join export |
-| `jsonl_llm_exporter.cpp` | JSONL export for LLM training data |
-| `parquet_exporter.cpp` | Parquet columnar export |
-| `pii_detector.cpp` | PII detection and redaction in export records |
-| `stream_writer.cpp` | Low-memory streaming writer for large exports |
-| `streaming_exporter.cpp` | Streaming export with progress callbacks and resumability |
-
-## Test Coverage
-
-- `tests/exporters/test_format_template.cpp` — 18 tests: template validation dry-run, field reference validation
-- Authorization enforcement: `enforceExportPolicy()` in all 6 exporters tested via policy engine mock
-- PII detection: `tests/exporters/test_pii_detector.cpp` — pattern matching, redaction strategies
-- Export encryption: `tests/exporters/test_export_encryption.cpp` — AES-256-GCM encrypt/decrypt round-trip
-- Incremental export: checkpoint/watermark behavior, resumability
-- Hugging Face Hub client: authorization check, audit log on success and failure paths
+- src/exporters/jsonl_llm_exporter.cpp
+- src/exporters/parquet_exporter.cpp
+- src/exporters/arrow_ipc_exporter.cpp
+- src/exporters/huggingface_exporter.cpp
+- src/exporters/huggingface_hub_client.cpp
+- src/exporters/streaming_exporter.cpp
+- src/exporters/stream_writer.cpp
+- src/exporters/incremental_exporter.cpp
+- src/exporters/join_exporter.cpp
+- src/exporters/aql_predicate_filter.cpp
+- src/exporters/format_template.cpp
+- src/exporters/export_encryption.cpp
+- src/exporters/pii_detector.cpp
+- src/exporters/data_augmentation.cpp
+- src/exporters/exporter_metrics.cpp
+- src/exporters/export_format_registry.cpp
 
 ## Findings
 
-### Resolved
-- **Authorization gap** — `enforceExportPolicy()` was not present in early exporter versions; added to all 6 exporters in Phase 5 (EXP-001).
-- **Hub upload without authorization** — `HuggingFaceHubClient` now requires PolicyEngine and audit log in `HubUploadConfig` (EXP-002).
-- **Missing incremental CLI flag** — `--incremental` shorthand added to the CLI export path (EXP-004; `export_cli.cpp` was folded into `streaming_exporter.cpp` and `incremental_exporter.cpp`).
-- **Format registry not extensible** — `ExportFormatRegistry` singleton now supports user-defined templates via `loadTemplatesFromConfig()` (EXP-005).
-
 ### Open
-- **Cross-collection join export** — planned (Issue #1722); single-collection export only currently.
-- **AutoML ONNX export pipeline** — planned for Q4 2026; not yet implemented.
 
-## Compliance
+1. [EXP-AUD-01] policy/filter parity hardening across all exporters remains active.
+- Severity: medium
+- Evidence: roadmap/future retain tasks for denial/filter consistency.
+- Action: close deterministic policy and filter parity regressions.
 
-- PolicyEngine authorization before export supports GDPR data portability (Art. 20) and data minimization requirements.
-- PII detection and redaction supports GDPR data subject rights before external export.
-- AES-256-GCM encryption of export files meets PCI-DSS and HIPAA encryption at rest requirements.
-- Audit log for Hub uploads provides evidence for data transfer compliance reviews.
+2. [EXP-AUD-02] checkpoint and recovery diagnostics need further tightening.
+- Severity: medium
+- Evidence: active follow-up work for stream/incremental recovery edge diagnostics.
+- Action: unify failure taxonomy and operator diagnostics for checkpoint paths.
+
+3. [EXP-AUD-03] benchmark depth should expand for advanced export workflows.
+- Severity: low
+- Evidence: mapped benchmark set is valid but not exhaustive for advanced helpers.
+- Action: add benchmark depth for join predicate complexity and upload-heavy scenarios.
+
+### Closed
+
+- core exporters runtime surfaces are present and source-verified.
+- documentation set is synchronized to source-verifiable claims.
+- changelog/roadmap role separation is aligned to governance pattern.
+
+## Compliance Snapshot
+
+| Requirement | Status |
+|---|---|
+| Source-verifiable behavior claims | pass |
+| Structured forward planning in roadmap/future | pass |
+| Historical completion tracked in changelog | pass |
+| Core module docs synchronized | pass |

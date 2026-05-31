@@ -1,27 +1,52 @@
-# PERFORMANCE_EXPECTATIONS — src/graph
+# PERFORMANCE_EXPECTATIONS - src/graph
 
 ## Scope
-- Modul: `src/graph`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
-## Benchmark-Bezug
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_graph_traversal.cpp`
-  - `benchmarks/bench_tensor_fingerprint_graph.cpp`
+- Module: src/graph
+- This file defines measurable graph module performance expectations for release gating.
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Benchmark Reference
+
+- Relevant benchmark files:
+  - benchmarks/bench_graph_traversal.cpp
+  - benchmarks/bench_graph_query_optimizer.cpp
+  - benchmarks/bench_tensor_fingerprint_graph.cpp
+
+## Specific Expectations
+
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| GR-SparseEdge | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `GraphTraversalBenchmarkFixture_SparseEdgeAddition` |
-| GR-DenseNeighbor | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `GraphTraversalBenchmarkFixture_DenseNeighborQuery` |
-| GR-BFS | Siehe Zielbeschreibung: Graph BFS Traversal (Depth-3) | `GraphTraversalBenchmarkFixture_BFSTraversal` |
-| GR-TFG-Insert | <= 10 ms pro Tensor bei Graphgroesse bis 100K Nodes | `BM_TFG_Insert_SingleNode` |
-| GR-TFG-Similarity | <= 50 ms fuer `findSimilar` bei Graphgroesse bis 100K Nodes | `BM_TFG_FindSimilar` |
-| GR-TFG-Neighbours | <= 5 ms fuer `neighbours` | `BM_TFG_Neighbours` |
-| GR-TFG-Export | Persisted Graph Export ohne unkontrolliertes Wachstum | `BM_TFG_ExportPersistedGraph` |
-| GR-TDM-SnapshotRestore | Konsistente Wiederherstellung von Graph+Records nach Snapshot/Restore | `TensorDeduplicationManagerSnapshotTest` (TDM-12..TDM-24) |
+| GRP-1 | baseline graph traversal operations remain bounded across sparse/dense inputs | GraphTraversalBenchmarkFixture/BFSTraversal, GraphTraversalBenchmarkFixture/DFSTraversal, GraphTraversalBenchmarkFixture/SparseEdgeAddition, GraphTraversalBenchmarkFixture/DenseNeighborQuery |
+| GRP-2 | advanced traversal and analytics helper paths remain bounded | GraphTraversalBenchmarkFixture/ShortestPathTraversal, GraphTraversalBenchmarkFixture/DegreeCentrality, GraphTraversalBenchmarkFixture/ConnectedComponents, GraphTraversalBenchmarkFixture/DiameterEstimation |
+| GRP-3 | general traversal direction/depth/result-shape paths remain bounded | GeneralTraversalBenchmarkFixture/GeneralTraversalOutbound, GeneralTraversalBenchmarkFixture/GeneralTraversalInbound, GeneralTraversalBenchmarkFixture/GeneralTraversalAny, GeneralTraversalBenchmarkFixture/GeneralTraversalDepthFilter, GeneralTraversalBenchmarkFixture/GeneralTraversalLargeResults |
+| GRP-4 | optimizer plan generation and cached planning remain bounded | GraphQueryOptimizerBenchmarkFixture/PlanGeneration_ShortestPath, GraphQueryOptimizerBenchmarkFixture/PlanGeneration_KHopNeighborhood, GraphQueryOptimizerBenchmarkFixture/PlanGeneration_WithCache |
+| GRP-5 | optimizer execution algorithms remain bounded | GraphQueryOptimizerBenchmarkFixture/BFS_Execution, GraphQueryOptimizerBenchmarkFixture/DFS_Execution, GraphQueryOptimizerBenchmarkFixture/Dijkstra_Execution, GraphQueryOptimizerBenchmarkFixture/Bidirectional_Execution, GraphQueryOptimizerBenchmarkFixture/Statistics_Collection |
+| GRP-6 | parallel and incremental optimizer traversal paths remain bounded | GraphQueryOptimizerBenchmarkFixture/MultiSourceBFS, GraphQueryOptimizerBenchmarkFixture/MultiSourceDFS, GraphQueryOptimizerBenchmarkFixture/MultiSourceBFS_ThreadScaling, GraphQueryOptimizerBenchmarkFixture/IncrementalBFS_OnGraphChange, GraphQueryOptimizerBenchmarkFixture/IncrementalBFS_MultiQuery_FanOut, ParallelTraversalBenchmarkFixture/MultiSourceBFS_Sequential, ParallelTraversalBenchmarkFixture/MultiSourceBFS_FanOutParallel, ParallelTraversalBenchmarkFixture/MultiSourceDFS |
+| GRP-7 | tensor fingerprint graph insert/find/neighbor/control paths remain bounded | BM_TFG_Insert_Throughput, BM_TFG_Insert_SingleNode, BM_TFG_FindSimilar, BM_TFG_Neighbours, BM_TFG_ConcurrentReads, BM_TFG_NodeCount, BM_TFG_ExportPersistedGraph |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+## Module Hard Gates (v1.0 docs baseline)
+
+| Gate ID | Expectation | Measurement |
+|---|---|---|
+| GRG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| GRG-2 | graph hot-path p99 <= release threshold | p99 from mapped graph benchmark cases |
+| GRG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
+
+## Validation
+
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- Mapping should be expanded as additional graph benchmark scenarios are introduced.
+
+## Sourcecode Verification (Module: graph/performance)
+
+- Verified benchmark sources:
+  - benchmarks/bench_graph_traversal.cpp
+  - benchmarks/bench_graph_query_optimizer.cpp
+  - benchmarks/bench_tensor_fingerprint_graph.cpp
+- Verified mapping surfaces:
+  - traversal and optimizer plan/execution paths
+  - parallel/incremental traversal and thread-scaling paths
+  - tensor fingerprint graph insertion/similarity/adjacency/export paths
+- Result:
+  - Referenced benchmark cases exist in current benchmark sources.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

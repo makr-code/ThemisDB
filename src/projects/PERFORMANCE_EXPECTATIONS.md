@@ -1,48 +1,44 @@
-# PERFORMANCE_EXPECTATIONS — src/projects
+# PERFORMANCE_EXPECTATIONS - src/projects
 
 ## Scope
-- Modul: `src/projects`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
-## Benchmark-Bezug
-- Dieses Modul nutzt die Ziel-ID-Matrix des Parent-Moduls `system_level` als Referenzpfad.
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_tpcc.cpp`
-  - `benchmarks/bench_vector_search.cpp`
+- Module: src/projects
+- This file defines measurable projects module performance expectations for release gating.
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Benchmark Reference
+
+- Relevant benchmark files:
+  - benchmarks/bench_content_versioning.cpp
+  - benchmarks/bench_query_lazy_eval.cpp
+
+## Specific Expectations
+
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| BM-1 | Siehe Zielbeschreibung: OLTP (TPC-C) 4-Core | `TPCCLiteFixture_NewOrderTransaction` |
-| BM-2 | Siehe Zielbeschreibung: OLTP (TPC-C) 8-Core | `TPCCLiteFixture_NewOrderTransaction` |
-| BM-3 | Siehe Zielbeschreibung: OLTP (TPC-C) 16-Core | `TPCCLiteFixture_NewOrderTransaction` |
-| BM-4 | Siehe Zielbeschreibung: OLTP (TPC-C) 32-Core | `TPCCLiteFixture_NewOrderTransaction` |
-| BM-5 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `TPCCLiteFixture_StockLevelTransaction` |
-| BM-6 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_VectorSearch_efSearch` |
-| BM-7 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `TPCCLiteFixture_PaymentTransaction` |
+| PRJP-1 | snapshot/version lifecycle paths remain bounded | BM_VersionCreation, BM_VersionRetrieval, BM_ConcurrentVersioning |
+| PRJP-2 | diff and version-storage overhead paths remain bounded | BM_DiffComputation, BM_StorageOverhead |
+| PRJP-3 | projection-sensitive project-like data path remains bounded (proxy) | BM_LazyEval_FilterProject |
 
-## Modulspezifische harte Grenzwerte (v1.9.0)
+## Module Hard Gates (v1.0 docs baseline)
 
-| Gate-ID | Erwartungswert | Messregel |
+| Gate ID | Expectation | Measurement |
 |---|---|---|
-| PRJG-1 | >= 17000 txn/s (Projects Path Throughput) | mean aus `TPCCLiteFixture_NewOrderTransaction` Proxypfad |
-| PRJG-2 | <= 35 ms (Projects-sensitive P95) | p95 aus `TPCCLiteFixture_StockLevelTransaction` Proxypfad |
-| PRJG-3 | <= 32 ms (Projects-sensitive P99) | p99 aus `BM_VectorSearch_efSearch` Proxypfad |
-| PRJG-4 | Regression <= 8 % gegen letzte Release-Baseline | `(current - baseline) / baseline` |
+| PRJG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| PRJG-2 | project hot-path p99 <= release threshold | p99 from mapped projects benchmark cases |
+| PRJG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+## Validation
 
-## Numerische Mindestziele (Release Gate)
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- Mapping should be expanded as dedicated project-collaboration/template benchmark scenarios are introduced.
 
-| Gate-ID | Erwartungswert | Messregel |
-|---|---|---|
-| NG-1 Latenz P95 | <= 50 ms | p95 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-2 Latenz P99 | <= 100 ms | p99 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-3 Throughput-Stabilitaet | Regression <= 10 % gegen letzte Baseline | `(current - baseline) / baseline` |
+## Sourcecode Verification (Module: projects/performance)
 
-Hinweis:
-- Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
-- Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+- Verified benchmark sources:
+  - benchmarks/bench_content_versioning.cpp
+  - benchmarks/bench_query_lazy_eval.cpp
+- Verified mapping surfaces:
+  - snapshot/version creation-retrieval, diff/storage overhead, projection-sensitive proxy path
+- Result:
+  - Referenced benchmark cases exist in current benchmark sources.
+  - Current mapping uses one explicit proxy case for project-like projection behavior until module-native benchmark depth is expanded.

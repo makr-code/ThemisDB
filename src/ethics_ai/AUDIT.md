@@ -1,72 +1,66 @@
-> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+# Audit Report - Ethics AI Module
 
-<!-- Status: current | validated: 2026-04-19 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-# Audit Report — Ethics AI Module
+## Summary
 
-## Module Overview
+| Metric | Result |
+|---|---|
+| Build registration | pass |
+| Source set size | 21 implementation files in src/ethics_ai |
+| Focused test presence | pass |
+| Open hardening findings | yes |
+| Critical blockers | none identified |
 
-The Ethics AI module provides a multi-philosophy ethical discourse engine.
-It loads philosophy profiles from YAML, generates arguments, applies RAG context,
-and synthesises scored ethical decisions stored as BaseEntity documents.
+## Verified Files
 
----
+- src/ethics_ai/ethics_ai_plugin.cpp
+- src/ethics_ai/discourse_engine.cpp
+- src/ethics_ai/argument_store.cpp
+- src/ethics_ai/philosophy_loader.cpp
+- src/ethics_ai/rag_context_engine.cpp
+- src/ethics_ai/ethics_evaluator.cpp
+- src/ethics_ai/chain_visualizer.cpp
+- src/ethics_ai/discourse_memory_store.cpp
+- src/ethics_ai/ethics_profile_registry.cpp
+- src/ethics_ai/ethics_selection_router.cpp
+- src/ethics_ai/convergence_marker_engine.cpp
+- src/ethics_ai/cross_school_tension_resolver.cpp
+- src/ethics_ai/prior_round_compressor.cpp
+- src/ethics_ai/synthesis_matrix_builder.cpp
+- src/ethics_ai/llm_cascade_router.cpp
 
-## Source File Inventory
+## Findings
 
-| # | File | Description | Lines | Status |
-|---|------|-------------|-------|--------|
-| 1 | `ethics_evaluator.h` | `EthicsEvaluator` interface — 5-dimension decision scoring | 88 | ✅ Complete |
-| 2 | `ethics_evaluator.cpp` | `EthicsEvaluator` implementation | — | ✅ Complete |
-| 3 | `discourse_engine.h` | `EthicalDiscourseEngine` interface — debate orchestration | 98 | ✅ Complete |
-| 4 | `discourse_engine.cpp` | `EthicalDiscourseEngine` implementation — debate + synthesis | 195 | ✅ Complete |
-| 5 | `rag_context_engine.h` | `RAGContextEngine` interface — 7 AQL retrieval patterns | 126 | ✅ Complete |
-| 6 | `rag_context_engine.cpp` | `RAGContextEngine` implementation | — | ✅ Complete |
-| 7 | `argument_store.h` | `ArgumentStore` interface — BaseEntity-backed persistence | 151 | ✅ Complete |
-| 8 | `argument_store.cpp` | `ArgumentStore` implementation | — | ✅ Complete |
-| 9 | `philosophy_loader.h` | `PhilosophyLoader` interface — YAML profile management | 108 | ✅ Complete |
-| 10 | `philosophy_loader.cpp` | `PhilosophyLoader` implementation — YAML parsing | — | ✅ Complete |
-| 11 | `ethics_ai_plugin.cpp` | `EthicsAiPlugin` — IThemisPlugin wiring and lifecycle | — | ✅ Complete |
-| 12 | `include/plugins/ethics_ai/ethics_ai_types.h` | Shared domain types: argument, decision, profile, RAG context | — | ✅ Complete |
-| 13 | `ethics_ai_types.cpp` | Type helper implementations | — | ✅ Complete |
-| 14 | `ethics_aql_queries.h` | AQL query string constants for 7 RAG patterns | — | ✅ Complete |
-| 15 | `ethics_base_entity_adapter.h` | BaseEntity adapter for ethics domain types | — | ✅ Complete |
-| 16 | `chain_visualizer.cpp` | Chain-of-thought visualization and ethics reasoning trace display | — | ✅ Complete |
-| 17 | `CMakeLists.txt` | Build configuration | — | ✅ Complete |
+### Open
 
-**Total: 17 files**
+1. [EAI-AUD-01] profile-quality and profile-edge behavior hardening remains active.
+- Severity: medium
+- Evidence: roadmap/future retain active tasks for profile validity and routing parity.
+- Action: close deterministic regressions for malformed/partial profile scenarios.
 
----
+2. [EAI-AUD-02] multi-school long-round discourse diagnostics need tightening.
+- Severity: medium
+- Evidence: active follow-up work for convergence/tension/compression edge diagnostics.
+- Action: unify failure taxonomy and instrumentation across advanced debate helpers.
 
-## Test Coverage Summary
+3. [EAI-AUD-03] benchmark breadth should expand for advanced helper workflows.
+- Severity: low
+- Evidence: core benchmarks are valid; advanced helper paths are less directly covered.
+- Action: add benchmark depth for cascade, compression, and synthesis helper paths.
 
-| Test Target | Scope | Status |
-|-------------|-------|--------|
-| `test_argument_store_standalone` | `ArgumentStore` standalone mode (store/retrieve/error paths) | ✅ Present |
-| `test_rag_context_engine` | RAG query patterns, vector search behavior, chain traversal | ✅ Present |
-| `test_ethics_ai_plugin` | Plugin lifecycle, metrics, interface conformance | ✅ Present |
-| `test_discourse_engine` | Debate initialization and decision orchestration | ✅ Present |
-| `test_philosophy_loader` | YAML load/validation/cache behavior | ✅ Present |
-| `test_ethics_ai_integration` | Full pipeline integration (initializeDebate → makeDecision → evaluate) | ✅ Present |
+### Closed
 
----
+- core ethics runtime surfaces are present and source-verified.
+- documentation set is synchronized to source-verifiable claims.
+- changelog/roadmap role separation is aligned to governance pattern.
 
-## Open Items
+## Compliance Snapshot
 
-| ID | Description | Priority | Target |
-|----|-------------|----------|--------|
-| ETHICS-OPEN-01 | Argument content uses template strings; needs LLM-based generation | High | Q3 2026 |
-| ETHICS-OPEN-02 | `confidence` and `consensus_level` are static placeholders (0.75/0.70) | High | Q3 2026 |
-| ETHICS-OPEN-03 | Vector embeddings are stubs; real embedding model integration needed | High | Q3 2026 |
-| ETHICS-OPEN-04 | Integration tests with real RocksDB backend (beyond standalone mode) | Medium | Q3 2026 |
-| ETHICS-OPEN-05 | Performance benchmarks for RAG context build (target: < 200 ms at p99) | Low | Q4 2026 |
-
----
-
-## Audit Sign-off
-
-| Date | Auditor | Verdict |
-|------|---------|---------|
-| 2026-03-22 | Initial module audit | Passed — 5 open items tracked above |
-| 2026-04-08 | Documentation consistency pass | Updated test coverage status and canonical header paths |
+| Requirement | Status |
+|---|---|
+| Source-verifiable behavior claims | pass |
+| Structured forward planning in roadmap/future | pass |
+| Historical completion tracked in changelog | pass |
+| Core module docs synchronized | pass |

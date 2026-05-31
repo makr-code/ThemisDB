@@ -1,34 +1,46 @@
-> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+# Security - Scheduler Module
 
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-# Security — Scheduler Module
+Report vulnerabilities via project-level SECURITY.md.
 
-> Report vulnerabilities via the project-level [SECURITY.md](../../../SECURITY.md).
+## Security Scope
+
+Security in the scheduler module focuses on explicit task lifecycle validation, bounded execution behavior, deterministic coordination outcomes, and observable audit/result tracking for scheduler actions.
 
 ## Threat Model
 
-| Threat | Mitigation |
-|--------|-----------|
-| Privilege escalation via scheduled tasks | `RequestContext` TLS API propagates authenticated `user_id`/`client_ip` to all audit events (`include/scheduler/task_scheduler.h:398–415`) |
-| AQL injection via task payloads | AQL injection detection via `security/aql_injection_detector.h`; injection-checked before every task execution |
-| Runaway task resource consumption | Per-task `timeout` and `max_retries` limits; `sandbox_execution` flag wraps task functions in `ModuleSandbox` with cgroups v2 memory/CPU limits and seccomp-bpf syscall filtering on Linux (`include/scheduler/task_scheduler.h:387`) |
-| DoS via excessive job scheduling | Rate limiting on schedule creation <!-- TODO: verify --> |
-| Cron expression injection | Strict cron expression validation in `CronExpression::parse()` |
-| Job state poisoning | Job state stored with integrity checksums <!-- TODO: verify --> |
-| Security event non-repudiation | `TaskSecurityEvent` / `TaskSecurityEventType` audit trail (`include/scheduler/task_audit_event.h`) |
+| Threat | Current Mitigation Surface |
+|---|---|
+| unsafe task registration or invalid lifecycle transitions | validation-gated scheduler lifecycle behavior |
+| hidden execution failures in scheduled workloads | explicit execute/stats and outcome signaling |
+| unobserved coordination/adaptation faults | deterministic distributed/external adapter diagnostics |
+| missing accountability for task actions | audit/result/anomaly observability surfaces |
 
-## Security Controls
+## Implemented Security Controls
 
-### Verified (from headers)
+- task lifecycle operations are validation-gated.
+- execution results and stats are explicit and retrievable.
+- coordination and adapter paths surface explicit failures.
+- audit/result/anomaly paths preserve runtime accountability.
 
-- **`sandbox_execution` flag** (`include/scheduler/task_scheduler.h:387`): when `true`, wraps user-provided task functions in `modules::ModuleSandbox` (cgroups v2 memory/CPU limits, seccomp-bpf syscall filtering on Linux; graceful fallback in constrained environments).
-- **`RequestContext` TLS auth context** (`include/scheduler/task_scheduler.h:398`): HTTP handlers call `setRequestContext({user_id, client_ip})` before scheduler operations; scheduler thread falls back to `"system"`. All audit events carry actual `user_id`/`client_ip` instead of hardcoded `"system"`.
-- **`TaskSecurityEvent` / `TaskSecurityEventType`** (`include/scheduler/task_audit_event.h`): structured security event schema for SIEM integration.
-- **`utils::AuditLogger`** (`include/scheduler/task_scheduler.h:76,435`): optional audit logger injected at construction for persistent SIEM-compatible audit trail.
-- **Maximum concurrent jobs enforced** via `Config::max_concurrent_tasks` to prevent resource exhaustion.
+## Security Follow-ups
 
-## Known Limitations
+- expand negative coverage for malformed task config and trigger edges.
+- tighten diagnostics taxonomy for distributed coordination incidents.
+- deepen stress coverage for concurrent registration/execution workloads.
 
-None critical.
+## Sourcecode Verification (Module: scheduler/security)
+
+- Verified files:
+  - src/scheduler/task_scheduler.cpp
+  - src/scheduler/distributed_task_coordinator.cpp
+  - src/scheduler/external_scheduler_adapter.cpp
+  - src/scheduler/task_audit_manager.cpp
+  - src/scheduler/task_result_store.cpp
+  - src/scheduler/task_anomaly_detector.cpp
+- Verified controls:
+  - validation-gated lifecycle/execution behavior
+  - deterministic coordination and adapter failure signaling
+  - explicit observability for task accountability paths

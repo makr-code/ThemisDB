@@ -1,29 +1,41 @@
-> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+# Security - Chimera Module
 
-# SECURITY
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-## Scope
-- Modul/Ordner: `src/chimera`
-- Sicherheitsrelevante Funktionen in `src/chimera/themisdb_adapter.cpp` und `include/chimera/themisdb_adapter.hpp`.
+Report vulnerabilities via project-level SECURITY.md.
+
+## Security Scope
+
+Security in the chimera module focuses on safe adapter lifecycle handling, bounded dispatch behavior, structured failure reporting, and minimizing ambiguity between simulation and engine-backed paths.
 
 ## Threat Model
 
-| Threat | Mitigation |
-|--------|-----------|
-| Connection string credential leakage | Credential masking (`user:pass@` → `***:***@`) in stored/logged connection strings |
-| Unvalidated connection state | All operation methods check `connected_` flag and return `CONNECTION_ERROR` if not connected (`src/chimera/themisdb_adapter.cpp`) |
-| Engine-backed path NOT_IMPLEMENTED silent failure | Engine dispatch paths return structured `ErrorCode::NOT_IMPLEMENTED`; callers must check `Result<T>` |
-| Unvalidated query parameters | Parameters passed through to `execute_query`; input validation is the caller's responsibility at the API layer |
+| Threat | Current Mitigation Surface |
+|---|---|
+| operation attempts without valid adapter connection state | explicit connection-state checks and structured errors |
+| unsupported engine dispatch ambiguity | explicit not-implemented error signaling on unavailable paths |
+| capability/behavior drift in adapter contract reporting | centralized capability reporting surfaces in adapter runtime |
+| accidental exposure via simulation-vs-engine mismatch | documented conditional dispatch boundaries and explicit failure behavior |
 
-## Security Controls
-- Connection-string parsing with credential masking in `ThemisDBAdapter::connect()`
-- `Result<T>` error propagation: no silent failures on connection or operation errors
-- Engine injection constructor (`ThemisDBAdapter(QueryEngine*, VectorIndexManager*, GraphIndexManager*)`) limits injection surface to trusted callers
+## Implemented Security Controls
 
-## Known Limitations
-- No rate limiting in `ThemisDBAdapter`; must be enforced at the API layer
-- Connection pooling is conditional: `has_capability(CONNECTION_POOLING)` returns `true` only when a pool provider has been injected via `setConnectionPool(std::function<void*()>)`; without injection, pooling is disabled and the capability is not reported
-- No SSL/TLS configuration in the adapter connection interface
+- adapter operations enforce connection preconditions.
+- unsupported dispatch paths fail explicitly and non-silently.
+- capability reporting is surfaced through adapter contract methods.
+- adapter runtime state is process-local and bounded.
 
-## Incident & Meldung
-- Sicherheitsfunde gemäß Root-`SECURITY.md` melden und behandeln.
+## Security Follow-ups
+
+- continue hardening behavior parity between simulation and engine-backed paths.
+- maintain deterministic error taxonomy for dispatch and capability failures.
+- keep diagnostics actionable for adapter integration incidents.
+
+## Sourcecode Verification (Module: chimera/security)
+
+- Verified files:
+  - src/chimera/themisdb_adapter.cpp
+- Verified controls:
+  - explicit connection-state gating
+  - structured unsupported-dispatch failures
+  - bounded adapter runtime and capability surfaces

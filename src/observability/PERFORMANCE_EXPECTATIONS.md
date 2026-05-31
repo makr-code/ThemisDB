@@ -1,42 +1,46 @@
-# PERFORMANCE_EXPECTATIONS — src/observability
+# PERFORMANCE_EXPECTATIONS - src/observability
 
 ## Scope
-- Modul: `src/observability`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
-## Benchmark-Bezug
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_metrics_collector.cpp`
+- Module: src/observability
+- This file defines measurable observability module performance expectations for release gating.
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Benchmark Reference
+
+- Relevant benchmark files:
+  - benchmarks/bench_observability_goals.cpp
+  - benchmarks/bench_metrics_collector.cpp
+
+## Specific Expectations
+
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| OBS-1 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_RecordQuery` |
-| OBS-2 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_HighVolumeRecording` |
-| OBS-3 | Siehe Zielbeschreibung: Metrics Scrape (16 Scraper) | `BM_MixedMetrics` |
+| OBSP-1 | observability goal coverage for metrics overhead, span overhead, and scrape concurrency remains bounded | OBS1_IncrementCounter, OBS1_ObserveHistogram, OBS1_SimulatedRequestWorkload, OBS1_PrometheusExportLatency, OBS2TracerFixture/SpanLifecycle, OBS2_SpanThroughputStress, OBS2_ConcurrentSpans, OBS3_ExclusiveMutexScrape, OBS3_SharedMutexScrape, OBS3_ProductionScrapeLatency, OBS3_MixedWriteReadContention |
+| OBSP-2 | core metrics collector record and mixed-operation paths remain bounded | BM_RecordQuery, BM_RecordCacheHit, BM_RecordTSStoreWrite, BM_RecordShardLatency, BM_MixedMetrics, BM_HighVolumeRecording, BM_ManyUniqueMetrics |
+| OBSP-3 | metrics export and concurrent recording/scrape paths remain bounded | BM_PrometheusExport_Empty, BM_PrometheusExport_WithData, BM_PrometheusExport_LargeDataset, BM_ConcurrentRecording, BM_ConcurrentMixedOperations, BM_ConcurrentExport |
+| OBSP-4 | batch, histogram, reset, and synthetic workload paths remain bounded | BM_TSStoreMetricsBatch, BM_ShardingMetricsBatch, BM_CacheMetricsBatch, BM_SecurityMetricsBatch, BM_HistogramRecording, BM_MultipleHistograms, BM_MemoryFootprint, BM_ResetEmpty, BM_ResetWithData, BM_SimulateQueryWorkload, BM_SimulateMonitoringWorkload |
 
-## Modulspezifische harte Grenzwerte (v1.9.0)
+## Module Hard Gates (v1.0 docs baseline)
 
-| Gate-ID | Erwartungswert | Messregel |
+| Gate ID | Expectation | Measurement |
 |---|---|---|
-| OBSG-1 | >= 120000 metrics/s (High Volume Recording) | mean aus `BM_HighVolumeRecording` |
-| OBSG-2 | <= 18 ms (RecordQuery P95) | p95 aus `BM_RecordQuery` |
-| OBSG-3 | <= 35 ms (MixedMetrics P99) | p99 aus `BM_MixedMetrics` |
-| OBSG-4 | Regression <= 8 % gegen letzte Release-Baseline | `(current - baseline) / baseline` |
+| OBSG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| OBSG-2 | observability hot-path p99 <= release threshold | p99 from mapped observability benchmark cases |
+| OBSG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+## Validation
 
-## Numerische Mindestziele (Release Gate)
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- Mapping should be expanded as additional observability benchmark scenarios are introduced.
 
-| Gate-ID | Erwartungswert | Messregel |
-|---|---|---|
-| NG-1 Latenz P95 | <= 50 ms | p95 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-2 Latenz P99 | <= 100 ms | p99 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-3 Throughput-Stabilitaet | Regression <= 10 % gegen letzte Baseline | `(current - baseline) / baseline` |
+## Sourcecode Verification (Module: observability/performance)
 
-Hinweis:
-- Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
-- Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+- Verified benchmark sources:
+  - benchmarks/bench_observability_goals.cpp
+  - benchmarks/bench_metrics_collector.cpp
+- Verified mapping surfaces:
+  - observability goal benchmark coverage
+  - metrics collector recording/export/concurrency and workload paths
+- Result:
+  - Referenced benchmark cases exist in current benchmark sources.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

@@ -1,27 +1,44 @@
-# PERFORMANCE_EXPECTATIONS — src/replication
+# PERFORMANCE_EXPECTATIONS - src/replication
 
 ## Scope
-- Modul: `src/replication`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
-## Benchmark-Bezug
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_replication_throughput.cpp`
-  - `benchmarks/bench_changefeed_throughput.cpp`
+- Module: src/replication
+- This file defines measurable replication module performance expectations for release gating.
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Benchmark Reference
+
+- Relevant benchmark files:
+  - benchmarks/bench_replication_throughput.cpp
+  - benchmarks/bench_changefeed_throughput.cpp
+
+## Specific Expectations
+
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| R-1 | ≤ 50 ms @ 10k Writes/s (LAN) | `WalBenchFixture_Append` |
-| R-2 | ≥ 500 MB/s/Follower (10 GbE) | `WalBenchFixture_ReadFrom` |
-| R-3 | ≤ 10 s | `BM_ReplicationManager_PromoteToLeader` |
-| R-4 | < 5 µs/Write | `BM_HLCConflictDetection` |
-| R-5 | ≤ 1 µs/Merge | `BM_CRDTMerge` |
-| R-6 | ≥ 200 MB/s; ≤ 10 min | `WalBenchFixture_ReadFrom` |
-| R-7 | ≤ 1 ms (Commit → CDC Queue) | `ChangefeedBenchmarkFixture_EventRecordingThroughput` |
-| R-8 | ≤ 200 ms P99 (50 ms RTT WAN) | `WalBenchFixture_ReadFrom` |
+| RLP-1 | WAL and replication-manager core paths remain bounded | WalBenchFixture/Append, WalBenchFixture/ReadFrom, BM_WALEntry_Serialize, BM_WALEntry_Deserialize, BM_ReplicationManager_Initialize, BM_ReplicationManager_PromoteToLeader |
+| RLP-2 | conflict-resolution paths remain bounded | BM_HLCConflictDetection, BM_CRDTMerge |
+| RLP-3 | changefeed recording/polling/subscriber and lag-sensitive paths remain bounded | ChangefeedBenchmarkFixture/EventRecordingThroughput, ChangefeedBenchmarkFixture/EventPolling, ChangefeedBenchmarkFixture/ConcurrentSubscribers, BM_EventTypeMix, BM_BurstWrites, BM_ReplicationLag, BM_ReplicationLagWAN, BM_RecordEventLatency, BM_ListEventsLatency |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+## Module Hard Gates (v1.0 docs baseline)
+
+| Gate ID | Expectation | Measurement |
+|---|---|---|
+| RLG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| RLG-2 | replication hot-path p99 <= release threshold | p99 from mapped replication benchmark cases |
+| RLG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
+
+## Validation
+
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- Mapping should be expanded as additional replication benchmark scenarios are introduced.
+
+## Sourcecode Verification (Module: replication/performance)
+
+- Verified benchmark sources:
+  - benchmarks/bench_replication_throughput.cpp
+  - benchmarks/bench_changefeed_throughput.cpp
+- Verified mapping surfaces:
+  - WAL/manager/promotion, conflict resolution, and changefeed/lag behavior
+- Result:
+  - Referenced benchmark cases exist in current benchmark sources.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

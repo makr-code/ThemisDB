@@ -14,7 +14,8 @@
  *
  *   1. Compute a ContextWindowBudget for the current model context window,
  *      system prompt, and user query.
- *   2. Sort retrieved chunks by relevance score (descending).
+ *   2. Sort retrieved chunks by relevance score (descending); ties are
+ *      resolved deterministically via chunk_id/source/content.
  *   3. Greedily add chunks while the token budget allows.
  *   4. If the last chunk does not fit in full, truncate it and append a
  *      configurable truncation marker instead of silently dropping it.
@@ -126,7 +127,8 @@ public:
      *
      * Steps:
      *  1. Compute ContextWindowBudget from config + system_prompt + query.
-     *  2. Sort @p chunks by relevance_score descending.
+     *  2. Sort @p chunks by relevance_score descending with deterministic
+     *     tie-breaking (`chunk_id`, then `source`, then `content`).
      *  3. Greedily fill the available token budget.
      *  4. Optionally truncate the last over-budget chunk.
      *

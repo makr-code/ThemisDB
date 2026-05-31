@@ -1,26 +1,52 @@
-> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+# Audit Report - Chaos Module
 
-# chaos audit
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-## Snapshot
-- Module: `src/chaos`
-- Primary source: `src/chaos/chaos_framework.cpp`
-- Public API: `include/chaos/chaos_framework.h`
-- Test evidence: `tests/test_chaos_framework.cpp`, `tests/test_chaos_scheduler.cpp`, `tests/test_chaos_stress.cpp`
-- Benchmark evidence: `benchmarks/bench_chaos_stress.cpp`
+## Summary
 
-## Source Files Audited
+| Metric | Result |
+|---|---|
+| Build registration | pass |
+| Source set size | 1 implementation file in src/chaos |
+| Focused test presence | pass |
+| Open hardening findings | yes |
+| Critical blockers | none identified |
 
-| File | Purpose |
-|------|---------|
-| `chaos_framework.cpp` | Core chaos injection scheduler — fault simulation, rate control, delay injection |
+## Verified Files
+
+- src/chaos/chaos_framework.cpp
 
 ## Findings
-- Implementation is present and non-stub.
-- Core docs (`README`, `ARCHITECTURE`, `ROADMAP`, `FUTURE_ENHANCEMENTS`, `AUDIT`, `SECURITY`) exist in `src/chaos/`.
-- Public include surface is currently one header (`include/chaos/chaos_framework.h`) and one include-level module README.
-- Open feature gap remains for distributed coordination (`src/chaos/ROADMAP.md`, "Cluster-wide distributed chaos coordination").
 
-## Follow-ups
-- Add distributed orchestration interfaces/implementation once the Q3 2026 roadmap item is started.
-- Define hard performance SLO thresholds once distributed backplane design is finalized (`src/chaos/PERFORMANCE_EXPECTATIONS.md`).
+### Open
+
+1. [CHAOS-AUD-01] concurrency and callback edge-hardening remains active.
+- Severity: medium
+- Evidence: roadmap/future retain active tasks for callback/scheduler stress behavior.
+- Action: close remaining stress-edge regressions and deterministic transition checks.
+
+2. [CHAOS-AUD-02] scheduler lifecycle diagnostics require continued tightening.
+- Severity: medium
+- Evidence: planned work remains for stop/restart and pending-queue diagnostics consistency.
+- Action: unify failure taxonomy and expand deterministic lifecycle coverage.
+
+3. [CHAOS-AUD-03] benchmark depth remains limited for broader fault-class scenarios.
+- Severity: low
+- Evidence: mapped benchmark coverage exists but remains narrow.
+- Action: extend dedicated chaos benchmark breadth and calibrate release thresholds.
+
+### Closed
+
+- core chaos runtime surfaces are present and source-verified.
+- documentation set is synchronized to source-verifiable claims.
+- changelog/roadmap role separation is aligned to governance pattern.
+
+## Compliance Snapshot
+
+| Requirement | Status |
+|---|---|
+| Source-verifiable behavior claims | pass |
+| Structured forward planning in roadmap/future | pass |
+| Historical completion tracked in changelog | pass |
+| Core module docs synchronized | pass |

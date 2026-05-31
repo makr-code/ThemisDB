@@ -1,76 +1,49 @@
-> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+# Security - Content Module
 
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-# Security — Content Module
-
-> For reporting security vulnerabilities, see the project-level [SECURITY.md](../../../SECURITY.md).
+Report vulnerabilities via project-level SECURITY.md.
 
 ## Security Scope
 
-The Content module ingests and processes arbitrary file formats (PDF, Office, HTML, images, audio, video, CAD, archives, geospatial data). It is exposed to untrusted file inputs making it a high-risk attack surface. Security concerns include: decompression bombs, malicious file formats triggering parser vulnerabilities, shell injection via external tools, unsafe subprocess execution, and PII in content.
+Security in the content module focuses on safe ingestion boundaries, validation and policy gates, archive/input abuse mitigation, and deterministic failure behavior across optional processor dependencies.
 
 ## Threat Model
 
-| Threat | Mitigation |
-|--------|------------|
-| Zip/archive bomb (decompression bomb) | `content_security.cpp` enforces max 100× decompression ratio and max 1000 entries (CON-006) |
-| Malicious PDF exploiting poppler | Input size limits before PDF parsing; poppler processes in isolated context |
-| Shell injection via LibreOffice path | `extractLegacyViaLibreOffice()` uses `posix_spawn` (not `system()`); no shell metacharacter expansion; path sanitized before passing to subprocess |
-| LibreOffice TOCTOU and path hijacking | `POSIX_SPAWN_RESETIDS`, `POSIX_SPAWN_SETPGROUP`, `POSIX_SPAWN_SETSIGDEF` set; RAII temp dir with restricted permissions |
-| LibreOffice process hanging | 30-second timeout with `SIGTERM`→`SIGKILL` escalation; RAII process handle cleanup |
-| LibreOffice environment poisoning | Minimal sandboxed environment: `HOME=tmpdir` only; inherited environment blocked |
-| OLE format abuse (.doc/.xls/.ppt) | Full 8-byte OLE header validation before invoking LibreOffice |
-| SSRF via embedded URLs in HTML/Markdown | HTML processor uses boilerplate removal only; external URL fetching is not performed |
-| LLM prompt injection via document content | Content passed to LLM analysis is structured in labeled context sections; outputs are metadata only (summary, topics, sentiment), not executed |
-| PII in ingested content | Content policy (`content_policy.cpp`) can be configured to apply PII detection before storage; deduplication does not persist raw content |
-| Malformed image triggering Tesseract overflow | Input images are validated and rescaled (300 DPI, Leptonica binarization) before OCR processing (CON-003) |
-| Back-pressure bypass via high ingest rate | `async_ingestion_worker.cpp` enforces `max_queue_depth`; excess ingestion requests are rejected with a back-pressure error (CON-005) |
+| Threat | Current Mitigation Surface |
+|---|---|
+| malformed or unsafe content payloads | validation and policy pre-checks before processing |
+| archive amplification and extraction abuse | content security safeguards and bounded archive checks |
+| unsafe processor activation/routing | explicit mime/category routing and policy controls |
+| degraded optional processor behavior | structured non-silent failure states for dependency paths |
+| operational blind spots in ingestion failures | metrics/logging/audit surfaces for ingestion diagnostics |
 
-## Security Controls
+## Implemented Security Controls
 
-### External Process Execution
-- LibreOffice headless is invoked via `posix_spawn` with `execv` — never via `system()` or `popen()`.
-- Subprocess inherits only a minimal environment (`HOME=tmpdir`); other environment variables are cleared via `POSIX_SPAWN_SETSIGDEF`.
-- Process group isolation via `POSIX_SPAWN_SETPGROUP` prevents signal leakage.
-- 30-second timeout with SIGTERM→SIGKILL escalation ensures resource cleanup.
-- RAII temp-directory cleanup ensures no temp files are left after processing.
+- validation and policy paths gate ingestion before expensive processing.
+- archive/content safety checks enforce bounded protective behavior.
+- processor routes are explicit and category-driven.
+- runtime failures surface via structured error and observability channels.
 
-### Archive Safety
-- Decompression ratio capped at 100× to prevent zip bomb expansion.
-- Archive entry count capped at 1000 entries.
-- Nested archives are not recursively decompressed unless explicitly configured.
+## Security Follow-ups
 
-### OCR Safety
-- Input images are rescaled to 300 DPI and binarized via Leptonica before Tesseract processing.
-- Oversized images are rejected before OCR to prevent memory exhaustion.
+- continue hardening processor dependency edge behavior under stress.
+- maintain deterministic validation/security taxonomy across formats.
+- keep diagnostics actionable for production ingestion and abuse incidents.
 
-### Content Policy
-- `ContentPolicy::ocrEnabled()` gates OCR activation to prevent unnecessary processing of non-image content.
-- Content validation (`content_validator.cpp`) checks format integrity before dispatching to specialized processors.
+## Sourcecode Verification (Module: content/security)
 
-## Data Handling
-
-- Ingested content (PDF text, Office text, audio metadata, etc.) may contain PII; content policy can be configured to apply PII detection before storage.
-- LLM analysis (`content_manager_llm.cpp`) sends document summaries (not raw content) to configured LLM providers; opt-in only.
-- Embeddings generated by `content_manager_embedding.cpp` are numeric vectors; raw text is not stored in the embedding cache.
-- Temp files created during LibreOffice processing are deleted via RAII immediately after conversion; no temp file persistence.
-- Audio transcription results may contain PII; apply redaction before storage in production.
-
-## Known Limitations
-
-- Video frame extraction (Issue #1688) is not yet implemented; video metadata extraction is available but no keyframe analysis.
-- Configurable processor chain plugin API (Issue #1686) is not yet available; processor dispatch is hardcoded in `content_manager.cpp`.
-- LLM content analysis does not apply PII scrubbing to the document summary before sending to the LLM provider; operators should configure topic-level analysis only for sensitive document categories.
-
-## Dependency Security
-
-| Dependency | Purpose | Notes |
-|------------|---------|-------|
-| poppler-cpp | PDF text extraction | Keep patched; high CVE surface |
-| libzip + pugixml | OOXML/ODF extraction | Input validated before parsing |
-| Tesseract | OCR | Pre-processed input; keep patched |
-| Leptonica | Image pre-processing for OCR | Keep patched |
-| LibreOffice (headless) | Legacy Office format extraction | Subprocess isolation; see above |
-| zstd | Content compression | Bounds-checked |
+- Verified files:
+  - src/content/content_validator.cpp
+  - src/content/content_policy.cpp
+  - src/content/content_security.cpp
+  - src/content/mime_detector.cpp
+  - src/content/archive_processor.cpp
+  - src/content/ocr_processor.cpp
+  - src/content/office_processor.cpp
+  - src/content/content_manager.cpp
+- Verified controls:
+  - explicit validation and policy gating
+  - archive/content safety bounded behavior
+  - observable and structured processor failure handling

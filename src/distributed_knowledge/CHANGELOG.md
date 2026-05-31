@@ -1,20 +1,21 @@
-> ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
+> WARNING: Historical changelog entries describe implementation state at the time they were recorded.
 
-# distributed_knowledge Module — Changelog
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+
+# Changelog - Distributed Knowledge Module
+
+All notable changes to the distributed_knowledge module are documented here.
+The format is based on Keep a Changelog.
 
 ## [Unreleased]
 
-### Documentation
-- Primary documentation consolidation for Primary → Secondary migration:
-  - Added `src/distributed_knowledge/README.md`
-  - Added `src/distributed_knowledge/CHANGELOG.md`
-  - Updated roadmap status in `src/distributed_knowledge/ROADMAP.md` with reality-check verification
+### Changed
+- Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
+- Performance expectations updated from sharding proxy mappings to explicit existing distributed_knowledge benchmark symbols.
 
-## [v1.0.0] - 2026-04-17
+## [1.0.0] - 2026-04-17
 
 ### Added
-- Layer 11A: Adapter capability gossip announcement + domain-aware routing integration
-- Layer 11B: Federated LoRA gradient coordination with DP-aware aggregation
-- Layer 11C: Federated RAG merger for cross-shard retrieval fusion
-- Layer 11D: Cross-shard feedback sync for federated RLAIF
-- Integration, admin/privacy, OR-hardening tests and module benchmarks
+- capability announcement, federated aggregation, cross-shard merge, and cross-shard feedback synchronization runtime surfaces.
+- integration and hardening benchmark/test coverage for distributed federation workflows.

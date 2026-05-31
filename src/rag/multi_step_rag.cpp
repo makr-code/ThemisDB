@@ -27,14 +27,47 @@ namespace themis::rag {
 
 using ::themis::llm::estimateTokens;
 
+namespace {
+
+MultiStepRAGConfig sanitizeConfig(const MultiStepRAGConfig& cfg)
+{
+    MultiStepRAGConfig out = cfg;
+
+    if (out.assembler.model_context_tokens == 0u) {
+        out.assembler.model_context_tokens =
+            ::themis::llm::kDefaultContextWindowTokens;
+    }
+
+    if (out.assembler.min_response_tokens == 0u) {
+        out.assembler.min_response_tokens =
+            ::themis::llm::kDefaultMinResponseTokens;
+    }
+
+    if (out.assembler.min_response_tokens > out.assembler.model_context_tokens) {
+        out.assembler.min_response_tokens = out.assembler.model_context_tokens;
+    }
+
+    if (out.max_response_tokens <= 0) {
+        out.max_response_tokens = 1;
+    }
+
+    if (out.max_map_steps == 0u) {
+        out.max_map_steps = 1u;
+    }
+
+    return out;
+}
+
+} // anonymous namespace
+
 // ---------------------------------------------------------------------------
 // Constructor / configuration
 // ---------------------------------------------------------------------------
 
 MultiStepRAGOrchestrator::MultiStepRAGOrchestrator(
     const MultiStepRAGConfig& cfg)
-    : config_(cfg)
-    , assembler_(cfg.assembler)
+    : config_(sanitizeConfig(cfg))
+    , assembler_(config_.assembler)
 {}
 
 const MultiStepRAGConfig& MultiStepRAGOrchestrator::getConfig() const
@@ -44,8 +77,8 @@ const MultiStepRAGConfig& MultiStepRAGOrchestrator::getConfig() const
 
 void MultiStepRAGOrchestrator::setConfig(const MultiStepRAGConfig& cfg)
 {
-    config_   = cfg;
-    assembler_.setConfig(cfg.assembler);
+    config_ = sanitizeConfig(cfg);
+    assembler_.setConfig(config_.assembler);
 }
 
 // ---------------------------------------------------------------------------

@@ -1,8 +1,25 @@
-> ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
+> WARNING: Historical changelog entries describe implementation state at the time they were recorded.
 
-# chimera changelog
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-## 2026-04-16
-- Konsolidierte Primary-Dokumentation für `src/chimera/` ergänzt (`ARCHITECTURE.md`, `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md`).
-- Secondary-Dokumentation für `docs/de/chimera/` und `docs/en/chimera/` zur Doku-Migration vorbereitet.
-- Missing-Implementations-Report für `chimera` initialisiert (`docs/de/chimera/MISSING_IMPLEMENTATIONS.md`).
+# Changelog - Chimera Module
+
+All notable changes to the chimera module are documented here.
+The format is based on Keep a Changelog.
+
+## [Unreleased]
+
+### Changed
+- Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
+- Performance expectations aligned to explicit existing adapter benchmark symbols from current benchmark sources.
+
+## [2026-04-16]
+
+### Changed
+- consolidated primary documentation and migration alignment for chimera docs.
+
+## [2026-04-08]
+
+### Added
+- baseline chimera module documentation set.

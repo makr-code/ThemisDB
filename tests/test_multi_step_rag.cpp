@@ -10,10 +10,10 @@
  * @file test_multi_step_rag.cpp
  * @brief Unit tests for MultiStepRAGOrchestrator (Map-Reduce + Iterative).
  *
- * Test suite: MultiStepRAGFocusedTests (15 tests)
+ * Test suite: MultiStepRAGFocusedTests (16 tests)
  *   Group A (5)  – Map-Reduce: single-pass, multi-batch, empty docs, no infer fn
  *   Group B (5)  – Iterative: single iteration, max_iterations cap, no retriever
- *   Group C (5)  – Configuration, factory helpers, context_overflow flag
+ *   Group C (6)  – Configuration, factory helpers, context_overflow flag
  */
 
 #include <gtest/gtest.h>
@@ -239,4 +239,43 @@ TEST(MultiStepRAGFocusedTests, C5_CustomFactoryConfig) {
     ASSERT_NE(nullptr, orch);
     EXPECT_EQ(16384u, orch->getConfig().assembler.model_context_tokens);
     EXPECT_EQ(10u,    orch->getConfig().max_iterations);
+}
+
+TEST(MultiStepRAGFocusedTests, C6_InvalidBudgetConfigIsSanitizedAtIngress) {
+    MultiStepRAGConfig cfg;
+    cfg.assembler.model_context_tokens = 0u;
+    cfg.assembler.min_response_tokens  = 0u;
+    cfg.max_response_tokens            = 0;
+    cfg.max_map_steps                  = 0u;
+
+    MultiStepRAGOrchestrator orch(cfg);
+    const auto safe = orch.getConfig();
+
+    EXPECT_EQ(4096u, safe.assembler.model_context_tokens);
+    EXPECT_EQ(512u,  safe.assembler.min_response_tokens);
+    EXPECT_EQ(1,     safe.max_response_tokens);
+    EXPECT_EQ(1u,    safe.max_map_steps);
+
+    MultiStepRAGConfig cfg2;
+    cfg2.assembler.model_context_tokens = 32u;
+    cfg2.assembler.min_response_tokens  = 999u;
+    cfg2.max_response_tokens            = -7;
+    cfg2.max_map_steps                  = 0u;
+    orch.setConfig(cfg2);
+
+    const auto safe2 = orch.getConfig();
+    EXPECT_EQ(32u, safe2.assembler.model_context_tokens);
+    EXPECT_EQ(32u, safe2.assembler.min_response_tokens);
+    EXPECT_EQ(1,   safe2.max_response_tokens);
+    EXPECT_EQ(1u,  safe2.max_map_steps);
+
+    int observed_max_tokens = -1;
+    InferenceFn infer = [&](const std::string&, int max_tokens) -> std::string {
+        observed_max_tokens = max_tokens;
+        return "sanitized";
+    };
+
+    const auto result = orch.runMapReduce("q", {makeChunk("doc")}, infer);
+    EXPECT_EQ("sanitized", result.final_answer);
+    EXPECT_EQ(1, observed_max_tokens);
 }

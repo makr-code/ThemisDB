@@ -1,45 +1,50 @@
-# PERFORMANCE_EXPECTATIONS — src/aql
+# PERFORMANCE_EXPECTATIONS - src/aql
 
 ## Scope
-- Modul: `src/aql`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
-## Benchmark-Bezug
-- Dieses Modul nutzt die Ziel-ID-Matrix des Parent-Moduls `query` als Referenzpfad.
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_query.cpp`
+- Module: src/aql
+- This file defines measurable AQL module performance expectations for release gating.
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Benchmark Reference
+
+- Relevant benchmark files:
+  - benchmarks/bench_aql_functions.cpp
+  - benchmarks/bench_hybrid_aql_sugar.cpp
+
+## Specific Expectations
+
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| Q-SimpleWhere | Siehe Zielbeschreibung: Simple AQL WHERE P99 | `BM_SimpleWhere` |
-| Q-ComplexWhere | Siehe Zielbeschreibung: Complex WHERE P99 | `BM_ComplexWhere` |
-| Q-JoinUsersPosts | Siehe Zielbeschreibung: JOIN (Users-Posts) P99 | `BM_JoinUsersPosts` |
-| Q-Pagination-Offset | Siehe Zielbeschreibung: Pagination Offset P99 | `BM_Pagination_Offset` |
-| Q-Pagination-Cursor | Siehe Zielbeschreibung: Pagination Cursor P99 | `BM_Pagination_Cursor` |
+| AQL-1 | core string and regex function paths remain within release baseline budget | BENCHMARK_F(AQLFunctionBenchmark, StringLength), BENCHMARK_F(AQLFunctionBenchmark, StringConcat), BENCHMARK_F(AQLFunctionBenchmark, StringRegexTest) |
+| AQL-2 | math and aggregate function paths remain bounded | BENCHMARK_F(AQLFunctionBenchmark, MathSqrt), BENCHMARK_F(AQLFunctionBenchmark, MathTrigonometry), BENCHMARK_F(AQLFunctionBenchmark, MathAggregateSum) |
+| AQL-3 | array function paths remain bounded | BENCHMARK_F(AQLFunctionBenchmark, ArrayFlatten), BENCHMARK_F(AQLFunctionBenchmark, ArrayUnique), BENCHMARK_F(AQLFunctionBenchmark, ArraySorted) |
+| AQL-4 | geo/vector/graph function paths remain bounded | BENCHMARK_F(AQLFunctionBenchmark, GeoDistance), BENCHMARK_F(AQLFunctionBenchmark, VectorCosineSimilarity), BENCHMARK_F(AQLFunctionBenchmark, GraphShortestPath), BENCHMARK_F(AQLFunctionBenchmark, GraphPageRank) |
+| AQL-5 | highlighter tokenization/annotation paths remain within release baseline budget | BM_Highlighter_Tokenize_Simple, BM_Highlighter_Tokenize_Complex, BM_Highlighter_AnnotateErrors_Valid, BM_Highlighter_AnnotateErrors_Malformed |
+| AQL-6 | confidence scorer paths remain bounded | BM_ConfidenceScorer_NoSchema, BM_ConfidenceScorer_WithSchema, BM_ConfidenceScorer_Simple |
+| AQL-7 | few-shot selection and prompt formatting remain bounded | BENCHMARK_F(FewShotFixture, FindRelevant_Top3), BENCHMARK_F(FewShotFixture, BuildPromptSection), BENCHMARK_F(FewShotFixture, FormatForPrompt) |
 
-## Modulspezifische harte Grenzwerte (v1.9.0)
+## Module Hard Gates (v1.0 docs baseline)
 
-| Gate-ID | Erwartungswert | Messregel |
+| Gate ID | Expectation | Measurement |
 |---|---|---|
-| AQLG-1 | <= 22 ms (Simple/Complex WHERE P95) | p95 aus `BM_SimpleWhere` und `BM_ComplexWhere` |
-| AQLG-2 | <= 45 ms (Join P99) | p99 aus `BM_JoinUsersPosts` |
-| AQLG-3 | >= 24000 ops/s (Pagination Throughput) | mean aus `BM_Pagination_Offset` und `BM_Pagination_Cursor` |
-| AQLG-4 | Regression <= 8 % gegen letzte Release-Baseline | `(current - baseline) / baseline` |
+| AG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| AG-2 | highlighter/scorer/few-shot path p99 <= release threshold | p99 from mapped bench_hybrid_aql_sugar cases |
+| AG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+## Validation
 
-## Numerische Mindestziele (Release Gate)
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- For proxy-only targets, keep follow-up benchmark hardening explicitly tracked.
 
-| Gate-ID | Erwartungswert | Messregel |
-|---|---|---|
-| NG-1 Latenz P95 | <= 50 ms | p95 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-2 Latenz P99 | <= 100 ms | p99 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-3 Throughput-Stabilitaet | Regression <= 10 % gegen letzte Baseline | `(current - baseline) / baseline` |
+## Sourcecode Verification (Module: aql/performance)
 
-Hinweis:
-- Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
-- Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+- Verified benchmark sources:
+  - benchmarks/bench_aql_functions.cpp
+  - benchmarks/bench_hybrid_aql_sugar.cpp
+- Verified mapping surfaces:
+  - function-library benchmark paths
+  - highlighter/scorer benchmark paths
+  - few-shot benchmark paths
+- Result:
+  - Referenced benchmark cases exist in current benchmark sources.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

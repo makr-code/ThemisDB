@@ -34,6 +34,7 @@
 #include <vector>
 #include <thread>
 #include <atomic>
+#include <optional>
 
 // Include the CLI implementation (all static helpers become available)
 #include "../tools/themisctl.cpp"
@@ -57,6 +58,19 @@ static std::string optval(const std::vector<std::string>& args,
         if (args[i] == key) return args[i + 1];
     }
     return def;
+}
+
+/// Extract the first JSON object from mixed stderr/stdout text.
+static std::optional<json> extractFirstJsonObject(const std::string& text) {
+    const auto start = text.find('{');
+    if (start == std::string::npos) {
+        return std::nullopt;
+    }
+    try {
+        return json::parse(text.substr(start));
+    } catch (...) {
+        return std::nullopt;
+    }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -432,6 +446,51 @@ protected:
                 int max_context_tokens_effective = body.value("max_context_tokens", 0);
                 int response_budget_tokens_effective = body.value("response_budget_tokens", 512);
                 std::string rag_mode_effective = body.value("rag_mode", std::string{"text"});
+
+                if (top_k_effective < 1 || top_k_effective > 100) {
+                    json err = {
+                        {"error", "top_k out of range"},
+                        {"details", "top_k must be between 1 and 100"},
+                        {"status", 400}
+                    };
+                    res.status = 400;
+                    res.set_content(err.dump(), "application/json");
+                    return;
+                }
+
+                if (collection == "missing_engine") {
+                    json err = {
+                        {"error", "RAG retrieval engine not configured"},
+                        {"details", "Call setQueryEngine() before using /api/v1/llm/rag"},
+                        {"status", 503}
+                    };
+                    res.status = 503;
+                    res.set_content(err.dump(), "application/json");
+                    return;
+                }
+
+                if (collection == "invalid_collection") {
+                    json err = {
+                        {"error", "RAG retrieval failed"},
+                        {"details", "collection not found: invalid_collection"},
+                        {"status", 503}
+                    };
+                    res.status = 503;
+                    res.set_content(err.dump(), "application/json");
+                    return;
+                }
+
+                if (collection == "empty_collection") {
+                    json err = {
+                        {"error", "RAG retrieval returned no usable documents"},
+                        {"details", "No documents matched the retrieval query (retrieved=0, rejected=0)"},
+                        {"status", 503}
+                    };
+                    res.status = 503;
+                    res.set_content(err.dump(), "application/json");
+                    return;
+                }
+
                 json resp = {
                     {"text",               "Das Bauamt benötigt noch den Lageplan und die Baugenehmigung."},
                     {"query",              query},
@@ -1154,4 +1213,93 @@ TEST_F(ThemisctlHttpTest, TRQ06_RagQuery_InvalidTopK_ReturnsUsageError) {
     int rc = cmdRag({"query", "--top-k", "notanumber", "some question"});
     std::cerr.rdbuf(old);
     EXPECT_EQ(rc, 2);
+}
+
+// TRQ-08: top_k=0 is syntactically valid for CLI but rejected by server contract (rc=1)
+TEST_F(ThemisctlHttpTest, TRQ08_RagQuery_TopKZero_ServerRejectsWith400) {
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = cmdRag({"query", "--top-k", "0", "some question"});
+    std::cerr.rdbuf(old);
+
+    EXPECT_EQ(rc, 1);
+    EXPECT_NE(capErr.str().find("HTTP 400"), std::string::npos);
+    EXPECT_NE(capErr.str().find("top_k out of range"), std::string::npos);
+
+    const auto err_json = extractFirstJsonObject(capErr.str());
+    ASSERT_TRUE(err_json.has_value());
+    EXPECT_EQ(err_json->value("error", std::string{}), "top_k out of range");
+    EXPECT_EQ(err_json->value("status", 0), 400);
+    EXPECT_TRUE(err_json->contains("details"));
+}
+
+// TRQ-09: missing retrieval engine must fail closed with explicit 503
+TEST_F(ThemisctlHttpTest, TRQ09_RagQuery_MissingEngine_ServerRejectsWith503) {
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = cmdRag({"query", "--collection", "missing_engine", "some question"});
+    std::cerr.rdbuf(old);
+
+    EXPECT_EQ(rc, 1);
+    EXPECT_NE(capErr.str().find("HTTP 503"), std::string::npos);
+    EXPECT_NE(capErr.str().find("RAG retrieval engine not configured"), std::string::npos);
+
+    const auto err_json = extractFirstJsonObject(capErr.str());
+    ASSERT_TRUE(err_json.has_value());
+    EXPECT_EQ(err_json->value("error", std::string{}), "RAG retrieval engine not configured");
+    EXPECT_EQ(err_json->value("status", 0), 503);
+    EXPECT_TRUE(err_json->contains("details"));
+}
+
+// TRQ-10: invalid collection must fail closed with explicit 503
+TEST_F(ThemisctlHttpTest, TRQ10_RagQuery_InvalidCollection_ServerRejectsWith503) {
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = cmdRag({"query", "--collection", "invalid_collection", "some question"});
+    std::cerr.rdbuf(old);
+
+    EXPECT_EQ(rc, 1);
+    EXPECT_NE(capErr.str().find("HTTP 503"), std::string::npos);
+    EXPECT_NE(capErr.str().find("RAG retrieval failed"), std::string::npos);
+
+    const auto err_json = extractFirstJsonObject(capErr.str());
+    ASSERT_TRUE(err_json.has_value());
+    EXPECT_EQ(err_json->value("error", std::string{}), "RAG retrieval failed");
+    EXPECT_EQ(err_json->value("status", 0), 503);
+    EXPECT_TRUE(err_json->contains("details"));
+}
+
+// TRQ-11: empty retrieval must fail closed with no-usable-documents reason
+TEST_F(ThemisctlHttpTest, TRQ11_RagQuery_EmptyRetrieval_ServerRejectsWith503) {
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = cmdRag({"query", "--collection", "empty_collection", "some question"});
+    std::cerr.rdbuf(old);
+
+    EXPECT_EQ(rc, 1);
+    EXPECT_NE(capErr.str().find("HTTP 503"), std::string::npos);
+    EXPECT_NE(capErr.str().find("RAG retrieval returned no usable documents"), std::string::npos);
+
+    const auto err_json = extractFirstJsonObject(capErr.str());
+    ASSERT_TRUE(err_json.has_value());
+    EXPECT_EQ(err_json->value("error", std::string{}), "RAG retrieval returned no usable documents");
+    EXPECT_EQ(err_json->value("status", 0), 503);
+    EXPECT_TRUE(err_json->contains("details"));
+}
+
+// TRQ-12: empty query payload must fail closed with HTTP 400 from server
+TEST_F(ThemisctlHttpTest, TRQ12_RagQuery_EmptyStringQuestion_ServerRejectsWith400) {
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = cmdRag({"query", ""});
+    std::cerr.rdbuf(old);
+
+    EXPECT_EQ(rc, 1);
+    EXPECT_NE(capErr.str().find("HTTP 400"), std::string::npos);
+    EXPECT_NE(capErr.str().find("Missing 'query' field"), std::string::npos);
+
+    const auto err_json = extractFirstJsonObject(capErr.str());
+    ASSERT_TRUE(err_json.has_value());
+    EXPECT_EQ(err_json->value("error", std::string{}), "Missing 'query' field");
+    EXPECT_EQ(err_json->value("status", 0), 400);
 }
