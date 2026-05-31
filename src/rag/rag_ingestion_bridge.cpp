@@ -22,6 +22,19 @@
 namespace themis {
 namespace rag {
 
+namespace {
+
+std::string trimCopy(const std::string& in) {
+    const auto begin = in.find_first_not_of(" \t\r\n");
+    if (begin == std::string::npos) {
+        return {};
+    }
+    const auto end = in.find_last_not_of(" \t\r\n");
+    return in.substr(begin, end - begin + 1);
+}
+
+} // namespace
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Construction / destruction
 // ─────────────────────────────────────────────────────────────────────────────
@@ -136,8 +149,26 @@ IndexResult RAGIngestionBridge::indexDocument(
             if (chunk.source_file_id.empty()) {
                 chunk.source_file_id = doc_id;
             }
-            // Inject collection into metadata for downstream retrieval routing
+            // Inject canonical retrieval metadata for downstream RAG consumers.
             chunk.metadata["collection"] = collection;
+
+            const std::string canonical_source =
+                trimCopy(chunk.metadata["source"]).empty()
+                    ? chunk.source_file_id
+                    : trimCopy(chunk.metadata["source"]);
+            const std::string canonical_content =
+                trimCopy(chunk.metadata["content"]).empty()
+                    ? trimCopy(chunk.text_snippet)
+                    : trimCopy(chunk.metadata["content"]);
+
+            if (!canonical_source.empty()) {
+                chunk.metadata["source"] = canonical_source;
+            }
+            if (!canonical_content.empty()) {
+                chunk.metadata["content"] = canonical_content;
+                chunk.metadata["text"] = canonical_content;
+                chunk.metadata["body"] = canonical_content;
+            }
         }
 
         auto write_result = vector_writer_->writeVectors(stamped_chunks);
@@ -189,16 +220,33 @@ std::size_t RAGIngestionBridge::enrichRetrievedDocuments(
 
     std::size_t enriched = 0;
     for (auto& doc : docs) {
-        if (doc.content.empty() || doc.id.empty()) {
+        const std::string canonical_id = trimCopy(doc.id);
+        const std::string canonical_content = trimCopy(doc.content);
+
+        if (canonical_content.empty() || canonical_id.empty()) {
             continue;
         }
-        if (doc.metadata["content"].empty()) {
-            doc.metadata["content"] = doc.content;
+
+        const std::string metadata_content = trimCopy(doc.metadata["content"]);
+        const std::string metadata_source = trimCopy(doc.metadata["source"]);
+
+        if (metadata_content.empty()) {
+            doc.metadata["content"] = canonical_content;
+        } else {
+            doc.metadata["content"] = metadata_content;
         }
-        if (doc.metadata["source"].empty()) {
-            doc.metadata["source"] = doc.id;
+
+        if (metadata_source.empty()) {
+            doc.metadata["source"] = canonical_id;
+        } else {
+            doc.metadata["source"] = metadata_source;
         }
-        auto entities = toolbox_->extractEntities(doc.content);
+
+        if (doc.metadata["content"].empty() || doc.metadata["source"].empty()) {
+            continue;
+        }
+
+        auto entities = toolbox_->extractEntities(doc.metadata["content"]);
         if (entities.empty()) {
             continue;
         }
@@ -241,8 +289,9 @@ std::string RAGIngestionBridge::buildEntityContext(
             oss << " |";
         }
         oss << " " << entityTypeName(e.entity_type);
-        if (!e.id.empty()) {
-            oss << " " << e.id;
+        const std::string canonical_entity_id = trimCopy(e.id);
+        if (!canonical_entity_id.empty()) {
+            oss << " " << canonical_entity_id;
         }
         first = false;
     }

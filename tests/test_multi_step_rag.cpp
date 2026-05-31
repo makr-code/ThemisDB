@@ -18,6 +18,7 @@
 
 #include <gtest/gtest.h>
 #include "rag/multi_step_rag.h"
+#include "llm/context_window_budget.h"
 
 using namespace themis::rag;
 
@@ -201,6 +202,42 @@ TEST(MultiStepRAGFocusedTests, B5_NullInferFnReturnsEmpty) {
     EXPECT_TRUE(result.final_answer.empty());
 }
 
+TEST(MultiStepRAGFocusedTests, B6_IterativeUsesBudgetCappedTokensForAnswerAndGapDetection) {
+    MultiStepRAGConfig cfg;
+    cfg.assembler.model_context_tokens = 24u;
+    cfg.assembler.min_response_tokens  = 5u;
+    cfg.max_response_tokens            = 1000; // must be capped by computed budget
+    cfg.max_iterations                 = 1u;
+    MultiStepRAGOrchestrator orch(cfg);
+
+    const auto budget = ::themis::llm::ContextWindowBudget::compute(
+        cfg.assembler.model_context_tokens,
+        cfg.system_prompt,
+        "query",
+        cfg.assembler.min_response_tokens);
+    const int expected_answer_max_tokens =
+        RAGContextAssembler::computeMaxTokens(budget, cfg.max_response_tokens);
+    const int expected_gap_max_tokens = std::max(1, std::min(256, expected_answer_max_tokens));
+
+    std::vector<int> observed_max_tokens;
+    int call_index = 0;
+    InferenceFn infer = [&](const std::string&, int max_tokens) -> std::string {
+        observed_max_tokens.push_back(max_tokens);
+        ++call_index;
+        return (call_index == 1) ? "iterative-answer" : "NONE";
+    };
+
+    RetrievalFn retrieve = [](const std::string&, size_t) -> std::vector<RetrievedChunk> {
+        return {};
+    };
+
+    const auto result = orch.runIterative("query", {makeChunk("doc")}, infer, retrieve);
+    EXPECT_EQ("iterative-answer", result.final_answer);
+    ASSERT_EQ(observed_max_tokens.size(), 2u);
+    EXPECT_EQ(expected_answer_max_tokens, observed_max_tokens[0]);
+    EXPECT_EQ(expected_gap_max_tokens, observed_max_tokens[1]);
+}
+
 // ── Group C – Configuration and factory helpers ───────────────────────────────
 
 TEST(MultiStepRAGFocusedTests, C1_GetAndSetConfig) {
@@ -278,4 +315,41 @@ TEST(MultiStepRAGFocusedTests, C6_InvalidBudgetConfigIsSanitizedAtIngress) {
     const auto result = orch.runMapReduce("q", {makeChunk("doc")}, infer);
     EXPECT_EQ("sanitized", result.final_answer);
     EXPECT_EQ(1, observed_max_tokens);
+}
+
+TEST(MultiStepRAGFocusedTests, C7_MapReduceUsesBudgetCappedMaxTokensAcrossPhases) {
+    MultiStepRAGConfig cfg;
+    cfg.assembler.model_context_tokens = 20u;  // force overflow + batching
+    cfg.assembler.min_response_tokens  = 5u;
+    cfg.max_response_tokens            = 1000; // intentionally high, must be capped
+    cfg.max_map_steps                  = 4u;
+    cfg.enable_parallel_map            = false;
+
+    MultiStepRAGOrchestrator orch(cfg);
+
+    std::vector<RetrievedChunk> docs;
+    for (int i = 0; i < 4; ++i) {
+        docs.push_back(makeChunk(std::string(180, static_cast<char>('a' + i)), 1.0f, "src"));
+    }
+
+    const auto budget = ::themis::llm::ContextWindowBudget::compute(
+        cfg.assembler.model_context_tokens,
+        cfg.system_prompt,
+        "query",
+        cfg.assembler.min_response_tokens);
+    const int expected_max_tokens =
+        RAGContextAssembler::computeMaxTokens(budget, cfg.max_response_tokens);
+
+    std::vector<int> observed_max_tokens;
+    InferenceFn infer = [&](const std::string&, int max_tokens) -> std::string {
+        observed_max_tokens.push_back(max_tokens);
+        return "partial";
+    };
+
+    const auto result = orch.runMapReduce("query", docs, infer);
+    EXPECT_TRUE(result.context_overflow);
+    ASSERT_GE(observed_max_tokens.size(), 2u);
+    for (int observed : observed_max_tokens) {
+        EXPECT_EQ(expected_max_tokens, observed);
+    }
 }

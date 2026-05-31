@@ -238,6 +238,9 @@ MMWriteEntry ThreeWayMergeResolver::resolve(
     const std::vector<MMWriteEntry>&  conflicting_writes,
     const ResolutionContext&          /*context*/)
 {
+    if (conflicting_writes.empty()) {
+        throw std::invalid_argument("ThreeWayMergeResolver::resolve requires at least one conflicting write");
+    }
     if (conflicting_writes.size() == 1) return conflicting_writes[0];
 
     const MMWriteEntry base = selectBase(conflicting_writes);
@@ -362,6 +365,9 @@ MMWriteEntry FieldLevelMergeResolver::resolve(
     const std::vector<MMWriteEntry>&  conflicting_writes,
     const ResolutionContext&          /*context*/)
 {
+    if (conflicting_writes.empty()) {
+        throw std::invalid_argument("FieldLevelMergeResolver::resolve requires at least one conflicting write");
+    }
     if (conflicting_writes.size() == 1) return conflicting_writes[0];
 
     MMWriteEntry winner = pickLatestHlc(conflicting_writes);

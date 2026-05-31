@@ -26,7 +26,7 @@
       "src\\process\\bpmn_serializer.cpp": [
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 804,
+          "line": 802,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -38,7 +38,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 791,
+          "line": 789,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -50,7 +50,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 586,
+          "line": 584,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -62,7 +62,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 261,
+          "line": 259,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -74,7 +74,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 61,
+          "line": 59,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -86,7 +86,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 805,
+          "line": 803,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "edges.push_back(std::move(e));",
@@ -95,7 +95,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 792,
+          "line": 790,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "nodes.push_back(std::move(n));",
@@ -104,7 +104,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 765,
+          "line": 763,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "xml << \"</definitions>\\n\";",
@@ -113,7 +113,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 764,
+          "line": 762,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "xml << \"  </process>\\n\";",
@@ -122,16 +122,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 761,
-          "type": "hardcoded_path",
-          "severity": "MEDIUM",
-          "snippet": "xml << \"/>\\n\";",
-          "description": "Hardcoded path separator \u2014 not portable",
-          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
-        },
-        {
-          "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 739,
+          "line": 759,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "xml << \"/>\\n\";",
@@ -143,25 +134,7 @@
           "line": 737,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
-          "snippet": "xml << \"    </\" << tag << \">\\n\";",
-          "description": "Hardcoded path separator \u2014 not portable",
-          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
-        },
-        {
-          "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 737,
-          "type": "hardcoded_path",
-          "severity": "MEDIUM",
-          "snippet": "xml << \"    </\" << tag << \">\\n\";",
-          "description": "Hardcoded path separator \u2014 not portable",
-          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
-        },
-        {
-          "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 736,
-          "type": "hardcoded_path",
-          "severity": "MEDIUM",
-          "snippet": "xml << \"      </extensionElements>\\n\";",
+          "snippet": "xml << \"/>\\n\";",
           "description": "Hardcoded path separator \u2014 not portable",
           "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         },
@@ -170,13 +143,40 @@
           "line": 735,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
+          "snippet": "xml << \"    </\" << tag << \">\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 735,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "xml << \"    </\" << tag << \">\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 734,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "xml << \"      </extensionElements>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 733,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
           "snippet": "xml << \"/>\\n\";",
           "description": "Hardcoded path separator \u2014 not portable",
           "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 728,
+          "line": 726,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "<< \" xmlns:bpmns=\\\"http://bpmn-s.org/schema\\\"\"",
@@ -185,7 +185,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 690,
+          "line": 688,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "xml << R\"(             targetNamespace=\"http://themis.db/process\")\" << \"\\n\";",
@@ -194,7 +194,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 690,
+          "line": 688,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "xml << R\"(             targetNamespace=\"http://themis.db/process\")\" << \"\\n\";",
@@ -203,7 +203,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 689,
+          "line": 687,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "xml << R\"(             xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\")\" << \"\\n\";",
@@ -212,7 +212,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 689,
+          "line": 687,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "xml << R\"(             xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\")\" << \"\\n\";",
@@ -221,7 +221,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 688,
+          "line": 686,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "xml << R\"(<definitions xmlns=\"http://www.omg.org/spec/BPMN/20100524/MODEL\")\" << \"\\n\";",
@@ -230,7 +230,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 688,
+          "line": 686,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "xml << R\"(<definitions xmlns=\"http://www.omg.org/spec/BPMN/20100524/MODEL\")\" << \"\\n\";",
@@ -239,7 +239,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 587,
+          "line": 585,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.nodes.push_back(std::move(node));",
@@ -248,7 +248,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 485,
+          "line": 483,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { ann.retention_days = std::stoi(rd); } catch (...) {}",
@@ -257,7 +257,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 449,
+          "line": 447,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { return std::stof(it->second); } catch (...) { return 0.f; }",
@@ -266,7 +266,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 266,
+          "line": 264,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\'': out += \"&apos;\"; break;",
@@ -275,7 +275,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 265,
+          "line": 263,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\"':  out += \"&quot;\"; break;",
@@ -284,7 +284,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 264,
+          "line": 262,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '>':  out += \">\";   break;",
@@ -293,7 +293,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 263,
+          "line": 261,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '<':  out += \"<\";   break;",
@@ -302,7 +302,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 262,
+          "line": 260,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '&':  out += \"&amp;\";  break;",
@@ -311,7 +311,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 66,
+          "line": 64,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "else if (ent == \"&apos;\") out += '\\'';",
@@ -320,7 +320,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 65,
+          "line": 63,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "else if (ent == \"&quot;\") out += '\"';",
@@ -329,7 +329,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 64,
+          "line": 62,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "else if (ent == \">\")   out += '>';",
@@ -338,7 +338,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 63,
+          "line": 61,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "else if (ent == \"<\")   out += '<';",
@@ -347,7 +347,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 62,
+          "line": 60,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if      (ent == \"&amp;\")  out += '&';",
@@ -356,7 +356,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 729,
+          "line": 727,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "<< \" dataCategory=\\\"\" << escapeXml_(n.dsgvo_annotation->data_category) << \"\\\"\"",
@@ -365,7 +365,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 613,
+          "line": 611,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "node.metadata[\"layout\"] = std::move(layout);",
@@ -374,7 +374,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 437,
+          "line": 435,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "shape_elem_ref = it->second;",
@@ -383,7 +383,7 @@
         },
         {
           "file": "src\\process\\bpmn_serializer.cpp",
-          "line": 22,
+          "line": 20,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "* are parsed on import and stored in ProcessNodeInfo::metadata[\"layout\"].",
@@ -394,7 +394,7 @@
       "src\\process\\cmmn_serializer.cpp": [
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 406,
+          "line": 404,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -406,7 +406,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 225,
+          "line": 223,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -418,7 +418,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 55,
+          "line": 53,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -430,7 +430,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 512,
+          "line": 510,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "xml << \"</definitions>\\n\";",
@@ -439,7 +439,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 511,
+          "line": 509,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "xml << \"  </case>\\n\";",
@@ -448,7 +448,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 510,
+          "line": 508,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "xml << \"    </casePlanModel>\\n\";",
@@ -457,7 +457,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 507,
+          "line": 505,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "<< \" name=\\\"\" << escapeXml_(n.name) << \"\\\"/>\\n\";",
@@ -466,7 +466,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 507,
+          "line": 505,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "<< \" name=\\\"\" << escapeXml_(n.name) << \"\\\"/>\\n\";",
@@ -475,7 +475,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 459,
+          "line": 457,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "xml << R\"(             targetNamespace=\"http://themis.db/cmmn\")\" << \"\\n\";",
@@ -484,7 +484,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 459,
+          "line": 457,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "xml << R\"(             targetNamespace=\"http://themis.db/cmmn\")\" << \"\\n\";",
@@ -493,7 +493,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 458,
+          "line": 456,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "xml << R\"(             xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\")\" << \"\\n\";",
@@ -502,7 +502,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 458,
+          "line": 456,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "xml << R\"(             xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\")\" << \"\\n\";",
@@ -511,7 +511,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 457,
+          "line": 455,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "xml << R\"(<definitions xmlns=\"http://www.omg.org/spec/CMMN/20151109/MODEL\")\" << \"\\n\";",
@@ -520,7 +520,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 457,
+          "line": 455,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "xml << R\"(<definitions xmlns=\"http://www.omg.org/spec/CMMN/20151109/MODEL\")\" << \"\\n\";",
@@ -529,7 +529,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 407,
+          "line": 405,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.edges.push_back(std::move(edge));",
@@ -538,7 +538,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 345,
+          "line": 343,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.nodes.push_back(std::move(node));",
@@ -547,7 +547,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 230,
+          "line": 228,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\'': out += \"&apos;\"; break;",
@@ -556,7 +556,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 229,
+          "line": 227,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\"':  out += \"&quot;\"; break;",
@@ -565,7 +565,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 228,
+          "line": 226,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '>':  out += \">\";   break;",
@@ -574,7 +574,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 227,
+          "line": 225,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '<':  out += \"<\";   break;",
@@ -583,7 +583,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 226,
+          "line": 224,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '&':  out += \"&amp;\";  break;",
@@ -592,7 +592,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 60,
+          "line": 58,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "else if (ent == \"&apos;\") out += '\\'';",
@@ -601,7 +601,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 59,
+          "line": 57,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "else if (ent == \"&quot;\") out += '\"';",
@@ -610,7 +610,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 58,
+          "line": 56,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "else if (ent == \">\")   out += '>';",
@@ -619,7 +619,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 57,
+          "line": 55,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "else if (ent == \"<\")   out += '<';",
@@ -628,7 +628,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 56,
+          "line": 54,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if      (ent == \"&amp;\")  out += '&';",
@@ -637,7 +637,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 399,
+          "line": 397,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const std::string& target_ref = it->second;",
@@ -646,7 +646,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 343,
+          "line": 341,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "node.metadata[\"cmmn_case_id\"] = result.case_id;",
@@ -655,7 +655,7 @@
         },
         {
           "file": "src\\process\\cmmn_serializer.cpp",
-          "line": 397,
+          "line": 395,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = sentry_targets.find(sentry_id);",
@@ -666,7 +666,7 @@
       "src\\process\\epk_aris_xml_importer.cpp": [
         {
           "file": "src\\process\\epk_aris_xml_importer.cpp",
-          "line": 595,
+          "line": 593,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -678,7 +678,7 @@
         },
         {
           "file": "src\\process\\epk_aris_xml_importer.cpp",
-          "line": 501,
+          "line": 499,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -690,7 +690,7 @@
         },
         {
           "file": "src\\process\\epk_aris_xml_importer.cpp",
-          "line": 49,
+          "line": 47,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -702,7 +702,7 @@
         },
         {
           "file": "src\\process\\epk_aris_xml_importer.cpp",
-          "line": 453,
+          "line": 451,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -714,7 +714,7 @@
         },
         {
           "file": "src\\process\\epk_aris_xml_importer.cpp",
-          "line": 596,
+          "line": 594,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(buildImportResult(m, parsed.obj_defs));",
@@ -723,7 +723,7 @@
         },
         {
           "file": "src\\process\\epk_aris_xml_importer.cpp",
-          "line": 502,
+          "line": 500,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "res.edges.push_back(std::move(edge));",
@@ -732,7 +732,7 @@
         },
         {
           "file": "src\\process\\epk_aris_xml_importer.cpp",
-          "line": 489,
+          "line": 487,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "res.nodes.push_back(std::move(node));",
@@ -741,7 +741,7 @@
         },
         {
           "file": "src\\process\\epk_aris_xml_importer.cpp",
-          "line": 400,
+          "line": 398,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "catch (...) {}",
@@ -750,7 +750,7 @@
         },
         {
           "file": "src\\process\\epk_aris_xml_importer.cpp",
-          "line": 371,
+          "line": 369,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -759,7 +759,7 @@
         },
         {
           "file": "src\\process\\epk_aris_xml_importer.cpp",
-          "line": 74,
+          "line": 72,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -768,7 +768,7 @@
         },
         {
           "file": "src\\process\\epk_aris_xml_importer.cpp",
-          "line": 54,
+          "line": 52,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "else if (ent == \"&apos;\") out += '\\'';",
@@ -777,7 +777,7 @@
         },
         {
           "file": "src\\process\\epk_aris_xml_importer.cpp",
-          "line": 53,
+          "line": 51,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "else if (ent == \"&quot;\") out += '\"';",
@@ -786,7 +786,7 @@
         },
         {
           "file": "src\\process\\epk_aris_xml_importer.cpp",
-          "line": 52,
+          "line": 50,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "else if (ent == \">\")   out += '>';",
@@ -795,7 +795,7 @@
         },
         {
           "file": "src\\process\\epk_aris_xml_importer.cpp",
-          "line": 51,
+          "line": 49,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "else if (ent == \"<\")   out += '<';",
@@ -804,7 +804,7 @@
         },
         {
           "file": "src\\process\\epk_aris_xml_importer.cpp",
-          "line": 50,
+          "line": 48,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if      (ent == \"&amp;\")  out += '&';",
@@ -813,7 +813,7 @@
         },
         {
           "file": "src\\process\\epk_aris_xml_importer.cpp",
-          "line": 399,
+          "line": 397,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "try { current_obj.type_num = std::stoi(it_num->second); }",
@@ -822,7 +822,7 @@
         },
         {
           "file": "src\\process\\epk_aris_xml_importer.cpp",
-          "line": 397,
+          "line": 395,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "current_obj_id = (it_id != tag.attrs.end()) ? it_id->second : \"\";",
@@ -831,7 +831,7 @@
         },
         {
           "file": "src\\process\\epk_aris_xml_importer.cpp",
-          "line": 366,
+          "line": 364,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "current_model.occ_to_def[it_id->second] = it_ref->second;",
@@ -842,7 +842,7 @@
       "src\\process\\ocel_exporter.cpp": [
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 120,
+          "line": 118,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -854,7 +854,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 298,
+          "line": 296,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -866,7 +866,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 295,
+          "line": 293,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -878,7 +878,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 218,
+          "line": 216,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -890,7 +890,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 202,
+          "line": 200,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -902,7 +902,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 183,
+          "line": 181,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -914,7 +914,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 173,
+          "line": 171,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -926,7 +926,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 173,
+          "line": 171,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -938,7 +938,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 144,
+          "line": 142,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "timestamp_sorting_unstable",
@@ -950,7 +950,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 138,
+          "line": 136,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -962,7 +962,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 125,
+          "line": 123,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -974,7 +974,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 125,
+          "line": 123,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -986,7 +986,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 87,
+          "line": 85,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -998,7 +998,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 82,
+          "line": 80,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1010,7 +1010,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 214,
+          "line": 212,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1022,7 +1022,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 198,
+          "line": 196,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1034,7 +1034,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 151,
+          "line": 149,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1046,7 +1046,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 299,
+          "line": 297,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "all_events.push_back(e);",
@@ -1055,7 +1055,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 296,
+          "line": 294,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "all_objects.push_back(o);",
@@ -1064,7 +1064,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 219,
+          "line": 217,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "types.push_back({{\"name\", t}, {\"attributes\", json::array()}});",
@@ -1073,7 +1073,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 203,
+          "line": 201,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "types.push_back({{\"name\", t}, {\"attributes\", json::array()}});",
@@ -1082,7 +1082,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 187,
+          "line": 185,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "events.push_back(evt);",
@@ -1091,7 +1091,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 184,
+          "line": 182,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "rels.push_back(rel);",
@@ -1100,7 +1100,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 175,
+          "line": 173,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "attrs.push_back({{\"name\", \"process_instance\"}, {\"value\", inst.instance_id}});",
@@ -1109,7 +1109,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 174,
+          "line": 172,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "attrs.push_back({{\"name\", \"node_id\"}, {\"value\", entry.node_id}});",
@@ -1118,7 +1118,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 139,
+          "line": 137,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "entries.push_back(EventEntry{.node_id = tok.current_node, .timestamp_ms = ts});",
@@ -1127,7 +1127,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 126,
+          "line": 124,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "entries.push_back(EventEntry{.node_id = nid, .timestamp_ms = ts});",
@@ -1136,7 +1136,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 94,
+          "line": 92,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "objects.push_back(obj);",
@@ -1145,7 +1145,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 88,
+          "line": 86,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "attrs.push_back({{\"name\", k},",
@@ -1154,7 +1154,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 83,
+          "line": 81,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "attrs.push_back({{\"name\", \"attached_by\"}, {\"time\", toIso8601_(0)},",
@@ -1163,7 +1163,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 273,
+          "line": 271,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "db_.scanPrefix(instance_prefix, [&](std::string_view key, std::string_view) -> bool {",
@@ -1172,7 +1172,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 119,
+          "line": 117,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto vt_it = tok.visit_timestamps.find(nid);",
@@ -1181,7 +1181,7 @@
         },
         {
           "file": "src\\process\\ocel_exporter.cpp",
-          "line": 119,
+          "line": 117,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto vt_it = tok.visit_timestamps.find(nid);",
@@ -1192,7 +1192,7 @@
       "src\\process\\process_community_detector.cpp": [
         {
           "file": "src\\process\\process_community_detector.cpp",
-          "line": 297,
+          "line": 295,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -1204,7 +1204,7 @@
         },
         {
           "file": "src\\process\\process_community_detector.cpp",
-          "line": 283,
+          "line": 281,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -1216,7 +1216,7 @@
         },
         {
           "file": "src\\process\\process_community_detector.cpp",
-          "line": 304,
+          "line": 302,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1228,7 +1228,7 @@
         },
         {
           "file": "src\\process\\process_community_detector.cpp",
-          "line": 62,
+          "line": 60,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1240,7 +1240,7 @@
         },
         {
           "file": "src\\process\\process_community_detector.cpp",
-          "line": 257,
+          "line": 255,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1252,7 +1252,7 @@
         },
         {
           "file": "src\\process\\process_community_detector.cpp",
-          "line": 214,
+          "line": 212,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1264,7 +1264,7 @@
         },
         {
           "file": "src\\process\\process_community_detector.cpp",
-          "line": 193,
+          "line": 191,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1276,7 +1276,7 @@
         },
         {
           "file": "src\\process\\process_community_detector.cpp",
-          "line": 141,
+          "line": 139,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1288,7 +1288,7 @@
         },
         {
           "file": "src\\process\\process_community_detector.cpp",
-          "line": 132,
+          "line": 130,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1300,7 +1300,7 @@
         },
         {
           "file": "src\\process\\process_community_detector.cpp",
-          "line": 47,
+          "line": 45,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1312,7 +1312,7 @@
         },
         {
           "file": "src\\process\\process_community_detector.cpp",
-          "line": 46,
+          "line": 44,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1324,7 +1324,7 @@
         },
         {
           "file": "src\\process\\process_community_detector.cpp",
-          "line": 305,
+          "line": 303,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "communities.push_back(std::move(pc));",
@@ -1333,7 +1333,7 @@
         },
         {
           "file": "src\\process\\process_community_detector.cpp",
-          "line": 274,
+          "line": 272,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (int u : members) pc.node_ids.push_back(g.node_ids[u]);",
@@ -1342,7 +1342,7 @@
         },
         {
           "file": "src\\process\\process_community_detector.cpp",
-          "line": 259,
+          "line": 257,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "comm_map[assignment[u]].push_back(u);",
@@ -1351,7 +1351,7 @@
         },
         {
           "file": "src\\process\\process_community_detector.cpp",
-          "line": 63,
+          "line": 61,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "g.node_ids.push_back(id);",
@@ -1360,7 +1360,7 @@
         },
         {
           "file": "src\\process\\process_community_detector.cpp",
-          "line": 416,
+          "line": 414,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "db_.scanPrefix(prefix, [&](std::string_view /*key*/, std::string_view value) -> bool {",
@@ -1369,7 +1369,7 @@
         },
         {
           "file": "src\\process\\process_community_detector.cpp",
-          "line": 282,
+          "line": 280,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = g.adj[u].find(v);",
@@ -1378,7 +1378,7 @@
         },
         {
           "file": "src\\process\\process_community_detector.cpp",
-          "line": 297,
+          "line": 295,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto nit = node_names.find(pc.node_ids[i]);",
@@ -1389,7 +1389,7 @@
       "src\\process\\process_graph_rag.cpp": [
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 380,
+          "line": 378,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -1401,7 +1401,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 370,
+          "line": 368,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -1413,7 +1413,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 369,
+          "line": 367,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -1425,7 +1425,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 971,
+          "line": 969,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1437,7 +1437,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 971,
+          "line": 969,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1449,7 +1449,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 928,
+          "line": 926,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1461,7 +1461,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 873,
+          "line": 871,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1473,7 +1473,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 823,
+          "line": 821,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1485,7 +1485,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 764,
+          "line": 762,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1497,7 +1497,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 764,
+          "line": 762,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1509,7 +1509,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 748,
+          "line": 746,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1521,7 +1521,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 703,
+          "line": 701,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1533,7 +1533,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 693,
+          "line": 691,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1545,7 +1545,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 663,
+          "line": 661,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1557,7 +1557,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 629,
+          "line": 627,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1569,7 +1569,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 596,
+          "line": 594,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1581,7 +1581,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 575,
+          "line": 573,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1593,7 +1593,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 575,
+          "line": 573,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1605,7 +1605,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 565,
+          "line": 563,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1617,7 +1617,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 565,
+          "line": 563,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1629,7 +1629,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 565,
+          "line": 563,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1641,7 +1641,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 531,
+          "line": 529,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1653,7 +1653,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 526,
+          "line": 524,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1665,7 +1665,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 526,
+          "line": 524,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1677,7 +1677,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 489,
+          "line": 487,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1689,7 +1689,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 486,
+          "line": 484,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1701,7 +1701,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 424,
+          "line": 422,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1713,7 +1713,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 371,
+          "line": 369,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1725,7 +1725,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 371,
+          "line": 369,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1737,7 +1737,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 327,
+          "line": 325,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1749,7 +1749,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 320,
+          "line": 318,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1761,7 +1761,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 320,
+          "line": 318,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1773,7 +1773,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 285,
+          "line": 283,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1785,7 +1785,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 248,
+          "line": 246,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1797,7 +1797,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 218,
+          "line": 216,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1809,7 +1809,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 172,
+          "line": 170,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1821,7 +1821,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 136,
+          "line": 134,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1835,7 +1835,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\process\\process_graph_rag.cpp",
-          "line_number": 417,
+          "line_number": 415,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1847,7 +1847,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\process\\process_graph_rag.cpp",
-          "line_number": 414,
+          "line_number": 412,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1859,7 +1859,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\process\\process_graph_rag.cpp",
-          "line_number": 411,
+          "line_number": 409,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1871,7 +1871,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\process\\process_graph_rag.cpp",
-          "line_number": 399,
+          "line_number": 397,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1881,7 +1881,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 950,
+          "line": 948,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1893,7 +1893,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 883,
+          "line": 881,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1905,7 +1905,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 669,
+          "line": 667,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1917,7 +1917,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 518,
+          "line": 516,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1929,7 +1929,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 359,
+          "line": 357,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1941,7 +1941,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 293,
+          "line": 291,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1953,7 +1953,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 292,
+          "line": 290,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1965,7 +1965,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 281,
+          "line": 279,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1977,7 +1977,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 62,
+          "line": 60,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1989,7 +1989,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 61,
+          "line": 59,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -2001,7 +2001,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 1370,
+          "line": 1368,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "catch (...) { return true; }",
@@ -2010,7 +2010,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 1329,
+          "line": 1327,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "catch (...) { agg = json::object(); }",
@@ -2019,7 +2019,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 1298,
+          "line": 1296,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "SlaAlert alert{instance_id, process_name, sla_ms, elapsed_ms, status};",
@@ -2028,7 +2028,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 1251,
+          "line": 1249,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "rc.actions.push_back(std::move(ac));",
@@ -2037,43 +2037,16 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 1225,
+          "line": 1223,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "rc.actions.push_back(std::move(ac));",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\process\\process_graph_rag.cpp",
-          "line": 974,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {}",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
           "line": 972,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "candidates.push_back(std::move(sc));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\process\\process_graph_rag.cpp",
-          "line": 929,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "candidates.push_back(std::move(sc));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\process\\process_graph_rag.cpp",
-          "line": 909,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -2082,7 +2055,34 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 906,
+          "line": 970,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "candidates.push_back(std::move(sc));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 927,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "candidates.push_back(std::move(sc));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 907,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {}",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 904,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& v : emb_json) other_emb.push_back(v.get<float>());",
@@ -2091,7 +2091,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 877,
+          "line": 875,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -2100,7 +2100,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 874,
+          "line": 872,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ref_embedding.push_back(v.get<float>());",
@@ -2109,7 +2109,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 824,
+          "line": 822,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.violations.push_back(",
@@ -2118,7 +2118,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 765,
+          "line": 763,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.violations.push_back(",
@@ -2127,7 +2127,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 729,
+          "line": 727,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& t : compliance_tags) ctags.push_back(t);",
@@ -2136,7 +2136,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 704,
+          "line": 702,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& v : comp.violations) viol.push_back(v);",
@@ -2145,7 +2145,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 694,
+          "line": 692,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (auto& m : ms) missing.push_back(m);",
@@ -2154,7 +2154,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 664,
+          "line": 662,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "current_tasks.push_back(tok.current_node);",
@@ -2163,7 +2163,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 630,
+          "line": 628,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ctx.attachments.push_back(att.toDocument());",
@@ -2172,7 +2172,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 597,
+          "line": 595,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ctx.similar_cases.push_back(std::move(sc_doc));",
@@ -2181,7 +2181,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 576,
+          "line": 574,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ctx.missing_documents.push_back(std::move(m));",
@@ -2190,7 +2190,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 566,
+          "line": 564,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ctx.attachments.push_back(att.toDocument());",
@@ -2199,7 +2199,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 532,
+          "line": 530,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ppr_edges.push_back(e);",
@@ -2208,7 +2208,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 527,
+          "line": 525,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (top_set.count(n.value(\"id\", \"\"))) ppr_nodes.push_back(n);",
@@ -2217,7 +2217,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 490,
+          "line": 488,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ctx.visited_nodes.push_back(vn);",
@@ -2226,7 +2226,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 487,
+          "line": 485,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ctx.active_nodes.push_back(tok.current_node);",
@@ -2235,7 +2235,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 374,
+          "line": 372,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out_neighbors[ti->second].push_back(fi->second);",
@@ -2244,7 +2244,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 372,
+          "line": 370,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out_neighbors[fi->second].push_back(ti->second);",
@@ -2253,7 +2253,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 354,
+          "line": 352,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (!nid.empty()) node_ids.push_back(nid);",
@@ -2262,7 +2262,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 328,
+          "line": 326,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result_edges.push_back(e);",
@@ -2271,7 +2271,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 321,
+          "line": 319,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result_nodes.push_back(n);",
@@ -2280,7 +2280,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 287,
+          "line": 285,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "adj[to].push_back({from, e}); // undirected BFS for context",
@@ -2289,7 +2289,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 286,
+          "line": 284,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "adj[from].push_back({to, e});",
@@ -2298,7 +2298,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 256,
+          "line": 254,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "kg.edges.push_back(std::move(att_edge));",
@@ -2307,7 +2307,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 249,
+          "line": 247,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "kg.nodes.push_back(std::move(att_node));",
@@ -2316,7 +2316,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 226,
+          "line": 224,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "kg.edges.push_back(std::move(inst_edge));",
@@ -2325,7 +2325,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 219,
+          "line": 217,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "kg.nodes.push_back(std::move(tok_node));",
@@ -2334,7 +2334,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 173,
+          "line": 171,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "kg.edges.push_back(std::move(kge));",
@@ -2343,7 +2343,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 149,
+          "line": 147,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "kg.nodes.push_back(std::move(kgn));",
@@ -2352,7 +2352,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 140,
+          "line": 138,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "kgn.aliases.push_back(n[\"subtype\"].get<std::string>());",
@@ -2361,7 +2361,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 137,
+          "line": 135,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "kgn.aliases.push_back(n[\"name_en\"].get<std::string>());",
@@ -2370,7 +2370,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 937,
+          "line": 935,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "db_.scanPrefix(inst_prefix, [&](std::string_view key, std::string_view value) -> bool {",
@@ -2379,7 +2379,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 894,
+          "line": 892,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "db_.scanPrefix(emb_prefix, [&](std::string_view key, std::string_view value) -> bool {",
@@ -2388,7 +2388,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 379,
+          "line": 377,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = node_index.find(seed);",
@@ -2397,7 +2397,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 379,
+          "line": 377,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = node_index.find(seed);",
@@ -2406,7 +2406,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 379,
+          "line": 377,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = node_index.find(seed);",
@@ -2415,7 +2415,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 369,
+          "line": 367,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto ti = node_index.find(to);",
@@ -2424,7 +2424,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 369,
+          "line": 367,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto ti = node_index.find(to);",
@@ -2433,7 +2433,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 369,
+          "line": 367,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto ti = node_index.find(to);",
@@ -2442,7 +2442,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 368,
+          "line": 366,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto fi = node_index.find(from);",
@@ -2451,7 +2451,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 368,
+          "line": 366,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto fi = node_index.find(from);",
@@ -2460,7 +2460,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 368,
+          "line": 366,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto fi = node_index.find(from);",
@@ -2469,7 +2469,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 1278,
+          "line": 1276,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = sla_rules_.find(inst_id);",
@@ -2478,7 +2478,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 370,
+          "line": 368,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto ti = node_index.find(to);",
@@ -2487,7 +2487,7 @@
         },
         {
           "file": "src\\process\\process_graph_rag.cpp",
-          "line": 369,
+          "line": 367,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto fi = node_index.find(from);",
@@ -2498,7 +2498,7 @@
       "src\\process\\process_linker.cpp": [
         {
           "file": "src\\process\\process_linker.cpp",
-          "line": 487,
+          "line": 485,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2510,7 +2510,7 @@
         },
         {
           "file": "src\\process\\process_linker.cpp",
-          "line": 487,
+          "line": 485,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2522,7 +2522,7 @@
         },
         {
           "file": "src\\process\\process_linker.cpp",
-          "line": 298,
+          "line": 296,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2534,7 +2534,7 @@
         },
         {
           "file": "src\\process\\process_linker.cpp",
-          "line": 474,
+          "line": 472,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -2546,7 +2546,7 @@
         },
         {
           "file": "src\\process\\process_linker.cpp",
-          "line": 488,
+          "line": 486,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "missing.push_back(dtype);",
@@ -2555,7 +2555,7 @@
         },
         {
           "file": "src\\process\\process_linker.cpp",
-          "line": 450,
+          "line": 448,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(json::parse(value));",
@@ -2564,7 +2564,7 @@
         },
         {
           "file": "src\\process\\process_linker.cpp",
-          "line": 299,
+          "line": 297,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(att));",
@@ -2573,7 +2573,7 @@
         },
         {
           "file": "src\\process\\process_linker.cpp",
-          "line": 486,
+          "line": 484,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (!dtype.empty() && present_types.find(dtype) == present_types.end()) {",
@@ -2582,7 +2582,7 @@
         },
         {
           "file": "src\\process\\process_linker.cpp",
-          "line": 486,
+          "line": 484,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (!dtype.empty() && present_types.find(dtype) == present_types.end()) {",
@@ -2591,7 +2591,7 @@
         },
         {
           "file": "src\\process\\process_linker.cpp",
-          "line": 448,
+          "line": 446,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "db_.scanPrefix(prefix, [&](std::string_view /*key*/, std::string_view value) -> bool {",
@@ -2600,7 +2600,7 @@
         },
         {
           "file": "src\\process\\process_linker.cpp",
-          "line": 385,
+          "line": 383,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "db_.scanPrefix(prefix, [&](std::string_view /*key*/, std::string_view value) -> bool {",
@@ -2609,7 +2609,7 @@
         },
         {
           "file": "src\\process\\process_linker.cpp",
-          "line": 322,
+          "line": 320,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "db_.scanPrefix(prefix, [&](std::string_view key, std::string_view /*value*/) -> bool {",
@@ -2618,7 +2618,7 @@
         },
         {
           "file": "src\\process\\process_linker.cpp",
-          "line": 270,
+          "line": 268,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "db_.scanPrefix(prefix, [&](std::string_view /*key*/, std::string_view value) -> bool {",
@@ -2627,7 +2627,7 @@
         },
         {
           "file": "src\\process\\process_linker.cpp",
-          "line": 78,
+          "line": 76,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "doc[\"metadata\"]          = metadata;",
@@ -2638,7 +2638,7 @@
       "src\\process\\process_model_manager.cpp": [
         {
           "file": "src\\process\\process_model_manager.cpp",
-          "line": 751,
+          "line": 749,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -2650,7 +2650,7 @@
         },
         {
           "file": "src\\process\\process_model_manager.cpp",
-          "line": 738,
+          "line": 736,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2662,7 +2662,7 @@
         },
         {
           "file": "src\\process\\process_model_manager.cpp",
-          "line": 728,
+          "line": 726,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2674,7 +2674,7 @@
         },
         {
           "file": "src\\process\\process_model_manager.cpp",
-          "line": 688,
+          "line": 686,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2686,7 +2686,7 @@
         },
         {
           "file": "src\\process\\process_model_manager.cpp",
-          "line": 660,
+          "line": 658,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2698,7 +2698,7 @@
         },
         {
           "file": "src\\process\\process_model_manager.cpp",
-          "line": 603,
+          "line": 601,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2710,7 +2710,7 @@
         },
         {
           "file": "src\\process\\process_model_manager.cpp",
-          "line": 356,
+          "line": 354,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2722,7 +2722,7 @@
         },
         {
           "file": "src\\process\\process_model_manager.cpp",
-          "line": 208,
+          "line": 206,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2734,7 +2734,7 @@
         },
         {
           "file": "src\\process\\process_model_manager.cpp",
-          "line": 196,
+          "line": 194,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2746,7 +2746,7 @@
         },
         {
           "file": "src\\process\\process_model_manager.cpp",
-          "line": 770,
+          "line": 768,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "\"Failed to register process '\" + record->id + \"': \" + status.message);",
@@ -2755,7 +2755,7 @@
         },
         {
           "file": "src\\process\\process_model_manager.cpp",
-          "line": 739,
+          "line": 737,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "edges.push_back(e);",
@@ -2764,7 +2764,7 @@
         },
         {
           "file": "src\\process\\process_model_manager.cpp",
-          "line": 729,
+          "line": 727,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "nodes.push_back(n);",
@@ -2773,7 +2773,7 @@
         },
         {
           "file": "src\\process\\process_model_manager.cpp",
-          "line": 691,
+          "line": 689,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -2782,7 +2782,7 @@
         },
         {
           "file": "src\\process\\process_model_manager.cpp",
-          "line": 634,
+          "line": 632,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -2791,7 +2791,7 @@
         },
         {
           "file": "src\\process\\process_model_manager.cpp",
-          "line": 631,
+          "line": 629,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(std::move(r));",
@@ -2800,7 +2800,7 @@
         },
         {
           "file": "src\\process\\process_model_manager.cpp",
-          "line": 604,
+          "line": 602,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(std::move(*rec));",
@@ -2809,7 +2809,7 @@
         },
         {
           "file": "src\\process\\process_model_manager.cpp",
-          "line": 580,
+          "line": 578,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -2818,7 +2818,7 @@
         },
         {
           "file": "src\\process\\process_model_manager.cpp",
-          "line": 357,
+          "line": 355,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "jedges.push_back(std::move(je));",
@@ -2827,7 +2827,7 @@
         },
         {
           "file": "src\\process\\process_model_manager.cpp",
-          "line": 209,
+          "line": 207,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "r.embedding.push_back(v.get<float>());",
@@ -2836,7 +2836,7 @@
         },
         {
           "file": "src\\process\\process_model_manager.cpp",
-          "line": 197,
+          "line": 195,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "r.compliance_tags.push_back(tag.get<std::string>());",
@@ -2845,7 +2845,7 @@
         },
         {
           "file": "src\\process\\process_model_manager.cpp",
-          "line": 670,
+          "line": 668,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "db_.scanPrefix(\"proc:def:\", [&](std::string_view /*key*/, std::string_view value) -> bool {",
@@ -2854,7 +2854,7 @@
         },
         {
           "file": "src\\process\\process_model_manager.cpp",
-          "line": 617,
+          "line": 615,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "db_.scanPrefix(\"proc:def:\", [&](std::string_view /*key*/, std::string_view value) -> bool {",
@@ -2863,7 +2863,7 @@
         },
         {
           "file": "src\\process\\process_model_manager.cpp",
-          "line": 565,
+          "line": 563,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "db_.scanPrefix(\"proc:def:\", [&](std::string_view /*key*/, std::string_view value) -> bool {",
@@ -2874,7 +2874,7 @@
       "src\\process\\fim_importer.cpp": [
         {
           "file": "src\\process\\fim_importer.cpp",
-          "line": 508,
+          "line": 506,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2886,7 +2886,7 @@
         },
         {
           "file": "src\\process\\fim_importer.cpp",
-          "line": 436,
+          "line": 434,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2898,7 +2898,7 @@
         },
         {
           "file": "src\\process\\fim_importer.cpp",
-          "line": 428,
+          "line": 426,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2910,7 +2910,7 @@
         },
         {
           "file": "src\\process\\fim_importer.cpp",
-          "line": 383,
+          "line": 381,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2922,7 +2922,7 @@
         },
         {
           "file": "src\\process\\fim_importer.cpp",
-          "line": 375,
+          "line": 373,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2934,7 +2934,7 @@
         },
         {
           "file": "src\\process\\fim_importer.cpp",
-          "line": 344,
+          "line": 342,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2946,7 +2946,7 @@
         },
         {
           "file": "src\\process\\fim_importer.cpp",
-          "line": 60,
+          "line": 58,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -2958,7 +2958,7 @@
         },
         {
           "file": "src\\process\\fim_importer.cpp",
-          "line": 515,
+          "line": 513,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(std::move(r));",
@@ -2967,7 +2967,7 @@
         },
         {
           "file": "src\\process\\fim_importer.cpp",
-          "line": 509,
+          "line": 507,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(importSingleModel(bpmn_xml, domain));",
@@ -2976,7 +2976,7 @@
         },
         {
           "file": "src\\process\\fim_importer.cpp",
-          "line": 437,
+          "line": 435,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "edges_arr.push_back(std::move(je));",
@@ -2985,7 +2985,7 @@
         },
         {
           "file": "src\\process\\fim_importer.cpp",
-          "line": 429,
+          "line": 427,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "nodes_arr.push_back(std::move(jn));",
@@ -2994,7 +2994,7 @@
         },
         {
           "file": "src\\process\\fim_importer.cpp",
-          "line": 392,
+          "line": 390,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(std::move(r));",
@@ -3003,7 +3003,7 @@
         },
         {
           "file": "src\\process\\fim_importer.cpp",
-          "line": 384,
+          "line": 382,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "edges_arr.push_back(std::move(je));",
@@ -3012,19 +3012,10 @@
         },
         {
           "file": "src\\process\\fim_importer.cpp",
-          "line": 376,
+          "line": 374,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "nodes_arr.push_back(std::move(jn));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\process\\fim_importer.cpp",
-          "line": 367,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "rec.compliance_tags.push_back(\"fim:import\");",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         },
@@ -3033,13 +3024,22 @@
           "line": 365,
           "type": "copy_overhead",
           "severity": "MEDIUM",
+          "snippet": "rec.compliance_tags.push_back(\"fim:import\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 363,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
           "snippet": "rec.compliance_tags.push_back(\"fim:leika:\" + entry.leika_key);",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         },
         {
           "file": "src\\process\\fim_importer.cpp",
-          "line": 354,
+          "line": 352,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(std::move(r));",
@@ -3048,7 +3048,7 @@
         },
         {
           "file": "src\\process\\fim_importer.cpp",
-          "line": 345,
+          "line": 343,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(std::move(r));",
@@ -3057,7 +3057,7 @@
         },
         {
           "file": "src\\process\\fim_importer.cpp",
-          "line": 324,
+          "line": 322,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(std::move(single));",
@@ -3066,7 +3066,7 @@
         },
         {
           "file": "src\\process\\fim_importer.cpp",
-          "line": 293,
+          "line": 291,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "entries.push_back(current);",
@@ -3075,7 +3075,7 @@
         },
         {
           "file": "src\\process\\fim_importer.cpp",
-          "line": 65,
+          "line": 63,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "else if (ent == \"&apos;\") out += '\\'';",
@@ -3084,7 +3084,7 @@
         },
         {
           "file": "src\\process\\fim_importer.cpp",
-          "line": 64,
+          "line": 62,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "else if (ent == \"&quot;\") out += '\"';",
@@ -3093,7 +3093,7 @@
         },
         {
           "file": "src\\process\\fim_importer.cpp",
-          "line": 63,
+          "line": 61,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "else if (ent == \">\")   out += '>';",
@@ -3102,7 +3102,7 @@
         },
         {
           "file": "src\\process\\fim_importer.cpp",
-          "line": 62,
+          "line": 60,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "else if (ent == \"<\")   out += '<';",
@@ -3111,7 +3111,7 @@
         },
         {
           "file": "src\\process\\fim_importer.cpp",
-          "line": 61,
+          "line": 59,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if      (ent == \"&amp;\")  out += '&';",
@@ -3120,7 +3120,7 @@
         },
         {
           "file": "src\\process\\fim_importer.cpp",
-          "line": 428,
+          "line": 426,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "jn[\"metadata\"] = n.metadata;",
@@ -3129,7 +3129,7 @@
         },
         {
           "file": "src\\process\\fim_importer.cpp",
-          "line": 375,
+          "line": 373,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "jn[\"metadata\"] = n.metadata;",
@@ -3140,7 +3140,7 @@
       "src\\process\\llm_process_descriptor.cpp": [
         {
           "file": "src\\process\\llm_process_descriptor.cpp",
-          "line": 118,
+          "line": 116,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3152,7 +3152,7 @@
         },
         {
           "file": "src\\process\\llm_process_descriptor.cpp",
-          "line": 108,
+          "line": 106,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -3164,7 +3164,7 @@
         },
         {
           "file": "src\\process\\llm_process_descriptor.cpp",
-          "line": 106,
+          "line": 104,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3176,7 +3176,7 @@
         },
         {
           "file": "src\\process\\llm_process_descriptor.cpp",
-          "line": 78,
+          "line": 76,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -3188,7 +3188,7 @@
         },
         {
           "file": "src\\process\\llm_process_descriptor.cpp",
-          "line": 75,
+          "line": 73,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -3200,7 +3200,7 @@
         },
         {
           "file": "src\\process\\llm_process_descriptor.cpp",
-          "line": 73,
+          "line": 71,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -3212,7 +3212,7 @@
         },
         {
           "file": "src\\process\\llm_process_descriptor.cpp",
-          "line": 279,
+          "line": 277,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "prompt << \"3. List all deviations from expected model with severity (LOW/MEDIUM/HIGH)\\n\";",
@@ -3221,7 +3221,7 @@
         },
         {
           "file": "src\\process\\llm_process_descriptor.cpp",
-          "line": 119,
+          "line": 117,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "edges_array.push_back(edgeToJson_(je));",
@@ -3230,7 +3230,7 @@
         },
         {
           "file": "src\\process\\llm_process_descriptor.cpp",
-          "line": 107,
+          "line": 105,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "nodes_array.push_back(nodeToJson_(jn, cfg));",
@@ -3239,7 +3239,7 @@
         },
         {
           "file": "src\\process\\llm_process_descriptor.cpp",
-          "line": 122,
+          "line": 120,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "desc[\"edges\"] = std::move(edges_array);",
@@ -3248,7 +3248,7 @@
         },
         {
           "file": "src\\process\\llm_process_descriptor.cpp",
-          "line": 113,
+          "line": 111,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "desc[\"nodes\"] = std::move(nodes_array);",
@@ -3259,7 +3259,7 @@
       "src\\process\\object_centric_tracer.cpp": [
         {
           "file": "src\\process\\object_centric_tracer.cpp",
-          "line": 176,
+          "line": 174,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3271,7 +3271,7 @@
         },
         {
           "file": "src\\process\\object_centric_tracer.cpp",
-          "line": 176,
+          "line": 174,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3283,7 +3283,7 @@
         },
         {
           "file": "src\\process\\object_centric_tracer.cpp",
-          "line": 176,
+          "line": 174,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3295,7 +3295,7 @@
         },
         {
           "file": "src\\process\\object_centric_tracer.cpp",
-          "line": 82,
+          "line": 80,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3307,7 +3307,7 @@
         },
         {
           "file": "src\\process\\object_centric_tracer.cpp",
-          "line": 82,
+          "line": 80,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3319,7 +3319,7 @@
         },
         {
           "file": "src\\process\\object_centric_tracer.cpp",
-          "line": 62,
+          "line": 60,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3331,7 +3331,7 @@
         },
         {
           "file": "src\\process\\object_centric_tracer.cpp",
-          "line": 227,
+          "line": 225,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -3343,7 +3343,7 @@
         },
         {
           "file": "src\\process\\object_centric_tracer.cpp",
-          "line": 226,
+          "line": 224,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -3355,7 +3355,7 @@
         },
         {
           "file": "src\\process\\object_centric_tracer.cpp",
-          "line": 207,
+          "line": 205,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -3367,7 +3367,7 @@
         },
         {
           "file": "src\\process\\object_centric_tracer.cpp",
-          "line": 206,
+          "line": 204,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -3379,7 +3379,7 @@
         },
         {
           "file": "src\\process\\object_centric_tracer.cpp",
-          "line": 136,
+          "line": 134,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -3391,7 +3391,7 @@
         },
         {
           "file": "src\\process\\object_centric_tracer.cpp",
-          "line": 126,
+          "line": 124,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -3403,7 +3403,7 @@
         },
         {
           "file": "src\\process\\object_centric_tracer.cpp",
-          "line": 52,
+          "line": 50,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -3415,7 +3415,7 @@
         },
         {
           "file": "src\\process\\object_centric_tracer.cpp",
-          "line": 177,
+          "line": 175,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "arcs_arr.push_back({{\"from\", from}, {\"to\", to}, {\"frequency\", cnt}});",
@@ -3424,7 +3424,7 @@
         },
         {
           "file": "src\\process\\object_centric_tracer.cpp",
-          "line": 170,
+          "line": 168,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& nid : node_set) nodes_arr.push_back(nid);",
@@ -3433,7 +3433,7 @@
         },
         {
           "file": "src\\process\\object_centric_tracer.cpp",
-          "line": 83,
+          "line": 81,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "events_arr.push_back(std::move(ev));",
@@ -3442,7 +3442,7 @@
         },
         {
           "file": "src\\process\\object_centric_tracer.cpp",
-          "line": 63,
+          "line": 61,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& ot : object_types_set) obj_types_arr.push_back(ot);",
@@ -3451,7 +3451,7 @@
         },
         {
           "file": "src\\process\\object_centric_tracer.cpp",
-          "line": 112,
+          "line": 110,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result[\"arcs\"]        = json::array();",
@@ -3460,7 +3460,7 @@
         },
         {
           "file": "src\\process\\object_centric_tracer.cpp",
-          "line": 111,
+          "line": 109,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result[\"nodes\"]       = json::array();",
@@ -3469,7 +3469,7 @@
         },
         {
           "file": "src\\process\\object_centric_tracer.cpp",
-          "line": 77,
+          "line": 75,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "omap[att.object_collection] = json::array({att.object_id});",
@@ -3478,7 +3478,7 @@
         },
         {
           "file": "src\\process\\object_centric_tracer.cpp",
-          "line": 61,
+          "line": 59,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "global_log[\"ocel:attribute-names\"] = json::array();",
@@ -3489,7 +3489,7 @@
       "src\\process\\process_agentic_rag.cpp": [
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 233,
+          "line": 231,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3501,7 +3501,7 @@
         },
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 201,
+          "line": 199,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3513,7 +3513,7 @@
         },
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 201,
+          "line": 199,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3525,7 +3525,7 @@
         },
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 141,
+          "line": 139,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3537,7 +3537,7 @@
         },
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 141,
+          "line": 139,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3549,7 +3549,7 @@
         },
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 111,
+          "line": 109,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3561,7 +3561,7 @@
         },
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 96,
+          "line": 94,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3573,7 +3573,7 @@
         },
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 84,
+          "line": 82,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3587,7 +3587,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\process\\process_agentic_rag.cpp",
-          "line_number": 180,
+          "line_number": 178,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3597,7 +3597,7 @@
         },
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 234,
+          "line": 232,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.iteration_history.push_back(std::move(s));",
@@ -3606,7 +3606,7 @@
         },
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 202,
+          "line": 200,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (!already_seen) fresh.push_back(std::move(d));",
@@ -3615,7 +3615,7 @@
         },
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 144,
+          "line": 142,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ctx.attachments.push_back(nlohmann::json{{\"_id\", doc.id},",
@@ -3624,7 +3624,7 @@
         },
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 143,
+          "line": 141,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -3633,7 +3633,7 @@
         },
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 142,
+          "line": 140,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ctx.attachments.push_back(nlohmann::json::parse(doc.content));",
@@ -3642,7 +3642,7 @@
         },
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 112,
+          "line": 110,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "docs.push_back(std::move(d));",
@@ -3651,7 +3651,7 @@
         },
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 97,
+          "line": 95,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "docs.push_back(std::move(d));",
@@ -3660,7 +3660,7 @@
         },
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 85,
+          "line": 83,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "docs.push_back(std::move(d));",
@@ -3669,7 +3669,7 @@
         },
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 126,
+          "line": 124,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto type_it = doc.metadata.find(\"type\");",
@@ -3678,7 +3678,7 @@
         },
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 111,
+          "line": 109,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "d.metadata[\"instance_id\"] = ctx.instance_id;",
@@ -3687,7 +3687,7 @@
         },
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 110,
+          "line": 108,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "d.metadata[\"type\"] = \"missing_documents\";",
@@ -3696,7 +3696,7 @@
         },
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 96,
+          "line": 94,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "d.metadata[\"type\"] = \"similar_case\";",
@@ -3705,7 +3705,7 @@
         },
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 84,
+          "line": 82,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "d.metadata[\"instance_id\"] = ctx.instance_id;",
@@ -3714,7 +3714,7 @@
         },
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 83,
+          "line": 81,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "d.metadata[\"type\"] = \"attachment\";",
@@ -3723,7 +3723,7 @@
         },
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 71,
+          "line": 69,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "d.metadata[\"process_name\"] = ctx.process_name;",
@@ -3732,7 +3732,7 @@
         },
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 70,
+          "line": 68,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "d.metadata[\"instance_id\"] = ctx.instance_id;",
@@ -3741,7 +3741,7 @@
         },
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 69,
+          "line": 67,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "d.metadata[\"type\"] = \"subgraph\";",
@@ -3750,7 +3750,7 @@
         },
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 59,
+          "line": 57,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "d.metadata[\"instance_id\"] = ctx.instance_id;",
@@ -3759,7 +3759,7 @@
         },
         {
           "file": "src\\process\\process_agentic_rag.cpp",
-          "line": 58,
+          "line": 56,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "d.metadata[\"type\"] = \"llm_prompt\";",
@@ -3772,7 +3772,7 @@
           "gap_type": "MULTIPLICATION_OVERFLOW",
           "severity": "CRITICAL",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 256,
+          "line_number": 254,
           "line_content": "if (dmn_xml.size() > 10 * 1024 * 1024) {",
           "context": [
             "",
@@ -3791,7 +3791,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 460,
+          "line": 458,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -3803,7 +3803,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 223,
+          "line": 221,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -3815,7 +3815,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 222,
+          "line": 220,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -3827,7 +3827,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 221,
+          "line": 219,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -3839,7 +3839,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 220,
+          "line": 218,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -3851,7 +3851,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 219,
+          "line": 217,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -3863,7 +3863,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 214,
+          "line": 212,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -3875,7 +3875,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 213,
+          "line": 211,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -3887,7 +3887,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 212,
+          "line": 210,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -3899,7 +3899,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 211,
+          "line": 209,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -3911,7 +3911,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 210,
+          "line": 208,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -3923,7 +3923,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 453,
+          "line": 451,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3935,7 +3935,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 307,
+          "line": 305,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3947,7 +3947,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 214,
+          "line": 212,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3959,7 +3959,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 214,
+          "line": 212,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3971,7 +3971,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 214,
+          "line": 212,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3983,7 +3983,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 200,
+          "line": 198,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3995,7 +3995,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 476,
+          "line": 474,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& [id, _] : tables_) ids.push_back(id);",
@@ -4004,7 +4004,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 454,
+          "line": 452,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(rule.output_values);",
@@ -4013,7 +4013,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 347,
+          "line": 345,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "dt.rules.push_back(std::move(current_rule));",
@@ -4022,7 +4022,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 335,
+          "line": 333,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "current_rule.input_expressions.push_back(expr);",
@@ -4031,7 +4031,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 314,
+          "line": 312,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (!output_col_name.empty()) dt.output_columns.push_back(output_col_name);",
@@ -4040,7 +4040,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 309,
+          "line": 307,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "else if (attrs.count(\"id\")) dt.input_columns.push_back(attrs[\"id\"]);",
@@ -4049,7 +4049,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 308,
+          "line": 306,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (attrs.count(\"label\")) dt.input_columns.push_back(attrs[\"label\"]);",
@@ -4058,7 +4058,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 225,
+          "line": 223,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "dt.rules.push_back(std::move(rule));",
@@ -4067,7 +4067,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 215,
+          "line": 213,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "rule.input_expressions.push_back(e.is_string() ? e.get<std::string>() : e.dump());",
@@ -4076,7 +4076,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 201,
+          "line": 199,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& c : dmn_json[\"output_columns\"]) dt.output_columns.push_back(c);",
@@ -4085,7 +4085,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 198,
+          "line": 196,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& c : dmn_json[\"input_columns\"]) dt.input_columns.push_back(c);",
@@ -4094,7 +4094,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 55,
+          "line": 53,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -4103,7 +4103,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 262,
+          "line": 260,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto stripNs = [](std::string_view tag) -> std::string_view {",
@@ -4114,7 +4114,7 @@
       "src\\process\\process_light_retriever.cpp": [
         {
           "file": "src\\process\\process_light_retriever.cpp",
-          "line": 121,
+          "line": 119,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4126,7 +4126,7 @@
         },
         {
           "file": "src\\process\\process_light_retriever.cpp",
-          "line": 88,
+          "line": 86,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -4138,7 +4138,7 @@
         },
         {
           "file": "src\\process\\process_light_retriever.cpp",
-          "line": 70,
+          "line": 68,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -4150,7 +4150,7 @@
         },
         {
           "file": "src\\process\\process_light_retriever.cpp",
-          "line": 49,
+          "line": 47,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4162,7 +4162,7 @@
         },
         {
           "file": "src\\process\\process_light_retriever.cpp",
-          "line": 122,
+          "line": 120,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "used_ids.push_back(communities[i].community_id);",
@@ -4171,7 +4171,7 @@
         },
         {
           "file": "src\\process\\process_light_retriever.cpp",
-          "line": 102,
+          "line": 100,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -4180,7 +4180,7 @@
         },
         {
           "file": "src\\process\\process_light_retriever.cpp",
-          "line": 50,
+          "line": 48,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(static_cast<char>(std::tolower(c)));",
@@ -4191,7 +4191,7 @@
       "src\\process\\process_model_generator.cpp": [
         {
           "file": "src\\process\\process_model_generator.cpp",
-          "line": 340,
+          "line": 338,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4203,7 +4203,7 @@
         },
         {
           "file": "src\\process\\process_model_generator.cpp",
-          "line": 328,
+          "line": 326,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4215,7 +4215,7 @@
         },
         {
           "file": "src\\process\\process_model_generator.cpp",
-          "line": 317,
+          "line": 315,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4227,7 +4227,7 @@
         },
         {
           "file": "src\\process\\process_model_generator.cpp",
-          "line": 305,
+          "line": 303,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4239,7 +4239,7 @@
         },
         {
           "file": "src\\process\\process_model_generator.cpp",
-          "line": 258,
+          "line": 256,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4251,7 +4251,7 @@
         },
         {
           "file": "src\\process\\process_model_generator.cpp",
-          "line": 248,
+          "line": 246,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4263,7 +4263,7 @@
         },
         {
           "file": "src\\process\\process_model_generator.cpp",
-          "line": 224,
+          "line": 222,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4275,7 +4275,7 @@
         },
         {
           "file": "src\\process\\process_model_generator.cpp",
-          "line": 223,
+          "line": 221,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4287,7 +4287,7 @@
         },
         {
           "file": "src\\process\\process_model_generator.cpp",
-          "line": 222,
+          "line": 220,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4299,7 +4299,7 @@
         },
         {
           "file": "src\\process\\process_model_generator.cpp",
-          "line": 221,
+          "line": 219,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4311,7 +4311,7 @@
         },
         {
           "file": "src\\process\\process_model_generator.cpp",
-          "line": 341,
+          "line": 339,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "norm_edges.push_back(edge);",
@@ -4320,7 +4320,7 @@
         },
         {
           "file": "src\\process\\process_model_generator.cpp",
-          "line": 329,
+          "line": 327,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "norm_nodes.push_back(node);",
@@ -4329,7 +4329,7 @@
         },
         {
           "file": "src\\process\\process_model_generator.cpp",
-          "line": 318,
+          "line": 316,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "norm_nodes.push_back(node);",
@@ -4338,7 +4338,7 @@
         },
         {
           "file": "src\\process\\process_model_generator.cpp",
-          "line": 306,
+          "line": 304,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "norm_nodes.push_back(node);",
@@ -4347,7 +4347,7 @@
         },
         {
           "file": "src\\process\\process_model_generator.cpp",
-          "line": 267,
+          "line": 265,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.errors.push_back(\"Gateway '\" + nid + \"' has no outgoing edges\");",
@@ -4356,7 +4356,7 @@
         },
         {
           "file": "src\\process\\process_model_generator.cpp",
-          "line": 259,
+          "line": 257,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.errors.push_back(\"Isolated node: \" + nid);",
@@ -4365,7 +4365,7 @@
         },
         {
           "file": "src\\process\\process_model_generator.cpp",
-          "line": 253,
+          "line": 251,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.errors.push_back(\"No endEvent node found\");",
@@ -4374,7 +4374,7 @@
         },
         {
           "file": "src\\process\\process_model_generator.cpp",
-          "line": 249,
+          "line": 247,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.errors.push_back(\"No startEvent node found\");",
@@ -4383,7 +4383,7 @@
         },
         {
           "file": "src\\process\\process_model_generator.cpp",
-          "line": 199,
+          "line": 197,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -4392,7 +4392,7 @@
         },
         {
           "file": "src\\process\\process_model_generator.cpp",
-          "line": 189,
+          "line": 187,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -4403,7 +4403,7 @@
       "src\\process\\vcc_vpb_importer.cpp": [
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 336,
+          "line": 334,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "regex_in_loop",
@@ -4415,7 +4415,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 267,
+          "line": 265,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "regex_in_loop",
@@ -4427,7 +4427,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 241,
+          "line": 239,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "regex_in_loop",
@@ -4439,7 +4439,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 229,
+          "line": 227,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "regex_in_loop",
@@ -4451,7 +4451,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 222,
+          "line": 220,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "regex_in_loop",
@@ -4465,7 +4465,7 @@
           "gap_type": "USER_CONTROLLED_SIZE",
           "severity": "HIGH",
           "file_path": "src\\process\\vcc_vpb_importer.cpp",
-          "line_number": 626,
+          "line_number": 624,
           "line_content": "bool is_new_model = (line.size() >= 4 && line[0] == ' ' && line[1] == ' '",
           "context": [
             "    while (std::getline(ss, line)) {",
@@ -4484,7 +4484,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 699,
+          "line": 697,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4496,7 +4496,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 687,
+          "line": 685,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4508,7 +4508,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 662,
+          "line": 660,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4520,7 +4520,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 561,
+          "line": 559,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4532,7 +4532,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 505,
+          "line": 503,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4544,7 +4544,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 437,
+          "line": 435,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4556,7 +4556,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 348,
+          "line": 346,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4568,7 +4568,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 281,
+          "line": 279,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4580,7 +4580,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 250,
+          "line": 248,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4592,7 +4592,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 230,
+          "line": 228,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4604,7 +4604,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 230,
+          "line": 228,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4618,7 +4618,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\process\\vcc_vpb_importer.cpp",
-          "line_number": 632,
+          "line_number": 630,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -4630,7 +4630,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\process\\vcc_vpb_importer.cpp",
-          "line_number": 626,
+          "line_number": 624,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -4642,7 +4642,7 @@
           "gap_type": "uninitialized_member_field",
           "severity": "MEDIUM",
           "file_path": "src\\process\\vcc_vpb_importer.cpp",
-          "line_number": 165,
+          "line_number": 163,
           "var_name": "",
           "context": "Struct with uninitialized fields",
           "reason": "Default constructor does not initialize POD members",
@@ -4652,7 +4652,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 704,
+          "line": 702,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back({false, std::string(\"Directory scan error: \") + ex.what(), {}});",
@@ -4661,7 +4661,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 700,
+          "line": 698,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(importYaml(content, meta_defaults));",
@@ -4670,7 +4670,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 698,
+          "line": 696,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (auto& r : list_results) results.push_back(std::move(r));",
@@ -4679,7 +4679,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 688,
+          "line": 686,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back({false, \"Cannot open: \" + entry.path().string(), {}});",
@@ -4688,7 +4688,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 663,
+          "line": 661,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(importYaml(chunk, meta_defaults));",
@@ -4697,7 +4697,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 633,
+          "line": 631,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "model_chunks.push_back(current_chunk);",
@@ -4706,7 +4706,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 562,
+          "line": 560,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "jedges.push_back(std::move(je));",
@@ -4715,7 +4715,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 506,
+          "line": 504,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "edges.push_back(std::move(edge));",
@@ -4724,7 +4724,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 473,
+          "line": 471,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "catch (...) {}",
@@ -4733,7 +4733,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 438,
+          "line": 436,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (tag.is_string()) rec.compliance_tags.push_back(tag.get<std::string>());",
@@ -4742,7 +4742,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 349,
+          "line": 347,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "edges.push_back(current_edge);",
@@ -4751,7 +4751,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 282,
+          "line": 280,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "activities.push_back(current_activity);",
@@ -4760,7 +4760,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 251,
+          "line": 249,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "comp_list.push_back(trimStr(m[1].str()));",
@@ -4769,7 +4769,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 231,
+          "line": 229,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (!val.empty()) comp_list.push_back(val);",
@@ -4778,7 +4778,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 173,
+          "line": 171,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "stack.push_back({&result, -1, false, \"\"});",
@@ -4787,7 +4787,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 157,
+          "line": 155,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "lines.push_back(line);",
@@ -4796,7 +4796,7 @@
         },
         {
           "file": "src\\process\\vcc_vpb_importer.cpp",
-          "line": 625,
+          "line": 623,
           "type": "allocation_loop",
           "severity": "HIGH",
           "snippet": "// Check for start of new model (line starts with 2 spaces + \"- \")",
@@ -4807,7 +4807,7 @@
       "src\\process\\epk_serializer.cpp": [
         {
           "file": "src\\process\\epk_serializer.cpp",
-          "line": 333,
+          "line": 331,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4819,7 +4819,7 @@
         },
         {
           "file": "src\\process\\epk_serializer.cpp",
-          "line": 322,
+          "line": 320,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4831,7 +4831,7 @@
         },
         {
           "file": "src\\process\\epk_serializer.cpp",
-          "line": 233,
+          "line": 231,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4843,7 +4843,7 @@
         },
         {
           "file": "src\\process\\epk_serializer.cpp",
-          "line": 209,
+          "line": 207,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4855,7 +4855,7 @@
         },
         {
           "file": "src\\process\\epk_serializer.cpp",
-          "line": 198,
+          "line": 196,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4867,7 +4867,7 @@
         },
         {
           "file": "src\\process\\epk_serializer.cpp",
-          "line": 143,
+          "line": 141,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4879,7 +4879,7 @@
         },
         {
           "file": "src\\process\\epk_serializer.cpp",
-          "line": 250,
+          "line": 248,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4891,7 +4891,7 @@
         },
         {
           "file": "src\\process\\epk_serializer.cpp",
-          "line": 244,
+          "line": 242,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4903,7 +4903,7 @@
         },
         {
           "file": "src\\process\\epk_serializer.cpp",
-          "line": 238,
+          "line": 236,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4915,7 +4915,7 @@
         },
         {
           "file": "src\\process\\epk_serializer.cpp",
-          "line": 232,
+          "line": 230,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4927,7 +4927,7 @@
         },
         {
           "file": "src\\process\\epk_serializer.cpp",
-          "line": 334,
+          "line": 332,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "jedges.push_back(std::move(je));",
@@ -4936,7 +4936,7 @@
         },
         {
           "file": "src\\process\\epk_serializer.cpp",
-          "line": 323,
+          "line": 321,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "jnodes.push_back(std::move(jn));",
@@ -4945,7 +4945,7 @@
         },
         {
           "file": "src\\process\\epk_serializer.cpp",
-          "line": 234,
+          "line": 232,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "adj[e.from_node].push_back(e.to_node);",
@@ -4954,7 +4954,7 @@
         },
         {
           "file": "src\\process\\epk_serializer.cpp",
-          "line": 210,
+          "line": 208,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.edges.push_back(std::move(e));",
@@ -4963,7 +4963,7 @@
         },
         {
           "file": "src\\process\\epk_serializer.cpp",
-          "line": 199,
+          "line": 197,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.nodes.push_back(std::move(n));",
@@ -4972,7 +4972,7 @@
         },
         {
           "file": "src\\process\\epk_serializer.cpp",
-          "line": 153,
+          "line": 151,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.edges.push_back(std::move(edge));",
@@ -4981,7 +4981,7 @@
         },
         {
           "file": "src\\process\\epk_serializer.cpp",
-          "line": 144,
+          "line": 142,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.nodes.push_back(node);",
@@ -4990,7 +4990,7 @@
         },
         {
           "file": "src\\process\\epk_serializer.cpp",
-          "line": 252,
+          "line": 250,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (has_incoming.find(n.node_id) == has_incoming.end()) {",

@@ -155,7 +155,11 @@ EvaluationResult RAGJudge::evaluate(
     const std::vector<RetrievedDocument>& documents,
     const std::string& generated_answer
 ) {
-    return evaluate(query, documents, generated_answer, RAGJudgeConfig{});
+    EvaluationInput input;
+    input.query = query;
+    input.documents = documents;
+    input.generated_answer = generated_answer;
+    return evaluate(input);
 }
 
 EvaluationResult RAGJudge::evaluate(
@@ -169,11 +173,8 @@ EvaluationResult RAGJudge::evaluate(
     input.documents = documents;
     input.generated_answer = generated_answer;
     
-    // Use provided config or default
     auto saved_config = impl_->config;
-    if (&config != &impl_->config) {
-        impl_->config = config;
-    }
+    impl_->config = config;
     
     auto result = evaluate(input);
     
@@ -265,6 +266,16 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
     }
     // ── end injection screening ────────────────────────────────────────────
 
+    EvaluationInput safe_input = input;
+    if (impl_->config.enable_prompt_injection_screening && impl_->injection_sanitizer) {
+        // Defense-in-depth: keep all downstream evaluators on sanitized prompt text.
+        // Screening above still runs on original retrieved content to preserve
+        // visibility into injection findings and blocking decisions.
+        safe_input = impl_->injection_sanitizer->sanitizeInput(input);
+        safe_input.query = impl_->injection_sanitizer->sanitize(input.query);
+        safe_input.generated_answer = impl_->injection_sanitizer->sanitize(input.generated_answer);
+    }
+
     // Initialize ethical fields
     result.ethical_compliance_score = 0.0;
     result.respects_human_autonomy = true;
@@ -291,25 +302,25 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
         case EvaluationMode::FAST:
             // Quick relevance check only
             result.relevance_score = safe_dimension_eval(
-                "relevance", [&]() { return evaluateRelevance(input); }, 0.0);
+                "relevance", [&]() { return evaluateRelevance(safe_input); }, 0.0);
             result.overall_score = result.relevance_score;
             break;
             
         case EvaluationMode::BALANCED:
             // Multi-dimension evaluation
             result.faithfulness_score = safe_dimension_eval(
-                "faithfulness", [&]() { return evaluateFaithfulness(input); }, 0.0);
+                "faithfulness", [&]() { return evaluateFaithfulness(safe_input); }, 0.0);
             result.relevance_score = safe_dimension_eval(
-                "relevance", [&]() { return evaluateRelevance(input); }, 0.0);
+                "relevance", [&]() { return evaluateRelevance(safe_input); }, 0.0);
             result.completeness_score = safe_dimension_eval(
-                "completeness", [&]() { return evaluateCompleteness(input); }, 0.0);
+                "completeness", [&]() { return evaluateCompleteness(safe_input); }, 0.0);
             result.coherence_score = safe_dimension_eval(
-                "coherence", [&]() { return evaluateCoherence(input); }, 0.0);
+                "coherence", [&]() { return evaluateCoherence(safe_input); }, 0.0);
             
             // Ethical compliance evaluation
             if (impl_->config.enable_ethical_evaluation) {
                 result.ethical_compliance_score = safe_dimension_eval(
-                    "ethical_compliance", [&]() { return evaluateEthicalCompliance(input); }, 0.0);
+                    "ethical_compliance", [&]() { return evaluateEthicalCompliance(safe_input); }, 0.0);
             } else {
                 result.ethical_compliance_score = 1.0;  // No ethical check
             }
@@ -325,18 +336,18 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
         case EvaluationMode::THOROUGH:
             // Full evaluation with verification
             result.faithfulness_score = safe_dimension_eval(
-                "faithfulness", [&]() { return evaluateFaithfulness(input); }, 0.0);
+                "faithfulness", [&]() { return evaluateFaithfulness(safe_input); }, 0.0);
             result.relevance_score = safe_dimension_eval(
-                "relevance", [&]() { return evaluateRelevance(input); }, 0.0);
+                "relevance", [&]() { return evaluateRelevance(safe_input); }, 0.0);
             result.completeness_score = safe_dimension_eval(
-                "completeness", [&]() { return evaluateCompleteness(input); }, 0.0);
+                "completeness", [&]() { return evaluateCompleteness(safe_input); }, 0.0);
             result.coherence_score = safe_dimension_eval(
-                "coherence", [&]() { return evaluateCoherence(input); }, 0.0);
+                "coherence", [&]() { return evaluateCoherence(safe_input); }, 0.0);
             
             // Ethical compliance evaluation
             if (impl_->config.enable_ethical_evaluation) {
                 result.ethical_compliance_score = safe_dimension_eval(
-                    "ethical_compliance", [&]() { return evaluateEthicalCompliance(input); }, 0.0);
+                    "ethical_compliance", [&]() { return evaluateEthicalCompliance(safe_input); }, 0.0);
             } else {
                 result.ethical_compliance_score = 1.0;  // No ethical check
             }
@@ -345,12 +356,12 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
             if (impl_->config.enable_claim_verification) {
                 size_t verified_count = 0;
                 try {
-                    auto claims = extractClaims(input.generated_answer);
+                    auto claims = extractClaims(safe_input.generated_answer);
 
                     for (const auto& claim : claims) {
                         const bool verified = safe_dimension_eval(
                             "claim_verification",
-                            [&]() { return verifyClaimAgainstDocuments(claim, input.documents) ? 1.0 : 0.0; },
+                            [&]() { return verifyClaimAgainstDocuments(claim, safe_input.documents) ? 1.0 : 0.0; },
                             0.0) > 0.5;
                         if (verified) {
                             result.verified_claims.push_back(claim);
@@ -485,7 +496,7 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
         impl_->eval_history.push_back(result);
         impl_->score_length_pairs.emplace_back(
             result.overall_score,
-            input.generated_answer.size());
+            safe_input.generated_answer.size());
     }
     // ── end bias tracking ───────────────────────────────────────────────────
 

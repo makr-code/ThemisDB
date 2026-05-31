@@ -238,6 +238,17 @@ TEST_F(ThreeWayMergeTest, StrategyNameIsThreeWayMerge) {
     EXPECT_EQ(resolver.strategyName(), "THREE_WAY_MERGE");
 }
 
+TEST_F(ThreeWayMergeTest, EmptyConflictSetFailsClosed) {
+    ThreeWayMergeResolver resolver;
+    AdvancedConflictResolver::ResolutionContext ctx;
+    ctx.collection = "col";
+    ctx.document_id = "doc_empty";
+
+    EXPECT_THROW(
+        resolver.resolve("doc_empty", {}, ctx),
+        std::invalid_argument);
+}
+
 // ============================================================================
 // 3. FieldLevelMergeResolver
 // ============================================================================
@@ -308,6 +319,16 @@ TEST_F(FieldLevelMergeTest, StrategyNamesAreCorrect) {
               "FIELD_MERGE_LEFT_BIAS");
     EXPECT_EQ(FieldLevelMergeResolver(FieldLevelMergeResolver::MergeStrategy::RIGHT_BIAS).strategyName(),
               "FIELD_MERGE_RIGHT_BIAS");
+}
+
+TEST_F(FieldLevelMergeTest, EmptyConflictSetFailsClosed) {
+    FieldLevelMergeResolver resolver(FieldLevelMergeResolver::MergeStrategy::UNION);
+    AdvancedConflictResolver::ResolutionContext ctx;
+    ctx.document_id = "doc_empty";
+
+    EXPECT_THROW(
+        resolver.resolve("doc_empty", {}, ctx),
+        std::invalid_argument);
 }
 
 // ============================================================================

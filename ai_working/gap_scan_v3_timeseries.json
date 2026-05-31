@@ -1,8 +1,8 @@
 {
   "timeseries": {
-    "total": 275,
+    "total": 276,
     "severity_critical": 17,
-    "severity_high": 151,
+    "severity_high": 152,
     "severity_medium": 107,
     "by_category": {
       "security": 22,
@@ -10,7 +10,7 @@
       "reliability": 58,
       "concurrency": 5,
       "raii": 7,
-      "container": 59,
+      "container": 60,
       "platform": 7,
       "performance": 7,
       "input_validation": 2,
@@ -25,7 +25,7 @@
       "src\\timeseries\\aggregate_scheduler.cpp": [
         {
           "file": "src\\timeseries\\aggregate_scheduler.cpp",
-          "line": 186,
+          "line": 184,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -37,7 +37,7 @@
         },
         {
           "file": "src\\timeseries\\aggregate_scheduler.cpp",
-          "line": 152,
+          "line": 150,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -49,7 +49,7 @@
         },
         {
           "file": "src\\timeseries\\aggregate_scheduler.cpp",
-          "line": 186,
+          "line": 184,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -61,7 +61,7 @@
         },
         {
           "file": "src\\timeseries\\aggregate_scheduler.cpp",
-          "line": 187,
+          "line": 185,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(agg);",
@@ -70,7 +70,7 @@
         },
         {
           "file": "src\\timeseries\\aggregate_scheduler.cpp",
-          "line": 345,
+          "line": 343,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_DEBUG(\"Caught up window [{}, {}] for aggregate {}\",",
@@ -79,7 +79,7 @@
         },
         {
           "file": "src\\timeseries\\aggregate_scheduler.cpp",
-          "line": 344,
+          "line": 342,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "agg_manager_->refresh(agg.config, window_start, window_end);",
@@ -88,7 +88,7 @@
         },
         {
           "file": "src\\timeseries\\aggregate_scheduler.cpp",
-          "line": 276,
+          "line": 274,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "agg_manager_->refresh(agg.config, window_start, window_end);",
@@ -97,7 +97,7 @@
         },
         {
           "file": "src\\timeseries\\aggregate_scheduler.cpp",
-          "line": 265,
+          "line": 263,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "agg_manager_->refreshIncremental(agg.config, agg.id, window_end, *wm_store_);",
@@ -106,7 +106,7 @@
         },
         {
           "file": "src\\timeseries\\aggregate_scheduler.cpp",
-          "line": 210,
+          "line": 208,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -115,7 +115,7 @@
         },
         {
           "file": "src\\timeseries\\aggregate_scheduler.cpp",
-          "line": 143,
+          "line": 141,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "refreshAggregate(it->second);",
@@ -124,7 +124,7 @@
         },
         {
           "file": "src\\timeseries\\aggregate_scheduler.cpp",
-          "line": 29,
+          "line": 27,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"AggregateScheduler: TSStore cannot be null\");",
@@ -133,7 +133,7 @@
         },
         {
           "file": "src\\timeseries\\aggregate_scheduler.cpp",
-          "line": 97,
+          "line": 95,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = aggregates_.find(id);",
@@ -144,7 +144,7 @@
       "src\\timeseries\\aggregate_scheduler_helper.cpp": [
         {
           "file": "src\\timeseries\\aggregate_scheduler_helper.cpp",
-          "line": 73,
+          "line": 71,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "agg_manager_->refresh(cfg, start_ms, end_ms - 1);",
@@ -155,7 +155,7 @@
       "src\\timeseries\\continuous_agg.cpp": [
         {
           "file": "src\\timeseries\\continuous_agg.cpp",
-          "line": 415,
+          "line": 413,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -167,7 +167,7 @@
         },
         {
           "file": "src\\timeseries\\continuous_agg.cpp",
-          "line": 114,
+          "line": 112,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -179,7 +179,7 @@
         },
         {
           "file": "src\\timeseries\\continuous_agg.cpp",
-          "line": 416,
+          "line": 414,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (s.has_value()) result.push_back(std::move(*s));",
@@ -188,7 +188,7 @@
         },
         {
           "file": "src\\timeseries\\continuous_agg.cpp",
-          "line": 412,
+          "line": 410,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::vector<ContinuousAggMaterializationStatus> result;",
@@ -197,7 +197,7 @@
         },
         {
           "file": "src\\timeseries\\continuous_agg.cpp",
-          "line": 400,
+          "line": 398,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "ContinuousAggMaterializationStatus s;",
@@ -206,7 +206,7 @@
         },
         {
           "file": "src\\timeseries\\continuous_agg.cpp",
-          "line": 133,
+          "line": 131,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -215,7 +215,7 @@
         },
         {
           "file": "src\\timeseries\\continuous_agg.cpp",
-          "line": 115,
+          "line": 113,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "partial_results.push_back(shard_query_(s, cfg, from_ms, to_ms));",
@@ -224,7 +224,7 @@
         },
         {
           "file": "src\\timeseries\\continuous_agg.cpp",
-          "line": 389,
+          "line": 387,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "auto result = store_->query(qopt);",
@@ -233,7 +233,7 @@
         },
         {
           "file": "src\\timeseries\\continuous_agg.cpp",
-          "line": 365,
+          "line": 363,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "total += mgr_.refreshIncremental(it->second.config, it->second.agg_id,",
@@ -242,7 +242,7 @@
         },
         {
           "file": "src\\timeseries\\continuous_agg.cpp",
-          "line": 363,
+          "line": 361,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (!it->second.auto_refresh) continue;",
@@ -251,7 +251,7 @@
         },
         {
           "file": "src\\timeseries\\continuous_agg.cpp",
-          "line": 230,
+          "line": 228,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "auto first_point = store_->query(first);",
@@ -260,7 +260,7 @@
         },
         {
           "file": "src\\timeseries\\continuous_agg.cpp",
-          "line": 365,
+          "line": 363,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "total += mgr_.refreshIncremental(it->second.config, it->second.agg_id,",
@@ -269,7 +269,7 @@
         },
         {
           "file": "src\\timeseries\\continuous_agg.cpp",
-          "line": 321,
+          "line": 319,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = defs_.find(name);",
@@ -280,7 +280,7 @@
       "src\\timeseries\\hypertable.cpp": [
         {
           "file": "src\\timeseries\\hypertable.cpp",
-          "line": 163,
+          "line": 161,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "timestamp_sorting_unstable",
@@ -292,7 +292,7 @@
         },
         {
           "file": "src\\timeseries\\hypertable.cpp",
-          "line": 152,
+          "line": 150,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -304,7 +304,7 @@
         },
         {
           "file": "src\\timeseries\\hypertable.cpp",
-          "line": 128,
+          "line": 126,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -316,7 +316,7 @@
         },
         {
           "file": "src\\timeseries\\hypertable.cpp",
-          "line": 100,
+          "line": 98,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -328,7 +328,7 @@
         },
         {
           "file": "src\\timeseries\\hypertable.cpp",
-          "line": 97,
+          "line": 95,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -342,7 +342,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\hypertable.cpp",
-          "line_number": 357,
+          "line_number": 355,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -352,7 +352,7 @@
         },
         {
           "file": "src\\timeseries\\hypertable.cpp",
-          "line": 228,
+          "line": 226,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -361,7 +361,7 @@
         },
         {
           "file": "src\\timeseries\\hypertable.cpp",
-          "line": 211,
+          "line": 209,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "health_reports.push_back(h);",
@@ -370,7 +370,7 @@
         },
         {
           "file": "src\\timeseries\\hypertable.cpp",
-          "line": 155,
+          "line": 153,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -379,7 +379,7 @@
         },
         {
           "file": "src\\timeseries\\hypertable.cpp",
-          "line": 135,
+          "line": 133,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "chunks_to_scan.push_back(end_chunk);",
@@ -388,7 +388,7 @@
         },
         {
           "file": "src\\timeseries\\hypertable.cpp",
-          "line": 129,
+          "line": 127,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "chunks_to_scan.push_back(getChunkName(t));",
@@ -397,7 +397,7 @@
         },
         {
           "file": "src\\timeseries\\hypertable.cpp",
-          "line": 144,
+          "line": 142,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "size_t underscore_pos = key_str.find('_');",
@@ -406,7 +406,7 @@
         },
         {
           "file": "src\\timeseries\\hypertable.cpp",
-          "line": 142,
+          "line": 140,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "db_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {",
@@ -415,7 +415,7 @@
         },
         {
           "file": "src\\timeseries\\hypertable.cpp",
-          "line": 106,
+          "line": 104,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "for (const auto& [timestamp, data] : chunk_data) {",
@@ -424,7 +424,7 @@
         },
         {
           "file": "src\\timeseries\\hypertable.cpp",
-          "line": 105,
+          "line": 103,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "for (const auto& [chunk_name, chunk_data] : chunk_batches) {",
@@ -433,7 +433,7 @@
         },
         {
           "file": "src\\timeseries\\hypertable.cpp",
-          "line": 101,
+          "line": 99,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "chunk_batches[chunk_name].emplace_back(timestamp, data);",
@@ -442,7 +442,7 @@
         },
         {
           "file": "src\\timeseries\\hypertable.cpp",
-          "line": 99,
+          "line": 97,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "for (const auto& [timestamp, data] : batch) {",
@@ -451,18 +451,27 @@
         },
         {
           "file": "src\\timeseries\\hypertable.cpp",
-          "line": 28,
+          "line": 26,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Hypertable: RocksDB not open\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #3599 feat(timeseries): FlushCont... (2026-03-12) | #712 [Error Handling] Pha",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
       "src\\timeseries\\timeseries.cpp": [
         {
           "file": "src\\timeseries\\timeseries.cpp",
-          "line": 261,
+          "line": 259,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "std::string end_key = prefix + \"\\xFF\"; // Seek to end of prefix range",
@@ -471,7 +480,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries.cpp",
-          "line": 163,
+          "line": 161,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(DataPoint::fromJson(j));",
@@ -480,7 +489,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries.cpp",
-          "line": 147,
+          "line": 145,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(DataPoint::fromJson(j));",
@@ -489,7 +498,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries.cpp",
-          "line": 268,
+          "line": 266,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (it->Valid() && it->key().starts_with(prefix)) {",
@@ -498,7 +507,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries.cpp",
-          "line": 264,
+          "line": 262,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(read_opts, column_family));",
@@ -507,7 +516,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries.cpp",
-          "line": 264,
+          "line": 262,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(read_opts, column_family));",
@@ -516,7 +525,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries.cpp",
-          "line": 234,
+          "line": 232,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "while (it->Valid() && it->key().starts_with(prefix)) {",
@@ -525,7 +534,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries.cpp",
-          "line": 232,
+          "line": 230,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "it->Seek(prefix);",
@@ -534,7 +543,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries.cpp",
-          "line": 231,
+          "line": 229,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(read_opts, column_family));",
@@ -543,7 +552,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries.cpp",
-          "line": 231,
+          "line": 229,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(read_opts, column_family));",
@@ -552,7 +561,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries.cpp",
-          "line": 178,
+          "line": 176,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "return query(metric, entity, RangeQuery{});",
@@ -561,7 +570,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries.cpp",
-          "line": 175,
+          "line": 173,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::vector<TimeSeriesStore::DataPoint> TimeSeriesStore::query(",
@@ -570,7 +579,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries.cpp",
-          "line": 158,
+          "line": 156,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "while (it->Valid() && it->key().starts_with(prefix) && results.size() < query.limit) {",
@@ -579,7 +588,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries.cpp",
-          "line": 142,
+          "line": 140,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "while (it->Valid() && it->key().starts_with(prefix) && results.size() < query.limit) {",
@@ -588,7 +597,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries.cpp",
-          "line": 137,
+          "line": 135,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (!it->Valid() || !it->key().starts_with(prefix)) {",
@@ -597,7 +606,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries.cpp",
-          "line": 132,
+          "line": 130,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(read_opts, column_family));",
@@ -606,7 +615,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries.cpp",
-          "line": 132,
+          "line": 130,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(read_opts, column_family));",
@@ -615,7 +624,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries.cpp",
-          "line": 113,
+          "line": 111,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::vector<TimeSeriesStore::DataPoint> TimeSeriesStore::query(",
@@ -624,7 +633,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries.cpp",
-          "line": 63,
+          "line": 61,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return db_ != nullptr ? db_->DefaultColumnFamily() : nullptr;",
@@ -633,7 +642,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries.cpp",
-          "line": 28,
+          "line": 26,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "j[\"metadata\"] = metadata;",
@@ -644,7 +653,7 @@
       "src\\timeseries\\timeseries_metrics.cpp": [
         {
           "file": "src\\timeseries\\timeseries_metrics.cpp",
-          "line": 376,
+          "line": 374,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -656,7 +665,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries_metrics.cpp",
-          "line": 398,
+          "line": 396,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metric_stats[\"avg_write_latency_ms\"] = stats.data_points_written > 0 ?",
@@ -665,7 +674,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries_metrics.cpp",
-          "line": 395,
+          "line": 393,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metric_stats[\"data_points_written\"] = stats.data_points_written;",
@@ -674,7 +683,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries_metrics.cpp",
-          "line": 365,
+          "line": 363,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "j[\"retention\"][\"data_points_deleted_total\"] = total_data_points_deleted_.load();",
@@ -683,7 +692,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries_metrics.cpp",
-          "line": 352,
+          "line": 350,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "j[\"storage\"][\"current_data_points\"] = current_data_points_.load();",
@@ -692,7 +701,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries_metrics.cpp",
-          "line": 341,
+          "line": 339,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "j[\"query\"][\"data_points_returned_total\"] = total_data_points_returned_.load();",
@@ -701,7 +710,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries_metrics.cpp",
-          "line": 330,
+          "line": 328,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "j[\"ingestion\"][\"data_points_written_total\"] = total_data_points_written_.load();",
@@ -710,7 +719,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries_metrics.cpp",
-          "line": 168,
+          "line": 166,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (it == agg_refresh_stats_.end() || it->second.latency_count == 0) return -1.0;",
@@ -719,7 +728,7 @@
         },
         {
           "file": "src\\timeseries\\timeseries_metrics.cpp",
-          "line": 168,
+          "line": 166,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "if (it == agg_refresh_stats_.end() || it->second.latency_count == 0) return -1.0;",
@@ -730,7 +739,7 @@
       "src\\timeseries\\tsstore.cpp": [
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 606,
+          "line": 604,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -742,7 +751,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 477,
+          "line": 475,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -754,7 +763,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 409,
+          "line": 407,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -766,7 +775,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 280,
+          "line": 278,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -778,7 +787,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 269,
+          "line": 267,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -790,7 +799,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 861,
+          "line": 859,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "timestamp_sorting_unstable",
@@ -802,7 +811,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 846,
+          "line": 844,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -814,7 +823,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 663,
+          "line": 661,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -826,7 +835,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 580,
+          "line": 578,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -838,7 +847,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 509,
+          "line": 507,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "timestamp_sorting_unstable",
@@ -850,7 +859,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 314,
+          "line": 312,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -862,7 +871,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 281,
+          "line": 279,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "timestamp_sorting_unstable",
@@ -874,7 +883,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 274,
+          "line": 272,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -886,7 +895,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 260,
+          "line": 258,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "timestamp_sorting_unstable",
@@ -900,7 +909,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\tsstore.cpp",
-          "line_number": 1042,
+          "line_number": 1040,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -912,7 +921,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\tsstore.cpp",
-          "line_number": 1032,
+          "line_number": 1030,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -924,7 +933,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\tsstore.cpp",
-          "line_number": 1015,
+          "line_number": 1013,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -934,7 +943,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 1310,
+          "line": 1308,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s;",
@@ -943,7 +952,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 1291,
+          "line": 1289,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s;",
@@ -952,7 +961,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 1274,
+          "line": 1272,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s;",
@@ -961,7 +970,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 1220,
+          "line": 1218,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "fmt::format(\"Failed to delete metric {}: {}\", metric, s.ToString()));",
@@ -970,7 +979,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 1218,
+          "line": 1216,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "THEMIS_ERROR(\"Failed to delete metric {}: {}\", metric, s.ToString());",
@@ -979,7 +988,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 1162,
+          "line": 1160,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "THEMIS_ERROR(\"Failed to delete old data for metric {}: {}\", metric, s.ToString());",
@@ -988,7 +997,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 1114,
+          "line": 1112,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "THEMIS_ERROR(\"Failed to delete old data: {}\", s.ToString());",
@@ -997,7 +1006,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 847,
+          "line": 845,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(dp);",
@@ -1006,7 +1015,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 727,
+          "line": 725,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(point);",
@@ -1015,7 +1024,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 521,
+          "line": 519,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "values.push_back(rows[idx].value);",
@@ -1024,7 +1033,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 520,
+          "line": 518,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "timestamps.push_back(rows[idx].timestamp_ms);",
@@ -1033,7 +1042,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 316,
+          "line": 314,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "values.push_back(p.value);",
@@ -1042,7 +1051,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 315,
+          "line": 313,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "timestamps.push_back(p.timestamp_ms);",
@@ -1051,7 +1060,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 275,
+          "line": 273,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "grouped[group_key].push_back(point);",
@@ -1060,7 +1069,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 224,
+          "line": 222,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s;",
@@ -1069,7 +1078,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 106,
+          "line": 104,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1078,7 +1087,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 1220,
+          "line": 1218,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "fmt::format(\"Failed to delete metric {}: {}\", metric, s.ToString()));",
@@ -1087,7 +1096,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 1218,
+          "line": 1216,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "THEMIS_ERROR(\"Failed to delete metric {}: {}\", metric, s.ToString());",
@@ -1096,7 +1105,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 1195,
+          "line": 1193,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "it->Seek(prefix);",
@@ -1105,7 +1114,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 1162,
+          "line": 1160,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "THEMIS_ERROR(\"Failed to delete old data for metric {}: {}\", metric, s.ToString());",
@@ -1114,7 +1123,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 1147,
+          "line": 1145,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "it->Seek(prefix);",
@@ -1123,7 +1132,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 1114,
+          "line": 1112,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "THEMIS_ERROR(\"Failed to delete old data: {}\", s.ToString());",
@@ -1132,7 +1141,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 967,
+          "line": 965,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "auto result_or_error = query(options);",
@@ -1141,7 +1150,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 928,
+          "line": 926,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "auto result_or_error = query(agg_options);",
@@ -1150,7 +1159,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 816,
+          "line": 814,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "raw_data = enc_chunk_store_->decryptChunk(series_id, raw_data, chunk_range);",
@@ -1159,7 +1168,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 663,
+          "line": 661,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "TSStore::query(const QueryOptions& options) const {",
@@ -1168,7 +1177,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 574,
+          "line": 572,
           "type": "size_assumption",
           "severity": "HIGH",
           "snippet": "size_t uncompressed = indices.size() * (sizeof(int64_t) + sizeof(double));",
@@ -1177,7 +1186,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 563,
+          "line": 561,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "chunk_meta[\"data\"] = nlohmann::json::binary(compressed);",
@@ -1186,7 +1195,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 561,
+          "line": 559,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "chunk_meta[\"data\"]       = nlohmann::json::binary(enc_result.blob);",
@@ -1195,7 +1204,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 487,
+          "line": 485,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(watermark_mutex_);",
@@ -1204,7 +1213,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 375,
+          "line": 373,
           "type": "size_assumption",
           "severity": "HIGH",
           "snippet": "size_t uncompressed_size = group_points.size() * (sizeof(int64_t) + sizeof(double));",
@@ -1213,7 +1222,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 371,
+          "line": 369,
           "type": "size_assumption",
           "severity": "HIGH",
           "snippet": "static_cast<double>(group_points.size() * (sizeof(int64_t) + sizeof(double))) / compressed.size());",
@@ -1222,7 +1231,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 358,
+          "line": 356,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "chunk_meta[\"data\"] = nlohmann::json::binary(compressed);",
@@ -1231,7 +1240,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 356,
+          "line": 354,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "chunk_meta[\"data\"]       = nlohmann::json::binary(enc_result.blob);",
@@ -1240,7 +1249,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 66,
+          "line": 64,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"TimeSeriesStore: db cannot be null\");",
@@ -1249,7 +1258,7 @@
         },
         {
           "file": "src\\timeseries\\tsstore.cpp",
-          "line": 44,
+          "line": 42,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "j[\"metadata\"] = metadata;",
@@ -1262,7 +1271,7 @@
           "gap_type": "exception_in_destructor",
           "severity": "CRITICAL",
           "file_path": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
-          "line_number": 44,
+          "line_number": 42,
           "class_name": "",
           "issue": "Potential exception in destructor",
           "reason": "Destructors must be noexcept; exceptions here cause std::terminate()",
@@ -1274,7 +1283,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
-          "line_number": 216,
+          "line_number": 214,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1286,7 +1295,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
-          "line_number": 212,
+          "line_number": 210,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1296,7 +1305,7 @@
         },
         {
           "file": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
-          "line": 209,
+          "line": 207,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s;",
@@ -1305,7 +1314,7 @@
         },
         {
           "file": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
-          "line": 102,
+          "line": 100,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1314,7 +1323,7 @@
         },
         {
           "file": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
-          "line": 203,
+          "line": 201,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "chunk_meta[\"data\"]   = nlohmann::json::binary(enc_result.blob);",
@@ -1323,7 +1332,7 @@
         },
         {
           "file": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
-          "line": 192,
+          "line": 190,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "enc_store_->decryptChunk(series_id, encrypted_data, chunk_range);",
@@ -1332,7 +1341,7 @@
         },
         {
           "file": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
-          "line": 189,
+          "line": 187,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Unsupported encrypted chunk data encoding\");",
@@ -1341,7 +1350,7 @@
         },
         {
           "file": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
-          "line": 133,
+          "line": 131,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "it->Seek(prefix);",
@@ -1350,7 +1359,7 @@
         },
         {
           "file": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
-          "line": 89,
+          "line": 87,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::mutex> lk(cv_mu_);",
@@ -1359,7 +1368,7 @@
         },
         {
           "file": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
-          "line": 40,
+          "line": 38,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"TsEncryptedKeyRotation: enc_store must not be null\");",
@@ -1368,7 +1377,7 @@
         },
         {
           "file": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
-          "line": 37,
+          "line": 35,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"TsEncryptedKeyRotation: db must not be null\");",
@@ -1381,7 +1390,7 @@
           "gap_type": "uninitialized_array",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\aggregates.cpp",
-          "line_number": 194,
+          "line_number": 192,
           "var_name": "values",
           "context": "Array declared without initialization",
           "reason": "Array contains garbage values; use with zeros or explicit init",
@@ -1391,7 +1400,7 @@
         },
         {
           "file": "src\\timeseries\\aggregates.cpp",
-          "line": 125,
+          "line": 123,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1403,7 +1412,7 @@
         },
         {
           "file": "src\\timeseries\\aggregates.cpp",
-          "line": 125,
+          "line": 123,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1415,7 +1424,7 @@
         },
         {
           "file": "src\\timeseries\\aggregates.cpp",
-          "line": 62,
+          "line": 60,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1427,7 +1436,7 @@
         },
         {
           "file": "src\\timeseries\\aggregates.cpp",
-          "line": 56,
+          "line": 54,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1441,7 +1450,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\aggregates.cpp",
-          "line_number": 94,
+          "line_number": 92,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1451,7 +1460,7 @@
         },
         {
           "file": "src\\timeseries\\aggregates.cpp",
-          "line": 132,
+          "line": 130,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.values.push_back(",
@@ -1460,7 +1469,7 @@
         },
         {
           "file": "src\\timeseries\\aggregates.cpp",
-          "line": 131,
+          "line": 129,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.timestamps.push_back(timestamps[i]);",
@@ -1469,7 +1478,7 @@
         },
         {
           "file": "src\\timeseries\\aggregates.cpp",
-          "line": 126,
+          "line": 124,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "window_values.push_back(values[j]);",
@@ -1478,7 +1487,7 @@
         },
         {
           "file": "src\\timeseries\\aggregates.cpp",
-          "line": 64,
+          "line": 62,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.values.push_back(",
@@ -1487,7 +1496,7 @@
         },
         {
           "file": "src\\timeseries\\aggregates.cpp",
-          "line": 63,
+          "line": 61,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.timestamps.push_back(window_ts);",
@@ -1496,7 +1505,7 @@
         },
         {
           "file": "src\\timeseries\\aggregates.cpp",
-          "line": 57,
+          "line": 55,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "window_data[window_start].push_back(values[i]);",
@@ -1505,7 +1514,7 @@
         },
         {
           "file": "src\\timeseries\\aggregates.cpp",
-          "line": 62,
+          "line": 60,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "for (const auto& [window_ts, window_values] : window_data) {",
@@ -1516,7 +1525,7 @@
       "src\\timeseries\\ts_auto_buffer.cpp": [
         {
           "file": "src\\timeseries\\ts_auto_buffer.cpp",
-          "line": 361,
+          "line": 359,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1530,7 +1539,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\ts_auto_buffer.cpp",
-          "line_number": 526,
+          "line_number": 524,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1542,7 +1551,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\ts_auto_buffer.cpp",
-          "line_number": 468,
+          "line_number": 466,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1552,7 +1561,7 @@
         },
         {
           "file": "src\\timeseries\\ts_auto_buffer.cpp",
-          "line": 513,
+          "line": 511,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "restored.push_back(std::move(pt));",
@@ -1561,7 +1570,7 @@
         },
         {
           "file": "src\\timeseries\\ts_auto_buffer.cpp",
-          "line": 568,
+          "line": 566,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto& buffer = buffers_[buffer_key];",
@@ -1570,7 +1579,7 @@
         },
         {
           "file": "src\\timeseries\\ts_auto_buffer.cpp",
-          "line": 524,
+          "line": 522,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "buffers_[key].add(pt);",
@@ -1579,7 +1588,7 @@
         },
         {
           "file": "src\\timeseries\\ts_auto_buffer.cpp",
-          "line": 484,
+          "line": 482,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "entry[\"metadata\"]      = pt.metadata;",
@@ -1588,7 +1597,7 @@
         },
         {
           "file": "src\\timeseries\\ts_auto_buffer.cpp",
-          "line": 476,
+          "line": 474,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "for (const auto& [key, buf] : buffers_) {",
@@ -1597,7 +1606,7 @@
         },
         {
           "file": "src\\timeseries\\ts_auto_buffer.cpp",
-          "line": 380,
+          "line": 378,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "for (const auto& [key, buf] : buffers_) {",
@@ -1606,7 +1615,7 @@
         },
         {
           "file": "src\\timeseries\\ts_auto_buffer.cpp",
-          "line": 379,
+          "line": 377,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> buf_lock(buffers_mutex_);",
@@ -1615,7 +1624,7 @@
         },
         {
           "file": "src\\timeseries\\ts_auto_buffer.cpp",
-          "line": 358,
+          "line": 356,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::mutex> lock(flush_mutex_);",
@@ -1624,7 +1633,7 @@
         },
         {
           "file": "src\\timeseries\\ts_auto_buffer.cpp",
-          "line": 248,
+          "line": 246,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "for (auto& [buffer_key, buffer] : buffers_) {",
@@ -1633,7 +1642,7 @@
         },
         {
           "file": "src\\timeseries\\ts_auto_buffer.cpp",
-          "line": 162,
+          "line": 160,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto& buffer = buffers_[buffer_key];",
@@ -1642,7 +1651,7 @@
         },
         {
           "file": "src\\timeseries\\ts_auto_buffer.cpp",
-          "line": 28,
+          "line": 26,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"TSAutoBuffer: tsstore cannot be null\");",
@@ -1651,7 +1660,7 @@
         },
         {
           "file": "src\\timeseries\\ts_auto_buffer.cpp",
-          "line": 238,
+          "line": 236,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "lock.lock();",
@@ -1660,7 +1669,7 @@
         },
         {
           "file": "src\\timeseries\\ts_auto_buffer.cpp",
-          "line": 159,
+          "line": 157,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "lock.lock();",
@@ -1669,7 +1678,7 @@
         },
         {
           "file": "src\\timeseries\\ts_auto_buffer.cpp",
-          "line": 131,
+          "line": 129,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "backpressure_cv_.wait(bp_lock, [this] {",
@@ -1680,7 +1689,7 @@
       "src\\timeseries\\adaptive_flush_controller.cpp": [
         {
           "file": "src\\timeseries\\adaptive_flush_controller.cpp",
-          "line": 171,
+          "line": 169,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1692,7 +1701,7 @@
         },
         {
           "file": "src\\timeseries\\adaptive_flush_controller.cpp",
-          "line": 248,
+          "line": 246,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1704,7 +1713,7 @@
         },
         {
           "file": "src\\timeseries\\adaptive_flush_controller.cpp",
-          "line": 209,
+          "line": 207,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1718,7 +1727,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\adaptive_flush_controller.cpp",
-          "line_number": 220,
+          "line_number": 218,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1730,7 +1739,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\adaptive_flush_controller.cpp",
-          "line_number": 215,
+          "line_number": 213,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1742,7 +1751,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\adaptive_flush_controller.cpp",
-          "line_number": 156,
+          "line_number": 154,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1754,7 +1763,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\adaptive_flush_controller.cpp",
-          "line_number": 149,
+          "line_number": 147,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1764,7 +1773,7 @@
         },
         {
           "file": "src\\timeseries\\adaptive_flush_controller.cpp",
-          "line": 249,
+          "line": 247,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "batch.push_back(std::move(buffer_.front()));",
@@ -1773,7 +1782,7 @@
         },
         {
           "file": "src\\timeseries\\adaptive_flush_controller.cpp",
-          "line": 210,
+          "line": 208,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "buffer_.push_back(p);",
@@ -1782,7 +1791,7 @@
         },
         {
           "file": "src\\timeseries\\adaptive_flush_controller.cpp",
-          "line": 146,
+          "line": 144,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "buffer_.push_back(point);",
@@ -1791,7 +1800,7 @@
         },
         {
           "file": "src\\timeseries\\adaptive_flush_controller.cpp",
-          "line": 306,
+          "line": 304,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::mutex> lock(flush_mutex_);",
@@ -1800,7 +1809,7 @@
         },
         {
           "file": "src\\timeseries\\adaptive_flush_controller.cpp",
-          "line": 37,
+          "line": 35,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -1809,7 +1818,7 @@
         },
         {
           "file": "src\\timeseries\\adaptive_flush_controller.cpp",
-          "line": 34,
+          "line": 32,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"AdaptiveFlushController: buffer_capacity must be > 0\");",
@@ -1818,7 +1827,7 @@
         },
         {
           "file": "src\\timeseries\\adaptive_flush_controller.cpp",
-          "line": 31,
+          "line": 29,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"AdaptiveFlushController: tsstore cannot be null\");",
@@ -1827,16 +1836,16 @@
         },
         {
           "file": "src\\timeseries\\adaptive_flush_controller.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #4491 [PERF-D1-A] AdaptiveFlushController: Buffered Async Timeseries Writ... (2026-04-09T08:29",
+          "snippet": "* PR History (last 5): #4491 [PERF-D1-A] AdaptiveFlushCo... (2026-04-09) | #4500 feat(timeseries): i",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         },
         {
           "file": "src\\timeseries\\adaptive_flush_controller.cpp",
-          "line": 192,
+          "line": 190,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "bp_cv_.wait(bp_lock, [this]() noexcept {",
@@ -1845,7 +1854,7 @@
         },
         {
           "file": "src\\timeseries\\adaptive_flush_controller.cpp",
-          "line": 130,
+          "line": 128,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "bp_cv_.wait(bp_lock, [this]() noexcept {",
@@ -1856,7 +1865,7 @@
       "src\\timeseries\\downsampling.cpp": [
         {
           "file": "src\\timeseries\\downsampling.cpp",
-          "line": 140,
+          "line": 138,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"DownsamplingPipeline::addPolicy: tiers cannot be empty\");",
@@ -1865,7 +1874,7 @@
         },
         {
           "file": "src\\timeseries\\downsampling.cpp",
-          "line": 137,
+          "line": 135,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"DownsamplingPipeline::addPolicy: metric name cannot be empty\");",
@@ -1874,7 +1883,7 @@
         },
         {
           "file": "src\\timeseries\\downsampling.cpp",
-          "line": 131,
+          "line": 129,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"DownsamplingPipeline: store cannot be null\");",
@@ -1887,7 +1896,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\encrypted_chunk_store.cpp",
-          "line_number": 283,
+          "line_number": 281,
           "var_name": "logger",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference",
@@ -1897,7 +1906,7 @@
         },
         {
           "file": "src\\timeseries\\encrypted_chunk_store.cpp",
-          "line": 250,
+          "line": 248,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1906,7 +1915,7 @@
         },
         {
           "file": "src\\timeseries\\encrypted_chunk_store.cpp",
-          "line": 138,
+          "line": 136,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1915,7 +1924,7 @@
         },
         {
           "file": "src\\timeseries\\encrypted_chunk_store.cpp",
-          "line": 247,
+          "line": 245,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -1924,7 +1933,7 @@
         },
         {
           "file": "src\\timeseries\\encrypted_chunk_store.cpp",
-          "line": 240,
+          "line": 238,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"EncryptedChunkStore: EVP_CTRL_GCM_SET_TAG failed\");",
@@ -1933,7 +1942,7 @@
         },
         {
           "file": "src\\timeseries\\encrypted_chunk_store.cpp",
-          "line": 216,
+          "line": 214,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"EncryptedChunkStore: EVP_CIPHER_CTX_new failed\");",
@@ -1942,7 +1951,7 @@
         },
         {
           "file": "src\\timeseries\\encrypted_chunk_store.cpp",
-          "line": 204,
+          "line": 202,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"EncryptedChunkStore: blob too short for ciphertext\");",
@@ -1951,7 +1960,7 @@
         },
         {
           "file": "src\\timeseries\\encrypted_chunk_store.cpp",
-          "line": 192,
+          "line": 190,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"EncryptedChunkStore: master key not found for key_id=\" + key_id);",
@@ -1960,7 +1969,7 @@
         },
         {
           "file": "src\\timeseries\\encrypted_chunk_store.cpp",
-          "line": 183,
+          "line": 181,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"EncryptedChunkStore: invalid blob (key_id_len out of bounds)\");",
@@ -1969,7 +1978,7 @@
         },
         {
           "file": "src\\timeseries\\encrypted_chunk_store.cpp",
-          "line": 172,
+          "line": 170,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"EncryptedChunkStore: blob too short\");",
@@ -1978,7 +1987,7 @@
         },
         {
           "file": "src\\timeseries\\encrypted_chunk_store.cpp",
-          "line": 136,
+          "line": 134,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"EncryptedChunkStore: EVP_CTRL_GCM_GET_TAG failed\");",
@@ -1987,7 +1996,7 @@
         },
         {
           "file": "src\\timeseries\\encrypted_chunk_store.cpp",
-          "line": 110,
+          "line": 108,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"EncryptedChunkStore: EVP_CIPHER_CTX_new failed\");",
@@ -1996,7 +2005,7 @@
         },
         {
           "file": "src\\timeseries\\encrypted_chunk_store.cpp",
-          "line": 101,
+          "line": 99,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"EncryptedChunkStore: RAND_bytes failed\");",
@@ -2005,7 +2014,7 @@
         },
         {
           "file": "src\\timeseries\\encrypted_chunk_store.cpp",
-          "line": 92,
+          "line": 90,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"EncryptedChunkStore: current_key_fn returned empty key\");",
@@ -2014,7 +2023,7 @@
         },
         {
           "file": "src\\timeseries\\encrypted_chunk_store.cpp",
-          "line": 59,
+          "line": 57,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"EncryptedChunkStore: lookup_key_fn must not be null\");",
@@ -2023,7 +2032,7 @@
         },
         {
           "file": "src\\timeseries\\encrypted_chunk_store.cpp",
-          "line": 56,
+          "line": 54,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"EncryptedChunkStore: current_key_fn must not be null\");",
@@ -2034,7 +2043,7 @@
       "src\\timeseries\\query_optimizer.cpp": [
         {
           "file": "src\\timeseries\\query_optimizer.cpp",
-          "line": 38,
+          "line": 36,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"TSQueryOptimizer: TSStore cannot be null\");",
@@ -2045,7 +2054,7 @@
       "src\\timeseries\\ts_stream_cursor.cpp": [
         {
           "file": "src\\timeseries\\ts_stream_cursor.cpp",
-          "line": 100,
+          "line": 98,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "void TsStreamCursor::close() noexcept {",
@@ -2054,7 +2063,7 @@
         },
         {
           "file": "src\\timeseries\\ts_stream_cursor.cpp",
-          "line": 146,
+          "line": 144,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "auto result = store_->query(page_opts);",
@@ -2063,7 +2072,7 @@
         },
         {
           "file": "src\\timeseries\\ts_stream_cursor.cpp",
-          "line": 48,
+          "line": 46,
           "type": "smart_ptr_misuse",
           "severity": "CRITICAL",
           "snippet": "new TsStreamCursor(store, std::move(options), cfg));",
@@ -2072,7 +2081,7 @@
         },
         {
           "file": "src\\timeseries\\ts_stream_cursor.cpp",
-          "line": 37,
+          "line": 35,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "Result<std::unique_ptr<TsStreamCursor>> TsStreamCursor::open(",
@@ -2081,7 +2090,7 @@
         },
         {
           "file": "src\\timeseries\\ts_stream_cursor.cpp",
-          "line": 34,
+          "line": 32,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "return open(store, std::move(options), Config{});",
@@ -2090,7 +2099,7 @@
         },
         {
           "file": "src\\timeseries\\ts_stream_cursor.cpp",
-          "line": 30,
+          "line": 28,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "Result<std::unique_ptr<TsStreamCursor>> TsStreamCursor::open(",
@@ -2101,7 +2110,7 @@
       "src\\timeseries\\compression_selector.cpp": [
         {
           "file": "src\\timeseries\\compression_selector.cpp",
-          "line": 50,
+          "line": 48,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2113,7 +2122,7 @@
         },
         {
           "file": "src\\timeseries\\compression_selector.cpp",
-          "line": 51,
+          "line": 49,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "deltas.push_back(points[i].timestamp_ms - points[i - 1].timestamp_ms);",
@@ -2122,7 +2131,7 @@
         },
         {
           "file": "src\\timeseries\\compression_selector.cpp",
-          "line": 122,
+          "line": 120,
           "type": "posix_only_api",
           "severity": "HIGH",
           "snippet": "return select(profileSeries(points));",
@@ -2131,7 +2140,7 @@
         },
         {
           "file": "src\\timeseries\\compression_selector.cpp",
-          "line": 100,
+          "line": 98,
           "type": "posix_only_api",
           "severity": "HIGH",
           "snippet": "CompressionStrategy HeuristicCompressionSelector::select(",
@@ -2140,7 +2149,7 @@
         },
         {
           "file": "src\\timeseries\\compression_selector.cpp",
-          "line": 164,
+          "line": 162,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "if (it != cached_.end()) return it->second;",
@@ -2151,7 +2160,7 @@
       "src\\timeseries\\ts_auto_buffer_adaptive.cpp": [
         {
           "file": "src\\timeseries\\ts_auto_buffer_adaptive.cpp",
-          "line": 114,
+          "line": 112,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2165,7 +2174,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\ts_auto_buffer_adaptive.cpp",
-          "line_number": 64,
+          "line_number": 62,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2177,7 +2186,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\ts_auto_buffer_adaptive.cpp",
-          "line_number": 58,
+          "line_number": 56,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2187,7 +2196,7 @@
         },
         {
           "file": "src\\timeseries\\ts_auto_buffer_adaptive.cpp",
-          "line": 142,
+          "line": 140,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -2196,7 +2205,7 @@
         },
         {
           "file": "src\\timeseries\\ts_auto_buffer_adaptive.cpp",
-          "line": 137,
+          "line": 135,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -2207,7 +2216,7 @@
       "src\\timeseries\\prometheus_remote_write.cpp": [
         {
           "file": "src\\timeseries\\prometheus_remote_write.cpp",
-          "line": 189,
+          "line": 187,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.timeseries.push_back(std::move(ts));",
@@ -2216,7 +2225,7 @@
         },
         {
           "file": "src\\timeseries\\prometheus_remote_write.cpp",
-          "line": 161,
+          "line": 159,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.samples.push_back(std::move(sample));",
@@ -2225,7 +2234,7 @@
         },
         {
           "file": "src\\timeseries\\prometheus_remote_write.cpp",
-          "line": 157,
+          "line": 155,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.labels.push_back(std::move(label));",
@@ -2234,7 +2243,7 @@
         },
         {
           "file": "src\\timeseries\\prometheus_remote_write.cpp",
-          "line": 292,
+          "line": 290,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "\"Snappy decompression: failed to allocate output buffer\");",
@@ -2243,7 +2252,7 @@
         },
         {
           "file": "src\\timeseries\\prometheus_remote_write.cpp",
-          "line": 123,
+          "line": 121,
           "type": "size_assumption",
           "severity": "HIGH",
           "snippet": "static_assert(sizeof(double) == 8, \"double must be 64-bit\");",
@@ -2254,7 +2263,7 @@
       "src\\timeseries\\anomaly_detection.cpp": [
         {
           "file": "src\\timeseries\\anomaly_detection.cpp",
-          "line": 168,
+          "line": 166,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -2266,7 +2275,7 @@
         },
         {
           "file": "src\\timeseries\\anomaly_detection.cpp",
-          "line": 68,
+          "line": 66,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -2278,7 +2287,7 @@
         },
         {
           "file": "src\\timeseries\\anomaly_detection.cpp",
-          "line": 176,
+          "line": 174,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "timestamp_sorting_unstable",
@@ -2290,7 +2299,7 @@
         },
         {
           "file": "src\\timeseries\\anomaly_detection.cpp",
-          "line": 125,
+          "line": 123,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2302,7 +2311,7 @@
         },
         {
           "file": "src\\timeseries\\anomaly_detection.cpp",
-          "line": 76,
+          "line": 74,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2314,7 +2323,7 @@
         },
         {
           "file": "src\\timeseries\\anomaly_detection.cpp",
-          "line": 76,
+          "line": 74,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2326,7 +2335,7 @@
         },
         {
           "file": "src\\timeseries\\anomaly_detection.cpp",
-          "line": 165,
+          "line": 163,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -2338,7 +2347,7 @@
         },
         {
           "file": "src\\timeseries\\anomaly_detection.cpp",
-          "line": 62,
+          "line": 60,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -2350,7 +2359,7 @@
         },
         {
           "file": "src\\timeseries\\anomaly_detection.cpp",
-          "line": 179,
+          "line": 177,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (auto& [ts, ap] : merged) result.push_back(ap);",
@@ -2359,7 +2368,7 @@
         },
         {
           "file": "src\\timeseries\\anomaly_detection.cpp",
-          "line": 126,
+          "line": 124,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(ap);",
@@ -2368,7 +2377,7 @@
         },
         {
           "file": "src\\timeseries\\anomaly_detection.cpp",
-          "line": 96,
+          "line": 94,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& p : points) vals.push_back(p.value);",
@@ -2377,7 +2386,7 @@
         },
         {
           "file": "src\\timeseries\\anomaly_detection.cpp",
-          "line": 77,
+          "line": 75,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(ap);",
@@ -2386,7 +2395,7 @@
         },
         {
           "file": "src\\timeseries\\anomaly_detection.cpp",
-          "line": 67,
+          "line": 65,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = score_map.find(p.timestamp_ms);",
@@ -2395,7 +2404,7 @@
         },
         {
           "file": "src\\timeseries\\anomaly_detection.cpp",
-          "line": 67,
+          "line": 65,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = score_map.find(p.timestamp_ms);",
@@ -2404,7 +2413,7 @@
         },
         {
           "file": "src\\timeseries\\anomaly_detection.cpp",
-          "line": 68,
+          "line": 66,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = score_map.find(p.timestamp_ms);",
@@ -2415,7 +2424,7 @@
       "src\\timeseries\\gap_fill.cpp": [
         {
           "file": "src\\timeseries\\gap_fill.cpp",
-          "line": 301,
+          "line": 299,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2427,7 +2436,7 @@
         },
         {
           "file": "src\\timeseries\\gap_fill.cpp",
-          "line": 219,
+          "line": 217,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2439,7 +2448,7 @@
         },
         {
           "file": "src\\timeseries\\gap_fill.cpp",
-          "line": 145,
+          "line": 143,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2451,7 +2460,7 @@
         },
         {
           "file": "src\\timeseries\\gap_fill.cpp",
-          "line": 93,
+          "line": 91,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2463,7 +2472,7 @@
         },
         {
           "file": "src\\timeseries\\gap_fill.cpp",
-          "line": 302,
+          "line": 300,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ts.push_back(t);",
@@ -2472,7 +2481,7 @@
         },
         {
           "file": "src\\timeseries\\gap_fill.cpp",
-          "line": 235,
+          "line": 233,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(makeSynthetic(points.back(), target_ts, val));",
@@ -2481,7 +2490,7 @@
         },
         {
           "file": "src\\timeseries\\gap_fill.cpp",
-          "line": 229,
+          "line": 227,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(makePlaceholder(target_ts, cfg.null_fill_value));",
@@ -2490,7 +2499,7 @@
         },
         {
           "file": "src\\timeseries\\gap_fill.cpp",
-          "line": 220,
+          "line": 218,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(*exact);",
@@ -2499,7 +2508,7 @@
         },
         {
           "file": "src\\timeseries\\gap_fill.cpp",
-          "line": 176,
+          "line": 174,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(makeSynthetic(points.back(), target_ts, val));",
@@ -2508,7 +2517,7 @@
         },
         {
           "file": "src\\timeseries\\gap_fill.cpp",
-          "line": 166,
+          "line": 164,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(makeSynthetic(points.front(), target_ts, val));",
@@ -2517,7 +2526,7 @@
         },
         {
           "file": "src\\timeseries\\gap_fill.cpp",
-          "line": 151,
+          "line": 149,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(makePlaceholder(target_ts, cfg.null_fill_value));",
@@ -2526,7 +2535,7 @@
         },
         {
           "file": "src\\timeseries\\gap_fill.cpp",
-          "line": 146,
+          "line": 144,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(*exact);",
@@ -2535,7 +2544,7 @@
         },
         {
           "file": "src\\timeseries\\gap_fill.cpp",
-          "line": 108,
+          "line": 106,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(",
@@ -2544,7 +2553,7 @@
         },
         {
           "file": "src\\timeseries\\gap_fill.cpp",
-          "line": 103,
+          "line": 101,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(makePlaceholder(target_ts, cfg.null_fill_value));",
@@ -2553,7 +2562,7 @@
         },
         {
           "file": "src\\timeseries\\gap_fill.cpp",
-          "line": 94,
+          "line": 92,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(*exact);",
@@ -2564,7 +2573,7 @@
       "src\\timeseries\\gorilla.cpp": [
         {
           "file": "src\\timeseries\\gorilla.cpp",
-          "line": 187,
+          "line": 185,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -2576,7 +2585,7 @@
         },
         {
           "file": "src\\timeseries\\gorilla.cpp",
-          "line": 175,
+          "line": 173,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -2588,7 +2597,7 @@
         },
         {
           "file": "src\\timeseries\\gorilla.cpp",
-          "line": 74,
+          "line": 72,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2602,7 +2611,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\gorilla.cpp",
-          "line_number": 118,
+          "line_number": 116,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2612,7 +2621,7 @@
         },
         {
           "file": "src\\timeseries\\gorilla.cpp",
-          "line": 163,
+          "line": 161,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(kGorillaCurrentVersion);",
@@ -2621,7 +2630,7 @@
         },
         {
           "file": "src\\timeseries\\gorilla.cpp",
-          "line": 162,
+          "line": 160,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(kGorillaMagic1);",
@@ -2630,7 +2639,7 @@
         },
         {
           "file": "src\\timeseries\\gorilla.cpp",
-          "line": 161,
+          "line": 159,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(kGorillaMagic0);",
@@ -2639,7 +2648,7 @@
         },
         {
           "file": "src\\timeseries\\gorilla.cpp",
-          "line": 88,
+          "line": 86,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "buf_.push_back(cur_);",
@@ -2648,7 +2657,7 @@
         },
         {
           "file": "src\\timeseries\\gorilla.cpp",
-          "line": 78,
+          "line": 76,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "buf_.push_back(static_cast<uint8_t>(v & 0x7FUL));",
@@ -2657,7 +2666,7 @@
         },
         {
           "file": "src\\timeseries\\gorilla.cpp",
-          "line": 75,
+          "line": 73,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "buf_.push_back(static_cast<uint8_t>(v & 0x7FUL) | 0x80U);",
@@ -2670,7 +2679,7 @@
           "gap_type": "broken_raii_in_assignment",
           "severity": "CRITICAL",
           "file_path": "src\\timeseries\\gorilla_simd.cpp",
-          "line_number": 356,
+          "line_number": 354,
           "class_name": "",
           "issue": "Mismatched new/delete or new[]/delete[]",
           "reason": "Broken RAII: undefined behavior and memory corruption",
@@ -2682,7 +2691,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\gorilla_simd.cpp",
-          "line_number": 301,
+          "line_number": 299,
           "line_content": "alignas(32) uint64_t xors_buf[kBatchSize] = {};",
           "context": [
             "    static constexpr int kBatchSize = 4;",
@@ -2701,7 +2710,7 @@
         },
         {
           "file": "src\\timeseries\\gorilla_simd.cpp",
-          "line": 257,
+          "line": 255,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -2715,7 +2724,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\gorilla_simd.cpp",
-          "line_number": 300,
+          "line_number": 298,
           "line_content": "alignas(32) int64_t  dods_buf[kBatchSize] = {};",
           "context": [
             "    // These are stack-allocated and stay in registers/L1 cache throughout.",
@@ -2734,7 +2743,7 @@
         },
         {
           "file": "src\\timeseries\\gorilla_simd.cpp",
-          "line": 361,
+          "line": 359,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2748,7 +2757,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\gorilla_simd.cpp",
-          "line_number": 367,
+          "line_number": 365,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2760,7 +2769,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\timeseries\\gorilla_simd.cpp",
-          "line_number": 366,
+          "line_number": 364,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2770,7 +2779,7 @@
         },
         {
           "file": "src\\timeseries\\gorilla_simd.cpp",
-          "line": 247,
+          "line": 245,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.push_back(*p);",
@@ -2781,7 +2790,7 @@
       "src\\timeseries\\retention.cpp": [
         {
           "file": "src\\timeseries\\retention.cpp",
-          "line": 99,
+          "line": 97,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::mutex> lock(async_mutex_);",

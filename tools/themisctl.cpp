@@ -62,7 +62,9 @@
  *   index recommend [table]      Show automatic index recommendations
  *   chat [options] <prompt>      Chat mode via LLM or RAG
  *   agent [options] <task>       Agent mode with planning response
- *   rag query [--collection C] [--top-k N] [--lora ID] <question>
+ *   rag query [--collection C] [--top-k N] [--lora ID]
+ *             [--rag-mode text|iterative|map_reduce]
+ *             [--response-budget-tokens N] [--max-tokens N] <question>
  *                                AgenticRAG natural-language query
  *   repl                         Start interactive REPL (with history)
  *
@@ -74,6 +76,7 @@
  */
 
 #include <algorithm>
+#include <array>
 #include <cctype>
 #include <fstream>
 #include <cstdlib>
@@ -1647,7 +1650,9 @@ static int cmdIndex(const std::vector<std::string>& args) {
 
 // ── rag ───────────────────────────────────────────────────────────────────────
 //
-// rag query [--collection <name>] [--top-k <n>] [--lora <id>] <nl-question>
+// rag query [--collection <name>] [--top-k <n>] [--lora <id>]
+//           [--rag-mode <text|iterative|map_reduce>] [--response-budget-tokens <n>]
+//           [--max-tokens <n>] <nl-question>
 //
 // Sends a natural-language question to the server's AgenticRAG endpoint
 // (POST /api/v1/llm/rag) and displays the generated answer together with
@@ -1658,7 +1663,8 @@ static int cmdIndex(const std::vector<std::string>& args) {
 //
 // Note: The endpoint mirrors the server-side LLMApiHandler::handleRAG()
 //   request format: {"query": "...", "collection": "...", "top_k": N,
-//   "lora_adapter": "..."}.  Response fields: "text", "query",
+//   "lora_adapter": "...", "rag_mode": "...", "response_budget_tokens": N,
+//   "max_tokens": N}. Response fields: "text", "query",
 //   "documents_retrieved", "tokens_generated", "inference_time_ms", "cache_hit".
 
 struct LlmRequestOptions {
@@ -2119,10 +2125,13 @@ static int cmdAgent(const std::vector<std::string>& args) {
 }
 
 static int cmdRag(const std::vector<std::string>& args) {
-    // Usage: rag query [--collection C] [--top-k N] [--lora ID] <question...>
+    // Usage: rag query [--collection C] [--top-k N] [--lora ID]
+    //                  [--rag-mode MODE] [--response-budget-tokens N]
+    //                  [--max-tokens N] <question...>
     if (args.empty() || args[0] != "query") {
         std::cerr << "Usage: themisctl rag query [--collection <name>] "
-                     "[--top-k <n>] [--lora <adapter-id>] <nl-question>\n";
+                     "[--top-k <n>] [--lora <adapter-id>] [--rag-mode <mode>] "
+                     "[--response-budget-tokens <n>] [--max-tokens <n>] <nl-question>\n";
         return 2;
     }
 
@@ -2130,6 +2139,9 @@ static int cmdRag(const std::vector<std::string>& args) {
     std::string collection;
     int         top_k = 5;
     std::string lora_id;
+    std::string rag_mode = "text";
+    int         response_budget_tokens = 512;
+    int         max_tokens = 256;
     std::vector<std::string> question_parts;
 
     for (size_t i = 1; i < args.size(); ++i) {
@@ -2143,16 +2155,54 @@ static int cmdRag(const std::vector<std::string>& args) {
             }
         } else if (args[i] == "--lora" && i + 1 < args.size()) {
             lora_id = args[++i];
+        } else if (args[i] == "--rag-mode" && i + 1 < args.size()) {
+            rag_mode = args[++i];
+            std::transform(
+                rag_mode.begin(),
+                rag_mode.end(),
+                rag_mode.begin(),
+                [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+            std::replace(rag_mode.begin(), rag_mode.end(), '-', '_');
+            if (rag_mode == "mapreduce") {
+                rag_mode = "map_reduce";
+            }
+        } else if (args[i] == "--response-budget-tokens" && i + 1 < args.size()) {
+            try { response_budget_tokens = std::stoi(args[++i]); }
+            catch (...) {
+                std::cerr << "[" << fail() << "] --response-budget-tokens requires an integer\n";
+                return 2;
+            }
+        } else if (args[i] == "--max-tokens" && i + 1 < args.size()) {
+            try { max_tokens = std::stoi(args[++i]); }
+            catch (...) {
+                std::cerr << "[" << fail() << "] --max-tokens requires an integer\n";
+                return 2;
+            }
         } else {
             // Remaining tokens form the natural-language question.
             for (; i < args.size(); ++i) question_parts.push_back(args[i]);
         }
     }
 
+    {
+        static constexpr std::array<const char*, 3> kAllowedRagModes = {
+            "text", "iterative", "map_reduce"
+        };
+        const bool rag_mode_ok = std::any_of(
+            kAllowedRagModes.begin(),
+            kAllowedRagModes.end(),
+            [&](const char* allowed) { return rag_mode == allowed; });
+        if (!rag_mode_ok) {
+            std::cerr << "[" << fail() << "] --rag-mode must be one of: text, iterative, map_reduce\n";
+            return 2;
+        }
+    }
+
     if (question_parts.empty()) {
         std::cerr << "[" << fail() << "] No question provided.\n"
                   << "Usage: themisctl rag query [--collection <name>] "
-                     "[--top-k <n>] [--lora <adapter-id>] <nl-question>\n";
+                     "[--top-k <n>] [--lora <adapter-id>] [--rag-mode <mode>] "
+                     "[--response-budget-tokens <n>] [--max-tokens <n>] <nl-question>\n";
         return 2;
     }
 
@@ -2169,6 +2219,9 @@ static int cmdRag(const std::vector<std::string>& args) {
     if (!collection.empty()) req_body["collection"] = collection;
     req_body["top_k"] = top_k;
     if (!lora_id.empty()) req_body["lora_adapter"] = lora_id;
+    req_body["rag_mode"] = rag_mode;
+    req_body["response_budget_tokens"] = response_budget_tokens;
+    req_body["max_tokens"] = max_tokens;
 
     Response r = httpPost("/api/v1/llm/rag", req_body.dump());
     if (r.status == -1) {
@@ -2468,6 +2521,7 @@ static void printHelp(const char* prog) {
         << "  " << prog << " --json agent --collection demo_articles --top-k 5 Analyze transaction risk\n"
         << "  " << prog << " rag query 'Welche Unterlagen fehlen für den Bauantrag?'\n"
         << "  " << prog << " rag query --collection procs --top-k 10 What is the next step?\n"
+        << "  " << prog << " rag query --collection procs --rag-mode iterative --response-budget-tokens 400 --max-tokens 64 Summarize next actions\n"
         << "  " << prog << " repl\n";
 
     std::cout << "\n" << col(Color::Bold, "Generated endpoints (live from server)") << ":\n";

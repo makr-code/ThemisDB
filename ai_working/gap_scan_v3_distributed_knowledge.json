@@ -19,7 +19,7 @@
       "src\\distributed_knowledge\\lora_federation_coordinator.cpp": [
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 479,
+          "line": 480,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -31,7 +31,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 474,
+          "line": 475,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -43,7 +43,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 433,
+          "line": 434,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -57,7 +57,7 @@
           "gap_type": "exception_in_destructor",
           "severity": "CRITICAL",
           "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line_number": 56,
+          "line_number": 57,
           "class_name": "",
           "issue": "Potential exception in destructor",
           "reason": "Destructors must be noexcept; exceptions here cause std::terminate()",
@@ -67,7 +67,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 535,
+          "line": 536,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -79,7 +79,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 267,
+          "line": 268,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -91,7 +91,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 106,
+          "line": 107,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -103,7 +103,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 323,
+          "line": 324,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -117,7 +117,7 @@
           "gap_type": "missing_move_constructor_defaulted",
           "severity": "MEDIUM",
           "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line_number": 349,
+          "line_number": 350,
           "class_name": "",
           "issue": "Copy constructor exists but no move constructor (Rule of Five)",
           "reason": "Missing move ctor prevents efficient rvalue transfers",
@@ -129,7 +129,7 @@
           "gap_type": "missing_move_constructor_defaulted",
           "severity": "MEDIUM",
           "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line_number": 127,
+          "line_number": 128,
           "class_name": "",
           "issue": "Copy constructor exists but no move constructor (Rule of Five)",
           "reason": "Missing move ctor prevents efficient rvalue transfers",
@@ -139,7 +139,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 536,
+          "line": 537,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "norms.push_back(l2norm(grad.data));",
@@ -148,7 +148,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 268,
+          "line": 269,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "vals.push_back(v);",
@@ -157,7 +157,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 132,
+          "line": 133,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -166,7 +166,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 522,
+          "line": 523,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "for (const auto &[key, val] : data.items()) {",
@@ -175,7 +175,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 520,
+          "line": 521,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto l2norm = [](const nlohmann::json &data) -> double {",
@@ -184,7 +184,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 517,
+          "line": 518,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "return [z_threshold](const EncryptedGradient &candidate,",
@@ -193,7 +193,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 475,
+          "line": 476,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"LoRAFederationCoordinator::triggerAggregation: federation round \"",
@@ -202,7 +202,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 474,
+          "line": 475,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "if (timeout_ms == 0 || future.wait_for(std::chrono::milliseconds(timeout_ms)) != std::future_status:",
@@ -211,7 +211,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 452,
+          "line": 453,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
@@ -220,7 +220,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 447,
+          "line": 448,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
@@ -229,7 +229,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 360,
+          "line": 361,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
@@ -238,7 +238,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 355,
+          "line": 356,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
@@ -247,7 +247,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 350,
+          "line": 351,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
@@ -256,7 +256,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 292,
+          "line": 293,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"NaN detected in gradient data for round \" + std::to_string(current_round_)",
@@ -265,7 +265,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 236,
+          "line": 237,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"LoRAFederationCoordinator::doAggregation: insufficient \"",
@@ -274,7 +274,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 179,
+          "line": 180,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"LoRAFederationCoordinator::triggerAggregation: insufficient \"",
@@ -283,7 +283,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 170,
+          "line": 171,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"LoRAFederationCoordinator::triggerAggregation: Cross-border \"",
@@ -292,7 +292,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 154,
+          "line": 155,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"LoRAFederationCoordinator::triggerAggregation: DP budget exhausted \"",
@@ -301,7 +301,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 52,
+          "line": 53,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LoRAFederationCoordinator: invalid FederationConfig\");",
@@ -310,7 +310,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 226,
+          "line": 227,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "for (auto it = pending_gradients_.begin(); it != pending_gradients_.end();) {",
@@ -323,7 +323,7 @@
           "gap_type": "exception_in_destructor",
           "severity": "CRITICAL",
           "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
-          "line_number": 44,
+          "line_number": 45,
           "class_name": "",
           "issue": "Potential exception in destructor",
           "reason": "Destructors must be noexcept; exceptions here cause std::terminate()",
@@ -333,7 +333,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
-          "line": 81,
+          "line": 82,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -342,7 +342,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
-          "line": 163,
+          "line": 164,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
@@ -351,7 +351,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
-          "line": 158,
+          "line": 159,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
@@ -360,7 +360,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
-          "line": 153,
+          "line": 154,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
@@ -369,7 +369,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
-          "line": 107,
+          "line": 108,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -378,7 +378,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
-          "line": 56,
+          "line": 57,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -387,7 +387,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
-          "line": 39,
+          "line": 40,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -398,7 +398,7 @@
       "src\\distributed_knowledge\\federated_distillation_coordinator.cpp": [
         {
           "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 334,
+          "line": 335,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -410,7 +410,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 333,
+          "line": 334,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -422,7 +422,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 278,
+          "line": 279,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -434,7 +434,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 112,
+          "line": 113,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -446,7 +446,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 88,
+          "line": 89,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -460,7 +460,7 @@
           "gap_type": "exception_in_destructor",
           "severity": "CRITICAL",
           "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line_number": 73,
+          "line_number": 74,
           "class_name": "",
           "issue": "Potential exception in destructor",
           "reason": "Destructors must be noexcept; exceptions here cause std::terminate()",
@@ -470,7 +470,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 40,
+          "line": 41,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -484,7 +484,7 @@
           "gap_type": "missing_move_constructor_defaulted",
           "severity": "MEDIUM",
           "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line_number": 207,
+          "line_number": 208,
           "class_name": "",
           "issue": "Copy constructor exists but no move constructor (Rule of Five)",
           "reason": "Missing move ctor prevents efficient rvalue transfers",
@@ -494,7 +494,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 228,
+          "line": 229,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -503,7 +503,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 223,
+          "line": 224,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -512,7 +512,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 212,
+          "line": 213,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"registerStudent: callback must not be null\");",
@@ -521,7 +521,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 209,
+          "line": 210,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"registerStudent: student_id must not be empty\");",
@@ -530,7 +530,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 175,
+          "line": 176,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -539,7 +539,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 170,
+          "line": 171,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -548,7 +548,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 119,
+          "line": 120,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Policy gate rejected distillation broadcast\");",
@@ -557,7 +557,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 113,
+          "line": 114,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"FederatedDistillationCoordinator: DP privacy budget exhausted\");",
@@ -566,7 +566,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 110,
+          "line": 111,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"broadcastToStudents: no soft labels submitted for this round\");",
@@ -575,7 +575,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 89,
+          "line": 90,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"FederatedDistillationCoordinator: DP privacy budget exhausted\");",
@@ -584,7 +584,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 86,
+          "line": 87,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"submitSoftLabels: teacher_id must not be empty\");",
@@ -593,7 +593,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 83,
+          "line": 84,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"submitSoftLabels: labels must not be empty\");",
@@ -602,7 +602,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 69,
+          "line": 70,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"FederatedDistillationCoordinator: invalid DistillationConfig\");",
@@ -611,7 +611,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 350,
+          "line": 351,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "card.teacher_id           = last_round_.has_value() ? last_round_->teacher_id : pending_teacher_id_;",
@@ -622,7 +622,7 @@
       "src\\distributed_knowledge\\federated_rag_merger.cpp": [
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 286,
+          "line": 287,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -634,7 +634,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 283,
+          "line": 284,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -646,7 +646,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 280,
+          "line": 281,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -658,7 +658,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 277,
+          "line": 278,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -670,7 +670,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 247,
+          "line": 248,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -682,7 +682,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 243,
+          "line": 244,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -694,7 +694,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 218,
+          "line": 219,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -706,7 +706,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 199,
+          "line": 200,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -718,7 +718,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 182,
+          "line": 183,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -730,7 +730,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 154,
+          "line": 155,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -742,7 +742,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 126,
+          "line": 127,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -754,7 +754,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 125,
+          "line": 126,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -766,7 +766,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 123,
+          "line": 124,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -778,7 +778,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 122,
+          "line": 123,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -790,7 +790,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 120,
+          "line": 121,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -802,7 +802,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 119,
+          "line": 120,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -814,7 +814,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 117,
+          "line": 118,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -826,7 +826,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 87,
+          "line": 88,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -838,7 +838,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 37,
+          "line": 38,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -850,7 +850,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 34,
+          "line": 35,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -862,7 +862,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 23,
+          "line": 24,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -874,7 +874,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 15,
+          "line": 16,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -886,7 +886,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 13,
+          "line": 14,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -898,7 +898,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 12,
+          "line": 13,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -915,14 +915,14 @@
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
           "description": "Concurrent update without version vector or causal ordering",
-          "context": "* ThemisDB | File: federated_rag_merger.cpp | Version: 0.0.1",
+          "context": "* ThemisDB | File: federated_rag_merger.cpp | Version: 0.0.1 | Last Modified: 2026-05-21 16:50:40",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 286,
+          "line": 287,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -934,7 +934,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 283,
+          "line": 284,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -946,7 +946,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 280,
+          "line": 281,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -958,7 +958,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 277,
+          "line": 278,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -970,7 +970,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 264,
+          "line": 265,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -982,7 +982,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 257,
+          "line": 258,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -994,7 +994,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 251,
+          "line": 252,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1006,7 +1006,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 247,
+          "line": 248,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1018,7 +1018,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 243,
+          "line": 244,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1030,7 +1030,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 235,
+          "line": 236,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1042,7 +1042,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 231,
+          "line": 232,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1054,7 +1054,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 227,
+          "line": 228,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1066,7 +1066,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 224,
+          "line": 225,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1078,7 +1078,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 222,
+          "line": 223,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1090,7 +1090,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 219,
+          "line": 220,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1102,7 +1102,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 218,
+          "line": 219,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1114,7 +1114,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 199,
+          "line": 200,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1126,7 +1126,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 195,
+          "line": 196,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1138,7 +1138,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 191,
+          "line": 192,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1150,7 +1150,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 188,
+          "line": 189,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1162,7 +1162,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 186,
+          "line": 187,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1174,7 +1174,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 183,
+          "line": 184,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1186,7 +1186,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 182,
+          "line": 183,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1198,7 +1198,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 154,
+          "line": 155,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1210,7 +1210,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 151,
+          "line": 152,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1222,7 +1222,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 147,
+          "line": 148,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1234,7 +1234,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 145,
+          "line": 146,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1246,7 +1246,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 141,
+          "line": 142,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1258,7 +1258,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 138,
+          "line": 139,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1270,7 +1270,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 137,
+          "line": 138,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1282,7 +1282,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 134,
+          "line": 135,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1294,7 +1294,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 132,
+          "line": 133,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1306,7 +1306,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 126,
+          "line": 127,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1318,7 +1318,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 125,
+          "line": 126,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1330,7 +1330,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 123,
+          "line": 124,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1342,7 +1342,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 122,
+          "line": 123,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1354,7 +1354,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 120,
+          "line": 121,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1366,7 +1366,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 119,
+          "line": 120,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1378,7 +1378,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 117,
+          "line": 118,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1390,7 +1390,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 116,
+          "line": 117,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1402,7 +1402,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 108,
+          "line": 109,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1414,7 +1414,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 104,
+          "line": 105,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1426,7 +1426,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 87,
+          "line": 88,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1438,7 +1438,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 84,
+          "line": 85,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1450,7 +1450,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 79,
+          "line": 80,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1462,7 +1462,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 77,
+          "line": 78,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1474,7 +1474,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 74,
+          "line": 75,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1486,7 +1486,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 37,
+          "line": 38,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1498,7 +1498,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 34,
+          "line": 35,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1510,7 +1510,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 23,
+          "line": 24,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1522,7 +1522,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 15,
+          "line": 16,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1534,7 +1534,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 13,
+          "line": 14,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1546,7 +1546,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 12,
+          "line": 13,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1563,14 +1563,14 @@
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
           "description": "Merge without explicit conflict resolution strategy",
-          "context": "* ThemisDB | File: federated_rag_merger.cpp | Version: 0.0.1",
+          "context": "* ThemisDB | File: federated_rag_merger.cpp | Version: 0.0.1 | Last Modified: 2026-05-21 16:50:40",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 269,
+          "line": 270,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1582,7 +1582,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 238,
+          "line": 239,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1594,7 +1594,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 221,
+          "line": 222,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1606,7 +1606,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 185,
+          "line": 186,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1618,7 +1618,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 51,
+          "line": 52,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -1630,7 +1630,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 265,
+          "line": 266,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1642,7 +1642,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 201,
+          "line": 202,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1654,7 +1654,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 200,
+          "line": 201,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1666,7 +1666,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 157,
+          "line": 158,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1678,7 +1678,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 156,
+          "line": 157,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1690,7 +1690,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 270,
+          "line": 271,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(doc));",
@@ -1699,7 +1699,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 251,
+          "line": 252,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "merged.push_back((*list)[pos]);",
@@ -1708,7 +1708,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 239,
+          "line": 240,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "lists.push_back(&sr.documents);",
@@ -1717,7 +1717,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 222,
+          "line": 223,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "merged.push_back(std::move(doc));",
@@ -1726,7 +1726,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 186,
+          "line": 187,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "merged.push_back(std::move(doc));",
@@ -1735,7 +1735,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 99,
+          "line": 100,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"all shards timed out\");",
@@ -1744,7 +1744,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 91,
+          "line": 92,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"all shards timed out\");",
@@ -1753,7 +1753,7 @@
         },
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 79,
+          "line": 80,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"FederatedRAGMerger: invalid config\");",

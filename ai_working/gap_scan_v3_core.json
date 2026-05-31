@@ -1,8 +1,8 @@
 {
   "core": {
-    "total": 126,
+    "total": 129,
     "severity_critical": 3,
-    "severity_high": 76,
+    "severity_high": 79,
     "severity_medium": 47,
     "by_category": {
       "security": 1,
@@ -10,7 +10,7 @@
       "reliability": 38,
       "concurrency": 1,
       "raii": 8,
-      "container": 5,
+      "container": 8,
       "platform": 3,
       "performance": 28,
       "exception_safety": 8,
@@ -25,7 +25,7 @@
       "src\\core\\concerns\\redis_cache.cpp": [
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 1005,
+          "line": 1006,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -37,7 +37,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 995,
+          "line": 996,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -49,7 +49,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 984,
+          "line": 985,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -61,7 +61,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 958,
+          "line": 959,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -73,7 +73,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 900,
+          "line": 901,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -85,7 +85,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 783,
+          "line": 784,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -97,7 +97,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 706,
+          "line": 707,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -109,7 +109,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 696,
+          "line": 697,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -121,7 +121,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 539,
+          "line": 540,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -133,7 +133,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 15,
+          "line": 16,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -145,7 +145,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 904,
+          "line": 905,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -157,7 +157,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 439,
+          "line": 440,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -169,7 +169,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 166,
+          "line": 167,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -183,7 +183,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\core\\concerns\\redis_cache.cpp",
-          "line_number": 729,
+          "line_number": 730,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -193,7 +193,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 905,
+          "line": 906,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "parts.push_back(std::move(elem));",
@@ -202,7 +202,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 444,
+          "line": 445,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "cmd += \"\\r\\n\";",
@@ -211,7 +211,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 442,
+          "line": 443,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "cmd += \"\\r\\n\";",
@@ -220,7 +220,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 440,
+          "line": 441,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "cmd += '$';",
@@ -229,7 +229,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 167,
+          "line": 168,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "nodes_.push_back(std::move(nc));",
@@ -238,7 +238,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 128,
+          "line": 129,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(fd);",
@@ -247,7 +247,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 120,
+          "line": 121,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "cfg.nodes.push_back(\"127.0.0.1:6379\");",
@@ -256,7 +256,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 116,
+          "line": 117,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "cfg.nodes.push_back(token);",
@@ -265,7 +265,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 1006,
+          "line": 1007,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(nc->mutex);",
@@ -274,7 +274,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 985,
+          "line": 986,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(nc->mutex);",
@@ -283,7 +283,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 824,
+          "line": 825,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(kSleepSliceMs));",
@@ -292,7 +292,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 803,
+          "line": 804,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (stop_.load(std::memory_order_acquire) || config_.invalidation_channel.empty() || nodes_.empty())",
@@ -301,7 +301,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 709,
+          "line": 710,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(nc->mutex);",
@@ -310,7 +310,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 508,
+          "line": 509,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "ssize_t n = ::recv(fd, &data[received], static_cast<size_t>(len) - received, 0);",
@@ -319,7 +319,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 502,
+          "line": 503,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "int n = ::recv(static_cast<SOCKET>(fd), &data[received],",
@@ -328,7 +328,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 387,
+          "line": 388,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "ssize_t n = ::recv(fd, &ch, 1, 0);",
@@ -337,7 +337,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 382,
+          "line": 383,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "int n = ::recv(static_cast<SOCKET>(fd), &ch, 1, 0);",
@@ -346,7 +346,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 367,
+          "line": 368,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "ssize_t sent = ::send(fd, buf.data() + total, buf.size() - total, MSG_NOSIGNAL);",
@@ -355,7 +355,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 362,
+          "line": 363,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "int sent = ::send(static_cast<SOCKET>(fd), buf.data() + total, static_cast<int>(buf.size() - total),",
@@ -364,7 +364,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 317,
+          "line": 318,
           "type": "posix_only_api",
           "severity": "HIGH",
           "snippet": "const int sel = ::select(0, nullptr, &wfds, nullptr, &tv);",
@@ -373,7 +373,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 291,
+          "line": 292,
           "type": "posix_only_api",
           "severity": "HIGH",
           "snippet": "if (::select(fd + 1, nullptr, &wfds, nullptr, &tv) > 0) {",
@@ -382,7 +382,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 275,
+          "line": 276,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "int rv = ::connect(fd,",
@@ -391,7 +391,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 272,
+          "line": 273,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "::ioctlsocket(static_cast<SOCKET>(fd), FIONBIO, &non_blocking);",
@@ -400,7 +400,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 262,
+          "line": 263,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "fd = ::socket(p->ai_family, p->ai_socktype, p->ai_protocol);",
@@ -409,7 +409,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 256,
+          "line": 257,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "SOCKET s = ::socket(p->ai_family, p->ai_socktype, p->ai_protocol);",
@@ -418,7 +418,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 254,
+          "line": 255,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "for (auto *p = res; p != nullptr; p = p->ai_next) {",
@@ -427,7 +427,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 254,
+          "line": 255,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "for (auto *p = res; p != nullptr; p = p->ai_next) {",
@@ -436,7 +436,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 135,
+          "line": 136,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "::closesocket(static_cast<SOCKET>(fd));",
@@ -445,7 +445,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 314,
+          "line": 315,
           "type": "missing_dtor",
           "severity": "CRITICAL",
           "snippet": "class/struct timeval",
@@ -454,7 +454,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 288,
+          "line": 289,
           "type": "missing_dtor",
           "severity": "CRITICAL",
           "snippet": "class/struct timeval",
@@ -463,7 +463,7 @@
         },
         {
           "file": "src\\core\\concerns\\redis_cache.cpp",
-          "line": 244,
+          "line": 245,
           "type": "missing_dtor",
           "severity": "CRITICAL",
           "snippet": "class/struct addrinfo",
@@ -474,7 +474,7 @@
       "src\\core\\security_initialization.cpp": [
         {
           "file": "src\\core\\security_initialization.cpp",
-          "line": 325,
+          "line": 334,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Unknown key provider type\");",
@@ -483,7 +483,7 @@
         },
         {
           "file": "src\\core\\security_initialization.cpp",
-          "line": 320,
+          "line": 329,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to initialize HSM key provider: \" + std::string(e.what()));",
@@ -492,7 +492,7 @@
         },
         {
           "file": "src\\core\\security_initialization.cpp",
-          "line": 315,
+          "line": 324,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"HSM provider initialization failed\");",
@@ -501,7 +501,7 @@
         },
         {
           "file": "src\\core\\security_initialization.cpp",
-          "line": 289,
+          "line": 298,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"HSM key provider library_path does not point to an existing file: \" +",
@@ -510,7 +510,7 @@
         },
         {
           "file": "src\\core\\security_initialization.cpp",
-          "line": 282,
+          "line": 291,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"HSM key provider requires library_path in config\");",
@@ -519,7 +519,7 @@
         },
         {
           "file": "src\\core\\security_initialization.cpp",
-          "line": 259,
+          "line": 268,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -528,7 +528,7 @@
         },
         {
           "file": "src\\core\\security_initialization.cpp",
-          "line": 249,
+          "line": 258,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"VAULT key provider requires vault_addr and vault_token in config\");",
@@ -537,7 +537,7 @@
         },
         {
           "file": "src\\core\\security_initialization.cpp",
-          "line": 203,
+          "line": 212,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to open file: \" + path);",
@@ -546,7 +546,7 @@
         },
         {
           "file": "src\\core\\security_initialization.cpp",
-          "line": 181,
+          "line": 190,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -555,7 +555,7 @@
         },
         {
           "file": "src\\core\\security_initialization.cpp",
-          "line": 174,
+          "line": 183,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Invalid JWT configuration:\\n\" + validation.formatErrors());",
@@ -564,7 +564,7 @@
         },
         {
           "file": "src\\core\\security_initialization.cpp",
-          "line": 165,
+          "line": 174,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to load RBAC policy from: \" + rbac_policy_file_);",
@@ -573,7 +573,7 @@
         },
         {
           "file": "src\\core\\security_initialization.cpp",
-          "line": 144,
+          "line": 153,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Key provider does not implement KeyProvider interface\");",
@@ -582,7 +582,7 @@
         },
         {
           "file": "src\\core\\security_initialization.cpp",
-          "line": 130,
+          "line": 139,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -591,7 +591,7 @@
         },
         {
           "file": "src\\core\\security_initialization.cpp",
-          "line": 121,
+          "line": 130,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -604,7 +604,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\core\\concerns\\concerns_context.cpp",
-          "line_number": 455,
+          "line_number": 464,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -616,7 +616,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\core\\concerns\\concerns_context.cpp",
-          "line_number": 442,
+          "line_number": 451,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -628,7 +628,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\core\\concerns\\concerns_context.cpp",
-          "line_number": 429,
+          "line_number": 438,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -640,7 +640,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\core\\concerns\\concerns_context.cpp",
-          "line_number": 416,
+          "line_number": 425,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -652,7 +652,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\core\\concerns\\concerns_context.cpp",
-          "line_number": 403,
+          "line_number": 412,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -664,7 +664,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\core\\concerns\\concerns_context.cpp",
-          "line_number": 390,
+          "line_number": 399,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -676,7 +676,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\core\\concerns\\concerns_context.cpp",
-          "line_number": 374,
+          "line_number": 383,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -686,7 +686,7 @@
         },
         {
           "file": "src\\core\\concerns\\concerns_context.cpp",
-          "line": 456,
+          "line": 465,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ConcernsContext::replaceAuditLog: new_audit must not be nullptr\");",
@@ -695,7 +695,7 @@
         },
         {
           "file": "src\\core\\concerns\\concerns_context.cpp",
-          "line": 443,
+          "line": 452,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ConcernsContext::replaceFeatureFlags: new_ff must not be nullptr\");",
@@ -704,7 +704,7 @@
         },
         {
           "file": "src\\core\\concerns\\concerns_context.cpp",
-          "line": 430,
+          "line": 439,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ConcernsContext::replaceSecrets: new_secrets must not be nullptr\");",
@@ -713,7 +713,7 @@
         },
         {
           "file": "src\\core\\concerns\\concerns_context.cpp",
-          "line": 417,
+          "line": 426,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ConcernsContext::replaceCache: new_cache must not be nullptr\");",
@@ -722,7 +722,7 @@
         },
         {
           "file": "src\\core\\concerns\\concerns_context.cpp",
-          "line": 404,
+          "line": 413,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ConcernsContext::replaceMetrics: new_metrics must not be nullptr\");",
@@ -731,7 +731,7 @@
         },
         {
           "file": "src\\core\\concerns\\concerns_context.cpp",
-          "line": 391,
+          "line": 400,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ConcernsContext::replaceTracer: new_tracer must not be nullptr\");",
@@ -740,7 +740,7 @@
         },
         {
           "file": "src\\core\\concerns\\concerns_context.cpp",
-          "line": 375,
+          "line": 384,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ConcernsContext::replaceLogger: new_logger must not be nullptr\");",
@@ -749,7 +749,7 @@
         },
         {
           "file": "src\\core\\concerns\\concerns_context.cpp",
-          "line": 321,
+          "line": 330,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -758,7 +758,7 @@
         },
         {
           "file": "src\\core\\concerns\\concerns_context.cpp",
-          "line": 140,
+          "line": 149,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -767,7 +767,7 @@
         },
         {
           "file": "src\\core\\concerns\\concerns_context.cpp",
-          "line": 70,
+          "line": 79,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Invalid adapter configuration:\\n\" + adapter_validation.formatErrors());",
@@ -776,7 +776,7 @@
         },
         {
           "file": "src\\core\\concerns\\concerns_context.cpp",
-          "line": 60,
+          "line": 69,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Invalid cache configuration:\\n\" + cache_validation.formatErrors());",
@@ -785,7 +785,7 @@
         },
         {
           "file": "src\\core\\concerns\\concerns_context.cpp",
-          "line": 54,
+          "line": 63,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Invalid tracing configuration:\\n\" + trace_validation.formatErrors());",
@@ -794,18 +794,27 @@
         },
         {
           "file": "src\\core\\concerns\\concerns_context.cpp",
-          "line": 48,
+          "line": 57,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Invalid logging configuration:\\n\" + log_validation.formatErrors());",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\core\\concerns\\concerns_context.cpp",
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #5118 docs(core): rebaseline PROD... (2026-05-13) | #4379 [WIP] Update module",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
       "src\\core\\concerns\\lockfree_metrics.cpp": [
         {
           "file": "src\\core\\concerns\\lockfree_metrics.cpp",
-          "line": 368,
+          "line": 369,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -817,7 +826,7 @@
         },
         {
           "file": "src\\core\\concerns\\lockfree_metrics.cpp",
-          "line": 148,
+          "line": 149,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -829,7 +838,7 @@
         },
         {
           "file": "src\\core\\concerns\\lockfree_metrics.cpp",
-          "line": 268,
+          "line": 269,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -841,7 +850,7 @@
         },
         {
           "file": "src\\core\\concerns\\lockfree_metrics.cpp",
-          "line": 264,
+          "line": 265,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -853,7 +862,7 @@
         },
         {
           "file": "src\\core\\concerns\\lockfree_metrics.cpp",
-          "line": 272,
+          "line": 273,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "key += '=';",
@@ -862,7 +871,7 @@
         },
         {
           "file": "src\\core\\concerns\\lockfree_metrics.cpp",
-          "line": 269,
+          "line": 270,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "key += ',';",
@@ -871,7 +880,7 @@
         },
         {
           "file": "src\\core\\concerns\\lockfree_metrics.cpp",
-          "line": 406,
+          "line": 407,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "while (running_.load(std::memory_order_acquire)) {",
@@ -880,7 +889,7 @@
         },
         {
           "file": "src\\core\\concerns\\lockfree_metrics.cpp",
-          "line": 369,
+          "line": 370,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (!entry->alive.load(std::memory_order_acquire)) {",
@@ -889,7 +898,7 @@
         },
         {
           "file": "src\\core\\concerns\\lockfree_metrics.cpp",
-          "line": 334,
+          "line": 335,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (!slot || !slot->alive.load(std::memory_order_acquire)) {",
@@ -898,7 +907,7 @@
         },
         {
           "file": "src\\core\\concerns\\lockfree_metrics.cpp",
-          "line": 208,
+          "line": 209,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::shared_mutex> lock(counters_mu_);",
@@ -906,10 +915,32 @@
           "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
         }
       ],
+      "src\\core\\adapters\\otel_tracer.cpp": [
+        {
+          "file": "src\\core\\adapters\\otel_tracer.cpp",
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #2844 feat(core): add Prometheus ... (2026-03-12) | #2843 feat(core): impleme",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        }
+      ],
+      "src\\core\\concerns\\prometheus_metrics.cpp": [
+        {
+          "file": "src\\core\\concerns\\prometheus_metrics.cpp",
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #2844 feat(core): add Prometheus ... (2026-03-12) | #2843 feat(core): impleme",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        }
+      ],
       "src\\core\\concerns\\zero_copy_logger.cpp": [
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 351,
+          "line": 352,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -921,7 +952,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 304,
+          "line": 305,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -933,7 +964,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 150,
+          "line": 151,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -947,7 +978,7 @@
           "gap_type": "uninitialized_array",
           "severity": "HIGH",
           "file_path": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line_number": 320,
+          "line_number": 321,
           "var_name": "lower_buf",
           "context": "Array declared without initialization",
           "reason": "Array contains garbage values; use with zeros or explicit init",
@@ -957,7 +988,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 381,
+          "line": 382,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -969,7 +1000,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 363,
+          "line": 364,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -981,7 +1012,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 352,
+          "line": 353,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -993,7 +1024,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 286,
+          "line": 287,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -1005,7 +1036,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 176,
+          "line": 177,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -1017,7 +1048,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 162,
+          "line": 163,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -1029,7 +1060,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 188,
+          "line": 189,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -1041,7 +1072,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 128,
+          "line": 129,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -1053,7 +1084,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 117,
+          "line": 118,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -1065,7 +1096,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 104,
+          "line": 105,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -1077,7 +1108,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 56,
+          "line": 57,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -1089,7 +1120,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 45,
+          "line": 46,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -1101,7 +1132,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 386,
+          "line": 387,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "buf += \"[REDACTED]\";",
@@ -1110,7 +1141,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 384,
+          "line": 385,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "buf += '=';",
@@ -1119,7 +1150,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 382,
+          "line": 383,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "buf += ' ';",
@@ -1128,7 +1159,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 372,
+          "line": 373,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "buf += '\"';",
@@ -1137,7 +1168,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 368,
+          "line": 369,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "buf += \"[REDACTED]\";",
@@ -1146,7 +1177,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 366,
+          "line": 367,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "buf += \"\\\":\\\"\";",
@@ -1155,7 +1186,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 364,
+          "line": 365,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "buf += \",\\\"\";",
@@ -1164,7 +1195,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 304,
+          "line": 305,
           "type": "expensive_inner_op",
           "severity": "MEDIUM",
           "snippet": "std::snprintf(buf, sizeof(buf), \"\\\\u%04x\", c);",
@@ -1173,7 +1204,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 299,
+          "line": 300,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "out += \"\\\\t\";",
@@ -1182,7 +1213,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 296,
+          "line": 297,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "out += \"\\\\r\";",
@@ -1191,7 +1222,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 293,
+          "line": 294,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "out += \"\\\\n\";",
@@ -1200,7 +1231,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 290,
+          "line": 291,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "out += \"\\\\\\\\\";",
@@ -1209,7 +1240,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 287,
+          "line": 288,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "out += \"\\\\\\\"\";",
@@ -1218,7 +1249,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 181,
+          "line": 182,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "buf += \"[REDACTED]\";",
@@ -1227,7 +1258,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 179,
+          "line": 180,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "buf += '=';",
@@ -1236,7 +1267,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 177,
+          "line": 178,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "buf += ' ';",
@@ -1245,7 +1276,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 171,
+          "line": 172,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "buf += '\"';",
@@ -1254,7 +1285,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 167,
+          "line": 168,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "buf += \"[REDACTED]\";",
@@ -1263,7 +1294,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 165,
+          "line": 166,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "buf += \"\\\":\\\"\";",
@@ -1272,7 +1303,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 163,
+          "line": 164,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "buf += \",\\\"\";",
@@ -1281,7 +1312,7 @@
         },
         {
           "file": "src\\core\\concerns\\zero_copy_logger.cpp",
-          "line": 304,
+          "line": 305,
           "type": "size_assumption",
           "severity": "HIGH",
           "snippet": "std::snprintf(buf, sizeof(buf), \"\\\\u%04x\", c);",

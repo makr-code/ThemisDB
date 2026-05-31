@@ -1,8 +1,8 @@
 {
   "training": {
-    "total": 463,
+    "total": 464,
     "severity_critical": 83,
-    "severity_high": 212,
+    "severity_high": 213,
     "severity_medium": 168,
     "by_category": {
       "security": 9,
@@ -10,7 +10,7 @@
       "reliability": 68,
       "concurrency": 4,
       "raii": 13,
-      "container": 73,
+      "container": 74,
       "platform": 5,
       "performance": 28,
       "exception_safety": 18,
@@ -26,7 +26,7 @@
       "src\\training\\auto_labeler.cpp": [
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 690,
+          "line": 688,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -38,7 +38,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 689,
+          "line": 687,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -50,7 +50,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 690,
+          "line": 688,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -62,7 +62,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 689,
+          "line": 687,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -74,7 +74,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 509,
+          "line": 507,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -86,7 +86,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 509,
+          "line": 507,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -98,7 +98,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 477,
+          "line": 475,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -110,7 +110,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 467,
+          "line": 465,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -122,7 +122,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 458,
+          "line": 456,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -134,7 +134,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 421,
+          "line": 419,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -146,7 +146,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 383,
+          "line": 381,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -158,7 +158,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 378,
+          "line": 376,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -170,7 +170,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 287,
+          "line": 285,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -182,7 +182,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 276,
+          "line": 274,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -194,7 +194,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 243,
+          "line": 241,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -206,7 +206,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 514,
+          "line": 512,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\t': safe_id += \"\\\\t\";  break;",
@@ -215,7 +215,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 513,
+          "line": 511,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\r': safe_id += \"\\\\r\";  break;",
@@ -224,7 +224,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 512,
+          "line": 510,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\n': safe_id += \"\\\\n\";  break;",
@@ -233,7 +233,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 511,
+          "line": 509,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\"':  safe_id += \"\\\\\\\"\"; break;",
@@ -242,7 +242,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 510,
+          "line": 508,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\\\': safe_id += \"\\\\\\\\\"; break;",
@@ -251,19 +251,10 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 490,
+          "line": 488,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ids.push_back(item.get<std::string>());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\training\\auto_labeler.cpp",
-          "line": 483,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "ids.push_back(item[\"_key\"].get<std::string>());",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         },
@@ -272,13 +263,22 @@
           "line": 481,
           "type": "copy_overhead",
           "severity": "MEDIUM",
+          "snippet": "ids.push_back(item[\"_key\"].get<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 479,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
           "snippet": "ids.push_back(item[\"pk\"].get<std::string>());",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 478,
+          "line": 476,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ids.push_back(item.get<std::string>());",
@@ -287,7 +287,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 459,
+          "line": 457,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ids.push_back(entity.getPrimaryKey());",
@@ -296,7 +296,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 422,
+          "line": 420,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ids.push_back(entity.getPrimaryKey());",
@@ -305,7 +305,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 330,
+          "line": 328,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -314,7 +314,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 313,
+          "line": 311,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "batch.push_back(std::move(sample));",
@@ -323,7 +323,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 280,
+          "line": 278,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "samples.push_back(std::move(sample));",
@@ -332,7 +332,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 277,
+          "line": 275,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "samples.push_back(std::move(sample));",
@@ -341,7 +341,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 264,
+          "line": 262,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -350,7 +350,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 247,
+          "line": 245,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "samples.push_back(std::move(sample));",
@@ -359,7 +359,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 244,
+          "line": 242,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "samples.push_back(std::move(sample));",
@@ -368,7 +368,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 152,
+          "line": 150,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -377,7 +377,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 134,
+          "line": 132,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "batch.push_back(std::move(sample));",
@@ -386,7 +386,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 667,
+          "line": 665,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "while ((pos = query.find(token, pos)) != std::string::npos) {",
@@ -395,7 +395,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 537,
+          "line": 535,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& entity : fetchAllDocumentsDirect()) {",
@@ -404,7 +404,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 532,
+          "line": 530,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "doc_ptr->contains(\"text\") && (*doc_ptr)[\"text\"].is_string()) {",
@@ -413,7 +413,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 531,
+          "line": 529,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (doc_ptr && doc_ptr->is_object() &&",
@@ -422,7 +422,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 452,
+          "line": 450,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& entity : fetchAllDocumentsDirect()) {",
@@ -431,7 +431,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 434,
+          "line": 432,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "static const std::regex simple_key_query(",
@@ -440,7 +440,7 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 419,
+          "line": 417,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& entity : fetchAllDocumentsDirect()) {",
@@ -449,7 +449,16 @@
         },
         {
           "file": "src\\training\\auto_labeler.cpp",
-          "line": 666,
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #4519 [WIP] Update develo",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\training\\auto_labeler.cpp",
+          "line": 664,
           "type": "hardcoded_secret",
           "severity": "CRITICAL",
           "snippet": "std::string token = \"@\" + placeholder;",
@@ -460,7 +469,7 @@
       "src\\training\\incremental_lora_trainer.cpp": [
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1166,
+          "line": 1164,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -472,7 +481,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1085,
+          "line": 1083,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -484,7 +493,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1079,
+          "line": 1077,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -496,7 +505,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1077,
+          "line": 1075,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -508,7 +517,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1068,
+          "line": 1066,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -520,7 +529,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1061,
+          "line": 1059,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -532,7 +541,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1044,
+          "line": 1042,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -544,7 +553,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1028,
+          "line": 1026,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -556,7 +565,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1023,
+          "line": 1021,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -568,7 +577,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1021,
+          "line": 1019,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -580,7 +589,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1015,
+          "line": 1013,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -592,7 +601,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1011,
+          "line": 1009,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -604,7 +613,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1009,
+          "line": 1007,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -616,7 +625,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1003,
+          "line": 1001,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -628,7 +637,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1000,
+          "line": 998,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -640,7 +649,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 996,
+          "line": 994,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -652,7 +661,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 951,
+          "line": 949,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -664,7 +673,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 950,
+          "line": 948,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -676,7 +685,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 948,
+          "line": 946,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -688,7 +697,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 932,
+          "line": 930,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -700,7 +709,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 928,
+          "line": 926,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -712,7 +721,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 926,
+          "line": 924,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -724,7 +733,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 915,
+          "line": 913,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -736,7 +745,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 912,
+          "line": 910,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -748,7 +757,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 908,
+          "line": 906,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -760,7 +769,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 907,
+          "line": 905,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -772,7 +781,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 291,
+          "line": 289,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -784,7 +793,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 167,
+          "line": 165,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -796,7 +805,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 166,
+          "line": 164,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -808,7 +817,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 136,
+          "line": 134,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -820,7 +829,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1085,
+          "line": 1083,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -832,7 +841,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1085,
+          "line": 1083,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -844,23 +853,11 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1079,
+          "line": 1077,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
           "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "gpu_inputs.push_back(std::move(in_t));",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1079,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unsanitized_llm_input",
-          "description": "User input passed to LLM without normalization/sanitization",
           "context": "gpu_inputs.push_back(std::move(in_t));",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
@@ -873,6 +870,18 @@
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
+          "context": "gpu_inputs.push_back(std::move(in_t));",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\training\\incremental_lora_trainer.cpp",
+          "line": 1075,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
           "context": "in_t.upload(full_input.data()  + offset * feature_dim, rows * feature_dim);",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
@@ -880,7 +889,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1068,
+          "line": 1066,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -892,7 +901,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1068,
+          "line": 1066,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -904,7 +913,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1061,
+          "line": 1059,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -916,7 +925,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1044,
+          "line": 1042,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -928,7 +937,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1028,
+          "line": 1026,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -940,7 +949,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1023,
+          "line": 1021,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -952,7 +961,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1021,
+          "line": 1019,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -964,7 +973,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1015,
+          "line": 1013,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -976,7 +985,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1011,
+          "line": 1009,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -988,7 +997,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1009,
+          "line": 1007,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1000,7 +1009,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1003,
+          "line": 1001,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1012,7 +1021,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1000,
+          "line": 998,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1024,7 +1033,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 996,
+          "line": 994,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1036,7 +1045,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 951,
+          "line": 949,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1048,7 +1057,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 950,
+          "line": 948,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1060,7 +1069,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 948,
+          "line": 946,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1072,7 +1081,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 932,
+          "line": 930,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1084,7 +1093,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 928,
+          "line": 926,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1096,7 +1105,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 926,
+          "line": 924,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1108,7 +1117,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 915,
+          "line": 913,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1120,7 +1129,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 912,
+          "line": 910,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1132,7 +1141,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 908,
+          "line": 906,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1144,7 +1153,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 907,
+          "line": 905,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1156,7 +1165,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 386,
+          "line": 384,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -1168,7 +1177,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 167,
+          "line": 165,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1180,7 +1189,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 166,
+          "line": 164,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1192,7 +1201,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 136,
+          "line": 134,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1204,7 +1213,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1348,
+          "line": 1346,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -1216,7 +1225,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1336,
+          "line": 1334,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -1228,7 +1237,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 555,
+          "line": 553,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -1240,7 +1249,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1078,
+          "line": 1076,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1252,7 +1261,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1078,
+          "line": 1076,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1264,7 +1273,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 445,
+          "line": 443,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1276,7 +1285,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 431,
+          "line": 429,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1290,7 +1299,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\training\\incremental_lora_trainer.cpp",
-          "line_number": 544,
+          "line_number": 542,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1300,7 +1309,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1393,
+          "line": 1391,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1309,7 +1318,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1197,
+          "line": 1195,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1318,7 +1327,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1159,
+          "line": 1157,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "f.close();",
@@ -1327,7 +1336,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1080,
+          "line": 1078,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "gpu_targets.push_back(std::move(tg_t));",
@@ -1336,7 +1345,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1079,
+          "line": 1077,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "gpu_inputs.push_back(std::move(in_t));",
@@ -1345,7 +1354,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 811,
+          "line": 809,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1354,7 +1363,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 793,
+          "line": 791,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1363,7 +1372,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 432,
+          "line": 430,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "versions.push_back(ver);",
@@ -1372,7 +1381,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 191,
+          "line": 189,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "metrics_.step_losses.push_back(step_loss);",
@@ -1381,7 +1390,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1315,
+          "line": 1313,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "checkpoint_manager_->save(prefix + \"_weights.bin\", meta);",
@@ -1390,7 +1399,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1225,
+          "line": 1223,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Quantization block_size must be positive\");",
@@ -1399,7 +1408,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1223,
+          "line": 1221,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"sync_steps must be at least 1\");",
@@ -1408,7 +1417,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1221,
+          "line": 1219,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"num_gpus must be at least 1\");",
@@ -1417,7 +1426,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1219,
+          "line": 1217,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Batch size must be positive\");",
@@ -1426,7 +1435,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1217,
+          "line": 1215,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Learning rate must be positive\");",
@@ -1435,7 +1444,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1215,
+          "line": 1213,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LoRA alpha must be positive\");",
@@ -1444,7 +1453,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1213,
+          "line": 1211,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LoRA rank must be positive\");",
@@ -1453,7 +1462,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1139,
+          "line": 1137,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::overflow_error(",
@@ -1462,7 +1471,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1016,
+          "line": 1014,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "target_data[b * feature_dim + fd] = target_vec[fd];",
@@ -1471,7 +1480,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1015,
+          "line": 1013,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "input_data [b * feature_dim + fd] = input_vec[fd];",
@@ -1480,7 +1489,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 540,
+          "line": 538,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "data_map[layer] = sum / static_cast<double>(gradient_update_count_);",
@@ -1489,7 +1498,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 529,
+          "line": 527,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"no training since last export\");",
@@ -1498,7 +1507,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 522,
+          "line": 520,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Federated learning rate must be positive\");",
@@ -1507,7 +1516,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 472,
+          "line": 470,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (learning_rate <= 0.0f) throw std::invalid_argument(\"Learning rate must be positive\");",
@@ -1516,7 +1525,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 471,
+          "line": 469,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (alpha <= 0.0f) throw std::invalid_argument(\"LoRA alpha must be positive\");",
@@ -1525,7 +1534,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 470,
+          "line": 468,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (rank <= 0) throw std::invalid_argument(\"LoRA rank must be positive\");",
@@ -1534,16 +1543,16 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #4519 [WIP] Update developer documentation for module training (2026-04-12T20:28:15Z)",
+          "snippet": "* PR History (last 5): #4519 [WIP] Update developer docu... (2026-04-12) | #3733 feat(training): imp",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1084,
+          "line": 1082,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "float avg_loss = multi_gpu_trainer_->train_step(*multi_gpu_layer_,",
@@ -1552,7 +1561,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 639,
+          "line": 637,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "const bool weight_set = llm_router_->setAdapterWeight(target_version, 1.0f);",
@@ -1561,7 +1570,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 618,
+          "line": 616,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "const bool weight_set = llm_router_->setAdapterWeight(adapter_version, traffic_split);",
@@ -1572,7 +1581,7 @@
       "src\\training\\lora_adapter_merger.cpp": [
         {
           "file": "src\\training\\lora_adapter_merger.cpp",
-          "line": 324,
+          "line": 322,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -1584,7 +1593,7 @@
         },
         {
           "file": "src\\training\\lora_adapter_merger.cpp",
-          "line": 388,
+          "line": 386,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1596,7 +1605,7 @@
         },
         {
           "file": "src\\training\\lora_adapter_merger.cpp",
-          "line": 388,
+          "line": 386,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1608,7 +1617,7 @@
         },
         {
           "file": "src\\training\\lora_adapter_merger.cpp",
-          "line": 388,
+          "line": 386,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1620,7 +1629,7 @@
         },
         {
           "file": "src\\training\\lora_adapter_merger.cpp",
-          "line": 234,
+          "line": 232,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1632,7 +1641,7 @@
         },
         {
           "file": "src\\training\\lora_adapter_merger.cpp",
-          "line": 234,
+          "line": 232,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1644,7 +1653,7 @@
         },
         {
           "file": "src\\training\\lora_adapter_merger.cpp",
-          "line": 234,
+          "line": 232,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1656,7 +1665,7 @@
         },
         {
           "file": "src\\training\\lora_adapter_merger.cpp",
-          "line": 395,
+          "line": 393,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.layers.push_back(std::move(lr));",
@@ -1665,7 +1674,7 @@
         },
         {
           "file": "src\\training\\lora_adapter_merger.cpp",
-          "line": 389,
+          "line": 387,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "descs.push_back({a, lname, 1.0f});",
@@ -1674,7 +1683,7 @@
         },
         {
           "file": "src\\training\\lora_adapter_merger.cpp",
-          "line": 240,
+          "line": 238,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.layers.push_back(std::move(lr));",
@@ -1683,7 +1692,7 @@
         },
         {
           "file": "src\\training\\lora_adapter_merger.cpp",
-          "line": 235,
+          "line": 233,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "descs.push_back({adapters[i], lname, weights[i]});",
@@ -1692,7 +1701,7 @@
         },
         {
           "file": "src\\training\\lora_adapter_merger.cpp",
-          "line": 382,
+          "line": 380,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const LoRAWeightEntry& ref = adapters[0]->getWeights(lname);",
@@ -1701,7 +1710,7 @@
         },
         {
           "file": "src\\training\\lora_adapter_merger.cpp",
-          "line": 228,
+          "line": 226,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const LoRAWeightEntry& ref_entry = adapters[0]->getWeights(lname);",
@@ -1710,10 +1719,10 @@
         },
         {
           "file": "src\\training\\lora_adapter_merger.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #5082 [Docs][training] Update module docs across src/include with API, ru... (2026-05-13T11:01",
+          "snippet": "* PR History (last 5): #5082 [Docs][training] Update mod... (2026-05-13) | #4405 [WIP] Add AdaLoRA i",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         }
@@ -1721,7 +1730,7 @@
       "src\\training\\provenance_tracker.cpp": [
         {
           "file": "src\\training\\provenance_tracker.cpp",
-          "line": 360,
+          "line": 358,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -1733,7 +1742,7 @@
         },
         {
           "file": "src\\training\\provenance_tracker.cpp",
-          "line": 360,
+          "line": 358,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -1745,7 +1754,7 @@
         },
         {
           "file": "src\\training\\provenance_tracker.cpp",
-          "line": 265,
+          "line": 263,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1757,7 +1766,7 @@
         },
         {
           "file": "src\\training\\provenance_tracker.cpp",
-          "line": 214,
+          "line": 212,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1769,7 +1778,7 @@
         },
         {
           "file": "src\\training\\provenance_tracker.cpp",
-          "line": 334,
+          "line": 332,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1781,7 +1790,7 @@
         },
         {
           "file": "src\\training\\provenance_tracker.cpp",
-          "line": 365,
+          "line": 363,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\t': out += \"\\\\t\";  break;",
@@ -1790,7 +1799,7 @@
         },
         {
           "file": "src\\training\\provenance_tracker.cpp",
-          "line": 364,
+          "line": 362,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\r': out += \"\\\\r\";  break;",
@@ -1799,7 +1808,7 @@
         },
         {
           "file": "src\\training\\provenance_tracker.cpp",
-          "line": 363,
+          "line": 361,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\n': out += \"\\\\n\";  break;",
@@ -1808,7 +1817,7 @@
         },
         {
           "file": "src\\training\\provenance_tracker.cpp",
-          "line": 362,
+          "line": 360,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\"':  out += \"\\\\\\\"\"; break;",
@@ -1817,7 +1826,7 @@
         },
         {
           "file": "src\\training\\provenance_tracker.cpp",
-          "line": 361,
+          "line": 359,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\\\': out += \"\\\\\\\\\"; break;",
@@ -1826,7 +1835,7 @@
         },
         {
           "file": "src\\training\\provenance_tracker.cpp",
-          "line": 269,
+          "line": 267,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "root.parents.push_back(std::move(sample_node));",
@@ -1835,7 +1844,7 @@
         },
         {
           "file": "src\\training\\provenance_tracker.cpp",
-          "line": 266,
+          "line": 264,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "sample_node.parents.push_back(std::move(doc_node));",
@@ -1844,7 +1853,7 @@
         },
         {
           "file": "src\\training\\provenance_tracker.cpp",
-          "line": 215,
+          "line": 213,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "root.parents.push_back(std::move(node));",
@@ -1853,7 +1862,7 @@
         },
         {
           "file": "src\\training\\provenance_tracker.cpp",
-          "line": 179,
+          "line": 177,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "audit_log_.push_back(oss.str());",
@@ -1862,7 +1871,7 @@
         },
         {
           "file": "src\\training\\provenance_tracker.cpp",
-          "line": 346,
+          "line": 344,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "while ((pos = query.find(token, pos)) != std::string::npos) {",
@@ -1871,7 +1880,7 @@
         },
         {
           "file": "src\\training\\provenance_tracker.cpp",
-          "line": 301,
+          "line": 299,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (doc_ptr && doc_ptr->is_object()) {",
@@ -1880,7 +1889,7 @@
         },
         {
           "file": "src\\training\\provenance_tracker.cpp",
-          "line": 384,
+          "line": 382,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "return impl_->write(records);",
@@ -1889,7 +1898,7 @@
         },
         {
           "file": "src\\training\\provenance_tracker.cpp",
-          "line": 383,
+          "line": 381,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "ProvenanceWriteStats ProvenanceTracker::write(const std::vector<ProvenanceRecord>& records) {",
@@ -1898,7 +1907,7 @@
         },
         {
           "file": "src\\training\\provenance_tracker.cpp",
-          "line": 345,
+          "line": 343,
           "type": "hardcoded_secret",
           "severity": "CRITICAL",
           "snippet": "std::string token = \"@\" + placeholder;",
@@ -1907,7 +1916,7 @@
         },
         {
           "file": "src\\training\\provenance_tracker.cpp",
-          "line": 79,
+          "line": 77,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "ProvenanceWriteStats write(const std::vector<ProvenanceRecord>& records) {",
@@ -1918,7 +1927,7 @@
       "src\\training\\training_pipeline.cpp": [
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 307,
+          "line": 305,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -1930,7 +1939,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 277,
+          "line": 275,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -1942,7 +1951,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 204,
+          "line": 202,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -1954,7 +1963,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 201,
+          "line": 199,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -1966,7 +1975,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 154,
+          "line": 152,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -1978,7 +1987,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 466,
+          "line": 464,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -1990,7 +1999,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 301,
+          "line": 299,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2002,7 +2011,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 298,
+          "line": 296,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2014,7 +2023,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 277,
+          "line": 275,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2026,7 +2035,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 204,
+          "line": 202,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2038,7 +2047,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 201,
+          "line": 199,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2050,7 +2059,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 154,
+          "line": 152,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2062,7 +2071,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 709,
+          "line": 707,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2074,7 +2083,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 635,
+          "line": 633,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2086,7 +2095,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 635,
+          "line": 633,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2098,7 +2107,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 610,
+          "line": 608,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2110,7 +2119,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 391,
+          "line": 389,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2122,7 +2131,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 391,
+          "line": 389,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2134,7 +2143,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 122,
+          "line": 120,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2148,7 +2157,7 @@
           "gap_type": "uninitialized_member_field",
           "severity": "MEDIUM",
           "file_path": "src\\training\\training_pipeline.cpp",
-          "line_number": 387,
+          "line_number": 385,
           "var_name": "",
           "context": "Struct with uninitialized fields",
           "reason": "Default constructor does not initialize POD members",
@@ -2158,7 +2167,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 710,
+          "line": 708,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.thresholds.push_back(std::move(entry));",
@@ -2167,7 +2176,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 636,
+          "line": 634,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "blocks.push_back({yi, 1});",
@@ -2176,7 +2185,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 611,
+          "line": 609,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "by_category[s.category].push_back(s);",
@@ -2185,7 +2194,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 445,
+          "line": 443,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -2194,7 +2203,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 392,
+          "line": 390,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "trials.push_back({r, lr});",
@@ -2203,7 +2212,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 361,
+          "line": 359,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -2212,7 +2221,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 242,
+          "line": 240,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -2221,7 +2230,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 123,
+          "line": 121,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "prov_records.push_back(std::move(rec));",
@@ -2230,7 +2239,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 571,
+          "line": 569,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return impl_->detectLabelDrift(reference_samples);",
@@ -2239,7 +2248,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 286,
+          "line": 284,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "return data_selector_->run(candidates, std::move(callback));",
@@ -2248,7 +2257,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 284,
+          "line": 282,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "data_selector_->setConfig(config_.data_selection_config);",
@@ -2257,7 +2266,7 @@
         },
         {
           "file": "src\\training\\training_pipeline.cpp",
-          "line": 125,
+          "line": 123,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "auto pstats = provenance_tracker_->write(prov_records);",
@@ -2268,7 +2277,7 @@
       "src\\training\\adalora_tt_bridge.cpp": [
         {
           "file": "src\\training\\adalora_tt_bridge.cpp",
-          "line": 322,
+          "line": 320,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2280,7 +2289,7 @@
         },
         {
           "file": "src\\training\\adalora_tt_bridge.cpp",
-          "line": 398,
+          "line": 396,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2292,7 +2301,7 @@
         },
         {
           "file": "src\\training\\adalora_tt_bridge.cpp",
-          "line": 261,
+          "line": 259,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2304,7 +2313,7 @@
         },
         {
           "file": "src\\training\\adalora_tt_bridge.cpp",
-          "line": 377,
+          "line": 375,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -2316,7 +2325,7 @@
         },
         {
           "file": "src\\training\\adalora_tt_bridge.cpp",
-          "line": 399,
+          "line": 397,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.push_back(kv.second);",
@@ -2325,7 +2334,7 @@
         },
         {
           "file": "src\\training\\adalora_tt_bridge.cpp",
-          "line": 262,
+          "line": 260,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.layers.push_back(exportLayer(adapter, ls.layer_name));",
@@ -2334,7 +2343,7 @@
         },
         {
           "file": "src\\training\\adalora_tt_bridge.cpp",
-          "line": 412,
+          "line": 410,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "return impl_->stats_data;",
@@ -2343,7 +2352,7 @@
         },
         {
           "file": "src\\training\\adalora_tt_bridge.cpp",
-          "line": 346,
+          "line": 344,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "std::size_t AdaLoraTTBridge::roundAndReallocate(AdaLoraTTExport& exp, double eps) const {",
@@ -2352,7 +2361,7 @@
         },
         {
           "file": "src\\training\\adalora_tt_bridge.cpp",
-          "line": 332,
+          "line": 330,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "++impl_->stats_data.stores_total;",
@@ -2361,7 +2370,7 @@
         },
         {
           "file": "src\\training\\adalora_tt_bridge.cpp",
-          "line": 307,
+          "line": 305,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "++impl_->stats_data.imports_total;",
@@ -2370,7 +2379,7 @@
         },
         {
           "file": "src\\training\\adalora_tt_bridge.cpp",
-          "line": 274,
+          "line": 272,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Empty TT export\");",
@@ -2379,7 +2388,7 @@
         },
         {
           "file": "src\\training\\adalora_tt_bridge.cpp",
-          "line": 266,
+          "line": 264,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"No exportable layers in adapter: \" + adapter_name);",
@@ -2388,7 +2397,7 @@
         },
         {
           "file": "src\\training\\adalora_tt_bridge.cpp",
-          "line": 240,
+          "line": 238,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "++impl_->stats_data.exports_total;",
@@ -2397,7 +2406,7 @@
         },
         {
           "file": "src\\training\\adalora_tt_bridge.cpp",
-          "line": 212,
+          "line": 210,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Invalid matrix shape for layer: \" + layer_name);",
@@ -2406,7 +2415,7 @@
         },
         {
           "file": "src\\training\\adalora_tt_bridge.cpp",
-          "line": 209,
+          "line": 207,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Layer rank exceeds max_tt_rank: \" + layer_name);",
@@ -2415,7 +2424,7 @@
         },
         {
           "file": "src\\training\\adalora_tt_bridge.cpp",
-          "line": 206,
+          "line": 204,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Layer has zero rank: \" + layer_name);",
@@ -2424,7 +2433,7 @@
         },
         {
           "file": "src\\training\\adalora_tt_bridge.cpp",
-          "line": 197,
+          "line": 195,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Layer not found: \" + layer_name);",
@@ -2433,7 +2442,7 @@
         },
         {
           "file": "src\\training\\adalora_tt_bridge.cpp",
-          "line": 131,
+          "line": 129,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "data[i * k + col] = sign * (A[i * k + col] / norm_a) * scale;",
@@ -2442,7 +2451,7 @@
         },
         {
           "file": "src\\training\\adalora_tt_bridge.cpp",
-          "line": 95,
+          "line": 93,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "data[row * r + i] = sign * (B[row * r + i] / norm_b) * scale;",
@@ -2451,16 +2460,16 @@
         },
         {
           "file": "src\\training\\adalora_tt_bridge.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #5082 [Docs][training] Update module docs across src/include with API, ru... (2026-05-13T11:01",
+          "snippet": "* PR History (last 5): #5082 [Docs][training] Update mod... (2026-05-13)",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         },
         {
           "file": "src\\training\\adalora_tt_bridge.cpp",
-          "line": 340,
+          "line": 338,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "if (it == impl_->export_cache.end()) {",
@@ -2471,7 +2480,7 @@
       "src\\training\\ada_lora_adapter.cpp": [
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 465,
+          "line": 463,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -2483,7 +2492,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 463,
+          "line": 461,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -2495,7 +2504,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 335,
+          "line": 333,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -2507,7 +2516,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 329,
+          "line": 327,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -2519,7 +2528,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 325,
+          "line": 323,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -2531,7 +2540,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 324,
+          "line": 322,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -2543,7 +2552,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 317,
+          "line": 315,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -2555,7 +2564,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 465,
+          "line": 463,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2567,7 +2576,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 463,
+          "line": 461,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2579,7 +2588,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 335,
+          "line": 333,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2591,7 +2600,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 329,
+          "line": 327,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2603,7 +2612,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 325,
+          "line": 323,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2615,7 +2624,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 324,
+          "line": 322,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2627,7 +2636,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 317,
+          "line": 315,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2639,7 +2648,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 281,
+          "line": 279,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2648,30 +2657,6 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\training\\ada_lora_adapter.cpp",
-          "line_number": 250,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\training\\ada_lora_adapter.cpp",
-          "line_number": 249,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
         },
         {
           "gap_type": "resource_leaked_in_exception",
@@ -2701,7 +2686,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\training\\ada_lora_adapter.cpp",
-          "line_number": 200,
+          "line_number": 246,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2713,7 +2698,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\training\\ada_lora_adapter.cpp",
-          "line_number": 199,
+          "line_number": 245,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2758,8 +2743,32 @@
           "confidence_rationale": "severity=HIGH,context_missing"
         },
         {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\training\\ada_lora_adapter.cpp",
+          "line_number": 195,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak",
+          "confidence_score": 0.73,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=HIGH,context_missing"
+        },
+        {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\training\\ada_lora_adapter.cpp",
+          "line_number": 194,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak",
+          "confidence_score": 0.73,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=HIGH,context_missing"
+        },
+        {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 282,
+          "line": 280,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "stats.push_back(s);",
@@ -2768,7 +2777,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 110,
+          "line": 108,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "insertion_order_.push_back(name);",
@@ -2777,7 +2786,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 428,
+          "line": 426,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "return impl_->reallocateRanks(impl_->rankBudget());",
@@ -2786,7 +2795,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 427,
+          "line": 425,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "ReallocResult AdaLoRAAdapter::reallocateRanks() {",
@@ -2795,7 +2804,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 424,
+          "line": 422,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "return impl_->reallocateRanks(total_budget);",
@@ -2804,7 +2813,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 423,
+          "line": 421,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "ReallocResult AdaLoRAAdapter::reallocateRanks(size_t total_budget) {",
@@ -2813,7 +2822,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 376,
+          "line": 374,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::out_of_range(\"AdaLoRAAdapter: unknown layer '\" + name + \"'\");",
@@ -2822,7 +2831,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 369,
+          "line": 367,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::out_of_range(\"AdaLoRAAdapter: unknown layer '\" + name + \"'\");",
@@ -2831,7 +2840,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 325,
+          "line": 323,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Input size mismatch\");",
@@ -2840,7 +2849,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 301,
+          "line": 299,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"A size mismatch\");",
@@ -2849,7 +2858,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 299,
+          "line": 297,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"B size mismatch\");",
@@ -2858,7 +2867,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 238,
+          "line": 236,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "size_t deficit = total_budget - allocated;",
@@ -2867,7 +2876,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 234,
+          "line": 232,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "size_t excess = allocated - total_budget;",
@@ -2876,7 +2885,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 233,
+          "line": 231,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (allocated > total_budget) {",
@@ -2885,7 +2894,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 223,
+          "line": 221,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (allocated != total_budget && !order.empty()) {",
@@ -2894,7 +2903,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 218,
+          "line": 216,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "allocated += raw;",
@@ -2903,7 +2912,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 209,
+          "line": 207,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "size_t allocated = 0;",
@@ -2912,7 +2921,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 181,
+          "line": 179,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"total_budget must be > 0\");",
@@ -2921,7 +2930,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 179,
+          "line": 177,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "ReallocResult reallocateRanks(size_t total_budget) {",
@@ -2930,7 +2939,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 91,
+          "line": 89,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Layer '\" + name + \"' already exists\");",
@@ -2939,7 +2948,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 89,
+          "line": 87,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Dimensions must be > 0\");",
@@ -2948,7 +2957,7 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 87,
+          "line": 85,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Layer name must not be empty\");",
@@ -2957,16 +2966,16 @@
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #5082 [Docs][training] Update module docs across src/include with API, ru... (2026-05-13T11:01",
+          "snippet": "* PR History (last 5): #5082 [Docs][training] Update mod... (2026-05-13) | #4405 [WIP] Add AdaLoRA i",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         },
         {
           "file": "src\\training\\ada_lora_adapter.cpp",
-          "line": 114,
+          "line": 112,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = layers_.find(name);",
@@ -2977,7 +2986,7 @@
       "src\\training\\database_domain_auto_labeler.cpp": [
         {
           "file": "src\\training\\database_domain_auto_labeler.cpp",
-          "line": 180,
+          "line": 178,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -2989,7 +2998,7 @@
         },
         {
           "file": "src\\training\\database_domain_auto_labeler.cpp",
-          "line": 185,
+          "line": 183,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\t': out += \"\\\\t\";  break;",
@@ -2998,7 +3007,7 @@
         },
         {
           "file": "src\\training\\database_domain_auto_labeler.cpp",
-          "line": 184,
+          "line": 182,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\r': out += \"\\\\r\";  break;",
@@ -3007,7 +3016,7 @@
         },
         {
           "file": "src\\training\\database_domain_auto_labeler.cpp",
-          "line": 183,
+          "line": 181,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\n': out += \"\\\\n\";  break;",
@@ -3016,7 +3025,7 @@
         },
         {
           "file": "src\\training\\database_domain_auto_labeler.cpp",
-          "line": 182,
+          "line": 180,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\\\': out += \"\\\\\\\\\"; break;",
@@ -3025,7 +3034,7 @@
         },
         {
           "file": "src\\training\\database_domain_auto_labeler.cpp",
-          "line": 181,
+          "line": 179,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\"':  out += \"\\\\\\\"\"; break;",
@@ -3034,7 +3043,7 @@
         },
         {
           "file": "src\\training\\database_domain_auto_labeler.cpp",
-          "line": 158,
+          "line": 156,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(sample));",
@@ -3043,7 +3052,7 @@
         },
         {
           "file": "src\\training\\database_domain_auto_labeler.cpp",
-          "line": 58,
+          "line": 56,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -3052,10 +3061,10 @@
         },
         {
           "file": "src\\training\\database_domain_auto_labeler.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #5082 [Docs][training] Update module docs across src/include with API, ru... (2026-05-13T11:01",
+          "snippet": "* PR History (last 5): #5082 [Docs][training] Update mod... (2026-05-13)",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         }
@@ -3063,7 +3072,7 @@
       "src\\training\\knowledge_graph_enricher.cpp": [
         {
           "file": "src\\training\\knowledge_graph_enricher.cpp",
-          "line": 70,
+          "line": 68,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -3075,7 +3084,7 @@
         },
         {
           "file": "src\\training\\knowledge_graph_enricher.cpp",
-          "line": 70,
+          "line": 68,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -3087,7 +3096,7 @@
         },
         {
           "file": "src\\training\\knowledge_graph_enricher.cpp",
-          "line": 445,
+          "line": 443,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -3099,7 +3108,7 @@
         },
         {
           "file": "src\\training\\knowledge_graph_enricher.cpp",
-          "line": 438,
+          "line": 436,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3111,7 +3120,7 @@
         },
         {
           "file": "src\\training\\knowledge_graph_enricher.cpp",
-          "line": 293,
+          "line": 291,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -3123,7 +3132,7 @@
         },
         {
           "file": "src\\training\\knowledge_graph_enricher.cpp",
-          "line": 268,
+          "line": 266,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3135,7 +3144,7 @@
         },
         {
           "file": "src\\training\\knowledge_graph_enricher.cpp",
-          "line": 328,
+          "line": 326,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -3144,7 +3153,7 @@
         },
         {
           "file": "src\\training\\knowledge_graph_enricher.cpp",
-          "line": 269,
+          "line": 267,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "context.similar_documents.push_back(doc_id);",
@@ -3153,7 +3162,7 @@
         },
         {
           "file": "src\\training\\knowledge_graph_enricher.cpp",
-          "line": 216,
+          "line": 214,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -3162,7 +3171,7 @@
         },
         {
           "file": "src\\training\\knowledge_graph_enricher.cpp",
-          "line": 413,
+          "line": 411,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -3171,16 +3180,16 @@
         },
         {
           "file": "src\\training\\knowledge_graph_enricher.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #3768 [WIP] Implement vector similarity search in KnowledgeGraphEnricher (2026-03-12T07:52:46Z",
+          "snippet": "* PR History (last 5): #4268 ProvenanceTracker: Replace ... (2026-03-15) | #3777 feat(training): wir",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         },
         {
           "file": "src\\training\\knowledge_graph_enricher.cpp",
-          "line": 110,
+          "line": 108,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = map_.find(key);",
@@ -3191,7 +3200,7 @@
       "src\\training\\lora_adapter.cpp": [
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 449,
+          "line": 447,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -3203,24 +3212,12 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 447,
+          "line": 445,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
           "description": "User input in prompt without sanitization (injection risk)",
           "context": "const std::vector<float>& input,",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\training\\lora_adapter.cpp",
-          "line": 337,
-          "category": "llm_ai_safety",
-          "severity": "CRITICAL",
-          "pattern": "prompt_injection",
-          "description": "User input in prompt without sanitization (injection risk)",
-          "context": "std::vector<float> hidden = detail::matmul(input,  batch_size, e.in_dim,",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
@@ -3232,6 +3229,18 @@
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
           "description": "User input in prompt without sanitization (injection risk)",
+          "context": "std::vector<float> hidden = detail::matmul(input,  batch_size, e.in_dim,",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\training\\lora_adapter.cpp",
+          "line": 333,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
           "context": "// Step 1: hidden = input @ B  \u2192  (batch_size \u00d7 in_dim) @ (in_dim \u00d7 rank)",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
@@ -3239,7 +3248,7 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 331,
+          "line": 329,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -3251,7 +3260,7 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 328,
+          "line": 326,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -3263,7 +3272,7 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 326,
+          "line": 324,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -3275,7 +3284,7 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 318,
+          "line": 316,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -3287,7 +3296,7 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 62,
+          "line": 60,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -3299,7 +3308,7 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 21,
+          "line": 19,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -3311,7 +3320,7 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 449,
+          "line": 447,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -3323,24 +3332,12 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 447,
+          "line": 445,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
           "context": "const std::vector<float>& input,",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\training\\lora_adapter.cpp",
-          "line": 337,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unsanitized_llm_input",
-          "description": "User input passed to LLM without normalization/sanitization",
-          "context": "std::vector<float> hidden = detail::matmul(input,  batch_size, e.in_dim,",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -3352,6 +3349,18 @@
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
+          "context": "std::vector<float> hidden = detail::matmul(input,  batch_size, e.in_dim,",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\training\\lora_adapter.cpp",
+          "line": 333,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
           "context": "// Step 1: hidden = input @ B  \u2192  (batch_size \u00d7 in_dim) @ (in_dim \u00d7 rank)",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
@@ -3359,7 +3368,7 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 331,
+          "line": 329,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -3371,7 +3380,7 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 328,
+          "line": 326,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -3383,7 +3392,7 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 326,
+          "line": 324,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -3395,7 +3404,7 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 318,
+          "line": 316,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -3407,7 +3416,7 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 105,
+          "line": 103,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -3419,7 +3428,7 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 62,
+          "line": 60,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -3431,7 +3440,7 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 21,
+          "line": 19,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -3440,18 +3449,6 @@
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\training\\lora_adapter.cpp",
-          "line_number": 264,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
         },
         {
           "gap_type": "resource_leaked_in_exception",
@@ -3466,8 +3463,20 @@
           "confidence_rationale": "severity=HIGH,context_missing"
         },
         {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\training\\lora_adapter.cpp",
+          "line_number": 260,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak",
+          "confidence_score": 0.73,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=HIGH,context_missing"
+        },
+        {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 359,
+          "line": 357,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& kv : layers_) entries.push_back(kv.second);",
@@ -3476,7 +3485,7 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 183,
+          "line": 181,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& kv : layers_) names.push_back(kv.first);",
@@ -3485,7 +3494,7 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 322,
+          "line": 320,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::out_of_range(\"LoRAAdapter::forward: unknown layer '\" + layer_name + \"'\");",
@@ -3494,7 +3503,7 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 276,
+          "line": 274,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -3503,7 +3512,7 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 246,
+          "line": 244,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::out_of_range(\"LoRAAdapter::applyUpdate: unknown layer '\" + layer_name + \"'\");",
@@ -3512,7 +3521,7 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 151,
+          "line": 149,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -3521,7 +3530,7 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 143,
+          "line": 141,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LoRAAdapter::addLayer: layer '\" + layer_name + \"' already exists\");",
@@ -3530,7 +3539,7 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 141,
+          "line": 139,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LoRAAdapter::addLayer: in_dim and out_dim must be > 0\");",
@@ -3539,7 +3548,7 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 139,
+          "line": 137,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LoRAAdapter::addLayer: layer_name must not be empty\");",
@@ -3548,7 +3557,7 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 128,
+          "line": 126,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LoRAAdapter: default_alpha must be > 0\");",
@@ -3557,7 +3566,7 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 126,
+          "line": 124,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LoRAAdapter: default_rank must be > 0\");",
@@ -3566,7 +3575,7 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 59,
+          "line": 57,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "* Values are drawn uniformly from [-limit, +limit].",
@@ -3575,10 +3584,10 @@
         },
         {
           "file": "src\\training\\lora_adapter.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #5082 [Docs][training] Update module docs across src/include with API, ru... (2026-05-13T11:01",
+          "snippet": "* PR History (last 5): #5082 [Docs][training] Update mod... (2026-05-13) | #3758 feat(training): Rea",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         }
@@ -3586,7 +3595,7 @@
       "src\\training\\lora_checkpoint_manager.cpp": [
         {
           "file": "src\\training\\lora_checkpoint_manager.cpp",
-          "line": 45,
+          "line": 43,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -3600,7 +3609,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\training\\lora_checkpoint_manager.cpp",
-          "line_number": 289,
+          "line_number": 287,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3612,7 +3621,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\training\\lora_checkpoint_manager.cpp",
-          "line_number": 193,
+          "line_number": 191,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3624,7 +3633,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\training\\lora_checkpoint_manager.cpp",
-          "line_number": 166,
+          "line_number": 164,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3634,7 +3643,7 @@
         },
         {
           "file": "src\\training\\lora_checkpoint_manager.cpp",
-          "line": 250,
+          "line": 248,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -3643,7 +3652,7 @@
         },
         {
           "file": "src\\training\\lora_checkpoint_manager.cpp",
-          "line": 244,
+          "line": 242,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -3652,7 +3661,7 @@
         },
         {
           "file": "src\\training\\lora_checkpoint_manager.cpp",
-          "line": 158,
+          "line": 156,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -3661,7 +3670,7 @@
         },
         {
           "file": "src\\training\\lora_checkpoint_manager.cpp",
-          "line": 151,
+          "line": 149,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -3670,7 +3679,7 @@
         },
         {
           "file": "src\\training\\lora_checkpoint_manager.cpp",
-          "line": 142,
+          "line": 140,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -3679,7 +3688,7 @@
         },
         {
           "file": "src\\training\\lora_checkpoint_manager.cpp",
-          "line": 112,
+          "line": 110,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LoRACheckpointManager: max_checkpoints must be >= 1\");",
@@ -3688,7 +3697,7 @@
         },
         {
           "file": "src\\training\\lora_checkpoint_manager.cpp",
-          "line": 109,
+          "line": 107,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LoRACheckpointManager: checkpoint_dir must not be empty\");",
@@ -3699,24 +3708,12 @@
       "src\\training\\lora_data_selection.cpp": [
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 674,
+          "line": 672,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
           "description": "User input in prompt without sanitization (injection risk)",
           "context": "if (ae.input_sample_count > 1) {",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\training\\lora_data_selection.cpp",
-          "line": 671,
-          "category": "llm_ai_safety",
-          "severity": "CRITICAL",
-          "pattern": "prompt_injection",
-          "description": "User input in prompt without sanitization (injection risk)",
-          "context": "static_cast<double>(ae.input_sample_count);",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
@@ -3740,6 +3737,18 @@
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
           "description": "User input in prompt without sanitization (injection risk)",
+          "context": "static_cast<double>(ae.input_sample_count);",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 665,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
           "context": "if (ae.input_sample_count > 0) {",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
@@ -3747,7 +3756,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 666,
+          "line": 664,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -3759,7 +3768,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 615,
+          "line": 613,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -3771,7 +3780,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 613,
+          "line": 611,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -3783,7 +3792,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 573,
+          "line": 571,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -3795,7 +3804,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 571,
+          "line": 569,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -3807,7 +3816,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 544,
+          "line": 542,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -3819,7 +3828,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 537,
+          "line": 535,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -3831,7 +3840,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 1163,
+          "line": 1161,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -3843,7 +3852,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 953,
+          "line": 951,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -3855,24 +3864,12 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 674,
+          "line": 672,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
           "context": "if (ae.input_sample_count > 1) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\training\\lora_data_selection.cpp",
-          "line": 671,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unsanitized_llm_input",
-          "description": "User input passed to LLM without normalization/sanitization",
-          "context": "static_cast<double>(ae.input_sample_count);",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -3896,6 +3893,18 @@
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
+          "context": "static_cast<double>(ae.input_sample_count);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 665,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
           "context": "if (ae.input_sample_count > 0) {",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
@@ -3903,7 +3912,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 666,
+          "line": 664,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -3915,7 +3924,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 615,
+          "line": 613,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -3927,7 +3936,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 613,
+          "line": 611,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -3939,7 +3948,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 573,
+          "line": 571,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -3951,7 +3960,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 571,
+          "line": 569,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -3963,7 +3972,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 544,
+          "line": 542,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -3975,7 +3984,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 537,
+          "line": 535,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -3987,7 +3996,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 906,
+          "line": 904,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -3999,7 +4008,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 576,
+          "line": 574,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4011,7 +4020,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 446,
+          "line": 444,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4023,7 +4032,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 446,
+          "line": 444,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4035,7 +4044,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 390,
+          "line": 388,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4047,7 +4056,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 383,
+          "line": 381,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -4059,7 +4068,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 347,
+          "line": 345,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4071,7 +4080,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 316,
+          "line": 314,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4083,7 +4092,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 123,
+          "line": 121,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4097,7 +4106,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\training\\lora_data_selection.cpp",
-          "line_number": 1047,
+          "line_number": 1045,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -4109,7 +4118,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\training\\lora_data_selection.cpp",
-          "line_number": 426,
+          "line_number": 424,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -4121,7 +4130,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\training\\lora_data_selection.cpp",
-          "line_number": 416,
+          "line_number": 414,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -4131,7 +4140,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 231,
+          "line": 229,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4143,7 +4152,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 126,
+          "line": 124,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4155,7 +4164,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 1143,
+          "line": 1141,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "catch (...) { return false; } // malformed threshold: treat as not triggered",
@@ -4164,7 +4173,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 943,
+          "line": 941,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "domain_obj += \"\\\":\";",
@@ -4173,7 +4182,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 941,
+          "line": 939,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "domain_obj += '\"';",
@@ -4182,19 +4191,10 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 939,
+          "line": 937,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (!first_domain) domain_obj += ',';",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\training\\lora_data_selection.cpp",
-          "line": 931,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "ids_arr += '\"';",
           "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
           "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         },
@@ -4209,7 +4209,16 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 928,
+          "line": 927,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "ids_arr += '\"';",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\training\\lora_data_selection.cpp",
+          "line": 926,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (i > 0) ids_arr += ',';",
@@ -4218,7 +4227,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 912,
+          "line": 910,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "else if (c < 0x20)  out += \"\\\\u00\" + std::string(1, \"0123456789abcdef\"[c >> 4])",
@@ -4227,7 +4236,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 911,
+          "line": 909,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "else if (c == '\\t') out += \"\\\\t\";",
@@ -4236,7 +4245,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 910,
+          "line": 908,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "else if (c == '\\r') out += \"\\\\r\";",
@@ -4245,7 +4254,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 909,
+          "line": 907,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "else if (c == '\\n') out += \"\\\\n\";",
@@ -4254,7 +4263,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 908,
+          "line": 906,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "else if (c == '\\\\') out += \"\\\\\\\\\";",
@@ -4263,7 +4272,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 907,
+          "line": 905,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if      (c == '\"')  out += \"\\\\\\\"\";",
@@ -4272,7 +4281,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 577,
+          "line": 575,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.audit_entry.selected_ids.push_back(s.id);",
@@ -4281,7 +4290,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 447,
+          "line": 445,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.push_back(samples[best_idx]);",
@@ -4290,7 +4299,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 391,
+          "line": 389,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "centroids.push_back(embeddings[i * step]);",
@@ -4299,7 +4308,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 383,
+          "line": 381,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& s : samples) embeddings.push_back(embed(s.text));",
@@ -4308,7 +4317,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 348,
+          "line": 346,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (!is_dup[i]) out.push_back(samples[i]);",
@@ -4317,7 +4326,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 331,
+          "line": 329,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "sigs.push_back(detail::buildMinHash(s.text, config_.minhash_num_perm));",
@@ -4326,7 +4335,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 317,
+          "line": 315,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.push_back(std::move(s));",
@@ -4335,7 +4344,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 124,
+          "line": 122,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "while (iss >> w) words.push_back(w);",
@@ -4344,7 +4353,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 1101,
+          "line": 1099,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"SelfImprovementConfig: cannot open file: \" + path);",
@@ -4353,7 +4362,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 887,
+          "line": 885,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"LoRADataSelectionConfig: cannot open file: \" + path);",
@@ -4362,7 +4371,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 786,
+          "line": 784,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -4371,7 +4380,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 782,
+          "line": 780,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -4380,7 +4389,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 197,
+          "line": 195,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "while ((pos = lower.find(lkw, pos)) != std::string::npos) {",
@@ -4389,7 +4398,7 @@
         },
         {
           "file": "src\\training\\lora_data_selection.cpp",
-          "line": 102,
+          "line": 100,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (lower.find(p) != std::string::npos) return true;",
@@ -4400,10 +4409,10 @@
       "src\\training\\adapter_serving.cpp": [
         {
           "file": "src\\training\\adapter_serving.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #5082 [Docs][training] Update module docs across src/include with API, ru... (2026-05-13T11:01",
+          "snippet": "* PR History (last 5): #5082 [Docs][training] Update mod... (2026-05-13) | #4519 [WIP] Update develo",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         }
@@ -4411,7 +4420,7 @@
       "src\\training\\modality_parser.cpp": [
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 437,
+          "line": 435,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -4423,7 +4432,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 352,
+          "line": 350,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -4435,7 +4444,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 318,
+          "line": 316,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -4447,7 +4456,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 274,
+          "line": 272,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -4459,7 +4468,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 437,
+          "line": 435,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -4471,7 +4480,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 352,
+          "line": 350,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -4483,7 +4492,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 318,
+          "line": 316,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -4495,7 +4504,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 575,
+          "line": 573,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4507,7 +4516,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 541,
+          "line": 539,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4519,7 +4528,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 536,
+          "line": 534,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4531,7 +4540,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 531,
+          "line": 529,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4543,7 +4552,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 281,
+          "line": 279,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4555,7 +4564,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 263,
+          "line": 261,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -4567,7 +4576,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 263,
+          "line": 261,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -4579,7 +4588,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 263,
+          "line": 261,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -4591,7 +4600,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 67,
+          "line": 65,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4603,7 +4612,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 576,
+          "line": 574,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (auto& s : res.samples) out_samples.push_back(std::move(s));",
@@ -4612,7 +4621,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 542,
+          "line": 540,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (auto& s : citations) result.samples.push_back(std::move(s));",
@@ -4621,7 +4630,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 537,
+          "line": 535,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (auto& s : tables) result.samples.push_back(std::move(s));",
@@ -4630,7 +4639,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 532,
+          "line": 530,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (auto& s : clauses) result.samples.push_back(std::move(s));",
@@ -4639,7 +4648,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 526,
+          "line": 524,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (auto& s : ocr) result.samples.push_back(std::move(s));",
@@ -4648,7 +4657,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 445,
+          "line": 443,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "samples.push_back(std::move(s));",
@@ -4657,7 +4666,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 282,
+          "line": 280,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "samples.push_back(std::move(s));",
@@ -4666,7 +4675,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 264,
+          "line": 262,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "clean_text += '\\n';",
@@ -4675,7 +4684,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 223,
+          "line": 221,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "blocks.push_back({start, i - 1, std::move(content)});",
@@ -4684,7 +4693,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 138,
+          "line": 136,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "R\"((?:EuGH|EuG|EGMR|ECtHR)\\b[,\\s]*(?:Rs\\.\\s*)?[CT]-?\\d+/\\d{2,4})\",",
@@ -4693,7 +4702,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 132,
+          "line": 130,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "R\"((?:BGH|BVerwG|BAG|BSG|BFH|BVerfG|OLG|LG|AG|VG|OVG|VGH|LAG|FG|FGH|LSG|SGG?)\\b[,\\s]*(?:Urt\\.|Beschl",
@@ -4702,7 +4711,7 @@
         },
         {
           "file": "src\\training\\modality_parser.cpp",
-          "line": 68,
+          "line": 66,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "lines.push_back(std::move(line));",
@@ -4713,7 +4722,7 @@
       "src\\training\\examples\\database_optimizer_labeler.cpp": [
         {
           "file": "src\\training\\examples\\database_optimizer_labeler.cpp",
-          "line": 187,
+          "line": 185,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4725,7 +4734,7 @@
         },
         {
           "file": "src\\training\\examples\\database_optimizer_labeler.cpp",
-          "line": 182,
+          "line": 180,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4737,7 +4746,7 @@
         },
         {
           "file": "src\\training\\examples\\database_optimizer_labeler.cpp",
-          "line": 180,
+          "line": 178,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4749,7 +4758,7 @@
         },
         {
           "file": "src\\training\\examples\\database_optimizer_labeler.cpp",
-          "line": 175,
+          "line": 173,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4761,7 +4770,7 @@
         },
         {
           "file": "src\\training\\examples\\database_optimizer_labeler.cpp",
-          "line": 170,
+          "line": 168,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4773,7 +4782,7 @@
         },
         {
           "file": "src\\training\\examples\\database_optimizer_labeler.cpp",
-          "line": 168,
+          "line": 166,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4785,7 +4794,7 @@
         },
         {
           "file": "src\\training\\examples\\database_optimizer_labeler.cpp",
-          "line": 159,
+          "line": 157,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4797,7 +4806,7 @@
         },
         {
           "file": "src\\training\\examples\\database_optimizer_labeler.cpp",
-          "line": 154,
+          "line": 152,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4809,7 +4818,7 @@
         },
         {
           "file": "src\\training\\examples\\database_optimizer_labeler.cpp",
-          "line": 152,
+          "line": 150,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4821,7 +4830,7 @@
         },
         {
           "file": "src\\training\\examples\\database_optimizer_labeler.cpp",
-          "line": 141,
+          "line": 139,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4833,7 +4842,7 @@
         },
         {
           "file": "src\\training\\examples\\database_optimizer_labeler.cpp",
-          "line": 136,
+          "line": 134,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4845,7 +4854,7 @@
         },
         {
           "file": "src\\training\\examples\\database_optimizer_labeler.cpp",
-          "line": 134,
+          "line": 132,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4857,7 +4866,7 @@
         },
         {
           "file": "src\\training\\examples\\database_optimizer_labeler.cpp",
-          "line": 126,
+          "line": 124,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4869,7 +4878,7 @@
         },
         {
           "file": "src\\training\\examples\\database_optimizer_labeler.cpp",
-          "line": 119,
+          "line": 117,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4881,7 +4890,7 @@
         },
         {
           "file": "src\\training\\examples\\database_optimizer_labeler.cpp",
-          "line": 109,
+          "line": 107,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4893,7 +4902,7 @@
         },
         {
           "file": "src\\training\\examples\\database_optimizer_labeler.cpp",
-          "line": 95,
+          "line": 93,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4905,7 +4914,7 @@
         },
         {
           "file": "src\\training\\examples\\database_optimizer_labeler.cpp",
-          "line": 90,
+          "line": 88,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4917,7 +4926,7 @@
         },
         {
           "file": "src\\training\\examples\\database_optimizer_labeler.cpp",
-          "line": 114,
+          "line": 112,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4931,7 +4940,7 @@
           "gap_type": "uninitialized_member_field",
           "severity": "MEDIUM",
           "file_path": "src\\training\\examples\\database_optimizer_labeler.cpp",
-          "line_number": 55,
+          "line_number": 53,
           "var_name": "",
           "context": "Struct with uninitialized fields",
           "reason": "Default constructor does not initialize POD members",
@@ -4941,7 +4950,7 @@
         },
         {
           "file": "src\\training\\examples\\database_optimizer_labeler.cpp",
-          "line": 192,
+          "line": 190,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "<< \"\\nSee docs/issues/lora_loops/ for implementation specs.\\n\";",
@@ -4950,7 +4959,7 @@
         },
         {
           "file": "src\\training\\examples\\database_optimizer_labeler.cpp",
-          "line": 120,
+          "line": 118,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "<< \" / \" << log_entries.size() << \" samples\\n\\n\";",
@@ -4959,7 +4968,7 @@
         },
         {
           "file": "src\\training\\examples\\database_optimizer_labeler.cpp",
-          "line": 120,
+          "line": 118,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "<< \" / \" << log_entries.size() << \" samples\\n\\n\";",
@@ -4968,7 +4977,7 @@
         },
         {
           "file": "src\\training\\examples\\database_optimizer_labeler.cpp",
-          "line": 115,
+          "line": 113,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "labeled_samples.push_back(std::move(sample));",

@@ -27,7 +27,7 @@
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\temporal\\interval_tree_index.cpp",
-          "line_number": 62,
+          "line_number": 60,
           "line_content": "n->height = 1 + std::max(nodeHeight(n->left.get()),",
           "context": [
             "void IntervalTreeIndex::updateHeight(Node* n) noexcept {",
@@ -46,7 +46,7 @@
         },
         {
           "file": "src\\temporal\\interval_tree_index.cpp",
-          "line": 403,
+          "line": 401,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -58,7 +58,7 @@
         },
         {
           "file": "src\\temporal\\interval_tree_index.cpp",
-          "line": 404,
+          "line": 402,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(entry);",
@@ -67,7 +67,7 @@
         },
         {
           "file": "src\\temporal\\interval_tree_index.cpp",
-          "line": 332,
+          "line": 330,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.push_back(n->entry);",
@@ -76,7 +76,7 @@
         },
         {
           "file": "src\\temporal\\interval_tree_index.cpp",
-          "line": 170,
+          "line": 168,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "out_node->right = nullptr;",
@@ -85,7 +85,7 @@
         },
         {
           "file": "src\\temporal\\interval_tree_index.cpp",
-          "line": 397,
+          "line": 395,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "const auto it = key_index_.find(key);",
@@ -94,7 +94,7 @@
         },
         {
           "file": "src\\temporal\\interval_tree_index.cpp",
-          "line": 271,
+          "line": 269,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = key_index_.find(key);",
@@ -105,7 +105,7 @@
       "src\\temporal\\snapshot_manager.cpp": [
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 310,
+          "line": 308,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -117,7 +117,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 279,
+          "line": 277,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -129,7 +129,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 278,
+          "line": 276,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -141,7 +141,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 234,
+          "line": 232,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -153,7 +153,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 187,
+          "line": 185,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -165,7 +165,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 181,
+          "line": 179,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -177,7 +177,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 162,
+          "line": 160,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -189,7 +189,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 156,
+          "line": 154,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -201,7 +201,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 140,
+          "line": 138,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -213,7 +213,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 89,
+          "line": 87,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -225,7 +225,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 88,
+          "line": 86,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -237,7 +237,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 86,
+          "line": 84,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -249,7 +249,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 46,
+          "line": 44,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -261,7 +261,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 333,
+          "line": 331,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -273,7 +273,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 324,
+          "line": 322,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -285,7 +285,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 324,
+          "line": 322,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -297,7 +297,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 295,
+          "line": 293,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -309,7 +309,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 287,
+          "line": 285,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -321,7 +321,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 287,
+          "line": 285,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -333,7 +333,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 287,
+          "line": 285,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -345,7 +345,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 287,
+          "line": 285,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -357,7 +357,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 231,
+          "line": 229,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -369,7 +369,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 181,
+          "line": 179,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -381,7 +381,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 157,
+          "line": 155,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -393,7 +393,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 157,
+          "line": 155,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -405,7 +405,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 95,
+          "line": 93,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -417,7 +417,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 95,
+          "line": 93,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -429,7 +429,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 49,
+          "line": 47,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -441,7 +441,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 38,
+          "line": 36,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -453,7 +453,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 308,
+          "line": 306,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -465,7 +465,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 306,
+          "line": 304,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -477,7 +477,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 334,
+          "line": 332,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.removed[table].push_back(key);",
@@ -486,7 +486,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 327,
+          "line": 325,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.modified[table].push_back(key);",
@@ -495,7 +495,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 325,
+          "line": 323,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.added[table].push_back(key);",
@@ -504,7 +504,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 296,
+          "line": 294,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.removed[table].push_back(row.key);",
@@ -513,7 +513,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 288,
+          "line": 286,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.added[table].push_back(row.key);",
@@ -522,7 +522,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 158,
+          "line": 156,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "to_remove.push_back(id);",
@@ -531,7 +531,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 96,
+          "line": 94,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(row);",
@@ -540,7 +540,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 50,
+          "line": 48,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "data.handle.included_tables.push_back(name);",
@@ -549,7 +549,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 309,
+          "line": 307,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = m.find(row.key);",
@@ -558,7 +558,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 309,
+          "line": 307,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = m.find(row.key);",
@@ -567,7 +567,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 263,
+          "line": 261,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -576,7 +576,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 259,
+          "line": 257,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -585,7 +585,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 156,
+          "line": 154,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "for (const auto& [id, data] : snapshots_) {",
@@ -594,7 +594,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 88,
+          "line": 86,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = row.data.find(field);",
@@ -603,7 +603,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 88,
+          "line": 86,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = row.data.find(field);",
@@ -612,7 +612,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 58,
+          "line": 56,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "snapshots_[data.handle.snapshot_id] = std::move(data);",
@@ -621,7 +621,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 52,
+          "line": 50,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "data.tables[name] = table_ptr->scan(creation_ts);",
@@ -630,7 +630,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 52,
+          "line": 50,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "data.tables[name] = table_ptr->scan(creation_ts);",
@@ -639,7 +639,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 46,
+          "line": 44,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "for (const auto& [name, table_ptr] : tables) {",
@@ -648,7 +648,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 323,
+          "line": 321,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto b_it2 = base_map.find(key);",
@@ -657,7 +657,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 319,
+          "line": 317,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto other_map = build_key_map(o_it->second);",
@@ -666,7 +666,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 318,
+          "line": 316,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto base_map  = build_key_map(b_it->second);",
@@ -675,7 +675,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 279,
+          "line": 277,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto o_it = other_tables.find(table);",
@@ -684,7 +684,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 278,
+          "line": 276,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto b_it = base_tables.find(table);",
@@ -693,7 +693,7 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 105,
+          "line": 103,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = snapshots_.find(handle.snapshot_id);",
@@ -704,7 +704,7 @@
       "src\\temporal\\temporal_cold_store.cpp": [
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 418,
+          "line": 416,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -716,7 +716,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 397,
+          "line": 395,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -728,7 +728,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 354,
+          "line": 352,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -740,7 +740,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 287,
+          "line": 285,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -752,7 +752,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 257,
+          "line": 255,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -764,7 +764,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 250,
+          "line": 248,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -776,7 +776,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 229,
+          "line": 227,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -788,7 +788,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 59,
+          "line": 57,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -800,7 +800,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 503,
+          "line": 501,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -812,7 +812,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 481,
+          "line": 479,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -824,7 +824,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 414,
+          "line": 412,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -836,7 +836,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 291,
+          "line": 289,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -848,7 +848,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 254,
+          "line": 252,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -860,7 +860,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 234,
+          "line": 232,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -872,7 +872,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 97,
+          "line": 95,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -884,7 +884,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 60,
+          "line": 58,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -898,7 +898,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\temporal\\temporal_cold_store.cpp",
-          "line_number": 376,
+          "line_number": 374,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -908,7 +908,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 504,
+          "line": 502,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (doc->sys_time.overlaps(range)) result.push_back(std::move(*doc));",
@@ -917,7 +917,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 482,
+          "line": 480,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (doc) result.push_back(std::move(*doc));",
@@ -926,7 +926,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 415,
+          "line": 413,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "to_remove.push_back(*it);",
@@ -935,7 +935,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 394,
+          "line": 392,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "to_remove.push_back(*it);",
@@ -944,7 +944,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 255,
+          "line": 253,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "to_delete.push_back(entry.path());",
@@ -953,7 +953,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 235,
+          "line": 233,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(ck);",
@@ -962,7 +962,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 216,
+          "line": 214,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -971,7 +971,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 206,
+          "line": 204,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -980,7 +980,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 192,
+          "line": 190,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -989,7 +989,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 98,
+          "line": 96,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "out += '%';",
@@ -998,7 +998,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 61,
+          "line": 59,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(it->first);",
@@ -1007,7 +1007,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 519,
+          "line": 517,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "it != key_index_.end() && it->substr(0, prefix.size()) == prefix;",
@@ -1016,7 +1016,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 497,
+          "line": 495,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "it != key_index_.end() && it->substr(0, prefix.size()) == prefix;",
@@ -1025,7 +1025,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 478,
+          "line": 476,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "it != key_index_.end() && it->substr(0, prefix.size()) == prefix;",
@@ -1034,7 +1034,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 453,
+          "line": 451,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (it->substr(0, prefix.size()) != prefix) break;",
@@ -1043,7 +1043,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 414,
+          "line": 412,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "it->substr(0, prefix.size()) == prefix) {",
@@ -1052,7 +1052,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 393,
+          "line": 391,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "it->substr(0, prefix.size()) == prefix) {",
@@ -1061,7 +1061,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 351,
+          "line": 349,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto all_keys = backend_->listKeysWithPrefix(\"\");",
@@ -1070,7 +1070,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 287,
+          "line": 285,
           "type": "size_assumption",
           "severity": "HIGH",
           "snippet": "std::snprintf(buf, sizeof(buf), \"%016llx\",",
@@ -1079,7 +1079,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 267,
+          "line": 265,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (auto& entry : fs::directory_iterator(base_dir_)) {",
@@ -1088,7 +1088,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 250,
+          "line": 248,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (auto& entry : fs::recursive_directory_iterator(base_dir_)) {",
@@ -1097,7 +1097,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 229,
+          "line": 227,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (auto& entry : fs::recursive_directory_iterator(base_dir_)) {",
@@ -1106,7 +1106,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 158,
+          "line": 156,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (it == rel.end()) throw std::runtime_error(\"missing ts file in path\");",
@@ -1115,7 +1115,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 156,
+          "line": 154,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (it == rel.end()) throw std::runtime_error(\"missing doc_key in path\");",
@@ -1124,7 +1124,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 154,
+          "line": 152,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (it == rel.end()) throw std::runtime_error(\"empty relative path\");",
@@ -1133,7 +1133,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 139,
+          "line": 137,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"malformed composite key (no sep2)\");",
@@ -1142,7 +1142,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 136,
+          "line": 134,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"malformed composite key (no sep1)\");",
@@ -1151,7 +1151,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 70,
+          "line": 68,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "while (it != data_.end() && it->first.substr(0, prefix.size()) == prefix) {",
@@ -1160,7 +1160,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 60,
+          "line": 58,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (it->first.substr(0, prefix.size()) != prefix) break;",
@@ -1169,7 +1169,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 47,
+          "line": 45,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "return (it != data_.end()) ? it->second : std::string{};",
@@ -1178,7 +1178,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 40,
+          "line": 38,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "data_[key] = value;",
@@ -1187,7 +1187,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 46,
+          "line": 44,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = data_.find(key);",
@@ -1198,7 +1198,7 @@
       "src\\temporal\\temporal_conflict_resolver.cpp": [
         {
           "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 385,
+          "line": 383,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1210,7 +1210,7 @@
         },
         {
           "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 268,
+          "line": 266,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1222,7 +1222,7 @@
         },
         {
           "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 265,
+          "line": 263,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1234,7 +1234,7 @@
         },
         {
           "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 230,
+          "line": 228,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1246,7 +1246,7 @@
         },
         {
           "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 207,
+          "line": 205,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1258,7 +1258,7 @@
         },
         {
           "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 575,
+          "line": 573,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1270,7 +1270,7 @@
         },
         {
           "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 569,
+          "line": 567,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1282,7 +1282,7 @@
         },
         {
           "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 451,
+          "line": 449,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1294,7 +1294,7 @@
         },
         {
           "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 385,
+          "line": 383,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1306,7 +1306,7 @@
         },
         {
           "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 230,
+          "line": 228,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1318,7 +1318,7 @@
         },
         {
           "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 207,
+          "line": 205,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1330,7 +1330,7 @@
         },
         {
           "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 137,
+          "line": 135,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "timestamp_sorting_unstable",
@@ -1344,7 +1344,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line_number": 653,
+          "line_number": 651,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1356,7 +1356,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line_number": 646,
+          "line_number": 644,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1368,7 +1368,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line_number": 637,
+          "line_number": 635,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1380,7 +1380,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line_number": 622,
+          "line_number": 620,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1392,7 +1392,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line_number": 615,
+          "line_number": 613,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1404,7 +1404,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line_number": 609,
+          "line_number": 607,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1414,7 +1414,7 @@
         },
         {
           "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 580,
+          "line": 578,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "affected.push_back(\"data\");",
@@ -1423,7 +1423,7 @@
         },
         {
           "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 576,
+          "line": 574,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "affected.push_back(key);",
@@ -1432,7 +1432,7 @@
         },
         {
           "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 570,
+          "line": 568,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "affected.push_back(key);",
@@ -1441,7 +1441,7 @@
         },
         {
           "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 456,
+          "line": 454,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "affected.push_back(\"data\");",
@@ -1450,7 +1450,7 @@
         },
         {
           "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 452,
+          "line": 450,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "affected.push_back(key);",
@@ -1459,7 +1459,7 @@
         },
         {
           "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 386,
+          "line": 384,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(v);",
@@ -1468,7 +1468,7 @@
         },
         {
           "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 231,
+          "line": 229,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(record);",
@@ -1477,7 +1477,7 @@
         },
         {
           "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 220,
+          "line": 218,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "conflict_history_.push_back(it->second);",
@@ -1486,7 +1486,7 @@
         },
         {
           "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 208,
+          "line": 206,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(record);",
@@ -1495,7 +1495,7 @@
         },
         {
           "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 574,
+          "line": 572,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "for (auto& [key, val] : remote.data.items()) {",
@@ -1504,7 +1504,7 @@
         },
         {
           "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 334,
+          "line": 332,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "refint->entity_id  = local.snapshot_id;",
@@ -1513,7 +1513,7 @@
         },
         {
           "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 333,
+          "line": 331,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "refint->table_name = table_name;",
@@ -1522,7 +1522,7 @@
         },
         {
           "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 216,
+          "line": 214,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = unresolved_conflicts_.find(conflict_id);",
@@ -1533,7 +1533,7 @@
       "src\\temporal\\bi_temporal.cpp": [
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 373,
+          "line": 371,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1545,7 +1545,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 351,
+          "line": 349,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1557,7 +1557,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 336,
+          "line": 334,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1569,7 +1569,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 335,
+          "line": 333,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1581,7 +1581,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 311,
+          "line": 309,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1593,7 +1593,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 285,
+          "line": 283,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1605,7 +1605,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 222,
+          "line": 220,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1617,7 +1617,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 193,
+          "line": 191,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1629,7 +1629,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 174,
+          "line": 172,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1641,7 +1641,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 126,
+          "line": 124,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1653,7 +1653,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 75,
+          "line": 73,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1665,7 +1665,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 54,
+          "line": 52,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1677,7 +1677,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 351,
+          "line": 349,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1689,7 +1689,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 286,
+          "line": 284,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1701,7 +1701,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 277,
+          "line": 275,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1713,7 +1713,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 255,
+          "line": 253,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1725,7 +1725,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 223,
+          "line": 221,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1737,7 +1737,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 223,
+          "line": 221,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1749,7 +1749,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 216,
+          "line": 214,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1761,7 +1761,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 194,
+          "line": 192,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1773,7 +1773,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 176,
+          "line": 174,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1785,7 +1785,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 136,
+          "line": 134,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1797,7 +1797,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 87,
+          "line": 85,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1811,7 +1811,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\temporal\\bi_temporal.cpp",
-          "line_number": 124,
+          "line_number": 122,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1823,7 +1823,7 @@
           "gap_type": "missing_move_constructor_defaulted",
           "severity": "MEDIUM",
           "file_path": "src\\temporal\\bi_temporal.cpp",
-          "line_number": 408,
+          "line_number": 406,
           "class_name": "",
           "issue": "Copy constructor exists but no move constructor (Rule of Five)",
           "reason": "Missing move ctor prevents efficient rvalue transfers",
@@ -1833,7 +1833,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 352,
+          "line": 350,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "keys.push_back(key);",
@@ -1842,7 +1842,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 339,
+          "line": 337,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(v);",
@@ -1851,7 +1851,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 292,
+          "line": 290,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "gaps.push_back({cursor, to});",
@@ -1860,7 +1860,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 287,
+          "line": 285,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "gaps.push_back({cursor, m.start});",
@@ -1869,7 +1869,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 278,
+          "line": 276,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "merged.push_back(covered[i]);",
@@ -1878,7 +1878,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 256,
+          "line": 254,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "covered.push_back({cs, ce});",
@@ -1887,7 +1887,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 217,
+          "line": 215,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "current.push_back(&v);",
@@ -1896,7 +1896,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 195,
+          "line": 193,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(v);",
@@ -1905,7 +1905,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 177,
+          "line": 175,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(v);",
@@ -1914,7 +1914,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 137,
+          "line": 135,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "versions.push_back(std::move(vdoc));",
@@ -1923,7 +1923,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 88,
+          "line": 86,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "versions.push_back(std::move(vdoc));",
@@ -1932,7 +1932,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 125,
+          "line": 123,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "Document merged = target->data;",
@@ -1941,7 +1941,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 187,
+          "line": 185,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = rows_.find(key);",
@@ -1950,7 +1950,7 @@
         },
         {
           "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 168,
+          "line": 166,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = rows_.find(key);",
@@ -1961,7 +1961,7 @@
       "src\\temporal\\system_versioned_table.cpp": [
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 395,
+          "line": 393,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1973,7 +1973,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 373,
+          "line": 371,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1985,7 +1985,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 323,
+          "line": 321,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1997,7 +1997,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 317,
+          "line": 315,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2009,7 +2009,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 277,
+          "line": 275,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2021,7 +2021,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 254,
+          "line": 252,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2033,7 +2033,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 240,
+          "line": 238,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2045,7 +2045,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 211,
+          "line": 209,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2057,7 +2057,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 195,
+          "line": 193,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2069,7 +2069,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 164,
+          "line": 162,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2081,7 +2081,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 131,
+          "line": 129,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2093,7 +2093,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 91,
+          "line": 89,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2105,7 +2105,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 363,
+          "line": 361,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2117,7 +2117,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 317,
+          "line": 315,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2129,7 +2129,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 277,
+          "line": 275,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2141,7 +2141,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 256,
+          "line": 254,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2153,7 +2153,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 256,
+          "line": 254,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2165,7 +2165,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 241,
+          "line": 239,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2177,7 +2177,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 166,
+          "line": 164,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2189,7 +2189,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 156,
+          "line": 154,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2201,7 +2201,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 134,
+          "line": 132,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2213,7 +2213,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 97,
+          "line": 95,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2227,7 +2227,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\temporal\\system_versioned_table.cpp",
-          "line_number": 474,
+          "line_number": 472,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2239,7 +2239,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\temporal\\system_versioned_table.cpp",
-          "line_number": 460,
+          "line_number": 458,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2251,7 +2251,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\temporal\\system_versioned_table.cpp",
-          "line_number": 161,
+          "line_number": 159,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2263,7 +2263,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\temporal\\system_versioned_table.cpp",
-          "line_number": 129,
+          "line_number": 127,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2275,7 +2275,7 @@
           "gap_type": "missing_move_constructor_defaulted",
           "severity": "MEDIUM",
           "file_path": "src\\temporal\\system_versioned_table.cpp",
-          "line_number": 310,
+          "line_number": 308,
           "class_name": "",
           "issue": "Copy constructor exists but no move constructor (Rule of Five)",
           "reason": "Missing move ctor prevents efficient rvalue transfers",
@@ -2287,7 +2287,7 @@
           "gap_type": "missing_move_constructor_defaulted",
           "severity": "MEDIUM",
           "file_path": "src\\temporal\\system_versioned_table.cpp",
-          "line_number": 285,
+          "line_number": 283,
           "class_name": "",
           "issue": "Copy constructor exists but no move constructor (Rule of Five)",
           "reason": "Missing move ctor prevents efficient rvalue transfers",
@@ -2297,7 +2297,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 364,
+          "line": 362,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "to_delete_ptrs.push_back(historical[i]);",
@@ -2306,7 +2306,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 346,
+          "line": 344,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "historical.push_back(&v);",
@@ -2315,7 +2315,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 318,
+          "line": 316,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "keys.push_back(k);",
@@ -2324,7 +2324,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 278,
+          "line": 276,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "keys.push_back(k);",
@@ -2333,7 +2333,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 261,
+          "line": 259,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(v);",
@@ -2342,7 +2342,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 257,
+          "line": 255,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(v);",
@@ -2351,7 +2351,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 242,
+          "line": 240,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(v);",
@@ -2360,7 +2360,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 167,
+          "line": 165,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "versions.push_back(makeVersion(key, std::move(merged), ts));",
@@ -2369,7 +2369,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 157,
+          "line": 155,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "versions.push_back(makeVersion(key, doc, ts));",
@@ -2378,7 +2378,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 135,
+          "line": 133,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "versions.push_back(makeVersion(key, std::move(merged), ts));",
@@ -2387,7 +2387,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 98,
+          "line": 96,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "versions.push_back(makeVersion(key, doc, ts));",
@@ -2396,7 +2396,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 163,
+          "line": 161,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "Document merged = current->data;",
@@ -2405,7 +2405,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 130,
+          "line": 128,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "Document merged = current->data;",
@@ -2414,7 +2414,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 289,
+          "line": 287,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = rows_.find(key);",
@@ -2423,7 +2423,7 @@
         },
         {
           "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 234,
+          "line": 232,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = rows_.find(key);",
@@ -2434,7 +2434,7 @@
       "src\\temporal\\temporal_aggregator.cpp": [
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 658,
+          "line": 656,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2446,7 +2446,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 644,
+          "line": 642,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2458,7 +2458,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 601,
+          "line": 599,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2470,7 +2470,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 551,
+          "line": 549,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2482,7 +2482,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 532,
+          "line": 530,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2494,7 +2494,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 532,
+          "line": 530,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2506,7 +2506,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 488,
+          "line": 486,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2518,7 +2518,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 469,
+          "line": 467,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2530,7 +2530,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 362,
+          "line": 360,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2542,7 +2542,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 306,
+          "line": 304,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2554,7 +2554,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 285,
+          "line": 283,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2566,7 +2566,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 261,
+          "line": 259,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2578,7 +2578,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 235,
+          "line": 233,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2590,7 +2590,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 235,
+          "line": 233,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2602,7 +2602,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 176,
+          "line": 174,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2614,7 +2614,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 176,
+          "line": 174,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2626,7 +2626,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 173,
+          "line": 171,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2638,7 +2638,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 172,
+          "line": 170,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2650,7 +2650,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 144,
+          "line": 142,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2662,7 +2662,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 144,
+          "line": 142,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2674,7 +2674,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 131,
+          "line": 129,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2686,7 +2686,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 56,
+          "line": 54,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2698,7 +2698,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 56,
+          "line": 54,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2710,7 +2710,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 602,
+          "line": 600,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(res);",
@@ -2719,7 +2719,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 594,
+          "line": 592,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (auto& v : cur_ordered) cur_values.push_back(std::get<2>(v));",
@@ -2728,7 +2728,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 552,
+          "line": 550,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(res);",
@@ -2737,7 +2737,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 543,
+          "line": 541,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (auto& v : ordered_vals) values.push_back(std::get<2>(v));",
@@ -2746,7 +2746,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 535,
+          "line": 533,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "values.push_back(*val);",
@@ -2755,7 +2755,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 489,
+          "line": 487,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(res);",
@@ -2764,7 +2764,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 480,
+          "line": 478,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (auto& v : ordered_vals) values.push_back(std::get<2>(v));",
@@ -2773,7 +2773,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 472,
+          "line": 470,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "values.push_back(*val);",
@@ -2782,7 +2782,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 364,
+          "line": 362,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ys.push_back(w.value);",
@@ -2791,7 +2791,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 363,
+          "line": 361,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "xs.push_back(centre);",
@@ -2800,7 +2800,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 307,
+          "line": 305,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(res);",
@@ -2809,7 +2809,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 297,
+          "line": 295,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (auto& v : snap_ordered) values.push_back(std::get<2>(v));",
@@ -2818,7 +2818,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 290,
+          "line": 288,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "values.push_back(*val);",
@@ -2827,7 +2827,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 262,
+          "line": 260,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "active.push_back(&all_versions[next_to_activate++]);",
@@ -2836,7 +2836,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 236,
+          "line": 234,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "all_versions.push_back(std::move(v));",
@@ -2845,7 +2845,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 177,
+          "line": 175,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "groups[key].push_back(row);",
@@ -2854,7 +2854,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 145,
+          "line": 143,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "all_rows.push_back(std::move(h));",
@@ -2863,7 +2863,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 57,
+          "line": 55,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "rows.push_back(std::move(h));",
@@ -2872,7 +2872,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 283,
+          "line": 281,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto val = extractMeasure(ver->data, spec.measure_field);",
@@ -2881,7 +2881,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 177,
+          "line": 175,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (group_kv_map.find(key) == group_kv_map.end()) {",
@@ -2890,7 +2890,7 @@
         },
         {
           "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 176,
+          "line": 174,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto [key, kv] = buildGroupKey(row.data, spec.group_by_fields);",
@@ -2901,7 +2901,7 @@
       "src\\temporal\\temporal_cdc.cpp": [
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 499,
+          "line": 497,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2913,7 +2913,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 183,
+          "line": 181,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2925,7 +2925,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 167,
+          "line": 165,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2937,7 +2937,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 567,
+          "line": 565,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2949,7 +2949,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 480,
+          "line": 478,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2961,7 +2961,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 189,
+          "line": 187,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2973,7 +2973,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 158,
+          "line": 156,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2987,7 +2987,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\temporal\\temporal_cdc.cpp",
-          "line_number": 620,
+          "line_number": 618,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2999,7 +2999,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\temporal\\temporal_cdc.cpp",
-          "line_number": 144,
+          "line_number": 142,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3011,7 +3011,7 @@
           "gap_type": "missing_move_constructor_defaulted",
           "severity": "MEDIUM",
           "file_path": "src\\temporal\\temporal_cdc.cpp",
-          "line_number": 135,
+          "line_number": 133,
           "class_name": "",
           "issue": "Copy constructor exists but no move constructor (Rule of Five)",
           "reason": "Missing move ctor prevents efficient rvalue transfers",
@@ -3023,7 +3023,7 @@
           "gap_type": "missing_move_constructor_defaulted",
           "severity": "MEDIUM",
           "file_path": "src\\temporal\\temporal_cdc.cpp",
-          "line_number": 104,
+          "line_number": 102,
           "class_name": "",
           "issue": "Copy constructor exists but no move constructor (Rule of Five)",
           "reason": "Missing move ctor prevents efficient rvalue transfers",
@@ -3033,7 +3033,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 613,
+          "line": 611,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "std::fclose(active_fd_);",
@@ -3042,7 +3042,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 569,
+          "line": 567,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -3051,7 +3051,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 568,
+          "line": 566,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "seqs.push_back(seq);",
@@ -3060,7 +3060,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 487,
+          "line": 485,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "std::fclose(fd);",
@@ -3069,7 +3069,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 482,
+          "line": 480,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -3078,7 +3078,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 481,
+          "line": 479,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "events.push_back(ChangeEvent::fromJson(nlohmann::json::parse(payload)));",
@@ -3087,7 +3087,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 464,
+          "line": 462,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "std::fclose(fd);",
@@ -3096,7 +3096,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 402,
+          "line": 400,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "std::fclose(active_fd_);",
@@ -3105,7 +3105,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 398,
+          "line": 396,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "void CDCPersistentLog::close() {",
@@ -3114,7 +3114,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 378,
+          "line": 376,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "std::fclose(fd);",
@@ -3123,7 +3123,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 357,
+          "line": 355,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "std::fclose(fd);",
@@ -3132,7 +3132,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 317,
+          "line": 315,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "close();",
@@ -3141,7 +3141,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 190,
+          "line": 188,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(ev);",
@@ -3150,7 +3150,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 159,
+          "line": 157,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "callbacks_to_invoke.push_back(sub.callback);",
@@ -3159,7 +3159,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 514,
+          "line": 512,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::out_of_range(\"CDCPersistentLog::replaySegment: seq \"",
@@ -3168,7 +3168,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 427,
+          "line": 425,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"CDCPersistentLog::append: cannot create segment '\"",
@@ -3177,7 +3177,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 418,
+          "line": 416,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -3186,7 +3186,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 389,
+          "line": 387,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"CDCPersistentLog::open: cannot re-open '\"",
@@ -3195,7 +3195,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 358,
+          "line": 356,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"CDCPersistentLog::open: invalid header in '\"",
@@ -3204,7 +3204,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 351,
+          "line": 349,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"CDCPersistentLog::open: cannot open '\"",
@@ -3213,7 +3213,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 333,
+          "line": 331,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"CDCPersistentLog::open: cannot create directory '\"",
@@ -3222,7 +3222,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 277,
+          "line": 275,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "crc = kCRC32Table[(crc ^ static_cast<uint8_t>(data[i])) & 0xFF] ^ (crc >> 8);",
@@ -3231,7 +3231,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 107,
+          "line": 105,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"TemporalCDC::subscribeToChanges: callback must not be null\");",
@@ -3240,7 +3240,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 57,
+          "line": 55,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Unknown ChangeType: \" + s);",
@@ -3249,7 +3249,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 622,
+          "line": 620,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "active_fd_ = std::fopen(path.c_str(), \"wb\");",
@@ -3258,7 +3258,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 460,
+          "line": 458,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::FILE* fd = std::fopen(path.c_str(), \"rb\");",
@@ -3267,7 +3267,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 425,
+          "line": 423,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "active_fd_ = std::fopen(path.c_str(), \"wb\");",
@@ -3276,7 +3276,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 387,
+          "line": 385,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "active_fd_ = std::fopen(path.c_str(), \"ab\");",
@@ -3285,7 +3285,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 349,
+          "line": 347,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::FILE* fd = std::fopen(path.c_str(), \"rb\");",
@@ -3294,7 +3294,7 @@
         },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 324,
+          "line": 322,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "void CDCPersistentLog::open() {",
@@ -3305,7 +3305,7 @@
       "src\\temporal\\bitemporal_join.cpp": [
         {
           "file": "src\\temporal\\bitemporal_join.cpp",
-          "line": 153,
+          "line": 151,
           "category": "observability",
           "severity": "HIGH",
           "pattern": "missing_trace_point",
@@ -3317,19 +3317,7 @@
         },
         {
           "file": "src\\temporal\\bitemporal_join.cpp",
-          "line": 155,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "results.push_back(std::move(r));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\bitemporal_join.cpp",
-          "line": 155,
+          "line": 153,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3342,6 +3330,18 @@
         {
           "file": "src\\temporal\\bitemporal_join.cpp",
           "line": 153,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(std::move(r));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\temporal\\bitemporal_join.cpp",
+          "line": 151,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -3353,7 +3353,7 @@
         },
         {
           "file": "src\\temporal\\bitemporal_join.cpp",
-          "line": 132,
+          "line": 130,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3365,7 +3365,7 @@
         },
         {
           "file": "src\\temporal\\bitemporal_join.cpp",
-          "line": 130,
+          "line": 128,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -3377,7 +3377,7 @@
         },
         {
           "file": "src\\temporal\\bitemporal_join.cpp",
-          "line": 156,
+          "line": 154,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(std::move(r));",
@@ -3386,7 +3386,7 @@
         },
         {
           "file": "src\\temporal\\bitemporal_join.cpp",
-          "line": 133,
+          "line": 131,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "right_idx[config_.right_key_fn(row)].push_back(&row);",
@@ -3395,7 +3395,7 @@
         },
         {
           "file": "src\\temporal\\bitemporal_join.cpp",
-          "line": 153,
+          "line": 151,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::vector<BiTemporalJoinResult> BiTemporalJoin::execute() const {",
@@ -3404,7 +3404,7 @@
         },
         {
           "file": "src\\temporal\\bitemporal_join.cpp",
-          "line": 137,
+          "line": 135,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = right_idx.find(lkey);",
@@ -3415,7 +3415,7 @@
       "src\\temporal\\retention_manager.cpp": [
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 518,
+          "line": 516,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3427,7 +3427,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 449,
+          "line": 447,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3439,7 +3439,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 358,
+          "line": 356,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3451,7 +3451,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 148,
+          "line": 146,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3463,7 +3463,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 524,
+          "line": 522,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3475,7 +3475,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 507,
+          "line": 505,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3487,7 +3487,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 455,
+          "line": 453,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3499,7 +3499,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 425,
+          "line": 423,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3511,7 +3511,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 425,
+          "line": 423,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3523,7 +3523,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 365,
+          "line": 363,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3535,7 +3535,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 323,
+          "line": 321,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3547,7 +3547,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 323,
+          "line": 321,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3559,7 +3559,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 223,
+          "line": 221,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3571,7 +3571,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 150,
+          "line": 148,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3583,7 +3583,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 525,
+          "line": 523,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "archive_.push_back(std::move(ar));",
@@ -3592,7 +3592,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 514,
+          "line": 512,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "if (count_to_delete == 0) continue;",
@@ -3601,7 +3601,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 513,
+          "line": 511,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "size_t count_to_delete = std::min(eligible.size(), batch_remaining);",
@@ -3610,7 +3610,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 508,
+          "line": 506,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "eligible.push_back(v);",
@@ -3619,7 +3619,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 456,
+          "line": 454,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "archive_.push_back(std::move(ar));",
@@ -3628,7 +3628,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 445,
+          "line": 443,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "size_t count_to_delete    = std::min(eligible_to_delete, batch_remaining);",
@@ -3637,7 +3637,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 444,
+          "line": 442,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "size_t eligible_to_delete = eligible.size() - keep_from_eligible;",
@@ -3646,7 +3646,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 426,
+          "line": 424,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "eligible.push_back(v);",
@@ -3655,7 +3655,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 385,
+          "line": 383,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "if (remaining_to_delete == 0) return false;",
@@ -3664,7 +3664,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 379,
+          "line": 377,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "size_t remaining_to_delete = 1;",
@@ -3673,7 +3673,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 366,
+          "line": 364,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "archive_.push_back(std::move(ar));",
@@ -3682,7 +3682,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 324,
+          "line": 322,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "all_historical.push_back({key, v.sys_time.start, v.sys_time.end, sz});",
@@ -3691,7 +3691,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 224,
+          "line": 222,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "due_tables.push_back(st.table);",
@@ -3700,7 +3700,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 151,
+          "line": 149,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(r);",
@@ -3709,7 +3709,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 120,
+          "line": 118,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.errors.push_back(\"applyPolicy: unknown exception\");",
@@ -3718,7 +3718,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 119,
+          "line": 117,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -3727,43 +3727,43 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 118,
+          "line": 116,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.errors.push_back(std::string(\"applyPolicy exception: \") + e.what());",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 91,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.errors.push_back(\"applyPolicy: unknown exception\");",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 90,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
           "line": 89,
           "type": "copy_overhead",
           "severity": "MEDIUM",
+          "snippet": "result.errors.push_back(\"applyPolicy: unknown exception\");",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\temporal\\retention_manager.cpp",
+          "line": 88,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\temporal\\retention_manager.cpp",
+          "line": 87,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
           "snippet": "result.errors.push_back(std::string(\"applyPolicy exception: \") + e.what());",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 74,
+          "line": 72,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "stats.errors.push_back(\"No retention policy registered for table: \" +",
@@ -3772,7 +3772,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 524,
+          "line": 522,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -3781,7 +3781,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 455,
+          "line": 453,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -3790,7 +3790,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 365,
+          "line": 363,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -3799,7 +3799,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 235,
+          "line": 233,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(10));",
@@ -3808,7 +3808,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 216,
+          "line": 214,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "while (!scheduler_stop_.load(std::memory_order_acquire)) {",
@@ -3817,7 +3817,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 212,
+          "line": 210,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "return scheduler_running_.load(std::memory_order_acquire);",
@@ -3826,7 +3826,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 149,
+          "line": 147,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "r.archive_tag.find(table_name) != std::string::npos) {",
@@ -3835,7 +3835,7 @@
         },
         {
           "file": "src\\temporal\\retention_manager.cpp",
-          "line": 71,
+          "line": 69,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = policies_.find(table.tableName());",
@@ -3846,7 +3846,7 @@
       "src\\temporal\\temporal_compressor.cpp": [
         {
           "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 619,
+          "line": 617,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3858,7 +3858,7 @@
         },
         {
           "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 596,
+          "line": 594,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3870,7 +3870,7 @@
         },
         {
           "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 572,
+          "line": 570,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3882,7 +3882,7 @@
         },
         {
           "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 532,
+          "line": 530,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3894,7 +3894,7 @@
         },
         {
           "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 532,
+          "line": 530,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3906,7 +3906,7 @@
         },
         {
           "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 522,
+          "line": 520,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3918,7 +3918,7 @@
         },
         {
           "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 507,
+          "line": 505,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3930,7 +3930,7 @@
         },
         {
           "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 478,
+          "line": 476,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3942,7 +3942,7 @@
         },
         {
           "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 442,
+          "line": 440,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3954,7 +3954,7 @@
         },
         {
           "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 442,
+          "line": 440,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3966,7 +3966,7 @@
         },
         {
           "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 241,
+          "line": 239,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3978,7 +3978,7 @@
         },
         {
           "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 232,
+          "line": 230,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3990,7 +3990,7 @@
         },
         {
           "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 197,
+          "line": 195,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4002,7 +4002,7 @@
         },
         {
           "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 197,
+          "line": 195,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4014,7 +4014,7 @@
         },
         {
           "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 54,
+          "line": 52,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -4028,7 +4028,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\temporal\\temporal_compressor.cpp",
-          "line_number": 434,
+          "line_number": 432,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -4038,7 +4038,7 @@
         },
         {
           "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 527,
+          "line": 525,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4050,7 +4050,7 @@
         },
         {
           "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 428,
+          "line": 426,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4062,7 +4062,7 @@
         },
         {
           "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 263,
+          "line": 261,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4074,7 +4074,7 @@
         },
         {
           "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 523,
+          "line": 521,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (val.is_number()) numeric_fields.push_back(f);",
@@ -4083,7 +4083,7 @@
         },
         {
           "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 450,
+          "line": 448,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto* vp : candidates) sorted_versions.push_back(*vp);",
@@ -4092,7 +4092,7 @@
         },
         {
           "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 443,
+          "line": 441,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "candidates.push_back(&v);",
@@ -4101,7 +4101,7 @@
         },
         {
           "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 353,
+          "line": 351,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -4110,7 +4110,7 @@
         },
         {
           "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 242,
+          "line": 240,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "val_arr.push_back(bits ^ prev_bits);",
@@ -4119,7 +4119,7 @@
         },
         {
           "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 233,
+          "line": 231,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ts_arr.push_back(series[i].first - series[i-1].first);",
@@ -4128,7 +4128,7 @@
         },
         {
           "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 198,
+          "line": 196,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "removed.push_back(field);",
@@ -4137,7 +4137,7 @@
         },
         {
           "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 240,
+          "line": 238,
           "type": "size_assumption",
           "severity": "HIGH",
           "snippet": "static_assert(sizeof(double) == sizeof(uint64_t), \"\");",
@@ -4148,7 +4148,7 @@
       "src\\temporal\\temporal_index.cpp": [
         {
           "file": "src\\temporal\\temporal_index.cpp",
-          "line": 136,
+          "line": 134,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -4160,7 +4160,7 @@
         },
         {
           "file": "src\\temporal\\temporal_index.cpp",
-          "line": 117,
+          "line": 115,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -4172,7 +4172,7 @@
         },
         {
           "file": "src\\temporal\\temporal_index.cpp",
-          "line": 96,
+          "line": 94,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -4184,7 +4184,7 @@
         },
         {
           "file": "src\\temporal\\temporal_index.cpp",
-          "line": 74,
+          "line": 72,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -4196,7 +4196,7 @@
         },
         {
           "file": "src\\temporal\\temporal_index.cpp",
-          "line": 57,
+          "line": 55,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -4208,7 +4208,7 @@
         },
         {
           "file": "src\\temporal\\temporal_index.cpp",
-          "line": 140,
+          "line": 138,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4220,7 +4220,7 @@
         },
         {
           "file": "src\\temporal\\temporal_index.cpp",
-          "line": 122,
+          "line": 120,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4232,7 +4232,7 @@
         },
         {
           "file": "src\\temporal\\temporal_index.cpp",
-          "line": 101,
+          "line": 99,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4244,7 +4244,7 @@
         },
         {
           "file": "src\\temporal\\temporal_index.cpp",
-          "line": 141,
+          "line": 139,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(entry);",
@@ -4253,7 +4253,7 @@
         },
         {
           "file": "src\\temporal\\temporal_index.cpp",
-          "line": 123,
+          "line": 121,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(entry);",
@@ -4262,7 +4262,7 @@
         },
         {
           "file": "src\\temporal\\temporal_index.cpp",
-          "line": 102,
+          "line": 100,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(entry);",
@@ -4271,7 +4271,7 @@
         },
         {
           "file": "src\\temporal\\temporal_index.cpp",
-          "line": 74,
+          "line": 72,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "for (auto it = entries_by_start_.begin(); it != entries_by_start_.end();) {",
@@ -4280,7 +4280,7 @@
         },
         {
           "file": "src\\temporal\\temporal_index.cpp",
-          "line": 57,
+          "line": 55,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "for (auto it = entries_by_start_.begin(); it != entries_by_start_.end();) {",
@@ -4291,7 +4291,7 @@
       "src\\temporal\\temporal_migrator.cpp": [
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 458,
+          "line": 456,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4303,7 +4303,7 @@
         },
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 458,
+          "line": 456,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4315,7 +4315,7 @@
         },
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 430,
+          "line": 428,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4327,7 +4327,7 @@
         },
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 411,
+          "line": 409,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4339,7 +4339,7 @@
         },
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 411,
+          "line": 409,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4351,7 +4351,7 @@
         },
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 388,
+          "line": 386,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4363,7 +4363,7 @@
         },
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 388,
+          "line": 386,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4375,7 +4375,7 @@
         },
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 295,
+          "line": 293,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4387,7 +4387,7 @@
         },
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 150,
+          "line": 148,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4399,7 +4399,7 @@
         },
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 87,
+          "line": 85,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4411,7 +4411,7 @@
         },
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 87,
+          "line": 85,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4423,7 +4423,7 @@
         },
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 220,
+          "line": 218,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4435,7 +4435,7 @@
         },
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 191,
+          "line": 189,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4447,7 +4447,7 @@
         },
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 177,
+          "line": 175,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4459,7 +4459,7 @@
         },
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 61,
+          "line": 59,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4471,7 +4471,7 @@
         },
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 58,
+          "line": 56,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4483,7 +4483,7 @@
         },
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 54,
+          "line": 52,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4495,7 +4495,7 @@
         },
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 459,
+          "line": 457,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "report.checks.push_back(r);",
@@ -4504,7 +4504,7 @@
         },
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 431,
+          "line": 429,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "report.checks.push_back(r);",
@@ -4513,7 +4513,7 @@
         },
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 412,
+          "line": 410,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "report.checks.push_back(r);",
@@ -4522,7 +4522,7 @@
         },
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 389,
+          "line": 387,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "report.checks.push_back(r);",
@@ -4531,7 +4531,7 @@
         },
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 296,
+          "line": 294,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "stats_.errors.push_back(",
@@ -4540,7 +4540,7 @@
         },
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 263,
+          "line": 261,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "stats_.errors.push_back(\"Duplicate or failed insert for key: \" + key);",
@@ -4549,7 +4549,7 @@
         },
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 151,
+          "line": 149,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& c : checks) { arr.push_back(c.toJson()); }",
@@ -4558,7 +4558,7 @@
         },
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 114,
+          "line": 112,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& c : columns) { cols.push_back(c.toJson()); }",
@@ -4567,7 +4567,7 @@
         },
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 88,
+          "line": 86,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "columns.push_back(std::move(ci));",
@@ -4576,10 +4576,10 @@
         },
         {
           "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #4516 [WIP] Update developer documentation for module synchronization (2026-04-12T20:26:29Z)",
+          "snippet": "* PR History (last 5): #4516 [WIP] Update developer docu... (2026-04-12)",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         }
@@ -4587,7 +4587,7 @@
       "src\\temporal\\temporal_query_engine.cpp": [
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 387,
+          "line": 385,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -4599,7 +4599,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 374,
+          "line": 372,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -4611,7 +4611,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 683,
+          "line": 681,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4623,7 +4623,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 642,
+          "line": 640,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4635,7 +4635,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 590,
+          "line": 588,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4647,7 +4647,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 590,
+          "line": 588,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4659,7 +4659,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 571,
+          "line": 569,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4671,7 +4671,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 501,
+          "line": 499,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4683,7 +4683,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 451,
+          "line": 449,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4695,7 +4695,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 325,
+          "line": 323,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4707,7 +4707,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 325,
+          "line": 323,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4719,7 +4719,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 277,
+          "line": 275,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4731,7 +4731,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 277,
+          "line": 275,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4743,7 +4743,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 248,
+          "line": 246,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4755,7 +4755,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 182,
+          "line": 180,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4767,7 +4767,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 182,
+          "line": 180,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4779,7 +4779,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 156,
+          "line": 154,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4791,7 +4791,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 156,
+          "line": 154,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4803,7 +4803,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 127,
+          "line": 125,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4815,7 +4815,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 127,
+          "line": 125,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4827,7 +4827,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 64,
+          "line": 62,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4839,7 +4839,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 64,
+          "line": 62,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4851,7 +4851,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 43,
+          "line": 41,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4863,7 +4863,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 396,
+          "line": 394,
           "category": "legacy_duplication",
           "severity": "MEDIUM",
           "pattern": "duplicate_qualified_signature",
@@ -4876,7 +4876,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 688,
+          "line": 686,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(current);",
@@ -4885,7 +4885,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 684,
+          "line": 682,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(current);",
@@ -4894,7 +4894,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 643,
+          "line": 641,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(row));",
@@ -4903,7 +4903,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 591,
+          "line": 589,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(row));",
@@ -4912,7 +4912,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 572,
+          "line": 570,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(cur);",
@@ -4921,7 +4921,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 559,
+          "line": 557,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(versions.front());",
@@ -4930,7 +4930,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 502,
+          "line": 500,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(v));",
@@ -4939,7 +4939,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 452,
+          "line": 450,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(v));",
@@ -4948,7 +4948,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 326,
+          "line": 324,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(v));",
@@ -4957,7 +4957,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 278,
+          "line": 276,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(row));",
@@ -4966,7 +4966,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 249,
+          "line": 247,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(row));",
@@ -4975,7 +4975,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 183,
+          "line": 181,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(v));",
@@ -4984,7 +4984,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 65,
+          "line": 63,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(v));",
@@ -4993,7 +4993,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 44,
+          "line": 42,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(row));",
@@ -5002,7 +5002,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 533,
+          "line": 531,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto ib = b.find(f);",
@@ -5011,7 +5011,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 532,
+          "line": 530,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto ia = a.find(f);",
@@ -5020,7 +5020,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 387,
+          "line": 385,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "for (auto it = store_.begin(); it != store_.end(); ) {",
@@ -5029,7 +5029,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 374,
+          "line": 372,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "for (auto jt = store_.begin(); jt != store_.end(); ++jt) {",
@@ -5038,7 +5038,7 @@
         },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 373,
+          "line": 371,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto oldest = store_.begin();",
@@ -5049,7 +5049,7 @@
       "src\\temporal\\temporal_tier_manager.cpp": [
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 425,
+          "line": 423,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -5061,7 +5061,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 362,
+          "line": 360,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -5073,7 +5073,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 711,
+          "line": 709,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5085,7 +5085,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 688,
+          "line": 686,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5097,7 +5097,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 633,
+          "line": 631,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5109,7 +5109,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 571,
+          "line": 569,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5121,7 +5121,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 557,
+          "line": 555,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5133,7 +5133,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 425,
+          "line": 423,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5145,7 +5145,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 425,
+          "line": 423,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5157,7 +5157,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 422,
+          "line": 420,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5169,7 +5169,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 362,
+          "line": 360,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5181,7 +5181,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 362,
+          "line": 360,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5193,7 +5193,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 319,
+          "line": 317,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5205,7 +5205,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 319,
+          "line": 317,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5217,7 +5217,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 266,
+          "line": 264,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5229,7 +5229,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 266,
+          "line": 264,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5243,7 +5243,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\temporal\\temporal_tier_manager.cpp",
-          "line_number": 211,
+          "line_number": 209,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -5253,7 +5253,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 712,
+          "line": 710,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(doc));",
@@ -5262,7 +5262,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 689,
+          "line": 687,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(doc));",
@@ -5271,7 +5271,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 634,
+          "line": 632,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "blk.entries.push_back(std::move(s));",
@@ -5280,7 +5280,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 572,
+          "line": 570,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "warm_blocks.push_back(std::move(blk));",
@@ -5289,7 +5289,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 558,
+          "line": 556,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "batch.push_back(std::move(it->second));",
@@ -5298,7 +5298,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 426,
+          "line": 424,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tables.push_back(t);",
@@ -5307,7 +5307,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 423,
+          "line": 421,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& [t, _] : hot_)  tables.push_back(t);",
@@ -5316,7 +5316,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 363,
+          "line": 361,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "keys.push_back(k);",
@@ -5325,7 +5325,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 359,
+          "line": 357,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& [k, _] : tit->second) keys.push_back(k);",
@@ -5334,7 +5334,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 320,
+          "line": 318,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (doc.sys_time.overlaps(range)) result.push_back(doc);",
@@ -5343,7 +5343,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 267,
+          "line": 265,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(doc);",
@@ -5352,7 +5352,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 425,
+          "line": 423,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "if (std::find(tables.begin(), tables.end(), t) == tables.end())",
@@ -5361,7 +5361,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 413,
+          "line": 411,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::mutex> lk(compact_cv_mutex_);",
@@ -5370,7 +5370,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 362,
+          "line": 360,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "if (std::find(keys.begin(), keys.end(), k) == keys.end())",
@@ -5379,7 +5379,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 556,
+          "line": 554,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = hot_map.begin();",
@@ -5388,7 +5388,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 360,
+          "line": 358,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "if (auto tit = warm_.find(table_name); tit != warm_.end())",
@@ -5397,7 +5397,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 358,
+          "line": 356,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "if (auto tit = hot_.find(table_name); tit != hot_.end())",
@@ -5406,7 +5406,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 314,
+          "line": 312,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto tit = hot_.find(table_name);",
@@ -5415,7 +5415,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 296,
+          "line": 294,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto tit = warm_.find(table_name);",
@@ -5424,7 +5424,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 262,
+          "line": 260,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto tit = hot_.find(table_name);",
@@ -5433,7 +5433,7 @@
         },
         {
           "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 246,
+          "line": 244,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto tit = warm_.find(table_name);",

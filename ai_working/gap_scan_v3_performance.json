@@ -27,7 +27,7 @@
       "src\\performance\\adaptive_query_compiler.cpp": [
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 701,
+          "line": 699,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -39,7 +39,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 699,
+          "line": 697,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -51,7 +51,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 511,
+          "line": 509,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -63,7 +63,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 482,
+          "line": 480,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -75,7 +75,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 420,
+          "line": 418,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -87,7 +87,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 141,
+          "line": 139,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -99,7 +99,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 121,
+          "line": 119,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -111,7 +111,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 120,
+          "line": 118,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -123,7 +123,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 107,
+          "line": 105,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -135,7 +135,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 106,
+          "line": 104,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -147,7 +147,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 95,
+          "line": 93,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -159,7 +159,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 94,
+          "line": 92,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -171,7 +171,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 1011,
+          "line": 1009,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -183,7 +183,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 989,
+          "line": 987,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -195,7 +195,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 971,
+          "line": 969,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -207,7 +207,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 951,
+          "line": 949,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -219,7 +219,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 951,
+          "line": 949,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -231,7 +231,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 867,
+          "line": 865,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -243,7 +243,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 747,
+          "line": 745,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -255,7 +255,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 747,
+          "line": 745,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -267,7 +267,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 681,
+          "line": 679,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -279,7 +279,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 659,
+          "line": 657,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -291,7 +291,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 630,
+          "line": 628,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -303,7 +303,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 592,
+          "line": 590,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -315,7 +315,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 592,
+          "line": 590,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -327,7 +327,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 571,
+          "line": 569,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -339,7 +339,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 571,
+          "line": 569,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -351,7 +351,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 305,
+          "line": 303,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -363,7 +363,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 981,
+          "line": 979,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -375,7 +375,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 641,
+          "line": 639,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -389,7 +389,7 @@
           "gap_type": "missing_move_constructor_defaulted",
           "severity": "MEDIUM",
           "file_path": "src\\performance\\adaptive_query_compiler.cpp",
-          "line_number": 33,
+          "line_number": 31,
           "class_name": "",
           "issue": "Copy constructor exists but no move constructor (Rule of Five)",
           "reason": "Missing move ctor prevents efficient rvalue transfers",
@@ -399,7 +399,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 1012,
+          "line": 1010,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "r.rows.push_back(std::move(out));",
@@ -408,7 +408,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 990,
+          "line": 988,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (groups.find(gk) == groups.end()) order.push_back(gk);",
@@ -417,7 +417,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 976,
+          "line": 974,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "r.rows.push_back(std::move(out));",
@@ -426,7 +426,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 973,
+          "line": 971,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.values.push_back(QueryValue{applyAggFunction(",
@@ -435,7 +435,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 972,
+          "line": 970,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.column_names.push_back(agg_fn + \"_result\");",
@@ -444,7 +444,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 952,
+          "line": 950,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (pass) base.rows.push_back(std::move(row));",
@@ -453,7 +453,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 868,
+          "line": 866,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "preds.push_back({p.column, p.op, p.value, p.param_name, ct});",
@@ -462,7 +462,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 752,
+          "line": 750,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.rows.push_back(std::move(joined));",
@@ -471,7 +471,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 750,
+          "line": 748,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "joined.values.push_back(rit->second.values[ci]);",
@@ -480,7 +480,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 748,
+          "line": 746,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "joined.column_names.push_back(",
@@ -489,7 +489,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 688,
+          "line": 686,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.rows.push_back(std::move(out_row));",
@@ -498,7 +498,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 685,
+          "line": 683,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out_row.values.push_back(QueryValue{",
@@ -507,7 +507,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 684,
+          "line": 682,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out_row.values.push_back(QueryValue{gkey});",
@@ -516,7 +516,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 683,
+          "line": 681,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out_row.column_names.push_back(query.agg_function + \"_result\");",
@@ -525,7 +525,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 682,
+          "line": 680,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out_row.column_names.push_back(query.group_by_column);",
@@ -534,7 +534,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 660,
+          "line": 658,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "group_order.push_back(gkey);",
@@ -543,7 +543,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 631,
+          "line": 629,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out_row.column_names.push_back(query.agg_function + \"_result\");",
@@ -552,7 +552,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 597,
+          "line": 595,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.rows.push_back(std::move(proj_row));",
@@ -561,7 +561,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 595,
+          "line": 593,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "proj_row.values.push_back(v ? *v : QueryValue{std::monostate{}});",
@@ -570,7 +570,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 593,
+          "line": 591,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "proj_row.column_names.push_back(col_name);",
@@ -579,7 +579,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 572,
+          "line": 570,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (pass) result.rows.push_back(std::move(row));",
@@ -588,7 +588,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 322,
+          "line": 320,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "row.values.push_back(QueryValue{std::monostate{}});",
@@ -597,7 +597,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 318,
+          "line": 316,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "row.values.push_back(",
@@ -606,7 +606,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 315,
+          "line": 313,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "row.values.push_back(QueryValue{(row_idx % 2) == 0});",
@@ -615,7 +615,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 312,
+          "line": 310,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "row.values.push_back(QueryValue{static_cast<double>(row_idx) * 1.5});",
@@ -624,7 +624,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 309,
+          "line": 307,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "row.values.push_back(QueryValue{static_cast<int64_t>(row_idx)});",
@@ -633,7 +633,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 306,
+          "line": 304,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "row.column_names.push_back(col.name);",
@@ -642,7 +642,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 1128,
+          "line": 1126,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "return compiled.execute(params);",
@@ -651,7 +651,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 1120,
+          "line": 1118,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "QueryResult AdaptiveQueryCompiler::execute(const CompiledQuery& compiled,",
@@ -660,7 +660,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 1117,
+          "line": 1115,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "return impl_->execute(query, schema, params);",
@@ -669,7 +669,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 1114,
+          "line": 1112,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "QueryResult AdaptiveQueryCompiler::execute(const ParsedQuery& query,",
@@ -678,7 +678,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 989,
+          "line": 987,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (groups.find(gk) == groups.end()) order.push_back(gk);",
@@ -687,7 +687,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 658,
+          "line": 656,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (groups.find(gkey) == groups.end())",
@@ -696,7 +696,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 501,
+          "line": 499,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "it->second.compiled->execute != nullptr;",
@@ -705,7 +705,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 501,
+          "line": 499,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "it->second.compiled->execute != nullptr;",
@@ -714,7 +714,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 363,
+          "line": 361,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "QueryResult execute(const ParsedQuery& query,",
@@ -723,7 +723,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 281,
+          "line": 279,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "asm_str << \"  prefetcht0 [rdi]\\n\";",
@@ -732,7 +732,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 740,
+          "line": 738,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto rit = hash_table.find(lkstr);",
@@ -741,7 +741,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 438,
+          "line": 436,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "lock.lock();",
@@ -750,7 +750,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 418,
+          "line": 416,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "lock.lock();",
@@ -759,7 +759,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 401,
+          "line": 399,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "lock.lock();",
@@ -768,7 +768,7 @@
         },
         {
           "file": "src\\performance\\adaptive_query_compiler.cpp",
-          "line": 376,
+          "line": 374,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "lock.lock();",
@@ -779,7 +779,7 @@
       "src\\performance\\intelligent_prefetcher.cpp": [
         {
           "file": "src\\performance\\intelligent_prefetcher.cpp",
-          "line": 172,
+          "line": 170,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -791,7 +791,7 @@
         },
         {
           "file": "src\\performance\\intelligent_prefetcher.cpp",
-          "line": 321,
+          "line": 319,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -803,7 +803,7 @@
         },
         {
           "file": "src\\performance\\intelligent_prefetcher.cpp",
-          "line": 173,
+          "line": 171,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -815,7 +815,7 @@
         },
         {
           "file": "src\\performance\\intelligent_prefetcher.cpp",
-          "line": 294,
+          "line": 292,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -827,7 +827,7 @@
         },
         {
           "file": "src\\performance\\intelligent_prefetcher.cpp",
-          "line": 322,
+          "line": 320,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "pattern_.addresses.push_back(history_[i].address);",
@@ -836,7 +836,7 @@
         },
         {
           "file": "src\\performance\\intelligent_prefetcher.cpp",
-          "line": 174,
+          "line": 172,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "predictions.push_back(static_cast<uint64_t>(addr));",
@@ -845,7 +845,7 @@
         },
         {
           "file": "src\\performance\\intelligent_prefetcher.cpp",
-          "line": 409,
+          "line": 407,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return impl_->adaptive_prefetch_distance();",
@@ -854,7 +854,7 @@
         },
         {
           "file": "src\\performance\\intelligent_prefetcher.cpp",
-          "line": 401,
+          "line": 399,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "impl_->prefetch_predicted(addresses);",
@@ -863,7 +863,7 @@
         },
         {
           "file": "src\\performance\\intelligent_prefetcher.cpp",
-          "line": 186,
+          "line": 184,
           "type": "memory_order",
           "severity": "HIGH",
           "snippet": "stat_total_prefetches_.fetch_add(1, std::memory_order_relaxed);",
@@ -872,7 +872,7 @@
         },
         {
           "file": "src\\performance\\intelligent_prefetcher.cpp",
-          "line": 117,
+          "line": 115,
           "type": "memory_order",
           "severity": "HIGH",
           "snippet": "stat_useful_prefetches_.fetch_add(1, std::memory_order_relaxed);",
@@ -881,7 +881,7 @@
         },
         {
           "file": "src\\performance\\intelligent_prefetcher.cpp",
-          "line": 25,
+          "line": 23,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "*   each candidate stride, and normalising to a [0,1] confidence score.",
@@ -890,7 +890,7 @@
         },
         {
           "file": "src\\performance\\intelligent_prefetcher.cpp",
-          "line": 114,
+          "line": 112,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = pending_.find(address);",
@@ -903,7 +903,7 @@
           "gap_type": "exception_in_destructor",
           "severity": "CRITICAL",
           "file_path": "src\\performance\\phase3\\bwtree.cpp",
-          "line_number": 59,
+          "line_number": 57,
           "class_name": "",
           "issue": "Potential exception in destructor",
           "reason": "Destructors must be noexcept; exceptions here cause std::terminate()",
@@ -913,7 +913,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 184,
+          "line": 182,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -927,7 +927,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\performance\\phase3\\bwtree.cpp",
-          "line_number": 123,
+          "line_number": 121,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -939,7 +939,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\performance\\phase3\\bwtree.cpp",
-          "line_number": 92,
+          "line_number": 90,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -949,7 +949,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 375,
+          "line": 373,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "delete current;",
@@ -958,7 +958,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 256,
+          "line": 254,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "delta_chain.push_back(current);",
@@ -967,7 +967,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 224,
+          "line": 222,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "consolidated.release();",
@@ -976,7 +976,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 185,
+          "line": 183,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back({k, v});",
@@ -985,7 +985,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 133,
+          "line": 131,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "delete delta;",
@@ -994,7 +994,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 101,
+          "line": 99,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "delete delta;",
@@ -1003,7 +1003,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 54,
+          "line": 52,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "delete root;",
@@ -1012,7 +1012,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 375,
+          "line": 373,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "delete current;",
@@ -1021,7 +1021,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 374,
+          "line": 372,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "BwTreePage* next = current->next_delta.load(std::memory_order_acquire);",
@@ -1030,7 +1030,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 356,
+          "line": 354,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "consolidation_epoch_.load(std::memory_order_acquire);",
@@ -1039,7 +1039,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 348,
+          "line": 346,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "consolidation_epoch_.load(std::memory_order_acquire)});",
@@ -1048,7 +1048,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 334,
+          "line": 332,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "current = current->next_delta.load(std::memory_order_acquire);",
@@ -1057,7 +1057,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 257,
+          "line": 255,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "current = current->next_delta.load(std::memory_order_acquire);",
@@ -1066,7 +1066,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 222,
+          "line": 220,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (mapping_table_->compare_and_swap(pid, page, consolidated_ptr)) {",
@@ -1075,7 +1075,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 133,
+          "line": 131,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "delete delta;",
@@ -1084,7 +1084,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 101,
+          "line": 99,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "delete delta;",
@@ -1093,7 +1093,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 92,
+          "line": 90,
           "type": "allocation_loop",
           "severity": "HIGH",
           "snippet": "auto delta = new DeltaInsert(key, value);",
@@ -1102,7 +1102,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 55,
+          "line": 53,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to install root page\");",
@@ -1111,7 +1111,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 54,
+          "line": 52,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "delete root;",
@@ -1120,7 +1120,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 38,
+          "line": 36,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "std::memory_order_acquire",
@@ -1129,7 +1129,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 358,
+          "line": 356,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = retired_chains_.begin();",
@@ -1138,7 +1138,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 207,
+          "line": 205,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "BwTreePage* page = mapping_table_->get(pid);",
@@ -1147,7 +1147,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 199,
+          "line": 197,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "BwTreePage* page = mapping_table_->get(root_pid_);",
@@ -1156,7 +1156,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 170,
+          "line": 168,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "BwTreePage* page = mapping_table_->get(root_pid_);",
@@ -1165,7 +1165,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 138,
+          "line": 136,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "BwTreePage* page = mapping_table_->get(root_pid_);",
@@ -1174,7 +1174,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 123,
+          "line": 121,
           "type": "new_without_delete",
           "severity": "CRITICAL",
           "snippet": "auto delta = new DeltaDelete(key);",
@@ -1183,7 +1183,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 123,
+          "line": 121,
           "type": "smart_ptr_misuse",
           "severity": "CRITICAL",
           "snippet": "auto delta = new DeltaDelete(key);",
@@ -1192,7 +1192,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 107,
+          "line": 105,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "BwTreePage* page = mapping_table_->get(root_pid_);",
@@ -1201,7 +1201,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 92,
+          "line": 90,
           "type": "new_without_delete",
           "severity": "CRITICAL",
           "snippet": "auto delta = new DeltaInsert(key, value);",
@@ -1210,7 +1210,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 92,
+          "line": 90,
           "type": "smart_ptr_misuse",
           "severity": "CRITICAL",
           "snippet": "auto delta = new DeltaInsert(key, value);",
@@ -1219,7 +1219,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 77,
+          "line": 75,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "BwTreePage* page = mapping_table_->get(root_pid_);",
@@ -1228,7 +1228,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 49,
+          "line": 47,
           "type": "new_without_delete",
           "severity": "CRITICAL",
           "snippet": "auto root = new LeafPage();",
@@ -1237,7 +1237,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bwtree.cpp",
-          "line": 49,
+          "line": 47,
           "type": "smart_ptr_misuse",
           "severity": "CRITICAL",
           "snippet": "auto root = new LeafPage();",
@@ -1250,7 +1250,7 @@
           "gap_type": "exception_in_destructor",
           "severity": "CRITICAL",
           "file_path": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line_number": 84,
+          "line_number": 82,
           "class_name": "",
           "issue": "Potential exception in destructor",
           "reason": "Destructors must be noexcept; exceptions here cause std::terminate()",
@@ -1262,7 +1262,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line_number": 390,
+          "line_number": 388,
           "line_content": "ssize_t ret = ::send(fd, buffers_[buf_index].data(), len,",
           "context": [
             "",
@@ -1283,7 +1283,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line_number": 438,
+          "line_number": 436,
           "line_content": "ssize_t ret = ::recv(fd, buffers_[buf_index].data(), max_len, 0);",
           "context": [
             "",
@@ -1304,7 +1304,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line_number": 417,
+          "line_number": 415,
           "line_content": "sqe->addr      = reinterpret_cast<uint64_t>(buffers_[buf_index].data());",
           "context": [
             "        sqe->opcode    = IORING_OP_RECV;",
@@ -1325,7 +1325,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line_number": 365,
+          "line_number": 363,
           "line_content": "sqe->addr        = reinterpret_cast<uint64_t>(buffers_[buf_index].data());",
           "context": [
             "        sqe->opcode      = IORING_OP_SEND;",
@@ -1344,7 +1344,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 175,
+          "line": 173,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1356,7 +1356,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 525,
+          "line": 523,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(fd);",
@@ -1365,7 +1365,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 295,
+          "line": 293,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "if (ring_->ring_fd >= 0) ::close(ring_->ring_fd);",
@@ -1374,7 +1374,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 262,
+          "line": 260,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(fd);",
@@ -1383,7 +1383,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 243,
+          "line": 241,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(fd);",
@@ -1392,7 +1392,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 219,
+          "line": 217,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(fd);",
@@ -1401,7 +1401,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 491,
+          "line": 489,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return io_uring_enter(ring_->ring_fd, 1, 0, 0, nullptr);",
@@ -1410,7 +1410,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 491,
+          "line": 489,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "return io_uring_enter(ring_->ring_fd, 1, 0, 0, nullptr);",
@@ -1419,7 +1419,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 471,
+          "line": 469,
           "type": "memory_order",
           "severity": "HIGH",
           "snippet": "cq_completed_.fetch_add(count, std::memory_order_relaxed);",
@@ -1428,7 +1428,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 417,
+          "line": 415,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "sqe->addr      = reinterpret_cast<uint64_t>(buffers_[buf_index].data());",
@@ -1437,7 +1437,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 390,
+          "line": 388,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "ssize_t ret = ::send(fd, buffers_[buf_index].data(), len,",
@@ -1446,7 +1446,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 365,
+          "line": 363,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "sqe->addr        = reinterpret_cast<uint64_t>(buffers_[buf_index].data());",
@@ -1455,7 +1455,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 299,
+          "line": 297,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "ring_->cq_ptr   = nullptr;",
@@ -1464,7 +1464,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 298,
+          "line": 296,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "ring_->sqe_ptr  = nullptr;",
@@ -1473,28 +1473,10 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 297,
+          "line": 295,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "ring_->sq_ptr   = nullptr;",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 294,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (ring_->sq_ptr)  ::munmap(ring_->sq_ptr,  ring_->sq_mmap_size);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 293,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (ring_->sqe_ptr) ::munmap(ring_->sqe_ptr, ring_->sqe_mmap_size);",
           "description": "Potential null pointer dereference",
           "remediation": "Add null check before dereferencing"
         },
@@ -1503,13 +1485,31 @@
           "line": 292,
           "type": "null_dereference",
           "severity": "HIGH",
+          "snippet": "if (ring_->sq_ptr)  ::munmap(ring_->sq_ptr,  ring_->sq_mmap_size);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 291,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "if (ring_->sqe_ptr) ::munmap(ring_->sqe_ptr, ring_->sqe_mmap_size);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 290,
+          "type": "null_dereference",
+          "severity": "HIGH",
           "snippet": "if (ring_->cq_ptr)  ::munmap(ring_->cq_ptr,  ring_->cq_mmap_size);",
           "description": "Potential null pointer dereference",
           "remediation": "Add null check before dereferencing"
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 268,
+          "line": 266,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "ring_->cq_ptr       = cq_ptr;",
@@ -1518,7 +1518,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 268,
+          "line": 266,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "ring_->cq_ptr       = cq_ptr;",
@@ -1527,7 +1527,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 265,
+          "line": 263,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "ring_->sqe_ptr  = nullptr;",
@@ -1536,7 +1536,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 265,
+          "line": 263,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "ring_->sqe_ptr  = nullptr;",
@@ -1545,7 +1545,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 264,
+          "line": 262,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "ring_->sq_ptr   = nullptr;",
@@ -1554,28 +1554,10 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 264,
+          "line": 262,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "ring_->sq_ptr   = nullptr;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 250,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "ring_->sqes = static_cast<struct io_uring_sqe*>(sqe_ptr);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 250,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "ring_->sqes = static_cast<struct io_uring_sqe*>(sqe_ptr);",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
         },
@@ -1584,7 +1566,7 @@
           "line": 248,
           "type": "null_dereference",
           "severity": "HIGH",
-          "snippet": "ring_->sqe_ptr      = sqe_ptr;",
+          "snippet": "ring_->sqes = static_cast<struct io_uring_sqe*>(sqe_ptr);",
           "description": "Potential null pointer dereference",
           "remediation": "Add null check before dereferencing"
         },
@@ -1593,13 +1575,31 @@
           "line": 248,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
+          "snippet": "ring_->sqes = static_cast<struct io_uring_sqe*>(sqe_ptr);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 246,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "ring_->sqe_ptr      = sqe_ptr;",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 246,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
           "snippet": "ring_->sqe_ptr      = sqe_ptr;",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 245,
+          "line": 243,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "ring_->sq_ptr   = nullptr;",
@@ -1608,7 +1608,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 233,
+          "line": 231,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "ring_->sq_array        = reinterpret_cast<unsigned*>(sq_base + params.sq_off.array);",
@@ -1617,7 +1617,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 223,
+          "line": 221,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "ring_->sq_ptr       = sq_ptr;",
@@ -1626,7 +1626,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 223,
+          "line": 221,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "ring_->sq_ptr       = sq_ptr;",
@@ -1635,7 +1635,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 462,
+          "line": 460,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "struct io_uring_cqe* cqe = &ring_->cqes[head & mask];",
@@ -1644,7 +1644,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 461,
+          "line": 459,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "while (head != *ring_->cq_tail) {",
@@ -1653,7 +1653,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 457,
+          "line": 455,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "unsigned mask = *ring_->cq_ring_mask;",
@@ -1662,7 +1662,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 456,
+          "line": 454,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "unsigned head = *ring_->cq_head;",
@@ -1671,7 +1671,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 451,
+          "line": 449,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "int ret = io_uring_enter(ring_->ring_fd, 0, min_completions,",
@@ -1680,7 +1680,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 425,
+          "line": 423,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ring_->sq_array[index] = index;",
@@ -1689,7 +1689,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 423,
+          "line": 421,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "sqe->user_data = static_cast<uint64_t>(buf_index);",
@@ -1698,7 +1698,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 419,
+          "line": 417,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "sqe->buf_index = static_cast<uint16_t>(buf_index);",
@@ -1707,7 +1707,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 418,
+          "line": 416,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "sqe->len       = static_cast<uint32_t>(max_len);",
@@ -1716,28 +1716,10 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 413,
+          "line": 411,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "struct io_uring_sqe* sqe = &ring_->sqes[index];",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 410,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "unsigned mask   = *ring_->sq_ring_mask;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 409,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "unsigned tail   = *ring_->sq_tail;",
           "description": "Shared data access without lock protection",
           "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
@@ -1746,67 +1728,13 @@
           "line": 408,
           "type": "data_race",
           "severity": "CRITICAL",
-          "snippet": "if (available_ && ring_->ring_fd >= 0) {",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 374,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "ring_->sq_array[index] = index;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 372,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "sqe->user_data   = static_cast<uint64_t>(buf_index);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 367,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "sqe->buf_index   = static_cast<uint16_t>(buf_index);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 366,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "sqe->len         = static_cast<uint32_t>(len);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 361,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "struct io_uring_sqe* sqe = &ring_->sqes[index];",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 358,
-          "type": "data_race",
-          "severity": "CRITICAL",
           "snippet": "unsigned mask   = *ring_->sq_ring_mask;",
           "description": "Shared data access without lock protection",
           "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 357,
+          "line": 407,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "unsigned tail   = *ring_->sq_tail;",
@@ -1815,7 +1743,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 356,
+          "line": 406,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "if (available_ && ring_->ring_fd >= 0) {",
@@ -1824,7 +1752,79 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 337,
+          "line": 372,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->sq_array[index] = index;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 370,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "sqe->user_data   = static_cast<uint64_t>(buf_index);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 365,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "sqe->buf_index   = static_cast<uint16_t>(buf_index);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 364,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "sqe->len         = static_cast<uint32_t>(len);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 359,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "struct io_uring_sqe* sqe = &ring_->sqes[index];",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 356,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "unsigned mask   = *ring_->sq_ring_mask;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 355,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "unsigned tail   = *ring_->sq_tail;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 354,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (available_ && ring_->ring_fd >= 0) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 335,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "int ret = io_uring_register(ring_->ring_fd,",
@@ -1833,28 +1833,10 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 315,
+          "line": 313,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "int ret = io_uring_register(ring_->ring_fd,",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 299,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "ring_->cq_ptr   = nullptr;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 298,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "ring_->sqe_ptr  = nullptr;",
           "description": "Shared data access without lock protection",
           "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
@@ -1863,7 +1845,7 @@
           "line": 297,
           "type": "data_race",
           "severity": "CRITICAL",
-          "snippet": "ring_->sq_ptr   = nullptr;",
+          "snippet": "ring_->cq_ptr   = nullptr;",
           "description": "Shared data access without lock protection",
           "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
@@ -1872,7 +1854,7 @@
           "line": 296,
           "type": "data_race",
           "severity": "CRITICAL",
-          "snippet": "ring_->ring_fd  = -1;",
+          "snippet": "ring_->sqe_ptr  = nullptr;",
           "description": "Shared data access without lock protection",
           "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
@@ -1881,25 +1863,25 @@
           "line": 295,
           "type": "data_race",
           "severity": "CRITICAL",
+          "snippet": "ring_->sq_ptr   = nullptr;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 294,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->ring_fd  = -1;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 293,
+          "type": "data_race",
+          "severity": "CRITICAL",
           "snippet": "if (ring_->ring_fd >= 0) ::close(ring_->ring_fd);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 276,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "ring_->cqes = reinterpret_cast<struct io_uring_cqe*>(cq_base + params.cq_off.cqes);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 275,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "ring_->cq_ring_entries = reinterpret_cast<unsigned*>(cq_base + params.cq_off.ring_entries);",
           "description": "Shared data access without lock protection",
           "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
@@ -1908,7 +1890,7 @@
           "line": 274,
           "type": "data_race",
           "severity": "CRITICAL",
-          "snippet": "ring_->cq_ring_mask    = reinterpret_cast<unsigned*>(cq_base + params.cq_off.ring_mask);",
+          "snippet": "ring_->cqes = reinterpret_cast<struct io_uring_cqe*>(cq_base + params.cq_off.cqes);",
           "description": "Shared data access without lock protection",
           "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
@@ -1917,7 +1899,7 @@
           "line": 273,
           "type": "data_race",
           "severity": "CRITICAL",
-          "snippet": "ring_->cq_tail         = reinterpret_cast<unsigned*>(cq_base + params.cq_off.tail);",
+          "snippet": "ring_->cq_ring_entries = reinterpret_cast<unsigned*>(cq_base + params.cq_off.ring_entries);",
           "description": "Shared data access without lock protection",
           "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
@@ -1926,13 +1908,31 @@
           "line": 272,
           "type": "data_race",
           "severity": "CRITICAL",
+          "snippet": "ring_->cq_ring_mask    = reinterpret_cast<unsigned*>(cq_base + params.cq_off.ring_mask);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 271,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->cq_tail         = reinterpret_cast<unsigned*>(cq_base + params.cq_off.tail);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 270,
+          "type": "data_race",
+          "severity": "CRITICAL",
           "snippet": "ring_->cq_head         = reinterpret_cast<unsigned*>(cq_base + params.cq_off.head);",
           "description": "Shared data access without lock protection",
           "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 269,
+          "line": 267,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ring_->cq_mmap_size = cq_ring_sz;",
@@ -1941,7 +1941,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 269,
+          "line": 267,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ring_->cq_mmap_size = cq_ring_sz;",
@@ -1950,7 +1950,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 268,
+          "line": 266,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ring_->cq_ptr       = cq_ptr;",
@@ -1959,7 +1959,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 265,
+          "line": 263,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ring_->sqe_ptr  = nullptr;",
@@ -1968,7 +1968,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 264,
+          "line": 262,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ring_->sq_ptr   = nullptr;",
@@ -1977,46 +1977,10 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 263,
+          "line": 261,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ring_->ring_fd  = -1;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 250,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "ring_->sqes = static_cast<struct io_uring_sqe*>(sqe_ptr);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 250,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "ring_->sqes = static_cast<struct io_uring_sqe*>(sqe_ptr);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 249,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "ring_->sqe_mmap_size = sqe_sz;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 249,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "ring_->sqe_mmap_size = sqe_sz;",
           "description": "Shared data access without lock protection",
           "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
@@ -2025,13 +1989,49 @@
           "line": 248,
           "type": "data_race",
           "severity": "CRITICAL",
+          "snippet": "ring_->sqes = static_cast<struct io_uring_sqe*>(sqe_ptr);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 248,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->sqes = static_cast<struct io_uring_sqe*>(sqe_ptr);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 247,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->sqe_mmap_size = sqe_sz;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 247,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "ring_->sqe_mmap_size = sqe_sz;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
+          "line": 246,
+          "type": "data_race",
+          "severity": "CRITICAL",
           "snippet": "ring_->sqe_ptr      = sqe_ptr;",
           "description": "Shared data access without lock protection",
           "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 245,
+          "line": 243,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ring_->sq_ptr   = nullptr;",
@@ -2040,7 +2040,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 244,
+          "line": 242,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ring_->ring_fd  = -1;",
@@ -2049,7 +2049,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 233,
+          "line": 231,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ring_->sq_array        = reinterpret_cast<unsigned*>(sq_base + params.sq_off.array);",
@@ -2058,7 +2058,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 232,
+          "line": 230,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ring_->sq_dropped      = reinterpret_cast<unsigned*>(sq_base + params.sq_off.dropped);",
@@ -2067,7 +2067,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 231,
+          "line": 229,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ring_->sq_flags        = reinterpret_cast<unsigned*>(sq_base + params.sq_off.flags);",
@@ -2076,7 +2076,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 230,
+          "line": 228,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ring_->sq_ring_entries = reinterpret_cast<unsigned*>(sq_base + params.sq_off.ring_entries);",
@@ -2085,7 +2085,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 229,
+          "line": 227,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ring_->sq_ring_mask    = reinterpret_cast<unsigned*>(sq_base + params.sq_off.ring_mask);",
@@ -2094,7 +2094,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 228,
+          "line": 226,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ring_->sq_tail         = reinterpret_cast<unsigned*>(sq_base + params.sq_off.tail);",
@@ -2103,7 +2103,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 227,
+          "line": 225,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ring_->sq_head         = reinterpret_cast<unsigned*>(sq_base + params.sq_off.head);",
@@ -2112,7 +2112,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 224,
+          "line": 222,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ring_->sq_mmap_size = sq_ring_sz;",
@@ -2121,7 +2121,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 224,
+          "line": 222,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ring_->sq_mmap_size = sq_ring_sz;",
@@ -2130,7 +2130,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 223,
+          "line": 221,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ring_->sq_ptr       = sq_ptr;",
@@ -2139,7 +2139,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 220,
+          "line": 218,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ring_->ring_fd = -1;",
@@ -2148,7 +2148,7 @@
         },
         {
           "file": "src\\performance\\phase4\\io_uring_zero_copy.cpp",
-          "line": 209,
+          "line": 207,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ring_->ring_fd = fd;",
@@ -2159,7 +2159,7 @@
       "src\\performance\\advanced_cache_manager.cpp": [
         {
           "file": "src\\performance\\advanced_cache_manager.cpp",
-          "line": 469,
+          "line": 467,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2171,7 +2171,7 @@
         },
         {
           "file": "src\\performance\\advanced_cache_manager.cpp",
-          "line": 464,
+          "line": 462,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2183,7 +2183,7 @@
         },
         {
           "file": "src\\performance\\advanced_cache_manager.cpp",
-          "line": 352,
+          "line": 350,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2195,7 +2195,7 @@
         },
         {
           "file": "src\\performance\\advanced_cache_manager.cpp",
-          "line": 346,
+          "line": 344,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2207,7 +2207,7 @@
         },
         {
           "file": "src\\performance\\advanced_cache_manager.cpp",
-          "line": 339,
+          "line": 337,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2219,7 +2219,7 @@
         },
         {
           "file": "src\\performance\\advanced_cache_manager.cpp",
-          "line": 346,
+          "line": 344,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& p : partitions_) names.push_back(p->cfg.name);",
@@ -2228,7 +2228,7 @@
         },
         {
           "file": "src\\performance\\advanced_cache_manager.cpp",
-          "line": 340,
+          "line": 338,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "partitions_.push_back(std::move(ps));",
@@ -2237,7 +2237,7 @@
         },
         {
           "file": "src\\performance\\advanced_cache_manager.cpp",
-          "line": 322,
+          "line": 320,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "def.partitions.push_back({\"default\", 256, EvictionPolicy::LRU, false});",
@@ -2246,7 +2246,7 @@
         },
         {
           "file": "src\\performance\\advanced_cache_manager.cpp",
-          "line": 296,
+          "line": 294,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -2255,7 +2255,7 @@
         },
         {
           "file": "src\\performance\\advanced_cache_manager.cpp",
-          "line": 215,
+          "line": 213,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -2264,7 +2264,7 @@
         },
         {
           "file": "src\\performance\\advanced_cache_manager.cpp",
-          "line": 465,
+          "line": 463,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(p->mtx);",
@@ -2273,7 +2273,7 @@
         },
         {
           "file": "src\\performance\\advanced_cache_manager.cpp",
-          "line": 144,
+          "line": 142,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "[[maybe_unused]] const auto src      = reinterpret_cast<const char*>(val.data());",
@@ -2282,7 +2282,7 @@
         },
         {
           "file": "src\\performance\\advanced_cache_manager.cpp",
-          "line": 385,
+          "line": 383,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "double total = static_cast<double>(ps->stats.hits + ps->stats.misses);",
@@ -2291,7 +2291,7 @@
         },
         {
           "file": "src\\performance\\advanced_cache_manager.cpp",
-          "line": 376,
+          "line": 374,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "double total = static_cast<double>(ps->stats.hits + ps->stats.misses);",
@@ -2300,7 +2300,7 @@
         },
         {
           "file": "src\\performance\\advanced_cache_manager.cpp",
-          "line": 368,
+          "line": 366,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "double total = static_cast<double>(ps->stats.hits + ps->stats.misses);",
@@ -2311,7 +2311,7 @@
       "src\\performance\\cicada.cpp": [
         {
           "file": "src\\performance\\cicada.cpp",
-          "line": 95,
+          "line": 93,
           "category": "observability",
           "severity": "HIGH",
           "pattern": "missing_trace_point",
@@ -2323,7 +2323,7 @@
         },
         {
           "file": "src\\performance\\cicada.cpp",
-          "line": 70,
+          "line": 68,
           "category": "observability",
           "severity": "HIGH",
           "pattern": "missing_trace_point",
@@ -2335,7 +2335,7 @@
         },
         {
           "file": "src\\performance\\cicada.cpp",
-          "line": 26,
+          "line": 24,
           "category": "observability",
           "severity": "HIGH",
           "pattern": "missing_trace_point",
@@ -2347,7 +2347,7 @@
         },
         {
           "file": "src\\performance\\cicada.cpp",
-          "line": 26,
+          "line": 24,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -2361,7 +2361,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\performance\\cicada.cpp",
-          "line_number": 56,
+          "line_number": 54,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2371,7 +2371,7 @@
         },
         {
           "file": "src\\performance\\cicada.cpp",
-          "line": 23,
+          "line": 21,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "write_set_.push_back({record, std::move(data)});",
@@ -2380,7 +2380,7 @@
         },
         {
           "file": "src\\performance\\cicada.cpp",
-          "line": 19,
+          "line": 17,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "read_set_.push_back({record, version_read});",
@@ -2389,7 +2389,7 @@
         },
         {
           "file": "src\\performance\\cicada.cpp",
-          "line": 57,
+          "line": 55,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "entry.record->set_data(entry.data);",
@@ -2398,7 +2398,7 @@
         },
         {
           "file": "src\\performance\\cicada.cpp",
-          "line": 56,
+          "line": 54,
           "type": "allocation_loop",
           "severity": "HIGH",
           "snippet": "// Write the new data value into the record while the write lock is held",
@@ -2409,7 +2409,7 @@
       "src\\performance\\ligra.cpp": [
         {
           "file": "src\\performance\\ligra.cpp",
-          "line": 222,
+          "line": 220,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2421,7 +2421,7 @@
         },
         {
           "file": "src\\performance\\ligra.cpp",
-          "line": 218,
+          "line": 216,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2435,7 +2435,7 @@
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\performance\\ligra.cpp",
-          "line_number": 134,
+          "line_number": 132,
           "line_content": "size_t chunk_size = (active.size() + num_threads_ - 1) / num_threads_;",
           "context": [
             "        const auto& active = frontier.get_sparse();",
@@ -2456,7 +2456,7 @@
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\performance\\ligra.cpp",
-          "line_number": 46,
+          "line_number": 44,
           "line_content": "size_t chunk_size = (active.size() + num_threads_ - 1) / num_threads_;",
           "context": [
             "    // Simple parallel processing (would use thread pool in production)",
@@ -2475,7 +2475,7 @@
         },
         {
           "file": "src\\performance\\ligra.cpp",
-          "line": 236,
+          "line": 234,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2487,7 +2487,7 @@
         },
         {
           "file": "src\\performance\\ligra.cpp",
-          "line": 236,
+          "line": 234,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2499,7 +2499,7 @@
         },
         {
           "file": "src\\performance\\ligra.cpp",
-          "line": 150,
+          "line": 148,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2511,7 +2511,7 @@
         },
         {
           "file": "src\\performance\\ligra.cpp",
-          "line": 150,
+          "line": 148,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2523,7 +2523,7 @@
         },
         {
           "file": "src\\performance\\ligra.cpp",
-          "line": 143,
+          "line": 141,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2535,7 +2535,7 @@
         },
         {
           "file": "src\\performance\\ligra.cpp",
-          "line": 143,
+          "line": 141,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2547,7 +2547,7 @@
         },
         {
           "file": "src\\performance\\ligra.cpp",
-          "line": 77,
+          "line": 75,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2559,7 +2559,7 @@
         },
         {
           "file": "src\\performance\\ligra.cpp",
-          "line": 77,
+          "line": 75,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2571,7 +2571,7 @@
         },
         {
           "file": "src\\performance\\ligra.cpp",
-          "line": 54,
+          "line": 52,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2583,7 +2583,7 @@
         },
         {
           "file": "src\\performance\\ligra.cpp",
-          "line": 54,
+          "line": 52,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2597,7 +2597,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\performance\\ligra.cpp",
-          "line_number": 214,
+          "line_number": 212,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2607,7 +2607,7 @@
         },
         {
           "file": "src\\performance\\ligra.cpp",
-          "line": 237,
+          "line": 235,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tasks_.push_back(task);",
@@ -2616,7 +2616,7 @@
         },
         {
           "file": "src\\performance\\ligra.cpp",
-          "line": 151,
+          "line": 149,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "thread_buffers[t].push_back(dst);  // Collision-free thread index",
@@ -2625,7 +2625,7 @@
         },
         {
           "file": "src\\performance\\ligra.cpp",
-          "line": 214,
+          "line": 212,
           "type": "allocation_loop",
           "severity": "HIGH",
           "snippet": "// Reset new ranks",
@@ -2634,7 +2634,7 @@
         },
         {
           "file": "src\\performance\\ligra.cpp",
-          "line": 144,
+          "line": 142,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "threads.emplace_back([t, it, chunk_end, &adj_list, &func, &thread_buffers]() {",
@@ -2643,7 +2643,7 @@
         },
         {
           "file": "src\\performance\\ligra.cpp",
-          "line": 123,
+          "line": 121,
           "type": "memory_order",
           "severity": "HIGH",
           "snippet": "if (atomic_dense[i].load(std::memory_order_relaxed)) {",
@@ -2652,7 +2652,7 @@
         },
         {
           "file": "src\\performance\\ligra.cpp",
-          "line": 114,
+          "line": 112,
           "type": "memory_order",
           "severity": "HIGH",
           "snippet": "atomic_dense[dst].store(true, std::memory_order_relaxed);",
@@ -2661,7 +2661,7 @@
         },
         {
           "file": "src\\performance\\ligra.cpp",
-          "line": 106,
+          "line": 104,
           "type": "memory_order",
           "severity": "HIGH",
           "snippet": "atomic_dense[i].store(false, std::memory_order_relaxed);",
@@ -2670,7 +2670,7 @@
         },
         {
           "file": "src\\performance\\ligra.cpp",
-          "line": 161,
+          "line": 159,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "thread.join();",
@@ -2679,7 +2679,7 @@
         },
         {
           "file": "src\\performance\\ligra.cpp",
-          "line": 88,
+          "line": 86,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "thread.join();",
@@ -2688,7 +2688,7 @@
         },
         {
           "file": "src\\performance\\ligra.cpp",
-          "line": 65,
+          "line": 63,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "thread.join();",
@@ -2699,7 +2699,7 @@
       "src\\performance\\numa_memory_manager.cpp": [
         {
           "file": "src\\performance\\numa_memory_manager.cpp",
-          "line": 170,
+          "line": 168,
           "category": "observability",
           "severity": "HIGH",
           "pattern": "missing_trace_point",
@@ -2711,7 +2711,7 @@
         },
         {
           "file": "src\\performance\\numa_memory_manager.cpp",
-          "line": 162,
+          "line": 160,
           "category": "observability",
           "severity": "HIGH",
           "pattern": "missing_trace_point",
@@ -2723,7 +2723,7 @@
         },
         {
           "file": "src\\performance\\numa_memory_manager.cpp",
-          "line": 56,
+          "line": 54,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -2735,7 +2735,7 @@
         },
         {
           "file": "src\\performance\\numa_memory_manager.cpp",
-          "line": 44,
+          "line": 42,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -2747,7 +2747,7 @@
         },
         {
           "file": "src\\performance\\numa_memory_manager.cpp",
-          "line": 193,
+          "line": 191,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "std::free(ptr);",
@@ -2756,7 +2756,7 @@
         },
         {
           "file": "src\\performance\\numa_memory_manager.cpp",
-          "line": 67,
+          "line": 65,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "fclose(f);",
@@ -2765,7 +2765,7 @@
         },
         {
           "file": "src\\performance\\numa_memory_manager.cpp",
-          "line": 56,
+          "line": 54,
           "type": "expensive_inner_op",
           "severity": "MEDIUM",
           "snippet": "snprintf(path, sizeof(path), \"/sys/devices/system/node/node%zu/meminfo\", i);",
@@ -2774,7 +2774,7 @@
         },
         {
           "file": "src\\performance\\numa_memory_manager.cpp",
-          "line": 44,
+          "line": 42,
           "type": "expensive_inner_op",
           "severity": "MEDIUM",
           "snippet": "snprintf(path, sizeof(path), \"/sys/devices/system/node/node%d\", i);",
@@ -2783,7 +2783,7 @@
         },
         {
           "file": "src\\performance\\numa_memory_manager.cpp",
-          "line": 245,
+          "line": 243,
           "type": "memory_order",
           "severity": "HIGH",
           "snippet": "s.local_accesses  = stat_local_.load(std::memory_order_relaxed);",
@@ -2792,7 +2792,7 @@
         },
         {
           "file": "src\\performance\\numa_memory_manager.cpp",
-          "line": 170,
+          "line": 168,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "void NUMAMemoryManager::deallocate(void* ptr, size_t size) noexcept {",
@@ -2801,7 +2801,7 @@
         },
         {
           "file": "src\\performance\\numa_memory_manager.cpp",
-          "line": 164,
+          "line": 162,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "void* ptr = do_allocate(size, resolved, hint.use_huge_pages);",
@@ -2810,7 +2810,7 @@
         },
         {
           "file": "src\\performance\\numa_memory_manager.cpp",
-          "line": 162,
+          "line": 160,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "void* NUMAMemoryManager::allocate(size_t size, const AllocationHint& hint) {",
@@ -2819,7 +2819,7 @@
         },
         {
           "file": "src\\performance\\numa_memory_manager.cpp",
-          "line": 159,
+          "line": 157,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "return allocate_on_node(size, get_current_node());",
@@ -2828,7 +2828,7 @@
         },
         {
           "file": "src\\performance\\numa_memory_manager.cpp",
-          "line": 158,
+          "line": 156,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "void* NUMAMemoryManager::allocate_local(size_t size) {",
@@ -2837,7 +2837,7 @@
         },
         {
           "file": "src\\performance\\numa_memory_manager.cpp",
-          "line": 152,
+          "line": 150,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "void* ptr = do_allocate(size, resolved, false);",
@@ -2846,7 +2846,7 @@
         },
         {
           "file": "src\\performance\\numa_memory_manager.cpp",
-          "line": 150,
+          "line": 148,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "void* NUMAMemoryManager::allocate_on_node(size_t size, int node) {",
@@ -2855,7 +2855,7 @@
         },
         {
           "file": "src\\performance\\numa_memory_manager.cpp",
-          "line": 133,
+          "line": 131,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "buckets_[idx].entries[ptr] = {node, size};",
@@ -2864,7 +2864,7 @@
         },
         {
           "file": "src\\performance\\numa_memory_manager.cpp",
-          "line": 112,
+          "line": 110,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (!ptr) throw std::bad_alloc{};",
@@ -2873,7 +2873,7 @@
         },
         {
           "file": "src\\performance\\numa_memory_manager.cpp",
-          "line": 111,
+          "line": 109,
           "type": "unchecked_malloc",
           "severity": "HIGH",
           "snippet": "ptr = std::malloc(size);",
@@ -2882,7 +2882,7 @@
         },
         {
           "file": "src\\performance\\numa_memory_manager.cpp",
-          "line": 107,
+          "line": 105,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (posix_memalign(&ptr, 64, size) != 0) throw std::bad_alloc{};",
@@ -2891,7 +2891,7 @@
         },
         {
           "file": "src\\performance\\numa_memory_manager.cpp",
-          "line": 140,
+          "line": 138,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = map.find(ptr);",
@@ -2900,7 +2900,7 @@
         },
         {
           "file": "src\\performance\\numa_memory_manager.cpp",
-          "line": 57,
+          "line": 55,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "FILE* f = fopen(path, \"r\");",
@@ -2911,7 +2911,7 @@
       "src\\performance\\rabitq.cpp": [
         {
           "file": "src\\performance\\rabitq.cpp",
-          "line": 281,
+          "line": 279,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2923,7 +2923,7 @@
         },
         {
           "file": "src\\performance\\rabitq.cpp",
-          "line": 281,
+          "line": 279,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2935,7 +2935,7 @@
         },
         {
           "file": "src\\performance\\rabitq.cpp",
-          "line": 281,
+          "line": 279,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2947,7 +2947,7 @@
         },
         {
           "file": "src\\performance\\rabitq.cpp",
-          "line": 281,
+          "line": 279,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2961,7 +2961,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\performance\\rabitq.cpp",
-          "line_number": 327,
+          "line_number": 325,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2973,7 +2973,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\performance\\rabitq.cpp",
-          "line_number": 326,
+          "line_number": 324,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2985,7 +2985,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\performance\\rabitq.cpp",
-          "line_number": 309,
+          "line_number": 307,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2995,7 +2995,7 @@
         },
         {
           "file": "src\\performance\\rabitq.cpp",
-          "line": 282,
+          "line": 280,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "centroids.push_back(subvec_data[weighted(rng)]);",
@@ -3004,7 +3004,7 @@
         },
         {
           "file": "src\\performance\\rabitq.cpp",
-          "line": 264,
+          "line": 262,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "centroids.push_back(subvec_data[uniform(rng)]);",
@@ -3013,7 +3013,7 @@
         },
         {
           "file": "src\\performance\\rabitq.cpp",
-          "line": 183,
+          "line": 181,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(heap.top());",
@@ -3022,7 +3022,7 @@
         },
         {
           "file": "src\\performance\\rabitq.cpp",
-          "line": 351,
+          "line": 349,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Vector dimension mismatch in ProductQuantizer::encode\");",
@@ -3031,7 +3031,7 @@
         },
         {
           "file": "src\\performance\\rabitq.cpp",
-          "line": 317,
+          "line": 315,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "new_centroids[cluster][dim] += subvec_data[i][dim];",
@@ -3040,7 +3040,7 @@
         },
         {
           "file": "src\\performance\\rabitq.cpp",
-          "line": 282,
+          "line": 280,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "centroids.push_back(subvec_data[weighted(rng)]);",
@@ -3049,7 +3049,7 @@
         },
         {
           "file": "src\\performance\\rabitq.cpp",
-          "line": 218,
+          "line": 216,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Vector dimension mismatch in ProductQuantizer::split_vector\");",
@@ -3058,7 +3058,7 @@
         },
         {
           "file": "src\\performance\\rabitq.cpp",
-          "line": 210,
+          "line": 208,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -3067,10 +3067,10 @@
         },
         {
           "file": "src\\performance\\rabitq.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #1005 [REFACTOR] Quantizer analysis: simplify unused components, document... (2026-03-11T17:56",
+          "snippet": "* PR History (last 5): #1005 [REFACTOR] Quantizer analys... (2026-03-11) | #1072 Add Vector Indexing",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         }
@@ -3078,7 +3078,7 @@
       "src\\performance\\phase3\\diskann.cpp": [
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 110,
+          "line": 108,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3090,7 +3090,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 476,
+          "line": 474,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3102,7 +3102,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 407,
+          "line": 405,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3114,7 +3114,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 189,
+          "line": 187,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3126,7 +3126,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 153,
+          "line": 151,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3138,7 +3138,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 99,
+          "line": 97,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3150,7 +3150,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 99,
+          "line": 97,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3162,7 +3162,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 75,
+          "line": 73,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3176,7 +3176,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\performance\\phase3\\diskann.cpp",
-          "line_number": 131,
+          "line_number": 129,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3186,7 +3186,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 477,
+          "line": 475,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "distances.push_back(compute_distance(node->vector, vectors[i].second));",
@@ -3195,7 +3195,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 408,
+          "line": 406,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result_ids.push_back(id);",
@@ -3204,7 +3204,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 383,
+          "line": 381,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "best_candidates.push_back({dist, current_id});",
@@ -3213,7 +3213,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 190,
+          "line": 188,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back({id, dist});",
@@ -3222,7 +3222,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 154,
+          "line": 152,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "node.neighbors.push_back(nearest.top().second);",
@@ -3231,7 +3231,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 100,
+          "line": 98,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "nodes[i].neighbors.push_back(nodes[nearest.top().second].id);",
@@ -3240,7 +3240,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 76,
+          "line": 74,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "nodes.push_back(std::move(node));",
@@ -3249,7 +3249,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 55,
+          "line": 53,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "graph_file_->close();",
@@ -3258,7 +3258,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 45,
+          "line": 43,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "graph_file_->close();",
@@ -3267,7 +3267,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 349,
+          "line": 347,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Vector dimensions must match\");",
@@ -3276,7 +3276,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 335,
+          "line": 333,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "graph_file_->write(reinterpret_cast<const char*>(node.vector.data()),",
@@ -3285,7 +3285,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 319,
+          "line": 317,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "graph_file_->read(reinterpret_cast<char*>(node.neighbors.data()),",
@@ -3294,7 +3294,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 310,
+          "line": 308,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "graph_file_->read(reinterpret_cast<char*>(node.vector.data()),",
@@ -3303,7 +3303,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 300,
+          "line": 298,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Vector ID not found in index\");",
@@ -3312,7 +3312,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 113,
+          "line": 111,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(file_mutex_);",
@@ -3321,7 +3321,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 30,
+          "line": 28,
           "type": "size_assumption",
           "severity": "HIGH",
           "snippet": "size_t node_size_estimate = sizeof(VectorID) + dimension * sizeof(float) + 64 * sizeof(VectorID);",
@@ -3330,7 +3330,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 343,
+          "line": 341,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "graph_file_->write(reinterpret_cast<const char*>(node.neighbors.data()),",
@@ -3339,7 +3339,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 340,
+          "line": 338,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "graph_file_->write(reinterpret_cast<const char*>(&neighbor_count), sizeof(uint32_t));",
@@ -3348,7 +3348,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 335,
+          "line": 333,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "graph_file_->write(reinterpret_cast<const char*>(node.vector.data()),",
@@ -3357,7 +3357,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 319,
+          "line": 317,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "graph_file_->read(reinterpret_cast<char*>(node.neighbors.data()),",
@@ -3366,7 +3366,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 315,
+          "line": 313,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "graph_file_->read(reinterpret_cast<char*>(&neighbor_count), sizeof(uint32_t));",
@@ -3375,7 +3375,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 310,
+          "line": 308,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "graph_file_->read(reinterpret_cast<char*>(node.vector.data()),",
@@ -3384,7 +3384,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 165,
+          "line": 163,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "vector_offsets_[id] = static_cast<uint64_t>(graph_file_->tellp());",
@@ -3393,7 +3393,7 @@
         },
         {
           "file": "src\\performance\\phase3\\diskann.cpp",
-          "line": 115,
+          "line": 113,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "vector_offsets_[node.id] = static_cast<uint64_t>(graph_file_->tellp());",
@@ -3404,7 +3404,7 @@
       "src\\performance\\phase4\\pmem_storage.cpp": [
         {
           "file": "src\\performance\\phase4\\pmem_storage.cpp",
-          "line": 288,
+          "line": 286,
           "category": "observability",
           "severity": "HIGH",
           "pattern": "missing_trace_point",
@@ -3418,7 +3418,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\performance\\phase4\\pmem_storage.cpp",
-          "line_number": 310,
+          "line_number": 308,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3430,7 +3430,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\performance\\phase4\\pmem_storage.cpp",
-          "line_number": 301,
+          "line_number": 299,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3440,7 +3440,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmem_storage.cpp",
-          "line": 317,
+          "line": 315,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "void PMemPool::free(void* /*ptr*/, size_t /*size*/) noexcept {",
@@ -3449,7 +3449,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmem_storage.cpp",
-          "line": 204,
+          "line": 202,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(fd_);",
@@ -3458,7 +3458,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmem_storage.cpp",
-          "line": 135,
+          "line": 133,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "if (fd_ >= 0) ::close(fd_);",
@@ -3467,7 +3467,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmem_storage.cpp",
-          "line": 110,
+          "line": 108,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(fd_);",
@@ -3476,7 +3476,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmem_storage.cpp",
-          "line": 75,
+          "line": 73,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "fclose(mounts);",
@@ -3485,7 +3485,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmem_storage.cpp",
-          "line": 72,
+          "line": 70,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "devices.push_back(std::move(info));",
@@ -3494,7 +3494,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmem_storage.cpp",
-          "line": 371,
+          "line": 369,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "void* dst = pool_.allocate(padded);",
@@ -3503,7 +3503,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmem_storage.cpp",
-          "line": 288,
+          "line": 286,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "void* PMemPool::allocate(size_t size) noexcept {",
@@ -3512,7 +3512,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmem_storage.cpp",
-          "line": 268,
+          "line": 266,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "header_->bump_offset   = data_offset; // start of free arena",
@@ -3521,7 +3521,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmem_storage.cpp",
-          "line": 267,
+          "line": 265,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "header_->data_offset   = data_offset;",
@@ -3530,7 +3530,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmem_storage.cpp",
-          "line": 94,
+          "line": 92,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"PMemPool: failed to map region at \" + config.path);",
@@ -3539,7 +3539,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmem_storage.cpp",
-          "line": 362,
+          "line": 360,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "void* PMemStorageLayout::write(const std::string& /*key*/,",
@@ -3548,7 +3548,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmem_storage.cpp",
-          "line": 338,
+          "line": 336,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "s.total_bytes  = header_->pool_size;",
@@ -3557,7 +3557,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmem_storage.cpp",
-          "line": 266,
+          "line": 264,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "header_->bitmap_offset = header_end;",
@@ -3566,7 +3566,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmem_storage.cpp",
-          "line": 265,
+          "line": 263,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "header_->pool_size     = pool_size;",
@@ -3575,7 +3575,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmem_storage.cpp",
-          "line": 197,
+          "line": 195,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "fd_ = ::open(config.path.c_str(), flags, 0644);",
@@ -3584,7 +3584,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmem_storage.cpp",
-          "line": 59,
+          "line": 57,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "while (fscanf(mounts, \"%254s %254s %62s %510s %d %d\",",
@@ -3593,7 +3593,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmem_storage.cpp",
-          "line": 52,
+          "line": 50,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "FILE* mounts = fopen(\"/proc/mounts\", \"r\");",
@@ -3604,7 +3604,7 @@
       "src\\performance\\cycle_metrics.cpp": [
         {
           "file": "src\\performance\\cycle_metrics.cpp",
-          "line": 199,
+          "line": 197,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -3613,7 +3613,7 @@
         },
         {
           "file": "src\\performance\\cycle_metrics.cpp",
-          "line": 183,
+          "line": 181,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -3624,7 +3624,7 @@
       "src\\performance\\hardware_accelerator.cpp": [
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 702,
+          "line": 700,
           "category": "observability",
           "severity": "HIGH",
           "pattern": "missing_trace_point",
@@ -3636,7 +3636,7 @@
         },
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 158,
+          "line": 156,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -3648,7 +3648,7 @@
         },
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 702,
+          "line": 700,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -3660,7 +3660,7 @@
         },
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 357,
+          "line": 355,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3672,7 +3672,7 @@
         },
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 306,
+          "line": 304,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3684,7 +3684,7 @@
         },
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 216,
+          "line": 214,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3696,7 +3696,7 @@
         },
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 163,
+          "line": 161,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3708,7 +3708,7 @@
         },
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 163,
+          "line": 161,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3720,7 +3720,7 @@
         },
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 163,
+          "line": 161,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3732,7 +3732,7 @@
         },
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 128,
+          "line": 126,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3744,7 +3744,7 @@
         },
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 128,
+          "line": 126,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3756,7 +3756,7 @@
         },
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 104,
+          "line": 102,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3768,7 +3768,7 @@
         },
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 101,
+          "line": 99,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -3780,7 +3780,7 @@
         },
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 99,
+          "line": 97,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -3792,7 +3792,7 @@
         },
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 358,
+          "line": 356,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (match) r.match_indices.push_back(i);",
@@ -3801,7 +3801,7 @@
         },
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 307,
+          "line": 305,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "r.rows.push_back(row);",
@@ -3810,7 +3810,7 @@
         },
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 217,
+          "line": 215,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "r.rows.push_back(std::move(joined));",
@@ -3819,7 +3819,7 @@
         },
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 164,
+          "line": 162,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "r.rows.push_back(std::move(joined));",
@@ -3828,7 +3828,7 @@
         },
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 129,
+          "line": 127,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "r.rows.push_back(std::move(joined));",
@@ -3837,7 +3837,7 @@
         },
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 105,
+          "line": 103,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ht[rows[i][key_col]].push_back(i);",
@@ -3846,7 +3846,7 @@
         },
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 703,
+          "line": 701,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "return execute(op, config_.default_device_config);",
@@ -3855,7 +3855,7 @@
         },
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 702,
+          "line": 700,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "ExecutionResult HardwareAccelerator::execute(const QueryOperator& op) {",
@@ -3864,7 +3864,7 @@
         },
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 619,
+          "line": 617,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "ExecutionResult HardwareAccelerator::execute(const QueryOperator&    op,",
@@ -3873,7 +3873,7 @@
         },
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 186,
+          "line": 184,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "return [col](const Row& a, const Row& b) {",
@@ -3882,7 +3882,7 @@
         },
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 121,
+          "line": 119,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = ht.find(key);",
@@ -3891,7 +3891,7 @@
         },
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 158,
+          "line": 156,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = ht.find(key);",
@@ -3900,7 +3900,7 @@
         },
         {
           "file": "src\\performance\\hardware_accelerator.cpp",
-          "line": 122,
+          "line": 120,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = ht.find(key);",
@@ -3913,7 +3913,7 @@
           "gap_type": "uninitialized_pointer",
           "severity": "CRITICAL",
           "file_path": "src\\performance\\numa_topology.cpp",
-          "line_number": 126,
+          "line_number": 124,
           "var_name": "entry",
           "context": "Pointer declared but not initialized",
           "reason": "Undefined behavior: potential null-pointer dereference",
@@ -3923,7 +3923,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 410,
+          "line": 408,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3935,7 +3935,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 351,
+          "line": 349,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3947,7 +3947,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 351,
+          "line": 349,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3959,7 +3959,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 290,
+          "line": 288,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3971,7 +3971,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 230,
+          "line": 228,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3983,7 +3983,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 230,
+          "line": 228,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3995,7 +3995,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 214,
+          "line": 212,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4007,7 +4007,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 188,
+          "line": 186,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4019,7 +4019,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 119,
+          "line": 117,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4031,7 +4031,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 442,
+          "line": 440,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (unsigned int i = 0; i < nproc; ++i) cpus.push_back(static_cast<int>(i));",
@@ -4040,7 +4040,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 411,
+          "line": 409,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "cpus.push_back(base + bit);",
@@ -4049,7 +4049,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 352,
+          "line": 350,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (CPU_ISSET(static_cast<unsigned int>(i), &cs)) cpus.push_back(i);",
@@ -4058,7 +4058,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 291,
+          "line": 289,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "topo.nodes.push_back(node0);",
@@ -4067,7 +4067,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 289,
+          "line": 287,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (unsigned int i = 0; i < nproc; ++i) node0.cpu_ids.push_back(static_cast<int>(i));",
@@ -4076,7 +4076,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 241,
+          "line": 239,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "topo.nodes.push_back(std::move(node));",
@@ -4085,7 +4085,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 231,
+          "line": 229,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "node.cpu_ids.push_back(cpu_base + bit);",
@@ -4094,7 +4094,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 215,
+          "line": 213,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "topo.nodes.push_back(node0);",
@@ -4103,7 +4103,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 213,
+          "line": 211,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (DWORD i = 0; i < si.dwNumberOfProcessors; ++i) node0.cpu_ids.push_back(static_cast<int>(i));",
@@ -4112,7 +4112,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 189,
+          "line": 187,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "topo.nodes.push_back(node0);",
@@ -4121,7 +4121,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 187,
+          "line": 185,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (int i = 0; i < static_cast<int>(nproc); ++i) node0.cpu_ids.push_back(i);",
@@ -4130,7 +4130,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 177,
+          "line": 175,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "topo.nodes.push_back(std::move(node));",
@@ -4139,7 +4139,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 173,
+          "line": 171,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "while (iss >> d) node.distances.push_back(d);",
@@ -4148,7 +4148,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 160,
+          "line": 158,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { kb = std::stoull(tok); } catch (...) {}",
@@ -4157,7 +4157,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 134,
+          "line": 132,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -4166,7 +4166,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 133,
+          "line": 131,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "node_ids.push_back(id);",
@@ -4175,7 +4175,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 120,
+          "line": 118,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "topo.nodes.push_back(node0);",
@@ -4184,7 +4184,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 118,
+          "line": 116,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (int i = 0; i < static_cast<int>(nproc); ++i) node0.cpu_ids.push_back(i);",
@@ -4193,7 +4193,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 90,
+          "line": 88,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -4202,7 +4202,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 89,
+          "line": 87,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (int c = lo; c <= hi; ++c) cpus.push_back(c);",
@@ -4211,7 +4211,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 84,
+          "line": 82,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { cpus.push_back(std::stoi(token)); } catch (...) {}",
@@ -4220,7 +4220,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 84,
+          "line": 82,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "try { cpus.push_back(std::stoi(token)); } catch (...) {}",
@@ -4229,7 +4229,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 349,
+          "line": 347,
           "type": "posix_only_api",
           "severity": "HIGH",
           "snippet": "if (pthread_getaffinity_np(pthread_self(), sizeof(cpu_set_t), &cs) != 0) return {};",
@@ -4238,7 +4238,7 @@
         },
         {
           "file": "src\\performance\\numa_topology.cpp",
-          "line": 305,
+          "line": 303,
           "type": "posix_only_api",
           "severity": "HIGH",
           "snippet": "return pthread_setaffinity_np(pthread_self(), sizeof(cpu_set_t), cs) == 0;",
@@ -4249,7 +4249,7 @@
       "src\\performance\\phase2_feature_flags.cpp": [
         {
           "file": "src\\performance\\phase2_feature_flags.cpp",
-          "line": 30,
+          "line": 28,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -4261,7 +4261,7 @@
         },
         {
           "file": "src\\performance\\phase2_feature_flags.cpp",
-          "line": 48,
+          "line": 46,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -4274,7 +4274,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\performance\\wisckey.cpp",
-          "line_number": 133,
+          "line_number": 131,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -4286,7 +4286,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\performance\\wisckey.cpp",
-          "line_number": 124,
+          "line_number": 122,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -4298,7 +4298,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\performance\\wisckey.cpp",
-          "line_number": 101,
+          "line_number": 99,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -4310,7 +4310,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\performance\\wisckey.cpp",
-          "line_number": 22,
+          "line_number": 20,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -4320,7 +4320,7 @@
         },
         {
           "file": "src\\performance\\wisckey.cpp",
-          "line": 103,
+          "line": 101,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -4332,7 +4332,7 @@
         },
         {
           "file": "src\\performance\\wisckey.cpp",
-          "line": 142,
+          "line": 140,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "log_file_->close();",
@@ -4341,7 +4341,7 @@
         },
         {
           "file": "src\\performance\\wisckey.cpp",
-          "line": 139,
+          "line": 137,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "temp_log.close();",
@@ -4350,7 +4350,7 @@
         },
         {
           "file": "src\\performance\\wisckey.cpp",
-          "line": 127,
+          "line": 125,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "temp_log.close();",
@@ -4359,7 +4359,7 @@
         },
         {
           "file": "src\\performance\\wisckey.cpp",
-          "line": 119,
+          "line": 117,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "temp_log.close();",
@@ -4368,7 +4368,7 @@
         },
         {
           "file": "src\\performance\\wisckey.cpp",
-          "line": 53,
+          "line": 51,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "log_file_->close();",
@@ -4377,7 +4377,7 @@
         },
         {
           "file": "src\\performance\\wisckey.cpp",
-          "line": 41,
+          "line": 39,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "log_file_->close();",
@@ -4386,7 +4386,7 @@
         },
         {
           "file": "src\\performance\\wisckey.cpp",
-          "line": 25,
+          "line": 23,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "test.close();",
@@ -4395,7 +4395,7 @@
         },
         {
           "file": "src\\performance\\wisckey.cpp",
-          "line": 155,
+          "line": 153,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to reopen log file after compaction\");",
@@ -4404,7 +4404,7 @@
         },
         {
           "file": "src\\performance\\wisckey.cpp",
-          "line": 146,
+          "line": 144,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to replace old log with compacted log\");",
@@ -4413,7 +4413,7 @@
         },
         {
           "file": "src\\performance\\wisckey.cpp",
-          "line": 129,
+          "line": 127,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to write value during compaction\");",
@@ -4422,7 +4422,7 @@
         },
         {
           "file": "src\\performance\\wisckey.cpp",
-          "line": 124,
+          "line": 122,
           "type": "allocation_loop",
           "severity": "HIGH",
           "snippet": "// Write value to new log",
@@ -4431,7 +4431,7 @@
         },
         {
           "file": "src\\performance\\wisckey.cpp",
-          "line": 121,
+          "line": 119,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to read value during compaction\");",
@@ -4440,7 +4440,7 @@
         },
         {
           "file": "src\\performance\\wisckey.cpp",
-          "line": 106,
+          "line": 104,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to create temporary log file for compaction\");",
@@ -4449,16 +4449,16 @@
         },
         {
           "file": "src\\performance\\wisckey.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #967 [WIP] Implement garbage collection for ValueLog in WiscKey (2026-03-11T21:57:40Z)",
+          "snippet": "* PR History (last 5): #967 [WIP] Implement garbage col... (2026-03-11) | #1122 Eliminate lock overl",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         },
         {
           "file": "src\\performance\\wisckey.cpp",
-          "line": 196,
+          "line": 194,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "stats.value_log_size = value_log_->size();",
@@ -4467,7 +4467,7 @@
         },
         {
           "file": "src\\performance\\wisckey.cpp",
-          "line": 185,
+          "line": 183,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "return value_log_->read(addr);",
@@ -4476,7 +4476,7 @@
         },
         {
           "file": "src\\performance\\wisckey.cpp",
-          "line": 170,
+          "line": 168,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ValueAddress addr = value_log_->append(value);",
@@ -4485,7 +4485,7 @@
         },
         {
           "file": "src\\performance\\wisckey.cpp",
-          "line": 118,
+          "line": 116,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "if (log_file_->gcount() != static_cast<std::streamsize>(addr.size)) {",
@@ -4494,7 +4494,7 @@
         },
         {
           "file": "src\\performance\\wisckey.cpp",
-          "line": 118,
+          "line": 116,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "if (log_file_->gcount() != static_cast<std::streamsize>(addr.size)) {",
@@ -4503,7 +4503,7 @@
         },
         {
           "file": "src\\performance\\wisckey.cpp",
-          "line": 82,
+          "line": 80,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "if (log_file_->gcount() != addr.size) {",
@@ -4512,7 +4512,7 @@
         },
         {
           "file": "src\\performance\\wisckey.cpp",
-          "line": 80,
+          "line": 78,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "log_file_->read(&value[0], addr.size);",
@@ -4521,7 +4521,7 @@
         },
         {
           "file": "src\\performance\\wisckey.cpp",
-          "line": 73,
+          "line": 71,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::optional<std::string> ValueLog::read(const ValueAddress& addr) {",
@@ -4530,7 +4530,7 @@
         },
         {
           "file": "src\\performance\\wisckey.cpp",
-          "line": 66,
+          "line": 64,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "log_file_->write(value.data(), value.size());",
@@ -4539,7 +4539,7 @@
         },
         {
           "file": "src\\performance\\wisckey.cpp",
-          "line": 35,
+          "line": 33,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "current_offset_ = log_file_->tellg();",
@@ -4548,7 +4548,7 @@
         },
         {
           "file": "src\\performance\\wisckey.cpp",
-          "line": 35,
+          "line": 33,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "current_offset_ = log_file_->tellg();",
@@ -4559,7 +4559,7 @@
       "src\\performance\\workload_adaptive_optimizer.cpp": [
         {
           "file": "src\\performance\\workload_adaptive_optimizer.cpp",
-          "line": 78,
+          "line": 76,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4571,7 +4571,7 @@
         },
         {
           "file": "src\\performance\\workload_adaptive_optimizer.cpp",
-          "line": 78,
+          "line": 76,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4583,7 +4583,7 @@
         },
         {
           "file": "src\\performance\\workload_adaptive_optimizer.cpp",
-          "line": 58,
+          "line": 56,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4595,7 +4595,7 @@
         },
         {
           "file": "src\\performance\\workload_adaptive_optimizer.cpp",
-          "line": 79,
+          "line": 77,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "profile.hot_tables.push_back(tvec[i].first);",
@@ -4604,7 +4604,7 @@
         },
         {
           "file": "src\\performance\\workload_adaptive_optimizer.cpp",
-          "line": 36,
+          "line": 34,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "observations_.push_back({is_write, complexity, result_rows, latency_us, table_name});",
@@ -4613,7 +4613,7 @@
         },
         {
           "file": "src\\performance\\workload_adaptive_optimizer.cpp",
-          "line": 189,
+          "line": 187,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(100));",
@@ -4622,7 +4622,7 @@
         },
         {
           "file": "src\\performance\\workload_adaptive_optimizer.cpp",
-          "line": 30,
+          "line": 28,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "void WorkloadAdaptiveOptimizer::record_query(bool is_write, double complexity,",
@@ -4633,7 +4633,7 @@
       "src\\performance\\phase3\\feature_flags.cpp": [
         {
           "file": "src\\performance\\phase3\\feature_flags.cpp",
-          "line": 31,
+          "line": 29,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -4645,7 +4645,7 @@
         },
         {
           "file": "src\\performance\\phase3\\feature_flags.cpp",
-          "line": 61,
+          "line": 59,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -4656,7 +4656,7 @@
       "src\\performance\\phase3\\splinterdb.cpp": [
         {
           "file": "src\\performance\\phase3\\splinterdb.cpp",
-          "line": 95,
+          "line": 93,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4670,7 +4670,7 @@
           "gap_type": "uninitialized_member_field",
           "severity": "MEDIUM",
           "file_path": "src\\performance\\phase3\\splinterdb.cpp",
-          "line_number": 24,
+          "line_number": 22,
           "var_name": "",
           "context": "Struct with uninitialized fields",
           "reason": "Default constructor does not initialize POD members",
@@ -4680,7 +4680,7 @@
         },
         {
           "file": "src\\performance\\phase3\\splinterdb.cpp",
-          "line": 159,
+          "line": 157,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -4689,7 +4689,7 @@
         },
         {
           "file": "src\\performance\\phase3\\splinterdb.cpp",
-          "line": 113,
+          "line": 111,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "thread.join();",
@@ -4698,7 +4698,7 @@
         },
         {
           "file": "src\\performance\\phase3\\splinterdb.cpp",
-          "line": 41,
+          "line": 39,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "cv_.wait(lock, [this]() { return !tasks_.empty() || shutdown_; });",
@@ -4709,7 +4709,7 @@
       "src\\performance\\phase4\\feature_flags.cpp": [
         {
           "file": "src\\performance\\phase4\\feature_flags.cpp",
-          "line": 43,
+          "line": 41,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -4722,7 +4722,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line_number": 435,
+          "line_number": 433,
           "line_content": "uint64_t probe[kKpcBufSize] = {};",
           "context": [
             "    auto& api = KpcApi::instance();",
@@ -4743,7 +4743,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line_number": 332,
+          "line_number": 330,
           "line_content": "static thread_local uint64_t tl_kpc_baseline[kKpcBufSize] = {};",
           "context": [
             "// Per-thread kpc counter snapshot buffers",
@@ -4764,7 +4764,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line_number": 411,
+          "line_number": 409,
           "line_content": "uint64_t current[kKpcBufSize] = {};",
           "context": [
             "    auto& api = KpcApi::instance();",
@@ -4785,7 +4785,7 @@
           "gap_type": "missing_move_constructor_defaulted",
           "severity": "MEDIUM",
           "file_path": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line_number": 277,
+          "line_number": 275,
           "class_name": "",
           "issue": "Copy constructor exists but no move constructor (Rule of Five)",
           "reason": "Missing move ctor prevents efficient rvalue transfers",
@@ -4795,7 +4795,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 814,
+          "line": 812,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -4804,7 +4804,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 799,
+          "line": 797,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -4813,7 +4813,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 784,
+          "line": 782,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "void     PmuCounter::close() noexcept { fd_ = -1; }",
@@ -4822,7 +4822,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 778,
+          "line": 776,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -4831,7 +4831,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 759,
+          "line": 757,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -4840,7 +4840,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 745,
+          "line": 743,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "if (this != &o) { close(); fd_ = o.fd_; o.fd_ = -1; }",
@@ -4849,7 +4849,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 649,
+          "line": 647,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "void PmuCounter::close() noexcept { fd_ = -1; }",
@@ -4858,7 +4858,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 629,
+          "line": 627,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "close();",
@@ -4867,7 +4867,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 624,
+          "line": 622,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "if (this != &o) { close(); fd_ = o.fd_; o.fd_ = -1; }",
@@ -4876,7 +4876,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 621,
+          "line": 619,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "PmuCounter::~PmuCounter() noexcept { close(); }",
@@ -4885,7 +4885,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 525,
+          "line": 523,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "void PmuCounter::close() noexcept { fd_ = -1; }",
@@ -4894,7 +4894,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 503,
+          "line": 501,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "close();",
@@ -4903,7 +4903,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 498,
+          "line": 496,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "if (this != &o) { close(); fd_ = o.fd_; o.fd_ = -1; }",
@@ -4912,7 +4912,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 495,
+          "line": 493,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "PmuCounter::~PmuCounter() noexcept { close(); }",
@@ -4921,7 +4921,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 373,
+          "line": 371,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "void PmuCounter::close() noexcept { fd_ = -1; }",
@@ -4930,7 +4930,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 349,
+          "line": 347,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "close();",
@@ -4939,7 +4939,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 344,
+          "line": 342,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "if (this != &o) { close(); fd_ = o.fd_; o.fd_ = -1; }",
@@ -4948,7 +4948,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 341,
+          "line": 339,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "PmuCounter::~PmuCounter() noexcept { close(); }",
@@ -4957,7 +4957,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 273,
+          "line": 271,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "if (lib) { ::dlclose(lib); lib = nullptr; }",
@@ -4966,7 +4966,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 259,
+          "line": 257,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "if (!name) { ::dlclose(lib); lib = nullptr; return false; }",
@@ -4975,7 +4975,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 111,
+          "line": 109,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(fd_);",
@@ -4984,7 +4984,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 109,
+          "line": 107,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "void PmuCounter::close() noexcept {",
@@ -4993,7 +4993,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 65,
+          "line": 63,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "close();",
@@ -5002,7 +5002,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 57,
+          "line": 55,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "close();",
@@ -5011,7 +5011,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 48,
+          "line": 46,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "close();",
@@ -5020,7 +5020,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 727,
+          "line": 725,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(s_pmu_stub_mutex);",
@@ -5029,7 +5029,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 722,
+          "line": 720,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(s_pmu_stub_mutex);",
@@ -5038,7 +5038,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 769,
+          "line": 767,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "uint64_t PmuCounter::read()  const noexcept {",
@@ -5047,7 +5047,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 748,
+          "line": 746,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "bool PmuCounter::open(uint32_t type, uint64_t config) noexcept {",
@@ -5056,7 +5056,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 642,
+          "line": 640,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "uint64_t PmuCounter::read() const noexcept {",
@@ -5065,7 +5065,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 628,
+          "line": 626,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "bool PmuCounter::open(uint32_t /*type*/, uint64_t /*config*/) noexcept {",
@@ -5074,7 +5074,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 518,
+          "line": 516,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "uint64_t PmuCounter::read() const noexcept {",
@@ -5083,7 +5083,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 502,
+          "line": 500,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "bool PmuCounter::open(uint32_t /*type*/, uint64_t /*config*/) noexcept {",
@@ -5092,7 +5092,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 366,
+          "line": 364,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "uint64_t PmuCounter::read() const noexcept {",
@@ -5101,7 +5101,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 348,
+          "line": 346,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "bool PmuCounter::open(uint32_t /*type*/, uint64_t /*config*/) noexcept {",
@@ -5110,7 +5110,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 103,
+          "line": 101,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "if (::read(fd_, &value, sizeof(value)) != sizeof(value)) {",
@@ -5119,7 +5119,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 100,
+          "line": 98,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "uint64_t PmuCounter::read() const noexcept {",
@@ -5128,7 +5128,7 @@
         },
         {
           "file": "src\\performance\\phase4\\pmu_counters.cpp",
-          "line": 64,
+          "line": 62,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "bool PmuCounter::open(uint32_t type, uint64_t config) noexcept {",
@@ -5139,7 +5139,7 @@
       "src\\performance\\chimera_exporter.cpp": [
         {
           "file": "src\\performance\\chimera_exporter.cpp",
-          "line": 65,
+          "line": 63,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5151,7 +5151,7 @@
         },
         {
           "file": "src\\performance\\chimera_exporter.cpp",
-          "line": 122,
+          "line": 120,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "<< ((double)avg_llm / avg_total * 100.0) << \"\\n\";",
@@ -5160,7 +5160,7 @@
         },
         {
           "file": "src\\performance\\chimera_exporter.cpp",
-          "line": 120,
+          "line": 118,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "<< ((double)avg_pointer / avg_total * 100.0) << \",\\n\";",
@@ -5169,7 +5169,7 @@
         },
         {
           "file": "src\\performance\\chimera_exporter.cpp",
-          "line": 118,
+          "line": 116,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "<< ((double)avg_hnsw / avg_total * 100.0) << \",\\n\";",
@@ -5178,7 +5178,7 @@
         },
         {
           "file": "src\\performance\\chimera_exporter.cpp",
-          "line": 66,
+          "line": 64,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "aggregated[entry.operation_name].push_back(&entry.metrics);",
@@ -5187,7 +5187,7 @@
         },
         {
           "file": "src\\performance\\chimera_exporter.cpp",
-          "line": 86,
+          "line": 84,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "avg_total += m->total_cycles;",
@@ -5196,7 +5196,7 @@
         },
         {
           "file": "src\\performance\\chimera_exporter.cpp",
-          "line": 85,
+          "line": 83,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "avg_llm += m->llm_inference_cycles;",
@@ -5205,7 +5205,7 @@
         },
         {
           "file": "src\\performance\\chimera_exporter.cpp",
-          "line": 84,
+          "line": 82,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "avg_pointer += m->pointer_passing_cycles;",
@@ -5214,7 +5214,7 @@
         },
         {
           "file": "src\\performance\\chimera_exporter.cpp",
-          "line": 83,
+          "line": 81,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "avg_hnsw += m->hnsw_search_cycles;",
@@ -5225,7 +5225,7 @@
       "src\\performance\\prometheus_exporter.cpp": [
         {
           "file": "src\\performance\\prometheus_exporter.cpp",
-          "line": 61,
+          "line": 59,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5237,7 +5237,7 @@
         },
         {
           "file": "src\\performance\\prometheus_exporter.cpp",
-          "line": 62,
+          "line": 60,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "aggregated[entry.operation_name].push_back(&entry.metrics);",
@@ -5246,7 +5246,7 @@
         },
         {
           "file": "src\\performance\\prometheus_exporter.cpp",
-          "line": 87,
+          "line": 85,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "avg_cpu_eff += m->cpu_efficiency_ratio;",
@@ -5255,7 +5255,7 @@
         },
         {
           "file": "src\\performance\\prometheus_exporter.cpp",
-          "line": 86,
+          "line": 84,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "avg_total += m->total_cycles;",
@@ -5264,7 +5264,7 @@
         },
         {
           "file": "src\\performance\\prometheus_exporter.cpp",
-          "line": 85,
+          "line": 83,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "avg_pcie_d2h += m->pcie_device_to_host_cycles;",
@@ -5273,7 +5273,7 @@
         },
         {
           "file": "src\\performance\\prometheus_exporter.cpp",
-          "line": 84,
+          "line": 82,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "avg_pcie_h2d += m->pcie_host_to_device_cycles;",
@@ -5282,28 +5282,10 @@
         },
         {
           "file": "src\\performance\\prometheus_exporter.cpp",
-          "line": 83,
+          "line": 81,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "avg_cache += m->cache_miss_cycles;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\performance\\prometheus_exporter.cpp",
-          "line": 83,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "avg_cache += m->cache_miss_cycles;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\performance\\prometheus_exporter.cpp",
-          "line": 82,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "avg_llm += m->llm_inference_cycles;",
           "description": "Shared data access without lock protection",
           "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
@@ -5312,13 +5294,31 @@
           "line": 81,
           "type": "data_race",
           "severity": "CRITICAL",
-          "snippet": "avg_pointer += m->pointer_passing_cycles;",
+          "snippet": "avg_cache += m->cache_miss_cycles;",
           "description": "Shared data access without lock protection",
           "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
         {
           "file": "src\\performance\\prometheus_exporter.cpp",
           "line": 80,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "avg_llm += m->llm_inference_cycles;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\prometheus_exporter.cpp",
+          "line": 79,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "avg_pointer += m->pointer_passing_cycles;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\performance\\prometheus_exporter.cpp",
+          "line": 78,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "avg_hnsw += m->hnsw_search_cycles;",
@@ -5329,7 +5329,7 @@
       "src\\performance\\phase3\\bao.cpp": [
         {
           "file": "src\\performance\\phase3\\bao.cpp",
-          "line": 27,
+          "line": 25,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "random_unseeded",
@@ -5341,7 +5341,7 @@
         },
         {
           "file": "src\\performance\\phase3\\bao.cpp",
-          "line": 158,
+          "line": 156,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "stats.avg_speedup = impl_->queries_optimized > 0",
@@ -5352,7 +5352,7 @@
       "src\\performance\\async_metrics_exporter.cpp": [
         {
           "file": "src\\performance\\async_metrics_exporter.cpp",
-          "line": 230,
+          "line": 228,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -5364,7 +5364,7 @@
         },
         {
           "file": "src\\performance\\async_metrics_exporter.cpp",
-          "line": 210,
+          "line": 208,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -5376,7 +5376,7 @@
         },
         {
           "file": "src\\performance\\async_metrics_exporter.cpp",
-          "line": 183,
+          "line": 181,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -5388,7 +5388,7 @@
         },
         {
           "file": "src\\performance\\async_metrics_exporter.cpp",
-          "line": 114,
+          "line": 112,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -5402,7 +5402,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\performance\\async_metrics_exporter.cpp",
-          "line_number": 72,
+          "line_number": 70,
           "var_name": "collector",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference",
@@ -5414,7 +5414,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\performance\\async_metrics_exporter.cpp",
-          "line_number": 233,
+          "line_number": 231,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -5426,7 +5426,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\performance\\async_metrics_exporter.cpp",
-          "line_number": 222,
+          "line_number": 220,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -5438,7 +5438,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\performance\\async_metrics_exporter.cpp",
-          "line_number": 217,
+          "line_number": 215,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -5448,7 +5448,7 @@
         },
         {
           "file": "src\\performance\\async_metrics_exporter.cpp",
-          "line": 184,
+          "line": 182,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "return !running_.load(std::memory_order_acquire);",
@@ -5457,7 +5457,7 @@
         },
         {
           "file": "src\\performance\\async_metrics_exporter.cpp",
-          "line": 183,
+          "line": 181,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "cv_.wait_for(lock, std::chrono::seconds(export_interval_), [this]() {",
@@ -5466,7 +5466,7 @@
         },
         {
           "file": "src\\performance\\async_metrics_exporter.cpp",
-          "line": 182,
+          "line": 180,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::mutex> lock(cv_mutex_);",
@@ -5475,7 +5475,7 @@
         },
         {
           "file": "src\\performance\\async_metrics_exporter.cpp",
-          "line": 180,
+          "line": 178,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "while (running_.load(std::memory_order_acquire)) {",
@@ -5486,7 +5486,7 @@
       "src\\performance\\workload_predictor.cpp": [
         {
           "file": "src\\performance\\workload_predictor.cpp",
-          "line": 38,
+          "line": 36,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "history_.push_back(snapshot);",
@@ -5497,7 +5497,7 @@
       "src\\performance\\phase3\\adaptive_batch_tuner.cpp": [
         {
           "file": "src\\performance\\phase3\\adaptive_batch_tuner.cpp",
-          "line": 174,
+          "line": 172,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -5509,7 +5509,7 @@
         },
         {
           "file": "src\\performance\\phase3\\adaptive_batch_tuner.cpp",
-          "line": 137,
+          "line": 135,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -5521,7 +5521,7 @@
         },
         {
           "file": "src\\performance\\phase3\\adaptive_batch_tuner.cpp",
-          "line": 79,
+          "line": 77,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -5535,7 +5535,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\performance\\phase3\\adaptive_batch_tuner.cpp",
-          "line_number": 183,
+          "line_number": 181,
           "line_content": "s.p99_latency_ms = latencies[p99_idx];",
           "context": [
             "    size_t p99_idx = static_cast<size_t>(",
@@ -5554,7 +5554,7 @@
         },
         {
           "file": "src\\performance\\phase3\\adaptive_batch_tuner.cpp",
-          "line": 174,
+          "line": 172,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5566,7 +5566,7 @@
         },
         {
           "file": "src\\performance\\phase3\\adaptive_batch_tuner.cpp",
-          "line": 175,
+          "line": 173,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "latencies.push_back(r.latency_ms);",
@@ -5577,7 +5577,7 @@
       "src\\performance\\phase3\\gunrock.cpp": [
         {
           "file": "src\\performance\\phase3\\gunrock.cpp",
-          "line": 54,
+          "line": 52,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5589,7 +5589,7 @@
         },
         {
           "file": "src\\performance\\phase3\\gunrock.cpp",
-          "line": 54,
+          "line": 52,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5603,7 +5603,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\performance\\phase3\\gunrock.cpp",
-          "line_number": 171,
+          "line_number": 169,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -5615,7 +5615,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\performance\\phase3\\gunrock.cpp",
-          "line_number": 170,
+          "line_number": 168,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -5625,7 +5625,7 @@
         },
         {
           "file": "src\\performance\\phase3\\gunrock.cpp",
-          "line": 57,
+          "line": 55,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "impl_->row_offsets.push_back(impl_->column_indices.size());",
@@ -5634,7 +5634,7 @@
         },
         {
           "file": "src\\performance\\phase3\\gunrock.cpp",
-          "line": 55,
+          "line": 53,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "impl_->column_indices.push_back(neighbor);",
@@ -5643,7 +5643,7 @@
         },
         {
           "file": "src\\performance\\phase3\\gunrock.cpp",
-          "line": 50,
+          "line": 48,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "impl_->row_offsets.push_back(0);",
@@ -5654,7 +5654,7 @@
       "src\\performance\\phase3\\memory_pressure.cpp": [
         {
           "file": "src\\performance\\phase3\\memory_pressure.cpp",
-          "line": 229,
+          "line": 227,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -5666,7 +5666,7 @@
         },
         {
           "file": "src\\performance\\phase3\\memory_pressure.cpp",
-          "line": 240,
+          "line": 238,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5678,7 +5678,7 @@
         },
         {
           "file": "src\\performance\\phase3\\memory_pressure.cpp",
-          "line": 240,
+          "line": 238,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5690,7 +5690,7 @@
         },
         {
           "file": "src\\performance\\phase3\\memory_pressure.cpp",
-          "line": 241,
+          "line": 239,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "to_call.push_back(entry.callback);",
@@ -5701,7 +5701,7 @@
       "src\\performance\\phase3\\per_query_cost_model.cpp": [
         {
           "file": "src\\performance\\phase3\\per_query_cost_model.cpp",
-          "line": 104,
+          "line": 102,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -5713,7 +5713,7 @@
         },
         {
           "file": "src\\performance\\phase3\\per_query_cost_model.cpp",
-          "line": 269,
+          "line": 267,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5725,7 +5725,7 @@
         },
         {
           "file": "src\\performance\\phase3\\per_query_cost_model.cpp",
-          "line": 105,
+          "line": 103,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5737,7 +5737,7 @@
         },
         {
           "file": "src\\performance\\phase3\\per_query_cost_model.cpp",
-          "line": 264,
+          "line": 262,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -5749,7 +5749,7 @@
         },
         {
           "file": "src\\performance\\phase3\\per_query_cost_model.cpp",
-          "line": 263,
+          "line": 261,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -5761,7 +5761,7 @@
         },
         {
           "file": "src\\performance\\phase3\\per_query_cost_model.cpp",
-          "line": 126,
+          "line": 124,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -5773,7 +5773,7 @@
         },
         {
           "file": "src\\performance\\phase3\\per_query_cost_model.cpp",
-          "line": 270,
+          "line": 268,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "times_ms.push_back(r.execution_time_ms);",
@@ -5782,7 +5782,7 @@
         },
         {
           "file": "src\\performance\\phase3\\per_query_cost_model.cpp",
-          "line": 106,
+          "line": 104,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(records_[pos]);",

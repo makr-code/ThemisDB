@@ -25,7 +25,7 @@
       "src\\tensor\\adapter_repository.cpp": [
         {
           "file": "src\\tensor\\adapter_repository.cpp",
-          "line": 366,
+          "line": 364,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -37,7 +37,7 @@
         },
         {
           "file": "src\\tensor\\adapter_repository.cpp",
-          "line": 359,
+          "line": 357,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -49,7 +49,7 @@
         },
         {
           "file": "src\\tensor\\adapter_repository.cpp",
-          "line": 313,
+          "line": 311,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -61,7 +61,7 @@
         },
         {
           "file": "src\\tensor\\adapter_repository.cpp",
-          "line": 239,
+          "line": 237,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -73,7 +73,7 @@
         },
         {
           "file": "src\\tensor\\adapter_repository.cpp",
-          "line": 233,
+          "line": 231,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -85,7 +85,7 @@
         },
         {
           "file": "src\\tensor\\adapter_repository.cpp",
-          "line": 317,
+          "line": 315,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -97,7 +97,7 @@
         },
         {
           "file": "src\\tensor\\adapter_repository.cpp",
-          "line": 291,
+          "line": 289,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -109,7 +109,7 @@
         },
         {
           "file": "src\\tensor\\adapter_repository.cpp",
-          "line": 365,
+          "line": 363,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -118,7 +118,7 @@
         },
         {
           "file": "src\\tensor\\adapter_repository.cpp",
-          "line": 292,
+          "line": 290,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "domains.push_back(rest.substr(0, sep));",
@@ -127,7 +127,7 @@
         },
         {
           "file": "src\\tensor\\adapter_repository.cpp",
-          "line": 238,
+          "line": 236,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -136,7 +136,7 @@
         },
         {
           "file": "src\\tensor\\adapter_repository.cpp",
-          "line": 315,
+          "line": 313,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "const auto sep = rest.find(':');",
@@ -145,7 +145,7 @@
         },
         {
           "file": "src\\tensor\\adapter_repository.cpp",
-          "line": 308,
+          "line": 306,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const auto keys = backend_->listKeys(prefix);",
@@ -154,7 +154,7 @@
         },
         {
           "file": "src\\tensor\\adapter_repository.cpp",
-          "line": 289,
+          "line": 287,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "const auto sep = rest.find(':');",
@@ -163,7 +163,7 @@
         },
         {
           "file": "src\\tensor\\adapter_repository.cpp",
-          "line": 280,
+          "line": 278,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const auto keys = backend_->listKeys(prefix);",
@@ -172,7 +172,7 @@
         },
         {
           "file": "src\\tensor\\adapter_repository.cpp",
-          "line": 113,
+          "line": 111,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -181,7 +181,7 @@
         },
         {
           "file": "src\\tensor\\adapter_repository.cpp",
-          "line": 30,
+          "line": 28,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "* Production Delta: GgmlCoreDescriptor::train.cores[k].data is a heap copy,",
@@ -190,7 +190,7 @@
         },
         {
           "file": "src\\tensor\\adapter_repository.cpp",
-          "line": 290,
+          "line": 288,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "const auto sep = rest.find(':');",
@@ -201,7 +201,7 @@
       "src\\tensor\\hnsw_tt_bridge.cpp": [
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 618,
+          "line": 616,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -213,7 +213,7 @@
         },
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 340,
+          "line": 338,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -225,7 +225,7 @@
         },
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 219,
+          "line": 217,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -239,7 +239,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line_number": 629,
+          "line_number": 627,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -251,7 +251,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line_number": 544,
+          "line_number": 542,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -263,7 +263,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line_number": 543,
+          "line_number": 541,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -275,7 +275,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line_number": 535,
+          "line_number": 533,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -287,7 +287,7 @@
           "gap_type": "missing_move_constructor_defaulted",
           "severity": "MEDIUM",
           "file_path": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line_number": 123,
+          "line_number": 121,
           "class_name": "",
           "issue": "Copy constructor exists but no move constructor (Rule of Five)",
           "reason": "Missing move ctor prevents efficient rvalue transfers",
@@ -297,7 +297,7 @@
         },
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 374,
+          "line": 372,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -306,7 +306,7 @@
         },
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 341,
+          "line": 339,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back({ cid, 1.0f - sim, tn });",
@@ -315,7 +315,7 @@
         },
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 303,
+          "line": 301,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -324,7 +324,7 @@
         },
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 220,
+          "line": 218,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ids.push_back(dist_ids[i].second);",
@@ -333,7 +333,7 @@
         },
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 193,
+          "line": 191,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ids.push_back(it->second);",
@@ -342,7 +342,7 @@
         },
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 161,
+          "line": 159,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -351,7 +351,7 @@
         },
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 119,
+          "line": 117,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "delete space_;",
@@ -360,7 +360,7 @@
         },
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 118,
+          "line": 116,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "delete appr_;",
@@ -369,7 +369,7 @@
         },
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 96,
+          "line": 94,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -378,7 +378,7 @@
         },
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 598,
+          "line": 596,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "mean += g0.data[i * g0.r_right + r];",
@@ -387,7 +387,7 @@
         },
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 371,
+          "line": 369,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto [train, stats] = decomposer.decompose(data, shape, cfg);",
@@ -396,7 +396,7 @@
         },
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 300,
+          "line": 298,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto [train, stats] = decomposer.decompose(data, shape, cfg);",
@@ -405,7 +405,7 @@
         },
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 247,
+          "line": 245,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return (it != trains.end()) ? &it->second : nullptr;",
@@ -414,7 +414,7 @@
         },
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 247,
+          "line": 245,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "return (it != trains.end()) ? &it->second : nullptr;",
@@ -423,7 +423,7 @@
         },
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 185,
+          "line": 183,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto pq = appr_->searchKnn(query.data(), k, nullptr);",
@@ -432,7 +432,7 @@
         },
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 119,
+          "line": 117,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "delete space_;",
@@ -441,7 +441,7 @@
         },
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 118,
+          "line": 116,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "delete appr_;",
@@ -450,7 +450,7 @@
         },
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 97,
+          "line": 95,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "delete sp;",
@@ -459,7 +459,7 @@
         },
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 436,
+          "line": 434,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "const uint64_t n = static_cast<uint64_t>(tt_store_->size());",
@@ -468,7 +468,7 @@
         },
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 191,
+          "line": 189,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = label_to_id_.find(label);",
@@ -477,7 +477,7 @@
         },
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 157,
+          "line": 155,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = id_to_label_.find(id);",
@@ -486,7 +486,7 @@
         },
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 94,
+          "line": 92,
           "type": "smart_ptr_misuse",
           "severity": "CRITICAL",
           "snippet": "appr_ = new hnswlib::HierarchicalNSW<float>(",
@@ -495,7 +495,7 @@
         },
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 92,
+          "line": 90,
           "type": "smart_ptr_misuse",
           "severity": "CRITICAL",
           "snippet": "auto* sp = new hnswlib::L2Space(dim);",
@@ -504,7 +504,7 @@
         },
         {
           "file": "src\\tensor\\hnsw_tt_bridge.cpp",
-          "line": 67,
+          "line": 65,
           "type": "missing_dtor",
           "severity": "CRITICAL",
           "snippet": "class/struct HnswTTBridge",
@@ -515,7 +515,7 @@
       "src\\tensor\\tensor_index.cpp": [
         {
           "file": "src\\tensor\\tensor_index.cpp",
-          "line": 145,
+          "line": 143,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -529,19 +529,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\tensor\\tensor_index.cpp",
-          "line_number": 420,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\tensor\\tensor_index.cpp",
-          "line_number": 344,
+          "line_number": 418,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -565,7 +553,19 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\tensor\\tensor_index.cpp",
-          "line_number": 295,
+          "line_number": 340,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak",
+          "confidence_score": 0.73,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=HIGH,context_missing"
+        },
+        {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\tensor\\tensor_index.cpp",
+          "line_number": 293,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -575,7 +575,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index.cpp",
-          "line": 232,
+          "line": 230,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "static constexpr char kMagic[11] = \"THEMIS_TTI\";  // 10 chars + '\\0'",
@@ -584,7 +584,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index.cpp",
-          "line": 182,
+          "line": 180,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -593,7 +593,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index.cpp",
-          "line": 146,
+          "line": 144,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back({ id, dist, t_n });",
@@ -602,7 +602,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index.cpp",
-          "line": 112,
+          "line": 110,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -611,7 +611,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index.cpp",
-          "line": 206,
+          "line": 204,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return (it != store_.end()) ? &it->second : nullptr;",
@@ -620,7 +620,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index.cpp",
-          "line": 206,
+          "line": 204,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "return (it != store_.end()) ? &it->second : nullptr;",
@@ -629,7 +629,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index.cpp",
-          "line": 179,
+          "line": 177,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto [train, stats] = decomposer.decompose(data, shape, cfg);",
@@ -638,7 +638,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index.cpp",
-          "line": 109,
+          "line": 107,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto [train, stats] = decomposer.decompose(data, shape, cfg);",
@@ -647,7 +647,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index.cpp",
-          "line": 119,
+          "line": 117,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = store_.find(id);",
@@ -658,7 +658,7 @@
       "src\\tensor\\tensor_index_manager.cpp": [
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 363,
+          "line": 361,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -670,7 +670,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 226,
+          "line": 224,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -682,7 +682,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 220,
+          "line": 218,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -694,7 +694,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 185,
+          "line": 183,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -706,7 +706,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 348,
+          "line": 346,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -718,7 +718,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 346,
+          "line": 344,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -730,7 +730,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 17,
+          "line": 15,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -742,7 +742,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 366,
+          "line": 364,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -754,7 +754,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 310,
+          "line": 308,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -766,7 +766,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 298,
+          "line": 296,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -778,7 +778,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 298,
+          "line": 296,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -790,7 +790,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 261,
+          "line": 259,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -802,7 +802,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 261,
+          "line": 259,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -814,7 +814,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 221,
+          "line": 219,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -826,7 +826,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 221,
+          "line": 219,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -838,7 +838,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 299,
+          "line": 297,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "escaped += (c == ':' || c == '/' || c == '\\\\') ? '_' : c;",
@@ -847,7 +847,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 299,
+          "line": 297,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "escaped += (c == ':' || c == '/' || c == '\\\\') ? '_' : c;",
@@ -856,7 +856,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 262,
+          "line": 260,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (k.substr(0, prefix.size()) == prefix) out.push_back(h);",
@@ -865,7 +865,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 252,
+          "line": 250,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& [k, h] : handles_) out.push_back(h);",
@@ -874,7 +874,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 18,
+          "line": 16,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "* - TIM-02  `dropTenantIndexes()` RocksDB prefix-delete \u2014 resolved 2026-05-06",
@@ -883,7 +883,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 362,
+          "line": 360,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "ptrs.reserve(bridge->slices().size());",
@@ -892,7 +892,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 235,
+          "line": 233,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (it->first.rfind(bridge_prefix, 0) == 0) {",
@@ -901,7 +901,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 221,
+          "line": 219,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "db_->scanPrefix(pfx, [&](std::string_view k, std::string_view) -> bool {",
@@ -910,7 +910,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 204,
+          "line": 202,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "handles_.erase(it->first);",
@@ -919,7 +919,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 203,
+          "line": 201,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (it->first.substr(0, prefix.size()) == prefix) {",
@@ -928,7 +928,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 186,
+          "line": 184,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (it->first.rfind(prefix, 0) == 0) {",
@@ -937,7 +937,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 153,
+          "line": 151,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return (it != indexes_.end()) ? it->second.get() : nullptr;",
@@ -946,7 +946,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 153,
+          "line": 151,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "return (it != indexes_.end()) ? it->second.get() : nullptr;",
@@ -955,7 +955,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 234,
+          "line": 232,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "for (auto it = legacy_bridge_cache_.begin(); it != legacy_bridge_cache_.end();) {",
@@ -964,7 +964,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 202,
+          "line": 200,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "for (auto it = indexes_.begin(); it != indexes_.end(); ) {",
@@ -973,7 +973,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 185,
+          "line": 183,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "for (auto it = legacy_bridge_cache_.begin(); it != legacy_bridge_cache_.end();) {",
@@ -982,7 +982,7 @@
         },
         {
           "file": "src\\tensor\\tensor_index_manager.cpp",
-          "line": 41,
+          "line": 39,
           "type": "missing_dtor",
           "severity": "CRITICAL",
           "snippet": "class/struct FlatTensorIndex",
@@ -993,7 +993,7 @@
       "src\\tensor\\tensor_mmap_bridge.cpp": [
         {
           "file": "src\\tensor\\tensor_mmap_bridge.cpp",
-          "line": 185,
+          "line": 183,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1005,7 +1005,7 @@
         },
         {
           "file": "src\\tensor\\tensor_mmap_bridge.cpp",
-          "line": 278,
+          "line": 276,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "release();",
@@ -1014,7 +1014,7 @@
         },
         {
           "file": "src\\tensor\\tensor_mmap_bridge.cpp",
-          "line": 246,
+          "line": 244,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "void TensorMmapBridge::release() noexcept {",
@@ -1023,7 +1023,7 @@
         },
         {
           "file": "src\\tensor\\tensor_mmap_bridge.cpp",
-          "line": 231,
+          "line": 229,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "bridge->slices_.push_back({",
@@ -1032,7 +1032,7 @@
         },
         {
           "file": "src\\tensor\\tensor_mmap_bridge.cpp",
-          "line": 230,
+          "line": 228,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "bridge->regions_.push_back({ptr, bytes, locked, sst_mapped});",
@@ -1041,7 +1041,7 @@
         },
         {
           "file": "src\\tensor\\tensor_mmap_bridge.cpp",
-          "line": 211,
+          "line": 209,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "bridge->regions_.push_back({nullptr, 0, false});",
@@ -1050,7 +1050,7 @@
         },
         {
           "file": "src\\tensor\\tensor_mmap_bridge.cpp",
-          "line": 210,
+          "line": 208,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "bridge->slices_.push_back({nullptr, 0, ci, 0});",
@@ -1059,7 +1059,7 @@
         },
         {
           "file": "src\\tensor\\tensor_mmap_bridge.cpp",
-          "line": 187,
+          "line": 185,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "bridge->regions_.push_back({nullptr, 0, false});",
@@ -1068,7 +1068,7 @@
         },
         {
           "file": "src\\tensor\\tensor_mmap_bridge.cpp",
-          "line": 186,
+          "line": 184,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "bridge->slices_.push_back({nullptr, 0, ci, 0});",
@@ -1077,7 +1077,7 @@
         },
         {
           "file": "src\\tensor\\tensor_mmap_bridge.cpp",
-          "line": 142,
+          "line": 140,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "std::free(ptr);",
@@ -1086,7 +1086,7 @@
         },
         {
           "file": "src\\tensor\\tensor_mmap_bridge.cpp",
-          "line": 230,
+          "line": 228,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "bridge->regions_.push_back({ptr, bytes, locked, sst_mapped});",
@@ -1095,7 +1095,7 @@
         },
         {
           "file": "src\\tensor\\tensor_mmap_bridge.cpp",
-          "line": 211,
+          "line": 209,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "bridge->regions_.push_back({nullptr, 0, false});",
@@ -1104,7 +1104,7 @@
         },
         {
           "file": "src\\tensor\\tensor_mmap_bridge.cpp",
-          "line": 210,
+          "line": 208,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "bridge->slices_.push_back({nullptr, 0, ci, 0});",
@@ -1113,7 +1113,7 @@
         },
         {
           "file": "src\\tensor\\tensor_mmap_bridge.cpp",
-          "line": 187,
+          "line": 185,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "bridge->regions_.push_back({nullptr, 0, false});",
@@ -1122,7 +1122,7 @@
         },
         {
           "file": "src\\tensor\\tensor_mmap_bridge.cpp",
-          "line": 186,
+          "line": 184,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "bridge->slices_.push_back({nullptr, 0, ci, 0});",
@@ -1131,7 +1131,7 @@
         },
         {
           "file": "src\\tensor\\tensor_mmap_bridge.cpp",
-          "line": 106,
+          "line": 104,
           "type": "unchecked_malloc",
           "severity": "HIGH",
           "snippet": "return std::malloc(bytes);",
@@ -1140,7 +1140,7 @@
         },
         {
           "file": "src\\tensor\\tensor_mmap_bridge.cpp",
-          "line": 26,
+          "line": 24,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "* heap-allocated copy guarded by `VirtualLock` (Windows) or a no-lock",
@@ -1151,7 +1151,7 @@
       "src\\tensor\\tensor_butterfly_operator.cpp": [
         {
           "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 361,
+          "line": 359,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1163,7 +1163,7 @@
         },
         {
           "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 359,
+          "line": 357,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1175,7 +1175,7 @@
         },
         {
           "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 358,
+          "line": 356,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1187,7 +1187,7 @@
         },
         {
           "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 350,
+          "line": 348,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1199,36 +1199,12 @@
         },
         {
           "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 278,
+          "line": 276,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
           "description": "Mutex lock acquired per iteration (move outside loop)",
           "context": "for (std::size_t i = 0; i < n_k; ++i)",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 275,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (std::size_t i = 0; i < n_k; ++i)",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 274,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (std::size_t ar = 0; ar < r_right; ++ar) {",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -1240,6 +1216,30 @@
           "severity": "HIGH",
           "pattern": "lock_in_loop",
           "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (std::size_t i = 0; i < n_k; ++i)",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 272,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (std::size_t ar = 0; ar < r_right; ++ar) {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 271,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
           "context": "for (std::size_t al = 0; al < r_left; ++al) {",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
@@ -1247,7 +1247,7 @@
         },
         {
           "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 320,
+          "line": 318,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -1259,7 +1259,7 @@
         },
         {
           "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 184,
+          "line": 182,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1271,7 +1271,7 @@
         },
         {
           "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 185,
+          "line": 183,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "op_matrices_.push_back(buildHadamardMatrix(nk));",
@@ -1280,7 +1280,7 @@
         },
         {
           "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 380,
+          "line": 378,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "core.data[al * n_k * r_right + i * r_right + ar] = fiber[i];",
@@ -1289,7 +1289,7 @@
         },
         {
           "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 362,
+          "line": 360,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "fiber[i] = core.data[al * n_k * r_right + i * r_right + ar];",
@@ -1298,7 +1298,7 @@
         },
         {
           "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 335,
+          "line": 333,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(oss.str());",
@@ -1307,7 +1307,7 @@
         },
         {
           "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 326,
+          "line": 324,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(oss.str());",
@@ -1316,7 +1316,7 @@
         },
         {
           "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 315,
+          "line": 313,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::logic_error(",
@@ -1325,7 +1325,7 @@
         },
         {
           "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 306,
+          "line": 304,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::logic_error(",
@@ -1334,7 +1334,7 @@
         },
         {
           "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 293,
+          "line": 291,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::logic_error(",
@@ -1343,7 +1343,7 @@
         },
         {
           "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 279,
+          "line": 277,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "core.data[al * n_k * r_right + i * r_right + ar] = fiber[i];",
@@ -1352,7 +1352,7 @@
         },
         {
           "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 276,
+          "line": 274,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "fiber[i] = core.data[al * n_k * r_right + i * r_right + ar];",
@@ -1361,7 +1361,7 @@
         },
         {
           "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 243,
+          "line": 241,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(oss.str());",
@@ -1370,7 +1370,7 @@
         },
         {
           "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 229,
+          "line": 227,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::logic_error(",
@@ -1379,7 +1379,7 @@
         },
         {
           "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 216,
+          "line": 214,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::logic_error(",
@@ -1388,7 +1388,7 @@
         },
         {
           "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 199,
+          "line": 197,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -1397,7 +1397,7 @@
         },
         {
           "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 109,
+          "line": 107,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "for (std::size_t i = 0; i < n; ++i) data[i] *= inv_sqrt_n;",
@@ -1406,7 +1406,7 @@
         },
         {
           "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 103,
+          "line": 101,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "data[start + j + half] = u - w;",
@@ -1415,7 +1415,7 @@
         },
         {
           "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 102,
+          "line": 100,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "data[start + j]        = u + w;",
@@ -1424,7 +1424,7 @@
         },
         {
           "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 101,
+          "line": 99,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "const float w = data[start + j + half];",
@@ -1433,7 +1433,7 @@
         },
         {
           "file": "src\\tensor\\tensor_butterfly_operator.cpp",
-          "line": 100,
+          "line": 98,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "const float u = data[start + j];",
@@ -1444,7 +1444,7 @@
       "src\\tensor\\tensor_fingerprint_graph.cpp": [
         {
           "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
-          "line": 121,
+          "line": 119,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1456,7 +1456,7 @@
         },
         {
           "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
-          "line": 321,
+          "line": 319,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& [k, _] : entries_) keys.push_back(k);",
@@ -1465,7 +1465,7 @@
         },
         {
           "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
-          "line": 254,
+          "line": 252,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "const auto it_train = trains_.find(key);",
@@ -1474,7 +1474,7 @@
         },
         {
           "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
-          "line": 71,
+          "line": 69,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "means[c] += data[r * n_cols + c];",
@@ -1483,7 +1483,7 @@
         },
         {
           "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
-          "line": 44,
+          "line": 42,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(s_exact_sim_fn_mutex);",
@@ -1494,7 +1494,7 @@
       "src\\tensor\\tensor_ingestion_bridge.cpp": [
         {
           "file": "src\\tensor\\tensor_ingestion_bridge.cpp",
-          "line": 190,
+          "line": 188,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "rec.metadata[\"tt_achieved_eps\"]    = std::to_string(rec.achieved_eps);",
@@ -1503,7 +1503,7 @@
         },
         {
           "file": "src\\tensor\\tensor_ingestion_bridge.cpp",
-          "line": 189,
+          "line": 187,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "rec.metadata[\"tt_compression\"]     = std::to_string(rec.compression_ratio);",
@@ -1512,7 +1512,7 @@
         },
         {
           "file": "src\\tensor\\tensor_ingestion_bridge.cpp",
-          "line": 188,
+          "line": 186,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "rec.metadata[\"tt_achieved_rank\"]   = std::to_string(rec.max_rank);",
@@ -1521,7 +1521,7 @@
         },
         {
           "file": "src\\tensor\\tensor_ingestion_bridge.cpp",
-          "line": 187,
+          "line": 185,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "rec.metadata[\"tt_order\"]           = std::to_string(rec.order);",
@@ -1530,7 +1530,7 @@
         },
         {
           "file": "src\\tensor\\tensor_ingestion_bridge.cpp",
-          "line": 186,
+          "line": 184,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "rec.metadata[\"tt_max_rank_cap\"]    = std::to_string(eff_max_rank);",
@@ -1539,7 +1539,7 @@
         },
         {
           "file": "src\\tensor\\tensor_ingestion_bridge.cpp",
-          "line": 185,
+          "line": 183,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "rec.metadata[\"tt_epsilon\"]         = std::to_string(eff_eps);",
@@ -1552,7 +1552,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\tensor\\hiss_structural_search.cpp",
-          "line_number": 489,
+          "line_number": 487,
           "line_content": "padded_dense_tensor[qtt_idx] = dense_tensor[physical_idx];",
           "context": [
             "    for (std::size_t physical_idx = 0; physical_idx < dense_tensor.size(); ++physical_idx) {",
@@ -1571,7 +1571,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 470,
+          "line": 468,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1583,7 +1583,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 377,
+          "line": 375,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1595,7 +1595,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 310,
+          "line": 308,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1607,7 +1607,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 310,
+          "line": 308,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1619,7 +1619,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 282,
+          "line": 280,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1631,7 +1631,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 254,
+          "line": 252,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -1643,7 +1643,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 218,
+          "line": 216,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -1657,7 +1657,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\tensor\\hiss_structural_search.cpp",
-          "line_number": 301,
+          "line_number": 299,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1667,7 +1667,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 385,
+          "line": 383,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1681,7 +1681,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\tensor\\hiss_structural_search.cpp",
-          "line_number": 259,
+          "line_number": 257,
           "line_content": "idx_d = (idx_d << 1u) | bit;",
           "context": [
             "            --bit_pos;",
@@ -1702,7 +1702,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\tensor\\hiss_structural_search.cpp",
-          "line_number": 258,
+          "line_number": 256,
           "line_content": "const auto bit = (qtt_idx >> bit_pos) & 1ULL;",
           "context": [
             "        for (std::size_t b = 0; b < bd; ++b) {",
@@ -1723,7 +1723,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\tensor\\hiss_structural_search.cpp",
-          "line_number": 222,
+          "line_number": 220,
           "line_content": "qtt_idx |= bit << bit_pos;",
           "context": [
             "            --bit_pos;",
@@ -1742,7 +1742,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 473,
+          "line": 471,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "padded_grid_sizes.push_back(padded_grid_size);",
@@ -1751,7 +1751,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 471,
+          "line": 469,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "bit_depths.push_back(bit_depth);",
@@ -1760,7 +1760,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 403,
+          "line": 401,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& kv : best_by_edge) unique_candidates.push_back(kv.second);",
@@ -1769,7 +1769,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 378,
+          "line": 376,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "candidates.push_back(std::move(e));",
@@ -1778,7 +1778,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 312,
+          "line": 310,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (e.to == node_index) out.push_back(e.from);",
@@ -1787,7 +1787,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 311,
+          "line": 309,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (e.from == node_index) out.push_back(e.to);",
@@ -1796,7 +1796,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 283,
+          "line": 281,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "nodes_.push_back(std::move(node));",
@@ -1805,7 +1805,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 445,
+          "line": 443,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"grid_sizes product (\" + std::to_string(reshaped_dense_elements) +",
@@ -1814,7 +1814,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 436,
+          "line": 434,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"grid_sizes.size() (\" + std::to_string(grid_sizes.size()) +",
@@ -1823,7 +1823,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 432,
+          "line": 430,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"train must contain at least one core and one mode size\");",
@@ -1832,7 +1832,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 419,
+          "line": 417,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::logic_error(",
@@ -1841,7 +1841,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 389,
+          "line": 387,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"tensor graph index from=\" + std::to_string(e.from) +",
@@ -1850,7 +1850,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 241,
+          "line": 239,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::out_of_range(",
@@ -1859,7 +1859,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 232,
+          "line": 230,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -1868,7 +1868,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 192,
+          "line": 190,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::out_of_range(",
@@ -1877,7 +1877,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 183,
+          "line": 181,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -1886,7 +1886,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 164,
+          "line": 162,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::overflow_error(\"grid_size \" + std::to_string(grid_size) +",
@@ -1895,7 +1895,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 158,
+          "line": 156,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"grid_size must be > 0, got: \" + std::to_string(grid_size));",
@@ -1904,7 +1904,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 113,
+          "line": 111,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"buildExactBinaryTT dense.size() (\" +",
@@ -1913,7 +1913,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 107,
+          "line": 105,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::overflow_error(\"buildExactBinaryTT bit_count too large: \" +",
@@ -1922,7 +1922,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 104,
+          "line": 102,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"buildExactBinaryTT requires bit_count > 0\");",
@@ -1931,7 +1931,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 94,
+          "line": 92,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::overflow_error(\"shape product overflow\");",
@@ -1940,7 +1940,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 91,
+          "line": 89,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"shape dimension must be > 0\");",
@@ -1949,7 +1949,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 76,
+          "line": 74,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "return h / std::log2(static_cast<double>(kBins)); // normalized [0,1]",
@@ -1958,7 +1958,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 35,
+          "line": 33,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(g_quantics_mtx);",
@@ -1967,7 +1967,7 @@
         },
         {
           "file": "src\\tensor\\hiss_structural_search.cpp",
-          "line": 395,
+          "line": 393,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "const auto it = best_by_edge.find(key);",
@@ -1978,7 +1978,7 @@
       "src\\tensor\\hyper_index_builder.cpp": [
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 579,
+          "line": 577,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1992,7 +1992,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\tensor\\hyper_index_builder.cpp",
-          "line_number": 251,
+          "line_number": 249,
           "line_content": "auto& out = category_orders[category_index];",
           "context": [
             "            }",
@@ -2013,7 +2013,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\tensor\\hyper_index_builder.cpp",
-          "line_number": 275,
+          "line_number": 273,
           "line_content": "auto& out = category_orders[category_index];",
           "context": [
             "                      return lhs.first < rhs.first;",
@@ -2032,7 +2032,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 475,
+          "line": 473,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -2044,7 +2044,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 417,
+          "line": 415,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2056,7 +2056,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 411,
+          "line": 409,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2068,7 +2068,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 277,
+          "line": 275,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2080,7 +2080,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 217,
+          "line": 215,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2092,7 +2092,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 193,
+          "line": 191,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2104,7 +2104,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 97,
+          "line": 95,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2116,7 +2116,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 439,
+          "line": 437,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -2128,7 +2128,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 260,
+          "line": 258,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -2142,7 +2142,7 @@
           "gap_type": "uninitialized_member_field",
           "severity": "MEDIUM",
           "file_path": "src\\tensor\\hyper_index_builder.cpp",
-          "line_number": 303,
+          "line_number": 301,
           "var_name": "",
           "context": "Struct with uninitialized fields",
           "reason": "Default constructor does not initialize POD members",
@@ -2152,7 +2152,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 418,
+          "line": 416,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "roots.push_back(node);",
@@ -2161,7 +2161,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 412,
+          "line": 410,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "roots.push_back(node);",
@@ -2170,7 +2170,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 404,
+          "line": 402,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "adjacency[edge.from].push_back({edge.to, edge.weight});",
@@ -2179,7 +2179,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 367,
+          "line": 365,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "resolved.push_back({edge.from_column, edge.to_column, weight});",
@@ -2188,7 +2188,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 278,
+          "line": 276,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.push_back(value);",
@@ -2197,7 +2197,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 218,
+          "line": 216,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.push_back(values[idx]);",
@@ -2206,7 +2206,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 194,
+          "line": 192,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "values.push_back(row.numeric_values[numeric_index]);",
@@ -2215,7 +2215,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 185,
+          "line": 183,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.push_back(numeric_schema->range_min + (span * (bucket_d / bucket_count_d)));",
@@ -2224,7 +2224,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 108,
+          "line": 106,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "buckets.push_back(categoryBucket(row.category_values[cat_col],",
@@ -2233,7 +2233,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 98,
+          "line": 96,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "buckets.push_back(numericBucket(row.numeric_values[num_col],",
@@ -2242,7 +2242,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 657,
+          "line": 655,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(g_bucket_assignment_fn_mu);",
@@ -2251,7 +2251,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 625,
+          "line": 623,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -2260,7 +2260,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 617,
+          "line": 615,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -2269,7 +2269,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 581,
+          "line": 579,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::overflow_error(",
@@ -2278,7 +2278,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 573,
+          "line": 571,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"bucket_count must be >= 1\");",
@@ -2287,7 +2287,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 567,
+          "line": 565,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"rows must be non-empty\");",
@@ -2296,7 +2296,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 563,
+          "line": 561,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"schema must have at least 2 columns, got: \" +",
@@ -2305,7 +2305,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 506,
+          "line": 504,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -2314,7 +2314,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 501,
+          "line": 499,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -2323,7 +2323,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 377,
+          "line": 375,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "* deeper hops apply `propagation_decay` (clamped to [0,1]).",
@@ -2332,7 +2332,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 358,
+          "line": 356,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -2341,7 +2341,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 350,
+          "line": 348,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -2350,7 +2350,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 329,
+          "line": 327,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -2359,7 +2359,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 306,
+          "line": 304,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "double weight;      ///< Validated join strength in [0,1]",
@@ -2368,7 +2368,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 290,
+          "line": 288,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "* @return Bucket index in [0, bucket_count-1].",
@@ -2377,7 +2377,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 114,
+          "line": 112,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -2386,7 +2386,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 105,
+          "line": 103,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -2395,7 +2395,7 @@
         },
         {
           "file": "src\\tensor\\hyper_index_builder.cpp",
-          "line": 95,
+          "line": 93,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -2406,7 +2406,7 @@
       "src\\tensor\\tensor_core_bridge.cpp": [
         {
           "file": "src\\tensor\\tensor_core_bridge.cpp",
-          "line": 182,
+          "line": 180,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -2415,7 +2415,7 @@
         },
         {
           "file": "src\\tensor\\tensor_core_bridge.cpp",
-          "line": 110,
+          "line": 108,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -2424,7 +2424,7 @@
         },
         {
           "file": "src\\tensor\\tensor_core_bridge.cpp",
-          "line": 100,
+          "line": 98,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -2433,7 +2433,7 @@
         },
         {
           "file": "src\\tensor\\tensor_core_bridge.cpp",
-          "line": 93,
+          "line": 91,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -2442,7 +2442,7 @@
         },
         {
           "file": "src\\tensor\\tensor_core_bridge.cpp",
-          "line": 89,
+          "line": 87,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -2451,7 +2451,7 @@
         },
         {
           "file": "src\\tensor\\tensor_core_bridge.cpp",
-          "line": 122,
+          "line": 120,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "Result<void> TensorCoreStorageBridge::write(",
@@ -2464,7 +2464,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\tensor\\tnsr_task.cpp",
-          "line_number": 189,
+          "line_number": 187,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2476,7 +2476,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\tensor\\tnsr_task.cpp",
-          "line_number": 188,
+          "line_number": 186,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2488,7 +2488,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\tensor\\tnsr_task.cpp",
-          "line_number": 164,
+          "line_number": 162,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2498,7 +2498,7 @@
         },
         {
           "file": "src\\tensor\\tnsr_task.cpp",
-          "line": 151,
+          "line": 149,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -2507,7 +2507,7 @@
         },
         {
           "file": "src\\tensor\\tnsr_task.cpp",
-          "line": 110,
+          "line": 108,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -2516,7 +2516,7 @@
         },
         {
           "file": "src\\tensor\\tnsr_task.cpp",
-          "line": 91,
+          "line": 89,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -2525,7 +2525,7 @@
         },
         {
           "file": "src\\tensor\\tnsr_task.cpp",
-          "line": 74,
+          "line": 72,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (cancel_requested_.load(std::memory_order_acquire)) {",
@@ -2534,7 +2534,7 @@
         },
         {
           "file": "src\\tensor\\tnsr_task.cpp",
-          "line": 53,
+          "line": 51,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"TNSRTask: engine must not be null\");",
@@ -2543,7 +2543,7 @@
         },
         {
           "file": "src\\tensor\\tnsr_task.cpp",
-          "line": 31,
+          "line": 29,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(g_reroute_serialize_mtx);",
@@ -2554,7 +2554,7 @@
       "src\\tensor\\utr_converter.cpp": [
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 533,
+          "line": 531,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2566,7 +2566,7 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 533,
+          "line": 531,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2578,7 +2578,7 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 533,
+          "line": 531,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2590,7 +2590,7 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 206,
+          "line": 204,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2604,7 +2604,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\tensor\\utr_converter.cpp",
-          "line_number": 271,
+          "line_number": 269,
           "line_content": "const auto bits  = static_cast<uint16_t>((h >> shift) & 0xFFFFULL);",
           "context": [
             "    for (std::size_t lane = 0; lane < 8 && lane < embed_dim; ++lane) {",
@@ -2623,7 +2623,7 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 535,
+          "line": 533,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "patch_features.push_back(static_cast<float>(std::sqrt(variance)));",
@@ -2632,7 +2632,7 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 534,
+          "line": 532,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "patch_features.push_back(static_cast<float>(mean));",
@@ -2641,7 +2641,7 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 328,
+          "line": 326,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (!tok.empty()) tokens.push_back(std::move(tok));",
@@ -2650,25 +2650,16 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 216,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "if (segments.empty()) segments.push_back(text);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\tensor\\utr_converter.cpp",
           "line": 214,
           "type": "copy_overhead",
           "severity": "MEDIUM",
-          "snippet": "if (!seg.empty()) segments.push_back(seg);",
+          "snippet": "if (segments.empty()) segments.push_back(text);",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 207,
+          "line": 212,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (!seg.empty()) segments.push_back(seg);",
@@ -2677,7 +2668,16 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 194,
+          "line": 205,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "if (!seg.empty()) segments.push_back(seg);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 192,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (segments.empty()) segments.push_back(text);",
@@ -2686,7 +2686,7 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 191,
+          "line": 189,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (!seg.empty()) segments.push_back(seg);",
@@ -2695,7 +2695,7 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 622,
+          "line": 620,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -2704,7 +2704,7 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 612,
+          "line": 610,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -2713,7 +2713,7 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 580,
+          "line": 578,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"document produced no segments after splitting\");",
@@ -2722,7 +2722,7 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 559,
+          "line": 557,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"document text must not be empty\");",
@@ -2731,7 +2731,7 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 470,
+          "line": 468,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -2740,7 +2740,7 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 455,
+          "line": 453,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -2749,7 +2749,7 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 451,
+          "line": 449,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"image dimensions h, w, c must all be > 0\");",
@@ -2758,7 +2758,7 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 379,
+          "line": 377,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -2767,7 +2767,7 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 375,
+          "line": 373,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"RasterGrid::cell_size_deg must be > 0\");",
@@ -2776,7 +2776,7 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 372,
+          "line": 370,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"RasterGrid must have non-zero rows and cols\");",
@@ -2785,7 +2785,7 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 113,
+          "line": 111,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(g_image_encoder_mtx);",
@@ -2794,7 +2794,7 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 108,
+          "line": 106,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(g_text_encoder_mtx);",
@@ -2803,7 +2803,7 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 103,
+          "line": 101,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(g_text_encoder_mtx);",
@@ -2812,7 +2812,7 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 98,
+          "line": 96,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(g_text_encoder_mtx);",
@@ -2821,7 +2821,7 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 79,
+          "line": 77,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(g_image_embed_mtx);",
@@ -2830,7 +2830,7 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 74,
+          "line": 72,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(g_embed_mtx);",
@@ -2839,7 +2839,7 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 69,
+          "line": 67,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(g_embed_mtx);",
@@ -2848,7 +2848,7 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 64,
+          "line": 62,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(g_embed_mtx);",
@@ -2857,7 +2857,7 @@
         },
         {
           "file": "src\\tensor\\utr_converter.cpp",
-          "line": 188,
+          "line": 186,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "const auto pos = text.find(\"\\n\\n\", start);",
@@ -2868,7 +2868,7 @@
       "src\\tensor\\ht_index.cpp": [
         {
           "file": "src\\tensor\\ht_index.cpp",
-          "line": 56,
+          "line": 54,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2880,7 +2880,7 @@
         },
         {
           "file": "src\\tensor\\ht_index.cpp",
-          "line": 32,
+          "line": 30,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2892,7 +2892,7 @@
         },
         {
           "file": "src\\tensor\\ht_index.cpp",
-          "line": 169,
+          "line": 167,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2904,7 +2904,7 @@
         },
         {
           "file": "src\\tensor\\ht_index.cpp",
-          "line": 95,
+          "line": 93,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2916,7 +2916,7 @@
         },
         {
           "file": "src\\tensor\\ht_index.cpp",
-          "line": 57,
+          "line": 55,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2928,7 +2928,7 @@
         },
         {
           "file": "src\\tensor\\ht_index.cpp",
-          "line": 37,
+          "line": 35,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2940,7 +2940,7 @@
         },
         {
           "file": "src\\tensor\\ht_index.cpp",
-          "line": 170,
+          "line": 168,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "entries_.push_back({std::move(id), std::move(*ht)});",
@@ -2949,7 +2949,7 @@
         },
         {
           "file": "src\\tensor\\ht_index.cpp",
-          "line": 96,
+          "line": 94,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "void appendU8(std::vector<uint8_t>& buf, uint8_t v) { buf.push_back(v); }",
@@ -2958,7 +2958,7 @@
         },
         {
           "file": "src\\tensor\\ht_index.cpp",
-          "line": 58,
+          "line": 56,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back({e.id, sim});",
@@ -2967,7 +2967,7 @@
         },
         {
           "file": "src\\tensor\\ht_index.cpp",
-          "line": 38,
+          "line": 36,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "entries_.push_back({id, std::move(train)});",

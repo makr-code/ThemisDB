@@ -16,7 +16,7 @@
       "src\\main_server.cpp": [
         {
           "file": "src\\main_server.cpp",
-          "line": 806,
+          "line": 807,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -28,7 +28,7 @@
         },
         {
           "file": "src\\main_server.cpp",
-          "line": 804,
+          "line": 805,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -40,7 +40,7 @@
         },
         {
           "file": "src\\main_server.cpp",
-          "line": 789,
+          "line": 790,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -52,7 +52,7 @@
         },
         {
           "file": "src\\main_server.cpp",
-          "line": 747,
+          "line": 748,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -64,7 +64,7 @@
         },
         {
           "file": "src\\main_server.cpp",
-          "line": 741,
+          "line": 742,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -76,7 +76,7 @@
         },
         {
           "file": "src\\main_server.cpp",
-          "line": 739,
+          "line": 740,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -88,7 +88,7 @@
         },
         {
           "file": "src\\main_server.cpp",
-          "line": 637,
+          "line": 638,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -100,7 +100,7 @@
         },
         {
           "file": "src\\main_server.cpp",
-          "line": 621,
+          "line": 622,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -112,7 +112,7 @@
         },
         {
           "file": "src\\main_server.cpp",
-          "line": 556,
+          "line": 557,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -124,7 +124,7 @@
         },
         {
           "file": "src\\main_server.cpp",
-          "line": 489,
+          "line": 490,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -136,7 +136,7 @@
         },
         {
           "file": "src\\main_server.cpp",
-          "line": 27,
+          "line": 28,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -148,7 +148,7 @@
         },
         {
           "file": "src\\main_server.cpp",
-          "line": 2425,
+          "line": 2426,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -160,7 +160,7 @@
         },
         {
           "file": "src\\main_server.cpp",
-          "line": 1166,
+          "line": 1167,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -172,7 +172,7 @@
         },
         {
           "file": "src\\main_server.cpp",
-          "line": 3152,
+          "line": 3153,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -184,7 +184,7 @@
         },
         {
           "file": "src\\main_server.cpp",
-          "line": 3117,
+          "line": 3118,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_correlation_id",
@@ -196,7 +196,7 @@
         },
         {
           "file": "src\\main_server.cpp",
-          "line": 2581,
+          "line": 2582,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -208,7 +208,7 @@
         },
         {
           "file": "src\\main_server.cpp",
-          "line": 2522,
+          "line": 2523,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -220,7 +220,7 @@
         },
         {
           "file": "src\\main_server.cpp",
-          "line": 2197,
+          "line": 2198,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -232,7 +232,7 @@
         },
         {
           "file": "src\\main_server.cpp",
-          "line": 1746,
+          "line": 1747,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -244,7 +244,7 @@
         },
         {
           "file": "src\\main_server.cpp",
-          "line": 1682,
+          "line": 1683,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -256,7 +256,7 @@
         },
         {
           "file": "src\\main_server.cpp",
-          "line": 544,
+          "line": 545,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -268,7 +268,7 @@
         },
         {
           "file": "src\\main_server.cpp",
-          "line": 162,
+          "line": 163,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_correlation_id",
@@ -282,7 +282,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\main_server.cpp",
-          "line_number": 844,
+          "line_number": 845,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",

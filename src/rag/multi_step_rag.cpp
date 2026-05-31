@@ -230,6 +230,13 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
     const InferenceFn&                 infer) const
 {
     MultiStepRAGResult result;
+    const auto budget = ::themis::llm::ContextWindowBudget::compute(
+        config_.assembler.model_context_tokens,
+        config_.system_prompt,
+        query,
+        config_.assembler.min_response_tokens);
+    const int bounded_max_tokens =
+        RAGContextAssembler::computeMaxTokens(budget, config_.max_response_tokens);
 
     spdlog::info(
         "MultiStepRAG::runMapReduce start: query_chars={} docs={} max_map_steps={} parallel_map={} max_response_tokens={}",
@@ -255,14 +262,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
     if (single.chunks_used.size() == documents.size() && !single.was_truncated) {
         // Everything fits — no need for map-reduce.
         const std::string prompt = buildMapPrompt(single.chunks_used, query);
-        const int max_tok = RAGContextAssembler::computeMaxTokens(
-            ::themis::llm::ContextWindowBudget::compute(
-                config_.assembler.model_context_tokens,
-                config_.system_prompt, query,
-                config_.assembler.min_response_tokens),
-            config_.max_response_tokens);
-
-        result.final_answer   = infer(prompt, max_tok);
+        result.final_answer   = infer(prompt, bounded_max_tokens);
         result.steps_executed = 1u;
         result.was_truncated  = false;
         result.context_overflow = false;
@@ -270,7 +270,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
         spdlog::info(
             "MultiStepRAG::runMapReduce single-pass: chunks_used={} max_tokens={} answer_chars={}",
             single.chunks_used.size(),
-            max_tok,
+            bounded_max_tokens,
             result.final_answer.size());
         return result;
     }
@@ -280,7 +280,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
     result.was_truncated    = single.was_truncated;
 
     const auto batches = partitionIntoBatches(documents, query);
-    const int  map_max_tok = config_.max_response_tokens;
+    const int  map_max_tok = bounded_max_tokens;
 
     spdlog::info(
         "MultiStepRAG::runMapReduce map-phase: batches={} context_overflow={} truncated={} map_max_tokens={}",
@@ -345,7 +345,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
     // Reduce phase — synthesise partial answers.
     const std::string reduce_prompt =
         buildReducePrompt(result.steps, query);
-    result.final_answer  = infer(reduce_prompt, config_.max_response_tokens);
+    result.final_answer  = infer(reduce_prompt, bounded_max_tokens);
     ++result.steps_executed;
 
     spdlog::info(
@@ -367,6 +367,14 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
     const RetrievalFn&                 retrieve) const
 {
     MultiStepRAGResult result;
+    const auto budget = ::themis::llm::ContextWindowBudget::compute(
+        config_.assembler.model_context_tokens,
+        config_.system_prompt,
+        query,
+        config_.assembler.min_response_tokens);
+    const int bounded_max_tokens =
+        RAGContextAssembler::computeMaxTokens(budget, config_.max_response_tokens);
+    const int gap_max_tokens = std::max(1, std::min(256, bounded_max_tokens));
 
     spdlog::info(
         "MultiStepRAG::runIterative start: query_chars={} seed_docs={} max_iterations={} retrieval_top_k={}",
@@ -388,22 +396,16 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
         if (ctx.was_truncated) result.was_truncated = true;
 
         const std::string prompt = buildMapPrompt(ctx.chunks_used, query);
-        const int max_tok = RAGContextAssembler::computeMaxTokens(
-            ::themis::llm::ContextWindowBudget::compute(
-                config_.assembler.model_context_tokens,
-                config_.system_prompt, query,
-                config_.assembler.min_response_tokens),
-            config_.max_response_tokens);
-
         spdlog::info(
-            "MultiStepRAG::runIterative iter={} accumulated_docs={} chunks_used={} truncated={} max_tokens={}",
+            "MultiStepRAG::runIterative iter={} accumulated_docs={} chunks_used={} truncated={} max_tokens={} gap_max_tokens={}",
             iter,
             accumulated.size(),
             ctx.chunks_used.size(),
             ctx.was_truncated,
-            max_tok);
+            bounded_max_tokens,
+            gap_max_tokens);
 
-        result.final_answer = infer(prompt, max_tok);
+        result.final_answer = infer(prompt, bounded_max_tokens);
         result.steps.push_back(result.final_answer);
         ++result.steps_executed;
 
@@ -414,7 +416,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
         gap_prompt = substitute(gap_prompt, "query",  query);
         gap_prompt = substitute(gap_prompt, "answer", result.final_answer);
 
-        const std::string gap_response = infer(gap_prompt, 256);
+        const std::string gap_response = infer(gap_prompt, gap_max_tokens);
         ++result.steps_executed;
 
         const auto aspects = parseOpenAspects(gap_response);

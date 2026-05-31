@@ -1,15 +1,15 @@
 {
   "geo": {
-    "total": 270,
+    "total": 276,
     "severity_critical": 29,
-    "severity_high": 85,
+    "severity_high": 91,
     "severity_medium": 156,
     "by_category": {
       "security": 6,
       "memory": 6,
       "reliability": 13,
       "raii": 2,
-      "container": 84,
+      "container": 90,
       "platform": 7,
       "performance": 6,
       "type_conversion": 2,
@@ -24,7 +24,7 @@
       "src\\geo\\device_detector.cpp": [
         {
           "file": "src\\geo\\device_detector.cpp",
-          "line": 125,
+          "line": 126,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -36,7 +36,7 @@
         },
         {
           "file": "src\\geo\\device_detector.cpp",
-          "line": 131,
+          "line": 132,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(MakeCpuFallbackCapability());",
@@ -45,7 +45,7 @@
         },
         {
           "file": "src\\geo\\device_detector.cpp",
-          "line": 126,
+          "line": 127,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(Assess(d));",
@@ -54,18 +54,27 @@
         },
         {
           "file": "src\\geo\\device_detector.cpp",
-          "line": 143,
+          "line": 144,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (best == nullptr || cap.device.free_vram_bytes > best->device.free_vram_bytes) {",
           "description": "Potential null pointer dereference",
           "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\geo\\device_detector.cpp",
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #3111 [geo] Implement runtime GPU... (2026-03-12) | #3091 [geo] Fix circuit-b",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
       "src\\geo\\spatial_join.cpp": [
         {
           "file": "src\\geo\\spatial_join.cpp",
-          "line": 91,
+          "line": 92,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -77,7 +86,7 @@
         },
         {
           "file": "src\\geo\\spatial_join.cpp",
-          "line": 61,
+          "line": 62,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -89,7 +98,7 @@
         },
         {
           "file": "src\\geo\\spatial_join.cpp",
-          "line": 92,
+          "line": 93,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back({key_a, key_b, dist});",
@@ -98,7 +107,7 @@
         },
         {
           "file": "src\\geo\\spatial_join.cpp",
-          "line": 198,
+          "line": 199,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (outer_idx < outer_ptr->size()) {",
@@ -107,7 +116,7 @@
         },
         {
           "file": "src\\geo\\spatial_join.cpp",
-          "line": 181,
+          "line": 182,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const Coordinate centroid_b = geometryCentroid((*inner_ptr)[it->second].second);",
@@ -116,7 +125,7 @@
         },
         {
           "file": "src\\geo\\spatial_join.cpp",
-          "line": 169,
+          "line": 170,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "while (outer_idx < outer_ptr->size()) {",
@@ -125,7 +134,7 @@
         },
         {
           "file": "src\\geo\\spatial_join.cpp",
-          "line": 154,
+          "line": 155,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (outer_idx >= outer_ptr->size()) {",
@@ -134,25 +143,7 @@
         },
         {
           "file": "src\\geo\\spatial_join.cpp",
-          "line": 82,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto it = inner_key_idx.find(key_b);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\geo\\spatial_join.cpp",
-          "line": 82,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto it = inner_key_idx.find(key_b);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\geo\\spatial_join.cpp",
-          "line": 82,
+          "line": 83,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = inner_key_idx.find(key_b);",
@@ -162,6 +153,33 @@
         {
           "file": "src\\geo\\spatial_join.cpp",
           "line": 83,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = inner_key_idx.find(key_b);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\geo\\spatial_join.cpp",
+          "line": 83,
+          "type": "o_n_squared",
+          "severity": "HIGH",
+          "snippet": "auto it = inner_key_idx.find(key_b);",
+          "description": "O(n\u00b2) pattern: find() on vector inside loop",
+          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+        },
+        {
+          "file": "src\\geo\\spatial_join.cpp",
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #4176 feat(geo): Spatial JOIN Sup... (2026-03-13) | #2978 [geo] Implement spa",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\geo\\spatial_join.cpp",
+          "line": 84,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = inner_key_idx.find(key_b);",
@@ -172,7 +190,7 @@
       "src\\geo\\temporal_spatial_query_builder.cpp": [
         {
           "file": "src\\geo\\temporal_spatial_query_builder.cpp",
-          "line": 27,
+          "line": 28,
           "category": "observability",
           "severity": "HIGH",
           "pattern": "missing_trace_point",
@@ -184,7 +202,7 @@
         },
         {
           "file": "src\\geo\\temporal_spatial_query_builder.cpp",
-          "line": 27,
+          "line": 28,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -196,7 +214,7 @@
         },
         {
           "file": "src\\geo\\temporal_spatial_query_builder.cpp",
-          "line": 146,
+          "line": 147,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::logic_error(\"TemporalSpatialQueryBuilder::build(): spatial constraint not set; \"",
@@ -205,7 +223,7 @@
         },
         {
           "file": "src\\geo\\temporal_spatial_query_builder.cpp",
-          "line": 142,
+          "line": 143,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::logic_error(\"TemporalSpatialQueryBuilder::build(): temporal constraint not set; \"",
@@ -214,7 +232,7 @@
         },
         {
           "file": "src\\geo\\temporal_spatial_query_builder.cpp",
-          "line": 134,
+          "line": 135,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"withGeoField: field name must not be empty\");",
@@ -223,7 +241,7 @@
         },
         {
           "file": "src\\geo\\temporal_spatial_query_builder.cpp",
-          "line": 123,
+          "line": 124,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"slidingWindow: width_ms must be > 0\");",
@@ -232,7 +250,7 @@
         },
         {
           "file": "src\\geo\\temporal_spatial_query_builder.cpp",
-          "line": 103,
+          "line": 104,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"duringInterval: end must be >= start\");",
@@ -241,7 +259,7 @@
         },
         {
           "file": "src\\geo\\temporal_spatial_query_builder.cpp",
-          "line": 70,
+          "line": 71,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "spatial_match = spatial_.predicate->matches(ref, point);",
@@ -250,7 +268,7 @@
         },
         {
           "file": "src\\geo\\temporal_spatial_query_builder.cpp",
-          "line": 27,
+          "line": 28,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "BuiltTemporalSpatialQuery::execute(const themisdb::temporal::SystemVersionedTable &table) const {",
@@ -261,7 +279,7 @@
       "src\\geo\\geo_clustering.cpp": [
         {
           "file": "src\\geo\\geo_clustering.cpp",
-          "line": 296,
+          "line": 297,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -273,7 +291,7 @@
         },
         {
           "file": "src\\geo\\geo_clustering.cpp",
-          "line": 261,
+          "line": 262,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -285,7 +303,7 @@
         },
         {
           "file": "src\\geo\\geo_clustering.cpp",
-          "line": 237,
+          "line": 238,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -297,7 +315,7 @@
         },
         {
           "file": "src\\geo\\geo_clustering.cpp",
-          "line": 203,
+          "line": 204,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -309,7 +327,7 @@
         },
         {
           "file": "src\\geo\\geo_clustering.cpp",
-          "line": 193,
+          "line": 194,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -321,7 +339,7 @@
         },
         {
           "file": "src\\geo\\geo_clustering.cpp",
-          "line": 193,
+          "line": 194,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -335,7 +353,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\geo\\geo_clustering.cpp",
-          "line_number": 521,
+          "line_number": 522,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -347,7 +365,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\geo\\geo_clustering.cpp",
-          "line_number": 344,
+          "line_number": 345,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -359,7 +377,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\geo\\geo_clustering.cpp",
-          "line_number": 230,
+          "line_number": 231,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -369,7 +387,7 @@
         },
         {
           "file": "src\\geo\\geo_clustering.cpp",
-          "line": 297,
+          "line": 298,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "valid_idx.push_back(i);",
@@ -378,7 +396,7 @@
         },
         {
           "file": "src\\geo\\geo_clustering.cpp",
-          "line": 262,
+          "line": 263,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "queue.push_back(nb);",
@@ -387,7 +405,7 @@
         },
         {
           "file": "src\\geo\\geo_clustering.cpp",
-          "line": 238,
+          "line": 239,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "queue.push_back(nb);",
@@ -396,7 +414,7 @@
         },
         {
           "file": "src\\geo\\geo_clustering.cpp",
-          "line": 204,
+          "line": 205,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "neighbours.push_back(j);",
@@ -405,7 +423,7 @@
         },
         {
           "file": "src\\geo\\geo_clustering.cpp",
-          "line": 194,
+          "line": 195,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "neighbours.push_back(j);",
@@ -414,7 +432,7 @@
         },
         {
           "file": "src\\geo\\geo_clustering.cpp",
-          "line": 413,
+          "line": 414,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "[[maybe_unused]] uint32_t *d_idx = nullptr;",
@@ -423,7 +441,7 @@
         },
         {
           "file": "src\\geo\\geo_clustering.cpp",
-          "line": 412,
+          "line": 413,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "[[maybe_unused]] float *d_dists  = nullptr;",
@@ -432,7 +450,7 @@
         },
         {
           "file": "src\\geo\\geo_clustering.cpp",
-          "line": 307,
+          "line": 308,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"kmeansCluster: k (\" + std::to_string(config.k)",
@@ -441,7 +459,7 @@
         },
         {
           "file": "src\\geo\\geo_clustering.cpp",
-          "line": 304,
+          "line": 305,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"kmeansCluster: k must be >= 1\");",
@@ -450,7 +468,7 @@
         },
         {
           "file": "src\\geo\\geo_clustering.cpp",
-          "line": 169,
+          "line": 170,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "std::vector<uint8_t> gpu_adj; // flat [n\u00d7n], empty on CPU path",
@@ -459,7 +477,7 @@
         },
         {
           "file": "src\\geo\\geo_clustering.cpp",
-          "line": 70,
+          "line": 71,
           "type": "size_assumption",
           "severity": "HIGH",
           "snippet": "const std::size_t adj_sz   = n * n * sizeof(uint8_t);",
@@ -470,7 +488,7 @@
       "src\\geo\\geo_faiss_knn.cpp": [
         {
           "file": "src\\geo\\geo_faiss_knn.cpp",
-          "line": 239,
+          "line": 240,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -482,7 +500,7 @@
         },
         {
           "file": "src\\geo\\geo_faiss_knn.cpp",
-          "line": 219,
+          "line": 220,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -494,7 +512,7 @@
         },
         {
           "file": "src\\geo\\geo_faiss_knn.cpp",
-          "line": 101,
+          "line": 102,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -506,7 +524,7 @@
         },
         {
           "file": "src\\geo\\geo_faiss_knn.cpp",
-          "line": 240,
+          "line": 241,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(c);",
@@ -515,7 +533,7 @@
         },
         {
           "file": "src\\geo\\geo_faiss_knn.cpp",
-          "line": 220,
+          "line": 221,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(r);",
@@ -524,7 +542,7 @@
         },
         {
           "file": "src\\geo\\geo_faiss_knn.cpp",
-          "line": 196,
+          "line": 197,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(r);",
@@ -533,7 +551,7 @@
         },
         {
           "file": "src\\geo\\geo_faiss_knn.cpp",
-          "line": 105,
+          "line": 106,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "dataset_map.push_back(i);",
@@ -542,7 +560,7 @@
         },
         {
           "file": "src\\geo\\geo_faiss_knn.cpp",
-          "line": 104,
+          "line": 105,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ecef_data.push_back(z);",
@@ -551,7 +569,7 @@
         },
         {
           "file": "src\\geo\\geo_faiss_knn.cpp",
-          "line": 103,
+          "line": 104,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ecef_data.push_back(y);",
@@ -560,7 +578,7 @@
         },
         {
           "file": "src\\geo\\geo_faiss_knn.cpp",
-          "line": 102,
+          "line": 103,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ecef_data.push_back(x);",
@@ -569,7 +587,7 @@
         },
         {
           "file": "src\\geo\\geo_faiss_knn.cpp",
-          "line": 259,
+          "line": 260,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "return impl_->build(dataset);",
@@ -578,7 +596,7 @@
         },
         {
           "file": "src\\geo\\geo_faiss_knn.cpp",
-          "line": 218,
+          "line": 219,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "r.index  = dataset_map[candidates[i].second];",
@@ -587,7 +605,7 @@
         },
         {
           "file": "src\\geo\\geo_faiss_knn.cpp",
-          "line": 79,
+          "line": 80,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "std::vector<float>       ecef_data; // flat [indexed_count \u00d7 kDim]",
@@ -596,7 +614,7 @@
         },
         {
           "file": "src\\geo\\geo_faiss_knn.cpp",
-          "line": 79,
+          "line": 80,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "std::vector<float>       ecef_data; // flat [indexed_count \u00d7 kDim]",
@@ -607,7 +625,7 @@
       "src\\geo\\gpu_backend_production.cpp": [
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 553,
+          "line": 554,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "gpu_memory_leak",
@@ -619,7 +637,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 551,
+          "line": 552,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "gpu_memory_leak",
@@ -631,7 +649,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 550,
+          "line": 551,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "gpu_memory_leak",
@@ -643,7 +661,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 549,
+          "line": 550,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "gpu_memory_leak",
@@ -655,7 +673,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 536,
+          "line": 537,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "use_after_free_gpu",
@@ -667,7 +685,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 532,
+          "line": 533,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "use_after_free_gpu",
@@ -679,7 +697,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 528,
+          "line": 529,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "use_after_free_gpu",
@@ -691,7 +709,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 482,
+          "line": 483,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "use_after_free_gpu",
@@ -703,7 +721,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 481,
+          "line": 482,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "use_after_free_gpu",
@@ -715,7 +733,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 464,
+          "line": 465,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "use_after_free_gpu",
@@ -727,7 +745,19 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 462,
+          "line": 463,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: d_lat_in",
+          "context": "cudaMemcpy(d_lat_in, &h_lat, sizeof(double), cudaMemcpyHostToDevice);",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 463,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "use_after_free_gpu",
@@ -743,15 +773,15 @@
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "use_after_free_gpu",
-          "description": "Use of freed GPU memory: d_lat_in",
-          "context": "cudaMemcpy(d_lat_in, &h_lat, sizeof(double), cudaMemcpyHostToDevice);",
+          "description": "Use of freed GPU memory: d_lon_in",
+          "context": "cudaMemcpy(d_lon_in, &h_lon, sizeof(double), cudaMemcpyHostToDevice);",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 461,
+          "line": 462,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "use_after_free_gpu",
@@ -763,7 +793,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 461,
+          "line": 462,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "use_after_free_gpu",
@@ -775,19 +805,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 461,
-          "category": "gpu_memory_safety",
-          "severity": "CRITICAL",
-          "pattern": "use_after_free_gpu",
-          "description": "Use of freed GPU memory: d_lon_in",
-          "context": "cudaMemcpy(d_lon_in, &h_lon, sizeof(double), cudaMemcpyHostToDevice);",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 320,
+          "line": 321,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "gpu_memory_leak",
@@ -799,7 +817,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 974,
+          "line": 975,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -811,7 +829,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 912,
+          "line": 913,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -823,7 +841,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 799,
+          "line": 800,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -835,7 +853,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 663,
+          "line": 664,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -847,7 +865,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 553,
+          "line": 554,
           "category": "gpu_memory_safety",
           "severity": "HIGH",
           "pattern": "unchecked_cuda_call",
@@ -859,7 +877,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 536,
+          "line": 537,
           "category": "gpu_memory_safety",
           "severity": "HIGH",
           "pattern": "unchecked_cuda_call",
@@ -871,7 +889,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 532,
+          "line": 533,
           "category": "gpu_memory_safety",
           "severity": "HIGH",
           "pattern": "unchecked_cuda_call",
@@ -883,7 +901,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 528,
+          "line": 529,
           "category": "gpu_memory_safety",
           "severity": "HIGH",
           "pattern": "unchecked_cuda_call",
@@ -895,12 +913,24 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 487,
+          "line": 488,
           "category": "gpu_memory_safety",
           "severity": "HIGH",
           "pattern": "unchecked_cuda_call",
           "description": "CUDA call cudaFree() without error checking",
           "context": "cudaFree(d_ring_y);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 487,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaFree() without error checking",
+          "context": "cudaFree(d_ring_x);",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -912,7 +942,7 @@
           "severity": "HIGH",
           "pattern": "unchecked_cuda_call",
           "description": "CUDA call cudaFree() without error checking",
-          "context": "cudaFree(d_ring_x);",
+          "context": "cudaFree(d_lat_in);",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -924,18 +954,6 @@
           "severity": "HIGH",
           "pattern": "unchecked_cuda_call",
           "description": "CUDA call cudaFree() without error checking",
-          "context": "cudaFree(d_lat_in);",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 484,
-          "category": "gpu_memory_safety",
-          "severity": "HIGH",
-          "pattern": "unchecked_cuda_call",
-          "description": "CUDA call cudaFree() without error checking",
           "context": "cudaFree(d_lon_in);",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
@@ -943,7 +961,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 483,
+          "line": 484,
           "category": "gpu_memory_safety",
           "severity": "HIGH",
           "pattern": "unchecked_cuda_call",
@@ -955,7 +973,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 482,
+          "line": 483,
           "category": "gpu_memory_safety",
           "severity": "HIGH",
           "pattern": "unchecked_cuda_call",
@@ -967,7 +985,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 474,
+          "line": 475,
           "category": "gpu_memory_safety",
           "severity": "HIGH",
           "pattern": "unchecked_cuda_call",
@@ -979,12 +997,24 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 473,
+          "line": 474,
           "category": "gpu_memory_safety",
           "severity": "HIGH",
           "pattern": "unchecked_cuda_call",
           "description": "CUDA call cudaFree() without error checking",
           "context": "cudaFree(d_ring_x);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 473,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaFree() without error checking",
+          "context": "cudaFree(d_lat_in);",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -996,18 +1026,6 @@
           "severity": "HIGH",
           "pattern": "unchecked_cuda_call",
           "description": "CUDA call cudaFree() without error checking",
-          "context": "cudaFree(d_lat_in);",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 471,
-          "category": "gpu_memory_safety",
-          "severity": "HIGH",
-          "pattern": "unchecked_cuda_call",
-          "description": "CUDA call cudaFree() without error checking",
           "context": "cudaFree(d_lon_in);",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
@@ -1015,7 +1033,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 463,
+          "line": 464,
           "category": "gpu_memory_safety",
           "severity": "HIGH",
           "pattern": "unchecked_cuda_call",
@@ -1027,7 +1045,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 462,
+          "line": 463,
           "category": "gpu_memory_safety",
           "severity": "HIGH",
           "pattern": "unchecked_cuda_call",
@@ -1039,7 +1057,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 458,
+          "line": 459,
           "category": "gpu_memory_safety",
           "severity": "HIGH",
           "pattern": "unchecked_cuda_call",
@@ -1051,7 +1069,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 457,
+          "line": 458,
           "category": "gpu_memory_safety",
           "severity": "HIGH",
           "pattern": "unchecked_cuda_call",
@@ -1063,12 +1081,24 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 456,
+          "line": 457,
           "category": "gpu_memory_safety",
           "severity": "HIGH",
           "pattern": "unchecked_cuda_call",
           "description": "CUDA call cudaFree() without error checking",
           "context": "cudaFree(d_lon_in);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 452,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaFree() without error checking",
+          "context": "cudaFree(d_lat_in);",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -1080,14 +1110,14 @@
           "severity": "HIGH",
           "pattern": "unchecked_cuda_call",
           "description": "CUDA call cudaFree() without error checking",
-          "context": "cudaFree(d_lat_in);",
+          "context": "cudaFree(d_lon_in);",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 450,
+          "line": 446,
           "category": "gpu_memory_safety",
           "severity": "HIGH",
           "pattern": "unchecked_cuda_call",
@@ -1099,19 +1129,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 445,
-          "category": "gpu_memory_safety",
-          "severity": "HIGH",
-          "pattern": "unchecked_cuda_call",
-          "description": "CUDA call cudaFree() without error checking",
-          "context": "cudaFree(d_lon_in);",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 392,
+          "line": 393,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1123,7 +1141,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 380,
+          "line": 381,
           "category": "gpu_memory_safety",
           "severity": "HIGH",
           "pattern": "unchecked_cuda_call",
@@ -1135,7 +1153,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 321,
+          "line": 322,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1147,7 +1165,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 320,
+          "line": 321,
           "category": "gpu_memory_safety",
           "severity": "HIGH",
           "pattern": "unchecked_cuda_call",
@@ -1159,7 +1177,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 47,
+          "line": 48,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1173,7 +1191,7 @@
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\geo\\gpu_backend_production.cpp",
-          "line_number": 374,
+          "line_number": 375,
           "line_content": "const int gridSize  = (n + blockSize - 1) / blockSize;",
           "context": [
             "        // Phase 1: dispatch pairwise MBR intersection kernel.",
@@ -1194,7 +1212,7 @@
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\geo\\gpu_backend_production.cpp",
-          "line_number": 62,
+          "line_number": 63,
           "line_content": "const size_t batch_size = (in.count + thread_count_ - 1) / thread_count_;",
           "context": [
             "        // Parallel processing using multiple threads; each thread owns a disjoint",
@@ -1213,7 +1231,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 802,
+          "line": 803,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1225,7 +1243,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 492,
+          "line": 493,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1237,7 +1255,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 395,
+          "line": 396,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1249,7 +1267,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 73,
+          "line": 74,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1261,10 +1279,19 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 805,
+          "line": 806,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "candidates.geoms_b.push_back(in.geoms_b[i]);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 805,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "candidates.geoms_a.push_back(in.geoms_a[i]);",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         },
@@ -1273,22 +1300,13 @@
           "line": 804,
           "type": "copy_overhead",
           "severity": "MEDIUM",
-          "snippet": "candidates.geoms_a.push_back(in.geoms_a[i]);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 803,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
           "snippet": "candidate_indices.push_back(static_cast<size_t>(i));",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 495,
+          "line": 496,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.rings.push_back(std::move(ring));",
@@ -1297,7 +1315,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 398,
+          "line": 399,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "candidates.geoms_b.push_back(in.geoms_b[i]);",
@@ -1306,7 +1324,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 397,
+          "line": 398,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "candidates.geoms_a.push_back(in.geoms_a[i]);",
@@ -1315,7 +1333,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 396,
+          "line": 397,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "candidate_indices.push_back(static_cast<size_t>(i));",
@@ -1324,7 +1342,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 695,
+          "line": 696,
           "type": "size_assumption",
           "severity": "HIGH",
           "snippet": "const size_t res_sz = static_cast<size_t>(n) * sizeof(uint8_t);",
@@ -1333,10 +1351,19 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 694,
+          "line": 695,
           "type": "size_assumption",
           "severity": "HIGH",
           "snippet": "const size_t mbr_sz = static_cast<size_t>(n) * 4 * sizeof(double);",
+          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
+          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 355,
+          "type": "size_assumption",
+          "severity": "HIGH",
+          "snippet": "const size_t res_sz = static_cast<size_t>(n) * sizeof(uint8_t);",
           "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
           "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
         },
@@ -1345,22 +1372,13 @@
           "line": 354,
           "type": "size_assumption",
           "severity": "HIGH",
-          "snippet": "const size_t res_sz = static_cast<size_t>(n) * sizeof(uint8_t);",
-          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
-          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
-        },
-        {
-          "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 353,
-          "type": "size_assumption",
-          "severity": "HIGH",
           "snippet": "const size_t mbr_sz = static_cast<size_t>(n) * 4 * sizeof(double);",
           "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
           "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 268,
+          "line": 269,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "__global__ void cuda_batch_point_buffer_kernel(const double *lons, ///< [n] centre longitudes",
@@ -1369,7 +1387,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_production.cpp",
-          "line": 82,
+          "line": 83,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "thread.join();",
@@ -1380,7 +1398,7 @@
       "src\\geo\\boost_cpu_exact_backend.cpp": [
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 304,
+          "line": 305,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1392,7 +1410,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 267,
+          "line": 268,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1404,7 +1422,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 103,
+          "line": 104,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1416,7 +1434,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 351,
+          "line": 352,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1428,7 +1446,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 319,
+          "line": 320,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1440,7 +1458,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 291,
+          "line": 292,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1452,7 +1470,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 251,
+          "line": 252,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1464,7 +1482,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 251,
+          "line": 252,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1476,7 +1494,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 245,
+          "line": 246,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1488,7 +1506,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 230,
+          "line": 231,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1500,7 +1518,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 83,
+          "line": 84,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1512,7 +1530,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 83,
+          "line": 84,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1524,7 +1542,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 83,
+          "line": 84,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1536,7 +1554,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 83,
+          "line": 84,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1548,7 +1566,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 369,
+          "line": 370,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1557,7 +1575,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 354,
+          "line": 355,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.rings.push_back(std::move(hole));",
@@ -1566,7 +1584,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 352,
+          "line": 353,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "hole.push_back({bg::get<0>(p), bg::get<1>(p)});",
@@ -1575,7 +1593,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 347,
+          "line": 348,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.rings.push_back(std::move(outer));",
@@ -1584,7 +1602,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 345,
+          "line": 346,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "outer.push_back({bg::get<0>(p), bg::get<1>(p)});",
@@ -1593,7 +1611,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 320,
+          "line": 321,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "col.geometries.push_back(boostPolyToGeomInfo(p));",
@@ -1602,7 +1620,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 292,
+          "line": 293,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "col.geometries.push_back(boostPolyToGeomInfo(p));",
@@ -1611,7 +1629,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 282,
+          "line": 283,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "col.geometries.push_back(geom2);",
@@ -1620,7 +1638,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 281,
+          "line": 282,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "col.geometries.push_back(geom1);",
@@ -1629,7 +1647,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 254,
+          "line": 255,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.rings.push_back(std::move(hole));",
@@ -1638,7 +1656,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 252,
+          "line": 253,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "hole.push_back({bg::get<0>(p), bg::get<1>(p)});",
@@ -1647,7 +1665,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 248,
+          "line": 249,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.rings.push_back(std::move(outer_ring));",
@@ -1656,7 +1674,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 246,
+          "line": 247,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "outer_ring.push_back({bg::get<0>(p), bg::get<1>(p)});",
@@ -1665,7 +1683,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 233,
+          "line": 234,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.rings.push_back(std::move(ring));",
@@ -1674,7 +1692,7 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 231,
+          "line": 232,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ring.push_back({bg::get<0>(p), bg::get<1>(p)});",
@@ -1683,18 +1701,27 @@
         },
         {
           "file": "src\\geo\\boost_cpu_exact_backend.cpp",
-          "line": 84,
+          "line": 85,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "poly.inners().push_back(hole);",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #4145 feat(geo): Add SpatialIndex... (2026-03-13) | #4139 feat(geo): Implemen",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
       "src\\geo\\cpu_backend.cpp": [
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 1092,
+          "line": 1093,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1706,7 +1733,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 277,
+          "line": 278,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1718,7 +1745,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 267,
+          "line": 268,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1730,7 +1757,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 1032,
+          "line": 1033,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1742,7 +1769,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 1016,
+          "line": 1017,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1754,7 +1781,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 957,
+          "line": 958,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1766,7 +1793,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 943,
+          "line": 944,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1778,7 +1805,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 853,
+          "line": 854,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1790,7 +1817,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 853,
+          "line": 854,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1802,7 +1829,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 789,
+          "line": 790,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1814,7 +1841,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 789,
+          "line": 790,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1826,7 +1853,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 706,
+          "line": 707,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1838,7 +1865,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 697,
+          "line": 698,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1850,7 +1877,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 683,
+          "line": 684,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1862,7 +1889,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 683,
+          "line": 684,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1874,7 +1901,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 232,
+          "line": 233,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1886,7 +1913,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 155,
+          "line": 156,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1898,7 +1925,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 1123,
+          "line": 1124,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1907,7 +1934,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 1055,
+          "line": 1056,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "backends_.push_back(std::move(b));",
@@ -1916,7 +1943,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 1033,
+          "line": 1034,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.rings.push_back(std::move(r));",
@@ -1925,7 +1952,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 1018,
+          "line": 1019,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.rings.push_back(ring2);",
@@ -1934,7 +1961,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 1017,
+          "line": 1018,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.rings.push_back(ring1);",
@@ -1943,7 +1970,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 964,
+          "line": 965,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "col.geometries.push_back(geom2);",
@@ -1952,7 +1979,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 963,
+          "line": 964,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "col.geometries.push_back(geom1);",
@@ -1961,7 +1988,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 958,
+          "line": 959,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.rings.push_back(std::move(r));",
@@ -1970,7 +1997,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 945,
+          "line": 946,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "col.geometries.push_back(geom2);",
@@ -1979,7 +2006,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 944,
+          "line": 945,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "col.geometries.push_back(geom1);",
@@ -1988,7 +2015,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 879,
+          "line": 880,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ring.push_back({v.x, v.y});",
@@ -1997,7 +2024,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 869,
+          "line": 870,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ring.push_back({v.x, v.y});",
@@ -2006,7 +2033,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 854,
+          "line": 855,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ring.push_back({v.x, v.y});",
@@ -2015,7 +2042,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 803,
+          "line": 804,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ring.push_back({v.x, v.y});",
@@ -2024,7 +2051,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 790,
+          "line": 791,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ring.push_back({v.x, v.y});",
@@ -2033,7 +2060,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 707,
+          "line": 708,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "B.push_back(v);",
@@ -2042,7 +2069,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 698,
+          "line": 699,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "A.push_back(v);",
@@ -2051,7 +2078,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 684,
+          "line": 685,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ips.push_back({static_cast<double>(i) + t, static_cast<double>(j) + s,",
@@ -2060,7 +2087,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 509,
+          "line": 510,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.rings.push_back(cpuCircleRing(c.x, c.y, d_lat, d_lon, arc_points));",
@@ -2069,7 +2096,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 239,
+          "line": 240,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back({e1.p1.x + t * d1x, e1.p1.y + t * d1y});",
@@ -2078,7 +2105,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 233,
+          "line": 234,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(e2.p1);",
@@ -2087,7 +2114,7 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 158,
+          "line": 159,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ring.push_back(ring[0]); // close the ring",
@@ -2096,18 +2123,27 @@
         },
         {
           "file": "src\\geo\\cpu_backend.cpp",
-          "line": 156,
+          "line": 157,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ring.push_back({cx + d_lon * std::cos(angle), cy + d_lat * std::sin(angle)});",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #4139 feat(geo): Implement CUDA a... (2026-03-12) | #3466 docs(acceleration):",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
       "src\\geo\\gpu_kernel_dispatcher_cpu.cpp": [
         {
           "file": "src\\geo\\gpu_kernel_dispatcher_cpu.cpp",
-          "line": 108,
+          "line": 109,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -2116,7 +2152,7 @@
         },
         {
           "file": "src\\geo\\gpu_kernel_dispatcher_cpu.cpp",
-          "line": 83,
+          "line": 84,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -2127,7 +2163,7 @@
       "src\\geo\\geo_rtree.cpp": [
         {
           "file": "src\\geo\\geo_rtree.cpp",
-          "line": 171,
+          "line": 172,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2139,7 +2175,7 @@
         },
         {
           "file": "src\\geo\\geo_rtree.cpp",
-          "line": 161,
+          "line": 162,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2151,7 +2187,7 @@
         },
         {
           "file": "src\\geo\\geo_rtree.cpp",
-          "line": 161,
+          "line": 162,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2163,7 +2199,7 @@
         },
         {
           "file": "src\\geo\\geo_rtree.cpp",
-          "line": 132,
+          "line": 133,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2175,7 +2211,7 @@
         },
         {
           "file": "src\\geo\\geo_rtree.cpp",
-          "line": 105,
+          "line": 106,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2187,7 +2223,7 @@
         },
         {
           "file": "src\\geo\\geo_rtree.cpp",
-          "line": 89,
+          "line": 90,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2199,7 +2235,7 @@
         },
         {
           "file": "src\\geo\\geo_rtree.cpp",
-          "line": 67,
+          "line": 68,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2211,7 +2247,7 @@
         },
         {
           "file": "src\\geo\\geo_rtree.cpp",
-          "line": 172,
+          "line": 173,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(e.key);",
@@ -2220,7 +2256,7 @@
         },
         {
           "file": "src\\geo\\geo_rtree.cpp",
-          "line": 162,
+          "line": 163,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(e.key);",
@@ -2229,7 +2265,7 @@
         },
         {
           "file": "src\\geo\\geo_rtree.cpp",
-          "line": 138,
+          "line": 139,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "entries.push_back({geom.computeMBR(), key});",
@@ -2238,7 +2274,7 @@
         },
         {
           "file": "src\\geo\\geo_rtree.cpp",
-          "line": 133,
+          "line": 134,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "entries.push_back({geom.computeMBR(), key});",
@@ -2247,7 +2283,7 @@
         },
         {
           "file": "src\\geo\\geo_rtree.cpp",
-          "line": 106,
+          "line": 107,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(it->second);",
@@ -2256,7 +2292,7 @@
         },
         {
           "file": "src\\geo\\geo_rtree.cpp",
-          "line": 90,
+          "line": 91,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(it->second);",
@@ -2265,7 +2301,7 @@
         },
         {
           "file": "src\\geo\\geo_rtree.cpp",
-          "line": 204,
+          "line": 205,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "THEMIS_INFO(\"GeoRTree::insert: key={}, geo_index_bytes_allocated={}\",",
@@ -2274,7 +2310,7 @@
         },
         {
           "file": "src\\geo\\geo_rtree.cpp",
-          "line": 198,
+          "line": 199,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "THEMIS_INFO(\"GeoRTree::bulkLoad completed: entries={}, geo_index_bytes_allocated={}\",",
@@ -2283,7 +2319,7 @@
         },
         {
           "file": "src\\geo\\geo_rtree.cpp",
-          "line": 114,
+          "line": 115,
           "type": "size_assumption",
           "severity": "HIGH",
           "snippet": "constexpr std::size_t kNodeOverhead = 4 * sizeof(double) + 32;  // box + key avg",
@@ -2292,7 +2328,7 @@
         },
         {
           "file": "src\\geo\\geo_rtree.cpp",
-          "line": 101,
+          "line": 102,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (auto it = tree.qbegin(bgi::intersects(qbox)); it != tree.qend(); ++it) {",
@@ -2301,7 +2337,7 @@
         },
         {
           "file": "src\\geo\\geo_rtree.cpp",
-          "line": 89,
+          "line": 90,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (auto it = tree.qbegin(bgi::intersects(qbox)); it != tree.qend(); ++it) {",
@@ -2310,7 +2346,16 @@
         },
         {
           "file": "src\\geo\\geo_rtree.cpp",
-          "line": 143,
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #4145 feat(geo): Add SpatialIndex... (2026-03-13) | #3622 feat(geo): Build sy",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\geo\\geo_rtree.cpp",
+          "line": 144,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "for (auto it = entries.begin(); it != entries.end(); ++it) {",
@@ -2321,7 +2366,7 @@
       "src\\geo\\geo_json_geometry.cpp": [
         {
           "file": "src\\geo\\geo_json_geometry.cpp",
-          "line": 298,
+          "line": 299,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -2333,127 +2378,7 @@
         },
         {
           "file": "src\\geo\\geo_json_geometry.cpp",
-          "line": 286,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "string_concat_loop",
-          "description": "String concatenation in loop (use std::stringstream)",
-          "context": "result += \",\";",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\geo\\geo_json_geometry.cpp",
-          "line": 286,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "string_concat_loop",
-          "description": "String concatenation in loop (use std::stringstream)",
-          "context": "result += \",\";",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\geo\\geo_json_geometry.cpp",
-          "line": 286,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "string_concat_loop",
-          "description": "String concatenation in loop (use std::stringstream)",
-          "context": "result += \",\";",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\geo\\geo_json_geometry.cpp",
-          "line": 286,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "string_concat_loop",
-          "description": "String concatenation in loop (use std::stringstream)",
-          "context": "result += \",\";",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\geo\\geo_json_geometry.cpp",
-          "line": 258,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "unnecessary_copy",
-          "description": "Unnecessary copy: use auto& for container element access",
-          "context": "const auto sub = polygons_[i].validate();",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\geo\\geo_json_geometry.cpp",
-          "line": 244,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "unnecessary_copy",
-          "description": "Unnecessary copy: use auto& for container element access",
-          "context": "const auto polyJson = polygons_[i].toGeoJSON();",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\geo\\geo_json_geometry.cpp",
-          "line": 240,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "string_concat_loop",
-          "description": "String concatenation in loop (use std::stringstream)",
-          "context": "result += \",\";",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\geo\\geo_json_geometry.cpp",
-          "line": 240,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "string_concat_loop",
-          "description": "String concatenation in loop (use std::stringstream)",
-          "context": "result += \",\";",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\geo\\geo_json_geometry.cpp",
-          "line": 240,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "string_concat_loop",
-          "description": "String concatenation in loop (use std::stringstream)",
-          "context": "result += \",\";",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\geo\\geo_json_geometry.cpp",
-          "line": 197,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "string_concat_loop",
-          "description": "String concatenation in loop (use std::stringstream)",
-          "context": "result += \",\";",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\geo\\geo_json_geometry.cpp",
-          "line": 62,
+          "line": 287,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -2466,33 +2391,126 @@
         {
           "file": "src\\geo\\geo_json_geometry.cpp",
           "line": 287,
-          "type": "string_concat_loop",
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "result += \",\";",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "result += \",\";",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 287,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "result += \",\";",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 287,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "result += \",\";",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 259,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "unnecessary_copy",
+          "description": "Unnecessary copy: use auto& for container element access",
+          "context": "const auto sub = polygons_[i].validate();",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 245,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "unnecessary_copy",
+          "description": "Unnecessary copy: use auto& for container element access",
+          "context": "const auto polyJson = polygons_[i].toGeoJSON();",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\geo\\geo_json_geometry.cpp",
           "line": 241,
-          "type": "string_concat_loop",
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "result += \",\";",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "result += \",\";",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 241,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "result += \",\";",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 241,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "result += \",\";",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\geo\\geo_json_geometry.cpp",
           "line": 198,
-          "type": "string_concat_loop",
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "result += \",\";",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "result += \",\";",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\geo\\geo_json_geometry.cpp",
           "line": 63,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "result += \",\";",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 288,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "result += \",\";",
@@ -2501,7 +2519,34 @@
         },
         {
           "file": "src\\geo\\geo_json_geometry.cpp",
-          "line": 80,
+          "line": 242,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "result += \",\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 199,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "result += \",\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 64,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "result += \",\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 81,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "vr.addError({\"LATITUDE_OUT_OF_RANGE\", ctx + \": latitude \" + std::to_string(c.y) + \" outside [-90,90]",
@@ -2510,7 +2555,7 @@
         },
         {
           "file": "src\\geo\\geo_json_geometry.cpp",
-          "line": 77,
+          "line": 78,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "vr.addError({\"LONGITUDE_OUT_OF_RANGE\", ctx + \": longitude \" + std::to_string(c.x) + \" outside [-180,",
@@ -2521,7 +2566,7 @@
       "src\\geo\\gpu_backend_stub.cpp": [
         {
           "file": "src\\geo\\gpu_backend_stub.cpp",
-          "line": 609,
+          "line": 610,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -2533,7 +2578,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_stub.cpp",
-          "line": 590,
+          "line": 591,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -2545,7 +2590,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_stub.cpp",
-          "line": 218,
+          "line": 219,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -2557,7 +2602,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_stub.cpp",
-          "line": 632,
+          "line": 633,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2569,7 +2614,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_stub.cpp",
-          "line": 678,
+          "line": 679,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "out += \"\\\\\\\\\";",
@@ -2578,7 +2623,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_stub.cpp",
-          "line": 676,
+          "line": 677,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "out += \"\\\\\\\"\";",
@@ -2587,7 +2632,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_stub.cpp",
-          "line": 634,
+          "line": 635,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "poly_coords.push_back(v.y);",
@@ -2596,18 +2641,27 @@
         },
         {
           "file": "src\\geo\\gpu_backend_stub.cpp",
-          "line": 633,
+          "line": 634,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "poly_coords.push_back(v.x);",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_stub.cpp",
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #3111 [geo] Implement runtime GPU... (2026-03-12) | #3091 [geo] Fix circuit-b",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
       "src\\geo\\rtree_cursor.cpp": [
         {
           "file": "src\\geo\\rtree_cursor.cpp",
-          "line": 179,
+          "line": 180,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2619,7 +2673,7 @@
         },
         {
           "file": "src\\geo\\rtree_cursor.cpp",
-          "line": 180,
+          "line": 181,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "candidates.push_back({key, geom, dist});",
@@ -2628,7 +2682,7 @@
         },
         {
           "file": "src\\geo\\rtree_cursor.cpp",
-          "line": 164,
+          "line": 165,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "hits.push_back({key, geom, 0.0});",
@@ -2639,7 +2693,7 @@
       "src\\geo\\temporal_spatial_query.cpp": [
         {
           "file": "src\\geo\\temporal_spatial_query.cpp",
-          "line": 179,
+          "line": 180,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2651,7 +2705,7 @@
         },
         {
           "file": "src\\geo\\temporal_spatial_query.cpp",
-          "line": 146,
+          "line": 147,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2663,7 +2717,7 @@
         },
         {
           "file": "src\\geo\\temporal_spatial_query.cpp",
-          "line": 113,
+          "line": 114,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2675,7 +2729,7 @@
         },
         {
           "file": "src\\geo\\temporal_spatial_query.cpp",
-          "line": 91,
+          "line": 92,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2687,7 +2741,7 @@
         },
         {
           "file": "src\\geo\\temporal_spatial_query.cpp",
-          "line": 147,
+          "line": 148,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(row));",
@@ -2696,7 +2750,7 @@
         },
         {
           "file": "src\\geo\\temporal_spatial_query.cpp",
-          "line": 114,
+          "line": 115,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(row));",
@@ -2707,7 +2761,7 @@
       "src\\geo\\tile_server.cpp": [
         {
           "file": "src\\geo\\tile_server.cpp",
-          "line": 242,
+          "line": 243,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2719,7 +2773,7 @@
         },
         {
           "file": "src\\geo\\tile_server.cpp",
-          "line": 226,
+          "line": 227,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2731,7 +2785,7 @@
         },
         {
           "file": "src\\geo\\tile_server.cpp",
-          "line": 214,
+          "line": 215,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2743,7 +2797,7 @@
         },
         {
           "file": "src\\geo\\tile_server.cpp",
-          "line": 144,
+          "line": 145,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2755,7 +2809,7 @@
         },
         {
           "file": "src\\geo\\tile_server.cpp",
-          "line": 144,
+          "line": 145,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2767,7 +2821,7 @@
         },
         {
           "file": "src\\geo\\tile_server.cpp",
-          "line": 60,
+          "line": 61,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -2779,7 +2833,7 @@
         },
         {
           "file": "src\\geo\\tile_server.cpp",
-          "line": 255,
+          "line": 256,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.features.push_back(std::move(feat));",
@@ -2788,7 +2842,7 @@
         },
         {
           "file": "src\\geo\\tile_server.cpp",
-          "line": 145,
+          "line": 146,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(TileCoord{x, y, zoom});",
@@ -2799,7 +2853,7 @@
       "src\\geo\\gpu_backend_hip.cpp": [
         {
           "file": "src\\geo\\gpu_backend_hip.cpp",
-          "line": 184,
+          "line": 185,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "use_after_free_gpu",
@@ -2811,7 +2865,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_hip.cpp",
-          "line": 183,
+          "line": 184,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "use_after_free_gpu",
@@ -2823,7 +2877,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_hip.cpp",
-          "line": 183,
+          "line": 184,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "use_after_free_gpu",
@@ -2835,7 +2889,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_hip.cpp",
-          "line": 174,
+          "line": 175,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "use_after_free_gpu",
@@ -2847,7 +2901,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_hip.cpp",
-          "line": 172,
+          "line": 173,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "use_after_free_gpu",
@@ -2859,7 +2913,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_hip.cpp",
-          "line": 170,
+          "line": 171,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "use_after_free_gpu",
@@ -2871,7 +2925,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_hip.cpp",
-          "line": 103,
+          "line": 104,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "use_after_free_gpu",
@@ -2883,7 +2937,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_hip.cpp",
-          "line": 102,
+          "line": 103,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "use_after_free_gpu",
@@ -2895,7 +2949,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_hip.cpp",
-          "line": 92,
+          "line": 93,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "use_after_free_gpu",
@@ -2907,7 +2961,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_hip.cpp",
-          "line": 90,
+          "line": 91,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "use_after_free_gpu",
@@ -2919,7 +2973,7 @@
         },
         {
           "file": "src\\geo\\gpu_backend_hip.cpp",
-          "line": 71,
+          "line": 72,
           "type": "size_assumption",
           "severity": "HIGH",
           "snippet": "const size_t out_sz  = static_cast<size_t>(numPoints) * sizeof(uint8_t);",
@@ -2930,7 +2984,7 @@
       "src\\geo\\raster.cpp": [
         {
           "file": "src\\geo\\raster.cpp",
-          "line": 62,
+          "line": 63,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",

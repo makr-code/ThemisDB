@@ -1,8 +1,8 @@
 {
   "cdc": {
-    "total": 257,
+    "total": 263,
     "severity_critical": 20,
-    "severity_high": 149,
+    "severity_high": 155,
     "severity_medium": 88,
     "by_category": {
       "security": 6,
@@ -10,7 +10,7 @@
       "reliability": 89,
       "concurrency": 10,
       "raii": 16,
-      "container": 39,
+      "container": 45,
       "platform": 9,
       "performance": 3,
       "exception_safety": 19,
@@ -23,7 +23,7 @@
       "src\\cdc\\cdc_admin.cpp": [
         {
           "file": "src\\cdc\\cdc_admin.cpp",
-          "line": 418,
+          "line": 419,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "RetentionStatus status;",
@@ -32,7 +32,7 @@
         },
         {
           "file": "src\\cdc\\cdc_admin.cpp",
-          "line": 254,
+          "line": 255,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "total_events, health.is_healthy ? \"OK\" : \"ISSUES\");",
@@ -41,7 +41,7 @@
         },
         {
           "file": "src\\cdc\\cdc_admin.cpp",
-          "line": 188,
+          "line": 189,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "HealthStatus status;",
@@ -50,7 +50,7 @@
         },
         {
           "file": "src\\cdc\\cdc_admin.cpp",
-          "line": 415,
+          "line": 416,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::internalError(\"No changefeed available for retention status\");",
@@ -59,7 +59,7 @@
         },
         {
           "file": "src\\cdc\\cdc_admin.cpp",
-          "line": 327,
+          "line": 328,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "Changefeed::RedactionResult inner = changefeed_->redactByKeyPrefix(key_prefix);",
@@ -68,7 +68,7 @@
         },
         {
           "file": "src\\cdc\\cdc_admin.cpp",
-          "line": 320,
+          "line": 321,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"redactByKeyPrefix: key_prefix cannot be empty\");",
@@ -77,7 +77,7 @@
         },
         {
           "file": "src\\cdc\\cdc_admin.cpp",
-          "line": 316,
+          "line": 317,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::internalError(\"No changefeed available for GDPR redaction\");",
@@ -86,7 +86,7 @@
         },
         {
           "file": "src\\cdc\\cdc_admin.cpp",
-          "line": 294,
+          "line": 295,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::internalError(\"No changefeed available for compaction\");",
@@ -95,7 +95,7 @@
         },
         {
           "file": "src\\cdc\\cdc_admin.cpp",
-          "line": 283,
+          "line": 284,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(",
@@ -104,7 +104,7 @@
         },
         {
           "file": "src\\cdc\\cdc_admin.cpp",
-          "line": 275,
+          "line": 276,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(",
@@ -113,7 +113,7 @@
         },
         {
           "file": "src\\cdc\\cdc_admin.cpp",
-          "line": 170,
+          "line": 171,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::internalError(\"No changefeed available for replay\");",
@@ -122,7 +122,7 @@
         },
         {
           "file": "src\\cdc\\cdc_admin.cpp",
-          "line": 126,
+          "line": 127,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"Tenant ID cannot be empty\");",
@@ -131,7 +131,7 @@
         },
         {
           "file": "src\\cdc\\cdc_admin.cpp",
-          "line": 122,
+          "line": 123,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::internalError(\"No tenant manager available for tenant purge\");",
@@ -140,7 +140,7 @@
         },
         {
           "file": "src\\cdc\\cdc_admin.cpp",
-          "line": 106,
+          "line": 107,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::internalError(\"No changefeed available for purge\");",
@@ -149,7 +149,7 @@
         },
         {
           "file": "src\\cdc\\cdc_admin.cpp",
-          "line": 81,
+          "line": 82,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::internalError(\"No changefeed available for purge\");",
@@ -158,7 +158,7 @@
         },
         {
           "file": "src\\cdc\\cdc_admin.cpp",
-          "line": 73,
+          "line": 74,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_INFO(\"CDC Admin: Purging sequence range [{}, {}]\", start_sequence, end_sequence);",
@@ -167,7 +167,7 @@
         },
         {
           "file": "src\\cdc\\cdc_admin.cpp",
-          "line": 51,
+          "line": 52,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::internalError(\"No changefeed available for purge\");",
@@ -176,7 +176,7 @@
         },
         {
           "file": "src\\cdc\\cdc_admin.cpp",
-          "line": 40,
+          "line": 41,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"TenantBufferManager cannot be null\");",
@@ -185,18 +185,27 @@
         },
         {
           "file": "src\\cdc\\cdc_admin.cpp",
-          "line": 30,
+          "line": 31,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"Changefeed cannot be null\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\cdc\\cdc_admin.cpp",
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #3687 feat(cdc): runtime-",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
       "src\\cdc\\changefeed.cpp": [
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 310,
+          "line": 311,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -208,7 +217,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 477,
+          "line": 478,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -220,7 +229,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 199,
+          "line": 200,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -232,7 +241,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 52,
+          "line": 53,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -244,7 +253,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 38,
+          "line": 39,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -256,7 +265,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 37,
+          "line": 38,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -268,7 +277,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 1166,
+          "line": 1167,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -282,7 +291,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\cdc\\changefeed.cpp",
-          "line_number": 892,
+          "line_number": 893,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -294,7 +303,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\cdc\\changefeed.cpp",
-          "line_number": 787,
+          "line_number": 788,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -306,7 +315,19 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\cdc\\changefeed.cpp",
-          "line_number": 422,
+          "line_number": 423,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak",
+          "confidence_score": 0.73,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=HIGH,context_missing"
+        },
+        {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\cdc\\changefeed.cpp",
+          "line_number": 74,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -330,7 +351,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\cdc\\changefeed.cpp",
-          "line_number": 72,
+          "line_number": 50,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -342,19 +363,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\cdc\\changefeed.cpp",
-          "line_number": 49,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\cdc\\changefeed.cpp",
-          "line_number": 45,
+          "line_number": 46,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -364,7 +373,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 1167,
+          "line": 1168,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "snapshot.push_back(entry);",
@@ -373,7 +382,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 1011,
+          "line": 1012,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "size_t events_to_delete                       = (excess_bytes / avg_event_size) + SIZE_RETENTION_BUF",
@@ -382,7 +391,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 995,
+          "line": 996,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "size_t to_delete         = stats.total_events - policy.max_event_count;",
@@ -391,7 +400,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 941,
+          "line": 942,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s;",
@@ -400,7 +409,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 839,
+          "line": 840,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s;",
@@ -409,7 +418,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 801,
+          "line": 802,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.affected_keys.push_back(affected_key);",
@@ -418,7 +427,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 788,
+          "line": 789,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s;",
@@ -427,7 +436,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 716,
+          "line": 717,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "THEMIS_WARN(\"compactByKey: failed to delete event {}: {}\", k, s.ToString());",
@@ -436,7 +445,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 705,
+          "line": 706,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s;",
@@ -445,7 +454,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 701,
+          "line": 702,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "bool is_delete = (ev.type == ChangeEventType::EVENT_DELETE);",
@@ -454,7 +463,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 611,
+          "line": 612,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s;",
@@ -463,7 +472,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 580,
+          "line": 581,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s;",
@@ -472,7 +481,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 395,
+          "line": 396,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s;",
@@ -481,7 +490,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 363,
+          "line": 364,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status persist_status;",
@@ -490,7 +499,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 328,
+          "line": 329,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s;",
@@ -499,7 +508,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 184,
+          "line": 185,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s;",
@@ -508,7 +517,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 1156,
+          "line": 1157,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (subscription_count_.load(std::memory_order_acquire) == 0) {",
@@ -517,7 +526,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 1114,
+          "line": 1115,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "std::this_thread::sleep_for(std::chrono::seconds(ERROR_RETRY_DELAY_SECONDS));",
@@ -526,7 +535,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 738,
+          "line": 739,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"redactByKeyPrefix: key_prefix cannot be empty\");",
@@ -535,7 +544,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 716,
+          "line": 717,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "THEMIS_WARN(\"compactByKey: failed to delete event {}: {}\", k, s.ToString());",
@@ -544,7 +553,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 620,
+          "line": 621,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::dbOperationFailed(\"getEvent\", s.ToString());",
@@ -553,7 +562,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 525,
+          "line": 526,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(50));",
@@ -562,7 +571,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 505,
+          "line": 506,
           "type": "memory_order",
           "severity": "HIGH",
           "snippet": "return sequence_counter_.load(std::memory_order_relaxed);",
@@ -571,7 +580,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 405,
+          "line": 406,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::eventRecordFailed(s.ToString());",
@@ -580,7 +589,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 361,
+          "line": 362,
           "type": "size_assumption",
           "severity": "HIGH",
           "snippet": "std::memcpy(seq_value.data(), &seq, sizeof(uint64_t));",
@@ -589,7 +598,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 360,
+          "line": 361,
           "type": "size_assumption",
           "severity": "HIGH",
           "snippet": "std::string seq_value(sizeof(uint64_t), '\\0');",
@@ -598,7 +607,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 349,
+          "line": 350,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "uint64_t persisted = persisted_sequence_.load(std::memory_order_acquire);",
@@ -607,7 +616,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 324,
+          "line": 325,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (sequence_merge_supported_.load(std::memory_order_acquire)) {",
@@ -616,7 +625,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 317,
+          "line": 318,
           "type": "memory_order",
           "severity": "HIGH",
           "snippet": "const uint64_t seq = sequence_counter_.fetch_add(1, std::memory_order_relaxed) + 1;",
@@ -625,7 +634,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 259,
+          "line": 260,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Changefeed: db cannot be null\");",
@@ -634,7 +643,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 194,
+          "line": 195,
           "type": "size_assumption",
           "severity": "HIGH",
           "snippet": "if (seq_value.size() == sizeof(uint64_t)) {",
@@ -643,7 +652,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 113,
+          "line": 114,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "j[\"metadata\"]     = metadata;",
@@ -652,7 +661,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 73,
+          "line": 74,
           "type": "size_assumption",
           "severity": "HIGH",
           "snippet": "memcpy(&(*new_value)[0], &result, sizeof(uint64_t));",
@@ -661,7 +670,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 72,
+          "line": 73,
           "type": "size_assumption",
           "severity": "HIGH",
           "snippet": "new_value->resize(sizeof(uint64_t));",
@@ -670,7 +679,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 68,
+          "line": 69,
           "type": "size_assumption",
           "severity": "HIGH",
           "snippet": "memcpy(&delta, value.data(), sizeof(uint64_t));",
@@ -679,7 +688,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 67,
+          "line": 68,
           "type": "size_assumption",
           "severity": "HIGH",
           "snippet": "if (value.size() == sizeof(uint64_t)) {",
@@ -688,7 +697,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 54,
+          "line": 55,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "base = std::stoull(std::string(existing_value->data(),",
@@ -697,7 +706,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 50,
+          "line": 51,
           "type": "size_assumption",
           "severity": "HIGH",
           "snippet": "memcpy(&base, existing_value->data(), sizeof(uint64_t));",
@@ -706,7 +715,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 48,
+          "line": 49,
           "type": "size_assumption",
           "severity": "HIGH",
           "snippet": "if (existing_value->size() == sizeof(uint64_t)) {",
@@ -715,7 +724,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 47,
+          "line": 48,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (existing_value != nullptr && !existing_value->empty()) {",
@@ -724,7 +733,16 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 54,
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #4325 [Issue] Implement DiffEngin... (2026-03-19) | #4294 docs(cdc): audit v1",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 55,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "base = std::stoull(std::string(existing_value->data(),",
@@ -733,7 +751,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 48,
+          "line": 49,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "if (existing_value->size() == sizeof(uint64_t)) {",
@@ -742,7 +760,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 47,
+          "line": 48,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "if (existing_value != nullptr && !existing_value->empty()) {",
@@ -751,7 +769,7 @@
         },
         {
           "file": "src\\cdc\\changefeed.cpp",
-          "line": 42,
+          "line": 43,
           "type": "missing_dtor",
           "severity": "CRITICAL",
           "snippet": "class/struct SequenceIncrementOperator",
@@ -762,7 +780,7 @@
       "src\\cdc\\consumer_group.cpp": [
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 519,
+          "line": 520,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -774,7 +792,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 488,
+          "line": 489,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -786,7 +804,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 519,
+          "line": 520,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -798,7 +816,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 519,
+          "line": 520,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -810,7 +828,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 494,
+          "line": 495,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -822,7 +840,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 466,
+          "line": 467,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -834,7 +852,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 402,
+          "line": 403,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -846,7 +864,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 278,
+          "line": 279,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -860,7 +878,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\cdc\\consumer_group.cpp",
-          "line_number": 519,
+          "line_number": 520,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -872,7 +890,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\cdc\\consumer_group.cpp",
-          "line_number": 501,
+          "line_number": 502,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -884,7 +902,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\cdc\\consumer_group.cpp",
-          "line_number": 495,
+          "line_number": 496,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -896,7 +914,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\cdc\\consumer_group.cpp",
-          "line_number": 473,
+          "line_number": 474,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -906,7 +924,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 520,
+          "line": 521,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "consumer_inflight.push_back(std::move(rec));",
@@ -915,7 +933,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 496,
+          "line": 497,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(ev));",
@@ -924,7 +942,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 495,
+          "line": 496,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "new_records.push_back({ev.sequence, now, 1});",
@@ -933,7 +951,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 467,
+          "line": 468,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(changefeed.getEvent(seq));",
@@ -942,7 +960,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 449,
+          "line": 450,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "overdue_seqs.push_back(rec.sequence);",
@@ -951,7 +969,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 403,
+          "line": 404,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(ev));",
@@ -960,7 +978,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 279,
+          "line": 280,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "groups.push_back(std::move(gid));",
@@ -969,7 +987,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 220,
+          "line": 221,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s;",
@@ -978,7 +996,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 187,
+          "line": 188,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s1, s2;",
@@ -987,7 +1005,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 132,
+          "line": 133,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s;",
@@ -996,7 +1014,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 78,
+          "line": 79,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s;",
@@ -1005,7 +1023,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 533,
+          "line": 534,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"consumer_id\", \"must not be empty\");",
@@ -1014,7 +1032,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 530,
+          "line": 531,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"group_id\", \"must not be empty\");",
@@ -1023,7 +1041,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 508,
+          "line": 509,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "if (std::find(overdue_seqs.begin(), overdue_seqs.end(), rec.sequence) != overdue_seqs.end()) {",
@@ -1032,7 +1050,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 424,
+          "line": 425,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"consumer_id\", \"must not be empty\");",
@@ -1041,7 +1059,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 421,
+          "line": 422,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"group_id\", \"must not be empty\");",
@@ -1050,7 +1068,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 370,
+          "line": 371,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"group_id\", \"must not be empty\");",
@@ -1059,7 +1077,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 353,
+          "line": 354,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"group_id\", \"must not be empty\");",
@@ -1068,7 +1086,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 340,
+          "line": 341,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"group_id\", \"must not be empty\");",
@@ -1077,7 +1095,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 329,
+          "line": 330,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"group_id\", \"must not be empty\");",
@@ -1086,7 +1104,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 304,
+          "line": 305,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"group_id\", \"must not be empty\");",
@@ -1095,7 +1113,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 293,
+          "line": 294,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"group_id\", \"must not be empty\");",
@@ -1104,7 +1122,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 267,
+          "line": 268,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "for (it->Seek(prefix); it->Valid(); it->Next()) {",
@@ -1113,7 +1131,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 241,
+          "line": 242,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"group_id\", \"must not be empty\");",
@@ -1122,7 +1140,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 233,
+          "line": 234,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"group_id\", \"must not be empty\");",
@@ -1131,7 +1149,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 202,
+          "line": 203,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::dbOperationFailed(\"Delete group offset\", s2.ToString());",
@@ -1140,7 +1158,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 199,
+          "line": 200,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::dbOperationFailed(\"Delete group config\", s1.ToString());",
@@ -1149,7 +1167,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 181,
+          "line": 182,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"group_id\", \"must not be empty\");",
@@ -1158,7 +1176,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 171,
+          "line": 172,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"consumer_count\", \"must be >= 1\");",
@@ -1167,7 +1185,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 168,
+          "line": 169,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"group_id\", \"must not be empty\");",
@@ -1176,7 +1194,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 157,
+          "line": 158,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw CDCException(ErrorCode::DB_WRITE_FAILED, ErrorSeverity::ERROR, \"Failed to commit group offset\"",
@@ -1185,7 +1203,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 141,
+          "line": 142,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::dbOperationFailed(\"Put group config\", s.ToString());",
@@ -1194,7 +1212,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 115,
+          "line": 116,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::dbOperationFailed(\"Get group offset\", s.ToString());",
@@ -1203,7 +1221,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 90,
+          "line": 91,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::dbOperationFailed(\"Get group config\", s.ToString());",
@@ -1212,7 +1230,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 87,
+          "line": 88,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"Consumer group not found: \" + group_id);",
@@ -1221,7 +1239,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 55,
+          "line": 56,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"ConsumerGroupManager: db cannot be null\");",
@@ -1230,7 +1248,16 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 542,
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #4239 feat(cdc): Consumer Group S... (2026-03-15) | #3106 [cdc] Add event thr",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 543,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto git = inflight_.find(group_id);",
@@ -1239,7 +1266,7 @@
         },
         {
           "file": "src\\cdc\\consumer_group.cpp",
-          "line": 442,
+          "line": 443,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto git = inflight_.find(group_id);",
@@ -1250,7 +1277,7 @@
       "src\\cdc\\dead_letter_queue.cpp": [
         {
           "file": "src\\cdc\\dead_letter_queue.cpp",
-          "line": 56,
+          "line": 57,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1264,7 +1291,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\cdc\\dead_letter_queue.cpp",
-          "line_number": 166,
+          "line_number": 167,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1274,7 +1301,7 @@
         },
         {
           "file": "src\\cdc\\dead_letter_queue.cpp",
-          "line": 277,
+          "line": 278,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(std::move(entry));",
@@ -1283,7 +1310,7 @@
         },
         {
           "file": "src\\cdc\\dead_letter_queue.cpp",
-          "line": 242,
+          "line": 243,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "THEMIS_WARN(\"DeadLetterQueue: drain failed to delete key={}: {}\",",
@@ -1292,7 +1319,7 @@
         },
         {
           "file": "src\\cdc\\dead_letter_queue.cpp",
-          "line": 232,
+          "line": 233,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s;",
@@ -1301,7 +1328,7 @@
         },
         {
           "file": "src\\cdc\\dead_letter_queue.cpp",
-          "line": 193,
+          "line": 194,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s;",
@@ -1310,7 +1337,7 @@
         },
         {
           "file": "src\\cdc\\dead_letter_queue.cpp",
-          "line": 175,
+          "line": 176,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status read_status;",
@@ -1319,7 +1346,7 @@
         },
         {
           "file": "src\\cdc\\dead_letter_queue.cpp",
-          "line": 135,
+          "line": 136,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s;",
@@ -1328,7 +1355,7 @@
         },
         {
           "file": "src\\cdc\\dead_letter_queue.cpp",
-          "line": 112,
+          "line": 113,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s;",
@@ -1337,7 +1364,7 @@
         },
         {
           "file": "src\\cdc\\dead_letter_queue.cpp",
-          "line": 81,
+          "line": 82,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status write_status;",
@@ -1346,7 +1373,7 @@
         },
         {
           "file": "src\\cdc\\dead_letter_queue.cpp",
-          "line": 66,
+          "line": 67,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s;",
@@ -1355,7 +1382,7 @@
         },
         {
           "file": "src\\cdc\\dead_letter_queue.cpp",
-          "line": 242,
+          "line": 243,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "THEMIS_WARN(\"DeadLetterQueue: drain failed to delete key={}: {}\",",
@@ -1364,7 +1391,7 @@
         },
         {
           "file": "src\\cdc\\dead_letter_queue.cpp",
-          "line": 223,
+          "line": 224,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "it->Seek(prefix_start);",
@@ -1373,7 +1400,7 @@
         },
         {
           "file": "src\\cdc\\dead_letter_queue.cpp",
-          "line": 90,
+          "line": 91,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::sequenceGenerationFailed(write_status.ToString());",
@@ -1382,7 +1409,16 @@
         },
         {
           "file": "src\\cdc\\dead_letter_queue.cpp",
-          "line": 166,
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #3552 docs(cdc): full module docu... (2026-03-12) | #2796 [cdc] Dead-letter q",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\cdc\\dead_letter_queue.cpp",
+          "line": 167,
           "type": "smart_ptr_misuse",
           "severity": "CRITICAL",
           "snippet": "THEMIS_INFO(\"DeadLetterQueue: replayed dlq_seq={} \u2192 new seq={}\",",
@@ -1393,7 +1429,7 @@
       "src\\cdc\\outbox.cpp": [
         {
           "file": "src\\cdc\\outbox.cpp",
-          "line": 230,
+          "line": 231,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1405,7 +1441,7 @@
         },
         {
           "file": "src\\cdc\\outbox.cpp",
-          "line": 127,
+          "line": 128,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1419,7 +1455,7 @@
           "gap_type": "exception_in_destructor",
           "severity": "CRITICAL",
           "file_path": "src\\cdc\\outbox.cpp",
-          "line_number": 224,
+          "line_number": 225,
           "class_name": "",
           "issue": "Potential exception in destructor",
           "reason": "Destructors must be noexcept; exceptions here cause std::terminate()",
@@ -1429,7 +1465,7 @@
         },
         {
           "file": "src\\cdc\\outbox.cpp",
-          "line": 266,
+          "line": 267,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1441,7 +1477,7 @@
         },
         {
           "file": "src\\cdc\\outbox.cpp",
-          "line": 384,
+          "line": 385,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s;",
@@ -1450,7 +1486,7 @@
         },
         {
           "file": "src\\cdc\\outbox.cpp",
-          "line": 267,
+          "line": 268,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(rec));",
@@ -1459,7 +1495,7 @@
         },
         {
           "file": "src\\cdc\\outbox.cpp",
-          "line": 239,
+          "line": 240,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s;",
@@ -1468,7 +1504,7 @@
         },
         {
           "file": "src\\cdc\\outbox.cpp",
-          "line": 196,
+          "line": 197,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s;",
@@ -1477,7 +1513,7 @@
         },
         {
           "file": "src\\cdc\\outbox.cpp",
-          "line": 159,
+          "line": 160,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status ws;",
@@ -1486,7 +1522,7 @@
         },
         {
           "file": "src\\cdc\\outbox.cpp",
-          "line": 136,
+          "line": 137,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "rocksdb::Status s;",
@@ -1495,7 +1531,7 @@
         },
         {
           "file": "src\\cdc\\outbox.cpp",
-          "line": 345,
+          "line": 346,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "cv_.wait_for(lock, config_.poll_interval, [this] { return !running_.load(std::memory_order_acquire);",
@@ -1504,7 +1540,7 @@
         },
         {
           "file": "src\\cdc\\outbox.cpp",
-          "line": 341,
+          "line": 342,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "while (running_.load(std::memory_order_acquire)) {",
@@ -1513,7 +1549,7 @@
         },
         {
           "file": "src\\cdc\\outbox.cpp",
-          "line": 254,
+          "line": 255,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "std::unique_ptr<rocksdb::Iterator> it(cf_ ? db_->NewIterator(read_opts, cf_) : db_->NewIterator(read",
@@ -1522,7 +1558,7 @@
         },
         {
           "file": "src\\cdc\\outbox.cpp",
-          "line": 254,
+          "line": 255,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "std::unique_ptr<rocksdb::Iterator> it(cf_ ? db_->NewIterator(read_opts, cf_) : db_->NewIterator(read",
@@ -1531,7 +1567,7 @@
         },
         {
           "file": "src\\cdc\\outbox.cpp",
-          "line": 220,
+          "line": 221,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"OutboxRelay: db cannot be null\");",
@@ -1540,7 +1576,7 @@
         },
         {
           "file": "src\\cdc\\outbox.cpp",
-          "line": 204,
+          "line": 205,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw CDCException(ErrorCode::DB_WRITE_FAILED, ErrorSeverity::ERROR,",
@@ -1549,7 +1585,7 @@
         },
         {
           "file": "src\\cdc\\outbox.cpp",
-          "line": 181,
+          "line": 182,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"OutboxWriter::writeToOutbox: record key cannot be empty\");",
@@ -1558,7 +1594,7 @@
         },
         {
           "file": "src\\cdc\\outbox.cpp",
-          "line": 178,
+          "line": 179,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"OutboxWriter::writeToOutbox: txn cannot be null\");",
@@ -1567,7 +1603,7 @@
         },
         {
           "file": "src\\cdc\\outbox.cpp",
-          "line": 166,
+          "line": 167,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw CDCException(ErrorCode::DB_WRITE_FAILED, ErrorSeverity::CRITICAL,",
@@ -1576,7 +1612,7 @@
         },
         {
           "file": "src\\cdc\\outbox.cpp",
-          "line": 121,
+          "line": 122,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"OutboxWriter: db cannot be null\");",
@@ -1585,7 +1621,7 @@
         },
         {
           "file": "src\\cdc\\outbox.cpp",
-          "line": 91,
+          "line": 92,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "j[\"metadata\"]        = metadata;",
@@ -1596,7 +1632,7 @@
       "src\\cdc\\tenant_buffer_manager.cpp": [
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 270,
+          "line": 271,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1608,7 +1644,7 @@
         },
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 257,
+          "line": 258,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1620,7 +1656,7 @@
         },
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 138,
+          "line": 139,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1632,7 +1668,7 @@
         },
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 53,
+          "line": 54,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1644,7 +1680,7 @@
         },
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 36,
+          "line": 37,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1658,7 +1694,7 @@
           "gap_type": "exception_in_destructor",
           "severity": "CRITICAL",
           "file_path": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line_number": 25,
+          "line_number": 26,
           "class_name": "",
           "issue": "Potential exception in destructor",
           "reason": "Destructors must be noexcept; exceptions here cause std::terminate()",
@@ -1668,7 +1704,7 @@
         },
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 271,
+          "line": 272,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1680,7 +1716,7 @@
         },
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 256,
+          "line": 257,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -1692,7 +1728,7 @@
         },
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 253,
+          "line": 254,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -1706,7 +1742,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line_number": 355,
+          "line_number": 356,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1718,7 +1754,19 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line_number": 343,
+          "line_number": 344,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak",
+          "confidence_score": 0.73,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=HIGH,context_missing"
+        },
+        {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line_number": 169,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1751,20 +1799,8 @@
           "confidence_rationale": "severity=HIGH,context_missing"
         },
         {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line_number": 166,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 272,
+          "line": 273,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tenants.push_back(tenant_id);",
@@ -1773,7 +1809,7 @@
         },
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 400,
+          "line": 401,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "const auto &metrics      = state.buffer->getMetrics();",
@@ -1782,7 +1818,7 @@
         },
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 344,
+          "line": 345,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto [inserted_it, inserted] = tenant_buffers_.try_emplace(tenant_id);",
@@ -1791,7 +1827,7 @@
         },
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 257,
+          "line": 258,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "for (const auto &[tenant_id, state] : tenant_buffers_) {",
@@ -1800,7 +1836,7 @@
         },
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 224,
+          "line": 225,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "for (const auto &[tenant_id, state] : tenant_buffers_) {",
@@ -1809,7 +1845,7 @@
         },
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 208,
+          "line": 209,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return std::cref(it->second.buffer->getMetrics());",
@@ -1818,7 +1854,7 @@
         },
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 167,
+          "line": 168,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto [new_it, inserted] = tenant_buffers_.try_emplace(config.tenant_id);",
@@ -1827,7 +1863,7 @@
         },
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 152,
+          "line": 153,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"tenant_id\", \"Cannot be empty\");",
@@ -1836,7 +1872,7 @@
         },
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 138,
+          "line": 139,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "for (auto &[tenant_id, state] : tenant_buffers_) {",
@@ -1845,7 +1881,7 @@
         },
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 94,
+          "line": 95,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto recorded_event = state.buffer->recordEvent(std::move(event));",
@@ -1854,7 +1890,7 @@
         },
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 87,
+          "line": 88,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw CDCException(ErrorCode::TENANT_QUOTA_EXCEEDED, ErrorSeverity::WARNING, \"Tenant quota exceeded\"",
@@ -1863,7 +1899,7 @@
         },
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 79,
+          "line": 80,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw CDCException(ErrorCode::TENANT_UNAUTHORIZED, ErrorSeverity::ERROR, \"Tenant is disabled\",",
@@ -1872,7 +1908,7 @@
         },
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 69,
+          "line": 70,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"tenant_id\", \"Cannot be empty\");",
@@ -1881,7 +1917,7 @@
         },
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 64,
+          "line": 65,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw CDCException(ErrorCode::BUFFER_NOT_RUNNING, ErrorSeverity::ERROR, \"TenantBufferManager not run",
@@ -1890,7 +1926,7 @@
         },
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 53,
+          "line": 54,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "for (auto &[tenant_id, state] : tenant_buffers_) {",
@@ -1899,7 +1935,7 @@
         },
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 36,
+          "line": 37,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "for (auto &[tenant_id, state] : tenant_buffers_) {",
@@ -1908,7 +1944,7 @@
         },
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 21,
+          "line": 22,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw error::invalidArgument(\"changefeed\", \"Cannot be null\");",
@@ -1917,7 +1953,7 @@
         },
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 355,
+          "line": 356,
           "type": "smart_ptr_misuse",
           "severity": "CRITICAL",
           "snippet": "THEMIS_INFO(\"Auto-created buffer for new tenant: {}\", tenant_id);",
@@ -1926,7 +1962,7 @@
         },
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 319,
+          "line": 320,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = tenant_buffers_.find(tenant_id);",
@@ -1935,7 +1971,7 @@
         },
         {
           "file": "src\\cdc\\tenant_buffer_manager.cpp",
-          "line": 178,
+          "line": 179,
           "type": "smart_ptr_misuse",
           "severity": "CRITICAL",
           "snippet": "THEMIS_INFO(\"Created new tenant: {}\", config.tenant_id);",
@@ -1946,7 +1982,7 @@
       "src\\cdc\\changefeed_buffer.cpp": [
         {
           "file": "src\\cdc\\changefeed_buffer.cpp",
-          "line": 395,
+          "line": 396,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::mutex> lock(flush_mutex_);",
@@ -1955,7 +1991,7 @@
         },
         {
           "file": "src\\cdc\\changefeed_buffer.cpp",
-          "line": 260,
+          "line": 261,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "std::vector<uint8_t> compressed_data(event.value->begin(), event.value->end());",
@@ -1964,7 +2000,7 @@
         },
         {
           "file": "src\\cdc\\changefeed_buffer.cpp",
-          "line": 212,
+          "line": 213,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "for (auto& [event_type, buffer] : buffers_) {",
@@ -1973,7 +2009,7 @@
         },
         {
           "file": "src\\cdc\\changefeed_buffer.cpp",
-          "line": 151,
+          "line": 152,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto& buffer = buffers_[event.type];",
@@ -1982,7 +2018,7 @@
         },
         {
           "file": "src\\cdc\\changefeed_buffer.cpp",
-          "line": 25,
+          "line": 26,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ChangefeedBuffer: changefeed cannot be null\");",
@@ -1991,7 +2027,7 @@
         },
         {
           "file": "src\\cdc\\changefeed_buffer.cpp",
-          "line": 202,
+          "line": 203,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "lock.lock();",
@@ -2000,7 +2036,7 @@
         },
         {
           "file": "src\\cdc\\changefeed_buffer.cpp",
-          "line": 147,
+          "line": 148,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "lock.lock();",
@@ -2011,7 +2047,7 @@
       "src\\cdc\\cdc_materialized_view.cpp": [
         {
           "file": "src\\cdc\\cdc_materialized_view.cpp",
-          "line": 73,
+          "line": 74,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2023,7 +2059,7 @@
         },
         {
           "file": "src\\cdc\\cdc_materialized_view.cpp",
-          "line": 74,
+          "line": 75,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "records.push_back(std::move(rec));",
@@ -2032,7 +2068,7 @@
         },
         {
           "file": "src\\cdc\\cdc_materialized_view.cpp",
-          "line": 91,
+          "line": 92,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "return view_manager_.query(view_name, filters, limit, offset);",
@@ -2041,7 +2077,7 @@
         },
         {
           "file": "src\\cdc\\cdc_materialized_view.cpp",
-          "line": 88,
+          "line": 89,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "CDCMaterializedViewMaintainer::query(const std::string &view_name,",
@@ -2052,7 +2088,7 @@
       "src\\cdc\\ws_transport.cpp": [
         {
           "file": "src\\cdc\\ws_transport.cpp",
-          "line": 210,
+          "line": 211,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2064,7 +2100,7 @@
         },
         {
           "file": "src\\cdc\\ws_transport.cpp",
-          "line": 196,
+          "line": 197,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2076,7 +2112,7 @@
         },
         {
           "file": "src\\cdc\\ws_transport.cpp",
-          "line": 153,
+          "line": 154,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2088,7 +2124,7 @@
         },
         {
           "file": "src\\cdc\\ws_transport.cpp",
-          "line": 132,
+          "line": 133,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2100,7 +2136,7 @@
         },
         {
           "file": "src\\cdc\\ws_transport.cpp",
-          "line": 132,
+          "line": 133,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2112,7 +2148,7 @@
         },
         {
           "file": "src\\cdc\\ws_transport.cpp",
-          "line": 204,
+          "line": 205,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "deliveries.push_back({result.session_id, result.sub_id, std::move(result.events)});",
@@ -2121,7 +2157,7 @@
         },
         {
           "file": "src\\cdc\\ws_transport.cpp",
-          "line": 197,
+          "line": 198,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "overflow_sessions.push_back(result.session_id);",
@@ -2130,7 +2166,7 @@
         },
         {
           "file": "src\\cdc\\ws_transport.cpp",
-          "line": 154,
+          "line": 155,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back({item.session_id, item.sub_id, std::move(events)});",
@@ -2139,7 +2175,7 @@
         },
         {
           "file": "src\\cdc\\ws_transport.cpp",
-          "line": 133,
+          "line": 134,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "query_items.push_back({sid, sub_id, std::move(opts)});",
@@ -2148,7 +2184,7 @@
         },
         {
           "file": "src\\cdc\\ws_transport.cpp",
-          "line": 183,
+          "line": 184,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto sub_it = session.subscriptions.find(result.sub_id);",
@@ -2157,7 +2193,7 @@
         },
         {
           "file": "src\\cdc\\ws_transport.cpp",
-          "line": 177,
+          "line": 178,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto sit = sessions_.find(result.session_id);",
@@ -2166,7 +2202,16 @@
         },
         {
           "file": "src\\cdc\\ws_transport.cpp",
-          "line": 295,
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #4184 feat(cdc): WebSocket Change... (2026-03-13) | #3616 fix(cdc): build sys",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\cdc\\ws_transport.cpp",
+          "line": 296,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "poll_timer_->async_wait([this](const boost::system::error_code& ec) {",
@@ -2175,7 +2220,7 @@
         },
         {
           "file": "src\\cdc\\ws_transport.cpp",
-          "line": 237,
+          "line": 238,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "it->second.pending_events = 0;",
@@ -2184,7 +2229,7 @@
         },
         {
           "file": "src\\cdc\\ws_transport.cpp",
-          "line": 235,
+          "line": 236,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "it->second.pending_events -= delivered;",
@@ -2193,7 +2238,7 @@
         },
         {
           "file": "src\\cdc\\ws_transport.cpp",
-          "line": 234,
+          "line": 235,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "if (it->second.pending_events >= delivered) {",
@@ -2202,7 +2247,7 @@
         },
         {
           "file": "src\\cdc\\ws_transport.cpp",
-          "line": 92,
+          "line": 93,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = sessions_.find(session_id);",
@@ -2211,7 +2256,7 @@
         },
         {
           "file": "src\\cdc\\ws_transport.cpp",
-          "line": 56,
+          "line": 57,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = sessions_.find(session_id);",
@@ -2222,7 +2267,7 @@
       "src\\cdc\\cross_collection_stream.cpp": [
         {
           "file": "src\\cdc\\cross_collection_stream.cpp",
-          "line": 141,
+          "line": 142,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2234,7 +2279,7 @@
         },
         {
           "file": "src\\cdc\\cross_collection_stream.cpp",
-          "line": 79,
+          "line": 80,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "timestamp_sorting_unstable",
@@ -2246,7 +2291,7 @@
         },
         {
           "file": "src\\cdc\\cross_collection_stream.cpp",
-          "line": 67,
+          "line": 68,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2258,7 +2303,7 @@
         },
         {
           "file": "src\\cdc\\cross_collection_stream.cpp",
-          "line": 182,
+          "line": 183,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -2270,7 +2315,7 @@
         },
         {
           "file": "src\\cdc\\cross_collection_stream.cpp",
-          "line": 102,
+          "line": 103,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -2282,7 +2327,7 @@
         },
         {
           "file": "src\\cdc\\cross_collection_stream.cpp",
-          "line": 142,
+          "line": 143,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "all_events.push_back({name, std::move(ev)});",
@@ -2291,7 +2336,7 @@
         },
         {
           "file": "src\\cdc\\cross_collection_stream.cpp",
-          "line": 68,
+          "line": 69,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "names.push_back(kv.first);",
@@ -2300,7 +2345,7 @@
         },
         {
           "file": "src\\cdc\\cross_collection_stream.cpp",
-          "line": 121,
+          "line": 122,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto cursor_it = options.from_sequence.find(name);",
@@ -2309,7 +2354,7 @@
         },
         {
           "file": "src\\cdc\\cross_collection_stream.cpp",
-          "line": 54,
+          "line": 55,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -2318,7 +2363,7 @@
         },
         {
           "file": "src\\cdc\\cross_collection_stream.cpp",
-          "line": 49,
+          "line": 50,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -2329,7 +2374,7 @@
       "src\\cdc\\kafka_cdc_producer.cpp": [
         {
           "file": "src\\cdc\\kafka_cdc_producer.cpp",
-          "line": 308,
+          "line": 309,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "while (running_.load(std::memory_order_acquire)) {",
@@ -2338,18 +2383,27 @@
         },
         {
           "file": "src\\cdc\\kafka_cdc_producer.cpp",
-          "line": 93,
+          "line": 94,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (running_.load(std::memory_order_acquire)) {",
           "description": "Resource acquired but not released \u2014 potential leak",
           "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\cdc\\kafka_cdc_producer.cpp",
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #4607 feat(cdc): register CDCKafk... (2026-04-13) | #3106 [cdc] Add event thr",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
       "src\\cdc\\cdc_ws_handler.cpp": [
         {
           "file": "src\\cdc\\cdc_ws_handler.cpp",
-          "line": 342,
+          "line": 343,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2361,7 +2415,7 @@
         },
         {
           "file": "src\\cdc\\cdc_ws_handler.cpp",
-          "line": 190,
+          "line": 191,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -2373,19 +2427,7 @@
         },
         {
           "file": "src\\cdc\\cdc_ws_handler.cpp",
-          "line": 343,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "frames.push_back(pending.frame);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cdc\\cdc_ws_handler.cpp",
-          "line": 343,
+          "line": 344,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2398,6 +2440,18 @@
         {
           "file": "src\\cdc\\cdc_ws_handler.cpp",
           "line": 344,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "frames.push_back(pending.frame);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\cdc\\cdc_ws_handler.cpp",
+          "line": 345,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "frames.push_back(pending.frame);",
@@ -2406,7 +2460,7 @@
         },
         {
           "file": "src\\cdc\\cdc_ws_handler.cpp",
-          "line": 306,
+          "line": 307,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "frames.push_back(std::move(event_frame));",
@@ -2415,7 +2469,7 @@
         },
         {
           "file": "src\\cdc\\cdc_ws_handler.cpp",
-          "line": 304,
+          "line": 305,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "sub.pending_ack.push_back({event_frame, now});",
@@ -2424,7 +2478,7 @@
         },
         {
           "file": "src\\cdc\\cdc_ws_handler.cpp",
-          "line": 230,
+          "line": 231,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "responses.push_back({{\"action\", \"error\"}, {\"message\", \"unknown action: \" + action}});",
@@ -2433,7 +2487,7 @@
         },
         {
           "file": "src\\cdc\\cdc_ws_handler.cpp",
-          "line": 192,
+          "line": 193,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "responses.push_back({{\"action\", \"error\"}, {\"message\", \"ack requires 'id' or 'group_id'\"}});",
@@ -2444,7 +2498,7 @@
       "src\\cdc\\delivery_tracker.cpp": [
         {
           "file": "src\\cdc\\delivery_tracker.cpp",
-          "line": 220,
+          "line": 221,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2456,7 +2510,7 @@
         },
         {
           "file": "src\\cdc\\delivery_tracker.cpp",
-          "line": 175,
+          "line": 176,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2468,7 +2522,7 @@
         },
         {
           "file": "src\\cdc\\delivery_tracker.cpp",
-          "line": 73,
+          "line": 74,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2480,7 +2534,7 @@
         },
         {
           "file": "src\\cdc\\delivery_tracker.cpp",
-          "line": 276,
+          "line": 277,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2492,7 +2546,7 @@
         },
         {
           "file": "src\\cdc\\delivery_tracker.cpp",
-          "line": 227,
+          "line": 228,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2504,7 +2558,7 @@
         },
         {
           "file": "src\\cdc\\delivery_tracker.cpp",
-          "line": 163,
+          "line": 164,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2516,7 +2570,7 @@
         },
         {
           "file": "src\\cdc\\delivery_tracker.cpp",
-          "line": 277,
+          "line": 278,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "consumer_ids.push_back(id);",
@@ -2525,7 +2579,7 @@
         },
         {
           "file": "src\\cdc\\delivery_tracker.cpp",
-          "line": 228,
+          "line": 229,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(stats));",
@@ -2534,7 +2588,7 @@
         },
         {
           "file": "src\\cdc\\delivery_tracker.cpp",
-          "line": 167,
+          "line": 168,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "to_redeliver.push_back(pending.event);",
@@ -2543,7 +2597,7 @@
         },
         {
           "file": "src\\cdc\\delivery_tracker.cpp",
-          "line": 164,
+          "line": 165,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "to_expire.push_back(seq);",
@@ -2552,7 +2606,7 @@
         },
         {
           "file": "src\\cdc\\delivery_tracker.cpp",
-          "line": 245,
+          "line": 246,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::mutex> lock(cv_mutex_);",

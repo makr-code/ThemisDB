@@ -373,3 +373,84 @@ TEST(RAGIngestionBridgeTest, RI30_EnrichBackfillsContentMetadata) {
     ASSERT_TRUE(docs[0].metadata.contains("source"));
     EXPECT_EQ(docs[0].metadata.at("source"), "doc-99");
 }
+
+// RI-31 — enrichRetrievedDocuments treats whitespace metadata as missing and backfills canonically
+TEST(RAGIngestionBridgeTest, RI31_EnrichBackfillsWhitespaceMetadata) {
+    RAGIngestionBridge bridge(makeToolbox());
+    std::vector<judge::RetrievedDocument> docs;
+
+    judge::RetrievedDocument doc;
+    doc.id = "doc-ws";
+    doc.content = "Canonical body text";
+    doc.metadata["source"] = "   \t";
+    doc.metadata["content"] = "\n\r  ";
+    docs.push_back(doc);
+
+    static_cast<void>(bridge.enrichRetrievedDocuments(docs));
+    ASSERT_TRUE(docs[0].metadata.contains("source"));
+    EXPECT_EQ(docs[0].metadata.at("source"), "doc-ws");
+    ASSERT_TRUE(docs[0].metadata.contains("content"));
+    EXPECT_EQ(docs[0].metadata.at("content"), "Canonical body text");
+}
+
+// RI-32 — enrichRetrievedDocuments fail-closed on whitespace-only id/content
+TEST(RAGIngestionBridgeTest, RI32_EnrichFailClosedOnWhitespaceIdOrContent) {
+    RAGIngestionBridge bridge(makeToolbox());
+    std::vector<judge::RetrievedDocument> docs;
+
+    judge::RetrievedDocument no_id;
+    no_id.id = "   \t";
+    no_id.content = "Valid content";
+    docs.push_back(no_id);
+
+    judge::RetrievedDocument no_content;
+    no_content.id = "doc-valid";
+    no_content.content = " \n\r\t ";
+    docs.push_back(no_content);
+
+    const std::size_t enriched = bridge.enrichRetrievedDocuments(docs);
+    EXPECT_EQ(enriched, 0u);
+    EXPECT_EQ(docs[0].metadata.count("source"), 0u);
+    EXPECT_EQ(docs[0].metadata.count("content"), 0u);
+    EXPECT_EQ(docs[1].metadata.count("source"), 0u);
+    EXPECT_EQ(docs[1].metadata.count("content"), 0u);
+}
+
+// RI-33 — indexDocument emits canonical source/content aliases for vector chunks
+TEST(RAGIngestionBridgeTest, RI33_IndexDocumentEmitsCanonicalChunkMetadata) {
+    auto vw = std::make_shared<InMemoryVectorWriter>();
+    RAGIngestionBridge bridge(makeToolbox(), vw);
+
+    auto result = bridge.indexDocument("Canonical chunk body for RAG retrieval.", "align-coll");
+    ASSERT_TRUE(result.ok);
+    ASSERT_GT(vw->vectorCount(), 0u);
+
+    for (const auto& [chunk_id, record] : vw->records()) {
+        static_cast<void>(chunk_id);
+        EXPECT_EQ(record.metadata.at("collection"), "align-coll");
+
+        ASSERT_TRUE(record.metadata.contains("source"));
+        EXPECT_FALSE(record.metadata.at("source").empty());
+
+        ASSERT_TRUE(record.metadata.contains("content"));
+        EXPECT_FALSE(record.metadata.at("content").empty());
+
+        ASSERT_TRUE(record.metadata.contains("text"));
+        EXPECT_EQ(record.metadata.at("text"), record.metadata.at("content"));
+
+        ASSERT_TRUE(record.metadata.contains("body"));
+        EXPECT_EQ(record.metadata.at("body"), record.metadata.at("content"));
+    }
+}
+
+// RI-34 — buildEntityContext trims entity IDs before rendering
+TEST(RAGIngestionBridgeTest, RI34_BuildContextTrimsEntityIds) {
+    std::vector<BaseEntity> entities{
+        makeEntity(EntityType::ORGANIZATION, " \torg:abc\n", "ABC")
+    };
+
+    const std::string ctx = RAGIngestionBridge::buildEntityContext(entities);
+    EXPECT_NE(ctx.find("ORGANIZATION org:abc"), std::string::npos);
+    EXPECT_EQ(ctx.find("\n"), std::string::npos);
+    EXPECT_EQ(ctx.find("\t"), std::string::npos);
+}

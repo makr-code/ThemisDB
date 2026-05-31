@@ -901,11 +901,28 @@ bool ReplicationManager::waitForReplication(uint64_t sequence, uint32_t timeout_
     
     uint32_t acked_count = 0;
     uint32_t required;
+    uint32_t active_streams;
     {
         std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
+        active_streams = static_cast<uint32_t>(streams_.size());
         required = (config_.mode == ReplicationMode::SYNC)
-                   ? static_cast<uint32_t>(streams_.size())
+                   ? active_streams
                    : config_.min_sync_replicas;
+    }
+
+    if (required == 0) {
+        THEMIS_ERROR("Replication wait rejected: mode requires acknowledgements but required=0 "
+                     "(mode={}, active_streams={}, min_sync_replicas={})",
+                     static_cast<int>(config_.mode), active_streams, config_.min_sync_replicas);
+        stats_.replication_errors++;
+        return false;
+    }
+
+    if (required > active_streams) {
+        THEMIS_ERROR("Replication wait rejected: required acknowledgements ({}) exceed active streams ({})",
+                     required, active_streams);
+        stats_.replication_errors++;
+        return false;
     }
     
     while (std::chrono::steady_clock::now() < deadline) {

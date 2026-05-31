@@ -1,8 +1,8 @@
 {
   "updates": {
-    "total": 355,
+    "total": 357,
     "severity_critical": 23,
-    "severity_high": 130,
+    "severity_high": 132,
     "severity_medium": 202,
     "by_category": {
       "security": 3,
@@ -10,7 +10,7 @@
       "reliability": 50,
       "concurrency": 19,
       "raii": 28,
-      "container": 113,
+      "container": 115,
       "platform": 4,
       "performance": 4,
       "type_conversion": 1,
@@ -25,7 +25,7 @@
       "src\\updates\\coordinated_update_manager.cpp": [
         {
           "file": "src\\updates\\coordinated_update_manager.cpp",
-          "line": 148,
+          "line": 146,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -37,7 +37,7 @@
         },
         {
           "file": "src\\updates\\coordinated_update_manager.cpp",
-          "line": 138,
+          "line": 136,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -49,7 +49,7 @@
         },
         {
           "file": "src\\updates\\coordinated_update_manager.cpp",
-          "line": 107,
+          "line": 105,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -61,7 +61,7 @@
         },
         {
           "file": "src\\updates\\coordinated_update_manager.cpp",
-          "line": 108,
+          "line": 106,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "node_statuses_.push_back(std::move(s));",
@@ -70,7 +70,7 @@
         },
         {
           "file": "src\\updates\\coordinated_update_manager.cpp",
-          "line": 103,
+          "line": 101,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "NodeUpdateStatus s;",
@@ -79,7 +79,7 @@
         },
         {
           "file": "src\\updates\\coordinated_update_manager.cpp",
-          "line": 375,
+          "line": 373,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -88,7 +88,7 @@
         },
         {
           "file": "src\\updates\\coordinated_update_manager.cpp",
-          "line": 146,
+          "line": 144,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (!local || local->sequence_number == 0) return nullptr;",
@@ -97,7 +97,7 @@
         },
         {
           "file": "src\\updates\\coordinated_update_manager.cpp",
-          "line": 95,
+          "line": 93,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -106,7 +106,7 @@
         },
         {
           "file": "src\\updates\\coordinated_update_manager.cpp",
-          "line": 45,
+          "line": 43,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -115,7 +115,7 @@
         },
         {
           "file": "src\\updates\\coordinated_update_manager.cpp",
-          "line": 41,
+          "line": 39,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -124,7 +124,7 @@
         },
         {
           "file": "src\\updates\\coordinated_update_manager.cpp",
-          "line": 37,
+          "line": 35,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -133,7 +133,7 @@
         },
         {
           "file": "src\\updates\\coordinated_update_manager.cpp",
-          "line": 245,
+          "line": 243,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ReloadResult reload = engine_->applyHotReload(config_.version);",
@@ -142,7 +142,7 @@
         },
         {
           "file": "src\\updates\\coordinated_update_manager.cpp",
-          "line": 224,
+          "line": 222,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "predecessor_ready = wait_fn(pred->node_id, config_.wait_timeout);",
@@ -153,7 +153,7 @@
       "src\\updates\\parallel_downloader.cpp": [
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 490,
+          "line": 488,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -165,7 +165,7 @@
         },
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 527,
+          "line": 525,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -179,7 +179,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\updates\\parallel_downloader.cpp",
-          "line_number": 198,
+          "line_number": 196,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -191,7 +191,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\updates\\parallel_downloader.cpp",
-          "line_number": 137,
+          "line_number": 135,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -201,7 +201,7 @@
         },
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 303,
+          "line": 301,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "fclose(fp);",
@@ -210,7 +210,7 @@
         },
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 278,
+          "line": 276,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "fclose(fp);",
@@ -219,7 +219,7 @@
         },
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 218,
+          "line": 216,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(ctx);",
@@ -228,7 +228,7 @@
         },
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 202,
+          "line": 200,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(ctx);",
@@ -237,7 +237,7 @@
         },
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 506,
+          "line": 504,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::mutex> lock(queue_mutex);",
@@ -246,7 +246,7 @@
         },
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 264,
+          "line": 262,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "size_t n = fwrite(ptr, sz, nmemb, ctx->fp);",
@@ -255,7 +255,7 @@
         },
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 264,
+          "line": 262,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "size_t n = fwrite(ptr, sz, nmemb, ctx->fp);",
@@ -264,7 +264,7 @@
         },
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 262,
+          "line": 260,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto write_cb = [](char* ptr, size_t sz, size_t nmemb, void* ud) -> size_t {",
@@ -273,7 +273,7 @@
         },
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 262,
+          "line": 260,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto write_cb = [](char* ptr, size_t sz, size_t nmemb, void* ud) -> size_t {",
@@ -282,7 +282,7 @@
         },
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 70,
+          "line": 68,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ParallelDownloader::setConcurrency: n must be >= 1\");",
@@ -291,7 +291,7 @@
         },
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 507,
+          "line": 505,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "cv.wait(lock, [&]() { return !pq.empty() || all_queued; });",
@@ -300,7 +300,7 @@
         },
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 384,
+          "line": 382,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "if (!backoff.wait()) break;",
@@ -309,7 +309,7 @@
         },
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 270,
+          "line": 268,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "FILE* fp = fopen(dest.c_str(), open_mode);",
@@ -318,7 +318,7 @@
         },
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 257,
+          "line": 255,
           "type": "missing_dtor",
           "severity": "CRITICAL",
           "snippet": "class/struct WriteCtx",
@@ -329,7 +329,7 @@
       "src\\updates\\hot_reload_engine.cpp": [
         {
           "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 186,
+          "line": 184,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -341,7 +341,7 @@
         },
         {
           "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 550,
+          "line": 548,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -353,7 +353,7 @@
         },
         {
           "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 550,
+          "line": 548,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -365,7 +365,7 @@
         },
         {
           "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 415,
+          "line": 413,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "timestamp_sorting_unstable",
@@ -377,7 +377,7 @@
         },
         {
           "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 409,
+          "line": 407,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -389,7 +389,7 @@
         },
         {
           "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 348,
+          "line": 346,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -401,7 +401,7 @@
         },
         {
           "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 615,
+          "line": 613,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(mdctx);",
@@ -410,7 +410,7 @@
         },
         {
           "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 612,
+          "line": 610,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(mdctx);",
@@ -419,7 +419,7 @@
         },
         {
           "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 604,
+          "line": 602,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(mdctx);",
@@ -428,7 +428,7 @@
         },
         {
           "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 595,
+          "line": 593,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(mdctx);",
@@ -437,7 +437,7 @@
         },
         {
           "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 551,
+          "line": 549,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "metadata[\"files\"].push_back({{\"path\", file.path}});",
@@ -446,7 +446,7 @@
         },
         {
           "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 489,
+          "line": 487,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "fclose(fp);",
@@ -455,7 +455,7 @@
         },
         {
           "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 349,
+          "line": 347,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.warnings.push_back(\"File not downloaded: \" + file.path);",
@@ -464,7 +464,7 @@
         },
         {
           "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 551,
+          "line": 549,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata[\"files\"].push_back({{\"path\", file.path}});",
@@ -473,7 +473,7 @@
         },
         {
           "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 549,
+          "line": 547,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata[\"files\"] = json::array();",
@@ -482,7 +482,7 @@
         },
         {
           "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 548,
+          "line": 546,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata[\"timestamp\"] = std::chrono::system_clock::now().time_since_epoch().count();",
@@ -491,7 +491,7 @@
         },
         {
           "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 547,
+          "line": 545,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata[\"rollback_id\"] = rollback_id;",
@@ -500,7 +500,7 @@
         },
         {
           "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 399,
+          "line": 397,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& entry : fs::directory_iterator(config_.backup_directory)) {",
@@ -509,7 +509,7 @@
         },
         {
           "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 304,
+          "line": 302,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "for (const auto& file_json : metadata_json[\"files\"]) {",
@@ -518,16 +518,16 @@
         },
         {
           "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #3432 [WIP] Update HSM-based bundle signing with hardware-backed keys (2026-03-12T07:14:25Z)",
+          "snippet": "* PR History (last 5): #3432 [WIP] Update HSM-based bund... (2026-03-12) | #3419 feat(updates): auto",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         },
         {
           "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 473,
+          "line": 471,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "FILE* fp = fopen(dest.c_str(), \"wb\");",
@@ -536,7 +536,7 @@
         },
         {
           "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 99,
+          "line": 97,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto cached_path = manifest_db_->getCachedDownload(version, file.path);",
@@ -547,7 +547,7 @@
       "src\\updates\\manifest_database.cpp": [
         {
           "file": "src\\updates\\manifest_database.cpp",
-          "line": 149,
+          "line": 147,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -559,7 +559,7 @@
         },
         {
           "file": "src\\updates\\manifest_database.cpp",
-          "line": 517,
+          "line": 515,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "LOG_WARN(\"Failed to delete cached file {}: {}\",",
@@ -568,7 +568,7 @@
         },
         {
           "file": "src\\updates\\manifest_database.cpp",
-          "line": 506,
+          "line": 504,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "LOG_WARN(\"Failed to delete file registry entry for {}: {}\",",
@@ -577,7 +577,7 @@
         },
         {
           "file": "src\\updates\\manifest_database.cpp",
-          "line": 490,
+          "line": 488,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "LOG_ERROR(\"Failed to delete manifest {}: {}\", version, status.ToString());",
@@ -586,7 +586,7 @@
         },
         {
           "file": "src\\updates\\manifest_database.cpp",
-          "line": 460,
+          "line": 458,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "LOG_ERROR(\"Cannot delete manifest {}: not found\", version);",
@@ -595,7 +595,7 @@
         },
         {
           "file": "src\\updates\\manifest_database.cpp",
-          "line": 449,
+          "line": 447,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -604,7 +604,7 @@
         },
         {
           "file": "src\\updates\\manifest_database.cpp",
-          "line": 405,
+          "line": 403,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -613,7 +613,7 @@
         },
         {
           "file": "src\\updates\\manifest_database.cpp",
-          "line": 251,
+          "line": 249,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -622,7 +622,7 @@
         },
         {
           "file": "src\\updates\\manifest_database.cpp",
-          "line": 223,
+          "line": 221,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "temp.close();",
@@ -631,7 +631,7 @@
         },
         {
           "file": "src\\updates\\manifest_database.cpp",
-          "line": 153,
+          "line": 151,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "delete it;",
@@ -640,7 +640,7 @@
         },
         {
           "file": "src\\updates\\manifest_database.cpp",
-          "line": 150,
+          "line": 148,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "versions.push_back(it->key().ToString());",
@@ -649,7 +649,7 @@
         },
         {
           "file": "src\\updates\\manifest_database.cpp",
-          "line": 517,
+          "line": 515,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "LOG_WARN(\"Failed to delete cached file {}: {}\",",
@@ -658,7 +658,7 @@
         },
         {
           "file": "src\\updates\\manifest_database.cpp",
-          "line": 506,
+          "line": 504,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "LOG_WARN(\"Failed to delete file registry entry for {}: {}\",",
@@ -667,7 +667,7 @@
         },
         {
           "file": "src\\updates\\manifest_database.cpp",
-          "line": 490,
+          "line": 488,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "LOG_ERROR(\"Failed to delete manifest {}: {}\", version, status.ToString());",
@@ -676,7 +676,7 @@
         },
         {
           "file": "src\\updates\\manifest_database.cpp",
-          "line": 460,
+          "line": 458,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "LOG_ERROR(\"Cannot delete manifest {}: not found\", version);",
@@ -685,7 +685,7 @@
         },
         {
           "file": "src\\updates\\manifest_database.cpp",
-          "line": 153,
+          "line": 151,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "delete it;",
@@ -694,7 +694,16 @@
         },
         {
           "file": "src\\updates\\manifest_database.cpp",
-          "line": 304,
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #4261 feat(updates): ManifestData... (2026-03-15) | #2604 feat(updates): Sche",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\updates\\manifest_database.cpp",
+          "line": 302,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "sig.signingCertificate = manifest->signing_certificate;",
@@ -703,7 +712,7 @@
         },
         {
           "file": "src\\updates\\manifest_database.cpp",
-          "line": 50,
+          "line": 48,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto cf_cache = storage_->getOrCreateColumnFamily(\"download_cache\");",
@@ -712,7 +721,7 @@
         },
         {
           "file": "src\\updates\\manifest_database.cpp",
-          "line": 49,
+          "line": 47,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto cf_signatures = storage_->getOrCreateColumnFamily(\"signature_cache\");",
@@ -721,7 +730,7 @@
         },
         {
           "file": "src\\updates\\manifest_database.cpp",
-          "line": 48,
+          "line": 46,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto cf_files = storage_->getOrCreateColumnFamily(\"file_registry\");",
@@ -732,7 +741,7 @@
       "src\\updates\\release_manifest.cpp": [
         {
           "file": "src\\updates\\release_manifest.cpp",
-          "line": 207,
+          "line": 205,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -744,7 +753,7 @@
         },
         {
           "file": "src\\updates\\release_manifest.cpp",
-          "line": 163,
+          "line": 161,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -756,7 +765,7 @@
         },
         {
           "file": "src\\updates\\release_manifest.cpp",
-          "line": 103,
+          "line": 101,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -768,7 +777,7 @@
         },
         {
           "file": "src\\updates\\release_manifest.cpp",
-          "line": 208,
+          "line": 206,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "files_array.push_back(file.toJson());",
@@ -777,7 +786,7 @@
         },
         {
           "file": "src\\updates\\release_manifest.cpp",
-          "line": 192,
+          "line": 190,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -786,7 +795,7 @@
         },
         {
           "file": "src\\updates\\release_manifest.cpp",
-          "line": 164,
+          "line": 162,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "manifest.files.push_back(*file);",
@@ -795,7 +804,7 @@
         },
         {
           "file": "src\\updates\\release_manifest.cpp",
-          "line": 104,
+          "line": 102,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "files_array.push_back(file.toJson());",
@@ -804,7 +813,7 @@
         },
         {
           "file": "src\\updates\\release_manifest.cpp",
-          "line": 71,
+          "line": 69,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -813,7 +822,7 @@
         },
         {
           "file": "src\\updates\\release_manifest.cpp",
-          "line": 210,
+          "line": 208,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "j[\"files\"] = files_array;",
@@ -822,7 +831,7 @@
         },
         {
           "file": "src\\updates\\release_manifest.cpp",
-          "line": 106,
+          "line": 104,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "j[\"files\"] = files_array;",
@@ -833,7 +842,7 @@
       "src\\updates\\updates_config.cpp": [
         {
           "file": "src\\updates\\updates_config.cpp",
-          "line": 349,
+          "line": 347,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -845,7 +854,7 @@
         },
         {
           "file": "src\\updates\\updates_config.cpp",
-          "line": 261,
+          "line": 259,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -857,7 +866,7 @@
         },
         {
           "file": "src\\updates\\updates_config.cpp",
-          "line": 253,
+          "line": 251,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -869,7 +878,7 @@
         },
         {
           "file": "src\\updates\\updates_config.cpp",
-          "line": 243,
+          "line": 241,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -881,7 +890,7 @@
         },
         {
           "file": "src\\updates\\updates_config.cpp",
-          "line": 230,
+          "line": 228,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -893,7 +902,7 @@
         },
         {
           "file": "src\\updates\\updates_config.cpp",
-          "line": 215,
+          "line": 213,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -905,7 +914,7 @@
         },
         {
           "file": "src\\updates\\updates_config.cpp",
-          "line": 198,
+          "line": 196,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -917,7 +926,7 @@
         },
         {
           "file": "src\\updates\\updates_config.cpp",
-          "line": 184,
+          "line": 182,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -929,7 +938,7 @@
         },
         {
           "file": "src\\updates\\updates_config.cpp",
-          "line": 146,
+          "line": 144,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -941,7 +950,7 @@
         },
         {
           "file": "src\\updates\\updates_config.cpp",
-          "line": 138,
+          "line": 136,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -953,7 +962,7 @@
         },
         {
           "file": "src\\updates\\updates_config.cpp",
-          "line": 128,
+          "line": 126,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -965,7 +974,7 @@
         },
         {
           "file": "src\\updates\\updates_config.cpp",
-          "line": 113,
+          "line": 111,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -977,7 +986,7 @@
         },
         {
           "file": "src\\updates\\updates_config.cpp",
-          "line": 108,
+          "line": 106,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -989,7 +998,7 @@
         },
         {
           "file": "src\\updates\\updates_config.cpp",
-          "line": 93,
+          "line": 91,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -1001,7 +1010,7 @@
         },
         {
           "file": "src\\updates\\updates_config.cpp",
-          "line": 85,
+          "line": 83,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1013,7 +1022,7 @@
         },
         {
           "file": "src\\updates\\updates_config.cpp",
-          "line": 73,
+          "line": 71,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -1025,7 +1034,7 @@
         },
         {
           "file": "src\\updates\\updates_config.cpp",
-          "line": 54,
+          "line": 52,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -1037,7 +1046,7 @@
         },
         {
           "file": "src\\updates\\updates_config.cpp",
-          "line": 41,
+          "line": 39,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1049,7 +1058,7 @@
         },
         {
           "file": "src\\updates\\updates_config.cpp",
-          "line": 350,
+          "line": 348,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "j[\"canary\"][\"stages\"].push_back(stage_json);",
@@ -1058,7 +1067,7 @@
         },
         {
           "file": "src\\updates\\updates_config.cpp",
-          "line": 254,
+          "line": 252,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.canary.stages.push_back(stage);",
@@ -1067,7 +1076,7 @@
         },
         {
           "file": "src\\updates\\updates_config.cpp",
-          "line": 139,
+          "line": 137,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.canary.stages.push_back(stage);",
@@ -1076,7 +1085,7 @@
         },
         {
           "file": "src\\updates\\updates_config.cpp",
-          "line": 114,
+          "line": 112,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.notifications.on_events.push_back(event.as<std::string>());",
@@ -1085,7 +1094,7 @@
         },
         {
           "file": "src\\updates\\updates_config.cpp",
-          "line": 86,
+          "line": 84,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.auto_update.schedule_days.push_back(day.as<std::string>());",
@@ -1094,7 +1103,7 @@
         },
         {
           "file": "src\\updates\\updates_config.cpp",
-          "line": 42,
+          "line": 40,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "runtime.stages.push_back(stage);",
@@ -1103,7 +1112,7 @@
         },
         {
           "file": "src\\updates\\updates_config.cpp",
-          "line": 345,
+          "line": 343,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "j[\"canary\"][\"stages\"] = json::array();",
@@ -1116,7 +1125,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\updates\\blue_green_deployment.cpp",
-          "line_number": 155,
+          "line_number": 153,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1126,7 +1135,7 @@
         },
         {
           "file": "src\\updates\\blue_green_deployment.cpp",
-          "line": 285,
+          "line": 283,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "BlueGreenStatus s;",
@@ -1135,7 +1144,7 @@
         },
         {
           "file": "src\\updates\\blue_green_deployment.cpp",
-          "line": 37,
+          "line": 35,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -1146,7 +1155,7 @@
       "src\\updates\\canary_rollout.cpp": [
         {
           "file": "src\\updates\\canary_rollout.cpp",
-          "line": 470,
+          "line": 468,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1158,7 +1167,7 @@
         },
         {
           "file": "src\\updates\\canary_rollout.cpp",
-          "line": 413,
+          "line": 411,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1170,7 +1179,7 @@
         },
         {
           "file": "src\\updates\\canary_rollout.cpp",
-          "line": 79,
+          "line": 77,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1182,7 +1191,7 @@
         },
         {
           "file": "src\\updates\\canary_rollout.cpp",
-          "line": 473,
+          "line": 471,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1194,7 +1203,7 @@
         },
         {
           "file": "src\\updates\\canary_rollout.cpp",
-          "line": 699,
+          "line": 697,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "CanaryStatus s;",
@@ -1203,7 +1212,7 @@
         },
         {
           "file": "src\\updates\\canary_rollout.cpp",
-          "line": 574,
+          "line": 572,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "latency_samples_us_.push_back(latency.count());",
@@ -1212,7 +1221,7 @@
         },
         {
           "file": "src\\updates\\canary_rollout.cpp",
-          "line": 509,
+          "line": 507,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { cb(reason); } catch (...) {}",
@@ -1221,7 +1230,7 @@
         },
         {
           "file": "src\\updates\\canary_rollout.cpp",
-          "line": 496,
+          "line": 494,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { cb(stage_info); } catch (...) {}",
@@ -1230,7 +1239,7 @@
         },
         {
           "file": "src\\updates\\canary_rollout.cpp",
-          "line": 474,
+          "line": 472,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "cfg.stages.push_back(cs);",
@@ -1239,7 +1248,7 @@
         },
         {
           "file": "src\\updates\\canary_rollout.cpp",
-          "line": 316,
+          "line": 314,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "CanaryStatus s;",
@@ -1248,7 +1257,7 @@
         },
         {
           "file": "src\\updates\\canary_rollout.cpp",
-          "line": 586,
+          "line": 584,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -1257,7 +1266,7 @@
         },
         {
           "file": "src\\updates\\canary_rollout.cpp",
-          "line": 581,
+          "line": 579,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -1266,7 +1275,7 @@
         },
         {
           "file": "src\\updates\\canary_rollout.cpp",
-          "line": 461,
+          "line": 459,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"CanaryDeployment: stages must be set before deploy()\");",
@@ -1275,7 +1284,7 @@
         },
         {
           "file": "src\\updates\\canary_rollout.cpp",
-          "line": 458,
+          "line": 456,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"CanaryDeployment: engine must be set before deploy()\");",
@@ -1284,7 +1293,7 @@
         },
         {
           "file": "src\\updates\\canary_rollout.cpp",
-          "line": 455,
+          "line": 453,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"CanaryDeployment: node_id must be set before deploy()\");",
@@ -1293,7 +1302,7 @@
         },
         {
           "file": "src\\updates\\canary_rollout.cpp",
-          "line": 452,
+          "line": 450,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"CanaryDeployment: version must be set before deploy()\");",
@@ -1302,7 +1311,7 @@
         },
         {
           "file": "src\\updates\\canary_rollout.cpp",
-          "line": 65,
+          "line": 63,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"CanaryRollout: version must not be empty\");",
@@ -1311,7 +1320,7 @@
         },
         {
           "file": "src\\updates\\canary_rollout.cpp",
-          "line": 62,
+          "line": 60,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"CanaryRollout: node_id must not be empty\");",
@@ -1320,7 +1329,7 @@
         },
         {
           "file": "src\\updates\\canary_rollout.cpp",
-          "line": 59,
+          "line": 57,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"CanaryRollout: stages must not be empty\");",
@@ -1329,7 +1338,7 @@
         },
         {
           "file": "src\\updates\\canary_rollout.cpp",
-          "line": 56,
+          "line": 54,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"CanaryRollout: engine must not be null\");",
@@ -1340,7 +1349,7 @@
       "src\\updates\\cluster_update_manager.cpp": [
         {
           "file": "src\\updates\\cluster_update_manager.cpp",
-          "line": 307,
+          "line": 305,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1352,7 +1361,7 @@
         },
         {
           "file": "src\\updates\\cluster_update_manager.cpp",
-          "line": 77,
+          "line": 75,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1364,7 +1373,7 @@
         },
         {
           "file": "src\\updates\\cluster_update_manager.cpp",
-          "line": 58,
+          "line": 56,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1378,7 +1387,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\updates\\cluster_update_manager.cpp",
-          "line_number": 288,
+          "line_number": 286,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1388,7 +1397,7 @@
         },
         {
           "file": "src\\updates\\cluster_update_manager.cpp",
-          "line": 59,
+          "line": 57,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "node_statuses_.push_back(std::move(s));",
@@ -1397,7 +1406,7 @@
         },
         {
           "file": "src\\updates\\cluster_update_manager.cpp",
-          "line": 55,
+          "line": 53,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "ClusterNodeStatus s;",
@@ -1406,7 +1415,7 @@
         },
         {
           "file": "src\\updates\\cluster_update_manager.cpp",
-          "line": 48,
+          "line": 46,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "sorted_nodes_.push_back(n);",
@@ -1415,7 +1424,7 @@
         },
         {
           "file": "src\\updates\\cluster_update_manager.cpp",
-          "line": 43,
+          "line": 41,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "sorted_nodes_.push_back(n);",
@@ -1424,7 +1433,7 @@
         },
         {
           "file": "src\\updates\\cluster_update_manager.cpp",
-          "line": 411,
+          "line": 409,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -1433,7 +1442,7 @@
         },
         {
           "file": "src\\updates\\cluster_update_manager.cpp",
-          "line": 406,
+          "line": 404,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -1442,7 +1451,7 @@
         },
         {
           "file": "src\\updates\\cluster_update_manager.cpp",
-          "line": 34,
+          "line": 32,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -1453,7 +1462,7 @@
       "src\\updates\\delta_update_engine.cpp": [
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 722,
+          "line": 720,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1465,7 +1474,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 683,
+          "line": 681,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1477,7 +1486,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 683,
+          "line": 681,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1489,7 +1498,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 344,
+          "line": 342,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1501,7 +1510,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 313,
+          "line": 311,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1513,7 +1522,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 270,
+          "line": 268,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1525,7 +1534,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 256,
+          "line": 254,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1537,7 +1546,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 256,
+          "line": 254,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1549,7 +1558,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 256,
+          "line": 254,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1563,7 +1572,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\updates\\delta_update_engine.cpp",
-          "line_number": 121,
+          "line_number": 119,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1573,7 +1582,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 723,
+          "line": 721,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "instructions.push_back(INSTR_COPY);",
@@ -1582,7 +1591,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 684,
+          "line": 682,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ht[h].push_back(static_cast<uint32_t>(i));",
@@ -1591,7 +1600,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 660,
+          "line": 658,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "buf.push_back(static_cast<uint8_t>((val >> 24) & 0xFF));",
@@ -1600,7 +1609,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 659,
+          "line": 657,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "buf.push_back(static_cast<uint8_t>((val >> 16) & 0xFF));",
@@ -1609,7 +1618,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 658,
+          "line": 656,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "buf.push_back(static_cast<uint8_t>((val >>  8) & 0xFF));",
@@ -1618,7 +1627,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 657,
+          "line": 655,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "buf.push_back(static_cast<uint8_t>(val        & 0xFF));",
@@ -1627,7 +1636,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 450,
+          "line": 448,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "pf.close();",
@@ -1636,7 +1645,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 417,
+          "line": 415,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.files_fallback.push_back(fd.path);",
@@ -1645,7 +1654,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 412,
+          "line": 410,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.files_patched.push_back(fd.path);",
@@ -1654,7 +1663,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 401,
+          "line": 399,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.files_fallback.push_back(fd.path);",
@@ -1663,7 +1672,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 391,
+          "line": 389,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.files_fallback.push_back(fd.path);",
@@ -1672,7 +1681,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 379,
+          "line": 377,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.files_fallback.push_back(fd.path);",
@@ -1681,7 +1690,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 369,
+          "line": 367,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.files_fallback.push_back(fd.path);",
@@ -1690,7 +1699,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 359,
+          "line": 357,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.files_fallback.push_back(fd.path);",
@@ -1699,7 +1708,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 345,
+          "line": 343,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.files_fallback.push_back(fd.path);",
@@ -1708,7 +1717,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 314,
+          "line": 312,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "registered_deltas_.push_back(manifest);",
@@ -1717,7 +1726,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 275,
+          "line": 273,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1726,7 +1735,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 271,
+          "line": 269,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (fd) dm.deltas.push_back(*fd);",
@@ -1735,7 +1744,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 257,
+          "line": 255,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "j[\"deltas\"].push_back(d.toJson());",
@@ -1744,7 +1753,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 230,
+          "line": 228,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1753,7 +1762,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 139,
+          "line": 137,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(ctx);",
@@ -1762,7 +1771,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 136,
+          "line": 134,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(ctx);",
@@ -1771,7 +1780,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 129,
+          "line": 127,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(ctx);",
@@ -1780,7 +1789,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 125,
+          "line": 123,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(ctx);",
@@ -1789,7 +1798,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 84,
+          "line": 82,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1798,7 +1807,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 63,
+          "line": 61,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "if (rel_path[0] == '/' || rel_path[0] == '\\\\' || rel_path.find('\\0') != std::string::npos) return fa",
@@ -1807,7 +1816,7 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 63,
+          "line": 61,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "if (rel_path[0] == '/' || rel_path[0] == '\\\\' || rel_path.find('\\0') != std::string::npos) return fa",
@@ -1816,18 +1825,27 @@
         },
         {
           "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 63,
+          "line": 61,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "if (rel_path[0] == '/' || rel_path[0] == '\\\\' || rel_path.find('\\0') != std::string::npos) return fa",
           "description": "Hardcoded path separator \u2014 not portable",
           "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #3661 feat(updates): build system... (2026-03-12) | #2586 Fix stale banner me",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
       "src\\updates\\hardware_telemetry.cpp": [
         {
           "file": "src\\updates\\hardware_telemetry.cpp",
-          "line": 399,
+          "line": 397,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1839,7 +1857,7 @@
         },
         {
           "file": "src\\updates\\hardware_telemetry.cpp",
-          "line": 565,
+          "line": 563,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "while (!stop_requested_.load(std::memory_order_acquire)) {",
@@ -1848,7 +1866,7 @@
         },
         {
           "file": "src\\updates\\hardware_telemetry.cpp",
-          "line": 558,
+          "line": 556,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (!stop_requested_.load(std::memory_order_acquire)) {",
@@ -1857,7 +1875,7 @@
         },
         {
           "file": "src\\updates\\hardware_telemetry.cpp",
-          "line": 545,
+          "line": 543,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "return running_.load(std::memory_order_acquire);",
@@ -1866,7 +1884,7 @@
         },
         {
           "file": "src\\updates\\hardware_telemetry.cpp",
-          "line": 514,
+          "line": 512,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "return send(collect());",
@@ -1875,7 +1893,7 @@
         },
         {
           "file": "src\\updates\\hardware_telemetry.cpp",
-          "line": 498,
+          "line": 496,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "std::this_thread::sleep_for(std::chrono::seconds(2));",
@@ -1884,7 +1902,7 @@
         },
         {
           "file": "src\\updates\\hardware_telemetry.cpp",
-          "line": 200,
+          "line": 198,
           "type": "windows_only_api",
           "severity": "HIGH",
           "snippet": "if (RegOpenKeyExA(HKEY_LOCAL_MACHINE,",
@@ -1893,7 +1911,7 @@
         },
         {
           "file": "src\\updates\\hardware_telemetry.cpp",
-          "line": 450,
+          "line": 448,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "if (config_.include_arch)      { snap.cpu_arch     = hw_provider_->cpuArch(); }",
@@ -1902,7 +1920,7 @@
         },
         {
           "file": "src\\updates\\hardware_telemetry.cpp",
-          "line": 449,
+          "line": 447,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "if (config_.include_os)        { snap.os_family    = hw_provider_->osFamily(); }",
@@ -1911,7 +1929,7 @@
         },
         {
           "file": "src\\updates\\hardware_telemetry.cpp",
-          "line": 448,
+          "line": 446,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "if (config_.include_ram_mb)    { snap.total_ram_mb = hw_provider_->totalRamMb(); }",
@@ -1920,7 +1938,7 @@
         },
         {
           "file": "src\\updates\\hardware_telemetry.cpp",
-          "line": 447,
+          "line": 445,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "if (config_.include_cpu_cores) { snap.cpu_cores    = hw_provider_->cpuCores(); }",
@@ -1929,7 +1947,7 @@
         },
         {
           "file": "src\\updates\\hardware_telemetry.cpp",
-          "line": 446,
+          "line": 444,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "if (config_.include_cpu_model) { snap.cpu_model    = hw_provider_->cpuModel(); }",
@@ -1940,7 +1958,7 @@
       "src\\updates\\notification_webhook.cpp": [
         {
           "file": "src\\updates\\notification_webhook.cpp",
-          "line": 199,
+          "line": 197,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1952,7 +1970,7 @@
         },
         {
           "file": "src\\updates\\notification_webhook.cpp",
-          "line": 196,
+          "line": 194,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -1964,7 +1982,7 @@
         },
         {
           "file": "src\\updates\\notification_webhook.cpp",
-          "line": 200,
+          "line": 198,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "fields.push_back({{\"title\", \"Files Updated\"},",
@@ -1973,7 +1991,7 @@
         },
         {
           "file": "src\\updates\\notification_webhook.cpp",
-          "line": 197,
+          "line": 195,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (!files_str.empty()) files_str += \"\\n\";",
@@ -1982,7 +2000,7 @@
         },
         {
           "file": "src\\updates\\notification_webhook.cpp",
-          "line": 138,
+          "line": 136,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -1993,7 +2011,7 @@
       "src\\updates\\preflight_health_check.cpp": [
         {
           "file": "src\\updates\\preflight_health_check.cpp",
-          "line": 272,
+          "line": 270,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2005,7 +2023,7 @@
         },
         {
           "file": "src\\updates\\preflight_health_check.cpp",
-          "line": 256,
+          "line": 254,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2017,7 +2035,7 @@
         },
         {
           "file": "src\\updates\\preflight_health_check.cpp",
-          "line": 273,
+          "line": 271,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.results.push_back(std::move(cr));",
@@ -2026,7 +2044,7 @@
         },
         {
           "file": "src\\updates\\preflight_health_check.cpp",
-          "line": 257,
+          "line": 255,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "checks_.push_back(std::move(check));",
@@ -2035,7 +2053,7 @@
         },
         {
           "file": "src\\updates\\preflight_health_check.cpp",
-          "line": 89,
+          "line": 87,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "parts.push_back(0);",
@@ -2044,7 +2062,7 @@
         },
         {
           "file": "src\\updates\\preflight_health_check.cpp",
-          "line": 88,
+          "line": 86,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -2053,7 +2071,7 @@
         },
         {
           "file": "src\\updates\\preflight_health_check.cpp",
-          "line": 87,
+          "line": 85,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "parts.push_back(std::stoi(token));",
@@ -2062,7 +2080,7 @@
         },
         {
           "file": "src\\updates\\preflight_health_check.cpp",
-          "line": 59,
+          "line": 57,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "MEMORYSTATUSEX status{};",
@@ -2071,7 +2089,7 @@
         },
         {
           "file": "src\\updates\\preflight_health_check.cpp",
-          "line": 255,
+          "line": 253,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"PreflightHealthChecker::addCheck: check must not be null\");",
@@ -2080,7 +2098,7 @@
         },
         {
           "file": "src\\updates\\preflight_health_check.cpp",
-          "line": 195,
+          "line": 193,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -2091,7 +2109,7 @@
       "src\\updates\\tenant_update_scheduler.cpp": [
         {
           "file": "src\\updates\\tenant_update_scheduler.cpp",
-          "line": 524,
+          "line": 522,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2103,7 +2121,7 @@
         },
         {
           "file": "src\\updates\\tenant_update_scheduler.cpp",
-          "line": 284,
+          "line": 282,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2117,7 +2135,7 @@
           "gap_type": "MULTIPLICATION_OVERFLOW",
           "severity": "CRITICAL",
           "file_path": "src\\updates\\tenant_update_scheduler.cpp",
-          "line_number": 366,
+          "line_number": 364,
           "line_content": "+ static_cast<std::time_t>(offset * 24 * 3600)  // advance days",
           "context": [
             "        const std::time_t candidate_t =",
@@ -2136,7 +2154,7 @@
         },
         {
           "file": "src\\updates\\tenant_update_scheduler.cpp",
-          "line": 533,
+          "line": 531,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2148,7 +2166,7 @@
         },
         {
           "file": "src\\updates\\tenant_update_scheduler.cpp",
-          "line": 561,
+          "line": 559,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -2157,7 +2175,7 @@
         },
         {
           "file": "src\\updates\\tenant_update_scheduler.cpp",
-          "line": 534,
+          "line": 532,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(s));",
@@ -2166,7 +2184,7 @@
         },
         {
           "file": "src\\updates\\tenant_update_scheduler.cpp",
-          "line": 525,
+          "line": 523,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "TenantUpdateStatus s;",
@@ -2175,7 +2193,7 @@
         },
         {
           "file": "src\\updates\\tenant_update_scheduler.cpp",
-          "line": 522,
+          "line": 520,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::vector<TenantUpdateStatus> result;",
@@ -2184,7 +2202,7 @@
         },
         {
           "file": "src\\updates\\tenant_update_scheduler.cpp",
-          "line": 505,
+          "line": 503,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "TenantUpdateStatus s;",
@@ -2193,7 +2211,7 @@
         },
         {
           "file": "src\\updates\\tenant_update_scheduler.cpp",
-          "line": 45,
+          "line": 43,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -2202,7 +2220,7 @@
         },
         {
           "file": "src\\updates\\tenant_update_scheduler.cpp",
-          "line": 475,
+          "line": 473,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = tenants_.find(tenant_id);",
@@ -2211,7 +2229,7 @@
         },
         {
           "file": "src\\updates\\tenant_update_scheduler.cpp",
-          "line": 99,
+          "line": 97,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = tenants_.find(tenant_id);",
@@ -2222,7 +2240,7 @@
       "src\\updates\\update_state_machine.cpp": [
         {
           "file": "src\\updates\\update_state_machine.cpp",
-          "line": 245,
+          "line": 243,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2234,7 +2252,7 @@
         },
         {
           "file": "src\\updates\\update_state_machine.cpp",
-          "line": 206,
+          "line": 204,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2246,7 +2264,7 @@
         },
         {
           "file": "src\\updates\\update_state_machine.cpp",
-          "line": 255,
+          "line": 253,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2260,7 +2278,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\updates\\update_state_machine.cpp",
-          "line_number": 423,
+          "line_number": 421,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2272,7 +2290,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\updates\\update_state_machine.cpp",
-          "line_number": 272,
+          "line_number": 270,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2282,7 +2300,7 @@
         },
         {
           "file": "src\\updates\\update_state_machine.cpp",
-          "line": 450,
+          "line": 448,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -2291,7 +2309,7 @@
         },
         {
           "file": "src\\updates\\update_state_machine.cpp",
-          "line": 306,
+          "line": 304,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -2300,7 +2318,7 @@
         },
         {
           "file": "src\\updates\\update_state_machine.cpp",
-          "line": 304,
+          "line": 302,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "transaction_log_.push_back(*entry);",
@@ -2309,7 +2327,7 @@
         },
         {
           "file": "src\\updates\\update_state_machine.cpp",
-          "line": 256,
+          "line": 254,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "callbacks_.push_back(std::move(cb));",
@@ -2318,7 +2336,7 @@
         },
         {
           "file": "src\\updates\\update_state_machine.cpp",
-          "line": 248,
+          "line": 246,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -2327,7 +2345,7 @@
         },
         {
           "file": "src\\updates\\update_state_machine.cpp",
-          "line": 235,
+          "line": 233,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "transaction_log_.push_back(entry);",
@@ -2336,7 +2354,7 @@
         },
         {
           "file": "src\\updates\\update_state_machine.cpp",
-          "line": 209,
+          "line": 207,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -2345,7 +2363,7 @@
         },
         {
           "file": "src\\updates\\update_state_machine.cpp",
-          "line": 187,
+          "line": 185,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "transaction_log_.push_back(entry);",
@@ -2354,7 +2372,7 @@
         },
         {
           "file": "src\\updates\\update_state_machine.cpp",
-          "line": 99,
+          "line": 97,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -2363,7 +2381,7 @@
         },
         {
           "file": "src\\updates\\update_state_machine.cpp",
-          "line": 260,
+          "line": 258,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -2372,7 +2390,7 @@
         },
         {
           "file": "src\\updates\\update_state_machine.cpp",
-          "line": 255,
+          "line": 253,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -2381,7 +2399,7 @@
         },
         {
           "file": "src\\updates\\update_state_machine.cpp",
-          "line": 116,
+          "line": 114,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "return state_.load(std::memory_order_acquire);",
@@ -2392,7 +2410,7 @@
       "src\\updates\\build_verifier.cpp": [
         {
           "file": "src\\updates\\build_verifier.cpp",
-          "line": 83,
+          "line": 81,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2406,7 +2424,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\updates\\build_verifier.cpp",
-          "line_number": 118,
+          "line_number": 116,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2416,7 +2434,7 @@
         },
         {
           "file": "src\\updates\\build_verifier.cpp",
-          "line": 144,
+          "line": 142,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_PKEY_free(pkey);",
@@ -2425,7 +2443,7 @@
         },
         {
           "file": "src\\updates\\build_verifier.cpp",
-          "line": 143,
+          "line": 141,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(ctx);",
@@ -2434,7 +2452,7 @@
         },
         {
           "file": "src\\updates\\build_verifier.cpp",
-          "line": 125,
+          "line": 123,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_PKEY_free(pkey);",
@@ -2443,7 +2461,7 @@
         },
         {
           "file": "src\\updates\\build_verifier.cpp",
-          "line": 84,
+          "line": 82,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.push_back(static_cast<uint8_t>((val >> bits) & 0xFF));",
@@ -2454,7 +2472,7 @@
       "src\\updates\\dependency_resolver.cpp": [
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 180,
+          "line": 178,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -2466,7 +2484,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 464,
+          "line": 462,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2478,7 +2496,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 464,
+          "line": 462,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2490,7 +2508,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 433,
+          "line": 431,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2502,7 +2520,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 433,
+          "line": 431,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2514,7 +2532,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 411,
+          "line": 409,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2526,7 +2544,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 411,
+          "line": 409,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2538,7 +2556,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 387,
+          "line": 385,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2550,7 +2568,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 378,
+          "line": 376,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2562,7 +2580,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 378,
+          "line": 376,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2574,7 +2592,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 247,
+          "line": 245,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2586,7 +2604,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 247,
+          "line": 245,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2598,7 +2616,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 73,
+          "line": 71,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2610,7 +2628,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 451,
+          "line": 449,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -2622,7 +2640,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 370,
+          "line": 368,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -2634,7 +2652,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 465,
+          "line": 463,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "conflicts.push_back({p1, p2, reason});",
@@ -2643,7 +2661,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 434,
+          "line": 432,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.steps.push_back(std::move(step));",
@@ -2652,7 +2670,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 412,
+          "line": 410,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (kv.second > 0) cycle_nodes.push_back(kv.first);",
@@ -2661,7 +2679,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 396,
+          "line": 394,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "sorted_pkgs.push_back(cur);",
@@ -2670,7 +2688,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 388,
+          "line": 386,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (kv.second == 0) ready.push_back(kv.first);",
@@ -2679,7 +2697,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 379,
+          "line": 377,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "successors[dep.package].push_back(pkg);",
@@ -2688,7 +2706,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 248,
+          "line": 246,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.conflicts.push_back({",
@@ -2697,7 +2715,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 80,
+          "line": 78,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "parts.push_back(themis::utils::trim(cur));",
@@ -2706,7 +2724,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 74,
+          "line": 72,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "parts.push_back(themis::utils::trim(cur));",
@@ -2715,7 +2733,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 365,
+          "line": 363,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it_ver = it_pkg->second.find(tgt_ver);",
@@ -2724,7 +2742,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 362,
+          "line": 360,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it_pkg = deps_.find(pkg);",
@@ -2733,7 +2751,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 431,
+          "line": 429,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "const auto it = current_versions.find(pkg);",
@@ -2742,7 +2760,7 @@
         },
         {
           "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 257,
+          "line": 255,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto cur_it = current_versions.find(dep.package);",
@@ -2753,7 +2771,7 @@
       "src\\updates\\in_place_schema_migrator.cpp": [
         {
           "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 229,
+          "line": 227,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -2765,7 +2783,7 @@
         },
         {
           "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 142,
+          "line": 140,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2777,7 +2795,7 @@
         },
         {
           "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 126,
+          "line": 124,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2789,7 +2807,7 @@
         },
         {
           "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 119,
+          "line": 117,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2801,7 +2819,7 @@
         },
         {
           "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 119,
+          "line": 117,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2813,7 +2831,7 @@
         },
         {
           "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 119,
+          "line": 117,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2825,7 +2843,7 @@
         },
         {
           "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 112,
+          "line": 110,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2837,7 +2855,7 @@
         },
         {
           "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 108,
+          "line": 106,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2849,7 +2867,7 @@
         },
         {
           "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 90,
+          "line": 88,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2861,7 +2879,7 @@
         },
         {
           "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 90,
+          "line": 88,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2873,7 +2891,7 @@
         },
         {
           "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 83,
+          "line": 81,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2885,7 +2903,7 @@
         },
         {
           "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 53,
+          "line": 51,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2897,7 +2915,7 @@
         },
         {
           "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 47,
+          "line": 45,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2911,19 +2929,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\updates\\in_place_schema_migrator.cpp",
-          "line_number": 205,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\updates\\in_place_schema_migrator.cpp",
-          "line_number": 142,
+          "line_number": 203,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2947,7 +2953,19 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\updates\\in_place_schema_migrator.cpp",
-          "line_number": 71,
+          "line_number": 138,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak",
+          "confidence_score": 0.73,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=HIGH,context_missing"
+        },
+        {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\updates\\in_place_schema_migrator.cpp",
+          "line_number": 69,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2957,7 +2975,7 @@
         },
         {
           "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 230,
+          "line": 228,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (i) cols_str += \", \";",
@@ -2966,7 +2984,7 @@
         },
         {
           "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 143,
+          "line": 141,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.modified_columns.push_back(std::move(mod));",
@@ -2975,7 +2993,7 @@
         },
         {
           "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 127,
+          "line": 125,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.removed_columns.push_back(p);",
@@ -2984,7 +3002,7 @@
         },
         {
           "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 120,
+          "line": 118,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.added_columns.push_back(p);",
@@ -2993,7 +3011,7 @@
         },
         {
           "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 91,
+          "line": 89,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "added.push_back(p.name);",
@@ -3002,7 +3020,7 @@
         },
         {
           "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 89,
+          "line": 87,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (from_names.find(p.name) == from_names.end()) {",
@@ -3011,7 +3029,7 @@
         },
         {
           "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 89,
+          "line": 87,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (from_names.find(p.name) == from_names.end()) {",
@@ -3020,7 +3038,7 @@
         },
         {
           "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 133,
+          "line": 131,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = to_map.find(name);",
@@ -3031,7 +3049,7 @@
       "src\\updates\\schema_migration.cpp": [
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 479,
+          "line": 477,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3043,7 +3061,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 468,
+          "line": 466,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -3057,7 +3075,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\updates\\schema_migration.cpp",
-          "line_number": 614,
+          "line_number": 612,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3069,7 +3087,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\updates\\schema_migration.cpp",
-          "line_number": 442,
+          "line_number": 440,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3081,7 +3099,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\updates\\schema_migration.cpp",
-          "line_number": 424,
+          "line_number": 422,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3093,7 +3111,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\updates\\schema_migration.cpp",
-          "line_number": 417,
+          "line_number": 415,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3105,7 +3123,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\updates\\schema_migration.cpp",
-          "line_number": 413,
+          "line_number": 411,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3117,7 +3135,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\updates\\schema_migration.cpp",
-          "line_number": 412,
+          "line_number": 410,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3129,7 +3147,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\updates\\schema_migration.cpp",
-          "line_number": 406,
+          "line_number": 404,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3141,7 +3159,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\updates\\schema_migration.cpp",
-          "line_number": 401,
+          "line_number": 399,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3153,7 +3171,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\updates\\schema_migration.cpp",
-          "line_number": 396,
+          "line_number": 394,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3165,7 +3183,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\updates\\schema_migration.cpp",
-          "line_number": 43,
+          "line_number": 41,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3177,7 +3195,7 @@
           "gap_type": "uninitialized_member_field",
           "severity": "MEDIUM",
           "file_path": "src\\updates\\schema_migration.cpp",
-          "line_number": 179,
+          "line_number": 177,
           "var_name": "",
           "context": "Struct with uninitialized fields",
           "reason": "Default constructor does not initialize POD members",
@@ -3187,7 +3205,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 480,
+          "line": 478,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "undo_log_.push_back({op.table, idx_key, existing, had_value});",
@@ -3196,7 +3214,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 469,
+          "line": 467,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (i) cols += \",\";",
@@ -3205,7 +3223,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 419,
+          "line": 417,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "undo_log_.push_back({op.table, rename_key, existing_rename, had_rename});",
@@ -3214,7 +3232,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 418,
+          "line": 416,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "undo_log_.push_back({op.table, old_meta_key, meta_value, had_old});",
@@ -3223,7 +3241,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 417,
+          "line": 415,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "undo_log_.push_back({op.table, new_meta_key, existing_new_meta, had_new_meta});",
@@ -3232,7 +3250,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 374,
+          "line": 372,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "backfilled_columns_.push_back(op.column.name);",
@@ -3241,7 +3259,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 569,
+          "line": 567,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_INFO(\"SchemaMigration [{}]: custom migration callback succeeded\",",
@@ -3250,7 +3268,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 566,
+          "line": 564,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_ERROR(\"SchemaMigration [{}]: custom migration callback returned false\",",
@@ -3259,7 +3277,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 559,
+          "line": 557,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_WARN(\"SchemaMigration [{}]: listKeys() unsupported or failed; \"",
@@ -3268,7 +3286,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 541,
+          "line": 539,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_ERROR(\"SchemaMigration [{}]: failed to remove column metadata for '{}.{}'\",",
@@ -3277,7 +3295,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 534,
+          "line": 532,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_ERROR(\"SchemaMigration [{}]: failed to write drop marker for '{}.{}'\",",
@@ -3286,7 +3304,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 507,
+          "line": 505,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_ERROR(\"SchemaMigration [{}]: dropColumn has empty table name\", version_);",
@@ -3295,7 +3313,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 502,
+          "line": 500,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_ERROR(\"SchemaMigration [{}]: dropColumn '{}' has empty column name\",",
@@ -3304,7 +3322,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 483,
+          "line": 481,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_ERROR(\"SchemaMigration [{}]: failed to write index metadata '{}.{}'\",",
@@ -3313,7 +3331,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 459,
+          "line": 457,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_ERROR(\"SchemaMigration [{}]: addIndex has empty table name\", version_);",
@@ -3322,7 +3340,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 454,
+          "line": 452,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_ERROR(\"SchemaMigration [{}]: addIndex '{}' on table '{}' has no columns\",",
@@ -3331,7 +3349,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 449,
+          "line": 447,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_ERROR(\"SchemaMigration [{}]: addIndex '{}' has empty index name\",",
@@ -3340,7 +3358,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 441,
+          "line": 439,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_INFO(\"SchemaMigration [{}]: renameColumn '{}.{}' \u2192 '{}'\",",
@@ -3349,7 +3367,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 436,
+          "line": 434,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_ERROR(\"SchemaMigration [{}]: failed to write rename marker for '{}.{}'\",",
@@ -3358,7 +3376,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 429,
+          "line": 427,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_ERROR(\"SchemaMigration [{}]: failed to remove old column metadata '{}.{}'\",",
@@ -3367,7 +3385,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 423,
+          "line": 421,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_ERROR(\"SchemaMigration [{}]: failed to write renamed column metadata '{}.{}'\",",
@@ -3376,7 +3394,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 390,
+          "line": 388,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_ERROR(\"SchemaMigration [{}]: renameColumn has empty table name\", version_);",
@@ -3385,7 +3403,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 385,
+          "line": 383,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_ERROR(\"SchemaMigration [{}]: renameColumn '{}' has empty column name\",",
@@ -3394,7 +3412,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 369,
+          "line": 367,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_ERROR(\"SchemaMigration [{}]: failed to write column metadata for '{}.{}'\",",
@@ -3403,7 +3421,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 351,
+          "line": 349,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_ERROR(\"SchemaMigration [{}]: addColumn has empty table name\", version_);",
@@ -3412,7 +3430,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 346,
+          "line": 344,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_ERROR(\"SchemaMigration [{}]: addColumn '{}' has empty column name\",",
@@ -3421,7 +3439,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 322,
+          "line": 320,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_ERROR(\"SchemaMigration [{}]: rollback failed to remove key '{}'\",",
@@ -3430,7 +3448,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 316,
+          "line": 314,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_ERROR(\"SchemaMigration [{}]: rollback failed to restore key '{}'\",",
@@ -3439,7 +3457,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 308,
+          "line": 306,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_INFO(\"SchemaMigration [{}]: rolling back from phase {}\",",
@@ -3448,7 +3466,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 285,
+          "line": 283,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_INFO(\"SchemaMigration [{}]: migration completed successfully \"",
@@ -3457,7 +3475,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 271,
+          "line": 269,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_WARN(\"SchemaMigration [{}]: could not persist schema version marker\",",
@@ -3466,7 +3484,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 267,
+          "line": 265,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_INFO(\"SchemaMigration [{}]: upgrading schema version marker: {} \u2192 {}\",",
@@ -3475,7 +3493,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 261,
+          "line": 259,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_INFO(\"SchemaMigration [{}]: phase CLEANUP\", version_);",
@@ -3484,7 +3502,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 256,
+          "line": 254,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_INFO(\"SchemaMigration [{}]: phase ATOMIC_SWAP (shadow \u2192 main)\", version_);",
@@ -3493,7 +3511,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 251,
+          "line": 249,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_INFO(\"SchemaMigration [{}]: phase CONSISTENCY_CHECK\", version_);",
@@ -3502,7 +3520,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 241,
+          "line": 239,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_WARN(\"SchemaMigration [{}]: rollback also failed: {}\",",
@@ -3511,7 +3529,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 236,
+          "line": 234,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_ERROR(\"SchemaMigration [{}]: {}\", version_, result.error_message);",
@@ -3520,7 +3538,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 226,
+          "line": 224,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_INFO(\"SchemaMigration [{}]: phase BACKFILL\", version_);",
@@ -3529,7 +3547,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 222,
+          "line": 220,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_INFO(\"SchemaMigration [{}]: phase DUAL_WRITE\", version_);",
@@ -3538,7 +3556,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 218,
+          "line": 216,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_INFO(\"SchemaMigration [{}]: phase SHADOW_CREATE\", version_);",
@@ -3547,7 +3565,7 @@
         },
         {
           "file": "src\\updates\\schema_migration.cpp",
-          "line": 210,
+          "line": 208,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "LOG_INFO(\"SchemaMigration [{}]: starting online DDL ({} operations)\",",
@@ -3558,7 +3576,7 @@
       "src\\updates\\update_history_logger.cpp": [
         {
           "file": "src\\updates\\update_history_logger.cpp",
-          "line": 137,
+          "line": 135,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3570,7 +3588,7 @@
         },
         {
           "file": "src\\updates\\update_history_logger.cpp",
-          "line": 125,
+          "line": 123,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3582,7 +3600,7 @@
         },
         {
           "file": "src\\updates\\update_history_logger.cpp",
-          "line": 138,
+          "line": 136,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "arr.push_back(e.toJson());",
@@ -3591,7 +3609,7 @@
         },
         {
           "file": "src\\updates\\update_history_logger.cpp",
-          "line": 126,
+          "line": 124,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "entries.push_back(UpdateHistoryEntry::fromJson(item));",
@@ -3602,7 +3620,7 @@
       "src\\updates\\schema_migration_tester.cpp": [
         {
           "file": "src\\updates\\schema_migration_tester.cpp",
-          "line": 140,
+          "line": 138,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3614,7 +3632,7 @@
         },
         {
           "file": "src\\updates\\schema_migration_tester.cpp",
-          "line": 57,
+          "line": 55,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",

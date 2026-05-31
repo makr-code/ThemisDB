@@ -26,7 +26,7 @@
       "src\\prompt_engineering\\feedback_collector.cpp": [
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 896,
+          "line": 894,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -38,7 +38,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 586,
+          "line": 584,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -50,7 +50,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 506,
+          "line": 504,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -62,7 +62,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 472,
+          "line": 470,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -74,7 +74,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 425,
+          "line": 423,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -86,7 +86,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 377,
+          "line": 375,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -98,7 +98,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 270,
+          "line": 268,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -112,7 +112,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line_number": 848,
+          "line_number": 846,
           "line_content": "const auto& tokens = per_entry_tokens[entry_idx];",
           "context": [
             "    // becomes the representative for the pattern.",
@@ -131,7 +131,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 897,
+          "line": 895,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -143,7 +143,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 879,
+          "line": 877,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -155,7 +155,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 813,
+          "line": 811,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -167,7 +167,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 781,
+          "line": 779,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -179,7 +179,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 773,
+          "line": 771,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -191,7 +191,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 588,
+          "line": 586,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -203,7 +203,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 588,
+          "line": 586,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -215,7 +215,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 540,
+          "line": 538,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -227,7 +227,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 426,
+          "line": 424,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -239,7 +239,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 378,
+          "line": 376,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -251,7 +251,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 352,
+          "line": 350,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -263,7 +263,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 314,
+          "line": 312,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -275,7 +275,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 275,
+          "line": 273,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -287,7 +287,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 227,
+          "line": 225,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -299,7 +299,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 114,
+          "line": 112,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -313,7 +313,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line_number": 908,
+          "line_number": 906,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -323,7 +323,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 852,
+          "line": 850,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -335,7 +335,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 838,
+          "line": 836,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -347,7 +347,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 830,
+          "line": 828,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -359,7 +359,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 898,
+          "line": 896,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(pat);",
@@ -368,7 +368,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 880,
+          "line": 878,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "p.examples.push_back(entry.query);",
@@ -377,7 +377,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 820,
+          "line": 818,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back(cur);",
@@ -386,7 +386,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 814,
+          "line": 812,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back(cur);",
@@ -395,7 +395,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 782,
+          "line": 780,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "stats.common_issues.push_back(feedbackTypeToString(sorted_types[i].first));",
@@ -404,7 +404,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 718,
+          "line": 716,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "feedback_[entry.prompt_id].push_back(entry);",
@@ -413,7 +413,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 589,
+          "line": 587,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "outliers.push_back(e);",
@@ -422,7 +422,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 541,
+          "line": 539,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(entry);",
@@ -431,7 +431,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 503,
+          "line": 501,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -440,7 +440,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 465,
+          "line": 463,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "to_delete.push_back(FeedbackEntry::fromJson(j));",
@@ -449,7 +449,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 427,
+          "line": 425,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(entry);",
@@ -458,7 +458,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 411,
+          "line": 409,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -467,7 +467,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 410,
+          "line": 408,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(FeedbackEntry::fromJson(j));",
@@ -476,7 +476,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 379,
+          "line": 377,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "failures.push_back(entry);",
@@ -485,7 +485,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 315,
+          "line": 313,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(prompt_id);",
@@ -494,7 +494,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 276,
+          "line": 274,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(entry);",
@@ -503,7 +503,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 812,
+          "line": 810,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (STOP_WORDS.find(cur) == STOP_WORDS.end() && cur.size() >= 2) {",
@@ -512,7 +512,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 781,
+          "line": 779,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (size_t i = 0; i < std::min(size_t(3), sorted_types.size()); ++i) {",
@@ -521,7 +521,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 714,
+          "line": 712,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "db_->scanPrefix(prefix, [this, &loaded](std::string_view /*key*/, std::string_view value) -> bool {",
@@ -530,7 +530,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 499,
+          "line": 497,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "db_->scanPrefix(prompt_prefix, [&](std::string_view, std::string_view value) -> bool {",
@@ -539,7 +539,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 456,
+          "line": 454,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "db_->scanPrefix(prefix, [&](std::string_view, std::string_view value) -> bool {",
@@ -548,7 +548,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 87,
+          "line": 85,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "j[\"metadata\"] = metadata;",
@@ -557,7 +557,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 486,
+          "line": 484,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = feedback_.find(prompt_id);",
@@ -566,7 +566,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 419,
+          "line": 417,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = feedback_.find(prompt_id);",
@@ -575,7 +575,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 370,
+          "line": 368,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = feedback_.find(prompt_id);",
@@ -584,7 +584,7 @@
         },
         {
           "file": "src\\prompt_engineering\\feedback_collector.cpp",
-          "line": 227,
+          "line": 225,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "summary.reason_embedding    = embedding_model_->embed(query);",
@@ -595,7 +595,7 @@
       "src\\prompt_engineering\\llm_reflection_adapter.cpp": [
         {
           "file": "src\\prompt_engineering\\llm_reflection_adapter.cpp",
-          "line": 55,
+          "line": 53,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -607,7 +607,7 @@
         },
         {
           "file": "src\\prompt_engineering\\llm_reflection_adapter.cpp",
-          "line": 44,
+          "line": 42,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -619,7 +619,7 @@
         },
         {
           "file": "src\\prompt_engineering\\llm_reflection_adapter.cpp",
-          "line": 34,
+          "line": 32,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -631,7 +631,7 @@
         },
         {
           "file": "src\\prompt_engineering\\llm_reflection_adapter.cpp",
-          "line": 31,
+          "line": 29,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -643,7 +643,7 @@
         },
         {
           "file": "src\\prompt_engineering\\llm_reflection_adapter.cpp",
-          "line": 69,
+          "line": 67,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return \"llm-reflection-adapter(\" + llm_->name() + \")\";",
@@ -654,7 +654,7 @@
       "src\\prompt_engineering\\prompt_engineering_integration.cpp": [
         {
           "file": "src\\prompt_engineering\\prompt_engineering_integration.cpp",
-          "line": 464,
+          "line": 462,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -666,7 +666,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_engineering_integration.cpp",
-          "line": 94,
+          "line": 92,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -678,7 +678,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_engineering_integration.cpp",
-          "line": 608,
+          "line": 606,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -690,7 +690,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_engineering_integration.cpp",
-          "line": 285,
+          "line": 283,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "IntegrationStatus status;",
@@ -699,7 +699,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_engineering_integration.cpp",
-          "line": 185,
+          "line": 183,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "WorkerStatus status;",
@@ -708,7 +708,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_engineering_integration.cpp",
-          "line": 460,
+          "line": 458,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto reflection_result = snap_tuner->tune(ctx.enhanced_prompt, response);",
@@ -717,7 +717,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_engineering_integration.cpp",
-          "line": 222,
+          "line": 220,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "std::this_thread::sleep_for(std::chrono::seconds(1));",
@@ -728,7 +728,7 @@
       "src\\prompt_engineering\\prompt_manager.cpp": [
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 451,
+          "line": 449,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -740,7 +740,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 447,
+          "line": 445,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -752,7 +752,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 408,
+          "line": 406,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -764,7 +764,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 396,
+          "line": 394,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -776,7 +776,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 299,
+          "line": 297,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -788,7 +788,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 184,
+          "line": 182,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -800,7 +800,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 130,
+          "line": 128,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -812,7 +812,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 59,
+          "line": 57,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -824,7 +824,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 433,
+          "line": 431,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -836,7 +836,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 334,
+          "line": 332,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -848,7 +848,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 457,
+          "line": 455,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "result += \"   URL: \" + img.url + \"\\n\";",
@@ -857,7 +857,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 454,
+          "line": 452,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "result += \"   Description: \" + img.description + \"\\n\";",
@@ -866,7 +866,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 409,
+          "line": 407,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tables_array.push_back(table_info);",
@@ -875,7 +875,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 397,
+          "line": 395,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "caps_array.push_back(cap);",
@@ -884,7 +884,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 300,
+          "line": 298,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "pt.images.push_back(std::move(img));",
@@ -893,7 +893,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 287,
+          "line": 285,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -902,7 +902,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 185,
+          "line": 183,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.push_back(kv.second);",
@@ -911,7 +911,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 172,
+          "line": 170,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.push_back(t);",
@@ -920,7 +920,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 169,
+          "line": 167,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "t.images.push_back(ImageDescription::fromJson(img_j));",
@@ -929,7 +929,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 131,
+          "line": 129,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "t.images.push_back(ImageDescription::fromJson(img_j));",
@@ -938,7 +938,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 94,
+          "line": 92,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "acc.release(); // Release lock",
@@ -947,7 +947,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 67,
+          "line": 65,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.errors.push_back(\"Template 'metadata' must be a JSON object\");",
@@ -956,7 +956,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 60,
+          "line": 58,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.errors.push_back(",
@@ -965,7 +965,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 411,
+          "line": 409,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "context[\"tables\"] = tables_array.dump(2);",
@@ -974,7 +974,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 399,
+          "line": 397,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "context[\"capabilities\"] = caps_array.dump();",
@@ -983,7 +983,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 392,
+          "line": 390,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "context[\"total_rows\"] = std::to_string(metadata.total_rows);",
@@ -992,7 +992,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 391,
+          "line": 389,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "context[\"table_count\"] = std::to_string(metadata.table_count);",
@@ -1001,7 +1001,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 390,
+          "line": 388,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto metadata = schema_mgr->getDatabaseMetadata();",
@@ -1010,7 +1010,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_manager.cpp",
-          "line": 155,
+          "line": 153,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "db_->scanPrefix(prefix, [&]([[maybe_unused]] std::string_view key, std::string_view value) -> bool {",
@@ -1021,7 +1021,7 @@
       "src\\prompt_engineering\\prompt_performance_tracker.cpp": [
         {
           "file": "src\\prompt_engineering\\prompt_performance_tracker.cpp",
-          "line": 173,
+          "line": 171,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1033,7 +1033,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_performance_tracker.cpp",
-          "line": 152,
+          "line": 150,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1045,7 +1045,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_performance_tracker.cpp",
-          "line": 137,
+          "line": 135,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1057,7 +1057,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_performance_tracker.cpp",
-          "line": 174,
+          "line": 172,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1069,7 +1069,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_performance_tracker.cpp",
-          "line": 154,
+          "line": 152,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1081,7 +1081,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_performance_tracker.cpp",
-          "line": 137,
+          "line": 135,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1093,7 +1093,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_performance_tracker.cpp",
-          "line": 66,
+          "line": 64,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -1105,7 +1105,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_performance_tracker.cpp",
-          "line": 61,
+          "line": 59,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -1119,7 +1119,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\prompt_engineering\\prompt_performance_tracker.cpp",
-          "line_number": 96,
+          "line_number": 94,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1129,7 +1129,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_performance_tracker.cpp",
-          "line": 155,
+          "line": 153,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "low_performers.push_back(id);",
@@ -1138,7 +1138,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_performance_tracker.cpp",
-          "line": 138,
+          "line": 136,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(metrics);",
@@ -1147,7 +1147,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_performance_tracker.cpp",
-          "line": 292,
+          "line": 290,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "db_->scanPrefix(prefix, [this, &loaded](std::string_view /*key*/, std::string_view value) -> bool {",
@@ -1156,7 +1156,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_performance_tracker.cpp",
-          "line": 219,
+          "line": 217,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "db_->scanPrefix(prefix, [this](std::string_view key, std::string_view) -> bool {",
@@ -1165,7 +1165,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_performance_tracker.cpp",
-          "line": 194,
+          "line": 192,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = metrics_.find(prompt_id);",
@@ -1174,7 +1174,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_performance_tracker.cpp",
-          "line": 105,
+          "line": 103,
           "type": "smart_ptr_misuse",
           "severity": "CRITICAL",
           "snippet": "THEMIS_DEBUG(\"Created new metrics for prompt: {}\", prompt_id);",
@@ -1185,7 +1185,7 @@
       "src\\prompt_engineering\\prompt_version_control.cpp": [
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 725,
+          "line": 723,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -1197,7 +1197,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 721,
+          "line": 719,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -1209,7 +1209,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 725,
+          "line": 723,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1221,7 +1221,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 721,
+          "line": 719,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1233,7 +1233,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 599,
+          "line": 597,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1245,7 +1245,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 1102,
+          "line": 1100,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1257,7 +1257,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 1102,
+          "line": 1100,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1269,7 +1269,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 1084,
+          "line": 1082,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -1281,7 +1281,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 1084,
+          "line": 1082,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -1293,7 +1293,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 1074,
+          "line": 1072,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1305,7 +1305,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 1074,
+          "line": 1072,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1317,7 +1317,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 1051,
+          "line": 1049,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1329,7 +1329,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 1051,
+          "line": 1049,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1341,7 +1341,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 1048,
+          "line": 1046,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1353,7 +1353,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 1024,
+          "line": 1022,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1365,7 +1365,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 978,
+          "line": 976,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1377,7 +1377,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 978,
+          "line": 976,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1389,7 +1389,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 853,
+          "line": 851,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1401,7 +1401,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 836,
+          "line": 834,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1413,7 +1413,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 836,
+          "line": 834,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1425,7 +1425,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 693,
+          "line": 691,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1437,7 +1437,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 693,
+          "line": 691,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1449,7 +1449,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 422,
+          "line": 420,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1461,7 +1461,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 222,
+          "line": 220,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "timestamp_sorting_unstable",
@@ -1473,7 +1473,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 217,
+          "line": 215,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1485,7 +1485,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 66,
+          "line": 64,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -1499,7 +1499,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line_number": 889,
+          "line_number": 887,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1511,31 +1511,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line_number": 296,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line_number": 292,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line_number": 291,
+          "line_number": 294,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1628,8 +1604,32 @@
           "confidence_rationale": "severity=HIGH,context_missing"
         },
         {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line_number": 283,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak",
+          "confidence_score": 0.73,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=HIGH,context_missing"
+        },
+        {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\prompt_engineering\\prompt_version_control.cpp",
+          "line_number": 282,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak",
+          "confidence_score": 0.73,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=HIGH,context_missing"
+        },
+        {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 1070,
+          "line": 1068,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1641,7 +1641,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 1047,
+          "line": 1045,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1653,7 +1653,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 597,
+          "line": 595,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1665,7 +1665,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 592,
+          "line": 590,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1677,7 +1677,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 515,
+          "line": 513,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1689,7 +1689,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 1103,
+          "line": 1101,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.conflicts.push_back(",
@@ -1698,7 +1698,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 1075,
+          "line": 1073,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "merged.push_back(ins);",
@@ -1707,7 +1707,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 1072,
+          "line": 1070,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& ins : src_eof.insertions_before) merged.push_back(ins);",
@@ -1716,7 +1716,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 1064,
+          "line": 1062,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "merged.push_back(base_lines[i]);",
@@ -1725,7 +1725,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 1052,
+          "line": 1050,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "merged.push_back(ins);",
@@ -1734,7 +1734,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 1049,
+          "line": 1047,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& ins : sc.insertions_before) merged.push_back(ins);",
@@ -1743,7 +1743,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 1028,
+          "line": 1026,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "eof_slot.insertions_before.push_back(e.second);",
@@ -1752,7 +1752,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 1025,
+          "line": 1023,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "changes[base_idx].insertions_before.push_back(e.second);",
@@ -1761,7 +1761,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 986,
+          "line": 984,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "edits.push_back({'-', from[i-1]});",
@@ -1770,7 +1770,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 983,
+          "line": 981,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "edits.push_back({'+', to[j-1]});",
@@ -1779,7 +1779,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 979,
+          "line": 977,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "edits.push_back({' ', from[i-1]});",
@@ -1788,7 +1788,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 953,
+          "line": 951,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "while (std::getline(iss, line)) lines.push_back(line);",
@@ -1797,7 +1797,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 857,
+          "line": 855,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "diff.added_lines.push_back(e.line);",
@@ -1806,7 +1806,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 854,
+          "line": 852,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "diff.removed_lines.push_back(e.line);",
@@ -1815,7 +1815,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 844,
+          "line": 842,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "edits.push_back({Op::REMOVE, lines_a[i - 1]});",
@@ -1824,7 +1824,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 841,
+          "line": 839,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "edits.push_back({Op::ADD, lines_b[j - 1]});",
@@ -1833,7 +1833,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 837,
+          "line": 835,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "edits.push_back({Op::KEEP, lines_a[i - 1]});",
@@ -1842,7 +1842,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 803,
+          "line": 801,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "lines.push_back(line);",
@@ -1851,7 +1851,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 694,
+          "line": 692,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "stats[\"branches\"].push_back(name);",
@@ -1860,7 +1860,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 503,
+          "line": 501,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ancestors.push_back(cur);",
@@ -1869,7 +1869,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 423,
+          "line": 421,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(info);",
@@ -1878,7 +1878,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 218,
+          "line": 216,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "history.push_back(version);",
@@ -1887,7 +1887,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 882,
+          "line": 880,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (size_t k = hunk_end; k < std::min(hunk_end + size_t(CONTEXT) * 2, N); ++k) {",
@@ -1896,7 +1896,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 768,
+          "line": 766,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "db_->scanPrefix(KEY_PREFIX_VERSION, [this, &loaded_versions](std::string_view /*key*/, std::string_v",
@@ -1905,7 +1905,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 44,
+          "line": 42,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "j[\"metadata\"] = metadata;",
@@ -1914,7 +1914,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 703,
+          "line": 701,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "stats[\"tag_count\"] = tag_it->second.size();",
@@ -1923,7 +1923,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 689,
+          "line": 687,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto branch_it = branches_.find(prompt_id);",
@@ -1932,7 +1932,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 637,
+          "line": 635,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "if (tag_it == prompt_it->second.end()) {",
@@ -1941,7 +1941,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 636,
+          "line": 634,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto tag_it = prompt_it->second.find(tag_name);",
@@ -1950,7 +1950,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 479,
+          "line": 477,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto target_it = versions_.find(target_id);",
@@ -1959,7 +1959,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 478,
+          "line": 476,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto source_it = versions_.find(source_id);",
@@ -1968,7 +1968,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 464,
+          "line": 462,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto prompt_it = branches_.find(prompt_id);",
@@ -1977,7 +1977,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_version_control.cpp",
-          "line": 418,
+          "line": 416,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto v_it = versions_.find(head_version);",
@@ -1988,7 +1988,7 @@
       "src\\prompt_engineering\\meta_prompt_generator.cpp": [
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 164,
+          "line": 162,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -2000,7 +2000,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 158,
+          "line": 156,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -2012,7 +2012,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 164,
+          "line": 162,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2024,7 +2024,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 158,
+          "line": 156,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2036,7 +2036,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 88,
+          "line": 86,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -2048,7 +2048,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 280,
+          "line": 278,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "patterns.push_back(\"Include both positive and negative examples when relevant\");",
@@ -2057,7 +2057,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 279,
+          "line": 277,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "patterns.push_back(\"Use precise, unambiguous language\");",
@@ -2066,7 +2066,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 278,
+          "line": 276,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "patterns.push_back(\"Structure prompts with clear sections (task, examples, output)\");",
@@ -2075,7 +2075,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 274,
+          "line": 272,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "patterns.push_back(\"Explicit constraints help guide the model\");",
@@ -2084,7 +2084,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 270,
+          "line": 268,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "patterns.push_back(\"Clear output format specifications improve performance\");",
@@ -2093,7 +2093,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 266,
+          "line": 264,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "patterns.push_back(\"Successful prompts use step-by-step instructions\");",
@@ -2102,7 +2102,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 262,
+          "line": 260,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "patterns.push_back(\"High-performing prompts include concrete examples\");",
@@ -2111,7 +2111,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 213,
+          "line": 211,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "suggestions.push_back(\"Include validation criteria\");",
@@ -2120,7 +2120,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 212,
+          "line": 210,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "suggestions.push_back(\"Add structure with headers\");",
@@ -2129,7 +2129,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 211,
+          "line": 209,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "suggestions.push_back(\"Review and simplify language\");",
@@ -2138,7 +2138,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 206,
+          "line": 204,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "suggestions.push_back(\"Specify error handling requirements\");",
@@ -2147,7 +2147,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 205,
+          "line": 203,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "suggestions.push_back(\"Define boundary conditions\");",
@@ -2156,7 +2156,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 204,
+          "line": 202,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "suggestions.push_back(\"List explicit constraints\");",
@@ -2165,7 +2165,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 199,
+          "line": 197,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "suggestions.push_back(\"Include formatting requirements\");",
@@ -2174,7 +2174,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 198,
+          "line": 196,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "suggestions.push_back(\"Provide output template or schema\");",
@@ -2183,7 +2183,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 197,
+          "line": 195,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "suggestions.push_back(\"Specify exact output format\");",
@@ -2192,7 +2192,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 132,
+          "line": 130,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.key_insights.push_back(\"Minor optimizations possible\");",
@@ -2201,7 +2201,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 131,
+          "line": 129,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.key_insights.push_back(\"Prompt performs well\");",
@@ -2210,7 +2210,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 129,
+          "line": 127,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.key_insights.push_back(\"Focus on edge cases and formatting\");",
@@ -2219,7 +2219,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 128,
+          "line": 126,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.key_insights.push_back(\"Prompt is functional but can be improved\");",
@@ -2228,7 +2228,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 126,
+          "line": 124,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.key_insights.push_back(\"Consider restructuring with clear sections\");",
@@ -2237,7 +2237,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 125,
+          "line": 123,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.key_insights.push_back(\"Prompt lacks clarity or specificity\");",
@@ -2246,7 +2246,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 57,
+          "line": 55,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "meta_prompt << \"Current Score: \" << score << \" / 1.0\\n\";",
@@ -2255,7 +2255,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 136,
+          "line": 134,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result.metadata[\"strategy\"] = config_.improvement_strategy;",
@@ -2264,7 +2264,7 @@
         },
         {
           "file": "src\\prompt_engineering\\meta_prompt_generator.cpp",
-          "line": 135,
+          "line": 133,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result.metadata[\"score\"] = score;",
@@ -2275,7 +2275,7 @@
       "src\\prompt_engineering\\prompt_optimizer.cpp": [
         {
           "file": "src\\prompt_engineering\\prompt_optimizer.cpp",
-          "line": 171,
+          "line": 169,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -2287,7 +2287,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_optimizer.cpp",
-          "line": 116,
+          "line": 114,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result.metadata[\"relative_improvement\"] =",
@@ -2296,7 +2296,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_optimizer.cpp",
-          "line": 115,
+          "line": 113,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result.metadata[\"improvement\"] = current_score - result.score_history[0];",
@@ -2305,7 +2305,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_optimizer.cpp",
-          "line": 114,
+          "line": 112,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result.metadata[\"initial_score\"] = result.score_history[0];",
@@ -2316,7 +2316,7 @@
       "src\\prompt_engineering\\reflection_tuner.cpp": [
         {
           "file": "src\\prompt_engineering\\reflection_tuner.cpp",
-          "line": 36,
+          "line": 34,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -2328,7 +2328,7 @@
         },
         {
           "file": "src\\prompt_engineering\\reflection_tuner.cpp",
-          "line": 588,
+          "line": 586,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2340,7 +2340,7 @@
         },
         {
           "file": "src\\prompt_engineering\\reflection_tuner.cpp",
-          "line": 556,
+          "line": 554,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -2352,7 +2352,7 @@
         },
         {
           "file": "src\\prompt_engineering\\reflection_tuner.cpp",
-          "line": 389,
+          "line": 387,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2364,7 +2364,7 @@
         },
         {
           "file": "src\\prompt_engineering\\reflection_tuner.cpp",
-          "line": 146,
+          "line": 144,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2376,7 +2376,7 @@
         },
         {
           "file": "src\\prompt_engineering\\reflection_tuner.cpp",
-          "line": 87,
+          "line": 85,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2388,7 +2388,7 @@
         },
         {
           "file": "src\\prompt_engineering\\reflection_tuner.cpp",
-          "line": 590,
+          "line": 588,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.quality_trajectory.push_back(step.quality_score);",
@@ -2397,7 +2397,7 @@
         },
         {
           "file": "src\\prompt_engineering\\reflection_tuner.cpp",
-          "line": 589,
+          "line": 587,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.steps.push_back(step);",
@@ -2406,7 +2406,7 @@
         },
         {
           "file": "src\\prompt_engineering\\reflection_tuner.cpp",
-          "line": 576,
+          "line": 574,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.quality_trajectory.push_back(initial_score);",
@@ -2415,7 +2415,7 @@
         },
         {
           "file": "src\\prompt_engineering\\reflection_tuner.cpp",
-          "line": 390,
+          "line": 388,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "trajectory.push_back(step.quality_score);",
@@ -2424,7 +2424,7 @@
         },
         {
           "file": "src\\prompt_engineering\\reflection_tuner.cpp",
-          "line": 246,
+          "line": 244,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "out << \"Claim / Response:\\n\" << response << \"\\n\\n\";",
@@ -2433,7 +2433,7 @@
         },
         {
           "file": "src\\prompt_engineering\\reflection_tuner.cpp",
-          "line": 246,
+          "line": 244,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "out << \"Claim / Response:\\n\" << response << \"\\n\\n\";",
@@ -2442,7 +2442,7 @@
         },
         {
           "file": "src\\prompt_engineering\\reflection_tuner.cpp",
-          "line": 147,
+          "line": 145,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "steps_arr.push_back(s);",
@@ -2451,7 +2451,7 @@
         },
         {
           "file": "src\\prompt_engineering\\reflection_tuner.cpp",
-          "line": 88,
+          "line": 86,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ctx.uncertainty_markers.push_back(marker);",
@@ -2460,7 +2460,7 @@
         },
         {
           "file": "src\\prompt_engineering\\reflection_tuner.cpp",
-          "line": 565,
+          "line": 563,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result.metadata[\"provider\"]       =",
@@ -2469,7 +2469,7 @@
         },
         {
           "file": "src\\prompt_engineering\\reflection_tuner.cpp",
-          "line": 564,
+          "line": 562,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result.metadata[\"max_iterations\"] = config_.max_iterations;",
@@ -2478,7 +2478,7 @@
         },
         {
           "file": "src\\prompt_engineering\\reflection_tuner.cpp",
-          "line": 563,
+          "line": 561,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result.metadata[\"strategy\"]       = static_cast<int>(config_.strategy);",
@@ -2487,7 +2487,7 @@
         },
         {
           "file": "src\\prompt_engineering\\reflection_tuner.cpp",
-          "line": 529,
+          "line": 527,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "step.metadata[\"revision_prompt\"]  =",
@@ -2496,7 +2496,7 @@
         },
         {
           "file": "src\\prompt_engineering\\reflection_tuner.cpp",
-          "line": 528,
+          "line": 526,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "step.metadata[\"critique_prompt\"]  = critique_prompt;",
@@ -2505,7 +2505,7 @@
         },
         {
           "file": "src\\prompt_engineering\\reflection_tuner.cpp",
-          "line": 493,
+          "line": 491,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "step.metadata[\"critique_prompt\"] =",
@@ -2514,7 +2514,7 @@
         },
         {
           "file": "src\\prompt_engineering\\reflection_tuner.cpp",
-          "line": 350,
+          "line": 348,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (lower_resp.find(pattern) != std::string::npos) {",
@@ -2523,7 +2523,7 @@
         },
         {
           "file": "src\\prompt_engineering\\reflection_tuner.cpp",
-          "line": 350,
+          "line": 348,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (lower_resp.find(pattern) != std::string::npos) {",
@@ -2532,7 +2532,7 @@
         },
         {
           "file": "src\\prompt_engineering\\reflection_tuner.cpp",
-          "line": 150,
+          "line": 148,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "j[\"metadata\"] = metadata;",
@@ -2541,7 +2541,7 @@
         },
         {
           "file": "src\\prompt_engineering\\reflection_tuner.cpp",
-          "line": 146,
+          "line": 144,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "s[\"metadata\"]                = step.metadata;",
@@ -2552,7 +2552,7 @@
       "src\\prompt_engineering\\self_improvement_orchestrator.cpp": [
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 643,
+          "line": 641,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -2564,7 +2564,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 228,
+          "line": 226,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -2576,7 +2576,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 225,
+          "line": 223,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -2588,7 +2588,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 223,
+          "line": 221,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -2600,7 +2600,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 220,
+          "line": 218,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -2612,7 +2612,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 218,
+          "line": 216,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -2624,7 +2624,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 215,
+          "line": 213,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -2636,7 +2636,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 210,
+          "line": 208,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -2648,7 +2648,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 207,
+          "line": 205,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -2660,7 +2660,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 643,
+          "line": 641,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2672,7 +2672,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 477,
+          "line": 475,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2684,7 +2684,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 443,
+          "line": 441,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2696,7 +2696,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 409,
+          "line": 407,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2708,7 +2708,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 228,
+          "line": 226,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -2720,7 +2720,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 228,
+          "line": 226,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2732,23 +2732,11 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 225,
+          "line": 223,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
           "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "prompt_with_inputs.push_back(prompt + \"\\n\" + tc.input);",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 225,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unsanitized_llm_input",
-          "description": "User input passed to LLM without normalization/sanitization",
           "context": "prompt_with_inputs.push_back(prompt + \"\\n\" + tc.input);",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
@@ -2761,6 +2749,18 @@
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
+          "context": "prompt_with_inputs.push_back(prompt + \"\\n\" + tc.input);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
+          "line": 221,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
           "context": "// Combine prompt template with the test input as a single",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
@@ -2768,7 +2768,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 220,
+          "line": 218,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -2780,7 +2780,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 220,
+          "line": 218,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2792,7 +2792,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 218,
+          "line": 216,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -2804,7 +2804,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 218,
+          "line": 216,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2816,7 +2816,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 215,
+          "line": 213,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -2828,7 +2828,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 215,
+          "line": 213,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2840,7 +2840,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 210,
+          "line": 208,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2852,7 +2852,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 207,
+          "line": 205,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2864,7 +2864,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 147,
+          "line": 145,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2876,7 +2876,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 644,
+          "line": 642,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2888,7 +2888,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 477,
+          "line": 475,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2900,7 +2900,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 224,
+          "line": 222,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2912,7 +2912,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 147,
+          "line": 145,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2924,7 +2924,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 139,
+          "line": 137,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2938,7 +2938,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line_number": 613,
+          "line_number": 611,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2950,7 +2950,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line_number": 356,
+          "line_number": 354,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2962,7 +2962,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line_number": 355,
+          "line_number": 353,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2974,7 +2974,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line_number": 351,
+          "line_number": 349,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2986,7 +2986,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line_number": 350,
+          "line_number": 348,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2998,7 +2998,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line_number": 224,
+          "line_number": 222,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3008,7 +3008,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 645,
+          "line": 643,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "test_cases.push_back(std::move(tc));",
@@ -3017,7 +3017,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 478,
+          "line": 476,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tests.push_back(test);",
@@ -3026,7 +3026,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 226,
+          "line": 224,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "expected.push_back(tc.expected_output);",
@@ -3035,7 +3035,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 225,
+          "line": 223,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "prompt_with_inputs.push_back(prompt + \"\\n\" + tc.input);",
@@ -3044,7 +3044,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 148,
+          "line": 146,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(optimizePrompt(prompt_id, test_cases));",
@@ -3053,7 +3053,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 610,
+          "line": 608,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "updated_template.metadata[\"last_deployed\"] =",
@@ -3062,7 +3062,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 290,
+          "line": 288,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result.metadata[\"error\"] = e.what();",
@@ -3071,7 +3071,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 270,
+          "line": 268,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result.metadata[\"ab_test_id\"] = test_id;",
@@ -3080,7 +3080,7 @@
         },
         {
           "file": "src\\prompt_engineering\\self_improvement_orchestrator.cpp",
-          "line": 54,
+          "line": 52,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "j[\"metadata\"] = metadata;",
@@ -3091,7 +3091,7 @@
       "src\\prompt_engineering\\context_window_manager.cpp": [
         {
           "file": "src\\prompt_engineering\\context_window_manager.cpp",
-          "line": 251,
+          "line": 249,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3103,7 +3103,7 @@
         },
         {
           "file": "src\\prompt_engineering\\context_window_manager.cpp",
-          "line": 230,
+          "line": 228,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3115,7 +3115,7 @@
         },
         {
           "file": "src\\prompt_engineering\\context_window_manager.cpp",
-          "line": 191,
+          "line": 189,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3127,7 +3127,7 @@
         },
         {
           "file": "src\\prompt_engineering\\context_window_manager.cpp",
-          "line": 92,
+          "line": 90,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3139,7 +3139,7 @@
         },
         {
           "file": "src\\prompt_engineering\\context_window_manager.cpp",
-          "line": 252,
+          "line": 250,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(inj));",
@@ -3148,7 +3148,7 @@
         },
         {
           "file": "src\\prompt_engineering\\context_window_manager.cpp",
-          "line": 231,
+          "line": 229,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(inj));",
@@ -3157,7 +3157,7 @@
         },
         {
           "file": "src\\prompt_engineering\\context_window_manager.cpp",
-          "line": 193,
+          "line": 191,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "else           inactive.push_back(&t);",
@@ -3166,7 +3166,7 @@
         },
         {
           "file": "src\\prompt_engineering\\context_window_manager.cpp",
-          "line": 192,
+          "line": 190,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (is_active) active.push_back(&t);",
@@ -3175,7 +3175,7 @@
         },
         {
           "file": "src\\prompt_engineering\\context_window_manager.cpp",
-          "line": 93,
+          "line": 91,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "selected.push_back(chunk);",
@@ -3184,7 +3184,7 @@
         },
         {
           "file": "src\\prompt_engineering\\context_window_manager.cpp",
-          "line": 200,
+          "line": 198,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = t->round_role_weights.find(round_role);",
@@ -3193,7 +3193,7 @@
         },
         {
           "file": "src\\prompt_engineering\\context_window_manager.cpp",
-          "line": 189,
+          "line": 187,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "(std::find(t.activation_rounds.begin(),",
@@ -3202,7 +3202,7 @@
         },
         {
           "file": "src\\prompt_engineering\\context_window_manager.cpp",
-          "line": 149,
+          "line": 147,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw PromptBudgetExceededError(",
@@ -3213,7 +3213,7 @@
       "src\\prompt_engineering\\dspy_module.cpp": [
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 280,
+          "line": 278,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -3225,7 +3225,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 279,
+          "line": 277,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -3237,7 +3237,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 80,
+          "line": 78,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -3249,7 +3249,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 79,
+          "line": 77,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -3261,7 +3261,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 66,
+          "line": 64,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -3273,7 +3273,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 54,
+          "line": 52,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -3285,7 +3285,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 52,
+          "line": 50,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -3297,7 +3297,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 209,
+          "line": 207,
           "category": "audit_logging",
           "severity": "CRITICAL",
           "pattern": "sensitive_data_logging",
@@ -3309,7 +3309,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 282,
+          "line": 280,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -3321,7 +3321,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 280,
+          "line": 278,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -3333,7 +3333,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 279,
+          "line": 277,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -3345,36 +3345,12 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 279,
+          "line": 277,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
           "context": "for (const auto& f : signature.inputs()) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 275,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "new_outputs.push_back(f);",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 274,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "for (const auto& f : signature.outputs()) {",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -3386,7 +3362,7 @@
           "severity": "HIGH",
           "pattern": "hardcoded_output",
           "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "new_outputs.push_back(std::move(reasoning_field));",
+          "context": "new_outputs.push_back(f);",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -3398,7 +3374,7 @@
           "severity": "HIGH",
           "pattern": "hardcoded_output",
           "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "std::vector<DspyField> new_outputs;",
+          "context": "for (const auto& f : signature.outputs()) {",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -3410,6 +3386,30 @@
           "severity": "HIGH",
           "pattern": "hardcoded_output",
           "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "new_outputs.push_back(std::move(reasoning_field));",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\prompt_engineering\\dspy_module.cpp",
+          "line": 270,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::vector<DspyField> new_outputs;",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\prompt_engineering\\dspy_module.cpp",
+          "line": 269,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
           "context": "// Rebuild outputs with Reasoning prepended",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
@@ -3417,7 +3417,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 149,
+          "line": 147,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -3429,7 +3429,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 144,
+          "line": 142,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -3441,7 +3441,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 112,
+          "line": 110,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -3453,7 +3453,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 96,
+          "line": 94,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -3465,7 +3465,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 80,
+          "line": 78,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -3477,7 +3477,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 80,
+          "line": 78,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -3489,7 +3489,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 79,
+          "line": 77,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -3501,7 +3501,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 67,
+          "line": 65,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -3513,7 +3513,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 66,
+          "line": 64,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -3525,7 +3525,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 66,
+          "line": 64,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -3537,7 +3537,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 60,
+          "line": 58,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -3549,23 +3549,11 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 54,
+          "line": 52,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
           "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "inputs_.push_back(std::move(field));",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 54,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unsanitized_llm_input",
-          "description": "User input passed to LLM without normalization/sanitization",
           "context": "inputs_.push_back(std::move(field));",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
@@ -3578,6 +3566,18 @@
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
+          "context": "inputs_.push_back(std::move(field));",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\prompt_engineering\\dspy_module.cpp",
+          "line": 50,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
           "context": "DspySignature& DspySignature::addInput(DspyField field)",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
@@ -3585,7 +3585,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 274,
+          "line": 272,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3597,7 +3597,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 248,
+          "line": 246,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -3609,7 +3609,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 173,
+          "line": 171,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -3623,7 +3623,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\prompt_engineering\\dspy_module.cpp",
-          "line_number": 282,
+          "line_number": 280,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3635,7 +3635,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\prompt_engineering\\dspy_module.cpp",
-          "line_number": 272,
+          "line_number": 270,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3645,7 +3645,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 110,
+          "line": 108,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -3657,7 +3657,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 107,
+          "line": 105,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -3669,7 +3669,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 70,
+          "line": 68,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -3681,7 +3681,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 275,
+          "line": 273,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "new_outputs.push_back(f);",
@@ -3690,7 +3690,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 273,
+          "line": 271,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "new_outputs.push_back(std::move(reasoning_field));",
@@ -3699,7 +3699,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 243,
+          "line": 241,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -3708,7 +3708,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 147,
+          "line": 145,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& suffix : {std::string(\":\"), std::string(\" :\")}) {",
@@ -3717,7 +3717,7 @@
         },
         {
           "file": "src\\prompt_engineering\\dspy_module.cpp",
-          "line": 84,
+          "line": 82,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw DspyMissingFieldError(field.name);",
@@ -3728,7 +3728,7 @@
       "src\\prompt_engineering\\prompt_ab_experiment.cpp": [
         {
           "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
-          "line": 618,
+          "line": 616,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3740,7 +3740,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
-          "line": 596,
+          "line": 594,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3752,7 +3752,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
-          "line": 584,
+          "line": 582,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3764,7 +3764,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
-          "line": 575,
+          "line": 573,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3776,7 +3776,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
-          "line": 569,
+          "line": 567,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3788,7 +3788,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
-          "line": 328,
+          "line": 326,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3800,7 +3800,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
-          "line": 590,
+          "line": 588,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3812,7 +3812,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
-          "line": 590,
+          "line": 588,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3824,7 +3824,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
-          "line": 328,
+          "line": 326,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3836,7 +3836,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
-          "line": 196,
+          "line": 194,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -3848,7 +3848,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
-          "line": 195,
+          "line": 193,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -3860,7 +3860,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
-          "line": 591,
+          "line": 589,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "experiments_.push_back(std::move(descriptor));",
@@ -3869,7 +3869,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
-          "line": 447,
+          "line": 445,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { cb(eid, winner, wid); } catch (...) {}",
@@ -3878,7 +3878,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
-          "line": 434,
+          "line": 432,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": ": ExperimentStatus::WINNER_CONTROL;",
@@ -3887,7 +3887,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
-          "line": 329,
+          "line": 327,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.push_back(exp);",
@@ -3896,7 +3896,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
-          "line": 586,
+          "line": 584,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -3905,7 +3905,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
-          "line": 281,
+          "line": 279,
           "type": "memory_order",
           "severity": "HIGH",
           "snippet": "ss << \"exp-\" << counter.fetch_add(1, std::memory_order_relaxed);",
@@ -3914,7 +3914,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_ab_experiment.cpp",
-          "line": 319,
+          "line": 317,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = experiments_.find(experiment_id);",
@@ -3925,7 +3925,7 @@
       "src\\prompt_engineering\\prompt_library_io.cpp": [
         {
           "file": "src\\prompt_engineering\\prompt_library_io.cpp",
-          "line": 305,
+          "line": 303,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3937,7 +3937,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_library_io.cpp",
-          "line": 155,
+          "line": 153,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3949,7 +3949,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_library_io.cpp",
-          "line": 136,
+          "line": 134,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3961,7 +3961,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_library_io.cpp",
-          "line": 136,
+          "line": 134,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3973,7 +3973,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_library_io.cpp",
-          "line": 102,
+          "line": 100,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3985,7 +3985,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_library_io.cpp",
-          "line": 79,
+          "line": 77,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3997,7 +3997,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_library_io.cpp",
-          "line": 351,
+          "line": 349,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -4006,7 +4006,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_library_io.cpp",
-          "line": 310,
+          "line": 308,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -4015,7 +4015,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_library_io.cpp",
-          "line": 306,
+          "line": 304,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "b.templates.push_back(templateFromYaml(node));",
@@ -4024,7 +4024,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_library_io.cpp",
-          "line": 282,
+          "line": 280,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -4033,7 +4033,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_library_io.cpp",
-          "line": 266,
+          "line": 264,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -4042,7 +4042,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_library_io.cpp",
-          "line": 234,
+          "line": 232,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -4051,7 +4051,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_library_io.cpp",
-          "line": 156,
+          "line": 154,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "parts.push_back(t.toJson().dump());",
@@ -4060,7 +4060,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_library_io.cpp",
-          "line": 140,
+          "line": 138,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "b.templates.push_back(std::move(t));",
@@ -4069,7 +4069,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_library_io.cpp",
-          "line": 137,
+          "line": 135,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "t.images.push_back(img);",
@@ -4078,7 +4078,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_library_io.cpp",
-          "line": 103,
+          "line": 101,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tpls.push_back(t.toJson());",
@@ -4087,7 +4087,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_library_io.cpp",
-          "line": 80,
+          "line": 78,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "t.images.push_back(img);",
@@ -4096,7 +4096,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_library_io.cpp",
-          "line": 68,
+          "line": 66,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -4107,7 +4107,7 @@
       "src\\prompt_engineering\\prompt_regression_runner.cpp": [
         {
           "file": "src\\prompt_engineering\\prompt_regression_runner.cpp",
-          "line": 159,
+          "line": 157,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4119,7 +4119,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_regression_runner.cpp",
-          "line": 157,
+          "line": 155,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4131,7 +4131,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_regression_runner.cpp",
-          "line": 139,
+          "line": 137,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4143,7 +4143,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_regression_runner.cpp",
-          "line": 135,
+          "line": 133,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4155,7 +4155,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_regression_runner.cpp",
-          "line": 134,
+          "line": 132,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4167,7 +4167,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_regression_runner.cpp",
-          "line": 126,
+          "line": 124,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4179,7 +4179,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_regression_runner.cpp",
-          "line": 125,
+          "line": 123,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4191,7 +4191,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_regression_runner.cpp",
-          "line": 171,
+          "line": 169,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4203,7 +4203,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_regression_runner.cpp",
-          "line": 107,
+          "line": 105,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4215,7 +4215,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_regression_runner.cpp",
-          "line": 53,
+          "line": 51,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4227,7 +4227,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_regression_runner.cpp",
-          "line": 253,
+          "line": 251,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -4236,7 +4236,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_regression_runner.cpp",
-          "line": 172,
+          "line": 170,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "baseline_scores.push_back(bs);",
@@ -4245,7 +4245,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_regression_runner.cpp",
-          "line": 108,
+          "line": 106,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "fixtures_.push_back(std::move(f));",
@@ -4254,7 +4254,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_regression_runner.cpp",
-          "line": 54,
+          "line": 52,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "deltas.push_back({",
@@ -4265,7 +4265,7 @@
       "src\\prompt_engineering\\prompt_template_compiler.cpp": [
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 551,
+          "line": 549,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4277,7 +4277,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 491,
+          "line": 489,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4289,7 +4289,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 433,
+          "line": 431,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4301,7 +4301,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 507,
+          "line": 505,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4313,7 +4313,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 552,
+          "line": 550,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "final_slots.push_back(sd);",
@@ -4322,7 +4322,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 492,
+          "line": 490,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "slot_arr.push_back(s.toJson());",
@@ -4331,7 +4331,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 455,
+          "line": 453,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "errors.push_back(\"Internal validation error for node\");",
@@ -4340,7 +4340,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 453,
+          "line": 451,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -4349,7 +4349,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 434,
+          "line": 432,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "errors.push_back(\"Missing required slot: \" + name);",
@@ -4358,7 +4358,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 313,
+          "line": 311,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "nodes.push_back(std::move(node));",
@@ -4367,7 +4367,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 281,
+          "line": 279,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "nodes.push_back(std::move(node));",
@@ -4376,7 +4376,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 239,
+          "line": 237,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "nodes.push_back(std::move(node));",
@@ -4385,19 +4385,10 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 201,
+          "line": 199,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back({TokenKind::SLOT, inner, {}});",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 183,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "tokens.push_back({TokenKind::ENDFOR, {}, {}});",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         },
@@ -4406,16 +4397,16 @@
           "line": 181,
           "type": "copy_overhead",
           "severity": "MEDIUM",
-          "snippet": "tokens.push_back({TokenKind::FOR, item_var, list_var});",
+          "snippet": "tokens.push_back({TokenKind::ENDFOR, {}, {}});",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 170,
+          "line": 179,
           "type": "copy_overhead",
           "severity": "MEDIUM",
-          "snippet": "tokens.push_back({TokenKind::ENDIF, {}, {}});",
+          "snippet": "tokens.push_back({TokenKind::FOR, item_var, list_var});",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         },
@@ -4424,7 +4415,7 @@
           "line": 168,
           "type": "copy_overhead",
           "severity": "MEDIUM",
-          "snippet": "tokens.push_back({TokenKind::ELSE, {}, {}});",
+          "snippet": "tokens.push_back({TokenKind::ENDIF, {}, {}});",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         },
@@ -4433,13 +4424,22 @@
           "line": 166,
           "type": "copy_overhead",
           "severity": "MEDIUM",
+          "snippet": "tokens.push_back({TokenKind::ELSE, {}, {}});",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
+          "line": 164,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
           "snippet": "tokens.push_back({TokenKind::IF, var, {}});",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 144,
+          "line": 142,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back({TokenKind::SLOT, inner, {}});",
@@ -4448,7 +4448,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 549,
+          "line": 547,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "if (std::find_if(final_slots.begin(), final_slots.end(),",
@@ -4457,7 +4457,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 531,
+          "line": 529,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (slot_index.find(n->text) == slot_index.end()) {",
@@ -4466,7 +4466,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 521,
+          "line": 519,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw PromptTemplateCompileError(",
@@ -4475,7 +4475,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 432,
+          "line": 430,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (node->required && ctx.find(name) == ctx.end()) {",
@@ -4484,7 +4484,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 356,
+          "line": 354,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw PromptTemplateMissingSlotError(name);",
@@ -4493,7 +4493,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 319,
+          "line": 317,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw PromptTemplateCompileError(",
@@ -4502,7 +4502,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 308,
+          "line": 306,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw PromptTemplateCompileError(",
@@ -4511,7 +4511,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 294,
+          "line": 292,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw PromptTemplateCompileError(",
@@ -4520,7 +4520,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 287,
+          "line": 285,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw PromptTemplateCompileError(",
@@ -4529,7 +4529,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 277,
+          "line": 275,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw PromptTemplateCompileError(",
@@ -4538,7 +4538,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 185,
+          "line": 183,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw PromptTemplateCompileError(",
@@ -4547,7 +4547,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 176,
+          "line": 174,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw PromptTemplateCompileError(",
@@ -4556,7 +4556,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 157,
+          "line": 155,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw PromptTemplateCompileError(",
@@ -4565,7 +4565,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 249,
+          "line": 247,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = slot_index.find(tok.value);",
@@ -4574,7 +4574,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_compiler.cpp",
-          "line": 174,
+          "line": 172,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto in_pos = rest.find(\" in \");",
@@ -4585,7 +4585,7 @@
       "src\\prompt_engineering\\rag_context_budget_manager.cpp": [
         {
           "file": "src\\prompt_engineering\\rag_context_budget_manager.cpp",
-          "line": 32,
+          "line": 30,
           "category": "observability",
           "severity": "HIGH",
           "pattern": "missing_trace_point",
@@ -4597,7 +4597,7 @@
         },
         {
           "file": "src\\prompt_engineering\\rag_context_budget_manager.cpp",
-          "line": 79,
+          "line": 77,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "const size_t alloc = allocated_.load(std::memory_order_relaxed);",
@@ -4606,7 +4606,7 @@
         },
         {
           "file": "src\\prompt_engineering\\rag_context_budget_manager.cpp",
-          "line": 74,
+          "line": 72,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "allocated_.store(0, std::memory_order_relaxed);",
@@ -4615,7 +4615,7 @@
         },
         {
           "file": "src\\prompt_engineering\\rag_context_budget_manager.cpp",
-          "line": 40,
+          "line": 38,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw BudgetExhaustedError(tokens, avail, total_budget_);",
@@ -4624,7 +4624,7 @@
         },
         {
           "file": "src\\prompt_engineering\\rag_context_budget_manager.cpp",
-          "line": 27,
+          "line": 25,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -4635,7 +4635,7 @@
       "src\\prompt_engineering\\cot_tracer.cpp": [
         {
           "file": "src\\prompt_engineering\\cot_tracer.cpp",
-          "line": 159,
+          "line": 157,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -4647,7 +4647,7 @@
         },
         {
           "file": "src\\prompt_engineering\\cot_tracer.cpp",
-          "line": 125,
+          "line": 123,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -4659,7 +4659,7 @@
         },
         {
           "file": "src\\prompt_engineering\\cot_tracer.cpp",
-          "line": 97,
+          "line": 95,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -4671,7 +4671,7 @@
         },
         {
           "file": "src\\prompt_engineering\\cot_tracer.cpp",
-          "line": 205,
+          "line": 203,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4683,7 +4683,7 @@
         },
         {
           "file": "src\\prompt_engineering\\cot_tracer.cpp",
-          "line": 167,
+          "line": 165,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4695,7 +4695,7 @@
         },
         {
           "file": "src\\prompt_engineering\\cot_tracer.cpp",
-          "line": 97,
+          "line": 95,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4707,7 +4707,7 @@
         },
         {
           "file": "src\\prompt_engineering\\cot_tracer.cpp",
-          "line": 206,
+          "line": 204,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "arr.push_back(rec.toJson());",
@@ -4716,7 +4716,7 @@
         },
         {
           "file": "src\\prompt_engineering\\cot_tracer.cpp",
-          "line": 168,
+          "line": 166,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "children_.push_back(std::move(tracer));",
@@ -4725,7 +4725,7 @@
         },
         {
           "file": "src\\prompt_engineering\\cot_tracer.cpp",
-          "line": 98,
+          "line": 96,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "arr.push_back(rec.toJson());",
@@ -4734,7 +4734,7 @@
         },
         {
           "file": "src\\prompt_engineering\\cot_tracer.cpp",
-          "line": 186,
+          "line": 184,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
@@ -4743,7 +4743,7 @@
         },
         {
           "file": "src\\prompt_engineering\\cot_tracer.cpp",
-          "line": 181,
+          "line": 179,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
@@ -4752,7 +4752,7 @@
         },
         {
           "file": "src\\prompt_engineering\\cot_tracer.cpp",
-          "line": 79,
+          "line": 77,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
@@ -4761,7 +4761,7 @@
         },
         {
           "file": "src\\prompt_engineering\\cot_tracer.cpp",
-          "line": 74,
+          "line": 72,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
@@ -4772,7 +4772,7 @@
       "src\\prompt_engineering\\prompt_engineering_metrics.cpp": [
         {
           "file": "src\\prompt_engineering\\prompt_engineering_metrics.cpp",
-          "line": 797,
+          "line": 795,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -4784,7 +4784,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_engineering_metrics.cpp",
-          "line": 735,
+          "line": 733,
           "type": "memory_order",
           "severity": "HIGH",
           "snippet": "if (snapshot.contains(key)) target.store(snapshot[key].get<double>(), std::memory_order_relaxed);",
@@ -4793,7 +4793,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_engineering_metrics.cpp",
-          "line": 732,
+          "line": 730,
           "type": "memory_order",
           "severity": "HIGH",
           "snippet": "if (snapshot.contains(key)) target.store(snapshot[key].get<int>(), std::memory_order_relaxed);",
@@ -4802,7 +4802,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_engineering_metrics.cpp",
-          "line": 729,
+          "line": 727,
           "type": "memory_order",
           "severity": "HIGH",
           "snippet": "if (snapshot.contains(key)) target.store(snapshot[key].get<int64_t>(), std::memory_order_relaxed);",
@@ -4813,7 +4813,7 @@
       "src\\prompt_engineering\\prompt_evaluator.cpp": [
         {
           "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
-          "line": 308,
+          "line": 306,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -4825,7 +4825,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
-          "line": 307,
+          "line": 305,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -4837,7 +4837,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
-          "line": 89,
+          "line": 87,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4849,7 +4849,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
-          "line": 88,
+          "line": 86,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4861,7 +4861,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
-          "line": 80,
+          "line": 78,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4873,7 +4873,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
-          "line": 75,
+          "line": 73,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4885,7 +4885,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
-          "line": 70,
+          "line": 68,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -4897,7 +4897,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
-          "line": 489,
+          "line": 487,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -4909,7 +4909,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
-          "line": 488,
+          "line": 486,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -4921,7 +4921,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
-          "line": 91,
+          "line": 89,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4935,7 +4935,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\prompt_engineering\\prompt_evaluator.cpp",
-          "line_number": 272,
+          "line_number": 270,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -4947,7 +4947,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\prompt_engineering\\prompt_evaluator.cpp",
-          "line_number": 255,
+          "line_number": 253,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -4959,7 +4959,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\prompt_engineering\\prompt_evaluator.cpp",
-          "line_number": 242,
+          "line_number": 240,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -4969,7 +4969,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
-          "line": 225,
+          "line": 223,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4981,7 +4981,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
-          "line": 163,
+          "line": 161,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4993,7 +4993,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
-          "line": 162,
+          "line": 160,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -5005,7 +5005,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
-          "line": 326,
+          "line": 324,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -5017,7 +5017,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
-          "line": 321,
+          "line": 319,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -5029,7 +5029,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
-          "line": 406,
+          "line": 404,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back(token);",
@@ -5038,7 +5038,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
-          "line": 384,
+          "line": 382,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "result += ' ';",
@@ -5047,7 +5047,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
-          "line": 103,
+          "line": 101,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "per_case.push_back(case_metrics);",
@@ -5056,7 +5056,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
-          "line": 93,
+          "line": 91,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "weighted_scores.push_back(weighted);",
@@ -5065,7 +5065,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
-          "line": 92,
+          "line": 90,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "similarities.push_back(metrics.semantic_similarity);",
@@ -5074,7 +5074,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
-          "line": 489,
+          "line": 487,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto v2 = embedding_provider_->embed(s2);",
@@ -5083,7 +5083,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
-          "line": 488,
+          "line": 486,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto v1 = embedding_provider_->embed(s1);",
@@ -5092,7 +5092,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_evaluator.cpp",
-          "line": 51,
+          "line": 49,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "metrics.details[\"embedding_provider\"] = embedding_provider_->name();",
@@ -5103,7 +5103,7 @@
       "src\\prompt_engineering\\tree_of_thoughts.cpp": [
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 355,
+          "line": 353,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5115,7 +5115,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 345,
+          "line": 343,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -5127,7 +5127,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 335,
+          "line": 333,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5139,7 +5139,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 335,
+          "line": 333,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5151,7 +5151,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 314,
+          "line": 312,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5163,7 +5163,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 307,
+          "line": 305,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -5175,7 +5175,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 287,
+          "line": 285,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5187,7 +5187,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 279,
+          "line": 277,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -5199,7 +5199,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 255,
+          "line": 253,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5211,7 +5211,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 235,
+          "line": 233,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -5223,7 +5223,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 216,
+          "line": 214,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5235,7 +5235,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 207,
+          "line": 205,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -5247,7 +5247,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 161,
+          "line": 159,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -5259,7 +5259,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 48,
+          "line": 46,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5271,7 +5271,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 32,
+          "line": 30,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -5283,7 +5283,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 459,
+          "line": 457,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "out << \"Then assign a verdict: sure / maybe / impossible.\\n\";",
@@ -5292,7 +5292,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 360,
+          "line": 358,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "next_beam.push_back(std::move(child));",
@@ -5301,7 +5301,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 356,
+          "line": 354,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.log.push_back(msg.str());",
@@ -5310,7 +5310,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 343,
+          "line": 341,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "child_path.push_back(node.thought);",
@@ -5319,7 +5319,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 336,
+          "line": 334,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.best_path.push_back(node.thought);",
@@ -5328,7 +5328,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 315,
+          "line": 313,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "beam.push_back(std::move(n));",
@@ -5337,7 +5337,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 288,
+          "line": 286,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.best_path.push_back(best_node.thought);",
@@ -5346,7 +5346,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 256,
+          "line": 254,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.log.push_back(msg.str());",
@@ -5355,7 +5355,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 217,
+          "line": 215,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.best_path.push_back(best_node.thought);",
@@ -5364,7 +5364,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 184,
+          "line": 182,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.log.push_back(msg.str());",
@@ -5373,7 +5373,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 49,
+          "line": 47,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "thoughts.push_back(oss.str());",
@@ -5382,7 +5382,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 345,
+          "line": 343,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto children = generator_->generate(problem, child_path, config_.branching_factor);",
@@ -5391,7 +5391,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 307,
+          "line": 305,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto root_thoughts = generator_->generate(problem, {}, config_.branching_factor);",
@@ -5400,7 +5400,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 279,
+          "line": 277,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto children = generator_->generate(problem, child_path, config_.branching_factor);",
@@ -5409,7 +5409,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 235,
+          "line": 233,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto root_thoughts = generator_->generate(problem, {}, config_.branching_factor);",
@@ -5418,7 +5418,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 207,
+          "line": 205,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto children = generator_->generate(problem, child_path, config_.branching_factor);",
@@ -5427,7 +5427,7 @@
         },
         {
           "file": "src\\prompt_engineering\\tree_of_thoughts.cpp",
-          "line": 161,
+          "line": 159,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto root_thoughts = generator_->generate(problem, {}, config_.branching_factor);",
@@ -5438,7 +5438,7 @@
       "src\\prompt_engineering\\prompt_compressor.cpp": [
         {
           "file": "src\\prompt_engineering\\prompt_compressor.cpp",
-          "line": 278,
+          "line": 276,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -5450,7 +5450,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_compressor.cpp",
-          "line": 267,
+          "line": 265,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -5462,7 +5462,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_compressor.cpp",
-          "line": 260,
+          "line": 258,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -5474,7 +5474,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_compressor.cpp",
-          "line": 228,
+          "line": 226,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -5486,7 +5486,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_compressor.cpp",
-          "line": 228,
+          "line": 226,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -5498,7 +5498,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_compressor.cpp",
-          "line": 228,
+          "line": 226,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -5510,7 +5510,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_compressor.cpp",
-          "line": 223,
+          "line": 221,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5522,7 +5522,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_compressor.cpp",
-          "line": 220,
+          "line": 218,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5534,7 +5534,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_compressor.cpp",
-          "line": 68,
+          "line": 66,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -5546,7 +5546,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_compressor.cpp",
-          "line": 279,
+          "line": 277,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (!result.empty()) result += \"\\n\\n\";",
@@ -5555,7 +5555,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_compressor.cpp",
-          "line": 268,
+          "line": 266,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (!result.empty()) result += \"\\n\\n\";",
@@ -5564,7 +5564,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_compressor.cpp",
-          "line": 261,
+          "line": 259,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (!middle.empty()) middle += \"\\n\\n\";",
@@ -5573,7 +5573,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_compressor.cpp",
-          "line": 229,
+          "line": 227,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (!result.empty()) result += \"\\n\\n\";",
@@ -5582,7 +5582,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_compressor.cpp",
-          "line": 224,
+          "line": 222,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "kept_indices.push_back(i);",
@@ -5591,7 +5591,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_compressor.cpp",
-          "line": 221,
+          "line": 219,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "kept_indices.push_back(i);",
@@ -5600,7 +5600,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_compressor.cpp",
-          "line": 69,
+          "line": 67,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (i > 0) result += ' ';",
@@ -5609,7 +5609,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_compressor.cpp",
-          "line": 60,
+          "line": 58,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "while (ss >> word) words.push_back(word);",
@@ -5618,7 +5618,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_compressor.cpp",
-          "line": 50,
+          "line": 48,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (!current.empty()) paragraphs.push_back(current);",
@@ -5627,7 +5627,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_compressor.cpp",
-          "line": 46,
+          "line": 44,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (!current.empty()) current += '\\n';",
@@ -5636,7 +5636,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_compressor.cpp",
-          "line": 42,
+          "line": 40,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "paragraphs.push_back(current);",
@@ -5645,7 +5645,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_compressor.cpp",
-          "line": 277,
+          "line": 275,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (size_t i = std::max(sys_end, tail_start);",
@@ -5654,7 +5654,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_compressor.cpp",
-          "line": 222,
+          "line": 220,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (size_t i = std::max(sys_end, tail_start);",
@@ -5665,7 +5665,7 @@
       "src\\prompt_engineering\\prompt_injection_detector.cpp": [
         {
           "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
-          "line": 262,
+          "line": 260,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -5677,7 +5677,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
-          "line": 262,
+          "line": 260,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -5689,7 +5689,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
-          "line": 219,
+          "line": 217,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5701,7 +5701,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
-          "line": 140,
+          "line": 138,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5713,7 +5713,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
-          "line": 114,
+          "line": 112,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5725,7 +5725,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
-          "line": 98,
+          "line": 96,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5737,7 +5737,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
-          "line": 80,
+          "line": 78,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5749,7 +5749,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
-          "line": 65,
+          "line": 63,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5761,7 +5761,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
-          "line": 46,
+          "line": 44,
           "category": "legacy_duplication",
           "severity": "MEDIUM",
           "pattern": "duplicate_qualified_signature",
@@ -5774,7 +5774,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
-          "line": 220,
+          "line": 218,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "extra_matched.push_back(label);",
@@ -5783,7 +5783,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
-          "line": 141,
+          "line": 139,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "matched_out.push_back(\"syntax:high_special_char_density\");",
@@ -5792,7 +5792,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
-          "line": 129,
+          "line": 127,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "matched_out.push_back(\"syntax:instruction_bracket_token\");",
@@ -5801,7 +5801,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
-          "line": 115,
+          "line": 113,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "matched_out.push_back(\"keyword:\" + kw);",
@@ -5810,7 +5810,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
-          "line": 99,
+          "line": 97,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "matched_out.push_back(pattern_labels_[i]);",
@@ -5819,7 +5819,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
-          "line": 82,
+          "line": 80,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "pattern_labels_.push_back(\"custom:\" + pat);",
@@ -5828,7 +5828,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
-          "line": 67,
+          "line": 65,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "pattern_labels_.push_back(e.label);",
@@ -5837,7 +5837,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
-          "line": 126,
+          "line": 124,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "text.find(\"[/INST]\") != std::string::npos) {",
@@ -5846,7 +5846,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
-          "line": 112,
+          "line": 110,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (lower.find(kw) != std::string::npos) {",
@@ -5855,7 +5855,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_injection_detector.cpp",
-          "line": 112,
+          "line": 110,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (lower.find(kw) != std::string::npos) {",
@@ -5866,7 +5866,7 @@
       "src\\prompt_engineering\\prompt_quality_evaluator.cpp": [
         {
           "file": "src\\prompt_engineering\\prompt_quality_evaluator.cpp",
-          "line": 140,
+          "line": 138,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5878,7 +5878,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_quality_evaluator.cpp",
-          "line": 140,
+          "line": 138,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5890,7 +5890,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_quality_evaluator.cpp",
-          "line": 74,
+          "line": 72,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5902,7 +5902,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_quality_evaluator.cpp",
-          "line": 38,
+          "line": 36,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5914,7 +5914,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_quality_evaluator.cpp",
-          "line": 125,
+          "line": 123,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -5926,7 +5926,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_quality_evaluator.cpp",
-          "line": 141,
+          "line": 139,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "failed.push_back(QualityCheck{",
@@ -5935,7 +5935,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_quality_evaluator.cpp",
-          "line": 75,
+          "line": 73,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "failed.push_back(QualityCheck{",
@@ -5944,7 +5944,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_quality_evaluator.cpp",
-          "line": 45,
+          "line": 43,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back(std::move(word));",
@@ -5953,7 +5953,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_quality_evaluator.cpp",
-          "line": 39,
+          "line": 37,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back(std::move(word));",
@@ -5964,7 +5964,7 @@
       "src\\prompt_engineering\\prompt_template_validator.cpp": [
         {
           "file": "src\\prompt_engineering\\prompt_template_validator.cpp",
-          "line": 95,
+          "line": 93,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5976,7 +5976,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_validator.cpp",
-          "line": 102,
+          "line": 100,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.errors.push_back(",
@@ -5985,7 +5985,7 @@
         },
         {
           "file": "src\\prompt_engineering\\prompt_template_validator.cpp",
-          "line": 96,
+          "line": 94,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.errors.push_back(",
@@ -5996,7 +5996,7 @@
       "src\\prompt_engineering\\protegi_optimizer.cpp": [
         {
           "file": "src\\prompt_engineering\\protegi_optimizer.cpp",
-          "line": 98,
+          "line": 96,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -6008,7 +6008,7 @@
         },
         {
           "file": "src\\prompt_engineering\\protegi_optimizer.cpp",
-          "line": 98,
+          "line": 96,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -6020,7 +6020,7 @@
         },
         {
           "file": "src\\prompt_engineering\\protegi_optimizer.cpp",
-          "line": 368,
+          "line": 366,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -6032,7 +6032,7 @@
         },
         {
           "file": "src\\prompt_engineering\\protegi_optimizer.cpp",
-          "line": 259,
+          "line": 257,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -6044,7 +6044,7 @@
         },
         {
           "file": "src\\prompt_engineering\\protegi_optimizer.cpp",
-          "line": 225,
+          "line": 223,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -6056,7 +6056,7 @@
         },
         {
           "file": "src\\prompt_engineering\\protegi_optimizer.cpp",
-          "line": 211,
+          "line": 209,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -6068,7 +6068,7 @@
         },
         {
           "file": "src\\prompt_engineering\\protegi_optimizer.cpp",
-          "line": 116,
+          "line": 114,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -6080,7 +6080,7 @@
         },
         {
           "file": "src\\prompt_engineering\\protegi_optimizer.cpp",
-          "line": 371,
+          "line": 369,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "errors.push_back(\"\");  // no error",
@@ -6089,7 +6089,7 @@
         },
         {
           "file": "src\\prompt_engineering\\protegi_optimizer.cpp",
-          "line": 369,
+          "line": 367,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "errors.push_back(\"Expected output longer than prompt; prompt may lack detail.\");",
@@ -6098,7 +6098,7 @@
         },
         {
           "file": "src\\prompt_engineering\\protegi_optimizer.cpp",
-          "line": 353,
+          "line": 351,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "batch.push_back(test_cases[indices[i]]);",
@@ -6107,7 +6107,7 @@
         },
         {
           "file": "src\\prompt_engineering\\protegi_optimizer.cpp",
-          "line": 260,
+          "line": 258,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "beam.push_back(p);",
@@ -6116,7 +6116,7 @@
         },
         {
           "file": "src\\prompt_engineering\\protegi_optimizer.cpp",
-          "line": 218,
+          "line": 216,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "next_candidates.push_back(p);",
@@ -6125,7 +6125,7 @@
         },
         {
           "file": "src\\prompt_engineering\\protegi_optimizer.cpp",
-          "line": 212,
+          "line": 210,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "next_candidates.push_back(std::move(c));",
@@ -6134,7 +6134,7 @@
         },
         {
           "file": "src\\prompt_engineering\\protegi_optimizer.cpp",
-          "line": 117,
+          "line": 115,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "candidates.push_back(c.str());",
@@ -6143,7 +6143,7 @@
         },
         {
           "file": "src\\prompt_engineering\\protegi_optimizer.cpp",
-          "line": 109,
+          "line": 107,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "candidates.push_back(c.str());",
@@ -6152,7 +6152,7 @@
         },
         {
           "file": "src\\prompt_engineering\\protegi_optimizer.cpp",
-          "line": 101,
+          "line": 99,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "candidates.push_back(c.str());",
@@ -6163,7 +6163,7 @@
       "src\\prompt_engineering\\rag_prompt_builder.cpp": [
         {
           "file": "src\\prompt_engineering\\rag_prompt_builder.cpp",
-          "line": 83,
+          "line": 81,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -6175,7 +6175,7 @@
         },
         {
           "file": "src\\prompt_engineering\\rag_prompt_builder.cpp",
-          "line": 61,
+          "line": 59,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -6187,7 +6187,7 @@
         },
         {
           "file": "src\\prompt_engineering\\rag_prompt_builder.cpp",
-          "line": 84,
+          "line": 82,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "selected.push_back(chunk);",
@@ -6196,7 +6196,7 @@
         },
         {
           "file": "src\\prompt_engineering\\rag_prompt_builder.cpp",
-          "line": 62,
+          "line": 60,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ordered.push_back(&c);",
@@ -6207,7 +6207,7 @@
       "src\\prompt_engineering\\structured_output.cpp": [
         {
           "file": "src\\prompt_engineering\\structured_output.cpp",
-          "line": 319,
+          "line": 317,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -6219,7 +6219,7 @@
         },
         {
           "file": "src\\prompt_engineering\\structured_output.cpp",
-          "line": 307,
+          "line": 305,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -6231,7 +6231,7 @@
         },
         {
           "file": "src\\prompt_engineering\\structured_output.cpp",
-          "line": 269,
+          "line": 267,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -6243,7 +6243,7 @@
         },
         {
           "file": "src\\prompt_engineering\\structured_output.cpp",
-          "line": 219,
+          "line": 217,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -6255,7 +6255,7 @@
         },
         {
           "file": "src\\prompt_engineering\\structured_output.cpp",
-          "line": 159,
+          "line": 157,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -6267,7 +6267,7 @@
         },
         {
           "file": "src\\prompt_engineering\\structured_output.cpp",
-          "line": 352,
+          "line": 350,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "errors.push_back(std::string(\"Invalid regex pattern: \") + ex.what());",
@@ -6276,7 +6276,7 @@
         },
         {
           "file": "src\\prompt_engineering\\structured_output.cpp",
-          "line": 347,
+          "line": 345,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "errors.push_back(\"Output does not match regex pattern: \" +",
@@ -6285,7 +6285,7 @@
         },
         {
           "file": "src\\prompt_engineering\\structured_output.cpp",
-          "line": 320,
+          "line": 318,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "errors.push_back(\"Unknown field not in schema properties: \\\"\" +",
@@ -6294,7 +6294,7 @@
         },
         {
           "file": "src\\prompt_engineering\\structured_output.cpp",
-          "line": 308,
+          "line": 306,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "errors.push_back(\"Missing required field: \\\"\" + req + \"\\\"\");",
@@ -6303,7 +6303,7 @@
         },
         {
           "file": "src\\prompt_engineering\\structured_output.cpp",
-          "line": 270,
+          "line": 268,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "keys.push_back(cur_key);",
@@ -6312,7 +6312,7 @@
         },
         {
           "file": "src\\prompt_engineering\\structured_output.cpp",
-          "line": 220,
+          "line": 218,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "names.push_back(cur_key);",
@@ -6321,7 +6321,7 @@
         },
         {
           "file": "src\\prompt_engineering\\structured_output.cpp",
-          "line": 160,
+          "line": 158,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back((*it)[1].str());",
@@ -6330,7 +6330,7 @@
         },
         {
           "file": "src\\prompt_engineering\\structured_output.cpp",
-          "line": 73,
+          "line": 71,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "errors.push_back(\"JSON output does not start with '{' or '['\");",
@@ -6339,7 +6339,7 @@
         },
         {
           "file": "src\\prompt_engineering\\structured_output.cpp",
-          "line": 67,
+          "line": 65,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "errors.push_back(\"JSON output is empty\");",
@@ -6348,7 +6348,7 @@
         },
         {
           "file": "src\\prompt_engineering\\structured_output.cpp",
-          "line": 44,
+          "line": 42,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "static const std::regex line_comment(R\"(//[^\\n]*)\", std::regex::ECMAScript);",
@@ -6357,7 +6357,7 @@
         },
         {
           "file": "src\\prompt_engineering\\structured_output.cpp",
-          "line": 317,
+          "line": 315,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "const bool known = std::find(allowed.begin(), allowed.end(), k)",
@@ -6366,7 +6366,7 @@
         },
         {
           "file": "src\\prompt_engineering\\structured_output.cpp",
-          "line": 305,
+          "line": 303,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "const bool found = std::find(actual_keys.begin(), actual_keys.end(), req)",
@@ -6375,7 +6375,7 @@
         },
         {
           "file": "src\\prompt_engineering\\structured_output.cpp",
-          "line": 159,
+          "line": 157,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (auto it = begin; it != std::sregex_iterator(); ++it) {",
@@ -6386,7 +6386,7 @@
       "src\\prompt_engineering\\system_prompt_manager.cpp": [
         {
           "file": "src\\prompt_engineering\\system_prompt_manager.cpp",
-          "line": 81,
+          "line": 79,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -6398,7 +6398,7 @@
         },
         {
           "file": "src\\prompt_engineering\\system_prompt_manager.cpp",
-          "line": 193,
+          "line": 191,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -6410,7 +6410,7 @@
         },
         {
           "file": "src\\prompt_engineering\\system_prompt_manager.cpp",
-          "line": 78,
+          "line": 76,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -6422,7 +6422,7 @@
         },
         {
           "file": "src\\prompt_engineering\\system_prompt_manager.cpp",
-          "line": 194,
+          "line": 192,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(sp);",
@@ -6433,7 +6433,7 @@
       "src\\prompt_engineering\\markdown_utils.cpp": [
         {
           "file": "src\\prompt_engineering\\markdown_utils.cpp",
-          "line": 25,
+          "line": 23,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -6445,7 +6445,7 @@
         },
         {
           "file": "src\\prompt_engineering\\markdown_utils.cpp",
-          "line": 61,
+          "line": 59,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "static const std::regex line_comment(R\"(//[^\\r\\n]*)\",",
@@ -6456,7 +6456,7 @@
       "src\\prompt_engineering\\adversarial_prompt_tester.cpp": [
         {
           "file": "src\\prompt_engineering\\adversarial_prompt_tester.cpp",
-          "line": 255,
+          "line": 253,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -6468,7 +6468,7 @@
         },
         {
           "file": "src\\prompt_engineering\\adversarial_prompt_tester.cpp",
-          "line": 202,
+          "line": 200,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",

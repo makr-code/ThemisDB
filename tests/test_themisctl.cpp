@@ -445,7 +445,22 @@ protected:
                 int top_k_effective = body.value("top_k", 5);
                 int max_context_tokens_effective = body.value("max_context_tokens", 0);
                 int response_budget_tokens_effective = body.value("response_budget_tokens", 512);
+                int max_tokens_requested = body.value("max_tokens", 512);
                 std::string rag_mode_effective = body.value("rag_mode", std::string{"text"});
+
+                if (max_tokens_requested <= 0) {
+                    json err = {
+                        {"error", "max_tokens must be greater than 0"},
+                        {"status", 400}
+                    };
+                    res.status = 400;
+                    res.set_content(err.dump(), "application/json");
+                    return;
+                }
+
+                const int normalized_response_budget =
+                    response_budget_tokens_effective <= 0 ? 1 : response_budget_tokens_effective;
+                response_budget_tokens_effective = std::min(normalized_response_budget, max_tokens_requested);
 
                 if (top_k_effective < 1 || top_k_effective > 100) {
                     json err = {
@@ -501,7 +516,7 @@ protected:
                     {"documents_rejected", 0},
                     {"top_k_effective", top_k_effective},
                     {"max_context_tokens_effective", max_context_tokens_effective < 0 ? 0 : max_context_tokens_effective},
-                    {"response_budget_tokens_effective", response_budget_tokens_effective <= 0 ? 1 : response_budget_tokens_effective},
+                    {"response_budget_tokens_effective", response_budget_tokens_effective},
                     {"tokens_generated",   42},
                     {"inference_time_ms",  17},
                     {"cache_hit",          false}
@@ -1215,6 +1230,69 @@ TEST_F(ThemisctlHttpTest, TRQ06_RagQuery_InvalidTopK_ReturnsUsageError) {
     EXPECT_EQ(rc, 2);
 }
 
+TEST_F(ThemisctlHttpTest, TRQ16_RagQuery_InvalidMaxTokens_ReturnsUsageError) {
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = cmdRag({"query", "--max-tokens", "notanumber", "some question"});
+    std::cerr.rdbuf(old);
+    EXPECT_EQ(rc, 2);
+}
+
+TEST_F(ThemisctlHttpTest, TRQ17_RagQuery_InvalidResponseBudgetTokens_ReturnsUsageError) {
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = cmdRag({"query", "--response-budget-tokens", "notanumber", "some question"});
+    std::cerr.rdbuf(old);
+    EXPECT_EQ(rc, 2);
+}
+
+TEST_F(ThemisctlHttpTest, TRQ20_RagQuery_InvalidRagMode_ReturnsUsageError) {
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = cmdRag({"query", "--rag-mode", "invalid_mode", "some question"});
+    std::cerr.rdbuf(old);
+
+    EXPECT_EQ(rc, 2);
+    EXPECT_NE(capErr.str().find("--rag-mode must be one of: text, iterative, map_reduce"), std::string::npos);
+}
+
+// TRQ-18: non-positive response budget is normalized by server contract and capped by max_tokens
+TEST_F(ThemisctlHttpTest, TRQ18_RagQuery_CliFlags_NonPositiveResponseBudgetNormalizesToOne) {
+    g_ctx.raw_json = true;
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdRag({"query",
+                     "--collection", "procs",
+                     "--response-budget-tokens", "0",
+                     "--max-tokens", "64",
+                     "Check normalization"});
+    std::cout.rdbuf(old);
+    g_ctx.raw_json = false;
+
+    EXPECT_EQ(rc, 0);
+    json j;
+    ASSERT_NO_THROW(j = json::parse(capOut.str()));
+    ASSERT_TRUE(j.contains("response_budget_tokens_effective"));
+    EXPECT_EQ(j.value("response_budget_tokens_effective", 0), 1);
+}
+
+// TRQ-19: max_tokens <= 0 is rejected fail-closed by RAG contract
+TEST_F(ThemisctlHttpTest, TRQ19_RagQuery_CliFlags_ZeroMaxTokens_ServerRejectsWith400) {
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = cmdRag({"query", "--max-tokens", "0", "some question"});
+    std::cerr.rdbuf(old);
+
+    EXPECT_EQ(rc, 1);
+    EXPECT_NE(capErr.str().find("HTTP 400"), std::string::npos);
+    EXPECT_NE(capErr.str().find("max_tokens must be greater than 0"), std::string::npos);
+
+    const auto err_json = extractFirstJsonObject(capErr.str());
+    ASSERT_TRUE(err_json.has_value());
+    EXPECT_EQ(err_json->value("error", std::string{}), "max_tokens must be greater than 0");
+    EXPECT_EQ(err_json->value("status", 0), 400);
+}
+
 // TRQ-08: top_k=0 is syntactically valid for CLI but rejected by server contract (rc=1)
 TEST_F(ThemisctlHttpTest, TRQ08_RagQuery_TopKZero_ServerRejectsWith400) {
     std::ostringstream capErr;
@@ -1302,4 +1380,112 @@ TEST_F(ThemisctlHttpTest, TRQ12_RagQuery_EmptyStringQuestion_ServerRejectsWith40
     ASSERT_TRUE(err_json.has_value());
     EXPECT_EQ(err_json->value("error", std::string{}), "Missing 'query' field");
     EXPECT_EQ(err_json->value("status", 0), 400);
+}
+
+// TRQ-13: response budget is capped by explicit max_tokens in RAG contract response
+TEST_F(ThemisctlHttpTest, TRQ13_RagQuery_RawJson_ResponseBudgetCappedByMaxTokens) {
+    Response r = httpPost(
+        "/api/v1/llm/rag",
+        json{{"query", "budget cap check"},
+             {"collection", "procs"},
+             {"top_k", 3},
+             {"response_budget_tokens", 300},
+             {"max_tokens", 64}}.dump());
+
+    ASSERT_EQ(r.status, 200) << r.body;
+    json j;
+    ASSERT_NO_THROW(j = json::parse(r.body));
+    ASSERT_TRUE(j.contains("response_budget_tokens_effective"));
+    EXPECT_EQ(j.value("response_budget_tokens_effective", 0), 64);
+}
+
+// TRQ-14: iterative rag_mode keeps budget cap semantics (effective budget <= max_tokens)
+TEST_F(ThemisctlHttpTest, TRQ14_RagQuery_RawJson_IterativeMode_ResponseBudgetCappedByMaxTokens) {
+    Response r = httpPost(
+        "/api/v1/llm/rag",
+        json{{"query", "iterative budget cap check"},
+             {"collection", "procs"},
+             {"rag_mode", "iterative"},
+             {"response_budget_tokens", 400},
+             {"max_tokens", 32}}.dump());
+
+    ASSERT_EQ(r.status, 200) << r.body;
+    json j;
+    ASSERT_NO_THROW(j = json::parse(r.body));
+    ASSERT_TRUE(j.contains("rag_mode_effective"));
+    ASSERT_TRUE(j.contains("response_budget_tokens_effective"));
+    EXPECT_EQ(j.value("rag_mode_effective", std::string{}), "iterative");
+    EXPECT_EQ(j.value("response_budget_tokens_effective", 0), 32);
+}
+
+// TRQ-15: cmdRag forwards rag-mode and budget flags; server contract returns capped effective budget
+TEST_F(ThemisctlHttpTest, TRQ15_RagQuery_CliFlags_IterativeBudgetForwarding) {
+    g_ctx.raw_json = true;
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdRag({"query",
+                     "--collection", "procs",
+                     "--rag-mode", "iterative",
+                     "--response-budget-tokens", "400",
+                     "--max-tokens", "32",
+                     "Check forwarding"});
+    std::cout.rdbuf(old);
+    g_ctx.raw_json = false;
+
+    EXPECT_EQ(rc, 0);
+    json j;
+    ASSERT_NO_THROW(j = json::parse(capOut.str()));
+    EXPECT_EQ(j.value("rag_mode_effective", std::string{}), "iterative");
+    EXPECT_EQ(j.value("response_budget_tokens_effective", 0), 32);
+}
+
+TEST_F(ThemisctlHttpTest, TRQ21_RagQuery_CliFlags_RagModeCaseInsensitiveNormalization) {
+    g_ctx.raw_json = true;
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdRag({"query",
+                     "--collection", "procs",
+                     "--rag-mode", "Iterative",
+                     "Case normalization"});
+    std::cout.rdbuf(old);
+    g_ctx.raw_json = false;
+
+    EXPECT_EQ(rc, 0);
+    json j;
+    ASSERT_NO_THROW(j = json::parse(capOut.str()));
+    EXPECT_EQ(j.value("rag_mode_effective", std::string{}), "iterative");
+}
+
+TEST_F(ThemisctlHttpTest, TRQ22_RagQuery_CliFlags_RagModeMapReduceAliasNormalization) {
+    g_ctx.raw_json = true;
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdRag({"query",
+                     "--collection", "procs",
+                     "--rag-mode", "map-reduce",
+                     "Alias normalization"});
+    std::cout.rdbuf(old);
+    g_ctx.raw_json = false;
+
+    EXPECT_EQ(rc, 0);
+    json j;
+    ASSERT_NO_THROW(j = json::parse(capOut.str()));
+    EXPECT_EQ(j.value("rag_mode_effective", std::string{}), "map_reduce");
+}
+
+TEST_F(ThemisctlHttpTest, TRQ23_RagQuery_CliFlags_RagModeMapReduceWordAliasNormalization) {
+    g_ctx.raw_json = true;
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdRag({"query",
+                     "--collection", "procs",
+                     "--rag-mode", "mapreduce",
+                     "Word alias normalization"});
+    std::cout.rdbuf(old);
+    g_ctx.raw_json = false;
+
+    EXPECT_EQ(rc, 0);
+    json j;
+    ASSERT_NO_THROW(j = json::parse(capOut.str()));
+    EXPECT_EQ(j.value("rag_mode_effective", std::string{}), "map_reduce");
 }

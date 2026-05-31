@@ -1,8 +1,8 @@
 {
   "voice": {
-    "total": 326,
+    "total": 327,
     "severity_critical": 38,
-    "severity_high": 113,
+    "severity_high": 114,
     "severity_medium": 175,
     "by_category": {
       "security": 13,
@@ -10,7 +10,7 @@
       "reliability": 5,
       "concurrency": 11,
       "raii": 1,
-      "container": 107,
+      "container": 108,
       "platform": 7,
       "performance": 5,
       "type_conversion": 1,
@@ -24,7 +24,7 @@
       "src\\voice\\voice_intent_detector.cpp": [
         {
           "file": "src\\voice\\voice_intent_detector.cpp",
-          "line": 151,
+          "line": 149,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -36,7 +36,7 @@
         },
         {
           "file": "src\\voice\\voice_intent_detector.cpp",
-          "line": 225,
+          "line": 223,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -48,7 +48,7 @@
         },
         {
           "file": "src\\voice\\voice_intent_detector.cpp",
-          "line": 202,
+          "line": 200,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -60,7 +60,7 @@
         },
         {
           "file": "src\\voice\\voice_intent_detector.cpp",
-          "line": 183,
+          "line": 181,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -72,7 +72,7 @@
         },
         {
           "file": "src\\voice\\voice_intent_detector.cpp",
-          "line": 226,
+          "line": 224,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "entities.push_back(ent);",
@@ -81,7 +81,7 @@
         },
         {
           "file": "src\\voice\\voice_intent_detector.cpp",
-          "line": 203,
+          "line": 201,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "entities.push_back(ent);",
@@ -90,7 +90,7 @@
         },
         {
           "file": "src\\voice\\voice_intent_detector.cpp",
-          "line": 184,
+          "line": 182,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "entities.push_back(ent);",
@@ -99,7 +99,7 @@
         },
         {
           "file": "src\\voice\\voice_intent_detector.cpp",
-          "line": 284,
+          "line": 282,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "result.requires_context = (context != nullptr && !context->getHistory().empty());",
@@ -108,7 +108,7 @@
         },
         {
           "file": "src\\voice\\voice_intent_detector.cpp",
-          "line": 259,
+          "line": 257,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto last_entity = context->getEntity(\"last_object\");",
@@ -117,7 +117,7 @@
         },
         {
           "file": "src\\voice\\voice_intent_detector.cpp",
-          "line": 114,
+          "line": 112,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (lower.find(kw) != std::string::npos) return true;",
@@ -126,7 +126,7 @@
         },
         {
           "file": "src\\voice\\voice_intent_detector.cpp",
-          "line": 202,
+          "line": 200,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ent.end_offset   = static_cast<int>(it->position() + it->length());",
@@ -135,7 +135,7 @@
         },
         {
           "file": "src\\voice\\voice_intent_detector.cpp",
-          "line": 201,
+          "line": 199,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ent.start_offset = static_cast<int>(it->position());",
@@ -144,7 +144,7 @@
         },
         {
           "file": "src\\voice\\voice_intent_detector.cpp",
-          "line": 62,
+          "line": 60,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = entities_.find(key);",
@@ -155,7 +155,7 @@
       "src\\voice\\voice_macro_manager.cpp": [
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 436,
+          "line": 434,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -167,7 +167,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 400,
+          "line": 398,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -179,7 +179,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 325,
+          "line": 323,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -191,7 +191,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 493,
+          "line": 491,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -203,7 +203,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 457,
+          "line": 455,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -215,7 +215,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 451,
+          "line": 449,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -227,7 +227,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 451,
+          "line": 449,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -239,7 +239,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 406,
+          "line": 404,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -251,7 +251,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 401,
+          "line": 399,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -263,7 +263,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 373,
+          "line": 371,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -275,7 +275,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 330,
+          "line": 328,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -287,7 +287,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 318,
+          "line": 316,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -299,7 +299,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 190,
+          "line": 188,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -311,7 +311,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 177,
+          "line": 175,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -323,7 +323,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 152,
+          "line": 150,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -335,7 +335,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 121,
+          "line": 119,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -347,7 +347,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 101,
+          "line": 99,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -359,7 +359,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 101,
+          "line": 99,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -371,7 +371,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 96,
+          "line": 94,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -383,7 +383,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 84,
+          "line": 82,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -395,7 +395,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 84,
+          "line": 82,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -407,7 +407,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 47,
+          "line": 45,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -419,7 +419,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 494,
+          "line": 492,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "imported_ids.push_back(id);",
@@ -428,7 +428,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 458,
+          "line": 456,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "arr.push_back(macroInfoToJson(it->second));",
@@ -437,7 +437,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 452,
+          "line": 450,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "arr.push_back(macroInfoToJson(kv.second));",
@@ -446,7 +446,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 407,
+          "line": 405,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.step_results.push_back(std::move(sr));",
@@ -455,7 +455,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 402,
+          "line": 400,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (!combined_output.empty()) combined_output += '\\n';",
@@ -464,7 +464,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 331,
+          "line": 329,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (matched) result.push_back(kv.second);",
@@ -473,7 +473,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 319,
+          "line": 317,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(kv.second);",
@@ -482,7 +482,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 153,
+          "line": 151,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "m.steps.push_back(stepFromJson(s));",
@@ -491,7 +491,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 122,
+          "line": 120,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "steps.push_back(stepToJson(s));",
@@ -500,7 +500,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 102,
+          "line": 100,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "step.sub_steps.push_back(stepFromJson(s));",
@@ -509,7 +509,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 85,
+          "line": 83,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "sub.push_back(stepToJson(s));",
@@ -518,7 +518,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 48,
+          "line": 46,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.push_back(static_cast<char>(std::tolower(c)));",
@@ -527,7 +527,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 455,
+          "line": 453,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = impl_->macros.find(id);",
@@ -536,7 +536,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 326,
+          "line": 324,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "if (std::find(mt.begin(), mt.end(), tag) != mt.end()) {",
@@ -545,7 +545,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 326,
+          "line": 324,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "if (std::find(mt.begin(), mt.end(), tag) != mt.end()) {",
@@ -554,7 +554,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 228,
+          "line": 226,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));",
@@ -563,7 +563,7 @@
         },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 192,
+          "line": 190,
           "type": "hardcoded_secret",
           "severity": "CRITICAL",
           "snippet": "std::string token = \"@\" + kv.first;",
@@ -574,7 +574,7 @@
       "src\\voice\\voice_model_cache.cpp": [
         {
           "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 232,
+          "line": 230,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -586,7 +586,7 @@
         },
         {
           "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 204,
+          "line": 202,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -598,7 +598,7 @@
         },
         {
           "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 259,
+          "line": 257,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -610,7 +610,7 @@
         },
         {
           "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 260,
+          "line": 258,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "models_arr.push_back(m);",
@@ -619,7 +619,7 @@
         },
         {
           "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 286,
+          "line": 284,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "unloader_it->second(it->second.handle);",
@@ -628,7 +628,7 @@
         },
         {
           "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 285,
+          "line": 283,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (unloader_it != unloaders_.end() && it->second.handle) {",
@@ -637,7 +637,7 @@
         },
         {
           "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 207,
+          "line": 205,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "unloader_it->second(model.handle);",
@@ -646,7 +646,7 @@
         },
         {
           "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 157,
+          "line": 155,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "unloader_it->second(it->second.handle);",
@@ -655,7 +655,7 @@
         },
         {
           "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 156,
+          "line": 154,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (unloader_it != unloaders_.end() && it->second.handle) {",
@@ -664,7 +664,7 @@
         },
         {
           "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 79,
+          "line": 77,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* handle = loader_it->second(model_path, config);",
@@ -673,7 +673,7 @@
         },
         {
           "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 284,
+          "line": 282,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto unloader_it = unloaders_.find(it->second.model_type);",
@@ -682,7 +682,7 @@
         },
         {
           "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 281,
+          "line": 279,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = models_.find(id);",
@@ -691,7 +691,7 @@
         },
         {
           "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 269,
+          "line": 267,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = lru_map_.find(model_id);",
@@ -700,7 +700,7 @@
         },
         {
           "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 205,
+          "line": 203,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto unloader_it = unloaders_.find(model.model_type);",
@@ -709,7 +709,7 @@
         },
         {
           "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 163,
+          "line": 161,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto lru_it = lru_map_.find(model_id);",
@@ -718,7 +718,7 @@
         },
         {
           "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 155,
+          "line": 153,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto unloader_it = unloaders_.find(it->second.model_type);",
@@ -727,7 +727,7 @@
         },
         {
           "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 151,
+          "line": 149,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = models_.find(model_id);",
@@ -736,7 +736,7 @@
         },
         {
           "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 56,
+          "line": 54,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "if (config_.pin_frequently_used && it->second.use_count >= config_.pin_threshold) {",
@@ -747,7 +747,7 @@
       "src\\voice\\voice_session_manager.cpp": [
         {
           "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 263,
+          "line": 261,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -759,7 +759,7 @@
         },
         {
           "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 249,
+          "line": 247,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -771,7 +771,7 @@
         },
         {
           "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 172,
+          "line": 170,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -783,7 +783,7 @@
         },
         {
           "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 62,
+          "line": 60,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -795,7 +795,7 @@
         },
         {
           "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 263,
+          "line": 261,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -807,7 +807,7 @@
         },
         {
           "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 263,
+          "line": 261,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -819,7 +819,7 @@
         },
         {
           "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 62,
+          "line": 60,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -831,7 +831,7 @@
         },
         {
           "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 264,
+          "line": 262,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (session.user_id == user_id) result.push_back(session);",
@@ -840,7 +840,7 @@
         },
         {
           "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 63,
+          "line": 61,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ids.push_back(id);",
@@ -849,7 +849,7 @@
         },
         {
           "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 218,
+          "line": 216,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "it->second.preferred_language = language_code;",
@@ -858,7 +858,7 @@
         },
         {
           "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 171,
+          "line": 169,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (it->second.context.is_object() && context_update.is_object()) {",
@@ -867,7 +867,7 @@
         },
         {
           "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 249,
+          "line": 247,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "for (auto it = active_cache_.begin(); it != active_cache_.end(); ) {",
@@ -876,7 +876,7 @@
         },
         {
           "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 227,
+          "line": 225,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = active_cache_.find(session_id);",
@@ -885,7 +885,7 @@
         },
         {
           "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 190,
+          "line": 188,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = active_cache_.find(session_id);",
@@ -894,7 +894,7 @@
         },
         {
           "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 48,
+          "line": 46,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = store_.find(session_id);",
@@ -905,7 +905,7 @@
       "src\\voice\\voice_tts_customizer.cpp": [
         {
           "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 547,
+          "line": 545,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -917,7 +917,7 @@
         },
         {
           "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 474,
+          "line": 472,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -929,7 +929,7 @@
         },
         {
           "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 474,
+          "line": 472,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -941,7 +941,7 @@
         },
         {
           "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 259,
+          "line": 257,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -953,7 +953,7 @@
         },
         {
           "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 258,
+          "line": 256,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -965,7 +965,7 @@
         },
         {
           "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 228,
+          "line": 226,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -977,7 +977,7 @@
         },
         {
           "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 228,
+          "line": 226,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -989,7 +989,7 @@
         },
         {
           "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 119,
+          "line": 117,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1001,7 +1001,7 @@
         },
         {
           "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 108,
+          "line": 106,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1013,7 +1013,7 @@
         },
         {
           "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 548,
+          "line": 546,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(lv);",
@@ -1022,7 +1022,7 @@
         },
         {
           "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 475,
+          "line": 473,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "energies.push_back(static_cast<float>(std::sqrt(e / static_cast<double>(window))));",
@@ -1031,7 +1031,7 @@
         },
         {
           "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 229,
+          "line": 227,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (!last_space) { collapsed += ' '; last_space = true; }",
@@ -1040,7 +1040,7 @@
         },
         {
           "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 120,
+          "line": 118,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(p);",
@@ -1049,7 +1049,7 @@
         },
         {
           "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 109,
+          "line": 107,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(p);",
@@ -1058,7 +1058,7 @@
         },
         {
           "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 353,
+          "line": 351,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "bool attr_allowed = (allowed != nullptr) && (allowed->count(attr_name_lower) > 0);",
@@ -1067,7 +1067,7 @@
         },
         {
           "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 297,
+          "line": 295,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const std::set<std::string>* allowed = (it != allowed_map.end()) ? &it->second : nullptr;",
@@ -1076,7 +1076,7 @@
         },
         {
           "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 297,
+          "line": 295,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "const std::set<std::string>* allowed = (it != allowed_map.end()) ? &it->second : nullptr;",
@@ -1085,7 +1085,7 @@
         },
         {
           "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 297,
+          "line": 295,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "const std::set<std::string>* allowed = (it != allowed_map.end()) ? &it->second : nullptr;",
@@ -1094,7 +1094,7 @@
         },
         {
           "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 100,
+          "line": 98,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = profiles_.find(voice_id);",
@@ -1105,24 +1105,12 @@
       "src\\voice\\audio_preprocessing.cpp": [
         {
           "file": "src\\voice\\audio_preprocessing.cpp",
-          "line": 137,
+          "line": 135,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
           "description": "Mutex lock acquired per iteration (move outside loop)",
           "context": "for (size_t i = 0; i < avail; ++i)",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\audio_preprocessing.cpp",
-          "line": 128,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (size_t i = avail; i < static_cast<size_t>(kRNNoiseFrameSamples); ++i)",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -1134,6 +1122,18 @@
           "severity": "HIGH",
           "pattern": "lock_in_loop",
           "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t i = avail; i < static_cast<size_t>(kRNNoiseFrameSamples); ++i)",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\voice\\audio_preprocessing.cpp",
+          "line": 124,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
           "context": "for (size_t i = 0; i < avail; ++i)",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
@@ -1141,7 +1141,7 @@
         },
         {
           "file": "src\\voice\\audio_preprocessing.cpp",
-          "line": 131,
+          "line": 129,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "float vad_prob = rnnoise_process_frame(impl_->state, buf.data(), buf.data());",
@@ -1152,7 +1152,7 @@
       "src\\voice\\voice_assistant.cpp": [
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 656,
+          "line": 654,
           "category": "audit_logging",
           "severity": "CRITICAL",
           "pattern": "missing_audit_log",
@@ -1164,7 +1164,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 263,
+          "line": 261,
           "category": "audit_logging",
           "severity": "CRITICAL",
           "pattern": "missing_audit_log",
@@ -1176,7 +1176,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 144,
+          "line": 142,
           "category": "audit_logging",
           "severity": "CRITICAL",
           "pattern": "missing_audit_log",
@@ -1188,7 +1188,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 618,
+          "line": 616,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1200,7 +1200,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 463,
+          "line": 461,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1212,7 +1212,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 411,
+          "line": 409,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1226,7 +1226,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\voice\\voice_assistant.cpp",
-          "line_number": 546,
+          "line_number": 544,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1236,7 +1236,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 464,
+          "line": 462,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "participants.push_back(participant);",
@@ -1245,7 +1245,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 412,
+          "line": 410,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "segments.push_back(seg_json);",
@@ -1254,7 +1254,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 339,
+          "line": 337,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "session.history.push_back(\"Assistant: \" + llm_response);",
@@ -1263,7 +1263,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 335,
+          "line": 333,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "session.history.push_back(\"User: \" + full_transcript);",
@@ -1272,7 +1272,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 184,
+          "line": 182,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "session.history.push_back(\"User: \" + transcription.full_text);",
@@ -1281,7 +1281,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 467,
+          "line": 465,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "protocol[\"custom_fields\"] = metadata.custom_fields;",
@@ -1290,7 +1290,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 460,
+          "line": 458,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "protocol[\"organizer\"] = metadata.organizer;",
@@ -1299,7 +1299,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 459,
+          "line": 457,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "protocol[\"duration_ms\"] = metadata.end_time - metadata.start_time;",
@@ -1308,7 +1308,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 458,
+          "line": 456,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "protocol[\"end_time\"] = metadata.end_time;",
@@ -1317,7 +1317,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 457,
+          "line": 455,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "protocol[\"start_time\"] = metadata.start_time;",
@@ -1326,7 +1326,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 456,
+          "line": 454,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "protocol[\"title\"] = metadata.title;",
@@ -1335,7 +1335,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 455,
+          "line": 453,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "protocol[\"meeting_id\"] = metadata.meeting_id;",
@@ -1344,7 +1344,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 452,
+          "line": 450,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto protocol = stt_processor_->generateMeetingProtocol(audio_data, protocol_options);",
@@ -1353,7 +1353,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 399,
+          "line": 397,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result[\"metadata\"] = call_metadata;",
@@ -1362,7 +1362,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 398,
+          "line": 396,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "call_metadata[\"custom_fields\"] = metadata.custom_fields;",
@@ -1371,7 +1371,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 397,
+          "line": 395,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "call_metadata[\"call_type\"] = metadata.call_type;",
@@ -1380,7 +1380,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 396,
+          "line": 394,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "call_metadata[\"end_time\"] = metadata.end_time;",
@@ -1389,7 +1389,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 395,
+          "line": 393,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "call_metadata[\"start_time\"] = metadata.start_time;",
@@ -1398,7 +1398,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 394,
+          "line": 392,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "call_metadata[\"callee\"] = metadata.callee_number;",
@@ -1407,7 +1407,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 393,
+          "line": 391,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "call_metadata[\"caller\"] = metadata.caller_number;",
@@ -1416,7 +1416,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 385,
+          "line": 383,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result[\"call_id\"] = metadata.call_id;",
@@ -1425,7 +1425,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 373,
+          "line": 371,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto transcription = stt_processor_->transcribe(audio_data, transcription_options);",
@@ -1434,7 +1434,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 313,
+          "line": 311,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto transcription = stt_processor_->transcribe(audio_data);",
@@ -1443,7 +1443,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 296,
+          "line": 294,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "bool ok = stt_processor_->streamTranscribe(audio_data, on_segment);",
@@ -1452,7 +1452,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 161,
+          "line": 159,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto transcription = stt_processor_->transcribe(audio_data);",
@@ -1461,7 +1461,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 560,
+          "line": 558,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = sessions_.find(session_id);",
@@ -1472,7 +1472,7 @@
       "src\\voice\\voice_audio_storage.cpp": [
         {
           "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 252,
+          "line": 250,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1484,7 +1484,7 @@
         },
         {
           "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 232,
+          "line": 230,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -1496,7 +1496,7 @@
         },
         {
           "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 231,
+          "line": 229,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1508,7 +1508,7 @@
         },
         {
           "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 207,
+          "line": 205,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1520,7 +1520,7 @@
         },
         {
           "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 54,
+          "line": 52,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1532,7 +1532,7 @@
         },
         {
           "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 232,
+          "line": 230,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1544,7 +1544,7 @@
         },
         {
           "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 232,
+          "line": 230,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1556,7 +1556,7 @@
         },
         {
           "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 232,
+          "line": 230,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1568,7 +1568,7 @@
         },
         {
           "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 209,
+          "line": 207,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1582,7 +1582,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\voice\\voice_audio_storage.cpp",
-          "line_number": 255,
+          "line_number": 253,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1594,7 +1594,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\voice\\voice_audio_storage.cpp",
-          "line_number": 254,
+          "line_number": 252,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1604,7 +1604,7 @@
         },
         {
           "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 233,
+          "line": 231,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(rec);",
@@ -1613,7 +1613,7 @@
         },
         {
           "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 210,
+          "line": 208,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(rec);",
@@ -1622,7 +1622,7 @@
         },
         {
           "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 100,
+          "line": 98,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "data[OGG_OPUS_SIGNATURE_OFFSET+7]=='d');",
@@ -1631,7 +1631,7 @@
         },
         {
           "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 99,
+          "line": 97,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "data[OGG_OPUS_SIGNATURE_OFFSET+6]=='a' &&",
@@ -1640,7 +1640,7 @@
         },
         {
           "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 98,
+          "line": 96,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "data[OGG_OPUS_SIGNATURE_OFFSET+5]=='e' &&",
@@ -1649,7 +1649,7 @@
         },
         {
           "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 97,
+          "line": 95,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "data[OGG_OPUS_SIGNATURE_OFFSET+4]=='H' &&",
@@ -1658,7 +1658,7 @@
         },
         {
           "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 192,
+          "line": 190,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto rit = records_.find(record_id);",
@@ -1667,7 +1667,7 @@
         },
         {
           "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 135,
+          "line": 133,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "const std::string& orig_id = dup_it->second;",
@@ -1676,7 +1676,7 @@
         },
         {
           "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 72,
+          "line": 70,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "result.existing_record_id = it->second;",
@@ -1689,7 +1689,7 @@
           "gap_type": "exception_in_destructor",
           "severity": "CRITICAL",
           "file_path": "src\\voice\\voice_browser_streaming.cpp",
-          "line_number": 146,
+          "line_number": 144,
           "class_name": "",
           "issue": "Potential exception in destructor",
           "reason": "Destructors must be noexcept; exceptions here cause std::terminate()",
@@ -1699,7 +1699,7 @@
         },
         {
           "file": "src\\voice\\voice_browser_streaming.cpp",
-          "line": 253,
+          "line": 251,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "impl_->audio_buffer.clear();",
@@ -1708,7 +1708,7 @@
         },
         {
           "file": "src\\voice\\voice_browser_streaming.cpp",
-          "line": 251,
+          "line": 249,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "impl_->audio_buffer,",
@@ -1717,7 +1717,7 @@
         },
         {
           "file": "src\\voice\\voice_browser_streaming.cpp",
-          "line": 219,
+          "line": 217,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "impl_->audio_buffer.insert(impl_->audio_buffer.end(),",
@@ -1726,7 +1726,7 @@
         },
         {
           "file": "src\\voice\\voice_browser_streaming.cpp",
-          "line": 141,
+          "line": 139,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -1735,7 +1735,7 @@
         },
         {
           "file": "src\\voice\\voice_browser_streaming.cpp",
-          "line": 137,
+          "line": 135,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -1744,7 +1744,7 @@
         },
         {
           "file": "src\\voice\\voice_browser_streaming.cpp",
-          "line": 340,
+          "line": 338,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = sessions_.find(stream_id);",
@@ -1753,7 +1753,7 @@
         },
         {
           "file": "src\\voice\\voice_browser_streaming.cpp",
-          "line": 162,
+          "line": 160,
           "type": "smart_ptr_misuse",
           "severity": "CRITICAL",
           "snippet": "new VoiceStreamingSession(std::move(config)));",
@@ -1764,7 +1764,7 @@
       "src\\voice\\voice_security.cpp": [
         {
           "file": "src\\voice\\voice_security.cpp",
-          "line": 272,
+          "line": 270,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1776,7 +1776,7 @@
         },
         {
           "file": "src\\voice\\voice_security.cpp",
-          "line": 213,
+          "line": 211,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1788,7 +1788,7 @@
         },
         {
           "file": "src\\voice\\voice_security.cpp",
-          "line": 278,
+          "line": 276,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1800,7 +1800,7 @@
         },
         {
           "file": "src\\voice\\voice_security.cpp",
-          "line": 214,
+          "line": 212,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1812,7 +1812,7 @@
         },
         {
           "file": "src\\voice\\voice_security.cpp",
-          "line": 121,
+          "line": 119,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1824,7 +1824,7 @@
         },
         {
           "file": "src\\voice\\voice_security.cpp",
-          "line": 121,
+          "line": 119,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1836,7 +1836,7 @@
         },
         {
           "file": "src\\voice\\voice_security.cpp",
-          "line": 93,
+          "line": 91,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1848,7 +1848,7 @@
         },
         {
           "file": "src\\voice\\voice_security.cpp",
-          "line": 93,
+          "line": 91,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1860,7 +1860,7 @@
         },
         {
           "file": "src\\voice\\voice_security.cpp",
-          "line": 279,
+          "line": 277,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "audit_entries.push_back(e);",
@@ -1869,7 +1869,7 @@
         },
         {
           "file": "src\\voice\\voice_security.cpp",
-          "line": 215,
+          "line": 213,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(*it);",
@@ -1878,7 +1878,7 @@
         },
         {
           "file": "src\\voice\\voice_security.cpp",
-          "line": 122,
+          "line": 120,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "cumulative.found_pii.push_back(p);",
@@ -1887,7 +1887,7 @@
         },
         {
           "file": "src\\voice\\voice_security.cpp",
-          "line": 281,
+          "line": 279,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "data[\"audit_log\"] = audit_entries;",
@@ -1896,7 +1896,7 @@
         },
         {
           "file": "src\\voice\\voice_security.cpp",
-          "line": 262,
+          "line": 260,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "data[\"user_id\"] = user_id;",
@@ -1905,7 +1905,7 @@
         },
         {
           "file": "src\\voice\\voice_security.cpp",
-          "line": 266,
+          "line": 264,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "data[\"consent\"][\"recording\"]    = it->second.recording_consent;",
@@ -1918,7 +1918,7 @@
           "gap_type": "exception_in_destructor",
           "severity": "CRITICAL",
           "file_path": "src\\voice\\voice_telephony.cpp",
-          "line_number": 456,
+          "line_number": 454,
           "class_name": "",
           "issue": "Potential exception in destructor",
           "reason": "Destructors must be noexcept; exceptions here cause std::terminate()",
@@ -1930,7 +1930,7 @@
           "gap_type": "exception_in_destructor",
           "severity": "CRITICAL",
           "file_path": "src\\voice\\voice_telephony.cpp",
-          "line_number": 217,
+          "line_number": 215,
           "class_name": "",
           "issue": "Potential exception in destructor",
           "reason": "Destructors must be noexcept; exceptions here cause std::terminate()",
@@ -1940,7 +1940,7 @@
         },
         {
           "file": "src\\voice\\voice_telephony.cpp",
-          "line": 600,
+          "line": 598,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1952,7 +1952,7 @@
         },
         {
           "file": "src\\voice\\voice_telephony.cpp",
-          "line": 387,
+          "line": 385,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1964,7 +1964,7 @@
         },
         {
           "file": "src\\voice\\voice_telephony.cpp",
-          "line": 317,
+          "line": 315,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1976,7 +1976,7 @@
         },
         {
           "file": "src\\voice\\voice_telephony.cpp",
-          "line": 317,
+          "line": 315,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1988,7 +1988,7 @@
         },
         {
           "file": "src\\voice\\voice_telephony.cpp",
-          "line": 309,
+          "line": 307,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2000,7 +2000,7 @@
         },
         {
           "file": "src\\voice\\voice_telephony.cpp",
-          "line": 601,
+          "line": 599,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "packets.push_back(std::move(pkt));",
@@ -2009,7 +2009,7 @@
         },
         {
           "file": "src\\voice\\voice_telephony.cpp",
-          "line": 600,
+          "line": 598,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (char c : text) pkt.push_back(static_cast<uint8_t>(c));",
@@ -2018,7 +2018,7 @@
         },
         {
           "file": "src\\voice\\voice_telephony.cpp",
-          "line": 580,
+          "line": 578,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "packets.push_back(std::move(pkt));",
@@ -2027,7 +2027,7 @@
         },
         {
           "file": "src\\voice\\voice_telephony.cpp",
-          "line": 388,
+          "line": 386,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "packets.push_back(std::move(pkt));",
@@ -2036,7 +2036,7 @@
         },
         {
           "file": "src\\voice\\voice_telephony.cpp",
-          "line": 387,
+          "line": 385,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (char c : text) pkt.push_back(static_cast<uint8_t>(c));",
@@ -2045,7 +2045,7 @@
         },
         {
           "file": "src\\voice\\voice_telephony.cpp",
-          "line": 364,
+          "line": 362,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "packets.push_back(std::move(pkt));",
@@ -2054,7 +2054,7 @@
         },
         {
           "file": "src\\voice\\voice_telephony.cpp",
-          "line": 318,
+          "line": 316,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "pcm.push_back(s);",
@@ -2063,7 +2063,7 @@
         },
         {
           "file": "src\\voice\\voice_telephony.cpp",
-          "line": 310,
+          "line": 308,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (uint8_t b : payload) pcm.push_back(alawToPcm(b));",
@@ -2072,7 +2072,7 @@
         },
         {
           "file": "src\\voice\\voice_telephony.cpp",
-          "line": 307,
+          "line": 305,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (uint8_t b : payload) pcm.push_back(ulawToPcm(b));",
@@ -2081,16 +2081,7 @@
         },
         {
           "file": "src\\voice\\voice_telephony.cpp",
-          "line": 161,
-          "type": "hardcoded_path",
-          "severity": "MEDIUM",
-          "snippet": "<< \"/\" << clock << \"\\r\\n\"",
-          "description": "Hardcoded path separator \u2014 not portable",
-          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 161,
+          "line": 159,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "<< \"/\" << clock << \"\\r\\n\"",
@@ -2102,13 +2093,13 @@
           "line": 159,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
-          "snippet": "<< \"m=audio 0 RTP/AVP \" << payload_type << \"\\r\\n\"",
+          "snippet": "<< \"/\" << clock << \"\\r\\n\"",
           "description": "Hardcoded path separator \u2014 not portable",
           "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         },
         {
           "file": "src\\voice\\voice_telephony.cpp",
-          "line": 159,
+          "line": 157,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "<< \"m=audio 0 RTP/AVP \" << payload_type << \"\\r\\n\"",
@@ -2117,7 +2108,16 @@
         },
         {
           "file": "src\\voice\\voice_telephony.cpp",
-          "line": 826,
+          "line": 157,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "<< \"m=audio 0 RTP/AVP \" << payload_type << \"\\r\\n\"",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 824,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock_rtc(webrtc_mutex_);",
@@ -2126,7 +2126,7 @@
         },
         {
           "file": "src\\voice\\voice_telephony.cpp",
-          "line": 825,
+          "line": 823,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock_sip(sip_mutex_);",
@@ -2135,7 +2135,7 @@
         },
         {
           "file": "src\\voice\\voice_telephony.cpp",
-          "line": 546,
+          "line": 544,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "impl_->pcm_buffer.insert(impl_->pcm_buffer.end(),",
@@ -2144,7 +2144,7 @@
         },
         {
           "file": "src\\voice\\voice_telephony.cpp",
-          "line": 451,
+          "line": 449,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -2153,7 +2153,7 @@
         },
         {
           "file": "src\\voice\\voice_telephony.cpp",
-          "line": 333,
+          "line": 331,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto ct = runCallStt(impl_->call_id, impl_->pcm_buffer, /*is_final=*/false);",
@@ -2162,7 +2162,7 @@
         },
         {
           "file": "src\\voice\\voice_telephony.cpp",
-          "line": 212,
+          "line": 210,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -2171,7 +2171,7 @@
         },
         {
           "file": "src\\voice\\voice_telephony.cpp",
-          "line": 131,
+          "line": 129,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (lower_sdp.find(codec) != std::string::npos)",
@@ -2180,7 +2180,16 @@
         },
         {
           "file": "src\\voice\\voice_telephony.cpp",
-          "line": 811,
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #3663 feat(voice): register focus... (2026-03-12) | #3605 feat(voice): teleph",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 809,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = webrtc_calls_.find(call_id);",
@@ -2189,7 +2198,7 @@
         },
         {
           "file": "src\\voice\\voice_telephony.cpp",
-          "line": 747,
+          "line": 745,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = sip_calls_.find(call_id);",
@@ -2202,7 +2211,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\voice\\voice_error_handler.cpp",
-          "line_number": 250,
+          "line_number": 248,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2212,7 +2221,7 @@
         },
         {
           "file": "src\\voice\\voice_error_handler.cpp",
-          "line": 281,
+          "line": 279,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "json status;",
@@ -2221,7 +2230,7 @@
         },
         {
           "file": "src\\voice\\voice_error_handler.cpp",
-          "line": 166,
+          "line": 164,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(ms));",
@@ -2232,7 +2241,7 @@
       "src\\voice\\voice_authenticator.cpp": [
         {
           "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 337,
+          "line": 335,
           "category": "audit_logging",
           "severity": "CRITICAL",
           "pattern": "missing_audit_log",
@@ -2244,7 +2253,7 @@
         },
         {
           "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 421,
+          "line": 419,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2256,7 +2265,7 @@
         },
         {
           "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 124,
+          "line": 122,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2268,7 +2277,7 @@
         },
         {
           "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 119,
+          "line": 117,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2280,7 +2289,7 @@
         },
         {
           "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 118,
+          "line": 116,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2294,7 +2303,7 @@
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\voice\\voice_authenticator.cpp",
-          "line_number": 524,
+          "line_number": 522,
           "line_content": "size_t len   = end - start;",
           "context": [
             "        size_t start = static_cast<size_t>(b) * band_size;",
@@ -2313,7 +2322,7 @@
         },
         {
           "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 421,
+          "line": 419,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2325,7 +2334,7 @@
         },
         {
           "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 217,
+          "line": 215,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2337,7 +2346,7 @@
         },
         {
           "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 598,
+          "line": 596,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -2349,7 +2358,7 @@
         },
         {
           "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 287,
+          "line": 285,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -2361,7 +2370,7 @@
         },
         {
           "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 422,
+          "line": 420,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ids.push_back(kv.first);",
@@ -2370,7 +2379,7 @@
         },
         {
           "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 218,
+          "line": 216,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.matches.push_back(m);",
@@ -2379,7 +2388,7 @@
         },
         {
           "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 478,
+          "line": 476,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "*   Index  21:     Crest factor (normalised to [0,1])",
@@ -2388,7 +2397,7 @@
         },
         {
           "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 473,
+          "line": 471,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "*   Index  16:     Spectral centroid (normalised to [0,1])",
@@ -2397,7 +2406,7 @@
         },
         {
           "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 443,
+          "line": 441,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -2406,16 +2415,16 @@
         },
         {
           "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #2605 [voice] Implement speaker verification for voice biometrics + audit... (2026-03-12T05:52",
+          "snippet": "* PR History (last 5): #2605 [voice] Implement speaker v... (2026-03-12)",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         },
         {
           "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 401,
+          "line": 399,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = profiles_.find(profile_id);",
@@ -2424,7 +2433,7 @@
         },
         {
           "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 208,
+          "line": 206,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = profiles_.find(pid);",
@@ -2435,7 +2444,7 @@
       "src\\voice\\wake_word_detector.cpp": [
         {
           "file": "src\\voice\\wake_word_detector.cpp",
-          "line": 125,
+          "line": 123,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2447,7 +2456,7 @@
         },
         {
           "file": "src\\voice\\wake_word_detector.cpp",
-          "line": 97,
+          "line": 95,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2459,7 +2468,7 @@
         },
         {
           "file": "src\\voice\\wake_word_detector.cpp",
-          "line": 153,
+          "line": 151,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2471,7 +2480,7 @@
         },
         {
           "file": "src\\voice\\wake_word_detector.cpp",
-          "line": 125,
+          "line": 123,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2483,7 +2492,7 @@
         },
         {
           "file": "src\\voice\\wake_word_detector.cpp",
-          "line": 105,
+          "line": 103,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2495,7 +2504,7 @@
         },
         {
           "file": "src\\voice\\wake_word_detector.cpp",
-          "line": 71,
+          "line": 69,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2509,7 +2518,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\voice\\wake_word_detector.cpp",
-          "line_number": 153,
+          "line_number": 151,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2519,7 +2528,7 @@
         },
         {
           "file": "src\\voice\\wake_word_detector.cpp",
-          "line": 154,
+          "line": 152,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "sample_buffer_.push_back(s);",
@@ -2528,7 +2537,7 @@
         },
         {
           "file": "src\\voice\\wake_word_detector.cpp",
-          "line": 126,
+          "line": 124,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ids.push_back(ww.id);",
@@ -2537,7 +2546,7 @@
         },
         {
           "file": "src\\voice\\wake_word_detector.cpp",
-          "line": 106,
+          "line": 104,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "wake_words_.push_back(std::move(ww));",
@@ -2546,7 +2555,7 @@
         },
         {
           "file": "src\\voice\\wake_word_detector.cpp",
-          "line": 72,
+          "line": 70,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back(tok);",
@@ -2555,7 +2564,7 @@
         },
         {
           "file": "src\\voice\\wake_word_detector.cpp",
-          "line": 230,
+          "line": 228,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -2566,7 +2575,7 @@
       "src\\voice\\emotion_analyzer.cpp": [
         {
           "file": "src\\voice\\emotion_analyzer.cpp",
-          "line": 434,
+          "line": 432,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2578,7 +2587,7 @@
         },
         {
           "file": "src\\voice\\emotion_analyzer.cpp",
-          "line": 431,
+          "line": 429,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2590,7 +2599,7 @@
         },
         {
           "file": "src\\voice\\emotion_analyzer.cpp",
-          "line": 411,
+          "line": 409,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2602,7 +2611,7 @@
         },
         {
           "file": "src\\voice\\emotion_analyzer.cpp",
-          "line": 403,
+          "line": 401,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2614,7 +2623,7 @@
         },
         {
           "file": "src\\voice\\emotion_analyzer.cpp",
-          "line": 402,
+          "line": 400,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2626,7 +2635,7 @@
         },
         {
           "file": "src\\voice\\emotion_analyzer.cpp",
-          "line": 187,
+          "line": 185,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2638,7 +2647,7 @@
         },
         {
           "file": "src\\voice\\emotion_analyzer.cpp",
-          "line": 300,
+          "line": 298,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -2650,7 +2659,7 @@
         },
         {
           "file": "src\\voice\\emotion_analyzer.cpp",
-          "line": 190,
+          "line": 188,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "engagement_scores.push_back(result->engagement_score);",
@@ -2659,7 +2668,7 @@
         },
         {
           "file": "src\\voice\\emotion_analyzer.cpp",
-          "line": 189,
+          "line": 187,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "stress_levels.push_back(result->stress_level);",
@@ -2668,7 +2677,7 @@
         },
         {
           "file": "src\\voice\\emotion_analyzer.cpp",
-          "line": 188,
+          "line": 186,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "timeline.timeline.push_back(te);",
@@ -2677,7 +2686,7 @@
         },
         {
           "file": "src\\voice\\emotion_analyzer.cpp",
-          "line": 18,
+          "line": 16,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "* 1. Convert raw 16-bit LE PCM bytes to normalised float samples [-1, +1].",
@@ -2688,7 +2697,7 @@
       "src\\voice\\voice_accessibility.cpp": [
         {
           "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 372,
+          "line": 370,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2700,7 +2709,7 @@
         },
         {
           "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 369,
+          "line": 367,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -2712,7 +2721,7 @@
         },
         {
           "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 351,
+          "line": 349,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2724,7 +2733,7 @@
         },
         {
           "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 351,
+          "line": 349,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2736,7 +2745,7 @@
         },
         {
           "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 316,
+          "line": 314,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2748,7 +2757,7 @@
         },
         {
           "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 264,
+          "line": 262,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2760,7 +2769,7 @@
         },
         {
           "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 90,
+          "line": 88,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2772,7 +2781,7 @@
         },
         {
           "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 62,
+          "line": 60,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2784,7 +2793,7 @@
         },
         {
           "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 373,
+          "line": 371,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(sorted[i]);",
@@ -2793,7 +2802,7 @@
         },
         {
           "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 370,
+          "line": 368,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "last.text += \" \" + sorted[i].text;",
@@ -2802,7 +2811,7 @@
         },
         {
           "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 363,
+          "line": 361,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(sorted[0]);",
@@ -2811,7 +2820,7 @@
         },
         {
           "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 352,
+          "line": 350,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(sub);",
@@ -2820,7 +2829,7 @@
         },
         {
           "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 328,
+          "line": 326,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(cue);",
@@ -2829,7 +2838,7 @@
         },
         {
           "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 325,
+          "line": 323,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "while (iss >> word) words.push_back(word);",
@@ -2838,7 +2847,7 @@
         },
         {
           "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 317,
+          "line": 315,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(cue);",
@@ -2847,7 +2856,7 @@
         },
         {
           "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 265,
+          "line": 263,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "arr.push_back(obj);",
@@ -2856,7 +2865,7 @@
         },
         {
           "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 243,
+          "line": 241,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "ss << \"</article>\\n</body>\\n</html>\\n\";",
@@ -2865,7 +2874,7 @@
         },
         {
           "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 240,
+          "line": 238,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "ss << cue.text << \"</p>\\n\";",
@@ -2874,7 +2883,7 @@
         },
         {
           "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 227,
+          "line": 225,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "ss << \"</head>\\n<body>\\n\";",
@@ -2883,7 +2892,7 @@
         },
         {
           "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 91,
+          "line": 89,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "cues.push_back(std::move(cue));",
@@ -2892,7 +2901,7 @@
         },
         {
           "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 63,
+          "line": 61,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "cues.push_back(std::move(cue));",
@@ -2903,7 +2912,7 @@
       "src\\voice\\voice_assistant_llm.cpp": [
         {
           "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 46,
+          "line": 44,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -2915,7 +2924,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 32,
+          "line": 30,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -2927,7 +2936,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 142,
+          "line": 140,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -2939,19 +2948,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 103,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unvalidated_llm_output",
-          "description": "LLM output used without validation (hallucination/bias risk)",
-          "context": "std::string response = THEMIS_LLM_GENERATE(prompt.str());",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 51,
+          "line": 101,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -2968,6 +2965,18 @@
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
           "description": "LLM output used without validation (hallucination/bias risk)",
+          "context": "std::string response = THEMIS_LLM_GENERATE(prompt.str());",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 47,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unvalidated_llm_output",
+          "description": "LLM output used without validation (hallucination/bias risk)",
           "context": "// Use EmbeddedLLM instead of inference engine",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
@@ -2975,7 +2984,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 46,
+          "line": 44,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2987,7 +2996,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 32,
+          "line": 30,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2999,7 +3008,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 30,
+          "line": 28,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -3011,7 +3020,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 142,
+          "line": 140,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -3023,7 +3032,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 103,
+          "line": 101,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -3035,7 +3044,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 77,
+          "line": 75,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -3047,7 +3056,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 51,
+          "line": 49,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -3059,7 +3068,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 158,
+          "line": 156,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "action_items.push_back(item);",
@@ -3068,7 +3077,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 116,
+          "line": 114,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "key_points.push_back(line);",
@@ -3079,7 +3088,7 @@
       "src\\voice\\voice_batch_processor.cpp": [
         {
           "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 302,
+          "line": 300,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3091,7 +3100,7 @@
         },
         {
           "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 119,
+          "line": 117,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3103,7 +3112,7 @@
         },
         {
           "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 117,
+          "line": 115,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3115,7 +3124,7 @@
         },
         {
           "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 419,
+          "line": 417,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3127,7 +3136,7 @@
         },
         {
           "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 387,
+          "line": 385,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3139,7 +3148,7 @@
         },
         {
           "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 387,
+          "line": 385,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3151,7 +3160,7 @@
         },
         {
           "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 387,
+          "line": 385,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3163,7 +3172,7 @@
         },
         {
           "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 304,
+          "line": 302,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3175,7 +3184,7 @@
         },
         {
           "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 119,
+          "line": 117,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3187,7 +3196,7 @@
         },
         {
           "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 119,
+          "line": 117,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3199,7 +3208,7 @@
         },
         {
           "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 420,
+          "line": 418,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "samples.push_back(static_cast<float>(s) / 32768.0f);",
@@ -3208,7 +3217,7 @@
         },
         {
           "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 409,
+          "line": 407,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "samples.push_back((static_cast<float>(b) - 128.0f) / 128.0f);",
@@ -3217,7 +3226,7 @@
         },
         {
           "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 388,
+          "line": 386,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "frame_rms.push_back(std::sqrt(sum / static_cast<float>(window_size)));",
@@ -3226,7 +3235,7 @@
         },
         {
           "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 362,
+          "line": 360,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (!word.empty()) tokens.push_back(word);",
@@ -3235,7 +3244,7 @@
         },
         {
           "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 305,
+          "line": 303,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "items.push_back(std::move(item));",
@@ -3244,7 +3253,7 @@
         },
         {
           "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 120,
+          "line": 118,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(processItem(items[j]));",
@@ -3253,7 +3262,7 @@
         },
         {
           "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 315,
+          "line": 313,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = job_summaries_.find(job_id);",
@@ -3264,7 +3273,7 @@
       "src\\voice\\voice_meeting_support.cpp": [
         {
           "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 249,
+          "line": 247,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3276,7 +3285,7 @@
         },
         {
           "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 210,
+          "line": 208,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3288,7 +3297,7 @@
         },
         {
           "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 193,
+          "line": 191,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3300,7 +3309,7 @@
         },
         {
           "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 180,
+          "line": 178,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3312,7 +3321,7 @@
         },
         {
           "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 70,
+          "line": 68,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3324,7 +3333,7 @@
         },
         {
           "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 70,
+          "line": 68,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3336,7 +3345,7 @@
         },
         {
           "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 250,
+          "line": 248,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "protocol.segments.push_back(seg);",
@@ -3345,7 +3354,7 @@
         },
         {
           "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 211,
+          "line": 209,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "points.push_back(sent);",
@@ -3354,7 +3363,7 @@
         },
         {
           "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 194,
+          "line": 192,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "decisions.push_back(sent);",
@@ -3363,7 +3372,7 @@
         },
         {
           "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 181,
+          "line": 179,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "items.push_back(std::move(ai));",
@@ -3372,7 +3381,7 @@
         },
         {
           "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 79,
+          "line": 77,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (!current.empty()) sentences.push_back(current);",
@@ -3381,7 +3390,7 @@
         },
         {
           "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 71,
+          "line": 69,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (!current.empty()) sentences.push_back(current);",
@@ -3390,7 +3399,7 @@
         },
         {
           "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 148,
+          "line": 146,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "size_t pos = lower.find(pat);",
@@ -3399,7 +3408,7 @@
         },
         {
           "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 148,
+          "line": 146,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "size_t pos = lower.find(pat);",
@@ -3408,7 +3417,7 @@
         },
         {
           "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 51,
+          "line": 49,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (lower.find(toLower(t)) != std::string::npos) return true;",
@@ -3417,7 +3426,7 @@
         },
         {
           "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 51,
+          "line": 49,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (lower.find(toLower(t)) != std::string::npos) return true;",
@@ -3426,10 +3435,10 @@
         },
         {
           "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #3423 [WIP] Add real-time meeting transcription with action item extraction (2026-03-12T07:12:",
+          "snippet": "* PR History (last 5): #3423 [WIP] Add real-time meeting... (2026-03-12)",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         }

@@ -19,7 +19,7 @@
       "src\\toolbox\\content_toolbox_bridge.cpp": [
         {
           "file": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line": 210,
+          "line": 208,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "toolbox_ptr2->extractEntitySet(extracted_text, mime_type, filename_hint);",
@@ -28,7 +28,7 @@
         },
         {
           "file": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line": 210,
+          "line": 208,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "toolbox_ptr2->extractEntitySet(extracted_text, mime_type, filename_hint);",
@@ -37,7 +37,7 @@
         },
         {
           "file": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line": 207,
+          "line": 205,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "toolbox_ptr2 = impl_->toolbox_;",
@@ -46,7 +46,7 @@
         },
         {
           "file": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line": 207,
+          "line": 205,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "toolbox_ptr2 = impl_->toolbox_;",
@@ -55,7 +55,7 @@
         },
         {
           "file": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line": 132,
+          "line": 130,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "toolbox_ptr->extractEntitySet(extracted_text, mime_type, filename);",
@@ -64,7 +64,7 @@
         },
         {
           "file": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line": 132,
+          "line": 130,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "toolbox_ptr->extractEntitySet(extracted_text, mime_type, filename);",
@@ -73,7 +73,7 @@
         },
         {
           "file": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line": 129,
+          "line": 127,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "toolbox_ptr = impl_->toolbox_;",
@@ -82,7 +82,7 @@
         },
         {
           "file": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line": 129,
+          "line": 127,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "toolbox_ptr = impl_->toolbox_;",
@@ -91,7 +91,7 @@
         },
         {
           "file": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line": 59,
+          "line": 57,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ContentToolboxBridge: content_manager must not be null\");",
@@ -100,7 +100,7 @@
         },
         {
           "file": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line": 56,
+          "line": 54,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ContentToolboxBridge: toolbox must not be null\");",
@@ -109,7 +109,7 @@
         },
         {
           "file": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line": 216,
+          "line": 214,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto res = impl_->graph_writer_->writeEntities(entity_set.nodes);",
@@ -118,7 +118,7 @@
         },
         {
           "file": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line": 139,
+          "line": 137,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto res = impl_->graph_writer_->writeEntities(entity_set.nodes);",
@@ -129,7 +129,7 @@
       "src\\toolbox\\toolbox_builder.cpp": [
         {
           "file": "src\\toolbox\\toolbox_builder.cpp",
-          "line": 126,
+          "line": 124,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -138,32 +138,6 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 249,
-          "class_name": "BuiltToolbox",
-          "function_name": "build",
-          "issue": "Potential virtual member call in constructor/destructor",
-          "reason": "If this member function is virtual, dispatch in ctor/dtor can be unsafe",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 248,
-          "class_name": "BuiltToolbox",
-          "function_name": "build",
-          "issue": "Potential virtual member call in constructor/destructor",
-          "reason": "If this member function is virtual, dispatch in ctor/dtor can be unsafe",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
         },
         {
           "gap_type": "virtual_call_in_ctor_dtor",
@@ -179,8 +153,34 @@
           "confidence_rationale": "severity=HIGH,context_missing"
         },
         {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_builder.cpp",
+          "line_number": 246,
+          "class_name": "BuiltToolbox",
+          "function_name": "build",
+          "issue": "Potential virtual member call in constructor/destructor",
+          "reason": "If this member function is virtual, dispatch in ctor/dtor can be unsafe",
+          "confidence_score": 0.73,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=HIGH,context_missing"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_builder.cpp",
+          "line_number": 245,
+          "class_name": "BuiltToolbox",
+          "function_name": "build",
+          "issue": "Potential virtual member call in constructor/destructor",
+          "reason": "If this member function is virtual, dispatch in ctor/dtor can be unsafe",
+          "confidence_score": 0.73,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=HIGH,context_missing"
+        },
+        {
           "file": "src\\toolbox\\toolbox_builder.cpp",
-          "line": 127,
+          "line": 125,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "impl_->format_extractors.push_back(std::move(ext));",
@@ -189,7 +189,7 @@
         },
         {
           "file": "src\\toolbox\\toolbox_builder.cpp",
-          "line": 110,
+          "line": 108,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "impl_->format_extractors.push_back(std::move(extractor));",
@@ -198,7 +198,7 @@
         },
         {
           "file": "src\\toolbox\\toolbox_builder.cpp",
-          "line": 259,
+          "line": 257,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::logic_error(",
@@ -207,7 +207,7 @@
         },
         {
           "file": "src\\toolbox\\toolbox_builder.cpp",
-          "line": 156,
+          "line": 154,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto registerFormatStep = [&](std::shared_ptr<ingestion::IFormatExtractor> ext) {",
@@ -216,7 +216,7 @@
         },
         {
           "file": "src\\toolbox\\toolbox_builder.cpp",
-          "line": 139,
+          "line": 137,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::logic_error(\"ToolboxBuilder::build() called more than once\");",
@@ -225,7 +225,7 @@
         },
         {
           "file": "src\\toolbox\\toolbox_builder.cpp",
-          "line": 118,
+          "line": 116,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ToolboxBuilder::withFormatExtractorFactory: factory must not be null\");",
@@ -234,7 +234,7 @@
         },
         {
           "file": "src\\toolbox\\toolbox_builder.cpp",
-          "line": 108,
+          "line": 106,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ToolboxBuilder::withFormatExtractor: extractor must not be null\");",
@@ -243,7 +243,7 @@
         },
         {
           "file": "src\\toolbox\\toolbox_builder.cpp",
-          "line": 98,
+          "line": 96,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ToolboxBuilder::withWorkflowEngine: engine must not be null\");",
@@ -252,7 +252,7 @@
         },
         {
           "file": "src\\toolbox\\toolbox_builder.cpp",
-          "line": 53,
+          "line": 51,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ToolboxBuilder::withWorkflowProfile: path must not be empty\");",
@@ -263,7 +263,7 @@
       "src\\toolbox\\toolbox_composite.cpp": [
         {
           "file": "src\\toolbox\\toolbox_composite.cpp",
-          "line": 91,
+          "line": 89,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::logic_error(",
@@ -272,7 +272,7 @@
         },
         {
           "file": "src\\toolbox\\toolbox_composite.cpp",
-          "line": 75,
+          "line": 73,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -283,7 +283,7 @@
       "src\\toolbox\\ingestion_toolbox.cpp": [
         {
           "file": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line": 237,
+          "line": 235,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "out << \"# HELP toolbox_extract_entities_total Cumulative number of entities / chunks extracted.\\n\";",
@@ -292,7 +292,7 @@
         },
         {
           "file": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line": 229,
+          "line": 227,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "out << \"# HELP toolbox_extract_calls_total Total extractEntities() / extractEntitySet() calls.\\n\";",
@@ -301,7 +301,7 @@
         },
         {
           "file": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line": 215,
+          "line": 213,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "impl_->extract_entities_total_ += static_cast<uint64_t>(entity_count);",
@@ -312,7 +312,7 @@
       "src\\toolbox\\language_detector.cpp": [
         {
           "file": "src\\toolbox\\language_detector.cpp",
-          "line": 31,
+          "line": 29,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back(utils::toLower(word));",
@@ -323,7 +323,7 @@
       "src\\toolbox\\text_chunker.cpp": [
         {
           "file": "src\\toolbox\\text_chunker.cpp",
-          "line": 54,
+          "line": 52,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -335,7 +335,7 @@
         },
         {
           "file": "src\\toolbox\\text_chunker.cpp",
-          "line": 55,
+          "line": 53,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(c.text));",
@@ -346,7 +346,7 @@
       "src\\toolbox\\content_fingerprinter.cpp": [
         {
           "file": "src\\toolbox\\content_fingerprinter.cpp",
-          "line": 45,
+          "line": 43,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",

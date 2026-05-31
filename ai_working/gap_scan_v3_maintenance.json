@@ -15,7 +15,7 @@
       "src\\maintenance\\database_maintenance_orchestrator.cpp": [
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 946,
+          "line": 944,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -27,7 +27,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 644,
+          "line": 642,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -39,7 +39,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 169,
+          "line": 167,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -51,7 +51,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 154,
+          "line": 152,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -63,7 +63,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 1427,
+          "line": 1425,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -75,7 +75,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 1427,
+          "line": 1425,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -87,7 +87,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 1427,
+          "line": 1425,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -99,7 +99,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 1390,
+          "line": 1388,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -111,7 +111,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 722,
+          "line": 720,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -123,7 +123,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 718,
+          "line": 716,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -135,7 +135,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 664,
+          "line": 662,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -147,7 +147,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 588,
+          "line": 586,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -159,7 +159,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 292,
+          "line": 290,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -171,7 +171,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 1457,
+          "line": 1455,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(cur);",
@@ -180,7 +180,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 1446,
+          "line": 1444,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ready.push_back(t);",
@@ -189,7 +189,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 1428,
+          "line": 1426,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "dependents[prereq].push_back(dep.task_type);",
@@ -198,7 +198,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 673,
+          "line": 671,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "report.module_signals.push_back(std::move(sig));",
@@ -207,7 +207,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 665,
+          "line": 663,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "report.module_signals.push_back(std::move(sig));",
@@ -216,7 +216,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 589,
+          "line": 587,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(job);",
@@ -225,7 +225,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 293,
+          "line": 291,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(entry);",
@@ -234,7 +234,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 1370,
+          "line": 1368,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"window_end_hour must be in [0, 23]\");",
@@ -243,7 +243,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 1367,
+          "line": 1365,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"window_start_hour must be in [0, 23]\");",
@@ -252,7 +252,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 1304,
+          "line": 1302,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto result = handler->execute(job.id, task_type);",
@@ -261,7 +261,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 1304,
+          "line": 1302,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "auto result = handler->execute(job.id, task_type);",
@@ -270,7 +270,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 1299,
+          "line": 1297,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "handler = it->second;",
@@ -279,7 +279,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 931,
+          "line": 929,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "} dist_lock_guard{std::move(acquired_dist_lock), schedule_id};",
@@ -288,7 +288,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 873,
+          "line": 871,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "std::shared_ptr<IDistributedLock> acquired_dist_lock;",
@@ -297,7 +297,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 726,
+          "line": 724,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "result[task_type_str] = handler->handlerName();",
@@ -306,7 +306,7 @@
         },
         {
           "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
-          "line": 1340,
+          "line": 1338,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "for (auto it = jobs_.begin(); it != jobs_.end(); ) {",
@@ -317,7 +317,7 @@
       "src\\maintenance\\maintenance_schedule_store.cpp": [
         {
           "file": "src\\maintenance\\maintenance_schedule_store.cpp",
-          "line": 71,
+          "line": 69,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto scan_result = engine_->scanPrefix(",
@@ -328,7 +328,7 @@
       "src\\maintenance\\maintenance_registry.cpp": [
         {
           "file": "src\\maintenance\\maintenance_registry.cpp",
-          "line": 147,
+          "line": 145,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "return [mgr]() -> ModuleHealthSignal {",

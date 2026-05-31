@@ -18,7 +18,7 @@
       "src\\whisper\\audio_chunk_reader.cpp": [
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 203,
+          "line": 201,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -30,7 +30,7 @@
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 200,
+          "line": 198,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -42,7 +42,7 @@
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 157,
+          "line": 155,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -54,7 +54,7 @@
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 157,
+          "line": 155,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -66,7 +66,7 @@
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 204,
+          "line": 202,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "result += \"'\\\\''\";",
@@ -75,7 +75,7 @@
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 158,
+          "line": 156,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.push_back(sum / static_cast<float>(num_channels));",
@@ -84,7 +84,7 @@
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 143,
+          "line": 141,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.push_back(sum / static_cast<float>(num_channels));",
@@ -93,7 +93,7 @@
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 294,
+          "line": 292,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -102,7 +102,7 @@
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 265,
+          "line": 263,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -111,7 +111,7 @@
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 253,
+          "line": 251,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -120,7 +120,7 @@
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 240,
+          "line": 238,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -129,7 +129,7 @@
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 228,
+          "line": 226,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"FfmpegAudioChunkReader: ffmpeg not available\");",
@@ -138,7 +138,7 @@
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 221,
+          "line": 219,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"FfmpegAudioChunkReader: ffmpeg not available\");",
@@ -147,7 +147,7 @@
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 195,
+          "line": 193,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"FfmpegAudioChunkReader: path contains NUL byte\");",
@@ -156,7 +156,7 @@
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 172,
+          "line": 170,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"WavAudioChunkReader: 'data' chunk not found\");",
@@ -165,7 +165,7 @@
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 162,
+          "line": 160,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -174,7 +174,7 @@
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 155,
+          "line": 153,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "std::memcpy(&sample, &data[data_start + (i * num_channels + ch) * 2], 2);",
@@ -183,7 +183,7 @@
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 140,
+          "line": 138,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "std::memcpy(&s, &data[data_start + (i * num_channels + ch) * 4], 4);",
@@ -192,7 +192,7 @@
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 119,
+          "line": 117,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -201,7 +201,7 @@
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 115,
+          "line": 113,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"WavAudioChunkReader: invalid WAV \u2014 num_channels is 0\");",
@@ -210,7 +210,7 @@
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 110,
+          "line": 108,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (!found_fmt) throw std::runtime_error(\"WavAudioChunkReader: 'data' chunk before 'fmt '\");",
@@ -219,7 +219,7 @@
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 88,
+          "line": 86,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"WavAudioChunkReader: not a valid RIFF/WAV file\");",
@@ -228,7 +228,7 @@
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 70,
+          "line": 68,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"WavAudioChunkReader: file too small to be a WAV: '\" + path + \"'\");",
@@ -237,7 +237,7 @@
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 66,
+          "line": 64,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"WavAudioChunkReader: cannot open '\" + path + \"'\");",
@@ -248,7 +248,7 @@
       "src\\whisper\\whisper_plugin.cpp": [
         {
           "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 280,
+          "line": 278,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "delete p;  // delete nullptr is well-defined; ownership transferred to this function",
@@ -257,7 +257,7 @@
         },
         {
           "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 280,
+          "line": 278,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "delete p;  // delete nullptr is well-defined; ownership transferred to this function",
@@ -266,7 +266,7 @@
         },
         {
           "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 261,
+          "line": 259,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "{\"initialized\",        initialized_.load(std::memory_order_acquire)},",
@@ -275,7 +275,7 @@
         },
         {
           "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 179,
+          "line": 177,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (!initialized_.load(std::memory_order_acquire)) {",
@@ -284,7 +284,7 @@
         },
         {
           "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 159,
+          "line": 157,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (!initialized_.load(std::memory_order_acquire)) return {};",
@@ -293,7 +293,7 @@
         },
         {
           "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 131,
+          "line": 129,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (!initialized_.load(std::memory_order_acquire)) {",
@@ -302,7 +302,7 @@
         },
         {
           "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 92,
+          "line": 90,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (!initialized_.load(std::memory_order_acquire)) {",
@@ -311,7 +311,7 @@
         },
         {
           "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 27,
+          "line": 25,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "s_stub_transcriber_factory_fn = std::move(fn);",
@@ -320,7 +320,7 @@
         },
         {
           "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 275,
+          "line": 273,
           "type": "smart_ptr_misuse",
           "severity": "CRITICAL",
           "snippet": "return new themis::whisper::WhisperPlugin();",
@@ -329,7 +329,7 @@
         },
         {
           "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 232,
+          "line": 230,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "const auto segments = vad_->detect(pcm, sample_rate, vad_cfg_);",
@@ -340,7 +340,7 @@
       "src\\whisper\\whisper_transcriber.cpp": [
         {
           "file": "src\\whisper\\whisper_transcriber.cpp",
-          "line": 32,
+          "line": 30,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "whisper_free(static_cast<whisper_context*>(ctx_));",
@@ -351,7 +351,7 @@
       "src\\whisper\\whisper_plugin_registrar.cpp": [
         {
           "file": "src\\whisper\\whisper_plugin_registrar.cpp",
-          "line": 92,
+          "line": 90,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "return [](WhisperPlugin& plugin, const json& config) -> bool {",
@@ -362,7 +362,7 @@
       "src\\whisper\\tests\\test_whisper_plugin.cpp": [
         {
           "file": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line": 488,
+          "line": 486,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -374,7 +374,7 @@
         },
         {
           "file": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line": 464,
+          "line": 462,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -386,7 +386,7 @@
         },
         {
           "file": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line": 440,
+          "line": 438,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -400,7 +400,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 943,
+          "line_number": 941,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",

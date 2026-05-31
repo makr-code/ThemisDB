@@ -18,7 +18,7 @@
       "src\\stable_diffusion\\sd_plugin.cpp": [
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 290,
+          "line": 288,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -32,7 +32,7 @@
           "gap_type": "uninitialized_array",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 189,
+          "line_number": 187,
           "var_name": "ihdr",
           "context": "Array declared without initialization",
           "reason": "Array contains garbage values; use with zeros or explicit init",
@@ -42,7 +42,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 290,
+          "line": 288,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -54,7 +54,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 156,
+          "line": 154,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -66,7 +66,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 112,
+          "line": 110,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -78,7 +78,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 112,
+          "line": 110,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -92,7 +92,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 191,
+          "line_number": 189,
           "line_content": "ihdr[2]  = static_cast<uint8_t>(width  >>  8); ihdr[3]  = static_cast<uint8_t>(width       );",
           "context": [
             "    uint8_t ihdr[13];",
@@ -111,7 +111,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 388,
+          "line": 386,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "delete p;",
@@ -120,7 +120,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 291,
+          "line": 289,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(generateLocked(p, cfg));",
@@ -129,7 +129,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 158,
+          "line": 156,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "idat_payload.push_back(0x01u);",
@@ -138,7 +138,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 157,
+          "line": 155,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "idat_payload.push_back(0x78u);",
@@ -147,7 +147,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 120,
+          "line": 118,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "v.push_back(static_cast<uint8_t>(x >> 8));",
@@ -156,7 +156,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 119,
+          "line": 117,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "v.push_back(static_cast<uint8_t>(x     ));",
@@ -165,7 +165,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 116,
+          "line": 114,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "v.push_back(static_cast<uint8_t>(x      ));",
@@ -174,7 +174,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 115,
+          "line": 113,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "v.push_back(static_cast<uint8_t>(x >>  8));",
@@ -183,7 +183,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 114,
+          "line": 112,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "v.push_back(static_cast<uint8_t>(x >> 16));",
@@ -192,7 +192,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 113,
+          "line": 111,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "v.push_back(static_cast<uint8_t>(x >> 24));",
@@ -201,7 +201,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 49,
+          "line": 47,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -210,7 +210,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 388,
+          "line": 386,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "delete p;",
@@ -219,7 +219,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 105,
+          "line": 103,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "s1 = (s1 + data[i]) % 65521u;",
@@ -228,7 +228,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 102,
+          "line": 100,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto adler32_of = [](const uint8_t* data, size_t len) -> uint32_t {",
@@ -237,7 +237,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 97,
+          "line": 95,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "crc = kCrcTable[(crc ^ data[i]) & 0xFFu] ^ (crc >> 8);",
@@ -246,7 +246,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 94,
+          "line": 92,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto crc32_of = [&](const uint8_t* data, size_t len) -> uint32_t {",
@@ -255,7 +255,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 383,
+          "line": 381,
           "type": "smart_ptr_misuse",
           "severity": "CRITICAL",
           "snippet": "return new themis::imggen::SDPlugin();",
@@ -266,7 +266,7 @@
       "src\\stable_diffusion\\sd_plugin_registrar.cpp": [
         {
           "file": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
-          "line": 49,
+          "line": 47,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -275,7 +275,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
-          "line": 83,
+          "line": 81,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "return [](SDPlugin& plugin, const json& config) -> bool {",
@@ -286,7 +286,7 @@
       "src\\stable_diffusion\\sd_prompt_sanitizer.cpp": [
         {
           "file": "src\\stable_diffusion\\sd_prompt_sanitizer.cpp",
-          "line": 34,
+          "line": 32,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -298,7 +298,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_prompt_sanitizer.cpp",
-          "line": 52,
+          "line": 50,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "kws.push_back(line);",
@@ -307,7 +307,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_prompt_sanitizer.cpp",
-          "line": 35,
+          "line": 33,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (!lower.empty()) blocked_keywords_.push_back(lower);",
@@ -316,7 +316,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_prompt_sanitizer.cpp",
-          "line": 42,
+          "line": 40,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"SDPromptSanitizer: cannot open '\" + path + \"'\");",
@@ -325,7 +325,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_prompt_sanitizer.cpp",
-          "line": 48,
+          "line": 46,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "const auto start = line.find_first_not_of(\" \\t\\r\\n\");",
@@ -338,7 +338,7 @@
           "gap_type": "MULTIPLICATION_OVERFLOW",
           "severity": "CRITICAL",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 660,
+          "line_number": 658,
           "line_content": "EXPECT_EQ(result.size(), static_cast<size_t>(8 * 8 * 3));",
           "context": [
             "    EXPECT_EQ(out_w, 8);",
@@ -359,7 +359,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 446,
+          "line_number": 444,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -371,7 +371,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 434,
+          "line_number": 432,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -383,7 +383,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 421,
+          "line_number": 419,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",

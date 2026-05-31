@@ -1,14 +1,14 @@
 {
   "search": {
-    "total": 298,
-    "severity_critical": 19,
+    "total": 297,
+    "severity_critical": 18,
     "severity_high": 115,
     "severity_medium": 164,
     "by_category": {
       "security": 1,
       "reliability": 69,
       "concurrency": 6,
-      "raii": 3,
+      "raii": 2,
       "container": 91,
       "platform": 2,
       "performance": 8,
@@ -22,7 +22,7 @@
       "src\\search\\autocomplete.cpp": [
         {
           "file": "src\\search\\autocomplete.cpp",
-          "line": 178,
+          "line": 176,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -34,7 +34,7 @@
         },
         {
           "file": "src\\search\\autocomplete.cpp",
-          "line": 166,
+          "line": 164,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -46,7 +46,7 @@
         },
         {
           "file": "src\\search\\autocomplete.cpp",
-          "line": 139,
+          "line": 137,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -58,7 +58,7 @@
         },
         {
           "file": "src\\search\\autocomplete.cpp",
-          "line": 135,
+          "line": 133,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -70,7 +70,7 @@
         },
         {
           "file": "src\\search\\autocomplete.cpp",
-          "line": 74,
+          "line": 72,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -82,7 +82,7 @@
         },
         {
           "file": "src\\search\\autocomplete.cpp",
-          "line": 74,
+          "line": 72,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -94,7 +94,7 @@
         },
         {
           "file": "src\\search\\autocomplete.cpp",
-          "line": 60,
+          "line": 58,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -106,7 +106,7 @@
         },
         {
           "file": "src\\search\\autocomplete.cpp",
-          "line": 66,
+          "line": 64,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -118,7 +118,7 @@
         },
         {
           "file": "src\\search\\autocomplete.cpp",
-          "line": 179,
+          "line": 177,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "suggestions.push_back(std::move(s));",
@@ -127,7 +127,7 @@
         },
         {
           "file": "src\\search\\autocomplete.cpp",
-          "line": 144,
+          "line": 142,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "suggestions.push_back(std::move(s));",
@@ -136,7 +136,7 @@
         },
         {
           "file": "src\\search\\autocomplete.cpp",
-          "line": 136,
+          "line": 134,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "suggestions.push_back(s);",
@@ -145,7 +145,7 @@
         },
         {
           "file": "src\\search\\autocomplete.cpp",
-          "line": 114,
+          "line": 112,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "true, false, // [prefix, prefix+'\\xff')",
@@ -154,7 +154,7 @@
         },
         {
           "file": "src\\search\\autocomplete.cpp",
-          "line": 75,
+          "line": 73,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "deduped.push_back(std::move(s));",
@@ -163,7 +163,7 @@
         },
         {
           "file": "src\\search\\autocomplete.cpp",
-          "line": 61,
+          "line": 59,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (auto& s : prefix_sug) combined.push_back(std::move(s));",
@@ -172,7 +172,7 @@
         },
         {
           "file": "src\\search\\autocomplete.cpp",
-          "line": 56,
+          "line": 54,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (auto& s : popular) combined.push_back(std::move(s));",
@@ -181,7 +181,7 @@
         },
         {
           "file": "src\\search\\autocomplete.cpp",
-          "line": 174,
+          "line": 172,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (size_t i = 0; i < std::min(limit, matches.size()); ++i) {",
@@ -190,7 +190,7 @@
         },
         {
           "file": "src\\search\\autocomplete.cpp",
-          "line": 90,
+          "line": 88,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "THEMIS_DEBUG(\"AutocompleteEngine::suggest('{}') -> {} suggestions\", prefix, combined.size());",
@@ -199,7 +199,7 @@
         },
         {
           "file": "src\\search\\autocomplete.cpp",
-          "line": 37,
+          "line": 35,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"AutocompleteEngine: min_prefix_length must be > 0\");",
@@ -208,27 +208,18 @@
         },
         {
           "file": "src\\search\\autocomplete.cpp",
-          "line": 34,
+          "line": 32,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"AutocompleteEngine: max_suggestions must be > 0\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\autocomplete.cpp",
-          "line": 7,
-          "type": "smart_ptr_misuse",
-          "severity": "CRITICAL",
-          "snippet": "* PR: #1335 Search module: v1.4.0 hardening + v1.5.0 feature set (7 new compone... (2026-03-11T21:30",
-          "description": "Raw new without immediate wrapping in smart pointer",
-          "remediation": "Use auto ptr = std::make_unique<T>(...);"
         }
       ],
       "src\\search\\conversational_search.cpp": [
         {
           "file": "src\\search\\conversational_search.cpp",
-          "line": 67,
+          "line": 65,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "history_.push_back(std::move(turn));",
@@ -237,7 +228,7 @@
         },
         {
           "file": "src\\search\\conversational_search.cpp",
-          "line": 54,
+          "line": 52,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -246,7 +237,7 @@
         },
         {
           "file": "src\\search\\conversational_search.cpp",
-          "line": 110,
+          "line": 108,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -255,7 +246,7 @@
         },
         {
           "file": "src\\search\\conversational_search.cpp",
-          "line": 30,
+          "line": 28,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -266,7 +257,7 @@
       "src\\search\\cross_lingual_search.cpp": [
         {
           "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 145,
+          "line": 143,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -278,7 +269,7 @@
         },
         {
           "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 111,
+          "line": 109,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -290,7 +281,7 @@
         },
         {
           "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 89,
+          "line": 87,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -302,7 +293,7 @@
         },
         {
           "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 163,
+          "line": 161,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -314,7 +305,7 @@
         },
         {
           "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 98,
+          "line": 96,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -326,7 +317,7 @@
         },
         {
           "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 91,
+          "line": 89,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "weights.push_back(q.weight > 0.0 ? q.weight : 1.0);",
@@ -335,7 +326,7 @@
         },
         {
           "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 90,
+          "line": 88,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ranked_lists.push_back(std::move(list));",
@@ -344,7 +335,7 @@
         },
         {
           "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 182,
+          "line": 180,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto boost_it = boost_map.find(lang);",
@@ -353,7 +344,7 @@
         },
         {
           "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 182,
+          "line": 180,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto boost_it = boost_map.find(lang);",
@@ -362,7 +353,7 @@
         },
         {
           "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 175,
+          "line": 173,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto lang_it = lang_map_.find(doc_id);",
@@ -371,7 +362,7 @@
         },
         {
           "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 175,
+          "line": 173,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto lang_it = lang_map_.find(doc_id);",
@@ -380,7 +371,7 @@
         },
         {
           "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 37,
+          "line": 35,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"CrossLingualSearch: rrf_k must be > 0\");",
@@ -389,7 +380,7 @@
         },
         {
           "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 34,
+          "line": 32,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"CrossLingualSearch: candidates must be > 0\");",
@@ -398,7 +389,7 @@
         },
         {
           "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 31,
+          "line": 29,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"CrossLingualSearch: k must be > 0\");",
@@ -407,7 +398,7 @@
         },
         {
           "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 178,
+          "line": 176,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "lang = lang_it->second;",
@@ -416,7 +407,7 @@
         },
         {
           "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 135,
+          "line": 133,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto [st, knn_results] = vec_index_->searchKnn(embedding, config_.candidates);",
@@ -427,7 +418,7 @@
       "src\\search\\distributed_hybrid_search.cpp": [
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 310,
+          "line": 308,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -439,7 +430,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 309,
+          "line": 307,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -451,7 +442,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 304,
+          "line": 302,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -463,24 +454,12 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 301,
+          "line": 299,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
           "description": "Concurrent update without version vector or causal ordering",
           "context": "merged.push_back(std::move(r));",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 52,
-          "category": "distributed_consistency",
-          "severity": "CRITICAL",
-          "pattern": "missing_version_tracking",
-          "description": "Concurrent update without version vector or causal ordering",
-          "context": "\"DistributedHybridSearch: Config::max_concurrent_shards must be > 0\");",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
@@ -492,6 +471,18 @@
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
           "description": "Concurrent update without version vector or causal ordering",
+          "context": "\"DistributedHybridSearch: Config::max_concurrent_shards must be > 0\");",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 48,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
           "context": "if (config_.max_concurrent_shards == 0) {",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
@@ -499,7 +490,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 316,
+          "line": 314,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -511,7 +502,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 314,
+          "line": 312,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -523,7 +514,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 313,
+          "line": 311,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -535,7 +526,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 310,
+          "line": 308,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -547,7 +538,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 309,
+          "line": 307,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -559,7 +550,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 304,
+          "line": 302,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -571,7 +562,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 301,
+          "line": 299,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -583,7 +574,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 291,
+          "line": 289,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -595,7 +586,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 290,
+          "line": 288,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -607,7 +598,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 243,
+          "line": 241,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -619,7 +610,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 240,
+          "line": 238,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -631,7 +622,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 236,
+          "line": 234,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -643,7 +634,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 235,
+          "line": 233,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -655,7 +646,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 171,
+          "line": 169,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -667,7 +658,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 300,
+          "line": 298,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -679,7 +670,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 170,
+          "line": 168,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -691,7 +682,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 170,
+          "line": 168,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -703,7 +694,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 153,
+          "line": 151,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -715,7 +706,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 257,
+          "line": 255,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -727,7 +718,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 301,
+          "line": 299,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "merged.push_back(std::move(r));",
@@ -736,7 +727,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 180,
+          "line": 178,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "shard_results.push_back(std::move(timeout_result));",
@@ -745,7 +736,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 171,
+          "line": 169,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "shard_results.push_back(futures[i].get());",
@@ -754,7 +745,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 154,
+          "line": 152,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "futures.push_back(std::async(",
@@ -763,7 +754,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 135,
+          "line": 133,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "remote_shards.push_back(shard);",
@@ -772,7 +763,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 55,
+          "line": 53,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -781,7 +772,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 51,
+          "line": 49,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -790,7 +781,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 47,
+          "line": 45,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -799,7 +790,7 @@
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 43,
+          "line": 41,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -810,7 +801,7 @@
       "src\\search\\faceted_search.cpp": [
         {
           "file": "src\\search\\faceted_search.cpp",
-          "line": 212,
+          "line": 210,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -822,7 +813,7 @@
         },
         {
           "file": "src\\search\\faceted_search.cpp",
-          "line": 191,
+          "line": 189,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -834,7 +825,7 @@
         },
         {
           "file": "src\\search\\faceted_search.cpp",
-          "line": 99,
+          "line": 97,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -846,7 +837,7 @@
         },
         {
           "file": "src\\search\\faceted_search.cpp",
-          "line": 163,
+          "line": 161,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -858,7 +849,7 @@
         },
         {
           "file": "src\\search\\faceted_search.cpp",
-          "line": 162,
+          "line": 160,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -870,7 +861,7 @@
         },
         {
           "file": "src\\search\\faceted_search.cpp",
-          "line": 153,
+          "line": 151,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -882,7 +873,7 @@
         },
         {
           "file": "src\\search\\faceted_search.cpp",
-          "line": 122,
+          "line": 120,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -894,7 +885,7 @@
         },
         {
           "file": "src\\search\\faceted_search.cpp",
-          "line": 213,
+          "line": 211,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "facets.push_back(std::move(facet));",
@@ -903,7 +894,7 @@
         },
         {
           "file": "src\\search\\faceted_search.cpp",
-          "line": 192,
+          "line": 190,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "columns.push_back(stats.column);",
@@ -912,7 +903,7 @@
         },
         {
           "file": "src\\search\\faceted_search.cpp",
-          "line": 100,
+          "line": 98,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "facets.push_back(std::move(facet));",
@@ -921,7 +912,7 @@
         },
         {
           "file": "src\\search\\faceted_search.cpp",
-          "line": 52,
+          "line": 50,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "table, column, scan_status.message);",
@@ -930,16 +921,16 @@
         },
         {
           "file": "src\\search\\faceted_search.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #2562 [search] Add dynamic facet counting to FacetedSearch (2026-03-12T05:51:33Z)",
+          "snippet": "* PR History (last 5): #2562 [search] Add dynamic facet ... (2026-03-12) | #1335 Search module: v1.4",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         },
         {
           "file": "src\\search\\faceted_search.cpp",
-          "line": 156,
+          "line": 154,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto [st, matching_pks] = index_->scanKeysEqual(table, facet.field, facet.value);",
@@ -950,7 +941,7 @@
       "src\\search\\federated_search.cpp": [
         {
           "file": "src\\search\\federated_search.cpp",
-          "line": 91,
+          "line": 89,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -962,7 +953,7 @@
         },
         {
           "file": "src\\search\\federated_search.cpp",
-          "line": 173,
+          "line": 171,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -974,7 +965,7 @@
         },
         {
           "file": "src\\search\\federated_search.cpp",
-          "line": 92,
+          "line": 90,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -986,7 +977,7 @@
         },
         {
           "file": "src\\search\\federated_search.cpp",
-          "line": 146,
+          "line": 144,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -998,7 +989,7 @@
         },
         {
           "file": "src\\search\\federated_search.cpp",
-          "line": 132,
+          "line": 130,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1010,7 +1001,7 @@
         },
         {
           "file": "src\\search\\federated_search.cpp",
-          "line": 83,
+          "line": 81,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1022,7 +1013,7 @@
         },
         {
           "file": "src\\search\\federated_search.cpp",
-          "line": 174,
+          "line": 172,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "merged.push_back(std::move(res));",
@@ -1031,7 +1022,7 @@
         },
         {
           "file": "src\\search\\federated_search.cpp",
-          "line": 146,
+          "line": 144,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "std::unordered_map<std::string, Accumulator> accum; // key = \"tenant_id\\ndoc_id\"",
@@ -1040,7 +1031,7 @@
         },
         {
           "file": "src\\search\\federated_search.cpp",
-          "line": 116,
+          "line": 114,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1049,7 +1040,7 @@
         },
         {
           "file": "src\\search\\federated_search.cpp",
-          "line": 69,
+          "line": 67,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"FederatedSearch: rrf_k must be > 0\");",
@@ -1058,7 +1049,7 @@
         },
         {
           "file": "src\\search\\federated_search.cpp",
-          "line": 66,
+          "line": 64,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"FederatedSearch: k must be > 0\");",
@@ -1067,7 +1058,7 @@
         },
         {
           "file": "src\\search\\federated_search.cpp",
-          "line": 31,
+          "line": 29,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"FederatedSearch: rrf_k must be > 0\");",
@@ -1076,7 +1067,7 @@
         },
         {
           "file": "src\\search\\federated_search.cpp",
-          "line": 28,
+          "line": 26,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"FederatedSearch: k must be > 0\");",
@@ -1087,7 +1078,7 @@
       "src\\search\\fuzzy_matcher.cpp": [
         {
           "file": "src\\search\\fuzzy_matcher.cpp",
-          "line": 285,
+          "line": 283,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -1099,7 +1090,7 @@
         },
         {
           "file": "src\\search\\fuzzy_matcher.cpp",
-          "line": 198,
+          "line": 196,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -1111,7 +1102,7 @@
         },
         {
           "file": "src\\search\\fuzzy_matcher.cpp",
-          "line": 198,
+          "line": 196,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -1123,7 +1114,7 @@
         },
         {
           "file": "src\\search\\fuzzy_matcher.cpp",
-          "line": 163,
+          "line": 161,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -1135,7 +1126,7 @@
         },
         {
           "file": "src\\search\\fuzzy_matcher.cpp",
-          "line": 163,
+          "line": 161,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -1147,7 +1138,7 @@
         },
         {
           "file": "src\\search\\fuzzy_matcher.cpp",
-          "line": 163,
+          "line": 161,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -1159,7 +1150,7 @@
         },
         {
           "file": "src\\search\\fuzzy_matcher.cpp",
-          "line": 37,
+          "line": 35,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"FuzzyMatcher: ngram_size must be > 0\");",
@@ -1168,7 +1159,7 @@
         },
         {
           "file": "src\\search\\fuzzy_matcher.cpp",
-          "line": 34,
+          "line": 32,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"FuzzyMatcher: max_distance must be >= 0\");",
@@ -1179,7 +1170,7 @@
       "src\\search\\hybrid_search.cpp": [
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 327,
+          "line": 325,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1191,7 +1182,7 @@
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 327,
+          "line": 325,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1203,7 +1194,7 @@
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 275,
+          "line": 273,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1215,7 +1206,7 @@
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 275,
+          "line": 273,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1227,7 +1218,7 @@
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 164,
+          "line": 162,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1239,7 +1230,7 @@
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 133,
+          "line": 131,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1251,7 +1242,7 @@
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 267,
+          "line": 265,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1263,7 +1254,7 @@
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 215,
+          "line": 213,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1275,7 +1266,7 @@
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 328,
+          "line": 326,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "fused_results.push_back(result);",
@@ -1284,7 +1275,7 @@
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 276,
+          "line": 274,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "reranked_results.push_back(std::move(out));",
@@ -1293,7 +1284,7 @@
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 258,
+          "line": 256,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "candidates.push_back(std::move(c));",
@@ -1302,7 +1293,7 @@
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 233,
+          "line": 231,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "fused.push_back(result);",
@@ -1311,7 +1302,7 @@
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 165,
+          "line": 163,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "vector_results.push_back(r);",
@@ -1320,7 +1311,7 @@
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 134,
+          "line": 132,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "bm25_results.push_back(r);",
@@ -1329,7 +1320,7 @@
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 271,
+          "line": 269,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = result_map.find(rr.document_id);",
@@ -1338,7 +1329,7 @@
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 271,
+          "line": 269,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = result_map.find(rr.document_id);",
@@ -1347,7 +1338,7 @@
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 79,
+          "line": 77,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"HybridSearch: Config::default_column must not be empty\");",
@@ -1356,7 +1347,7 @@
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 76,
+          "line": 74,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"HybridSearch: Config::default_table must not be empty\");",
@@ -1365,7 +1356,7 @@
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 73,
+          "line": 71,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"HybridSearch: weights must be non-negative\");",
@@ -1374,7 +1365,7 @@
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 70,
+          "line": 68,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"HybridSearch: Config::rrf_k must be > 0\");",
@@ -1383,7 +1374,7 @@
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 67,
+          "line": 65,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"HybridSearch: Config::k_vector exceeds max_candidates\");",
@@ -1392,7 +1383,7 @@
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 64,
+          "line": 62,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"HybridSearch: Config::k_bm25 exceeds max_candidates\");",
@@ -1401,7 +1392,7 @@
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 61,
+          "line": 59,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"HybridSearch: Config::max_candidates must be > 0\");",
@@ -1410,7 +1401,7 @@
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 58,
+          "line": 56,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"HybridSearch: Config::k exceeds max_k\");",
@@ -1419,7 +1410,7 @@
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 55,
+          "line": 53,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"HybridSearch: Config::max_k must be > 0\");",
@@ -1428,7 +1419,7 @@
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 52,
+          "line": 50,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"HybridSearch: Config::k must be > 0\");",
@@ -1437,7 +1428,7 @@
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 272,
+          "line": 270,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = result_map.find(rr.document_id);",
@@ -1448,7 +1439,7 @@
       "src\\search\\learning_to_rank.cpp": [
         {
           "file": "src\\search\\learning_to_rank.cpp",
-          "line": 94,
+          "line": 92,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1460,7 +1451,7 @@
         },
         {
           "file": "src\\search\\learning_to_rank.cpp",
-          "line": 95,
+          "line": 93,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "clicks_.push_back(event);",
@@ -1469,7 +1460,7 @@
         },
         {
           "file": "src\\search\\learning_to_rank.cpp",
-          "line": 32,
+          "line": 30,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LearningToRank: regularization must be >= 0\");",
@@ -1478,7 +1469,7 @@
         },
         {
           "file": "src\\search\\learning_to_rank.cpp",
-          "line": 29,
+          "line": 27,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LearningToRank: max_click_buffer must be > 0\");",
@@ -1487,7 +1478,7 @@
         },
         {
           "file": "src\\search\\learning_to_rank.cpp",
-          "line": 26,
+          "line": 24,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LearningToRank: learning_rate must be > 0\");",
@@ -1498,7 +1489,7 @@
       "src\\search\\llm_query_rewriter.cpp": [
         {
           "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 273,
+          "line": 271,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1510,7 +1501,7 @@
         },
         {
           "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 214,
+          "line": 212,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1522,7 +1513,7 @@
         },
         {
           "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 214,
+          "line": 212,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1534,7 +1525,7 @@
         },
         {
           "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 274,
+          "line": 272,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "kept.push_back(std::move(r));",
@@ -1543,7 +1534,7 @@
         },
         {
           "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 221,
+          "line": 219,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "rewrites.push_back(original);",
@@ -1552,7 +1543,7 @@
         },
         {
           "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 215,
+          "line": 213,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "rewrites.push_back(line);",
@@ -1561,7 +1552,7 @@
         },
         {
           "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 105,
+          "line": 103,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1570,7 +1561,7 @@
         },
         {
           "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 32,
+          "line": 30,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LlmQueryRewriter: temperature must be in [0, 2]\");",
@@ -1579,7 +1570,7 @@
         },
         {
           "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 32,
+          "line": 30,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LlmQueryRewriter: temperature must be in [0, 2]\");",
@@ -1588,7 +1579,7 @@
         },
         {
           "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 29,
+          "line": 27,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LlmQueryRewriter: num_rewrites must be > 0\");",
@@ -1597,16 +1588,16 @@
         },
         {
           "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #2559 [search] LLM-based query rewriting for improved recall + MINIMAL bu... (2026-03-12T05:51",
+          "snippet": "* PR History (last 5): #3590 feat(search): implement Sea... (2026-03-12) | #2582 [search] LLM query ",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         },
         {
           "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 235,
+          "line": 233,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto tokenise = [](const std::string& s) -> std::unordered_set<std::string> {",
@@ -1617,7 +1608,7 @@
       "src\\search\\llm_reranker.cpp": [
         {
           "file": "src\\search\\llm_reranker.cpp",
-          "line": 86,
+          "line": 84,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -1629,7 +1620,7 @@
         },
         {
           "file": "src\\search\\llm_reranker.cpp",
-          "line": 86,
+          "line": 84,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1641,7 +1632,7 @@
         },
         {
           "file": "src\\search\\llm_reranker.cpp",
-          "line": 181,
+          "line": 179,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1653,7 +1644,7 @@
         },
         {
           "file": "src\\search\\llm_reranker.cpp",
-          "line": 138,
+          "line": 136,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1665,7 +1656,7 @@
         },
         {
           "file": "src\\search\\llm_reranker.cpp",
-          "line": 255,
+          "line": 253,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "scores.push_back(0.0);",
@@ -1674,7 +1665,7 @@
         },
         {
           "file": "src\\search\\llm_reranker.cpp",
-          "line": 248,
+          "line": 246,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1683,7 +1674,7 @@
         },
         {
           "file": "src\\search\\llm_reranker.cpp",
-          "line": 247,
+          "line": 245,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "scores.push_back(val / 10.0); // normalise to [0, 1]",
@@ -1692,7 +1683,7 @@
         },
         {
           "file": "src\\search\\llm_reranker.cpp",
-          "line": 182,
+          "line": 180,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "events.push_back(ev);",
@@ -1701,7 +1692,7 @@
         },
         {
           "file": "src\\search\\llm_reranker.cpp",
-          "line": 139,
+          "line": 137,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(r);",
@@ -1710,7 +1701,7 @@
         },
         {
           "file": "src\\search\\llm_reranker.cpp",
-          "line": 116,
+          "line": 114,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1719,7 +1710,7 @@
         },
         {
           "file": "src\\search\\llm_reranker.cpp",
-          "line": 84,
+          "line": 82,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.push_back(r);",
@@ -1728,7 +1719,7 @@
         },
         {
           "file": "src\\search\\llm_reranker.cpp",
-          "line": 247,
+          "line": 245,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "scores.push_back(val / 10.0); // normalise to [0, 1]",
@@ -1737,7 +1728,7 @@
         },
         {
           "file": "src\\search\\llm_reranker.cpp",
-          "line": 42,
+          "line": 40,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LlmReranker: temperature must be in [0, 2]\");",
@@ -1746,7 +1737,7 @@
         },
         {
           "file": "src\\search\\llm_reranker.cpp",
-          "line": 42,
+          "line": 40,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LlmReranker: temperature must be in [0, 2]\");",
@@ -1755,7 +1746,7 @@
         },
         {
           "file": "src\\search\\llm_reranker.cpp",
-          "line": 39,
+          "line": 37,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LlmReranker: min_score_threshold must be in [0, 1]\");",
@@ -1764,7 +1755,7 @@
         },
         {
           "file": "src\\search\\llm_reranker.cpp",
-          "line": 39,
+          "line": 37,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LlmReranker: min_score_threshold must be in [0, 1]\");",
@@ -1773,7 +1764,7 @@
         },
         {
           "file": "src\\search\\llm_reranker.cpp",
-          "line": 36,
+          "line": 34,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LlmReranker: max_snippet_length must be > 0\");",
@@ -1782,7 +1773,7 @@
         },
         {
           "file": "src\\search\\llm_reranker.cpp",
-          "line": 33,
+          "line": 31,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LlmReranker: llm_weight must be in [0, 1]\");",
@@ -1791,7 +1782,7 @@
         },
         {
           "file": "src\\search\\llm_reranker.cpp",
-          "line": 33,
+          "line": 31,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LlmReranker: llm_weight must be in [0, 1]\");",
@@ -1800,7 +1791,7 @@
         },
         {
           "file": "src\\search\\llm_reranker.cpp",
-          "line": 30,
+          "line": 28,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LlmReranker: batch_size must be > 0\");",
@@ -1809,10 +1800,10 @@
         },
         {
           "file": "src\\search\\llm_reranker.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #2648 [search] Configurable re-ranking with LLM feedback loop (Phase 3) (2026-03-12T05:53:53Z)",
+          "snippet": "* PR History (last 5): #2648 [search] Configurable re-ra... (2026-03-12)",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         }
@@ -1820,7 +1811,7 @@
       "src\\search\\multi_field_search.cpp": [
         {
           "file": "src\\search\\multi_field_search.cpp",
-          "line": 158,
+          "line": 156,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1832,7 +1823,7 @@
         },
         {
           "file": "src\\search\\multi_field_search.cpp",
-          "line": 99,
+          "line": 97,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1844,7 +1835,7 @@
         },
         {
           "file": "src\\search\\multi_field_search.cpp",
-          "line": 159,
+          "line": 157,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(std::move(r));",
@@ -1853,7 +1844,7 @@
         },
         {
           "file": "src\\search\\multi_field_search.cpp",
-          "line": 128,
+          "line": 126,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "field.column, status.message);",
@@ -1862,7 +1853,7 @@
         },
         {
           "file": "src\\search\\multi_field_search.cpp",
-          "line": 35,
+          "line": 33,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -1871,7 +1862,7 @@
         },
         {
           "file": "src\\search\\multi_field_search.cpp",
-          "line": 32,
+          "line": 30,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"MultiFieldBoostedSearch: k must be > 0\");",
@@ -1880,10 +1871,10 @@
         },
         {
           "file": "src\\search\\multi_field_search.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #3141 [search] Multi-field boosting: title > body > tags (v1.9.0) (2026-03-12T06:23:45Z)",
+          "snippet": "* PR History (last 5): #3372 feat(search): Cross-lingual... (2026-03-12) | #3371 feat(search): SPLAD",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         }
@@ -1891,7 +1882,7 @@
       "src\\search\\multi_modal_search.cpp": [
         {
           "file": "src\\search\\multi_modal_search.cpp",
-          "line": 220,
+          "line": 218,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -1903,7 +1894,7 @@
         },
         {
           "file": "src\\search\\multi_modal_search.cpp",
-          "line": 235,
+          "line": 233,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1915,7 +1906,7 @@
         },
         {
           "file": "src\\search\\multi_modal_search.cpp",
-          "line": 181,
+          "line": 179,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1927,7 +1918,7 @@
         },
         {
           "file": "src\\search\\multi_modal_search.cpp",
-          "line": 150,
+          "line": 148,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1939,7 +1930,7 @@
         },
         {
           "file": "src\\search\\multi_modal_search.cpp",
-          "line": 70,
+          "line": 68,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -1951,7 +1942,7 @@
         },
         {
           "file": "src\\search\\multi_modal_search.cpp",
-          "line": 60,
+          "line": 58,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1963,7 +1954,7 @@
         },
         {
           "file": "src\\search\\multi_modal_search.cpp",
-          "line": 236,
+          "line": 234,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(std::move(r));",
@@ -1972,7 +1963,7 @@
         },
         {
           "file": "src\\search\\multi_modal_search.cpp",
-          "line": 72,
+          "line": 70,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "modality_names.push_back(std::move(mod_label));",
@@ -1981,7 +1972,7 @@
         },
         {
           "file": "src\\search\\multi_modal_search.cpp",
-          "line": 71,
+          "line": 69,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (!q.embedding_namespace.empty()) mod_label += \":\" + q.embedding_namespace;",
@@ -1990,7 +1981,7 @@
         },
         {
           "file": "src\\search\\multi_modal_search.cpp",
-          "line": 62,
+          "line": 60,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "weights.push_back(q.weight > 0.0 ? q.weight : 1.0);",
@@ -1999,7 +1990,7 @@
         },
         {
           "file": "src\\search\\multi_modal_search.cpp",
-          "line": 61,
+          "line": 59,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "all_lists.push_back(std::move(results));",
@@ -2008,7 +1999,7 @@
         },
         {
           "file": "src\\search\\multi_modal_search.cpp",
-          "line": 39,
+          "line": 37,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"MultiModalSearch: candidates_per_modal must be > 0\");",
@@ -2017,7 +2008,7 @@
         },
         {
           "file": "src\\search\\multi_modal_search.cpp",
-          "line": 36,
+          "line": 34,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"MultiModalSearch: rrf_k must be > 0\");",
@@ -2026,7 +2017,7 @@
         },
         {
           "file": "src\\search\\multi_modal_search.cpp",
-          "line": 33,
+          "line": 31,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"MultiModalSearch: k must be > 0\");",
@@ -2037,7 +2028,7 @@
       "src\\search\\negative_keyword_filter.cpp": [
         {
           "file": "src\\search\\negative_keyword_filter.cpp",
-          "line": 156,
+          "line": 154,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2049,7 +2040,7 @@
         },
         {
           "file": "src\\search\\negative_keyword_filter.cpp",
-          "line": 84,
+          "line": 82,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -2061,7 +2052,7 @@
         },
         {
           "file": "src\\search\\negative_keyword_filter.cpp",
-          "line": 66,
+          "line": 64,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2073,7 +2064,7 @@
         },
         {
           "file": "src\\search\\negative_keyword_filter.cpp",
-          "line": 38,
+          "line": 36,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -2085,7 +2076,7 @@
         },
         {
           "file": "src\\search\\negative_keyword_filter.cpp",
-          "line": 121,
+          "line": 119,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -2097,7 +2088,7 @@
         },
         {
           "file": "src\\search\\negative_keyword_filter.cpp",
-          "line": 157,
+          "line": 155,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "filtered.push_back(pk);",
@@ -2106,7 +2097,7 @@
         },
         {
           "file": "src\\search\\negative_keyword_filter.cpp",
-          "line": 137,
+          "line": 135,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "term, status.message);",
@@ -2115,7 +2106,7 @@
         },
         {
           "file": "src\\search\\negative_keyword_filter.cpp",
-          "line": 79,
+          "line": 77,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.negative_terms.push_back(std::move(neg));",
@@ -2124,7 +2115,7 @@
         },
         {
           "file": "src\\search\\negative_keyword_filter.cpp",
-          "line": 67,
+          "line": 65,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.negative_terms.push_back(std::move(neg));",
@@ -2133,7 +2124,7 @@
         },
         {
           "file": "src\\search\\negative_keyword_filter.cpp",
-          "line": 155,
+          "line": 153,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (excluded.find(pk) == excluded.end()) {",
@@ -2142,7 +2133,7 @@
         },
         {
           "file": "src\\search\\negative_keyword_filter.cpp",
-          "line": 128,
+          "line": 126,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto [status, neg_results] = index_->scanFulltext(",
@@ -2153,7 +2144,7 @@
       "src\\search\\neural_sparse_retrieval.cpp": [
         {
           "file": "src\\search\\neural_sparse_retrieval.cpp",
-          "line": 248,
+          "line": 246,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2165,7 +2156,7 @@
         },
         {
           "file": "src\\search\\neural_sparse_retrieval.cpp",
-          "line": 90,
+          "line": 88,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2177,7 +2168,7 @@
         },
         {
           "file": "src\\search\\neural_sparse_retrieval.cpp",
-          "line": 90,
+          "line": 88,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2189,7 +2180,7 @@
         },
         {
           "file": "src\\search\\neural_sparse_retrieval.cpp",
-          "line": 226,
+          "line": 224,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -2201,7 +2192,7 @@
         },
         {
           "file": "src\\search\\neural_sparse_retrieval.cpp",
-          "line": 289,
+          "line": 287,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -2210,7 +2201,7 @@
         },
         {
           "file": "src\\search\\neural_sparse_retrieval.cpp",
-          "line": 249,
+          "line": 247,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(std::move(r));",
@@ -2219,7 +2210,7 @@
         },
         {
           "file": "src\\search\\neural_sparse_retrieval.cpp",
-          "line": 36,
+          "line": 34,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -2228,7 +2219,7 @@
         },
         {
           "file": "src\\search\\neural_sparse_retrieval.cpp",
-          "line": 32,
+          "line": 30,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -2237,7 +2228,7 @@
         },
         {
           "file": "src\\search\\neural_sparse_retrieval.cpp",
-          "line": 29,
+          "line": 27,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"NeuralSparseRetrieval: k must be > 0\");",
@@ -2246,7 +2237,7 @@
         },
         {
           "file": "src\\search\\neural_sparse_retrieval.cpp",
-          "line": 161,
+          "line": 159,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto fwd_it = forward_index_.find(doc_id);",
@@ -2255,7 +2246,7 @@
         },
         {
           "file": "src\\search\\neural_sparse_retrieval.cpp",
-          "line": 123,
+          "line": 121,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto fwd_it = forward_index_.find(doc_id);",
@@ -2264,7 +2255,7 @@
         },
         {
           "file": "src\\search\\neural_sparse_retrieval.cpp",
-          "line": 99,
+          "line": 97,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = inverted_index_.find(term);",
@@ -2275,7 +2266,7 @@
       "src\\search\\personalized_ranker.cpp": [
         {
           "file": "src\\search\\personalized_ranker.cpp",
-          "line": 150,
+          "line": 148,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mu_);",
@@ -2284,7 +2275,7 @@
         },
         {
           "file": "src\\search\\personalized_ranker.cpp",
-          "line": 33,
+          "line": 31,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"PersonalizedRanker: boost_weight must be >= 0\");",
@@ -2293,7 +2284,7 @@
         },
         {
           "file": "src\\search\\personalized_ranker.cpp",
-          "line": 29,
+          "line": 27,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -2302,7 +2293,7 @@
         },
         {
           "file": "src\\search\\personalized_ranker.cpp",
-          "line": 26,
+          "line": 24,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"PersonalizedRanker: decay_rate must be >= 0\");",
@@ -2313,7 +2304,7 @@
       "src\\search\\query_expander.cpp": [
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 366,
+          "line": 364,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -2325,7 +2316,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 112,
+          "line": 110,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -2337,7 +2328,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 111,
+          "line": 109,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -2349,7 +2340,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 405,
+          "line": 403,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2361,7 +2352,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 375,
+          "line": 373,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -2373,7 +2364,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 366,
+          "line": 364,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2385,7 +2376,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 366,
+          "line": 364,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2397,7 +2388,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 366,
+          "line": 364,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2409,7 +2400,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 306,
+          "line": 304,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2421,7 +2412,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 189,
+          "line": 187,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2433,7 +2424,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 124,
+          "line": 122,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2445,7 +2436,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 112,
+          "line": 110,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2457,7 +2448,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 112,
+          "line": 110,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2469,7 +2460,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 112,
+          "line": 110,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2481,7 +2472,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 88,
+          "line": 86,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2493,7 +2484,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 48,
+          "line": 46,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2505,7 +2496,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 406,
+          "line": 404,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back(clean);",
@@ -2514,7 +2505,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 367,
+          "line": 365,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "alternatives.push_back(alt);",
@@ -2523,7 +2514,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 307,
+          "line": 305,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(sc);",
@@ -2532,7 +2523,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 190,
+          "line": 188,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "candidates.push_back(sc);",
@@ -2541,7 +2532,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 125,
+          "line": 123,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.all_terms.push_back(syn);",
@@ -2550,7 +2541,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 113,
+          "line": 111,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "added_synonyms.push_back(syn);",
@@ -2559,7 +2550,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 89,
+          "line": 87,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "corrected_tokens.push_back(c);",
@@ -2568,7 +2559,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 49,
+          "line": 47,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "entry.push_back(s);",
@@ -2577,7 +2568,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 366,
+          "line": 364,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "if (std::find(alternatives.begin(), alternatives.end(), alt) == alternatives.end()) {",
@@ -2586,7 +2577,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 366,
+          "line": 364,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "if (std::find(alternatives.begin(), alternatives.end(), alt) == alternatives.end()) {",
@@ -2595,7 +2586,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 200,
+          "line": 198,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = word_frequencies_.find(sc.suggestion);",
@@ -2604,7 +2595,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 112,
+          "line": 110,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "std::find(added_synonyms.begin(), added_synonyms.end(), syn) == added_synonyms.end()) {",
@@ -2613,7 +2604,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 112,
+          "line": 110,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "std::find(added_synonyms.begin(), added_synonyms.end(), syn) == added_synonyms.end()) {",
@@ -2622,7 +2613,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 111,
+          "line": 109,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "if (std::find(work_tokens.begin(), work_tokens.end(), syn) == work_tokens.end() &&",
@@ -2631,7 +2622,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 111,
+          "line": 109,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "if (std::find(work_tokens.begin(), work_tokens.end(), syn) == work_tokens.end() &&",
@@ -2640,7 +2631,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 105,
+          "line": 103,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = synonyms_.find(tok);",
@@ -2649,7 +2640,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 105,
+          "line": 103,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = synonyms_.find(tok);",
@@ -2658,7 +2649,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 105,
+          "line": 103,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = synonyms_.find(tok);",
@@ -2667,7 +2658,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 48,
+          "line": 46,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "if (s != key && std::find(entry.begin(), entry.end(), s) == entry.end()) {",
@@ -2676,7 +2667,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 31,
+          "line": 29,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"QueryExpander: max_expansions must be > 0\");",
@@ -2685,7 +2676,7 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 28,
+          "line": 26,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"QueryExpander: max_edit_distance must be >= 0\");",
@@ -2694,16 +2685,16 @@
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #3374 [search] Improve spelling correction suggestions with frequency-wei... (2026-03-12T07:07",
+          "snippet": "* PR History (last 5): #3374 [search] Improve spelling c... (2026-03-12)",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         },
         {
           "file": "src\\search\\query_expander.cpp",
-          "line": 106,
+          "line": 104,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = synonyms_.find(tok);",
@@ -2714,7 +2705,7 @@
       "src\\search\\search_analytics.cpp": [
         {
           "file": "src\\search\\search_analytics.cpp",
-          "line": 125,
+          "line": 123,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2726,7 +2717,7 @@
         },
         {
           "file": "src\\search\\search_analytics.cpp",
-          "line": 79,
+          "line": 77,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2738,7 +2729,7 @@
         },
         {
           "file": "src\\search\\search_analytics.cpp",
-          "line": 65,
+          "line": 63,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2750,7 +2741,7 @@
         },
         {
           "file": "src\\search\\search_analytics.cpp",
-          "line": 96,
+          "line": 94,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2762,7 +2753,7 @@
         },
         {
           "file": "src\\search\\search_analytics.cpp",
-          "line": 97,
+          "line": 95,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "latencies.push_back(ev.latency_ms);",
@@ -2771,7 +2762,7 @@
         },
         {
           "file": "src\\search\\search_analytics.cpp",
-          "line": 80,
+          "line": 78,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(*it);",
@@ -2780,7 +2771,7 @@
         },
         {
           "file": "src\\search\\search_analytics.cpp",
-          "line": 67,
+          "line": 65,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(*it);",
@@ -2789,7 +2780,7 @@
         },
         {
           "file": "src\\search\\search_analytics.cpp",
-          "line": 125,
+          "line": 123,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (size_t i = 0; i < std::min(size_t{20}, freq_vec.size()); ++i) {",
@@ -2798,7 +2789,7 @@
         },
         {
           "file": "src\\search\\search_analytics.cpp",
-          "line": 26,
+          "line": 24,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"SearchAnalytics: max_events must be > 0\");",
@@ -2807,10 +2798,10 @@
         },
         {
           "file": "src\\search\\search_analytics.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #3370 [search] Add dedicated getTopQueries() to SearchAnalytics (2026-03-12T07:07:28Z)",
+          "snippet": "* PR History (last 5): #3370 [search] Add dedicated getT... (2026-03-12)",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         }
@@ -2818,7 +2809,7 @@
       "src\\search\\search_highlighter.cpp": [
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 252,
+          "line": 250,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2830,7 +2821,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 252,
+          "line": 250,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2842,7 +2833,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 202,
+          "line": 200,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2854,7 +2845,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 183,
+          "line": 181,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2866,7 +2857,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 183,
+          "line": 181,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2878,7 +2869,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 111,
+          "line": 109,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2890,7 +2881,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 111,
+          "line": 109,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2902,7 +2893,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 44,
+          "line": 42,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2914,7 +2905,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 286,
+          "line": 284,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -2923,7 +2914,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 253,
+          "line": 251,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "lower_terms.push_back(std::move(lt));",
@@ -2932,7 +2923,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 220,
+          "line": 218,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -2941,7 +2932,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 203,
+          "line": 201,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "merged.push_back(ranges[i]);",
@@ -2950,7 +2941,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 197,
+          "line": 195,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "merged.push_back(ranges.front());",
@@ -2959,7 +2950,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 112,
+          "line": 110,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "matches.push_back({pos, pos + term.size(), ti});",
@@ -2968,7 +2959,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 57,
+          "line": 55,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back(std::move(current));",
@@ -2977,7 +2968,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 45,
+          "line": 43,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back(std::move(current));",
@@ -2986,7 +2977,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 182,
+          "line": 180,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "while ((pos = search_text.find(term, pos)) != std::string::npos) {",
@@ -2995,7 +2986,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 110,
+          "line": 108,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "while ((pos = lower_text.find(term, pos)) != std::string::npos) {",
@@ -3004,10 +2995,10 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #3377 [WIP] Add highlight functionality for matched search terms (2026-03-12T07:07:43Z)",
+          "snippet": "* PR History (last 5): #3627 fix(build): register 40+ mi... (2026-03-12) | #3377 [WIP] Add highlight",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         }
@@ -3015,7 +3006,7 @@
       "src\\search\\search_result_stream.cpp": [
         {
           "file": "src\\search\\search_result_stream.cpp",
-          "line": 123,
+          "line": 121,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -3024,7 +3015,7 @@
         },
         {
           "file": "src\\search\\search_result_stream.cpp",
-          "line": 104,
+          "line": 102,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "void SearchResultStream::close() {",
@@ -3033,7 +3024,7 @@
         },
         {
           "file": "src\\search\\search_result_stream.cpp",
-          "line": 62,
+          "line": 60,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -3042,7 +3033,7 @@
         },
         {
           "file": "src\\search\\search_result_stream.cpp",
-          "line": 45,
+          "line": 43,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "close();",
@@ -3051,7 +3042,7 @@
         },
         {
           "file": "src\\search\\search_result_stream.cpp",
-          "line": 141,
+          "line": 139,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -3060,7 +3051,7 @@
         },
         {
           "file": "src\\search\\search_result_stream.cpp",
-          "line": 137,
+          "line": 135,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -3069,7 +3060,7 @@
         },
         {
           "file": "src\\search\\search_result_stream.cpp",
-          "line": 34,
+          "line": 32,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -3078,7 +3069,7 @@
         },
         {
           "file": "src\\search\\search_result_stream.cpp",
-          "line": 30,
+          "line": 28,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -3087,7 +3078,7 @@
         },
         {
           "file": "src\\search\\search_result_stream.cpp",
-          "line": 43,
+          "line": 41,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "void SearchResultStream::open(const std::string& query,",

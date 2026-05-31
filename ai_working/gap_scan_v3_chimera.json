@@ -1,14 +1,14 @@
 {
   "chimera": {
-    "total": 126,
+    "total": 128,
     "severity_critical": 16,
-    "severity_high": 48,
+    "severity_high": 50,
     "severity_medium": 62,
     "by_category": {
       "security": 1,
       "reliability": 28,
       "raii": 11,
-      "container": 32,
+      "container": 34,
       "platform": 1,
       "performance": 10,
       "type_conversion": 1,
@@ -22,7 +22,7 @@
       "src\\chimera\\themisdb_adapter.cpp": [
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1653,
+          "line": 1654,
           "category": "audit_logging",
           "severity": "CRITICAL",
           "pattern": "missing_audit_log",
@@ -34,7 +34,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1478,
+          "line": 1479,
           "category": "audit_logging",
           "severity": "CRITICAL",
           "pattern": "missing_audit_log",
@@ -46,7 +46,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1352,
+          "line": 1353,
           "category": "audit_logging",
           "severity": "CRITICAL",
           "pattern": "missing_audit_log",
@@ -58,7 +58,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 119,
+          "line": 120,
           "category": "audit_logging",
           "severity": "CRITICAL",
           "pattern": "missing_audit_log",
@@ -70,7 +70,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1644,
+          "line": 1645,
           "category": "observability",
           "severity": "HIGH",
           "pattern": "missing_trace_point",
@@ -82,7 +82,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 857,
+          "line": 858,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -94,7 +94,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 850,
+          "line": 851,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -106,7 +106,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 814,
+          "line": 815,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -118,7 +118,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 396,
+          "line": 397,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -130,7 +130,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 200,
+          "line": 201,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -142,7 +142,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 148,
+          "line": 149,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -154,7 +154,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1718,
+          "line": 1719,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -166,7 +166,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1718,
+          "line": 1719,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -178,7 +178,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1613,
+          "line": 1614,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -190,7 +190,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1540,
+          "line": 1541,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -202,7 +202,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1423,
+          "line": 1424,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -214,7 +214,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 831,
+          "line": 832,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -226,7 +226,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 830,
+          "line": 831,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -238,7 +238,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 821,
+          "line": 822,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -250,7 +250,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 821,
+          "line": 822,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -262,7 +262,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 792,
+          "line": 793,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -274,7 +274,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 683,
+          "line": 684,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -286,7 +286,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 636,
+          "line": 637,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -298,7 +298,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 599,
+          "line": 600,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -310,7 +310,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 590,
+          "line": 591,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -322,7 +322,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 578,
+          "line": 579,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -334,7 +334,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 578,
+          "line": 579,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -346,7 +346,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 542,
+          "line": 543,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -358,7 +358,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 541,
+          "line": 542,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -370,7 +370,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 503,
+          "line": 504,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -382,7 +382,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 396,
+          "line": 397,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -394,7 +394,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 380,
+          "line": 381,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -406,7 +406,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 380,
+          "line": 381,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -418,7 +418,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 330,
+          "line": 331,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -430,7 +430,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 305,
+          "line": 306,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -442,7 +442,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 294,
+          "line": 295,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -454,7 +454,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 202,
+          "line": 203,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -466,7 +466,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 202,
+          "line": 203,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -478,7 +478,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 150,
+          "line": 151,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -490,7 +490,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 150,
+          "line": 151,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -502,7 +502,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 629,
+          "line": 630,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -516,7 +516,7 @@
           "gap_type": "CAST_TO_SMALLER_TYPE",
           "severity": "MEDIUM",
           "file_path": "src\\chimera\\themisdb_adapter.cpp",
-          "line_number": 628,
+          "line_number": 629,
           "line_content": "const int depth = static_cast<int>(max_depth);",
           "context": [
             "        //   \u2022 single label -> BFS filtered by that edge type",
@@ -537,7 +537,7 @@
           "gap_type": "missing_move_constructor_defaulted",
           "severity": "MEDIUM",
           "file_path": "src\\chimera\\themisdb_adapter.cpp",
-          "line_number": 1293,
+          "line_number": 1294,
           "class_name": "",
           "issue": "Copy constructor exists but no move constructor (Rule of Five)",
           "reason": "Missing move ctor prevents efficient rvalue transfers",
@@ -547,7 +547,16 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1720,
+          "line": 1721,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "else if (c == '\\'') escaped += \"\\\\'\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1721,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "else if (c == '\\'') escaped += \"\\\\'\";",
@@ -559,13 +568,13 @@
           "line": 1720,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
-          "snippet": "else if (c == '\\'') escaped += \"\\\\'\";",
+          "snippet": "if (c == '\\\\') escaped += \"\\\\\\\\\";",
           "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
           "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1719,
+          "line": 1720,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (c == '\\\\') escaped += \"\\\\\\\\\";",
@@ -574,16 +583,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1719,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "if (c == '\\\\') escaped += \"\\\\\\\\\";",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1593,
+          "line": 1594,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "Result<bool> ThemisDBResultStream::close() {",
@@ -592,7 +592,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1541,
+          "line": 1542,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ids.push_back(kv.first);",
@@ -601,7 +601,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 822,
+          "line": 823,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "matched.push_back(doc);",
@@ -610,7 +610,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 698,
+          "line": 699,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "visited_nodes.push_back(nit->second);",
@@ -619,7 +619,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 659,
+          "line": 660,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "ErrorCode::INTERNAL_ERROR, status.message);",
@@ -628,7 +628,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 650,
+          "line": 651,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "ErrorCode::INTERNAL_ERROR, status.message);",
@@ -637,7 +637,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 640,
+          "line": 641,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "nodes.push_back(std::move(n));",
@@ -646,7 +646,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 637,
+          "line": 638,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "nodes.push_back(it->second);",
@@ -655,7 +655,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 600,
+          "line": 601,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "path.edges.push_back(eit->second);",
@@ -664,7 +664,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 594,
+          "line": 595,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "path.nodes.push_back(n);",
@@ -673,7 +673,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 591,
+          "line": 592,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "path.nodes.push_back(nit->second);",
@@ -682,7 +682,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 582,
+          "line": 583,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "edge_seq.push_back(eit->second);",
@@ -691,7 +691,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 579,
+          "line": 580,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "node_seq.push_back(cur);",
@@ -700,7 +700,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 532,
+          "line": 533,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "path.nodes.push_back(it->second);",
@@ -709,7 +709,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 504,
+          "line": 505,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "path.nodes.push_back(std::move(node));",
@@ -718,7 +718,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 493,
+          "line": 494,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "ErrorCode::INTERNAL_ERROR, status.message);",
@@ -727,7 +727,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 480,
+          "line": 481,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "GraphIndexManager::Status status;",
@@ -736,7 +736,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 206,
+          "line": 207,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "table.rows.push_back(row);",
@@ -745,7 +745,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 203,
+          "line": 204,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "table.column_names.push_back(col);",
@@ -754,7 +754,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 165,
+          "line": 166,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "table.rows.push_back(std::move(row));",
@@ -763,7 +763,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 151,
+          "line": 152,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "table.column_names.push_back(col);",
@@ -772,7 +772,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1667,
+          "line": 1668,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "return execute();",
@@ -781,7 +781,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1653,
+          "line": 1654,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "auto result = adapter_->execute_query(effective_query, pos_params);",
@@ -790,7 +790,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1644,
+          "line": 1645,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "Result<RelationalTable> ThemisDBPreparedStatement::execute() {",
@@ -799,7 +799,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1613,
+          "line": 1614,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string ThemisDBPreparedStatement::get_query() const { return query_; }",
@@ -808,7 +808,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1524,
+          "line": 1525,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "Result<bool> ThemisDBAdapter::unprepare(const std::string& statement_id) {",
@@ -817,7 +817,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1505,
+          "line": 1506,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "Result<std::unique_ptr<IPreparedStatement>> ThemisDBAdapter::prepare(",
@@ -826,7 +826,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1478,
+          "line": 1479,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "auto table_result = execute_query(query, params);",
@@ -835,7 +835,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1352,
+          "line": 1353,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "return execute_query(query, params);",
@@ -844,7 +844,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1228,
+          "line": 1229,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "connection_pool_acquire_fn_ = std::move(acquire_fn);",
@@ -853,7 +853,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1227,
+          "line": 1228,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "void ThemisDBAdapter::setConnectionPool(std::function<void*()> acquire_fn) {",
@@ -862,7 +862,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1217,
+          "line": 1218,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (connection_pool_acquire_fn_) {",
@@ -871,7 +871,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1193,
+          "line": 1194,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "return static_cast<bool>(connection_pool_acquire_fn_);",
@@ -880,7 +880,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 813,
+          "line": 814,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto field_it = doc.fields.find(key);",
@@ -889,7 +889,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 729,
+          "line": 730,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "Result<std::vector<GraphPath>> ThemisDBAdapter::execute_graph_query(",
@@ -898,7 +898,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 634,
+          "line": 635,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = graph_nodes_.find(nid);",
@@ -907,7 +907,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 597,
+          "line": 598,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto eit = graph_edges_.find(eid);",
@@ -916,7 +916,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 588,
+          "line": 589,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto nit = graph_nodes_.find(nid);",
@@ -925,7 +925,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 579,
+          "line": 580,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto eit = via_edge.find(cur);",
@@ -934,7 +934,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 200,
+          "line": 201,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "if (std::find(table.column_names.begin(),",
@@ -943,7 +943,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 200,
+          "line": 201,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "if (std::find(table.column_names.begin(),",
@@ -952,7 +952,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 148,
+          "line": 149,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "if (std::find(table.column_names.begin(),",
@@ -961,7 +961,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 148,
+          "line": 149,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "if (std::find(table.column_names.begin(),",
@@ -970,7 +970,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 119,
+          "line": 120,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "Result<RelationalTable> ThemisDBAdapter::execute_query(",
@@ -979,7 +979,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 108,
+          "line": 109,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "Result<bool> ThemisDBAdapter::disconnect() {",
@@ -988,7 +988,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 84,
+          "line": 85,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "Result<bool> ThemisDBAdapter::connect(",
@@ -997,7 +997,16 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1700,
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #4701 docs(chimera): migrate modu... (2026-04-16) | #4096 feat(chimera): Prod",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1701,
           "type": "hardcoded_secret",
           "severity": "CRITICAL",
           "snippet": "const std::string token = \"@\" + kv.first;",
@@ -1006,7 +1015,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 1526,
+          "line": 1527,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = prepared_queries_.find(statement_id);",
@@ -1015,7 +1024,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 932,
+          "line": 933,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = active_transactions_.find(transaction_id);",
@@ -1024,7 +1033,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 906,
+          "line": 907,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = active_transactions_.find(transaction_id);",
@@ -1033,7 +1042,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 696,
+          "line": 697,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto nit = graph_nodes_.find(cur_id);",
@@ -1042,7 +1051,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 635,
+          "line": 636,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = graph_nodes_.find(nid);",
@@ -1051,7 +1060,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 598,
+          "line": 599,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto eit = graph_edges_.find(eid);",
@@ -1060,7 +1069,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 589,
+          "line": 590,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto nit = graph_nodes_.find(nid);",
@@ -1069,7 +1078,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 580,
+          "line": 581,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto eit = via_edge.find(cur);",
@@ -1078,7 +1087,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 530,
+          "line": 531,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "if (auto it = graph_nodes_.find(source_id);",
@@ -1087,7 +1096,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 500,
+          "line": 501,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = graph_nodes_.find(node_id);",
@@ -1096,7 +1105,7 @@
         },
         {
           "file": "src\\chimera\\themisdb_adapter.cpp",
-          "line": 196,
+          "line": 197,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = table_store_.find(query); // treat query as a table name for simple scans",
@@ -1107,7 +1116,7 @@
       "include\\chimera\\database_adapter.hpp": [
         {
           "file": "include\\chimera\\database_adapter.hpp",
-          "line": 93,
+          "line": 94,
           "type": "expensive_copy",
           "severity": "MEDIUM",
           "snippet": "virtual std::string get_query() const = 0;",
@@ -1116,7 +1125,7 @@
         },
         {
           "file": "include\\chimera\\database_adapter.hpp",
-          "line": 90,
+          "line": 91,
           "type": "expensive_copy",
           "severity": "MEDIUM",
           "snippet": "virtual std::string get_id() const = 0;",
@@ -1125,7 +1134,7 @@
         },
         {
           "file": "include\\chimera\\database_adapter.hpp",
-          "line": 60,
+          "line": 61,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "virtual Result<bool> close() = 0;",
@@ -1134,7 +1143,7 @@
         },
         {
           "file": "include\\chimera\\database_adapter.hpp",
-          "line": 9,
+          "line": 10,
           "type": "unportable_pragma",
           "severity": "MEDIUM",
           "snippet": "#pragma once",
@@ -1143,7 +1152,7 @@
         },
         {
           "file": "include\\chimera\\database_adapter.hpp",
-          "line": 133,
+          "line": 134,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "virtual Result<bool> unprepare(const std::string& statement_id) = 0;",
@@ -1152,7 +1161,7 @@
         },
         {
           "file": "include\\chimera\\database_adapter.hpp",
-          "line": 128,
+          "line": 129,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "virtual Result<std::unique_ptr<IPreparedStatement>> prepare(",
@@ -1161,7 +1170,7 @@
         },
         {
           "file": "include\\chimera\\database_adapter.hpp",
-          "line": 93,
+          "line": 94,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "virtual std::string get_query() const = 0;",
@@ -1172,7 +1181,7 @@
       "include\\chimera\\themisdb_adapter.hpp": [
         {
           "file": "include\\chimera\\themisdb_adapter.hpp",
-          "line": 84,
+          "line": 85,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "Result<bool> close() override;",
@@ -1181,7 +1190,7 @@
         },
         {
           "file": "include\\chimera\\themisdb_adapter.hpp",
-          "line": 398,
+          "line": 399,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "std::function<void*()> connection_pool_acquire_fn_;",
@@ -1190,7 +1199,7 @@
         },
         {
           "file": "include\\chimera\\themisdb_adapter.hpp",
-          "line": 382,
+          "line": 383,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "void setConnectionPool(std::function<void*()> acquire_fn);",
@@ -1199,7 +1208,7 @@
         },
         {
           "file": "include\\chimera\\themisdb_adapter.hpp",
-          "line": 380,
+          "line": 381,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "* Thread safety: call before the first `connect()` invocation.",
@@ -1208,7 +1217,7 @@
         },
         {
           "file": "include\\chimera\\themisdb_adapter.hpp",
-          "line": 376,
+          "line": 377,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "* The `acquire_fn` is a zero-argument callable returning a connection",
@@ -1217,7 +1226,7 @@
         },
         {
           "file": "include\\chimera\\themisdb_adapter.hpp",
-          "line": 373,
+          "line": 374,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "* When a non-null `acquire_fn` is set, `has_capability(CONNECTION_POOLING)`",
@@ -1226,7 +1235,7 @@
         },
         {
           "file": "include\\chimera\\themisdb_adapter.hpp",
-          "line": 366,
+          "line": 367,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "Result<bool> unprepare(const std::string& statement_id) override;",
@@ -1235,7 +1244,7 @@
         },
         {
           "file": "include\\chimera\\themisdb_adapter.hpp",
-          "line": 362,
+          "line": 363,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "Result<std::unique_ptr<IPreparedStatement>> prepare(",
@@ -1244,7 +1253,7 @@
         },
         {
           "file": "include\\chimera\\themisdb_adapter.hpp",
-          "line": 269,
+          "line": 270,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "Result<std::vector<GraphPath>> execute_graph_query(",
@@ -1253,7 +1262,7 @@
         },
         {
           "file": "include\\chimera\\themisdb_adapter.hpp",
-          "line": 212,
+          "line": 213,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "Result<RelationalTable> execute_query(",
@@ -1262,7 +1271,7 @@
         },
         {
           "file": "include\\chimera\\themisdb_adapter.hpp",
-          "line": 208,
+          "line": 209,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "Result<bool> disconnect() override;",
@@ -1271,7 +1280,7 @@
         },
         {
           "file": "include\\chimera\\themisdb_adapter.hpp",
-          "line": 203,
+          "line": 204,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "Result<bool> connect(",
@@ -1280,7 +1289,7 @@
         },
         {
           "file": "include\\chimera\\themisdb_adapter.hpp",
-          "line": 128,
+          "line": 129,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "Result<RelationalTable> execute() override;",
@@ -1289,12 +1298,21 @@
         },
         {
           "file": "include\\chimera\\themisdb_adapter.hpp",
-          "line": 120,
+          "line": 121,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string get_query() const override;",
           "description": "database_query without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "include\\chimera\\themisdb_adapter.hpp",
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #4701 docs(chimera): migrate modu... (2026-04-16) | #4122 feat(chimera): asyn",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ]
     }

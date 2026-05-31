@@ -22,7 +22,7 @@
       "src\\plugins\\oci_registry_client.cpp": [
         {
           "file": "src\\plugins\\oci_registry_client.cpp",
-          "line": 523,
+          "line": 521,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -34,7 +34,7 @@
         },
         {
           "file": "src\\plugins\\oci_registry_client.cpp",
-          "line": 575,
+          "line": 573,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -48,7 +48,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\plugins\\oci_registry_client.cpp",
-          "line_number": 97,
+          "line_number": 95,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -58,7 +58,7 @@
         },
         {
           "file": "src\\plugins\\oci_registry_client.cpp",
-          "line": 259,
+          "line": 257,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -70,7 +70,7 @@
         },
         {
           "file": "src\\plugins\\oci_registry_client.cpp",
-          "line": 576,
+          "line": 574,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "manifest.layers.push_back(std::move(l));",
@@ -79,7 +79,7 @@
         },
         {
           "file": "src\\plugins\\oci_registry_client.cpp",
-          "line": 538,
+          "line": 536,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "accept_headers.push_back(\"Authorization: Bearer \" + auth.bearer_token);",
@@ -88,7 +88,7 @@
         },
         {
           "file": "src\\plugins\\oci_registry_client.cpp",
-          "line": 492,
+          "line": 490,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -97,7 +97,7 @@
         },
         {
           "file": "src\\plugins\\oci_registry_client.cpp",
-          "line": 363,
+          "line": 361,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "writer.file.close();",
@@ -106,7 +106,7 @@
         },
         {
           "file": "src\\plugins\\oci_registry_client.cpp",
-          "line": 119,
+          "line": 117,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(ctx);",
@@ -115,7 +115,7 @@
         },
         {
           "file": "src\\plugins\\oci_registry_client.cpp",
-          "line": 116,
+          "line": 114,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(ctx);",
@@ -124,7 +124,7 @@
         },
         {
           "file": "src\\plugins\\oci_registry_client.cpp",
-          "line": 108,
+          "line": 106,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(ctx);",
@@ -133,7 +133,7 @@
         },
         {
           "file": "src\\plugins\\oci_registry_client.cpp",
-          "line": 101,
+          "line": 99,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(ctx);",
@@ -142,7 +142,7 @@
         },
         {
           "file": "src\\plugins\\oci_registry_client.cpp",
-          "line": 663,
+          "line": 661,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "std::string blob_url = base + \"/v2/\" + ref.name + \"/blobs/\" + plugin_layer->digest;",
@@ -151,16 +151,16 @@
         },
         {
           "file": "src\\plugins\\oci_registry_client.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #3342 [plugins] Remote plugin loading from OCI registries (2026-03-12T07:06:26Z)",
+          "snippet": "* PR History (last 5): #3342 [plugins] Remote plugin loa... (2026-03-12)",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         },
         {
           "file": "src\\plugins\\oci_registry_client.cpp",
-          "line": 670,
+          "line": 668,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = auth_configs_.find(ref.registry);",
@@ -169,7 +169,7 @@
         },
         {
           "file": "src\\plugins\\oci_registry_client.cpp",
-          "line": 533,
+          "line": 531,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = auth_configs_.find(ref.registry);",
@@ -178,7 +178,7 @@
         },
         {
           "file": "src\\plugins\\oci_registry_client.cpp",
-          "line": 78,
+          "line": 76,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto colon = line.find(':');",
@@ -189,7 +189,7 @@
       "src\\plugins\\plugin_hot_plug_monitor.cpp": [
         {
           "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
-          "line": 383,
+          "line": 381,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -201,7 +201,7 @@
         },
         {
           "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
-          "line": 381,
+          "line": 379,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -213,7 +213,7 @@
         },
         {
           "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
-          "line": 296,
+          "line": 294,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -227,7 +227,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\plugins\\plugin_hot_plug_monitor.cpp",
-          "line_number": 313,
+          "line_number": 311,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -239,7 +239,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\plugins\\plugin_hot_plug_monitor.cpp",
-          "line_number": 135,
+          "line_number": 133,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -249,7 +249,7 @@
         },
         {
           "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
-          "line": 574,
+          "line": 572,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "close(inotify_fd_);",
@@ -258,7 +258,7 @@
         },
         {
           "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
-          "line": 528,
+          "line": 526,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "close(inotify_fd_);",
@@ -267,7 +267,7 @@
         },
         {
           "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
-          "line": 455,
+          "line": 453,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "close(kq);",
@@ -276,7 +276,7 @@
         },
         {
           "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
-          "line": 454,
+          "line": 452,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "close(dir_fd);",
@@ -285,7 +285,7 @@
         },
         {
           "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
-          "line": 376,
+          "line": 374,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "close(kq);",
@@ -294,7 +294,7 @@
         },
         {
           "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
-          "line": 375,
+          "line": 373,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "close(dir_fd);",
@@ -303,7 +303,7 @@
         },
         {
           "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
-          "line": 362,
+          "line": 360,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "close(kq);",
@@ -312,7 +312,7 @@
         },
         {
           "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
-          "line": 297,
+          "line": 295,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "filename.push_back(static_cast<char>(wc));",
@@ -321,7 +321,7 @@
         },
         {
           "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
-          "line": 385,
+          "line": 383,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& entry : fs::directory_iterator(watch_directory_)) {",
@@ -330,7 +330,7 @@
         },
         {
           "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
-          "line": 313,
+          "line": 311,
           "type": "allocation_loop",
           "severity": "HIGH",
           "snippet": "// A rename/move into the directory counts as a new file",
@@ -339,7 +339,7 @@
         },
         {
           "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
-          "line": 248,
+          "line": 246,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "ptr += sizeof(struct inotify_event) + event->len;",
@@ -348,7 +348,7 @@
         },
         {
           "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
-          "line": 245,
+          "line": 243,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "handleFileEvent(event->name, file_event);",
@@ -357,7 +357,7 @@
         },
         {
           "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
-          "line": 241,
+          "line": 239,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "ptr += sizeof(struct inotify_event) + event->len;",
@@ -366,7 +366,7 @@
         },
         {
           "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
-          "line": 153,
+          "line": 151,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(500));",
@@ -375,7 +375,7 @@
         },
         {
           "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
-          "line": 133,
+          "line": 131,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(500));",
@@ -384,7 +384,7 @@
         },
         {
           "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
-          "line": 367,
+          "line": 365,
           "type": "missing_dtor",
           "severity": "CRITICAL",
           "snippet": "class/struct kevent",
@@ -393,7 +393,7 @@
         },
         {
           "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
-          "line": 359,
+          "line": 357,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "int dir_fd = open(watch_directory_.c_str(), O_RDONLY);",
@@ -402,7 +402,7 @@
         },
         {
           "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
-          "line": 218,
+          "line": 216,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "ssize_t length = read(inotify_fd_, buffer, sizeof(buffer));",
@@ -413,7 +413,7 @@
       "src\\plugins\\plugin_manager.cpp": [
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1508,
+          "line": 1506,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -425,7 +425,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1488,
+          "line": 1486,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -437,7 +437,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1485,
+          "line": 1483,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -449,7 +449,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1263,
+          "line": 1261,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -461,7 +461,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1183,
+          "line": 1181,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -473,7 +473,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 949,
+          "line": 947,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -485,7 +485,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 938,
+          "line": 936,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -497,7 +497,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 923,
+          "line": 921,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -509,7 +509,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 312,
+          "line": 310,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -521,7 +521,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 282,
+          "line": 280,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -533,7 +533,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1489,
+          "line": 1487,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -545,7 +545,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1489,
+          "line": 1487,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -557,7 +557,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1241,
+          "line": 1239,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -569,7 +569,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1227,
+          "line": 1225,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -581,7 +581,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1225,
+          "line": 1223,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -593,7 +593,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 988,
+          "line": 986,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -605,7 +605,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 950,
+          "line": 948,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -617,7 +617,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 938,
+          "line": 936,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -629,7 +629,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 925,
+          "line": 923,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -641,7 +641,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 824,
+          "line": 822,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -653,7 +653,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 527,
+          "line": 525,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -665,7 +665,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 525,
+          "line": 523,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -677,7 +677,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 322,
+          "line": 320,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -691,7 +691,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\plugins\\plugin_manager.cpp",
-          "line_number": 1167,
+          "line_number": 1165,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -703,7 +703,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\plugins\\plugin_manager.cpp",
-          "line_number": 1166,
+          "line_number": 1164,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -715,31 +715,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\plugins\\plugin_manager.cpp",
-          "line_number": 1163,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\plugins\\plugin_manager.cpp",
-          "line_number": 1146,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\plugins\\plugin_manager.cpp",
-          "line_number": 1145,
+          "line_number": 1161,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -763,7 +739,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\plugins\\plugin_manager.cpp",
-          "line_number": 1111,
+          "line_number": 1143,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -775,7 +751,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\plugins\\plugin_manager.cpp",
-          "line_number": 1110,
+          "line_number": 1142,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -811,7 +787,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\plugins\\plugin_manager.cpp",
-          "line_number": 1089,
+          "line_number": 1107,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -823,7 +799,19 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\plugins\\plugin_manager.cpp",
-          "line_number": 1088,
+          "line_number": 1106,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak",
+          "confidence_score": 0.73,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=HIGH,context_missing"
+        },
+        {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\plugins\\plugin_manager.cpp",
+          "line_number": 1087,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -847,7 +835,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\plugins\\plugin_manager.cpp",
-          "line_number": 1079,
+          "line_number": 1084,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -859,7 +847,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\plugins\\plugin_manager.cpp",
-          "line_number": 1078,
+          "line_number": 1077,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -883,7 +871,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\plugins\\plugin_manager.cpp",
-          "line_number": 1066,
+          "line_number": 1074,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -895,7 +883,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\plugins\\plugin_manager.cpp",
-          "line_number": 1065,
+          "line_number": 1064,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -919,7 +907,19 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\plugins\\plugin_manager.cpp",
-          "line_number": 1054,
+          "line_number": 1061,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak",
+          "confidence_score": 0.73,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=HIGH,context_missing"
+        },
+        {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\plugins\\plugin_manager.cpp",
+          "line_number": 1052,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -929,7 +929,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1581,
+          "line": 1579,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "\"3. Place in $THEMIS_HOME/plugins/\\n\"",
@@ -938,7 +938,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1579,
+          "line": 1577,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "\"1. Download from https://marketplace.themisdb.io/\\n\"",
@@ -947,7 +947,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1490,
+          "line": 1488,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "dependents.push_back(plugin_name);",
@@ -956,7 +956,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1242,
+          "line": 1240,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (!missing_desc.empty()) missing_desc += \"; \";",
@@ -965,16 +965,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1228,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "if (i > 0) cycle_desc += \" -> \";",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1228,
+          "line": 1226,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (i > 0) cycle_desc += \" -> \";",
@@ -986,13 +977,22 @@
           "line": 1226,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
+          "snippet": "if (i > 0) cycle_desc += \" -> \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1224,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
           "snippet": "if (!cycle_desc.empty()) cycle_desc += \"; \";",
           "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
           "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1179,
+          "line": 1177,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "else delete old_raw;",
@@ -1001,7 +1001,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1165,
+          "line": 1163,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "entry.instance.release();",
@@ -1010,7 +1010,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1146,
+          "line": 1144,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "else delete new_instance;",
@@ -1019,7 +1019,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1110,
+          "line": 1108,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "else delete new_instance;",
@@ -1028,7 +1028,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1103,
+          "line": 1101,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1037,7 +1037,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 989,
+          "line": 987,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (!dep_list.empty()) dep_list += \", \";",
@@ -1046,7 +1046,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 951,
+          "line": 949,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(pair.first);",
@@ -1055,7 +1055,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 939,
+          "line": 937,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(pair.second.manifest);",
@@ -1064,7 +1064,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 926,
+          "line": 924,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(plugin_it->second.instance.get());",
@@ -1073,7 +1073,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 885,
+          "line": 883,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "destroyFunc(entry.instance.release());",
@@ -1082,7 +1082,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 852,
+          "line": 850,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "destroyFunc(entry.instance.release());",
@@ -1091,7 +1091,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 825,
+          "line": 823,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (!dep_list.empty()) dep_list += \", \";",
@@ -1100,7 +1100,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 743,
+          "line": 741,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "type_index_[plugin->getType()].push_back(plugin_name);",
@@ -1109,16 +1109,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 528,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "if (i > 0) cycle_desc += \" -> \";",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 528,
+          "line": 526,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (i > 0) cycle_desc += \" -> \";",
@@ -1130,13 +1121,22 @@
           "line": 526,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
+          "snippet": "if (i > 0) cycle_desc += \" -> \";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 524,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
           "snippet": "if (!cycle_desc.empty()) cycle_desc += \"; \";",
           "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
           "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 415,
+          "line": 413,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1145,7 +1145,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 323,
+          "line": 321,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "manifest.dependencies.push_back(dep.get<std::string>());",
@@ -1154,7 +1154,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 113,
+          "line": 111,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(mdctx);",
@@ -1163,7 +1163,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 110,
+          "line": 108,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(mdctx);",
@@ -1172,7 +1172,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 102,
+          "line": 100,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(mdctx);",
@@ -1181,7 +1181,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 95,
+          "line": 93,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(mdctx);",
@@ -1190,7 +1190,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 75,
+          "line": 73,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "dlclose(handle);",
@@ -1199,7 +1199,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1461,
+          "line": 1459,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return hot_plug_monitor_ != nullptr && hot_plug_monitor_->isRunning();",
@@ -1208,7 +1208,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1461,
+          "line": 1459,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "return hot_plug_monitor_ != nullptr && hot_plug_monitor_->isRunning();",
@@ -1217,7 +1217,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1269,
+          "line": 1267,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -1226,7 +1226,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1179,
+          "line": 1177,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "else delete old_raw;",
@@ -1235,7 +1235,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1146,
+          "line": 1144,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "else delete new_instance;",
@@ -1244,7 +1244,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1110,
+          "line": 1108,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "else delete new_instance;",
@@ -1253,7 +1253,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 923,
+          "line": 921,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto plugin_it = plugins_.find(name);",
@@ -1262,7 +1262,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 376,
+          "line": 374,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& entry : fs::recursive_directory_iterator(directory)) {",
@@ -1271,7 +1271,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 99,
+          "line": 97,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "char buffer[8192];",
@@ -1280,7 +1280,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1435,
+          "line": 1433,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "bool started = hot_plug_monitor_->start();",
@@ -1289,7 +1289,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 1066,
+          "line": 1064,
           "type": "smart_ptr_misuse",
           "severity": "CRITICAL",
           "snippet": "auto msg = fmt::format(\"Failed to load new plugin binary for '{}' from '{}'\", name, plugin_path);",
@@ -1298,7 +1298,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 924,
+          "line": 922,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto plugin_it = plugins_.find(name);",
@@ -1307,7 +1307,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 921,
+          "line": 919,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = type_index_.find(type);",
@@ -1316,7 +1316,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 564,
+          "line": 562,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "lock.lock();",
@@ -1325,7 +1325,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 559,
+          "line": 557,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "lock.lock();",
@@ -1334,7 +1334,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 559,
+          "line": 557,
           "type": "missing_lock",
           "severity": "CRITICAL",
           "snippet": "lock.lock();",
@@ -1343,7 +1343,7 @@
         },
         {
           "file": "src\\plugins\\plugin_manager.cpp",
-          "line": 559,
+          "line": 557,
           "type": "double_lock",
           "severity": "CRITICAL",
           "snippet": "lock.lock();",
@@ -1354,7 +1354,7 @@
       "src\\plugins\\rpc_service_registry.cpp": [
         {
           "file": "src\\plugins\\rpc_service_registry.cpp",
-          "line": 38,
+          "line": 36,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return (it != services_.end()) ? it->second : nullptr;",
@@ -1363,7 +1363,7 @@
         },
         {
           "file": "src\\plugins\\rpc_service_registry.cpp",
-          "line": 38,
+          "line": 36,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "return (it != services_.end()) ? it->second : nullptr;",
@@ -1372,7 +1372,7 @@
         },
         {
           "file": "src\\plugins\\rpc_service_registry.cpp",
-          "line": 37,
+          "line": 35,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = services_.find(name);",
@@ -1383,7 +1383,7 @@
       "src\\plugins\\signed_plugin_repository.cpp": [
         {
           "file": "src\\plugins\\signed_plugin_repository.cpp",
-          "line": 185,
+          "line": 183,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1395,7 +1395,7 @@
         },
         {
           "file": "src\\plugins\\signed_plugin_repository.cpp",
-          "line": 166,
+          "line": 164,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1407,7 +1407,7 @@
         },
         {
           "file": "src\\plugins\\signed_plugin_repository.cpp",
-          "line": 134,
+          "line": 132,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1419,7 +1419,7 @@
         },
         {
           "file": "src\\plugins\\signed_plugin_repository.cpp",
-          "line": 89,
+          "line": 87,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1431,7 +1431,7 @@
         },
         {
           "file": "src\\plugins\\signed_plugin_repository.cpp",
-          "line": 186,
+          "line": 184,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1443,7 +1443,7 @@
         },
         {
           "file": "src\\plugins\\signed_plugin_repository.cpp",
-          "line": 140,
+          "line": 138,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1455,7 +1455,7 @@
         },
         {
           "file": "src\\plugins\\signed_plugin_repository.cpp",
-          "line": 94,
+          "line": 92,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1469,7 +1469,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\plugins\\signed_plugin_repository.cpp",
-          "line_number": 300,
+          "line_number": 298,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1481,7 +1481,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\plugins\\signed_plugin_repository.cpp",
-          "line_number": 37,
+          "line_number": 35,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1493,7 +1493,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\plugins\\signed_plugin_repository.cpp",
-          "line_number": 36,
+          "line_number": 34,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1503,7 +1503,7 @@
         },
         {
           "file": "src\\plugins\\signed_plugin_repository.cpp",
-          "line": 319,
+          "line": 317,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_PKEY_free(pkey);",
@@ -1512,7 +1512,7 @@
         },
         {
           "file": "src\\plugins\\signed_plugin_repository.cpp",
-          "line": 318,
+          "line": 316,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(ctx);",
@@ -1521,7 +1521,7 @@
         },
         {
           "file": "src\\plugins\\signed_plugin_repository.cpp",
-          "line": 307,
+          "line": 305,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_PKEY_free(pkey);",
@@ -1530,7 +1530,7 @@
         },
         {
           "file": "src\\plugins\\signed_plugin_repository.cpp",
-          "line": 237,
+          "line": 235,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\t': out += \"\\\\t\";  break;",
@@ -1539,7 +1539,7 @@
         },
         {
           "file": "src\\plugins\\signed_plugin_repository.cpp",
-          "line": 236,
+          "line": 234,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\r': out += \"\\\\r\";  break;",
@@ -1548,7 +1548,7 @@
         },
         {
           "file": "src\\plugins\\signed_plugin_repository.cpp",
-          "line": 235,
+          "line": 233,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\n': out += \"\\\\n\";  break;",
@@ -1557,7 +1557,7 @@
         },
         {
           "file": "src\\plugins\\signed_plugin_repository.cpp",
-          "line": 234,
+          "line": 232,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\\\': out += \"\\\\\\\\\"; break;",
@@ -1566,7 +1566,7 @@
         },
         {
           "file": "src\\plugins\\signed_plugin_repository.cpp",
-          "line": 233,
+          "line": 231,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\"':  out += \"\\\\\\\"\"; break;",
@@ -1575,7 +1575,7 @@
         },
         {
           "file": "src\\plugins\\signed_plugin_repository.cpp",
-          "line": 187,
+          "line": 185,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(e);",
@@ -1584,7 +1584,7 @@
         },
         {
           "file": "src\\plugins\\signed_plugin_repository.cpp",
-          "line": 141,
+          "line": 139,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "entries_.push_back(entry);",
@@ -1593,7 +1593,7 @@
         },
         {
           "file": "src\\plugins\\signed_plugin_repository.cpp",
-          "line": 95,
+          "line": 93,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "pinned_keys_.push_back(std::move(key));",
@@ -1602,7 +1602,7 @@
         },
         {
           "file": "src\\plugins\\signed_plugin_repository.cpp",
-          "line": 114,
+          "line": 112,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return k != nullptr && k->active;",
@@ -1611,7 +1611,7 @@
         },
         {
           "file": "src\\plugins\\signed_plugin_repository.cpp",
-          "line": 114,
+          "line": 112,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "return k != nullptr && k->active;",
@@ -1620,7 +1620,7 @@
         },
         {
           "file": "src\\plugins\\signed_plugin_repository.cpp",
-          "line": 57,
+          "line": 55,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(data[i]);",
@@ -1633,7 +1633,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\plugins\\wasm_plugin_loader.cpp",
-          "line_number": 266,
+          "line_number": 264,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1645,7 +1645,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\plugins\\wasm_plugin_loader.cpp",
-          "line_number": 246,
+          "line_number": 244,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1657,7 +1657,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\plugins\\wasm_plugin_loader.cpp",
-          "line_number": 245,
+          "line_number": 243,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1667,7 +1667,7 @@
         },
         {
           "file": "src\\plugins\\wasm_plugin_loader.cpp",
-          "line": 377,
+          "line": 375,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "delete b;",
@@ -1676,7 +1676,7 @@
         },
         {
           "file": "src\\plugins\\wasm_plugin_loader.cpp",
-          "line": 95,
+          "line": 93,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "void operator()(EVP_MD_CTX* p) const noexcept { EVP_MD_CTX_free(p); }",
@@ -1685,7 +1685,7 @@
         },
         {
           "file": "src\\plugins\\wasm_plugin_loader.cpp",
-          "line": 377,
+          "line": 375,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "delete b;",
@@ -1694,7 +1694,7 @@
         },
         {
           "file": "src\\plugins\\wasm_plugin_loader.cpp",
-          "line": 295,
+          "line": 293,
           "type": "missing_dtor",
           "severity": "CRITICAL",
           "snippet": "class/struct WasmtimeBundle",
@@ -1705,7 +1705,7 @@
       "src\\plugins\\plugin_health_monitor.cpp": [
         {
           "file": "src\\plugins\\plugin_health_monitor.cpp",
-          "line": 294,
+          "line": 292,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1717,7 +1717,7 @@
         },
         {
           "file": "src\\plugins\\plugin_health_monitor.cpp",
-          "line": 289,
+          "line": 287,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1729,7 +1729,7 @@
         },
         {
           "file": "src\\plugins\\plugin_health_monitor.cpp",
-          "line": 279,
+          "line": 277,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1741,7 +1741,7 @@
         },
         {
           "file": "src\\plugins\\plugin_health_monitor.cpp",
-          "line": 206,
+          "line": 204,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1753,7 +1753,7 @@
         },
         {
           "file": "src\\plugins\\plugin_health_monitor.cpp",
-          "line": 289,
+          "line": 287,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1765,7 +1765,7 @@
         },
         {
           "file": "src\\plugins\\plugin_health_monitor.cpp",
-          "line": 225,
+          "line": 223,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1777,7 +1777,7 @@
         },
         {
           "file": "src\\plugins\\plugin_health_monitor.cpp",
-          "line": 187,
+          "line": 185,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -1789,7 +1789,7 @@
         },
         {
           "file": "src\\plugins\\plugin_health_monitor.cpp",
-          "line": 651,
+          "line": 649,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1798,7 +1798,7 @@
         },
         {
           "file": "src\\plugins\\plugin_health_monitor.cpp",
-          "line": 506,
+          "line": 504,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1807,7 +1807,7 @@
         },
         {
           "file": "src\\plugins\\plugin_health_monitor.cpp",
-          "line": 290,
+          "line": 288,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "names.push_back(n);",
@@ -1816,7 +1816,7 @@
         },
         {
           "file": "src\\plugins\\plugin_health_monitor.cpp",
-          "line": 213,
+          "line": 211,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "gs.unhealthy_plugins_count++;",
@@ -1825,7 +1825,7 @@
         },
         {
           "file": "src\\plugins\\plugin_health_monitor.cpp",
-          "line": 209,
+          "line": 207,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "gs.healthy_plugins_count++;",
@@ -1834,7 +1834,7 @@
         },
         {
           "file": "src\\plugins\\plugin_health_monitor.cpp",
-          "line": 581,
+          "line": 579,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_ERROR(\"PluginHealthMonitor [ADMIN ALERT]: plugin '{}' requires attention \u2014 {}\",",
@@ -1843,7 +1843,7 @@
         },
         {
           "file": "src\\plugins\\plugin_health_monitor.cpp",
-          "line": 476,
+          "line": 474,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "auto it = std::find(strategies.begin(), strategies.end(), action);",
@@ -1852,7 +1852,7 @@
         },
         {
           "file": "src\\plugins\\plugin_health_monitor.cpp",
-          "line": 279,
+          "line": 277,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(200));",
@@ -1861,7 +1861,7 @@
         },
         {
           "file": "src\\plugins\\plugin_health_monitor.cpp",
-          "line": 230,
+          "line": 228,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -1870,7 +1870,7 @@
         },
         {
           "file": "src\\plugins\\plugin_health_monitor.cpp",
-          "line": 225,
+          "line": 223,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -1879,16 +1879,16 @@
         },
         {
           "file": "src\\plugins\\plugin_health_monitor.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #3010 [base] Plugin health monitoring and auto-restart on failure (2026-03-12T06:08:36Z)",
+          "snippet": "* PR History (last 5): #3160 [base] Wire PluginHealthMon... (2026-03-12) | #3010 [base] Plugin healt",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         },
         {
           "file": "src\\plugins\\plugin_health_monitor.cpp",
-          "line": 105,
+          "line": 103,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = monitored_plugins_.find(name);",
@@ -1899,7 +1899,7 @@
       "src\\plugins\\plugin_metrics.cpp": [
         {
           "file": "src\\plugins\\plugin_metrics.cpp",
-          "line": 120,
+          "line": 118,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -1911,7 +1911,7 @@
         },
         {
           "file": "src\\plugins\\plugin_metrics.cpp",
-          "line": 87,
+          "line": 85,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "stats.latency_samples.push_back(latency_ms);",
@@ -1920,7 +1920,7 @@
         },
         {
           "file": "src\\plugins\\plugin_metrics.cpp",
-          "line": 129,
+          "line": 127,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = stats_.find(plugin);",
@@ -1931,7 +1931,7 @@
       "src\\plugins\\plugin_system_edition.cpp": [
         {
           "file": "src\\plugins\\plugin_system_edition.cpp",
-          "line": 13,
+          "line": 11,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",

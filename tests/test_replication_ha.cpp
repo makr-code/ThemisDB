@@ -588,6 +588,49 @@ TEST(ReplicationManagerErrorHandling, ReplicateAsFollowerFails) {
     mgr.shutdown();
 }
 
+TEST(ReplicationManagerErrorHandling, SyncModeWithoutReplicaStreamsFailsClosed) {
+    TempWALDir wd("/tmp/themis_err_sync_no_streams");
+    ReplicationConfig cfg = makeConfig(wd.path);
+    cfg.mode = ReplicationMode::SYNC;
+
+    ReplicationManager mgr(cfg);
+    ASSERT_TRUE(mgr.initialize());
+    ASSERT_TRUE(mgr.promoteToLeader());
+
+    WALEntry entry;
+    entry.operation   = "INSERT";
+    entry.collection  = "test";
+    entry.document_id = "doc_sync_no_stream";
+    entry.data        = "{}";
+
+    EXPECT_FALSE(mgr.replicate(entry))
+        << "SYNC replication must fail closed when no replica stream can acknowledge";
+
+    mgr.shutdown();
+}
+
+TEST(ReplicationManagerErrorHandling, SemiSyncImpossibleQuorumFailsClosed) {
+    TempWALDir wd("/tmp/themis_err_semisync_quorum");
+    ReplicationConfig cfg = makeConfig(wd.path);
+    cfg.mode = ReplicationMode::SEMI_SYNC;
+    cfg.min_sync_replicas = 2;
+
+    ReplicationManager mgr(cfg);
+    ASSERT_TRUE(mgr.initialize());
+    ASSERT_TRUE(mgr.promoteToLeader());
+
+    WALEntry entry;
+    entry.operation   = "INSERT";
+    entry.collection  = "test";
+    entry.document_id = "doc_semisync_quorum";
+    entry.data        = "{}";
+
+    EXPECT_FALSE(mgr.replicate(entry))
+        << "SEMI_SYNC replication must fail closed when required acks exceed active streams";
+
+    mgr.shutdown();
+}
+
 // ============================================================================
 // 8. electionLoop – randomized timeout triggers election
 // ============================================================================

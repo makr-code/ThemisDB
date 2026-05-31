@@ -8,19 +8,26 @@ Scope: rag, llm, server, query, observability, tests
 
 Close the next small, production-relevant RAG blocks without reopening broad architecture work. The focus is on keeping the live RAG path stable while removing the last ingestion and budget-management mismatches surfaced by the focused suites.
 
+Snapshot: Package G/H are complete, Package I/J are code-level complete with remaining environment-gated live validation on `127.0.0.1:8765`.
+
 ## Current Status
 
 - Package F is complete: live `/api/v1/llm/rag` wiring, dedicated `LLMApiHandler::handleRAG`, and focused RAG validation are in place.
-- Package I has progressed with contract-level coverage:
+- Package I is code-level complete for contract/telemetry coverage (live execution remains environment-gated):
   - `/api/v1/llm/rag` success responses now include effective telemetry fields (`collection_effective`, `rag_mode_effective`, `retrieval_attempted`, `documents_rejected`, `top_k_effective`, `max_context_tokens_effective`, `response_budget_tokens_effective`).
   - Connector-mode live tests were extended to assert these fields when the endpoint is reachable.
+  - Connector-mode live RAG checks now also assert iterative `rag_mode` passthrough and response-budget capping by explicit `max_tokens` when `/api/v1/llm/rag` is reachable.
   - Non-live `themisctl` contract tests now validate both success-shape and fail-closed error behavior (including explicit 400/503 scenarios and structured error payload checks).
+  - `themisctl rag query` now forwards budget/mode controls (`--rag-mode`, `--response-budget-tokens`, `--max-tokens`) so contract-level budget semantics can be exercised from CLI level.
 - Focused verification is green for the newly added RAG contract/fail-closed `themisctl` cases.
 - Package G has progressed with bridge hydration hardening:
   - `enrichRetrievedDocuments(...)` canonicalises retrieval metadata (`content` + `source`) for valid documents.
+  - `enrichRetrievedDocuments(...)` now treats whitespace-only IDs/content/metadata as missing and fails closed when canonical source/content cannot be established.
+  - `indexDocument(...)` now stamps canonical chunk metadata aliases (`source`, `content`, `text`, `body`) so bridge output matches the shape consumed by live RAG handlers and docs-assistant flows.
+  - `buildEntityContext(...)` now trims entity identifiers before rendering to keep enrichment context canonical and whitespace-stable.
   - `indexDocument(...)` now keeps indexing available via a minimal fallback entity/chunk path when workflow execution is unavailable.
-  - `RAGIngestionBridgeTest.*` is green (30/30) after the change set.
-- Package H has progressed with deterministic context assembly:
+  - Targeted regression validation for bridge hardening is green (`RI28`-`RI34`).
+- Package H is complete for budget-aware context assembly and retrieval control:
   - `RAGContextAssembler::assemble(...)` now applies deterministic tie-breaking for equal relevance scores (`chunk_id` -> `source` -> `content`).
   - `RagContextAssemblerFocusedTests.*` is green (32/32), including deterministic tie-break and `computeMaxTokens` overflow clamp coverage.
   - `AdaptiveRetrieval` now clamps invalid/overflow-prone config inputs at ingress (`base_top_k`, `max_top_k`, `complexity_scaling`, similarity thresholds incl. non-finite values).
@@ -29,44 +36,45 @@ Close the next small, production-relevant RAG blocks without reopening broad arc
   - `ARG_BUD.*` remains green (6/6), including max-size budget sanitisation coverage.
   - `ARG_BUD` focused execution no longer pays per-test setup cost: shared-agent fixture wiring plus suite-level warm-up keep heavy initialization outside the assertion path, and the focused tests now run at 0 ms each after warm-up.
   - `MultiStepRAGOrchestrator` now sanitises budget-relevant ingress config (`model_context_tokens`, `min_response_tokens`, `max_response_tokens`, `max_map_steps`) before orchestration.
+  - `MultiStepRAGOrchestrator::runMapReduce(...)` now applies the same budget-capped max-token limit consistently across single-pass, map-phase, and reduce-phase inference calls.
+  - `MultiStepRAGOrchestrator::runIterative(...)` now uses the same budget-capped max-token limit for answer generation and iterative gap-detection prompts.
   - `MultiStepRAGFocusedTests.*` remains green (16/16), including invalid-budget sanitisation coverage.
+  - Focused coverage now includes cross-phase budget-cap propagation (`MultiStepRAGFocusedTests.C7_MapReduceUsesBudgetCappedMaxTokensAcrossPhases`) alongside ingress sanitisation (`C6`).
+  - Focused coverage now also verifies iterative budget-cap propagation for answer + gap-detection (`MultiStepRAGFocusedTests.B6_IterativeUsesBudgetCappedTokensForAnswerAndGapDetection`).
   - `LlamaCppPlugin::generateRAG(...)` now derives response max-tokens from the same effective context-window override used during assembly, avoiding plugin-side budget drift when `rag_context.max_context_tokens` is set.
+  - `LLMApiHandler::handleRAG(...)` now propagates the normalized response budget into `llm_request.max_tokens` and caps it by the explicit request limit, removing handler-side budget drift while preserving caller constraints.
+  - Focused non-live contract coverage now spans budget propagation/capping, iterative-mode consistency, CLI forwarding, numeric guardrails, and local rag-mode validation (`ThemisctlHttpTest.TRQ13..TRQ23`).
+  - Compact closure runs are green for both slices: contract core (`ThemisctlHttpTest.TRQ13..TRQ19`, 7/7) and CLI guards (`ThemisctlHttpTest.TRQ15..TRQ23`, 9/9).
+  - `themisctl rag query` now normalizes `--rag-mode` robustly (case-insensitive, `map-reduce` and `mapreduce` aliases to `map_reduce`) with focused coverage (`ThemisctlHttpTest.TRQ21..TRQ23`).
   - `LlamaCppPluginFocusedTests.E*` is green (4/4), including explicit context-window override coverage.
-- Package J has started for runtime console observability:
-  - End-to-end RAG execution logs are now emitted in the live path (`HttpServer` RAG entry, `LLMApiHandler::handleRAG`, `RAGContextAssembler`, `AdaptiveRetrieval`, `MultiStepRAGOrchestrator`, `LlamaCppPlugin::generateRAG`).
-  - Package J rollout step 2 is now in place for LLM-adjacent runtime modules (`LLMPluginManager::generateRAG`, `DocsAssistant::generateAnswer`, `RAGIngestionBridge::indexDocument`/`enrichRetrievedDocuments`) with start/decision/complete console traces.
-  - Package J rollout step 3 is now in place for streaming runtime transitions (`LLMApiHandler::handleStreamInference`, `LLMApiHandler::handleStreamExplainAql`, OpenAI chat-completions streaming path, `AsyncInferenceEngine::submitStreaming` + streaming `processRequest` lifecycle) and is now complemented by non-stream OpenAI completion lifecycle tracing plus async submit transitions (`submit`, `submitAsync`, `submitRAG`).
-  - Low-noise non-functional log assertions are now in place for the OpenAI non-stream lifecycle path (`LLMApiHandlerPolicyTest.OpenAIChatNonStreaming_EmitsLifecycleLogs`) via scoped in-memory spdlog capture.
-  - Low-noise non-functional log assertions now also cover OpenAI handler streaming lifecycle transitions (`LLMApiHandlerPolicyTest.OpenAIChatStreaming_EmitsLifecycleLogs`) for stream start plus terminal complete/failure traces.
-  - Low-noise non-functional log assertions are now also in place for async submit transitions (`InferenceEngineEnhancedTest.AsyncSubmitLifecycle_EmitsLowNoiseLogs`) covering `submit`, `submitAsync`, and `submitRAG` lifecycle logging.
-  - Low-noise non-functional log assertions now also cover async streaming lifecycle transitions (`AsyncInferenceEngineStreamingTest.SubmitStreaming_EmitsLifecycleLogs`) for `submitStreaming` enqueue and streaming `processRequest` start/complete traces.
-  - Compact Package-J assertion closeout run is green:
-    - `test_llm_openai_compat_adapter` with `LLMApiHandlerPolicyTest.OpenAIChatNonStreaming_EmitsLifecycleLogs:LLMApiHandlerPolicyTest.OpenAIChatStreaming_EmitsLifecycleLogs` (2/2).
-    - `test_inference_engine_enhanced_focused` with `InferenceEngineEnhancedTest.AsyncSubmitLifecycle_EmitsLowNoiseLogs:AsyncInferenceEngineStreamingTest.SubmitStreaming_EmitsLifecycleLogs` (2/2).
-  - Focused verification for the instrumented modules is green (`RagContextAssemblerFocusedTests` 32/32, `AdaptiveRetrievalFocusedTests` 16/16, `MultiStepRAGFocusedTests` 16/16, `LlamaCppPluginFocusedTests.E*` 4/4).
-  - Additional verification for rollout step 2 is green (`RAGIngestionBridgeTest.*` + `DocsAssistantAQLTest.SingletonPattern`: 31/31).
-  - Build validation for step 3 is green on the affected module targets (`themis_llm`, `themis_network`).
+- Package J has progressed for runtime console observability:
+  - End-to-end lifecycle logs are in place across live RAG, LLM-adjacent runtime modules, and streaming/non-streaming transitions (including async submit + async streaming paths).
+  - Low-noise non-functional assertions cover OpenAI non-stream/stream lifecycle logs and async submit/streaming lifecycle logs (`LLMApiHandlerPolicyTest.*`, `InferenceEngineEnhancedTest.AsyncSubmitLifecycle_EmitsLowNoiseLogs`, `AsyncInferenceEngineStreamingTest.SubmitStreaming_EmitsLifecycleLogs`).
+  - Compact Package-J closeout runs are green (`test_llm_openai_compat_adapter` 2/2 and `test_inference_engine_enhanced_focused` 2/2 for the lifecycle-log assertions).
+  - Focused verification remains green for instrumented RAG modules (`RagContextAssemblerFocusedTests` 32/32, `AdaptiveRetrievalFocusedTests` 16/16, `MultiStepRAGFocusedTests` 16/16, `LlamaCppPluginFocusedTests.E*` 4/4), plus rollout-step-2 checks (`RAGIngestionBridgeTest.*` + `DocsAssistantAQLTest.SingletonPattern`: 31/31).
+  - Build validation for affected targets is green (`themis_llm`, `themis_network`).
 - Remaining gaps are now primarily:
-  - Package G deeper normalization follow-ups across downstream consumers.
-  - Package H cross-component budget consistency hardening.
-  - Live connector regression execution in environments where `127.0.0.1:8765` is reachable.
+  - Environment-gated connector regression execution in workspaces where `127.0.0.1:8765` is reachable.
+
+## Closing Checklist (Current Run)
+
+- [x] `themis_server` builds cleanly in `windows-release` (verified in current run).
+- [x] Non-live themisctl RAG contract slice passes as a single-shot closure (`ThemisctlHttpTest.TRQ13..TRQ23`, 11/11).
+- [~] Connector live regression closure (`ConnectorApiLiveTest.IngestWorkspaceDocsAndRunRag`) remains environment-gated; latest run skipped because `127.0.0.1:8765` is unreachable.
 
 ## In Progress / Planned Features
 
-- [~] Package G: RAG ingestion bridge stabilization.
-  - [ ] Normalize `RAGIngestionBridge::indexDocument(...)`, `enrichRetrievedDocuments(...)`, and `buildEntityContext(...)` so retrieved items survive the full index -> context -> response round trip.
-  - [ ] Fail closed on missing source/content metadata instead of producing partially hydrated documents.
-  - [ ] Align bridge output with the document shape already used by `DocsAssistant` and the live RAG handlers.
+- [x] Package G: RAG ingestion bridge stabilization.
+  - [x] Completed (canonical metadata hydration, fail-closed guards, bridge/context shape alignment; details and evidence in Current Status).
   - Primary files: `src/rag/rag_ingestion_bridge.cpp`, `src/llm/docs_assistant.cpp`, `src/server/llm_api_handler.cpp`, `tests/test_rag_ingestion_bridge.cpp`.
 
-- [~] Package H: budget-aware context assembly and retrieval control.
-  - [~] Align `RAGContextAssembler`, `MultiStepRAG`, `AdaptiveRetrieval`, and the `AgenticRAGBudget` path to the same token-budget math and truncation rules (plugin-side response-budget drift for explicit context overrides is now closed in `LlamaCppPlugin::generateRAG(...)`).
-  - [~] Clamp invalid or overflow-prone budgets at ingress and preserve deterministic selection order when chunk scores tie (context tie-break + adaptive clamp + agentic session-budget overflow guard + multistep budget sanitisation + central `computeMaxTokens` int-overflow guard done; remaining cross-component budget ingress hardening pending).
-  - [x] Reduce timeout sensitivity in the focused budget suite by separating heavy fixture work from the assertion path where needed (ARG_BUD now uses shared fixture wiring plus suite-level warm-up; focused assertion cases run without embedded warm-up cost).
-  - Primary files: `src/rag/rag_context_assembler.cpp`, `src/rag/multi_step_rag.cpp`, `src/rag/adaptive_retrieval.cpp`, `tests/test_agentic_rag_budget.cpp`, `tests/test_rag_context_assembler.cpp`, `tests/test_rag_adaptive_retrieval.cpp`, `tests/test_multi_step_rag.cpp`.
+- [x] Package H: budget-aware context assembly and retrieval control.
+  - [x] Completed (cross-component budget-cap consistency, ingress clamps/tie-break determinism, focused TRQ/ARG_BUD closure; details and evidence in Current Status).
+  - Primary files: `src/rag/rag_context_assembler.cpp`, `src/rag/multi_step_rag.cpp`, `src/rag/adaptive_retrieval.cpp`, `src/server/llm_api_handler.cpp`, `tests/test_agentic_rag_budget.cpp`, `tests/test_rag_context_assembler.cpp`, `tests/test_rag_adaptive_retrieval.cpp`, `tests/test_multi_step_rag.cpp`.
 
 - [~] Package I: live regression and telemetry coverage.
-  - [~] Extend the connector-mode RAG checks so they verify effective retrieval counts, effective budgets, and explicit failure reasons where the endpoint is available.
+  - [x] Extend the connector-mode RAG checks so they verify effective retrieval counts, effective budgets, iterative-mode passthrough, and explicit failure reasons where the endpoint is available.
+  - [~] Execute/confirm the full connector-mode RAG regression in environment-ready workspaces (`127.0.0.1:8765`, auth/model prerequisites).
   - [x] Add narrow checks for empty retrieval, missing query engine, invalid collection, and zero-document cases so the contract stays fail-closed (non-live `themisctl` coverage added).
   - [x] Keep the live `/api/v1/llm/rag` response shape aligned with the handler contract after any bridge or budget changes.
   - Primary files: `tests/test_connector_mode_api.cpp`, `src/server/http_server.cpp`, `src/server/llm_api_handler.cpp`.
@@ -81,26 +89,26 @@ Close the next small, production-relevant RAG blocks without reopening broad arc
 
 ### Phase 1: Design / API Contract
 
-- [~] Define the canonical RAG document shape for bridge output, including `content`, `source`, `metadata`, and relevance score handling.
-- [~] Lock the budget propagation contract across assembler, adaptive retrieval, and the two HTTP RAG entry points.
+- [x] Define the canonical RAG document shape for bridge output, including `content`, `source`, `metadata`, and relevance score handling.
+- [x] Lock the budget propagation contract across assembler, adaptive retrieval, and the two HTTP RAG entry points.
 - [x] Identify which failures should return `400` versus `503` so the live path stays fail-closed and predictable.
 
 ### Phase 2: Core Implementation
 
-- [ ] Update the RAG ingestion bridge to emit fully hydrated documents and stable enrichment metadata.
-- [~] Align context assembly and retrieval control paths with the same budget and truncation rules.
+- [x] Update the RAG ingestion bridge to emit fully hydrated documents and stable enrichment metadata.
+- [x] Align context assembly and retrieval control paths with the same budget and truncation rules.
 - [x] Reuse the existing live handler contract instead of adding alternate RAG response shapes.
 
 ### Phase 3: Error Handling & Edge Cases
 
-- [ ] Reject empty or malformed bridge inputs before they reach prompt assembly.
+- [x] Reject empty or malformed bridge inputs before they reach prompt assembly.
 - [x] Clamp invalid token limits and handle zero-document retrieval explicitly.
-- [~] Keep missing-engine and invalid-collection cases observable instead of silently falling back to empty context.
+- [x] Keep missing-engine and invalid-collection cases observable instead of silently falling back to empty context.
 
 ### Phase 4: Tests
 
-- [ ] Repair the RAG ingestion bridge regression coverage around the failing RI cases.
-- [~] Add focused assertions for budget propagation, deterministic chunk selection, and adaptive retrieval decisions.
+- [x] Repair the RAG ingestion bridge regression coverage around the failing RI cases.
+- [x] Add focused assertions for budget propagation, deterministic chunk selection, and adaptive retrieval decisions.
 - [~] Re-run the live connector checks when the local endpoint is available.
 
 ### Phase 5: Performance / Hardening
@@ -118,13 +126,13 @@ Close the next small, production-relevant RAG blocks without reopening broad arc
 
 ## Production Readiness Checklist
 
-- [ ] `themis_server` builds cleanly in `windows-release`
+- [x] `themis_server` builds cleanly in `windows-release`
 - [x] `RAGPromptBuilderFocusedTests` and `MultiStepRAGFocusedTests` remain green
 - [x] `test_rag_ingestion_bridge.cpp` passes after bridge hydration changes
-- [~] `test_agentic_rag_budget.cpp`, `test_rag_context_assembler.cpp`, `test_rag_adaptive_retrieval.cpp`, and `test_multi_step_rag.cpp` pass or are split into stable focused slices (focused slices for context/adaptive/multi-step are green, incl. deterministic tie-break plus adaptive/multistep invalid-config clamps and central `computeMaxTokens` overflow guard; budget suite remains a stabilization item)
-- [~] connector-mode RAG assertions pass when the local endpoint is available (assertions are implemented; execution remains environment-dependent on `127.0.0.1:8765`)
+- [~] Focused RAG budget suites are stable where split (`test_rag_context_assembler.cpp`, `test_rag_adaptive_retrieval.cpp`, `test_multi_step_rag.cpp` green with deterministic tie-break/clamp/overflow guards); `test_agentic_rag_budget.cpp` remains a stabilization item.
+- [~] Connector-mode RAG assertions (including iterative budget-cap checks) are implemented and pass when the local endpoint is available (`127.0.0.1:8765` environment-gated; latest focused run skipped because endpoint unreachable).
 - [x] no new null-dereference, input-validation, or uncaught-exception regressions are introduced in the touched files (validated via targeted `test_themisctl_focused` runs incl. fail-closed TRQ cases)
-- [x] non-live RAG contract and fail-closed behavior are covered in `test_themisctl_focused` (effective fields + structured `400/503` error payload checks)
+- [x] Non-live RAG contract and fail-closed behavior are covered in `test_themisctl_focused` (single-shot TRQ13-TRQ23 closure green, 11/11; effective fields, structured `400/503` errors, local CLI fail-fast validation).
 - [x] RAG ingestion bridge round-trip regressions RI01-RI30 are green in `themis_tests`
 - [ ] docs inventory is updated if the canonical module references change
 

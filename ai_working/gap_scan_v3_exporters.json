@@ -1,8 +1,8 @@
 {
   "exporters": {
-    "total": 353,
+    "total": 360,
     "severity_critical": 27,
-    "severity_high": 188,
+    "severity_high": 195,
     "severity_medium": 138,
     "by_category": {
       "security": 16,
@@ -10,7 +10,7 @@
       "reliability": 119,
       "concurrency": 12,
       "raii": 24,
-      "container": 74,
+      "container": 81,
       "platform": 2,
       "performance": 6,
       "type_conversion": 6,
@@ -25,7 +25,7 @@
       "src\\exporters\\export_format_registry.cpp": [
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 191,
+          "line": 192,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -37,7 +37,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 56,
+          "line": 57,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -49,7 +49,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 187,
+          "line": 188,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "validated.push_back({format_key, it->second, mapping});",
@@ -58,7 +58,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 57,
+          "line": 58,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "keys.push_back(k);",
@@ -67,7 +67,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 192,
+          "line": 193,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "registerFormat(ve.format_key, [ttype = ve.ttype, mapping = ve.mapping]() -> std::unique_ptr<IExporte",
@@ -76,7 +76,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 192,
+          "line": 193,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "registerFormat(ve.format_key, [ttype = ve.ttype, mapping = ve.mapping]() -> std::unique_ptr<IExporte",
@@ -85,7 +85,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 156,
+          "line": 157,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = kTypeMap.find(type_str);",
@@ -94,7 +94,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 116,
+          "line": 117,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "registerFormat(\"jsonl_openai_ft\", []() -> std::unique_ptr<IExporter> {",
@@ -103,7 +103,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 116,
+          "line": 117,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "registerFormat(\"jsonl_openai_ft\", []() -> std::unique_ptr<IExporter> {",
@@ -112,7 +112,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 111,
+          "line": 112,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "registerFormat(\"jsonl_chatml\", []() -> std::unique_ptr<IExporter> {",
@@ -121,7 +121,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 111,
+          "line": 112,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "registerFormat(\"jsonl_chatml\", []() -> std::unique_ptr<IExporter> {",
@@ -130,7 +130,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 106,
+          "line": 107,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "registerFormat(\"jsonl_sharegpt\", []() -> std::unique_ptr<IExporter> {",
@@ -139,7 +139,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 106,
+          "line": 107,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "registerFormat(\"jsonl_sharegpt\", []() -> std::unique_ptr<IExporter> {",
@@ -148,7 +148,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 101,
+          "line": 102,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "registerFormat(\"jsonl_alpaca\", []() -> std::unique_ptr<IExporter> {",
@@ -157,7 +157,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 101,
+          "line": 102,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "registerFormat(\"jsonl_alpaca\", []() -> std::unique_ptr<IExporter> {",
@@ -166,7 +166,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 98,
+          "line": 99,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "registerFormat(\"join_jsonl\", []() -> std::unique_ptr<IExporter> { return std::make_unique<JoinExport",
@@ -175,7 +175,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 98,
+          "line": 99,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "registerFormat(\"join_jsonl\", []() -> std::unique_ptr<IExporter> { return std::make_unique<JoinExport",
@@ -184,7 +184,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 97,
+          "line": 98,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "registerFormat(\"join\", []() -> std::unique_ptr<IExporter> { return std::make_unique<JoinExporter>();",
@@ -193,7 +193,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 97,
+          "line": 98,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "registerFormat(\"join\", []() -> std::unique_ptr<IExporter> { return std::make_unique<JoinExporter>();",
@@ -202,7 +202,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 94,
+          "line": 95,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "[]() -> std::unique_ptr<IExporter> { return std::make_unique<IncrementalExporter>(); });",
@@ -211,7 +211,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 94,
+          "line": 95,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "[]() -> std::unique_ptr<IExporter> { return std::make_unique<IncrementalExporter>(); });",
@@ -220,7 +220,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 90,
+          "line": 91,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "registerFormat(\"streaming\", []() -> std::unique_ptr<IExporter> { return std::make_unique<StreamingEx",
@@ -229,7 +229,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 90,
+          "line": 91,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "registerFormat(\"streaming\", []() -> std::unique_ptr<IExporter> { return std::make_unique<StreamingEx",
@@ -238,7 +238,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 87,
+          "line": 88,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "[]() -> std::unique_ptr<IExporter> { return std::make_unique<HuggingFaceExporter>(); });",
@@ -247,7 +247,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 87,
+          "line": 88,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "[]() -> std::unique_ptr<IExporter> { return std::make_unique<HuggingFaceExporter>(); });",
@@ -256,7 +256,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 85,
+          "line": 86,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "[]() -> std::unique_ptr<IExporter> { return std::make_unique<HuggingFaceExporter>(); });",
@@ -265,7 +265,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 85,
+          "line": 86,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "[]() -> std::unique_ptr<IExporter> { return std::make_unique<HuggingFaceExporter>(); });",
@@ -274,7 +274,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 77,
+          "line": 78,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "registerFormat(\"arrow_stream\", []() -> std::unique_ptr<IExporter> {",
@@ -283,7 +283,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 77,
+          "line": 78,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "registerFormat(\"arrow_stream\", []() -> std::unique_ptr<IExporter> {",
@@ -292,7 +292,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 72,
+          "line": 73,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "registerFormat(\"arrow\", []() -> std::unique_ptr<IExporter> {",
@@ -301,7 +301,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 72,
+          "line": 73,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "registerFormat(\"arrow\", []() -> std::unique_ptr<IExporter> {",
@@ -310,7 +310,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 69,
+          "line": 70,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "registerFormat(\"parquet\", []() -> std::unique_ptr<IExporter> { return std::make_unique<ParquetExport",
@@ -319,7 +319,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 69,
+          "line": 70,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "registerFormat(\"parquet\", []() -> std::unique_ptr<IExporter> { return std::make_unique<ParquetExport",
@@ -328,7 +328,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 66,
+          "line": 67,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "registerFormat(\"llm_jsonl\", []() -> std::unique_ptr<IExporter> { return std::make_unique<JSONLLLMExp",
@@ -337,7 +337,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 66,
+          "line": 67,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "registerFormat(\"llm_jsonl\", []() -> std::unique_ptr<IExporter> { return std::make_unique<JSONLLLMExp",
@@ -346,7 +346,7 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 65,
+          "line": 66,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "registerFormat(\"jsonl\", []() -> std::unique_ptr<IExporter> { return std::make_unique<JSONLLLMExporte",
@@ -355,12 +355,21 @@
         },
         {
           "file": "src\\exporters\\export_format_registry.cpp",
-          "line": 65,
+          "line": 66,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "registerFormat(\"jsonl\", []() -> std::unique_ptr<IExporter> { return std::make_unique<JSONLLLMExporte",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #4378 [WIP] Update documentation ... (2026-03-22) | #3781 feat(exporters): re",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
       "src\\exporters\\arrow_ipc_exporter.cpp": [
@@ -368,7 +377,7 @@
           "gap_type": "uninitialized_array",
           "severity": "HIGH",
           "file_path": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line_number": 526,
+          "line_number": 527,
           "var_name": "buf",
           "context": "Array declared without initialization",
           "reason": "Array contains garbage values; use with zeros or explicit init",
@@ -380,7 +389,7 @@
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line_number": 934,
+          "line_number": 935,
           "line_content": "int64_t rb_frame_size = 4 + 4 + static_cast<int64_t>(rb_msg_bytes.size()) + rb_body_size;",
           "context": [
             "        int64_t rb_body_size   = static_cast<int64_t>(batch_body.bytes.size());",
@@ -401,7 +410,7 @@
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line_number": 925,
+          "line_number": 926,
           "line_content": "int64_t schema_frame_size = 4 + 4 + static_cast<int64_t>(schema_msg.size());",
           "context": [
             "    writeMessageFrame(out, schema_msg, {});",
@@ -420,7 +429,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 1064,
+          "line": 1065,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -432,7 +441,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 1064,
+          "line": 1065,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -444,7 +453,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 1064,
+          "line": 1065,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -456,7 +465,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 1049,
+          "line": 1050,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -468,7 +477,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 1009,
+          "line": 1010,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -480,7 +489,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 1002,
+          "line": 1003,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -492,7 +501,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 819,
+          "line": 820,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -504,7 +513,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 810,
+          "line": 811,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -516,7 +525,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 682,
+          "line": 683,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -528,7 +537,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 625,
+          "line": 626,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -540,7 +549,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 346,
+          "line": 347,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -554,7 +563,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line_number": 157,
+          "line_number": 158,
           "line_content": "buf_[idx + 3] = static_cast<uint8_t>((u >> 24) & 0xFF);",
           "context": [
             "        buf_[idx + 1] = static_cast<uint8_t>((u >> 8) & 0xFF);",
@@ -575,7 +584,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line_number": 156,
+          "line_number": 157,
           "line_content": "buf_[idx + 2] = static_cast<uint8_t>((u >> 16) & 0xFF);",
           "context": [
             "        buf_[idx]     = static_cast<uint8_t>(u & 0xFF);",
@@ -596,7 +605,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line_number": 155,
+          "line_number": 156,
           "line_content": "buf_[idx + 1] = static_cast<uint8_t>((u >> 8) & 0xFF);",
           "context": [
             "        uint32_t u    = static_cast<uint32_t>(v);",
@@ -615,7 +624,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 1065,
+          "line": 1066,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "arrays.push_back(*maybe_arr);",
@@ -624,7 +633,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 1011,
+          "line": 1012,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "values.push_back(kv.second);",
@@ -633,7 +642,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 1010,
+          "line": 1011,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "keys.push_back(kv.first);",
@@ -642,7 +651,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 1003,
+          "line": 1004,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "arrow_fields.push_back(arrow::field(col, arrow::utf8()));",
@@ -651,7 +660,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 970,
+          "line": 971,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "out.close();",
@@ -660,7 +669,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 942,
+          "line": 943,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "rb_blocks.push_back(blk);",
@@ -669,7 +678,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 820,
+          "line": 821,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "cols.push_back(f);",
@@ -678,7 +687,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 811,
+          "line": 812,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "cols.push_back(f);",
@@ -687,7 +696,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 689,
+          "line": 690,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.bytes.push_back(0);",
@@ -696,7 +705,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 684,
+          "line": 685,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.buf_lengths.push_back(data_len);",
@@ -705,7 +714,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 683,
+          "line": 684,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.buf_offsets.push_back(body_pos);",
@@ -714,7 +723,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 672,
+          "line": 673,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.bytes.push_back(0);",
@@ -723,7 +732,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 667,
+          "line": 668,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.buf_lengths.push_back(offsets_len);",
@@ -732,7 +741,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 666,
+          "line": 667,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.buf_offsets.push_back(body_pos);",
@@ -741,7 +750,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 657,
+          "line": 658,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "offsets_buf.push_back(static_cast<uint8_t>((u >> 24) & 0xFF));",
@@ -750,7 +759,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 656,
+          "line": 657,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "offsets_buf.push_back(static_cast<uint8_t>((u >> 16) & 0xFF));",
@@ -759,7 +768,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 655,
+          "line": 656,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "offsets_buf.push_back(static_cast<uint8_t>((u >> 8) & 0xFF));",
@@ -768,7 +777,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 654,
+          "line": 655,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "offsets_buf.push_back(static_cast<uint8_t>(u & 0xFF));",
@@ -777,7 +786,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 631,
+          "line": 632,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.buf_lengths.push_back(0);",
@@ -786,7 +795,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 630,
+          "line": 631,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.buf_offsets.push_back(body_pos);",
@@ -795,7 +804,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 626,
+          "line": 627,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "vals.push_back(fieldToString(e, col));",
@@ -804,7 +813,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 347,
+          "line": 348,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "field_refs.push_back(C_field);",
@@ -813,7 +822,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 1076,
+          "line": 1077,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExportIOException(status.ToString(), options.output_path, 0);",
@@ -822,7 +831,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 1071,
+          "line": 1072,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExportIOException(status.ToString(), options.output_path, 0);",
@@ -831,7 +840,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 1063,
+          "line": 1064,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExportIOException(maybe_arr.status().ToString(), options.output_path, 0);",
@@ -840,7 +849,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 1053,
+          "line": 1054,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExportIOException(status.ToString(), options.output_path, 0);",
@@ -849,7 +858,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 1036,
+          "line": 1037,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExportIOException(maybe_writer.status().ToString(), options.output_path, 0);",
@@ -858,7 +867,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 1030,
+          "line": 1031,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExportIOException(maybe_writer.status().ToString(), options.output_path, 0);",
@@ -867,7 +876,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 1020,
+          "line": 1021,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExportIOException(maybe_file.status().ToString(), options.output_path, 0);",
@@ -876,7 +885,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 972,
+          "line": 973,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExportIOException(\"Error closing output file\", options.output_path, errno);",
@@ -885,7 +894,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 895,
+          "line": 896,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExportIOException(\"Failed to open output file\", options.output_path, errno);",
@@ -894,7 +903,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 856,
+          "line": 857,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ConfigException(\"output_path must not be empty\", \"output_path\");",
@@ -903,7 +912,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 849,
+          "line": 850,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExporterException(errors::ErrorCode::ERR_EXPORT_TENANT_UNAUTHORIZED,",
@@ -912,7 +921,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 642,
+          "line": 643,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw SizeLimitException(\"Column '\" + col",
@@ -921,7 +930,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 450,
+          "line": 451,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "fb.pre16(20); // field[2] buffers",
@@ -930,7 +939,7 @@
         },
         {
           "file": "src\\exporters\\arrow_ipc_exporter.cpp",
-          "line": 307,
+          "line": 308,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "fb.pre16(0);  // field[6] custom_metadata  absent",
@@ -941,7 +950,7 @@
       "src\\exporters\\export_encryption.cpp": [
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 48,
+          "line": 49,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -953,7 +962,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 990,
+          "line": 991,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "in_f.close();",
@@ -962,7 +971,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 989,
+          "line": 990,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "out_f.close();",
@@ -971,7 +980,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 983,
+          "line": 984,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_CIPHER_CTX_free(ctx);",
@@ -980,7 +989,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 972,
+          "line": 973,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "out_f.close();",
@@ -989,7 +998,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 969,
+          "line": 970,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_CIPHER_CTX_free(ctx);",
@@ -998,7 +1007,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 907,
+          "line": 908,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_CIPHER_CTX_free(ctx);",
@@ -1007,34 +1016,34 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 884,
+          "line": 885,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 820,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "in_f.close();",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
           "line": 819,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
-          "snippet": "in_f.close();",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\exporters\\export_encryption.cpp",
-          "line": 818,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
           "snippet": "out_f.close();",
           "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
           "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 812,
+          "line": 813,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_CIPHER_CTX_free(ctx);",
@@ -1043,7 +1052,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 744,
+          "line": 745,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_CIPHER_CTX_free(ctx);",
@@ -1052,7 +1061,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 703,
+          "line": 704,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1061,7 +1070,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 480,
+          "line": 481,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "src.close();",
@@ -1070,7 +1079,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 432,
+          "line": 433,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "src.close();",
@@ -1079,7 +1088,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 393,
+          "line": 394,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_CIPHER_CTX_free(ctx);",
@@ -1088,7 +1097,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 388,
+          "line": 389,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1097,7 +1106,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 225,
+          "line": 226,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_CIPHER_CTX_free(ctx);",
@@ -1106,7 +1115,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 220,
+          "line": 221,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1115,7 +1124,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 49,
+          "line": 50,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "buf.push_back(static_cast<uint8_t>((v >> (i * 8)) & 0xFFu));",
@@ -1124,7 +1133,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 44,
+          "line": 45,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "buf.push_back(static_cast<uint8_t>((v >> 24) & 0xFFu));",
@@ -1133,7 +1142,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 43,
+          "line": 44,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "buf.push_back(static_cast<uint8_t>((v >> 16) & 0xFFu));",
@@ -1142,7 +1151,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 42,
+          "line": 43,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "buf.push_back(static_cast<uint8_t>((v >> 8) & 0xFFu));",
@@ -1151,7 +1160,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 41,
+          "line": 42,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "buf.push_back(static_cast<uint8_t>(v & 0xFFu));",
@@ -1160,7 +1169,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 987,
+          "line": 988,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExportIOException(\"Write error while finalising decrypted file\", output_path);",
@@ -1169,7 +1178,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 975,
+          "line": 976,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw DecryptionException(\"GCM authentication tag verification failed for '\" + input_path",
@@ -1178,7 +1187,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 963,
+          "line": 964,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw DecryptionException(\"Failed to set expected GCM tag\");",
@@ -1187,7 +1196,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 952,
+          "line": 953,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw DecryptionException(\"EVP_DecryptUpdate failed during streaming\");",
@@ -1196,7 +1205,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 930,
+          "line": 931,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw DecryptionException(\"Failed to set GCM AAD (job_id)\");",
@@ -1205,7 +1214,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 921,
+          "line": 922,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw DecryptionException(\"EVP_DecryptInit_ex (key/IV) failed\");",
@@ -1214,7 +1223,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 917,
+          "line": 918,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw DecryptionException(\"EVP_CTRL_GCM_SET_IVLEN failed\");",
@@ -1223,7 +1232,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 913,
+          "line": 914,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw DecryptionException(\"EVP_DecryptInit_ex (AES-256-GCM) failed\");",
@@ -1232,7 +1241,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 903,
+          "line": 904,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw DecryptionException(\"Failed to allocate EVP cipher context\");",
@@ -1241,7 +1250,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 865,
+          "line": 866,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw DecryptionException(\"Failed to read GCM tag from '\" + input_path + \"'\");",
@@ -1250,7 +1259,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 856,
+          "line": 857,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw DecryptionException(\"Encrypted file '\" + input_path + \"' is too small to contain GCM tag\");",
@@ -1259,7 +1268,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 848,
+          "line": 849,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw DecryptionException(\"Failed to parse encrypted file header in '\" + input_path",
@@ -1268,7 +1277,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 837,
+          "line": 838,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExportIOException(\"Cannot open encrypted file for decryption\", input_path);",
@@ -1277,7 +1286,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 831,
+          "line": 832,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw DecryptionException(\"No key_provider configured for export decryption\");",
@@ -1286,7 +1295,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 816,
+          "line": 817,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExportIOException(\"Write error while finalising encrypted file\", output_path);",
@@ -1295,7 +1304,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 807,
+          "line": 808,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw EncryptionException(\"Failed to retrieve GCM authentication tag\");",
@@ -1304,7 +1313,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 797,
+          "line": 798,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw EncryptionException(\"EVP_EncryptFinal_ex failed\");",
@@ -1313,7 +1322,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 785,
+          "line": 786,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw EncryptionException(\"EVP_EncryptUpdate failed during streaming\");",
@@ -1322,7 +1331,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 767,
+          "line": 768,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw EncryptionException(\"Failed to set GCM AAD (job_id)\");",
@@ -1331,7 +1340,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 758,
+          "line": 759,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw EncryptionException(\"EVP_EncryptInit_ex (key/IV) failed\");",
@@ -1340,7 +1349,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 754,
+          "line": 755,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw EncryptionException(\"EVP_CTRL_GCM_SET_IVLEN failed\");",
@@ -1349,7 +1358,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 750,
+          "line": 751,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw EncryptionException(\"EVP_EncryptInit_ex (AES-256-GCM) failed\");",
@@ -1358,7 +1367,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 740,
+          "line": 741,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw EncryptionException(\"Failed to allocate EVP cipher context\");",
@@ -1367,7 +1376,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 730,
+          "line": 731,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExportIOException(\"Cannot create output file for encryption\", output_path);",
@@ -1376,7 +1385,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 724,
+          "line": 725,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExportIOException(\"Cannot open input file for encryption\", input_path);",
@@ -1385,7 +1394,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 691,
+          "line": 692,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "kek_version = config_.key_provider->getKeyMetadata(config_.kek_id).version;",
@@ -1394,7 +1403,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 683,
+          "line": 684,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw EncryptionException(\"Encryption not configured: kek_id or key_provider is missing\");",
@@ -1403,7 +1412,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 571,
+          "line": 572,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw EncryptionException(\"Failed to generate random job ID\");",
@@ -1412,7 +1421,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 495,
+          "line": 496,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: failed to write decrypted file: \" + dst_path);",
@@ -1421,7 +1430,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 489,
+          "line": 490,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: cannot open destination file: \" + dst_path);",
@@ -1430,7 +1439,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 478,
+          "line": 479,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: failed to read source file: \" + src_path);",
@@ -1439,7 +1448,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 471,
+          "line": 472,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: cannot open source file: \" + src_path);",
@@ -1448,7 +1457,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 461,
+          "line": 462,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: cannot open destination file: \" + dst_path);",
@@ -1457,7 +1466,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 457,
+          "line": 458,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: cannot open source file: \" + src_path);",
@@ -1466,7 +1475,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 448,
+          "line": 449,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: failed to write encrypted file: \" + dst_path);",
@@ -1475,7 +1484,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 443,
+          "line": 444,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: cannot open destination file: \" + dst_path);",
@@ -1484,7 +1493,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 430,
+          "line": 431,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: failed to read source file: \" + src_path);",
@@ -1493,7 +1502,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 423,
+          "line": 424,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: cannot open source file: \" + src_path);",
@@ -1502,7 +1511,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 413,
+          "line": 414,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: cannot open destination file: \" + dst_path);",
@@ -1511,7 +1520,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 409,
+          "line": 410,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: cannot open source file: \" + src_path);",
@@ -1520,7 +1529,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 385,
+          "line": 386,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: authentication tag mismatch \u2013 \"",
@@ -1529,7 +1538,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 379,
+          "line": 380,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: set tag failed\");",
@@ -1538,7 +1547,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 372,
+          "line": 373,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: DecryptUpdate failed\");",
@@ -1547,7 +1556,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 369,
+          "line": 370,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: ciphertext exceeds maximum supported size (INT_MAX)\");",
@@ -1556,7 +1565,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 345,
+          "line": 346,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: failed to create cipher context\");",
@@ -1565,7 +1574,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 324,
+          "line": 325,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: file header has empty kek_id\");",
@@ -1574,7 +1583,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 321,
+          "line": 322,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ExportEncryption: key_provider is null\");",
@@ -1583,7 +1592,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 313,
+          "line": 314,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: truncated authentication tag\");",
@@ -1592,7 +1601,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 306,
+          "line": 307,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: truncated ciphertext\");",
@@ -1601,7 +1610,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 299,
+          "line": 300,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: truncated header (ct_len)\");",
@@ -1610,7 +1619,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 292,
+          "line": 293,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: truncated header (iv)\");",
@@ -1619,7 +1628,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 285,
+          "line": 286,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: truncated header (key_version)\");",
@@ -1628,7 +1637,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 274,
+          "line": 275,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: unsupported file format version \" + std::to_string(ver))",
@@ -1637,7 +1646,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 269,
+          "line": 270,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: truncated header (version)\");",
@@ -1646,7 +1655,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 263,
+          "line": 264,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: invalid magic; not a TENC file\");",
@@ -1655,7 +1664,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 218,
+          "line": 219,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: get tag failed\");",
@@ -1664,7 +1673,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 213,
+          "line": 214,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: EncryptFinal failed\");",
@@ -1673,7 +1682,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 208,
+          "line": 209,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: EncryptUpdate failed\");",
@@ -1682,7 +1691,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 203,
+          "line": 204,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: plaintext exceeds maximum supported size (INT_MAX)\");",
@@ -1691,7 +1700,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 179,
+          "line": 180,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: failed to create cipher context\");",
@@ -1700,7 +1709,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 166,
+          "line": 167,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: failed to generate random IV\");",
@@ -1709,7 +1718,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 156,
+          "line": 157,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto meta                  = config_.key_provider->getKeyMetadata(config_.kek_id);",
@@ -1718,7 +1727,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 152,
+          "line": 153,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ExportEncryption: job_id must not be empty\");",
@@ -1727,7 +1736,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 149,
+          "line": 150,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ExportEncryption: encryption enabled but kek_id/key_provider missing\");",
@@ -1736,7 +1745,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 132,
+          "line": 133,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: KEK must be 32 bytes (AES-256)\");",
@@ -1745,7 +1754,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 126,
+          "line": 127,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ExportEncryption: kek_id is empty\");",
@@ -1754,7 +1763,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 123,
+          "line": 124,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ExportEncryption: key_provider is null\");",
@@ -1763,7 +1772,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 90,
+          "line": 91,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: truncated string data\");",
@@ -1772,7 +1781,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 86,
+          "line": 87,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: header string exceeds maximum length (\" + std::to_string",
@@ -1781,7 +1790,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 81,
+          "line": 82,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ExportEncryption: truncated string length field\");",
@@ -1790,7 +1799,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 874,
+          "line": 875,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "kek = config_.key_provider->getKey(kek_id, kek_version);",
@@ -1799,7 +1808,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 691,
+          "line": 692,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "kek_version = config_.key_provider->getKeyMetadata(config_.kek_id).version;",
@@ -1808,7 +1817,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 690,
+          "line": 691,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "kek         = config_.key_provider->getKey(config_.kek_id);",
@@ -1817,7 +1826,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 156,
+          "line": 157,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto meta                  = config_.key_provider->getKeyMetadata(config_.kek_id);",
@@ -1826,7 +1835,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 130,
+          "line": 131,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto kek = config_.key_provider->getKey(config_.kek_id, key_version);",
@@ -1835,7 +1844,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 64,
+          "line": 65,
           "type": "array_bounds",
           "severity": "CRITICAL",
           "snippet": "| (static_cast<uint32_t>(p[3]) << 24);",
@@ -1844,7 +1853,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 63,
+          "line": 64,
           "type": "array_bounds",
           "severity": "CRITICAL",
           "snippet": "return static_cast<uint32_t>(p[0]) | (static_cast<uint32_t>(p[1]) << 8) | (static_cast<uint32_t>(p[2",
@@ -1853,7 +1862,7 @@
         },
         {
           "file": "src\\exporters\\export_encryption.cpp",
-          "line": 30,
+          "line": 31,
           "type": "array_bounds",
           "severity": "CRITICAL",
           "snippet": "static constexpr uint8_t MAGIC[4]    = {'T', 'E', 'N', 'C'};",
@@ -1864,7 +1873,7 @@
       "src\\exporters\\huggingface_exporter.cpp": [
         {
           "file": "src\\exporters\\huggingface_exporter.cpp",
-          "line": 321,
+          "line": 322,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -1876,7 +1885,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_exporter.cpp",
-          "line": 330,
+          "line": 331,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1888,7 +1897,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_exporter.cpp",
-          "line": 330,
+          "line": 331,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1900,7 +1909,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_exporter.cpp",
-          "line": 330,
+          "line": 331,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1912,7 +1921,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_exporter.cpp",
-          "line": 317,
+          "line": 318,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -1924,7 +1933,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_exporter.cpp",
-          "line": 331,
+          "line": 332,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "inferred_features_.push_back(std::move(feat));",
@@ -1933,7 +1942,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_exporter.cpp",
-          "line": 208,
+          "line": 209,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "out += \"\\\\t\";",
@@ -1942,7 +1951,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_exporter.cpp",
-          "line": 206,
+          "line": 207,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "out += \"\\\\r\";",
@@ -1951,7 +1960,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_exporter.cpp",
-          "line": 204,
+          "line": 205,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "out += \"\\\\n\";",
@@ -1960,7 +1969,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_exporter.cpp",
-          "line": 202,
+          "line": 203,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "out += \"\\\\\\\\\";",
@@ -1969,7 +1978,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_exporter.cpp",
-          "line": 200,
+          "line": 201,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "out += \"\\\\\\\"\";",
@@ -1978,7 +1987,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_exporter.cpp",
-          "line": 49,
+          "line": 50,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "stats.errors.push_back(\"output_path must be set to the dataset root directory\");",
@@ -1987,7 +1996,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_exporter.cpp",
-          "line": 265,
+          "line": 266,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto &feat : resolvedFeatures()) {",
@@ -1996,7 +2005,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_exporter.cpp",
-          "line": 249,
+          "line": 250,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto &feat : resolvedFeatures()) {",
@@ -2005,7 +2014,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_exporter.cpp",
-          "line": 178,
+          "line": 179,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "info[\"dataset_size\"]  = byte_count;",
@@ -2014,7 +2023,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_exporter.cpp",
-          "line": 174,
+          "line": 175,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "split_obj[\"dataset_name\"] = resolved_name;",
@@ -2023,7 +2032,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_exporter.cpp",
-          "line": 164,
+          "line": 165,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto &feat : resolvedFeatures()) {",
@@ -2032,7 +2041,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_exporter.cpp",
-          "line": 117,
+          "line": 118,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "THEMIS_INFO(\"HuggingFace export completed: {} entities -> {} ({}ms)\", stats.exported_entities, datas",
@@ -2041,18 +2050,27 @@
         },
         {
           "file": "src\\exporters\\huggingface_exporter.cpp",
-          "line": 93,
+          "line": 94,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExportIOException(\"Failed to open dataset_info.json for writing\", info_path.string());",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\huggingface_exporter.cpp",
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #3558 docs(exporters): reality-ch... (2026-03-12) | #3132 [WIP] Add Hugging F",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
       "src\\exporters\\huggingface_hub_client.cpp": [
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 455,
+          "line": 456,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2064,7 +2082,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 456,
+          "line": 457,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "files.push_back(entry.path().string());",
@@ -2073,7 +2091,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 333,
+          "line": 334,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "f.close();",
@@ -2082,7 +2100,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 163,
+          "line": 164,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -2091,7 +2109,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 713,
+          "line": 714,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "std::this_thread::sleep_for(std::chrono::seconds(sleep_secs));",
@@ -2100,7 +2118,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 543,
+          "line": 544,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "std::this_thread::sleep_for(std::chrono::seconds(sleep_secs));",
@@ -2109,7 +2127,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 454,
+          "line": 455,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto &entry : fs::recursive_directory_iterator(dataset_dir)) {",
@@ -2118,7 +2136,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 208,
+          "line": 209,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"HubUploadConfig::hf_token_kek_id '\" + config_.hf_token_kek_id",
@@ -2127,7 +2145,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 202,
+          "line": 203,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"HubUploadConfig::hf_token_kek_id is set but key_provider is null\");",
@@ -2136,7 +2154,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 102,
+          "line": 103,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "hdrs->append(buffer, size * nitems);",
@@ -2145,7 +2163,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 61,
+          "line": 62,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "s->append(data, sz * nmemb);",
@@ -2154,7 +2172,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 658,
+          "line": 659,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "if (!shard_backoff.wait()) {",
@@ -2163,7 +2181,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 590,
+          "line": 591,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "const auto decision = config_.policy_engine->checkExportPermission(req);",
@@ -2172,7 +2190,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 493,
+          "line": 494,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "if (!file_backoff.wait()) {",
@@ -2181,7 +2199,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 407,
+          "line": 408,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "const auto decision = config_.policy_engine->checkExportPermission(req);",
@@ -2190,7 +2208,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 206,
+          "line": 207,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto token_bytes = config_.key_provider->getKey(config_.hf_token_kek_id);",
@@ -2201,7 +2219,7 @@
       "src\\exporters\\jsonl_llm_exporter.cpp": [
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 420,
+          "line": 421,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -2213,7 +2231,7 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 419,
+          "line": 420,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -2225,7 +2243,7 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 418,
+          "line": 419,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -2237,7 +2255,7 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 417,
+          "line": 418,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -2249,7 +2267,7 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 416,
+          "line": 417,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -2261,7 +2279,7 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 704,
+          "line": 705,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -2273,7 +2291,7 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 703,
+          "line": 704,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -2285,7 +2303,7 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 420,
+          "line": 421,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2297,7 +2315,7 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 419,
+          "line": 420,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2309,7 +2327,7 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 418,
+          "line": 419,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2321,7 +2339,7 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 417,
+          "line": 418,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2333,7 +2351,7 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 416,
+          "line": 417,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -2345,7 +2363,7 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 842,
+          "line": 843,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -2357,7 +2375,7 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 677,
+          "line": 678,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -2369,7 +2387,7 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 1048,
+          "line": 1049,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2381,7 +2399,7 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 810,
+          "line": 811,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2393,7 +2411,7 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 1049,
+          "line": 1050,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "j[\"schema_validation\"][\"recent_errors\"].push_back(runtime_metrics_.validation_errors[i]);",
@@ -2402,7 +2420,7 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 811,
+          "line": 812,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "runtime_metrics_.validation_errors.push_back(err_msg);",
@@ -2411,7 +2429,7 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 451,
+          "line": 452,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "messages.push_back({{\"role\", \"system\"}, {\"content\", *system}});",
@@ -2420,7 +2438,7 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 341,
+          "line": 342,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "writer.close();",
@@ -2429,7 +2447,7 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 247,
+          "line": 248,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "stats.errors.push_back(\"Schema validation failed for \" + entity.getPrimaryKey() + \": \"",
@@ -2438,7 +2456,7 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 863,
+          "line": 864,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "j[\"training\"] = {{\"dataset_name\", train.dataset_name},",
@@ -2447,7 +2465,7 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 226,
+          "line": 227,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExporterException(themis::errors::ErrorCode::ERR_EXPORT_PII_VIOLATION,",
@@ -2456,7 +2474,7 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 104,
+          "line": 105,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExporterException(themis::errors::ErrorCode::ERR_EXPORT_TENANT_UNAUTHORIZED,",
@@ -2465,7 +2483,7 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 77,
+          "line": 78,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExporterException(themis::errors::ErrorCode::ERR_EXPORT_POLICY_DENIED,",
@@ -2474,7 +2492,16 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 557,
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #4252 feat(exporters): Replace zl... (2026-03-15) | #3760 feat(exporters): Po",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 558,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "for (auto it = j.begin(); it != j.end();) {",
@@ -2483,7 +2510,7 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 534,
+          "line": 535,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "std::string line = format_template_->render(entity, config_.template_field_mapping);",
@@ -2492,7 +2519,7 @@
         },
         {
           "file": "src\\exporters\\jsonl_llm_exporter.cpp",
-          "line": 534,
+          "line": 535,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "std::string line = format_template_->render(entity, config_.template_field_mapping);",
@@ -2503,7 +2530,7 @@
       "src\\exporters\\parquet_exporter.cpp": [
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 470,
+          "line": 471,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -2515,7 +2542,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 641,
+          "line": 642,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2527,7 +2554,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 641,
+          "line": 642,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2539,7 +2566,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 583,
+          "line": 584,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2551,7 +2578,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 583,
+          "line": 584,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2563,7 +2590,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 481,
+          "line": 482,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2575,7 +2602,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 481,
+          "line": 482,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2587,7 +2614,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 481,
+          "line": 482,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2599,7 +2626,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 458,
+          "line": 459,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2611,7 +2638,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 449,
+          "line": 450,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2623,7 +2650,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 365,
+          "line": 366,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2635,7 +2662,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 80,
+          "line": 81,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2647,7 +2674,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 945,
+          "line": 946,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "ofs.close();",
@@ -2656,7 +2683,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 878,
+          "line": 879,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "stats.errors.push_back(err_code + \": Cannot open output file: \" + options.output_path);",
@@ -2665,7 +2692,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 642,
+          "line": 643,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "arrays.push_back(arr);",
@@ -2674,7 +2701,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 584,
+          "line": 585,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "fields.push_back(arrow::field(col, dt, true /* nullable */));",
@@ -2683,7 +2710,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 482,
+          "line": 483,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "cols.push_back(hint.name);",
@@ -2692,7 +2719,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 459,
+          "line": 460,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "cols.push_back(f);",
@@ -2701,7 +2728,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 450,
+          "line": 451,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "cols.push_back(f);",
@@ -2710,7 +2737,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 369,
+          "line": 370,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "value_buf.push_back(static_cast<uint8_t>((len >> 24) & 0xFF));",
@@ -2719,7 +2746,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 368,
+          "line": 369,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "value_buf.push_back(static_cast<uint8_t>((len >> 16) & 0xFF));",
@@ -2728,7 +2755,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 367,
+          "line": 368,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "value_buf.push_back(static_cast<uint8_t>((len >> 8) & 0xFF));",
@@ -2737,7 +2764,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 366,
+          "line": 367,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "value_buf.push_back(static_cast<uint8_t>(len & 0xFF));",
@@ -2746,7 +2773,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 99,
+          "line": 100,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "buf.push_back(T_STOP);",
@@ -2755,7 +2782,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 93,
+          "line": 94,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "buf.push_back(field_type);",
@@ -2764,7 +2791,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 81,
+          "line": 82,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "buf.push_back(static_cast<uint8_t>((u >> s) & 0xFF));",
@@ -2773,7 +2800,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 64,
+          "line": 65,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "buf.push_back(static_cast<uint8_t>(v >> 8));",
@@ -2782,7 +2809,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 928,
+          "line": 929,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "fmi.kv_metadata[kv.first] = kv.second;",
@@ -2791,7 +2818,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 858,
+          "line": 859,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "fmi.kv_metadata[kv.first] = kv.second;",
@@ -2800,7 +2827,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 847,
+          "line": 848,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExportIOException(\"Cannot open output file for writing\", options.output_path, errno);",
@@ -2809,7 +2836,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 824,
+          "line": 825,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "col_data[ci].push_back(val);",
@@ -2818,7 +2845,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 812,
+          "line": 813,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExporterException(errors::ErrorCode::ERR_EXPORT_IO_ERROR,",
@@ -2827,7 +2854,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 697,
+          "line": 698,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExporterException(errors::ErrorCode::ERR_EXPORT_IO_ERROR,",
@@ -2836,7 +2863,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 614,
+          "line": 615,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExportIOException(\"Failed to create Parquet writer: \" + writer_result.status().ToString(),",
@@ -2845,7 +2872,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 592,
+          "line": 593,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExportIOException(\"Failed to open output file: \" + open_status.status().ToString(), options.ou",
@@ -2854,7 +2881,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 509,
+          "line": 510,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ConfigException(\"output_path must not be empty\", \"output_path\");",
@@ -2863,7 +2890,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 499,
+          "line": 500,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExporterException(errors::ErrorCode::ERR_EXPORT_TENANT_UNAUTHORIZED,",
@@ -2872,7 +2899,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 480,
+          "line": 481,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (exclude_set.find(hint.name) == exclude_set.end()) {",
@@ -2881,7 +2908,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 469,
+          "line": 470,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (exclude_set.find(kv.first) == exclude_set.end()) {",
@@ -2890,7 +2917,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 457,
+          "line": 458,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (exclude_set.find(f) == exclude_set.end()) {",
@@ -2899,7 +2926,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 457,
+          "line": 458,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (exclude_set.find(f) == exclude_set.end()) {",
@@ -2908,7 +2935,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 448,
+          "line": 449,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (exclude_set.find(f) == exclude_set.end()) {",
@@ -2917,7 +2944,16 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 650,
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #3224 [exporters] Add duration an... (2026-03-12) | #3222 [exporters] Impleme",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 651,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto ws = writer->WriteTable(**tbl, static_cast<int64_t>(config_.row_group_size));",
@@ -2926,7 +2962,7 @@
         },
         {
           "file": "src\\exporters\\parquet_exporter.cpp",
-          "line": 650,
+          "line": 651,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto ws = writer->WriteTable(**tbl, static_cast<int64_t>(config_.row_group_size));",
@@ -2939,7 +2975,7 @@
           "gap_type": "UNCHECKED_MEMCPY",
           "severity": "CRITICAL",
           "file_path": "src\\exporters\\stream_writer.cpp",
-          "line_number": 73,
+          "line_number": 74,
           "line_content": "std::memcpy(buffer_.data() + buffer_pos_, data, size);",
           "context": [
             "            compressed_bytes_written_ += size;",
@@ -2958,7 +2994,7 @@
         },
         {
           "file": "src\\exporters\\stream_writer.cpp",
-          "line": 118,
+          "line": 119,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -2970,7 +3006,7 @@
         },
         {
           "file": "src\\exporters\\stream_writer.cpp",
-          "line": 113,
+          "line": 114,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "file_.close();",
@@ -2979,7 +3015,7 @@
         },
         {
           "file": "src\\exporters\\stream_writer.cpp",
-          "line": 102,
+          "line": 103,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "void StreamWriter::close() {",
@@ -2988,7 +3024,7 @@
         },
         {
           "file": "src\\exporters\\stream_writer.cpp",
-          "line": 39,
+          "line": 40,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -2997,7 +3033,7 @@
         },
         {
           "file": "src\\exporters\\stream_writer.cpp",
-          "line": 38,
+          "line": 39,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "close();",
@@ -3006,7 +3042,7 @@
         },
         {
           "file": "src\\exporters\\stream_writer.cpp",
-          "line": 160,
+          "line": 161,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExportIOException(\"ZSTD compression stream error\", config_.output_path,",
@@ -3015,7 +3051,7 @@
         },
         {
           "file": "src\\exporters\\stream_writer.cpp",
-          "line": 150,
+          "line": 151,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "void StreamWriter::compressAndWrite([[maybe_unused]] const char* data, [[maybe_unused]] size_t size)",
@@ -3024,7 +3060,7 @@
         },
         {
           "file": "src\\exporters\\stream_writer.cpp",
-          "line": 137,
+          "line": 138,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExportIOException(\"ZSTD compression not available (not compiled with THEMIS_HAS_ZSTD)\",",
@@ -3033,7 +3069,7 @@
         },
         {
           "file": "src\\exporters\\stream_writer.cpp",
-          "line": 132,
+          "line": 133,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExportIOException(\"Failed to initialize zstd compression stream\",",
@@ -3042,7 +3078,7 @@
         },
         {
           "file": "src\\exporters\\stream_writer.cpp",
-          "line": 123,
+          "line": 124,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExportIOException(\"Failed to create zstd compression stream\", config_.output_path, 0);",
@@ -3051,7 +3087,7 @@
         },
         {
           "file": "src\\exporters\\stream_writer.cpp",
-          "line": 24,
+          "line": 25,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExportIOException(",
@@ -3060,7 +3096,7 @@
         },
         {
           "file": "src\\exporters\\stream_writer.cpp",
-          "line": 48,
+          "line": 49,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "void StreamWriter::write(const char* data, size_t size) {",
@@ -3069,7 +3105,7 @@
         },
         {
           "file": "src\\exporters\\stream_writer.cpp",
-          "line": 45,
+          "line": 46,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "write(data.data(), data.size());",
@@ -3078,7 +3114,7 @@
         },
         {
           "file": "src\\exporters\\stream_writer.cpp",
-          "line": 44,
+          "line": 45,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "void StreamWriter::write(const std::string& data) {",
@@ -3089,7 +3125,7 @@
       "src\\exporters\\aql_predicate_filter.cpp": [
         {
           "file": "src\\exporters\\aql_predicate_filter.cpp",
-          "line": 36,
+          "line": 37,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw AqlPredicateFilterException(\"AQL predicate '\" + predicate + \"' produced no filter conditions\")",
@@ -3098,7 +3134,7 @@
         },
         {
           "file": "src\\exporters\\aql_predicate_filter.cpp",
-          "line": 30,
+          "line": 31,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw AqlPredicateFilterException(\"Failed to parse AQL predicate '\" + predicate",
@@ -3109,7 +3145,7 @@
       "src\\exporters\\join_exporter.cpp": [
         {
           "file": "src\\exporters\\join_exporter.cpp",
-          "line": 323,
+          "line": 324,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExporterException(",
@@ -3118,7 +3154,7 @@
         },
         {
           "file": "src\\exporters\\join_exporter.cpp",
-          "line": 278,
+          "line": 279,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExporterException(",
@@ -3127,7 +3163,7 @@
         },
         {
           "file": "src\\exporters\\join_exporter.cpp",
-          "line": 171,
+          "line": 172,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExporterException(",
@@ -3136,7 +3172,7 @@
         },
         {
           "file": "src\\exporters\\join_exporter.cpp",
-          "line": 88,
+          "line": 89,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExporterException(",
@@ -3145,7 +3181,7 @@
         },
         {
           "file": "src\\exporters\\join_exporter.cpp",
-          "line": 81,
+          "line": 82,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExporterException(",
@@ -3154,7 +3190,7 @@
         },
         {
           "file": "src\\exporters\\join_exporter.cpp",
-          "line": 54,
+          "line": 55,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExporterException(",
@@ -3163,18 +3199,27 @@
         },
         {
           "file": "src\\exporters\\join_exporter.cpp",
-          "line": 33,
+          "line": 34,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExporterException(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\join_exporter.cpp",
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #4378 [WIP] Update documentation ... (2026-03-22) | #4297 Add JoinExporter: c",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
       "src\\exporters\\streaming_exporter.cpp": [
         {
           "file": "src\\exporters\\streaming_exporter.cpp",
-          "line": 144,
+          "line": 145,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -3188,7 +3233,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\exporters\\streaming_exporter.cpp",
-          "line_number": 362,
+          "line_number": 363,
           "line_content": "f >> offset;",
           "context": [
             "    }",
@@ -3207,7 +3252,7 @@
         },
         {
           "file": "src\\exporters\\streaming_exporter.cpp",
-          "line": 200,
+          "line": 201,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "writer.close();",
@@ -3216,18 +3261,27 @@
         },
         {
           "file": "src\\exporters\\streaming_exporter.cpp",
-          "line": 219,
+          "line": 220,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ExportIOException(\"ExportEncryption: rename failed: \" + ec.message(), options.output_path);",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\exporters\\streaming_exporter.cpp",
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #4252 feat(exporters): Replace zl... (2026-03-15) | #3224 [exporters] Add dur",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
       "src\\exporters\\data_augmentation.cpp": [
         {
           "file": "src\\exporters\\data_augmentation.cpp",
-          "line": 231,
+          "line": 232,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3239,7 +3293,7 @@
         },
         {
           "file": "src\\exporters\\data_augmentation.cpp",
-          "line": 159,
+          "line": 160,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -3251,7 +3305,7 @@
         },
         {
           "file": "src\\exporters\\data_augmentation.cpp",
-          "line": 113,
+          "line": 114,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -3263,7 +3317,7 @@
         },
         {
           "file": "src\\exporters\\data_augmentation.cpp",
-          "line": 330,
+          "line": 331,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "copies.push_back(std::move(copy));",
@@ -3272,7 +3326,7 @@
         },
         {
           "file": "src\\exporters\\data_augmentation.cpp",
-          "line": 232,
+          "line": 233,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "fields.push_back(kv.first);",
@@ -3281,7 +3335,7 @@
         },
         {
           "file": "src\\exporters\\data_augmentation.cpp",
-          "line": 114,
+          "line": 115,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "result += ' ';",
@@ -3290,7 +3344,7 @@
         },
         {
           "file": "src\\exporters\\data_augmentation.cpp",
-          "line": 286,
+          "line": 287,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto &field : selectFields(entity)) {",
@@ -3299,7 +3353,7 @@
         },
         {
           "file": "src\\exporters\\data_augmentation.cpp",
-          "line": 275,
+          "line": 276,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto &field : selectFields(entity)) {",
@@ -3308,7 +3362,7 @@
         },
         {
           "file": "src\\exporters\\data_augmentation.cpp",
-          "line": 264,
+          "line": 265,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto &field : selectFields(entity)) {",
@@ -3317,7 +3371,7 @@
         },
         {
           "file": "src\\exporters\\data_augmentation.cpp",
-          "line": 244,
+          "line": 245,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto &field : selectFields(entity)) {",
@@ -3326,7 +3380,7 @@
         },
         {
           "file": "src\\exporters\\data_augmentation.cpp",
-          "line": 182,
+          "line": 183,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = combined.find(lw);",
@@ -3335,7 +3389,7 @@
         },
         {
           "file": "src\\exporters\\data_augmentation.cpp",
-          "line": 36,
+          "line": 37,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "{\"get\", {\"obtain\", \"retrieve\", \"acquire\"}},",
@@ -3346,7 +3400,7 @@
       "src\\exporters\\incremental_exporter.cpp": [
         {
           "file": "src\\exporters\\incremental_exporter.cpp",
-          "line": 159,
+          "line": 160,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "writer.close();",
@@ -3354,10 +3408,39 @@
           "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
         }
       ],
+      "src\\exporters\\exporter_metrics.cpp": [
+        {
+          "file": "src\\exporters\\exporter_metrics.cpp",
+          "line": 349,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "oss << \"  Throughput: \" << getThroughput() << \" bytes/sec\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\exporters\\exporter_metrics.cpp",
+          "line": 348,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "oss << \"  Export Rate: \" << getExportRate() << \" entities/sec\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\exporters\\exporter_metrics.cpp",
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #3215 [exporters] Implement incre... (2026-03-12)",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        }
+      ],
       "src\\exporters\\pii_detector.cpp": [
         {
           "file": "src\\exporters\\pii_detector.cpp",
-          "line": 205,
+          "line": 206,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -3369,94 +3452,67 @@
         },
         {
           "file": "src\\exporters\\pii_detector.cpp",
-          "line": 113,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "matches.push_back(match);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\exporters\\pii_detector.cpp",
-          "line": 100,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "matches.push_back(match);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\exporters\\pii_detector.cpp",
-          "line": 87,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "matches.push_back(match);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\exporters\\pii_detector.cpp",
-          "line": 74,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "matches.push_back(match);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\exporters\\pii_detector.cpp",
-          "line": 61,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "matches.push_back(match);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\exporters\\pii_detector.cpp",
           "line": 114,
-          "type": "copy_overhead",
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "matches.push_back(match);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "matches.push_back(match);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\exporters\\pii_detector.cpp",
           "line": 101,
-          "type": "copy_overhead",
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "matches.push_back(match);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "matches.push_back(match);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\exporters\\pii_detector.cpp",
           "line": 88,
-          "type": "copy_overhead",
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "matches.push_back(match);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "matches.push_back(match);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\exporters\\pii_detector.cpp",
           "line": 75,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "matches.push_back(match);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 62,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "matches.push_back(match);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 115,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "matches.push_back(match);",
@@ -3465,32 +3521,39 @@
         },
         {
           "file": "src\\exporters\\pii_detector.cpp",
-          "line": 62,
+          "line": 102,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "matches.push_back(match);",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        }
-      ],
-      "src\\exporters\\exporter_metrics.cpp": [
-        {
-          "file": "src\\exporters\\exporter_metrics.cpp",
-          "line": 348,
-          "type": "hardcoded_path",
-          "severity": "MEDIUM",
-          "snippet": "oss << \"  Throughput: \" << getThroughput() << \" bytes/sec\\n\";",
-          "description": "Hardcoded path separator \u2014 not portable",
-          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         },
         {
-          "file": "src\\exporters\\exporter_metrics.cpp",
-          "line": 347,
-          "type": "hardcoded_path",
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 89,
+          "type": "copy_overhead",
           "severity": "MEDIUM",
-          "snippet": "oss << \"  Export Rate: \" << getExportRate() << \" entities/sec\\n\";",
-          "description": "Hardcoded path separator \u2014 not portable",
-          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+          "snippet": "matches.push_back(match);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 76,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "matches.push_back(match);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 63,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "matches.push_back(match);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ]
     }

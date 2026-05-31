@@ -16,7 +16,7 @@
       "src\\onnx_clip\\onnx_clip_plugin.cpp": [
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 447,
+          "line": 445,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -28,7 +28,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 437,
+          "line": 435,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -40,7 +40,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 437,
+          "line": 435,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -52,7 +52,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 426,
+          "line": 424,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -64,7 +64,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 152,
+          "line": 150,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -76,7 +76,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 438,
+          "line": 436,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(impl_->computeEmbedding(images[i], nullptr,",
@@ -85,7 +85,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 427,
+          "line": 425,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(std::move(result));",
@@ -94,7 +94,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 161,
+          "line": 159,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back(token);",
@@ -103,7 +103,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 153,
+          "line": 151,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back(token);",
@@ -112,7 +112,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 93,
+          "line": 91,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(ctx);",
@@ -121,7 +121,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 90,
+          "line": 88,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(ctx);",
@@ -130,7 +130,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 82,
+          "line": 80,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(ctx);",
@@ -139,7 +139,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 75,
+          "line": 73,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(ctx);",
@@ -148,7 +148,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 532,
+          "line": 530,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "EmbeddingResult r = impl_->computeEmbedding(dummy, nullptr,",
@@ -157,7 +157,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 532,
+          "line": 530,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "EmbeddingResult r = impl_->computeEmbedding(dummy, nullptr,",
@@ -166,7 +166,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 438,
+          "line": 436,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "results.push_back(impl_->computeEmbedding(images[i], nullptr,",
@@ -175,7 +175,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 395,
+          "line": 393,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "EmbeddingResult result = impl_->computeEmbedding(image_data, metadata,",
@@ -184,7 +184,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 367,
+          "line": 365,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
@@ -193,7 +193,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 131,
+          "line": 129,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "seed ^= static_cast<uint64_t>(metadata->bits_per_channel + 13);",
@@ -202,7 +202,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 502,
+          "line": 500,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "const double avg_latency = impl_->total_inferences > 0",
@@ -211,25 +211,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 490,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "impl_->total_latency_ms += static_cast<double>(dt_ms);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 458,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "impl_->clip_batch_embeddings_total += static_cast<uint64_t>(images.size());",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 457,
+          "line": 488,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "impl_->total_latency_ms += static_cast<double>(dt_ms);",
@@ -241,7 +223,7 @@
           "line": 456,
           "type": "data_race",
           "severity": "CRITICAL",
-          "snippet": "impl_->total_inferences += static_cast<uint64_t>(images.size());",
+          "snippet": "impl_->clip_batch_embeddings_total += static_cast<uint64_t>(images.size());",
           "description": "Shared data access without lock protection",
           "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
@@ -250,13 +232,31 @@
           "line": 455,
           "type": "data_race",
           "severity": "CRITICAL",
+          "snippet": "impl_->total_latency_ms += static_cast<double>(dt_ms);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line": 454,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->total_inferences += static_cast<uint64_t>(images.size());",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line": 453,
+          "type": "data_race",
+          "severity": "CRITICAL",
           "snippet": "impl_->total_images += static_cast<uint64_t>(images.size());",
           "description": "Shared data access without lock protection",
           "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 434,
+          "line": 432,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "const size_t batch_limit = static_cast<size_t>(impl_->max_batch_size);",
@@ -265,7 +265,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 429,
+          "line": 427,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "impl_->total_errors += static_cast<uint64_t>(images.size());",
@@ -274,7 +274,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 405,
+          "line": 403,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "impl_->total_latency_ms += static_cast<double>(dt_ms);",
@@ -283,7 +283,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 317,
+          "line": 315,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "impl_->max_batch_size = std::max(1, cfg_max);",
@@ -292,7 +292,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 304,
+          "line": 302,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "impl_->embedding_dim = 512;",
@@ -301,7 +301,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 303,
+          "line": 301,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "if (impl_->embedding_dim <= 0) {",
@@ -310,7 +310,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 302,
+          "line": 300,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "impl_->embedding_dim = config.get<int>(\"model.embedding_dim\", 512);",
@@ -319,7 +319,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 131,
+          "line": 129,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "seed ^= static_cast<uint64_t>(metadata->bits_per_channel + 13);",
@@ -328,7 +328,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 129,
+          "line": 127,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "seed ^= static_cast<uint64_t>(metadata->width + 31 * metadata->height + 17 * metadata->channels);",

@@ -17,7 +17,7 @@
       "src\\projects\\project_lifecycle.cpp": [
         {
           "file": "src\\projects\\project_lifecycle.cpp",
-          "line": 243,
+          "line": 241,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "storage_->scanPrefix(prefix, [&](std::string_view, std::string_view val) {",
@@ -28,7 +28,7 @@
       "src\\projects\\project_template.cpp": [
         {
           "file": "src\\projects\\project_template.cpp",
-          "line": 257,
+          "line": 255,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -40,7 +40,7 @@
         },
         {
           "file": "src\\projects\\project_template.cpp",
-          "line": 257,
+          "line": 255,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -52,7 +52,7 @@
         },
         {
           "file": "src\\projects\\project_template.cpp",
-          "line": 258,
+          "line": 256,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "created.push_back(*name);",
@@ -61,7 +61,7 @@
         },
         {
           "file": "src\\projects\\project_template.cpp",
-          "line": 251,
+          "line": 249,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "storage_->del(\"template_obj:\" + project_id + \":\" + type + \":\" + n);",
@@ -72,7 +72,7 @@
       "src\\projects\\project_versioning.cpp": [
         {
           "file": "src\\projects\\project_versioning.cpp",
-          "line": 130,
+          "line": 128,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -84,7 +84,7 @@
         },
         {
           "file": "src\\projects\\project_versioning.cpp",
-          "line": 101,
+          "line": 99,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -93,15 +93,6 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\projects\\project_versioning.cpp",
-          "line": 139,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "content_array.push_back(val);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         },
         {
           "file": "src\\projects\\project_versioning.cpp",
@@ -135,13 +126,22 @@
           "line": 131,
           "type": "copy_overhead",
           "severity": "MEDIUM",
+          "snippet": "content_array.push_back(val);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\projects\\project_versioning.cpp",
+          "line": 129,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
           "snippet": "content_array.push_back(json::parse(val));",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         },
         {
           "file": "src\\projects\\project_versioning.cpp",
-          "line": 259,
+          "line": 257,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "storage_->del(\"snap_data:\" + snap_uuid);",
@@ -150,7 +150,7 @@
         },
         {
           "file": "src\\projects\\project_versioning.cpp",
-          "line": 211,
+          "line": 209,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "storage_->scanPrefix(prefix, [&](std::string_view key, std::string_view) {",
@@ -159,7 +159,7 @@
         },
         {
           "file": "src\\projects\\project_versioning.cpp",
-          "line": 101,
+          "line": 99,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "storage_->scanPrefix(prefix, [&](std::string_view key, std::string_view) {",
@@ -170,7 +170,7 @@
       "src\\projects\\in_memory_project_audit_log.cpp": [
         {
           "file": "src\\projects\\in_memory_project_audit_log.cpp",
-          "line": 64,
+          "line": 62,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -182,7 +182,7 @@
         },
         {
           "file": "src\\projects\\in_memory_project_audit_log.cpp",
-          "line": 65,
+          "line": 63,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(e);",
@@ -191,7 +191,7 @@
         },
         {
           "file": "src\\projects\\in_memory_project_audit_log.cpp",
-          "line": 72,
+          "line": 70,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::vector<ProjectAuditEntry> InMemoryProjectAuditLog::query(",
@@ -202,7 +202,7 @@
       "src\\projects\\collaboration_manager.cpp": [
         {
           "file": "src\\projects\\collaboration_manager.cpp",
-          "line": 209,
+          "line": 207,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -216,7 +216,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\projects\\collaboration_manager.cpp",
-          "line_number": 40,
+          "line_number": 38,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -226,7 +226,7 @@
         },
         {
           "file": "src\\projects\\collaboration_manager.cpp",
-          "line": 210,
+          "line": 208,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(c);",
@@ -235,7 +235,7 @@
         },
         {
           "file": "src\\projects\\collaboration_manager.cpp",
-          "line": 159,
+          "line": 157,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = locks_.find(composite);",
@@ -246,7 +246,7 @@
       "src\\projects\\project_diff.cpp": [
         {
           "file": "src\\projects\\project_diff.cpp",
-          "line": 199,
+          "line": 197,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -258,7 +258,7 @@
         },
         {
           "file": "src\\projects\\project_diff.cpp",
-          "line": 157,
+          "line": 155,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -270,7 +270,7 @@
         },
         {
           "file": "src\\projects\\project_diff.cpp",
-          "line": 150,
+          "line": 148,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -282,7 +282,7 @@
         },
         {
           "file": "src\\projects\\project_diff.cpp",
-          "line": 59,
+          "line": 57,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -294,7 +294,7 @@
         },
         {
           "file": "src\\projects\\project_diff.cpp",
-          "line": 52,
+          "line": 50,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -306,7 +306,7 @@
         },
         {
           "file": "src\\projects\\project_diff.cpp",
-          "line": 201,
+          "line": 199,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -318,7 +318,7 @@
         },
         {
           "file": "src\\projects\\project_diff.cpp",
-          "line": 201,
+          "line": 199,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -330,7 +330,7 @@
         },
         {
           "file": "src\\projects\\project_diff.cpp",
-          "line": 158,
+          "line": 156,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -342,7 +342,7 @@
         },
         {
           "file": "src\\projects\\project_diff.cpp",
-          "line": 151,
+          "line": 149,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -354,7 +354,7 @@
         },
         {
           "file": "src\\projects\\project_diff.cpp",
-          "line": 151,
+          "line": 149,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -366,7 +366,7 @@
         },
         {
           "file": "src\\projects\\project_diff.cpp",
-          "line": 93,
+          "line": 91,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -378,7 +378,7 @@
         },
         {
           "file": "src\\projects\\project_diff.cpp",
-          "line": 86,
+          "line": 84,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -390,7 +390,7 @@
         },
         {
           "file": "src\\projects\\project_diff.cpp",
-          "line": 59,
+          "line": 57,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -402,7 +402,7 @@
         },
         {
           "file": "src\\projects\\project_diff.cpp",
-          "line": 59,
+          "line": 57,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -416,7 +416,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\projects\\project_diff.cpp",
-          "line_number": 44,
+          "line_number": 42,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -428,7 +428,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\projects\\project_diff.cpp",
-          "line_number": 33,
+          "line_number": 31,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -438,7 +438,7 @@
         },
         {
           "file": "src\\projects\\project_diff.cpp",
-          "line": 194,
+          "line": 192,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -450,7 +450,7 @@
         },
         {
           "file": "src\\projects\\project_diff.cpp",
-          "line": 137,
+          "line": 135,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -462,7 +462,7 @@
         },
         {
           "file": "src\\projects\\project_diff.cpp",
-          "line": 205,
+          "line": 203,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.conflicts.entries.push_back(their_entry);",
@@ -471,7 +471,7 @@
         },
         {
           "file": "src\\projects\\project_diff.cpp",
-          "line": 202,
+          "line": 200,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.applied.entries.push_back(their_entry);",
@@ -480,7 +480,7 @@
         },
         {
           "file": "src\\projects\\project_diff.cpp",
-          "line": 159,
+          "line": 157,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ds.entries.push_back({\"/\" + id, DeltaType::ADDED, nullptr, doc});",
@@ -489,7 +489,7 @@
         },
         {
           "file": "src\\projects\\project_diff.cpp",
-          "line": 152,
+          "line": 150,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ds.entries.push_back({\"/\" + id, DeltaType::REMOVED, doc, nullptr});",
@@ -498,7 +498,7 @@
         },
         {
           "file": "src\\projects\\project_diff.cpp",
-          "line": 101,
+          "line": 99,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.push_back({path, DeltaType::MODIFIED, from, to});",
@@ -507,7 +507,7 @@
         },
         {
           "file": "src\\projects\\project_diff.cpp",
-          "line": 94,
+          "line": 92,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.push_back({child_path, DeltaType::ADDED, nullptr, val});",
@@ -516,7 +516,7 @@
         },
         {
           "file": "src\\projects\\project_diff.cpp",
-          "line": 87,
+          "line": 85,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.push_back({path + \"/\" + key, DeltaType::REMOVED, val, nullptr});",
@@ -525,7 +525,7 @@
         },
         {
           "file": "src\\projects\\project_diff.cpp",
-          "line": 60,
+          "line": 58,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ds.entries.push_back(DeltaEntry::fromJson(e));",
@@ -534,7 +534,7 @@
         },
         {
           "file": "src\\projects\\project_diff.cpp",
-          "line": 52,
+          "line": 50,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& e : entries) arr.push_back(e.toJson());",
@@ -543,7 +543,7 @@
         },
         {
           "file": "src\\projects\\project_diff.cpp",
-          "line": 199,
+          "line": 197,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = ours_index.find(their_entry.field_path);",

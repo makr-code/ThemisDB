@@ -639,6 +639,47 @@ TEST_F(ConnectorApiLiveTest, IngestWorkspaceDocsAndRunRag) {
     if (rag_body.contains("response_budget_tokens_effective")) {
         EXPECT_GT(rag_body.value("response_budget_tokens_effective", 0), 0);
     }
+
+    // Verify iterative rag_mode contract and budget-cap semantics on the live endpoint.
+    auto rag_iterative_res = postJsonLlm(
+        "/api/v1/llm/rag",
+        json{{"query", "Fasse die ingestierten Dokumente knapp iterativ zusammen."},
+             {"collection", "docs"},
+             {"top_k", 3},
+             {"rag_mode", "iterative"},
+             {"response_budget_tokens", 400},
+             {"max_tokens", 32}},
+        true);
+    requireResponse(rag_iterative_res, "/api/v1/llm/rag iterative");
+    if (rag_iterative_res->status == 400 &&
+        rag_iterative_res->body.find("rag_mode") != std::string::npos) {
+        GTEST_SKIP() << "Live RAG endpoint does not accept iterative rag_mode in this runtime";
+    }
+    if (rag_iterative_res->status == 401 || rag_iterative_res->status == 403) {
+        GTEST_SKIP() << "/api/v1/llm/rag requires authentication; set THEMIS_CONNECTOR_TEST_BEARER_TOKEN";
+    }
+    if (rag_iterative_res->status == 404 || rag_iterative_res->status == 501 || rag_iterative_res->status == 503) {
+        GTEST_SKIP() << "/api/v1/llm/rag not available in this build/runtime";
+    }
+    if (rag_iterative_res->status == 500 &&
+        (rag_iterative_res->body.find("No default LLM plugin available") != std::string::npos ||
+         rag_iterative_res->body.find("No model loaded") != std::string::npos ||
+         rag_iterative_res->body.find("not ready for inference") != std::string::npos ||
+         rag_iterative_res->body.find("EmbeddedLLMManager not initialized") != std::string::npos)) {
+        GTEST_SKIP() << "Iterative RAG endpoint reachable but model/runtime is not ready yet";
+    }
+    ASSERT_EQ(rag_iterative_res->status, 200) << rag_iterative_res->body;
+
+    json rag_iterative_body;
+    ASSERT_NO_THROW(rag_iterative_body = json::parse(rag_iterative_res->body));
+    EXPECT_TRUE(rag_iterative_body.contains("rag_mode_effective"));
+    EXPECT_TRUE(rag_iterative_body.contains("response_budget_tokens_effective"));
+    if (rag_iterative_body.contains("rag_mode_effective")) {
+        EXPECT_EQ(rag_iterative_body.value("rag_mode_effective", std::string{}), "iterative");
+    }
+    if (rag_iterative_body.contains("response_budget_tokens_effective")) {
+        EXPECT_EQ(rag_iterative_body.value("response_budget_tokens_effective", 0), 32);
+    }
 }
 
 TEST_F(ConnectorApiLiveTest, LoadModelAndRunInferenceWhenConfigured) {

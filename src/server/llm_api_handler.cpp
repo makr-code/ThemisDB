@@ -32,6 +32,7 @@
 #include <iostream>
 #include <chrono>
 #include <exception>
+#include <limits>
 #include "utils/tracing.h"
 
 namespace themis::server {
@@ -456,8 +457,14 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
             std::string{},
             query,
             static_cast<std::size_t>(response_budget_tokens));
+        const int effective_response_budget_tokens =
+            static_cast<int>(std::min<std::size_t>(
+                normalized_budget.reserved_response_tokens,
+                static_cast<std::size_t>(std::numeric_limits<int>::max())));
+        const int effective_generation_max_tokens =
+            std::min(max_tokens, effective_response_budget_tokens);
         rag_context.max_context_tokens = static_cast<int>(normalized_budget.model_max_tokens);
-        rag_context.response_budget_tokens = static_cast<int>(normalized_budget.reserved_response_tokens);
+        rag_context.response_budget_tokens = effective_response_budget_tokens;
 
         spdlog::info(
             "LLMApiHandler::handleRAG request: query_len={} collection='{}' top_k={} rag_mode='{}' model='{}' max_context_tokens={} response_budget_tokens={} request_max_tokens={}",
@@ -563,7 +570,7 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
         llm::InferenceRequest llm_request;
         llm_request.prompt = query;
         llm_request.model_id = model_id.empty() ? std::string("default") : model_id;
-        llm_request.max_tokens = max_tokens;
+        llm_request.max_tokens = effective_generation_max_tokens;
         llm_request.temperature = static_cast<float>(temperature);
         llm_request.lora_adapter_id = lora_id;
         llm_request.metadata["rag_mode"] = rag_mode;

@@ -20,7 +20,7 @@
       "src\\rpc_grpc\\grpc_plugin.cpp": [
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 442,
+          "line": 440,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -32,7 +32,7 @@
         },
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 438,
+          "line": 436,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -44,7 +44,7 @@
         },
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 402,
+          "line": 400,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -56,7 +56,7 @@
         },
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 320,
+          "line": 318,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -68,7 +68,7 @@
         },
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 313,
+          "line": 311,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -80,7 +80,7 @@
         },
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 215,
+          "line": 213,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -92,7 +92,7 @@
         },
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 183,
+          "line": 181,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -104,7 +104,7 @@
         },
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 157,
+          "line": 155,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -116,7 +116,7 @@
         },
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 145,
+          "line": 143,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -128,7 +128,7 @@
         },
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 120,
+          "line": 118,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -140,7 +140,7 @@
         },
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 118,
+          "line": 116,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -154,7 +154,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line_number": 214,
+          "line_number": 212,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -164,7 +164,7 @@
         },
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 477,
+          "line": 475,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -176,7 +176,7 @@
         },
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 291,
+          "line": 289,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -188,7 +188,7 @@
         },
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 523,
+          "line": 521,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "delete plugin;",
@@ -197,7 +197,7 @@
         },
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 450,
+          "line": 448,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ssl_opts.pem_key_cert_pairs.push_back(pair);",
@@ -206,7 +206,7 @@
         },
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 365,
+          "line": 363,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "else if (c == '\\n') out += \"\\\\n\";",
@@ -215,7 +215,7 @@
         },
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 364,
+          "line": 362,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "else if (c == '\\\\') out += \"\\\\\\\\\";",
@@ -224,7 +224,7 @@
         },
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 363,
+          "line": 361,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if      (c == '\"')  out += \"\\\\\\\"\";",
@@ -233,7 +233,7 @@
         },
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 95,
+          "line": 93,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -242,7 +242,7 @@
         },
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 78,
+          "line": 76,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -251,7 +251,7 @@
         },
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 69,
+          "line": 67,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -260,7 +260,7 @@
         },
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 523,
+          "line": 521,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "delete plugin;",
@@ -269,7 +269,7 @@
         },
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 391,
+          "line": 389,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (!file) throw std::runtime_error(\"Failed to open file: \" + path);",
@@ -278,7 +278,7 @@
         },
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 519,
+          "line": 517,
           "type": "smart_ptr_misuse",
           "severity": "CRITICAL",
           "snippet": "return new themis::plugins::rpc::grpc_plugin::GRPCPlugin();",

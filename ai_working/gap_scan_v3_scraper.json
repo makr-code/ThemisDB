@@ -21,7 +21,7 @@
       "src\\scraper\\scraper_api_client.cpp": [
         {
           "file": "src\\scraper\\scraper_api_client.cpp",
-          "line": 181,
+          "line": 179,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -33,7 +33,7 @@
         },
         {
           "file": "src\\scraper\\scraper_api_client.cpp",
-          "line": 181,
+          "line": 179,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -45,7 +45,7 @@
         },
         {
           "file": "src\\scraper\\scraper_api_client.cpp",
-          "line": 181,
+          "line": 179,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -57,7 +57,7 @@
         },
         {
           "file": "src\\scraper\\scraper_api_client.cpp",
-          "line": 261,
+          "line": 259,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -66,7 +66,7 @@
         },
         {
           "file": "src\\scraper\\scraper_api_client.cpp",
-          "line": 248,
+          "line": 246,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) { break; }",
@@ -75,7 +75,7 @@
         },
         {
           "file": "src\\scraper\\scraper_api_client.cpp",
-          "line": 184,
+          "line": 182,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -84,7 +84,7 @@
         },
         {
           "file": "src\\scraper\\scraper_api_client.cpp",
-          "line": 182,
+          "line": 180,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.push_back(std::move(r));",
@@ -93,7 +93,7 @@
         },
         {
           "file": "src\\scraper\\scraper_api_client.cpp",
-          "line": 136,
+          "line": 134,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -102,7 +102,7 @@
         },
         {
           "file": "src\\scraper\\scraper_api_client.cpp",
-          "line": 320,
+          "line": 318,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"curl error: \") + curl_easy_strerror(rc));",
@@ -111,7 +111,7 @@
         },
         {
           "file": "src\\scraper\\scraper_api_client.cpp",
-          "line": 292,
+          "line": 290,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (!curl) throw std::runtime_error(\"curl_easy_init failed\");",
@@ -120,7 +120,7 @@
         },
         {
           "file": "src\\scraper\\scraper_api_client.cpp",
-          "line": 278,
+          "line": 276,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "buf->data.append(ptr, size * nmemb);",
@@ -129,7 +129,7 @@
         },
         {
           "file": "src\\scraper\\scraper_api_client.cpp",
-          "line": 278,
+          "line": 276,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "buf->data.append(ptr, size * nmemb);",
@@ -138,7 +138,7 @@
         },
         {
           "file": "src\\scraper\\scraper_api_client.cpp",
-          "line": 275,
+          "line": 273,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "static std::size_t write(char* ptr, std::size_t size,",
@@ -149,7 +149,7 @@
       "src\\scraper\\scraper_search_engine.cpp": [
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 252,
+          "line": 250,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -161,7 +161,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 413,
+          "line": 411,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -173,7 +173,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 413,
+          "line": 411,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -185,7 +185,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 275,
+          "line": 273,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -197,7 +197,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 219,
+          "line": 217,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -209,7 +209,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 219,
+          "line": 217,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -221,7 +221,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 477,
+          "line": 475,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "page.items.push_back(std::move(item));",
@@ -230,7 +230,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 454,
+          "line": 452,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -239,7 +239,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 438,
+          "line": 436,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -248,7 +248,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 414,
+          "line": 412,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (!item.url.empty()) page.items.push_back(std::move(item));",
@@ -257,7 +257,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 372,
+          "line": 370,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -266,7 +266,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 276,
+          "line": 274,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(sf));",
@@ -275,7 +275,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 220,
+          "line": 218,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (c == '>')      { in_tag = false; out += ' '; continue; }",
@@ -284,7 +284,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 361,
+          "line": 359,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "v.push_back(\"//*[@data-result]\");",
@@ -295,7 +295,7 @@
       "src\\scraper\\gov_source_catalog.cpp": [
         {
           "file": "src\\scraper\\gov_source_catalog.cpp",
-          "line": 392,
+          "line": 390,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -307,7 +307,7 @@
         },
         {
           "file": "src\\scraper\\gov_source_catalog.cpp",
-          "line": 179,
+          "line": 177,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -319,7 +319,7 @@
         },
         {
           "file": "src\\scraper\\gov_source_catalog.cpp",
-          "line": 91,
+          "line": 89,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -331,7 +331,7 @@
         },
         {
           "file": "src\\scraper\\gov_source_catalog.cpp",
-          "line": 78,
+          "line": 76,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -343,7 +343,7 @@
         },
         {
           "file": "src\\scraper\\gov_source_catalog.cpp",
-          "line": 69,
+          "line": 67,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -355,7 +355,7 @@
         },
         {
           "file": "src\\scraper\\gov_source_catalog.cpp",
-          "line": 61,
+          "line": 59,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -367,7 +367,7 @@
         },
         {
           "file": "src\\scraper\\gov_source_catalog.cpp",
-          "line": 52,
+          "line": 50,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -379,7 +379,7 @@
         },
         {
           "file": "src\\scraper\\gov_source_catalog.cpp",
-          "line": 52,
+          "line": 50,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -391,7 +391,7 @@
         },
         {
           "file": "src\\scraper\\gov_source_catalog.cpp",
-          "line": 29,
+          "line": 27,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -403,7 +403,7 @@
         },
         {
           "file": "src\\scraper\\gov_source_catalog.cpp",
-          "line": 393,
+          "line": 391,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "auto add = [&](GovDataSource s) { sources_.push_back(std::move(s)); };",
@@ -412,7 +412,7 @@
         },
         {
           "file": "src\\scraper\\gov_source_catalog.cpp",
-          "line": 283,
+          "line": 281,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "auto add = [&](GovDataSource s) { sources_.push_back(std::move(s)); };",
@@ -421,7 +421,7 @@
         },
         {
           "file": "src\\scraper\\gov_source_catalog.cpp",
-          "line": 180,
+          "line": 178,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "auto add = [&](GovDataSource s) { sources_.push_back(std::move(s)); };",
@@ -430,7 +430,7 @@
         },
         {
           "file": "src\\scraper\\gov_source_catalog.cpp",
-          "line": 92,
+          "line": 90,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "sources_.push_back(std::move(source));",
@@ -439,7 +439,7 @@
         },
         {
           "file": "src\\scraper\\gov_source_catalog.cpp",
-          "line": 79,
+          "line": 77,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (const auto* s = findById(id)) result.push_back(s);",
@@ -448,7 +448,7 @@
         },
         {
           "file": "src\\scraper\\gov_source_catalog.cpp",
-          "line": 70,
+          "line": 68,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (s.enabled) result.push_back(&s);",
@@ -457,7 +457,7 @@
         },
         {
           "file": "src\\scraper\\gov_source_catalog.cpp",
-          "line": 62,
+          "line": 60,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (s.bundesland == iso) result.push_back(&s);",
@@ -466,7 +466,7 @@
         },
         {
           "file": "src\\scraper\\gov_source_catalog.cpp",
-          "line": 53,
+          "line": 51,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (s.type == type) result.push_back(&s);",
@@ -475,7 +475,7 @@
         },
         {
           "file": "src\\scraper\\gov_source_catalog.cpp",
-          "line": 167,
+          "line": 165,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -484,7 +484,7 @@
         },
         {
           "file": "src\\scraper\\gov_source_catalog.cpp",
-          "line": 109,
+          "line": 107,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"GovSourceCatalog: cannot open '\" + path + \"'\");",
@@ -495,7 +495,7 @@
       "src\\scraper\\scraper_js_renderer.cpp": [
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 132,
+          "line": 130,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -507,7 +507,7 @@
         },
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 205,
+          "line": 203,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "_pclose(pipe);",
@@ -516,7 +516,7 @@
         },
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 173,
+          "line": 171,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(pipefd[0]);",
@@ -525,7 +525,7 @@
         },
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 165,
+          "line": 163,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(pipefd[1]);",
@@ -534,7 +534,7 @@
         },
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 159,
+          "line": 157,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "if (dev_null >= 0) { ::dup2(dev_null, STDERR_FILENO); ::close(dev_null); }",
@@ -543,7 +543,7 @@
         },
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 156,
+          "line": 154,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(pipefd[1]);",
@@ -552,7 +552,7 @@
         },
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 155,
+          "line": 153,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(pipefd[0]);",
@@ -561,7 +561,7 @@
         },
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 146,
+          "line": 144,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(pipefd[1]);",
@@ -570,7 +570,7 @@
         },
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 145,
+          "line": 143,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(pipefd[0]);",
@@ -579,7 +579,7 @@
         },
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 133,
+          "line": 131,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "argv.push_back(nullptr);",
@@ -588,7 +588,7 @@
         },
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 132,
+          "line": 130,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (auto& t : tokens) argv.push_back(const_cast<char*>(t.c_str()));",
@@ -597,7 +597,7 @@
         },
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 127,
+          "line": 125,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& arg : req.extra_args) tokens.push_back(arg);",
@@ -606,7 +606,7 @@
         },
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 125,
+          "line": 123,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back(kv.first + \": \" + kv.second);",
@@ -615,7 +615,7 @@
         },
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 124,
+          "line": 122,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back(\"--header\");",
@@ -624,7 +624,7 @@
         },
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 121,
+          "line": 119,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back(req.wait_selector);",
@@ -633,7 +633,7 @@
         },
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 120,
+          "line": 118,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back(\"--wait-for\");",
@@ -642,7 +642,7 @@
         },
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 117,
+          "line": 115,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back(std::to_string(req.timeout_ms));",
@@ -651,7 +651,7 @@
         },
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 116,
+          "line": 114,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back(\"--timeout\");",
@@ -660,7 +660,7 @@
         },
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 114,
+          "line": 112,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back(req.url);",
@@ -669,7 +669,7 @@
         },
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 111,
+          "line": 109,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "while (ss >> tok) tokens.push_back(tok);",
@@ -678,7 +678,7 @@
         },
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 148,
+          "line": 146,
           "type": "posix_only_api",
           "severity": "HIGH",
           "snippet": "result.error   = \"fork() failed\";",
@@ -687,7 +687,7 @@
         },
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 143,
+          "line": 141,
           "type": "posix_only_api",
           "severity": "HIGH",
           "snippet": "const pid_t pid = ::fork();",
@@ -696,7 +696,7 @@
         },
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 139,
+          "line": 137,
           "type": "posix_only_api",
           "severity": "HIGH",
           "snippet": "result.error   = \"pipe() failed\";",
@@ -705,7 +705,7 @@
         },
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 137,
+          "line": 135,
           "type": "posix_only_api",
           "severity": "HIGH",
           "snippet": "if (::pipe(pipefd) != 0) {",
@@ -714,7 +714,7 @@
         },
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 170,
+          "line": 168,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "while ((n = ::read(pipefd[0], buf.data(), buf.size())) > 0)",
@@ -723,7 +723,7 @@
         },
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 158,
+          "line": 156,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "const int dev_null = ::open(\"/dev/null\", O_WRONLY);",
@@ -734,7 +734,7 @@
       "src\\scraper\\scraper_llm_evaluator.cpp": [
         {
           "file": "src\\scraper\\scraper_llm_evaluator.cpp",
-          "line": 196,
+          "line": 194,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -746,7 +746,7 @@
         },
         {
           "file": "src\\scraper\\scraper_llm_evaluator.cpp",
-          "line": 204,
+          "line": 202,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -758,7 +758,7 @@
         },
         {
           "file": "src\\scraper\\scraper_llm_evaluator.cpp",
-          "line": 113,
+          "line": 111,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -770,7 +770,7 @@
         },
         {
           "file": "src\\scraper\\scraper_llm_evaluator.cpp",
-          "line": 206,
+          "line": 204,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -779,7 +779,7 @@
         },
         {
           "file": "src\\scraper\\scraper_llm_evaluator.cpp",
-          "line": 114,
+          "line": 112,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (e.is_string()) result.key_entities.push_back(e.get<std::string>());",
@@ -788,7 +788,7 @@
         },
         {
           "file": "src\\scraper\\scraper_llm_evaluator.cpp",
-          "line": 38,
+          "line": 36,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -799,7 +799,7 @@
       "src\\scraper\\scraper_metadata_writer.cpp": [
         {
           "file": "src\\scraper\\scraper_metadata_writer.cpp",
-          "line": 161,
+          "line": 159,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -811,7 +811,7 @@
         },
         {
           "file": "src\\scraper\\scraper_metadata_writer.cpp",
-          "line": 162,
+          "line": 160,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "edges.push_back(std::move(e));",
@@ -820,7 +820,7 @@
         },
         {
           "file": "src\\scraper\\scraper_metadata_writer.cpp",
-          "line": 189,
+          "line": 187,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "WriteResult InMemoryScraperMetadataWriter::write(",
@@ -831,7 +831,7 @@
       "src\\scraper\\scraper_plugin.cpp": [
         {
           "file": "src\\scraper\\scraper_plugin.cpp",
-          "line": 247,
+          "line": 245,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -843,7 +843,7 @@
         },
         {
           "file": "src\\scraper\\scraper_plugin.cpp",
-          "line": 154,
+          "line": 152,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -855,7 +855,7 @@
         },
         {
           "file": "src\\scraper\\scraper_plugin.cpp",
-          "line": 147,
+          "line": 145,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -867,7 +867,7 @@
         },
         {
           "file": "src\\scraper\\scraper_plugin.cpp",
-          "line": 143,
+          "line": 141,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -879,7 +879,7 @@
         },
         {
           "file": "src\\scraper\\scraper_plugin.cpp",
-          "line": 139,
+          "line": 137,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -891,7 +891,7 @@
         },
         {
           "file": "src\\scraper\\scraper_plugin.cpp",
-          "line": 127,
+          "line": 125,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -903,7 +903,7 @@
         },
         {
           "file": "src\\scraper\\scraper_plugin.cpp",
-          "line": 248,
+          "line": 246,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (html[i] == '>') { in_tag = false; out += ' '; continue; }",
@@ -912,7 +912,7 @@
         },
         {
           "file": "src\\scraper\\scraper_plugin.cpp",
-          "line": 181,
+          "line": 179,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "catch (...) { return {}; }",
@@ -921,7 +921,7 @@
         },
         {
           "file": "src\\scraper\\scraper_plugin.cpp",
-          "line": 148,
+          "line": 146,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (s->enabled) gov_sources.push_back(s);",
@@ -930,7 +930,7 @@
         },
         {
           "file": "src\\scraper\\scraper_plugin.cpp",
-          "line": 144,
+          "line": 142,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (s->enabled) gov_sources.push_back(s);",
@@ -939,7 +939,7 @@
         },
         {
           "file": "src\\scraper\\scraper_plugin.cpp",
-          "line": 140,
+          "line": 138,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (s->enabled) gov_sources.push_back(s);",
@@ -948,7 +948,7 @@
         },
         {
           "file": "src\\scraper\\scraper_plugin.cpp",
-          "line": 515,
+          "line": 513,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (!initialized_) throw std::runtime_error(\"ScraperPlugin not initialized\");",
@@ -957,7 +957,7 @@
         },
         {
           "file": "src\\scraper\\scraper_plugin.cpp",
-          "line": 491,
+          "line": 489,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "const WriteResult wr = writer_->write(rel, node, edges, vec);",
@@ -966,7 +966,7 @@
         },
         {
           "file": "src\\scraper\\scraper_plugin.cpp",
-          "line": 334,
+          "line": 332,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "const WriteResult wr = writer_->write(rel, node, edges, vec);",
@@ -975,7 +975,7 @@
         },
         {
           "file": "src\\scraper\\scraper_plugin.cpp",
-          "line": 169,
+          "line": 167,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "static std::size_t write(char* p, std::size_t sz, std::size_t nmemb, void* ud) {",
@@ -986,7 +986,7 @@
       "src\\scraper\\scraper_config.cpp": [
         {
           "file": "src\\scraper\\scraper_config.cpp",
-          "line": 130,
+          "line": 128,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -998,7 +998,7 @@
         },
         {
           "file": "src\\scraper\\scraper_config.cpp",
-          "line": 126,
+          "line": 124,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1010,7 +1010,7 @@
         },
         {
           "file": "src\\scraper\\scraper_config.cpp",
-          "line": 122,
+          "line": 120,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1022,7 +1022,7 @@
         },
         {
           "file": "src\\scraper\\scraper_config.cpp",
-          "line": 106,
+          "line": 104,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1034,7 +1034,7 @@
         },
         {
           "file": "src\\scraper\\scraper_config.cpp",
-          "line": 70,
+          "line": 68,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1046,7 +1046,7 @@
         },
         {
           "file": "src\\scraper\\scraper_config.cpp",
-          "line": 37,
+          "line": 35,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1058,7 +1058,7 @@
         },
         {
           "file": "src\\scraper\\scraper_config.cpp",
-          "line": 131,
+          "line": 129,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "cfg.blacklist.push_back(u.as<std::string>());",
@@ -1067,7 +1067,7 @@
         },
         {
           "file": "src\\scraper\\scraper_config.cpp",
-          "line": 127,
+          "line": 125,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "cfg.whitelist.push_back(u.as<std::string>());",
@@ -1076,7 +1076,7 @@
         },
         {
           "file": "src\\scraper\\scraper_config.cpp",
-          "line": 123,
+          "line": 121,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "cfg.seed_urls.push_back(u.as<std::string>());",
@@ -1085,7 +1085,7 @@
         },
         {
           "file": "src\\scraper\\scraper_config.cpp",
-          "line": 107,
+          "line": 105,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "o.source_ids.push_back(s.as<std::string>());",
@@ -1094,7 +1094,7 @@
         },
         {
           "file": "src\\scraper\\scraper_config.cpp",
-          "line": 71,
+          "line": 69,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "o.queries.push_back(q.as<std::string>());",
@@ -1103,7 +1103,7 @@
         },
         {
           "file": "src\\scraper\\scraper_config.cpp",
-          "line": 38,
+          "line": 36,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "g.keywords.push_back(kw.as<std::string>());",

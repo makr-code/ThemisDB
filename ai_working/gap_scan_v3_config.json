@@ -1,8 +1,8 @@
 {
   "config": {
-    "total": 194,
+    "total": 196,
     "severity_critical": 15,
-    "severity_high": 117,
+    "severity_high": 119,
     "severity_medium": 62,
     "by_category": {
       "security": 4,
@@ -10,7 +10,7 @@
       "reliability": 32,
       "concurrency": 5,
       "raii": 35,
-      "container": 17,
+      "container": 19,
       "platform": 8,
       "performance": 6,
       "input_validation": 2,
@@ -27,7 +27,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\config\\config_file_watcher.cpp",
-          "line_number": 625,
+          "line_number": 626,
           "line_content": "alignas(DWORD) BYTE buf[kBufSize];",
           "context": [
             "",
@@ -48,7 +48,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\config\\config_file_watcher.cpp",
-          "line_number": 354,
+          "line_number": 355,
           "line_content": "alignas(struct inotify_event) char buf[kBufSize];",
           "context": [
             "",
@@ -69,7 +69,7 @@
           "gap_type": "uninitialized_array",
           "severity": "HIGH",
           "file_path": "src\\config\\config_file_watcher.cpp",
-          "line_number": 347,
+          "line_number": 348,
           "var_name": "pfds",
           "context": "Array declared without initialization",
           "reason": "Array contains garbage values; use with zeros or explicit init",
@@ -81,7 +81,7 @@
           "gap_type": "uninitialized_array",
           "severity": "HIGH",
           "file_path": "src\\config\\config_file_watcher.cpp",
-          "line_number": 84,
+          "line_number": 85,
           "var_name": "fds",
           "context": "Array declared without initialization",
           "reason": "Array contains garbage values; use with zeros or explicit init",
@@ -93,7 +93,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\config\\config_file_watcher.cpp",
-          "line_number": 423,
+          "line_number": 424,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -103,7 +103,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 590,
+          "line": 591,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(fd);",
@@ -112,7 +112,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 473,
+          "line": 474,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(fd);",
@@ -121,7 +121,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 441,
+          "line": 442,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(ifd);",
@@ -130,7 +130,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 269,
+          "line": 270,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(kqueue_fd_);",
@@ -139,7 +139,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 265,
+          "line": 266,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(pipe_read_fd_);",
@@ -148,7 +148,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 261,
+          "line": 262,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(pipe_write_fd_);",
@@ -157,7 +157,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 256,
+          "line": 257,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(pipe_read_fd_);",
@@ -166,7 +166,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 252,
+          "line": 253,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(pipe_write_fd_);",
@@ -175,7 +175,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 207,
+          "line": 208,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(kqueue_fd_);",
@@ -184,7 +184,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 203,
+          "line": 204,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(pipe_read_fd_);",
@@ -193,7 +193,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 199,
+          "line": 200,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(pipe_write_fd_);",
@@ -202,7 +202,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 194,
+          "line": 195,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(pipe_read_fd_);",
@@ -211,7 +211,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 190,
+          "line": 191,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(pipe_write_fd_);",
@@ -220,7 +220,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 174,
+          "line": 175,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(kqueue_fd_);",
@@ -229,7 +229,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 170,
+          "line": 171,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(pipe_read_fd_);",
@@ -238,7 +238,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 166,
+          "line": 167,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(pipe_write_fd_);",
@@ -247,7 +247,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 161,
+          "line": 162,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(pipe_read_fd_);",
@@ -256,7 +256,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 157,
+          "line": 158,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(pipe_write_fd_);",
@@ -265,7 +265,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 141,
+          "line": 142,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(kqueue_fd_);",
@@ -274,7 +274,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 137,
+          "line": 138,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(pipe_read_fd_);",
@@ -283,7 +283,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 133,
+          "line": 134,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(pipe_write_fd_);",
@@ -292,7 +292,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 128,
+          "line": 129,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(pipe_read_fd_);",
@@ -301,7 +301,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 124,
+          "line": 125,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(pipe_write_fd_);",
@@ -310,7 +310,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 99,
+          "line": 100,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(kqueue_fd_);",
@@ -319,7 +319,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 722,
+          "line": 723,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "ptr += info->NextEntryOffset;",
@@ -328,7 +328,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 711,
+          "line": 712,
           "type": "size_assumption",
           "severity": "HIGH",
           "snippet": "WideCharToMultiByte(CP_UTF8, 0, info->FileName, static_cast<int>(info->FileNameLength / sizeof(WCHAR",
@@ -337,7 +337,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 708,
+          "line": 709,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "static_cast<int>(info->FileNameLength / sizeof(WCHAR)), nullptr, 0,",
@@ -346,7 +346,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 708,
+          "line": 709,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "static_cast<int>(info->FileNameLength / sizeof(WCHAR)), nullptr, 0,",
@@ -355,7 +355,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 655,
+          "line": 656,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(debounce_mutex_);",
@@ -364,7 +364,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 651,
+          "line": 652,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "while (running_.load(std::memory_order_acquire)) {",
@@ -373,7 +373,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 566,
+          "line": 567,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (auto &entry : std::filesystem::directory_iterator(path)) {",
@@ -382,7 +382,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 506,
+          "line": 507,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(debounce_mutex_);",
@@ -391,7 +391,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 501,
+          "line": 502,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "while (running_.load(std::memory_order_acquire)) {",
@@ -400,7 +400,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 417,
+          "line": 418,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "ptr += sizeof(struct inotify_event) + ev->len;",
@@ -409,7 +409,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 361,
+          "line": 362,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(debounce_mutex_);",
@@ -418,7 +418,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 356,
+          "line": 357,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "while (running_.load(std::memory_order_acquire)) {",
@@ -427,7 +427,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 98,
+          "line": 99,
           "type": "posix_only_api",
           "severity": "HIGH",
           "snippet": "if (pipe(fds) != 0) {",
@@ -436,7 +436,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 74,
+          "line": 75,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (running_.load(std::memory_order_acquire)) {",
@@ -445,7 +445,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 465,
+          "line": 466,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "spdlog::debug(\"ConfigFileWatcher: open('{}') failed: {}\", path, strerror(errno));",
@@ -454,12 +454,21 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 463,
+          "line": 464,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "int fd = ::open(path.c_str(), O_RDONLY | O_EVTONLY | O_CLOEXEC);",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 418,
+          "type": "missing_dtor",
+          "severity": "CRITICAL",
+          "snippet": "class/struct inotify_event",
+          "description": "Class inotify_event allocates resources but has no destructor",
+          "remediation": "Add explicit destructor: ~inotify_event() { /* cleanup */ }"
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
@@ -472,16 +481,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 416,
-          "type": "missing_dtor",
-          "severity": "CRITICAL",
-          "snippet": "class/struct inotify_event",
-          "description": "Class inotify_event allocates resources but has no destructor",
-          "remediation": "Add explicit destructor: ~inotify_event() { /* cleanup */ }"
-        },
-        {
-          "file": "src\\config\\config_file_watcher.cpp",
-          "line": 410,
+          "line": 411,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "ssize_t len = read(ifd, buf, kBufSize);",
@@ -490,7 +490,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 237,
+          "line": 238,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "(void)write(pipe_write_fd_, &dummy, 1);",
@@ -499,7 +499,7 @@
         },
         {
           "file": "src\\config\\config_file_watcher.cpp",
-          "line": 232,
+          "line": 233,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "(void)write(pipe_write_fd_, &dummy, 1);",
@@ -510,7 +510,7 @@
       "src\\config\\config_schema_validator.cpp": [
         {
           "file": "src\\config\\config_schema_validator.cpp",
-          "line": 385,
+          "line": 386,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -522,7 +522,7 @@
         },
         {
           "file": "src\\config\\config_schema_validator.cpp",
-          "line": 215,
+          "line": 216,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -534,7 +534,7 @@
         },
         {
           "file": "src\\config\\config_schema_validator.cpp",
-          "line": 528,
+          "line": 529,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -546,7 +546,7 @@
         },
         {
           "file": "src\\config\\config_schema_validator.cpp",
-          "line": 528,
+          "line": 529,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -558,7 +558,7 @@
         },
         {
           "file": "src\\config\\config_schema_validator.cpp",
-          "line": 402,
+          "line": 403,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -570,7 +570,7 @@
         },
         {
           "file": "src\\config\\config_schema_validator.cpp",
-          "line": 278,
+          "line": 279,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -582,7 +582,7 @@
         },
         {
           "file": "src\\config\\config_schema_validator.cpp",
-          "line": 72,
+          "line": 73,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -596,7 +596,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\config\\config_schema_validator.cpp",
-          "line_number": 215,
+          "line_number": 216,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -606,7 +606,7 @@
         },
         {
           "file": "src\\config\\config_schema_validator.cpp",
-          "line": 529,
+          "line": 530,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "known_keys.push_back(k);",
@@ -615,7 +615,7 @@
         },
         {
           "file": "src\\config\\config_schema_validator.cpp",
-          "line": 403,
+          "line": 404,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "visited_refs.push_back(ref);",
@@ -624,7 +624,7 @@
         },
         {
           "file": "src\\config\\config_schema_validator.cpp",
-          "line": 282,
+          "line": 283,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "key += '~';",
@@ -633,7 +633,7 @@
         },
         {
           "file": "src\\config\\config_schema_validator.cpp",
-          "line": 279,
+          "line": 280,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "key += '/';",
@@ -642,7 +642,7 @@
         },
         {
           "file": "src\\config\\config_schema_validator.cpp",
-          "line": 73,
+          "line": 74,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "arr.push_back(yamlNodeToJsonImpl(child));",
@@ -651,7 +651,7 @@
         },
         {
           "file": "src\\config\\config_schema_validator.cpp",
-          "line": 292,
+          "line": 293,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (node->is_object()) {",
@@ -662,7 +662,7 @@
       "src\\config\\config_encrypted_store.cpp": [
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 288,
+          "line": 289,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -674,7 +674,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 190,
+          "line": 191,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -688,7 +688,7 @@
           "gap_type": "exception_in_destructor",
           "severity": "CRITICAL",
           "file_path": "src\\config\\config_encrypted_store.cpp",
-          "line_number": 389,
+          "line_number": 390,
           "class_name": "",
           "issue": "Potential exception in destructor",
           "reason": "Destructors must be noexcept; exceptions here cause std::terminate()",
@@ -700,7 +700,7 @@
           "gap_type": "exception_in_destructor",
           "severity": "CRITICAL",
           "file_path": "src\\config\\config_encrypted_store.cpp",
-          "line_number": 336,
+          "line_number": 337,
           "class_name": "",
           "issue": "Potential exception in destructor",
           "reason": "Destructors must be noexcept; exceptions here cause std::terminate()",
@@ -710,7 +710,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 190,
+          "line": 191,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -722,7 +722,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 84,
+          "line": 85,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -734,7 +734,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 45,
+          "line": 46,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -748,7 +748,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\config\\config_encrypted_store.cpp",
-          "line_number": 286,
+          "line_number": 287,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -760,7 +760,19 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\config\\config_encrypted_store.cpp",
-          "line_number": 243,
+          "line_number": 244,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak",
+          "confidence_score": 0.73,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=HIGH,context_missing"
+        },
+        {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\config\\config_encrypted_store.cpp",
+          "line_number": 235,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -808,7 +820,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\config\\config_encrypted_store.cpp",
-          "line_number": 231,
+          "line_number": 230,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -832,7 +844,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\config\\config_encrypted_store.cpp",
-          "line_number": 228,
+          "line_number": 222,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -844,7 +856,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\config\\config_encrypted_store.cpp",
-          "line_number": 221,
+          "line_number": 216,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -877,20 +889,8 @@
           "confidence_rationale": "severity=HIGH,context_missing"
         },
         {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\config\\config_encrypted_store.cpp",
-          "line_number": 213,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 286,
+          "line": 287,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -902,7 +902,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 221,
+          "line": 222,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -916,7 +916,7 @@
           "gap_type": "missing_move_constructor_defaulted",
           "severity": "MEDIUM",
           "file_path": "src\\config\\config_encrypted_store.cpp",
-          "line_number": 297,
+          "line_number": 298,
           "class_name": "",
           "issue": "Copy constructor exists but no move constructor (Rule of Five)",
           "reason": "Missing move ctor prevents efficient rvalue transfers",
@@ -928,7 +928,7 @@
           "gap_type": "missing_move_constructor_defaulted",
           "severity": "MEDIUM",
           "file_path": "src\\config\\config_encrypted_store.cpp",
-          "line_number": 163,
+          "line_number": 164,
           "class_name": "",
           "issue": "Copy constructor exists but no move constructor (Rule of Five)",
           "reason": "Missing move ctor prevents efficient rvalue transfers",
@@ -938,7 +938,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 390,
+          "line": 391,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_CIPHER_CTX_free(p);",
@@ -947,7 +947,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 337,
+          "line": 338,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_CIPHER_CTX_free(p);",
@@ -956,7 +956,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 191,
+          "line": 192,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(kv.first);",
@@ -965,7 +965,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 90,
+          "line": 91,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.push_back(static_cast<uint8_t>(((c & 0x03) << 6) | d));",
@@ -974,7 +974,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 87,
+          "line": 88,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.push_back(static_cast<uint8_t>(((b & 0x0F) << 4) | (c >> 2)));",
@@ -983,7 +983,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 85,
+          "line": 86,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.push_back(static_cast<uint8_t>((a << 2) | (b >> 4)));",
@@ -992,7 +992,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 441,
+          "line": 442,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ConfigEncryptionException(\"decryptBlob: blob key version \" + std::to_string(blob.key_version)",
@@ -1001,7 +1001,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 421,
+          "line": 422,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ConfigEncryptionException(",
@@ -1010,7 +1010,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 415,
+          "line": 416,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ConfigEncryptionException(\"aesGcmDecrypt: set GCM tag failed\");",
@@ -1019,7 +1019,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 408,
+          "line": 409,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ConfigEncryptionException(\"aesGcmDecrypt: EVP_DecryptUpdate failed\");",
@@ -1028,7 +1028,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 401,
+          "line": 402,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ConfigEncryptionException(\"aesGcmDecrypt: EVP_DecryptInit_ex (key/iv) failed\");",
@@ -1037,7 +1037,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 398,
+          "line": 399,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ConfigEncryptionException(\"aesGcmDecrypt: set IV length failed\");",
@@ -1046,7 +1046,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 395,
+          "line": 396,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ConfigEncryptionException(\"aesGcmDecrypt: EVP_DecryptInit_ex (cipher) failed\");",
@@ -1055,7 +1055,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 384,
+          "line": 385,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ConfigEncryptionException(\"aesGcmDecrypt: EVP_CIPHER_CTX_new failed\");",
@@ -1064,7 +1064,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 379,
+          "line": 380,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ConfigEncryptionException(\"aesGcmDecrypt: tag must be 16 bytes\");",
@@ -1073,7 +1073,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 376,
+          "line": 377,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ConfigEncryptionException(\"aesGcmDecrypt: IV must be 12 bytes\");",
@@ -1082,7 +1082,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 367,
+          "line": 368,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ConfigEncryptionException(\"aesGcmEncrypt: get GCM tag failed\");",
@@ -1091,7 +1091,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 362,
+          "line": 363,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ConfigEncryptionException(\"aesGcmEncrypt: EVP_EncryptFinal_ex failed\");",
@@ -1100,7 +1100,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 357,
+          "line": 358,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ConfigEncryptionException(\"aesGcmEncrypt: EVP_EncryptUpdate failed\");",
@@ -1109,7 +1109,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 348,
+          "line": 349,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ConfigEncryptionException(\"aesGcmEncrypt: EVP_EncryptInit_ex (key/iv) failed\");",
@@ -1118,7 +1118,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 345,
+          "line": 346,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ConfigEncryptionException(\"aesGcmEncrypt: set IV length failed\");",
@@ -1127,7 +1127,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 342,
+          "line": 343,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ConfigEncryptionException(\"aesGcmEncrypt: EVP_EncryptInit_ex (cipher) failed\");",
@@ -1136,7 +1136,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 331,
+          "line": 332,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ConfigEncryptionException(\"aesGcmEncrypt: EVP_CIPHER_CTX_new failed\");",
@@ -1145,7 +1145,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 319,
+          "line": 320,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ConfigEncryptionException(\"generateIV: RAND_bytes failed\");",
@@ -1154,7 +1154,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 311,
+          "line": 312,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ConfigEncryptionException(\"generateKey: RAND_bytes failed\");",
@@ -1163,7 +1163,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 300,
+          "line": 301,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ConfigEncryptionException(std::string(\"deserialize: JSON parse error: \") + ex.what());",
@@ -1172,7 +1172,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 150,
+          "line": 151,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ConfigKeyNotFoundException(config_key);",
@@ -1181,7 +1181,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 140,
+          "line": 141,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ConfigEncryptedStore::set: config_key must not be empty\");",
@@ -1190,7 +1190,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 41,
+          "line": 42,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "const uint32_t b2     = have3 ? data[i + 2] : 0u;",
@@ -1199,7 +1199,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 40,
+          "line": 41,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "const uint32_t b1     = have2 ? data[i + 1] : 0u;",
@@ -1208,7 +1208,7 @@
         },
         {
           "file": "src\\config\\config_encrypted_store.cpp",
-          "line": 39,
+          "line": 40,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "const uint32_t b0     = data[i];",
@@ -1219,7 +1219,7 @@
       "src\\config\\config_path_resolver.cpp": [
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 235,
+          "line": 236,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1231,7 +1231,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 230,
+          "line": 231,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1243,7 +1243,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 207,
+          "line": 208,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1255,7 +1255,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 202,
+          "line": 203,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1267,7 +1267,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 190,
+          "line": 191,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1279,7 +1279,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 693,
+          "line": 694,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -1291,7 +1291,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 313,
+          "line": 314,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -1303,7 +1303,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 274,
+          "line": 275,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -1315,7 +1315,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 43,
+          "line": 44,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -1327,7 +1327,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 30,
+          "line": 31,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -1339,7 +1339,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 1607,
+          "line": 1608,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1351,7 +1351,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 1413,
+          "line": 1414,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -1363,7 +1363,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 74,
+          "line": 75,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1377,7 +1377,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\config\\config_path_resolver.cpp",
-          "line_number": 1651,
+          "line_number": 1652,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1389,7 +1389,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\config\\config_path_resolver.cpp",
-          "line_number": 1582,
+          "line_number": 1583,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1401,7 +1401,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\config\\config_path_resolver.cpp",
-          "line_number": 1444,
+          "line_number": 1445,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1413,7 +1413,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\config\\config_path_resolver.cpp",
-          "line_number": 1361,
+          "line_number": 1362,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1425,7 +1425,19 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\config\\config_path_resolver.cpp",
-          "line_number": 1342,
+          "line_number": 1343,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak",
+          "confidence_score": 0.73,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=HIGH,context_missing"
+        },
+        {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\config\\config_path_resolver.cpp",
+          "line_number": 1338,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1449,7 +1461,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\config\\config_path_resolver.cpp",
-          "line_number": 1336,
+          "line_number": 1320,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1473,7 +1485,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\config\\config_path_resolver.cpp",
-          "line_number": 1318,
+          "line_number": 1273,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1485,7 +1497,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\config\\config_path_resolver.cpp",
-          "line_number": 1272,
+          "line_number": 1265,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1509,7 +1521,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\config\\config_path_resolver.cpp",
-          "line_number": 1263,
+          "line_number": 1260,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1521,7 +1533,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\config\\config_path_resolver.cpp",
-          "line_number": 1259,
+          "line_number": 73,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1533,19 +1545,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\config\\config_path_resolver.cpp",
-          "line_number": 72,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\config\\config_path_resolver.cpp",
-          "line_number": 67,
+          "line_number": 68,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1555,7 +1555,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 1693,
+          "line": 1694,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "if (c == '/' || c == '\\\\' || c == '$' || c == '`' || c == ';' ||",
@@ -1564,7 +1564,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 1693,
+          "line": 1694,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "if (c == '/' || c == '\\\\' || c == '$' || c == '`' || c == ';' ||",
@@ -1573,7 +1573,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 1608,
+          "line": 1609,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "categories.push_back(entry.first);",
@@ -1582,7 +1582,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 1502,
+          "line": 1503,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "std::replace(str.begin(), str.end(), '\\\\', '/');",
@@ -1591,7 +1591,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 1502,
+          "line": 1503,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "std::replace(str.begin(), str.end(), '\\\\', '/');",
@@ -1600,7 +1600,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 1472,
+          "line": 1473,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "std::replace(normalized.begin(), normalized.end(), '\\\\', '/');",
@@ -1609,7 +1609,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 1472,
+          "line": 1473,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "std::replace(normalized.begin(), normalized.end(), '\\\\', '/');",
@@ -1618,7 +1618,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 1275,
+          "line": 1276,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "attempted_paths.push_back(normalized);",
@@ -1627,7 +1627,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 1273,
+          "line": 1274,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "attempted_paths.push_back(new_path);",
@@ -1636,7 +1636,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 1269,
+          "line": 1270,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "attempted_paths.push_back(\"config/\" + envToString(env) + \"/\" + relative_part);",
@@ -1645,7 +1645,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 75,
+          "line": 76,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "report.push_back(std::move(entry));",
@@ -1654,7 +1654,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 1557,
+          "line": 1558,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw InvalidPathException(path, \"symlink escapes config root\");",
@@ -1663,7 +1663,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 1510,
+          "line": 1511,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw InvalidPathException(path, \"absolute path outside config directory\");",
@@ -1672,7 +1672,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 1495,
+          "line": 1496,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw InvalidPathException(path, \"null bytes not allowed in path\");",
@@ -1681,7 +1681,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 1490,
+          "line": 1491,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw InvalidPathException(path, \"path traversal not allowed\");",
@@ -1690,7 +1690,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 1326,
+          "line": 1327,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "spdlog::debug(\"ConfigPathResolver: Using env overlay path [{}]: {} -> {}\",",
@@ -1699,7 +1699,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 1277,
+          "line": 1278,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw ConfigNotFoundException(legacy_path, attempted_paths);",
@@ -1708,7 +1708,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 129,
+          "line": 130,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::mutex> lock(cv_mutex_);",
@@ -1717,7 +1717,7 @@
         },
         {
           "file": "src\\config\\config_path_resolver.cpp",
-          "line": 1336,
+          "line": 1337,
           "type": "smart_ptr_misuse",
           "severity": "CRITICAL",
           "snippet": "spdlog::debug(\"ConfigPathResolver: Using new config path: {} -> {}\",",
@@ -1728,7 +1728,7 @@
       "src\\config\\config_audit_log.cpp": [
         {
           "file": "src\\config\\config_audit_log.cpp",
-          "line": 45,
+          "line": 46,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "entries_.push_back(std::move(entry));",
@@ -1737,7 +1737,7 @@
         },
         {
           "file": "src\\config\\config_audit_log.cpp",
-          "line": 52,
+          "line": 53,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -1746,18 +1746,27 @@
         },
         {
           "file": "src\\config\\config_audit_log.cpp",
-          "line": 41,
+          "line": 42,
           "type": "memory_order",
           "severity": "HIGH",
           "snippet": "if (!enabled_.load(std::memory_order_relaxed)) {",
           "description": "memory_order_relaxed used \u2014 potential visibility issue",
           "remediation": "Use memory_order_acquire/release unless truly lock-free"
+        },
+        {
+          "file": "src\\config\\config_audit_log.cpp",
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #4286 fix(config): Config Audit T... (2026-03-16) | #3026 [config] Wire confi",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
       "src\\config\\config_metrics_exporter.cpp": [
         {
           "file": "src\\config\\config_metrics_exporter.cpp",
-          "line": 354,
+          "line": 355,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1769,7 +1778,7 @@
         },
         {
           "file": "src\\config\\config_metrics_exporter.cpp",
-          "line": 353,
+          "line": 354,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -1781,7 +1790,7 @@
         },
         {
           "file": "src\\config\\config_metrics_exporter.cpp",
-          "line": 331,
+          "line": 332,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -1793,7 +1802,7 @@
         },
         {
           "file": "src\\config\\config_metrics_exporter.cpp",
-          "line": 311,
+          "line": 312,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -1805,7 +1814,7 @@
         },
         {
           "file": "src\\config\\config_metrics_exporter.cpp",
-          "line": 207,
+          "line": 208,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -1817,7 +1826,7 @@
         },
         {
           "file": "src\\config\\config_metrics_exporter.cpp",
-          "line": 195,
+          "line": 196,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -1829,7 +1838,7 @@
         },
         {
           "file": "src\\config\\config_metrics_exporter.cpp",
-          "line": 182,
+          "line": 183,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -1843,7 +1852,19 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\config\\config_metrics_exporter.cpp",
-          "line_number": 408,
+          "line_number": 409,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak",
+          "confidence_score": 0.73,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=HIGH,context_missing"
+        },
+        {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\config\\config_metrics_exporter.cpp",
+          "line_number": 341,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1879,7 +1900,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\config\\config_metrics_exporter.cpp",
-          "line_number": 338,
+          "line_number": 291,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1891,7 +1912,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\config\\config_metrics_exporter.cpp",
-          "line_number": 290,
+          "line_number": 252,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1903,7 +1924,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\config\\config_metrics_exporter.cpp",
-          "line_number": 251,
+          "line_number": 199,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1915,7 +1936,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\config\\config_metrics_exporter.cpp",
-          "line_number": 198,
+          "line_number": 114,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1939,7 +1960,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\config\\config_metrics_exporter.cpp",
-          "line_number": 112,
+          "line_number": 85,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1951,7 +1972,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\config\\config_metrics_exporter.cpp",
-          "line_number": 84,
+          "line_number": 55,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1963,19 +1984,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\config\\config_metrics_exporter.cpp",
-          "line_number": 54,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\config\\config_metrics_exporter.cpp",
-          "line_number": 32,
+          "line_number": 33,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1985,7 +1994,7 @@
         },
         {
           "file": "src\\config\\config_metrics_exporter.cpp",
-          "line": 390,
+          "line": 391,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& category : ConfigPathResolver::legacyFallbackCategories()) {",
@@ -1994,7 +2003,7 @@
         },
         {
           "file": "src\\config\\config_metrics_exporter.cpp",
-          "line": 354,
+          "line": 355,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& [cat, count] : ConfigPathResolver::legacyFallbacksByCategory()) {",
@@ -2003,7 +2012,16 @@
         },
         {
           "file": "src\\config\\config_metrics_exporter.cpp",
-          "line": 159,
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #4195 Correct retry attempt stati... (2026-03-14) | #3058 build/docs(config):",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\config\\config_metrics_exporter.cpp",
+          "line": 160,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "const auto collected = g_registry->Collect();",
@@ -2012,7 +2030,7 @@
         },
         {
           "file": "src\\config\\config_metrics_exporter.cpp",
-          "line": 159,
+          "line": 160,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "const auto collected = g_registry->Collect();",
@@ -2021,7 +2039,7 @@
         },
         {
           "file": "src\\config\\config_metrics_exporter.cpp",
-          "line": 143,
+          "line": 144,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "const uint64_t prev = (prev_it == g_prev_snapshot.legacy_by_category.end()) ? 0 : prev_it->second;",
@@ -2030,7 +2048,7 @@
         },
         {
           "file": "src\\config\\config_metrics_exporter.cpp",
-          "line": 50,
+          "line": 51,
           "type": "missing_dtor",
           "severity": "CRITICAL",
           "snippet": "class/struct CounterSnapshot",
@@ -2039,7 +2057,7 @@
         },
         {
           "file": "src\\config\\config_metrics_exporter.cpp",
-          "line": 28,
+          "line": 29,
           "type": "missing_dtor",
           "severity": "CRITICAL",
           "snippet": "class/struct RegisteredMetrics",

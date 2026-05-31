@@ -1,8 +1,8 @@
 {
   "transaction": {
-    "total": 554,
+    "total": 555,
     "severity_critical": 51,
-    "severity_high": 247,
+    "severity_high": 248,
     "severity_medium": 256,
     "by_category": {
       "security": 6,
@@ -10,7 +10,7 @@
       "reliability": 33,
       "concurrency": 21,
       "raii": 40,
-      "container": 178,
+      "container": 179,
       "platform": 1,
       "performance": 20,
       "exception_safety": 30,
@@ -26,7 +26,7 @@
       "src\\transaction\\distributed_saga.cpp": [
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 902,
+          "line": 900,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -38,7 +38,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 891,
+          "line": 889,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -50,7 +50,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 760,
+          "line": 758,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -62,7 +62,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 610,
+          "line": 608,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -74,7 +74,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 607,
+          "line": 605,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -86,7 +86,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 313,
+          "line": 311,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -98,7 +98,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 259,
+          "line": 257,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -110,7 +110,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 248,
+          "line": 246,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -122,7 +122,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 228,
+          "line": 226,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -134,7 +134,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 222,
+          "line": 220,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -146,7 +146,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 53,
+          "line": 51,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -158,7 +158,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 867,
+          "line": 865,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -170,7 +170,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 750,
+          "line": 748,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -182,7 +182,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 561,
+          "line": 559,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -194,7 +194,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 549,
+          "line": 547,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -206,7 +206,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 544,
+          "line": 542,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -218,7 +218,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 541,
+          "line": 539,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -230,7 +230,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 437,
+          "line": 435,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -242,7 +242,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 421,
+          "line": 419,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -254,7 +254,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 414,
+          "line": 412,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -266,7 +266,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 411,
+          "line": 409,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -278,7 +278,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 369,
+          "line": 367,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -290,7 +290,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 237,
+          "line": 235,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -302,7 +302,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 65,
+          "line": 63,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -314,7 +314,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 766,
+          "line": 764,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -326,7 +326,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 702,
+          "line": 700,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -338,7 +338,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 632,
+          "line": 630,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -350,7 +350,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 480,
+          "line": 478,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -362,7 +362,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 369,
+          "line": 367,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -374,7 +374,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 351,
+          "line": 349,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -386,7 +386,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 351,
+          "line": 349,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -398,7 +398,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 326,
+          "line": 324,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -410,7 +410,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 309,
+          "line": 307,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -422,7 +422,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 292,
+          "line": 290,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -434,7 +434,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 292,
+          "line": 290,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -446,7 +446,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 220,
+          "line": 218,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -458,7 +458,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 204,
+          "line": 202,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -470,7 +470,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 204,
+          "line": 202,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -482,7 +482,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 204,
+          "line": 202,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -494,7 +494,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 186,
+          "line": 184,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -506,7 +506,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 186,
+          "line": 184,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -518,7 +518,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 186,
+          "line": 184,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -530,7 +530,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 153,
+          "line": 151,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -542,7 +542,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 146,
+          "line": 144,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -554,7 +554,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 77,
+          "line": 75,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -566,7 +566,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 77,
+          "line": 75,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -578,7 +578,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 77,
+          "line": 75,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -590,7 +590,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 77,
+          "line": 75,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -602,7 +602,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 785,
+          "line": 783,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -614,7 +614,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 288,
+          "line": 286,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -626,7 +626,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 287,
+          "line": 285,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -638,7 +638,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 214,
+          "line": 212,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -650,7 +650,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 174,
+          "line": 172,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -662,7 +662,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 148,
+          "line": 146,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -674,7 +674,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 83,
+          "line": 81,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -686,7 +686,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 74,
+          "line": 72,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -698,7 +698,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 48,
+          "line": 46,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -710,7 +710,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 767,
+          "line": 765,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "recovered.push_back(sid);",
@@ -719,7 +719,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 703,
+          "line": 701,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "local_def.steps.push_back(remoteStepToLocal(remote_step));",
@@ -728,7 +728,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 634,
+          "line": 632,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "else if (c == '\\\\') escaped += \"\\\\\\\\\";",
@@ -737,7 +737,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 633,
+          "line": 631,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (c == '\"')  escaped += \"\\\\\\\"\";",
@@ -746,7 +746,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 578,
+          "line": 576,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "step.name, attempt + 1, last_status.message);",
@@ -755,7 +755,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 571,
+          "line": 569,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -764,7 +764,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 539,
+          "line": 537,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "DistributedSagaStatus last_status;",
@@ -773,7 +773,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 465,
+          "line": 463,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "step.name, attempt + 1, last_status.message);",
@@ -782,7 +782,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 447,
+          "line": 445,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -791,7 +791,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 409,
+          "line": 407,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "DistributedSagaStatus last_status;",
@@ -800,7 +800,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 379,
+          "line": 377,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -809,7 +809,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 366,
+          "line": 364,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "DistributedSagaStatus wave_status;",
@@ -818,7 +818,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 355,
+          "line": 353,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "futures.push_back(",
@@ -827,7 +827,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 352,
+          "line": 350,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "wave_records.push_back(rec);",
@@ -836,7 +836,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 346,
+          "line": 344,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::vector<std::future<DistributedSagaStatus>> futures;",
@@ -845,7 +845,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 310,
+          "line": 308,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(node);",
@@ -854,7 +854,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 293,
+          "line": 291,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "successors[dep].push_back(step.name);",
@@ -863,7 +863,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 221,
+          "line": 219,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "to_compensate.push_back(rec.name);",
@@ -872,7 +872,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 205,
+          "line": 203,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "executed_order.push_back(name);",
@@ -881,7 +881,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 187,
+          "line": 185,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& [name, lvl] : level) waves[lvl].push_back(name);",
@@ -890,7 +890,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 154,
+          "line": 152,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "report.step_records.push_back(rec);",
@@ -899,7 +899,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 78,
+          "line": 76,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "adj[dep].push_back(step.name);",
@@ -908,7 +908,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 706,
+          "line": 704,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "return execute(local_def);",
@@ -917,7 +917,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 487,
+          "line": 485,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto rit = index.find(name);",
@@ -926,7 +926,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 351,
+          "line": 349,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "StepRecord* rec = (it != index.end()) ? it->second : nullptr;",
@@ -935,7 +935,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 351,
+          "line": 349,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "StepRecord* rec = (it != index.end()) ? it->second : nullptr;",
@@ -944,7 +944,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 349,
+          "line": 347,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = index.find(name);",
@@ -953,7 +953,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 219,
+          "line": 217,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "listed.find(rec.name) == listed.end()) {",
@@ -962,7 +962,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 165,
+          "line": 163,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::logic_error(\"Internal error: step record not found: \" + name);",
@@ -971,7 +971,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 110,
+          "line": 108,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "DistributedSagaReport DistributedSagaCoordinator::execute(",
@@ -980,7 +980,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 898,
+          "line": 896,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = reports_.find(saga_id);",
@@ -989,7 +989,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 350,
+          "line": 348,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = index.find(name);",
@@ -998,7 +998,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 336,
+          "line": 334,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto st = executeStep(step_map.at(name), *it->second);",
@@ -1007,7 +1007,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 307,
+          "line": 305,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it   = ready.begin();",
@@ -1018,7 +1018,7 @@
       "src\\transaction\\distributed_transaction_manager.cpp": [
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 1249,
+          "line": 1247,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1030,7 +1030,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 1221,
+          "line": 1219,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1042,7 +1042,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 1198,
+          "line": 1196,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -1054,7 +1054,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 1038,
+          "line": 1036,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -1066,7 +1066,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 1031,
+          "line": 1029,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1078,7 +1078,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 1023,
+          "line": 1021,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1090,7 +1090,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 994,
+          "line": 992,
           "category": "observability",
           "severity": "HIGH",
           "pattern": "missing_trace_point",
@@ -1102,7 +1102,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 643,
+          "line": 641,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1114,7 +1114,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 632,
+          "line": 630,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1126,7 +1126,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 577,
+          "line": 575,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1138,7 +1138,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 529,
+          "line": 527,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1150,7 +1150,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 519,
+          "line": 517,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1162,7 +1162,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 299,
+          "line": 297,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -1174,7 +1174,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 199,
+          "line": 197,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -1186,7 +1186,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 1279,
+          "line": 1277,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -1198,7 +1198,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 1093,
+          "line": 1091,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -1210,7 +1210,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 975,
+          "line": 973,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -1222,7 +1222,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 1221,
+          "line": 1219,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1234,7 +1234,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 894,
+          "line": 892,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1246,7 +1246,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 636,
+          "line": 634,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1258,7 +1258,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 524,
+          "line": 522,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1272,7 +1272,7 @@
           "gap_type": "uninitialized_member_field",
           "severity": "MEDIUM",
           "file_path": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line_number": 874,
+          "line_number": 872,
           "var_name": "",
           "context": "Struct with uninitialized fields",
           "reason": "Default constructor does not initialize POD members",
@@ -1282,7 +1282,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 1169,
+          "line": 1167,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "futures.push_back(submitTask([cb, nid, tid, cid]() {",
@@ -1291,7 +1291,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 1158,
+          "line": 1156,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "futures.push_back(submitTask([cb, nid, tid, cid]() {",
@@ -1300,7 +1300,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 1111,
+          "line": 1109,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "futures.push_back(submitTask([rpc_fn, ep, nid, tid, cid, dc]() {",
@@ -1309,7 +1309,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 952,
+          "line": 950,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "futures.push_back(submitTask([legacy_p1_fn, ep, nid, tid, cid, keys]() -> VoteResult {",
@@ -1318,7 +1318,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 934,
+          "line": 932,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "futures.push_back(submitTask([dispatch, ep, nid, tid, cid, keys]() -> VoteResult {",
@@ -1327,7 +1327,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 915,
+          "line": 913,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "futures.push_back(submitTask([rpc_fn, ep, nid, tid, cid, keys]() -> VoteResult {",
@@ -1336,7 +1336,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 905,
+          "line": 903,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "futures.push_back(submitTask([nid]() -> VoteResult {",
@@ -1345,7 +1345,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 895,
+          "line": 893,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "futures.push_back(submitTask([nid]() -> VoteResult {",
@@ -1354,7 +1354,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 637,
+          "line": 635,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "timed_out.push_back(tid);",
@@ -1363,7 +1363,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 525,
+          "line": 523,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "pending.push_back(PendingAbort{tid, txn.participants});",
@@ -1372,7 +1372,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 296,
+          "line": 294,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "batch_queue_.push_back({txn_id, std::move(promise)});",
@@ -1381,7 +1381,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 1295,
+          "line": 1293,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_WARN(\"DistributedTransactionManager [{}] batch Phase-1 failed for txn {}: {}\",",
@@ -1390,7 +1390,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 1291,
+          "line": 1289,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_WARN(\"DistributedTransactionManager [{}] batch Phase-1 failed for txn {}: {}\",",
@@ -1399,7 +1399,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 1287,
+          "line": 1285,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_WARN(\"DistributedTransactionManager [{}] batch Phase-1 failed for txn {}: {}\",",
@@ -1408,7 +1408,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 1274,
+          "line": 1272,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_DEBUG(\"DistributedTransactionManager [{}] batch-flush: {} transactions\",",
@@ -1417,7 +1417,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 1263,
+          "line": 1261,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::mutex> lock(batch_mutex_);",
@@ -1426,7 +1426,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 1239,
+          "line": 1237,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_DEBUG(\"DistributedTransactionManager [{}] thread pool started: {} workers\",",
@@ -1435,7 +1435,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 1226,
+          "line": 1224,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::mutex> lock(pool_mutex_);",
@@ -1444,7 +1444,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 1226,
+          "line": 1224,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::mutex> lock(pool_mutex_);",
@@ -1453,7 +1453,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 1146,
+          "line": 1144,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_ERROR(\"DistributedTransactionManager [{}] cannot deliver Phase-2 {} for remote \"",
@@ -1462,7 +1462,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 1102,
+          "line": 1100,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_ERROR(\"DistributedTransactionManager [{}] cannot deliver Phase-2 {} for \"",
@@ -1471,7 +1471,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 1093,
+          "line": 1091,
           "type": "allocation_loop",
           "severity": "HIGH",
           "snippet": "// bridges (new Phase2RpcFn, legacy static RpcPhase2Fn, or",
@@ -1480,7 +1480,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 892,
+          "line": 890,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_ERROR(\"DistributedTransactionManager [{}] cannot send Phase-1 PREPARE for \"",
@@ -1489,7 +1489,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 853,
+          "line": 851,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return (it != transactions_.end()) ? &it->second : nullptr;",
@@ -1498,7 +1498,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 853,
+          "line": 851,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "return (it != transactions_.end()) ? &it->second : nullptr;",
@@ -1507,7 +1507,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 847,
+          "line": 845,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return (it != transactions_.end()) ? &it->second : nullptr;",
@@ -1516,7 +1516,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 847,
+          "line": 845,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "return (it != transactions_.end()) ? &it->second : nullptr;",
@@ -1525,7 +1525,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 741,
+          "line": 739,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_WARN(\"DistributedTransactionManager [{}] static liveness check threw for \"",
@@ -1534,7 +1534,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 736,
+          "line": 734,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_WARN(\"DistributedTransactionManager [{}] static liveness check threw for \"",
@@ -1543,7 +1543,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 731,
+          "line": 729,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_WARN(\"DistributedTransactionManager [{}] static liveness check threw for \"",
@@ -1552,7 +1552,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 719,
+          "line": 717,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_WARN(\"DistributedTransactionManager [{}] liveness_check_fn threw for \"",
@@ -1561,7 +1561,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 714,
+          "line": 712,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_WARN(\"DistributedTransactionManager [{}] liveness_check_fn threw for \"",
@@ -1570,7 +1570,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 709,
+          "line": 707,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_WARN(\"DistributedTransactionManager [{}] liveness_check_fn threw for \"",
@@ -1579,7 +1579,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 617,
+          "line": 615,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_INFO(\"DistributedTransactionManager [{}] recovery complete: {} in-doubt txns resolved\",",
@@ -1588,7 +1588,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 602,
+          "line": 600,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_INFO(\"DistributedTransactionManager [{}] recovery: broadcasting ABORT for \"",
@@ -1597,7 +1597,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 542,
+          "line": 540,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_INFO(\"DistributedTransactionManager [{}] starting in-doubt recovery\", coordinator_id_);",
@@ -1606,7 +1606,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 531,
+          "line": 529,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -1615,7 +1615,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 507,
+          "line": 505,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_DEBUG(\"DistributedTransactionManager [{}] recoverInDoubtTransactions: WAL disabled; \"",
@@ -1624,7 +1624,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 306,
+          "line": 304,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "txn = findTransaction(txn_id);  // re-acquire pointer after re-lock",
@@ -1633,7 +1633,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 244,
+          "line": 242,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -1642,7 +1642,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 189,
+          "line": 187,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_INFO(\"DistributedTransactionManager [{}] WAL initialised at {}\",",
@@ -1651,7 +1651,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 97,
+          "line": 95,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(s_liveness_check_fn_mutex);",
@@ -1660,7 +1660,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 73,
+          "line": 71,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(s_rpc_phase1_fn_mutex);",
@@ -1669,7 +1669,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 49,
+          "line": 47,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(s_rpc_phase2_fn_mutex);",
@@ -1678,7 +1678,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 1227,
+          "line": 1225,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "pool_cv_.wait(lock, [this] {",
@@ -1687,7 +1687,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 424,
+          "line": 422,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "lock.lock();",
@@ -1696,7 +1696,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 368,
+          "line": 366,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "lock.lock();",
@@ -1705,7 +1705,7 @@
         },
         {
           "file": "src\\transaction\\distributed_transaction_manager.cpp",
-          "line": 305,
+          "line": 303,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "lock.lock();",
@@ -1716,7 +1716,7 @@
       "src\\transaction\\snapshot_manager.cpp": [
         {
           "file": "src\\transaction\\snapshot_manager.cpp",
-          "line": 350,
+          "line": 348,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "timestamp_sorting_unstable",
@@ -1728,7 +1728,7 @@
         },
         {
           "file": "src\\transaction\\snapshot_manager.cpp",
-          "line": 344,
+          "line": 342,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1740,7 +1740,7 @@
         },
         {
           "file": "src\\transaction\\snapshot_manager.cpp",
-          "line": 159,
+          "line": 157,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "timestamp_sorting_unstable",
@@ -1752,7 +1752,7 @@
         },
         {
           "file": "src\\transaction\\snapshot_manager.cpp",
-          "line": 153,
+          "line": 151,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1766,7 +1766,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\transaction\\snapshot_manager.cpp",
-          "line_number": 394,
+          "line_number": 392,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1778,19 +1778,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\transaction\\snapshot_manager.cpp",
-          "line_number": 359,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\transaction\\snapshot_manager.cpp",
-          "line_number": 49,
+          "line_number": 357,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1811,8 +1799,20 @@
           "confidence_rationale": "severity=HIGH,context_missing"
         },
         {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\transaction\\snapshot_manager.cpp",
+          "line_number": 45,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak",
+          "confidence_score": 0.73,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=HIGH,context_missing"
+        },
+        {
           "file": "src\\transaction\\snapshot_manager.cpp",
-          "line": 345,
+          "line": 343,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (s.has_value()) snapshots.push_back(*s);",
@@ -1821,7 +1821,7 @@
         },
         {
           "file": "src\\transaction\\snapshot_manager.cpp",
-          "line": 198,
+          "line": 196,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "spdlog::error(\"Failed to delete snapshot: {}\", tag_name);",
@@ -1830,7 +1830,7 @@
         },
         {
           "file": "src\\transaction\\snapshot_manager.cpp",
-          "line": 154,
+          "line": 152,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "snapshots.push_back(*snapshot);",
@@ -1839,7 +1839,7 @@
         },
         {
           "file": "src\\transaction\\snapshot_manager.cpp",
-          "line": 399,
+          "line": 397,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "for (it->Seek(prefix); it->Valid(); it->Next()) {",
@@ -1848,7 +1848,7 @@
         },
         {
           "file": "src\\transaction\\snapshot_manager.cpp",
-          "line": 337,
+          "line": 335,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "for (it->Seek(prefix); it->Valid(); it->Next()) {",
@@ -1857,7 +1857,7 @@
         },
         {
           "file": "src\\transaction\\snapshot_manager.cpp",
-          "line": 198,
+          "line": 196,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "spdlog::error(\"Failed to delete snapshot: {}\", tag_name);",
@@ -1866,7 +1866,7 @@
         },
         {
           "file": "src\\transaction\\snapshot_manager.cpp",
-          "line": 148,
+          "line": 146,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "iterator->value().data(),",
@@ -1875,7 +1875,7 @@
         },
         {
           "file": "src\\transaction\\snapshot_manager.cpp",
-          "line": 138,
+          "line": 136,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "for (iterator->Seek(prefix); iterator->Valid(); iterator->Next()) {",
@@ -1884,10 +1884,10 @@
         },
         {
           "file": "src\\transaction\\snapshot_manager.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #384 [WIP] Add Named Snapshots feature for ThemisDB MVCC system (2026-03-11T21:29:03Z)",
+          "snippet": "* PR History (last 5): #461 Refactor PITR implementatio... (2026-03-11) | #386 feat: Implement Phase",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         }
@@ -1895,7 +1895,7 @@
       "src\\transaction\\global_transaction_manager.cpp": [
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 398,
+          "line": 396,
           "category": "observability",
           "severity": "HIGH",
           "pattern": "missing_trace_point",
@@ -1907,7 +1907,7 @@
         },
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 284,
+          "line": 282,
           "category": "observability",
           "severity": "HIGH",
           "pattern": "missing_trace_point",
@@ -1919,7 +1919,7 @@
         },
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 169,
+          "line": 167,
           "category": "observability",
           "severity": "HIGH",
           "pattern": "missing_trace_point",
@@ -1931,7 +1931,7 @@
         },
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 571,
+          "line": 569,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_ERROR(\"GlobalTransactionManager [{}] WAL write failed for txn {}: {}\",",
@@ -1940,7 +1940,7 @@
         },
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 539,
+          "line": 537,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_ERROR(\"GlobalTransactionManager [{}] Phase 2 \u2013 region {} threw on {} \"",
@@ -1949,7 +1949,7 @@
         },
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 525,
+          "line": 523,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_WARN(\"GlobalTransactionManager [{}] Phase 2 \u2013 region {} not found for txn {} \"",
@@ -1958,7 +1958,7 @@
         },
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 512,
+          "line": 510,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_INFO(\"GlobalTransactionManager [{}] region {} voted ABORT for txn {}\",",
@@ -1967,7 +1967,7 @@
         },
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 504,
+          "line": 502,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_ERROR(\"GlobalTransactionManager [{}] Phase 1 \u2013 region {} threw on PREPARE \"",
@@ -1976,7 +1976,7 @@
         },
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 489,
+          "line": 487,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_ERROR(\"GlobalTransactionManager [{}] Phase 1 \u2013 region {} not found for txn {}\",",
@@ -1985,7 +1985,7 @@
         },
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 437,
+          "line": 435,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_INFO(\"GlobalTransactionManager [{}] recovery complete \u2013 {} in-doubt txn(s) resolved\",",
@@ -1994,7 +1994,7 @@
         },
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 433,
+          "line": 431,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_ERROR(\"GlobalTransactionManager [{}] WAL recovery failed: {}\",",
@@ -2003,7 +2003,7 @@
         },
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 410,
+          "line": 408,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_WARN(\"GlobalTransactionManager [{}] re-driving in-doubt txn {} \"",
@@ -2012,7 +2012,7 @@
         },
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 397,
+          "line": 395,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_WARN(\"GlobalTransactionManager [{}] in-doubt txn {} has no \"",
@@ -2021,7 +2021,7 @@
         },
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 329,
+          "line": 327,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_INFO(\"GlobalTransactionManager [{}] recovering from WAL\u2026\", coordinator_id_);",
@@ -2030,7 +2030,7 @@
         },
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 317,
+          "line": 315,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_INFO(\"GlobalTransactionManager [{}] txn {} explicitly ABORTED\",",
@@ -2039,7 +2039,7 @@
         },
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 289,
+          "line": 287,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_WARN(\"GlobalTransactionManager [{}] abort: unknown txn {}\",",
@@ -2048,7 +2048,7 @@
         },
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 160,
+          "line": 158,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_WARN(\"GlobalTransactionManager [{}] addOperation: region {} not in txn {}\",",
@@ -2057,7 +2057,7 @@
         },
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 153,
+          "line": 151,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_WARN(\"GlobalTransactionManager [{}] addOperation: txn {} not ACTIVE\",",
@@ -2066,7 +2066,7 @@
         },
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 146,
+          "line": 144,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_WARN(\"GlobalTransactionManager [{}] addOperation: unknown txn {}\",",
@@ -2075,7 +2075,7 @@
         },
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 132,
+          "line": 130,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_DEBUG(\"GlobalTransactionManager [{}] began txn {} across {} region(s)\",",
@@ -2084,7 +2084,7 @@
         },
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 118,
+          "line": 116,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "rec.region_ops[rid]     = nlohmann::json::array();",
@@ -2093,7 +2093,7 @@
         },
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 104,
+          "line": 102,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -2102,7 +2102,7 @@
         },
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 96,
+          "line": 94,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"region_ids must not be empty\");",
@@ -2111,7 +2111,7 @@
         },
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 74,
+          "line": 72,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_DEBUG(\"GlobalTransactionManager [{}] registered region {}\",",
@@ -2120,7 +2120,7 @@
         },
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 70,
+          "line": 68,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"participant must not be null\");",
@@ -2129,7 +2129,7 @@
         },
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 56,
+          "line": 54,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_INFO(\"GlobalTransactionManager [{}] WAL initialised at {}\",",
@@ -2138,7 +2138,7 @@
         },
         {
           "file": "src\\transaction\\global_transaction_manager.cpp",
-          "line": 48,
+          "line": 46,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"GlobalTransactionManager: truetime must not be null\");",
@@ -2149,7 +2149,7 @@
       "src\\transaction\\merge_engine.cpp": [
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 537,
+          "line": 535,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2161,7 +2161,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 537,
+          "line": 535,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2173,7 +2173,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 328,
+          "line": 326,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2185,7 +2185,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 328,
+          "line": 326,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2197,7 +2197,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 276,
+          "line": 274,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2209,7 +2209,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 273,
+          "line": 271,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2221,7 +2221,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 270,
+          "line": 268,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2233,7 +2233,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 193,
+          "line": 191,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2245,7 +2245,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 187,
+          "line": 185,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2257,7 +2257,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 165,
+          "line": 163,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2269,7 +2269,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 159,
+          "line": 157,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2281,7 +2281,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 120,
+          "line": 118,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2293,7 +2293,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 100,
+          "line": 98,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2307,7 +2307,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\transaction\\merge_engine.cpp",
-          "line_number": 674,
+          "line_number": 672,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2319,7 +2319,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\transaction\\merge_engine.cpp",
-          "line_number": 670,
+          "line_number": 668,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2331,7 +2331,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\transaction\\merge_engine.cpp",
-          "line_number": 561,
+          "line_number": 559,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2343,7 +2343,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\transaction\\merge_engine.cpp",
-          "line_number": 558,
+          "line_number": 556,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2355,7 +2355,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\transaction\\merge_engine.cpp",
-          "line_number": 488,
+          "line_number": 486,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2367,7 +2367,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\transaction\\merge_engine.cpp",
-          "line_number": 487,
+          "line_number": 485,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2377,7 +2377,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 521,
+          "line": 519,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -2389,7 +2389,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 462,
+          "line": 460,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -2401,7 +2401,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 461,
+          "line": 459,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -2413,7 +2413,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 321,
+          "line": 319,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -2425,7 +2425,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 546,
+          "line": 544,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "resolved_changes.push_back(*auto_resolved);",
@@ -2434,7 +2434,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 538,
+          "line": 536,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "resolved_changes.push_back(change);",
@@ -2443,7 +2443,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 329,
+          "line": 327,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.changes_applied.push_back(change);",
@@ -2452,7 +2452,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 277,
+          "line": 275,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.changes_applied.push_back(change);",
@@ -2461,7 +2461,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 274,
+          "line": 272,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.changes_applied.push_back(change);",
@@ -2470,7 +2470,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 271,
+          "line": 269,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.changes_applied.push_back(change);",
@@ -2479,7 +2479,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 194,
+          "line": 192,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.changes_applied.push_back(analytics::DiffEngine::Change::fromJson(change_json));",
@@ -2488,7 +2488,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 188,
+          "line": 186,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.conflicts.push_back(Conflict::fromJson(conflict_json));",
@@ -2497,7 +2497,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 166,
+          "line": 164,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "changes_arr.push_back(change.toJson());",
@@ -2506,7 +2506,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 160,
+          "line": 158,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "conflicts_arr.push_back(conflict.toJson());",
@@ -2515,7 +2515,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 121,
+          "line": 119,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "opts.manual_resolutions.push_back(ConflictResolution::fromJson(res_json));",
@@ -2524,7 +2524,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 101,
+          "line": 99,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "resolutions.push_back(res.toJson());",
@@ -2533,7 +2533,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 603,
+          "line": 601,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "event.metadata[\"original_sequence\"] = change.sequence;",
@@ -2542,7 +2542,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 602,
+          "line": 600,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "event.metadata[\"merge\"] = true;",
@@ -2551,7 +2551,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 527,
+          "line": 525,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto res_it = resolution_map.find(conflict.key);",
@@ -2560,7 +2560,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 327,
+          "line": 325,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (conflict_keys.find(change.key) == conflict_keys.end()) {",
@@ -2569,7 +2569,7 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 327,
+          "line": 325,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (conflict_keys.find(change.key) == conflict_keys.end()) {",
@@ -2578,7 +2578,16 @@
         },
         {
           "file": "src\\transaction\\merge_engine.cpp",
-          "line": 528,
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #3416 [transaction] Implement Mer... (2026-03-12) | #1084 Implement Three-Way",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 526,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto res_it = resolution_map.find(conflict.key);",
@@ -2589,7 +2598,7 @@
       "src\\transaction\\saga_plugin\\saga_orchestrator_plugin.cpp": [
         {
           "file": "src\\transaction\\saga_plugin\\saga_orchestrator_plugin.cpp",
-          "line": 58,
+          "line": 67,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -2601,7 +2610,7 @@
         },
         {
           "file": "src\\transaction\\saga_plugin\\saga_orchestrator_plugin.cpp",
-          "line": 52,
+          "line": 61,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -2613,7 +2622,7 @@
         },
         {
           "file": "src\\transaction\\saga_plugin\\saga_orchestrator_plugin.cpp",
-          "line": 96,
+          "line": 105,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "delete plugin;",
@@ -2622,7 +2631,7 @@
         },
         {
           "file": "src\\transaction\\saga_plugin\\saga_orchestrator_plugin.cpp",
-          "line": 96,
+          "line": 105,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "delete plugin;",
@@ -2631,7 +2640,7 @@
         },
         {
           "file": "src\\transaction\\saga_plugin\\saga_orchestrator_plugin.cpp",
-          "line": 92,
+          "line": 101,
           "type": "smart_ptr_misuse",
           "severity": "CRITICAL",
           "snippet": "return new themis::transaction::SagaOrchestratorPlugin();",
@@ -2642,7 +2651,7 @@
       "src\\transaction\\saga_orchestrator.cpp": [
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 342,
+          "line": 340,
           "category": "observability",
           "severity": "HIGH",
           "pattern": "missing_trace_point",
@@ -2654,7 +2663,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 277,
+          "line": 275,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2666,7 +2675,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 231,
+          "line": 229,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2678,7 +2687,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 213,
+          "line": 211,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2690,7 +2699,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 87,
+          "line": 85,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -2702,7 +2711,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 86,
+          "line": 84,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2714,7 +2723,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 85,
+          "line": 83,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2726,7 +2735,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 514,
+          "line": 512,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2738,7 +2747,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 514,
+          "line": 512,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2750,7 +2759,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 489,
+          "line": 487,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2762,7 +2771,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 457,
+          "line": 455,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2774,7 +2783,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 448,
+          "line": 446,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2786,7 +2795,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 302,
+          "line": 300,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -2798,7 +2807,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 136,
+          "line": 134,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2810,7 +2819,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 136,
+          "line": 134,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2822,7 +2831,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 136,
+          "line": 134,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2834,7 +2843,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 136,
+          "line": 134,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2846,7 +2855,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 110,
+          "line": 108,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2858,7 +2867,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 36,
+          "line": 34,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2870,7 +2879,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 31,
+          "line": 29,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -2882,7 +2891,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 402,
+          "line": 400,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -2894,7 +2903,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 401,
+          "line": 399,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -2906,7 +2915,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 164,
+          "line": 162,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -2918,7 +2927,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 163,
+          "line": 161,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -2930,7 +2939,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 131,
+          "line": 129,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -2942,7 +2951,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 515,
+          "line": 513,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ready.push_back(dependent);",
@@ -2951,7 +2960,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 496,
+          "line": 494,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "succeeded_in_wave.push_back(name);",
@@ -2960,7 +2969,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 491,
+          "line": 489,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "succeeded_in_wave.push_back(name);",
@@ -2969,7 +2978,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 490,
+          "line": 488,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "executed.push_back(name);",
@@ -2978,7 +2987,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 465,
+          "line": 463,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back({std::string{}, StepState::FAILED});",
@@ -2987,7 +2996,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 464,
+          "line": 462,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -2996,7 +3005,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 460,
+          "line": 458,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back({std::string{}, StepState::FAILED});",
@@ -3005,7 +3014,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 458,
+          "line": 456,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(future.get());",
@@ -3014,7 +3023,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 449,
+          "line": 447,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "futures.push_back(std::async(",
@@ -3023,7 +3032,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 420,
+          "line": 418,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ready.push_back(name);",
@@ -3032,7 +3041,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 411,
+          "line": 409,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "dependents[dep].push_back(step.name);",
@@ -3041,7 +3050,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 389,
+          "line": 387,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "++status_rec.pending_steps;",
@@ -3050,7 +3059,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 384,
+          "line": 382,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "++status_rec.skipped_steps;",
@@ -3059,7 +3068,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 381,
+          "line": 379,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "++status_rec.failed_steps;",
@@ -3068,7 +3077,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 378,
+          "line": 376,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "++status_rec.completed_steps;",
@@ -3077,7 +3086,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 361,
+          "line": 359,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "SAGAExecutionStatus status_rec;",
@@ -3086,7 +3095,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 312,
+          "line": 310,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -3095,7 +3104,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 260,
+          "line": 258,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -3104,7 +3113,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 194,
+          "line": 192,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "order.push_back(current);",
@@ -3113,7 +3122,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 177,
+          "line": 175,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "outgoing[dep].push_back(step.name);",
@@ -3122,7 +3131,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 137,
+          "line": 135,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "dependents[dep].push_back(step.name);",
@@ -3131,7 +3140,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 37,
+          "line": 35,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "default: out.push_back(c); break;",
@@ -3140,7 +3149,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 36,
+          "line": 34,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\t': out += \"\\\\t\"; break;",
@@ -3149,7 +3158,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 35,
+          "line": 33,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\r': out += \"\\\\r\"; break;",
@@ -3158,7 +3167,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 34,
+          "line": 32,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\n': out += \"\\\\n\"; break;",
@@ -3167,7 +3176,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 33,
+          "line": 31,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\"': out += \"\\\\\\\"\"; break;",
@@ -3176,7 +3185,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 32,
+          "line": 30,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\\\': out += \"\\\\\\\\\"; break;",
@@ -3185,7 +3194,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 441,
+          "line": 439,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = step_map.find(name);",
@@ -3194,7 +3203,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 441,
+          "line": 439,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = step_map.find(name);",
@@ -3203,7 +3212,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 347,
+          "line": 345,
           "type": "memory_order",
           "severity": "HIGH",
           "snippet": "const auto seq = next_id.fetch_add(1, std::memory_order_relaxed);",
@@ -3212,7 +3221,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 342,
+          "line": 340,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {",
@@ -3221,7 +3230,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 277,
+          "line": 275,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto step_it = step_map.find(*it);",
@@ -3230,7 +3239,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 233,
+          "line": 231,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(metrics_mutex_);",
@@ -3239,7 +3248,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 141,
+          "line": 139,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "const auto it = dependents.find(step.name);",
@@ -3248,7 +3257,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 141,
+          "line": 139,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "const auto it = dependents.find(step.name);",
@@ -3257,7 +3266,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 115,
+          "line": 113,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::out_of_range(\"saga template not found: \" + template_name);",
@@ -3266,7 +3275,7 @@
         },
         {
           "file": "src\\transaction\\saga_orchestrator.cpp",
-          "line": 442,
+          "line": 440,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = step_map.find(name);",
@@ -3277,7 +3286,7 @@
       "src\\transaction\\transaction_batcher.cpp": [
         {
           "file": "src\\transaction\\transaction_batcher.cpp",
-          "line": 419,
+          "line": 417,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -3289,7 +3298,7 @@
         },
         {
           "file": "src\\transaction\\transaction_batcher.cpp",
-          "line": 418,
+          "line": 416,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -3301,7 +3310,7 @@
         },
         {
           "file": "src\\transaction\\transaction_batcher.cpp",
-          "line": 415,
+          "line": 413,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -3313,7 +3322,7 @@
         },
         {
           "file": "src\\transaction\\transaction_batcher.cpp",
-          "line": 414,
+          "line": 412,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -3325,7 +3334,7 @@
         },
         {
           "file": "src\\transaction\\transaction_batcher.cpp",
-          "line": 413,
+          "line": 411,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -3339,7 +3348,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\transaction\\transaction_batcher.cpp",
-          "line_number": 450,
+          "line_number": 448,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3351,7 +3360,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\transaction\\transaction_batcher.cpp",
-          "line_number": 449,
+          "line_number": 447,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3363,7 +3372,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\transaction\\transaction_batcher.cpp",
-          "line_number": 446,
+          "line_number": 444,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3375,7 +3384,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\transaction\\transaction_batcher.cpp",
-          "line_number": 274,
+          "line_number": 272,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3385,7 +3394,7 @@
         },
         {
           "file": "src\\transaction\\transaction_batcher.cpp",
-          "line": 312,
+          "line": 310,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "remainder.push_back(std::move(queue_.front()));",
@@ -3394,7 +3403,7 @@
         },
         {
           "file": "src\\transaction\\transaction_batcher.cpp",
-          "line": 286,
+          "line": 284,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "batch.push_back(std::move(queue_.front()));",
@@ -3403,7 +3412,7 @@
         },
         {
           "file": "src\\transaction\\transaction_batcher.cpp",
-          "line": 306,
+          "line": 304,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (stopping_.load(std::memory_order_acquire)) {",
@@ -3412,7 +3421,7 @@
         },
         {
           "file": "src\\transaction\\transaction_batcher.cpp",
-          "line": 274,
+          "line": 272,
           "type": "allocation_loop",
           "severity": "HIGH",
           "snippet": "// Notified: recompute in case new items have earlier deadlines.",
@@ -3421,7 +3430,7 @@
         },
         {
           "file": "src\\transaction\\transaction_batcher.cpp",
-          "line": 271,
+          "line": 269,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "!stopping_.load(std::memory_order_acquire)) {",
@@ -3430,7 +3439,7 @@
         },
         {
           "file": "src\\transaction\\transaction_batcher.cpp",
-          "line": 249,
+          "line": 247,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> cfg_lk(config_mutex_);",
@@ -3439,7 +3448,7 @@
         },
         {
           "file": "src\\transaction\\transaction_batcher.cpp",
-          "line": 164,
+          "line": 162,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (stopping_.load(std::memory_order_acquire)) {",
@@ -3448,7 +3457,7 @@
         },
         {
           "file": "src\\transaction\\transaction_batcher.cpp",
-          "line": 224,
+          "line": 222,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "flush_cv_.wait(lk, [this] {",
@@ -3459,7 +3468,7 @@
       "src\\transaction\\transaction_manager.cpp": [
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1921,
+          "line": 1919,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3471,7 +3480,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1846,
+          "line": 1844,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3483,7 +3492,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1575,
+          "line": 1573,
           "category": "observability",
           "severity": "HIGH",
           "pattern": "missing_trace_point",
@@ -3495,7 +3504,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1547,
+          "line": 1545,
           "category": "observability",
           "severity": "HIGH",
           "pattern": "missing_trace_point",
@@ -3507,7 +3516,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 743,
+          "line": 741,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3519,7 +3528,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 721,
+          "line": 719,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3531,7 +3540,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 680,
+          "line": 678,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3543,7 +3552,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 542,
+          "line": 540,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3555,7 +3564,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 498,
+          "line": 496,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3567,7 +3576,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 195,
+          "line": 193,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -3579,7 +3588,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 108,
+          "line": 106,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3591,7 +3600,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 832,
+          "line": 830,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -3603,7 +3612,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 2170,
+          "line": 2168,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3615,7 +3624,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 2170,
+          "line": 2168,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3627,7 +3636,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 2170,
+          "line": 2168,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3639,7 +3648,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 2145,
+          "line": 2143,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3651,7 +3660,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 2015,
+          "line": 2013,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3663,7 +3672,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1921,
+          "line": 1919,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3675,7 +3684,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1841,
+          "line": 1839,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3687,7 +3696,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1800,
+          "line": 1798,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3699,7 +3708,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1608,
+          "line": 1606,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3711,7 +3720,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1294,
+          "line": 1292,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -3723,7 +3732,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1294,
+          "line": 1292,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -3735,7 +3744,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 816,
+          "line": 814,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3747,7 +3756,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 757,
+          "line": 755,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3759,7 +3768,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 744,
+          "line": 742,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3771,7 +3780,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 728,
+          "line": 726,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3783,7 +3792,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 542,
+          "line": 540,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3795,7 +3804,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 498,
+          "line": 496,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3807,7 +3816,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 326,
+          "line": 324,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3819,7 +3828,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 319,
+          "line": 317,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3831,7 +3840,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 319,
+          "line": 317,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3843,7 +3852,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 212,
+          "line": 210,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3855,7 +3864,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 212,
+          "line": 210,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3867,7 +3876,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 109,
+          "line": 107,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3881,19 +3890,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\transaction\\transaction_manager.cpp",
-          "line_number": 1368,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\transaction\\transaction_manager.cpp",
-          "line_number": 1353,
+          "line_number": 1366,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3917,7 +3914,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\transaction\\transaction_manager.cpp",
-          "line_number": 1206,
+          "line_number": 1349,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3929,7 +3926,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\transaction\\transaction_manager.cpp",
-          "line_number": 1168,
+          "line_number": 1204,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3941,7 +3938,19 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\transaction\\transaction_manager.cpp",
-          "line_number": 284,
+          "line_number": 1166,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak",
+          "confidence_score": 0.73,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=HIGH,context_missing"
+        },
+        {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\transaction\\transaction_manager.cpp",
+          "line_number": 282,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3951,7 +3960,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 712,
+          "line": 710,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -3963,7 +3972,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 316,
+          "line": 314,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -3975,7 +3984,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 191,
+          "line": 189,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -3987,7 +3996,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 2171,
+          "line": 2169,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(sc));",
@@ -3996,7 +4005,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 2016,
+          "line": 2014,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(toTimeTravelRecord(rec));",
@@ -4005,7 +4014,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1922,
+          "line": 1920,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.locks_held.push_back({key, lockTypeName(lock_type)});",
@@ -4014,7 +4023,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1842,
+          "line": 1840,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "expired.push_back(id);",
@@ -4023,7 +4032,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1801,
+          "line": 1799,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "names.push_back(e.name);",
@@ -4032,7 +4041,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1736,
+          "line": 1734,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "savepoints_.push_back({std::move(sname), saga_->stepCount()});",
@@ -4041,7 +4050,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1622,
+          "line": 1620,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "conflict_record_ids.push_back(cid);",
@@ -4050,7 +4059,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1609,
+          "line": 1607,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "conflict_keys.push_back(key);",
@@ -4059,7 +4068,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 817,
+          "line": 815,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "expired.push_back(id);",
@@ -4068,7 +4077,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 758,
+          "line": 756,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "to_abort.push_back(txn_id);",
@@ -4077,7 +4086,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 745,
+          "line": 743,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ids.push_back(txn_id);",
@@ -4086,7 +4095,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 729,
+          "line": 727,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(s));",
@@ -4095,7 +4104,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 543,
+          "line": 541,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (info.holder == id) keys.push_back(key);",
@@ -4104,7 +4113,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 499,
+          "line": 497,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (info.holder == id) keys.push_back(key);",
@@ -4113,7 +4122,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 334,
+          "line": 332,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "recent_deadlocks_.push_back(info);",
@@ -4122,7 +4131,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 327,
+          "line": 325,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "cycle_keys.push_back(wkey);",
@@ -4131,7 +4140,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 320,
+          "line": 318,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "cycle_keys.push_back(key);",
@@ -4140,7 +4149,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 213,
+          "line": 211,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "path.push_back(node);",
@@ -4149,7 +4158,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 110,
+          "line": 108,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(deadlock);",
@@ -4158,7 +4167,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 2068,
+          "line": 2066,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "DeadlockPredictor* p = deadlock_predictor_.load(std::memory_order_acquire);",
@@ -4167,7 +4176,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 2055,
+          "line": 2053,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "DeadlockPredictor* p = deadlock_predictor_.load(std::memory_order_acquire);",
@@ -4176,7 +4185,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 2036,
+          "line": 2034,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "DeadlockPredictor* p = deadlock_predictor_.load(std::memory_order_acquire);",
@@ -4185,7 +4194,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 2030,
+          "line": 2028,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "return deadlock_predictor_.load(std::memory_order_acquire);",
@@ -4194,7 +4203,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1917,
+          "line": 1915,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "result.is_finished    = finished_.load(std::memory_order_acquire);",
@@ -4203,7 +4212,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1741,
+          "line": 1739,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (finished_.load(std::memory_order_acquire)) {",
@@ -4212,7 +4221,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1715,
+          "line": 1713,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (finished_.load(std::memory_order_acquire)) {",
@@ -4221,7 +4230,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1702,
+          "line": 1700,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (finished_.load(std::memory_order_acquire)) {",
@@ -4230,7 +4239,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1689,
+          "line": 1687,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (finished_.load(std::memory_order_acquire)) {",
@@ -4239,7 +4248,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1678,
+          "line": 1676,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (finished_.load(std::memory_order_acquire)) {",
@@ -4248,7 +4257,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1614,
+          "line": 1612,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto base_it = base_values_.find(key);",
@@ -4257,7 +4266,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1528,
+          "line": 1526,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "THEMIS_DEBUG(\"Transaction {} acquired predicate lock on [{}, {}]\", id_, start_key, end_key);",
@@ -4266,7 +4275,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1528,
+          "line": 1526,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "THEMIS_DEBUG(\"Transaction {} acquired predicate lock on [{}, {}]\", id_, start_key, end_key);",
@@ -4275,7 +4284,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1527,
+          "line": 1525,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "lock_manager_->acquirePredicateLock(id_, start_key, end_key);",
@@ -4284,7 +4293,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1518,
+          "line": 1516,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (finished_.load(std::memory_order_acquire)) {",
@@ -4293,7 +4302,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 911,
+          "line": 909,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (finished_.load(std::memory_order_acquire)) {",
@@ -4302,7 +4311,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 874,
+          "line": 872,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to create MVCC transaction\");",
@@ -4311,7 +4320,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 726,
+          "line": 724,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto ac = active_counts.find(tid);",
@@ -4320,7 +4329,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 726,
+          "line": 724,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto ac = active_counts.find(tid);",
@@ -4329,7 +4338,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 616,
+          "line": 614,
           "type": "memory_order",
           "severity": "HIGH",
           "snippet": "stats.total_committed = total_committed_.load(std::memory_order_relaxed);",
@@ -4338,7 +4347,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 615,
+          "line": 613,
           "type": "memory_order",
           "severity": "HIGH",
           "snippet": "stats.total_begun = total_begun_.load(std::memory_order_relaxed);",
@@ -4347,7 +4356,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 538,
+          "line": 536,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (DeadlockPredictor* dp = deadlock_predictor_.load(std::memory_order_acquire)) {",
@@ -4356,7 +4365,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 494,
+          "line": 492,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (DeadlockPredictor* dp = deadlock_predictor_.load(std::memory_order_acquire)) {",
@@ -4365,7 +4374,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 359,
+          "line": 357,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (DeadlockPredictor* dp = deadlock_predictor_.load(std::memory_order_acquire)) {",
@@ -4374,7 +4383,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 315,
+          "line": 313,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (deadlock_predictor_.load(std::memory_order_acquire)) {",
@@ -4383,7 +4392,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 295,
+          "line": 293,
           "type": "memory_order",
           "severity": "HIGH",
           "snippet": "uint64_t prev = deadlock_max_cycle_len_.load(std::memory_order_relaxed);",
@@ -4392,7 +4401,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 220,
+          "line": 218,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "auto cycle_start = std::find(path.begin(), path.end(), neighbor);",
@@ -4401,7 +4410,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 161,
+          "line": 159,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::mutex> lock(deadlock_detector_mutex_);",
@@ -4410,7 +4419,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1999,
+          "line": 1997,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto ts_opt = snapshot_mgr_->getTimestampForTag(tag_name);",
@@ -4419,7 +4428,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1630,
+          "line": 1628,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "conflict_set_id = conflict_mgr_->storeConflictSet(cset);",
@@ -4428,7 +4437,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1630,
+          "line": 1628,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "conflict_set_id = conflict_mgr_->storeConflictSet(cset);",
@@ -4437,7 +4446,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1615,
+          "line": 1613,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto base_it = base_values_.find(key);",
@@ -4446,7 +4455,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 1537,
+          "line": 1535,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto conflicting_txn = lock_manager_->checkPredicateConflict(id_, key);",
@@ -4455,7 +4464,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 727,
+          "line": 725,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto ac = active_counts.find(tid);",
@@ -4464,7 +4473,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 667,
+          "line": 665,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "for (auto it = completed_transactions_.begin(); it != completed_transactions_.end(); ) {",
@@ -4473,7 +4482,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 559,
+          "line": 557,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto completed_it = completed_transactions_.find(id);",
@@ -4482,7 +4491,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 556,
+          "line": 554,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = active_transactions_.find(id);",
@@ -4491,7 +4500,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 343,
+          "line": 341,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "for (auto it = held_locks_.begin(); it != held_locks_.end();) {",
@@ -4500,7 +4509,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 323,
+          "line": 321,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto wit = waiting_for_.find(txn_id);",
@@ -4509,7 +4518,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 197,
+          "line": 195,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "TransactionId holding_txn = lock_it->second.holder;",
@@ -4518,7 +4527,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 195,
+          "line": 193,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto lock_it = held_locks_.find(key);",
@@ -4527,7 +4536,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 137,
+          "line": 135,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = held_locks_.find(key);",
@@ -4536,7 +4545,7 @@
         },
         {
           "file": "src\\transaction\\transaction_manager.cpp",
-          "line": 124,
+          "line": 122,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = waiting_for_.find(txn_id);",
@@ -4547,7 +4556,7 @@
       "src\\transaction\\branch_manager.cpp": [
         {
           "file": "src\\transaction\\branch_manager.cpp",
-          "line": 817,
+          "line": 815,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -4559,7 +4568,7 @@
         },
         {
           "file": "src\\transaction\\branch_manager.cpp",
-          "line": 824,
+          "line": 822,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4571,7 +4580,7 @@
         },
         {
           "file": "src\\transaction\\branch_manager.cpp",
-          "line": 394,
+          "line": 392,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4583,7 +4592,7 @@
         },
         {
           "file": "src\\transaction\\branch_manager.cpp",
-          "line": 246,
+          "line": 244,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "timestamp_sorting_unstable",
@@ -4595,7 +4604,7 @@
         },
         {
           "file": "src\\transaction\\branch_manager.cpp",
-          "line": 234,
+          "line": 232,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4609,7 +4618,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\transaction\\branch_manager.cpp",
-          "line_number": 848,
+          "line_number": 846,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -4621,7 +4630,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\transaction\\branch_manager.cpp",
-          "line_number": 813,
+          "line_number": 811,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -4633,7 +4642,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\transaction\\branch_manager.cpp",
-          "line_number": 579,
+          "line_number": 577,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -4643,7 +4652,7 @@
         },
         {
           "file": "src\\transaction\\branch_manager.cpp",
-          "line": 825,
+          "line": 823,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(*entry);",
@@ -4652,7 +4661,7 @@
         },
         {
           "file": "src\\transaction\\branch_manager.cpp",
-          "line": 395,
+          "line": 393,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.conflicts.push_back(conflict.key);",
@@ -4661,7 +4670,7 @@
         },
         {
           "file": "src\\transaction\\branch_manager.cpp",
-          "line": 235,
+          "line": 233,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "branches.push_back(branch.value());",
@@ -4670,7 +4679,7 @@
         },
         {
           "file": "src\\transaction\\branch_manager.cpp",
-          "line": 793,
+          "line": 791,
           "type": "memory_order",
           "severity": "HIGH",
           "snippet": "uint64_t counter = hist_counter.fetch_add(1, std::memory_order_relaxed);",
@@ -4681,7 +4690,7 @@
       "src\\transaction\\deadlock_predictor.cpp": [
         {
           "file": "src\\transaction\\deadlock_predictor.cpp",
-          "line": 328,
+          "line": 326,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -4693,7 +4702,7 @@
         },
         {
           "file": "src\\transaction\\deadlock_predictor.cpp",
-          "line": 241,
+          "line": 239,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -4705,7 +4714,7 @@
         },
         {
           "file": "src\\transaction\\deadlock_predictor.cpp",
-          "line": 164,
+          "line": 162,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -4717,7 +4726,7 @@
         },
         {
           "file": "src\\transaction\\deadlock_predictor.cpp",
-          "line": 163,
+          "line": 161,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -4729,7 +4738,7 @@
         },
         {
           "file": "src\\transaction\\deadlock_predictor.cpp",
-          "line": 79,
+          "line": 77,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4741,7 +4750,7 @@
         },
         {
           "file": "src\\transaction\\deadlock_predictor.cpp",
-          "line": 54,
+          "line": 52,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4755,7 +4764,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\transaction\\deadlock_predictor.cpp",
-          "line_number": 133,
+          "line_number": 131,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -4767,7 +4776,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\transaction\\deadlock_predictor.cpp",
-          "line_number": 99,
+          "line_number": 97,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -4777,7 +4786,7 @@
         },
         {
           "file": "src\\transaction\\deadlock_predictor.cpp",
-          "line": 219,
+          "line": 217,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4789,7 +4798,7 @@
         },
         {
           "file": "src\\transaction\\deadlock_predictor.cpp",
-          "line": 80,
+          "line": 78,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "patterns_.push_back(std::move(pat));",
@@ -4798,7 +4807,7 @@
         },
         {
           "file": "src\\transaction\\deadlock_predictor.cpp",
-          "line": 55,
+          "line": 53,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "vec.push_back(per_key);",
@@ -4807,7 +4816,7 @@
         },
         {
           "file": "src\\transaction\\deadlock_predictor.cpp",
-          "line": 327,
+          "line": 325,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = pair_conflicts_.find(pk);",
@@ -4816,7 +4825,7 @@
         },
         {
           "file": "src\\transaction\\deadlock_predictor.cpp",
-          "line": 327,
+          "line": 325,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = pair_conflicts_.find(pk);",
@@ -4825,7 +4834,7 @@
         },
         {
           "file": "src\\transaction\\deadlock_predictor.cpp",
-          "line": 291,
+          "line": 289,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
@@ -4834,7 +4843,7 @@
         },
         {
           "file": "src\\transaction\\deadlock_predictor.cpp",
-          "line": 286,
+          "line": 284,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
@@ -4843,7 +4852,7 @@
         },
         {
           "file": "src\\transaction\\deadlock_predictor.cpp",
-          "line": 258,
+          "line": 256,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = hold_times_.find(key);",
@@ -4852,7 +4861,7 @@
         },
         {
           "file": "src\\transaction\\deadlock_predictor.cpp",
-          "line": 164,
+          "line": 162,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "if (std::find(p.keys.begin(), p.keys.end(), k) == p.keys.end()) {",
@@ -4861,7 +4870,7 @@
         },
         {
           "file": "src\\transaction\\deadlock_predictor.cpp",
-          "line": 164,
+          "line": 162,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "if (std::find(p.keys.begin(), p.keys.end(), k) == p.keys.end()) {",
@@ -4870,7 +4879,7 @@
         },
         {
           "file": "src\\transaction\\deadlock_predictor.cpp",
-          "line": 95,
+          "line": 93,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "const std::string pk = makePairKey(locks_acquired[i], locks_acquired[j]);",
@@ -4879,7 +4888,7 @@
         },
         {
           "file": "src\\transaction\\deadlock_predictor.cpp",
-          "line": 94,
+          "line": 92,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "for (size_t j = i + 1; j < locks_acquired.size(); ++j) {",
@@ -4888,7 +4897,7 @@
         },
         {
           "file": "src\\transaction\\deadlock_predictor.cpp",
-          "line": 93,
+          "line": 91,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "for (size_t i = 0; i < locks_acquired.size(); ++i) {",
@@ -4897,7 +4906,7 @@
         },
         {
           "file": "src\\transaction\\deadlock_predictor.cpp",
-          "line": 77,
+          "line": 75,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "pat.keys       = locks_acquired;",
@@ -4906,7 +4915,7 @@
         },
         {
           "file": "src\\transaction\\deadlock_predictor.cpp",
-          "line": 65,
+          "line": 63,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (p.keys == locks_acquired) {",
@@ -4915,7 +4924,7 @@
         },
         {
           "file": "src\\transaction\\deadlock_predictor.cpp",
-          "line": 53,
+          "line": 51,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "for (const auto& key : locks_acquired) {",
@@ -4924,7 +4933,7 @@
         },
         {
           "file": "src\\transaction\\deadlock_predictor.cpp",
-          "line": 52,
+          "line": 50,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "static_cast<long>(locks_acquired.size())};",
@@ -4933,7 +4942,7 @@
         },
         {
           "file": "src\\transaction\\deadlock_predictor.cpp",
-          "line": 42,
+          "line": 40,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (locks_acquired.empty()) {",
@@ -4942,7 +4951,7 @@
         },
         {
           "file": "src\\transaction\\deadlock_predictor.cpp",
-          "line": 39,
+          "line": 37,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "const std::vector<std::string>& locks_acquired,",
@@ -4951,7 +4960,7 @@
         },
         {
           "file": "src\\transaction\\deadlock_predictor.cpp",
-          "line": 259,
+          "line": 257,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = hold_times_.find(key);",
@@ -4962,7 +4971,7 @@
       "src\\transaction\\lock_manager.cpp": [
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 562,
+          "line": 560,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -4974,7 +4983,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 367,
+          "line": 365,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -4986,7 +4995,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 349,
+          "line": 347,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -4998,7 +5007,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 303,
+          "line": 301,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -5010,7 +5019,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 419,
+          "line": 417,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -5022,7 +5031,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 23,
+          "line": 21,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -5034,7 +5043,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 21,
+          "line": 19,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -5046,7 +5055,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 587,
+          "line": 585,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5058,7 +5067,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 466,
+          "line": 464,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5070,7 +5079,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 429,
+          "line": 427,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5082,7 +5091,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 429,
+          "line": 427,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5094,7 +5103,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 403,
+          "line": 401,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5106,7 +5115,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 367,
+          "line": 365,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5118,7 +5127,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 367,
+          "line": 365,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5130,7 +5139,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 303,
+          "line": 301,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5142,7 +5151,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 180,
+          "line": 178,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5154,7 +5163,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 524,
+          "line": 522,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "predicate_locks_.push_back({txn_id, start_key, end_key});",
@@ -5163,7 +5172,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 467,
+          "line": 465,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "row_keys.push_back(k);",
@@ -5172,7 +5181,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 430,
+          "line": 428,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "entry.holders.push_back(",
@@ -5181,7 +5190,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 404,
+          "line": 402,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "entry.holders.push_back({txn_id, type, std::chrono::system_clock::now()});",
@@ -5190,7 +5199,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 380,
+          "line": 378,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(it->second);",
@@ -5199,7 +5208,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 368,
+          "line": 366,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(req->txn_id);",
@@ -5208,7 +5217,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 181,
+          "line": 179,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "keys.push_back(k);",
@@ -5217,7 +5226,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 510,
+          "line": 508,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "bool LockManager::acquirePredicateLock(TransactionId txn_id,",
@@ -5226,7 +5235,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 465,
+          "line": 463,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (k.find(table_prefix) == 0 && k.size() > table_prefix.size()) {",
@@ -5235,7 +5244,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 452,
+          "line": 450,
           "type": "memory_order",
           "severity": "HIGH",
           "snippet": "const size_t threshold = escalation_threshold_.load(std::memory_order_relaxed);",
@@ -5244,7 +5253,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 184,
+          "line": 182,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto lt_it = lock_table_.find(key);",
@@ -5253,7 +5262,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 87,
+          "line": 85,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "stats_acquired_.fetch_add(1, std::memory_order_relaxed);",
@@ -5262,7 +5271,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 65,
+          "line": 63,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "\"2PL violation: transaction is in shrinking phase and cannot acquire new locks\");",
@@ -5271,7 +5280,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 54,
+          "line": 52,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "LockManager::LockResult LockManager::acquireLock(",
@@ -5280,7 +5289,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 486,
+          "line": 484,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto lt_it = lock_table_.find(rk);",
@@ -5289,7 +5298,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 458,
+          "line": 456,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto colon_pos = key.find(':');",
@@ -5298,7 +5307,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 378,
+          "line": 376,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = waiting_for_.find(txn_id);",
@@ -5307,7 +5316,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 364,
+          "line": 362,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = lock_table_.find(key);",
@@ -5316,7 +5325,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 185,
+          "line": 183,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto lt_it = lock_table_.find(key);",
@@ -5325,7 +5334,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 169,
+          "line": 167,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto txn_it = held_by_txn_.find(txn_id);",
@@ -5334,7 +5343,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 144,
+          "line": 142,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto lt_it = lock_table_.find(key);",
@@ -5343,7 +5352,7 @@
         },
         {
           "file": "src\\transaction\\lock_manager.cpp",
-          "line": 131,
+          "line": 129,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto txn_it = held_by_txn_.find(txn_id);",
@@ -5354,7 +5363,7 @@
       "src\\transaction\\saga_plugin_bridge.cpp": [
         {
           "file": "src\\transaction\\saga_plugin_bridge.cpp",
-          "line": 27,
+          "line": 36,
           "type": "unsafe_singleton",
           "severity": "HIGH",
           "snippet": "auto* orchestrator = static_cast<SAGAOrchestrator*>(plugin->getInstance());",
@@ -5363,7 +5372,7 @@
         },
         {
           "file": "src\\transaction\\saga_plugin_bridge.cpp",
-          "line": 27,
+          "line": 36,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto* orchestrator = static_cast<SAGAOrchestrator*>(plugin->getInstance());",
@@ -5374,7 +5383,7 @@
       "src\\transaction\\transaction_semantic_advisor.cpp": [
         {
           "file": "src\\transaction\\transaction_semantic_advisor.cpp",
-          "line": 84,
+          "line": 82,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5386,7 +5395,7 @@
         },
         {
           "file": "src\\transaction\\transaction_semantic_advisor.cpp",
-          "line": 84,
+          "line": 82,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5400,7 +5409,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\transaction\\transaction_semantic_advisor.cpp",
-          "line_number": 74,
+          "line_number": 72,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -5410,7 +5419,7 @@
         },
         {
           "file": "src\\transaction\\transaction_semantic_advisor.cpp",
-          "line": 85,
+          "line": 83,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "hints.push_back(std::move(hint));",
@@ -5419,7 +5428,7 @@
         },
         {
           "file": "src\\transaction\\transaction_semantic_advisor.cpp",
-          "line": 168,
+          "line": 166,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "if (it != b.entity_map.end() && it->second == id) {",
@@ -5428,7 +5437,7 @@
         },
         {
           "file": "src\\transaction\\transaction_semantic_advisor.cpp",
-          "line": 140,
+          "line": 138,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "if (it != b.entity_map.end() && it->second == id) {",
@@ -5439,7 +5448,7 @@
       "src\\transaction\\crash_recovery_manager.cpp": [
         {
           "file": "src\\transaction\\crash_recovery_manager.cpp",
-          "line": 285,
+          "line": 283,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -5453,7 +5462,7 @@
           "gap_type": "uninitialized_array",
           "severity": "HIGH",
           "file_path": "src\\transaction\\crash_recovery_manager.cpp",
-          "line_number": 70,
+          "line_number": 68,
           "var_name": "lut",
           "context": "Array declared without initialization",
           "reason": "Array contains garbage values; use with zeros or explicit init",
@@ -5463,7 +5472,7 @@
         },
         {
           "file": "src\\transaction\\crash_recovery_manager.cpp",
-          "line": 343,
+          "line": 341,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5475,7 +5484,7 @@
         },
         {
           "file": "src\\transaction\\crash_recovery_manager.cpp",
-          "line": 330,
+          "line": 328,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5487,7 +5496,7 @@
         },
         {
           "file": "src\\transaction\\crash_recovery_manager.cpp",
-          "line": 60,
+          "line": 58,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -5501,7 +5510,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\transaction\\crash_recovery_manager.cpp",
-          "line_number": 366,
+          "line_number": 364,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -5513,7 +5522,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\transaction\\crash_recovery_manager.cpp",
-          "line_number": 133,
+          "line_number": 131,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -5525,7 +5534,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\transaction\\crash_recovery_manager.cpp",
-          "line_number": 109,
+          "line_number": 107,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -5535,7 +5544,7 @@
         },
         {
           "file": "src\\transaction\\crash_recovery_manager.cpp",
-          "line": 334,
+          "line": 332,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -5547,7 +5556,7 @@
         },
         {
           "file": "src\\transaction\\crash_recovery_manager.cpp",
-          "line": 318,
+          "line": 316,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -5559,7 +5568,7 @@
         },
         {
           "file": "src\\transaction\\crash_recovery_manager.cpp",
-          "line": 303,
+          "line": 301,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -5571,7 +5580,7 @@
         },
         {
           "file": "src\\transaction\\crash_recovery_manager.cpp",
-          "line": 482,
+          "line": 480,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (e) result.push_back(*e);",
@@ -5580,7 +5589,7 @@
         },
         {
           "file": "src\\transaction\\crash_recovery_manager.cpp",
-          "line": 444,
+          "line": 442,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "f.close();",
@@ -5589,7 +5598,7 @@
         },
         {
           "file": "src\\transaction\\crash_recovery_manager.cpp",
-          "line": 439,
+          "line": 437,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "keep_lines.push_back(line);",
@@ -5598,7 +5607,7 @@
         },
         {
           "file": "src\\transaction\\crash_recovery_manager.cpp",
-          "line": 433,
+          "line": 431,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "keep_lines.push_back(line);",
@@ -5607,7 +5616,7 @@
         },
         {
           "file": "src\\transaction\\crash_recovery_manager.cpp",
-          "line": 377,
+          "line": 375,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.rolled_back_ids.push_back(txn_id);",
@@ -5616,7 +5625,7 @@
         },
         {
           "file": "src\\transaction\\crash_recovery_manager.cpp",
-          "line": 344,
+          "line": 342,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tmp_ops[entry->txn_id].push_back(entry->operation);",
@@ -5625,7 +5634,7 @@
         },
         {
           "file": "src\\transaction\\crash_recovery_manager.cpp",
-          "line": 331,
+          "line": 329,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "while (std::getline(f, line)) all_lines.push_back(line);",
@@ -5634,7 +5643,7 @@
         },
         {
           "file": "src\\transaction\\crash_recovery_manager.cpp",
-          "line": 208,
+          "line": 206,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "it->second.push_back(oe);",
@@ -5643,7 +5652,7 @@
         },
         {
           "file": "src\\transaction\\crash_recovery_manager.cpp",
-          "line": 206,
+          "line": 204,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = pending_ops_.find(txn_id);",
@@ -5654,7 +5663,7 @@
       "src\\transaction\\transaction_auditor.cpp": [
         {
           "file": "src\\transaction\\transaction_auditor.cpp",
-          "line": 61,
+          "line": 59,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -5666,7 +5675,7 @@
         },
         {
           "file": "src\\transaction\\transaction_auditor.cpp",
-          "line": 128,
+          "line": 126,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5678,7 +5687,7 @@
         },
         {
           "file": "src\\transaction\\transaction_auditor.cpp",
-          "line": 67,
+          "line": 65,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5692,7 +5701,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\transaction\\transaction_auditor.cpp",
-          "line_number": 128,
+          "line_number": 126,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -5702,7 +5711,7 @@
         },
         {
           "file": "src\\transaction\\transaction_auditor.cpp",
-          "line": 150,
+          "line": 148,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "out += '\\n';",
@@ -5711,7 +5720,7 @@
         },
         {
           "file": "src\\transaction\\transaction_auditor.cpp",
-          "line": 129,
+          "line": 127,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ops.push_back(std::move(j));",
@@ -5720,7 +5729,7 @@
         },
         {
           "file": "src\\transaction\\transaction_auditor.cpp",
-          "line": 68,
+          "line": 66,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(rec);",
@@ -5729,7 +5738,7 @@
         },
         {
           "file": "src\\transaction\\transaction_auditor.cpp",
-          "line": 38,
+          "line": 36,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (!enabled_.load(std::memory_order_acquire)) return;",
@@ -5740,7 +5749,7 @@
       "src\\transaction\\saga.cpp": [
         {
           "file": "src\\transaction\\saga.cpp",
-          "line": 109,
+          "line": 107,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -5752,7 +5761,7 @@
         },
         {
           "file": "src\\transaction\\saga.cpp",
-          "line": 100,
+          "line": 98,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5764,7 +5773,7 @@
         },
         {
           "file": "src\\transaction\\saga.cpp",
-          "line": 101,
+          "line": 99,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "history.push_back(status + \" \" + step.operation_name);",

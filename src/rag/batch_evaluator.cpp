@@ -251,7 +251,13 @@ void BatchEvaluator::workerThread() {
 // ---------------------------------------------------------------------------
 
 EvaluationResult BatchEvaluator::processEvaluation(const EvaluationInput& input) {
-    return judge_->evaluate(input);
+    EvaluationInput safe_input = input;
+    // Keep document-level screening semantics in RAGJudge intact and sanitize
+    // only free-form prompt text at this layer.
+    static thread_local security::PromptInjectionSanitizer sanitizer{};
+    safe_input.query = sanitizer.sanitize(input.query);
+    safe_input.generated_answer = sanitizer.sanitize(input.generated_answer);
+    return judge_->evaluate(safe_input);
 }
 
 // ---------------------------------------------------------------------------

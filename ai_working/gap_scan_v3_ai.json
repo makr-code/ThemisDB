@@ -1,8 +1,8 @@
 {
   "ai": {
-    "total": 8,
-    "severity_critical": 0,
-    "severity_high": 6,
+    "total": 10,
+    "severity_critical": 1,
+    "severity_high": 7,
     "severity_medium": 2,
     "by_category": {
       "security": 1,
@@ -11,13 +11,25 @@
       "container": 1,
       "audit_logging": 1,
       "performance_patterns": 1,
-      "llm_ai_safety": 2
+      "llm_ai_safety": 4
     },
     "by_file": {
       "src\\ai\\ai_plugin_generator.cpp": [
         {
           "file": "src\\ai\\ai_plugin_generator.cpp",
-          "line": 172,
+          "line": 5,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "* PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #4827 refactor: flatten plugin/ h... (2026-05-04)",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 180,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -29,7 +41,7 @@
         },
         {
           "file": "src\\ai\\ai_plugin_generator.cpp",
-          "line": 123,
+          "line": 131,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -41,7 +53,7 @@
         },
         {
           "file": "src\\ai\\ai_plugin_generator.cpp",
-          "line": 123,
+          "line": 131,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -53,7 +65,19 @@
         },
         {
           "file": "src\\ai\\ai_plugin_generator.cpp",
-          "line": 179,
+          "line": 5,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "* PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #4827 refactor: flatten plugin/ h... (2026-05-04)",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 187,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -65,7 +89,7 @@
         },
         {
           "file": "src\\ai\\ai_plugin_generator.cpp",
-          "line": 180,
+          "line": 188,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "generated.build_dependencies.push_back(dep.get<std::string>());",
@@ -74,7 +98,7 @@
         },
         {
           "file": "src\\ai\\ai_plugin_generator.cpp",
-          "line": 142,
+          "line": 150,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "const std::string request_body = request.dump();",
@@ -83,7 +107,7 @@
         },
         {
           "file": "src\\ai\\ai_plugin_generator.cpp",
-          "line": 27,
+          "line": 35,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "buf->append(static_cast<char*>(ptr), size * nmemb);",
@@ -92,7 +116,7 @@
         },
         {
           "file": "src\\ai\\ai_plugin_generator.cpp",
-          "line": 27,
+          "line": 35,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "buf->append(static_cast<char*>(ptr), size * nmemb);",

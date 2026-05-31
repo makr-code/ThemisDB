@@ -1,8 +1,8 @@
 {
   "base": {
-    "total": 214,
+    "total": 216,
     "severity_critical": 19,
-    "severity_high": 88,
+    "severity_high": 90,
     "severity_medium": 107,
     "by_category": {
       "security": 21,
@@ -10,7 +10,7 @@
       "reliability": 8,
       "concurrency": 6,
       "raii": 17,
-      "container": 51,
+      "container": 53,
       "platform": 8,
       "performance": 12,
       "input_validation": 2,
@@ -24,7 +24,7 @@
       "src\\base\\hot_reload_manager.cpp": [
         {
           "file": "src\\base\\hot_reload_manager.cpp",
-          "line": 284,
+          "line": 285,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -38,7 +38,7 @@
           "gap_type": "exception_in_destructor",
           "severity": "CRITICAL",
           "file_path": "src\\base\\hot_reload_manager.cpp",
-          "line_number": 179,
+          "line_number": 180,
           "class_name": "",
           "issue": "Potential exception in destructor",
           "reason": "Destructors must be noexcept; exceptions here cause std::terminate()",
@@ -48,7 +48,7 @@
         },
         {
           "file": "src\\base\\hot_reload_manager.cpp",
-          "line": 353,
+          "line": 354,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -62,7 +62,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\base\\hot_reload_manager.cpp",
-          "line_number": 318,
+          "line_number": 319,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -74,7 +74,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\base\\hot_reload_manager.cpp",
-          "line_number": 314,
+          "line_number": 315,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -86,7 +86,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\base\\hot_reload_manager.cpp",
-          "line_number": 223,
+          "line_number": 224,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -98,7 +98,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\base\\hot_reload_manager.cpp",
-          "line_number": 213,
+          "line_number": 214,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -110,7 +110,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\base\\hot_reload_manager.cpp",
-          "line_number": 194,
+          "line_number": 195,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -122,7 +122,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\base\\hot_reload_manager.cpp",
-          "line_number": 187,
+          "line_number": 188,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -134,7 +134,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\base\\hot_reload_manager.cpp",
-          "line_number": 155,
+          "line_number": 156,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -146,7 +146,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\base\\hot_reload_manager.cpp",
-          "line_number": 133,
+          "line_number": 134,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -158,7 +158,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\base\\hot_reload_manager.cpp",
-          "line_number": 129,
+          "line_number": 130,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -170,7 +170,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\base\\hot_reload_manager.cpp",
-          "line_number": 118,
+          "line_number": 119,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -182,7 +182,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\base\\hot_reload_manager.cpp",
-          "line_number": 113,
+          "line_number": 114,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -194,7 +194,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\base\\hot_reload_manager.cpp",
-          "line_number": 64,
+          "line_number": 65,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -204,7 +204,7 @@
         },
         {
           "file": "src\\base\\hot_reload_manager.cpp",
-          "line": 354,
+          "line": 355,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "names.push_back(name);",
@@ -213,7 +213,7 @@
         },
         {
           "file": "src\\base\\hot_reload_manager.cpp",
-          "line": 380,
+          "line": 381,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
@@ -222,7 +222,7 @@
         },
         {
           "file": "src\\base\\hot_reload_manager.cpp",
-          "line": 375,
+          "line": 376,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::shared_mutex> lock(mutex_);",
@@ -231,7 +231,7 @@
         },
         {
           "file": "src\\base\\hot_reload_manager.cpp",
-          "line": 285,
+          "line": 286,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "spdlog::debug(\"HotReloadManager: sandbox rollback [{}]: {}\", module_name, w);",
@@ -240,7 +240,7 @@
         },
         {
           "file": "src\\base\\hot_reload_manager.cpp",
-          "line": 268,
+          "line": 269,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto load_result = loader_ptr->loadModule(backup_path, module_name);",
@@ -249,7 +249,7 @@
         },
         {
           "file": "src\\base\\hot_reload_manager.cpp",
-          "line": 266,
+          "line": 267,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "loader_ptr->unloadModule(module_name);",
@@ -258,7 +258,7 @@
         },
         {
           "file": "src\\base\\hot_reload_manager.cpp",
-          "line": 188,
+          "line": 189,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "spdlog::debug(\"HotReloadManager: sandbox [{}]: {}\", module_name, w);",
@@ -267,7 +267,7 @@
         },
         {
           "file": "src\\base\\hot_reload_manager.cpp",
-          "line": 82,
+          "line": 83,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "slot_ptr = &it->second;",
@@ -276,7 +276,7 @@
         },
         {
           "file": "src\\base\\hot_reload_manager.cpp",
-          "line": 82,
+          "line": 83,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "slot_ptr = &it->second;",
@@ -285,7 +285,16 @@
         },
         {
           "file": "src\\base\\hot_reload_manager.cpp",
-          "line": 344,
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #4135 feat(base): Upgrade HotRelo... (2026-03-12) | #3272 feat(plugins): runt",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\base\\hot_reload_manager.cpp",
+          "line": 345,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = slots_.find(module_name);",
@@ -294,7 +303,7 @@
         },
         {
           "file": "src\\base\\hot_reload_manager.cpp",
-          "line": 292,
+          "line": 293,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = slots_.find(module_name);",
@@ -305,7 +314,7 @@
       "src\\base\\module_loader.cpp": [
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 1773,
+          "line": 1774,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -319,7 +328,7 @@
           "gap_type": "uninitialized_array",
           "severity": "HIGH",
           "file_path": "src\\base\\module_loader.cpp",
-          "line_number": 1535,
+          "line_number": 1536,
           "var_name": "magic",
           "context": "Array declared without initialization",
           "reason": "Array contains garbage values; use with zeros or explicit init",
@@ -331,7 +340,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\base\\module_loader.cpp",
-          "line_number": 1283,
+          "line_number": 1284,
           "line_content": "char buffer[kZoneIdBufferSize] = {};",
           "context": [
             "    }",
@@ -350,7 +359,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 1053,
+          "line": 1054,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -362,7 +371,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 1043,
+          "line": 1044,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -374,7 +383,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 317,
+          "line": 318,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -386,7 +395,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 10,
+          "line": 11,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -400,7 +409,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\base\\module_loader.cpp",
-          "line_number": 1360,
+          "line_number": 1361,
           "line_content": "char nameBuffer[kCertNameBufferSize] = {};",
           "context": [
             "                    signer->pChainContext->rgpChain[0]->rgpElement[0]->pCertContext;",
@@ -419,7 +428,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 1803,
+          "line": 1804,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -431,7 +440,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 1692,
+          "line": 1693,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -443,7 +452,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 1692,
+          "line": 1693,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -455,7 +464,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 1645,
+          "line": 1646,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -467,7 +476,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 1645,
+          "line": 1646,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -479,7 +488,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 1590,
+          "line": 1591,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -491,7 +500,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 1214,
+          "line": 1215,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -503,7 +512,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 1185,
+          "line": 1186,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -515,7 +524,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 997,
+          "line": 998,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -527,7 +536,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 636,
+          "line": 637,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -536,6 +545,18 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\base\\module_loader.cpp",
+          "line_number": 1165,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak",
+          "confidence_score": 0.73,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=HIGH,context_missing"
         },
         {
           "gap_type": "resource_leaked_in_exception",
@@ -553,7 +574,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\base\\module_loader.cpp",
-          "line_number": 1163,
+          "line_number": 1156,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -565,19 +586,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\base\\module_loader.cpp",
-          "line_number": 1155,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\base\\module_loader.cpp",
-          "line_number": 1064,
+          "line_number": 1065,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -587,7 +596,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 1475,
+          "line": 1476,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(pipe_fds[0]);",
@@ -596,7 +605,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 1466,
+          "line": 1467,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(pipe_fds[1]);",
@@ -605,7 +614,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 1448,
+          "line": 1449,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(pipe_fds[1]);",
@@ -614,10 +623,19 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 1445,
+          "line": 1446,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(pipe_fds[0]);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\base\\module_loader.cpp",
+          "line": 1438,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "::close(pipe_fds[1]);",
           "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
           "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
         },
@@ -626,22 +644,13 @@
           "line": 1437,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
-          "snippet": "::close(pipe_fds[1]);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\base\\module_loader.cpp",
-          "line": 1436,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
           "snippet": "::close(pipe_fds[0]);",
           "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
           "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 1186,
+          "line": 1187,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "module.healthChecks.push_back(healthResult);",
@@ -650,7 +659,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 998,
+          "line": 999,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "quarantined.push_back(path);",
@@ -659,7 +668,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 637,
+          "line": 638,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(module);",
@@ -668,7 +677,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 200,
+          "line": 201,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "dlclose(handle);",
@@ -677,7 +686,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 1817,
+          "line": 1818,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = loadedModules_.find(name);",
@@ -686,7 +695,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 1771,
+          "line": 1772,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::mutex> lk(watchdogMutex_);",
@@ -695,7 +704,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 1555,
+          "line": 1556,
           "type": "size_assumption",
           "severity": "HIGH",
           "snippet": "while (remaining >= sizeof(Elf64_Nhdr)) {",
@@ -704,7 +713,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 1438,
+          "line": 1439,
           "type": "posix_only_api",
           "severity": "HIGH",
           "snippet": "spdlog::error(\"verifyGPGSignature: fork() failed ({}): {}\", errno, std::strerror(errno));",
@@ -713,7 +722,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 1434,
+          "line": 1435,
           "type": "posix_only_api",
           "severity": "HIGH",
           "snippet": "const pid_t child = ::fork();",
@@ -722,7 +731,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 1430,
+          "line": 1431,
           "type": "posix_only_api",
           "severity": "HIGH",
           "snippet": "spdlog::error(\"verifyGPGSignature: pipe() failed ({}): {}\", errno, std::strerror(errno));",
@@ -731,7 +740,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 1429,
+          "line": 1430,
           "type": "posix_only_api",
           "severity": "HIGH",
           "snippet": "if (::pipe(pipe_fds) != 0) {",
@@ -740,7 +749,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 586,
+          "line": 587,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "unloadLibrary(it->second.handle);",
@@ -749,7 +758,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 531,
+          "line": 532,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& entry : std::filesystem::directory_iterator(moduleDirectory)) {",
@@ -758,7 +767,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 1471,
+          "line": 1472,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "while ((n = ::read(pipe_fds[0], buf, sizeof(buf) - 1)) > 0) {",
@@ -767,7 +776,7 @@
         },
         {
           "file": "src\\base\\module_loader.cpp",
-          "line": 1022,
+          "line": 1023,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = failureHistory_.find(modulePath);",
@@ -778,7 +787,7 @@
       "src\\base\\module_sandbox.cpp": [
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 231,
+          "line": 232,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -790,7 +799,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 139,
+          "line": 140,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -802,7 +811,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 11,
+          "line": 12,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -814,7 +823,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 232,
+          "line": 233,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -826,7 +835,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 225,
+          "line": 226,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -838,7 +847,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 216,
+          "line": 217,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -850,7 +859,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 196,
+          "line": 197,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -862,7 +871,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 181,
+          "line": 182,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -874,7 +883,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 126,
+          "line": 127,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -886,7 +895,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 110,
+          "line": 111,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -900,7 +909,19 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\base\\module_sandbox.cpp",
-          "line_number": 481,
+          "line_number": 482,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak",
+          "confidence_score": 0.73,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=HIGH,context_missing"
+        },
+        {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\base\\module_sandbox.cpp",
+          "line_number": 479,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -924,7 +945,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\base\\module_sandbox.cpp",
-          "line_number": 477,
+          "line_number": 418,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -936,7 +957,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\base\\module_sandbox.cpp",
-          "line_number": 417,
+          "line_number": 415,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -960,19 +981,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\base\\module_sandbox.cpp",
-          "line_number": 413,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\base\\module_sandbox.cpp",
-          "line_number": 162,
+          "line_number": 163,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -982,7 +991,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 685,
+          "line": 686,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "launch_warnings_.push_back(\"Syscall filtering not supported on this platform\");",
@@ -991,7 +1000,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 681,
+          "line": 682,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "launch_warnings_.push_back(\"Syscall filter (seccomp-bpf) requires additional privileges \u2013 skipped. \"",
@@ -1000,7 +1009,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 672,
+          "line": 673,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "launch_warnings_.push_back(\"Filesystem restrictions not supported on this platform\");",
@@ -1009,7 +1018,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 669,
+          "line": 670,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "launch_warnings_.push_back(\"Filesystem restrictions (chroot/bind-mount) require CAP_SYS_CHROOT \u2013 ski",
@@ -1018,7 +1027,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 656,
+          "line": 657,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "launch_warnings_.push_back(\"Network isolation not supported on this platform\");",
@@ -1027,7 +1036,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 654,
+          "line": 655,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "launch_warnings_.push_back(\"Network isolation requires CAP_SYS_ADMIN (network namespace) \u2013 skipped\")",
@@ -1036,7 +1045,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 490,
+          "line": 491,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "launch_warnings_.push_back(\"CPU limit: platform not supported\");",
@@ -1045,7 +1054,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 484,
+          "line": 485,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "launch_warnings_.push_back(\"RLIMIT_CPU not applied on this kernel \u2013 CPU time limit not enforced\");",
@@ -1054,7 +1063,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 426,
+          "line": 427,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "launch_warnings_.push_back(\"Memory limit: platform not supported\");",
@@ -1063,7 +1072,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 420,
+          "line": 421,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "launch_warnings_.push_back(\"RLIMIT_AS not supported on this kernel \u2013 memory limit not enforced\");",
@@ -1072,7 +1081,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 309,
+          "line": 310,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "launch_warnings_.push_back(\"WASM isolation: WasmRuntimeInjector::create() returned nullptr; \"",
@@ -1081,7 +1090,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 303,
+          "line": 304,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "launch_warnings_.push_back(\"WASM isolation requested but no WasmRuntime backend is registered; \"",
@@ -1090,7 +1099,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 233,
+          "line": 234,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "combined.issues.push_back(\"[WARN] \" + i);",
@@ -1099,7 +1108,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 226,
+          "line": 227,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "combined.issues.push_back(i);",
@@ -1108,7 +1117,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 217,
+          "line": 218,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "combined.issues.push_back(i);",
@@ -1117,7 +1126,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 197,
+          "line": 198,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.issues.push_back(\"Deprecated symbol still present: \" + sym",
@@ -1126,7 +1135,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 182,
+          "line": 183,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.issues.push_back(\"Required symbol missing: \" + sym);",
@@ -1135,7 +1144,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 127,
+          "line": 128,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "required_symbols_.push_back(sym);",
@@ -1144,7 +1153,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 710,
+          "line": 711,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (QueryInformationJobObject(platform_->job_object, JobObjectExtendedLimitInformation, &ji, sizeof(",
@@ -1153,7 +1162,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 708,
+          "line": 709,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (platform_->job_object) {",
@@ -1162,7 +1171,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 613,
+          "line": 614,
           "type": "posix_only_api",
           "severity": "HIGH",
           "snippet": "root_procs << ::getpid() << \"\\n\";",
@@ -1171,7 +1180,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 582,
+          "line": 583,
           "type": "posix_only_api",
           "severity": "HIGH",
           "snippet": "procs << ::getpid() << \"\\n\";",
@@ -1180,7 +1189,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 505,
+          "line": 506,
           "type": "posix_only_api",
           "severity": "HIGH",
           "snippet": "const std::string safe_name = sanitizeCgroupName(module_name_) + \"_\" + std::to_string(::getpid());",
@@ -1189,7 +1198,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 449,
+          "line": 450,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "SetInformationJobObject(platform_->job_object, JobObjectCpuRateControlInformation, &cr, sizeof(cr));",
@@ -1198,10 +1207,19 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 444,
+          "line": 445,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (platform_->job_object) {",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\base\\module_sandbox.cpp",
+          "line": 442,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "AssignProcessToJobObject(platform_->job_object, GetCurrentProcess());",
           "description": "Potential null pointer dereference",
           "remediation": "Add null check before dereferencing"
         },
@@ -1210,7 +1228,7 @@
           "line": 441,
           "type": "null_dereference",
           "severity": "HIGH",
-          "snippet": "AssignProcessToJobObject(platform_->job_object, GetCurrentProcess());",
+          "snippet": "if (platform_->job_object) {",
           "description": "Potential null pointer dereference",
           "remediation": "Add null check before dereferencing"
         },
@@ -1219,22 +1237,13 @@
           "line": 440,
           "type": "null_dereference",
           "severity": "HIGH",
-          "snippet": "if (platform_->job_object) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\base\\module_sandbox.cpp",
-          "line": 439,
-          "type": "null_dereference",
-          "severity": "HIGH",
           "snippet": "platform_->job_object = CreateJobObjectA(nullptr, nullptr);",
           "description": "Potential null pointer dereference",
           "remediation": "Add null check before dereferencing"
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 437,
+          "line": 438,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (!platform_->job_object) {",
@@ -1243,7 +1252,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 383,
+          "line": 384,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (!SetInformationJobObject(platform_->job_object, JobObjectExtendedLimitInformation, &ji, sizeof(j",
@@ -1252,7 +1261,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 377,
+          "line": 378,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "AssignProcessToJobObject(platform_->job_object, GetCurrentProcess());",
@@ -1261,7 +1270,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 372,
+          "line": 373,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (!platform_->job_object) {",
@@ -1270,7 +1279,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 371,
+          "line": 372,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "platform_->job_object = CreateJobObjectA(nullptr, nullptr);",
@@ -1279,7 +1288,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 370,
+          "line": 371,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (!platform_->job_object) {",
@@ -1288,7 +1297,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 338,
+          "line": 339,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "platform_->job_object = nullptr;",
@@ -1297,7 +1306,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 337,
+          "line": 338,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "CloseHandle(platform_->job_object);",
@@ -1306,7 +1315,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 336,
+          "line": 337,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (platform_->job_object) {",
@@ -1315,7 +1324,7 @@
         },
         {
           "file": "src\\base\\module_sandbox.cpp",
-          "line": 547,
+          "line": 548,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "platform_->cgroup_path = cg_path;",
@@ -1326,7 +1335,7 @@
       "src\\base\\wasm_runtime_injector.cpp": [
         {
           "file": "src\\base\\wasm_runtime_injector.cpp",
-          "line": 114,
+          "line": 115,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1338,7 +1347,7 @@
         },
         {
           "file": "src\\base\\wasm_runtime_injector.cpp",
-          "line": 106,
+          "line": 107,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1350,7 +1359,7 @@
         },
         {
           "file": "src\\base\\wasm_runtime_injector.cpp",
-          "line": 83,
+          "line": 84,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1362,7 +1371,7 @@
         },
         {
           "file": "src\\base\\wasm_runtime_injector.cpp",
-          "line": 47,
+          "line": 48,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1374,7 +1383,7 @@
         },
         {
           "file": "src\\base\\wasm_runtime_injector.cpp",
-          "line": 114,
+          "line": 115,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1386,7 +1395,7 @@
         },
         {
           "file": "src\\base\\wasm_runtime_injector.cpp",
-          "line": 54,
+          "line": 55,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1398,7 +1407,7 @@
         },
         {
           "file": "src\\base\\wasm_runtime_injector.cpp",
-          "line": 115,
+          "line": 116,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "names.push_back(p->name);",
@@ -1407,7 +1416,7 @@
         },
         {
           "file": "src\\base\\wasm_runtime_injector.cpp",
-          "line": 107,
+          "line": 108,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ptrs.push_back(&e);",
@@ -1416,7 +1425,7 @@
         },
         {
           "file": "src\\base\\wasm_runtime_injector.cpp",
-          "line": 55,
+          "line": 56,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "reg.entries.push_back(std::move(desc));",
@@ -1425,7 +1434,7 @@
         },
         {
           "file": "src\\base\\wasm_runtime_injector.cpp",
-          "line": 71,
+          "line": 72,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (best == nullptr || e.priority > best->priority) {",
@@ -1436,7 +1445,7 @@
       "src\\base\\remote_registry_client.cpp": [
         {
           "file": "src\\base\\remote_registry_client.cpp",
-          "line": 411,
+          "line": 412,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1448,7 +1457,7 @@
         },
         {
           "file": "src\\base\\remote_registry_client.cpp",
-          "line": 257,
+          "line": 258,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1460,7 +1469,7 @@
         },
         {
           "file": "src\\base\\remote_registry_client.cpp",
-          "line": 683,
+          "line": 684,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "out.close();",
@@ -1469,7 +1478,7 @@
         },
         {
           "file": "src\\base\\remote_registry_client.cpp",
-          "line": 258,
+          "line": 259,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "entries.push_back(std::move(entry));",
@@ -1478,7 +1487,7 @@
         },
         {
           "file": "src\\base\\remote_registry_client.cpp",
-          "line": 211,
+          "line": 212,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(ctx);",
@@ -1487,7 +1496,7 @@
         },
         {
           "file": "src\\base\\remote_registry_client.cpp",
-          "line": 208,
+          "line": 209,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(ctx);",
@@ -1496,7 +1505,7 @@
         },
         {
           "file": "src\\base\\remote_registry_client.cpp",
-          "line": 200,
+          "line": 201,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(ctx);",
@@ -1505,7 +1514,7 @@
         },
         {
           "file": "src\\base\\remote_registry_client.cpp",
-          "line": 193,
+          "line": 194,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(ctx);",
@@ -1514,7 +1523,7 @@
         },
         {
           "file": "src\\base\\remote_registry_client.cpp",
-          "line": 454,
+          "line": 455,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(ms));",
@@ -1523,7 +1532,7 @@
         },
         {
           "file": "src\\base\\remote_registry_client.cpp",
-          "line": 411,
+          "line": 412,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "auto f = std::async(std::launch::async, [ms] { std::this_thread::sleep_for(std::chrono::milliseconds",
@@ -1532,7 +1541,7 @@
         },
         {
           "file": "src\\base\\remote_registry_client.cpp",
-          "line": 750,
+          "line": 751,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "auto self = weak_self.lock();",
@@ -1541,7 +1550,7 @@
         },
         {
           "file": "src\\base\\remote_registry_client.cpp",
-          "line": 730,
+          "line": 731,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "auto self = weak_self.lock();",
@@ -1550,7 +1559,7 @@
         },
         {
           "file": "src\\base\\remote_registry_client.cpp",
-          "line": 391,
+          "line": 392,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "return std::async(std::launch::async, [self = shared_from_this(), entry]() { return self->downloadPl",
@@ -1559,7 +1568,7 @@
         },
         {
           "file": "src\\base\\remote_registry_client.cpp",
-          "line": 387,
+          "line": 388,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "return std::async(std::launch::async, [self = shared_from_this(), name]() { return self->fetchPlugin",
@@ -1568,7 +1577,7 @@
         },
         {
           "file": "src\\base\\remote_registry_client.cpp",
-          "line": 383,
+          "line": 384,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "return std::async(std::launch::async, [self = shared_from_this()]() { return self->listPlugins(); })",
@@ -1577,7 +1586,7 @@
         },
         {
           "file": "src\\base\\remote_registry_client.cpp",
-          "line": 176,
+          "line": 177,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "static_cast<std::ofstream *>(userp)->write(static_cast<char *>(contents), static_cast<std::streamsiz",
@@ -1586,7 +1595,7 @@
         },
         {
           "file": "src\\base\\remote_registry_client.cpp",
-          "line": 148,
+          "line": 149,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "lock.lock();",
@@ -1595,7 +1604,7 @@
         },
         {
           "file": "src\\base\\remote_registry_client.cpp",
-          "line": 140,
+          "line": 141,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "lock.lock();",
@@ -1604,7 +1613,7 @@
         },
         {
           "file": "src\\base\\remote_registry_client.cpp",
-          "line": 115,
+          "line": 116,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "cv_.wait(lock, [&] { return stop_token.stop_requested() || !tasks_.empty(); });",
@@ -1613,7 +1622,7 @@
         },
         {
           "file": "src\\base\\remote_registry_client.cpp",
-          "line": 98,
+          "line": 99,
           "type": "missing_dtor",
           "severity": "CRITICAL",
           "snippet": "class/struct TaskCompare",
@@ -1622,7 +1631,7 @@
         },
         {
           "file": "src\\base\\remote_registry_client.cpp",
-          "line": 93,
+          "line": 94,
           "type": "missing_dtor",
           "severity": "CRITICAL",
           "snippet": "class/struct Task",
@@ -1631,7 +1640,7 @@
         },
         {
           "file": "src\\base\\remote_registry_client.cpp",
-          "line": 61,
+          "line": 62,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "future.wait();",
@@ -1642,7 +1651,7 @@
       "src\\base\\wasm_plugin_sandbox.cpp": [
         {
           "file": "src\\base\\wasm_plugin_sandbox.cpp",
-          "line": 697,
+          "line": 698,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1654,7 +1663,7 @@
         },
         {
           "file": "src\\base\\wasm_plugin_sandbox.cpp",
-          "line": 660,
+          "line": 661,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1666,7 +1675,7 @@
         },
         {
           "file": "src\\base\\wasm_plugin_sandbox.cpp",
-          "line": 638,
+          "line": 639,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1678,7 +1687,7 @@
         },
         {
           "file": "src\\base\\wasm_plugin_sandbox.cpp",
-          "line": 631,
+          "line": 632,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1690,7 +1699,7 @@
         },
         {
           "file": "src\\base\\wasm_plugin_sandbox.cpp",
-          "line": 274,
+          "line": 275,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1702,7 +1711,7 @@
         },
         {
           "file": "src\\base\\wasm_plugin_sandbox.cpp",
-          "line": 698,
+          "line": 699,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "load_warnings_.push_back(\"[OS sandbox] \" + w);",
@@ -1711,7 +1720,7 @@
         },
         {
           "file": "src\\base\\wasm_plugin_sandbox.cpp",
-          "line": 661,
+          "line": 662,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "load_warnings_.push_back(\"linear_memory_pages=0: WASM module gets no linear memory\");",
@@ -1720,7 +1729,7 @@
         },
         {
           "file": "src\\base\\wasm_plugin_sandbox.cpp",
-          "line": 639,
+          "line": 640,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "unknown.push_back(imp);",
@@ -1729,7 +1738,7 @@
         },
         {
           "file": "src\\base\\wasm_plugin_sandbox.cpp",
-          "line": 632,
+          "line": 633,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "allowed.push_back(hf.module_name + \".\" + hf.function_name);",
@@ -1738,7 +1747,7 @@
         },
         {
           "file": "src\\base\\wasm_plugin_sandbox.cpp",
-          "line": 275,
+          "line": 276,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "info.exports.push_back(exp_name);",
@@ -1747,7 +1756,7 @@
         },
         {
           "file": "src\\base\\wasm_plugin_sandbox.cpp",
-          "line": 671,
+          "line": 672,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "last_error_ = \"Failed to allocate WASM linear memory (\" + std::to_string(linear_memory_size_ / 1024 ",
@@ -1756,7 +1765,7 @@
         },
         {
           "file": "src\\base\\wasm_plugin_sandbox.cpp",
-          "line": 659,
+          "line": 660,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "bool WasmPluginSandbox::allocateLinearMemory() {",
@@ -1765,7 +1774,7 @@
         },
         {
           "file": "src\\base\\wasm_plugin_sandbox.cpp",
-          "line": 637,
+          "line": 638,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "bool found = std::find(allowed.begin(), allowed.end(), imp) != allowed.end();",
@@ -1774,18 +1783,27 @@
         },
         {
           "file": "src\\base\\wasm_plugin_sandbox.cpp",
-          "line": 445,
+          "line": 446,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (!allocateLinearMemory()) {",
           "description": "Resource acquired but not released \u2014 potential leak",
           "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\base\\wasm_plugin_sandbox.cpp",
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #4121 fix(base): WASM non-functio... (2026-03-12) | #4106 [WIP] Implement WAS",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
       "src\\base\\plugin_dependency_graph.cpp": [
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 441,
+          "line": 442,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1797,7 +1815,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 432,
+          "line": 433,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -1809,7 +1827,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 432,
+          "line": 433,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -1821,7 +1839,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 415,
+          "line": 416,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1833,7 +1851,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 347,
+          "line": 348,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -1845,7 +1863,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 307,
+          "line": 308,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -1857,7 +1875,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 307,
+          "line": 308,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -1869,7 +1887,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 272,
+          "line": 273,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -1881,7 +1899,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 202,
+          "line": 203,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1893,7 +1911,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 202,
+          "line": 203,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1905,7 +1923,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 202,
+          "line": 203,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1917,7 +1935,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 154,
+          "line": 155,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1929,7 +1947,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 141,
+          "line": 142,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1941,7 +1959,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 141,
+          "line": 142,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1953,7 +1971,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 136,
+          "line": 137,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -1965,7 +1983,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 135,
+          "line": 136,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -1977,7 +1995,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 123,
+          "line": 124,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -1989,7 +2007,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 120,
+          "line": 121,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2001,7 +2019,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 108,
+          "line": 109,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2015,7 +2033,7 @@
           "gap_type": "uninitialized_member_field",
           "severity": "MEDIUM",
           "file_path": "src\\base\\plugin_dependency_graph.cpp",
-          "line_number": 421,
+          "line_number": 422,
           "var_name": "",
           "context": "Struct with uninitialized fields",
           "reason": "Default constructor does not initialize POD members",
@@ -2025,7 +2043,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 442,
+          "line": 443,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "deps[e.from].push_back(std::move(di));",
@@ -2034,7 +2052,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 439,
+          "line": 440,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "di.versionConstraint += \"<=\" + e.maxVersion;",
@@ -2043,7 +2061,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 437,
+          "line": 438,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "di.versionConstraint += \" \";",
@@ -2052,7 +2070,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 433,
+          "line": 434,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "di.versionConstraint += \">=\" + e.minVersion;",
@@ -2061,7 +2079,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 416,
+          "line": 417,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "order.push_back(kv.first);",
@@ -2070,7 +2088,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 352,
+          "line": 353,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\t': out += \"\\\\t\";  break;",
@@ -2079,7 +2097,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 351,
+          "line": 352,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\r': out += \"\\\\r\";  break;",
@@ -2088,7 +2106,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 350,
+          "line": 351,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\n': out += \"\\\\n\";  break;",
@@ -2097,7 +2115,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 349,
+          "line": 350,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\\\': out += \"\\\\\\\\\"; break;",
@@ -2106,7 +2124,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 348,
+          "line": 349,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\"':  out += \"\\\\\\\"\"; break;",
@@ -2115,7 +2133,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 273,
+          "line": 274,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "out += '\\\\';",
@@ -2124,7 +2142,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 212,
+          "line": 213,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "order.push_back(cur);",
@@ -2133,7 +2151,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 203,
+          "line": 204,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ready.push_back(kv.first);",
@@ -2142,7 +2160,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 155,
+          "line": 156,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "cycles.push_back(cycle);",
@@ -2151,7 +2169,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 142,
+          "line": 143,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "path.push_back(node);",
@@ -2160,7 +2178,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 109,
+          "line": 110,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(n));",
@@ -2169,7 +2187,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 213,
+          "line": 214,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = adj.find(cur);",
@@ -2178,7 +2196,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 213,
+          "line": 214,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = adj.find(cur);",
@@ -2187,7 +2205,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 151,
+          "line": 152,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "auto start = std::find(path.begin(), path.end(), neighbour);",
@@ -2196,7 +2214,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 69,
+          "line": 70,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& mod : ModuleRegistry::instance().getAllModules()) {",
@@ -2205,7 +2223,7 @@
         },
         {
           "file": "src\\base\\plugin_dependency_graph.cpp",
-          "line": 214,
+          "line": 215,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = adj.find(cur);",
@@ -2216,7 +2234,7 @@
       "src\\base\\ab_test_manager.cpp": [
         {
           "file": "src\\base\\ab_test_manager.cpp",
-          "line": 545,
+          "line": 546,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2228,7 +2246,7 @@
         },
         {
           "file": "src\\base\\ab_test_manager.cpp",
-          "line": 583,
+          "line": 584,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2240,7 +2258,7 @@
         },
         {
           "file": "src\\base\\ab_test_manager.cpp",
-          "line": 546,
+          "line": 547,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",

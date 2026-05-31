@@ -13,7 +13,7 @@
       "src\\main.cpp": [
         {
           "file": "src\\main.cpp",
-          "line": 370,
+          "line": 371,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -25,7 +25,7 @@
         },
         {
           "file": "src\\main.cpp",
-          "line": 252,
+          "line": 253,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -37,7 +37,7 @@
         },
         {
           "file": "src\\main.cpp",
-          "line": 163,
+          "line": 164,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -49,7 +49,7 @@
         },
         {
           "file": "src\\main.cpp",
-          "line": 440,
+          "line": 441,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -61,7 +61,7 @@
         },
         {
           "file": "src\\main.cpp",
-          "line": 439,
+          "line": 440,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -73,7 +73,7 @@
         },
         {
           "file": "src\\main.cpp",
-          "line": 56,
+          "line": 57,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -85,7 +85,7 @@
         },
         {
           "file": "src\\main.cpp",
-          "line": 54,
+          "line": 55,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -97,7 +97,7 @@
         },
         {
           "file": "src\\main.cpp",
-          "line": 37,
+          "line": 38,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -109,7 +109,7 @@
         },
         {
           "file": "src\\main.cpp",
-          "line": 342,
+          "line": 343,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -121,7 +121,7 @@
         },
         {
           "file": "src\\main.cpp",
-          "line": 342,
+          "line": 343,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -133,7 +133,7 @@
         },
         {
           "file": "src\\main.cpp",
-          "line": 315,
+          "line": 316,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -145,7 +145,7 @@
         },
         {
           "file": "src\\main.cpp",
-          "line": 315,
+          "line": 316,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",

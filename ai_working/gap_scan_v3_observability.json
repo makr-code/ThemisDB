@@ -1,8 +1,8 @@
 {
   "observability": {
-    "total": 468,
+    "total": 471,
     "severity_critical": 41,
-    "severity_high": 155,
+    "severity_high": 158,
     "severity_medium": 272,
     "by_category": {
       "security": 2,
@@ -10,7 +10,7 @@
       "reliability": 46,
       "concurrency": 27,
       "raii": 9,
-      "container": 110,
+      "container": 113,
       "platform": 20,
       "performance": 33,
       "input_validation": 1,
@@ -27,7 +27,7 @@
       "src\\observability\\alertmanager.cpp": [
         {
           "file": "src\\observability\\alertmanager.cpp",
-          "line": 646,
+          "line": 644,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -39,7 +39,7 @@
         },
         {
           "file": "src\\observability\\alertmanager.cpp",
-          "line": 629,
+          "line": 627,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -51,7 +51,7 @@
         },
         {
           "file": "src\\observability\\alertmanager.cpp",
-          "line": 570,
+          "line": 568,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -63,7 +63,7 @@
         },
         {
           "file": "src\\observability\\alertmanager.cpp",
-          "line": 564,
+          "line": 562,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -75,7 +75,7 @@
         },
         {
           "file": "src\\observability\\alertmanager.cpp",
-          "line": 317,
+          "line": 315,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -87,7 +87,7 @@
         },
         {
           "file": "src\\observability\\alertmanager.cpp",
-          "line": 267,
+          "line": 265,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -99,7 +99,7 @@
         },
         {
           "file": "src\\observability\\alertmanager.cpp",
-          "line": 267,
+          "line": 265,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -111,7 +111,7 @@
         },
         {
           "file": "src\\observability\\alertmanager.cpp",
-          "line": 236,
+          "line": 234,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -123,7 +123,7 @@
         },
         {
           "file": "src\\observability\\alertmanager.cpp",
-          "line": 236,
+          "line": 234,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -137,7 +137,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\observability\\alertmanager.cpp",
-          "line_number": 627,
+          "line_number": 625,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -147,7 +147,7 @@
         },
         {
           "file": "src\\observability\\alertmanager.cpp",
-          "line": 565,
+          "line": 563,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(rule);",
@@ -156,7 +156,7 @@
         },
         {
           "file": "src\\observability\\alertmanager.cpp",
-          "line": 318,
+          "line": 316,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "payload.push_back(entry);",
@@ -165,7 +165,7 @@
         },
         {
           "file": "src\\observability\\alertmanager.cpp",
-          "line": 268,
+          "line": 266,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "payload.push_back(entry);",
@@ -174,7 +174,7 @@
         },
         {
           "file": "src\\observability\\alertmanager.cpp",
-          "line": 237,
+          "line": 235,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "active_alerts_.push_back(alert);",
@@ -183,7 +183,7 @@
         },
         {
           "file": "src\\observability\\alertmanager.cpp",
-          "line": 168,
+          "line": 166,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "path, resp.status_code, attempt, attempts);",
@@ -192,7 +192,7 @@
         },
         {
           "file": "src\\observability\\alertmanager.cpp",
-          "line": 649,
+          "line": 647,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -201,7 +201,7 @@
         },
         {
           "file": "src\\observability\\alertmanager.cpp",
-          "line": 632,
+          "line": 630,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -210,7 +210,7 @@
         },
         {
           "file": "src\\observability\\alertmanager.cpp",
-          "line": 358,
+          "line": 356,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "payload[\"matchers\"]  = json::array({matcher});",
@@ -219,7 +219,7 @@
         },
         {
           "file": "src\\observability\\alertmanager.cpp",
-          "line": 213,
+          "line": 211,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "ss << \"ALERT [\" << severityToString(alert.severity) << \"] \"",
@@ -228,7 +228,7 @@
         },
         {
           "file": "src\\observability\\alertmanager.cpp",
-          "line": 579,
+          "line": 577,
           "type": "missing_dtor",
           "severity": "CRITICAL",
           "snippet": "class/struct ResolveAction",
@@ -237,7 +237,7 @@
         },
         {
           "file": "src\\observability\\alertmanager.cpp",
-          "line": 512,
+          "line": 510,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = rules_.find(rule_id);",
@@ -246,7 +246,7 @@
         },
         {
           "file": "src\\observability\\alertmanager.cpp",
-          "line": 454,
+          "line": 452,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto dot_pos = value_str.find('.');",
@@ -255,7 +255,7 @@
         },
         {
           "file": "src\\observability\\alertmanager.cpp",
-          "line": 451,
+          "line": 449,
           "type": "hardcoded_secret",
           "severity": "CRITICAL",
           "snippet": "std::string value_token = \"{value}\";",
@@ -264,7 +264,7 @@
         },
         {
           "file": "src\\observability\\alertmanager.cpp",
-          "line": 444,
+          "line": 442,
           "type": "hardcoded_secret",
           "severity": "CRITICAL",
           "snippet": "std::string metric_token = \"{metric}\";",
@@ -273,7 +273,7 @@
         },
         {
           "file": "src\\observability\\alertmanager.cpp",
-          "line": 398,
+          "line": 396,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto future = http_pool_->get(url, headers);",
@@ -282,7 +282,7 @@
         },
         {
           "file": "src\\observability\\alertmanager.cpp",
-          "line": 162,
+          "line": 160,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto future = http_pool_->post(url, parsed_body, headers);",
@@ -293,7 +293,7 @@
       "src\\observability\\advanced_metrics.cpp": [
         {
           "file": "src\\observability\\advanced_metrics.cpp",
-          "line": 147,
+          "line": 145,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -305,7 +305,7 @@
         },
         {
           "file": "src\\observability\\advanced_metrics.cpp",
-          "line": 79,
+          "line": 77,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -317,7 +317,7 @@
         },
         {
           "file": "src\\observability\\advanced_metrics.cpp",
-          "line": 151,
+          "line": 149,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -331,7 +331,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\observability\\advanced_metrics.cpp",
-          "line_number": 266,
+          "line_number": 264,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -341,7 +341,7 @@
         },
         {
           "file": "src\\observability\\advanced_metrics.cpp",
-          "line": 141,
+          "line": 139,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -353,7 +353,7 @@
         },
         {
           "file": "src\\observability\\advanced_metrics.cpp",
-          "line": 138,
+          "line": 136,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -365,7 +365,7 @@
         },
         {
           "file": "src\\observability\\advanced_metrics.cpp",
-          "line": 152,
+          "line": 150,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.buckets.push_back(b);",
@@ -374,7 +374,7 @@
         },
         {
           "file": "src\\observability\\advanced_metrics.cpp",
-          "line": 150,
+          "line": 148,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "b.upper_bound = std::pow(data.scale, static_cast<double>(idx + 1));",
@@ -383,7 +383,7 @@
         },
         {
           "file": "src\\observability\\advanced_metrics.cpp",
-          "line": 149,
+          "line": 147,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "b.lower_bound = std::pow(data.scale, static_cast<double>(idx));",
@@ -392,7 +392,7 @@
         },
         {
           "file": "src\\observability\\advanced_metrics.cpp",
-          "line": 126,
+          "line": 124,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "const auto& data = it->second;",
@@ -401,7 +401,7 @@
         },
         {
           "file": "src\\observability\\advanced_metrics.cpp",
-          "line": 93,
+          "line": 91,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto& data = exp_hist_data_[name];",
@@ -410,7 +410,7 @@
         },
         {
           "file": "src\\observability\\advanced_metrics.cpp",
-          "line": 43,
+          "line": 41,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto& data = summary_data_[name];",
@@ -421,7 +421,7 @@
       "src\\observability\\alerting_engine.cpp": [
         {
           "file": "src\\observability\\alerting_engine.cpp",
-          "line": 437,
+          "line": 435,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -433,7 +433,7 @@
         },
         {
           "file": "src\\observability\\alerting_engine.cpp",
-          "line": 209,
+          "line": 207,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -445,7 +445,7 @@
         },
         {
           "file": "src\\observability\\alerting_engine.cpp",
-          "line": 145,
+          "line": 143,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -457,7 +457,7 @@
         },
         {
           "file": "src\\observability\\alerting_engine.cpp",
-          "line": 438,
+          "line": 436,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "active_alerts_.push_back(alert);",
@@ -466,7 +466,7 @@
         },
         {
           "file": "src\\observability\\alerting_engine.cpp",
-          "line": 210,
+          "line": 208,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "fields.push_back(field);",
@@ -475,7 +475,7 @@
         },
         {
           "file": "src\\observability\\alerting_engine.cpp",
-          "line": 421,
+          "line": 419,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "auto res = ch->send(alert);",
@@ -484,7 +484,7 @@
         },
         {
           "file": "src\\observability\\alerting_engine.cpp",
-          "line": 280,
+          "line": 278,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(channels_mutex_);",
@@ -493,7 +493,7 @@
         },
         {
           "file": "src\\observability\\alerting_engine.cpp",
-          "line": 275,
+          "line": 273,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(channels_mutex_);",
@@ -502,7 +502,7 @@
         },
         {
           "file": "src\\observability\\alerting_engine.cpp",
-          "line": 224,
+          "line": 222,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "payload[\"attachments\"] = json::array({attachment});",
@@ -511,7 +511,7 @@
         },
         {
           "file": "src\\observability\\alerting_engine.cpp",
-          "line": 191,
+          "line": 189,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "Result<void> SlackNotificationChannel::send(const Alert& alert) {",
@@ -520,7 +520,7 @@
         },
         {
           "file": "src\\observability\\alerting_engine.cpp",
-          "line": 128,
+          "line": 126,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "Result<void> WebhookNotificationChannel::send(const Alert& alert) {",
@@ -529,7 +529,7 @@
         },
         {
           "file": "src\\observability\\alerting_engine.cpp",
-          "line": 98,
+          "line": 96,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "Result<void> LogNotificationChannel::send(const Alert& alert) {",
@@ -540,7 +540,7 @@
       "src\\observability\\continuous_profiler.cpp": [
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 425,
+          "line": 423,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -552,7 +552,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 412,
+          "line": 410,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -564,7 +564,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 347,
+          "line": 345,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -576,7 +576,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 331,
+          "line": 329,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -588,7 +588,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 278,
+          "line": 276,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -600,7 +600,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 101,
+          "line": 99,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -612,7 +612,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 494,
+          "line": 492,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -624,7 +624,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 482,
+          "line": 480,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -636,7 +636,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 425,
+          "line": 423,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -648,7 +648,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 425,
+          "line": 423,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -660,7 +660,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 348,
+          "line": 346,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -672,7 +672,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 332,
+          "line": 330,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -684,7 +684,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 332,
+          "line": 330,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -696,7 +696,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 332,
+          "line": 330,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -708,7 +708,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 302,
+          "line": 300,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -720,7 +720,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 279,
+          "line": 277,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -732,7 +732,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 269,
+          "line": 267,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -744,7 +744,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 97,
+          "line": 95,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -756,7 +756,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 67,
+          "line": 65,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -770,7 +770,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\observability\\continuous_profiler.cpp",
-          "line_number": 357,
+          "line_number": 355,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -780,7 +780,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 511,
+          "line": 509,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -789,7 +789,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 495,
+          "line": 493,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "vec.push_back(snap);",
@@ -798,7 +798,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 485,
+          "line": 483,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "text += '\\n';",
@@ -807,7 +807,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 483,
+          "line": 481,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "text += ' ';",
@@ -816,7 +816,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 454,
+          "line": 452,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { cb(snap, msg); } catch (...) {}",
@@ -825,7 +825,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 426,
+          "line": 424,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (i > 0) key += ';';",
@@ -834,7 +834,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 349,
+          "line": 347,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "diff.removed_hotspots.push_back(stack);",
@@ -843,7 +843,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 342,
+          "line": 340,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "diff.changed_hotspots.push_back(stack);",
@@ -852,7 +852,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 333,
+          "line": 331,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "diff.new_hotspots.push_back(stack);",
@@ -861,7 +861,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 303,
+          "line": 301,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(s);",
@@ -870,7 +870,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 282,
+          "line": 280,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "text += '\\n';",
@@ -879,7 +879,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 280,
+          "line": 278,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "text += ' ';",
@@ -888,7 +888,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 270,
+          "line": 268,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (i > 0) key += ';';",
@@ -897,7 +897,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 146,
+          "line": 144,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -906,7 +906,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 101,
+          "line": 99,
           "type": "expensive_inner_op",
           "severity": "MEDIUM",
           "snippet": "std::snprintf(addr_buf, sizeof(addr_buf), \"0x%p\", frame_ptrs[i]);",
@@ -915,7 +915,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 70,
+          "line": 68,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::free(symbols);",
@@ -924,7 +924,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 416,
+          "line": 414,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "if (!enabled_.load(std::memory_order_acquire)) {",
@@ -933,7 +933,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 411,
+          "line": 409,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::mutex> lk(mutex_);",
@@ -942,7 +942,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 379,
+          "line": 377,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "return enabled_.load(std::memory_order_acquire);",
@@ -951,7 +951,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 265,
+          "line": 263,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "enabled_.load(std::memory_order_acquire) &&",
@@ -960,7 +960,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 185,
+          "line": 183,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ContinuousProfiler: cannot open file for reading: \" + filename);",
@@ -969,7 +969,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 178,
+          "line": 176,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ContinuousProfiler: write error to file: \" + filename);",
@@ -978,7 +978,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 173,
+          "line": 171,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"ContinuousProfiler: cannot open file for writing: \" + filename);",
@@ -987,7 +987,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 101,
+          "line": 99,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "std::snprintf(addr_buf, sizeof(addr_buf), \"0x%p\", frame_ptrs[i]);",
@@ -996,7 +996,16 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 331,
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #3783 feat(observability)",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\observability\\continuous_profiler.cpp",
+          "line": 329,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto baseIt = baseMap.find(stack);",
@@ -1005,7 +1014,7 @@
         },
         {
           "file": "src\\observability\\continuous_profiler.cpp",
-          "line": 299,
+          "line": 297,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = history_.find(type);",
@@ -1016,7 +1025,7 @@
       "src\\observability\\log_aggregator.cpp": [
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 457,
+          "line": 455,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1028,7 +1037,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 68,
+          "line": 66,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1040,7 +1049,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 56,
+          "line": 54,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -1054,7 +1063,7 @@
           "gap_type": "uninitialized_member_field",
           "severity": "MEDIUM",
           "file_path": "src\\observability\\log_aggregator.cpp",
-          "line_number": 316,
+          "line_number": 314,
           "var_name": "",
           "context": "Struct with uninitialized fields",
           "reason": "Default constructor does not initialize POD members",
@@ -1064,7 +1073,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 358,
+          "line": 356,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -1076,7 +1085,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 354,
+          "line": 352,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -1088,7 +1097,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 350,
+          "line": 348,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -1100,7 +1109,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 346,
+          "line": 344,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -1112,7 +1121,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 342,
+          "line": 340,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -1124,7 +1133,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 338,
+          "line": 336,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -1136,7 +1145,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 333,
+          "line": 331,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -1148,7 +1157,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 400,
+          "line": 398,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -1157,7 +1166,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 282,
+          "line": 280,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1166,7 +1175,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 156,
+          "line": 154,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "if (ofs_.is_open()) ofs_.close();",
@@ -1175,7 +1184,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 68,
+          "line": 66,
           "type": "expensive_inner_op",
           "severity": "MEDIUM",
           "snippet": "std::snprintf(buf, sizeof(buf), \"\\\\u%04x\",",
@@ -1184,7 +1193,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 63,
+          "line": 61,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\t': out += \"\\\\t\";  break;",
@@ -1193,7 +1202,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 62,
+          "line": 60,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\r': out += \"\\\\r\";  break;",
@@ -1202,7 +1211,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 61,
+          "line": 59,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\n': out += \"\\\\n\";  break;",
@@ -1211,7 +1220,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 60,
+          "line": 58,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\f': out += \"\\\\f\";  break;",
@@ -1220,7 +1229,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 59,
+          "line": 57,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\b': out += \"\\\\b\";  break;",
@@ -1229,7 +1238,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 58,
+          "line": 56,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\\\': out += \"\\\\\\\\\"; break;",
@@ -1238,7 +1247,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 57,
+          "line": 55,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\"':  out += \"\\\\\\\"\"; break;",
@@ -1247,7 +1256,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 443,
+          "line": 441,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "impl_->buffer_.clear();",
@@ -1256,7 +1265,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 442,
+          "line": 440,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(impl_->mu_);",
@@ -1265,7 +1274,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 429,
+          "line": 427,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "return {impl_->buffer_.begin(), impl_->buffer_.end()};",
@@ -1274,7 +1283,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 379,
+          "line": 377,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(impl_->mu_);",
@@ -1283,7 +1292,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 375,
+          "line": 373,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "impl_->accept(level, message, merged);",
@@ -1292,7 +1301,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 364,
+          "line": 362,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "impl_->accept(level, message, fields);",
@@ -1301,7 +1310,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 334,
+          "line": 332,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "impl_->accept(level, message, {});",
@@ -1310,7 +1319,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 281,
+          "line": 279,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "accept(task.level, task.message, task.fields);",
@@ -1319,7 +1328,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 268,
+          "line": 266,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::mutex> lk(async_mu_);",
@@ -1328,7 +1337,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 159,
+          "line": 157,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "void accept(Level level,",
@@ -1337,7 +1346,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 68,
+          "line": 66,
           "type": "size_assumption",
           "severity": "HIGH",
           "snippet": "std::snprintf(buf, sizeof(buf), \"\\\\u%04x\",",
@@ -1346,7 +1355,16 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 456,
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #3795 feat(observability): LogAgg... (2026-03-12) | #3783 feat(observability)",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\observability\\log_aggregator.cpp",
+          "line": 454,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "s.async_queue_overflows = impl_->async_overflows_.load();",
@@ -1355,7 +1373,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 456,
+          "line": 454,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "s.async_queue_overflows = impl_->async_overflows_.load();",
@@ -1364,7 +1382,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 416,
+          "line": 414,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "impl_->config_.sink_type == LogSinkType::BOTH) &&",
@@ -1373,7 +1391,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 415,
+          "line": 413,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "if ((impl_->config_.sink_type == LogSinkType::FILE ||",
@@ -1382,7 +1400,7 @@
         },
         {
           "file": "src\\observability\\log_aggregator.cpp",
-          "line": 269,
+          "line": 267,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "async_cv_.wait(lk, [this] {",
@@ -1393,7 +1411,7 @@
       "src\\observability\\distributed_flame_graph.cpp": [
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 236,
+          "line": 234,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1405,7 +1423,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 129,
+          "line": 127,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1417,7 +1435,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 128,
+          "line": 126,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1429,7 +1447,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 125,
+          "line": 123,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1441,7 +1459,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 123,
+          "line": 121,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1453,7 +1471,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 69,
+          "line": 67,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1465,7 +1483,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 58,
+          "line": 56,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1477,7 +1495,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 55,
+          "line": 53,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1489,7 +1507,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 287,
+          "line": 285,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1501,7 +1519,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 286,
+          "line": 284,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1513,7 +1531,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 283,
+          "line": 281,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1525,7 +1543,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 281,
+          "line": 279,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1537,7 +1555,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 278,
+          "line": 276,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1549,7 +1567,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 277,
+          "line": 275,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1561,7 +1579,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 236,
+          "line": 234,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1573,7 +1591,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 212,
+          "line": 210,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1585,7 +1603,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 211,
+          "line": 209,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1597,7 +1615,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 208,
+          "line": 206,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1609,7 +1627,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 190,
+          "line": 188,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1621,7 +1639,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 169,
+          "line": 167,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1633,7 +1651,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 151,
+          "line": 149,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -1645,7 +1663,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 129,
+          "line": 127,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1657,7 +1675,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 128,
+          "line": 126,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1669,7 +1687,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 125,
+          "line": 123,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1681,7 +1699,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 123,
+          "line": 121,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1693,7 +1711,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 120,
+          "line": 118,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1705,7 +1723,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 117,
+          "line": 115,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1717,7 +1735,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 113,
+          "line": 111,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1729,7 +1747,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 69,
+          "line": 67,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1741,7 +1759,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 58,
+          "line": 56,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1753,7 +1771,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 55,
+          "line": 53,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -1765,7 +1783,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 220,
+          "line": 218,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1777,7 +1795,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 190,
+          "line": 188,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1789,7 +1807,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 152,
+          "line": 150,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1801,7 +1819,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 152,
+          "line": 150,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1813,7 +1831,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 152,
+          "line": 150,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1825,7 +1843,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 117,
+          "line": 115,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1837,7 +1855,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 76,
+          "line": 74,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1849,7 +1867,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 76,
+          "line": 74,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1861,7 +1879,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 61,
+          "line": 59,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -1875,7 +1893,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\observability\\distributed_flame_graph.cpp",
-          "line_number": 179,
+          "line_number": 177,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1885,7 +1903,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 221,
+          "line": 219,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.node_ids.push_back(id);",
@@ -1894,7 +1912,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 191,
+          "line": 189,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ids.push_back(id);",
@@ -1903,7 +1921,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 171,
+          "line": 169,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.removed_hotspots.push_back(stack);",
@@ -1912,7 +1930,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 164,
+          "line": 162,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.changed_hotspots.push_back(stack);",
@@ -1921,7 +1939,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 153,
+          "line": 151,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.new_hotspots.push_back(stack);",
@@ -1930,7 +1948,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 118,
+          "line": 116,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ids.push_back(id);",
@@ -1939,7 +1957,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 77,
+          "line": 75,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "stacks_arr.push_back({{\"stack\", stack}, {\"count\", count}});",
@@ -1948,7 +1966,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 64,
+          "line": 62,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "out += '\\n';",
@@ -1957,7 +1975,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 62,
+          "line": 60,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "out += ' ';",
@@ -1966,7 +1984,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 44,
+          "line": 42,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1975,7 +1993,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 215,
+          "line": 213,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = profiles_.find(id);",
@@ -1984,7 +2002,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 216,
+          "line": 214,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = profiles_.find(id);",
@@ -1993,7 +2011,7 @@
         },
         {
           "file": "src\\observability\\distributed_flame_graph.cpp",
-          "line": 151,
+          "line": 149,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto baseIt = baseMap.find(stack);",
@@ -2004,7 +2022,7 @@
       "src\\observability\\ebpf_tracer.cpp": [
         {
           "file": "src\\observability\\ebpf_tracer.cpp",
-          "line": 388,
+          "line": 386,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2016,7 +2034,7 @@
         },
         {
           "file": "src\\observability\\ebpf_tracer.cpp",
-          "line": 375,
+          "line": 373,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2028,7 +2046,7 @@
         },
         {
           "file": "src\\observability\\ebpf_tracer.cpp",
-          "line": 113,
+          "line": 111,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(fd);",
@@ -2037,7 +2055,7 @@
         },
         {
           "file": "src\\observability\\ebpf_tracer.cpp",
-          "line": 374,
+          "line": 372,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::mutex> wlk(mu_);",
@@ -2046,7 +2064,7 @@
         },
         {
           "file": "src\\observability\\ebpf_tracer.cpp",
-          "line": 192,
+          "line": 190,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lk(mu_);",
@@ -2055,7 +2073,7 @@
         },
         {
           "file": "src\\observability\\ebpf_tracer.cpp",
-          "line": 104,
+          "line": 102,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "ssize_t n = ::read(fd, &value, sizeof(value));",
@@ -2066,7 +2084,7 @@
       "src\\observability\\metrics_stream_server.cpp": [
         {
           "file": "src\\observability\\metrics_stream_server.cpp",
-          "line": 197,
+          "line": 195,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -2078,7 +2096,7 @@
         },
         {
           "file": "src\\observability\\metrics_stream_server.cpp",
-          "line": 185,
+          "line": 183,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -2090,7 +2108,7 @@
         },
         {
           "file": "src\\observability\\metrics_stream_server.cpp",
-          "line": 43,
+          "line": 41,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -2102,7 +2120,7 @@
         },
         {
           "file": "src\\observability\\metrics_stream_server.cpp",
-          "line": 197,
+          "line": 195,
           "type": "expensive_inner_op",
           "severity": "MEDIUM",
           "snippet": "std::snprintf(buf, sizeof(buf), \"\\\\u%04x\",",
@@ -2111,7 +2129,7 @@
         },
         {
           "file": "src\\observability\\metrics_stream_server.cpp",
-          "line": 192,
+          "line": 190,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\t': out += \"\\\\t\";  break;",
@@ -2120,7 +2138,7 @@
         },
         {
           "file": "src\\observability\\metrics_stream_server.cpp",
-          "line": 191,
+          "line": 189,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\r': out += \"\\\\r\";  break;",
@@ -2129,7 +2147,7 @@
         },
         {
           "file": "src\\observability\\metrics_stream_server.cpp",
-          "line": 190,
+          "line": 188,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\n': out += \"\\\\n\";  break;",
@@ -2138,7 +2156,7 @@
         },
         {
           "file": "src\\observability\\metrics_stream_server.cpp",
-          "line": 189,
+          "line": 187,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\f': out += \"\\\\f\";  break;",
@@ -2147,7 +2165,7 @@
         },
         {
           "file": "src\\observability\\metrics_stream_server.cpp",
-          "line": 188,
+          "line": 186,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\b': out += \"\\\\b\";  break;",
@@ -2156,7 +2174,7 @@
         },
         {
           "file": "src\\observability\\metrics_stream_server.cpp",
-          "line": 187,
+          "line": 185,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\\\': out += \"\\\\\\\\\"; break;",
@@ -2165,7 +2183,7 @@
         },
         {
           "file": "src\\observability\\metrics_stream_server.cpp",
-          "line": 186,
+          "line": 184,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\"':  out += \"\\\\\\\"\"; break;",
@@ -2174,7 +2192,7 @@
         },
         {
           "file": "src\\observability\\metrics_stream_server.cpp",
-          "line": 197,
+          "line": 195,
           "type": "size_assumption",
           "severity": "HIGH",
           "snippet": "std::snprintf(buf, sizeof(buf), \"\\\\u%04x\",",
@@ -2183,7 +2201,7 @@
         },
         {
           "file": "src\\observability\\metrics_stream_server.cpp",
-          "line": 94,
+          "line": 92,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -2192,7 +2210,7 @@
         },
         {
           "file": "src\\observability\\metrics_stream_server.cpp",
-          "line": 81,
+          "line": 79,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -2201,7 +2219,7 @@
         },
         {
           "file": "src\\observability\\metrics_stream_server.cpp",
-          "line": 62,
+          "line": 60,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "return running_.load(std::memory_order_acquire);",
@@ -2210,7 +2228,7 @@
         },
         {
           "file": "src\\observability\\metrics_stream_server.cpp",
-          "line": 48,
+          "line": 46,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"MetricsStreamServer::start: port must not be 0\");",
@@ -2219,7 +2237,7 @@
         },
         {
           "file": "src\\observability\\metrics_stream_server.cpp",
-          "line": 45,
+          "line": 43,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"MetricsStreamServer::start: bind_address must not be empty\");",
@@ -2230,7 +2248,7 @@
       "src\\observability\\metric_aggregator.cpp": [
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 462,
+          "line": 460,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2242,7 +2260,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 396,
+          "line": 394,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -2254,7 +2272,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 328,
+          "line": 326,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2266,7 +2284,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 312,
+          "line": 310,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -2278,7 +2296,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 273,
+          "line": 271,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -2290,7 +2308,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 255,
+          "line": 253,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2302,7 +2320,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 210,
+          "line": 208,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -2314,7 +2332,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 418,
+          "line": 416,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2326,7 +2344,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 404,
+          "line": 402,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2338,7 +2356,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 404,
+          "line": 402,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2350,7 +2368,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 404,
+          "line": 402,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2362,7 +2380,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 404,
+          "line": 402,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2374,7 +2392,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 394,
+          "line": 392,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2386,7 +2404,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 385,
+          "line": 383,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2398,7 +2416,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 384,
+          "line": 382,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2410,7 +2428,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 367,
+          "line": 365,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2422,7 +2440,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 367,
+          "line": 365,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2434,7 +2452,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 357,
+          "line": 355,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2446,7 +2464,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 352,
+          "line": 350,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2458,7 +2476,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 334,
+          "line": 332,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2470,7 +2488,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 320,
+          "line": 318,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2482,7 +2500,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 320,
+          "line": 318,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2494,7 +2512,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 320,
+          "line": 318,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2506,7 +2524,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 320,
+          "line": 318,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2518,7 +2536,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 310,
+          "line": 308,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2530,7 +2548,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 299,
+          "line": 297,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2542,7 +2560,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 298,
+          "line": 296,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2554,7 +2572,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 255,
+          "line": 253,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2566,7 +2584,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 192,
+          "line": 190,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2578,7 +2596,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 146,
+          "line": 144,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2590,7 +2608,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 127,
+          "line": 125,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2604,7 +2622,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\observability\\metric_aggregator.cpp",
-          "line_number": 284,
+          "line_number": 282,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2616,7 +2634,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\observability\\metric_aggregator.cpp",
-          "line_number": 281,
+          "line_number": 279,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2628,7 +2646,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\observability\\metric_aggregator.cpp",
-          "line_number": 160,
+          "line_number": 158,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -2638,7 +2656,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 419,
+          "line": 417,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(std::move(r));",
@@ -2647,7 +2665,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 405,
+          "line": 403,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "grouped[gk].push_back(v);",
@@ -2656,7 +2674,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 368,
+          "line": 366,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "transient_snapshots[key].push_back(std::move(snap));",
@@ -2665,7 +2683,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 335,
+          "line": 333,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(std::move(r));",
@@ -2674,7 +2692,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 321,
+          "line": 319,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "grouped[gk].push_back(v);",
@@ -2683,7 +2701,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 256,
+          "line": 254,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "out.push_back(rule);",
@@ -2692,7 +2710,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 395,
+          "line": 393,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = effective_labels.find(gl);",
@@ -2701,7 +2719,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 395,
+          "line": 393,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = effective_labels.find(gl);",
@@ -2710,7 +2728,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 311,
+          "line": 309,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = effective_labels.find(gl);",
@@ -2719,7 +2737,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 311,
+          "line": 309,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = effective_labels.find(gl);",
@@ -2728,7 +2746,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 272,
+          "line": 270,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto brace = key.find('{');",
@@ -2737,7 +2755,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 272,
+          "line": 270,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto brace = key.find('{');",
@@ -2746,7 +2764,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 242,
+          "line": 240,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -2755,7 +2773,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 224,
+          "line": 222,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -2764,7 +2782,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 209,
+          "line": 207,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = snap.labels.find(fk);",
@@ -2773,7 +2791,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 209,
+          "line": 207,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = snap.labels.find(fk);",
@@ -2782,7 +2800,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 194,
+          "line": 192,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -2791,7 +2809,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 54,
+          "line": 52,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "if (std::find(drop.begin(), drop.end(), k) == drop.end()) {",
@@ -2800,7 +2818,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 450,
+          "line": 448,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "for (auto it = snapshots_.begin(); it != snapshots_.end();) {",
@@ -2809,7 +2827,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 396,
+          "line": 394,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = effective_labels.find(gl);",
@@ -2818,7 +2836,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 312,
+          "line": 310,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = effective_labels.find(gl);",
@@ -2827,7 +2845,7 @@
         },
         {
           "file": "src\\observability\\metric_aggregator.cpp",
-          "line": 110,
+          "line": 108,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto limit_it = cardinality_limits_.find(metric_name);",
@@ -2838,7 +2856,7 @@
       "src\\observability\\metric_anomaly_detector.cpp": [
         {
           "file": "src\\observability\\metric_anomaly_detector.cpp",
-          "line": 250,
+          "line": 248,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2850,7 +2868,7 @@
         },
         {
           "file": "src\\observability\\metric_anomaly_detector.cpp",
-          "line": 177,
+          "line": 175,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2862,7 +2880,7 @@
         },
         {
           "file": "src\\observability\\metric_anomaly_detector.cpp",
-          "line": 152,
+          "line": 150,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2874,7 +2892,7 @@
         },
         {
           "file": "src\\observability\\metric_anomaly_detector.cpp",
-          "line": 307,
+          "line": 305,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2886,7 +2904,7 @@
         },
         {
           "file": "src\\observability\\metric_anomaly_detector.cpp",
-          "line": 269,
+          "line": 267,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2898,7 +2916,7 @@
         },
         {
           "file": "src\\observability\\metric_anomaly_detector.cpp",
-          "line": 269,
+          "line": 267,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2910,7 +2928,7 @@
         },
         {
           "file": "src\\observability\\metric_anomaly_detector.cpp",
-          "line": 269,
+          "line": 267,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2922,7 +2940,7 @@
         },
         {
           "file": "src\\observability\\metric_anomaly_detector.cpp",
-          "line": 96,
+          "line": 94,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -2934,7 +2952,7 @@
         },
         {
           "file": "src\\observability\\metric_anomaly_detector.cpp",
-          "line": 308,
+          "line": 306,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "names.push_back(name);",
@@ -2943,7 +2961,7 @@
         },
         {
           "file": "src\\observability\\metric_anomaly_detector.cpp",
-          "line": 272,
+          "line": 270,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "metrics_arr.push_back({",
@@ -2952,7 +2970,7 @@
         },
         {
           "file": "src\\observability\\metric_anomaly_detector.cpp",
-          "line": 270,
+          "line": 268,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "anomalies_arr.push_back(a.toJson());",
@@ -2961,25 +2979,25 @@
         },
         {
           "file": "src\\observability\\metric_anomaly_detector.cpp",
-          "line": 168,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::out_of_range(\"MetricAnomalyDetector: unknown metric '\" +",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\observability\\metric_anomaly_detector.cpp",
-          "line": 143,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::out_of_range(\"MetricAnomalyDetector: unknown metric '\" +",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\observability\\metric_anomaly_detector.cpp",
           "line": 166,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::out_of_range(\"MetricAnomalyDetector: unknown metric '\" +",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\observability\\metric_anomaly_detector.cpp",
+          "line": 141,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::out_of_range(\"MetricAnomalyDetector: unknown metric '\" +",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\observability\\metric_anomaly_detector.cpp",
+          "line": 164,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = streams_.find(metric_name);",
@@ -2990,7 +3008,7 @@
       "src\\observability\\ml_anomaly_detector.cpp": [
         {
           "file": "src\\observability\\ml_anomaly_detector.cpp",
-          "line": 273,
+          "line": 271,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -3002,7 +3020,7 @@
         },
         {
           "file": "src\\observability\\ml_anomaly_detector.cpp",
-          "line": 272,
+          "line": 270,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -3014,7 +3032,7 @@
         },
         {
           "file": "src\\observability\\ml_anomaly_detector.cpp",
-          "line": 271,
+          "line": 269,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -3028,7 +3046,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\observability\\ml_anomaly_detector.cpp",
-          "line_number": 119,
+          "line_number": 117,
           "line_content": "labels[nidx] = label;",
           "context": [
             "            if (labels[nidx] == NOISE) labels[nidx] = label;",
@@ -3047,7 +3065,7 @@
         },
         {
           "file": "src\\observability\\ml_anomaly_detector.cpp",
-          "line": 288,
+          "line": 286,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3059,7 +3077,7 @@
         },
         {
           "file": "src\\observability\\ml_anomaly_detector.cpp",
-          "line": 206,
+          "line": 204,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3071,7 +3089,7 @@
         },
         {
           "file": "src\\observability\\ml_anomaly_detector.cpp",
-          "line": 170,
+          "line": 168,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3083,7 +3101,7 @@
         },
         {
           "file": "src\\observability\\ml_anomaly_detector.cpp",
-          "line": 98,
+          "line": 96,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3095,7 +3113,7 @@
         },
         {
           "file": "src\\observability\\ml_anomaly_detector.cpp",
-          "line": 74,
+          "line": 72,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3107,7 +3125,7 @@
         },
         {
           "file": "src\\observability\\ml_anomaly_detector.cpp",
-          "line": 418,
+          "line": 416,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(std::move(a));",
@@ -3116,7 +3134,7 @@
         },
         {
           "file": "src\\observability\\ml_anomaly_detector.cpp",
-          "line": 413,
+          "line": 411,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "a.contributing_factors.push_back(",
@@ -3125,7 +3143,7 @@
         },
         {
           "file": "src\\observability\\ml_anomaly_detector.cpp",
-          "line": 409,
+          "line": 407,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "a.contributing_factors.push_back(",
@@ -3134,7 +3152,7 @@
         },
         {
           "file": "src\\observability\\ml_anomaly_detector.cpp",
-          "line": 406,
+          "line": 404,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "a.contributing_factors.push_back(\"dbscan_noise:1.0\");",
@@ -3143,7 +3161,7 @@
         },
         {
           "file": "src\\observability\\ml_anomaly_detector.cpp",
-          "line": 344,
+          "line": 342,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& p : pts) values.push_back(p.value);",
@@ -3152,7 +3170,7 @@
         },
         {
           "file": "src\\observability\\ml_anomaly_detector.cpp",
-          "line": 289,
+          "line": 287,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "dp.push_back(std::move(p));",
@@ -3161,7 +3179,7 @@
         },
         {
           "file": "src\\observability\\ml_anomaly_detector.cpp",
-          "line": 207,
+          "line": 205,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "fi.push_back({{\"name\", name}, {\"value\", value}});",
@@ -3170,7 +3188,7 @@
         },
         {
           "file": "src\\observability\\ml_anomaly_detector.cpp",
-          "line": 177,
+          "line": 175,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "e.feature_importance.push_back({factor, 0.0});",
@@ -3179,7 +3197,7 @@
         },
         {
           "file": "src\\observability\\ml_anomaly_detector.cpp",
-          "line": 173,
+          "line": 171,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -3188,7 +3206,7 @@
         },
         {
           "file": "src\\observability\\ml_anomaly_detector.cpp",
-          "line": 171,
+          "line": 169,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "e.feature_importance.push_back({factor.substr(0, pos), v});",
@@ -3197,7 +3215,7 @@
         },
         {
           "file": "src\\observability\\ml_anomaly_detector.cpp",
-          "line": 99,
+          "line": 97,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "neighbours.push_back(j);",
@@ -3206,7 +3224,7 @@
         },
         {
           "file": "src\\observability\\ml_anomaly_detector.cpp",
-          "line": 75,
+          "line": 73,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "diffs.push_back(pts[i].timestamp_ms - pts[i - 1].timestamp_ms);",
@@ -3215,7 +3233,7 @@
         },
         {
           "file": "src\\observability\\ml_anomaly_detector.cpp",
-          "line": 334,
+          "line": 332,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"MLAnomalyDetector::detectAnomalies requires train() first\");",
@@ -3224,7 +3242,7 @@
         },
         {
           "file": "src\\observability\\ml_anomaly_detector.cpp",
-          "line": 311,
+          "line": 309,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"MLAnomalyDetector::forecast requires train() first\");",
@@ -3233,7 +3251,7 @@
         },
         {
           "file": "src\\observability\\ml_anomaly_detector.cpp",
-          "line": 254,
+          "line": 252,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -3242,7 +3260,7 @@
         },
         {
           "file": "src\\observability\\ml_anomaly_detector.cpp",
-          "line": 167,
+          "line": 165,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto pos = factor.find(':');",
@@ -3253,7 +3271,7 @@
       "src\\observability\\opentelemetry_tracer.cpp": [
         {
           "file": "src\\observability\\opentelemetry_tracer.cpp",
-          "line": 578,
+          "line": 576,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -3265,7 +3283,7 @@
         },
         {
           "file": "src\\observability\\opentelemetry_tracer.cpp",
-          "line": 566,
+          "line": 564,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -3277,7 +3295,7 @@
         },
         {
           "file": "src\\observability\\opentelemetry_tracer.cpp",
-          "line": 562,
+          "line": 560,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -3289,7 +3307,7 @@
         },
         {
           "file": "src\\observability\\opentelemetry_tracer.cpp",
-          "line": 257,
+          "line": 255,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3303,7 +3321,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\observability\\opentelemetry_tracer.cpp",
-          "line_number": 433,
+          "line_number": 431,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3313,7 +3331,7 @@
         },
         {
           "file": "src\\observability\\opentelemetry_tracer.cpp",
-          "line": 278,
+          "line": 276,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "delegate_tracers_.push_back(std::move(zipkin));",
@@ -3322,7 +3340,7 @@
         },
         {
           "file": "src\\observability\\opentelemetry_tracer.cpp",
-          "line": 274,
+          "line": 272,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "delegate_tracers_.push_back(std::move(jaeger));",
@@ -3331,7 +3349,7 @@
         },
         {
           "file": "src\\observability\\opentelemetry_tracer.cpp",
-          "line": 258,
+          "line": 256,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "active_exporter_types_.push_back(et);",
@@ -3340,7 +3358,7 @@
         },
         {
           "file": "src\\observability\\opentelemetry_tracer.cpp",
-          "line": 222,
+          "line": 220,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::string                           status_description_;",
@@ -3349,7 +3367,7 @@
         },
         {
           "file": "src\\observability\\opentelemetry_tracer.cpp",
-          "line": 192,
+          "line": 190,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -3358,7 +3376,7 @@
         },
         {
           "file": "src\\observability\\opentelemetry_tracer.cpp",
-          "line": 329,
+          "line": 327,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "return [weak_exporter](const SpanRecord& rec) {",
@@ -3367,7 +3385,7 @@
         },
         {
           "file": "src\\observability\\opentelemetry_tracer.cpp",
-          "line": 476,
+          "line": 474,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "impl_->config_.endpoint     = endpoint;",
@@ -3376,7 +3394,7 @@
         },
         {
           "file": "src\\observability\\opentelemetry_tracer.cpp",
-          "line": 475,
+          "line": 473,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "impl_->config_.service_name = serviceName;",
@@ -3385,7 +3403,7 @@
         },
         {
           "file": "src\\observability\\opentelemetry_tracer.cpp",
-          "line": 330,
+          "line": 328,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "if (auto exporter = weak_exporter.lock()) {",
@@ -3396,7 +3414,7 @@
       "src\\observability\\query_profiler.cpp": [
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 384,
+          "line": 382,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3408,7 +3426,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 359,
+          "line": 357,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3420,7 +3438,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 340,
+          "line": 338,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3432,7 +3450,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 327,
+          "line": 325,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3444,7 +3462,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 173,
+          "line": 171,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3456,7 +3474,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 384,
+          "line": 382,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3468,7 +3486,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 359,
+          "line": 357,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3480,7 +3498,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 327,
+          "line": 325,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3492,7 +3510,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 166,
+          "line": 164,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3504,7 +3522,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 166,
+          "line": 164,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3516,7 +3534,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 154,
+          "line": 152,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3528,7 +3546,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 73,
+          "line": 71,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3540,7 +3558,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 73,
+          "line": 71,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3552,7 +3570,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 142,
+          "line": 140,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -3564,7 +3582,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 385,
+          "line": 383,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "profiles_json.push_back(profile->toJSON());",
@@ -3573,7 +3591,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 360,
+          "line": 358,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(profile);",
@@ -3582,7 +3600,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 342,
+          "line": 340,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(profile);",
@@ -3591,7 +3609,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 328,
+          "line": 326,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(profile);",
@@ -3600,7 +3618,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 172,
+          "line": 170,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "size_t to_delete = profiles.size() - config.max_profiles_retained;",
@@ -3609,7 +3627,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 167,
+          "line": 165,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "times.push_back({id, profile->start_time});",
@@ -3618,7 +3636,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 155,
+          "line": 153,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "to_remove.push_back(id);",
@@ -3627,7 +3645,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 109,
+          "line": 107,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "<< (total_duration.count() / 1000.0) << \" ms\\n\";",
@@ -3636,7 +3654,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 74,
+          "line": 72,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "operators_json.push_back(op.toJSON());",
@@ -3645,7 +3663,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 469,
+          "line": 467,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "profiler_.end_query(query_id_);",
@@ -3654,7 +3672,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 465,
+          "line": 463,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "profiler_.start_query(query_id_, query_text);",
@@ -3663,7 +3681,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 408,
+          "line": 406,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
@@ -3672,7 +3690,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 403,
+          "line": 401,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
@@ -3681,7 +3699,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 398,
+          "line": 396,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
@@ -3690,7 +3708,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 393,
+          "line": 391,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
@@ -3699,7 +3717,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 223,
+          "line": 221,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "log_slow_query(*profile);",
@@ -3708,7 +3726,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 206,
+          "line": 204,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "void QueryProfiler::end_query(const std::string& query_id) {",
@@ -3717,7 +3735,7 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 186,
+          "line": 184,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string QueryProfiler::start_query(const std::string& query_id,",
@@ -3726,16 +3744,16 @@
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #3328 [WIP] Add SLO/SLA compliance reporting with burn-rate alerts (2026-03-12T06:59:43Z)",
+          "snippet": "* PR History (last 5): #3577 [MODULE] network + observab... (2026-03-12) | #3328 [WIP] Add SLO/SLA c",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         },
         {
           "file": "src\\observability\\query_profiler.cpp",
-          "line": 281,
+          "line": 279,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "it->second->used_cache = true;",
@@ -3746,7 +3764,7 @@
       "src\\observability\\slo_reporter.cpp": [
         {
           "file": "src\\observability\\slo_reporter.cpp",
-          "line": 183,
+          "line": 181,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3758,7 +3776,7 @@
         },
         {
           "file": "src\\observability\\slo_reporter.cpp",
-          "line": 297,
+          "line": 295,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3770,7 +3788,7 @@
         },
         {
           "file": "src\\observability\\slo_reporter.cpp",
-          "line": 183,
+          "line": 181,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3782,7 +3800,7 @@
         },
         {
           "file": "src\\observability\\slo_reporter.cpp",
-          "line": 183,
+          "line": 181,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3794,7 +3812,7 @@
         },
         {
           "file": "src\\observability\\slo_reporter.cpp",
-          "line": 111,
+          "line": 109,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3806,7 +3824,7 @@
         },
         {
           "file": "src\\observability\\slo_reporter.cpp",
-          "line": 31,
+          "line": 29,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3818,7 +3836,7 @@
         },
         {
           "file": "src\\observability\\slo_reporter.cpp",
-          "line": 298,
+          "line": 296,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "s.active_burn_rate_alerts.push_back(std::move(alert));",
@@ -3827,7 +3845,7 @@
         },
         {
           "file": "src\\observability\\slo_reporter.cpp",
-          "line": 226,
+          "line": 224,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "SloStatus s;",
@@ -3836,7 +3854,7 @@
         },
         {
           "file": "src\\observability\\slo_reporter.cpp",
-          "line": 184,
+          "line": 182,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "arr.push_back(s.toJson());",
@@ -3845,7 +3863,7 @@
         },
         {
           "file": "src\\observability\\slo_reporter.cpp",
-          "line": 112,
+          "line": 110,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(computeStatus(state_copy));",
@@ -3854,7 +3872,7 @@
         },
         {
           "file": "src\\observability\\slo_reporter.cpp",
-          "line": 107,
+          "line": 105,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::vector<SloStatus> result;",
@@ -3863,7 +3881,7 @@
         },
         {
           "file": "src\\observability\\slo_reporter.cpp",
-          "line": 32,
+          "line": 30,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "alerts_arr.push_back({",
@@ -3872,7 +3890,7 @@
         },
         {
           "file": "src\\observability\\slo_reporter.cpp",
-          "line": 96,
+          "line": 94,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::out_of_range(\"SloReporter: unknown SLO name '\" + slo_name + \"'\");",
@@ -3881,7 +3899,7 @@
         },
         {
           "file": "src\\observability\\slo_reporter.cpp",
-          "line": 76,
+          "line": 74,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = slos_.find(slo_name);",
@@ -3894,7 +3912,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\observability\\tracer.cpp",
-          "line_number": 301,
+          "line_number": 299,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -3904,7 +3922,7 @@
         },
         {
           "file": "src\\observability\\tracer.cpp",
-          "line": 184,
+          "line": 182,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::string                           status_description_;",
@@ -3913,7 +3931,7 @@
         },
         {
           "file": "src\\observability\\tracer.cpp",
-          "line": 154,
+          "line": 152,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -3922,7 +3940,16 @@
         },
         {
           "file": "src\\observability\\tracer.cpp",
-          "line": 150,
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #3795 feat(observability): LogAgg... (2026-03-12) | #3783 feat(observability)",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\observability\\tracer.cpp",
+          "line": 148,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "if (auto prof = profiler_.lock()) {",
@@ -3933,7 +3960,7 @@
       "src\\observability\\performance_analyzer.cpp": [
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 264,
+          "line": 262,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3945,7 +3972,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 64,
+          "line": 62,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3957,7 +3984,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 46,
+          "line": 44,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3969,7 +3996,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 258,
+          "line": 256,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -3981,7 +4008,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 590,
+          "line": 588,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "oss << \"</div>\\n\";",
@@ -3990,7 +4017,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 587,
+          "line": 585,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "oss << \"</ul>\\n\";",
@@ -3999,7 +4026,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 585,
+          "line": 583,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "oss << \"<li>\" << rec << \"</li>\\n\";",
@@ -4008,7 +4035,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 583,
+          "line": 581,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "oss << \"<p><strong>Recommendations:</strong></p>\\n<ul>\\n\";",
@@ -4017,7 +4044,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 580,
+          "line": 578,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "oss << \"<p>\" << issue.description << \"</p>\\n\";",
@@ -4026,37 +4053,10 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 579,
+          "line": 577,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "oss << \"<p><strong>Category:</strong> \" << to_string(issue.category) << \"</p>\\n\";",
-          "description": "Hardcoded path separator \u2014 not portable",
-          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
-        },
-        {
-          "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 579,
-          "type": "hardcoded_path",
-          "severity": "MEDIUM",
-          "snippet": "oss << \"<p><strong>Category:</strong> \" << to_string(issue.category) << \"</p>\\n\";",
-          "description": "Hardcoded path separator \u2014 not portable",
-          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
-        },
-        {
-          "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 578,
-          "type": "hardcoded_path",
-          "severity": "MEDIUM",
-          "snippet": "oss << \"<p><strong>Severity:</strong> \" << to_string(issue.severity) << \"</p>\\n\";",
-          "description": "Hardcoded path separator \u2014 not portable",
-          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
-        },
-        {
-          "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 578,
-          "type": "hardcoded_path",
-          "severity": "MEDIUM",
-          "snippet": "oss << \"<p><strong>Severity:</strong> \" << to_string(issue.severity) << \"</p>\\n\";",
           "description": "Hardcoded path separator \u2014 not portable",
           "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         },
@@ -4065,13 +4065,40 @@
           "line": 577,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
+          "snippet": "oss << \"<p><strong>Category:</strong> \" << to_string(issue.category) << \"</p>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\observability\\performance_analyzer.cpp",
+          "line": 576,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "oss << \"<p><strong>Severity:</strong> \" << to_string(issue.severity) << \"</p>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\observability\\performance_analyzer.cpp",
+          "line": 576,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "oss << \"<p><strong>Severity:</strong> \" << to_string(issue.severity) << \"</p>\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\observability\\performance_analyzer.cpp",
+          "line": 575,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
           "snippet": "oss << \"<h3>\" << issue.title << \"</h3>\\n\";",
           "description": "Hardcoded path separator \u2014 not portable",
           "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 563,
+          "line": 561,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "return \"</body>\\n</html>\\n\";",
@@ -4080,7 +4107,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 316,
+          "line": 314,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "file << \"</div>\\n\";",
@@ -4089,7 +4116,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 312,
+          "line": 310,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "file << \"<h2>Issues</h2>\\n\";",
@@ -4098,7 +4125,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 308,
+          "line": 306,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "file << \"</div>\\n\";",
@@ -4107,7 +4134,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 307,
+          "line": 305,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "file << \"<p>Total Issues: \" << analysis.issues.size() << \"</p>\\n\";",
@@ -4116,7 +4143,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 306,
+          "line": 304,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "file << \"<h2>Summary</h2>\\n\";",
@@ -4125,7 +4152,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 302,
+          "line": 300,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "file << \"<h1>ThemisDB Performance Analysis Report</h1>\\n\";",
@@ -4134,7 +4161,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 277,
+          "line": 275,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "recommendations.push_back(\"Optimize slow queries and consider query rewrites\");",
@@ -4143,7 +4170,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 273,
+          "line": 271,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "recommendations.push_back(\"Tune RocksDB compaction settings to reduce amplification\");",
@@ -4152,7 +4179,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 269,
+          "line": 267,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "recommendations.push_back(\"Increase cache size or improve cache key design\");",
@@ -4161,7 +4188,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 265,
+          "line": 263,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "recommendations.push_back(\"Review and create missing indexes for frequently queried columns\");",
@@ -4170,7 +4197,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 248,
+          "line": 246,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "issues.push_back(index_issue);",
@@ -4179,7 +4206,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 236,
+          "line": 234,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "issues.push_back(cache_issue);",
@@ -4188,7 +4215,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 223,
+          "line": 221,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "issues.push_back(slow_op_issue);",
@@ -4197,7 +4224,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 217,
+          "line": 215,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "issues.push_back(read_amp_issue);",
@@ -4206,7 +4233,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 211,
+          "line": 209,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "issues.push_back(write_amp_issue);",
@@ -4215,7 +4242,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 198,
+          "line": 196,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "issues.push_back(full_scan_issue);",
@@ -4224,7 +4251,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 192,
+          "line": 190,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "issues.push_back(slow_query_issue);",
@@ -4233,7 +4260,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 65,
+          "line": 63,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "issues_json.push_back(issue.toJSON());",
@@ -4242,7 +4269,7 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 47,
+          "line": 45,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "recs.push_back(rec);",
@@ -4251,16 +4278,16 @@
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #3577 [MODULE] network + observability \u00e2\u20ac\u201d docs reality-check, ROADMAP fi... (2026-03-12T07:35",
+          "snippet": "* PR History (last 5): #3577 [MODULE] network + observab... (2026-03-12)",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         },
         {
           "file": "src\\observability\\performance_analyzer.cpp",
-          "line": 434,
+          "line": 432,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "if (hit_rate >= impl_->config.cache_hit_rate_threshold) {",
@@ -4271,7 +4298,7 @@
       "src\\observability\\root_cause_analyzer.cpp": [
         {
           "file": "src\\observability\\root_cause_analyzer.cpp",
-          "line": 432,
+          "line": 430,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -4283,7 +4310,7 @@
         },
         {
           "file": "src\\observability\\root_cause_analyzer.cpp",
-          "line": 472,
+          "line": 470,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4295,7 +4322,7 @@
         },
         {
           "file": "src\\observability\\root_cause_analyzer.cpp",
-          "line": 449,
+          "line": 447,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4307,7 +4334,7 @@
         },
         {
           "file": "src\\observability\\root_cause_analyzer.cpp",
-          "line": 396,
+          "line": 394,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4319,7 +4346,7 @@
         },
         {
           "file": "src\\observability\\root_cause_analyzer.cpp",
-          "line": 396,
+          "line": 394,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4331,7 +4358,7 @@
         },
         {
           "file": "src\\observability\\root_cause_analyzer.cpp",
-          "line": 354,
+          "line": 352,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -4343,7 +4370,7 @@
         },
         {
           "file": "src\\observability\\root_cause_analyzer.cpp",
-          "line": 316,
+          "line": 314,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -4355,7 +4382,7 @@
         },
         {
           "file": "src\\observability\\root_cause_analyzer.cpp",
-          "line": 206,
+          "line": 204,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4367,7 +4394,7 @@
         },
         {
           "file": "src\\observability\\root_cause_analyzer.cpp",
-          "line": 101,
+          "line": 99,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4379,7 +4406,7 @@
         },
         {
           "file": "src\\observability\\root_cause_analyzer.cpp",
-          "line": 90,
+          "line": 88,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4391,7 +4418,7 @@
         },
         {
           "file": "src\\observability\\root_cause_analyzer.cpp",
-          "line": 90,
+          "line": 88,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4403,7 +4430,7 @@
         },
         {
           "file": "src\\observability\\root_cause_analyzer.cpp",
-          "line": 90,
+          "line": 88,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4415,7 +4442,7 @@
         },
         {
           "file": "src\\observability\\root_cause_analyzer.cpp",
-          "line": 80,
+          "line": 78,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4427,7 +4454,7 @@
         },
         {
           "file": "src\\observability\\root_cause_analyzer.cpp",
-          "line": 37,
+          "line": 35,
           "category": "legacy_duplication",
           "severity": "MEDIUM",
           "pattern": "duplicate_qualified_signature",
@@ -4440,7 +4467,7 @@
         },
         {
           "file": "src\\observability\\root_cause_analyzer.cpp",
-          "line": 473,
+          "line": 471,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "graph.nodes.push_back(ts.name);",
@@ -4449,7 +4476,7 @@
         },
         {
           "file": "src\\observability\\root_cause_analyzer.cpp",
-          "line": 450,
+          "line": 448,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(std::move(cm));",
@@ -4458,7 +4485,7 @@
         },
         {
           "file": "src\\observability\\root_cause_analyzer.cpp",
-          "line": 397,
+          "line": 395,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "report.contributing_factors.push_back(oss.str());",
@@ -4467,7 +4494,7 @@
         },
         {
           "file": "src\\observability\\root_cause_analyzer.cpp",
-          "line": 207,
+          "line": 205,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "v.push_back(p.value);",
@@ -4476,7 +4503,7 @@
         },
         {
           "file": "src\\observability\\root_cause_analyzer.cpp",
-          "line": 102,
+          "line": 100,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "edges_json.push_back({",
@@ -4485,7 +4512,7 @@
         },
         {
           "file": "src\\observability\\root_cause_analyzer.cpp",
-          "line": 91,
+          "line": 89,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "roots.push_back(kv.first);",
@@ -4494,7 +4521,7 @@
         },
         {
           "file": "src\\observability\\root_cause_analyzer.cpp",
-          "line": 424,
+          "line": 422,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "if (target_it == impl_->series_registry.end()) {",
@@ -4503,7 +4530,7 @@
         },
         {
           "file": "src\\observability\\root_cause_analyzer.cpp",
-          "line": 423,
+          "line": 421,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto target_it = impl_->series_registry.find(metric_name);",
@@ -4512,7 +4539,7 @@
         },
         {
           "file": "src\\observability\\root_cause_analyzer.cpp",
-          "line": 333,
+          "line": 331,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "impl_->series_registry[series.name] = series;",
@@ -4523,7 +4550,7 @@
       "src\\observability\\storage_profiler.cpp": [
         {
           "file": "src\\observability\\storage_profiler.cpp",
-          "line": 339,
+          "line": 337,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -4535,7 +4562,7 @@
         },
         {
           "file": "src\\observability\\storage_profiler.cpp",
-          "line": 249,
+          "line": 247,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -4547,7 +4574,7 @@
         },
         {
           "file": "src\\observability\\storage_profiler.cpp",
-          "line": 339,
+          "line": 337,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4559,7 +4586,7 @@
         },
         {
           "file": "src\\observability\\storage_profiler.cpp",
-          "line": 334,
+          "line": 332,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4571,7 +4598,7 @@
         },
         {
           "file": "src\\observability\\storage_profiler.cpp",
-          "line": 57,
+          "line": 55,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4583,7 +4610,7 @@
         },
         {
           "file": "src\\observability\\storage_profiler.cpp",
-          "line": 239,
+          "line": 237,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4595,7 +4622,7 @@
         },
         {
           "file": "src\\observability\\storage_profiler.cpp",
-          "line": 238,
+          "line": 236,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4607,7 +4634,7 @@
         },
         {
           "file": "src\\observability\\storage_profiler.cpp",
-          "line": 237,
+          "line": 235,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4619,7 +4646,7 @@
         },
         {
           "file": "src\\observability\\storage_profiler.cpp",
-          "line": 236,
+          "line": 234,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -4631,7 +4658,7 @@
         },
         {
           "file": "src\\observability\\storage_profiler.cpp",
-          "line": 340,
+          "line": 338,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "stats_json.push_back(stats.toJSON());",
@@ -4640,7 +4667,7 @@
         },
         {
           "file": "src\\observability\\storage_profiler.cpp",
-          "line": 335,
+          "line": 333,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ops_json.push_back(op.toJSON());",
@@ -4649,7 +4676,7 @@
         },
         {
           "file": "src\\observability\\storage_profiler.cpp",
-          "line": 58,
+          "line": 56,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "level_sizes_json.push_back(size);",
@@ -4658,7 +4685,7 @@
         },
         {
           "file": "src\\observability\\storage_profiler.cpp",
-          "line": 366,
+          "line": 364,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
@@ -4667,7 +4694,7 @@
         },
         {
           "file": "src\\observability\\storage_profiler.cpp",
-          "line": 361,
+          "line": 359,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
@@ -4676,7 +4703,7 @@
         },
         {
           "file": "src\\observability\\storage_profiler.cpp",
-          "line": 356,
+          "line": 354,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
@@ -4685,10 +4712,10 @@
         },
         {
           "file": "src\\observability\\storage_profiler.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #3577 [MODULE] network + observability \u00e2\u20ac\u201d docs reality-check, ROADMAP fi... (2026-03-12T07:35",
+          "snippet": "* PR History (last 5): #3577 [MODULE] network + observab... (2026-03-12)",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         }
@@ -4696,7 +4723,7 @@
       "src\\observability\\log_search_engine.cpp": [
         {
           "file": "src\\observability\\log_search_engine.cpp",
-          "line": 131,
+          "line": 129,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4708,7 +4735,7 @@
         },
         {
           "file": "src\\observability\\log_search_engine.cpp",
-          "line": 101,
+          "line": 99,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "timestamp_sorting_unstable",
@@ -4720,7 +4747,7 @@
         },
         {
           "file": "src\\observability\\log_search_engine.cpp",
-          "line": 94,
+          "line": 92,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4732,7 +4759,7 @@
         },
         {
           "file": "src\\observability\\log_search_engine.cpp",
-          "line": 132,
+          "line": 130,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.entries.push_back(*matched[i]);",
@@ -4741,7 +4768,7 @@
         },
         {
           "file": "src\\observability\\log_search_engine.cpp",
-          "line": 95,
+          "line": 93,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "matched.push_back(&entry);",
@@ -4750,7 +4777,7 @@
         },
         {
           "file": "src\\observability\\log_search_engine.cpp",
-          "line": 163,
+          "line": 161,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = entry.fields.find(field_key);",
@@ -4759,7 +4786,7 @@
         },
         {
           "file": "src\\observability\\log_search_engine.cpp",
-          "line": 163,
+          "line": 161,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = entry.fields.find(field_key);",
@@ -4770,7 +4797,7 @@
       "src\\observability\\metrics_collector.cpp": [
         {
           "file": "src\\observability\\metrics_collector.cpp",
-          "line": 334,
+          "line": 332,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -4782,7 +4809,7 @@
         },
         {
           "file": "src\\observability\\metrics_collector.cpp",
-          "line": 320,
+          "line": 318,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -4794,7 +4821,7 @@
         },
         {
           "file": "src\\observability\\metrics_collector.cpp",
-          "line": 313,
+          "line": 311,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -4806,7 +4833,7 @@
         },
         {
           "file": "src\\observability\\metrics_collector.cpp",
-          "line": 306,
+          "line": 304,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -4818,7 +4845,7 @@
         },
         {
           "file": "src\\observability\\metrics_collector.cpp",
-          "line": 296,
+          "line": 294,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -4830,7 +4857,7 @@
         },
         {
           "file": "src\\observability\\metrics_collector.cpp",
-          "line": 288,
+          "line": 286,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -4842,7 +4869,7 @@
         },
         {
           "file": "src\\observability\\metrics_collector.cpp",
-          "line": 401,
+          "line": 399,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "values.push_back(value);",
@@ -4851,10 +4878,10 @@
         },
         {
           "file": "src\\observability\\metrics_collector.cpp",
-          "line": 7,
+          "line": 5,
           "type": "uninitialized_access",
           "severity": "HIGH",
-          "snippet": "* PR: #3328 [WIP] Add SLO/SLA compliance reporting with burn-rate alerts (2026-03-12T06:59:43Z)",
+          "snippet": "* PR History (last 5): #4272 feat(observability): upgrad... (2026-03-15) | #3328 [WIP] Add SLO/SLA c",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
         }
@@ -4862,7 +4889,7 @@
       "src\\observability\\tenant_metrics_namespace.cpp": [
         {
           "file": "src\\observability\\tenant_metrics_namespace.cpp",
-          "line": 308,
+          "line": 306,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -4874,7 +4901,7 @@
         },
         {
           "file": "src\\observability\\tenant_metrics_namespace.cpp",
-          "line": 314,
+          "line": 312,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4886,7 +4913,7 @@
         },
         {
           "file": "src\\observability\\tenant_metrics_namespace.cpp",
-          "line": 78,
+          "line": 76,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -4898,7 +4925,7 @@
         },
         {
           "file": "src\\observability\\tenant_metrics_namespace.cpp",
-          "line": 61,
+          "line": 59,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4910,7 +4937,7 @@
         },
         {
           "file": "src\\observability\\tenant_metrics_namespace.cpp",
-          "line": 315,
+          "line": 313,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(s));",
@@ -4919,7 +4946,7 @@
         },
         {
           "file": "src\\observability\\tenant_metrics_namespace.cpp",
-          "line": 62,
+          "line": 60,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ids.push_back(kv.first);",

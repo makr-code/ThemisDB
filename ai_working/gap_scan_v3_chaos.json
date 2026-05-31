@@ -15,7 +15,7 @@
       "src\\chaos\\chaos_framework.cpp": [
         {
           "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 257,
+          "line": 258,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -27,7 +27,7 @@
         },
         {
           "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 153,
+          "line": 154,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -39,7 +39,7 @@
         },
         {
           "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 130,
+          "line": 131,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -51,7 +51,7 @@
         },
         {
           "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 121,
+          "line": 122,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -63,7 +63,7 @@
         },
         {
           "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 102,
+          "line": 103,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -75,7 +75,7 @@
         },
         {
           "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 90,
+          "line": 91,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -89,7 +89,7 @@
           "gap_type": "exception_in_destructor",
           "severity": "CRITICAL",
           "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 195,
+          "line_number": 196,
           "class_name": "",
           "issue": "Potential exception in destructor",
           "reason": "Destructors must be noexcept; exceptions here cause std::terminate()",
@@ -99,7 +99,7 @@
         },
         {
           "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 153,
+          "line": 154,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -111,7 +111,7 @@
         },
         {
           "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 249,
+          "line": 250,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "to_fire.push_back(e.fault);",
@@ -120,7 +120,7 @@
         },
         {
           "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 171,
+          "line": 172,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "callbacks_.push_back(std::move(cb));",
@@ -129,7 +129,7 @@
         },
         {
           "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 154,
+          "line": 155,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(af);",
@@ -138,7 +138,7 @@
         },
         {
           "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 246,
+          "line": 247,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(sched_mutex_);",
@@ -147,7 +147,7 @@
         },
         {
           "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 191,
+          "line": 192,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ChaosScheduler: injector must not be null\");",
@@ -156,7 +156,7 @@
         },
         {
           "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 176,
+          "line": 177,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = active_faults_.begin();",
@@ -165,7 +165,7 @@
         },
         {
           "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 117,
+          "line": 118,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = active_faults_.find(key);",
@@ -174,7 +174,7 @@
         },
         {
           "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 99,
+          "line": 100,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it  = active_faults_.begin();",

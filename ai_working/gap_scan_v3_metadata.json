@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "total": 325,
+    "total": 326,
     "severity_critical": 12,
-    "severity_high": 81,
+    "severity_high": 82,
     "severity_medium": 232,
     "by_category": {
       "security": 7,
@@ -10,7 +10,7 @@
       "reliability": 13,
       "concurrency": 1,
       "raii": 2,
-      "container": 123,
+      "container": 124,
       "performance": 17,
       "exception_safety": 10,
       "performance_patterns": 129,
@@ -22,7 +22,7 @@
       "src\\metadata\\catalog_exporter.cpp": [
         {
           "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 341,
+          "line": 339,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -34,7 +34,7 @@
         },
         {
           "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 184,
+          "line": 182,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -46,7 +46,7 @@
         },
         {
           "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 347,
+          "line": 345,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "proposals.push_back(proposal);",
@@ -55,7 +55,7 @@
         },
         {
           "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 342,
+          "line": 340,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "fields.push_back(field);",
@@ -64,7 +64,7 @@
         },
         {
           "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 264,
+          "line": 262,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "count, status);",
@@ -73,7 +73,7 @@
         },
         {
           "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 256,
+          "line": 254,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) { /* count stays at 0 */ }",
@@ -82,7 +82,7 @@
         },
         {
           "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 195,
+          "line": 193,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "entities.push_back(tbl_entity);",
@@ -91,7 +91,7 @@
         },
         {
           "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 191,
+          "line": 189,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "columns.push_back(col_ref);",
@@ -100,7 +100,7 @@
         },
         {
           "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 185,
+          "line": 183,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "entities.push_back(col_entity);",
@@ -109,7 +109,7 @@
         },
         {
           "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 321,
+          "line": 319,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "aspect[\"platform\"]    = \"urn:li:dataPlatform:themisdb\";",
@@ -118,7 +118,7 @@
         },
         {
           "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 320,
+          "line": 318,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "aspect[\"schemaName\"]  = config_.database_name + \".\" + table.name;",
@@ -127,7 +127,7 @@
         },
         {
           "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 317,
+          "line": 315,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "proposal[\"aspectName\"]  = \"schemaMetadata\";",
@@ -136,7 +136,7 @@
         },
         {
           "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 314,
+          "line": 312,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "proposal[\"entityType\"]  = \"dataset\";",
@@ -145,7 +145,7 @@
         },
         {
           "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 305,
+          "line": 303,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "aspect[\"tags\"]  = json::array();",
@@ -154,7 +154,7 @@
         },
         {
           "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 297,
+          "line": 295,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "aspect[\"customProperties\"][\"database\"]  = config_.database_name;",
@@ -163,7 +163,7 @@
         },
         {
           "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 294,
+          "line": 292,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "proposal[\"aspectName\"]     = \"datasetProperties\";",
@@ -172,7 +172,7 @@
         },
         {
           "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 291,
+          "line": 289,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "proposal[\"entityType\"]     = \"dataset\";",
@@ -181,7 +181,7 @@
         },
         {
           "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 141,
+          "line": 139,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "db_entity[\"attributes\"][\"description\"]     = \"ThemisDB hybrid database\";",
@@ -190,7 +190,7 @@
         },
         {
           "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 140,
+          "line": 138,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "db_entity[\"attributes\"][\"name\"]            = config_.database_name;",
@@ -199,7 +199,7 @@
         },
         {
           "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 32,
+          "line": 30,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "static_cast<std::string*>(userdata)->append(ptr, total);",
@@ -208,7 +208,7 @@
         },
         {
           "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 32,
+          "line": 30,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "static_cast<std::string*>(userdata)->append(ptr, total);",
@@ -219,7 +219,7 @@
       "src\\metadata\\schema_constraints.cpp": [
         {
           "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 440,
+          "line": 438,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -231,7 +231,7 @@
         },
         {
           "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 487,
+          "line": 485,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -243,7 +243,7 @@
         },
         {
           "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 487,
+          "line": 485,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -255,7 +255,7 @@
         },
         {
           "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 301,
+          "line": 299,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -267,7 +267,7 @@
         },
         {
           "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 301,
+          "line": 299,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -279,24 +279,12 @@
         },
         {
           "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 301,
+          "line": 299,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
           "description": "vector::push_back in loop without prior reserve()",
           "context": "c_arr.push_back(c.toJSON());",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 263,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "map_vs_unordered_map",
-          "description": "std::map used only for lookups (consider std::unordered_map)",
-          "context": "std::map<std::string, ColumnValue> row) const",
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
@@ -308,6 +296,18 @@
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
           "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, ColumnValue> row) const",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 259,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
           "context": "std::map<std::string, ColumnValue> SchemaConstraints::applyDefaults(",
           "confidence_score": 0.74,
           "confidence_band": "high",
@@ -315,7 +315,7 @@
         },
         {
           "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 229,
+          "line": 227,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -327,7 +327,7 @@
         },
         {
           "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 229,
+          "line": 227,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -339,7 +339,7 @@
         },
         {
           "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 203,
+          "line": 201,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -351,7 +351,7 @@
         },
         {
           "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 186,
+          "line": 184,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -363,7 +363,7 @@
         },
         {
           "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 186,
+          "line": 184,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -375,7 +375,7 @@
         },
         {
           "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 571,
+          "line": 569,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -384,7 +384,7 @@
         },
         {
           "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 488,
+          "line": 486,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "c_arr.push_back(c.toJSON());",
@@ -393,7 +393,7 @@
         },
         {
           "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 417,
+          "line": 415,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -402,7 +402,7 @@
         },
         {
           "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 302,
+          "line": 300,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "c_arr.push_back(c.toJSON());",
@@ -411,7 +411,7 @@
         },
         {
           "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 235,
+          "line": 233,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (v.has_value()) violations.push_back(std::move(*v));",
@@ -420,7 +420,7 @@
         },
         {
           "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 230,
+          "line": 228,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (v.has_value()) violations.push_back(std::move(*v));",
@@ -429,7 +429,7 @@
         },
         {
           "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 187,
+          "line": 185,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(c);",
@@ -438,7 +438,7 @@
         },
         {
           "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 526,
+          "line": 524,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "it->Seek(prefix);",
@@ -447,7 +447,7 @@
         },
         {
           "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 403,
+          "line": 401,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto pos = expr.find(op);",
@@ -456,7 +456,7 @@
         },
         {
           "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 221,
+          "line": 219,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "val_ptr = &row_it->second;",
@@ -465,7 +465,7 @@
         },
         {
           "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 100,
+          "line": 98,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Unknown constraint kind: \" + s);",
@@ -474,7 +474,7 @@
         },
         {
           "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 478,
+          "line": 476,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto t_it = constraints_.find(std::string(table_name));",
@@ -483,7 +483,7 @@
         },
         {
           "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 183,
+          "line": 181,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto t_it = constraints_.find(std::string(table_name));",
@@ -492,7 +492,7 @@
         },
         {
           "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 156,
+          "line": 154,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto t_it = constraints_.find(std::string(table_name));",
@@ -503,7 +503,7 @@
       "src\\metadata\\schema_manager.cpp": [
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 874,
+          "line": 872,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -515,7 +515,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 206,
+          "line": 204,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -527,7 +527,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 159,
+          "line": 157,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -539,7 +539,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1249,
+          "line": 1247,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -551,7 +551,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1043,
+          "line": 1041,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -563,7 +563,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1036,
+          "line": 1034,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -575,7 +575,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1036,
+          "line": 1034,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -587,7 +587,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1036,
+          "line": 1034,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -599,7 +599,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1009,
+          "line": 1007,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -611,7 +611,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 708,
+          "line": 706,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -623,7 +623,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 699,
+          "line": 697,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -635,7 +635,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 690,
+          "line": 688,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -647,7 +647,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 681,
+          "line": 679,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -659,7 +659,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 666,
+          "line": 664,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -671,7 +671,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 657,
+          "line": 655,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -683,7 +683,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 642,
+          "line": 640,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -695,7 +695,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 613,
+          "line": 611,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -707,7 +707,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 523,
+          "line": 521,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -719,7 +719,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 409,
+          "line": 407,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -731,7 +731,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 403,
+          "line": 401,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -743,7 +743,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 246,
+          "line": 244,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -755,7 +755,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 206,
+          "line": 204,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -767,7 +767,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 159,
+          "line": 157,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -779,7 +779,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 87,
+          "line": 85,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -791,7 +791,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 72,
+          "line": 70,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -803,7 +803,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 66,
+          "line": 64,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -815,7 +815,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1258,
+          "line": 1256,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "schema.indexes.push_back(idx);",
@@ -824,7 +824,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1255,
+          "line": 1253,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "idx.columns.push_back(idx.name);",
@@ -833,7 +833,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1250,
+          "line": 1248,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "idx.columns.push_back(col.get<std::string>());",
@@ -842,7 +842,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1082,
+          "line": 1080,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "spdlog::warn(\"SchemaManager: Failed to delete schema from storage for table '{}'\", table_name);",
@@ -851,7 +851,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1071,
+          "line": 1069,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "spdlog::debug(\"SchemaManager: No custom schema to delete for table '{}'\", table_name);",
@@ -860,7 +860,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1044,
+          "line": 1042,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "schema.indexes.push_back(idx);",
@@ -869,7 +869,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1037,
+          "line": 1035,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "info.columns.push_back(col.get<std::string>());",
@@ -878,7 +878,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1010,
+          "line": 1008,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "schema.properties.push_back(prop);",
@@ -887,7 +887,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 839,
+          "line": 837,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "schema.indexes.push_back(std::move(idx));",
@@ -896,7 +896,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 838,
+          "line": 836,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "idx.columns.push_back(col);",
@@ -905,7 +905,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 716,
+          "line": 714,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "indexes.push_back(idx);",
@@ -914,7 +914,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 709,
+          "line": 707,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "idx.columns.push_back(col);",
@@ -923,7 +923,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 701,
+          "line": 699,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "indexes.push_back(idx);",
@@ -932,7 +932,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 700,
+          "line": 698,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "idx.columns.push_back(col);",
@@ -941,7 +941,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 692,
+          "line": 690,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "indexes.push_back(idx);",
@@ -950,7 +950,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 691,
+          "line": 689,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "idx.columns.push_back(col);",
@@ -959,7 +959,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 683,
+          "line": 681,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "indexes.push_back(idx);",
@@ -968,7 +968,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 682,
+          "line": 680,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "idx.columns.push_back(col);",
@@ -977,7 +977,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 674,
+          "line": 672,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "indexes.push_back(idx);",
@@ -986,7 +986,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 667,
+          "line": 665,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "idx.columns.push_back(col);",
@@ -995,7 +995,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 659,
+          "line": 657,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "indexes.push_back(idx);",
@@ -1004,7 +1004,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 658,
+          "line": 656,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "idx.columns.push_back(col);",
@@ -1013,7 +1013,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 650,
+          "line": 648,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "indexes.push_back(idx);",
@@ -1022,7 +1022,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 643,
+          "line": 641,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "idx.columns.push_back(col);",
@@ -1031,7 +1031,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 614,
+          "line": 612,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "properties.push_back(prop);",
@@ -1040,7 +1040,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 410,
+          "line": 408,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "rels_json.push_back(rel.toJSON());",
@@ -1049,7 +1049,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 404,
+          "line": 402,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tables_json.push_back(table.toJSON());",
@@ -1058,7 +1058,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 301,
+          "line": 299,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "log.push_back(now);",
@@ -1067,7 +1067,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 256,
+          "line": 254,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "caps.push_back(\"grpc\");",
@@ -1076,7 +1076,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 253,
+          "line": 251,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "caps.push_back(\"gpu\");",
@@ -1085,7 +1085,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 250,
+          "line": 248,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "caps.push_back(\"geo\");",
@@ -1094,7 +1094,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 247,
+          "line": 245,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "caps.push_back(\"llm\");",
@@ -1103,7 +1103,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 207,
+          "line": 205,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "relationships.push_back(schema);",
@@ -1112,7 +1112,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 160,
+          "line": 158,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tables.push_back(schema);",
@@ -1121,7 +1121,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 88,
+          "line": 86,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "props.push_back(prop.toJSON());",
@@ -1130,7 +1130,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 73,
+          "line": 71,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "idxs.push_back(idx.toJSON());",
@@ -1139,7 +1139,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 67,
+          "line": 65,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "props.push_back(prop.toJSON());",
@@ -1148,7 +1148,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1284,
+          "line": 1282,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "it->Seek(prefix);",
@@ -1157,7 +1157,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1233,
+          "line": 1231,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Index must have 'name' field\");",
@@ -1166,7 +1166,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1202,
+          "line": 1200,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Property must have 'name' field\");",
@@ -1175,7 +1175,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1187,
+          "line": 1185,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Schema must contain 'name' field\");",
@@ -1184,7 +1184,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1082,
+          "line": 1080,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "spdlog::warn(\"SchemaManager: Failed to delete schema from storage for table '{}'\", table_name);",
@@ -1193,7 +1193,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1071,
+          "line": 1069,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "spdlog::debug(\"SchemaManager: No custom schema to delete for table '{}'\", table_name);",
@@ -1202,7 +1202,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 874,
+          "line": 872,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "auto it = std::find_if(schema.properties.begin(), schema.properties.end(),",
@@ -1211,7 +1211,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 874,
+          "line": 872,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "auto it = std::find_if(schema.properties.begin(), schema.properties.end(),",
@@ -1220,7 +1220,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 742,
+          "line": 740,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "it->Seek(prefix);",
@@ -1229,7 +1229,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 536,
+          "line": 534,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "it->Seek(prefix);",
@@ -1238,7 +1238,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 439,
+          "line": 437,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result[\"capabilities\"] = metadata.capabilities;",
@@ -1247,7 +1247,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 438,
+          "line": 436,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result[\"version\"] = metadata.version;",
@@ -1256,7 +1256,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 400,
+          "line": 398,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result[\"metadata\"] = metadata.toJSON();",
@@ -1265,7 +1265,16 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1069,
+          "line": 5,
+          "type": "uninitialized_access",
+          "severity": "HIGH",
+          "snippet": "* PR History (last 5): #3630 docs(metadata): module audi... (2026-03-12) | #3297 [metadata] Wire Col",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 1067,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = custom_schemas_.find(std::string(table_name));",
@@ -1274,7 +1283,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 969,
+          "line": 967,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "custom_schemas_[std::string(table_name)] = cache_it->second;",
@@ -1283,7 +1292,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 224,
+          "line": 222,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "lock.lock();",
@@ -1292,7 +1301,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 201,
+          "line": 199,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "lock.lock();",
@@ -1301,7 +1310,7 @@
         },
         {
           "file": "src\\metadata\\schema_manager.cpp",
-          "line": 178,
+          "line": 176,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "lock.lock();",
@@ -1312,7 +1321,7 @@
       "src\\metadata\\statistics_collector.cpp": [
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 434,
+          "line": 432,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1324,7 +1333,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 311,
+          "line": 309,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1336,7 +1345,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 749,
+          "line": 747,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1348,7 +1357,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 707,
+          "line": 705,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1360,7 +1369,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 681,
+          "line": 679,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1372,7 +1381,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 614,
+          "line": 612,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1384,7 +1393,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 546,
+          "line": 544,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1396,7 +1405,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 408,
+          "line": 406,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1408,7 +1417,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 408,
+          "line": 406,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1420,7 +1429,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 408,
+          "line": 406,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1432,7 +1441,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 283,
+          "line": 281,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1444,7 +1453,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 180,
+          "line": 178,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1456,7 +1465,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 90,
+          "line": 88,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1468,7 +1477,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 750,
+          "line": 748,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "stats.push_back(std::move(s));",
@@ -1477,7 +1486,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 708,
+          "line": 706,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "arr.push_back(s.toJSON());",
@@ -1486,7 +1495,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 682,
+          "line": 680,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "hist_buckets.push_back(b);",
@@ -1495,7 +1504,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 615,
+          "line": 613,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "buckets.push_back(bucket);",
@@ -1504,7 +1513,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 548,
+          "line": 546,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1513,7 +1522,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 547,
+          "line": 545,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "numeric_vals.push_back(std::stod(v));",
@@ -1522,7 +1531,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 409,
+          "line": 407,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "arr.push_back(s.toJSON());",
@@ -1531,7 +1540,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 284,
+          "line": 282,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "col_samples[col_str].push_back(val_str);",
@@ -1540,7 +1549,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 181,
+          "line": 179,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tables.push_back(name);",
@@ -1549,7 +1558,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 91,
+          "line": 89,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "buckets.push_back(b.toJSON());",
@@ -1558,7 +1567,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 680,
+          "line": 678,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "b.upper_bound = bj.value(\"upper_bound\", 0.0);",
@@ -1567,7 +1576,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 680,
+          "line": 678,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "b.upper_bound = bj.value(\"upper_bound\", 0.0);",
@@ -1576,7 +1585,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 679,
+          "line": 677,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "b.lower_bound = bj.value(\"lower_bound\", 0.0);",
@@ -1585,7 +1594,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 679,
+          "line": 677,
           "type": "repeated_search",
           "severity": "HIGH",
           "snippet": "b.lower_bound = bj.value(\"lower_bound\", 0.0);",
@@ -1594,7 +1603,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 243,
+          "line": 241,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "it->Seek(prefix);",
@@ -1603,7 +1612,7 @@
         },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 169,
+          "line": 167,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::mutex> lk(refresh_mutex_);",
@@ -1614,7 +1623,7 @@
       "src\\metadata\\schema_version_manager.cpp": [
         {
           "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 279,
+          "line": 277,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -1626,7 +1635,7 @@
         },
         {
           "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 316,
+          "line": 314,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1638,7 +1647,7 @@
         },
         {
           "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 296,
+          "line": 294,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1650,7 +1659,7 @@
         },
         {
           "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 279,
+          "line": 277,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1662,7 +1671,7 @@
         },
         {
           "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 279,
+          "line": 277,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1674,7 +1683,7 @@
         },
         {
           "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 279,
+          "line": 277,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1686,7 +1695,7 @@
         },
         {
           "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 270,
+          "line": 268,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -1698,7 +1707,7 @@
         },
         {
           "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 168,
+          "line": 166,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1707,18 +1716,6 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\metadata\\schema_version_manager.cpp",
-          "line_number": 537,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
         },
         {
           "gap_type": "resource_leaked_in_exception",
@@ -1736,7 +1733,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\metadata\\schema_version_manager.cpp",
-          "line_number": 470,
+          "line_number": 533,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1748,7 +1745,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\metadata\\schema_version_manager.cpp",
-          "line_number": 462,
+          "line_number": 468,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1760,7 +1757,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\metadata\\schema_version_manager.cpp",
-          "line_number": 455,
+          "line_number": 460,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1772,7 +1769,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\metadata\\schema_version_manager.cpp",
-          "line_number": 443,
+          "line_number": 453,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1784,7 +1781,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\metadata\\schema_version_manager.cpp",
-          "line_number": 428,
+          "line_number": 441,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1796,7 +1793,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\metadata\\schema_version_manager.cpp",
-          "line_number": 245,
+          "line_number": 426,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1808,7 +1805,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\metadata\\schema_version_manager.cpp",
-          "line_number": 235,
+          "line_number": 243,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1820,7 +1817,19 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\metadata\\schema_version_manager.cpp",
-          "line_number": 106,
+          "line_number": 233,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak",
+          "confidence_score": 0.73,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=HIGH,context_missing"
+        },
+        {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\metadata\\schema_version_manager.cpp",
+          "line_number": 104,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1830,7 +1839,7 @@
         },
         {
           "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 350,
+          "line": 348,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1839,7 +1848,7 @@
         },
         {
           "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 317,
+          "line": 315,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "arr.push_back(change.toJSON());",
@@ -1848,7 +1857,7 @@
         },
         {
           "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 297,
+          "line": 295,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "removed.push_back(prop.toJSON());",
@@ -1857,7 +1866,7 @@
         },
         {
           "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 291,
+          "line": 289,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "modified.push_back(change);",
@@ -1866,7 +1875,7 @@
         },
         {
           "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 280,
+          "line": 278,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "added.push_back(prop.toJSON());",
@@ -1875,7 +1884,7 @@
         },
         {
           "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 169,
+          "line": 167,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "history.push_back(std::move(*maybe));",
@@ -1886,7 +1895,7 @@
       "src\\metadata\\column_lineage.cpp": [
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 290,
+          "line": 288,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1898,7 +1907,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 276,
+          "line": 274,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1910,7 +1919,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 264,
+          "line": 262,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1922,7 +1931,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 258,
+          "line": 256,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1934,7 +1943,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 199,
+          "line": 197,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -1946,7 +1955,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 198,
+          "line": 196,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1958,7 +1967,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 197,
+          "line": 195,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1970,7 +1979,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 160,
+          "line": 158,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1982,7 +1991,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 290,
+          "line": 288,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1994,7 +2003,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 280,
+          "line": 278,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2006,7 +2015,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 264,
+          "line": 262,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2018,7 +2027,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 258,
+          "line": 256,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2030,7 +2039,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 252,
+          "line": 250,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2042,7 +2051,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 231,
+          "line": 229,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2054,7 +2063,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 200,
+          "line": 198,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2066,7 +2075,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 200,
+          "line": 198,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2078,7 +2087,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 160,
+          "line": 158,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2090,7 +2099,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 117,
+          "line": 115,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2102,7 +2111,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 93,
+          "line": 91,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2114,7 +2123,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 215,
+          "line": 213,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -2126,7 +2135,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 183,
+          "line": 181,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -2138,7 +2147,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 291,
+          "line": 289,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "entries_arr.push_back(e.toJSON());",
@@ -2147,7 +2156,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 281,
+          "line": 279,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(record.toJSON());",
@@ -2156,7 +2165,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 265,
+          "line": 263,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "down_arr.push_back(ref.toJSON());",
@@ -2165,7 +2174,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 259,
+          "line": 257,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "up_arr.push_back(ref.toJSON());",
@@ -2174,7 +2183,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 253,
+          "line": 251,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "entries_arr.push_back(e.toJSON());",
@@ -2183,7 +2192,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 232,
+          "line": 230,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(target);",
@@ -2192,7 +2201,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 201,
+          "line": 199,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(src);",
@@ -2201,7 +2210,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 165,
+          "line": 163,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "all_entries_.push_back(std::move(entry));",
@@ -2210,7 +2219,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 161,
+          "line": 159,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "targets_by_source_[src].push_back(entry.target_column);",
@@ -2219,7 +2228,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 157,
+          "line": 155,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "entries_by_target_[entry.target_column].push_back(entry);",
@@ -2228,7 +2237,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 118,
+          "line": 116,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "arr.push_back(e.toJSON());",
@@ -2237,7 +2246,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 94,
+          "line": 92,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "sources.push_back(src.toJSON());",
@@ -2246,7 +2255,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 226,
+          "line": 224,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = targets_by_source_.find(current);",
@@ -2255,7 +2264,7 @@
         },
         {
           "file": "src\\metadata\\column_lineage.cpp",
-          "line": 194,
+          "line": 192,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = entries_by_target_.find(current);",
@@ -2266,7 +2275,7 @@
       "src\\metadata\\er_diagram_exporter.cpp": [
         {
           "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 216,
+          "line": 214,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2278,7 +2287,7 @@
         },
         {
           "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 216,
+          "line": 214,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2290,7 +2299,7 @@
         },
         {
           "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 195,
+          "line": 193,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2302,7 +2311,7 @@
         },
         {
           "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 184,
+          "line": 182,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2314,7 +2323,7 @@
         },
         {
           "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 184,
+          "line": 182,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2326,7 +2335,7 @@
         },
         {
           "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 35,
+          "line": 33,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -2338,7 +2347,7 @@
         },
         {
           "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 221,
+          "line": 219,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "edges.push_back(std::move(edge));",
@@ -2347,7 +2356,7 @@
         },
         {
           "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 217,
+          "line": 215,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "props.push_back(std::move(p));",
@@ -2356,7 +2365,7 @@
         },
         {
           "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 201,
+          "line": 199,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "nodes.push_back(std::move(node));",
@@ -2365,7 +2374,7 @@
         },
         {
           "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 196,
+          "line": 194,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "idxs.push_back(std::move(i));",
@@ -2374,7 +2383,7 @@
         },
         {
           "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 185,
+          "line": 183,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "props.push_back(std::move(p));",
@@ -2383,7 +2392,7 @@
         },
         {
           "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 55,
+          "line": 53,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\"':  out += \"\\\\\\\"\"; break;",
@@ -2392,7 +2401,7 @@
         },
         {
           "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 54,
+          "line": 52,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '\\\\': out += \"\\\\\\\\\"; break;",
@@ -2401,7 +2410,7 @@
         },
         {
           "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 53,
+          "line": 51,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '}':  out += \"\\\\}\"; break;",
@@ -2410,7 +2419,7 @@
         },
         {
           "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 52,
+          "line": 50,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '{':  out += \"\\\\{\"; break;",
@@ -2419,7 +2428,7 @@
         },
         {
           "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 51,
+          "line": 49,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '|':  out += \"\\\\|\"; break;",
@@ -2428,7 +2437,7 @@
         },
         {
           "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 50,
+          "line": 48,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '>':  out += \"\\\\>\"; break;",
@@ -2437,7 +2446,7 @@
         },
         {
           "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 49,
+          "line": 47,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "case '<':  out += \"\\\\<\"; break;",
@@ -2446,7 +2455,7 @@
         },
         {
           "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 36,
+          "line": 34,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "out += '_';",
@@ -2457,7 +2466,7 @@
       "src\\metadata\\index_recommender.cpp": [
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 399,
+          "line": 397,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2469,7 +2478,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 276,
+          "line": 274,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2481,7 +2490,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 259,
+          "line": 257,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2493,7 +2502,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 240,
+          "line": 238,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2505,7 +2514,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 221,
+          "line": 219,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2517,7 +2526,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 215,
+          "line": 213,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2529,7 +2538,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 303,
+          "line": 301,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2541,7 +2550,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 303,
+          "line": 301,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2553,7 +2562,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 276,
+          "line": 274,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2565,7 +2574,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 276,
+          "line": 274,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2577,7 +2586,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 276,
+          "line": 274,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2589,7 +2598,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 250,
+          "line": 248,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2601,7 +2610,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 240,
+          "line": 238,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2613,7 +2622,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 240,
+          "line": 238,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2625,7 +2634,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 220,
+          "line": 218,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2637,7 +2646,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 215,
+          "line": 213,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2649,7 +2658,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 209,
+          "line": 207,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2661,7 +2670,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 208,
+          "line": 206,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -2673,7 +2682,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 124,
+          "line": 122,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -2685,7 +2694,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 304,
+          "line": 302,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "arr.push_back(ca.toJSON());",
@@ -2694,7 +2703,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 277,
+          "line": 275,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "col_arr.push_back(ca.toJSON());",
@@ -2703,7 +2712,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 251,
+          "line": 249,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "table_names_to_delete.push_back(tn);",
@@ -2712,7 +2721,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 241,
+          "line": 239,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(ca);",
@@ -2721,7 +2730,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 216,
+          "line": 214,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "table_names.push_back(tn);",
@@ -2730,7 +2739,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 176,
+          "line": 174,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "recs.push_back(std::move(rec));",
@@ -2739,7 +2748,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 410,
+          "line": 408,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::mutex> lk(persist_mutex_);",
@@ -2748,7 +2757,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 222,
+          "line": 220,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = existing_indexes.find(tn);",
@@ -2757,7 +2766,7 @@
         },
         {
           "file": "src\\metadata\\index_recommender.cpp",
-          "line": 237,
+          "line": 235,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto t_it = stats_.find(std::string(table_name));",
@@ -2768,7 +2777,7 @@
       "src\\metadata\\information_schema.cpp": [
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 360,
+          "line": 358,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2780,7 +2789,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 352,
+          "line": 350,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2792,7 +2801,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 344,
+          "line": 342,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2804,7 +2813,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 334,
+          "line": 332,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2816,7 +2825,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 328,
+          "line": 326,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2828,7 +2837,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 322,
+          "line": 320,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2840,7 +2849,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 316,
+          "line": 314,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2852,7 +2861,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 310,
+          "line": 308,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2864,7 +2873,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 299,
+          "line": 297,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2876,7 +2885,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 263,
+          "line": 261,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2888,7 +2897,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 263,
+          "line": 261,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2900,7 +2909,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 263,
+          "line": 261,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2912,7 +2921,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 230,
+          "line": 228,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2924,7 +2933,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 230,
+          "line": 228,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2936,7 +2945,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 230,
+          "line": 228,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2948,7 +2957,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 201,
+          "line": 199,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2960,7 +2969,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 201,
+          "line": 199,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2972,7 +2981,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 172,
+          "line": 170,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2984,7 +2993,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 361,
+          "line": 359,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "arr.push_back(row.toJSON());",
@@ -2993,7 +3002,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 353,
+          "line": 351,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "arr.push_back(row.toJSON());",
@@ -3002,7 +3011,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 345,
+          "line": 343,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "arr.push_back(row.toJSON());",
@@ -3011,7 +3020,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 335,
+          "line": 333,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "rc_arr.push_back(row.toJSON());",
@@ -3020,7 +3029,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 329,
+          "line": 327,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "kcu_arr.push_back(row.toJSON());",
@@ -3029,7 +3038,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 323,
+          "line": 321,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "stats_arr.push_back(row.toJSON());",
@@ -3038,7 +3047,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 317,
+          "line": 315,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "cols_arr.push_back(row.toJSON());",
@@ -3047,7 +3056,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 311,
+          "line": 309,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tables_arr.push_back(row.toJSON());",
@@ -3056,7 +3065,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 300,
+          "line": 298,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(rc));",
@@ -3065,7 +3074,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 264,
+          "line": 262,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(row));",
@@ -3074,7 +3083,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 231,
+          "line": 229,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(row));",
@@ -3083,7 +3092,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 202,
+          "line": 200,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(col));",
@@ -3092,7 +3101,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 173,
+          "line": 171,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(row));",
@@ -3101,7 +3110,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 360,
+          "line": 358,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& row : getReferentialConstraints()) {",
@@ -3110,7 +3119,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 352,
+          "line": 350,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& row : getColumns(table_name)) {",
@@ -3119,7 +3128,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 344,
+          "line": 342,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& row : getTables()) {",
@@ -3128,7 +3137,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 334,
+          "line": 332,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& row : getReferentialConstraints()) {",
@@ -3137,7 +3146,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 328,
+          "line": 326,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& row : getKeyColumnUsage()) {",
@@ -3146,7 +3155,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 322,
+          "line": 320,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& row : getStatistics()) {",
@@ -3155,7 +3164,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 316,
+          "line": 314,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& row : getColumns()) {",
@@ -3164,7 +3173,7 @@
         },
         {
           "file": "src\\metadata\\information_schema.cpp",
-          "line": 310,
+          "line": 308,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& row : getTables()) {",
@@ -3175,7 +3184,7 @@
       "src\\metadata\\schema_audit_log.cpp": [
         {
           "file": "src\\metadata\\schema_audit_log.cpp",
-          "line": 225,
+          "line": 223,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3187,7 +3196,7 @@
         },
         {
           "file": "src\\metadata\\schema_audit_log.cpp",
-          "line": 217,
+          "line": 215,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3199,7 +3208,7 @@
         },
         {
           "file": "src\\metadata\\schema_audit_log.cpp",
-          "line": 168,
+          "line": 166,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "timestamp_sorting_unstable",
@@ -3211,7 +3220,7 @@
         },
         {
           "file": "src\\metadata\\schema_audit_log.cpp",
-          "line": 226,
+          "line": 224,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "arr.push_back(e.toJSON());",
@@ -3220,7 +3229,7 @@
         },
         {
           "file": "src\\metadata\\schema_audit_log.cpp",
-          "line": 218,
+          "line": 216,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "arr.push_back(e.toJSON());",
@@ -3229,7 +3238,7 @@
         },
         {
           "file": "src\\metadata\\schema_audit_log.cpp",
-          "line": 183,
+          "line": 181,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(SchemaAuditEntry::fromJSON(j));",
@@ -3238,7 +3247,7 @@
         },
         {
           "file": "src\\metadata\\schema_audit_log.cpp",
-          "line": 225,
+          "line": 223,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& e : getFullHistory()) {",
@@ -3247,7 +3256,7 @@
         },
         {
           "file": "src\\metadata\\schema_audit_log.cpp",
-          "line": 217,
+          "line": 215,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& e : getHistory(table_name)) {",
@@ -3258,7 +3267,7 @@
       "src\\metadata\\schema_consistency_checker.cpp": [
         {
           "file": "src\\metadata\\schema_consistency_checker.cpp",
-          "line": 246,
+          "line": 244,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -3270,7 +3279,7 @@
         },
         {
           "file": "src\\metadata\\schema_consistency_checker.cpp",
-          "line": 271,
+          "line": 269,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3282,7 +3291,7 @@
         },
         {
           "file": "src\\metadata\\schema_consistency_checker.cpp",
-          "line": 208,
+          "line": 206,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3294,7 +3303,7 @@
         },
         {
           "file": "src\\metadata\\schema_consistency_checker.cpp",
-          "line": 175,
+          "line": 173,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3306,7 +3315,7 @@
         },
         {
           "file": "src\\metadata\\schema_consistency_checker.cpp",
-          "line": 154,
+          "line": 152,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -3318,7 +3327,7 @@
         },
         {
           "file": "src\\metadata\\schema_consistency_checker.cpp",
-          "line": 272,
+          "line": 270,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "arr.push_back(issue.toJSON());",
@@ -3327,7 +3336,7 @@
         },
         {
           "file": "src\\metadata\\schema_consistency_checker.cpp",
-          "line": 209,
+          "line": 207,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "issues.push_back(std::move(issue));",
@@ -3336,7 +3345,7 @@
         },
         {
           "file": "src\\metadata\\schema_consistency_checker.cpp",
-          "line": 189,
+          "line": 187,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "issues.push_back(std::move(issue));",
@@ -3345,7 +3354,7 @@
         },
         {
           "file": "src\\metadata\\schema_consistency_checker.cpp",
-          "line": 176,
+          "line": 174,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "issues.push_back(std::move(issue));",
@@ -3354,7 +3363,7 @@
         },
         {
           "file": "src\\metadata\\schema_consistency_checker.cpp",
-          "line": 155,
+          "line": 153,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "issues.push_back(std::move(issue));",
@@ -3363,7 +3372,7 @@
         },
         {
           "file": "src\\metadata\\schema_consistency_checker.cpp",
-          "line": 245,
+          "line": 243,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::mutex> lk(bg_mutex_);",
@@ -3372,7 +3381,7 @@
         },
         {
           "file": "src\\metadata\\schema_consistency_checker.cpp",
-          "line": 136,
+          "line": 134,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto colon = key_str.find(':');",
@@ -3383,7 +3392,7 @@
       "src\\metadata\\distributed_catalog.cpp": [
         {
           "file": "src\\metadata\\distributed_catalog.cpp",
-          "line": 96,
+          "line": 94,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -3395,7 +3404,7 @@
         },
         {
           "file": "src\\metadata\\distributed_catalog.cpp",
-          "line": 21,
+          "line": 19,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",

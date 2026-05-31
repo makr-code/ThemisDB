@@ -1,12 +1,12 @@
 {
   "llama_cpp": {
-    "total": 46,
+    "total": 47,
     "severity_critical": 5,
-    "severity_high": 14,
+    "severity_high": 15,
     "severity_medium": 27,
     "by_category": {
       "memory": 1,
-      "reliability": 19,
+      "reliability": 20,
       "concurrency": 4,
       "raii": 2,
       "container": 10,
@@ -17,7 +17,7 @@
       "src\\llama_cpp\\llama_cpp_plugin.cpp": [
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 680,
+          "line": 704,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -29,7 +29,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 651,
+          "line": 675,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -41,7 +41,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 638,
+          "line": 662,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -53,7 +53,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 602,
+          "line": 626,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -65,7 +65,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 328,
+          "line": 330,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -77,7 +77,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 165,
+          "line": 167,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -89,7 +89,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 699,
+          "line": 723,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "delete p;",
@@ -98,7 +98,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 681,
+          "line": 705,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(generate(req));",
@@ -107,7 +107,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 656,
+          "line": 680,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.logits.push_back(std::move(logits));",
@@ -116,7 +116,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 652,
+          "line": 676,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.tokens.push_back(token_id);",
@@ -125,7 +125,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 643,
+          "line": 667,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.logits.push_back(std::move(logits));",
@@ -134,7 +134,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 639,
+          "line": 663,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.tokens.push_back(token_id);",
@@ -143,7 +143,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 607,
+          "line": 631,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.logits.push_back(std::move(logits));",
@@ -152,7 +152,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 603,
+          "line": 627,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.tokens.push_back(token_id);",
@@ -161,7 +161,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 449,
+          "line": 473,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -170,7 +170,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 436,
+          "line": 460,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -179,7 +179,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 403,
+          "line": 421,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "compact_prompt << \"[/MEMORY_SLOT]\\n\\n\";",
@@ -188,7 +188,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 329,
+          "line": 331,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "chunks.push_back(std::move(chunk));",
@@ -197,7 +197,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 297,
+          "line": 299,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -206,7 +206,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 262,
+          "line": 264,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -215,7 +215,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 248,
+          "line": 250,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -224,7 +224,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 166,
+          "line": 168,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(info));",
@@ -233,7 +233,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 90,
+          "line": 92,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -242,7 +242,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 699,
+          "line": 723,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "delete p;",
@@ -251,7 +251,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 372,
+          "line": 390,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (chars_it != request.metadata.end() && chars_it->is_number_integer()) {",
@@ -260,7 +260,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 371,
+          "line": 389,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "const auto chars_it = request.metadata.find(\"rag_tensor_slot_chars\");",
@@ -269,7 +269,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 368,
+          "line": 386,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (slots_it != request.metadata.end() && slots_it->is_number_integer()) {",
@@ -278,7 +278,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 367,
+          "line": 385,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "const auto slots_it = request.metadata.find(\"rag_tensor_slots\");",
@@ -287,7 +287,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 366,
+          "line": 384,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (request.metadata.is_object()) {",
@@ -296,19 +296,10 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 353,
+          "line": 360,
           "type": "no_retry_logic",
           "severity": "HIGH",
-          "snippet": "if (rag_mode_it != request.metadata.end() && rag_mode_it->is_string()) {",
-          "description": "http_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 352,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "const auto rag_mode_it = request.metadata.find(\"rag_mode\");",
+          "snippet": "request.prompt.size(),",
           "description": "http_call without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
         },
@@ -317,13 +308,31 @@
           "line": 351,
           "type": "no_retry_logic",
           "severity": "HIGH",
+          "snippet": "if (rag_mode_it != request.metadata.end() && rag_mode_it->is_string()) {",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 350,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "const auto rag_mode_it = request.metadata.find(\"rag_mode\");",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 349,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
           "snippet": "if (request.metadata.is_object()) {",
           "description": "http_call without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 293,
+          "line": 295,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.stream_callback(text);",
@@ -332,7 +341,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 290,
+          "line": 292,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "const std::string text = \"[stub:\" + request.prompt.substr(0, 40) + \"]\";",
@@ -341,7 +350,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 244,
+          "line": 246,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.stream_callback(bridged.text);",
@@ -350,7 +359,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 242,
+          "line": 244,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (request.stream_callback && !bridged.text.empty()) {",
@@ -359,7 +368,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 694,
+          "line": 718,
           "type": "smart_ptr_misuse",
           "severity": "CRITICAL",
           "snippet": "return new themis::llamacpp::LlamaCppPlugin();",
@@ -368,7 +377,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 373,
+          "line": 391,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "rag_tensor_slot_chars = chars_it->get<int>();",
@@ -377,7 +386,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 369,
+          "line": 387,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "rag_tensor_slots = slots_it->get<int>();",
@@ -386,7 +395,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 354,
+          "line": 352,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "rag_mode = rag_mode_it->get<std::string>();",
@@ -395,7 +404,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 353,
+          "line": 351,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "if (rag_mode_it != request.metadata.end() && rag_mode_it->is_string()) {",
@@ -406,7 +415,7 @@
       "src\\llama_cpp\\llama_cpp_registrar.cpp": [
         {
           "file": "src\\llama_cpp\\llama_cpp_registrar.cpp",
-          "line": 52,
+          "line": 50,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -415,7 +424,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_registrar.cpp",
-          "line": 61,
+          "line": 59,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "return [](LlamaCppPlugin& plugin, const json& config) -> bool {",
@@ -426,7 +435,7 @@
       "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp": [
         {
           "file": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line": 618,
+          "line": 649,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -438,7 +447,7 @@
         },
         {
           "file": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line": 579,
+          "line": 610,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -450,7 +459,7 @@
         },
         {
           "file": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line": 542,
+          "line": 573,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
