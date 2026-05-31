@@ -1,17 +1,17 @@
 {
-  "scan_date": "2026-05-31T18:35:59.875201",
+  "scan_date": "2026-05-31T20:07:38.653360",
   "phase": "Phase 1-11 Extended (28 scanners: 8 Phase 1-4 + 5 Phase 5 + 2 Phase 7 + 2 Phase 8 + 3 Phase 9 + 2 Phase 10 + 1 Phase 11)",
-  "total_gaps": 38201,
+  "total_gaps": 38257,
   "by_severity": {
-    "critical": 4856,
-    "high": 16019,
-    "medium": 17326,
-    "actionable": 20875
+    "critical": 4870,
+    "high": 16058,
+    "medium": 17329,
+    "actionable": 20928
   },
   "by_category": {
-    "security": 1478,
+    "security": 1479,
     "memory": 2237,
-    "reliability": 4717,
+    "reliability": 4731,
     "concurrency": 1874,
     "raii": 1902,
     "container": 7909,
@@ -27,17 +27,17 @@
     "performance_patterns": 6868,
     "gpu_memory_safety": 229,
     "query_correctness": 0,
-    "distributed_consistency": 1196,
-    "llm_ai_safety": 3487,
+    "distributed_consistency": 1203,
+    "llm_ai_safety": 3520,
     "observability": 491,
-    "determinism": 726,
+    "determinism": 727,
     "legacy_duplication": 323
   },
   "modules_scanned": 64,
   "top_modules": [
     {
       "module": "llm",
-      "gaps": 5668
+      "gaps": 5702
     },
     {
       "module": "server",
@@ -45,7 +45,7 @@
     },
     {
       "module": "sharding",
-      "gaps": 2278
+      "gaps": 2281
     },
     {
       "module": "analytics",
@@ -53,7 +53,7 @@
     },
     {
       "module": "rag",
-      "gaps": 1646
+      "gaps": 1661
     },
     {
       "module": "query",
@@ -77,14 +77,14 @@
     }
   ],
   "confidence_overview": {
-    "very_high": 6972,
-    "high": 7984,
-    "medium": 23245,
+    "very_high": 7011,
+    "high": 7986,
+    "medium": 23260,
     "low": 0
   },
   "confidence_by_category": {
     "unknown": {
-      "total": 24117,
+      "total": 24132,
       "high_confidence": 1658,
       "very_high_confidence": 101,
       "avg_confidence": 0.056
@@ -96,9 +96,9 @@
       "avg_confidence": 0.77
     },
     "llm_ai_safety": {
-      "total": 3487,
-      "high_confidence": 3487,
-      "very_high_confidence": 3358,
+      "total": 3520,
+      "high_confidence": 3520,
+      "very_high_confidence": 3391,
       "avg_confidence": 0.927
     },
     "legacy_duplication": {
@@ -108,9 +108,9 @@
       "avg_confidence": 0.736
     },
     "determinism": {
-      "total": 726,
-      "high_confidence": 156,
-      "very_high_confidence": 116,
+      "total": 727,
+      "high_confidence": 157,
+      "very_high_confidence": 117,
       "avg_confidence": 0.703
     },
     "audit_logging": {
@@ -132,9 +132,9 @@
       "avg_confidence": 0.742
     },
     "distributed_consistency": {
-      "total": 1196,
-      "high_confidence": 1196,
-      "very_high_confidence": 1004,
+      "total": 1203,
+      "high_confidence": 1203,
+      "very_high_confidence": 1009,
       "avg_confidence": 0.907
     },
     "deprecated_apis": {
@@ -144,5 +144,5 @@
       "avg_confidence": 0.802
     }
   },
-  "implementation_effort": "643.3 weeks (3216 days)"
+  "implementation_effort": "645.0 weeks (3224 days)"
 }

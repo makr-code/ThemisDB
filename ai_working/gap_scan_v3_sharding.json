@@ -1,9 +1,9 @@
 {
   "sharding": {
-    "total": 2278,
+    "total": 2281,
     "severity_critical": 324,
-    "severity_high": 1044,
-    "severity_medium": 910,
+    "severity_high": 1045,
+    "severity_medium": 912,
     "by_category": {
       "security": 18,
       "memory": 168,
@@ -20,10 +20,10 @@
       "oop_design": 6,
       "audit_logging": 12,
       "performance_patterns": 458,
-      "distributed_consistency": 466,
+      "distributed_consistency": 468,
       "llm_ai_safety": 3,
       "observability": 46,
-      "determinism": 21,
+      "determinism": 22,
       "legacy_duplication": 31
     },
     "by_file": {
@@ -13809,7 +13809,7 @@
       "src\\sharding\\adaptive_shard_router.cpp": [
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 479,
+          "line": 531,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -13821,7 +13821,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 296,
+          "line": 319,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -13833,7 +13833,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 233,
+          "line": 256,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -13845,7 +13845,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 494,
+          "line": 546,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -13857,7 +13857,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 488,
+          "line": 540,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -13869,7 +13869,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 479,
+          "line": 531,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -13881,7 +13881,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 476,
+          "line": 528,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -13893,7 +13893,19 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 296,
+          "line": 465,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (lhs.score != rhs.score) {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\sharding\\adaptive_shard_router.cpp",
+          "line": 319,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -13905,7 +13917,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 281,
+          "line": 304,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -13917,7 +13929,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 280,
+          "line": 303,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -13929,7 +13941,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 182,
+          "line": 205,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -13941,7 +13953,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 142,
+          "line": 165,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -13953,7 +13965,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 139,
+          "line": 162,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -13965,7 +13977,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 135,
+          "line": 158,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -13977,7 +13989,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 131,
+          "line": 154,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -13989,7 +14001,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 522,
+          "line": 574,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -14001,7 +14013,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 522,
+          "line": 574,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -14013,7 +14025,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 522,
+          "line": 574,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -14025,7 +14037,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 487,
+          "line": 539,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -14037,7 +14049,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 487,
+          "line": 539,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -14049,7 +14061,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 487,
+          "line": 539,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -14061,19 +14073,31 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 420,
+          "line": 473,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
           "description": "vector::push_back in loop without prior reserve()",
-          "context": "selected.push_back(match.shard_id);",
+          "context": "selected.push_back(candidate.shard_id);",
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 255,
+          "line": 455,
+          "category": "distributed_consistency",
+          "severity": "MEDIUM",
+          "pattern": "stale_read_undocumented",
+          "description": "Eventual/stale read without documentation of correctness",
+          "context": "// Skip stale topology entries (e.g., shard became unhealthy after scoring).",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\sharding\\adaptive_shard_router.cpp",
+          "line": 278,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -14085,7 +14109,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 131,
+          "line": 154,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_latency_metric",
@@ -14096,10 +14120,22 @@
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
+          "file": "src\\sharding\\adaptive_shard_router.cpp",
+          "line": 89,
+          "category": "distributed_consistency",
+          "severity": "MEDIUM",
+          "pattern": "stale_read_undocumented",
+          "description": "Eventual/stale read without documentation of correctness",
+          "context": "int best_freshness_rank = 2;  // 0=fresh, 1=stale, 2=missing",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\sharding\\adaptive_shard_router.cpp",
-          "line_number": 464,
+          "line_number": 516,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -14109,7 +14145,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 523,
+          "line": 575,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "scores.push_back(match.score);",
@@ -14118,7 +14154,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 488,
+          "line": 540,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "merged.push_back(item);",
@@ -14127,16 +14163,16 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 421,
+          "line": 474,
           "type": "copy_overhead",
           "severity": "MEDIUM",
-          "snippet": "selected.push_back(match.shard_id);",
+          "snippet": "selected.push_back(candidate.shard_id);",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 396,
+          "line": 419,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "context.domains.push_back(\"law\");",
@@ -14145,7 +14181,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 393,
+          "line": 416,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "context.domains.push_back(\"construction\");",
@@ -14154,7 +14190,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 388,
+          "line": 411,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "context.regions.push_back(\"munich\");",
@@ -14163,7 +14199,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 385,
+          "line": 408,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "context.regions.push_back(\"berlin\");",
@@ -14172,7 +14208,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 382,
+          "line": 405,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "context.regions.push_back(\"hamburg\");",
@@ -14181,7 +14217,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 256,
+          "line": 279,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "stats.iteration_details.push_back(iter_stats);",
@@ -14190,7 +14226,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 229,
+          "line": 252,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "all_iteration_results.push_back(iteration_results);",
@@ -14199,7 +14235,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 411,
+          "line": 440,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (already_queried.find(match.shard_id) != already_queried.end()) {",
@@ -14208,7 +14244,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 320,
+          "line": 343,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Invalid AdaptiveConfig\");",
@@ -14217,7 +14253,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 33,
+          "line": 35,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Invalid AdaptiveConfig\");",
@@ -14226,7 +14262,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 98,
+          "line": 111,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "pending = load_it->second.pending_requests;",

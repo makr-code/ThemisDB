@@ -29,20 +29,8 @@
     },
     {
       "module": "voice",
-      "file": "src\\voice\\voice_assistant_llm.cpp",
-      "line": 30,
-      "severity": "CRITICAL",
-      "category": "llm_ai_safety",
-      "pattern": "prompt_injection",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "User input in prompt without sanitization (injection risk)"
-    },
-    {
-      "module": "voice",
       "file": "src\\voice\\voice_assistant.cpp",
-      "line": 654,
+      "line": 659,
       "severity": "CRITICAL",
       "category": "audit_logging",
       "pattern": "missing_audit_log",
@@ -54,7 +42,7 @@
     {
       "module": "voice",
       "file": "src\\voice\\voice_assistant.cpp",
-      "line": 261,
+      "line": 264,
       "severity": "CRITICAL",
       "category": "audit_logging",
       "pattern": "missing_audit_log",
@@ -66,7 +54,7 @@
     {
       "module": "voice",
       "file": "src\\voice\\voice_assistant.cpp",
-      "line": 142,
+      "line": 144,
       "severity": "CRITICAL",
       "category": "audit_logging",
       "pattern": "missing_audit_log",
@@ -594,7 +582,7 @@
     {
       "module": "training",
       "file": "src\\training\\incremental_lora_trainer.cpp",
-      "line": 1164,
+      "line": 1204,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -606,7 +594,7 @@
     {
       "module": "training",
       "file": "src\\training\\incremental_lora_trainer.cpp",
-      "line": 1083,
+      "line": 1123,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -618,7 +606,7 @@
     {
       "module": "training",
       "file": "src\\training\\incremental_lora_trainer.cpp",
-      "line": 1077,
+      "line": 1117,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -630,7 +618,43 @@
     {
       "module": "training",
       "file": "src\\training\\incremental_lora_trainer.cpp",
-      "line": 1075,
+      "line": 1115,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "training",
+      "file": "src\\training\\incremental_lora_trainer.cpp",
+      "line": 1106,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "training",
+      "file": "src\\training\\incremental_lora_trainer.cpp",
+      "line": 1099,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "training",
+      "file": "src\\training\\incremental_lora_trainer.cpp",
+      "line": 1082,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -654,6 +678,18 @@
     {
       "module": "training",
       "file": "src\\training\\incremental_lora_trainer.cpp",
+      "line": 1061,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "training",
+      "file": "src\\training\\incremental_lora_trainer.cpp",
       "line": 1059,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
@@ -666,7 +702,7 @@
     {
       "module": "training",
       "file": "src\\training\\incremental_lora_trainer.cpp",
-      "line": 1042,
+      "line": 1053,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -678,7 +714,7 @@
     {
       "module": "training",
       "file": "src\\training\\incremental_lora_trainer.cpp",
-      "line": 1026,
+      "line": 1049,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -690,7 +726,7 @@
     {
       "module": "training",
       "file": "src\\training\\incremental_lora_trainer.cpp",
-      "line": 1021,
+      "line": 1047,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -702,7 +738,7 @@
     {
       "module": "training",
       "file": "src\\training\\incremental_lora_trainer.cpp",
-      "line": 1019,
+      "line": 1041,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -714,7 +750,7 @@
     {
       "module": "training",
       "file": "src\\training\\incremental_lora_trainer.cpp",
-      "line": 1013,
+      "line": 1038,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -726,7 +762,7 @@
     {
       "module": "training",
       "file": "src\\training\\incremental_lora_trainer.cpp",
-      "line": 1009,
+      "line": 1034,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -738,7 +774,7 @@
     {
       "module": "training",
       "file": "src\\training\\incremental_lora_trainer.cpp",
-      "line": 1007,
+      "line": 989,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -750,7 +786,7 @@
     {
       "module": "training",
       "file": "src\\training\\incremental_lora_trainer.cpp",
-      "line": 1001,
+      "line": 988,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -762,7 +798,7 @@
     {
       "module": "training",
       "file": "src\\training\\incremental_lora_trainer.cpp",
-      "line": 998,
+      "line": 986,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -774,7 +810,7 @@
     {
       "module": "training",
       "file": "src\\training\\incremental_lora_trainer.cpp",
-      "line": 994,
+      "line": 970,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -786,7 +822,7 @@
     {
       "module": "training",
       "file": "src\\training\\incremental_lora_trainer.cpp",
-      "line": 949,
+      "line": 966,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -798,7 +834,31 @@
     {
       "module": "training",
       "file": "src\\training\\incremental_lora_trainer.cpp",
-      "line": 948,
+      "line": 964,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "training",
+      "file": "src\\training\\incremental_lora_trainer.cpp",
+      "line": 953,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "training",
+      "file": "src\\training\\incremental_lora_trainer.cpp",
+      "line": 950,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -822,7 +882,7 @@
     {
       "module": "training",
       "file": "src\\training\\incremental_lora_trainer.cpp",
-      "line": 930,
+      "line": 945,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -834,79 +894,7 @@
     {
       "module": "training",
       "file": "src\\training\\incremental_lora_trainer.cpp",
-      "line": 926,
-      "severity": "CRITICAL",
-      "category": "llm_ai_safety",
-      "pattern": "prompt_injection",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "User input in prompt without sanitization (injection risk)"
-    },
-    {
-      "module": "training",
-      "file": "src\\training\\incremental_lora_trainer.cpp",
-      "line": 924,
-      "severity": "CRITICAL",
-      "category": "llm_ai_safety",
-      "pattern": "prompt_injection",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "User input in prompt without sanitization (injection risk)"
-    },
-    {
-      "module": "training",
-      "file": "src\\training\\incremental_lora_trainer.cpp",
-      "line": 913,
-      "severity": "CRITICAL",
-      "category": "llm_ai_safety",
-      "pattern": "prompt_injection",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "User input in prompt without sanitization (injection risk)"
-    },
-    {
-      "module": "training",
-      "file": "src\\training\\incremental_lora_trainer.cpp",
-      "line": 910,
-      "severity": "CRITICAL",
-      "category": "llm_ai_safety",
-      "pattern": "prompt_injection",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "User input in prompt without sanitization (injection risk)"
-    },
-    {
-      "module": "training",
-      "file": "src\\training\\incremental_lora_trainer.cpp",
-      "line": 906,
-      "severity": "CRITICAL",
-      "category": "llm_ai_safety",
-      "pattern": "prompt_injection",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "User input in prompt without sanitization (injection risk)"
-    },
-    {
-      "module": "training",
-      "file": "src\\training\\incremental_lora_trainer.cpp",
-      "line": 905,
-      "severity": "CRITICAL",
-      "category": "llm_ai_safety",
-      "pattern": "prompt_injection",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "User input in prompt without sanitization (injection risk)"
-    },
-    {
-      "module": "training",
-      "file": "src\\training\\incremental_lora_trainer.cpp",
-      "line": 289,
+      "line": 320,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -918,31 +906,31 @@
     {
       "module": "training",
       "file": "src\\training\\incremental_lora_trainer.cpp",
+      "line": 196,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "training",
+      "file": "src\\training\\incremental_lora_trainer.cpp",
+      "line": 195,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "training",
+      "file": "src\\training\\incremental_lora_trainer.cpp",
       "line": 165,
-      "severity": "CRITICAL",
-      "category": "llm_ai_safety",
-      "pattern": "prompt_injection",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "User input in prompt without sanitization (injection risk)"
-    },
-    {
-      "module": "training",
-      "file": "src\\training\\incremental_lora_trainer.cpp",
-      "line": 164,
-      "severity": "CRITICAL",
-      "category": "llm_ai_safety",
-      "pattern": "prompt_injection",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "User input in prompt without sanitization (injection risk)"
-    },
-    {
-      "module": "training",
-      "file": "src\\training\\incremental_lora_trainer.cpp",
-      "line": 134,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -3714,7 +3702,7 @@
     {
       "module": "sharding",
       "file": "src\\sharding\\adaptive_shard_router.cpp",
-      "line": 479,
+      "line": 531,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -3726,7 +3714,7 @@
     {
       "module": "sharding",
       "file": "src\\sharding\\adaptive_shard_router.cpp",
-      "line": 296,
+      "line": 319,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -3738,7 +3726,7 @@
     {
       "module": "sharding",
       "file": "src\\sharding\\adaptive_shard_router.cpp",
-      "line": 233,
+      "line": 256,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_consensus",
@@ -4674,7 +4662,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 6175,
+      "line": 6192,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_consensus",
@@ -4686,7 +4674,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 6011,
+      "line": 6028,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -4698,7 +4686,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 6010,
+      "line": 6027,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -4710,7 +4698,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 6005,
+      "line": 6022,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -4722,7 +4710,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 5973,
+      "line": 5990,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -4734,7 +4722,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 5965,
+      "line": 5982,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -4746,7 +4734,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 5960,
+      "line": 5977,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -4758,7 +4746,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 5898,
+      "line": 5915,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_consensus",
@@ -4770,7 +4758,43 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 5854,
+      "line": 5871,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
+      "line": 5866,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
+      "line": 5855,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
+      "line": 5850,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -4794,7 +4818,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 5838,
+      "line": 5848,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -4806,7 +4830,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 5833,
+      "line": 5839,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -4818,7 +4842,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 5832,
+      "line": 5837,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -4830,7 +4854,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 5831,
+      "line": 5829,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -4842,7 +4866,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 5822,
+      "line": 5828,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -4854,7 +4878,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 5820,
+      "line": 5827,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -4866,7 +4890,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 5812,
+      "line": 5802,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -4878,7 +4902,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 5811,
+      "line": 5751,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -4890,7 +4914,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 5810,
+      "line": 5749,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -4902,7 +4926,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 5785,
+      "line": 5748,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -4914,7 +4938,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 5734,
+      "line": 5742,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -4926,43 +4950,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 5732,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 5731,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 5725,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 5659,
+      "line": 5676,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_consensus",
@@ -4974,7 +4962,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 5365,
+      "line": 5382,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_consensus",
@@ -4986,7 +4974,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 4916,
+      "line": 4933,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_consensus",
@@ -4998,7 +4986,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 4892,
+      "line": 4909,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_consensus",
@@ -5010,7 +4998,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 4891,
+      "line": 4908,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_consensus",
@@ -5022,7 +5010,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 4890,
+      "line": 4907,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_consensus",
@@ -5034,7 +5022,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 4879,
+      "line": 4896,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_consensus",
@@ -5046,7 +5034,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 4042,
+      "line": 4059,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_consensus",
@@ -5058,7 +5046,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 3977,
+      "line": 3994,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_consensus",
@@ -5070,7 +5058,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 3500,
+      "line": 3517,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5082,7 +5070,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 3304,
+      "line": 3321,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5094,7 +5082,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 3303,
+      "line": 3320,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5106,7 +5094,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 3281,
+      "line": 3298,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5118,7 +5106,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 3278,
+      "line": 3295,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5130,7 +5118,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 3276,
+      "line": 3293,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5142,7 +5130,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 3274,
+      "line": 3291,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5154,7 +5142,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 3251,
+      "line": 3268,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5166,7 +5154,91 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 3247,
+      "line": 3264,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
+      "line": 3263,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
+      "line": 3262,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
+      "line": 3260,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
+      "line": 3259,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
+      "line": 3253,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
+      "line": 3249,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
+      "line": 3248,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5190,7 +5262,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 3245,
+      "line": 3244,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5202,7 +5274,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 3243,
+      "line": 3237,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5214,7 +5286,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 3242,
+      "line": 3079,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5226,7 +5298,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 3236,
+      "line": 3078,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5238,7 +5310,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 3232,
+      "line": 3077,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5250,7 +5322,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 3231,
+      "line": 3076,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5262,7 +5334,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 3229,
+      "line": 3075,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5274,7 +5346,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 3227,
+      "line": 3074,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5286,7 +5358,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 3220,
+      "line": 2986,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5298,7 +5370,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 3062,
+      "line": 2985,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5310,7 +5382,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 3061,
+      "line": 2952,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5322,7 +5394,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 3060,
+      "line": 2949,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5334,7 +5406,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 3059,
+      "line": 2948,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5346,7 +5418,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 3058,
+      "line": 2947,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5358,7 +5430,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 3057,
+      "line": 2944,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5370,19 +5442,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2969,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 2968,
+      "line": 2943,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5406,7 +5466,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2932,
+      "line": 2934,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5418,7 +5478,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2931,
+      "line": 2916,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5430,7 +5490,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2930,
+      "line": 2648,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5442,7 +5502,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2927,
+      "line": 2645,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5454,79 +5514,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2926,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 2918,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 2917,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 2899,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 2631,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 2628,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 2559,
+      "line": 2576,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_consensus",
@@ -5538,19 +5526,67 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
+      "line": 2539,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
+      "line": 2534,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
+      "line": 2533,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
       "line": 2522,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
+      "pattern": "missing_consensus",
       "confidence_score": 0.99,
       "confidence_band": "very_high",
       "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
+      "summary": "Write without consensus/replication acknowledgment"
     },
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2517,
+      "line": 2519,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_consensus",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Write without consensus/replication acknowledgment"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
+      "line": 2512,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5562,7 +5598,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2516,
+      "line": 2506,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5577,30 +5613,6 @@
       "line": 2505,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
-      "pattern": "missing_consensus",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Write without consensus/replication acknowledgment"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 2502,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_consensus",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Write without consensus/replication acknowledgment"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 2495,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
       "confidence_score": 0.99,
       "confidence_band": "very_high",
@@ -5610,31 +5622,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2489,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 2488,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 2467,
+      "line": 2484,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_consensus",
@@ -5646,7 +5634,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2461,
+      "line": 2478,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5658,7 +5646,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2363,
+      "line": 2380,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5670,7 +5658,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2362,
+      "line": 2379,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5682,7 +5670,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2357,
+      "line": 2374,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5694,7 +5682,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2318,
+      "line": 2335,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_consensus",
@@ -5706,7 +5694,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2253,
+      "line": 2270,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_consensus",
@@ -5718,7 +5706,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2243,
+      "line": 2260,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5730,7 +5718,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2222,
+      "line": 2239,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5742,7 +5730,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2217,
+      "line": 2234,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5754,7 +5742,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2212,
+      "line": 2229,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5766,7 +5754,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2211,
+      "line": 2228,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5778,7 +5766,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2208,
+      "line": 2225,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5790,7 +5778,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2189,
+      "line": 2206,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5802,7 +5790,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2187,
+      "line": 2204,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5814,7 +5802,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2164,
+      "line": 2181,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_consensus",
@@ -5826,7 +5814,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2097,
+      "line": 2114,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5838,7 +5826,139 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2096,
+      "line": 2113,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
+      "line": 2087,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
+      "line": 2083,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
+      "line": 2082,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
+      "line": 2080,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
+      "line": 2077,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
+      "line": 2076,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
+      "line": 2075,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
+      "line": 2074,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
+      "line": 2073,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
+      "line": 2072,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
+      "line": 2071,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5862,7 +5982,31 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2066,
+      "line": 2069,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
+      "line": 2068,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\replication_manager.cpp",
+      "line": 2067,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5898,7 +6042,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2060,
+      "line": 2061,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5910,7 +6054,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2059,
+      "line": 1805,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5922,7 +6066,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2058,
+      "line": 1801,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5934,7 +6078,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2057,
+      "line": 1799,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5946,7 +6090,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2056,
+      "line": 1790,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5958,7 +6102,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2055,
+      "line": 1747,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5970,7 +6114,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2054,
+      "line": 1745,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5982,7 +6126,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2053,
+      "line": 1742,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -5994,7 +6138,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2052,
+      "line": 1740,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -6006,7 +6150,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2051,
+      "line": 1734,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -6018,127 +6162,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 2050,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 2048,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 2046,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 2044,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 1788,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 1784,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 1782,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 1773,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 1730,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 1728,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 1725,
+      "line": 1726,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -6162,43 +6186,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\replication_manager.cpp",
-      "line": 1717,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 1709,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 1706,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\replication_manager.cpp",
-      "line": 1661,
+      "line": 1678,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -6318,7 +6306,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\conflict_resolution.cpp",
-      "line": 368,
+      "line": 374,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -6330,7 +6318,43 @@
     {
       "module": "replication",
       "file": "src\\replication\\conflict_resolution.cpp",
-      "line": 367,
+      "line": 373,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\conflict_resolution.cpp",
+      "line": 371,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\conflict_resolution.cpp",
+      "line": 369,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\conflict_resolution.cpp",
+      "line": 368,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -6354,7 +6378,19 @@
     {
       "module": "replication",
       "file": "src\\replication\\conflict_resolution.cpp",
-      "line": 362,
+      "line": 349,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\conflict_resolution.cpp",
+      "line": 347,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -6426,7 +6462,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\conflict_resolution.cpp",
-      "line": 338,
+      "line": 332,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -6438,19 +6474,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\conflict_resolution.cpp",
-      "line": 337,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\conflict_resolution.cpp",
-      "line": 329,
+      "line": 288,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -6474,7 +6498,31 @@
     {
       "module": "replication",
       "file": "src\\replication\\conflict_resolution.cpp",
-      "line": 282,
+      "line": 280,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\conflict_resolution.cpp",
+      "line": 279,
+      "severity": "CRITICAL",
+      "category": "distributed_consistency",
+      "pattern": "missing_version_tracking",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Concurrent update without version vector or causal ordering"
+    },
+    {
+      "module": "replication",
+      "file": "src\\replication\\conflict_resolution.cpp",
+      "line": 278,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -6498,31 +6546,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\conflict_resolution.cpp",
-      "line": 276,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\conflict_resolution.cpp",
       "line": 275,
-      "severity": "CRITICAL",
-      "category": "distributed_consistency",
-      "pattern": "missing_version_tracking",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Concurrent update without version vector or causal ordering"
-    },
-    {
-      "module": "replication",
-      "file": "src\\replication\\conflict_resolution.cpp",
-      "line": 274,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -6546,7 +6570,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\conflict_resolution.cpp",
-      "line": 269,
+      "line": 271,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -6570,7 +6594,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\conflict_resolution.cpp",
-      "line": 265,
+      "line": 257,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -6582,7 +6606,7 @@
     {
       "module": "replication",
       "file": "src\\replication\\conflict_resolution.cpp",
-      "line": 254,
+      "line": 238,
       "severity": "CRITICAL",
       "category": "distributed_consistency",
       "pattern": "missing_version_tracking",
@@ -6786,7 +6810,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 1260,
+      "line": 1271,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -6798,7 +6822,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 1255,
+      "line": 1266,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -6810,7 +6834,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 1223,
+      "line": 1234,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -6822,7 +6846,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 1220,
+      "line": 1231,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -6834,7 +6858,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 808,
+      "line": 819,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -6846,7 +6870,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 800,
+      "line": 811,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -6858,7 +6882,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 798,
+      "line": 809,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -6870,7 +6894,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 790,
+      "line": 801,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -6882,7 +6906,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 781,
+      "line": 792,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -6894,7 +6918,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 777,
+      "line": 788,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -6906,7 +6930,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 768,
+      "line": 779,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -6918,7 +6942,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 762,
+      "line": 773,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -6930,7 +6954,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 756,
+      "line": 767,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -6942,7 +6966,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 752,
+      "line": 763,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -6954,7 +6978,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 738,
+      "line": 749,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -6966,7 +6990,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 737,
+      "line": 748,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -6978,7 +7002,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 736,
+      "line": 747,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -6990,7 +7014,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 732,
+      "line": 743,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7002,7 +7026,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 724,
+      "line": 735,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7014,7 +7038,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 720,
+      "line": 731,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7026,7 +7050,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 711,
+      "line": 722,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7038,7 +7062,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 710,
+      "line": 721,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7050,7 +7074,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 705,
+      "line": 716,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7062,7 +7086,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 684,
+      "line": 695,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7074,7 +7098,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 675,
+      "line": 686,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7086,7 +7110,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 674,
+      "line": 685,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7098,7 +7122,31 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 668,
+      "line": 679,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "rag",
+      "file": "src\\rag\\rag_judge.cpp",
+      "line": 676,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "rag",
+      "file": "src\\rag\\rag_judge.cpp",
+      "line": 667,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7122,7 +7170,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 656,
+      "line": 659,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7134,7 +7182,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 654,
+      "line": 652,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7158,7 +7206,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 641,
+      "line": 597,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7170,7 +7218,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 637,
+      "line": 595,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7182,7 +7230,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 586,
+      "line": 593,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7194,7 +7242,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 584,
+      "line": 591,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7206,7 +7254,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 582,
+      "line": 589,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7218,7 +7266,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 580,
+      "line": 587,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7230,7 +7278,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 578,
+      "line": 583,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7242,7 +7290,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 576,
+      "line": 574,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7266,7 +7314,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 563,
+      "line": 571,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7278,7 +7326,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 561,
+      "line": 570,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7290,7 +7338,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 560,
+      "line": 569,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7302,7 +7350,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 559,
+      "line": 499,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7314,7 +7362,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 558,
+      "line": 489,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7326,7 +7374,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 488,
+      "line": 359,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7338,7 +7386,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 478,
+      "line": 350,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7350,7 +7398,31 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 348,
+      "line": 345,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "rag",
+      "file": "src\\rag\\rag_judge.cpp",
+      "line": 343,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "rag",
+      "file": "src\\rag\\rag_judge.cpp",
+      "line": 341,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7374,7 +7446,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 334,
+      "line": 323,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7386,7 +7458,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 332,
+      "line": 318,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7398,7 +7470,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 330,
+      "line": 316,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7410,7 +7482,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 328,
+      "line": 314,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7434,18 +7506,6 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 307,
-      "severity": "CRITICAL",
-      "category": "llm_ai_safety",
-      "pattern": "prompt_injection",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "User input in prompt without sanitization (injection risk)"
-    },
-    {
-      "module": "rag",
-      "file": "src\\rag\\rag_judge.cpp",
       "line": 305,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
@@ -7458,7 +7518,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 303,
+      "line": 269,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7470,7 +7530,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 301,
+      "line": 264,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7482,7 +7542,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 294,
+      "line": 245,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7494,7 +7554,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 263,
+      "line": 211,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7506,7 +7566,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 244,
+      "line": 209,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7518,7 +7578,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 210,
+      "line": 195,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7530,7 +7590,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 208,
+      "line": 190,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7542,7 +7602,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 194,
+      "line": 187,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7554,7 +7614,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 189,
+      "line": 179,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7566,7 +7626,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 186,
+      "line": 174,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7578,7 +7638,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 178,
+      "line": 173,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7590,7 +7650,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 170,
+      "line": 172,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7602,7 +7662,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 169,
+      "line": 171,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7614,7 +7674,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 168,
+      "line": 162,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -7626,7 +7686,43 @@
     {
       "module": "rag",
       "file": "src\\rag\\rag_judge.cpp",
-      "line": 167,
+      "line": 161,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "rag",
+      "file": "src\\rag\\rag_judge.cpp",
+      "line": 160,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "rag",
+      "file": "src\\rag\\rag_judge.cpp",
+      "line": 159,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "rag",
+      "file": "src\\rag\\rag_judge.cpp",
+      "line": 158,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -8718,7 +8814,67 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 537,
+      "line": 562,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "rag",
+      "file": "src\\rag\\batch_evaluator.cpp",
+      "line": 558,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "rag",
+      "file": "src\\rag\\batch_evaluator.cpp",
+      "line": 548,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "rag",
+      "file": "src\\rag\\batch_evaluator.cpp",
+      "line": 547,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "rag",
+      "file": "src\\rag\\batch_evaluator.cpp",
+      "line": 546,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "rag",
+      "file": "src\\rag\\batch_evaluator.cpp",
+      "line": 544,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -8754,7 +8910,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 522,
+      "line": 444,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -8766,7 +8922,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 521,
+      "line": 443,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -8778,7 +8934,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 519,
+      "line": 439,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -8790,19 +8946,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 508,
-      "severity": "CRITICAL",
-      "category": "llm_ai_safety",
-      "pattern": "prompt_injection",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "User input in prompt without sanitization (injection risk)"
-    },
-    {
-      "module": "rag",
-      "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 498,
+      "line": 420,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -8826,7 +8970,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 418,
+      "line": 403,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -8838,7 +8982,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 414,
+      "line": 402,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -8850,7 +8994,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 395,
+      "line": 381,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -8862,7 +9006,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 394,
+      "line": 362,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -8874,7 +9018,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 378,
+      "line": 361,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -8886,7 +9030,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 377,
+      "line": 343,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -8898,7 +9042,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 356,
+      "line": 341,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -8910,7 +9054,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 337,
+      "line": 322,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -8922,7 +9066,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 336,
+      "line": 317,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -8934,7 +9078,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 318,
+      "line": 312,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -8946,7 +9090,31 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 316,
+      "line": 310,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "rag",
+      "file": "src\\rag\\batch_evaluator.cpp",
+      "line": 305,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "rag",
+      "file": "src\\rag\\batch_evaluator.cpp",
+      "line": 301,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -8970,7 +9138,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 292,
+      "line": 295,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -8982,7 +9150,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 287,
+      "line": 291,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -8994,7 +9162,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 285,
+      "line": 289,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -9006,7 +9174,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 280,
+      "line": 288,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -9018,67 +9186,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 276,
-      "severity": "CRITICAL",
-      "category": "llm_ai_safety",
-      "pattern": "prompt_injection",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "User input in prompt without sanitization (injection risk)"
-    },
-    {
-      "module": "rag",
-      "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 272,
-      "severity": "CRITICAL",
-      "category": "llm_ai_safety",
-      "pattern": "prompt_injection",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "User input in prompt without sanitization (injection risk)"
-    },
-    {
-      "module": "rag",
-      "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 270,
-      "severity": "CRITICAL",
-      "category": "llm_ai_safety",
-      "pattern": "prompt_injection",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "User input in prompt without sanitization (injection risk)"
-    },
-    {
-      "module": "rag",
-      "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 266,
-      "severity": "CRITICAL",
-      "category": "llm_ai_safety",
-      "pattern": "prompt_injection",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "User input in prompt without sanitization (injection risk)"
-    },
-    {
-      "module": "rag",
-      "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 264,
-      "severity": "CRITICAL",
-      "category": "llm_ai_safety",
-      "pattern": "prompt_injection",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "User input in prompt without sanitization (injection risk)"
-    },
-    {
-      "module": "rag",
-      "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 263,
+      "line": 255,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -9102,7 +9210,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 253,
+      "line": 230,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -9114,7 +9222,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 229,
+      "line": 127,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -9138,7 +9246,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 125,
+      "line": 118,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -9150,7 +9258,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 117,
+      "line": 109,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -9186,7 +9294,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 106,
+      "line": 103,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -9210,7 +9318,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 101,
+      "line": 100,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -9222,7 +9330,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 99,
+      "line": 98,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -9234,7 +9342,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 97,
+      "line": 96,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -9246,7 +9354,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 95,
+      "line": 90,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -9270,7 +9378,7 @@
     {
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 88,
+      "line": 86,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -9295,18 +9403,6 @@
       "module": "rag",
       "file": "src\\rag\\batch_evaluator.cpp",
       "line": 84,
-      "severity": "CRITICAL",
-      "category": "llm_ai_safety",
-      "pattern": "prompt_injection",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "User input in prompt without sanitization (injection risk)"
-    },
-    {
-      "module": "rag",
-      "file": "src\\rag\\batch_evaluator.cpp",
-      "line": 83,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -13926,6 +14022,30 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
+      "line": 404,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "llm",
+      "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
+      "line": 400,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "llm",
+      "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
       "line": 378,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
@@ -13938,7 +14058,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-      "line": 374,
+      "line": 377,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -13950,7 +14070,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-      "line": 357,
+      "line": 369,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -13962,7 +14082,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-      "line": 351,
+      "line": 363,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -13974,7 +14094,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-      "line": 344,
+      "line": 356,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -13986,7 +14106,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-      "line": 341,
+      "line": 353,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -13998,7 +14118,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-      "line": 324,
+      "line": 336,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -14010,7 +14130,19 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-      "line": 221,
+      "line": 325,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "llm",
+      "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
+      "line": 222,
       "severity": "CRITICAL",
       "category": "gpu_memory_safety",
       "pattern": "missing_sync_threads",
@@ -14022,7 +14154,19 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-      "line": 204,
+      "line": 205,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "llm",
+      "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
+      "line": 190,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -14046,7 +14190,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-      "line": 188,
+      "line": 184,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -14058,7 +14202,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-      "line": 183,
+      "line": 170,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -14070,7 +14214,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-      "line": 169,
+      "line": 163,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -14082,7 +14226,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-      "line": 162,
+      "line": 160,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -14094,7 +14238,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-      "line": 159,
+      "line": 147,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -14106,7 +14250,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-      "line": 146,
+      "line": 139,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -14118,7 +14262,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-      "line": 138,
+      "line": 133,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -14130,7 +14274,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-      "line": 132,
+      "line": 127,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -14154,7 +14298,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-      "line": 125,
+      "line": 92,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -14166,7 +14310,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-      "line": 91,
+      "line": 71,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -14178,7 +14322,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-      "line": 70,
+      "line": 64,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -14202,7 +14346,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-      "line": 62,
+      "line": 51,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -14214,7 +14358,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-      "line": 50,
+      "line": 41,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -14226,7 +14370,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-      "line": 40,
+      "line": 31,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -14238,19 +14382,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-      "line": 30,
-      "severity": "CRITICAL",
-      "category": "llm_ai_safety",
-      "pattern": "prompt_injection",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "User input in prompt without sanitization (injection risk)"
-    },
-    {
-      "module": "llm",
-      "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-      "line": 27,
+      "line": 28,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15126,6 +15258,42 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+      "line": 717,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "llm",
+      "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+      "line": 715,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "llm",
+      "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+      "line": 698,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "llm",
+      "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
       "line": 693,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
@@ -15138,7 +15306,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 691,
+      "line": 495,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15150,7 +15318,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 674,
+      "line": 493,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15162,7 +15330,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 669,
+      "line": 491,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15174,7 +15342,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 471,
+      "line": 489,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15186,7 +15354,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 469,
+      "line": 487,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15198,7 +15366,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 467,
+      "line": 484,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15222,7 +15390,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 463,
+      "line": 462,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15234,7 +15402,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 460,
+      "line": 461,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15246,7 +15414,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 444,
+      "line": 456,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15258,7 +15426,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 441,
+      "line": 454,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15270,7 +15438,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 440,
+      "line": 453,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15282,7 +15450,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 435,
+      "line": 452,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15294,7 +15462,19 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 433,
+      "line": 445,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "llm",
+      "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+      "line": 436,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15330,7 +15510,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 424,
+      "line": 428,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15342,7 +15522,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 415,
+      "line": 422,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15354,7 +15534,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 411,
+      "line": 420,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15366,7 +15546,19 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 410,
+      "line": 419,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "llm",
+      "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+      "line": 408,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15390,7 +15582,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 401,
+      "line": 402,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15402,7 +15594,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 399,
+      "line": 388,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15414,7 +15606,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 398,
+      "line": 384,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15426,7 +15618,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 387,
+      "line": 383,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15438,7 +15630,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 386,
+      "line": 380,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15450,7 +15642,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 381,
+      "line": 374,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15462,7 +15654,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 367,
+      "line": 372,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15474,7 +15666,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 363,
+      "line": 371,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15486,7 +15678,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 362,
+      "line": 360,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15510,31 +15702,19 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 353,
+      "line": 358,
       "severity": "CRITICAL",
-      "category": "llm_ai_safety",
-      "pattern": "prompt_injection",
+      "category": "gpu_memory_safety",
+      "pattern": "gpu_memory_leak",
       "confidence_score": 0.99,
       "confidence_band": "very_high",
       "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "User input in prompt without sanitization (injection risk)"
+      "summary": "GPU memory allocated without RAII wrapper or guaranteed cleanup"
     },
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 351,
-      "severity": "CRITICAL",
-      "category": "llm_ai_safety",
-      "pattern": "prompt_injection",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "User input in prompt without sanitization (injection risk)"
-    },
-    {
-      "module": "llm",
-      "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 350,
+      "line": 354,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15570,19 +15750,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 337,
-      "severity": "CRITICAL",
-      "category": "gpu_memory_safety",
-      "pattern": "gpu_memory_leak",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "GPU memory allocated without RAII wrapper or guaranteed cleanup"
-    },
-    {
-      "module": "llm",
-      "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 333,
+      "line": 329,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15594,7 +15762,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 318,
+      "line": 323,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15606,7 +15774,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 317,
+      "line": 319,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15618,7 +15786,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 308,
+      "line": 312,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15630,7 +15798,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 302,
+      "line": 299,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15642,7 +15810,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 298,
+      "line": 293,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15654,7 +15822,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 291,
+      "line": 292,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15666,7 +15834,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 278,
+      "line": 283,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15678,7 +15846,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 272,
+      "line": 254,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15690,7 +15858,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 271,
+      "line": 253,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15702,19 +15870,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 242,
-      "severity": "CRITICAL",
-      "category": "llm_ai_safety",
-      "pattern": "prompt_injection",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "User input in prompt without sanitization (injection risk)"
-    },
-    {
-      "module": "llm",
-      "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 241,
+      "line": 252,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15738,7 +15894,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 228,
+      "line": 227,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15750,7 +15906,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 215,
+      "line": 220,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15762,7 +15918,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 208,
+      "line": 206,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15774,7 +15930,19 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 194,
+      "line": 196,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "llm",
+      "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+      "line": 190,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15798,7 +15966,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 178,
+      "line": 176,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15810,7 +15978,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 172,
+      "line": 175,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15822,7 +15990,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 164,
+      "line": 169,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15834,7 +16002,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 163,
+      "line": 158,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15846,7 +16014,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 157,
+      "line": 152,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15870,7 +16038,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 140,
+      "line": 138,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15882,7 +16050,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 134,
+      "line": 137,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15894,31 +16062,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 126,
-      "severity": "CRITICAL",
-      "category": "llm_ai_safety",
-      "pattern": "prompt_injection",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "User input in prompt without sanitization (injection risk)"
-    },
-    {
-      "module": "llm",
-      "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 125,
-      "severity": "CRITICAL",
-      "category": "llm_ai_safety",
-      "pattern": "prompt_injection",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "User input in prompt without sanitization (injection risk)"
-    },
-    {
-      "module": "llm",
-      "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 124,
+      "line": 136,
       "severity": "CRITICAL",
       "category": "gpu_memory_safety",
       "pattern": "gpu_memory_leak",
@@ -15930,7 +16074,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 119,
+      "line": 131,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15942,7 +16086,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 103,
+      "line": 115,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15954,7 +16098,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 98,
+      "line": 110,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15966,7 +16110,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 93,
+      "line": 105,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -15978,7 +16122,31 @@
     {
       "module": "llm",
       "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 73,
+      "line": 94,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "llm",
+      "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+      "line": 91,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "prompt_injection",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "User input in prompt without sanitization (injection risk)"
+    },
+    {
+      "module": "llm",
+      "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+      "line": 79,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -17526,7 +17694,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 3224,
+      "line": 3285,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -17538,7 +17706,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 3164,
+      "line": 3225,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -17550,7 +17718,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 3146,
+      "line": 3207,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -17562,7 +17730,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 2636,
+      "line": 2697,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -17574,7 +17742,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 2619,
+      "line": 2680,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -17586,7 +17754,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 2347,
+      "line": 2408,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -17598,7 +17766,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 2199,
+      "line": 2260,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -17610,7 +17778,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 1494,
+      "line": 1543,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -17622,7 +17790,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 1489,
+      "line": 1538,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -17634,7 +17802,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 1469,
+      "line": 1518,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -17646,7 +17814,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 1349,
+      "line": 1398,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -17658,7 +17826,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 1002,
+      "line": 1051,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -17670,7 +17838,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 979,
+      "line": 1028,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -17682,7 +17850,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 902,
+      "line": 951,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "prompt_injection",
@@ -17694,7 +17862,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 866,
+      "line": 915,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -17706,7 +17874,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 862,
+      "line": 911,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -17718,7 +17886,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 859,
+      "line": 908,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -17730,7 +17898,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 705,
+      "line": 719,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -17742,7 +17910,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 702,
+      "line": 716,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -17754,7 +17922,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 680,
+      "line": 694,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -17766,7 +17934,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 652,
+      "line": 666,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -17778,7 +17946,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 649,
+      "line": 663,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -17790,7 +17958,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 567,
+      "line": 581,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -17802,7 +17970,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 536,
+      "line": 550,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -17814,7 +17982,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 535,
+      "line": 549,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -17826,7 +17994,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 524,
+      "line": 538,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -17838,7 +18006,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 523,
+      "line": 537,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -17850,7 +18018,7 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 505,
+      "line": 519,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -17862,7 +18030,31 @@
     {
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 436,
+      "line": 450,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "model_integrity_gap",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Model loading without integrity verification (poisoning risk)"
+    },
+    {
+      "module": "llm",
+      "file": "src\\llm\\llama_wrapper.cpp",
+      "line": 358,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "pattern": "model_integrity_gap",
+      "confidence_score": 0.99,
+      "confidence_band": "very_high",
+      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
+      "summary": "Model loading without integrity verification (poisoning risk)"
+    },
+    {
+      "module": "llm",
+      "file": "src\\llm\\llama_wrapper.cpp",
+      "line": 351,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -17875,30 +18067,6 @@
       "module": "llm",
       "file": "src\\llm\\llama_wrapper.cpp",
       "line": 344,
-      "severity": "CRITICAL",
-      "category": "llm_ai_safety",
-      "pattern": "model_integrity_gap",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Model loading without integrity verification (poisoning risk)"
-    },
-    {
-      "module": "llm",
-      "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 337,
-      "severity": "CRITICAL",
-      "category": "llm_ai_safety",
-      "pattern": "model_integrity_gap",
-      "confidence_score": 0.99,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific",
-      "summary": "Model loading without integrity verification (poisoning risk)"
-    },
-    {
-      "module": "llm",
-      "file": "src\\llm\\llama_wrapper.cpp",
-      "line": 330,
       "severity": "CRITICAL",
       "category": "llm_ai_safety",
       "pattern": "model_integrity_gap",
@@ -22914,7 +23082,7 @@
     {
       "module": "voice",
       "file": "src\\voice\\voice_authenticator.cpp",
-      "line": 419,
+      "line": 430,
       "severity": "HIGH",
       "category": "performance",
       "pattern": "lock_in_loop",
@@ -23022,7 +23190,7 @@
     {
       "module": "voice",
       "file": "src\\voice\\voice_assistant_llm.cpp",
-      "line": 140,
+      "line": 187,
       "severity": "HIGH",
       "category": "llm_ai_safety",
       "pattern": "unvalidated_llm_output",
@@ -23034,7 +23202,7 @@
     {
       "module": "voice",
       "file": "src\\voice\\voice_assistant_llm.cpp",
-      "line": 101,
+      "line": 146,
       "severity": "HIGH",
       "category": "llm_ai_safety",
       "pattern": "unvalidated_llm_output",
@@ -23046,7 +23214,7 @@
     {
       "module": "voice",
       "file": "src\\voice\\voice_assistant_llm.cpp",
-      "line": 49,
+      "line": 90,
       "severity": "HIGH",
       "category": "llm_ai_safety",
       "pattern": "unvalidated_llm_output",
@@ -23058,7 +23226,7 @@
     {
       "module": "voice",
       "file": "src\\voice\\voice_assistant_llm.cpp",
-      "line": 47,
+      "line": 88,
       "severity": "HIGH",
       "category": "llm_ai_safety",
       "pattern": "unvalidated_llm_output",
@@ -23082,19 +23250,7 @@
     {
       "module": "voice",
       "file": "src\\voice\\voice_assistant_llm.cpp",
-      "line": 30,
-      "severity": "HIGH",
-      "category": "llm_ai_safety",
-      "pattern": "unsanitized_llm_input",
-      "confidence_score": 0.9,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific",
-      "summary": "User input passed to LLM without normalization/sanitization"
-    },
-    {
-      "module": "voice",
-      "file": "src\\voice\\voice_assistant_llm.cpp",
-      "line": 28,
+      "line": 42,
       "severity": "HIGH",
       "category": "llm_ai_safety",
       "pattern": "unvalidated_llm_output",
@@ -23106,7 +23262,7 @@
     {
       "module": "voice",
       "file": "src\\voice\\voice_assistant.cpp",
-      "line": 616,
+      "line": 621,
       "severity": "HIGH",
       "category": "performance",
       "pattern": "lock_in_loop",
@@ -23839,162 +23995,6 @@
       "module": "utils",
       "file": "src\\utils\\audit_logger.cpp",
       "line": 902,
-      "severity": "HIGH",
-      "category": "performance",
-      "pattern": "lock_in_loop",
-      "confidence_score": 0.9,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific",
-      "summary": "Mutex lock acquired per iteration (move outside loop)"
-    },
-    {
-      "module": "utils",
-      "file": "src\\utils\\audit_logger.cpp",
-      "line": 593,
-      "severity": "HIGH",
-      "category": "performance",
-      "pattern": "lock_in_loop",
-      "confidence_score": 0.9,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific",
-      "summary": "Mutex lock acquired per iteration (move outside loop)"
-    },
-    {
-      "module": "user_storage_encrypted",
-      "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
-      "line": 189,
-      "severity": "HIGH",
-      "category": "audit_logging",
-      "pattern": "hardcoded_output",
-      "confidence_score": 0.9,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific",
-      "summary": "Hardcoded std::cout/printf instead of structured logging"
-    },
-    {
-      "module": "user_storage_encrypted",
-      "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
-      "line": 156,
-      "severity": "HIGH",
-      "category": "audit_logging",
-      "pattern": "hardcoded_output",
-      "confidence_score": 0.9,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific",
-      "summary": "Hardcoded std::cout/printf instead of structured logging"
-    },
-    {
-      "module": "user_storage_encrypted",
-      "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
-      "line": 233,
-      "severity": "HIGH",
-      "category": "audit_logging",
-      "pattern": "hardcoded_output",
-      "confidence_score": 0.9,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific",
-      "summary": "Hardcoded std::cout/printf instead of structured logging"
-    },
-    {
-      "module": "updates",
-      "file": "src\\updates\\update_state_machine.cpp",
-      "line": 243,
-      "severity": "HIGH",
-      "category": "performance",
-      "pattern": "lock_in_loop",
-      "confidence_score": 0.9,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific",
-      "summary": "Mutex lock acquired per iteration (move outside loop)"
-    },
-    {
-      "module": "updates",
-      "file": "src\\updates\\update_state_machine.cpp",
-      "line": 204,
-      "severity": "HIGH",
-      "category": "performance",
-      "pattern": "lock_in_loop",
-      "confidence_score": 0.9,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific",
-      "summary": "Mutex lock acquired per iteration (move outside loop)"
-    },
-    {
-      "module": "updates",
-      "file": "src\\updates\\tenant_update_scheduler.cpp",
-      "line": 522,
-      "severity": "HIGH",
-      "category": "performance",
-      "pattern": "lock_in_loop",
-      "confidence_score": 0.9,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific",
-      "summary": "Mutex lock acquired per iteration (move outside loop)"
-    },
-    {
-      "module": "updates",
-      "file": "src\\updates\\tenant_update_scheduler.cpp",
-      "line": 282,
-      "severity": "HIGH",
-      "category": "performance",
-      "pattern": "lock_in_loop",
-      "confidence_score": 0.9,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific",
-      "summary": "Mutex lock acquired per iteration (move outside loop)"
-    },
-    {
-      "module": "updates",
-      "file": "src\\updates\\parallel_downloader.cpp",
-      "line": 488,
-      "severity": "HIGH",
-      "category": "performance",
-      "pattern": "lock_in_loop",
-      "confidence_score": 0.9,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific",
-      "summary": "Mutex lock acquired per iteration (move outside loop)"
-    },
-    {
-      "module": "updates",
-      "file": "src\\updates\\hardware_telemetry.cpp",
-      "line": 397,
-      "severity": "HIGH",
-      "category": "audit_logging",
-      "pattern": "hardcoded_output",
-      "confidence_score": 0.9,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific",
-      "summary": "Hardcoded std::cout/printf instead of structured logging"
-    },
-    {
-      "module": "updates",
-      "file": "src\\updates\\dependency_resolver.cpp",
-      "line": 178,
-      "severity": "HIGH",
-      "category": "audit_logging",
-      "pattern": "hardcoded_output",
-      "confidence_score": 0.9,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific",
-      "summary": "Hardcoded std::cout/printf instead of structured logging"
-    },
-    {
-      "module": "updates",
-      "file": "src\\updates\\coordinated_update_manager.cpp",
-      "line": 146,
-      "severity": "HIGH",
-      "category": "performance",
-      "pattern": "lock_in_loop",
-      "confidence_score": 0.9,
-      "confidence_band": "very_high",
-      "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific",
-      "summary": "Mutex lock acquired per iteration (move outside loop)"
-    },
-    {
-      "module": "updates",
-      "file": "src\\updates\\coordinated_update_manager.cpp",
-      "line": 136,
       "severity": "HIGH",
       "category": "performance",
       "pattern": "lock_in_loop",

@@ -1,8 +1,8 @@
 {
   "rag": {
-    "total": 1646,
-    "severity_critical": 356,
-    "severity_high": 677,
+    "total": 1661,
+    "severity_critical": 362,
+    "severity_high": 686,
     "severity_medium": 613,
     "by_category": {
       "security": 24,
@@ -19,7 +19,7 @@
       "audit_logging": 56,
       "performance_patterns": 228,
       "distributed_consistency": 2,
-      "llm_ai_safety": 658,
+      "llm_ai_safety": 673,
       "observability": 12,
       "determinism": 52,
       "legacy_duplication": 3
@@ -234,7 +234,7 @@
       "src\\rag\\batch_evaluator.cpp": [
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 537,
+          "line": 562,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -246,7 +246,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 533,
+          "line": 558,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -258,7 +258,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 523,
+          "line": 548,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -270,7 +270,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 522,
+          "line": 547,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -282,7 +282,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 521,
+          "line": 546,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -294,7 +294,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 519,
+          "line": 544,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -306,7 +306,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 508,
+          "line": 533,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -318,7 +318,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 498,
+          "line": 523,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -330,7 +330,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 419,
+          "line": 444,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -342,7 +342,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 418,
+          "line": 443,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -354,7 +354,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 414,
+          "line": 439,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -366,7 +366,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 395,
+          "line": 420,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -378,7 +378,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 394,
+          "line": 419,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -390,7 +390,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 378,
+          "line": 403,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -402,7 +402,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 377,
+          "line": 402,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -414,7 +414,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 356,
+          "line": 381,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -426,7 +426,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 337,
+          "line": 362,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -438,7 +438,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 336,
+          "line": 361,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -450,7 +450,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 318,
+          "line": 343,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -462,7 +462,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 316,
+          "line": 341,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -474,7 +474,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 297,
+          "line": 322,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -486,7 +486,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 292,
+          "line": 317,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -498,7 +498,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 287,
+          "line": 312,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -510,7 +510,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 285,
+          "line": 310,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -522,7 +522,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 280,
+          "line": 305,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -534,7 +534,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 276,
+          "line": 301,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -546,7 +546,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 272,
+          "line": 297,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -558,7 +558,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 270,
+          "line": 295,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -570,7 +570,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 266,
+          "line": 291,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -582,7 +582,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 264,
+          "line": 289,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -594,7 +594,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 263,
+          "line": 288,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -606,19 +606,19 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 254,
+          "line": 255,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
           "description": "User input in prompt without sanitization (injection risk)",
-          "context": "return judge_->evaluate(input);",
+          "context": "EvaluationInput safe_input = input;",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 253,
+          "line": 254,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -630,7 +630,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 229,
+          "line": 230,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -642,7 +642,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 126,
+          "line": 127,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -654,7 +654,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 125,
+          "line": 126,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -666,7 +666,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 117,
+          "line": 118,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -678,7 +678,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 108,
+          "line": 109,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -690,7 +690,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 107,
+          "line": 108,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -702,7 +702,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 106,
+          "line": 107,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -714,7 +714,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 102,
+          "line": 103,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -726,7 +726,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 101,
+          "line": 102,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -738,7 +738,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 99,
+          "line": 100,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -750,7 +750,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 97,
+          "line": 98,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -762,7 +762,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 95,
+          "line": 96,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -774,7 +774,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 89,
+          "line": 90,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -786,7 +786,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 88,
+          "line": 89,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -798,7 +798,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 85,
+          "line": 86,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -810,7 +810,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 84,
+          "line": 85,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -822,7 +822,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 83,
+          "line": 84,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -834,7 +834,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 537,
+          "line": 562,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -846,7 +846,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 533,
+          "line": 558,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -858,7 +858,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 523,
+          "line": 548,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -870,7 +870,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 522,
+          "line": 547,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -882,7 +882,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 522,
+          "line": 547,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -894,7 +894,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 522,
+          "line": 547,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -906,7 +906,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 521,
+          "line": 546,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -918,7 +918,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 521,
+          "line": 546,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -930,7 +930,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 519,
+          "line": 544,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -942,7 +942,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 519,
+          "line": 544,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -954,7 +954,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 508,
+          "line": 533,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -966,7 +966,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 498,
+          "line": 523,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -978,7 +978,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 419,
+          "line": 444,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -990,7 +990,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 418,
+          "line": 443,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1002,7 +1002,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 414,
+          "line": 439,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1014,7 +1014,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 395,
+          "line": 420,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1026,7 +1026,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 394,
+          "line": 419,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1038,7 +1038,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 378,
+          "line": 403,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1050,7 +1050,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 377,
+          "line": 402,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1062,7 +1062,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 356,
+          "line": 381,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1074,7 +1074,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 337,
+          "line": 362,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1086,7 +1086,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 337,
+          "line": 362,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1098,7 +1098,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 336,
+          "line": 361,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1110,7 +1110,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 336,
+          "line": 361,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1122,7 +1122,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 318,
+          "line": 343,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1134,7 +1134,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 318,
+          "line": 343,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1146,7 +1146,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 316,
+          "line": 341,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1158,7 +1158,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 316,
+          "line": 341,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1170,7 +1170,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 297,
+          "line": 322,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1182,7 +1182,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 297,
+          "line": 322,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1194,7 +1194,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 292,
+          "line": 317,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1206,7 +1206,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 292,
+          "line": 317,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1218,7 +1218,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 287,
+          "line": 312,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1230,7 +1230,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 285,
+          "line": 310,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1242,7 +1242,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 285,
+          "line": 310,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1254,7 +1254,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 280,
+          "line": 305,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1266,7 +1266,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 280,
+          "line": 305,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1278,7 +1278,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 276,
+          "line": 301,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1290,7 +1290,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 276,
+          "line": 301,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1302,7 +1302,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 272,
+          "line": 297,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1314,7 +1314,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 272,
+          "line": 297,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1326,7 +1326,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 270,
+          "line": 295,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1338,7 +1338,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 270,
+          "line": 295,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1350,7 +1350,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 269,
+          "line": 294,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -1362,7 +1362,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 266,
+          "line": 291,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1374,7 +1374,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 264,
+          "line": 289,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1386,7 +1386,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 264,
+          "line": 289,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1398,7 +1398,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 263,
+          "line": 288,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1410,12 +1410,36 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 263,
+          "line": 288,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
           "context": "std::vector<EvaluationInput> inputs;",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\rag\\batch_evaluator.cpp",
+          "line": 260,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unvalidated_llm_output",
+          "description": "LLM output used without validation (hallucination/bias risk)",
+          "context": "safe_input.generated_answer = sanitizer.sanitize(input.generated_answer);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\rag\\batch_evaluator.cpp",
+          "line": 255,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "EvaluationInput safe_input = input;",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -1427,18 +1451,6 @@
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
-          "context": "return judge_->evaluate(input);",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 253,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unsanitized_llm_input",
-          "description": "User input passed to LLM without normalization/sanitization",
           "context": "EvaluationResult BatchEvaluator::processEvaluation(const EvaluationInput& input) {",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
@@ -1446,7 +1458,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 229,
+          "line": 230,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1458,7 +1470,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 196,
+          "line": 197,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1470,7 +1482,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 126,
+          "line": 127,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1482,7 +1494,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 125,
+          "line": 126,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1494,7 +1506,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 117,
+          "line": 118,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1506,7 +1518,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 108,
+          "line": 109,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1518,7 +1530,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 107,
+          "line": 108,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1530,7 +1542,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 106,
+          "line": 107,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1542,7 +1554,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 102,
+          "line": 103,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1554,7 +1566,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 101,
+          "line": 102,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1566,7 +1578,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 99,
+          "line": 100,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1578,7 +1590,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 97,
+          "line": 98,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1590,7 +1602,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 95,
+          "line": 96,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1602,7 +1614,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 89,
+          "line": 90,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1614,7 +1626,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 88,
+          "line": 89,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1626,7 +1638,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 85,
+          "line": 86,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1638,7 +1650,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 84,
+          "line": 85,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1650,7 +1662,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 83,
+          "line": 84,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -1662,7 +1674,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 586,
+          "line": 611,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1674,7 +1686,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 522,
+          "line": 547,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1686,7 +1698,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 286,
+          "line": 311,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1698,7 +1710,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 196,
+          "line": 197,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1712,7 +1724,7 @@
           "gap_type": "missing_move_constructor_defaulted",
           "severity": "MEDIUM",
           "file_path": "src\\rag\\batch_evaluator.cpp",
-          "line_number": 534,
+          "line_number": 559,
           "class_name": "",
           "issue": "Copy constructor exists but no move constructor (Rule of Five)",
           "reason": "Missing move ctor prevents efficient rvalue transfers",
@@ -1722,7 +1734,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 523,
+          "line": 548,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "handles.push_back(evaluateAsync(input));",
@@ -1731,7 +1743,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 287,
+          "line": 312,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(processEvaluation(input));",
@@ -1740,7 +1752,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 270,
+          "line": 295,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "inputs.push_back(std::move(in));",
@@ -1749,7 +1761,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 243,
+          "line": 244,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -1758,7 +1770,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 65,
+          "line": 66,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1767,7 +1779,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 559,
+          "line": 584,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(5));",
@@ -1776,7 +1788,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 552,
+          "line": 577,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(queue_mutex_);",
@@ -1785,7 +1797,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 503,
+          "line": 528,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "handle->future_ = promise.get_future();",
@@ -1794,7 +1806,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 500,
+          "line": 525,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "handle->cancelled_.store(false);",
@@ -1803,7 +1815,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 211,
+          "line": 212,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::mutex> lock(queue_mutex_);",
@@ -1812,7 +1824,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 160,
+          "line": 161,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"AsyncEvaluationHandle: evaluation was cancelled\");",
@@ -1821,7 +1833,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 146,
+          "line": 147,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "return future_.wait_for(std::chrono::seconds(0)) == std::future_status::ready;",
@@ -1830,7 +1842,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 213,
+          "line": 214,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "queue_cv_.wait(lock, [this] {",
@@ -9836,7 +9848,7 @@
       "src\\rag\\rag_judge.cpp": [
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 1260,
+          "line": 1271,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -9848,7 +9860,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 1255,
+          "line": 1266,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -9860,7 +9872,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 1223,
+          "line": 1234,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -9872,7 +9884,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 1220,
+          "line": 1231,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -9884,7 +9896,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 808,
+          "line": 819,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -9896,7 +9908,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 800,
+          "line": 811,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -9908,7 +9920,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 798,
+          "line": 809,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -9920,7 +9932,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 790,
+          "line": 801,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -9932,7 +9944,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 781,
+          "line": 792,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -9944,7 +9956,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 777,
+          "line": 788,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -9956,7 +9968,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 768,
+          "line": 779,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -9968,7 +9980,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 762,
+          "line": 773,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -9980,7 +9992,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 756,
+          "line": 767,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -9992,7 +10004,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 752,
+          "line": 763,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10004,7 +10016,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 738,
+          "line": 749,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10016,7 +10028,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 737,
+          "line": 748,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10028,7 +10040,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 736,
+          "line": 747,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10040,7 +10052,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 732,
+          "line": 743,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10052,7 +10064,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 724,
+          "line": 735,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10064,7 +10076,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 720,
+          "line": 731,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10076,7 +10088,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 711,
+          "line": 722,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10088,7 +10100,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 710,
+          "line": 721,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10100,7 +10112,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 705,
+          "line": 716,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10112,7 +10124,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 684,
+          "line": 695,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10124,7 +10136,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 675,
+          "line": 686,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10136,7 +10148,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 674,
+          "line": 685,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10148,7 +10160,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 668,
+          "line": 679,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10160,7 +10172,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 665,
+          "line": 676,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10172,7 +10184,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 656,
+          "line": 667,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10184,7 +10196,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 654,
+          "line": 665,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10196,7 +10208,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 648,
+          "line": 659,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10208,7 +10220,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 641,
+          "line": 652,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10220,7 +10232,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 637,
+          "line": 648,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10232,7 +10244,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 586,
+          "line": 597,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10244,7 +10256,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 584,
+          "line": 595,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10256,7 +10268,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 582,
+          "line": 593,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10268,7 +10280,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 580,
+          "line": 591,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10280,7 +10292,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 578,
+          "line": 589,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10292,7 +10304,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 576,
+          "line": 587,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10304,7 +10316,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 572,
+          "line": 583,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10316,7 +10328,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 563,
+          "line": 574,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10328,7 +10340,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 561,
+          "line": 572,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10340,7 +10352,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 560,
+          "line": 571,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10352,7 +10364,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 559,
+          "line": 570,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10364,7 +10376,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 558,
+          "line": 569,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10376,19 +10388,19 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 488,
+          "line": 499,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
           "description": "User input in prompt without sanitization (injection risk)",
-          "context": "input.generated_answer.size());",
+          "context": "safe_input.generated_answer.size());",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 478,
+          "line": 489,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10400,12 +10412,60 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 348,
+          "line": 359,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
           "description": "User input in prompt without sanitization (injection risk)",
-          "context": "auto claims = extractClaims(input.generated_answer);",
+          "context": "auto claims = extractClaims(safe_input.generated_answer);",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 350,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "\"ethical_compliance\", [&]() { return evaluateEthicalCompliance(safe_input); }, 0.0);",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 345,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "\"coherence\", [&]() { return evaluateCoherence(safe_input); }, 0.0);",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 343,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "\"completeness\", [&]() { return evaluateCompleteness(safe_input); }, 0.0);",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 341,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "\"relevance\", [&]() { return evaluateRelevance(safe_input); }, 0.0);",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
@@ -10417,55 +10477,55 @@
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
           "description": "User input in prompt without sanitization (injection risk)",
-          "context": "\"ethical_compliance\", [&]() { return evaluateEthicalCompliance(input); }, 0.0);",
+          "context": "\"faithfulness\", [&]() { return evaluateFaithfulness(safe_input); }, 0.0);",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 334,
+          "line": 323,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
           "description": "User input in prompt without sanitization (injection risk)",
-          "context": "\"coherence\", [&]() { return evaluateCoherence(input); }, 0.0);",
+          "context": "\"ethical_compliance\", [&]() { return evaluateEthicalCompliance(safe_input); }, 0.0);",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 332,
+          "line": 318,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
           "description": "User input in prompt without sanitization (injection risk)",
-          "context": "\"completeness\", [&]() { return evaluateCompleteness(input); }, 0.0);",
+          "context": "\"coherence\", [&]() { return evaluateCoherence(safe_input); }, 0.0);",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 330,
+          "line": 316,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
           "description": "User input in prompt without sanitization (injection risk)",
-          "context": "\"relevance\", [&]() { return evaluateRelevance(input); }, 0.0);",
+          "context": "\"completeness\", [&]() { return evaluateCompleteness(safe_input); }, 0.0);",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 328,
+          "line": 314,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
           "description": "User input in prompt without sanitization (injection risk)",
-          "context": "\"faithfulness\", [&]() { return evaluateFaithfulness(input); }, 0.0);",
+          "context": "\"relevance\", [&]() { return evaluateRelevance(safe_input); }, 0.0);",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
@@ -10477,19 +10537,7 @@
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
           "description": "User input in prompt without sanitization (injection risk)",
-          "context": "\"ethical_compliance\", [&]() { return evaluateEthicalCompliance(input); }, 0.0);",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\rag\\rag_judge.cpp",
-          "line": 307,
-          "category": "llm_ai_safety",
-          "severity": "CRITICAL",
-          "pattern": "prompt_injection",
-          "description": "User input in prompt without sanitization (injection risk)",
-          "context": "\"coherence\", [&]() { return evaluateCoherence(input); }, 0.0);",
+          "context": "\"faithfulness\", [&]() { return evaluateFaithfulness(safe_input); }, 0.0);",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
@@ -10501,50 +10549,26 @@
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
           "description": "User input in prompt without sanitization (injection risk)",
-          "context": "\"completeness\", [&]() { return evaluateCompleteness(input); }, 0.0);",
+          "context": "\"relevance\", [&]() { return evaluateRelevance(safe_input); }, 0.0);",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 303,
+          "line": 269,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
           "description": "User input in prompt without sanitization (injection risk)",
-          "context": "\"relevance\", [&]() { return evaluateRelevance(input); }, 0.0);",
+          "context": "EvaluationInput safe_input = input;",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 301,
-          "category": "llm_ai_safety",
-          "severity": "CRITICAL",
-          "pattern": "prompt_injection",
-          "description": "User input in prompt without sanitization (injection risk)",
-          "context": "\"faithfulness\", [&]() { return evaluateFaithfulness(input); }, 0.0);",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\rag\\rag_judge.cpp",
-          "line": 294,
-          "category": "llm_ai_safety",
-          "severity": "CRITICAL",
-          "pattern": "prompt_injection",
-          "description": "User input in prompt without sanitization (injection risk)",
-          "context": "\"relevance\", [&]() { return evaluateRelevance(input); }, 0.0);",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\rag\\rag_judge.cpp",
-          "line": 263,
+          "line": 264,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10556,7 +10580,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 244,
+          "line": 245,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10568,7 +10592,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 210,
+          "line": 211,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10580,7 +10604,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 208,
+          "line": 209,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10592,7 +10616,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 194,
+          "line": 195,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10604,7 +10628,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 189,
+          "line": 190,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10616,7 +10640,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 186,
+          "line": 187,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10628,7 +10652,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 178,
+          "line": 179,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10640,7 +10664,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 170,
+          "line": 174,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10652,7 +10676,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 169,
+          "line": 173,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10664,7 +10688,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 168,
+          "line": 172,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10676,7 +10700,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 167,
+          "line": 171,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -10688,7 +10712,67 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 1260,
+          "line": 162,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "return evaluate(input);",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 161,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "input.generated_answer = generated_answer;",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 160,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "input.documents = documents;",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 159,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "input.query = query;",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 158,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "EvaluationInput input;",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 1271,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -10700,7 +10784,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 1255,
+          "line": 1266,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -10712,7 +10796,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 1223,
+          "line": 1234,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -10724,7 +10808,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 1220,
+          "line": 1231,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -10736,7 +10820,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 1053,
+          "line": 1064,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -10748,7 +10832,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 808,
+          "line": 819,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -10760,7 +10844,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 800,
+          "line": 811,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -10772,7 +10856,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 798,
+          "line": 809,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -10784,7 +10868,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 790,
+          "line": 801,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -10796,7 +10880,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 781,
+          "line": 792,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -10808,7 +10892,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 777,
+          "line": 788,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -10820,7 +10904,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 768,
+          "line": 779,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -10832,7 +10916,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 762,
+          "line": 773,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -10844,7 +10928,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 756,
+          "line": 767,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -10856,7 +10940,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 752,
+          "line": 763,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -10868,7 +10952,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 738,
+          "line": 749,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -10880,7 +10964,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 737,
+          "line": 748,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -10892,7 +10976,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 736,
+          "line": 747,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -10904,7 +10988,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 732,
+          "line": 743,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -10916,7 +11000,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 724,
+          "line": 735,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -10928,7 +11012,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 724,
+          "line": 735,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -10940,7 +11024,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 720,
+          "line": 731,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -10952,7 +11036,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 711,
+          "line": 722,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -10964,7 +11048,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 710,
+          "line": 721,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -10976,7 +11060,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 705,
+          "line": 716,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -10988,7 +11072,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 684,
+          "line": 695,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11000,7 +11084,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 675,
+          "line": 686,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11012,7 +11096,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 674,
+          "line": 685,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11024,7 +11108,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 668,
+          "line": 679,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11036,7 +11120,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 665,
+          "line": 676,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11048,7 +11132,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 656,
+          "line": 667,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11060,7 +11144,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 654,
+          "line": 665,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11072,7 +11156,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 648,
+          "line": 659,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11084,7 +11168,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 641,
+          "line": 652,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11096,7 +11180,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 637,
+          "line": 648,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11108,7 +11192,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 586,
+          "line": 597,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11120,7 +11204,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 584,
+          "line": 595,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11132,7 +11216,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 582,
+          "line": 593,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11144,7 +11228,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 580,
+          "line": 591,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11156,7 +11240,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 578,
+          "line": 589,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11168,7 +11252,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 576,
+          "line": 587,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11180,7 +11264,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 572,
+          "line": 583,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11192,7 +11276,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 563,
+          "line": 574,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11204,7 +11288,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 561,
+          "line": 572,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11216,7 +11300,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 561,
+          "line": 572,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -11228,7 +11312,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 560,
+          "line": 571,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11240,7 +11324,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 559,
+          "line": 570,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11252,7 +11336,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 558,
+          "line": 569,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11264,19 +11348,19 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 488,
+          "line": 499,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
-          "context": "input.generated_answer.size());",
+          "context": "safe_input.generated_answer.size());",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 478,
+          "line": 489,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11288,24 +11372,72 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 353,
+          "line": 364,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
-          "context": "[&]() { return verifyClaimAgainstDocuments(claim, input.documents) ? 1.0 : 0.0; },",
+          "context": "[&]() { return verifyClaimAgainstDocuments(claim, safe_input.documents) ? 1.0 : 0.0; },",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 348,
+          "line": 359,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
-          "context": "auto claims = extractClaims(input.generated_answer);",
+          "context": "auto claims = extractClaims(safe_input.generated_answer);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 350,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "\"ethical_compliance\", [&]() { return evaluateEthicalCompliance(safe_input); }, 0.0);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 345,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "\"coherence\", [&]() { return evaluateCoherence(safe_input); }, 0.0);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 343,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "\"completeness\", [&]() { return evaluateCompleteness(safe_input); }, 0.0);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 341,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "\"relevance\", [&]() { return evaluateRelevance(safe_input); }, 0.0);",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -11317,55 +11449,55 @@
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
-          "context": "\"ethical_compliance\", [&]() { return evaluateEthicalCompliance(input); }, 0.0);",
+          "context": "\"faithfulness\", [&]() { return evaluateFaithfulness(safe_input); }, 0.0);",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 334,
+          "line": 323,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
-          "context": "\"coherence\", [&]() { return evaluateCoherence(input); }, 0.0);",
+          "context": "\"ethical_compliance\", [&]() { return evaluateEthicalCompliance(safe_input); }, 0.0);",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 332,
+          "line": 318,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
-          "context": "\"completeness\", [&]() { return evaluateCompleteness(input); }, 0.0);",
+          "context": "\"coherence\", [&]() { return evaluateCoherence(safe_input); }, 0.0);",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 330,
+          "line": 316,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
-          "context": "\"relevance\", [&]() { return evaluateRelevance(input); }, 0.0);",
+          "context": "\"completeness\", [&]() { return evaluateCompleteness(safe_input); }, 0.0);",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 328,
+          "line": 314,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
-          "context": "\"faithfulness\", [&]() { return evaluateFaithfulness(input); }, 0.0);",
+          "context": "\"relevance\", [&]() { return evaluateRelevance(safe_input); }, 0.0);",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -11377,19 +11509,7 @@
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
-          "context": "\"ethical_compliance\", [&]() { return evaluateEthicalCompliance(input); }, 0.0);",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\rag\\rag_judge.cpp",
-          "line": 307,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unsanitized_llm_input",
-          "description": "User input passed to LLM without normalization/sanitization",
-          "context": "\"coherence\", [&]() { return evaluateCoherence(input); }, 0.0);",
+          "context": "\"faithfulness\", [&]() { return evaluateFaithfulness(safe_input); }, 0.0);",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -11401,50 +11521,38 @@
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
-          "context": "\"completeness\", [&]() { return evaluateCompleteness(input); }, 0.0);",
+          "context": "\"relevance\", [&]() { return evaluateRelevance(safe_input); }, 0.0);",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 303,
+          "line": 276,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unvalidated_llm_output",
+          "description": "LLM output used without validation (hallucination/bias risk)",
+          "context": "safe_input.generated_answer = impl_->injection_sanitizer->sanitize(input.generated_answer);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 269,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
-          "context": "\"relevance\", [&]() { return evaluateRelevance(input); }, 0.0);",
+          "context": "EvaluationInput safe_input = input;",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 301,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unsanitized_llm_input",
-          "description": "User input passed to LLM without normalization/sanitization",
-          "context": "\"faithfulness\", [&]() { return evaluateFaithfulness(input); }, 0.0);",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\rag\\rag_judge.cpp",
-          "line": 294,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unsanitized_llm_input",
-          "description": "User input passed to LLM without normalization/sanitization",
-          "context": "\"relevance\", [&]() { return evaluateRelevance(input); }, 0.0);",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\rag\\rag_judge.cpp",
-          "line": 263,
+          "line": 264,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11456,7 +11564,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 244,
+          "line": 245,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11468,7 +11576,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 210,
+          "line": 211,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11480,7 +11588,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 208,
+          "line": 209,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11492,7 +11600,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 194,
+          "line": 195,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11504,7 +11612,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 189,
+          "line": 190,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11516,7 +11624,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 186,
+          "line": 187,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11528,7 +11636,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 178,
+          "line": 179,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11540,7 +11648,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 170,
+          "line": 174,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11552,7 +11660,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 170,
+          "line": 174,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -11564,7 +11672,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 169,
+          "line": 173,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11576,7 +11684,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 168,
+          "line": 172,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11588,7 +11696,79 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 167,
+          "line": 171,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "EvaluationInput input;",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 162,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "return evaluate(input);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 161,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "input.generated_answer = generated_answer;",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 161,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unvalidated_llm_output",
+          "description": "LLM output used without validation (hallucination/bias risk)",
+          "context": "input.generated_answer = generated_answer;",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 160,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "input.documents = documents;",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 159,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "input.query = query;",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\rag\\rag_judge.cpp",
+          "line": 158,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -11612,7 +11792,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 1401,
+          "line": 1412,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -11624,7 +11804,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 1259,
+          "line": 1270,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -11636,7 +11816,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 1060,
+          "line": 1071,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -11648,7 +11828,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 1060,
+          "line": 1071,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -11660,7 +11840,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 1024,
+          "line": 1035,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -11672,7 +11852,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 648,
+          "line": 659,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -11684,7 +11864,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 563,
+          "line": 574,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -11696,7 +11876,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 355,
+          "line": 366,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -11708,7 +11888,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 1103,
+          "line": 1114,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -11722,7 +11902,7 @@
           "gap_type": "missing_move_constructor_defaulted",
           "severity": "MEDIUM",
           "file_path": "src\\rag\\rag_judge.cpp",
-          "line_number": 600,
+          "line_number": 611,
           "class_name": "",
           "issue": "Copy constructor exists but no move constructor (Rule of Five)",
           "reason": "Missing move ctor prevents efficient rvalue transfers",
@@ -11744,7 +11924,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 1402,
+          "line": 1413,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "judges.push_back(std::make_shared<RAGJudge>());",
@@ -11753,7 +11933,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 1260,
+          "line": 1271,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(judge->evaluate(input));",
@@ -11762,7 +11942,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 1090,
+          "line": 1101,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back(word);",
@@ -11771,7 +11951,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 1061,
+          "line": 1072,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "claims.push_back(trimmed);",
@@ -11780,7 +11960,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 1025,
+          "line": 1036,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "claims.push_back(std::move(text));",
@@ -11789,7 +11969,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 564,
+          "line": 575,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(result);",
@@ -11798,7 +11978,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 485,
+          "line": 496,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "impl_->eval_history.push_back(result);",
@@ -11807,7 +11987,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 444,
+          "line": 455,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "dim_scores.push_back(result.relevance_score);  // always evaluated",
@@ -11816,7 +11996,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 442,
+          "line": 453,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "dim_scores.push_back(result.ethical_compliance_score);",
@@ -11825,7 +12005,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 440,
+          "line": 451,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "dim_scores.push_back(result.coherence_score);",
@@ -11834,7 +12014,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 439,
+          "line": 450,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "dim_scores.push_back(result.completeness_score);",
@@ -11843,7 +12023,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 438,
+          "line": 449,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "dim_scores.push_back(result.faithfulness_score);",
@@ -11852,7 +12032,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 370,
+          "line": 381,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -11861,7 +12041,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 359,
+          "line": 370,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.unverified_claims.push_back(claim);",
@@ -11870,7 +12050,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 356,
+          "line": 367,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.verified_claims.push_back(claim);",
@@ -11879,7 +12059,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 283,
+          "line": 294,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -11888,7 +12068,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 1207,
+          "line": 1218,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (doc.content.find(claim) != std::string::npos) {",
@@ -11897,7 +12077,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 1052,
+          "line": 1063,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (trimmed.find(phrase) != std::string::npos) {",
@@ -11906,7 +12086,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 955,
+          "line": 966,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "\"[\",  // Citation markers like [1], [UN Declaration]",
@@ -11924,7 +12104,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 479,
+          "line": 490,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "impl_->cache[cache_key] = result;",
@@ -11933,7 +12113,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 478,
+          "line": 489,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto cache_key = impl_->computeCacheKey(input.query, input.generated_answer, input.tenant_id);",
@@ -11942,7 +12122,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 196,
+          "line": 197,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "if (it != impl_->cache.end()) {",
@@ -11951,7 +12131,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 195,
+          "line": 196,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto it = impl_->cache.find(cache_key);",
@@ -11960,7 +12140,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 194,
+          "line": 195,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto cache_key = impl_->computeCacheKey(input.query, input.generated_answer, input.tenant_id);",

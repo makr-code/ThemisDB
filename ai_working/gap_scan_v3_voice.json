@@ -1,13 +1,13 @@
 {
   "voice": {
-    "total": 327,
-    "severity_critical": 38,
-    "severity_high": 114,
-    "severity_medium": 175,
+    "total": 326,
+    "severity_critical": 37,
+    "severity_high": 113,
+    "severity_medium": 176,
     "by_category": {
       "security": 13,
       "memory": 33,
-      "reliability": 5,
+      "reliability": 6,
       "concurrency": 11,
       "raii": 1,
       "container": 108,
@@ -17,7 +17,7 @@
       "exception_safety": 8,
       "audit_logging": 4,
       "performance_patterns": 115,
-      "llm_ai_safety": 13,
+      "llm_ai_safety": 11,
       "observability": 3
     },
     "by_file": {
@@ -1152,31 +1152,19 @@
       "src\\voice\\voice_assistant.cpp": [
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 654,
+          "line": 659,
           "category": "audit_logging",
           "severity": "CRITICAL",
           "pattern": "missing_audit_log",
           "description": "Security function \"authenticate\" without audit log",
-          "context": "return voice_authenticator_.authenticate(user_id, audio_sample);",
+          "context": "auto result = voice_authenticator_.authenticate(user_id, audio_sample);",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 261,
-          "category": "audit_logging",
-          "severity": "CRITICAL",
-          "pattern": "missing_audit_log",
-          "description": "Security function \"authenticate\" without audit log",
-          "context": "auto auth_result = voice_authenticator_.authenticate(uid, audio_data);",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 142,
+          "line": 264,
           "category": "audit_logging",
           "severity": "CRITICAL",
           "pattern": "missing_audit_log",
@@ -1188,7 +1176,19 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 616,
+          "line": 144,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "missing_audit_log",
+          "description": "Security function \"authenticate\" without audit log",
+          "context": "auto auth_result = voice_authenticator_.authenticate(uid, audio_data);",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\voice\\voice_assistant.cpp",
+          "line": 621,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1200,7 +1200,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 461,
+          "line": 465,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1212,7 +1212,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 409,
+          "line": 413,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1226,7 +1226,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\voice\\voice_assistant.cpp",
-          "line_number": 544,
+          "line_number": 548,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -1236,7 +1236,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 462,
+          "line": 466,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "participants.push_back(participant);",
@@ -1245,7 +1245,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 410,
+          "line": 414,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "segments.push_back(seg_json);",
@@ -1254,7 +1254,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 337,
+          "line": 341,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "session.history.push_back(\"Assistant: \" + llm_response);",
@@ -1263,7 +1263,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 333,
+          "line": 337,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "session.history.push_back(\"User: \" + full_transcript);",
@@ -1272,7 +1272,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 182,
+          "line": 185,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "session.history.push_back(\"User: \" + transcription.full_text);",
@@ -1281,7 +1281,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 465,
+          "line": 469,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "protocol[\"custom_fields\"] = metadata.custom_fields;",
@@ -1290,7 +1290,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 458,
+          "line": 462,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "protocol[\"organizer\"] = metadata.organizer;",
@@ -1299,7 +1299,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 457,
+          "line": 461,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "protocol[\"duration_ms\"] = metadata.end_time - metadata.start_time;",
@@ -1308,7 +1308,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 456,
+          "line": 460,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "protocol[\"end_time\"] = metadata.end_time;",
@@ -1317,7 +1317,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 455,
+          "line": 459,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "protocol[\"start_time\"] = metadata.start_time;",
@@ -1326,7 +1326,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 454,
+          "line": 458,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "protocol[\"title\"] = metadata.title;",
@@ -1335,7 +1335,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 453,
+          "line": 457,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "protocol[\"meeting_id\"] = metadata.meeting_id;",
@@ -1344,7 +1344,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 450,
+          "line": 454,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto protocol = stt_processor_->generateMeetingProtocol(audio_data, protocol_options);",
@@ -1353,7 +1353,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 397,
+          "line": 401,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result[\"metadata\"] = call_metadata;",
@@ -1362,7 +1362,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 396,
+          "line": 400,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "call_metadata[\"custom_fields\"] = metadata.custom_fields;",
@@ -1371,7 +1371,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 395,
+          "line": 399,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "call_metadata[\"call_type\"] = metadata.call_type;",
@@ -1380,7 +1380,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 394,
+          "line": 398,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "call_metadata[\"end_time\"] = metadata.end_time;",
@@ -1389,7 +1389,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 393,
+          "line": 397,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "call_metadata[\"start_time\"] = metadata.start_time;",
@@ -1398,7 +1398,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 392,
+          "line": 396,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "call_metadata[\"callee\"] = metadata.callee_number;",
@@ -1407,7 +1407,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 391,
+          "line": 395,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "call_metadata[\"caller\"] = metadata.caller_number;",
@@ -1416,7 +1416,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 383,
+          "line": 387,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result[\"call_id\"] = metadata.call_id;",
@@ -1425,7 +1425,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 371,
+          "line": 375,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto transcription = stt_processor_->transcribe(audio_data, transcription_options);",
@@ -1434,7 +1434,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 311,
+          "line": 315,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto transcription = stt_processor_->transcribe(audio_data);",
@@ -1443,7 +1443,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 294,
+          "line": 298,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "bool ok = stt_processor_->streamTranscribe(audio_data, on_segment);",
@@ -1452,7 +1452,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 159,
+          "line": 162,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto transcription = stt_processor_->transcribe(audio_data);",
@@ -1461,7 +1461,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 558,
+          "line": 562,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = sessions_.find(session_id);",
@@ -2206,38 +2206,6 @@
           "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
-      "src\\voice\\voice_error_handler.cpp": [
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\voice\\voice_error_handler.cpp",
-          "line_number": 248,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "file": "src\\voice\\voice_error_handler.cpp",
-          "line": 279,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "json status;",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\voice\\voice_error_handler.cpp",
-          "line": 164,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(ms));",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        }
-      ],
       "src\\voice\\voice_authenticator.cpp": [
         {
           "file": "src\\voice\\voice_authenticator.cpp",
@@ -2253,7 +2221,7 @@
         },
         {
           "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 419,
+          "line": 430,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2303,7 +2271,7 @@
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\voice\\voice_authenticator.cpp",
-          "line_number": 522,
+          "line_number": 561,
           "line_content": "size_t len   = end - start;",
           "context": [
             "        size_t start = static_cast<size_t>(b) * band_size;",
@@ -2322,7 +2290,7 @@
         },
         {
           "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 419,
+          "line": 430,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2346,7 +2314,7 @@
         },
         {
           "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 596,
+          "line": 635,
           "category": "observability",
           "severity": "LOW",
           "pattern": "unstructured_log",
@@ -2370,7 +2338,16 @@
         },
         {
           "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 420,
+          "line": 494,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\voice\\voice_authenticator.cpp",
+          "line": 431,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "ids.push_back(kv.first);",
@@ -2388,7 +2365,7 @@
         },
         {
           "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 476,
+          "line": 515,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "*   Index  21:     Crest factor (normalised to [0,1])",
@@ -2397,7 +2374,7 @@
         },
         {
           "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 471,
+          "line": 510,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "*   Index  16:     Spectral centroid (normalised to [0,1])",
@@ -2406,7 +2383,7 @@
         },
         {
           "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 441,
+          "line": 459,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -2424,7 +2401,7 @@
         },
         {
           "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 399,
+          "line": 410,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = profiles_.find(profile_id);",
@@ -2439,6 +2416,38 @@
           "snippet": "auto it = profiles_.find(pid);",
           "description": "Iterator it may be invalidated by container modification",
           "remediation": "Re-create iterator after modification or use erase() return value"
+        }
+      ],
+      "src\\voice\\voice_error_handler.cpp": [
+        {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\voice\\voice_error_handler.cpp",
+          "line_number": 248,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak",
+          "confidence_score": 0.73,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=HIGH,context_missing"
+        },
+        {
+          "file": "src\\voice\\voice_error_handler.cpp",
+          "line": 279,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "json status;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\voice\\voice_error_handler.cpp",
+          "line": 164,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(ms));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
         }
       ],
       "src\\voice\\wake_word_detector.cpp": [
@@ -2917,18 +2926,6 @@
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
           "description": "User input in prompt without sanitization (injection risk)",
-          "context": "prompt << \"User: \" << user_input << \"\\n\";",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 30,
-          "category": "llm_ai_safety",
-          "severity": "CRITICAL",
-          "pattern": "prompt_injection",
-          "description": "User input in prompt without sanitization (injection risk)",
           "context": "const std::string& user_input,",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
@@ -2936,7 +2933,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 140,
+          "line": 187,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -2948,7 +2945,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 101,
+          "line": 146,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -2960,7 +2957,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 49,
+          "line": 90,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -2972,7 +2969,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 47,
+          "line": 88,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -2989,18 +2986,6 @@
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
-          "context": "prompt << \"User: \" << user_input << \"\\n\";",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 30,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unsanitized_llm_input",
-          "description": "User input passed to LLM without normalization/sanitization",
           "context": "const std::string& user_input,",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
@@ -3008,7 +2993,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 28,
+          "line": 42,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -3020,7 +3005,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 140,
+          "line": 187,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -3032,7 +3017,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 101,
+          "line": 146,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -3044,7 +3029,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 75,
+          "line": 118,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -3056,7 +3041,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 49,
+          "line": 90,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -3068,7 +3053,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 156,
+          "line": 203,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "action_items.push_back(item);",
@@ -3077,7 +3062,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 114,
+          "line": 159,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "key_points.push_back(line);",

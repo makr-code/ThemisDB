@@ -1,13 +1,13 @@
 {
   "llm": {
-    "total": 5668,
-    "severity_critical": 1224,
-    "severity_high": 3102,
+    "total": 5702,
+    "severity_critical": 1230,
+    "severity_high": 3130,
     "severity_medium": 1342,
     "by_category": {
-      "security": 264,
+      "security": 265,
       "memory": 344,
-      "reliability": 668,
+      "reliability": 681,
       "concurrency": 435,
       "raii": 209,
       "container": 696,
@@ -21,7 +21,7 @@
       "performance_patterns": 531,
       "gpu_memory_safety": 39,
       "distributed_consistency": 22,
-      "llm_ai_safety": 1992,
+      "llm_ai_safety": 2012,
       "observability": 34,
       "determinism": 47,
       "legacy_duplication": 37
@@ -8659,7 +8659,7 @@
       "src\\llm\\llama_wrapper.cpp": [
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3224,
+          "line": 3285,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -8671,7 +8671,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3164,
+          "line": 3225,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -8683,7 +8683,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3146,
+          "line": 3207,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -8695,7 +8695,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2636,
+          "line": 2697,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -8707,7 +8707,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2619,
+          "line": 2680,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -8719,7 +8719,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2347,
+          "line": 2408,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -8731,7 +8731,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2199,
+          "line": 2260,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -8743,7 +8743,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1494,
+          "line": 1543,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -8755,7 +8755,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1489,
+          "line": 1538,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -8767,7 +8767,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1469,
+          "line": 1518,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -8779,7 +8779,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1349,
+          "line": 1398,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -8791,7 +8791,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1002,
+          "line": 1051,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -8803,7 +8803,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 979,
+          "line": 1028,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -8815,7 +8815,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 902,
+          "line": 951,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -8827,7 +8827,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 866,
+          "line": 915,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -8839,7 +8839,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 862,
+          "line": 911,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -8851,7 +8851,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 859,
+          "line": 908,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -8863,7 +8863,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 705,
+          "line": 719,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -8875,7 +8875,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 702,
+          "line": 716,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -8887,7 +8887,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 680,
+          "line": 694,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -8899,7 +8899,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 652,
+          "line": 666,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -8911,7 +8911,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 649,
+          "line": 663,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -8923,7 +8923,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 567,
+          "line": 581,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -8935,7 +8935,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 536,
+          "line": 550,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -8947,7 +8947,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 535,
+          "line": 549,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -8959,7 +8959,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 524,
+          "line": 538,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -8971,7 +8971,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 523,
+          "line": 537,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -8983,7 +8983,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 505,
+          "line": 519,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -8995,7 +8995,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 436,
+          "line": 450,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -9007,7 +9007,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 344,
+          "line": 358,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -9019,7 +9019,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 337,
+          "line": 351,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -9031,7 +9031,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 330,
+          "line": 344,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -9055,7 +9055,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3320,
+          "line": 3381,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9067,7 +9067,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3319,
+          "line": 3380,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9079,7 +9079,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3314,
+          "line": 3375,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9091,7 +9091,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3312,
+          "line": 3373,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9103,7 +9103,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3309,
+          "line": 3370,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9115,7 +9115,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3306,
+          "line": 3367,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9127,7 +9127,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3305,
+          "line": 3366,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9139,7 +9139,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3304,
+          "line": 3365,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9151,7 +9151,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3299,
+          "line": 3360,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9163,7 +9163,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3287,
+          "line": 3348,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9175,7 +9175,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3216,
+          "line": 3277,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9187,7 +9187,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3213,
+          "line": 3274,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9199,7 +9199,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3212,
+          "line": 3273,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9211,7 +9211,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3211,
+          "line": 3272,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9223,7 +9223,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3210,
+          "line": 3271,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9235,7 +9235,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3209,
+          "line": 3270,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9247,7 +9247,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3208,
+          "line": 3269,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9259,7 +9259,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3207,
+          "line": 3268,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9271,7 +9271,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2889,
+          "line": 2950,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9283,7 +9283,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2887,
+          "line": 2948,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9295,7 +9295,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2785,
+          "line": 2846,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9307,7 +9307,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2772,
+          "line": 2833,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9319,7 +9319,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2771,
+          "line": 2832,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9331,7 +9331,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2769,
+          "line": 2830,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9343,7 +9343,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2768,
+          "line": 2829,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9355,7 +9355,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2762,
+          "line": 2823,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9367,7 +9367,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2761,
+          "line": 2822,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9379,7 +9379,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2688,
+          "line": 2749,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9391,7 +9391,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2641,
+          "line": 2702,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9403,7 +9403,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2636,
+          "line": 2697,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9415,7 +9415,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2632,
+          "line": 2693,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9427,7 +9427,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2609,
+          "line": 2670,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9439,7 +9439,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2577,
+          "line": 2638,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9451,7 +9451,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2576,
+          "line": 2637,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9463,7 +9463,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2574,
+          "line": 2635,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9475,7 +9475,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2573,
+          "line": 2634,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9487,7 +9487,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2567,
+          "line": 2628,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9499,7 +9499,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2566,
+          "line": 2627,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9511,7 +9511,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2398,
+          "line": 2459,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9523,7 +9523,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2339,
+          "line": 2400,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9535,7 +9535,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2089,
+          "line": 2150,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9547,7 +9547,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2083,
+          "line": 2144,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9559,7 +9559,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2057,
+          "line": 2118,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9571,7 +9571,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1995,
+          "line": 2056,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -9583,7 +9583,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1713,
+          "line": 1774,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9595,7 +9595,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1712,
+          "line": 1773,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9607,7 +9607,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1711,
+          "line": 1772,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9619,7 +9619,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1710,
+          "line": 1771,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9631,7 +9631,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1685,
+          "line": 1734,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9643,7 +9643,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1623,
+          "line": 1672,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9655,7 +9655,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1622,
+          "line": 1671,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9667,7 +9667,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1621,
+          "line": 1670,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9679,7 +9679,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1620,
+          "line": 1669,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9691,7 +9691,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1619,
+          "line": 1668,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9703,7 +9703,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1617,
+          "line": 1666,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9715,7 +9715,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1616,
+          "line": 1665,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9727,7 +9727,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1494,
+          "line": 1543,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -9739,7 +9739,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1446,
+          "line": 1495,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9751,7 +9751,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1443,
+          "line": 1492,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9763,7 +9763,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1434,
+          "line": 1483,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9775,7 +9775,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1432,
+          "line": 1481,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9787,7 +9787,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1324,
+          "line": 1373,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9799,7 +9799,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1316,
+          "line": 1365,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9811,7 +9811,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1315,
+          "line": 1364,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9823,7 +9823,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1305,
+          "line": 1354,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9835,7 +9835,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1208,
+          "line": 1257,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9847,7 +9847,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1207,
+          "line": 1256,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9859,7 +9859,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1205,
+          "line": 1254,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9871,7 +9871,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1204,
+          "line": 1253,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9883,7 +9883,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1197,
+          "line": 1246,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9895,7 +9895,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1196,
+          "line": 1245,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9907,7 +9907,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1081,
+          "line": 1130,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9919,7 +9919,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1007,
+          "line": 1056,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9931,7 +9931,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1002,
+          "line": 1051,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9943,7 +9943,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 998,
+          "line": 1047,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9955,7 +9955,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 985,
+          "line": 1034,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9967,7 +9967,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 965,
+          "line": 1014,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9979,7 +9979,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 963,
+          "line": 1012,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -9991,7 +9991,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 959,
+          "line": 1008,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -10003,7 +10003,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 949,
+          "line": 998,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -10015,7 +10015,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 948,
+          "line": 997,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -10027,7 +10027,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 946,
+          "line": 995,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -10039,7 +10039,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 919,
+          "line": 968,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -10051,7 +10051,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 915,
+          "line": 964,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -10063,7 +10063,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 902,
+          "line": 951,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -10075,7 +10075,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 902,
+          "line": 951,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -10087,19 +10087,19 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 895,
+          "line": 944,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
           "description": "LLM output used without validation (hallucination/bias risk)",
-          "context": "auto response = generateSpeculative(request);",
+          "context": "auto response = generateSpeculative(safe_request);",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 871,
+          "line": 920,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -10111,7 +10111,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 840,
+          "line": 889,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -10123,7 +10123,79 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 357,
+          "line": 870,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unvalidated_llm_output",
+          "description": "LLM output used without validation (hallucination/bias risk)",
+          "context": "metrics_collector_->recordInferenceFailure(",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 861,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unvalidated_llm_output",
+          "description": "LLM output used without validation (hallucination/bias risk)",
+          "context": "\"Inference prompt blocked by policy rule '\" + blocked_rule + \"': \" + blocked_reason);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 856,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unvalidated_llm_output",
+          "description": "LLM output used without validation (hallucination/bias risk)",
+          "context": "metrics_collector_->recordInferenceFailure(",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 847,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unvalidated_llm_output",
+          "description": "LLM output used without validation (hallucination/bias risk)",
+          "context": "InferenceRequest effective_request = request;",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 844,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unvalidated_llm_output",
+          "description": "LLM output used without validation (hallucination/bias risk)",
+          "context": "InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 841,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unvalidated_llm_output",
+          "description": "LLM output used without validation (hallucination/bias risk)",
+          "context": "// Inference",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 371,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unvalidated_llm_output",
@@ -10161,7 +10233,7 @@
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\llm\\llama_wrapper.cpp",
-          "line_number": 2030,
+          "line_number": 2091,
           "line_content": "candidates_p.size = last_idx + 1;",
           "context": [
             "",
@@ -10180,7 +10252,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 270,
+          "line": 284,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -10192,7 +10264,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3299,
+          "line": 3360,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -10204,7 +10276,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3277,
+          "line": 3338,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -10216,7 +10288,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3266,
+          "line": 3327,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -10228,7 +10300,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3193,
+          "line": 3254,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -10240,7 +10312,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3140,
+          "line": 3201,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -10252,7 +10324,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2740,
+          "line": 2801,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -10264,7 +10336,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2610,
+          "line": 2671,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -10276,7 +10348,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2500,
+          "line": 2561,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -10288,7 +10360,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2459,
+          "line": 2520,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -10300,7 +10372,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1969,
+          "line": 2030,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -10312,7 +10384,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1455,
+          "line": 1504,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -10324,7 +10396,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1446,
+          "line": 1495,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -10336,7 +10408,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1414,
+          "line": 1463,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -10348,7 +10420,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1414,
+          "line": 1463,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -10360,7 +10432,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 830,
+          "line": 844,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -10372,7 +10444,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 60,
+          "line": 61,
           "category": "llm_ai_safety",
           "severity": "MEDIUM",
           "pattern": "missing_resource_limits",
@@ -10386,7 +10458,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\llm\\llama_wrapper.cpp",
-          "line_number": 3368,
+          "line_number": 3429,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -10398,7 +10470,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\llm\\llama_wrapper.cpp",
-          "line_number": 3358,
+          "line_number": 3419,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -10410,7 +10482,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\llm\\llama_wrapper.cpp",
-          "line_number": 3353,
+          "line_number": 3414,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -10422,7 +10494,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\llm\\llama_wrapper.cpp",
-          "line_number": 3054,
+          "line_number": 3115,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -10434,7 +10506,7 @@
           "gap_type": "uninitialized_member_field",
           "severity": "MEDIUM",
           "file_path": "src\\llm\\llama_wrapper.cpp",
-          "line_number": 53,
+          "line_number": 54,
           "var_name": "",
           "context": "Struct with uninitialized fields",
           "reason": "Default constructor does not initialize POD members",
@@ -10446,7 +10518,7 @@
           "gap_type": "missing_move_constructor_defaulted",
           "severity": "MEDIUM",
           "file_path": "src\\llm\\llama_wrapper.cpp",
-          "line_number": 2889,
+          "line_number": 2950,
           "class_name": "",
           "issue": "Copy constructor exists but no move constructor (Rule of Five)",
           "reason": "Missing move ctor prevents efficient rvalue transfers",
@@ -10456,7 +10528,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3194,
+          "line": 3255,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "image_embeddings.push_back(std::move(embeddings));",
@@ -10465,7 +10537,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2743,
+          "line": 2804,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "generated_tokens.push_back(next_token);",
@@ -10474,7 +10546,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2741,
+          "line": 2802,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "token_probabilities.push_back(token_prob);",
@@ -10483,7 +10555,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2528,
+          "line": 2589,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "generated_tokens.push_back(corrected_token);",
@@ -10492,7 +10564,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2504,
+          "line": 2565,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "generated_tokens.push_back(draft_tokens[i]);",
@@ -10501,7 +10573,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2501,
+          "line": 2562,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "token_probabilities.push_back(target_prob);",
@@ -10510,7 +10582,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2460,
+          "line": 2521,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "draft_tokens.push_back(draft_token);",
@@ -10519,7 +10591,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2263,
+          "line": 2324,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "llama_free(draft_context_);",
@@ -10528,7 +10600,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1970,
+          "line": 2031,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "candidates.push_back({token_id, logits[token_id], 0.0f});",
@@ -10537,7 +10609,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1774,
+          "line": 1835,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "oss << \"<s>[INST] <<SYS>>\\n\" << system_msg << \"\\n<</SYS>>\\n\\n\";",
@@ -10546,7 +10618,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1774,
+          "line": 1835,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "oss << \"<s>[INST] <<SYS>>\\n\" << system_msg << \"\\n<</SYS>>\\n\\n\";",
@@ -10555,7 +10627,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1416,
+          "line": 1465,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.logits.push_back(std::move(logit_row));",
@@ -10564,7 +10636,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1415,
+          "line": 1464,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.tokens.push_back(static_cast<int>(next_token));",
@@ -10573,7 +10645,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1159,
+          "line": 1208,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "generated_tokens.push_back(next_token);",
@@ -10582,7 +10654,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1157,
+          "line": 1206,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "token_probabilities.push_back(token_prob);",
@@ -10591,7 +10663,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 628,
+          "line": 642,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(fd);",
@@ -10600,7 +10672,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 621,
+          "line": 635,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "::close(fd);",
@@ -10609,7 +10681,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 68,
+          "line": 69,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "void llava_image_embed_free(struct llava_image_embed* embed);",
@@ -10618,7 +10690,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 38,
+          "line": 39,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "void llama_lora_adapter_free(void* adapter);",
@@ -10627,7 +10699,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3227,
+          "line": 3288,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* model_handle = cached_m->model_handle;",
@@ -10636,7 +10708,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3226,
+          "line": 3287,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* context_handle = cached_m->context_handle;",
@@ -10645,7 +10717,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3175,
+          "line": 3236,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "} else if (!vision_request.image_paths.empty()) {",
@@ -10654,7 +10726,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3173,
+          "line": 3234,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (!vision_request.image_path.empty()) {",
@@ -10663,7 +10735,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3028,
+          "line": 3089,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "else if (!request.tools.empty()) {",
@@ -10672,7 +10744,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3010,
+          "line": 3071,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "ebnf_text = JsonSchemaConverter::schemaToEbnf(request.json_schema.value());",
@@ -10681,7 +10753,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3009,
+          "line": 3070,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "else if (request.json_schema.has_value()) {",
@@ -10690,7 +10762,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2996,
+          "line": 3057,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string grammar_name = request.grammar_type.value();",
@@ -10699,7 +10771,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2995,
+          "line": 3056,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "else if (request.grammar_type.has_value()) {",
@@ -10708,7 +10780,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2987,
+          "line": 3048,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "ebnf_text = request.grammar_ebnf.value();",
@@ -10717,7 +10789,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2986,
+          "line": 3047,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (request.grammar_ebnf.has_value()) {",
@@ -10726,7 +10798,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2971,
+          "line": 3032,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.json_schema.has_value() || !request.tools.empty();",
@@ -10735,7 +10807,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2969,
+          "line": 3030,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.grammar_type.has_value() || request.grammar_ebnf.has_value();",
@@ -10744,7 +10816,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2899,
+          "line": 2960,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Batch scheduler not initialized\");",
@@ -10753,7 +10825,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2894,
+          "line": 2955,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Batch mode not active. Call startBatchMode() first.\");",
@@ -10762,7 +10834,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2850,
+          "line": 2911,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Batch scheduler initialization failed\");",
@@ -10771,7 +10843,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2748,
+          "line": 2809,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.stream_callback(token_text);",
@@ -10780,7 +10852,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2717,
+          "line": 2778,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model returned non-positive vocabulary size\");",
@@ -10789,7 +10861,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2713,
+          "line": 2774,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to get model vocabulary\");",
@@ -10798,7 +10870,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2698,
+          "line": 2759,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to evaluate prompt\");",
@@ -10807,7 +10879,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2688,
+          "line": 2749,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Context handle became null before inference\");",
@@ -10816,7 +10888,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2634,
+          "line": 2695,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -10825,7 +10897,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2627,
+          "line": 2688,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model/context handle is null\");",
@@ -10834,7 +10906,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2625,
+          "line": 2686,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* context_handle = cached->context_handle;",
@@ -10843,7 +10915,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2624,
+          "line": 2685,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* model_handle = cached->model_handle;",
@@ -10852,7 +10924,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2621,
+          "line": 2682,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model failed to load\");",
@@ -10861,7 +10933,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2616,
+          "line": 2677,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model loader is not initialized\");",
@@ -10870,7 +10942,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2584,
+          "line": 2645,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response.metadata[\"draft_model\"] = draft_model_id_;",
@@ -10879,7 +10951,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2582,
+          "line": 2643,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response.metadata[\"acceptance_rate\"] = (total_speculations > 0)",
@@ -10888,7 +10960,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2581,
+          "line": 2642,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response.metadata[\"speculative_decoding\"] = true;",
@@ -10897,7 +10969,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2535,
+          "line": 2596,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.stream_callback(token_text);",
@@ -10906,7 +10978,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2426,
+          "line": 2487,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Target model returned non-positive vocabulary size\");",
@@ -10915,7 +10987,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2422,
+          "line": 2483,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to get target model vocabulary\");",
@@ -10924,7 +10996,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2415,
+          "line": 2476,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to evaluate prompt in draft model\");",
@@ -10933,7 +11005,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2412,
+          "line": 2473,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to evaluate prompt in target model\");",
@@ -10942,7 +11014,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2353,
+          "line": 2414,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* target_context_handle = cached->context_handle;",
@@ -10951,7 +11023,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2352,
+          "line": 2413,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* target_model_handle = cached->model_handle;",
@@ -10960,7 +11032,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2349,
+          "line": 2410,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Target model failed to load\");",
@@ -10969,7 +11041,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2345,
+          "line": 2406,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model loader is not initialized\");",
@@ -10978,7 +11050,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2156,
+          "line": 2217,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "prefix_cache->clear();",
@@ -10987,7 +11059,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2148,
+          "line": 2209,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return prefix_cache->getStatistics();",
@@ -10996,7 +11068,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2113,
+          "line": 2174,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result[\"metadata\"][\"format_hints\"] = {",
@@ -11005,7 +11077,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2044,
+          "line": 2105,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "llama_grammar_accept(grammar, ctx, sampled_token);",
@@ -11014,7 +11086,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2040,
+          "line": 2101,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "llama_token sampled_token = candidates_p.data[0].id;",
@@ -11023,7 +11095,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2022,
+          "line": 2083,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "cum_prob += candidates_p.data[i].p;",
@@ -11032,7 +11104,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2021,
+          "line": 2082,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "candidates_p.data[i].p /= sum_exp;",
@@ -11041,7 +11113,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2015,
+          "line": 2076,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "sum_exp += candidates_p.data[i].p;",
@@ -11050,7 +11122,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2014,
+          "line": 2075,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "candidates_p.data[i].p = std::exp(candidates_p.data[i].logit - max_logit);",
@@ -11059,7 +11131,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2011,
+          "line": 2072,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "float max_logit = candidates_p.data[0].logit;",
@@ -11068,7 +11140,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1962,
+          "line": 2023,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Invalid n_vocab for sampling\");",
@@ -11077,7 +11149,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1959,
+          "line": 2020,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Invalid parameters for sampling\");",
@@ -11086,7 +11158,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1930,
+          "line": 1991,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to get model vocabulary\");",
@@ -11095,7 +11167,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1926,
+          "line": 1987,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model is null\");",
@@ -11104,7 +11176,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1920,
+          "line": 1981,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Context is null\");",
@@ -11113,7 +11185,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1875,
+          "line": 1936,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to get model vocabulary\");",
@@ -11122,7 +11194,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1869,
+          "line": 1930,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model is null\");",
@@ -11131,7 +11203,25 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1515,
+          "line": 1763,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"RAG query blocked by prompt policy\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 1743,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"RAG system prompt blocked by prompt policy\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 1564,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model reports non-positive embedding dimension\");",
@@ -11140,7 +11230,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1487,
+          "line": 1536,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -11149,7 +11239,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1480,
+          "line": 1529,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model/context handle is null for embeddings\");",
@@ -11158,7 +11248,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1478,
+          "line": 1527,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* context_handle = cached->context_handle;",
@@ -11167,7 +11257,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1477,
+          "line": 1526,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* model_handle = cached->model_handle;",
@@ -11176,7 +11266,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1474,
+          "line": 1523,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model failed to load\");",
@@ -11185,7 +11275,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1467,
+          "line": 1516,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model loader is not initialized\");",
@@ -11194,7 +11284,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1459,
+          "line": 1508,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"No model loaded\");",
@@ -11203,7 +11293,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1449,
+          "line": 1498,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response.metadata[\"rag_enabled\"] = true;",
@@ -11212,7 +11302,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1421,
+          "line": 1470,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to decode draft token\");",
@@ -11221,7 +11311,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1409,
+          "line": 1458,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "logit_row[j] = logits_ptr[j];",
@@ -11230,7 +11320,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1404,
+          "line": 1453,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"llama_get_logits_ith returned null\");",
@@ -11239,7 +11329,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1383,
+          "line": 1432,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model returned non-positive vocabulary size for draft generation\");",
@@ -11248,7 +11338,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1379,
+          "line": 1428,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to get model vocabulary for draft generation\");",
@@ -11257,7 +11347,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1374,
+          "line": 1423,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to evaluate prompt for draft token generation\");",
@@ -11266,7 +11356,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1362,
+          "line": 1411,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model/context not initialized for draft token generation\");",
@@ -11275,7 +11365,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1357,
+          "line": 1406,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model/context handle is null for draft token generation\");",
@@ -11284,7 +11374,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1355,
+          "line": 1404,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* context_handle = cached->context_handle;",
@@ -11293,7 +11383,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1354,
+          "line": 1403,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* model_handle = cached->model_handle;",
@@ -11302,7 +11392,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1351,
+          "line": 1400,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model failed to load for draft token generation\");",
@@ -11311,7 +11401,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1346,
+          "line": 1395,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model loader is not initialized\");",
@@ -11320,7 +11410,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1341,
+          "line": 1390,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"No model loaded for draft token generation\");",
@@ -11329,7 +11419,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1329,
+          "line": 1378,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"generateDraftTokens requires k > 0\");",
@@ -11338,7 +11428,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1281,
+          "line": 1330,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (!request.tools.empty()) {",
@@ -11347,7 +11437,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1257,
+          "line": 1306,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response.metadata[\"validation_metrics\"] = {",
@@ -11356,7 +11446,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1248,
+          "line": 1297,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response.metadata[\"validation_valid\"] = false;",
@@ -11365,7 +11455,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1247,
+          "line": 1296,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response.metadata[\"validation_errors\"] = validation.errors;",
@@ -11374,7 +11464,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1178,
+          "line": 1227,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.stream_callback(token_text);",
@@ -11383,7 +11473,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1145,
+          "line": 1194,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "llama_grammar* grammar_handle = grammar ? grammar->getHandle() : nullptr;",
@@ -11392,7 +11482,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1145,
+          "line": 1194,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "llama_grammar* grammar_handle = grammar ? grammar->getHandle() : nullptr;",
@@ -11401,7 +11491,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1124,
+          "line": 1173,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model returned non-positive vocabulary size\");",
@@ -11410,7 +11500,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1120,
+          "line": 1169,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to get model vocabulary\");",
@@ -11419,7 +11509,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1097,
+          "line": 1146,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to evaluate prompt\");",
@@ -11428,7 +11518,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1017,
+          "line": 1066,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (request.lora_adapter_id && !request.lora_adapter_id->empty()) {",
@@ -11437,7 +11527,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1000,
+          "line": 1049,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -11446,7 +11536,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 993,
+          "line": 1042,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model/context handle is null after load\");",
@@ -11455,7 +11545,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 991,
+          "line": 1040,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* context_handle = cached->context_handle;",
@@ -11464,7 +11554,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 990,
+          "line": 1039,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* model_handle = cached->model_handle;",
@@ -11473,7 +11563,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 987,
+          "line": 1036,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model failed to load\");",
@@ -11482,7 +11572,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 976,
+          "line": 1025,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model loader is not initialized\");",
@@ -11491,7 +11581,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 971,
+          "line": 1020,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.prompt.substr(0, std::min(request.prompt.size(), size_t(50))), request.max_tokens);",
@@ -11500,34 +11590,43 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 941,
+          "line": 990,
           "type": "no_retry_logic",
           "severity": "HIGH",
-          "snippet": "spdlog::debug(\"Cache hit for prompt: {}\", request.prompt.substr(0, 50));",
+          "snippet": "spdlog::debug(\"Cache hit for prompt: {}\", safe_request.prompt.substr(0, 50));",
           "description": "http_call without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 906,
+          "line": 988,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "auto cached_response = response_cache_ptr->get(cache_key);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 955,
           "type": "no_retry_logic",
           "severity": "HIGH",
-          "snippet": "if (!request.image_paths.empty() && vision_enabled_) {",
+          "snippet": "if (!safe_request.image_paths.empty() && vision_enabled_) {",
           "description": "http_call without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 889,
+          "line": 938,
           "type": "no_retry_logic",
           "severity": "HIGH",
-          "snippet": "request.prompt.substr(0, std::min(request.prompt.size(), size_t(50))), request.max_tokens);",
+          "snippet": "safe_request.prompt.substr(0, std::min(safe_request.prompt.size(), size_t(50))), safe_request.max_to",
           "description": "http_call without retry logic \u2014 transient failures will propagate",
           "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 885,
+          "line": 934,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"No model loaded\");",
@@ -11536,7 +11635,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 880,
+          "line": 929,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(error_msg);",
@@ -11545,7 +11644,34 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 729,
+          "line": 877,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "effective_request.system_prompt = std::move(sanitized_system_prompt);",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 874,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 860,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 743,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& entry : std::filesystem::directory_iterator(temp_dir)) {",
@@ -11554,7 +11680,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 524,
+          "line": 538,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto blob_data_opt = storage->loadModelBlob(model_id);",
@@ -11563,7 +11689,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 505,
+          "line": 519,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto metadata_opt = storage->loadModel(model_id);",
@@ -11572,7 +11698,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 176,
+          "line": 190,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"rope_scaling.yarn_beta_slow must be positive\");",
@@ -11581,7 +11707,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 173,
+          "line": 187,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"rope_scaling.yarn_beta_fast must be positive\");",
@@ -11590,7 +11716,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 170,
+          "line": 184,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"rope_scaling.yarn_attn_factor must be non-negative\");",
@@ -11599,7 +11725,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 167,
+          "line": 181,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"rope_scaling.yarn_ext_factor must be non-negative\");",
@@ -11608,7 +11734,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 146,
+          "line": 160,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"rope_scaling.original_context must be positive\");",
@@ -11617,7 +11743,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 142,
+          "line": 156,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"rope_scaling.max_context must be positive\");",
@@ -11626,7 +11752,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 105,
+          "line": 119,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"n_threads must be positive\");",
@@ -11635,7 +11761,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 102,
+          "line": 116,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"n_batch must be positive\");",
@@ -11644,7 +11770,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 99,
+          "line": 113,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"n_ctx must be positive\");",
@@ -11662,7 +11788,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3227,
+          "line": 3288,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "void* model_handle = cached_m->model_handle;",
@@ -11671,7 +11797,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3226,
+          "line": 3287,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "void* context_handle = cached_m->context_handle;",
@@ -11680,7 +11806,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3224,
+          "line": 3285,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto* cached_m = model_loader->getOrLoadModel(current_model_id_, current_model_path_);",
@@ -11689,7 +11815,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3193,
+          "line": 3254,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto embeddings = vision_encoder->encodeImage(img_path);",
@@ -11698,7 +11824,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3047,
+          "line": 3108,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto cached = grammar_cache->get(grammar_key);",
@@ -11707,7 +11833,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2625,
+          "line": 2686,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "void* context_handle = cached->context_handle;",
@@ -11716,7 +11842,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2624,
+          "line": 2685,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "void* model_handle = cached->model_handle;",
@@ -11725,7 +11851,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2619,
+          "line": 2680,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto* cached = model_loader->getOrLoadModel(current_model_id_, current_model_path_);",
@@ -11734,7 +11860,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2353,
+          "line": 2414,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "void* target_context_handle = cached->context_handle;",
@@ -11743,7 +11869,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2352,
+          "line": 2413,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "void* target_model_handle = cached->model_handle;",
@@ -11752,7 +11878,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2347,
+          "line": 2408,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto* cached = model_loader->getOrLoadModel(current_model_id_, current_model_path_);",
@@ -11761,7 +11887,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1590,
+          "line": 1639,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "stats[\"lora_manager_cache\"] = lora_manager->getCacheStats();",
@@ -11770,7 +11896,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1584,
+          "line": 1633,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "stats[\"model_loader_cache\"] = model_loader->getCacheStats();",
@@ -11779,7 +11905,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1478,
+          "line": 1527,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "void* context_handle = cached->context_handle;",
@@ -11788,7 +11914,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1477,
+          "line": 1526,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "void* model_handle = cached->model_handle;",
@@ -11797,7 +11923,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1469,
+          "line": 1518,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto* cached = model_loader->getOrLoadModel(",
@@ -11806,7 +11932,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1355,
+          "line": 1404,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "void* context_handle = cached->context_handle;",
@@ -11815,7 +11941,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1354,
+          "line": 1403,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "void* model_handle = cached->model_handle;",
@@ -11824,7 +11950,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1349,
+          "line": 1398,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto* cached = model_loader->getOrLoadModel(current_model_id_, current_model_path_);",
@@ -11833,7 +11959,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1027,
+          "line": 1076,
           "type": "smart_ptr_misuse",
           "severity": "CRITICAL",
           "snippet": "spdlog::info(\"Context changed, rebinding adapter {} to new context\", adapter_id);",
@@ -11842,7 +11968,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 991,
+          "line": 1040,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "void* context_handle = cached->context_handle;",
@@ -11851,7 +11977,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 990,
+          "line": 1039,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "void* model_handle = cached->model_handle;",
@@ -11860,7 +11986,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 979,
+          "line": 1028,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto* cached = model_loader->getOrLoadModel(",
@@ -11869,25 +11995,25 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 944,
+          "line": 993,
           "type": "data_race",
           "severity": "CRITICAL",
-          "snippet": "cached_response->request_id = request.request_id;",
+          "snippet": "cached_response->request_id = safe_request.request_id;",
           "description": "Shared data access without lock protection",
           "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 939,
+          "line": 988,
           "type": "data_race",
           "severity": "CRITICAL",
-          "snippet": "auto cached_response = response_cache->get(cache_key);",
+          "snippet": "auto cached_response = response_cache_ptr->get(cache_key);",
           "description": "Shared data access without lock protection",
           "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 856,
+          "line": 905,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "lock.lock();",
@@ -11896,7 +12022,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 617,
+          "line": 631,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "ssize_t written = ::write(fd, ptr, remaining);",
@@ -11905,7 +12031,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 605,
+          "line": 619,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "fd = ::open(temp_model_path.c_str(),",
@@ -21316,7 +21442,7 @@
       "src\\llm\\lora_framework\\gpu_lora_layers.cpp": [
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 693,
+          "line": 717,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21328,7 +21454,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 691,
+          "line": 715,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21340,7 +21466,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 674,
+          "line": 698,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21352,7 +21478,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 669,
+          "line": 693,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21364,7 +21490,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 471,
+          "line": 495,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21376,7 +21502,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 469,
+          "line": 493,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21388,7 +21514,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 467,
+          "line": 491,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21400,7 +21526,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 465,
+          "line": 489,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21412,7 +21538,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 463,
+          "line": 487,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21424,7 +21550,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 460,
+          "line": 484,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21436,7 +21562,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 444,
+          "line": 465,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21448,7 +21574,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 441,
+          "line": 462,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21460,7 +21586,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 440,
+          "line": 461,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21472,7 +21598,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 435,
+          "line": 456,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21484,19 +21610,19 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 433,
+          "line": 454,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
           "description": "User input in prompt without sanitization (injection risk)",
-          "context": "if (cached_input_.size() == 0) {",
+          "context": "if (cached_input_.shape().empty()) {",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 432,
+          "line": 453,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21508,7 +21634,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 431,
+          "line": 452,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21520,7 +21646,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 424,
+          "line": 445,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21532,7 +21658,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 415,
+          "line": 436,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21544,7 +21670,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 411,
+          "line": 432,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21556,12 +21682,72 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 410,
+          "line": 431,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
           "description": "User input in prompt without sanitization (injection risk)",
           "context": "input_ptr, B_ptr, A_ptr, grad_output_ptr,",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 428,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "float* grad_input_ptr = reinterpret_cast<float*>(grad_input.data());",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 422,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "const float* input_ptr = reinterpret_cast<const float*>(input_for_backward.data());",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 420,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "\"Grad input tensor must be float-aligned for GPU operations\");",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 419,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "assert(performance::is_aligned<alignof(float)>(grad_input.data()) &&",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 408,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "\"Input tensor must be float-aligned for GPU operations\");",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
@@ -21573,66 +21759,6 @@
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
           "description": "User input in prompt without sanitization (injection risk)",
-          "context": "float* grad_input_ptr = reinterpret_cast<float*>(grad_input.data());",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 401,
-          "category": "llm_ai_safety",
-          "severity": "CRITICAL",
-          "pattern": "prompt_injection",
-          "description": "User input in prompt without sanitization (injection risk)",
-          "context": "const float* input_ptr = reinterpret_cast<const float*>(input_for_backward.data());",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 399,
-          "category": "llm_ai_safety",
-          "severity": "CRITICAL",
-          "pattern": "prompt_injection",
-          "description": "User input in prompt without sanitization (injection risk)",
-          "context": "\"Grad input tensor must be float-aligned for GPU operations\");",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 398,
-          "category": "llm_ai_safety",
-          "severity": "CRITICAL",
-          "pattern": "prompt_injection",
-          "description": "User input in prompt without sanitization (injection risk)",
-          "context": "assert(performance::is_aligned<alignof(float)>(grad_input.data()) &&",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 387,
-          "category": "llm_ai_safety",
-          "severity": "CRITICAL",
-          "pattern": "prompt_injection",
-          "description": "User input in prompt without sanitization (injection risk)",
-          "context": "\"Input tensor must be float-aligned for GPU operations\");",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 386,
-          "category": "llm_ai_safety",
-          "severity": "CRITICAL",
-          "pattern": "prompt_injection",
-          "description": "User input in prompt without sanitization (injection risk)",
           "context": "assert(performance::is_aligned<alignof(float)>(input_for_backward.data()) &&",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
@@ -21640,7 +21766,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 381,
+          "line": 402,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21652,7 +21778,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 367,
+          "line": 388,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21664,7 +21790,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 363,
+          "line": 384,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21676,7 +21802,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 362,
+          "line": 383,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21688,7 +21814,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 359,
+          "line": 380,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21700,7 +21826,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 353,
+          "line": 374,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21712,7 +21838,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 351,
+          "line": 372,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21724,7 +21850,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 350,
+          "line": 371,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21736,7 +21862,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 339,
+          "line": 360,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21748,7 +21874,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 338,
+          "line": 359,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21760,7 +21886,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 337,
+          "line": 358,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "gpu_memory_leak",
@@ -21772,7 +21898,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 333,
+          "line": 354,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21784,7 +21910,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 318,
+          "line": 339,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21796,7 +21922,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 317,
+          "line": 338,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21808,7 +21934,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 308,
+          "line": 329,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21820,7 +21946,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 302,
+          "line": 323,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21832,7 +21958,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 298,
+          "line": 319,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21844,7 +21970,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 291,
+          "line": 312,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21856,7 +21982,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 278,
+          "line": 299,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21868,7 +21994,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 272,
+          "line": 293,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21880,19 +22006,31 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 271,
+          "line": 292,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
           "description": "User input in prompt without sanitization (injection risk)",
-          "context": "if (cached_input_.size() == 0) {",
+          "context": "if (cached_input_.shape().empty()) {",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 242,
+          "line": 283,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "if (cached_input_.shape().empty()) {",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 254,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21904,7 +22042,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 241,
+          "line": 253,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21916,7 +22054,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 240,
+          "line": 252,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21928,7 +22066,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 228,
+          "line": 240,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21940,7 +22078,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 215,
+          "line": 227,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21952,7 +22090,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 208,
+          "line": 220,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -21964,12 +22102,36 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 194,
+          "line": 206,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
           "description": "User input in prompt without sanitization (injection risk)",
           "context": "auto batch_size = input.shape()[0];",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 196,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "cached_h_ = input.matmul(*B_);",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 190,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "input_ptr, B_ptr, A_ptr, output_ptr,",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
@@ -21981,30 +22143,6 @@
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
           "description": "User input in prompt without sanitization (injection risk)",
-          "context": "cached_h_ = input.matmul(*B_);",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 178,
-          "category": "llm_ai_safety",
-          "severity": "CRITICAL",
-          "pattern": "prompt_injection",
-          "description": "User input in prompt without sanitization (injection risk)",
-          "context": "input_ptr, B_ptr, A_ptr, output_ptr,",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 172,
-          "category": "llm_ai_safety",
-          "severity": "CRITICAL",
-          "pattern": "prompt_injection",
-          "description": "User input in prompt without sanitization (injection risk)",
           "context": "const float* input_ptr = reinterpret_cast<const float*>(input.data());",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
@@ -22012,7 +22150,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 164,
+          "line": 176,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -22024,7 +22162,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 163,
+          "line": 175,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -22036,7 +22174,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 157,
+          "line": 169,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -22048,7 +22186,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 146,
+          "line": 158,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -22060,7 +22198,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 140,
+          "line": 152,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -22072,7 +22210,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 134,
+          "line": 146,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -22084,7 +22222,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 126,
+          "line": 138,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -22096,7 +22234,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 125,
+          "line": 137,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -22108,7 +22246,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 124,
+          "line": 136,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "gpu_memory_leak",
@@ -22120,7 +22258,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 119,
+          "line": 131,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -22132,7 +22270,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 103,
+          "line": 115,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -22144,7 +22282,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 98,
+          "line": 110,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -22156,7 +22294,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 93,
+          "line": 105,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -22168,7 +22306,31 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 73,
+          "line": 94,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "cached_input_ = input.clone();",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 91,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "// Gradient checkpointing: Only cache input if NOT checkpointing",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 79,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -22180,7 +22342,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 693,
+          "line": 717,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22192,7 +22354,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 691,
+          "line": 715,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22204,7 +22366,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 674,
+          "line": 698,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22216,7 +22378,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 669,
+          "line": 693,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22228,7 +22390,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 471,
+          "line": 495,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22240,7 +22402,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 469,
+          "line": 493,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22252,7 +22414,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 467,
+          "line": 491,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22264,7 +22426,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 465,
+          "line": 489,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22276,7 +22438,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 463,
+          "line": 487,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22288,7 +22450,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 460,
+          "line": 484,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22300,7 +22462,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 444,
+          "line": 465,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22312,7 +22474,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 441,
+          "line": 462,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22324,7 +22486,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 440,
+          "line": 461,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22336,7 +22498,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 435,
+          "line": 456,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22348,19 +22510,19 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 433,
+          "line": 454,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
-          "context": "if (cached_input_.size() == 0) {",
+          "context": "if (cached_input_.shape().empty()) {",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 432,
+          "line": 453,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22372,7 +22534,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 431,
+          "line": 452,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22384,7 +22546,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 424,
+          "line": 445,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22396,7 +22558,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 415,
+          "line": 436,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22408,7 +22570,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 411,
+          "line": 432,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22420,12 +22582,72 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 410,
+          "line": 431,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
           "context": "input_ptr, B_ptr, A_ptr, grad_output_ptr,",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 428,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "float* grad_input_ptr = reinterpret_cast<float*>(grad_input.data());",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 422,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "const float* input_ptr = reinterpret_cast<const float*>(input_for_backward.data());",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 420,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "\"Grad input tensor must be float-aligned for GPU operations\");",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 419,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "assert(performance::is_aligned<alignof(float)>(grad_input.data()) &&",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 408,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "\"Input tensor must be float-aligned for GPU operations\");",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -22437,66 +22659,6 @@
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
-          "context": "float* grad_input_ptr = reinterpret_cast<float*>(grad_input.data());",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 401,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unsanitized_llm_input",
-          "description": "User input passed to LLM without normalization/sanitization",
-          "context": "const float* input_ptr = reinterpret_cast<const float*>(input_for_backward.data());",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 399,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unsanitized_llm_input",
-          "description": "User input passed to LLM without normalization/sanitization",
-          "context": "\"Grad input tensor must be float-aligned for GPU operations\");",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 398,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unsanitized_llm_input",
-          "description": "User input passed to LLM without normalization/sanitization",
-          "context": "assert(performance::is_aligned<alignof(float)>(grad_input.data()) &&",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 387,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unsanitized_llm_input",
-          "description": "User input passed to LLM without normalization/sanitization",
-          "context": "\"Input tensor must be float-aligned for GPU operations\");",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 386,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unsanitized_llm_input",
-          "description": "User input passed to LLM without normalization/sanitization",
           "context": "assert(performance::is_aligned<alignof(float)>(input_for_backward.data()) &&",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
@@ -22504,7 +22666,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 381,
+          "line": 402,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22516,7 +22678,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 367,
+          "line": 388,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22528,7 +22690,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 363,
+          "line": 384,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22540,7 +22702,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 362,
+          "line": 383,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22552,7 +22714,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 359,
+          "line": 380,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22564,7 +22726,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 353,
+          "line": 374,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22576,7 +22738,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 351,
+          "line": 372,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22588,7 +22750,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 350,
+          "line": 371,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22600,7 +22762,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 339,
+          "line": 360,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22612,7 +22774,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 338,
+          "line": 359,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22624,7 +22786,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 333,
+          "line": 354,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22636,7 +22798,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 318,
+          "line": 339,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22648,7 +22810,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 317,
+          "line": 338,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22660,7 +22822,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 308,
+          "line": 329,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22672,7 +22834,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 302,
+          "line": 323,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22684,7 +22846,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 298,
+          "line": 319,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22696,7 +22858,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 291,
+          "line": 312,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22708,7 +22870,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 278,
+          "line": 299,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22720,7 +22882,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 272,
+          "line": 293,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22732,19 +22894,31 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 271,
+          "line": 292,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
-          "context": "if (cached_input_.size() == 0) {",
+          "context": "if (cached_input_.shape().empty()) {",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 242,
+          "line": 283,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "if (cached_input_.shape().empty()) {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 254,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22756,7 +22930,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 241,
+          "line": 253,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22768,7 +22942,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 240,
+          "line": 252,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22780,7 +22954,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 228,
+          "line": 240,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22792,7 +22966,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 215,
+          "line": 227,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22804,7 +22978,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 208,
+          "line": 220,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22816,12 +22990,36 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 194,
+          "line": 206,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
           "context": "auto batch_size = input.shape()[0];",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 196,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "cached_h_ = input.matmul(*B_);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 190,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "input_ptr, B_ptr, A_ptr, output_ptr,",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -22833,30 +23031,6 @@
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
-          "context": "cached_h_ = input.matmul(*B_);",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 178,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unsanitized_llm_input",
-          "description": "User input passed to LLM without normalization/sanitization",
-          "context": "input_ptr, B_ptr, A_ptr, output_ptr,",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 172,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unsanitized_llm_input",
-          "description": "User input passed to LLM without normalization/sanitization",
           "context": "const float* input_ptr = reinterpret_cast<const float*>(input.data());",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
@@ -22864,7 +23038,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 164,
+          "line": 176,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22876,7 +23050,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 163,
+          "line": 175,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22888,12 +23062,36 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 157,
+          "line": 169,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
           "context": "auto batch_size = input.shape()[0];",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 158,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "cached_h_ = input.matmul(*B_);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 152,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "input_ptr, B_ptr, A_ptr, output_ptr,",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -22905,30 +23103,6 @@
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
-          "context": "cached_h_ = input.matmul(*B_);",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 140,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unsanitized_llm_input",
-          "description": "User input passed to LLM without normalization/sanitization",
-          "context": "input_ptr, B_ptr, A_ptr, output_ptr,",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 134,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unsanitized_llm_input",
-          "description": "User input passed to LLM without normalization/sanitization",
           "context": "const float* input_ptr = reinterpret_cast<const float*>(input.data());",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
@@ -22936,7 +23110,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 126,
+          "line": 138,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22948,7 +23122,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 125,
+          "line": 137,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22960,7 +23134,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 119,
+          "line": 131,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22972,7 +23146,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 103,
+          "line": 115,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22984,7 +23158,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 98,
+          "line": 110,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -22996,7 +23170,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 93,
+          "line": 105,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -23008,7 +23182,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 82,
+          "line": 94,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -23020,7 +23194,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 79,
+          "line": 91,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -23032,7 +23206,55 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 76,
+          "line": 88,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "throw std::invalid_argument(\"GPULoRALayer::forward input feature dimension mismatch\");",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 87,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "if (input.shape()[1] != in_dim_) {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 85,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "throw std::invalid_argument(\"GPULoRALayer::forward expects a 2D input tensor\");",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 84,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "if (input.shape().size() != 2) {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 82,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -23044,7 +23266,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 75,
+          "line": 81,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -23056,7 +23278,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 74,
+          "line": 80,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -23068,7 +23290,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 73,
+          "line": 79,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -23080,7 +23302,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 227,
+          "line": 239,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -23092,7 +23314,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 102,
+          "line": 114,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -23104,7 +23326,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 97,
+          "line": 109,
           "category": "legacy_duplication",
           "severity": "HIGH",
           "pattern": "legacy_or_compat_path",
@@ -23116,7 +23338,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 558,
+          "line": 582,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -23128,7 +23350,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 559,
+          "line": 583,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "momentum_buffers_.push_back(std::move(buffer));",
@@ -23137,7 +23359,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 665,
+          "line": 689,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Layer and optimizer cannot be null\");",
@@ -23146,7 +23368,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 600,
+          "line": 624,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const float* grad_ptr = reinterpret_cast<const float*>(param->grad->data());",
@@ -23155,7 +23377,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 599,
+          "line": 623,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "float* param_ptr = reinterpret_cast<float*>(param->data());",
@@ -23164,7 +23386,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 581,
+          "line": 605,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const float* grad_ptr = reinterpret_cast<const float*>(param->grad->data());",
@@ -23173,7 +23395,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 580,
+          "line": 604,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "float* param_ptr = reinterpret_cast<float*>(param->data());",
@@ -23182,7 +23404,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 543,
+          "line": 567,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Weight decay must be non-negative\");",
@@ -23191,7 +23413,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 540,
+          "line": 564,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Momentum must be in [0, 1)\");",
@@ -23200,7 +23422,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 537,
+          "line": 561,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Learning rate must be positive\");",
@@ -23209,7 +23431,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 501,
+          "line": 525,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"A shape mismatch in set_weights\");",
@@ -23218,7 +23440,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 498,
+          "line": 522,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"B shape mismatch in set_weights\");",
@@ -23227,7 +23449,16 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 434,
+          "line": 467,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"GPULoRALayer::backward missing cached intermediate activation\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 455,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -23236,7 +23467,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 406,
+          "line": 427,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "float* grad_B_ptr = reinterpret_cast<float*>(B_->grad->data());",
@@ -23245,7 +23476,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 406,
+          "line": 427,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "float* grad_B_ptr = reinterpret_cast<float*>(B_->grad->data());",
@@ -23254,7 +23485,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 405,
+          "line": 426,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "float* grad_A_ptr = reinterpret_cast<float*>(A_->grad->data());",
@@ -23263,7 +23494,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 405,
+          "line": 426,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "float* grad_A_ptr = reinterpret_cast<float*>(A_->grad->data());",
@@ -23272,7 +23503,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 403,
+          "line": 424,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const float* A_ptr = reinterpret_cast<const float*>(A_->data());",
@@ -23281,7 +23512,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 403,
+          "line": 424,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "const float* A_ptr = reinterpret_cast<const float*>(A_->data());",
@@ -23290,7 +23521,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 402,
+          "line": 423,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const float* B_ptr = reinterpret_cast<const float*>(B_->data());",
@@ -23299,7 +23530,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 358,
+          "line": 379,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "float* grad_B_ptr = reinterpret_cast<float*>(B_->grad->data());",
@@ -23308,7 +23539,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 358,
+          "line": 379,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "float* grad_B_ptr = reinterpret_cast<float*>(B_->grad->data());",
@@ -23317,7 +23548,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 357,
+          "line": 378,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "float* grad_A_ptr = reinterpret_cast<float*>(A_->grad->data());",
@@ -23326,7 +23557,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 357,
+          "line": 378,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "float* grad_A_ptr = reinterpret_cast<float*>(A_->grad->data());",
@@ -23335,7 +23566,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 355,
+          "line": 376,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const float* A_ptr = reinterpret_cast<const float*>(A_->data());",
@@ -23344,7 +23575,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 355,
+          "line": 376,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "const float* A_ptr = reinterpret_cast<const float*>(A_->data());",
@@ -23353,7 +23584,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 354,
+          "line": 375,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const float* B_ptr = reinterpret_cast<const float*>(B_->data());",
@@ -23362,7 +23593,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 272,
+          "line": 293,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"No cached input for Vulkan fused backward pass\");",
@@ -23371,7 +23602,34 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 263,
+          "line": 284,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"GPULoRALayer::backward called before a successful forward pass\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 281,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"GPULoRALayer::backward grad_output feature dimension mismatch\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 278,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"GPULoRALayer::backward expects a 2D grad_output tensor\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 275,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Gradient device mismatch in GPULoRALayer::backward\");",
@@ -23380,7 +23638,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 174,
+          "line": 186,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const float* A_ptr = reinterpret_cast<const float*>(A_->data());",
@@ -23389,7 +23647,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 174,
+          "line": 186,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "const float* A_ptr = reinterpret_cast<const float*>(A_->data());",
@@ -23398,7 +23656,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 173,
+          "line": 185,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const float* B_ptr = reinterpret_cast<const float*>(B_->data());",
@@ -23407,7 +23665,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 136,
+          "line": 148,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const float* A_ptr = reinterpret_cast<const float*>(A_->data());",
@@ -23416,7 +23674,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 136,
+          "line": 148,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "const float* A_ptr = reinterpret_cast<const float*>(A_->data());",
@@ -23425,7 +23683,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 135,
+          "line": 147,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const float* B_ptr = reinterpret_cast<const float*>(B_->data());",
@@ -23434,10 +23692,46 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 76,
+          "line": 88,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"GPULoRALayer::forward input feature dimension mismatch\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 85,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"GPULoRALayer::forward expects a 2D input tensor\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 82,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Input device mismatch in GPULoRALayer::forward\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 53,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"GPULoRALayer scaling must be finite\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 50,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"GPULoRALayer requires non-zero in_dim/out_dim/rank\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
@@ -58195,31 +58489,55 @@
       "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp": [
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
+          "line": 404,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "input, B, A, grad_output, grad_A, grad_B, grad_input,",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
+          "line": 400,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "input, B, A, grad_output, grad_A, grad_B, grad_input,",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
           "line": 378,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
           "description": "User input in prompt without sanitization (injection risk)",
-          "context": "input, B, A, grad_output, grad_A, grad_B, grad_input,",
+          "context": "grad_A == nullptr || grad_B == nullptr || grad_input == nullptr) {",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 374,
+          "line": 377,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
           "description": "User input in prompt without sanitization (injection risk)",
-          "context": "input, B, A, grad_output, grad_A, grad_B, grad_input,",
+          "context": "if (input == nullptr || B == nullptr || A == nullptr || grad_output == nullptr ||",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 357,
+          "line": 369,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -58231,7 +58549,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 351,
+          "line": 363,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -58243,7 +58561,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 344,
+          "line": 356,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -58255,7 +58573,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 341,
+          "line": 353,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -58267,7 +58585,19 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 324,
+          "line": 336,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "if (input == nullptr || B == nullptr || A == nullptr || output == nullptr) {",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
+          "line": 325,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -58279,7 +58609,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 221,
+          "line": 222,
           "category": "gpu_memory_safety",
           "severity": "CRITICAL",
           "pattern": "missing_sync_threads",
@@ -58291,7 +58621,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 204,
+          "line": 205,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -58303,7 +58633,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 189,
+          "line": 190,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -58315,7 +58645,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 188,
+          "line": 189,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -58327,7 +58657,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 183,
+          "line": 184,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -58339,7 +58669,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 169,
+          "line": 170,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -58351,7 +58681,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 162,
+          "line": 163,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -58363,7 +58693,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 159,
+          "line": 160,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -58375,7 +58705,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 146,
+          "line": 147,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -58387,7 +58717,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 138,
+          "line": 139,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -58399,7 +58729,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 132,
+          "line": 133,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -58411,7 +58741,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 126,
+          "line": 127,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -58423,7 +58753,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 125,
+          "line": 126,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -58435,7 +58765,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 91,
+          "line": 92,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -58447,7 +58777,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 70,
+          "line": 71,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -58459,7 +58789,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 63,
+          "line": 64,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -58471,7 +58801,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 62,
+          "line": 63,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -58483,7 +58813,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 50,
+          "line": 51,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -58495,7 +58825,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 40,
+          "line": 41,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -58507,7 +58837,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 30,
+          "line": 31,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -58519,7 +58849,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 27,
+          "line": 28,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -58531,31 +58861,55 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
+          "line": 404,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "input, B, A, grad_output, grad_A, grad_B, grad_input,",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
+          "line": 400,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "input, B, A, grad_output, grad_A, grad_B, grad_input,",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
           "line": 378,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
-          "context": "input, B, A, grad_output, grad_A, grad_B, grad_input,",
+          "context": "grad_A == nullptr || grad_B == nullptr || grad_input == nullptr) {",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 374,
+          "line": 377,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
           "description": "User input passed to LLM without normalization/sanitization",
-          "context": "input, B, A, grad_output, grad_A, grad_B, grad_input,",
+          "context": "if (input == nullptr || B == nullptr || A == nullptr || grad_output == nullptr ||",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 357,
+          "line": 369,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -58567,7 +58921,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 351,
+          "line": 363,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -58579,7 +58933,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 344,
+          "line": 356,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -58591,7 +58945,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 341,
+          "line": 353,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -58603,7 +58957,19 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 324,
+          "line": 336,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "if (input == nullptr || B == nullptr || A == nullptr || output == nullptr) {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
+          "line": 325,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -58615,7 +58981,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 204,
+          "line": 205,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -58627,7 +58993,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 189,
+          "line": 190,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -58639,7 +59005,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 188,
+          "line": 189,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -58651,7 +59017,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 183,
+          "line": 184,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -58663,7 +59029,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 169,
+          "line": 170,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -58675,7 +59041,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 162,
+          "line": 163,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -58687,7 +59053,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 159,
+          "line": 160,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -58699,7 +59065,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 146,
+          "line": 147,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -58711,7 +59077,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 138,
+          "line": 139,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -58723,7 +59089,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 132,
+          "line": 133,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -58735,7 +59101,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 126,
+          "line": 127,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -58747,7 +59113,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 125,
+          "line": 126,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -58759,7 +59125,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 91,
+          "line": 92,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -58771,7 +59137,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 70,
+          "line": 71,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -58783,7 +59149,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 63,
+          "line": 64,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -58795,7 +59161,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 62,
+          "line": 63,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -58807,7 +59173,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 50,
+          "line": 51,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -58819,7 +59185,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 40,
+          "line": 41,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -58831,7 +59197,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 30,
+          "line": 31,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -58843,7 +59209,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line": 27,
+          "line": 28,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -58857,10 +59223,10 @@
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\llm\\lora_framework\\kernels\\hip_fused_kernels.cpp",
-          "line_number": 396,
+          "line_number": 429,
           "line_content": "int gridSize = (size + blockSize - 1) / blockSize;",
           "context": [
-            ") {",
+            "",
             "    int blockSize = 256;",
             "    int gridSize = (size + blockSize - 1) / blockSize;",
             "",
