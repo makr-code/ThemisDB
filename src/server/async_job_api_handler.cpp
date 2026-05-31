@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: async_job_api_handler.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 563
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=205 | delta=202 | status=divergent
- * External Severity (v3): C=23, H=149, M=33
- * PR: #4285 feat(server): Versioned API Routing and /v2/ Prefix (v1.8.0) (2026-03-17T06:17:07Z)
+ * ThemisDB | File: async_job_api_handler.cpp | Version: 0.0.15 | Last Modified: 2026-05-26 15:13:40
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 595
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=18, M=13, L=0
+ * PR History (last 5): #4285 feat(server): Versioned API... (2026-03-17) | #2763 [api] Async job API for lon... (2026-03-12) | #2731 feat(api): Async job API fo... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -13,13 +13,13 @@
 | Ziel-ID | Erwartungswert | Benchmark-Fall |
 |---|---|---|
 | SEC-1 | Siehe Zielbeschreibung: AES-256-GCM (AES-NI) | `BM_AES256GCM_Encrypt_1MB` |
-| SEC-2 | Siehe Zielbeschreibung: RSA-4096 Signaturprüfung P99 | `BM_RBAC_PermissionCheck_ManyRoles` |
+| SEC-2 | Siehe Zielbeschreibung: AES-256-GCM medium payload latency | `BM_AES256GCM_Encrypt_64KB` |
 | SEC-3 | Siehe Zielbeschreibung: Kyber-1024 Key Encapsulation | `BM_PostQuantum_KyberKeyGen_1024` |
-| SEC-4 | Siehe Zielbeschreibung: Dilithium-5 Signing | `BM_RBAC_RoleHierarchyValidation` |
-| SEC-5 | Siehe Zielbeschreibung: TLS 1.3 Handshake P99 | `BM_AES256GCM_Encrypt_64KB` |
+| SEC-4 | Siehe Zielbeschreibung: Dilithium-5 Signing | `BM_PostQuantum_DilithiumSign_5` |
+| SEC-5 | Siehe Zielbeschreibung: RBAC Role-Hierarchy validation latency | `BM_RBAC_RoleHierarchyValidation` |
 | SEC-6 | Siehe Zielbeschreibung: RBAC Policy Eval (100 Rollen) P99 | `BM_RBAC_PermissionCheck_ManyRoles` |
-| SEC-7 | Siehe Zielbeschreibung: HSM-Backed RSA-2048 Sign P99 | `BM_RBAC_PermissionCheck_SingleRole` |
-| SEC-8 | Siehe Zielbeschreibung: Audit Log Write P99 | `BM_FieldEncryption_SmallDocument` |
+| SEC-7 | Siehe Zielbeschreibung: AQL injection detection overhead | `BM_AQLInjection_MaliciousQuery` |
+| SEC-8 | Siehe Zielbeschreibung: Audit Log Write P99 | `BM_AuditLog_TamperEvidentAppend` |
 
 ## Modulspezifische harte Grenzwerte (v1.9.0)
 
@@ -45,3 +45,17 @@
 Hinweis:
 - Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
 - Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+
+## Sourcecode Verification (Module: security/performance)
+
+- Gepruefte Benchmark-Quelle:
+  - `benchmarks/bench_security.cpp`
+- Gepruefte Ziel-Fall-Zuordnung:
+  - AES-GCM throughput/latency (`BM_AES256GCM_*`)
+  - RBAC policy and hierarchy checks (`BM_RBAC_*`)
+  - Post-quantum keygen/sign operations (`BM_PostQuantum_*`)
+  - Injection detection overhead (`BM_AQLInjection_*`)
+  - Tamper-evident audit append performance (`BM_AuditLog_*`)
+- Ergebnis:
+  - Alle referenzierten Benchmark-Faelle existieren im aktuellen Benchmark-Source.
+  - Release-Gates bleiben an reproduzierbare Messlaeufe im Release-Profil gebunden.

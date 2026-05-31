@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: disk_space_monitor.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 627
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=131 | delta=128 | status=divergent
- * External Severity (v3): C=11, H=103, M=17
- * PR: #4274 feat(storage): RocksDBWrapper proper size calculation via SST prope... (2026-03-15T19:14:26Z)
+ * ThemisDB | File: disk_space_monitor.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 628
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=1, L=0
+ * PR History (last 5): #4274 feat(storage): RocksDBWrapp... (2026-03-15)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

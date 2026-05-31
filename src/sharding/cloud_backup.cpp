@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: cloud_backup.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 916
- * Open Issues: TODOs=1, Stubs=72, Gaps=130, Unimpl=0, Mock=22, Sim=35, Debt=0
- * Gap Correlation: internal=130 | external_v3=136 | delta=6 | status=near
- * External Severity (v3): C=6, H=98, M=32
- * PR: #3632 fix(build): register 40+ missing sources across 7 modules in cmake ... (2026-03-12T07:39:41Z)
+ * ThemisDB | File: cloud_backup.cpp | Version: 0.0.15 | Last Modified: 2026-05-29 14:12:47
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 1137
+ * Gap Summary: total=90; TODO=1, Stub=71, Unimpl=0, Mock=1, Sim=17, Debt=0, C=0, H=37, M=18, L=0
+ * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #1102 Implement production GPU ba... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

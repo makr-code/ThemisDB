@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: main.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=65, M=6, L=0
+ * ThemisDB | File: main.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 444
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=5, M=4, L=0
+ * PR History (last 5): #761 Phase 4A, 4B & 4C: Migrate ... (2026-03-11) | #1153 Add CLI argument parsing to... (2026-03-11) | #57 Update documentation to ref... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

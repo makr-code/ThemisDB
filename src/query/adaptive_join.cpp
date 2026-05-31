@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: adaptive_join.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 527
- * Open Issues: TODOs=1, Stubs=1, Gaps=6, Unimpl=0, Mock=1, Sim=3, Debt=0
- * Gap Correlation: internal=6 | external_v3=333 | delta=327 | status=divergent
- * External Severity (v3): C=105, H=191, M=37
- * PR: #4210 fix(query): Address review comments on AdaptiveJoinExecutor (Issue ... (2026-03-14T18:12:35Z)
+ * ThemisDB | File: adaptive_join.cpp | Version: 0.0.13 | Last Modified: 2026-05-27 17:13:20
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 565
+ * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=9, H=22, M=27, L=0
+ * PR History (last 5): #5329 perf(query): PERF-06 â€” re... (2026-05-27) | #4210 fix(query): Address review ... (2026-03-14)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: global_transaction_manager.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 584
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=123 | delta=120 | status=divergent
- * External Severity (v3): C=11, H=107, M=5
- * PR: #3649 feat(transaction): complete module audit â€” ModularBuild gap, 10 f... (2026-03-12T07:45:21Z)
+ * ThemisDB | File: global_transaction_manager.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 585
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=27, M=0, L=0
+ * PR History (last 5): #3649 feat(transaction): complete... (2026-03-12) | #3413 feat(transaction): GlobalTr... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

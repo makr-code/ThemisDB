@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: vault_key_provider.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 768
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=236 | delta=233 | status=divergent
- * External Severity (v3): C=21, H=173, M=42
- * PR: #1352 Security CI hardening: negative test suite, sanitizers, static anal... (2026-03-11T21:32:16Z)
+ * ThemisDB | File: vault_key_provider.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 770
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=12, H=33, M=20, L=0
+ * PR History (last 5): #1010 Add comprehensive-code-audi... (2026-03-11) | #1352 Security CI hardening: nega... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

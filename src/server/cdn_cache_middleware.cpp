@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: cdn_cache_middleware.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 230
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=42 | delta=39 | status=divergent
- * External Severity (v3): C=2, H=35, M=5
- * PR: #3632 fix(build): register 40+ missing sources across 7 modules in cmake ... (2026-03-12T07:39:41Z)
+ * ThemisDB | File: cdn_cache_middleware.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 231
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=0, M=2, L=0
+ * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #3394 feat(server): Edge caching ... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

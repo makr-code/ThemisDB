@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: embedding_cache.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=10, H=94, M=11, L=0
+ * ThemisDB | File: embedding_cache.cpp | Version: 0.0.47 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 380
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=10, H=2, M=1, L=0
+ * PR History (last 5): #762 Perf: Scale to 10B records ... (2026-03-11) | #1124 perf: Reduce cache-miss pen... (2026-03-11) | #101 v1.3.0: Source Code Review ... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

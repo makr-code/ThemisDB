@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: config_metrics_exporter.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 87/100
- * Gap Summary: total=8; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=1, Debt=0, C=7, H=71, M=39, L=0
+ * ThemisDB | File: config_metrics_exporter.cpp | Version: 0.0.15 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 453
+ * Gap Summary: total=8; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=1, Debt=0, C=5, H=21, M=0, L=0
+ * PR History (last 5): #4195 Correct retry attempt stati... (2026-03-14) | #3058 build/docs(config): fix mig... (2026-03-12) | #2835 [config] Phase 3 & 4 comple... (2026-03-12) | #2809 feat(config): Prometheus me... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

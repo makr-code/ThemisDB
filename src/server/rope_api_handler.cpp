@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: rope_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 913
- * Open Issues: TODOs=1, Stubs=5, Gaps=9, Unimpl=0, Mock=1, Sim=2, Debt=0
- * Gap Correlation: internal=9 | external_v3=221 | delta=212 | status=divergent
- * External Severity (v3): C=3, H=132, M=86
- * PR: none
+ * ThemisDB | File: rope_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-26 15:48:51
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 938
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=10, M=16, L=0
+ * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

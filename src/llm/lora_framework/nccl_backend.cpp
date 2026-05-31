@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: nccl_backend.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 342
- * Open Issues: TODOs=1, Stubs=1, Gaps=7, Unimpl=0, Mock=1, Sim=4, Debt=0
- * Gap Correlation: internal=7 | external_v3=58 | delta=51 | status=divergent
- * External Severity (v3): C=0, H=57, M=1
- * PR: #578 [LoRA Phase 10.5] Implement Multi-GPU Training Support (2026-03-11T18:14:05Z)
+ * ThemisDB | File: nccl_backend.cpp | Version: 0.0.47 | Last Modified: 2026-05-26 14:42:52
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 404
+ * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=4, Debt=0, C=0, H=5, M=0, L=0
+ * PR History (last 5): #578 [LoRA Phase 10.5] Implement... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

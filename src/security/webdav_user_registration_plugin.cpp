@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: webdav_user_registration_plugin.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 649
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=88 | delta=85 | status=divergent
- * External Severity (v3): C=0, H=60, M=28
- * PR: #4426 fix(security): replace Result<void>::Err() with typed ErrorCode in ... (2026-03-26T12:48:27Z)
+ * ThemisDB | File: webdav_user_registration_plugin.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:18:35
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 650
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=4, L=0
+ * PR History (last 5): #4426 fix(security): replace Resu... (2026-03-26) | #4359 feat(security): AQL read-on... (2026-03-21) | #815 Add plugin-based security a... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

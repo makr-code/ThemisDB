@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: rocksdb_wrapper.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 2755
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=922 | delta=919 | status=divergent
- * External Severity (v3): C=63, H=721, M=138
- * PR: #4596 perf(storage): fix ~79x sustained write throughput regression â€” d... (2026-04-13T07:29:25Z)
+ * ThemisDB | File: rocksdb_wrapper.cpp | Version: 0.0.47 | Last Modified: 2026-05-28 10:35:35
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 2767
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=41, H=90, M=26, L=0
+ * PR History (last 5): #4596 perf(storage): fix ~79x sus... (2026-04-13) | #4494 [PERF-D5] Streaming blob wr... (2026-04-09) | #4274 feat(storage): RocksDBWrapp... (2026-03-15) | #4260 feat(storage): SecuritySign... (2026-03-15) | #4201 feat(base): async retry bac... (2026-03-15)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

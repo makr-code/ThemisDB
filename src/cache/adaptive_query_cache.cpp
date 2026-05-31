@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: adaptive_query_cache.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 93/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=101, H=834, M=46, L=2
+ * ThemisDB | File: adaptive_query_cache.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 2476
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=25, H=86, M=6, L=1
+ * PR History (last 5): #5169 Research review: Complete f... (2026-05-19) | #4571 perf(index): reduce seconda... (2026-04-11) | #4293 Implement predictive prefet... (2026-03-19) | #4294 docs(cdc): audit v1.8.0 #39... (2026-03-16) | #4209 feat(cache): RedisCacheCoor... (2026-03-14)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

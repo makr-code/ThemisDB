@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: ws_transport.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=14, H=43, M=11, L=0
+ * ThemisDB | File: ws_transport.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 327
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=3, M=8, L=0
+ * PR History (last 5): #4184 feat(cdc): WebSocket Change... (2026-03-13) | #3616 fix(cdc): build system audi... (2026-03-12) | #3106 [cdc] Add event throughput ... (2026-03-12) | #3086 feat(governance): implement... (2026-03-12) | #3056 [cdc] Add Debezium-compatib... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

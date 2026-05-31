@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: policy_manager.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=27, H=119, M=38, L=0
+ * ThemisDB | File: policy_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 823
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=19, M=29, L=0
+ * PR History (last 5): #4300 feat(governance): CSV expor... (2026-03-17) | #3086 feat(governance): implement... (2026-03-12) | #1075 Implement GAP-004 Phase 5: ... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: bi_temporal.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 499
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=129 | delta=126 | status=divergent
- * External Severity (v3): C=16, H=79, M=34
- * PR: #4117 feat(temporal): add gap detection, uniqueness constraints, and temp... (2026-03-12T15:26:55Z)
+ * ThemisDB | File: bi_temporal.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 500
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=14, M=23, L=0
+ * PR History (last 5): #4117 feat(temporal): add gap det... (2026-03-12) | #3597 feat(temporal): Phase 3 â€”... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

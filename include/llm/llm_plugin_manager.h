@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: llm_plugin_manager.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * ThemisDB | File: llm_plugin_manager.h | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 325
  * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4753 feat(projects): InMemoryPro... (2026-04-21) | #4244 feat(ingestion): LLMIngesti... (2026-03-15) | #105 Add plugin-based LLM integr... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

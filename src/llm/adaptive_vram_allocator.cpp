@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: adaptive_vram_allocator.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 225
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=61 | delta=58 | status=divergent
- * External Severity (v3): C=13, H=21, M=27
- * PR: #4333 [LORA-123] Implement LoRA adapter hot-loading at inference time (2026-03-19T12:22:45Z)
+ * ThemisDB | File: adaptive_vram_allocator.cpp | Version: 0.0.47 | Last Modified: 2026-05-26 17:46:50
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 353
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=7, M=0, L=0
+ * PR History (last 5): #4333 [LORA-123] Implement LoRA a... (2026-03-19) | #3802 [LLM] AdaptiveVRAMAllocator... (2026-03-12) | #3695 feat(llm): implement Active... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

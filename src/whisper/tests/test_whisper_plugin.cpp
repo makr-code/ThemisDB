@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: test_whisper_plugin.cpp | Version: 0.0.10 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 869
- * Open Issues: TODOs=1, Stubs=2, Gaps=4, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=4 | external_v3=118 | delta=114 | status=divergent
- * External Severity (v3): C=2, H=104, M=12
- * PR: none
+ * ThemisDB | File: test_whisper_plugin.cpp | Version: 0.0.10 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 1020
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=3, L=0
+ * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

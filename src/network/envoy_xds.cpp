@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: envoy_xds.cpp | Version: 0.0.15 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 835
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=195 | delta=192 | status=divergent
- * External Severity (v3): C=2, H=125, M=68
- * PR: #3395 Add service mesh sidecar proxy mode with Envoy xDS v3 compatibility (2026-03-12T07:09:06Z)
+ * ThemisDB | File: envoy_xds.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 836
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=30, M=30, L=0
+ * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #3395 Add service mesh sidecar pr... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: tensor_ingestion_bridge.cpp | Version: 1.0.0 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 92/100 | Lines: 218
- * Open Issues: TODOs=1, Stubs=2, Gaps=4, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=4 | external_v3=41 | delta=37 | status=divergent
- * External Severity (v3): C=0, H=36, M=5
- * PR: none
+ * ThemisDB | File: tensor_ingestion_bridge.cpp | Version: 1.0.0 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 92/100 | Lines: 219
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=0, L=0
+ * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

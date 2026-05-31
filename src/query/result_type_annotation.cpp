@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: result_type_annotation.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 228
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=97 | delta=94 | status=divergent
- * External Severity (v3): C=1, H=83, M=13
- * PR: #2702 feat(query): Query result type annotations for client SDK code gene... (2026-03-12T05:55:52Z)
+ * ThemisDB | File: result_type_annotation.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:15:12
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 229
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=3, M=12, L=0
+ * PR History (last 5): #2702 feat(query): Query result t... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

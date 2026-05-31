@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: llm_query_rewriter.cpp | Version: 0.0.18 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 283
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=109 | delta=106 | status=divergent
- * External Severity (v3): C=5, H=84, M=20
- * PR: #2559 [search] LLM-based query rewriting for improved recall + MINIMAL bu... (2026-03-12T05:51:29Z)
+ * ThemisDB | File: llm_query_rewriter.cpp | Version: 0.0.18 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 285
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=4, M=7, L=0
+ * PR History (last 5): #3590 feat(search): implement Sea... (2026-03-12) | #2582 [search] LLM query rewritin... (2026-03-12) | #2559 [search] LLM-based query re... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

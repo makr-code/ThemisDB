@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: llama_cpp_plugin.cpp | Version: 0.0.10 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 540
- * Open Issues: TODOs=1, Stubs=13, Gaps=17, Unimpl=0, Mock=1, Sim=2, Debt=0
- * Gap Correlation: internal=17 | external_v3=110 | delta=93 | status=divergent
- * External Severity (v3): C=17, H=73, M=20
- * PR: none
+ * ThemisDB | File: llama_cpp_plugin.cpp | Version: 0.0.10 | Last Modified: 2026-05-30 19:26:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 699
+ * Gap Summary: total=19; TODO=1, Stub=15, Unimpl=0, Mock=1, Sim=2, Debt=0, C=5, H=13, M=23, L=0
+ * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

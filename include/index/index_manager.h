@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: index_manager.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * ThemisDB | File: index_manager.h | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 228
  * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4587 feat(index): add IndexManag... (2026-04-13) | #3122 feat(index): implement Vect... (2026-03-12) | #2963 [index] Implement multi-ten... (2026-03-12) | #747 Phase 3: Migrate TSStore, P... (2026-03-11) | #710 Phase 3: Migrate IndexManag... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: s3_connector.h | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 92/100
+ * ThemisDB | File: s3_connector.h | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 92/100 | Lines: 205
  * Gap Summary: total=12; TODO=1, Stub=1, Unimpl=0, Mock=9, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4227 feat(ingestion): S3-Compati... (2026-03-14)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

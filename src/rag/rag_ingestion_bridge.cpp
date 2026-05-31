@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: rag_ingestion_bridge.cpp | Version: 0.1.0 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 267
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=54 | delta=51 | status=divergent
- * External Severity (v3): C=2, H=39, M=13
- * PR: #4697 feat(rag,toolbox): RAGIngestionBridge + ingestion workflow profiles... (2026-04-16T06:00:44Z)
+ * ThemisDB | File: rag_ingestion_bridge.cpp | Version: 0.1.0 | Last Modified: 2026-05-22 11:24:56
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 268
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=3, M=0, L=0
+ * PR History (last 5): #4697 feat(rag,toolbox): RAGInges... (2026-04-16)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
@@ -130,8 +128,11 @@ std::size_t RAGIngestionBridge::enrichRetrievedDocuments(
 {
     std::size_t enriched = 0;
     for (auto& doc : docs) {
-        if (doc.content.empty()) {
+        if (doc.content.empty() || doc.id.empty()) {
             continue;
+        }
+        if (doc.metadata["source"].empty()) {
+            doc.metadata["source"] = doc.id;
         }
         auto entities = toolbox_->extractEntities(doc.content);
         if (entities.empty()) {

@@ -6,28 +6,28 @@
 - Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
 ## Benchmark-Bezug
-- Dieses Modul nutzt die Ziel-ID-Matrix des Parent-Moduls `system_level` als Referenzpfad.
 - Relevante Benchmark-Dateien:
+  - `benchmarks/bench_storage_performance.cpp`
   - `benchmarks/bench_tpcc.cpp`
   - `benchmarks/bench_vector_search.cpp`
 
 ## Spezifische Erwartungswerte
 | Ziel-ID | Erwartungswert | Benchmark-Fall |
 |---|---|---|
-| BM-1 | Siehe Zielbeschreibung: OLTP (TPC-C) 4-Core | `TPCCLiteFixture_NewOrderTransaction` |
-| BM-2 | Siehe Zielbeschreibung: OLTP (TPC-C) 8-Core | `TPCCLiteFixture_NewOrderTransaction` |
-| BM-3 | Siehe Zielbeschreibung: OLTP (TPC-C) 16-Core | `TPCCLiteFixture_NewOrderTransaction` |
-| BM-4 | Siehe Zielbeschreibung: OLTP (TPC-C) 32-Core | `TPCCLiteFixture_NewOrderTransaction` |
-| BM-5 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `TPCCLiteFixture_StockLevelTransaction` |
-| BM-6 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_VectorSearch_efSearch` |
-| BM-7 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `TPCCLiteFixture_PaymentTransaction` |
+| BM-1 | OLTP New-Order darf keine signifikante Regression ggü. Baseline zeigen | `BENCHMARK_REGISTER_F(TPCCLiteFixture, NewOrderTransaction)` |
+| BM-2 | OLTP Payment darf keine signifikante Regression ggü. Baseline zeigen | `BENCHMARK_REGISTER_F(TPCCLiteFixture, PaymentTransaction)` |
+| BM-3 | OLTP Stock-Level darf keine signifikante Regression ggü. Baseline zeigen | `BENCHMARK_REGISTER_F(TPCCLiteFixture, StockLevelTransaction)` |
+| BM-4 | Vector-Search efSearch bleibt im Baseline-Korridor | `BM_VectorSearch_efSearch` |
+| BM-5 | Sustained write no-sync bleibt im Baseline-Korridor | `BM_Storage_SustainedWrite_NoSync` |
+| BM-6 | Sustained batched write bleibt im Baseline-Korridor | `BM_Storage_SustainedWrite_Batched` |
+| BM-7 | WAL group-commit batch bleibt im Baseline-Korridor | `BM_WAL_GroupCommit_Batch` |
 
 ## Modulspezifische harte Grenzwerte (v1.9.0)
 
 | Gate-ID | Erwartungswert | Messregel |
 |---|---|---|
-| SG-1 | >= 18000 txn/s (TPC-C NewOrder Throughput) | mean aus `TPCCLiteFixture_NewOrderTransaction` |
-| SG-2 | <= 35 ms (TPC-C StockLevel Latenz P95) | p95 aus `TPCCLiteFixture_StockLevelTransaction` |
+| SG-1 | >= 18000 txn/s (TPC-C NewOrder Throughput) | mean aus `BENCHMARK_REGISTER_F(TPCCLiteFixture, NewOrderTransaction)` |
+| SG-2 | <= 35 ms (TPC-C StockLevel Latenz P95) | p95 aus `BENCHMARK_REGISTER_F(TPCCLiteFixture, StockLevelTransaction)` |
 | SG-3 | <= 30 ms (VectorSearch Latenz P99) | p99 aus `BM_VectorSearch_efSearch` |
 | SG-4 | Regression <= 8 % gegen letzte Release-Baseline | `(current - baseline) / baseline` |
 
@@ -46,3 +46,17 @@
 Hinweis:
 - Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
 - Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+
+## Sourcecode Verification (Module: storage/performance)
+
+- Gepruefte Benchmark-Quellen:
+  - `benchmarks/bench_storage_performance.cpp`
+  - `benchmarks/bench_tpcc.cpp`
+  - `benchmarks/bench_vector_search.cpp`
+- Gepruefte Ziel-Fall-Zuordnung:
+  - TPC-C fixture benchmarks (`BENCHMARK_REGISTER_F(TPCCLiteFixture, ...)`)
+  - storage sustained-write and WAL group-commit benchmarks (`BM_Storage_*`, `BM_WAL_GroupCommit_Batch`)
+  - vector search regression signal (`BM_VectorSearch_efSearch`)
+- Ergebnis:
+  - Referenzierte Benchmark-Faelle existieren im aktuellen Benchmark-Source.
+  - Erwartungswerte bleiben an reproduzierbare Release-Profil-Messungen und Baseline-Vergleich gebunden.

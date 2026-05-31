@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: keyprovider_signing.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 88
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=24 | delta=21 | status=divergent
- * External Severity (v3): C=0, H=15, M=9
- * PR: #3438 feat(security/updates): HSM-backed SigningService for update bundle... (2026-03-12T07:15:50Z)
+ * ThemisDB | File: keyprovider_signing.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 90
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=5, L=0
+ * PR History (last 5): #3438 feat(security/updates): HSM... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

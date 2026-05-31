@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: vulkan_buffer.cpp | Version: 0.0.47 | Last Modified: 2026-04-15 18:58:58
- * Author: ThemisDB Version Bot | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 277
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=80 | delta=77 | status=divergent
- * External Severity (v3): C=3, H=76, M=1
- * PR: #3629 [MODULE] llm â€“ build-system audit: register 16 missing sources, 2... (2026-03-12T07:39:34Z)
+ * ThemisDB | File: vulkan_buffer.cpp | Version: 0.0.47 | Last Modified: 2026-05-19 07:03:18
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 306
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=29, M=0, L=0
+ * PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #3629 [MODULE] llm â€“ build-syst... (2026-03-12) | #571 Implement Vulkan compute pi... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

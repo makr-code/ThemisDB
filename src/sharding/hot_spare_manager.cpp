@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: hot_spare_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 901
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=284 | delta=281 | status=divergent
- * External Severity (v3): C=40, H=168, M=76
- * PR: #221 Implement Hot Spare Management for automatic shard failover and reb... (2026-03-11T21:23:58Z)
+ * ThemisDB | File: hot_spare_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 902
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=15, M=11, L=0
+ * PR History (last 5): #221 Implement Hot Spare Managem... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

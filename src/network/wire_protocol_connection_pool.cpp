@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: wire_protocol_connection_pool.cpp | Version: 0.0.47 | Last Modified: 2026-04-20 21:36:21
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 777
- * Open Issues: TODOs=1, Stubs=1, Gaps=5, Unimpl=0, Mock=1, Sim=2, Debt=0
- * Gap Correlation: internal=5 | external_v3=277 | delta=272 | status=divergent
- * External Severity (v3): C=29, H=220, M=28
- * PR: #1142 Implement TLS/mTLS support for WireProtocolConnectionPool with RFC ... (2026-03-11T17:51:04Z)
+ * ThemisDB | File: wire_protocol_connection_pool.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 778
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=5, H=33, M=15, L=0
+ * PR History (last 5): #1118 Optimize connection efficie... (2026-03-11) | #1142 Implement TLS/mTLS support ... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

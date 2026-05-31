@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: shard_repair_api_handler.cpp | Version: 0.0.1 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 376
- * Open Issues: TODOs=1, Stubs=2, Gaps=4, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=4 | external_v3=174 | delta=170 | status=divergent
- * External Severity (v3): C=7, H=51, M=116
- * PR: none
+ * ThemisDB | File: shard_repair_api_handler.cpp | Version: 0.0.1 | Last Modified: 2026-05-27 18:09:29
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 378
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=6, M=43, L=0
+ * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

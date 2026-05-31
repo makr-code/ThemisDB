@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: vector_index.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * ThemisDB | File: vector_index.h | Version: 0.0.47 | Last Modified: 2026-05-24 09:35:32
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 538
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #5121 docs(index): update VECTOR_... (2026-05-14) | #4096 feat(chimera): Production T... (2026-03-12) | #2946 feat(index): DiskANN/ScaNN ... (2026-03-12) | #909 Integrate Rotary Position E... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

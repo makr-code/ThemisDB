@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: rag_judge.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1506
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=462 | delta=459 | status=divergent
- * External Severity (v3): C=77, H=305, M=80
- * PR: #1272 Implement post-generation quality control with LLM-as-Judge, G-Eval... (2026-03-11T17:46:10Z)
+ * ThemisDB | File: rag_judge.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1529
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=78, H=80, M=27, L=0
+ * PR History (last 5): #651 [RAG-ETHICS] Add ethical co... (2026-03-11) | #650 Complete RAG Enhancement Im... (2026-03-11) | #638 RAG Enhancement: Knowledge ... (2026-03-11) | #836 Implement production-ready ... (2026-03-11) | #1271 Quality Control enhancement... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

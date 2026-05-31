@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: opa_adapter.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 151
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=28 | delta=25 | status=divergent
- * External Severity (v3): C=1, H=25, M=2
- * PR: #5123 docs(server): update VCCDB Design.md â€“ add header, cross-refs, fi... (2026-05-14T05:24:44Z)
+ * ThemisDB | File: opa_adapter.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 152
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=5, M=2, L=0
+ * PR History (last 5): #5123 docs(server): update VCCDB ... (2026-05-14) | #3076 feat(governance): Integrate... (2026-03-12) | #2775 [auth] OPA integration for ... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

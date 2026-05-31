@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: profiling_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 402
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=113 | delta=110 | status=divergent
- * External Severity (v3): C=0, H=94, M=19
- * PR: #3632 fix(build): register 40+ missing sources across 7 modules in cmake ... (2026-03-12T07:39:41Z)
+ * ThemisDB | File: profiling_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-25 18:24:47
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 412
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=16, L=0
+ * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

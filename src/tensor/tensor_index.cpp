@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: tensor_index.cpp | Version: 1.0.0 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 455
- * Open Issues: TODOs=1, Stubs=2, Gaps=4, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=4 | external_v3=83 | delta=79 | status=divergent
- * External Severity (v3): C=33, H=43, M=7
- * PR: none
+ * ThemisDB | File: tensor_index.cpp | Version: 1.0.0 | Last Modified: 2026-05-25 12:51:56
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 475
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=8, M=5, L=0
+ * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

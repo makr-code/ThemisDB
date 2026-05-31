@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: task_scheduler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 90/100 | Lines: 2975
- * Open Issues: TODOs=1, Stubs=1, Gaps=4, Unimpl=0, Mock=1, Sim=0, Debt=1
- * Gap Correlation: internal=4 | external_v3=887 | delta=883 | status=divergent
- * External Severity (v3): C=56, H=663, M=168
- * PR: #4278 TaskScheduler: Propagate Authenticated User Context to Audit Events... (2026-03-16T08:01:36Z)
+ * ThemisDB | File: task_scheduler.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 90/100 | Lines: 2977
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=1, C=24, H=61, M=49, L=0
+ * PR History (last 5): #4361 docs(scheduler): sync docs ... (2026-03-21) | #4278 TaskScheduler: Propagate Au... (2026-03-16) | #3369 feat(scheduler): add audit ... (2026-03-12) | #3368 feat(scheduler): CDC event ... (2026-03-12) | #3359 feat(scheduler): Add FIBONA... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

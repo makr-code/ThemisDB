@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: kafka_cdc_producer.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
- * Gap Summary: total=7; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=1, Debt=0, C=1, H=56, M=8, L=0
+ * ThemisDB | File: kafka_cdc_producer.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 353
+ * Gap Summary: total=7; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=2, M=0, L=0
+ * PR History (last 5): #4607 feat(cdc): register CDCKafk... (2026-04-13) | #3106 [cdc] Add event throughput ... (2026-03-12) | #3086 feat(governance): implement... (2026-03-12) | #3056 [cdc] Add Debezium-compatib... (2026-03-12) | #3045 [cdc] Implement ICDCTranspo... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

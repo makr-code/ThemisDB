@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: streaming_exporter.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=52, M=15, L=0
+ * ThemisDB | File: streaming_exporter.cpp | Version: 0.0.15 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 377
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=3, L=0
+ * PR History (last 5): #4252 feat(exporters): Replace zl... (2026-03-15) | #3224 [exporters] Add duration an... (2026-03-12) | #3222 [exporters] Implement strea... (2026-03-12) | #3221 exporters: AES-256-GCM expo... (2026-03-12) | #3220 feat(exporters): Alpaca, Sh... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

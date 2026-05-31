@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: ml_anomaly_detector.cpp | Version: 0.0.13 | Last Modified: 2026-05-11 17:38:42
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 433
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=102 | delta=99 | status=divergent
- * External Severity (v3): C=1, H=78, M=23
- * PR: #4199 Implement async backoff dispatcher for RemoteRegistryClient (2026-03-15T07:00:09Z)
+ * ThemisDB | File: ml_anomaly_detector.cpp | Version: 0.0.13 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 434
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=7, M=17, L=0
+ * PR History (last 5): #4368 feat(observability): wire m... (2026-03-21) | #4199 Implement async backoff dis... (2026-03-15)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

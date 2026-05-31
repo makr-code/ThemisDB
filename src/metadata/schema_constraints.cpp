@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: schema_constraints.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 608
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=155 | delta=152 | status=divergent
- * External Severity (v3): C=3, H=132, M=20
- * PR: #4334 feat(metadata): Schema Versioning â€“ complete test registration an... (2026-03-19T12:19:25Z)
+ * ThemisDB | File: schema_constraints.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 609
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=5, M=19, L=0
+ * PR History (last 5): #4334 feat(metadata): Schema Vers... (2026-03-19)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: grpc_channel_pool.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 380
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=132 | delta=129 | status=divergent
- * External Severity (v3): C=16, H=110, M=6
- * PR: #1118 Optimize connection efficiency with pooling for HTTP/gRPC/TCP proto... (2026-03-11T17:52:04Z)
+ * ThemisDB | File: grpc_channel_pool.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 389
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=16, M=0, L=0
+ * PR History (last 5): #1118 Optimize connection efficie... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

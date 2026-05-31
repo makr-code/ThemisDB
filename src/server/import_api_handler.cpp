@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: import_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 84/100 | Lines: 619
- * Open Issues: TODOs=1, Stubs=5, Gaps=9, Unimpl=0, Mock=1, Sim=2, Debt=0
- * Gap Correlation: internal=9 | external_v3=172 | delta=163 | status=divergent
- * External Severity (v3): C=6, H=125, M=41
- * PR: #3081 feat(importers): S3-compatible object-storage source connector (2026-03-12T06:21:38Z)
+ * ThemisDB | File: import_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 17:10:28
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 676
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=10, M=11, L=0
+ * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #3081 feat(importers): S3-compati... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

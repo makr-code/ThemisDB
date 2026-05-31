@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: query_expander.cpp | Version: 0.0.43 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 440
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=212 | delta=209 | status=divergent
- * External Severity (v3): C=2, H=172, M=38
- * PR: #3374 [search] Improve spelling correction suggestions with frequency-wei... (2026-03-12T07:07:37Z)
+ * ThemisDB | File: query_expander.cpp | Version: 0.0.43 | Last Modified: 2026-05-20 17:17:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 441
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=17, M=21, L=0
+ * PR History (last 5): #3374 [search] Improve spelling c... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: module_sandbox.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 93/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=131, M=39, L=0
+ * ThemisDB | File: module_sandbox.cpp | Version: 0.0.47 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 739
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=29, M=25, L=0
+ * PR History (last 5): #4278 TaskScheduler: Propagate Au... (2026-03-16) | #4115 feat(base): cgroup v2 resou... (2026-03-12) | #3763 feat(base): WASM Runtime In... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

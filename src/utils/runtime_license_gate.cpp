@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: runtime_license_gate.cpp | Version: 0.0.41 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 265
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=49 | delta=46 | status=divergent
- * External Severity (v3): C=7, H=23, M=19
- * PR: #4518 [WIP] Update developer documentation to match current source code (2026-04-12T20:32:47Z)
+ * ThemisDB | File: runtime_license_gate.cpp | Version: 0.0.41 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 266
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=2, L=0
+ * PR History (last 5): #4518 [WIP] Update developer docu... (2026-04-12) | #3408 Migrate Themis core impleme... (2026-03-12) | #3403 [themis] Fix edition featur... (2026-03-12) | #1351 Implement runtime license s... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: inference_engine_enhanced.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 92/100 | Lines: 2035
- * Open Issues: TODOs=1, Stubs=6, Gaps=8, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=8 | external_v3=623 | delta=615 | status=divergent
- * External Severity (v3): C=61, H=490, M=72
- * PR: #4421 fix: Resolve BSI/RAG production blockers â€“ JWT, mTLS, CRL, RocksD... (2026-03-26T13:25:05Z)
+ * ThemisDB | File: inference_engine_enhanced.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 14:43:34
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 92/100 | Lines: 2081
+ * Gap Summary: total=10; TODO=1, Stub=8, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=151, M=39, L=0
+ * PR History (last 5): #4421 fix: Resolve BSI/RAG produc... (2026-03-26) | #4332 Implement AIOrchestrator to... (2026-03-19) | #3759 feat(llm): implement KV-cac... (2026-03-12) | #3267 feat(llm): speculative deco... (2026-03-12) | #3199 feat(llm): LoRA adapter hot... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

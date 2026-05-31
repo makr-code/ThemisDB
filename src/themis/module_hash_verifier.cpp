@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: module_hash_verifier.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 236
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=60 | delta=57 | status=divergent
- * External Severity (v3): C=2, H=48, M=10
- * PR: #3646 fix(themis): complete build system audit â€“ register all sources, ... (2026-03-12T07:44:43Z)
+ * ThemisDB | File: module_hash_verifier.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 237
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=4, L=0
+ * PR History (last 5): #3646 fix(themis): complete build... (2026-03-12) | #2732 [auth] OAuth 2.0 PKCE flow ... (2026-03-12) | #2657 Add SHA-256 module integrit... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

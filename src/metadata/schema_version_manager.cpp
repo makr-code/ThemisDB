@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: schema_version_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 562
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=149 | delta=146 | status=divergent
- * External Severity (v3): C=0, H=111, M=38
- * PR: #5149 Research review: normalize dynamic schema reconfiguration report to... (2026-05-14T07:16:40Z)
+ * ThemisDB | File: schema_version_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 563
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=11, M=13, L=0
+ * PR History (last 5): #5149 Research review: normalize ... (2026-05-14) | #4334 feat(metadata): Schema Vers... (2026-03-19) | #1332 feat(metadata): production-... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

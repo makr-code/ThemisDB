@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: hot_reload_manager.cpp | Version: 0.0.21
- * Maturity: 🟢 PRODUCTION-READY | Score: 99/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=26, H=117, M=8, L=0
+ * ThemisDB | File: hot_reload_manager.cpp | Version: 0.0.21 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 487
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=21, M=2, L=0
+ * PR History (last 5): #4135 feat(base): Upgrade HotRelo... (2026-03-12) | #3272 feat(plugins): runtime plug... (2026-03-12) | #3200 fix(plugins): close out run... (2026-03-12) | #3165 [base] Complete hot-reload ... (2026-03-12) | #3162 [WIP] Implement WASM-based ... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

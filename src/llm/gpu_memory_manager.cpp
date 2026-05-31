@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: gpu_memory_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:59
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 84/100 | Lines: 1736
- * Open Issues: TODOs=1, Stubs=3, Gaps=30, Unimpl=0, Mock=1, Sim=25, Debt=1
- * Gap Correlation: internal=32 | external_v3=518 | delta=486 | status=divergent
- * External Severity (v3): C=58, H=406, M=54
- * PR: #379 Migrate critical error logging to structured error codes (Phase 1) (2026-03-11T21:28:11Z)
+ * ThemisDB | File: gpu_memory_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-28 04:42:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 2317
+ * Gap Summary: total=28; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=24, Debt=0, C=16, H=62, M=64, L=0
+ * PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #3802 [LLM] AdaptiveVRAMAllocator... (2026-03-12) | #379 Migrate critical error logg... (2026-03-11) | #240 Replace GPU Memory Manager ... (2026-03-11) | #220 Add multi-GPU LoRA adapter ... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

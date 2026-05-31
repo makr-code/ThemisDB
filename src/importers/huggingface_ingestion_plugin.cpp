@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: huggingface_ingestion_plugin.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
- * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=9, H=88, M=38, L=0
+ * ThemisDB | File: huggingface_ingestion_plugin.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 659
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=9, H=10, M=13, L=0
+ * PR History (last 5): #4827 refactor: flatten plugin/ h... (2026-05-04)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

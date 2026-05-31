@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: oci_registry_client.cpp | Version: 0.0.15 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 708
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=116 | delta=113 | status=divergent
- * External Severity (v3): C=5, H=98, M=13
- * PR: #3342 [plugins] Remote plugin loading from OCI registries (2026-03-12T07:06:26Z)
+ * ThemisDB | File: oci_registry_client.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 710
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=4, M=10, L=0
+ * PR History (last 5): #3342 [plugins] Remote plugin loa... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

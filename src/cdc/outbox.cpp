@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: outbox.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=68, M=10, L=0
+ * ThemisDB | File: outbox.cpp | Version: 0.0.15 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 414
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=13, M=7, L=0
+ * PR History (last 5): #3616 fix(cdc): build system audi... (2026-03-12) | #3472 docs(cdc): align README.md ... (2026-03-12) | #2850 feat(cdc): Transactional ou... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

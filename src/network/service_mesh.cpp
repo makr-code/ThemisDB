@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: service_mesh.cpp | Version: 0.0.15 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 253
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=56 | delta=53 | status=divergent
- * External Severity (v3): C=4, H=41, M=11
- * PR: #3632 fix(build): register 40+ missing sources across 7 modules in cmake ... (2026-03-12T07:39:41Z)
+ * ThemisDB | File: service_mesh.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 254
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=3, M=7, L=0
+ * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #3395 Add service mesh sidecar pr... (2026-03-12) | #3337 feat(network): Implement Is... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

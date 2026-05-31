@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: storage_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 559
- * Open Issues: TODOs=1, Stubs=1, Gaps=6, Unimpl=0, Mock=1, Sim=3, Debt=0
- * Gap Correlation: internal=6 | external_v3=99 | delta=93 | status=divergent
- * External Severity (v3): C=2, H=80, M=17
- * PR: #626 Phase 2: Implement Dependency Injection for StorageEngine (2026-03-11T18:12:04Z)
+ * ThemisDB | File: storage_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 560
+ * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=2, H=13, M=3, L=0
+ * PR History (last 5): #3644 fix(docs+build): storage mo... (2026-03-12) | #3632 fix(build): register 40+ mi... (2026-03-12) | #870 Error Handling: Complete mi... (2026-03-11) | #710 Phase 3: Migrate IndexManag... (2026-03-11) | #626 Phase 2: Implement Dependen... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: maintenance_api_handler.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 248
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=84 | delta=81 | status=divergent
- * External Severity (v3): C=2, H=70, M=12
- * PR: #4124 feat(maintenance): implement IMaintenanceTaskHandler registry (2026-03-12T18:11:16Z)
+ * ThemisDB | File: maintenance_api_handler.cpp | Version: 0.0.13 | Last Modified: 2026-05-27 12:46:42
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 260
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=3, M=4, L=0
+ * PR History (last 5): #4124 feat(maintenance): implemen... (2026-03-12) | #3900 feat(maintenance): Force-Ru... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

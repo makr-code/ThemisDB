@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: system_prompt_manager.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 223
- * Open Issues: TODOs=1, Stubs=4, Gaps=6, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=6 | external_v3=44 | delta=38 | status=divergent
- * External Severity (v3): C=7, H=33, M=4
- * PR: #3581 docs(plugins, prompt_engineering): reality-check DoD for issues #35... (2026-03-12T07:36:05Z)
+ * ThemisDB | File: system_prompt_manager.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:15:12
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 224
+ * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=3, L=0
+ * PR History (last 5): #3581 docs(plugins, prompt_engine... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -85,6 +85,33 @@
 
 21 focused standalone test targets including: `StorageEngineDI`, `StorageEngineProd`, `StorageAuditLogger`, `BlobStorage`, `TieredStorage`, `WalStorage`, `WalManager`, `MvccStore`, `MvccHistory`, `MvccWalIntegration`, and more.
 
+## Sourcecode Verification (Module: storage)
+
+- Scope-Dateien:
+    - `src/storage/README.md`
+    - `src/storage/ARCHITECTURE.md`
+    - `src/storage/ROADMAP.md`
+    - `src/storage/FUTURE_ENHANCEMENTS.md`
+    - `src/storage/CHANGELOG.md`
+    - `src/storage/SECURITY.md`
+    - `src/storage/AUDIT.md`
+    - `src/storage/PERFORMANCE_EXPECTATIONS.md`
+- Gepruefte Symbole/Verhalten:
+    - Storage wrapper lifecycle and operation gating (`RocksDBWrapper::close`, operation guards) -> `src/storage/rocksdb_wrapper.cpp`
+    - MVCC transaction surface -> `include/storage/mvcc_store.h`
+    - WAL append/replay/rotation behavior -> `src/storage/wal_storage.cpp`
+    - Backup/PITR manager interfaces -> `include/storage/backup_manager.h`, `include/storage/pitr_manager.h`
+    - Blob redundancy manager surface -> `include/storage/blob_redundancy_manager.h`
+    - Storage engine orchestration surface -> `include/storage/storage_engine.h`
+- Gepruefte Feature-/Laufzeit-Gates:
+    - Production safety and durability behavior in storage runtime paths -> `src/storage/rocksdb_wrapper.cpp`, `src/storage/security_signature_manager.cpp`
+    - Blob failover/redundancy operational behavior -> `src/storage/blob_redundancy_manager.cpp`
+    - Recovery and replay behavior under WAL/PITR flows -> `src/storage/wal_storage.cpp`, `src/storage/pitr_manager.cpp`
+- Ergebnis:
+    - Kern-Aussagen der Storage-Moduldokumentation sind gegen aktuelle Source-Dateien abgeglichen.
+    - Zukunftsplanung liegt in `ROADMAP.md` und `FUTURE_ENHANCEMENTS.md`; Historie in `CHANGELOG.md`.
+    - Historische Erledigt-Bloecke wurden aus der Roadmap entfernt.
+
 ## Findings
 
 ### S0 — Critical

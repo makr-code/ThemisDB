@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: distributed_rag_evaluator.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 446
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=135 | delta=132 | status=divergent
- * External Severity (v3): C=10, H=105, M=20
- * PR: none
+ * ThemisDB | File: distributed_rag_evaluator.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:15:41
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 447
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=10, H=26, M=12, L=0
+ * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

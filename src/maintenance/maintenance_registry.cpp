@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: maintenance_registry.cpp | Version: 0.0.13 | Last Modified: 2026-05-11 17:38:42
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 227
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=15 | delta=12 | status=divergent
- * External Severity (v3): C=0, H=11, M=4
- * PR: #3773 fix(maintenance): audit fixes â€“ window enforcement, audit logging... (2026-03-11T16:03:58Z)
+ * ThemisDB | File: maintenance_registry.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 228
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
+ * PR History (last 5): #3773 fix(maintenance): audit fix... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

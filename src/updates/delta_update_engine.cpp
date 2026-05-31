@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: delta_update_engine.cpp | Version: 0.0.43 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 866
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=162 | delta=159 | status=divergent
- * External Severity (v3): C=5, H=111, M=46
- * PR: #3661 feat(updates): build system audit â€“ register all sources in Modul... (2026-03-12T07:45:25Z)
+ * ThemisDB | File: delta_update_engine.cpp | Version: 0.0.43 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 869
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=37, L=0
+ * PR History (last 5): #3661 feat(updates): build system... (2026-03-12) | #2586 Fix stale banner metadata i... (2026-03-12) | #2565 [updates] DeltaUpdateEngine... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

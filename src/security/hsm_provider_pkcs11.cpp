@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: hsm_provider_pkcs11.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 1121
- * Open Issues: TODOs=1, Stubs=20, Gaps=23, Unimpl=0, Mock=1, Sim=1, Debt=0
- * Gap Correlation: internal=23 | external_v3=343 | delta=320 | status=divergent
- * External Severity (v3): C=27, H=282, M=34
- * PR: #3454 fix: Wire PKCS#11 HSM production path â€” fix duplicate source, har... (2026-03-12T07:17:45Z)
+ * ThemisDB | File: hsm_provider_pkcs11.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:17:29
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 1122
+ * Gap Summary: total=23; TODO=1, Stub=20, Unimpl=0, Mock=1, Sim=1, Debt=0, C=6, H=50, M=15, L=0
+ * PR History (last 5): #3461 [HSM] Implement PKCS#11 tok... (2026-03-12) | #3458 [HSM] PKCS#11 C++ wrapper i... (2026-03-12) | #3454 fix: Wire PKCS#11 HSM produ... (2026-03-12) | #2585 feat(security): HSM PKCS#11... (2026-03-12) | #2564 feat(security): HSM direct ... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

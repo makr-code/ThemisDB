@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: distributed_transaction_manager.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 375
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=121 | delta=118 | status=divergent
- * External Severity (v3): C=1, H=115, M=5
- * PR: #5125 docs(research): ACID_CONSTRAINED_RAG_DRAFT â€” publication-ready v0.2 (2026-05-14T05:24:14Z)
+ * ThemisDB | File: distributed_transaction_manager.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 376
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=31, M=2, L=0
+ * PR History (last 5): #5125 docs(research): ACID_CONSTR... (2026-05-14) | #4282 feat(transaction): Distribu... (2026-03-16) | #4213 feat(storage): DistributedT... (2026-03-14)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

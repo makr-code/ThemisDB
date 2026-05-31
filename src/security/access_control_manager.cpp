@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: access_control_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 466
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=76 | delta=73 | status=divergent
- * External Severity (v3): C=7, H=66, M=3
- * PR: #3380 feat(security): Integrate RLSManager into AccessControlManager for ... (2026-03-12T07:07:50Z)
+ * ThemisDB | File: access_control_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:17:14
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 467
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=1, M=2, L=0
+ * PR History (last 5): #3381 feat(security): Integrate Z... (2026-03-12) | #3380 feat(security): Integrate R... (2026-03-12) | #2560 feat(security): Implement A... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

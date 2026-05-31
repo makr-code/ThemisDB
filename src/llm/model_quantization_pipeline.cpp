@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: model_quantization_pipeline.cpp | Version: 0.0.15 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 726
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=189 | delta=186 | status=divergent
- * External Severity (v3): C=7, H=149, M=33
- * PR: #4370 [WIP] Update llm documentation to match source code (2026-03-21T18:21:30Z)
+ * ThemisDB | File: model_quantization_pipeline.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 727
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=22, M=11, L=0
+ * PR History (last 5): #4370 [WIP] Update llm documentat... (2026-03-21) | #3266 feat(llm): GGUF/AWQ/GPTQ qu... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

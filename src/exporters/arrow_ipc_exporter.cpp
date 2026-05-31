@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: arrow_ipc_exporter.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=102, M=79, L=0
+ * ThemisDB | File: arrow_ipc_exporter.cpp | Version: 0.0.15 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 1092
+ * Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=17, M=36, L=0
+ * PR History (last 5): #4280 feat(security): Implement A... (2026-03-16) | #3028 Add Apache Arrow IPC export... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

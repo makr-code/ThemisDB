@@ -1,49 +1,52 @@
 > **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
 
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-# Security — Storage Module
+# Security - Storage Module
 
 > Report vulnerabilities via the project-level [SECURITY.md](../../../SECURITY.md).
 
 ## Threat Model
 
-| Threat | Mitigation |
-|--------|-----------|
-| Unauthorized data access | Auth checks at `StorageEngine` API boundary; RBAC enforced by auth module |
-| Data at rest exposure | AES-256-GCM field-level encryption via `SecuritySignature`; `THEMIS_PRODUCTION_MODE` enforces encryption |
-| Data tampering | HMAC-SHA256 tamper detection via `SecuritySignatureManager` |
-| WAL replay attack | WAL entries authenticated; sequence numbers validated on replay |
-| Blob backend credential exposure | Credentials supplied via environment variables or HSM; never stored in config files |
-| Backup data exposure | Backups encrypted before upload to cloud storage |
-| Path traversal in blob filesystem backend | Paths normalized and restricted to configured blob root directory |
-| RocksDB SSTable poisoning | Checksums verified on compaction and read; BlobDB integrity checked |
-| Tiered storage data leakage | Tier migration preserves encryption; data deleted from source only after verified copy |
+| Threat | Mitigation surface |
+|---|---|
+| Unauthorized writes/reads via storage API paths | storage engine and wrapper operation validation paths |
+| Data tampering in persisted artifacts | storage signature and verification surfaces (`security_signature*`) |
+| Operational integrity loss during storage lifecycle events | wrapper lifecycle guards and audit logging (`storage_audit_logger`) |
+| Replay/recovery misuse in recovery paths | WAL and PITR flow controls (`wal_storage`, `pitr_manager`) |
+| Backend misuse or misconfiguration in blob paths | backend-specific validation and redundancy/encryption wrappers |
 
 ## Security Controls
 
-- `THEMIS_PRODUCTION_MODE` compile-time flag: fail-closed if encryption key provider is null
-- Field-level AES-256-GCM encryption via `SecuritySignature`
-- `EncryptedBlobBackend` (see `include/storage/encrypted_blob_backend.h`): AES-256-GCM transparent encryption wrapper for any `IBlobStorageBackend`; `IEncryptionKeyProvider` interface with `StaticKeyProvider` for testing
-- HMAC-SHA256 for tamper detection on all stored records
-- `StorageAuditLogger` records all write operations with caller identity
-- Blob backends use HTTPS/TLS for all cloud communications
-- RocksDB checksum verification enabled by default
+- Signature and verification helpers for integrity-sensitive storage assets.
+- Storage audit logger for traceable storage operation events.
+- Encrypted blob backend wrapper for backend-agnostic encrypted blob storage paths.
+- Recovery and replay surfaces designed with explicit error/result handling.
 
 ## Data Handling
 
-- Encryption keys are never stored alongside data; managed by `IKeyProviderPtr`
-- HSM integration available via `IKeyProviderPtr` → `vault_key_provider.cpp`
-- PII fields can be encrypted at different key granularity than non-PII fields
-- `GdprFieldRegistry` (see `include/storage/schema_dead_weight_detector.h`) tracks PII field metadata to support GDPR right-to-erasure workflows
+- Security-sensitive metadata and signatures are handled in dedicated storage security components.
+- Blob and storage artifacts can be wrapped by encryption and redundancy layers before backend persistence.
+- Audit and verification surfaces provide traceability for storage-side security events.
 
 ## Known Limitations
 
-- Erasure coding in `BlobRedundancyManager` is implemented (PARITY mode via `ErasureCodingBackend`, e.g., Reed-Solomon); default redundancy for critical blobs remains MIRROR unless PARITY is configured
-- `NLPMetadataExtractor` may log document excerpts at DEBUG level — disable in production
+- Security posture depends on runtime configuration of storage backends, key providers, and deployment hardening.
+- Not all operational hardening guarantees can be inferred from this module in isolation; cross-module security enforcement remains required.
 
-## Dependency Security
+## Sourcecode Verification (Module: storage/security)
 
-- RocksDB: storage engine — version pinned; CVE monitoring active
-- OpenSSL: AES-GCM and HMAC — version pinned via vcpkg
+- Verified files:
+	- `src/storage/security_signature.cpp`
+	- `src/storage/security_signature_manager.cpp`
+	- `src/storage/encrypted_blob_backend.cpp`
+	- `src/storage/storage_audit_logger.cpp`
+	- `src/storage/wal_storage.cpp`
+	- `src/storage/pitr_manager.cpp`
+	- `src/storage/rocksdb_wrapper.cpp`
+	- `src/storage/storage_engine.cpp`
+- Verified controls:
+	- integrity/signature behavior and audit surfaces
+	- encrypted blob backend integration paths
+	- recovery/replay related control paths

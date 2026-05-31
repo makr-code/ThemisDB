@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: evaluation_report_exporter.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 412
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=268 | delta=265 | status=divergent
- * External Severity (v3): C=4, H=32, M=232
- * PR: #3353 [rag] Per-query evaluation report export (JSON/HTML) (2026-03-12T07:06:51Z)
+ * ThemisDB | File: evaluation_report_exporter.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:15:41
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 413
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=6, M=71, L=0
+ * PR History (last 5): #3353 [rag] Per-query evaluation ... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

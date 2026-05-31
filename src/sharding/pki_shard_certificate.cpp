@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: pki_shard_certificate.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 394
- * Open Issues: TODOs=2, Stubs=1, Gaps=4, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=4 | external_v3=104 | delta=100 | status=divergent
- * External Severity (v3): C=6, H=81, M=17
- * PR: #4833 Continue Phase-6 tensorgraph integration and resolve develop-branch... (2026-05-07T06:32:12Z)
+ * ThemisDB | File: pki_shard_certificate.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 395
+ * Gap Summary: total=4; TODO=2, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=21, M=8, L=0
+ * PR History (last 5): #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #998 C++ Audit: Eliminate raw me... (2026-03-11) | #901 Refactor OpenSSL memory man... (2026-03-11) | #1029 Implement custom OID parsin... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

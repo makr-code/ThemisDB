@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: two_phase_commit_coordinator.cpp | Version: 0.0.34 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 502
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=107 | delta=104 | status=divergent
- * External Severity (v3): C=10, H=87, M=10
- * PR: #4450 docs(perf): corrected root-cause analysis for PERF-D1â€“D7 issues w... (2026-04-07T08:17:34Z)
+ * ThemisDB | File: two_phase_commit_coordinator.cpp | Version: 0.0.34 | Last Modified: 2026-05-27 05:52:07
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 534
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=24, M=7, L=0
+ * PR History (last 5): #4450 docs(perf): corrected root-... (2026-04-07) | #3632 fix(build): register 40+ mi... (2026-03-12) | #1446 Add TwoPhaseCommitCoordinat... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

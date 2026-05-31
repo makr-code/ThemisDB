@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: prompt_ab_experiment.cpp | Version: 0.0.12 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 635
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=174 | delta=171 | status=divergent
- * External Severity (v3): C=18, H=132, M=22
- * PR: #4411 docs(research): further research on knowledge sources â€” best prac... (2026-03-24T20:35:41Z)
+ * ThemisDB | File: prompt_ab_experiment.cpp | Version: 0.0.12 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 636
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=8, M=7, L=2
+ * PR History (last 5): #4411 docs(research): further res... (2026-03-24)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

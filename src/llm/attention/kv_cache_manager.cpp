@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: kv_cache_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 253
- * Open Issues: TODOs=1, Stubs=1, Gaps=0, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=104 | delta=101 | status=divergent
- * External Severity (v3): C=18, H=75, M=11
- * PR: #1031 Implement comprehensive resource management for production-ready di... (2026-03-11T17:55:23Z)
+ * ThemisDB | File: kv_cache_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-28 05:32:08
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 293
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=30, M=5, L=0
+ * PR History (last 5): #5404 W1-L15 batch 38: Harden KV ... (2026-05-28) | #1031 Implement comprehensive res... (2026-03-11) | #1208 Establish compiler warning ... (2026-03-11) | #1210 Fix signed/unsigned compari... (2026-03-11) | #1213 Fix signed/unsigned compari... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

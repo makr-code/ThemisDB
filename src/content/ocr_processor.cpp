@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: ocr_processor.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=49, M=17, L=0
+ * ThemisDB | File: ocr_processor.cpp | Version: 0.0.15 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 558
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=9, L=0
+ * PR History (last 5): #4480 fix(content): implement Ocr... (2026-04-12) | #3800 feat(content): OCR 300-DPI ... (2026-03-12) | #3796 feat(content): default OCR ... (2026-03-12) | #3788 feat(content): add 300-DPI ... (2026-03-12) | #3787 feat(content): default ocr_... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

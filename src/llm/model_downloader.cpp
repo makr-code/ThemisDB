@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: model_downloader.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 596
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=119 | delta=116 | status=divergent
- * External Severity (v3): C=5, H=103, M=11
- * PR: #1230 Add CLI tool for LLM model management with Ollama-style progress ou... (2026-03-11T17:47:37Z)
+ * ThemisDB | File: model_downloader.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 597
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=22, M=4, L=0
+ * PR History (last 5): #1101 feat: Add LLM deployment pl... (2026-03-11) | #1230 Add CLI tool for LLM model ... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: distributed_dataloader.cpp | Version: 0.0.47 | Last Modified: 2026-04-28 06:31:17
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 191
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=73 | delta=70 | status=divergent
- * External Severity (v3): C=1, H=47, M=25
- * PR: #3629 [MODULE] llm â€“ build-system audit: register 16 missing sources, 2... (2026-03-12T07:39:34Z)
+ * ThemisDB | File: distributed_dataloader.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 192
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=7, M=9, L=0
+ * PR History (last 5): #3629 [MODULE] llm â€“ build-syst... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

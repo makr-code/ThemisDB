@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: spatial_index.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * ThemisDB | File: spatial_index.h | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 333
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4145 feat(geo): Add SpatialIndex... (2026-03-13) | #1135 Complete geospatial product... (2026-03-11) | #27 Implement exact geometry ch... (2026-03-11) | #63 Add complete 3D geospatial ... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

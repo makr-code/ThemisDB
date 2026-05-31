@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: rate_limiter_v2.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 572
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=132 | delta=129 | status=divergent
- * External Severity (v3): C=9, H=107, M=16
- * PR: #3811 feat(server): Redis backend for RateLimiterV2 â€” distributed token... (2026-03-12T08:00:51Z)
+ * ThemisDB | File: rate_limiter_v2.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 573
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=16, M=3, L=0
+ * PR History (last 5): #3811 feat(server): Redis backend... (2026-03-12) | #3642 docs(server): module audit ... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

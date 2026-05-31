@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: wal_storage.cpp | Version: 0.0.46 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 513
- * Open Issues: TODOs=1, Stubs=3, Gaps=5, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=5 | external_v3=130 | delta=125 | status=divergent
- * External Severity (v3): C=25, H=82, M=23
- * PR: #4596 perf(storage): fix ~79x sustained write throughput regression â€” d... (2026-04-13T07:29:25Z)
+ * ThemisDB | File: wal_storage.cpp | Version: 0.0.46 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 514
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=12, H=5, M=8, L=0
+ * PR History (last 5): #4596 perf(storage): fix ~79x sus... (2026-04-13) | #4236 feat(storage): Zero-Copy Bl... (2026-03-15) | #3644 fix(docs+build): storage mo... (2026-03-12) | #2545 [network] WebSocket upgrade... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

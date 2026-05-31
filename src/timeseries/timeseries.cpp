@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: timeseries.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 277
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=98 | delta=95 | status=divergent
- * External Severity (v3): C=0, H=82, M=16
- * PR: #4450 docs(perf): corrected root-cause analysis for PERF-D1â€“D7 issues w... (2026-04-07T08:17:34Z)
+ * ThemisDB | File: timeseries.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 278
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=17, M=3, L=0
+ * PR History (last 5): #4450 docs(perf): corrected root-... (2026-04-07)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: object_storage_connector.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
- * Gap Summary: total=9; TODO=0, Stub=2, Unimpl=0, Mock=5, Sim=2, Debt=0, C=0, H=81, M=21, L=0
+ * ThemisDB | File: object_storage_connector.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 722
+ * Gap Summary: total=11; TODO=1, Stub=3, Unimpl=0, Mock=5, Sim=2, Debt=0, C=0, H=6, M=4, L=0
+ * PR History (last 5): #3247 feat(ingestion): S3/GCS/Azu... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

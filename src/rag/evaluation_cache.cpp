@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: evaluation_cache.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 293
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=84 | delta=81 | status=divergent
- * External Severity (v3): C=20, H=59, M=5
- * PR: #3583 feat(rag): implement BatchEvaluator, CalibrationManager, Evaluation... (2026-03-12T07:36:10Z)
+ * ThemisDB | File: evaluation_cache.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:15:41
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 294
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=10, H=6, M=0, L=0
+ * PR History (last 5): #3583 feat(rag): implement BatchE... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: oauth2_provider.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 601
- * Open Issues: TODOs=1, Stubs=3, Gaps=6, Unimpl=0, Mock=1, Sim=1, Debt=0
- * Gap Correlation: internal=6 | external_v3=99 | delta=93 | status=divergent
- * External Severity (v3): C=4, H=83, M=12
- * PR: #5123 docs(server): update VCCDB Design.md â€“ add header, cross-refs, fi... (2026-05-14T05:24:44Z)
+ * ThemisDB | File: oauth2_provider.cpp | Version: 0.0.13 | Last Modified: 2026-05-24 09:43:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 604
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=9, M=0, L=0
+ * PR History (last 5): #5123 docs(server): update VCCDB ... (2026-05-14) | #3757 feat(server): Implement OAu... (2026-03-12) | #3642 docs(server): module audit ... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

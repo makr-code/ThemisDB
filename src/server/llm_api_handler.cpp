@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: llm_api_handler.cpp | Version: 0.0.48 | Last Modified: 2026-05-28 05:05:00
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1860
- * Open Issues: TODOs=0, Stubs=0, Gaps=0, Unimpl=0, Mock=0, Sim=0, Debt=0
- * Gap Correlation: internal=0 | external_v3=349 | delta=349 | status=closed
- * External Severity (v3): C=9, H=261, M=79
- * PR: #231 Implement JWT validation for LLM API handler (2026-03-11T16:58:24Z)
+ * ThemisDB | File: llm_api_handler.cpp | Version: 0.0.48 | Last Modified: 2026-05-31 11:10:47
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 2033
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=2, C=15, H=69, M=52, L=0
+ * PR History (last 5): #5405 W1-S06: Close remaining unc... (2026-05-28) | #4187 feat(llm): OpenAI-compatibl... (2026-03-13) | #3268 [llm] OpenAI-compatible /v1... (2026-03-12) | #3139 feat(aql): Stream natural l... (2026-03-12) | #3068 [llm] OpenAI-compatible /v1... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
@@ -23,6 +21,7 @@
 #include "llm/openai_compat_adapter.h"
 #include "aql/llm_aql_handler.h"
 #include "aql/llm_error_codes.h"
+#include "llm/context_window_budget.h"
 #include "query/query_engine.h"
 #include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
@@ -74,17 +73,45 @@ namespace {
         }
     }
 
-    std::string extractRagDocumentContent(const nlohmann::json& entity) {
+    std::optional<std::string> extractRagDocumentContent(const nlohmann::json& entity) {
         if (entity.contains("content") && entity["content"].is_string()) {
-            return entity["content"].get<std::string>();
+            const auto content = entity["content"].get<std::string>();
+            if (!content.empty()) {
+                return content;
+            }
         }
         if (entity.contains("text") && entity["text"].is_string()) {
-            return entity["text"].get<std::string>();
+            const auto content = entity["text"].get<std::string>();
+            if (!content.empty()) {
+                return content;
+            }
         }
         if (entity.contains("body") && entity["body"].is_string()) {
-            return entity["body"].get<std::string>();
+            const auto content = entity["body"].get<std::string>();
+            if (!content.empty()) {
+                return content;
+            }
         }
-        return entity.dump();
+        return std::nullopt;
+    }
+
+    std::string extractRagDocumentSource(const std::string& primary_key, const nlohmann::json& entity) {
+        if (!primary_key.empty()) {
+            return primary_key;
+        }
+        if (entity.contains("source") && entity["source"].is_string()) {
+            const auto source = entity["source"].get<std::string>();
+            if (!source.empty()) {
+                return source;
+            }
+        }
+        if (entity.contains("id") && entity["id"].is_string()) {
+            const auto source = entity["id"].get<std::string>();
+            if (!source.empty()) {
+                return source;
+            }
+        }
+        return {};
     }
 }
 
@@ -392,8 +419,16 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
         return createErrorResponse(http::status::bad_request, "Missing 'query' field");
     }
 
-    if (top_k <= 0) {
-        return createErrorResponse(http::status::bad_request, "top_k must be greater than 0");
+    if (top_k < aql::ValidationLimits::MIN_RAG_TOP_K ||
+        top_k > aql::ValidationLimits::MAX_RAG_TOP_K) {
+        return createErrorResponse(
+            http::status::bad_request,
+            "top_k out of range",
+            "top_k must be between " +
+                std::to_string(aql::ValidationLimits::MIN_RAG_TOP_K) +
+                " and " +
+                std::to_string(aql::ValidationLimits::MAX_RAG_TOP_K)
+        );
     }
 
     if (max_context_tokens < 0) {
@@ -415,8 +450,13 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
         rag_context.query = query;
         rag_context.collection_name = collection;
         rag_context.top_k = top_k;
-        rag_context.max_context_tokens = max_context_tokens;
-        rag_context.response_budget_tokens = response_budget_tokens;
+        const auto normalized_budget = llm::ContextWindowBudget::compute(
+            static_cast<std::size_t>(max_context_tokens),
+            std::string{},
+            query,
+            static_cast<std::size_t>(response_budget_tokens));
+        rag_context.max_context_tokens = static_cast<int>(normalized_budget.model_context_tokens);
+        rag_context.response_budget_tokens = static_cast<int>(normalized_budget.reserved_response_tokens);
 
         auto& plugin_mgr = llm::LLMPluginManager::instance();
 
@@ -428,6 +468,7 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
             );
         }
 
+        std::size_t rejected_documents = 0;
         if (!collection.empty() && top_k > 0) {
             try {
                 const std::vector<float> query_vec = plugin_mgr.embed(query);
@@ -456,12 +497,31 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
 
                 rag_context.documents.reserve(retrieval_result->size());
                 for (const auto& result : *retrieval_result) {
+                    const auto content_opt = extractRagDocumentContent(result.entity);
+                    const auto source = extractRagDocumentSource(result.pk, result.entity);
+                    if (!content_opt.has_value() || source.empty()) {
+                        ++rejected_documents;
+                        continue;
+                    }
+
                     llm::RAGContext::Document document;
-                    document.source = result.pk;
+                    document.source = source;
                     document.relevance_score = 1.0f - result.vector_distance;
                     document.metadata = result.entity;
-                    document.content = extractRagDocumentContent(result.entity);
+                    document.content = *content_opt;
                     rag_context.documents.push_back(std::move(document));
+                }
+
+                if (rag_context.documents.empty()) {
+                    const std::string reason = retrieval_result->empty()
+                        ? "No documents matched the retrieval query"
+                        : "Retrieved documents are missing required source/content fields";
+                    return createErrorResponse(
+                        http::status::service_unavailable,
+                        "RAG retrieval returned no usable documents",
+                        reason + " (retrieved=" + std::to_string(retrieval_result->size()) +
+                            ", rejected=" + std::to_string(rejected_documents) + ")"
+                    );
                 }
             } catch (const std::exception& ve) {
                 return createErrorResponse(
@@ -503,6 +563,7 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
             {"query", query},
             {"rag_mode_effective", rag_mode},
             {"documents_retrieved", static_cast<int>(rag_context.documents.size())},
+            {"documents_rejected", static_cast<int>(rejected_documents)},
             {"top_k_effective", rag_context.top_k},
             {"max_context_tokens_effective", rag_context.max_context_tokens},
             {"response_budget_tokens_effective", rag_context.response_budget_tokens},

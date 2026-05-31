@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: aggregate_scheduler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 369
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=108 | delta=105 | status=divergent
- * External Severity (v3): C=14, H=72, M=22
- * PR: #4160 feat(timeseries): Incremental Continuous Aggregation with Watermark... (2026-03-13T08:16:45Z)
+ * ThemisDB | File: aggregate_scheduler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 370
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=9, M=2, L=0
+ * PR History (last 5): #4160 feat(timeseries): Increment... (2026-03-13)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

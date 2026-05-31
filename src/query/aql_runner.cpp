@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: aql_runner.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 893
- * Open Issues: TODOs=1, Stubs=2, Gaps=4, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=4 | external_v3=436 | delta=432 | status=divergent
- * External Severity (v3): C=34, H=346, M=56
- * PR: #633 Configure general graph traversal tests in CMake build system (2026-03-11T18:11:38Z)
+ * ThemisDB | File: aql_runner.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 895
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=34, L=0
+ * PR History (last 5): #4176 feat(geo): Spatial JOIN Sup... (2026-03-13) | #3347 feat(query): Adaptive query... (2026-03-12) | #3102 fix(query): per-query resou... (2026-03-12) | #3040 feat(query): SQL dialect co... (2026-03-12) | #2953 feat(graph): EXPLAIN AQL ou... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

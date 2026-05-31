@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: wire_protocol_v2.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 790
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=181 | delta=178 | status=divergent
- * External Severity (v3): C=29, H=126, M=26
- * PR: #5081 [Docs][themis] Refresh module docs in src/include with runtime beha... (2026-05-13T11:00:54Z)
+ * ThemisDB | File: wire_protocol_v2.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 791
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=13, M=11, L=0
+ * PR History (last 5): #5081 [Docs][themis] Refresh modu... (2026-05-13) | #4267 feat(themis): Wire Protocol... (2026-03-15) | #4266 feat(themis): Wire Protocol... (2026-03-15) | #3306 [network] Fix V2 multiplexi... (2026-03-12) | #2925 feat(network): Implement LZ... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

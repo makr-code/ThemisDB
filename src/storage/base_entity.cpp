@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: base_entity.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 690
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=155 | delta=152 | status=divergent
- * External Severity (v3): C=4, H=122, M=29
- * PR: #1131 Fix BaseEntity parsing bugs and document RocksDBWrapper MVCC patterns (2026-03-11T17:51:26Z)
+ * ThemisDB | File: base_entity.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:28:18
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 742
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=6, M=10, L=0
+ * PR History (last 5): #909 Integrate Rotary Position E... (2026-03-11) | #1131 Fix BaseEntity parsing bugs... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

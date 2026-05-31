@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: knowledge_graph_enricher.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 662
- * Open Issues: TODOs=1, Stubs=3, Gaps=5, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=5 | external_v3=110 | delta=105 | status=divergent
- * External Severity (v3): C=7, H=80, M=23
- * PR: #3768 [WIP] Implement vector similarity search in KnowledgeGraphEnricher (2026-03-12T07:52:46Z)
+ * ThemisDB | File: knowledge_graph_enricher.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 663
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=3, M=7, L=0
+ * PR History (last 5): #4268 ProvenanceTracker: Replace ... (2026-03-15) | #3777 feat(training): wire findSi... (2026-03-12) | #3768 [WIP] Implement vector simi... (2026-03-12) | #3601 feat(training): Phase 3 imp... (2026-03-12) | #1340 Training Module â€“ Product... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

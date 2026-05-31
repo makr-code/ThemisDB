@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: hardware_migration_manager.cpp | Version: 0.0.14 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 379
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=102 | delta=99 | status=divergent
- * External Severity (v3): C=13, H=65, M=24
- * PR: #3464 feat(sharding): Hardware migration support â€” stable NodeIdentity ... (2026-03-11T16:13:23Z)
+ * ThemisDB | File: hardware_migration_manager.cpp | Version: 0.0.14 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 380
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=7, M=5, L=0
+ * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #3464 feat(sharding): Hardware mi... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

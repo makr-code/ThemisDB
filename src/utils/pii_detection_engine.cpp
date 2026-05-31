@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: pii_detection_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 381
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=91 | delta=88 | status=divergent
- * External Severity (v3): C=0, H=62, M=29
- * PR: #4263 PKIClient v1.8.0 + PII Streaming v0.9.0: Replace fallback stub veri... (2026-03-15T15:56:11Z)
+ * ThemisDB | File: pii_detection_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 382
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=18, L=0
+ * PR History (last 5): #4263 PKIClient v1.8.0 + PII Stre... (2026-03-15) | #998 C++ Audit: Eliminate raw me... (2026-03-11) | #2543 [utils] Upgrade PII detecti... (2026-03-11) | #739 Phase 4: Migrate utility mo... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

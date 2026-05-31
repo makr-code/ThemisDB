@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: vector_index.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=40, H=626, M=174, L=0
+ * ThemisDB | File: vector_index.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 3062
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=43, H=36, M=90, L=0
+ * PR History (last 5): #4450 docs(perf): corrected root-... (2026-04-07) | #3579 docs(performance): Issue #3... (2026-03-12) | #2946 feat(index): DiskANN/ScaNN ... (2026-03-12) | #909 Integrate Rotary Position E... (2026-03-11) | #653 Phase 1: Knowledge Gap Dete... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

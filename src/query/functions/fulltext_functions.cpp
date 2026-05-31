@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: fulltext_functions.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 843
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=370 | delta=367 | status=divergent
- * External Severity (v3): C=3, H=304, M=63
- * PR: #1141 Complete AQL function registration: fulltext, ethics, and process m... (2026-03-11T17:51:06Z)
+ * ThemisDB | File: fulltext_functions.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 12:35:45
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 844
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=23, M=43, L=0
+ * PR History (last 5): #3636 fix(query): build system au... (2026-03-12) | #3377 [WIP] Add highlight functio... (2026-03-12) | #1141 Complete AQL function regis... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

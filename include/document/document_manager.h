@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: document_manager.h | Version: 0.0.3
- * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
- * Gap Summary: total=3; TODO=0, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * ThemisDB | File: document_manager.h | Version: 0.0.3 | Last Modified: 2026-05-20 19:53:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 430
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4960 [Docs][document] Refresh mo... (2026-05-11) | #4662 feat(document): IDocumentSt... (2026-04-15) | #65 Move DocumentManager from d... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

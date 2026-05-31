@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: pki_client.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 82/100 | Lines: 863
- * Open Issues: TODOs=1, Stubs=3, Gaps=8, Unimpl=0, Mock=1, Sim=2, Debt=1
- * Gap Correlation: internal=8 | external_v3=236 | delta=228 | status=divergent
- * External Severity (v3): C=5, H=113, M=118
- * PR: #4263 PKIClient v1.8.0 + PII Streaming v0.9.0: Replace fallback stub veri... (2026-03-15T15:56:11Z)
+ * ThemisDB | File: pki_client.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 82/100 | Lines: 871
+ * Gap Summary: total=8; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=2, Debt=1, C=2, H=22, M=50, L=0
+ * PR History (last 5): #4259 feat(sharding): Wire Orphan... (2026-03-15) | #4263 PKIClient v1.8.0 + PII Stre... (2026-03-15) | #998 C++ Audit: Eliminate raw me... (2026-03-11) | #739 Phase 4: Migrate utility mo... (2026-03-11) | #901 Refactor OpenSSL memory man... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

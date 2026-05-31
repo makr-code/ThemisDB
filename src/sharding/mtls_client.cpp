@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: mtls_client.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 403
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=71 | delta=68 | status=divergent
- * External Severity (v3): C=5, H=62, M=4
- * PR: #4259 feat(sharding): Wire OrphanDetector to DistributedCoordinator + com... (2026-03-15T16:00:56Z)
+ * ThemisDB | File: mtls_client.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 404
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=5, M=0, L=0
+ * PR History (last 5): #4259 feat(sharding): Wire Orphan... (2026-03-15) | #1035 [WIP] Implement dynamic con... (2026-03-11) | #115 Add IPv6 support to URN sys... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

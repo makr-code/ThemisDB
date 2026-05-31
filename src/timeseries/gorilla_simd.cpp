@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: gorilla_simd.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:09:59
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 375
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=51 | delta=48 | status=divergent
- * External Severity (v3): C=2, H=40, M=9
- * PR: #4167 feat(timeseries): Vectorised Gorilla Chunk Decoder with SIMD (Issue... (2026-03-13T09:12:08Z)
+ * ThemisDB | File: gorilla_simd.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 376
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=5, M=2, L=0
+ * PR History (last 5): #4350 Update timeseries module: G... (2026-03-20) | #4269 feat(timeseries): TSStore s... (2026-03-15) | #4167 feat(timeseries): Vectorise... (2026-03-13)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

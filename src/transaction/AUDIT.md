@@ -1,44 +1,55 @@
 > ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
 
-<!-- Status: current | validated: 2026-04-19 -->
-# Audit Report — Transaction Module
-**Last Audit:** 2026-04-19 | **Status:** ✅ Pass
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+
+# Audit Report - Transaction Module
+
+## Module Identity
+
+| Field | Value |
+|---|---|
+| Module | transaction |
+| Source path | `src/transaction/` |
+| Audit date | 2026-05-31 |
+| Audited by | Copilot (source code analysis) |
+| Status | In progress - source alignment refreshed for roadmap/future/audit workflow |
 
 ## Summary
 
 | Metric | Result |
-|--------|--------|
-| Build System Registration | ✅ Verified |
-| Test Coverage | ✅ Present (SAGA, SSI, deadlock tests) |
-| Open TODOs | Low |
+|---|---|
+| Build system registration | Verified |
+| Source file coverage | Focused verification on lifecycle, distributed coordination, SAGA, and audit/batching surfaces |
+| Critical findings | No new unresolved critical finding introduced by documentation refresh |
 
-## Source Files Audited
+## Sourcecode Verification (Module: transaction)
 
-| File | Purpose | Status |
-|------|---------|--------|
-| `transaction_manager.cpp` | ACID transaction lifecycle | ✅ Reviewed |
-| `global_transaction_manager.cpp` | Multi-region TrueTime 2PC | ✅ Reviewed |
-| `distributed_transaction_manager.cpp` | Distributed transaction coordination | ✅ Reviewed |
-| `saga_orchestrator.cpp` | SAGA pattern with compensating actions | ✅ Reviewed |
-| `saga.cpp` | Core SAGA step and compensation logic | ✅ Reviewed |
-| `distributed_saga.cpp` | Distributed SAGA across shards | ✅ Reviewed |
-| `deadlock_predictor.cpp` | Wait-for graph cycle detection and prediction | ✅ Reviewed |
-| `lock_manager.cpp` | Row and range lock management | ✅ Reviewed |
-| `snapshot_manager.cpp` | Named snapshots and branching | ✅ Reviewed |
-| `branch_manager.cpp` | Transactional branching and merging | ✅ Reviewed |
-| `merge_engine.cpp` | Branch merge with conflict resolution | ✅ Reviewed |
-| `crash_recovery_manager.cpp` | WAL-based crash recovery | ✅ Reviewed |
-| `transaction_auditor.cpp` | Transaction audit trail recording | ✅ Reviewed |
-| `transaction_batcher.cpp` | Micro-transaction batching for throughput | ✅ Reviewed |
-| `transaction_semantic_advisor.cpp` | Semantic conflict detection advisory | ✅ Reviewed |
+- Scope-Dateien:
+  - `src/transaction/README.md`
+  - `src/transaction/ARCHITECTURE.md`
+  - `src/transaction/ROADMAP.md`
+  - `src/transaction/FUTURE_ENHANCEMENTS.md`
+  - `src/transaction/CHANGELOG.md`
+  - `src/transaction/SECURITY.md`
+  - `src/transaction/AUDIT.md`
+  - `src/transaction/PERFORMANCE_EXPECTATIONS.md`
+- Gepruefte Symbole/Verhalten:
+  - Transaction lifecycle and isolation APIs (`TransactionManager`, `Transaction`) -> `src/transaction/transaction_manager.cpp`, `include/transaction/transaction_manager.h`
+  - Distributed coordinator paths (`DistributedTransactionManager`) -> `src/transaction/distributed_transaction_manager.cpp`, `include/transaction/distributed_transaction_manager.h`
+  - SAGA orchestration and distributed compensation paths -> `src/transaction/saga_orchestrator.cpp`, `src/transaction/distributed_saga.cpp`
+  - Locking/deadlock surfaces (`LockManager`, predictor integration) -> `src/transaction/lock_manager.cpp`, `src/transaction/deadlock_predictor.cpp`
+  - Batching/audit surfaces (`TransactionBatcher`, `TransactionAuditor`) -> `src/transaction/transaction_batcher.cpp`, `src/transaction/transaction_auditor.cpp`
+- Gepruefte Feature-/Laufzeit-Gates:
+  - Distributed prepare/commit/abort and recovery behavior -> `src/transaction/distributed_transaction_manager.cpp`
+  - Compensation and orchestration runtime behavior -> `src/transaction/saga_orchestrator.cpp`, `src/transaction/distributed_saga.cpp`
+  - Timeout/deadlock and lock-behavior surfaces -> `src/transaction/transaction_manager.cpp`, `src/transaction/lock_manager.cpp`
+- Ergebnis:
+  - Kern-Aussagen der Transaction-Moduldokumentation wurden mit den aktuellen Quellflaechen abgeglichen.
+  - Zukunftsplanung liegt in `ROADMAP.md` und `FUTURE_ENHANCEMENTS.md`; Historie in `CHANGELOG.md`.
+  - Historische Erledigt-Bloecke wurden aus der Roadmap entfernt.
 
-## Findings
-### Resolved
-- All 4 implementation phases complete (MVCC, SAGA, SSI, distributed 2PC)
-- SAGA compensating actions fully implemented for all data models
-### Open
-- None critical
+## Open Review Points
 
-## Compliance
-- ACID guarantees support financial transaction requirements
-- Audit trail via WAL + CDC satisfies SOC 2 and PCI-DSS requirements
+- Continue module-wide pass for README/ARCHITECTURE/SECURITY/PERFORMANCE details to keep wording strictly source-verifiable.
+- Keep benchmark-backed limits and distributed failure envelopes synchronized with latest regression evidence.

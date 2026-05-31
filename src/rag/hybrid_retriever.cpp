@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: hybrid_retriever.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 305
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=58 | delta=55 | status=divergent
- * External Severity (v3): C=0, H=41, M=17
- * PR: #2747 [rag] Hybrid retrieval (BM25 + vector) with configurable RRF weight... (2026-03-12T05:57:15Z)
+ * ThemisDB | File: hybrid_retriever.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:19:20
+ * Author: makr | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 378
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=8, M=14, L=0
+ * PR History (last 5): #2747 [rag] Hybrid retrieval (BM2... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

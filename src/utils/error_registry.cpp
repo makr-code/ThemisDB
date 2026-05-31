@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: error_registry.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 1770
- * Open Issues: TODOs=1, Stubs=3, Gaps=5, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=5 | external_v3=74 | delta=69 | status=divergent
- * External Severity (v3): C=2, H=26, M=45
- * PR: #5152 Research review rewrite: ERROR_AWARENESS_AND_INTROSPECTION (evidenc... (2026-05-14T07:52:37Z)
+ * ThemisDB | File: error_registry.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 1774
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=7, M=33, L=1
+ * PR History (last 5): #5152 Research review rewrite: ER... (2026-05-14) | #4662 feat(document): IDocumentSt... (2026-04-15) | #2718 feat(query): Per-query reso... (2026-03-12) | #998 C++ Audit: Eliminate raw me... (2026-03-11) | #751 Phase 4 Error Handling: Sto... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

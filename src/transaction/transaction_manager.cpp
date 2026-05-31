@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: transaction_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 90/100 | Lines: 2182
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=724 | delta=721 | status=divergent
- * External Severity (v3): C=45, H=589, M=90
- * PR: #5157 Review and rewrite git/gitops/themis comparison as repository-groun... (2026-05-18T13:58:21Z)
+ * ThemisDB | File: transaction_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 90/100 | Lines: 2183
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=15, H=46, M=45, L=0
+ * PR History (last 5): #5157 Review and rewrite git/gito... (2026-05-18) | #4276 feat(transaction): Transact... (2026-03-15) | #4202 feat(transaction): Adaptive... (2026-03-14) | #3415 feat(transaction): Time-tra... (2026-03-12) | #3147 feat(transaction): add OCC ... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: oidc_provider.h | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=2; TODO=0, Stub=0, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * ThemisDB | File: oidc_provider.h | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 236
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4142 feat(auth): implement RFC 8... (2026-03-13) | #2641 feat(auth): JWT/OIDC federa... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: image_processor.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=88, M=32, L=0
+ * ThemisDB | File: image_processor.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 564
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=8, M=7, L=0
+ * PR History (last 5): #4331 feat(content): perceptual h... (2026-03-19) | #4111 feat: migrate plugins to fl... (2026-03-12) | #3219 feat(content): enable/disab... (2026-03-12) | #3218 Implement content deduplica... (2026-03-12) | #3217 feat(content): Harden pipel... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

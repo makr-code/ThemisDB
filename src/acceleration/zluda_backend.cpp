@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: zluda_backend.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
- * Gap Summary: total=8; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=1, Debt=0, C=5, H=27, M=33, L=0
+ * ThemisDB | File: zluda_backend.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 370
+ * Gap Summary: total=8; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=7, M=3, L=0
+ * PR History (last 5): #3609 feat(acceleration): wire mi... (2026-03-12) | #3551 docs(chimera + acceleration... (2026-03-12) | #2712 [acceleration] Publish back... (2026-03-12) | #30 Add comprehensive GPU accel... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

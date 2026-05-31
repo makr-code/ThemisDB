@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: grafana_metrics.cpp | Version: 0.0.47 | Last Modified: 2026-05-11 17:38:42
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 1566
- * Open Issues: TODOs=1, Stubs=1, Gaps=8, Unimpl=0, Mock=1, Sim=5, Debt=0
- * Gap Correlation: internal=8 | external_v3=523 | delta=515 | status=divergent
- * External Severity (v3): C=14, H=393, M=116
- * PR: #403 Replace LLM Grafana metrics stub with production implementation (2026-03-11T18:21:48Z)
+ * ThemisDB | File: grafana_metrics.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 1567
+ * Gap Summary: total=8; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=5, Debt=0, C=5, H=70, M=7, L=0
+ * PR History (last 5): #3036 [llm] Unified metrics dashb... (2026-03-12) | #1295 Remove legacy query_parser.... (2026-03-11) | #689 Stabilize Extended Context ... (2026-03-11) | #215 Implement P1 LLM Inference ... (2026-03-11) | #214 Integrate Prometheus metric... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

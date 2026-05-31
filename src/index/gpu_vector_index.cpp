@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: gpu_vector_index.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 93/100
- * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=25, H=281, M=121, L=0
+ * ThemisDB | File: gpu_vector_index.cpp | Version: 0.0.47 | Last Modified: 2026-05-25 12:51:56
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 1613
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=13, H=27, M=44, L=0
+ * PR History (last 5): #4186 feat(index): GPU Memory Ove... (2026-03-13) | #4138 feat(index): Implement CUDA... (2026-03-12) | #3465 docs: Add full IEEE citatio... (2026-03-12) | #3125 feat(index): GPU-accelerate... (2026-03-12) | #3015 [index] Configurable GPU me... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

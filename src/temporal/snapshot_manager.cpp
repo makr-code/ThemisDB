@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: snapshot_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 350
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=132 | delta=129 | status=divergent
- * External Severity (v3): C=17, H=78, M=37
- * PR: #4103 feat(temporal): Snapshot Isolation â€” versioning, metadata, and GC... (2026-03-12T14:08:31Z)
+ * ThemisDB | File: snapshot_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 351
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=24, M=26, L=0
+ * PR History (last 5): #4103 feat(temporal): Snapshot Is... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

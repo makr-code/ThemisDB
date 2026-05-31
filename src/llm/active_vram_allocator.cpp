@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: active_vram_allocator.cpp | Version: 0.0.13 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 872
- * Open Issues: TODOs=1, Stubs=1, Gaps=5, Unimpl=0, Mock=1, Sim=2, Debt=0
- * Gap Correlation: internal=5 | external_v3=218 | delta=213 | status=divergent
- * External Severity (v3): C=17, H=192, M=9
- * PR: #3802 [LLM] AdaptiveVRAMAllocator GPU allocation + 3 bug fixes in GPUMemo... (2026-03-12T07:59:16Z)
+ * ThemisDB | File: active_vram_allocator.cpp | Version: 0.0.13 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 876
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=1, H=52, M=8, L=0
+ * PR History (last 5): #4370 [WIP] Update llm documentat... (2026-03-21) | #3802 [LLM] AdaptiveVRAMAllocator... (2026-03-12) | #3695 feat(llm): implement Active... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

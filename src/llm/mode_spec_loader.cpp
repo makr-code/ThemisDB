@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: mode_spec_loader.cpp | Version: 0.0.15 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 405
- * Open Issues: TODOs=1, Stubs=2, Gaps=4, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=4 | external_v3=45 | delta=41 | status=divergent
- * External Severity (v3): C=0, H=30, M=15
- * PR: #2590 feat: YAML-configurable LLM Orchestration Modes + MCP integration +... (2026-03-11T17:32:40Z)
+ * ThemisDB | File: mode_spec_loader.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 407
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=13, L=0
+ * PR History (last 5): #2590 feat: YAML-configurable LLM... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: build_info.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 92/100 | Lines: 1058
- * Open Issues: TODOs=1, Stubs=6, Gaps=8, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=8 | external_v3=127 | delta=119 | status=divergent
- * External Severity (v3): C=1, H=30, M=96
- * PR: #3399 Migrate build_info.cpp to src/themis module (getBuildConfiguration) (2026-03-12T07:09:35Z)
+ * ThemisDB | File: build_info.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 92/100 | Lines: 1060
+ * Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=31, L=0
+ * PR History (last 5): #4215 feat(base, chimera): async ... (2026-03-15) | #3830 feat(themis): Modular Build... (2026-03-12) | #3646 fix(themis): complete build... (2026-03-12) | #3429 [WIP] Add full modularizati... (2026-03-12) | #3410 feat(themis): Dynamic featu... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

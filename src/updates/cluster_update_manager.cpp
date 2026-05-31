@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: cluster_update_manager.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 424
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=79 | delta=76 | status=divergent
- * External Severity (v3): C=22, H=43, M=14
- * PR: #4217 feat(updates): Implement ClusterUpdateManager for distributed clust... (2026-03-14T17:43:04Z)
+ * ThemisDB | File: cluster_update_manager.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 425
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=5, L=0
+ * PR History (last 5): #4347 docs(updates): reality-chec... (2026-03-20) | #4217 feat(updates): Implement Cl... (2026-03-14)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

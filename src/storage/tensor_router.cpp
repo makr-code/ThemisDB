@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: tensor_router.cpp | Version: 1.0.0 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 481
- * Open Issues: TODOs=1, Stubs=2, Gaps=7, Unimpl=0, Mock=1, Sim=3, Debt=0
- * Gap Correlation: internal=7 | external_v3=92 | delta=85 | status=divergent
- * External Severity (v3): C=1, H=80, M=6
- * PR: #5170 Review and restructure HNSW_FAISS_TT_BOUNDARY_ANALYSIS research doc... (2026-05-19T04:56:42Z)
+ * ThemisDB | File: tensor_router.cpp | Version: 1.0.0 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 482
+ * Gap Summary: total=7; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=3, Debt=0, C=1, H=9, M=1, L=4
+ * PR History (last 5): #5170 Review and restructure HNSW... (2026-05-19) | #5111 feat(tensor_router): Templa... (2026-05-13)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

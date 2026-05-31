@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: http3_production_config.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 109
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=34 | delta=31 | status=divergent
- * External Severity (v3): C=6, H=27, M=1
- * PR: #4168 feat(server): HTTP/3 Production Readiness â€” BBR, connection migra... (2026-03-13T09:25:20Z)
+ * ThemisDB | File: http3_production_config.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 110
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=0, L=0
+ * PR History (last 5): #4168 feat(server): HTTP/3 Produc... (2026-03-13)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

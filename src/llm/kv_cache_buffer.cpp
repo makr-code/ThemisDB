@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: kv_cache_buffer.cpp | Version: 0.0.47 | Last Modified: 2026-04-15 18:58:58
- * Author: ThemisDB Version Bot | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 228
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=48 | delta=45 | status=divergent
- * External Severity (v3): C=8, H=38, M=2
- * PR: #105 Add plugin-based LLM integration v1.3.0 with llama.cpp, GPU acceler... (2026-03-11T17:03:10Z)
+ * ThemisDB | File: kv_cache_buffer.cpp | Version: 0.0.47 | Last Modified: 2026-05-28 05:16:00
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 263
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=10, M=1, L=0
+ * PR History (last 5): #105 Add plugin-based LLM integr... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

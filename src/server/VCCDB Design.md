@@ -624,13 +624,11 @@ Dieses Dokument wurde gegen den Modulcode und die bestehenden Server-Dokumentati
 
 ### Ergebnis
 
-- [x] Inhalt fachlich aktuell (gegen v1.7.0 / Commit `a04b89b` verifiziert)
-- [x] Verweise auf Kern-Server-Dokumente vorhanden (README, ARCHITECTURE, ROADMAP, FUTURE_ENHANCEMENTS, SECURITY, AUDIT)
-- [x] Review-/Audit-Nachweis dokumentiert (dieser Abschnitt)
-- [x] Fachreview durchgeführt
-- [x] Sourcecode-/Dokumentationsaudit durchgeführt
-- [x] Ergebnis verlinkt (AUDIT.md Querverweise ergänzt)
-- [x] Betroffene Dateien im Review festgehalten (Tabelle oben)
+- Inhalt fachlich aktuell (gegen v1.7.0 / Commit `a04b89b` verifiziert).
+- Verweise auf Kern-Server-Dokumente vorhanden (README, ARCHITECTURE, ROADMAP, FUTURE_ENHANCEMENTS, SECURITY, AUDIT).
+- Review-/Audit-Nachweis ist in diesem Abschnitt dokumentiert.
+- Fachreview und Sourcecode-/Dokumentationsaudit wurden durchgefuehrt.
+- Ergebnis ist ueber AUDIT-Querverweise und die betroffenen Dateien oben nachvollziehbar.
 
 ### Querverweis auf Governance-Dokumente
 

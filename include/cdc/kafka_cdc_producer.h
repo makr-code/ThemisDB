@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: kafka_cdc_producer.h | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 87/100
- * Gap Summary: total=6; TODO=0, Stub=4, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * ThemisDB | File: kafka_cdc_producer.h | Version: 0.0.15 | Last Modified: 2026-05-20 19:53:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 333
+ * Gap Summary: total=8; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4607 feat(cdc): register CDCKafk... (2026-04-13) | #3056 [cdc] Add Debezium-compatib... (2026-03-12) | #3045 [cdc] Implement ICDCTranspo... (2026-03-12) | #2849 [cdc] Kafka-compatible prod... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

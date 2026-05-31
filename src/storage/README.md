@@ -859,6 +859,30 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 
 5. Graefe, G. (2010). **A Survey of B-Tree Locking Techniques**. *ACM Transactions on Database Systems*, 35(3), 16:1–16:26. https://doi.org/10.1145/1806907.1806908
 
+## Sourcecode Verification (Module: storage/readme)
+
+- Verified files:
+   - `src/storage/rocksdb_wrapper.cpp`
+   - `src/storage/storage_engine.cpp`
+   - `src/storage/mvcc_store.cpp`
+   - `src/storage/wal_storage.cpp`
+   - `src/storage/backup_manager.cpp`
+   - `src/storage/pitr_manager.cpp`
+   - `src/storage/key_schema.cpp`
+   - `src/storage/blob_redundancy_manager.cpp`
+   - `src/storage/security_signature.cpp`
+   - `src/storage/security_signature_manager.cpp`
+   - `src/storage/storage_audit_logger.cpp`
+   - `src/storage/concurrent_write_controller.cpp`
+   - `src/storage/distributed_transaction_manager.cpp`
+- Verified behavior surfaces:
+   - wrapper lifecycle/open-close and storage engine orchestration
+   - MVCC/WAL/backup/recovery and key-schema behavior
+   - blob redundancy, security-signature, and audit logger paths
+- Note:
+   - Forward planning is tracked in `ROADMAP.md` and `FUTURE_ENHANCEMENTS.md`.
+   - Historical implementation record remains in `CHANGELOG.md`.
+
 ## Installation
 
 This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

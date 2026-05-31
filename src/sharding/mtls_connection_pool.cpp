@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: mtls_connection_pool.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 447
- * Open Issues: TODOs=1, Stubs=3, Gaps=6, Unimpl=0, Mock=1, Sim=1, Debt=0
- * Gap Correlation: internal=6 | external_v3=125 | delta=119 | status=divergent
- * External Severity (v3): C=16, H=91, M=18
- * PR: #4259 feat(sharding): Wire OrphanDetector to DistributedCoordinator + com... (2026-03-15T16:00:56Z)
+ * ThemisDB | File: mtls_connection_pool.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 448
+ * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=2, H=24, M=1, L=0
+ * PR History (last 5): #4259 feat(sharding): Wire Orphan... (2026-03-15) | #1035 [WIP] Implement dynamic con... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

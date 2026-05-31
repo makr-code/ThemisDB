@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: gpu_data_loader.cpp | Version: 0.0.47 | Last Modified: 2026-05-11 17:38:42
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 363
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=123 | delta=120 | status=divergent
- * External Severity (v3): C=16, H=77, M=30
- * PR: #998 C++ Audit: Eliminate raw memory management, add alignment safety, e... (2026-03-11T21:58:00Z)
+ * ThemisDB | File: gpu_data_loader.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 364
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=11, H=13, M=11, L=0
+ * PR History (last 5): #998 C++ Audit: Eliminate raw me... (2026-03-11) | #596 Implement GPU-accelerated L... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

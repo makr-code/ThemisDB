@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: content_plugin_interface.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * ThemisDB | File: content_plugin_interface.h | Version: 0.0.47 | Last Modified: 2026-05-24 09:15:19
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 478
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #2996 feat(content): Video metada... (2026-03-12) | #52 Implement horizontal/vertic... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

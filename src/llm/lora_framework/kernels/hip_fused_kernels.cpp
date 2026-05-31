@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: hip_fused_kernels.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 437
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=96 | delta=93 | status=divergent
- * External Severity (v3): C=28, H=57, M=11
- * PR: #3629 [MODULE] llm â€“ build-system audit: register 16 missing sources, 2... (2026-03-12T07:39:34Z)
+ * ThemisDB | File: hip_fused_kernels.cpp | Version: 0.0.47 | Last Modified: 2026-05-26 10:16:00
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 438
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=28, H=29, M=0, L=0
+ * PR History (last 5): #3629 [MODULE] llm â€“ build-syst... (2026-03-12) | #573 Implement kernel fusion opt... (2026-03-11) | #605 Implement GPU kernels for M... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

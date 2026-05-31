@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: tsstore.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1319
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=379 | delta=376 | status=divergent
- * External Severity (v3): C=0, H=312, M=67
- * PR: #4500 feat(timeseries): integrate AdaptiveFlushController into TSStore wr... (2026-04-09T06:14:09Z)
+ * ThemisDB | File: tsstore.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1321
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=28, M=25, L=0
+ * PR History (last 5): #4500 feat(timeseries): integrate... (2026-04-09) | #4269 feat(timeseries): TSStore s... (2026-03-15) | #4216 feat(timeseries): Chunk-Lev... (2026-03-14) | #4160 feat(timeseries): Increment... (2026-03-13) | #747 Phase 3: Migrate TSStore, P... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

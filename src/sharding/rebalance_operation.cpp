@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: rebalance_operation.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 147
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=39 | delta=36 | status=divergent
- * External Severity (v3): C=6, H=26, M=7
- * PR: #4231 feat(sharding): Adaptive Shard Rebalancer with Load-Based Splitting... (2026-03-14T19:14:59Z)
+ * ThemisDB | File: rebalance_operation.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 148
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=0, L=0
+ * PR History (last 5): #4231 feat(sharding): Adaptive Sh... (2026-03-14)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

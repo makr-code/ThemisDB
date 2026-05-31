@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: filesystem_ingester.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * ThemisDB | File: filesystem_ingester.h | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 255
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4962 docs(doxygen): tranche-3 re... (2026-05-11) | #4489 feat(ingestion): extend bin... (2026-04-09) | #1219 Add Legal LoRA Training Pip... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

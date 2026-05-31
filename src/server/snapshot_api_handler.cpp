@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: snapshot_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 196
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=45 | delta=42 | status=divergent
- * External Severity (v3): C=0, H=36, M=9
- * PR: #384 [WIP] Add Named Snapshots feature for ThemisDB MVCC system (2026-03-11T21:29:03Z)
+ * ThemisDB | File: snapshot_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 198
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=4, L=0
+ * PR History (last 5): #385 Phase 1 & 2: Implement Name... (2026-03-11) | #384 [WIP] Add Named Snapshots f... (2026-03-11) | #1080 Complete Git-like features:... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

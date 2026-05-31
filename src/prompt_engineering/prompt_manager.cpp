@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: prompt_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 462
- * Open Issues: TODOs=1, Stubs=7, Gaps=9, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=9 | external_v3=118 | delta=109 | status=divergent
- * External Severity (v3): C=0, H=86, M=32
- * PR: none
+ * ThemisDB | File: prompt_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 464
+ * Gap Summary: total=9; TODO=1, Stub=7, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=23, L=0
+ * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

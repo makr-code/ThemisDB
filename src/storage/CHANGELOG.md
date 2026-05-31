@@ -9,6 +9,7 @@ All notable changes to the Storage module are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
+- Documentation governance sync: ROADMAP/FUTURE moved to future-only planning, and module docs aligned with source-verified wording (`README`, `ARCHITECTURE`, `SECURITY`, `PERFORMANCE_EXPECTATIONS`, `AUDIT`).
 
 ## [2.0.0] — 2026-04-12
 ### Added

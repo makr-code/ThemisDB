@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: gguf_loader.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 739
- * Open Issues: TODOs=1, Stubs=1, Gaps=5, Unimpl=0, Mock=1, Sim=2, Debt=0
- * Gap Correlation: internal=5 | external_v3=165 | delta=160 | status=divergent
- * External Severity (v3): C=24, H=98, M=43
- * PR: #5122 docs(llm): synchronize GGUF_LOADER_README and LLAMA_LORA_ADAPTER_RE... (2026-05-13T20:24:49Z)
+ * ThemisDB | File: gguf_loader.cpp | Version: 0.0.47 | Last Modified: 2026-05-19 06:12:36
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 770
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=3, H=15, M=12, L=0
+ * PR History (last 5): #5122 docs(llm): synchronize GGUF... (2026-05-13) | #998 C++ Audit: Eliminate raw me... (2026-03-11) | #402 [WIP] Implement LLM model l... (2026-03-11) | #404 Revert "[WIP] Implement LLM... (2026-03-11) | #577 Add GGUF Format Support for... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

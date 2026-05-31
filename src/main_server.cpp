@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: main_server.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
- * Gap Summary: total=21; TODO=1, Stub=18, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=390, M=53, L=1
+ * ThemisDB | File: main_server.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 11:10:08
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 3214
+ * Gap Summary: total=21; TODO=1, Stub=18, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=14, M=9, L=0
+ * PR History (last 5): #5109 [Security][HSM] Enforce PKC... (2026-05-13) | #4262 feat(server): inject live S... (2026-03-15) | #4195 Correct retry attempt stati... (2026-03-14) | #1351 Implement runtime license s... (2026-03-11) | #204 Complete llama.cpp implemen... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

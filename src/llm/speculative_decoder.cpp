@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: speculative_decoder.cpp | Version: 0.0.15 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 288
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=69 | delta=66 | status=divergent
- * External Severity (v3): C=0, H=54, M=15
- * PR: #4370 [WIP] Update llm documentation to match source code (2026-03-21T18:21:30Z)
+ * ThemisDB | File: speculative_decoder.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 289
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=11, M=1, L=0
+ * PR History (last 5): #4370 [WIP] Update llm documentat... (2026-03-21) | #3177 [llm] Speculative decoding ... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

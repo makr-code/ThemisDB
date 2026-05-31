@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: aql_parser_json.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 147
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=75 | delta=72 | status=divergent
- * External Severity (v3): C=0, H=69, M=6
- * PR: #3351 [WIP] Improve multi-statement transaction AQL support (2026-03-12T07:06:46Z)
+ * ThemisDB | File: aql_parser_json.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:15:12
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 148
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=4, L=0
+ * PR History (last 5): #3427 feat(query): Per-query reso... (2026-03-12) | #3352 feat(query): SPARQL compati... (2026-03-12) | #3351 [WIP] Improve multi-stateme... (2026-03-12) | #3350 [query] Cross-cluster feder... (2026-03-12) | #3349 feat(query): Vectorized exe... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: adaptive_import.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=24, M=10, L=0
+ * ThemisDB | File: adaptive_import.cpp | Version: 0.0.13 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 192
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=7, L=0
+ * PR History (last 5): #5139 [Research Review] CARDINALI... (2026-05-14)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

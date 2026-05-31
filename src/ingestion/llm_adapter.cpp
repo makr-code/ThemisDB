@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: llm_adapter.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=30, M=8, L=0
+ * ThemisDB | File: llm_adapter.cpp | Version: 0.0.13 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 176
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=7, L=0
+ * PR History (last 5): #4244 feat(ingestion): LLMIngesti... (2026-03-15)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

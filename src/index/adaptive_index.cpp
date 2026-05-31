@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: adaptive_index.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=9, H=86, M=7, L=0
+ * ThemisDB | File: adaptive_index.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 637
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=6, M=2, L=0
+ * PR History (last 5): #3573 feat(index): parallel batch... (2026-03-12) | #762 Perf: Scale to 10B records ... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

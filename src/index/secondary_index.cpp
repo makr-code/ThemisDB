@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: secondary_index.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=68, H=1058, M=285, L=1
+ * ThemisDB | File: secondary_index.cpp | Version: 0.0.47 | Last Modified: 2026-05-28 20:56:02
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 4619
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=66, H=68, M=134, L=1
+ * PR History (last 5): #4571 perf(index): reduce seconda... (2026-04-11) | #4226 feat(index): Index Compress... (2026-03-15) | #2945 feat(index): Online index r... (2026-03-12) | #2943 feat(index): Partial/filter... (2026-03-12) | #804 Implement phrase matching a... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

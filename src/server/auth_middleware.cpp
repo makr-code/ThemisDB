@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: auth_middleware.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 720
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=186 | delta=183 | status=divergent
- * External Severity (v3): C=18, H=151, M=17
- * PR: #5123 docs(server): update VCCDB Design.md â€“ add header, cross-refs, fi... (2026-05-14T05:24:44Z)
+ * ThemisDB | File: auth_middleware.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 14:39:23
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 719
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=7, M=10, L=0
+ * PR History (last 5): #5123 docs(server): update VCCDB ... (2026-05-14) | #4279 feat(auth): JWT scope extra... (2026-03-16) | #3899 feat(auth): Mandatory JWT I... (2026-03-12) | #3159 feat(api): Add X-Correlatio... (2026-03-12) | #3158 fix(api): resolve standalon... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: audio_preprocessing.cpp | Version: 0.0.42 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 484
- * Open Issues: TODOs=1, Stubs=3, Gaps=6, Unimpl=0, Mock=1, Sim=1, Debt=0
- * Gap Correlation: internal=6 | external_v3=90 | delta=84 | status=divergent
- * External Severity (v3): C=0, H=85, M=5
- * PR: #3307 feat(voice): RNNoise deep-learning noise suppression integration (P... (2026-03-12T06:52:16Z)
+ * ThemisDB | File: audio_preprocessing.cpp | Version: 0.0.42 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 487
+ * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=4, M=0, L=0
+ * PR History (last 5): #3307 feat(voice): RNNoise deep-l... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

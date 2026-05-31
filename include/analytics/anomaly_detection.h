@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: anomaly_detection.h | Version: 0.0.32
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * ThemisDB | File: anomaly_detection.h | Version: 0.0.32 | Last Modified: 2026-05-20 19:53:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 364
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4313 fix(analytics): StreamingAn... (2026-03-18) | #2725 feat(analytics): AutoML int... (2026-03-12) | #1444 feat(analytics): implement ... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

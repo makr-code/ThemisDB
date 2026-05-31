@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: zstd_codec.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 414
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=78 | delta=75 | status=divergent
- * External Severity (v3): C=1, H=47, M=30
- * PR: #4522 feat(utils): UUID v7, LZ4 codec, streaming ZSTD API (2026-04-13T04:04:13Z)
+ * ThemisDB | File: zstd_codec.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 415
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=6, M=0, L=0
+ * PR History (last 5): #4522 feat(utils): UUID v7, LZ4 c... (2026-04-13) | #4147 feat(sharding): Raft Snapsh... (2026-03-13) | #408 docs: Complete SYSTEMATISCH... (2026-03-11) | #896 Fix CWE-400 buffer overflow... (2026-03-11) | #1052 Implement GAP-005: Content ... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

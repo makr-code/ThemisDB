@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: chaos_framework.cpp | Version: 0.0.11
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=18, H=54, M=6, L=0
+ * ThemisDB | File: chaos_framework.cpp | Version: 0.0.11 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 272
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=8, M=4, L=0
+ * PR History (last 5): #5142 Restructure and source-veri... (2026-05-14) | #4557 chaos: Phase 4+5 â€” config... (2026-04-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: mtls_authenticator.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 99/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=93, M=31, L=0
+ * ThemisDB | File: mtls_authenticator.cpp | Version: 0.0.15 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 496
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=23, M=11, L=0
+ * PR History (last 5): #2969 [auth] Wire up mTLS authent... (2026-03-12) | #2777 feat(auth): Implement mTLS ... (2026-03-12) | #2768 [auth] Implement mTLS certi... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

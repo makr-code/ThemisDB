@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: grpc_plugin.h | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 277
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=1 | delta=2 | status=near
- * External Severity (v3): C=0, H=0, M=1
- * PR: #5069 docs(rpc_grpc): refresh module + include API documentation surface (2026-05-13T06:40:21Z)
+ * ThemisDB | File: grpc_plugin.h | Version: 0.0.13 | Last Modified: 2026-05-20 17:16:35
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 278
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #5069 docs(rpc_grpc): refresh mod... (2026-05-13) | #4827 refactor: flatten plugin/ h... (2026-05-04) | #4719 docs: decongest docs root v... (2026-04-19) | #4111 feat: migrate plugins to fl... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

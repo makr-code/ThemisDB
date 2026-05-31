@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: fips_crypto_mode.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 247
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=39 | delta=36 | status=divergent
- * External Severity (v3): C=6, H=31, M=2
- * PR: #3389 feat(security): implement FIPS 140-2/3 validated cryptography mode (2026-03-12T07:08:28Z)
+ * ThemisDB | File: fips_crypto_mode.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:17:29
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 248
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=4, M=1, L=0
+ * PR History (last 5): #3389 feat(security): implement F... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

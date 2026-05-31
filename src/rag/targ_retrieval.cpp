@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: targ_retrieval.cpp | Version: 1.0.0 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 241
- * Open Issues: TODOs=1, Stubs=5, Gaps=8, Unimpl=0, Mock=1, Sim=1, Debt=0
- * Gap Correlation: internal=8 | external_v3=27 | delta=19 | status=divergent
- * External Severity (v3): C=0, H=24, M=1
- * PR: none
+ * ThemisDB | File: targ_retrieval.cpp | Version: 1.0.0 | Last Modified: 2026-05-20 17:15:57
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 242
+ * Gap Summary: total=8; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=2, M=0, L=1
+ * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

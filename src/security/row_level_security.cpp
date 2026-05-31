@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: row_level_security.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 392
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=88 | delta=85 | status=divergent
- * External Severity (v3): C=11, H=60, M=17
- * PR: #2642 feat(security): Row-level security policies in AQL execution (2026-03-12T05:53:39Z)
+ * ThemisDB | File: row_level_security.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 393
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=6, M=15, L=0
+ * PR History (last 5): #2642 feat(security): Row-level s... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

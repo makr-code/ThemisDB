@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: manifest_signer.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 384
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=84 | delta=81 | status=divergent
- * External Severity (v3): C=6, H=65, M=13
- * PR: #3342 [plugins] Remote plugin loading from OCI registries (2026-03-12T07:06:26Z)
+ * ThemisDB | File: manifest_signer.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:17:41
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 385
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=12, M=3, L=0
+ * PR History (last 5): #3342 [plugins] Remote plugin loa... (2026-03-12) | #2533 [plugins] Add dedicated dep... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: qos_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1080
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=335 | delta=332 | status=divergent
- * External Severity (v3): C=57, H=263, M=15
- * PR: #1333 Network module: QoS manager with token bucket, backpressure, and co... (2026-03-11T21:29:54Z)
+ * ThemisDB | File: qos_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1081
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=11, H=22, M=7, L=0
+ * PR History (last 5): #4273 feat(network): Bandwidth Ma... (2026-03-15) | #1333 Network module: QoS manager... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

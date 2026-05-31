@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: statistical_aggregator.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 225
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=101 | delta=98 | status=divergent
- * External Severity (v3): C=0, H=98, M=3
- * PR: #751 Phase 4 Error Handling: Storage & Query Engine Migration (Week 1-4) (2026-03-11T21:44:30Z)
+ * ThemisDB | File: statistical_aggregator.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:15:12
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 226
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=2, L=0
+ * PR History (last 5): #751 Phase 4 Error Handling: Sto... (2026-03-11) | #750 Phase 1-2: Query engine err... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

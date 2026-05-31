@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: runtime_reoptimizer.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 179
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=75 | delta=72 | status=divergent
- * External Severity (v3): C=0, H=72, M=3
- * PR: #3347 feat(query): Adaptive query re-optimization at runtime (#2232) (2026-03-12T07:06:37Z)
+ * ThemisDB | File: runtime_reoptimizer.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:15:12
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 180
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3347 feat(query): Adaptive query... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

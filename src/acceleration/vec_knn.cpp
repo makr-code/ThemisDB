@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: vec_knn.cpp | Version: 0.0.10
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=72, M=9, L=0
+ * ThemisDB | File: vec_knn.cpp | Version: 0.0.10 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 560
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=8, M=6, L=0
+ * PR History (last 5): #4495 feat(acceleration): PERF-D3... (2026-04-09)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

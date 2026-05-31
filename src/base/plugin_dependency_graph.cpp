@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: plugin_dependency_graph.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=55, M=97, L=0
+ * ThemisDB | File: plugin_dependency_graph.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 514
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=4, M=36, L=0
+ * PR History (last 5): #3475 docs(base): align src/base ... (2026-03-12) | #3085 Add plugin dependency graph... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

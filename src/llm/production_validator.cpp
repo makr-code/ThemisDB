@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: production_validator.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 1707
- * Open Issues: TODOs=1, Stubs=1, Gaps=13, Unimpl=0, Mock=1, Sim=10, Debt=0
- * Gap Correlation: internal=13 | external_v3=440 | delta=427 | status=divergent
- * External Severity (v3): C=15, H=361, M=64
- * PR: #3488 docs: Align docs/de module maturity status with src/README.md (42 P... (2026-03-11T16:12:35Z)
+ * ThemisDB | File: production_validator.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 1708
+ * Gap Summary: total=14; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=11, Debt=0, C=6, H=46, M=18, L=0
+ * PR History (last 5): #551 Remove simulation code from... (2026-03-11) | #630 P0: Complete llama.cpp inte... (2026-03-11) | #1297 RAG module: replace all stu... (2026-03-11) | #324 Generate GitHub Issues from... (2026-03-11) | #3488 docs: Align docs/de module ... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

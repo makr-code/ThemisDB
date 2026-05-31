@@ -1,0 +1,94 @@
+# Core Quick-Win Plan (Next Blocks)
+
+Date: 2026-05-31
+Source: Package F completion state, focused RAG validation, and the remaining RAG test gaps
+Scope: rag, llm, server, query, observability, tests
+
+## Goal
+
+Close the next small, production-relevant RAG blocks without reopening broad architecture work. The focus is on keeping the live RAG path stable while removing the last ingestion and budget-management mismatches surfaced by the focused suites.
+
+## Current Status
+
+- Package F is complete: live `/api/v1/llm/rag` wiring, dedicated `LLMApiHandler::handleRAG`, and focused RAG validation are in place.
+- `RAGPromptBuilderFocusedTests` and `MultiStepRAGFocusedTests` are green on the current preset.
+- The remaining next-step gaps are concentrated in RAG ingestion bridge behavior, budget/context assembly consistency, and live regression coverage.
+
+## In Progress / Planned Features
+
+- Package G: RAG ingestion bridge stabilization.
+  - Normalize `RAGIngestionBridge::indexDocument(...)`, `enrichRetrievedDocuments(...)`, and `buildEntityContext(...)` so retrieved items survive the full index -> context -> response round trip.
+  - Fail closed on missing source/content metadata instead of producing partially hydrated documents.
+  - Align bridge output with the document shape already used by `DocsAssistant` and the live RAG handlers.
+  - Primary files: `src/rag/rag_ingestion_bridge.cpp`, `src/llm/docs_assistant.cpp`, `src/server/llm_api_handler.cpp`, `tests/test_rag_ingestion_bridge.cpp`.
+
+- Package H: budget-aware context assembly and retrieval control.
+  - Align `RAGContextAssembler`, `MultiStepRAG`, `AdaptiveRetrieval`, and the `AgenticRAGBudget` path to the same token-budget math and truncation rules.
+  - Clamp invalid or overflow-prone budgets at ingress and preserve deterministic selection order when chunk scores tie.
+  - Reduce timeout sensitivity in the focused budget suite by separating heavy fixture work from the assertion path where needed.
+  - Primary files: `src/rag/rag_context_assembler.cpp`, `src/rag/multi_step_rag.cpp`, `src/rag/adaptive_retrieval.cpp`, `tests/test_agentic_rag_budget.cpp`, `tests/test_rag_context_assembler.cpp`, `tests/test_rag_adaptive_retrieval.cpp`, `tests/test_multi_step_rag.cpp`.
+
+- Package I: live regression and telemetry coverage.
+  - Extend the connector-mode RAG checks so they verify effective retrieval counts, effective budgets, and explicit failure reasons where the endpoint is available.
+  - Add narrow checks for empty retrieval, missing query engine, invalid collection, and zero-document cases so the contract stays fail-closed.
+  - Keep the live `/api/v1/llm/rag` response shape aligned with the handler contract after any bridge or budget changes.
+  - Primary files: `tests/test_connector_mode_api.cpp`, `src/server/http_server.cpp`, `src/server/llm_api_handler.cpp`.
+
+## Implementation Phases
+
+### Phase 1: Design / API Contract
+
+- Define the canonical RAG document shape for bridge output, including `content`, `source`, `metadata`, and relevance score handling.
+- Lock the budget propagation contract across assembler, adaptive retrieval, and the two HTTP RAG entry points.
+- Identify which failures should return `400` versus `503` so the live path stays fail-closed and predictable.
+
+### Phase 2: Core Implementation
+
+- Update the RAG ingestion bridge to emit fully hydrated documents and stable enrichment metadata.
+- Align context assembly and retrieval control paths with the same budget and truncation rules.
+- Reuse the existing live handler contract instead of adding alternate RAG response shapes.
+
+### Phase 3: Error Handling & Edge Cases
+
+- Reject empty or malformed bridge inputs before they reach prompt assembly.
+- Clamp invalid token limits and handle zero-document retrieval explicitly.
+- Keep missing-engine and invalid-collection cases observable instead of silently falling back to empty context.
+
+### Phase 4: Tests
+
+- Repair the RAG ingestion bridge regression coverage around the failing RI cases.
+- Add focused assertions for budget propagation, deterministic chunk selection, and adaptive retrieval decisions.
+- Re-run the live connector checks when the local endpoint is available.
+
+### Phase 5: Performance / Hardening
+
+- Remove avoidable copies in bridge-to-context conversion.
+- Preserve deterministic ordering in retrieval selection and context assembly.
+- Keep budget checks cheap enough that they can run in the hot path without extra allocations.
+
+### Phase 6: Documentation & Acceptance
+
+- Update the affected module docs and inventory notes if the bridge contract or budget contract changes.
+- Mark the block complete only after the focused RAG suites are green and the live contract checks are stable.
+- Record any remaining environment-only limitations separately from source-level gaps.
+
+## Production Readiness Checklist
+
+- [ ] `themis_server` builds cleanly in `windows-release`
+- [ ] `RAGPromptBuilderFocusedTests` and `MultiStepRAGFocusedTests` remain green
+- [ ] `test_rag_ingestion_bridge.cpp` passes after bridge hydration changes
+- [ ] `test_agentic_rag_budget.cpp`, `test_rag_context_assembler.cpp`, `test_rag_adaptive_retrieval.cpp`, and `test_multi_step_rag.cpp` pass or are split into stable focused slices
+- [ ] connector-mode RAG assertions pass when the local endpoint is available
+- [ ] no new null-dereference, input-validation, or uncaught-exception regressions are introduced in the touched files
+- [ ] docs inventory is updated if the canonical module references change
+
+## Known Issues & Limitations
+
+- `AgenticRAGBudgetFocusedTests` can still be dominated by heavyweight model loading and may need a narrower fixture boundary before it is fully stable in the preset timeout.
+- Live connector coverage is environment-dependent because `127.0.0.1:8765` is not guaranteed to be reachable in every workspace.
+- Broader docs canonical-reference gaps still exist outside the RAG-adjacent modules; this plan only targets the next runtime blocks, not the full documentation cleanup set.
+
+## Breaking Changes
+
+- If the bridge document shape is normalized, downstream code that relied on fallback keys will need to switch to the canonical `content`/`source`/`metadata` fields.
+- If budget clamping becomes stricter, oversized requests may start failing earlier with an explicit error instead of being silently truncated later in the pipeline.

@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: search_analytics.cpp | Version: 0.0.43 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 165
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=47 | delta=44 | status=divergent
- * External Severity (v3): C=7, H=32, M=8
- * PR: #3370 [search] Add dedicated getTopQueries() to SearchAnalytics (2026-03-12T07:07:28Z)
+ * ThemisDB | File: search_analytics.cpp | Version: 0.0.43 | Last Modified: 2026-05-20 17:17:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 166
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=4, L=0
+ * PR History (last 5): #3370 [search] Add dedicated getT... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

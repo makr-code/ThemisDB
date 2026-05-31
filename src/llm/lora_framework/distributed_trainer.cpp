@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: distributed_trainer.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:59
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 83/100 | Lines: 331
- * Open Issues: TODOs=2, Stubs=7, Gaps=14, Unimpl=0, Mock=1, Sim=4, Debt=0
- * Gap Correlation: internal=14 | external_v3=59 | delta=45 | status=divergent
- * External Severity (v3): C=0, H=44, M=15
- * PR: #570 [LoRA Phase 10] Add readiness status document for GPU optimization ... (2026-03-11T21:38:02Z)
+ * ThemisDB | File: distributed_trainer.cpp | Version: 0.0.47 | Last Modified: 2026-05-26 18:31:59
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 331
+ * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=3, M=4, L=0
+ * PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #570 [LoRA Phase 10] Add readine... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

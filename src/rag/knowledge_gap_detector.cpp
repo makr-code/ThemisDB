@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: knowledge_gap_detector.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 1627
- * Open Issues: TODOs=1, Stubs=2, Gaps=5, Unimpl=0, Mock=1, Sim=1, Debt=0
- * Gap Correlation: internal=5 | external_v3=351 | delta=346 | status=divergent
- * External Severity (v3): C=2, H=272, M=74
- * PR: #3592 Enable FLARE-Loop with TPT-Gating by Default (v1.4.0) (2026-03-11T16:09:11Z)
+ * ThemisDB | File: knowledge_gap_detector.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 1629
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=2, H=29, M=40, L=2
+ * PR History (last 5): #2576 RAG Phase 2: Wire streaming... (2026-03-12) | #655 [RAG-GAP-P2] Implement LLM-... (2026-03-11) | #653 Phase 1: Knowledge Gap Dete... (2026-03-11) | #651 [RAG-ETHICS] Add ethical co... (2026-03-11) | #650 Complete RAG Enhancement Im... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

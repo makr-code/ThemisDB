@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: per_query_cost_model.cpp | Version: 0.0.15 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 372
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=132 | delta=129 | status=divergent
- * External Severity (v3): C=5, H=109, M=18
- * PR: #3426 feat(performance/phase3): Wire memory pressure monitor into build s... (2026-03-12T07:12:58Z)
+ * ThemisDB | File: per_query_cost_model.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 373
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=7, L=0
+ * PR History (last 5): #3426 feat(performance/phase3): W... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

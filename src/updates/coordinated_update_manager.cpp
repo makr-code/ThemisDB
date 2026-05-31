@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: coordinated_update_manager.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 387
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=84 | delta=81 | status=divergent
- * External Severity (v3): C=12, H=61, M=11
- * PR: #4347 docs(updates): reality-check and secondary docs for updates module (2026-03-20T06:08:58Z)
+ * ThemisDB | File: coordinated_update_manager.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 388
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=8, M=3, L=0
+ * PR History (last 5): #4347 docs(updates): reality-chec... (2026-03-20) | #3661 feat(updates): build system... (2026-03-12) | #3422 Implement CoordinatedUpdate... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

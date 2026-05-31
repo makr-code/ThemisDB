@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: onnx_clip_plugin.cpp | Version: 0.0.10 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 540
- * Open Issues: TODOs=1, Stubs=4, Gaps=10, Unimpl=0, Mock=1, Sim=4, Debt=0
- * Gap Correlation: internal=10 | external_v3=173 | delta=163 | status=divergent
- * External Severity (v3): C=26, H=127, M=20
- * PR: none
+ * ThemisDB | File: onnx_clip_plugin.cpp | Version: 0.0.10 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 541
+ * Gap Summary: total=10; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=4, Debt=0, C=15, H=7, M=12, L=0
+ * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

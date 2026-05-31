@@ -27,7 +27,7 @@
 
 ### T3 — Cross-Tenant Data Access
 - **Risk:** High — a query executing across tenant boundaries could leak data
-- **Mitigation:** Tenant namespace isolation enforced via `KeySchema`; federation routing respects tenant boundaries
+- **Mitigation:** Query execution paths enforce caller-provided collection access checks via `collection_access_checker_` and return `ERR_QUERY_ACCESS_DENIED` on denial; tenant namespace isolation and federation routing boundaries remain additional controls
 - **Residual risk:** Low — isolation is structural; misconfigured namespace mappings are an operational risk
 
 ### T4 — SPARQL / SQL Injection
@@ -53,3 +53,18 @@
 Report via the project's private security disclosure channel (see root `SECURITY.md`).
 Do **not** open public issues for security vulnerabilities.
 Response SLA: acknowledgement within 2 business days; severity assessment within 5 business days.
+
+## Sourcecode Verification (Module: query/security)
+
+- Verified files:
+	- `src/query/query_engine.cpp`
+	- `src/query/query_federation.cpp`
+	- `src/query/cross_cluster_federation.cpp`
+	- `src/query/continuous_query_engine.cpp`
+	- `include/query/aql_parser.h`
+- Verified controls:
+	- Collection access denial path (`ERR_QUERY_ACCESS_DENIED`) in query execute entry points
+	- Federation result-size guardrails (`max_result_size_bytes`)
+	- Cross-cluster transport restrictions (`CURLOPT_PROTOCOLS`, `CURLOPT_REDIR_PROTOCOLS`, redirect cap)
+	- Continuous-query registry/injection queue bounds
+	- Parser statelessness and recursion-depth limits

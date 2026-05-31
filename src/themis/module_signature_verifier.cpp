@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: module_signature_verifier.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 281
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=57 | delta=54 | status=divergent
- * External Severity (v3): C=1, H=46, M=10
- * PR: #3646 fix(themis): complete build system audit â€“ register all sources, ... (2026-03-12T07:44:43Z)
+ * ThemisDB | File: module_signature_verifier.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 282
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=3, M=5, L=0
+ * PR History (last 5): #3646 fix(themis): complete build... (2026-03-12) | #3407 feat(themis): standalone Au... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

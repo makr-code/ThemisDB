@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: aql_train_parser.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * ThemisDB | File: aql_train_parser.h | Version: 0.0.47 | Last Modified: 2026-05-27 17:09:50
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 284
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #2698 feat(aql): Fine-tuned local... (2026-03-12) | #114 Add complete PEFT training ... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

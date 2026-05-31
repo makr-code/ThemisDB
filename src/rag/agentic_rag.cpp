@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: agentic_rag.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 467
- * Open Issues: TODOs=1, Stubs=1, Gaps=6, Unimpl=0, Mock=1, Sim=3, Debt=0
- * Gap Correlation: internal=6 | external_v3=88 | delta=82 | status=divergent
- * External Severity (v3): C=2, H=64, M=22
- * PR: #5042 feat(base/rag): close Issue #1575 benchmark mapping and document de... (2026-05-12T12:09:49Z)
+ * ThemisDB | File: agentic_rag.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 469
+ * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=2, H=6, M=11, L=0
+ * PR History (last 5): #5042 feat(base/rag): close Issue... (2026-05-12) | #3574 fix: clear all remaining st... (2026-03-12) | #2750 feat(rag): Agentic RAG with... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

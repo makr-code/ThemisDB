@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: aql_parser.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1604
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=802 | delta=799 | status=divergent
- * External Severity (v3): C=3, H=722, M=77
- * PR: #3481 [WIP] Synchronize AQL documentation with parser code (2026-03-12T07:20:02Z)
+ * ThemisDB | File: aql_parser.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 14:17:46
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1633
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=28, M=21, L=0
+ * PR History (last 5): #4140 feat(security): AQLInjectio... (2026-03-12) | #3481 [WIP] Synchronize AQL docum... (2026-03-12) | #3480 feat(ci): add missing docum... (2026-03-12) | #3427 feat(query): Per-query reso... (2026-03-12) | #3352 feat(query): SPARQL compati... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

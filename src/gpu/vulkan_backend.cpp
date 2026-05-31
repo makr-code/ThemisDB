@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: vulkan_backend.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 93/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=24, M=3, L=0
+ * ThemisDB | File: vulkan_backend.cpp | Version: 0.0.15 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 269
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=2, M=2, L=0
+ * PR History (last 5): #3113 feat(gpu): Peer-to-peer GPU... (2026-03-12) | #3093 feat(gpu): Vulkan compute b... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -12,7 +12,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 
 - README.md
 - ARCHITECTURE.md
-- MODULE_GAPS.md (automated scanner output, read only)
+- MODULE_GAPS.md (out of scope laut Guide)
 - ROADMAP.md
 - FUTURE_ENHANCEMENTS.md
 - CHANGELOG.md
@@ -28,7 +28,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] ARCHITECTURE.md, SECURITY.md und AUDIT.md enthalten keine veralteten Annahmen.
 - [ ] ROADMAP.md und FUTURE_ENHANCEMENTS.md enthalten konkrete Tasks mit Akzeptanzkriterien.
 - [ ] CHANGELOG.md enthält die relevanten technischen Änderungen nachvollziehbar und zeitlich korrekt.
-- [ ] MODULE_GAPS.md (read only) ist konsistent mit offenen Punkten aus dem Modul.
+- [ ] MODULE_GAPS.md ist laut Guide out of scope.
 - [ ] VCCDB Design.md (deprecated, read only) ist als Referenz bewertet und ggf. mit Hinweis auf Nachfolger versehen.
 - [ ] Inventory neu erzeugt und Core-Matrix geprüft.
 
@@ -37,7 +37,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [~] core
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -46,85 +46,98 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
   - [ ] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
-- [ ] server
+- [~] server
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
   - [ ] SECURITY.md
-  - [ ] AUDIT.md
+  - [x] AUDIT.md
   - [ ] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
-- [ ] transaction
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
-- [ ] security
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
-- [ ] query
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
-- [ ] network
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [ ] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
+  - [x] VCCDB Design.md
+- [~] transaction
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
+  - [ ] VCCDB Design.md (N/A im Modulbestand)
+- [~] security
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
+  - [ ] VCCDB Design.md (N/A im Modulbestand)
+- [~] query
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
+  - [ ] VCCDB Design.md (N/A im Modulbestand)
+- [~] network
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
+  - [ ] VCCDB Design.md (N/A im Modulbestand)
+
+- [~] storage
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
+  - [ ] VCCDB Design.md (N/A im Modulbestand)
 
 ## Welle 2 (LLM/Inference und angrenzende Runtime)
 
-- [ ] llm
-  - [ ] README.md
-  - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
-  - [ ] ROADMAP.md
-  - [ ] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md
-  - [ ] SECURITY.md
-  - [ ] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md
+- [~] llm
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
   - [ ] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [ ] llama_cpp
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -136,7 +149,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] whisper
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -148,7 +161,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] stable_diffusion
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -160,7 +173,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] rag
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -172,7 +185,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] voice
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -187,7 +200,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] acceleration
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -199,7 +212,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] ai
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -211,7 +224,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] analytics
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -223,7 +236,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] api
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -235,7 +248,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] aql
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -247,7 +260,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] auth
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -259,7 +272,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] base
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -271,7 +284,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] cache
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -283,7 +296,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] cdc
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -295,7 +308,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] chaos
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -307,7 +320,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] chimera
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -319,7 +332,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] config
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -331,7 +344,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] content
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -343,7 +356,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] distributed_knowledge
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -355,7 +368,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] document
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -367,7 +380,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] ethics_ai
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -379,7 +392,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] exporters
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -391,7 +404,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] failover
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -403,7 +416,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] geo
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -415,7 +428,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] governance
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -427,7 +440,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] gpu
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -439,7 +452,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] graph
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -451,7 +464,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] importers
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -463,7 +476,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] index
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -475,7 +488,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] ingestion
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -487,7 +500,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] maintenance
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -499,7 +512,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] metadata
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -511,7 +524,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] observability
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -523,7 +536,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] onnx_clip
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -535,7 +548,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] performance
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -547,7 +560,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] plugins
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -559,7 +572,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] process
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -571,7 +584,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] projects
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -583,7 +596,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] prompt_engineering
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -595,7 +608,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] replication
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -607,7 +620,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] rpc_grpc
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -619,7 +632,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] scheduler
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -631,7 +644,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] scraper
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -643,7 +656,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] search
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -655,7 +668,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] sharding
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -667,7 +680,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] storage
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -679,7 +692,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] temporal
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -691,7 +704,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] tensor
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -703,7 +716,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] themis
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -715,7 +728,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] timeseries
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -727,7 +740,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] toolbox
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -739,7 +752,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] training
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -751,7 +764,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] updates
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -763,7 +776,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] user_storage_encrypted
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -775,7 +788,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] utils
   - [ ] README.md
   - [ ] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
   - [ ] ROADMAP.md
   - [ ] FUTURE_ENHANCEMENTS.md
   - [ ] CHANGELOG.md
@@ -789,7 +802,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 
 1. [ ] Modul-Source prüfen (aktuelle Klassen/APIs/Fehlerpfade).
 2. [ ] 9 editierbare Core-Dokumente aktualisieren.
-3. [ ] 2 read-only Core-Dokumente (MODULE_GAPS.md, VCCDB Design.md) validieren und Abweichungen dokumentieren.
+3. [ ] 1 read-only Core-Dokument (VCCDB Design.md) validieren und Abweichungen dokumentieren.
 4. [ ] Konsistenzcheck zwischen ARCHITECTURE, SECURITY, AUDIT.
 5. [ ] ROADMAP/FUTURE_ENHANCEMENTS mit konkreten Tasks nachziehen.
 6. [ ] Inventory-Skript laufen lassen und Matrix-Datum/Abdeckung kontrollieren.
@@ -800,3 +813,4 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] Nach jedem Modul: Kurznotiz zu geänderten Dokumenten und offenen Restpunkten.
 - [ ] Nach jeder Welle: Zusammenfassung der verbesserten Core-Abdeckung.
 - [ ] Abschluss: finaler Inventory-Run und Ergebnisvergleich zur Ausgangsbasis.
+

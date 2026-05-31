@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: pii_redaction_policy.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 173
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=40 | delta=37 | status=divergent
- * External Severity (v3): C=7, H=30, M=3
- * PR: #1286 PII-Compliance: Automatic redaction for logs, traces, and metrics (2026-03-11T21:59:39Z)
+ * ThemisDB | File: pii_redaction_policy.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:17:41
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 174
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=0, M=0, L=0
+ * PR History (last 5): #1286 PII-Compliance: Automatic r... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: document_summarizer.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 473
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=130 | delta=127 | status=divergent
- * External Severity (v3): C=9, H=69, M=52
- * PR: #2751 feat(rag): multi-document summarization before context injection + ... (2026-03-12T05:57:23Z)
+ * ThemisDB | File: document_summarizer.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:15:41
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 474
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=9, H=10, M=24, L=0
+ * PR History (last 5): #2751 feat(rag): multi-document s... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: schema_cdc.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 185
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=48 | delta=45 | status=divergent
- * External Severity (v3): C=12, H=28, M=8
- * PR: #3638 feat(replication): Phase 4 â€“ Raft v2 joint consensus, CRDT librar... (2026-03-12T07:43:43Z)
+ * ThemisDB | File: schema_cdc.cpp | Version: 0.0.13 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 187
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=1, M=2, L=0
+ * PR History (last 5): #3638 feat(replication): Phase 4 ... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

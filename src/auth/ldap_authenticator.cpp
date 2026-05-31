@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: ldap_authenticator.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
- * Gap Summary: total=16; TODO=1, Stub=12, Unimpl=0, Mock=1, Sim=2, Debt=0, C=6, H=109, M=26, L=0
+ * ThemisDB | File: ldap_authenticator.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 776
+ * Gap Summary: total=16; TODO=1, Stub=12, Unimpl=0, Mock=1, Sim=2, Debt=0, C=4, H=14, M=19, L=0
+ * PR History (last 5): #4113 feat(auth): Async / Non-Blo... (2026-03-12) | #4105 fix(auth): address LDAP con... (2026-03-12) | #3831 security(auth): LDAP DN and... (2026-03-12) | #2823 feat(auth): LDAP/Active Dir... (2026-03-12) | #2983 fix(auth): redact PII in au... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

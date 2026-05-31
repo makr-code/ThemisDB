@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: transaction_retry_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 315
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=89 | delta=86 | status=divergent
- * External Severity (v3): C=8, H=74, M=7
- * PR: #3184 feat(transaction): Register test_transaction_retry in test build sy... (2026-03-12T06:26:16Z)
+ * ThemisDB | File: transaction_retry_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 317
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=2, M=1, L=0
+ * PR History (last 5): #3184 feat(transaction): Register... (2026-03-12) | #968 Complete documentation for ... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

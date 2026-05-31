@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: kernel_bypass.cpp | Version: 0.0.9 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 970
- * Open Issues: TODOs=1, Stubs=2, Gaps=5, Unimpl=0, Mock=1, Sim=1, Debt=0
- * Gap Correlation: internal=5 | external_v3=177 | delta=172 | status=divergent
- * External Severity (v3): C=6, H=116, M=55
- * PR: #4615 feat(network): Kernel Bypass (DPDK/io_uring) â€” v1.9.0 (2026-04-13T11:32:04Z)
+ * ThemisDB | File: kernel_bypass.cpp | Version: 0.0.9 | Last Modified: 2026-05-24 09:15:19
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 984
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=3, H=16, M=31, L=0
+ * PR History (last 5): #4615 feat(network): Kernel Bypas... (2026-04-13)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

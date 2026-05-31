@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: backend_registry.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=21, H=78, M=14, L=0
+ * ThemisDB | File: backend_registry.cpp | Version: 0.0.47 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 552
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=4, L=0
+ * PR History (last 5): #4928 [Docs][acceleration] Aktual... (2026-05-10) | #4620 feat(acceleration): Backend... (2026-04-13) | #4321 feat(acceleration): Backend... (2026-03-18) | #4251 feat(acceleration): Replace... (2026-03-15) | #4207 feat(acceleration): wire Ru... (2026-03-14)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

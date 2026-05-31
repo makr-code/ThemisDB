@@ -1,11 +1,8 @@
-// THEMIS_GAP_STATS: gaps=9 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-20
 /*
- * ThemisDB | File: wire_protocol_server.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:59
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 81/100 | Lines: 2626
- * Open Issues: TODOs=2, Stubs=4, Gaps=10, Unimpl=1, Mock=1, Sim=1, Debt=1
- * Gap Correlation: internal=10 | external_v3=632 | delta=622 | status=divergent
- * External Severity (v3): C=42, H=455, M=135
- * PR: #3145 [themis] Move wire protocol server to new location (Phase 3) (2026-03-12T06:24:06Z)
+ * ThemisDB | File: wire_protocol_server.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 11:10:47
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 90/100 | Lines: 3666
+ * Gap Summary: total=7; TODO=2, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=10, H=147, M=59, L=0
+ * PR History (last 5): #4254 feat(network/process-graph)... (2026-03-15) | #3769 feat(network): Full IPv6 su... (2026-03-12) | #3696 fix(network): implement Wir... (2026-03-12) | #3631 feat(network): implement Wi... (2026-03-12) | #3388 feat(network): implement We... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: cdc_ws_handler.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=35, M=11, L=1
+ * ThemisDB | File: cdc_ws_handler.cpp | Version: 0.0.15 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 376
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=7, L=0
+ * PR History (last 5): #4184 feat(cdc): WebSocket Change... (2026-03-13) | #2807 feat(api/ws): Implement Web... (2026-03-12) | #2795 feat(cdc): WebSocket transp... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

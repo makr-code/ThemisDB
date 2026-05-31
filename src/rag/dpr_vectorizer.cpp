@@ -1,4 +1,13 @@
 /*
+ * ThemisDB | File: dpr_vectorizer.cpp | Version: 0.0.1 | Last Modified: 2026-05-21 10:33:46
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 516
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=28, H=39, M=8, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+/*
  * @file dpr_vectorizer.cpp
  * @brief Dense Passage Retrieval (DPR) bi-encoder vectorizer implementation
  * 

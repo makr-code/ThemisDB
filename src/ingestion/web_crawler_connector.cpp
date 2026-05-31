@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: web_crawler_connector.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=3; TODO=0, Stub=0, Unimpl=0, Mock=3, Sim=0, Debt=0, C=6, H=108, M=45, L=0
+ * ThemisDB | File: web_crawler_connector.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 650
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=3, Sim=0, Debt=0, C=6, H=5, M=12, L=0
+ * PR History (last 5): #3137 feat(ingestion): WebCrawler... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: plugin_registry.cpp | Version: 0.0.47 | Last Modified: 2026-04-15 18:58:58
- * Author: ThemisDB Version Bot | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 46
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=9 | delta=6 | status=divergent
- * External Severity (v3): C=1, H=7, M=1
- * PR: #4256 feat(plugins): upgrade PluginRegistry global mutex to shared_mutex ... (2026-03-15T15:57:39Z)
+ * ThemisDB | File: plugin_registry.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:15:12
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 47
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4256 feat(plugins): upgrade Plug... (2026-03-15) | #1292 Plugin system production-re... (2026-03-11) | #625 Add generic type-safe plugi... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

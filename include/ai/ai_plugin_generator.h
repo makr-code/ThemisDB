@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: ai_plugin_generator.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=2; TODO=0, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * ThemisDB | File: ai_plugin_generator.h | Version: 0.0.47 | Last Modified: 2026-05-24 09:43:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 191
+ * Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #4930 [Docs][ai] Add missing AI m... (2026-05-10) | #1187 Research: Self-Healing Plug... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

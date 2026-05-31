@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: kafka_importer.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=5; TODO=0, Stub=0, Unimpl=0, Mock=5, Sim=0, Debt=0, C=2, H=111, M=13, L=0
+ * ThemisDB | File: kafka_importer.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 742
+ * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=5, Sim=0, Debt=0, C=1, H=12, M=7, L=0
+ * PR History (last 5): #4185 feat(importers/kafka): AC7 ... (2026-03-13) | #3135 feat(importers): Kafka cons... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

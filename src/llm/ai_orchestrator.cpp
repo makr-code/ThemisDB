@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: ai_orchestrator.cpp | Version: 0.0.15 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 699
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=170 | delta=167 | status=divergent
- * External Severity (v3): C=13, H=137, M=20
- * PR: #4332 Implement AIOrchestrator tool call parsing and submitStreaming() fo... (2026-03-19T13:23:33Z)
+ * ThemisDB | File: ai_orchestrator.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 700
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=13, M=6, L=0
+ * PR History (last 5): #4332 Implement AIOrchestrator to... (2026-03-19) | #2590 feat: YAML-configurable LLM... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: ingestion_coordinator.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=4; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=3, Debt=0, C=28, H=139, M=23, L=0
+ * ThemisDB | File: ingestion_coordinator.cpp | Version: 0.0.15 | Last Modified: 2026-05-22 11:24:56
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 731
+ * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=5, H=22, M=16, L=0
+ * PR History (last 5): #4309 Add distributed ingestion c... (2026-03-19) | #4302 feat(ingestion): close Issu... (2026-03-17)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

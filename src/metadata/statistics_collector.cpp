@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: statistics_collector.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 758
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=210 | delta=207 | status=divergent
- * External Severity (v3): C=9, H=165, M=36
- * PR: #4166 feat(query): Wire StatisticsCollector + MetricsCollector into Query... (2026-03-13T09:17:38Z)
+ * ThemisDB | File: statistics_collector.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 759
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=8, M=21, L=0
+ * PR History (last 5): #4166 feat(query): Wire Statistic... (2026-03-13) | #1332 feat(metadata): production-... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: tracing.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 755
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=210 | delta=207 | status=divergent
- * External Severity (v3): C=4, H=166, M=40
- * PR: #2843 feat(core): implement OpenTelemetry tracer adapter flush() via Trac... (2026-03-12T06:03:14Z)
+ * ThemisDB | File: tracing.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 756
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=2, M=7, L=0
+ * PR History (last 5): #3100 feat(observability): adapti... (2026-03-12) | #2843 feat(core): implement OpenT... (2026-03-12) | #1209 Remove unused variable warn... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

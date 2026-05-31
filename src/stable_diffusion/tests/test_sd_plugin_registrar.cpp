@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: test_sd_plugin_registrar.cpp | Version: 0.0.1 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 141
- * Open Issues: TODOs=1, Stubs=11, Gaps=13, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=13 | external_v3=16 | delta=3 | status=divergent
- * External Severity (v3): C=0, H=16, M=0
- * PR: none
+ * ThemisDB | File: test_sd_plugin_registrar.cpp | Version: 0.0.1 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 142
+ * Gap Summary: total=13; TODO=1, Stub=11, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

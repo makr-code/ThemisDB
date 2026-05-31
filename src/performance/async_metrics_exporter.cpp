@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: async_metrics_exporter.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 292
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=42 | delta=39 | status=divergent
- * External Severity (v3): C=9, H=26, M=7
- * PR: #3633 feat(performance): build system audit + code audit sign-off (2026-03-12T07:39:44Z)
+ * ThemisDB | File: async_metrics_exporter.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 293
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=11, M=0, L=0
+ * PR History (last 5): #3633 feat(performance): build sy... (2026-03-12) | #906 Implement cycle-based perfo... (2026-03-11) | #1122 Eliminate lock overlapping ... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

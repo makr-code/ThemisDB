@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: database_connector.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
- * Gap Summary: total=10; TODO=0, Stub=2, Unimpl=0, Mock=6, Sim=2, Debt=0, C=3, H=96, M=58, L=0
+ * ThemisDB | File: database_connector.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 755
+ * Gap Summary: total=12; TODO=1, Stub=3, Unimpl=0, Mock=6, Sim=2, Debt=0, C=3, H=2, M=22, L=0
+ * PR History (last 5): #3097 feat(ingestion): JDBC-compa... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: export_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 542
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=103 | delta=100 | status=divergent
- * External Severity (v3): C=3, H=72, M=28
- * PR: #4746 Add Q2 2026 Waveâ€‘1 quality audit report, findings baseline, and r... (2026-04-21T16:46:30Z)
+ * ThemisDB | File: export_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-30 19:26:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 560
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=4, M=8, L=0
+ * PR History (last 5): #4746 Add Q2 2026 Waveâ€‘1 qualit... (2026-04-21) | #3804 fix(server/exporters): wire... (2026-03-12) | #84 Replace stub implementation... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

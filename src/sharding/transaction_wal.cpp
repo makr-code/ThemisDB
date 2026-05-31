@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: transaction_wal.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 366
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=76 | delta=73 | status=divergent
- * External Severity (v3): C=0, H=67, M=9
- * PR: #4212 fix(chimera/percolator): repair Python SyntaxError in regression de... (2026-03-15T06:59:06Z)
+ * ThemisDB | File: transaction_wal.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 367
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=2, L=0
+ * PR History (last 5): #4212 fix(chimera/percolator): re... (2026-03-15) | #3649 feat(transaction): complete... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

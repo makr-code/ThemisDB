@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: aql_translator.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1902
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=1327 | delta=1324 | status=divergent
- * External Severity (v3): C=95, H=1170, M=62
- * PR: #4176 feat(geo): Spatial JOIN Support â€” lazy iterator, AQL GEO_DISTANCE... (2026-03-13T16:35:02Z)
+ * ThemisDB | File: aql_translator.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 20:34:06
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1935
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=72, H=21, M=35, L=0
+ * PR History (last 5): #4176 feat(geo): Spatial JOIN Sup... (2026-03-13) | #751 Phase 4 Error Handling: Sto... (2026-03-11) | #632 Implement General Graph Tra... (2026-03-11) | #633 Configure general graph tra... (2026-03-11) | #750 Phase 1-2: Query engine err... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

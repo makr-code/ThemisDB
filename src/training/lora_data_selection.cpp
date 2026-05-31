@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: lora_data_selection.cpp | Version: 0.0.39 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 1276
- * Open Issues: TODOs=1, Stubs=1, Gaps=4, Unimpl=0, Mock=1, Sim=1, Debt=0
- * Gap Correlation: internal=4 | external_v3=307 | delta=303 | status=divergent
- * External Severity (v3): C=14, H=232, M=61
- * PR: #3648 audit(training): complete module documentation audit â€” ghost file... (2026-03-12T07:45:18Z)
+ * ThemisDB | File: lora_data_selection.cpp | Version: 0.0.39 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 1277
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=11, H=22, M=32, L=0
+ * PR History (last 5): #3648 audit(training): complete m... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

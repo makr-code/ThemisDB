@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: merge_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 681
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=114 | delta=111 | status=divergent
- * External Severity (v3): C=1, H=82, M=31
- * PR: #1084 Implement Three-Way-Merge Engine for MVCC (Step 5 Git Features) (2026-03-11T17:53:13Z)
+ * ThemisDB | File: merge_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 682
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=11, M=29, L=0
+ * PR History (last 5): #3416 [transaction] Implement Mer... (2026-03-12) | #1084 Implement Three-Way-Merge E... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

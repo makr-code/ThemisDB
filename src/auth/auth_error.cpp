@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: auth_error.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=37, M=12, L=0
+ * ThemisDB | File: auth_error.cpp | Version: 0.0.47 | Last Modified: 2026-05-21 19:28:28
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 586
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=0, L=0
+ * PR History (last 5): #4144 feat(auth): SAML Assertion ... (2026-03-13) | #2826 feat(auth): improve unit te... (2026-03-12) | #2733 [auth] API key authenticati... (2026-03-12) | #2392 feat(auth): SAML 2.0 SP aut... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

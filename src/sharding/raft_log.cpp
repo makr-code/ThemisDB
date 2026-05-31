@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: raft_log.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 623
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=191 | delta=188 | status=divergent
- * External Severity (v3): C=31, H=141, M=19
- * PR: #4147 feat(sharding): Raft Snapshot Compaction and Log Truncation (v1.6.0) (2026-03-13T05:45:11Z)
+ * ThemisDB | File: raft_log.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 625
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=12, M=11, L=0
+ * PR History (last 5): #4147 feat(sharding): Raft Snapsh... (2026-03-13)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

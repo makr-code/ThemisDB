@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: signed_plugin_repository.cpp | Version: 0.0.15 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 322
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=87 | delta=84 | status=divergent
- * External Severity (v3): C=11, H=43, M=33
- * PR: #3614 fix(base): resolveFor() missing-dep bypass + isVersionCompatible() ... (2026-03-12T07:37:50Z)
+ * ThemisDB | File: signed_plugin_repository.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:15:12
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 323
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=10, M=14, L=0
+ * PR History (last 5): #3614 fix(base): resolveFor() mis... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

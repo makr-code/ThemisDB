@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: pitr_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 299
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=46 | delta=43 | status=divergent
- * External Severity (v3): C=0, H=34, M=12
- * PR: #1085 Activate git-like features: Re-enable SnapshotManager and integrate... (2026-03-11T17:53:10Z)
+ * ThemisDB | File: pitr_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 300
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=3, L=0
+ * PR History (last 5): #1080 Complete Git-like features:... (2026-03-11) | #1082 Implement Point-in-Time Rec... (2026-03-11) | #1085 Activate git-like features:... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

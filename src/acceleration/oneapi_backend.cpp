@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: oneapi_backend.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
- * Gap Summary: total=14; TODO=1, Stub=10, Unimpl=0, Mock=1, Sim=2, Debt=0, C=11, H=34, M=22, L=0
+ * ThemisDB | File: oneapi_backend.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 320
+ * Gap Summary: total=14; TODO=1, Stub=10, Unimpl=0, Mock=1, Sim=2, Debt=0, C=8, H=6, M=9, L=0
+ * PR History (last 5): #3551 docs(chimera + acceleration... (2026-03-12) | #469 Fix 11 compilation errors: ... (2026-03-11) | #30 Add comprehensive GPU accel... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

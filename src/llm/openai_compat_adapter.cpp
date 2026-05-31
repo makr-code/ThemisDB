@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: openai_compat_adapter.cpp | Version: 0.0.15 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 413
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=58 | delta=55 | status=divergent
- * External Severity (v3): C=0, H=35, M=23
- * PR: #4187 feat(llm): OpenAI-compatible /v1/chat/completions adapter â€” wire ... (2026-03-13T18:18:16Z)
+ * ThemisDB | File: openai_compat_adapter.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 414
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=8, M=6, L=0
+ * PR History (last 5): #4370 [WIP] Update llm documentat... (2026-03-21) | #4187 feat(llm): OpenAI-compatibl... (2026-03-13) | #3268 [llm] OpenAI-compatible /v1... (2026-03-12) | #3068 [llm] OpenAI-compatible /v1... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

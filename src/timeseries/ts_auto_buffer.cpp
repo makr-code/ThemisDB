@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: ts_auto_buffer.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 594
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=115 | delta=112 | status=divergent
- * External Severity (v3): C=18, H=85, M=12
- * PR: #4450 docs(perf): corrected root-cause analysis for PERF-D1â€“D7 issues w... (2026-04-07T08:17:34Z)
+ * ThemisDB | File: ts_auto_buffer.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 595
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=13, M=1, L=0
+ * PR History (last 5): #4450 docs(perf): corrected root-... (2026-04-07) | #4269 feat(timeseries): TSStore s... (2026-03-15) | #3599 feat(timeseries): FlushCont... (2026-03-12) | #747 Phase 3: Migrate TSStore, P... (2026-03-11) | #97 Complete auto-batching infr... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

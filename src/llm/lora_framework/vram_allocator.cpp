@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: vram_allocator.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 941
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=253 | delta=250 | status=divergent
- * External Severity (v3): C=18, H=227, M=8
- * PR: #4678 feat: replace production stubs across 7 modules â€” TSA, Paxos RPC,... (2026-04-15T19:06:49Z)
+ * ThemisDB | File: vram_allocator.cpp | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 985
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=61, M=6, L=0
+ * PR History (last 5): #4678 feat: replace production st... (2026-04-15) | #998 C++ Audit: Eliminate raw me... (2026-03-11) | #958 [WIP] Fix null-check valida... (2026-03-11) | #570 [LoRA Phase 10] Add readine... (2026-03-11) | #546 Implement GPU Acceleration ... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

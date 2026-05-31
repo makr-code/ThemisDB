@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: index_manager.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=12, H=137, M=21, L=0
+ * ThemisDB | File: index_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 844
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=5, M=9, L=0
+ * PR History (last 5): #4587 feat(index): add IndexManag... (2026-04-13) | #3174 [index] Implement Secondary... (2026-03-12) | #3122 feat(index): implement Vect... (2026-03-12) | #2963 [index] Implement multi-ten... (2026-03-12) | #747 Phase 3: Migrate TSStore, P... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

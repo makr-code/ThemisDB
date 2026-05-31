@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: content_manager_embedding.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=10, M=1, L=0
+ * ThemisDB | File: content_manager_embedding.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 54
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4241 feat(content): Embedding Ge... (2026-03-15) | #3619 fix(content): build system ... (2026-03-12) | #3167 fix(content): add content_m... (2026-03-12) | #2812 feat(content): implement em... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

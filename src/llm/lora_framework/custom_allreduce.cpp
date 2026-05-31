@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: custom_allreduce.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 284
- * Open Issues: TODOs=1, Stubs=3, Gaps=11, Unimpl=1, Mock=1, Sim=5, Debt=0
- * Gap Correlation: internal=11 | external_v3=42 | delta=31 | status=divergent
- * External Severity (v3): C=0, H=37, M=5
- * PR: #578 [LoRA Phase 10.5] Implement Multi-GPU Training Support (2026-03-11T18:14:05Z)
+ * ThemisDB | File: custom_allreduce.cpp | Version: 0.0.47 | Last Modified: 2026-05-26 17:37:53
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 307
+ * Gap Summary: total=11; TODO=1, Stub=3, Unimpl=1, Mock=1, Sim=5, Debt=0, C=0, H=2, M=3, L=0
+ * PR History (last 5): #578 [LoRA Phase 10.5] Implement... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

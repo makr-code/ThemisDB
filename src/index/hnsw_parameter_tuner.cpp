@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: hnsw_parameter_tuner.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=9, H=66, M=17, L=1
+ * ThemisDB | File: hnsw_parameter_tuner.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 09:15:19
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 606
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=1, L=0
+ * PR History (last 5): #4678 feat: replace production st... (2026-04-15) | #1120 Add workload-specific index... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

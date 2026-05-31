@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: udf_registry.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 419
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=218 | delta=215 | status=divergent
- * External Severity (v3): C=6, H=202, M=10
- * PR: #2982 feat(query): UDF registration API + audit fixes (2026-03-12T06:07:40Z)
+ * ThemisDB | File: udf_registry.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:15:12
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 420
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=17, M=6, L=0
+ * PR History (last 5): #2982 feat(query): UDF registrati... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

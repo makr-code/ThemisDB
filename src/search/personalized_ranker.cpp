@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: personalized_ranker.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 162
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=36 | delta=33 | status=divergent
- * External Severity (v3): C=7, H=27, M=2
- * PR: #3373 feat(search): personalized ranking based on user interaction history (2026-03-12T07:07:35Z)
+ * ThemisDB | File: personalized_ranker.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:17:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 163
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=0, L=0
+ * PR History (last 5): #3373 feat(search): personalized ... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

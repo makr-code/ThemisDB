@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: blob_redundancy_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 1584
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=376 | delta=373 | status=divergent
- * External Severity (v3): C=35, H=228, M=113
- * PR: #4336 docs(storage): correct SECURITY.md â€” erasure coding is implemente... (2026-03-19T05:35:37Z)
+ * ThemisDB | File: blob_redundancy_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 1585
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=19, M=39, L=0
+ * PR History (last 5): #4336 docs(storage): correct SECU... (2026-03-19) | #4201 feat(base): async retry bac... (2026-03-15) | #4232 feat(storage): Reed-Solomon... (2026-03-14) | #712 [Error Handling] Phase 4: F... (2026-03-11) | #746 [Phase 4] Storage Layer: Mi... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

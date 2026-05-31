@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: gpu_memory_manager.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * ThemisDB | File: gpu_memory_manager.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:42:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 85/100 | Lines: 246
+ * Gap Summary: total=8; TODO=1, Stub=4, Unimpl=0, Mock=2, Sim=0, Debt=1, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

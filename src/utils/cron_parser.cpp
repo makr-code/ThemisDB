@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: cron_parser.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 702
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=253 | delta=250 | status=divergent
- * External Severity (v3): C=2, H=210, M=41
- * PR: #2558 [scheduler] Full cron expression parsing (v1.5.0) + scientific refe... (2026-03-12T05:51:27Z)
+ * ThemisDB | File: cron_parser.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 716
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=6, L=0
+ * PR History (last 5): #2558 [scheduler] Full cron expre... (2026-03-12) | #1178 Verify and document complet... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

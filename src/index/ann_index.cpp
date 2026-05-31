@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: ann_index.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=12, H=82, M=31, L=0
+ * ThemisDB | File: ann_index.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 417
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=10, M=21, L=0
+ * PR History (last 5): #3136 [index] Wire distributed ve... (2026-03-12) | #2946 feat(index): DiskANN/ScaNN ... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

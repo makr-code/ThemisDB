@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: wisckey.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 196
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=80 | delta=77 | status=divergent
- * External Severity (v3): C=19, H=52, M=8
- * PR: #967 [WIP] Implement garbage collection for ValueLog in WiscKey (2026-03-11T21:57:40Z)
+ * ThemisDB | File: wisckey.cpp | Version: 0.0.47 | Last Modified: 2026-05-22 06:56:08
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 199
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=11, H=11, M=7, L=1
+ * PR History (last 5): #967 [WIP] Implement garbage col... (2026-03-11) | #1122 Eliminate lock overlapping ... (2026-03-11) | #160 Implement Phase 2 and Phase... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

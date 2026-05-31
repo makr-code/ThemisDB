@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: llm_aql_handler.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * ThemisDB | File: llm_aql_handler.h | Version: 0.0.47 | Last Modified: 2026-05-20 19:53:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 851
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4221 feat(aql): Parallel executi... (2026-03-14) | #4175 fix(aql/test): correct AC-4... (2026-03-13) | #4170 feat(aql): Post-generation ... (2026-03-13) | #4171 feat(aql): Per-Operation-Ty... (2026-03-13) | #3612 audit(security+aql): fix mi... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

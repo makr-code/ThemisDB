@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: session_manager.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=9, H=46, M=19, L=0
+ * ThemisDB | File: session_manager.cpp | Version: 0.0.15 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 291
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=5, M=8, L=0
+ * PR History (last 5): #4094 fix(auth): constant-time co... (2026-03-12) | #2811 [auth] Wire session revocat... (2026-03-12) | #2778 [auth] Implement session ma... (2026-03-12) | #2770 [auth] Implement session ma... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

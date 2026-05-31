@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: pmu_counters.cpp | Version: 0.0.15 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 822
- * Open Issues: TODOs=1, Stubs=2, Gaps=5, Unimpl=0, Mock=1, Sim=1, Debt=0
- * Gap Correlation: internal=5 | external_v3=201 | delta=196 | status=divergent
- * External Severity (v3): C=31, H=114, M=56
- * PR: #4623 fix(performance/phase4): complete PMU non-Linux stub coverage â€” m... (2026-04-13T13:37:29Z)
+ * ThemisDB | File: pmu_counters.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 824
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=11, H=5, M=26, L=0
+ * PR History (last 5): #4623 fix(performance/phase4): co... (2026-04-13) | #4367 feat(performance/phase4): i... (2026-03-21) | #2920 feat(performance/phase4): P... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

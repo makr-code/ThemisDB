@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: schema_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 1232
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=310 | delta=307 | status=divergent
- * External Severity (v3): C=29, H=220, M=61
- * PR: #2532 feat(metadata): Real-time schema change notifications via changefeeds (2026-03-11T21:42:47Z)
+ * ThemisDB | File: schema_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-28 20:56:02
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 1340
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=16, M=60, L=0
+ * PR History (last 5): #3630 docs(metadata): module audi... (2026-03-12) | #3297 [metadata] Wire ColumnLinea... (2026-03-12) | #3290 feat(metadata): Cross-colle... (2026-03-12) | #3099 feat(metadata): Add Distrib... (2026-03-12) | #3018 feat(metadata): Adaptive TT... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

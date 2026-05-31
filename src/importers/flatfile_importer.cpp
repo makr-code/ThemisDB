@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: flatfile_importer.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=10, H=247, M=77, L=0
+ * ThemisDB | File: flatfile_importer.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1463
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=10, M=53, L=0
+ * PR History (last 5): #3229 feat(importers): Add Parque... (2026-03-12) | #3065 Add CSV/TSV/JSONL flat-file... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

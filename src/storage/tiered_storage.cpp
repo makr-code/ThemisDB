@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: tiered_storage.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 435
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=101 | delta=98 | status=divergent
- * External Severity (v3): C=11, H=75, M=15
- * PR: #4150 feat(storage): implement size-based migration policy for TieredStor... (2026-03-13T05:45:31Z)
+ * ThemisDB | File: tiered_storage.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 436
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=4, M=7, L=0
+ * PR History (last 5): #4213 feat(storage): DistributedT... (2026-03-14) | #4150 feat(storage): implement si... (2026-03-13)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

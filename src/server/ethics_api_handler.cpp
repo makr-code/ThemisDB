@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: ethics_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 596
- * Open Issues: TODOs=1, Stubs=5, Gaps=7, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=7 | external_v3=138 | delta=131 | status=divergent
- * External Severity (v3): C=0, H=78, M=60
- * PR: #3632 fix(build): register 40+ missing sources across 7 modules in cmake ... (2026-03-12T07:39:41Z)
+ * ThemisDB | File: ethics_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 17:10:28
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 597
+ * Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=13, L=0
+ * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #946 [FEATURE] Ethics AI Plugin ... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: embedding_provider.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 456
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=118 | delta=115 | status=divergent
- * External Severity (v3): C=25, H=78, M=15
- * PR: #642 Implement 3 critical LoRA features: adapter application, real embed... (2026-03-11T18:11:18Z)
+ * ThemisDB | File: embedding_provider.cpp | Version: 0.0.47 | Last Modified: 2026-05-26 17:35:01
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 460
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=5, M=8, L=0
+ * PR History (last 5): #642 Implement 3 critical LoRA f... (2026-03-11) | #649 LLM Core - Complete Impleme... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

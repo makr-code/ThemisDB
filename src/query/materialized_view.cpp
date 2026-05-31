@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: materialized_view.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 673
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=308 | delta=305 | status=divergent
- * External Severity (v3): C=24, H=261, M=23
- * PR: #4258 feat(query): Materialized Views & Incremental Maintenance (v1.8.0, ... (2026-03-15T16:05:55Z)
+ * ThemisDB | File: materialized_view.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:15:12
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 674
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=11, M=12, L=0
+ * PR History (last 5): #4258 feat(query): Materialized V... (2026-03-15)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: lora_router.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 822
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=270 | delta=267 | status=divergent
- * External Severity (v3): C=40, H=195, M=35
- * PR: #691 LoRA-to-LLM Routing Automation: Semantic Router with A/B Testing an... (2026-03-11T21:40:35Z)
+ * ThemisDB | File: lora_router.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 823
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=24, H=10, M=6, L=0
+ * PR History (last 5): #691 LoRA-to-LLM Routing Automat... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

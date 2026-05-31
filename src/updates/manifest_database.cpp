@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: manifest_database.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 540
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=147 | delta=144 | status=divergent
- * External Severity (v3): C=4, H=106, M=37
- * PR: #4261 feat(updates): ManifestDatabase::deleteManifest() â€” clean up asso... (2026-03-15T15:57:14Z)
+ * ThemisDB | File: manifest_database.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 542
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=5, M=11, L=0
+ * PR History (last 5): #4261 feat(updates): ManifestData... (2026-03-15) | #2604 feat(updates): Schema migra... (2026-03-12) | #712 [Error Handling] Phase 4: F... (2026-03-11) | #84 Replace stub implementation... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

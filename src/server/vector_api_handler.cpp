@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: vector_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 811
- * Open Issues: TODOs=1, Stubs=2, Gaps=4, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=4 | external_v3=224 | delta=220 | status=divergent
- * External Severity (v3): C=2, H=163, M=59
- * PR: #459 Refactor vector operations into VectorApiHandler (2026-03-11T21:32:28Z)
+ * ThemisDB | File: vector_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-26 15:48:51
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 813
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=8, M=27, L=0
+ * PR History (last 5): #1451 feat(index): HNSW increment... (2026-03-11) | #459 Refactor vector operations ... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

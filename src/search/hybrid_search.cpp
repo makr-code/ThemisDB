@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: hybrid_search.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 381
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=86 | delta=83 | status=divergent
- * External Severity (v3): C=1, H=61, M=24
- * PR: #1077 Remove duplicate vector search implementations to avoid duplicate s... (2026-03-11T17:53:37Z)
+ * ThemisDB | File: hybrid_search.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:16:48
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 382
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=12, M=14, L=0
+ * PR History (last 5): #3761 feat(search): DistributedHy... (2026-03-12) | #1077 Remove duplicate vector sea... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

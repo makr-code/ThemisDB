@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: distributed_gateway.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 507
- * Open Issues: TODOs=1, Stubs=1, Gaps=4, Unimpl=0, Mock=1, Sim=1, Debt=0
- * Gap Correlation: internal=4 | external_v3=130 | delta=126 | status=divergent
- * External Severity (v3): C=11, H=101, M=18
- * PR: #3808 feat(server): Distributed API Gateway â€“ Raft config sync, consist... (2026-03-12T08:00:14Z)
+ * ThemisDB | File: distributed_gateway.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 508
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=3, H=9, M=16, L=0
+ * PR History (last 5): #3808 feat(server): Distributed A... (2026-03-12) | #3720 feat(server): Distributed A... (2026-03-12) | #3642 docs(server): module audit ... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: let_evaluator.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1493
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=761 | delta=758 | status=divergent
- * External Severity (v3): C=4, H=691, M=66
- * PR: #68 Correct AQL language scope documentation and integrate FunctionRegi... (2026-03-11T17:04:26Z)
+ * ThemisDB | File: let_evaluator.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1494
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=44, M=21, L=0
+ * PR History (last 5): #2853 [geo] Complete GeoJSON spec... (2026-03-12) | #2851 [geo] Implement ST_BUFFER: ... (2026-03-12) | #68 Correct AQL language scope ... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

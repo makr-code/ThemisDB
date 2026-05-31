@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: lora_storage_service_themisdb.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 91/100 | Lines: 946
- * Open Issues: TODOs=1, Stubs=1, Gaps=6, Unimpl=0, Mock=4, Sim=0, Debt=0
- * Gap Correlation: internal=6 | external_v3=295 | delta=289 | status=divergent
- * External Severity (v3): C=21, H=243, M=31
- * PR: #568 Integrate PKIKeyProvider for LoRA Adapter Encryption (2026-03-11T18:14:28Z)
+ * ThemisDB | File: lora_storage_service_themisdb.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 91/100 | Lines: 948
+ * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=4, Sim=0, Debt=0, C=19, H=35, M=15, L=0
+ * PR History (last 5): #567 Integrate HSMProvider (PKCS... (2026-03-11) | #566 Integrate VaultKeyProvider ... (2026-03-11) | #541 Complete LoRa Storage Backe... (2026-03-11) | #568 Integrate PKIKeyProvider fo... (2026-03-11) | #585 Analyze ThemisDB gaps: remo... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

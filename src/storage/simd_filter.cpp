@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: simd_filter.cpp | Version: 0.0.10 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 707
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=73 | delta=70 | status=divergent
- * External Severity (v3): C=0, H=26, M=47
- * PR: #4515 feat(storage): ROADMAP v2.0.0 â€“ SIMD ColumnarFormat filter + nati... (2026-04-11T12:06:30Z)
+ * ThemisDB | File: simd_filter.cpp | Version: 0.0.10 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 708
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=39, L=0
+ * PR History (last 5): #4515 feat(storage): ROADMAP v2.0... (2026-04-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

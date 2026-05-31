@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: redundancy_strategy.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 3013
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=900 | delta=897 | status=divergent
- * External Severity (v3): C=38, H=597, M=265
- * PR: #3489 docs: Add comprehensive RAID Sharding & URN Resolution reference (de) (2026-03-11T16:12:33Z)
+ * ThemisDB | File: redundancy_strategy.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 3014
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=28, H=85, M=114, L=0
+ * PR History (last 5): #1285 GEO_MIRROR: Configurable ge... (2026-03-11) | #1247 Implement Raft consensus pe... (2026-03-11) | #1320 Integrate MVCC and HLC time... (2026-03-11) | #1318 Add Repair/Anti-Entropy Eng... (2026-03-11) | #250 [v1.5.0] GPU-Accelerated Er... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

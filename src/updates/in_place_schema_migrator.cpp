@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: in_place_schema_migrator.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 240
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=51 | delta=48 | status=divergent
- * External Severity (v3): C=1, H=31, M=19
- * PR: #4347 docs(updates): reality-check and secondary docs for updates module (2026-03-20T06:08:58Z)
+ * ThemisDB | File: in_place_schema_migrator.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 241
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=6, M=18, L=0
+ * PR History (last 5): #4347 docs(updates): reality-chec... (2026-03-20) | #3661 feat(updates): build system... (2026-03-12) | #3417 feat(updates): Migration dr... (2026-03-12) | #3314 Verify: In-place schema mig... (2026-03-12) | #2656 feat(updates): In-place sch... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

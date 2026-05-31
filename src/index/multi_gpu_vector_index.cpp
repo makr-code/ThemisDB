@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: multi_gpu_vector_index.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=2; TODO=0, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=149, M=82, L=0
+ * ThemisDB | File: multi_gpu_vector_index.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 825
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=16, M=22, L=0
+ * PR History (last 5): #3573 feat(index): parallel batch... (2026-03-12) | #1104 Update GPU master tracking ... (2026-03-11) | #1096 Implement Multi-GPU Vector ... (2026-03-11) | #992 GPU Vector Indexing: Multi-... (2026-03-11) | #1113 Implement Multi-GPU Vector ... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

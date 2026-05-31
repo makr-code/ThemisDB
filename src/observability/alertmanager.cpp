@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: alertmanager.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 675
- * Open Issues: TODOs=1, Stubs=3, Gaps=5, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=5 | external_v3=152 | delta=147 | status=divergent
- * External Severity (v3): C=17, H=115, M=20
- * PR: #2573 feat(observability): wire continuous_profiler into build + complete... (2026-03-12T05:51:58Z)
+ * ThemisDB | File: alertmanager.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 676
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=7, M=12, L=0
+ * PR History (last 5): #2573 feat(observability): wire c... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: office_processor.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=167, M=52, L=0
+ * ThemisDB | File: office_processor.cpp | Version: 0.0.47 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1185
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=48, M=31, L=0
+ * PR History (last 5): #3780 fix(content/security): CON-... (2026-03-12) | #3738 feat(content): LibreOffice ... (2026-03-12) | #3556 docs(content): reality-chec... (2026-03-12) | #3211 [WIP] Add Office document t... (2026-03-12) | #3005 Extract PDF & Office text: ... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

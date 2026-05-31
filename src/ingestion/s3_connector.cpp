@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: s3_connector.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 84/100
- * Gap Summary: total=9; TODO=0, Stub=3, Unimpl=0, Mock=3, Sim=3, Debt=0, C=4, H=90, M=36, L=0
+ * ThemisDB | File: s3_connector.cpp | Version: 0.0.13 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 84/100 | Lines: 746
+ * Gap Summary: total=11; TODO=1, Stub=4, Unimpl=0, Mock=3, Sim=3, Debt=0, C=2, H=0, M=9, L=0
+ * PR History (last 5): #4227 feat(ingestion): S3-Compati... (2026-03-14)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

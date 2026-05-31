@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: delegate_evaluator.cpp | Version: 0.1.0 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 539
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=99 | delta=96 | status=divergent
- * External Severity (v3): C=5, H=80, M=14
- * PR: #5042 feat(base/rag): close Issue #1575 benchmark mapping and document de... (2026-05-12T12:09:49Z)
+ * ThemisDB | File: delegate_evaluator.cpp | Version: 0.1.0 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 540
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=12, M=13, L=0
+ * PR History (last 5): #5042 feat(base/rag): close Issue... (2026-05-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

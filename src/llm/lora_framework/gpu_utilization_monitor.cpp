@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: gpu_utilization_monitor.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 421
- * Open Issues: TODOs=1, Stubs=3, Gaps=8, Unimpl=1, Mock=1, Sim=2, Debt=0
- * Gap Correlation: internal=8 | external_v3=71 | delta=63 | status=divergent
- * External Severity (v3): C=0, H=57, M=14
- * PR: none
+ * ThemisDB | File: gpu_utilization_monitor.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 422
+ * Gap Summary: total=8; TODO=1, Stub=3, Unimpl=1, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -73,7 +73,7 @@ Core transaction coordinator providing ACID guarantees through RocksDB WriteBatc
 - Transaction IDs generated atomically
 - Transaction map protected by internal mutex
 - Each Transaction object is NOT thread-safe (use from single thread)
-- Safe to commit/rollback from different threads
+- Commit/rollback must follow the same single-transaction ownership rules as other Transaction methods
 
 **Configuration:**
 ```cpp
@@ -1314,6 +1314,25 @@ Copyright © 2024 ThemisDB Contributors. Licensed under Apache 2.0.
 4. Garcia-Molina, H., & Salem, K. (1987). **Sagas**. *Proceedings of the 1987 ACM SIGMOD International Conference on Management of Data*, 249–259. https://doi.org/10.1145/38713.38742
 
 5. Herlihy, M., & Wing, J. M. (1990). **Linearizability: A Correctness Condition for Concurrent Objects**. *ACM Transactions on Programming Languages and Systems*, 12(3), 463–492. https://doi.org/10.1145/78969.78972
+
+## Sourcecode Verification (Module: transaction/readme)
+
+- Verified core surfaces:
+    - `src/transaction/transaction_manager.cpp`
+    - `include/transaction/transaction_manager.h`
+    - `src/transaction/distributed_transaction_manager.cpp`
+    - `src/transaction/saga_orchestrator.cpp`
+    - `src/transaction/distributed_saga.cpp`
+    - `src/transaction/transaction_batcher.cpp`
+    - `src/transaction/transaction_auditor.cpp`
+- Verified behavior classes:
+    - Transaction lifecycle and isolation entry points
+    - Distributed prepare/commit/abort orchestration and recovery hooks
+    - SAGA compensation/orchestration flows
+    - Batching and audit utility paths
+- Note:
+    - Forward planning is tracked in `ROADMAP.md` and `FUTURE_ENHANCEMENTS.md`.
+    - Historical implementation record remains in `CHANGELOG.md`.
 
 ## Installation
 

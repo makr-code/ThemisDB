@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: inverted_index.cpp | Version: 0.0.26
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=157, M=60, L=1
+ * ThemisDB | File: inverted_index.cpp | Version: 0.0.26 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 585
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=39, L=1
+ * PR History (last 5): #3640 docs(search): complete modu... (2026-03-12) | #2076 feat(index+query): inverted... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

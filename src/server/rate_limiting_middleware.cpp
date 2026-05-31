@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: rate_limiting_middleware.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 240
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=40 | delta=37 | status=divergent
- * External Severity (v3): C=8, H=29, M=3
- * PR: #2721 feat(api): Rate limiting middleware with configurable per-client to... (2026-03-12T05:56:29Z)
+ * ThemisDB | File: rate_limiting_middleware.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 241
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=2, L=0
+ * PR History (last 5): #2721 feat(api): Rate limiting mi... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

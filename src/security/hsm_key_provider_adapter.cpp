@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: hsm_key_provider_adapter.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 594
- * Open Issues: TODOs=1, Stubs=22, Gaps=26, Unimpl=0, Mock=1, Sim=2, Debt=0
- * Gap Correlation: internal=26 | external_v3=194 | delta=168 | status=divergent
- * External Severity (v3): C=24, H=154, M=16
- * PR: #2564 feat(security): HSM direct PKCS#11 DEK wrap/unwrap integration (2026-03-12T05:51:37Z)
+ * ThemisDB | File: hsm_key_provider_adapter.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 596
+ * Gap Summary: total=26; TODO=1, Stub=22, Unimpl=0, Mock=1, Sim=2, Debt=0, C=6, H=47, M=7, L=0
+ * PR History (last 5): #2564 feat(security): HSM direct ... (2026-03-12) | #567 Integrate HSMProvider (PKCS... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

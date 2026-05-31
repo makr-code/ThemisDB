@@ -324,3 +324,33 @@ TEST(RAGIngestionBridgeTest, RI27_MoveAssign) {
     b2 = std::move(b1);
     EXPECT_EQ(b2.toolbox(), tb);
 }
+
+// RI-28 — enrichRetrievedDocuments skips documents without ID (fail-closed)
+TEST(RAGIngestionBridgeTest, RI28_EnrichSkipsMissingId) {
+    RAGIngestionBridge bridge(makeToolbox());
+    std::vector<judge::RetrievedDocument> docs;
+
+    judge::RetrievedDocument doc;
+    doc.id = "";
+    doc.content = "Valid content without stable source id";
+    docs.push_back(doc);
+
+    const std::size_t enriched = bridge.enrichRetrievedDocuments(docs);
+    EXPECT_EQ(enriched, 0u);
+    EXPECT_EQ(docs[0].metadata.count("source"), 0u);
+}
+
+// RI-29 — enrichRetrievedDocuments backfills missing source metadata from doc.id
+TEST(RAGIngestionBridgeTest, RI29_EnrichBackfillsSourceMetadata) {
+    RAGIngestionBridge bridge(makeToolbox());
+    std::vector<judge::RetrievedDocument> docs;
+
+    judge::RetrievedDocument doc;
+    doc.id = "doc-42";
+    doc.content = "Simple text for enrichment";
+    docs.push_back(doc);
+
+    static_cast<void>(bridge.enrichRetrievedDocuments(docs));
+    ASSERT_TRUE(docs[0].metadata.contains("source"));
+    EXPECT_EQ(docs[0].metadata.at("source"), "doc-42");
+}

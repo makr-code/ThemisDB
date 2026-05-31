@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: mvcc_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 392
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=79 | delta=76 | status=divergent
- * External Severity (v3): C=2, H=63, M=14
- * PR: #3483 docs: consolidate MVCC documentation (architecture â†” compendium â... (2026-03-12T07:20:13Z)
+ * ThemisDB | File: mvcc_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 394
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=1, L=0
+ * PR History (last 5): #3483 docs: consolidate MVCC docu... (2026-03-12) | #3480 feat(ci): add missing docum... (2026-03-12) | #1320 Integrate MVCC and HLC time... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

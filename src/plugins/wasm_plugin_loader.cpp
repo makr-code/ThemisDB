@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: wasm_plugin_loader.cpp | Version: 0.0.13 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 526
- * Open Issues: TODOs=1, Stubs=2, Gaps=5, Unimpl=0, Mock=1, Sim=1, Debt=0
- * Gap Correlation: internal=5 | external_v3=64 | delta=59 | status=divergent
- * External Severity (v3): C=4, H=53, M=7
- * PR: #4678 feat: replace production stubs across 7 modules â€” TSA, Paxos RPC,... (2026-04-15T19:06:49Z)
+ * ThemisDB | File: wasm_plugin_loader.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:15:12
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 527
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=1, H=4, M=2, L=0
+ * PR History (last 5): #4678 feat: replace production st... (2026-04-15) | #4256 feat(plugins): upgrade Plug... (2026-03-15)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

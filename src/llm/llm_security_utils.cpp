@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: llm_security_utils.cpp | Version: 0.0.15 | Last Modified: 2026-04-15 18:58:58
- * Author: ThemisDB Version Bot | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 28
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=4 | delta=1 | status=near
- * External Severity (v3): C=0, H=3, M=1
- * PR: #3629 [MODULE] llm â€“ build-system audit: register 16 missing sources, 2... (2026-03-12T07:39:34Z)
+ * ThemisDB | File: llm_security_utils.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 29
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
+ * PR History (last 5): #3629 [MODULE] llm â€“ build-syst... (2026-03-12) | #3284 [llm] Implement prompt inje... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

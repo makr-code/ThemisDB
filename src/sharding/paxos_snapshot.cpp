@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: paxos_snapshot.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 414
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=98 | delta=95 | status=divergent
- * External Severity (v3): C=7, H=76, M=15
- * PR: #4147 feat(sharding): Raft Snapshot Compaction and Log Truncation (v1.6.0) (2026-03-13T05:45:11Z)
+ * ThemisDB | File: paxos_snapshot.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 416
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=16, M=6, L=0
+ * PR History (last 5): #4147 feat(sharding): Raft Snapsh... (2026-03-13)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

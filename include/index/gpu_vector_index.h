@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: gpu_vector_index.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 93/100
+ * ThemisDB | File: gpu_vector_index.h | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 167
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4186 feat(index): GPU Memory Ove... (2026-03-13) | #3015 [index] Configurable GPU me... (2026-03-12) | #1104 Update GPU master tracking ... (2026-03-11) | #1098 Implement Vulkan backend fo... (2026-03-11) | #1094 Add HIP/ROCm backend for AM... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

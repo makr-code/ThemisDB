@@ -1,9 +1,8 @@
 /*
- * ThemisDB | File: websocket_session.cpp | Version: 0.0.48 | Last Modified: 2026-05-26
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 826
- * Open Issues: TODOs=0, Stubs=0, Gaps=0, Unimpl=0, Mock=0, Sim=0, Debt=0
- * W1-S03: active_ data race fixed (bool→atomic<bool>); close() dispatched to executor
- * PR: #4184 feat(cdc): WebSocket Change Streaming Transport â€” v1.7.0 roadmap #55 (2026-03-13T17:56:33Z)
+ * ThemisDB | File: websocket_session.cpp | Version: 0.0.48 | Last Modified: 2026-05-26 14:55:37
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 864
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=31, M=11, L=0
+ * PR History (last 5): #4184 feat(cdc): WebSocket Change... (2026-03-13) | #3316 [WIP] Add WebSocket audio s... (2026-03-12) | #2807 feat(api/ws): Implement Web... (2026-03-12) | #2719 [api] SSE/WebSocket streami... (2026-03-12) | #111 Add comprehensive network p... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

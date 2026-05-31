@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: export_format_registry.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=57, M=4, L=0
+ * ThemisDB | File: export_format_registry.cpp | Version: 0.0.13 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 216
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=34, M=3, L=0
+ * PR History (last 5): #4378 [WIP] Update documentation ... (2026-03-22) | #3781 feat(exporters): register f... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: build_verifier.cpp | Version: 0.0.5 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 242
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=27 | delta=24 | status=divergent
- * External Severity (v3): C=0, H=19, M=8
- * PR: #4647 feat(updates): anonymous hardware telemetry + Ed25519 build-channel... (2026-04-15T04:06:14Z)
+ * ThemisDB | File: build_verifier.cpp | Version: 0.0.5 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 243
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=5, L=0
+ * PR History (last 5): #4647 feat(updates): anonymous ha... (2026-04-15)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

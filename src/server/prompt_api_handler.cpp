@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: prompt_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 192
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=51 | delta=48 | status=divergent
- * External Severity (v3): C=0, H=44, M=7
- * PR: #454 refactor: Extract PromptApiHandler from HttpServer (2026-03-11T21:31:37Z)
+ * ThemisDB | File: prompt_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 14:21:41
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 193
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=2, L=0
+ * PR History (last 5): #454 refactor: Extract PromptApi... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

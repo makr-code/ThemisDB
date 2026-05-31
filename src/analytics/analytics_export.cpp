@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: analytics_export.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=168, M=57, L=0
+ * ThemisDB | File: analytics_export.cpp | Version: 0.0.47 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 965
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=11, M=7, L=0
+ * PR History (last 5): #4929 [Docs][analytics] Refresh m... (2026-05-10) | #4339 Analytics module: stats.h u... (2026-03-19) | #4328 Implement Arrow zero-copy I... (2026-03-18) | #4284 ExporterFactory Stub Replac... (2026-03-16) | #3610 fix(analytics): register mi... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

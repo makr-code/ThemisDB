@@ -170,6 +170,34 @@
 | Line coverage   | > 80%  |
 | Branch coverage | > 80%  |
 
+## Sourcecode Verification (Module: query)
+
+- Scope-Dateien:
+    - `src/query/README.md`
+    - `src/query/ARCHITECTURE.md`
+    - `src/query/ROADMAP.md`
+    - `src/query/FUTURE_ENHANCEMENTS.md`
+    - `src/query/CHANGELOG.md`
+    - `src/query/SECURITY.md`
+    - `src/query/AUDIT.md`
+    - `src/query/PERFORMANCE_EXPECTATIONS.md`
+- Gepruefte Symbole/Verhalten:
+    - Parser depth and traversal guards (`parseExpression`, `parseForClause`) -> `src/query/aql_parser.cpp`
+    - Collection access checks across execute entry points (`collection_access_checker_`) -> `src/query/query_engine.cpp`
+    - Federation transport hardening and protocol guards (`registerCluster`, CURL protocol limits) -> `src/query/cross_cluster_federation.cpp`
+    - Continuous query ownership/queue protections (`tickOnce`, `inject_queue_`) -> `src/query/continuous_query_engine.cpp`
+    - Optimizer/runtime interface surfaces (`QueryOptimizer`, `RuntimeReoptimizer`) -> `src/query/query_optimizer.cpp`, `src/query/runtime_reoptimizer.cpp`
+    - Vectorized execution envelope (`VectorizedExecutionEngine`) -> `src/query/vectorized_execution.cpp`
+- Gepruefte Feature-/Laufzeit-Gates:
+    - Parser safety limits and fail-fast parse behavior -> `src/query/aql_parser.cpp`
+    - Query resource caps and execution guardrails -> `src/query/query_engine.cpp`, `src/query/query_federation.cpp`
+    - Federated/cross-cluster response limits and protocol restrictions -> `src/query/cross_cluster_federation.cpp`
+    - Continuous query registry/injection bounds -> `src/query/continuous_query_engine.cpp`
+- Ergebnis:
+    - Kern-Aussagen der Query-Moduldokumentation sind gegen aktuelle Source-Dateien abgeglichen.
+    - Zukunftsplanung liegt in `ROADMAP.md` und `FUTURE_ENHANCEMENTS.md`; Historie in `CHANGELOG.md`.
+    - Historische Erledigt-Bloecke wurden aus der Roadmap entfernt.
+
 ## Security Audit Summary
 
 | Control                               | Status        | Notes                                         |

@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: multi_hop_reasoner.cpp | Version: 0.0.10 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 383
- * Open Issues: TODOs=1, Stubs=4, Gaps=6, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=6 | external_v3=82 | delta=76 | status=divergent
- * External Severity (v3): C=0, H=52, M=30
- * PR: #4509 feat(rag): implement MultiHopReasoner and AdaptiveRetrieval (Phase 7) (2026-04-12T20:45:47Z)
+ * ThemisDB | File: multi_hop_reasoner.cpp | Version: 0.0.10 | Last Modified: 2026-05-20 17:15:57
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 384
+ * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=11, M=16, L=0
+ * PR History (last 5): #4509 feat(rag): implement MultiH... (2026-04-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

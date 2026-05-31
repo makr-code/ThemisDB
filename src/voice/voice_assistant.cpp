@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: voice_assistant.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 723
- * Open Issues: TODOs=1, Stubs=2, Gaps=5, Unimpl=0, Mock=1, Sim=1, Debt=0
- * Gap Correlation: internal=5 | external_v3=142 | delta=137 | status=divergent
- * External Severity (v3): C=11, H=117, M=14
- * PR: #2588 feat(voice): add POST /api/v1/voice/command/stream endpoint for rea... (2026-03-12T05:52:27Z)
+ * ThemisDB | File: voice_assistant.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 732
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=4, H=22, M=7, L=0
+ * PR History (last 5): #2588 feat(voice): add POST /api/... (2026-03-12) | #2578 feat(voice): Wake-word dete... (2026-03-12) | #177 Add voice assistant with ST... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

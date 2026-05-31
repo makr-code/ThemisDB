@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: query_optimizer.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 928
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=330 | delta=327 | status=divergent
- * External Severity (v3): C=2, H=297, M=29
- * PR: #4166 feat(query): Wire StatisticsCollector + MetricsCollector into Query... (2026-03-13T09:17:38Z)
+ * ThemisDB | File: query_optimizer.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:15:12
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 929
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=13, M=10, L=2
+ * PR History (last 5): #4269 feat(timeseries): TSStore s... (2026-03-15) | #4166 feat(query): Wire Statistic... (2026-03-13) | #3226 [graph] Register parallel m... (2026-03-12) | #3194 [graph] Fix query injection... (2026-03-12) | #3173 [graph] Fix duplicate db->o... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

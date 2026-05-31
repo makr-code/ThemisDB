@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: flash_attention.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 470
- * Open Issues: TODOs=1, Stubs=1, Gaps=4, Unimpl=1, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=4 | external_v3=64 | delta=60 | status=divergent
- * External Severity (v3): C=1, H=48, M=15
- * PR: none
+ * ThemisDB | File: flash_attention.cpp | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 480
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=1, Mock=1, Sim=0, Debt=0, C=1, H=6, M=0, L=0
+ * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

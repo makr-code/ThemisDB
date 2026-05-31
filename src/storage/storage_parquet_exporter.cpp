@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: storage_parquet_exporter.cpp | Version: 0.0.10 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 533
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=73 | delta=70 | status=divergent
- * External Severity (v3): C=0, H=44, M=29
- * PR: #4515 feat(storage): ROADMAP v2.0.0 â€“ SIMD ColumnarFormat filter + nati... (2026-04-11T12:06:30Z)
+ * ThemisDB | File: storage_parquet_exporter.cpp | Version: 0.0.10 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 534
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=4, L=0
+ * PR History (last 5): #4515 feat(storage): ROADMAP v2.0... (2026-04-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

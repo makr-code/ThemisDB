@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: hot_reload_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 644
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=125 | delta=122 | status=divergent
- * External Severity (v3): C=4, H=97, M=24
- * PR: #3432 [WIP] Update HSM-based bundle signing with hardware-backed keys (2026-03-12T07:14:25Z)
+ * ThemisDB | File: hot_reload_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-22 06:56:08
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 647
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=8, M=12, L=0
+ * PR History (last 5): #3432 [WIP] Update HSM-based bund... (2026-03-12) | #3419 feat(updates): automatic ro... (2026-03-12) | #2587 Canary rollout mode for par... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

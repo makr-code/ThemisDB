@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: text_processor.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 87/100
- * Gap Summary: total=8; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=2, Debt=0, C=2, H=53, M=34, L=0
+ * ThemisDB | File: text_processor.cpp | Version: 0.0.47 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 406
+ * Gap Summary: total=8; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=2, Debt=0, C=2, H=9, M=10, L=0
+ * PR History (last 5): #4331 feat(content): perceptual h... (2026-03-19) | #3059 feat(content): near-duplica... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

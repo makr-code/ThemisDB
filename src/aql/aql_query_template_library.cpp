@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: aql_query_template_library.cpp | Version: 0.0.39
- * Maturity: 🟢 PRODUCTION-READY | Score: 93/100
- * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=68, M=19, L=0
+ * ThemisDB | File: aql_query_template_library.cpp | Version: 0.0.39 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 378
+ * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=10, M=10, L=0
+ * PR History (last 5): #3479 [Docs-Audit] src/aql: Fix s... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

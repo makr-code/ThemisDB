@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: token_quota_manager.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * ThemisDB | File: token_quota_manager.h | Version: 0.0.47 | Last Modified: 2026-05-28 20:56:02
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 165
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

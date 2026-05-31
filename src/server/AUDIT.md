@@ -43,6 +43,33 @@
 - `tests/test_http_server.cpp` — endpoint integration tests
 - Rate limiter Redis backend with local fallback tested in CI
 
+## Sourcecode Verification (Module: server)
+
+- Scope-Dateien:
+    - `src/server/README.md`
+    - `src/server/ARCHITECTURE.md`
+    - `src/server/ROADMAP.md`
+    - `src/server/FUTURE_ENHANCEMENTS.md`
+    - `src/server/CHANGELOG.md`
+    - `src/server/SECURITY.md`
+    - `src/server/AUDIT.md`
+    - `src/server/PERFORMANCE_EXPECTATIONS.md`
+- Gepruefte Symbole/Verhalten:
+    - Routing and privileged route mapping (`Route::...`) -> `src/server/http_server.cpp`
+    - Routing-layer access checks (`requireAccess`) -> `src/server/http_server.cpp`
+    - Auth flow (`authorize`, `authorizeViaJWT`, `authorizeViaKerberos`) -> `src/server/auth_middleware.cpp`
+    - Rate-limit backend behavior (`Backend::REDIS`, fallback behavior) -> `src/server/rate_limiter_v2.cpp`
+    - Distributed gateway core (`DistributedGateway`, Raft integration) -> `src/server/distributed_gateway.cpp`
+    - WASM handler lifecycle (`registerHandler`, `handleInvoke`) -> `src/server/wasm_handler_registry.cpp`
+- Gepruefte Feature-/Laufzeit-Gates:
+    - Metrics and admin route gating at routing layer -> `src/server/http_server.cpp`
+    - Redis-backed limiter with local fallback path -> `src/server/rate_limiter_v2.cpp`
+    - Privileged auth scope enforcement paths -> `src/server/auth_middleware.cpp`
+- Ergebnis:
+    - Kern-Aussagen der Server-Moduldokumentation sind gegen aktuelle Source-Dateien abgeglichen.
+    - Zukunftsplanung liegt in `ROADMAP.md` und `FUTURE_ENHANCEMENTS.md`; Historie in `CHANGELOG.md`.
+    - Historische Erledigt-Bloecke wurden aus der Roadmap entfernt.
+
 ## Findings
 
 ### S0 — Critical

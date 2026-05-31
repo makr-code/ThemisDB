@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: storage_profiler.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 430
- * Open Issues: TODOs=1, Stubs=3, Gaps=5, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=5 | external_v3=121 | delta=116 | status=divergent
- * External Severity (v3): C=15, H=92, M=14
- * PR: #3577 [MODULE] network + observability â€” docs reality-check, ROADMAP fi... (2026-03-12T07:35:55Z)
+ * ThemisDB | File: storage_profiler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 431
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=10, L=0
+ * PR History (last 5): #3577 [MODULE] network + observab... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

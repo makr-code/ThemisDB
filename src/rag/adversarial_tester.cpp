@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: adversarial_tester.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 668
- * Open Issues: TODOs=1, Stubs=1, Gaps=5, Unimpl=0, Mock=1, Sim=2, Debt=0
- * Gap Correlation: internal=5 | external_v3=190 | delta=185 | status=divergent
- * External Severity (v3): C=46, H=127, M=17
- * PR: #4104 feat(rag): Adversarial Robustness Testing for RAG systems (v1.18.0) (2026-03-12T14:00:17Z)
+ * ThemisDB | File: adversarial_tester.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:15:12
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 669
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=46, H=40, M=11, L=0
+ * PR History (last 5): #4104 feat(rag): Adversarial Robu... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

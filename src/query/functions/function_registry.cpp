@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: function_registry.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 158
- * Open Issues: TODOs=2, Stubs=3, Gaps=7, Unimpl=0, Mock=1, Sim=1, Debt=0
- * Gap Correlation: internal=7 | external_v3=16 | delta=9 | status=divergent
- * External Severity (v3): C=2, H=11, M=3
- * PR: #1141 Complete AQL function registration: fulltext, ethics, and process m... (2026-03-11T17:51:06Z)
+ * ThemisDB | File: function_registry.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:19:20
+ * Author: makr | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 146
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4220 feat(aql): wire detectInten... (2026-03-14) | #2758 [analytics] Advanced graph ... (2026-03-12) | #358 Implement AQL Functions for... (2026-03-11) | #635 Implement Louvain and Label... (2026-03-11) | #807 Implement JSON path query f... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

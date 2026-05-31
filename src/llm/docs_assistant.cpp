@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: docs_assistant.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 535
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=172 | delta=169 | status=divergent
- * External Severity (v3): C=12, H=118, M=41
- * PR: #314 Add pre-compiled RocksDB documentation database with read-only mode... (2026-03-11T16:55:11Z)
+ * ThemisDB | File: docs_assistant.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 06:40:11
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 671
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=14, H=21, M=24, L=1
+ * PR History (last 5): #314 Add pre-compiled RocksDB do... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,5 +1,5 @@
 /*
- * ThemisDB | File: security_initialization.cpp | Version: 0.0.1 | Last Modified: 2026-05-20 17:13:04
+ * ThemisDB | File: security_initialization.cpp | Version: 0.0.1 | Last Modified: 2026-05-31 11:10:47
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 338
  * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=5, Sim=0, Debt=0, C=0, H=14, M=0, L=0
  * PR History (last 5): #5118 docs(core): rebaseline PROD... (2026-05-13) | #3899 feat(auth): Mandatory JWT I... (2026-03-12) | #1253 Implement production-harden... (2026-03-11)

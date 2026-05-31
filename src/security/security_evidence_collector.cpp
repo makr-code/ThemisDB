@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: security_evidence_collector.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 537
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=111 | delta=108 | status=divergent
- * External Severity (v3): C=6, H=79, M=26
- * PR: #3612 audit(security+aql): fix missing build sources, unguarded LLM tests... (2026-03-12T07:37:45Z)
+ * ThemisDB | File: security_evidence_collector.cpp | Version: 0.0.13 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 538
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=9, M=15, L=0
+ * PR History (last 5): #3612 audit(security+aql): fix mi... (2026-03-12) | #3591 feat(security): HMAC challe... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: llm_aql_handler.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
- * Gap Summary: total=6; TODO=1, Stub=2, Unimpl=0, Mock=3, Sim=0, Debt=0, C=29, H=492, M=100, L=0
+ * ThemisDB | File: llm_aql_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 17:29:40
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 1846
+ * Gap Summary: total=6; TODO=1, Stub=2, Unimpl=0, Mock=3, Sim=0, Debt=0, C=28, H=119, M=40, L=0
+ * PR History (last 5): #5329 perf(query): PERF-06 â€” re... (2026-05-27) | #5125 docs(research): ACID_CONSTR... (2026-05-14) | #4221 feat(aql): Parallel executi... (2026-03-14) | #4175 fix(aql/test): correct AC-4... (2026-03-13) | #4170 feat(aql): Post-generation ... (2026-03-13)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

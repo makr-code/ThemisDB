@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: voice_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 2294
- * Open Issues: TODOs=1, Stubs=6, Gaps=10, Unimpl=0, Mock=1, Sim=2, Debt=0
- * Gap Correlation: internal=10 | external_v3=438 | delta=428 | status=divergent
- * External Severity (v3): C=3, H=310, M=125
- * PR: #783 Implement audio download functionality in Voice API with SSRF prote... (2026-03-11T18:05:20Z)
+ * ThemisDB | File: voice_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-28 20:56:02
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 2423
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=43, M=90, L=0
+ * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #2588 feat(voice): add POST /api/... (2026-03-12) | #769 Refactor RPC Service Archit... (2026-03-11) | #783 Implement audio download fu... (2026-03-11) | #1160 Complete v1.4.1 audit repor... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

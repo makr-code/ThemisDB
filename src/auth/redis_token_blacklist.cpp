@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: redis_token_blacklist.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 93/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=9, H=55, M=3, L=0
+ * ThemisDB | File: redis_token_blacklist.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 258
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=11, M=0, L=0
+ * PR History (last 5): #4126 feat(auth): Token Blacklist... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

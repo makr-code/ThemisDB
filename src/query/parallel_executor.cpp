@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: parallel_executor.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 389
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=194 | delta=191 | status=divergent
- * External Severity (v3): C=21, H=138, M=35
- * PR: #4211 feat(query): Parallel Query Execution (Intra-Query) â€“ v1.7.0 (2026-03-14T17:46:42Z)
+ * ThemisDB | File: parallel_executor.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:15:12
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 390
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=4, M=17, L=0
+ * PR History (last 5): #4211 feat(query): Parallel Query... (2026-03-14)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

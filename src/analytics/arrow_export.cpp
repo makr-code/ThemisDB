@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: arrow_export.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=30, M=47, L=0
+ * ThemisDB | File: arrow_export.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 187
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=10, L=0
+ * PR History (last 5): #4328 Implement Arrow zero-copy I... (2026-03-18) | #3610 fix(analytics): register mi... (2026-03-12) | #3507 docs(analytics): reconcile ... (2026-03-12) | #3041 analytics: improve unit tes... (2026-03-12) | #2938 feat(analytics): Zero-copy ... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

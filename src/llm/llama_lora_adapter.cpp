@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: llama_lora_adapter.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 541
- * Open Issues: TODOs=1, Stubs=4, Gaps=7, Unimpl=0, Mock=1, Sim=1, Debt=0
- * Gap Correlation: internal=7 | external_v3=90 | delta=83 | status=divergent
- * External Severity (v3): C=0, H=84, M=6
- * PR: #905 Replace LoRA adapter stub with dynamic API loader (2026-03-11T21:56:28Z)
+ * ThemisDB | File: llama_lora_adapter.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 542
+ * Gap Summary: total=8; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=7, M=1, L=0
+ * PR History (last 5): #905 Replace LoRA adapter stub w... (2026-03-11) | #1149 Implement grammar-constrain... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

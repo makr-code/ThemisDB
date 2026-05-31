@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: bpmn_serializer.cpp | Version: 0.0.13 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 811
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=198 | delta=195 | status=divergent
- * External Severity (v3): C=2, H=124, M=72
- * PR: #4581 fix(process): replace regex BPMN parser with state-machine tokenize... (2026-04-12T20:06:00Z)
+ * ThemisDB | File: bpmn_serializer.cpp | Version: 0.0.13 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 812
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=35, L=0
+ * PR History (last 5): #4581 fix(process): replace regex... (2026-04-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

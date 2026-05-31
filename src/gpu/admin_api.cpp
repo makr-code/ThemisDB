@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: admin_api.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=0, H=20, M=57, L=0
+ * ThemisDB | File: admin_api.cpp | Version: 0.0.47 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 210
+ * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=0, H=4, M=6, L=0
+ * PR History (last 5): #3334 [gpu] Integrate MIGManager ... (2026-03-12) | #2913 docs(cache): complete docum... (2026-03-12) | #2912 feat(cache): Add AdaptiveQu... (2026-03-12) | #2911 feat(cache): implement Redi... (2026-03-12) | #2910 feat(cache): Redis-compatib... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

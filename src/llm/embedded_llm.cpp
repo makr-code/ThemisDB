@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: embedded_llm.cpp | Version: 0.0.47 | Last Modified: 2026-05-11 04:32:08
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 367
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=100 | delta=97 | status=divergent
- * External Severity (v3): C=10, H=80, M=10
- * PR: #379 Migrate critical error logging to structured error codes (Phase 1) (2026-03-11T21:28:11Z)
+ * ThemisDB | File: embedded_llm.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 06:40:11
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 369
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=16, M=7, L=0
+ * PR History (last 5): #379 Migrate critical error logg... (2026-03-11) | #204 Complete llama.cpp implemen... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

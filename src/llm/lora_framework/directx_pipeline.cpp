@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: directx_pipeline.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 254
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=54 | delta=51 | status=divergent
- * External Severity (v3): C=2, H=42, M=10
- * PR: #572 Complete DirectX 12 Compute Pipeline Integration for GPU-Accelerate... (2026-03-11T21:38:25Z)
+ * ThemisDB | File: directx_pipeline.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 255
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=7, M=2, L=0
+ * PR History (last 5): #572 Complete DirectX 12 Compute... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

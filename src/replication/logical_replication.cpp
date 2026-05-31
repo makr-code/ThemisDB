@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: logical_replication.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 716
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=261 | delta=258 | status=divergent
- * External Severity (v3): C=26, H=186, M=45
- * PR: #4362 feat(replication): register logical_replication.cpp in monolithic b... (2026-03-21T10:35:13Z)
+ * ThemisDB | File: logical_replication.cpp | Version: 0.0.13 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 718
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=26, M=25, L=4
+ * PR History (last 5): #4362 feat(replication): register... (2026-03-21) | #4198 Respect parallel_decoding c... (2026-03-14)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

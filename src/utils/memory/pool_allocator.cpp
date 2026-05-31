@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: pool_allocator.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 916
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=330 | delta=327 | status=divergent
- * External Severity (v3): C=32, H=283, M=15
- * PR: #791 Implement memory pool allocator for improved performance (2026-03-11T18:05:01Z)
+ * ThemisDB | File: pool_allocator.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 917
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=8, H=82, M=2, L=0
+ * PR History (last 5): #963 Fix integer overflow vulner... (2026-03-11) | #791 Implement memory pool alloc... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

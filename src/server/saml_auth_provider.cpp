@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: saml_auth_provider.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 301
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=91 | delta=88 | status=divergent
- * External Severity (v3): C=3, H=34, M=54
- * PR: #5123 docs(server): update VCCDB Design.md â€“ add header, cross-refs, fi... (2026-05-14T05:24:44Z)
+ * ThemisDB | File: saml_auth_provider.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 302
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=0, M=16, L=0
+ * PR History (last 5): #5123 docs(server): update VCCDB ... (2026-05-14) | #3812 feat(server): Implement SAM... (2026-03-12) | #3718 feat(server): SAML 2.0 SP â... (2026-03-12) | #3642 docs(server): module audit ... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

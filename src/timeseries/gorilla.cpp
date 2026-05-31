@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: gorilla.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 248
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=57 | delta=54 | status=divergent
- * External Severity (v3): C=2, H=35, M=20
- * PR: #4269 feat(timeseries): TSStore single-point insert buffering for Gorilla... (2026-03-15T18:08:39Z)
+ * ThemisDB | File: gorilla.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 249
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=7, L=0
+ * PR History (last 5): #4350 Update timeseries module: G... (2026-03-20) | #4269 feat(timeseries): TSStore s... (2026-03-15) | #1090 Add comprehensive ARCHITECT... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

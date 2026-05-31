@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: aql_conversation_context.cpp | Version: 0.0.39
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=13, H=72, M=32, L=0
+ * ThemisDB | File: aql_conversation_context.cpp | Version: 0.0.39 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 340
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=7, M=4, L=0
+ * PR History (last 5): #4151 feat(aql): Bounded conversa... (2026-03-13)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

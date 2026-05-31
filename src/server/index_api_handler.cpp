@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: index_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 546
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=122 | delta=119 | status=divergent
- * External Severity (v3): C=0, H=94, M=28
- * PR: #451 refactor: Extract IndexApiHandler from http_server.cpp (2026-03-11T21:31:20Z)
+ * ThemisDB | File: index_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 547
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=13, L=0
+ * PR History (last 5): #2945 feat(index): Online index r... (2026-03-12) | #451 refactor: Extract IndexApiH... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,10 +1,8 @@
 /*
- * ThemisDB | File: window_evaluator.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 546
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=194 | delta=191 | status=divergent
- * External Severity (v3): C=0, H=164, M=30
- * PR: #68 Correct AQL language scope documentation and integrate FunctionRegi... (2026-03-11T17:04:26Z)
+ * ThemisDB | File: window_evaluator.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 14:17:46
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 549
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=22, L=0
+ * PR History (last 5): #751 Phase 4 Error Handling: Sto... (2026-03-11) | #1208 Establish compiler warning ... (2026-03-11) | #1209 Remove unused variable warn... (2026-03-11) | #29 SDK Roadmap Analysis, Imple... (2026-03-11) | #68 Correct AQL language scope ... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
