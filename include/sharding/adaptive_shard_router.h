@@ -64,6 +64,7 @@ public:
         double diminishing_returns_ratio = 0.1; // Stop if new results < 10% of previous
         uint32_t per_iteration_timeout_ms = 2000;  // Timeout per iteration
         uint32_t total_query_timeout_ms = 10000;   // Total query timeout
+        uint32_t llm_load_freshness_ms = 30000;    // Max age for shard load snapshots
         
         // Fallback behavior
         bool fallback_to_scatter_gather = true;  // Fallback if no capability matches
@@ -84,6 +85,7 @@ public:
                    diminishing_returns_ratio > 0.0 &&
                    diminishing_returns_ratio < 1.0 &&
                    per_iteration_timeout_ms > 0 &&
+                   llm_load_freshness_ms > 0 &&
                    total_query_timeout_ms >= per_iteration_timeout_ms &&
                    matcher_config.isValid();
         }
@@ -208,7 +210,12 @@ public:
      * When two shards share the same best accuracy_delta the one with the
      * lower `pending_llm_requests` (LEAST_LOADED) wins.  Fallback: if no
      * shard has registered a score for `domain`, the method returns an empty
-     * string and callers should use the default `route()` behaviour.
+    * string and callers should use the default `route()` behaviour.
+    *
+    * Load tie-break semantics:
+    * - Fresh queue snapshots win over stale/missing snapshots.
+    * - For equally fresh snapshots with equal score, lower pending queue wins.
+    * - Remaining ties are resolved deterministically by lexical shard_id order.
      *
      * @param domain  Domain type to look up
      * @return shard_id of the best-scoring shard, or "" if no score exists
@@ -291,6 +298,7 @@ private:
     struct ShardLLMLoad {
         uint64_t pending_requests = 0;
         double   avg_queue_ms    = 0.0;
+        std::chrono::steady_clock::time_point updated_at{};
     };
     std::map<std::string, ShardLLMLoad> shard_llm_load_;
 

@@ -342,10 +342,12 @@ VoiceAuthResult VoiceBiometricAuthenticator::authenticate(
 
     if (user_id.empty()) {
         result.decision_reason = "empty_user_id";
+        emitAuthAuditEvent(user_id, result);
         return result;
     }
     if (audio_sample.empty()) {
         result.decision_reason = "empty_audio";
+        emitAuthAuditEvent(user_id, result);
         return result;
     }
 
@@ -353,6 +355,7 @@ VoiceAuthResult VoiceBiometricAuthenticator::authenticate(
     auto liveness = detect_liveness(audio_sample);
     if (!liveness.is_live) {
         result.decision_reason = "liveness_failed: " + liveness.reason;
+        emitAuthAuditEvent(user_id, result);
         return result;
     }
 
@@ -361,11 +364,14 @@ VoiceAuthResult VoiceBiometricAuthenticator::authenticate(
     {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = user_to_profile_.find(user_id);
-        if (it == user_to_profile_.end()) {
-            result.decision_reason = "profile_not_found";
-            return result;
+        if (it != user_to_profile_.end()) {
+            pid = it->second;
         }
-        pid = it->second;
+    }
+    if (pid.empty()) {
+        result.decision_reason = "profile_not_found";
+        emitAuthAuditEvent(user_id, result);
+        return result;
     }
 
     // 3. Verify speaker (acquires lock internally)
@@ -375,6 +381,7 @@ VoiceAuthResult VoiceBiometricAuthenticator::authenticate(
     if (!verification.verified) {
         result.decision_reason =
             "verification_failed: " + verification.decision_reason;
+        emitAuthAuditEvent(user_id, result);
         return result;
     }
 
@@ -382,8 +389,12 @@ VoiceAuthResult VoiceBiometricAuthenticator::authenticate(
     result.user_id         = user_id;
     result.decision_reason = "authenticated";
 
-    std::lock_guard<std::mutex> lock(mutex_);
-    ++successful_authentications_;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        ++successful_authentications_;
+    }
+
+    emitAuthAuditEvent(user_id, result);
 
     return result;
 }
@@ -442,6 +453,13 @@ void VoiceBiometricAuthenticator::set_config(const VoiceAuthConfig& config) {
     config_ = config;
 }
 
+void VoiceBiometricAuthenticator::setAuthAuditCallback(
+    std::function<void(const std::string&, const VoiceAuthResult&)> callback)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    auth_audit_callback_ = std::move(callback);
+}
+
 VoiceAuthConfig VoiceBiometricAuthenticator::get_config() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return config_;
@@ -455,7 +473,28 @@ json VoiceBiometricAuthenticator::get_statistics() const {
     stats["total_verifications"]       = total_verifications_;
     stats["total_identifications"]     = total_identifications_;
     stats["successful_authentications"]= successful_authentications_;
+    stats["total_auth_audit_events"]   = total_auth_audit_events_;
     return stats;
+}
+
+void VoiceBiometricAuthenticator::emitAuthAuditEvent(
+    const std::string& claimed_user_id,
+    const VoiceAuthResult& result)
+{
+    std::function<void(const std::string&, const VoiceAuthResult&)> callback;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        ++total_auth_audit_events_;
+        callback = auth_audit_callback_;
+    }
+
+    if (callback) {
+        try {
+            callback(claimed_user_id, result);
+        } catch (...) {
+            // Audit callbacks must never affect authentication results.
+        }
+    }
 }
 
 // ---------------------------------------------------------------------------

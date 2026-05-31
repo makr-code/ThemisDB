@@ -337,6 +337,16 @@ class UnifiedGapScannerV3:
         review_items = []
         threshold = 0.85
         max_items = 2000
+        output_file = self.output_dir / 'gap_scan_v3_confidence_review.json'
+
+        previous_items = []
+        if output_file.exists():
+            try:
+                with open(output_file, 'r', encoding='utf-8') as f:
+                    previous_payload = json.load(f)
+                previous_items = list(previous_payload.get('items', []))
+            except Exception:
+                previous_items = []
 
         for module_name, module_data in aggregate.items():
             for file_path, gaps in module_data.get('by_file', {}).items():
@@ -369,8 +379,7 @@ class UnifiedGapScannerV3:
         )
         review_items = review_items[:max_items]
 
-        output_file = self.output_dir / 'gap_scan_v3_confidence_review.json'
-        with open(output_file, 'w') as f:
+        with open(output_file, 'w', encoding='utf-8') as f:
             json.dump({
                 'threshold': threshold,
                 'max_items': max_items,
@@ -379,6 +388,117 @@ class UnifiedGapScannerV3:
             }, f, indent=2)
 
         print(f"[OK] Saved: {output_file.name} ({len(review_items)} items >= {threshold})")
+        self._save_preflight_actionable_queue(review_items, previous_items, threshold)
+
+    def _build_review_item_key(self, item: Dict[str, Any]) -> str:
+        """Build a stable identity key for confidence-review items."""
+        return "|".join([
+            str(item.get('module', '')),
+            str(item.get('file', '')),
+            str(item.get('line', '')),
+            str(item.get('severity', '')),
+            str(item.get('category', '')),
+            str(item.get('pattern', '')),
+        ])
+
+    def _save_preflight_actionable_queue(
+        self,
+        review_items: list,
+        previous_items: list,
+        threshold: float,
+    ):
+        """Persist machine-readable actionable top-N queue and markdown triage summary."""
+        actionable = [
+            item for item in review_items
+            if str(item.get('severity', '')).upper() in {'CRITICAL', 'HIGH'}
+        ]
+        critical_high_conf = [
+            item for item in review_items
+            if str(item.get('severity', '')).upper() == 'CRITICAL'
+            and float(item.get('confidence_score', 0.0) or 0.0) >= threshold
+        ]
+
+        previous_critical_keys = {
+            self._build_review_item_key(item)
+            for item in previous_items
+            if str(item.get('severity', '')).upper() == 'CRITICAL'
+            and float(item.get('confidence_score', 0.0) or 0.0) >= threshold
+        }
+        net_new_critical = [
+            item for item in critical_high_conf
+            if self._build_review_item_key(item) not in previous_critical_keys
+        ]
+
+        by_category: Dict[str, int] = {}
+        by_file: Dict[str, int] = {}
+        for item in actionable:
+            category = str(item.get('category') or 'unknown')
+            file_path = str(item.get('file') or 'unknown')
+            by_category[category] = by_category.get(category, 0) + 1
+            by_file[file_path] = by_file.get(file_path, 0) + 1
+
+        top_n = 200
+        top_files_n = 25
+        top_categories_n = 15
+        queue_payload = {
+            'generated_at': datetime.now().isoformat(),
+            'confidence_threshold': threshold,
+            'top_n': top_n,
+            'actionable_count': len(actionable),
+            'critical_high_confidence_count': len(critical_high_conf),
+            'net_new_critical_high_confidence_count': len(net_new_critical),
+            'top_actionable_items': actionable[:top_n],
+            'net_new_critical_high_confidence_items': net_new_critical[:top_n],
+            'top_categories': [
+                {'category': category, 'count': count}
+                for category, count in sorted(
+                    by_category.items(),
+                    key=lambda kv: kv[1],
+                    reverse=True,
+                )[:top_categories_n]
+            ],
+            'top_files': [
+                {'file': file_path, 'count': count}
+                for file_path, count in sorted(
+                    by_file.items(),
+                    key=lambda kv: kv[1],
+                    reverse=True,
+                )[:top_files_n]
+            ],
+        }
+
+        queue_file = self.output_dir / 'gap_scan_v3_preflight_actionable_queue.json'
+        with open(queue_file, 'w', encoding='utf-8') as f:
+            json.dump(queue_payload, f, indent=2)
+        print(f"[OK] Saved: {queue_file.name}")
+
+        summary_file = self.output_dir / 'gap_scan_v3_preflight_summary.md'
+        with open(summary_file, 'w', encoding='utf-8') as f:
+            f.write("# Gap Scanner v3 Preflight Summary\n\n")
+            f.write(f"Generated: {queue_payload['generated_at']}\n\n")
+            f.write("## Headline\n\n")
+            f.write(f"- Actionable (CRITICAL+HIGH): {len(actionable)}\n")
+            f.write(f"- High-confidence CRITICAL (>= {threshold}): {len(critical_high_conf)}\n")
+            f.write(f"- Net-new high-confidence CRITICAL vs previous snapshot: {len(net_new_critical)}\n\n")
+
+            f.write("## Top Categories\n\n")
+            for row in queue_payload['top_categories']:
+                f.write(f"- {row['category']}: {row['count']}\n")
+            f.write("\n")
+
+            f.write("## Top Files\n\n")
+            for row in queue_payload['top_files']:
+                f.write(f"- {row['file']}: {row['count']}\n")
+            f.write("\n")
+
+            f.write("## Top Actionable Items (Top 25)\n\n")
+            for item in actionable[:25]:
+                f.write(
+                    f"- [{item.get('severity')}] {item.get('category')} | {item.get('file')}:{item.get('line')} "
+                    f"| conf={item.get('confidence_score')} | {item.get('summary')}\n"
+                )
+
+        print(f"[OK] Saved: {summary_file.name}")
     
     def _save_summary(self, aggregate: Dict[str, Any]):
         """Generate and save summary statistics"""

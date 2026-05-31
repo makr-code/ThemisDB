@@ -324,6 +324,7 @@ TEST(VoiceBiometricAuth, StatisticsKeysPresent) {
     EXPECT_TRUE(stats.contains("total_verifications"));
     EXPECT_TRUE(stats.contains("total_identifications"));
     EXPECT_TRUE(stats.contains("successful_authentications"));
+    EXPECT_TRUE(stats.contains("total_auth_audit_events"));
 }
 
 TEST(VoiceBiometricAuth, StatisticsCountsIncrementCorrectly) {
@@ -344,6 +345,91 @@ TEST(VoiceBiometricAuth, StatisticsCountsIncrementCorrectly) {
     EXPECT_EQ(stats["enrolled_profiles"].get<size_t>(), 1u);
     EXPECT_EQ(stats["total_enrollments"].get<uint64_t>(), 1u);
     EXPECT_EQ(stats["total_verifications"].get<uint64_t>(), 2u);
+}
+
+TEST(VoiceBiometricAuth, AuthAuditCounterAndCallbackCoverFailureAndSuccess) {
+    VoiceBiometricAuthenticator auth;
+
+    int callback_count = 0;
+    std::string last_claimed_user;
+    std::string last_reason;
+    auth.setAuthAuditCallback(
+        [&](const std::string& claimed_user_id, const VoiceAuthResult& result) {
+            ++callback_count;
+            last_claimed_user = claimed_user_id;
+            last_reason = result.decision_reason;
+        });
+
+    // Failure path: empty audio
+    auto failed = auth.authenticate("audited-user", {});
+    EXPECT_FALSE(failed.authenticated);
+    EXPECT_EQ(failed.decision_reason, "empty_audio");
+
+    EnrollmentConfig ecfg;
+    ecfg.min_samples = 3;
+    ecfg.quality_threshold = 0.0f;
+    ecfg.require_liveness = false;
+
+    VoiceAuthConfig acfg;
+    acfg.liveness_threshold = 0.0f;
+    acfg.verification_threshold = 0.5f;
+    auth.set_config(acfg);
+
+    auto sample = makePcmSine(3000, 0.3f);
+    std::vector<std::vector<uint8_t>> samples(3, sample);
+    VoiceProfileID profile_id;
+    ASSERT_TRUE(auth.enroll_voice("audited-user", samples, profile_id, ecfg));
+
+    // Success path
+    auto passed = auth.authenticate("audited-user", sample);
+    EXPECT_TRUE(passed.authenticated);
+
+    auto stats = auth.get_statistics();
+    EXPECT_EQ(stats["total_auth_audit_events"].get<uint64_t>(), 2u);
+    EXPECT_EQ(callback_count, 2);
+    EXPECT_EQ(last_claimed_user, "audited-user");
+    EXPECT_EQ(last_reason, "authenticated");
+}
+
+TEST(VoiceAssistantAuditAuth, AuthenticateSpeakerFailureIsAudited) {
+    themis::voice::VoiceAssistant::Config cfg;
+    cfg.enable_voice_auth = false;
+    themis::voice::VoiceAssistant va(cfg);
+
+    // Empty probe audio forces a deterministic authentication failure.
+    auto result = va.authenticateSpeaker("audit-user", {});
+    EXPECT_FALSE(result.authenticated);
+
+    auto stats = va.getStatistics();
+    ASSERT_TRUE(stats.contains("voice_security"));
+    EXPECT_EQ(stats["voice_security"]["total_audit_events"].get<size_t>(), 1u);
+}
+
+TEST(VoiceAssistantAuditAuth, AuthenticateSpeakerSuccessIsAudited) {
+    themis::voice::VoiceAssistant::Config cfg;
+    cfg.enable_voice_auth = false;
+    cfg.voice_auth_config.liveness_threshold = 0.0f;
+    cfg.voice_auth_config.verification_threshold = 0.5f;
+
+    themis::voice::VoiceAssistant va(cfg);
+
+    themis::voice::EnrollmentConfig ecfg;
+    ecfg.min_samples = 3;
+    ecfg.quality_threshold = 0.0f;
+    ecfg.require_liveness = false;
+
+    auto sample = makePcmSine(3000, 0.3f);
+    std::vector<std::vector<uint8_t>> samples(3, sample);
+
+    themis::voice::VoiceProfileID pid;
+    ASSERT_TRUE(va.enrollSpeaker("audit-success-user", samples, pid, ecfg));
+
+    auto result = va.authenticateSpeaker("audit-success-user", sample);
+    EXPECT_TRUE(result.authenticated);
+
+    auto stats = va.getStatistics();
+    ASSERT_TRUE(stats.contains("voice_security"));
+    EXPECT_EQ(stats["voice_security"]["total_audit_events"].get<size_t>(), 1u);
 }
 
 // ============================================================
@@ -911,6 +997,7 @@ TEST(VoiceAssistantBiometricAuth, ListVoiceProfilesEmptyByDefault) {
     themis::voice::VoiceAssistant va(makeVAConfig());
     EXPECT_TRUE(va.listVoiceProfiles().empty());
 }
+
 #endif // THEMIS_ENABLE_VOICE_ASSISTANT
 
 // ============================================================

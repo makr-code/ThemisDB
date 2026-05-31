@@ -46,6 +46,12 @@ GPULoRALayer::GPULoRALayer(size_t in_dim, size_t out_dim, size_t rank,
     , device_(device)
     , use_fused_kernels_(use_fused_kernels)
     , use_flash_lora_(use_flash_lora) {
+    if (in_dim_ == 0 || out_dim_ == 0 || rank_ == 0) {
+        throw std::invalid_argument("GPULoRALayer requires non-zero in_dim/out_dim/rank");
+    }
+    if (!std::isfinite(scaling_)) {
+        throw std::invalid_argument("GPULoRALayer scaling must be finite");
+    }
     
     // Check FlashLoRA availability
     if (use_flash_lora_ && !FlashLoRA::is_available(device)) {
@@ -74,6 +80,12 @@ GPUTensor GPULoRALayer::forward(const GPUTensor& input) {
     // Verify input is on the same device
     if (input.device() != device_) {
         throw std::runtime_error("Input device mismatch in GPULoRALayer::forward");
+    }
+    if (input.shape().size() != 2) {
+        throw std::invalid_argument("GPULoRALayer::forward expects a 2D input tensor");
+    }
+    if (input.shape()[1] != in_dim_) {
+        throw std::invalid_argument("GPULoRALayer::forward input feature dimension mismatch");
     }
     
     // Gradient checkpointing: Only cache input if NOT checkpointing
@@ -262,13 +274,22 @@ GPUTensor GPULoRALayer::backward(const GPUTensor& grad_output) {
     if (grad_output.device() != device_) {
         throw std::runtime_error("Gradient device mismatch in GPULoRALayer::backward");
     }
+    if (grad_output.shape().size() != 2) {
+        throw std::invalid_argument("GPULoRALayer::backward expects a 2D grad_output tensor");
+    }
+    if (grad_output.shape()[1] != out_dim_) {
+        throw std::invalid_argument("GPULoRALayer::backward grad_output feature dimension mismatch");
+    }
+    if (cached_input_.shape().empty()) {
+        throw std::runtime_error("GPULoRALayer::backward called before a successful forward pass");
+    }
     
     // Try to use fused kernels if enabled and on CUDA/HIP
     if (use_fused_kernels_ &&
         (device_.type == DeviceType::CUDA || device_.type == DeviceType::HIP || device_.type == DeviceType::VULKAN)) {
 #ifdef THEMIS_ENABLE_VULKAN
         if (device_.type == DeviceType::VULKAN) {
-            if (cached_input_.size() == 0) {
+            if (cached_input_.shape().empty()) {
                 throw std::runtime_error("No cached input for Vulkan fused backward pass");
             }
 
@@ -430,7 +451,7 @@ GPUTensor GPULoRALayer::backward(const GPUTensor& grad_output) {
 
         // Note: In a full implementation, the input should be saved by the
         // checkpointer. For now, we check if cached_input_ has data.
-        if (cached_input_.size() == 0) {
+        if (cached_input_.shape().empty()) {
             throw std::runtime_error(
                 "Checkpointing enabled but no input saved. "
                 "This is likely a bug in the checkpointing integration."
@@ -442,6 +463,9 @@ GPUTensor GPULoRALayer::backward(const GPUTensor& grad_output) {
     } else {
         // Use cached activations (normal path)
         input_for_backward = cached_input_.clone();
+        if (cached_h_.shape().empty()) {
+            throw std::runtime_error("GPULoRALayer::backward missing cached intermediate activation");
+        }
         h_for_backward = cached_h_.clone();
     }
     

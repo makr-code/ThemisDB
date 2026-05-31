@@ -36,6 +36,126 @@ Source scan: [ai_working/gap_scan_v3_summary.json](ai_working/gap_scan_v3_summar
     - `FieldLevelMergeTest.EmptyConflictSetFailsClosed`
   - Verification: both conflict-resolver fail-closed tests pass (2/2).
 
+- QW-3 started: structured audit logging for authentication-sensitive voice assistant flows.
+  - Implemented in [src/voice/voice_assistant.cpp](src/voice/voice_assistant.cpp) and [include/voice/voice_assistant.h](include/voice/voice_assistant.h):
+    - integrated `VoiceSecurityManager` into `VoiceAssistant`
+    - emit `voice_authentication` audit events for:
+      - `processVoiceCommand` auth gate
+      - `streamProcessVoiceCommand` auth gate
+      - public `authenticateSpeaker` API
+    - each event records actor (`user_id`), action, session correlation (`session_id` where available), result (`success`), timestamp, and reason.
+  - Observability: `VoiceAssistant::getStatistics()` now includes `voice_security` stats.
+  - Added focused regression tests in [tests/test_voice_assistant.cpp](tests/test_voice_assistant.cpp):
+    - `VoiceAssistantAuditAuth.AuthenticateSpeakerFailureIsAudited`
+    - `VoiceAssistantAuditAuth.AuthenticateSpeakerSuccessIsAudited`
+  - Tests were moved into an always-compiled section for this build profile (no `THEMIS_ENABLE_VOICE_ASSISTANT` gate dependency for the two audit cases).
+  - Additional hardening in [src/voice/voice_assistant_llm.cpp](src/voice/voice_assistant_llm.cpp):
+    - sanitize user input + recent conversation history before LLM prompt assembly
+    - emit structured `voice_prompt_sanitization` audit events when sanitization changes payload
+    - sanitize transcript payloads in summary/key-points/action-items prompt builders
+  - Verification in this environment:
+    - focused build `themis_tests` passed
+    - focused tests passed (2/2):
+      - `VoiceAssistantAuditAuth.AuthenticateSpeakerFailureIsAudited`
+      - `VoiceAssistantAuditAuth.AuthenticateSpeakerSuccessIsAudited`
+  - Direct authenticator coverage in [src/voice/voice_authenticator.cpp](src/voice/voice_authenticator.cpp) and [include/voice/voice_auth.h](include/voice/voice_auth.h):
+    - every `authenticate(...)` outcome now emits an internal audit event
+    - optional `setAuthAuditCallback(...)` hook added for external audit sinks
+    - `get_statistics()` includes `total_auth_audit_events`
+  - Additional focused test passed:
+    - `VoiceBiometricAuth.AuthAuditCounterAndCallbackCoverFailureAndSuccess`
+
+- QW-4 started: enforce safe prompt handling in LLM wrapper and training entry points.
+  - Implemented in [src/llm/llama_wrapper.cpp](src/llm/llama_wrapper.cpp):
+    - centralized prompt-policy guard in `LlamaWrapper::generate(...)` before inference/state-dependent dispatch
+    - fail-closed rejection for blocked prompt patterns
+    - RAG prompt formatting now sanitizes prompt text consistently
+  - Implemented in [src/training/incremental_lora_trainer.cpp](src/training/incremental_lora_trainer.cpp):
+    - training entry fail-closed check on `training_data_collection`
+    - `encodeSample(...)` hashes sanitized text and neutralizes blocked prompt-like payloads
+  - Added focused regression tests:
+    - [tests/llm/test_llama_wrapper_state.cpp](tests/llm/test_llama_wrapper_state.cpp): `LlamaWrapperStateTest.GenerateRejectsBlockedPromptBeforeStateCheck`
+    - [tests/test_training_phase2.cpp](tests/test_training_phase2.cpp): `TrainingSafety.TrainRejectsPromptInjectionLikeCollectionName`
+  - Verification in this environment:
+    - built target `themis_tests` successfully
+    - focused tests passed (2/2) with prompt-policy block behavior confirmed
+    - broader focused regression passed (36 tests):
+      - `LlamaWrapperStateTest.*`
+      - `LLMPromptPolicyTest.*`
+      - `AsyncEnginePromptPolicyTest.*`
+      - `IncrementalLoRATrainerTest.*`
+      - `IncrementalLoRATrainerValidation.*`
+      - `TrainingSafety.*`
+
+- QW-5 started: deterministic routing safeguards in shard routing decisions.
+  - Implemented in [src/sharding/adaptive_shard_router.cpp](src/sharding/adaptive_shard_router.cpp) and [include/sharding/adaptive_shard_router.h](include/sharding/adaptive_shard_router.h):
+    - deterministic tie-break for equal domain score and equal load (lexical `shard_id` fallback)
+    - explicit freshness handling for LLM load snapshots (`llm_load_freshness_ms`)
+    - explicit handling of missing/stale load snapshots in `routeByDomain(...)`
+    - explicit filtering of invalid (`NaN/inf`) scores and stale/unhealthy topology entries before iterative shard selection
+    - stable score ordering (`score desc`, then `shard_id asc`) for deterministic replayability
+  - Added focused deterministic replay regression in [tests/test_adaptive_shard_router.cpp](tests/test_adaptive_shard_router.cpp):
+    - `AdaptiveShardRouterTest.ASR_DOM_05_DeterministicTieBreakWithMissingLoadSnapshots`
+    - `AdaptiveShardRouterTest.ASR_DOM_06_FreshSnapshotPreferredOverStaleSnapshot`
+  - Verification in this environment:
+    - built target `themis_tests` successfully
+    - focused domain-routing suites passed (12/12):
+      - `AdaptiveShardRouterTest.ASR_DOM_*`
+      - `LLMRaidRouting.*`
+
+- QW-6 started: GPU kernel input validation and bounds checks in LoRA paths.
+  - Implemented centralized fail-closed metadata validation in [src/llm/lora_framework/gpu_lora_layers.cpp](src/llm/lora_framework/gpu_lora_layers.cpp):
+    - constructor rejects zero dimensions and non-finite scaling
+    - `forward(...)` enforces 2D input and `in_dim` compatibility before backend dispatch
+    - `backward(...)` enforces 2D gradient and `out_dim` compatibility before backend dispatch
+    - explicit guard that `backward(...)` cannot run before successful `forward(...)`
+    - explicit guard for missing cached intermediate activation in non-checkpointing path
+  - Implemented backend launcher validation in [src/llm/lora_framework/kernels/hip_fused_kernels.cpp](src/llm/lora_framework/kernels/hip_fused_kernels.cpp):
+    - fail-closed `hipErrorInvalidValue` on null pointers and zero-sized launches
+    - explicit range guards before HIP grid construction to prevent oversized launch geometry
+    - fail-closed guards for invalid MSE launch parameters (`n <= 0`, `num_blocks <= 0`)
+  - Added focused interface hardening tests in [tests/test_lora_kernel_interface_hardening.cpp](tests/test_lora_kernel_interface_hardening.cpp):
+    - `LoRAKernelInterfaceHardeningTest.GPULoRALayerConstructorRejectsInvalidDimensions`
+    - `LoRAKernelInterfaceHardeningTest.GPULoRALayerRejectsForwardBackwardShapeMismatch`
+    - `LoRAKernelInterfaceHardeningTest.GPULoRALayerRejectsBackwardBeforeForward`
+    - `LoRAKernelInterfaceHardeningTest.VulkanInitializedInvalidDimensionsFailClosed`
+  - Guard-fix follow-up:
+    - replaced brittle `size()==0` precondition checks with `shape().empty()` for cached activation validation in [src/llm/lora_framework/gpu_lora_layers.cpp](src/llm/lora_framework/gpu_lora_layers.cpp)
+  - Verification in this environment:
+    - built target `themis_tests` successfully
+    - focused suite passed `LoRAKernelInterfaceHardeningTest.*`: 6 passed, 1 skipped (DirectX feature-off skip)
+    - re-run after HIP launcher patch and guard-fix remained green
+
+- QW-7 started: one shared safety helper for prompt assembly.
+  - Implemented shared helper in [include/llm/prompt_safety_utils.h](include/llm/prompt_safety_utils.h):
+    - centralized shared PromptPolicy construction (`sharedPromptSafetyPolicy()`)
+    - shared sanitizer API (`sanitizePromptWithSharedPolicy(...)`) for consistent block/redact behavior
+  - Migrated call-sites to shared helper:
+    - [src/llm/llama_wrapper.cpp](src/llm/llama_wrapper.cpp): removed local duplicated policy construction and delegated to shared helper
+    - [src/training/incremental_lora_trainer.cpp](src/training/incremental_lora_trainer.cpp): removed duplicated local training policy and delegated to shared helper
+    - [src/rag/batch_evaluator.cpp](src/rag/batch_evaluator.cpp): integrated shared helper after existing RAG sanitizer stage to align rag/llm/training prompt safety
+  - Verification in this environment:
+    - built target `themis_tests` successfully
+    - focused cross-module regression passed (4/4):
+      - `LlamaWrapperStateTest.GenerateRejectsBlockedPromptBeforeStateCheck`
+      - `TrainingSafety.TrainRejectsPromptInjectionLikeCollectionName`
+      - `BatchEvaluatorTest.EvaluateBatchInputsReturnsResults`
+      - `BatchEvaluatorTest.EvaluateAsyncReturnsHandle`
+
+- QW-8 started: high-confidence triage gate artifacts for preflight.
+  - Implemented in [tools/gap_scanner_v3.py](tools/gap_scanner_v3.py):
+    - confidence review now loads previous snapshot (when present) before overwrite
+    - emits machine-readable actionable queue artifact:
+      - `gap_scan_v3_preflight_actionable_queue.json`
+      - includes top actionable items, top categories/files, and net-new high-confidence CRITICAL count/items
+    - emits markdown PR-facing summary artifact:
+      - `gap_scan_v3_preflight_summary.md`
+      - includes headline metrics, top categories/files, and top actionable findings
+    - adds stable item-keying for net-new detection across snapshots
+  - Verification in this environment:
+    - static diagnostics on scanner script are clean (`tools/gap_scanner_v3.py`)
+    - runtime execution of full scanner not run in this step (long-running pipeline)
+
 ## Prioritized Quickwins
 
 - [ ] QW-1: Add prompt input sanitization guard rails in RAG judge and batch evaluator (Target: Next Sprint)
@@ -54,7 +174,7 @@ Source scan: [ai_working/gap_scan_v3_summary.json](ai_working/gap_scan_v3_summar
     - Conflict resolution records version/causal metadata before commit.
     - Add regression tests for partial-ack and stale-version scenarios.
 
-- [ ] QW-3: Add missing security audit logs for authentication-sensitive voice flows (Target: Next Sprint)
+- [x] QW-3: Add missing security audit logs for authentication-sensitive voice flows (Target: Next Sprint)
   - Scope: [src/voice/voice_authenticator.cpp](src/voice/voice_authenticator.cpp), [src/voice/voice_assistant.cpp](src/voice/voice_assistant.cpp), [src/voice/voice_assistant_llm.cpp](src/voice/voice_assistant_llm.cpp)
   - Why now: Multiple CRITICAL missing_audit_log findings with very high confidence.
   - Acceptance:
@@ -62,7 +182,7 @@ Source scan: [ai_working/gap_scan_v3_summary.json](ai_working/gap_scan_v3_summar
     - Audit logs include actor, action, result, and correlation id.
     - Negative tests verify no silent auth-path completion without log emission.
 
-- [ ] QW-4: Enforce safe prompt handling in LLM wrapper and training entry points (Target: Next Sprint)
+- [x] QW-4: Enforce safe prompt handling in LLM wrapper and training entry points (Target: Next Sprint)
   - Scope: [src/llm/llama_wrapper.cpp](src/llm/llama_wrapper.cpp), [src/training/incremental_lora_trainer.cpp](src/training/incremental_lora_trainer.cpp)
   - Why now: LLM module dominates high-confidence queue volume.
   - Acceptance:
@@ -70,7 +190,7 @@ Source scan: [ai_working/gap_scan_v3_summary.json](ai_working/gap_scan_v3_summar
     - Unsafe control-token patterns are blocked or escaped consistently.
     - Add tests for injection-like payloads in both inference and training APIs.
 
-- [ ] QW-5: Add deterministic routing safeguards in shard router decisions (Target: Next Sprint)
+- [x] QW-5: Add deterministic routing safeguards in shard router decisions (Target: Next Sprint)
   - Scope: [src/sharding/shard_router.cpp](src/sharding/shard_router.cpp)
   - Why now: Sharding is top-4 module in high-confidence queue, impacts correctness under load.
   - Acceptance:
@@ -78,7 +198,7 @@ Source scan: [ai_working/gap_scan_v3_summary.json](ai_working/gap_scan_v3_summar
     - Explicit handling for missing metrics and stale state.
     - Add deterministic replay test with fixed seed and repeated runs.
 
-- [ ] QW-6: Add GPU kernel input validation and bounds checks in LoRA kernels (Target: Next Sprint)
+- [~] QW-6: Add GPU kernel input validation and bounds checks in LoRA kernels (Target: Next Sprint)
   - Scope: [src/llm/lora_framework/kernels/vulkan_kernels.cpp](src/llm/lora_framework/kernels/vulkan_kernels.cpp), [src/llm/lora_framework/kernels/directx_kernels.cpp](src/llm/lora_framework/kernels/directx_kernels.cpp), [src/llm/lora_framework/kernels/hip_fused_kernels.cpp](src/llm/lora_framework/kernels/hip_fused_kernels.cpp), [src/llm/lora_framework/gpu_lora_layers.cpp](src/llm/lora_framework/gpu_lora_layers.cpp)
   - Why now: Concentrated gpu_memory_safety findings in top files.
   - Acceptance:
@@ -86,7 +206,7 @@ Source scan: [ai_working/gap_scan_v3_summary.json](ai_working/gap_scan_v3_summar
     - Guard against out-of-range buffer offsets and zero-sized launches.
     - Add focused tests for malformed tensor metadata.
 
-- [ ] QW-7: Introduce one shared safety helper for LLM prompt assembly (Target: Next Sprint)
+- [x] QW-7: Introduce one shared safety helper for LLM prompt assembly (Target: Next Sprint)
   - Scope: [src/llm](src/llm), [src/rag](src/rag), [src/training](src/training)
   - Why now: Reduces duplicated safety logic across the most affected modules.
   - Acceptance:
@@ -94,7 +214,7 @@ Source scan: [ai_working/gap_scan_v3_summary.json](ai_working/gap_scan_v3_summar
     - Consistent sanitizer policy and telemetry tags.
     - Remove duplicate ad-hoc sanitization branches replaced by helper.
 
-- [ ] QW-8: Add a high-confidence triage gate in CI preflight report (Target: Next Sprint)
+- [~] QW-8: Add a high-confidence triage gate in CI preflight report (Target: Next Sprint)
   - Scope: [tools/gap_scanner_v3.py](tools/gap_scanner_v3.py), [ai_working/gap_scan_v3_confidence_review.json](ai_working/gap_scan_v3_confidence_review.json)
   - Why now: Keeps quickwins aligned with current highest-confidence risks.
   - Acceptance:

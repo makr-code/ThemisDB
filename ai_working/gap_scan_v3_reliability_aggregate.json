@@ -14039,14 +14039,14 @@
     }
   },
   "llm": {
-    "total": 668,
+    "total": 681,
     "severity_critical": 25,
-    "severity_high": 534,
+    "severity_high": 547,
     "severity_medium": 109,
     "by_type": {
-      "uncaught_exception": 534,
+      "uncaught_exception": 546,
       "no_health_check": 35,
-      "no_retry_logic": 74,
+      "no_retry_logic": 75,
       "no_timeout": 25
     },
     "gaps_by_file": {
@@ -15640,7 +15640,7 @@
       "src\\llm\\llama_wrapper.cpp": [
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 99,
+          "line": 113,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"n_ctx must be positive\");",
@@ -15649,7 +15649,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 102,
+          "line": 116,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"n_batch must be positive\");",
@@ -15658,7 +15658,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 105,
+          "line": 119,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"n_threads must be positive\");",
@@ -15667,7 +15667,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 142,
+          "line": 156,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"rope_scaling.max_context must be positive\");",
@@ -15676,7 +15676,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 146,
+          "line": 160,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"rope_scaling.original_context must be positive\");",
@@ -15685,7 +15685,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 167,
+          "line": 181,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"rope_scaling.yarn_ext_factor must be non-negative\");",
@@ -15694,7 +15694,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 170,
+          "line": 184,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"rope_scaling.yarn_attn_factor must be non-negative\");",
@@ -15703,7 +15703,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 173,
+          "line": 187,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"rope_scaling.yarn_beta_fast must be positive\");",
@@ -15712,7 +15712,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 176,
+          "line": 190,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"rope_scaling.yarn_beta_slow must be positive\");",
@@ -15721,7 +15721,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 605,
+          "line": 619,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "fd = ::open(temp_model_path.c_str(),",
@@ -15730,7 +15730,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 617,
+          "line": 631,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "ssize_t written = ::write(fd, ptr, remaining);",
@@ -15739,7 +15739,34 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 856,
+          "line": 860,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 874,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 877,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "effective_request.system_prompt = std::move(sanitized_system_prompt);",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 905,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "lock.lock();",
@@ -15748,7 +15775,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 880,
+          "line": 929,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(error_msg);",
@@ -15757,7 +15784,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 885,
+          "line": 934,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"No model loaded\");",
@@ -15766,7 +15793,34 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 889,
+          "line": 938,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "safe_request.prompt.substr(0, std::min(safe_request.prompt.size(), size_t(50))), safe_request.max_to",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 955,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "if (!safe_request.image_paths.empty() && vision_enabled_) {",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 990,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "spdlog::debug(\"Cache hit for prompt: {}\", safe_request.prompt.substr(0, 50));",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 1020,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.prompt.substr(0, std::min(request.prompt.size(), size_t(50))), request.max_tokens);",
@@ -15775,34 +15829,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 906,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "if (!request.image_paths.empty() && vision_enabled_) {",
-          "description": "http_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 941,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "spdlog::debug(\"Cache hit for prompt: {}\", request.prompt.substr(0, 50));",
-          "description": "http_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 971,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "request.prompt.substr(0, std::min(request.prompt.size(), size_t(50))), request.max_tokens);",
-          "description": "http_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 976,
+          "line": 1025,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model loader is not initialized\");",
@@ -15811,7 +15838,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 987,
+          "line": 1036,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model failed to load\");",
@@ -15820,7 +15847,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 993,
+          "line": 1042,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model/context handle is null after load\");",
@@ -15829,7 +15856,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1000,
+          "line": 1049,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -15838,7 +15865,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1017,
+          "line": 1066,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (request.lora_adapter_id && !request.lora_adapter_id->empty()) {",
@@ -15847,7 +15874,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1097,
+          "line": 1146,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to evaluate prompt\");",
@@ -15856,7 +15883,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1120,
+          "line": 1169,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to get model vocabulary\");",
@@ -15865,7 +15892,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1124,
+          "line": 1173,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model returned non-positive vocabulary size\");",
@@ -15874,7 +15901,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1178,
+          "line": 1227,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.stream_callback(token_text);",
@@ -15883,7 +15910,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1281,
+          "line": 1330,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (!request.tools.empty()) {",
@@ -15892,7 +15919,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1329,
+          "line": 1378,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"generateDraftTokens requires k > 0\");",
@@ -15901,7 +15928,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1341,
+          "line": 1390,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"No model loaded for draft token generation\");",
@@ -15910,7 +15937,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1346,
+          "line": 1395,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model loader is not initialized\");",
@@ -15919,7 +15946,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1351,
+          "line": 1400,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model failed to load for draft token generation\");",
@@ -15928,7 +15955,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1357,
+          "line": 1406,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model/context handle is null for draft token generation\");",
@@ -15937,7 +15964,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1362,
+          "line": 1411,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model/context not initialized for draft token generation\");",
@@ -15946,7 +15973,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1374,
+          "line": 1423,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to evaluate prompt for draft token generation\");",
@@ -15955,7 +15982,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1379,
+          "line": 1428,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to get model vocabulary for draft generation\");",
@@ -15964,7 +15991,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1383,
+          "line": 1432,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model returned non-positive vocabulary size for draft generation\");",
@@ -15973,7 +16000,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1404,
+          "line": 1453,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"llama_get_logits_ith returned null\");",
@@ -15982,7 +16009,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1421,
+          "line": 1470,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to decode draft token\");",
@@ -15991,7 +16018,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1459,
+          "line": 1508,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"No model loaded\");",
@@ -16000,7 +16027,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1467,
+          "line": 1516,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model loader is not initialized\");",
@@ -16009,7 +16036,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1474,
+          "line": 1523,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model failed to load\");",
@@ -16018,7 +16045,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1480,
+          "line": 1529,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model/context handle is null for embeddings\");",
@@ -16027,7 +16054,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1487,
+          "line": 1536,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -16036,7 +16063,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1515,
+          "line": 1564,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model reports non-positive embedding dimension\");",
@@ -16045,37 +16072,19 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1869,
+          "line": 1743,
           "type": "uncaught_exception",
           "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"Model is null\");",
+          "snippet": "throw std::invalid_argument(\"RAG system prompt blocked by prompt policy\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1875,
+          "line": 1763,
           "type": "uncaught_exception",
           "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"Failed to get model vocabulary\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1920,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"Context is null\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1926,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"Model is null\");",
+          "snippet": "throw std::invalid_argument(\"RAG query blocked by prompt policy\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
@@ -16084,13 +16093,49 @@
           "line": 1930,
           "type": "uncaught_exception",
           "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Model is null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 1936,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to get model vocabulary\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1959,
+          "line": 1981,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Context is null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 1987,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Model is null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 1991,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"Failed to get model vocabulary\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 2020,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Invalid parameters for sampling\");",
@@ -16099,7 +16144,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1962,
+          "line": 2023,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Invalid n_vocab for sampling\");",
@@ -16108,7 +16153,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2044,
+          "line": 2105,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "llama_grammar_accept(grammar, ctx, sampled_token);",
@@ -16117,7 +16162,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2345,
+          "line": 2406,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model loader is not initialized\");",
@@ -16126,7 +16171,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2349,
+          "line": 2410,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Target model failed to load\");",
@@ -16135,7 +16180,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2412,
+          "line": 2473,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to evaluate prompt in target model\");",
@@ -16144,7 +16189,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2415,
+          "line": 2476,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to evaluate prompt in draft model\");",
@@ -16153,7 +16198,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2422,
+          "line": 2483,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to get target model vocabulary\");",
@@ -16162,7 +16207,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2426,
+          "line": 2487,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Target model returned non-positive vocabulary size\");",
@@ -16171,7 +16216,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2535,
+          "line": 2596,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.stream_callback(token_text);",
@@ -16180,7 +16225,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2616,
+          "line": 2677,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model loader is not initialized\");",
@@ -16189,7 +16234,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2621,
+          "line": 2682,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model failed to load\");",
@@ -16198,7 +16243,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2627,
+          "line": 2688,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model/context handle is null\");",
@@ -16207,7 +16252,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2634,
+          "line": 2695,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -16216,7 +16261,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2688,
+          "line": 2749,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Context handle became null before inference\");",
@@ -16225,7 +16270,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2698,
+          "line": 2759,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to evaluate prompt\");",
@@ -16234,7 +16279,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2713,
+          "line": 2774,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to get model vocabulary\");",
@@ -16243,7 +16288,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2717,
+          "line": 2778,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Model returned non-positive vocabulary size\");",
@@ -16252,7 +16297,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2748,
+          "line": 2809,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.stream_callback(token_text);",
@@ -16261,7 +16306,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2850,
+          "line": 2911,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Batch scheduler initialization failed\");",
@@ -16270,7 +16315,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2894,
+          "line": 2955,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Batch mode not active. Call startBatchMode() first.\");",
@@ -16279,7 +16324,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2899,
+          "line": 2960,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Batch scheduler not initialized\");",
@@ -16288,7 +16333,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2969,
+          "line": 3030,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.grammar_type.has_value() || request.grammar_ebnf.has_value();",
@@ -16297,7 +16342,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2971,
+          "line": 3032,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.json_schema.has_value() || !request.tools.empty();",
@@ -16306,7 +16351,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2986,
+          "line": 3047,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (request.grammar_ebnf.has_value()) {",
@@ -16315,7 +16360,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2987,
+          "line": 3048,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "ebnf_text = request.grammar_ebnf.value();",
@@ -16324,7 +16369,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2995,
+          "line": 3056,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "else if (request.grammar_type.has_value()) {",
@@ -16333,7 +16378,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2996,
+          "line": 3057,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string grammar_name = request.grammar_type.value();",
@@ -16342,7 +16387,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3009,
+          "line": 3070,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "else if (request.json_schema.has_value()) {",
@@ -16351,7 +16396,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3010,
+          "line": 3071,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "ebnf_text = JsonSchemaConverter::schemaToEbnf(request.json_schema.value());",
@@ -16360,7 +16405,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3028,
+          "line": 3089,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "else if (!request.tools.empty()) {",
@@ -16369,7 +16414,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3173,
+          "line": 3234,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "if (!vision_request.image_path.empty()) {",
@@ -16378,7 +16423,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3175,
+          "line": 3236,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "} else if (!vision_request.image_paths.empty()) {",
@@ -18244,7 +18289,25 @@
       "src\\llm\\lora_framework\\gpu_lora_layers.cpp": [
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 76,
+          "line": 50,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"GPULoRALayer requires non-zero in_dim/out_dim/rank\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 53,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"GPULoRALayer scaling must be finite\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 82,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Input device mismatch in GPULoRALayer::forward\");",
@@ -18253,7 +18316,25 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 263,
+          "line": 85,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"GPULoRALayer::forward expects a 2D input tensor\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 88,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"GPULoRALayer::forward input feature dimension mismatch\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 275,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Gradient device mismatch in GPULoRALayer::backward\");",
@@ -18262,7 +18343,34 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 272,
+          "line": 278,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"GPULoRALayer::backward expects a 2D grad_output tensor\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 281,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"GPULoRALayer::backward grad_output feature dimension mismatch\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 284,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"GPULoRALayer::backward called before a successful forward pass\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 293,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"No cached input for Vulkan fused backward pass\");",
@@ -18271,7 +18379,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 434,
+          "line": 455,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -18280,7 +18388,16 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 498,
+          "line": 467,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"GPULoRALayer::backward missing cached intermediate activation\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
+          "line": 522,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"B shape mismatch in set_weights\");",
@@ -18289,7 +18406,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 501,
+          "line": 525,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"A shape mismatch in set_weights\");",
@@ -18298,7 +18415,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 537,
+          "line": 561,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Learning rate must be positive\");",
@@ -18307,7 +18424,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 540,
+          "line": 564,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Momentum must be in [0, 1)\");",
@@ -18316,7 +18433,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 543,
+          "line": 567,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Weight decay must be non-negative\");",
@@ -18325,7 +18442,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 665,
+          "line": 689,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Layer and optimizer cannot be null\");",
@@ -26759,7 +26876,7 @@
       "src\\rag\\batch_evaluator.cpp": [
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 65,
+          "line": 66,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -26768,7 +26885,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 160,
+          "line": 161,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"AsyncEvaluationHandle: evaluation was cancelled\");",
@@ -26777,7 +26894,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 213,
+          "line": 214,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "queue_cv_.wait(lock, [this] {",
@@ -26786,7 +26903,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 243,
+          "line": 244,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -27388,7 +27505,7 @@
       "src\\rag\\rag_judge.cpp": [
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 283,
+          "line": 294,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -27397,7 +27514,7 @@
         },
         {
           "file": "src\\rag\\rag_judge.cpp",
-          "line": 370,
+          "line": 381,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -27707,7 +27824,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 1221,
+          "line": 1238,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "<< \"# TYPE themisdb_cluster_nodes_healthy gauge\\n\";",
@@ -27716,7 +27833,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 1228,
+          "line": 1245,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "oss << \"themisdb_cluster_nodes_healthy \" << healthy_count << \"\\n\";",
@@ -27725,7 +27842,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 1311,
+          "line": 1328,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::vector<std::pair<std::string, HealthStatus>> result;",
@@ -27734,7 +27851,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 1329,
+          "line": 1346,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "bool counts_as_healthy;",
@@ -27743,7 +27860,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 1341,
+          "line": 1358,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "healthy_voting_members++;",
@@ -27752,7 +27869,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 1349,
+          "line": 1366,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "healthy_voting_members++;",
@@ -27761,7 +27878,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 1361,
+          "line": 1378,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "HealthStatus old_status;",
@@ -27770,7 +27887,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 1362,
+          "line": 1379,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "HealthStatus new_status;",
@@ -27779,7 +27896,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 1680,
+          "line": 1697,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -27788,7 +27905,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 1762,
+          "line": 1779,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -27797,7 +27914,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2011,
+          "line": 2028,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -27806,7 +27923,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2130,
+          "line": 2147,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -27815,7 +27932,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2710,
+          "line": 2727,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::string MultiMasterReplicationManager::write(",
@@ -27824,7 +27941,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2787,
+          "line": 2804,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "MultiMasterReplicationManager::ReadResult MultiMasterReplicationManager::read(",
@@ -27833,7 +27950,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3524,
+          "line": 3541,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "QuorumReadManager::QuorumReadResult QuorumReadManager::read(",
@@ -27842,7 +27959,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3724,
+          "line": 3741,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -27851,7 +27968,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3738,
+          "line": 3755,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -27860,7 +27977,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3858,
+          "line": 3875,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -27869,7 +27986,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4622,
+          "line": 4639,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -27878,7 +27995,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4713,
+          "line": 4730,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -27887,7 +28004,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4765,
+          "line": 4782,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -27896,7 +28013,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5033,
+          "line": 5050,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "catch (...) { segment_id = 0; }",
@@ -27905,7 +28022,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5359,
+          "line": 5376,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -27914,7 +28031,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5365,
+          "line": 5382,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "MultiRegionActiveActiveManager::write(",
@@ -27923,7 +28040,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5400,
+          "line": 5417,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "MultiRegionActiveActiveManager::read(",
@@ -27932,7 +28049,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5498,
+          "line": 5515,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -27941,7 +28058,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5771,
+          "line": 5788,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "SyncStatus s;",
@@ -27950,7 +28067,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6067,
+          "line": 6084,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -27959,7 +28076,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6075,
+          "line": 6092,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -27968,7 +28085,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6175,
+          "line": 6192,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "bool GeoReplicationManager::write(",
@@ -27977,7 +28094,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6213,
+          "line": 6230,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::optional<std::string> GeoReplicationManager::read(",
@@ -36645,7 +36762,7 @@
       "src\\sharding\\adaptive_shard_router.cpp": [
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 33,
+          "line": 35,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Invalid AdaptiveConfig\");",
@@ -36654,7 +36771,7 @@
         },
         {
           "file": "src\\sharding\\adaptive_shard_router.cpp",
-          "line": 320,
+          "line": 343,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Invalid AdaptiveConfig\");",
@@ -42258,7 +42375,7 @@
       "src\\training\\incremental_lora_trainer.cpp": [
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 468,
+          "line": 499,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (rank <= 0) throw std::invalid_argument(\"LoRA rank must be positive\");",
@@ -42267,7 +42384,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 469,
+          "line": 500,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (alpha <= 0.0f) throw std::invalid_argument(\"LoRA alpha must be positive\");",
@@ -42276,7 +42393,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 470,
+          "line": 501,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (learning_rate <= 0.0f) throw std::invalid_argument(\"Learning rate must be positive\");",
@@ -42285,7 +42402,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 520,
+          "line": 551,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Federated learning rate must be positive\");",
@@ -42294,7 +42411,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 527,
+          "line": 558,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"no training since last export\");",
@@ -42303,7 +42420,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 791,
+          "line": 822,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -42312,7 +42429,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 809,
+          "line": 840,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -42321,7 +42438,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1137,
+          "line": 1177,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::overflow_error(",
@@ -42330,7 +42447,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1195,
+          "line": 1235,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -42339,7 +42456,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1211,
+          "line": 1251,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LoRA rank must be positive\");",
@@ -42348,7 +42465,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1213,
+          "line": 1253,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LoRA alpha must be positive\");",
@@ -42357,7 +42474,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1215,
+          "line": 1255,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Learning rate must be positive\");",
@@ -42366,7 +42483,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1217,
+          "line": 1257,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Batch size must be positive\");",
@@ -42375,7 +42492,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1219,
+          "line": 1259,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"num_gpus must be at least 1\");",
@@ -42384,7 +42501,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1221,
+          "line": 1261,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"sync_steps must be at least 1\");",
@@ -42393,7 +42510,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1223,
+          "line": 1263,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Quantization block_size must be positive\");",
@@ -42402,7 +42519,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1391,
+          "line": 1431,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -44558,15 +44675,26 @@
     }
   },
   "voice": {
-    "total": 5,
+    "total": 6,
     "severity_critical": 0,
     "severity_high": 4,
-    "severity_medium": 1,
+    "severity_medium": 2,
     "by_type": {
-      "uncaught_exception": 4,
+      "uncaught_exception": 5,
       "no_health_check": 1
     },
     "gaps_by_file": {
+      "src\\voice\\voice_authenticator.cpp": [
+        {
+          "file": "src\\voice\\voice_authenticator.cpp",
+          "line": 494,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        }
+      ],
       "src\\voice\\voice_browser_streaming.cpp": [
         {
           "file": "src\\voice\\voice_browser_streaming.cpp",

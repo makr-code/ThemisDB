@@ -24,6 +24,7 @@
 #include "llm/llama_wrapper.h"
 #include "voice/wake_word_detector.h"
 #include "voice/voice_auth.h"
+#include "voice/voice_security.h"
 #include "voice/voice_audio_storage.h"
 #include "voice/voice_macro.h"
 #include <string>
@@ -116,6 +117,9 @@ public:
         // Voice biometric authentication configuration
         bool enable_voice_auth = false;
         VoiceAuthConfig voice_auth_config;
+
+        // Voice security and audit logging configuration
+        VoiceSecurityConfig voice_security_config;
 
         // Wake-word configuration
         bool enable_wake_word = false;
@@ -427,6 +431,9 @@ private:
     // Voice biometric authenticator
     VoiceBiometricAuthenticator voice_authenticator_;
 
+    // Voice security and audit manager
+    VoiceSecurityManager voice_security_manager_;
+
     // Voice command macro manager
     VoiceMacroManager macro_manager_;
 
@@ -466,6 +473,13 @@ private:
         const std::string& entity_id,
         const std::vector<uint8_t>& data,
         const json& metadata
+    );
+
+    void logVoiceAuthenticationAudit(
+        const std::string& user_id,
+        const std::string& session_id,
+        const std::string& action,
+        const VoiceAuthResult& result
     );
 };
 

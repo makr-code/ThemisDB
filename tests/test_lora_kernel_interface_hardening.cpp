@@ -2,16 +2,47 @@
 
 #include "llm/lora_framework/vulkan_kernels.h"
 #include "llm/lora_framework/directx_kernels.h"
+#include "llm/lora_framework/gpu_lora_layers.h"
 
 #include <array>
 #include <atomic>
 #include <chrono>
 #include <future>
+#include <limits>
 #include <string>
 
 namespace {
 
 using namespace themis::lora;
+using namespace themis::llm::lora;
+
+TEST(LoRAKernelInterfaceHardeningTest, GPULoRALayerConstructorRejectsInvalidDimensions) {
+    EXPECT_THROW((void)GPULoRALayer(0, 8, 4, 1.0f, Device::cpu(), false), std::invalid_argument);
+    EXPECT_THROW((void)GPULoRALayer(8, 0, 4, 1.0f, Device::cpu(), false), std::invalid_argument);
+    EXPECT_THROW((void)GPULoRALayer(8, 8, 0, 1.0f, Device::cpu(), false), std::invalid_argument);
+    EXPECT_THROW((void)GPULoRALayer(8, 8, 4, std::numeric_limits<float>::infinity(), Device::cpu(), false), std::invalid_argument);
+}
+
+TEST(LoRAKernelInterfaceHardeningTest, GPULoRALayerRejectsForwardBackwardShapeMismatch) {
+    GPULoRALayer layer(/*in_dim=*/4, /*out_dim=*/3, /*rank=*/2, 1.0f, Device::cpu(), false);
+
+    GPUTensor wrong_input({2, 5}, Device::cpu());
+    EXPECT_THROW((void)layer.forward(wrong_input), std::invalid_argument);
+
+    GPUTensor input({2, 4}, Device::cpu());
+    auto output = layer.forward(input);
+    EXPECT_EQ(output.shape(), std::vector<size_t>({2, 3}));
+
+    GPUTensor wrong_grad({2, 2}, Device::cpu());
+    EXPECT_THROW((void)layer.backward(wrong_grad), std::invalid_argument);
+}
+
+TEST(LoRAKernelInterfaceHardeningTest, GPULoRALayerRejectsBackwardBeforeForward) {
+    GPULoRALayer layer(/*in_dim=*/4, /*out_dim=*/3, /*rank=*/2, 1.0f, Device::cpu(), false);
+    GPUTensor grad_output({2, 3}, Device::cpu());
+
+    EXPECT_THROW((void)layer.backward(grad_output), std::runtime_error);
+}
 
 TEST(LoRAKernelInterfaceHardeningTest, VulkanUninitializedCallsFailFast) {
     std::array<float, 4> a{1.0f, 2.0f, 3.0f, 4.0f};
@@ -21,6 +52,24 @@ TEST(LoRAKernelInterfaceHardeningTest, VulkanUninitializedCallsFailFast) {
     EXPECT_THROW(vulkan::launch_matmul_shader(a.data(), b.data(), c.data(), 2, 2, 2, 1.0f), std::runtime_error);
     EXPECT_THROW(vulkan::launch_add_shader(a.data(), b.data(), c.data(), 4), std::runtime_error);
     EXPECT_THROW(vulkan::launch_sequence_mean_shader(c.data(), a.data(), 1, 2, 2), std::runtime_error);
+}
+
+TEST(LoRAKernelInterfaceHardeningTest, VulkanInitializedInvalidDimensionsFailClosed) {
+    if (!vulkan::is_vulkan_available()) {
+        GTEST_SKIP() << "Vulkan unavailable on this host";
+    }
+    ASSERT_TRUE(vulkan::initialize_vulkan_lora(0));
+
+    std::array<float, 4> a{1.0f, 2.0f, 3.0f, 4.0f};
+    std::array<float, 4> b{5.0f, 6.0f, 7.0f, 8.0f};
+    std::array<float, 4> c{0.0f, 0.0f, 0.0f, 0.0f};
+
+    EXPECT_THROW(vulkan::launch_fused_lora_forward(
+        a.data(), b.data(), b.data(), c.data(),
+        /*batch_size=*/0, /*in_dim=*/2, /*rank=*/2, /*out_dim=*/2, /*scaling=*/1.0f),
+        std::invalid_argument);
+
+    vulkan::cleanup_vulkan_lora();
 }
 
 TEST(LoRAKernelInterfaceHardeningTest, VulkanConcurrentLifecycleNoLockTimeout) {

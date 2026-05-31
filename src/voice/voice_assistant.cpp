@@ -24,7 +24,9 @@ namespace themis {
 namespace voice {
 
 VoiceAssistant::VoiceAssistant(const Config& config)
-    : config_(config), voice_authenticator_(config.voice_auth_config) {
+        : config_(config),
+            voice_authenticator_(config.voice_auth_config),
+            voice_security_manager_(config.voice_security_config) {
     // Initialise wake-word detector regardless of the enable flag so that
     // detectWakeWord() is always safe to call; the caller can gate on the flag.
     wake_word_detector_ = std::make_unique<WakeWordDetector>(config_.wake_word_config);
@@ -140,6 +142,7 @@ std::vector<uint8_t> VoiceAssistant::processVoiceCommand(
         const std::string& uid = auth_session.user_id;
         if (!uid.empty()) {
             auto auth_result = voice_authenticator_.authenticate(uid, audio_data);
+            logVoiceAuthenticationAudit(uid, session_id, "process_voice_command", auth_result);
             if (!auth_result.authenticated) {
                 content::TTSOptions tts_opts;
                 tts_opts.voice_id = config_.tts_voice;
@@ -259,6 +262,7 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
         const std::string& uid = auth_session.user_id;
         if (!uid.empty()) {
             auto auth_result = voice_authenticator_.authenticate(uid, audio_data);
+            logVoiceAuthenticationAudit(uid, session_id, "stream_process_voice_command", auth_result);
             if (!auth_result.authenticated) {
                 content::TTSOptions tts_opts;
                 tts_opts.voice_id = config_.tts_voice;
@@ -587,6 +591,7 @@ json VoiceAssistant::getStatistics() const {
     }
 
     stats["voice_auth"] = voice_authenticator_.get_statistics();
+    stats["voice_security"] = voice_security_manager_.getSecurityStats();
 
     stats["macros"] = macro_manager_.getStatistics();
 
@@ -651,7 +656,35 @@ VoiceAuthResult VoiceAssistant::authenticateSpeaker(
     const std::string&          user_id,
     const std::vector<uint8_t>& audio_sample)
 {
-    return voice_authenticator_.authenticate(user_id, audio_sample);
+    auto result = voice_authenticator_.authenticate(user_id, audio_sample);
+    logVoiceAuthenticationAudit(user_id, "", "authenticate_speaker", result);
+    return result;
+}
+
+void VoiceAssistant::logVoiceAuthenticationAudit(
+    const std::string& user_id,
+    const std::string& session_id,
+    const std::string& action,
+    const VoiceAuthResult& result)
+{
+    VoiceAuditEntry entry;
+    entry.event_type = "voice_authentication";
+    entry.session_id = session_id;
+    entry.user_id = user_id;
+    entry.action = action;
+    entry.resource = "voice_assistant";
+    entry.timestamp_ms = result.timestamp_ms;
+    if (entry.timestamp_ms <= 0) {
+        entry.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+    }
+    entry.success = result.authenticated;
+    entry.details = result.decision_reason;
+    entry.metadata = {
+        {"confidence_score", result.confidence_score},
+        {"threshold", result.threshold}
+    };
+    voice_security_manager_.logEvent(entry);
 }
 
 VerificationResult VoiceAssistant::verifyVoiceSpeaker(

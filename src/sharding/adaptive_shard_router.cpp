@@ -10,7 +10,9 @@
 #include "sharding/adaptive_shard_router.h"
 #include "distributed_knowledge/adapter_capability_announcement.h"
 #include <algorithm>
+#include <cmath>
 #include <chrono>
+#include <limits>
 #include <sstream>
 #include <numeric>
 #include <spdlog/spdlog.h>
@@ -73,6 +75,7 @@ void AdaptiveShardRouter::updateShardLLMLoad(
     auto& load = shard_llm_load_[shard_id];
     load.pending_requests = pending_requests;
     load.avg_queue_ms     = avg_queue_ms;
+    load.updated_at       = std::chrono::steady_clock::now();
 }
 
 std::string AdaptiveShardRouter::routeByDomain(
@@ -83,7 +86,10 @@ std::string AdaptiveShardRouter::routeByDomain(
     std::string best_shard;
     double best_delta = std::numeric_limits<double>::lowest();
     uint64_t best_pending = std::numeric_limits<uint64_t>::max();
+    int best_freshness_rank = 2;  // 0=fresh, 1=stale, 2=missing
     bool found = false;
+    const auto now = std::chrono::steady_clock::now();
+    const auto freshness_window = std::chrono::milliseconds(adaptive_config_.llm_load_freshness_ms);
 
     for (const auto& [shard_id, domain_map] : shard_domain_scores_) {
         auto it = domain_map.find(domain);
@@ -91,18 +97,35 @@ std::string AdaptiveShardRouter::routeByDomain(
             continue;
         }
         const double delta = it->second;
-        // Retrieve LLM queue depth for tie-breaking (0 when unknown = treat as idle).
-        uint64_t pending = 0;
-        auto load_it = shard_llm_load_.find(shard_id);
-        if (load_it != shard_llm_load_.end()) {
-            pending = load_it->second.pending_requests;
+        if (!std::isfinite(delta)) {
+            continue;
         }
 
-        const bool better_score   = delta > best_delta;
-        const bool tied_less_load = (delta == best_delta) && (pending < best_pending);
-        if (!found || better_score || tied_less_load) {
+        uint64_t pending = std::numeric_limits<uint64_t>::max();
+        int freshness_rank = 2;
+        auto load_it = shard_llm_load_.find(shard_id);
+        if (load_it != shard_llm_load_.end()) {
+            const auto age = now - load_it->second.updated_at;
+            if (age <= freshness_window) {
+                freshness_rank = 0;
+                pending = load_it->second.pending_requests;
+            } else {
+                freshness_rank = 1;
+            }
+        }
+
+        const bool better_score = delta > best_delta;
+        const bool tied_fresher_load = (delta == best_delta) && (freshness_rank < best_freshness_rank);
+        const bool tied_less_load =
+            (delta == best_delta) && (freshness_rank == best_freshness_rank) && (pending < best_pending);
+        const bool tied_lexical =
+            (delta == best_delta) && (freshness_rank == best_freshness_rank) &&
+            (pending == best_pending) && (!best_shard.empty()) && (shard_id < best_shard);
+
+        if (!found || better_score || tied_fresher_load || tied_less_load || tied_lexical) {
             best_delta   = delta;
             best_pending = pending;
+            best_freshness_rank = freshness_rank;
             best_shard   = shard_id;
             found        = true;
         }
@@ -405,11 +428,22 @@ std::vector<std::string> AdaptiveShardRouter::selectShardsForIteration(
     size_t max_shards,
     const std::set<std::string>& already_queried
 ) {
-    std::vector<std::string> selected;
-    
+    struct Candidate {
+        std::string shard_id;
+        double score = 0.0;
+    };
+
+    std::vector<Candidate> candidates;
+    candidates.reserve(match_results.size());
+
     for (const auto& match : match_results) {
         // Skip if already queried
         if (already_queried.find(match.shard_id) != already_queried.end()) {
+            continue;
+        }
+
+        // Skip invalid scores explicitly to avoid undefined ranking.
+        if (!std::isfinite(match.score)) {
             continue;
         }
         
@@ -417,9 +451,27 @@ std::vector<std::string> AdaptiveShardRouter::selectShardsForIteration(
         if (match.score < threshold) {
             continue;
         }
-        
-        selected.push_back(match.shard_id);
-        
+
+        // Skip stale topology entries (e.g., shard became unhealthy after scoring).
+        auto shard_info = topology_->getShard(match.shard_id);
+        if (!shard_info || !shard_info->is_healthy) {
+            continue;
+        }
+
+        candidates.push_back(Candidate{match.shard_id, match.score});
+    }
+
+    std::sort(candidates.begin(), candidates.end(), [](const Candidate& lhs, const Candidate& rhs) {
+        if (lhs.score != rhs.score) {
+            return lhs.score > rhs.score;
+        }
+        return lhs.shard_id < rhs.shard_id;
+    });
+
+    std::vector<std::string> selected;
+    selected.reserve(std::min(max_shards, candidates.size()));
+    for (const auto& candidate : candidates) {
+        selected.push_back(candidate.shard_id);
         if (selected.size() >= max_shards) {
             break;
         }

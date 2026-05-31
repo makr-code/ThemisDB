@@ -42,6 +42,7 @@
 #pragma once
 
 #include <cstdint>
+#include <functional>
 #include <map>
 #include <mutex>
 #include <optional>
@@ -283,6 +284,19 @@ public:
     /** @brief Return JSON statistics (profiles enrolled, verifications, etc.). */
     json get_statistics() const;
 
+    /**
+     * @brief Register an optional callback for every authenticate() outcome.
+     *
+     * The callback is invoked for both successful and failed authentication
+     * attempts and receives the claimed @p user_id plus the resulting decision.
+     * The callback is executed after internal counters are updated and outside
+     * the internal mutex.
+     *
+     * @param callback Callback(claimed_user_id, result). Pass nullptr to clear.
+     */
+    void setAuthAuditCallback(
+        std::function<void(const std::string&, const VoiceAuthResult&)> callback);
+
 private:
     // Stored voice profile
     struct VoiceProfile {
@@ -304,6 +318,9 @@ private:
     uint64_t total_verifications_  = 0;
     uint64_t total_identifications_= 0;
     uint64_t successful_authentications_ = 0;
+    uint64_t total_auth_audit_events_ = 0;
+
+    std::function<void(const std::string&, const VoiceAuthResult&)> auth_audit_callback_;
 
     // Feature extraction pipeline
     std::vector<float> extractFeatures(const std::vector<uint8_t>& audio) const;
@@ -318,6 +335,9 @@ private:
     // Utilities
     int64_t     nowMs() const;
     std::string generateProfileId(const std::string& user_id) const;
+    void        emitAuthAuditEvent(
+        const std::string& claimed_user_id,
+        const VoiceAuthResult& result);
 };
 
 } // namespace voice

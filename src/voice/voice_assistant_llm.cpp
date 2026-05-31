@@ -20,16 +20,33 @@
 
 #include "voice/voice_assistant.h"
 #include "llm/embedded_llm.h"
+#include "rag/prompt_injection_detector.h"
 #include <sstream>
 
 namespace themis {
 namespace voice {
+
+namespace {
+
+std::string sanitizePromptFragment(const std::string& text, bool* changed = nullptr) {
+    thread_local rag::security::PromptInjectionSanitizer sanitizer;
+    const std::string safe = sanitizer.sanitize(text);
+    if (changed) {
+        *changed = (safe != text);
+    }
+    return safe;
+}
+
+} // namespace
 
 // Replace generateLLMResponse to use EmbeddedLLM instead of inference engine
 std::string VoiceAssistant::generateLLMResponse(
     const std::string& user_input,
     const VoiceSession& session
 ) {
+    bool user_input_sanitized = false;
+    const std::string safe_user_input = sanitizePromptFragment(user_input, &user_input_sanitized);
+
     // Build prompt with conversation history
     std::stringstream prompt;
     prompt << "You are a helpful voice assistant integrated into ThemisDB. ";
@@ -37,12 +54,36 @@ std::string VoiceAssistant::generateLLMResponse(
     
     // Add conversation history (last 5 exchanges)
     size_t history_start = session.history.size() > 10 ? session.history.size() - 10 : 0;
+    size_t sanitized_history_entries = 0;
     for (size_t i = history_start; i < session.history.size(); ++i) {
-        prompt << session.history[i] << "\n";
+        bool history_line_sanitized = false;
+        const std::string safe_history_line = sanitizePromptFragment(session.history[i], &history_line_sanitized);
+        if (history_line_sanitized) {
+            ++sanitized_history_entries;
+        }
+        prompt << safe_history_line << "\n";
     }
     
-    prompt << "User: " << user_input << "\n";
+    prompt << "User: " << safe_user_input << "\n";
     prompt << "Assistant: ";
+
+    if (user_input_sanitized || sanitized_history_entries > 0) {
+        VoiceAuditEntry entry;
+        entry.event_type = "voice_prompt_sanitization";
+        entry.session_id = session.session_id;
+        entry.user_id = session.user_id;
+        entry.action = "generate_llm_response";
+        entry.resource = "voice_assistant_llm";
+        entry.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+        entry.success = true;
+        entry.details = "Prompt input sanitized before LLM dispatch";
+        entry.metadata = {
+            {"user_input_sanitized", user_input_sanitized},
+            {"sanitized_history_entries", sanitized_history_entries}
+        };
+        voice_security_manager_.logEvent(entry);
+    }
     
     // Use EmbeddedLLM instead of inference engine
     try {
@@ -64,11 +105,13 @@ json VoiceAssistant::generateSummary(const std::string& transcript) {
     if (transcript.empty()) {
         return "No summary available";
     }
+
+    const std::string safe_transcript = sanitizePromptFragment(transcript);
     
     // Build prompt for summary generation
     std::stringstream prompt;
     prompt << "Please provide a concise summary of the following transcript:\n\n";
-    prompt << transcript.substr(0, std::min(transcript.size(), size_t(4000))) << "\n\n";
+    prompt << safe_transcript.substr(0, std::min(safe_transcript.size(), size_t(4000))) << "\n\n";
     prompt << "Summary: ";
     
     try {
@@ -90,11 +133,13 @@ json VoiceAssistant::extractKeyPoints(const std::string& transcript) {
     if (transcript.empty()) {
         return json::array();
     }
+
+    const std::string safe_transcript = sanitizePromptFragment(transcript);
     
     // Build prompt for key points extraction
     std::stringstream prompt;
     prompt << "Extract the key points from the following transcript as a bullet list:\n\n";
-    prompt << transcript.substr(0, std::min(transcript.size(), size_t(4000))) << "\n\n";
+    prompt << safe_transcript.substr(0, std::min(safe_transcript.size(), size_t(4000))) << "\n\n";
     prompt << "Key Points:\n";
     
     try {
@@ -129,11 +174,13 @@ json VoiceAssistant::extractActionItems(const std::string& transcript) {
     if (transcript.empty()) {
         return json::array();
     }
+
+    const std::string safe_transcript = sanitizePromptFragment(transcript);
     
     // Build prompt for action items extraction
     std::stringstream prompt;
     prompt << "Extract action items and tasks from the following transcript:\n\n";
-    prompt << transcript.substr(0, std::min(transcript.size(), size_t(4000))) << "\n\n";
+    prompt << safe_transcript.substr(0, std::min(safe_transcript.size(), size_t(4000))) << "\n\n";
     prompt << "Action Items:\n";
     
     try {

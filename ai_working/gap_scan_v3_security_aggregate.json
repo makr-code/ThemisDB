@@ -3731,12 +3731,12 @@
     }
   },
   "llm": {
-    "total": 264,
+    "total": 265,
     "severity_critical": 7,
-    "severity_high": 257,
+    "severity_high": 258,
     "severity_medium": 0,
     "by_type": {
-      "null_dereference": 257,
+      "null_dereference": 258,
       "sql_injection": 7
     },
     "gaps_by_file": {
@@ -4212,7 +4212,16 @@
       "src\\llm\\llama_wrapper.cpp": [
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 990,
+          "line": 988,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "auto cached_response = response_cache_ptr->get(cache_key);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\llm\\llama_wrapper.cpp",
+          "line": 1039,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* model_handle = cached->model_handle;",
@@ -4221,7 +4230,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 991,
+          "line": 1040,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* context_handle = cached->context_handle;",
@@ -4230,7 +4239,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1145,
+          "line": 1194,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "llama_grammar* grammar_handle = grammar ? grammar->getHandle() : nullptr;",
@@ -4239,7 +4248,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1354,
+          "line": 1403,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* model_handle = cached->model_handle;",
@@ -4248,7 +4257,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1355,
+          "line": 1404,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* context_handle = cached->context_handle;",
@@ -4257,7 +4266,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1477,
+          "line": 1526,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* model_handle = cached->model_handle;",
@@ -4266,7 +4275,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1478,
+          "line": 1527,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* context_handle = cached->context_handle;",
@@ -4275,7 +4284,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2148,
+          "line": 2209,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return prefix_cache->getStatistics();",
@@ -4284,7 +4293,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2156,
+          "line": 2217,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "prefix_cache->clear();",
@@ -4293,7 +4302,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2352,
+          "line": 2413,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* target_model_handle = cached->model_handle;",
@@ -4302,7 +4311,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2353,
+          "line": 2414,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* target_context_handle = cached->context_handle;",
@@ -4311,7 +4320,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2624,
+          "line": 2685,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* model_handle = cached->model_handle;",
@@ -4320,7 +4329,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2625,
+          "line": 2686,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* context_handle = cached->context_handle;",
@@ -4329,7 +4338,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3226,
+          "line": 3287,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* context_handle = cached_m->context_handle;",
@@ -4338,7 +4347,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 3227,
+          "line": 3288,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "void* model_handle = cached_m->model_handle;",
@@ -5064,7 +5073,7 @@
       "src\\llm\\lora_framework\\gpu_lora_layers.cpp": [
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 135,
+          "line": 147,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const float* B_ptr = reinterpret_cast<const float*>(B_->data());",
@@ -5073,7 +5082,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 136,
+          "line": 148,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const float* A_ptr = reinterpret_cast<const float*>(A_->data());",
@@ -5082,7 +5091,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 173,
+          "line": 185,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const float* B_ptr = reinterpret_cast<const float*>(B_->data());",
@@ -5091,7 +5100,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 174,
+          "line": 186,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const float* A_ptr = reinterpret_cast<const float*>(A_->data());",
@@ -5100,7 +5109,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 354,
+          "line": 375,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const float* B_ptr = reinterpret_cast<const float*>(B_->data());",
@@ -5109,7 +5118,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 355,
+          "line": 376,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const float* A_ptr = reinterpret_cast<const float*>(A_->data());",
@@ -5118,7 +5127,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 357,
+          "line": 378,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "float* grad_A_ptr = reinterpret_cast<float*>(A_->grad->data());",
@@ -5127,7 +5136,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 358,
+          "line": 379,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "float* grad_B_ptr = reinterpret_cast<float*>(B_->grad->data());",
@@ -5136,7 +5145,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 402,
+          "line": 423,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const float* B_ptr = reinterpret_cast<const float*>(B_->data());",
@@ -5145,7 +5154,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 403,
+          "line": 424,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const float* A_ptr = reinterpret_cast<const float*>(A_->data());",
@@ -5154,7 +5163,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 405,
+          "line": 426,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "float* grad_A_ptr = reinterpret_cast<float*>(A_->grad->data());",
@@ -5163,7 +5172,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 406,
+          "line": 427,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "float* grad_B_ptr = reinterpret_cast<float*>(B_->grad->data());",
@@ -5172,7 +5181,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 580,
+          "line": 604,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "float* param_ptr = reinterpret_cast<float*>(param->data());",
@@ -5181,7 +5190,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 581,
+          "line": 605,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const float* grad_ptr = reinterpret_cast<const float*>(param->grad->data());",
@@ -5190,7 +5199,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 599,
+          "line": 623,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "float* param_ptr = reinterpret_cast<float*>(param->data());",
@@ -5199,7 +5208,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 600,
+          "line": 624,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "const float* grad_ptr = reinterpret_cast<const float*>(param->grad->data());",
@@ -7878,7 +7887,7 @@
       "src\\rag\\batch_evaluator.cpp": [
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 500,
+          "line": 525,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "handle->cancelled_.store(false);",
@@ -7887,7 +7896,7 @@
         },
         {
           "file": "src\\rag\\batch_evaluator.cpp",
-          "line": 503,
+          "line": 528,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "handle->future_ = promise.get_future();",
@@ -8147,7 +8156,7 @@
       "src\\replication\\replication_manager.cpp": [
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5732,
+          "line": 5749,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "handleConflict(it->second, entry, entry.is_ddl);",
@@ -13907,7 +13916,7 @@
       "src\\training\\incremental_lora_trainer.cpp": [
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1313,
+          "line": 1353,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "checkpoint_manager_->save(prefix + \"_weights.bin\", meta);",

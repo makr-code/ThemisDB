@@ -12,6 +12,7 @@
 #include "llm/llm_response_cache.h"
 #include "llm/paged_block_manager.h"
 #include "llm/llamacpp_inference_engine.h"
+#include "llm/prompt_safety_utils.h"
 #include "llm/llm_model_storage.h"
 #include "llm/json_schema_converter.h"
 #include "storage/blob_storage_manager.h"
@@ -77,6 +78,19 @@ namespace llm {
 
 namespace {
 constexpr int DEFAULT_MAX_GENERATION_TOKENS = 512;
+
+bool sanitizePromptText(
+    const std::string& input,
+    std::string& sanitized,
+    std::string* blocked_rule,
+    std::string* blocked_reason)
+{
+    return prompt_safety::sanitizePromptWithSharedPolicy(
+        input,
+        sanitized,
+        blocked_rule,
+        blocked_reason);
+}
 
 int resolveMaxTokensWithContextCap(int requested_max_tokens, int context_limit, bool& was_capped) {
     int resolved = requested_max_tokens > 0 ? requested_max_tokens : DEFAULT_MAX_GENERATION_TOKENS;
@@ -829,6 +843,41 @@ std::vector<LoRAInfo> LlamaWrapper::listLoRAs() const {
 
 InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     std::unique_lock<std::mutex> lock(mutex_);
+
+    InferenceRequest effective_request = request;
+    {
+        std::string blocked_rule;
+        std::string blocked_reason;
+        if (!sanitizePromptText(request.prompt,
+                                effective_request.prompt,
+                                &blocked_rule,
+                                &blocked_reason)) {
+            if (metrics_collector_) {
+                metrics_collector_->recordInferenceFailure(
+                    current_model_id_.empty() ? "unknown" : current_model_id_,
+                    "prompt_blocked:" + blocked_rule);
+            }
+            throw std::invalid_argument(
+                "Inference prompt blocked by policy rule '" + blocked_rule + "': " + blocked_reason);
+        }
+        if (request.system_prompt) {
+            std::string sanitized_system_prompt;
+            if (!sanitizePromptText(*request.system_prompt,
+                                    sanitized_system_prompt,
+                                    &blocked_rule,
+                                    &blocked_reason)) {
+                if (metrics_collector_) {
+                    metrics_collector_->recordInferenceFailure(
+                        current_model_id_.empty() ? "unknown" : current_model_id_,
+                        "system_prompt_blocked:" + blocked_rule);
+                }
+                throw std::invalid_argument(
+                    "System prompt blocked by policy rule '" + blocked_rule + "': " + blocked_reason);
+            }
+            effective_request.system_prompt = std::move(sanitized_system_prompt);
+        }
+    }
+    const InferenceRequest& safe_request = effective_request;
     
     if (current_model_id_.empty() && !configured_model_id_.empty()) {
         current_model_id_ = configured_model_id_;
@@ -886,13 +935,13 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     }
     
     spdlog::debug("Generating response for prompt: {} (max_tokens={})",
-                  request.prompt.substr(0, std::min(request.prompt.size(), size_t(50))), request.max_tokens);
+                  safe_request.prompt.substr(0, std::min(safe_request.prompt.size(), size_t(50))), safe_request.max_tokens);
     
     // Check if speculative decoding is available and enabled
     if (config_.use_speculative_decoding && draft_model_ && draft_context_) {
         spdlog::debug("Using speculative decoding");
         lock.unlock();
-        auto response = generateSpeculative(request);
+        auto response = generateSpeculative(safe_request);
         return response;
     }
     
@@ -903,15 +952,15 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     // Safety: generateVision() calls generate() internally with image_paths empty,
     // so there is no infinite recursion.  The mutex is already unlocked here,
     // allowing the nested generate() call to acquire it normally.
-    if (!request.image_paths.empty() && vision_enabled_) {
+    if (!safe_request.image_paths.empty() && vision_enabled_) {
         try {
             VisionRequest vision_req;
-            vision_req.text_prompt = request.prompt;
-            vision_req.image_paths = request.image_paths;
-            vision_req.max_tokens  = request.max_tokens;
-            vision_req.temperature = request.temperature;
-            vision_req.top_p       = request.top_p;
-            vision_req.top_k       = request.top_k;
+            vision_req.text_prompt = safe_request.prompt;
+            vision_req.image_paths = safe_request.image_paths;
+            vision_req.max_tokens  = safe_request.max_tokens;
+            vision_req.temperature = safe_request.temperature;
+            vision_req.top_p       = safe_request.top_p;
+            vision_req.top_k       = safe_request.top_k;
             VisionResponse vision_resp = generateVision(vision_req);
             if (!vision_resp.success) {
                 throw std::runtime_error(
@@ -920,7 +969,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
                         : vision_resp.error_message);
             }
             InferenceResponse resp;
-            resp.request_id       = request.request_id;
+            resp.request_id       = safe_request.request_id;
             resp.model_id         = current_model_id_;
             resp.text             = vision_resp.text;
             resp.tokens_generated = vision_resp.tokens_generated;
@@ -933,15 +982,15 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     }
 #endif
     // Check response cache first (if enabled); key includes model_id to prevent cross-tenant leakage
-    auto* const response_cache = response_cache_.get();
-    if (response_cache) {
-        const std::string cache_key = request.prompt + "|" + request.model_id;
-        auto cached_response = response_cache->get(cache_key);
+    auto* const response_cache_ptr = response_cache_.get();
+    if (response_cache_ptr) {
+        const std::string cache_key = safe_request.prompt + "|" + safe_request.model_id;
+        auto cached_response = response_cache_ptr->get(cache_key);
         if (cached_response) {
-            spdlog::debug("Cache hit for prompt: {}", request.prompt.substr(0, 50));
+            spdlog::debug("Cache hit for prompt: {}", safe_request.prompt.substr(0, 50));
             
             // Update request_id to match current request
-            cached_response->request_id = request.request_id;
+            cached_response->request_id = safe_request.request_id;
             
             // Record cache hit in inference metrics too
             if (metrics_collector_) {
@@ -954,7 +1003,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         }
     }
     try {
-        return generateRegular(request);
+        return generateRegular(safe_request);
     } catch (const std::exception& e) {
         spdlog::error("Regular inference error: {}", e.what());
         throw;
@@ -1689,19 +1738,31 @@ std::string LlamaWrapper::formatPromptForRAG(
     
     // Add system prompt if provided
     if (request.system_prompt) {
-        oss << *request.system_prompt << "\n\n";
+        std::string sanitized_system_prompt;
+        if (!sanitizePromptText(*request.system_prompt, sanitized_system_prompt, nullptr, nullptr)) {
+            throw std::invalid_argument("RAG system prompt blocked by prompt policy");
+        }
+        oss << sanitized_system_prompt << "\n\n";
     }
     
     // Add context documents
     oss << "Context:\n";
     for (size_t i = 0; i < rag_context.documents.size(); ++i) {
         const auto& doc = rag_context.documents[i];
+        std::string sanitized_content;
+        if (!sanitizePromptText(doc.content, sanitized_content, nullptr, nullptr)) {
+            sanitized_content = "[BLOCKED_CONTEXT]";
+        }
         oss << "[Document " << (i + 1) << "]\n";
-        oss << doc.content << "\n\n";
+        oss << sanitized_content << "\n\n";
     }
     
     // Add user query
-    oss << "Question: " << rag_context.query << "\n\n";
+    std::string sanitized_query;
+    if (!sanitizePromptText(rag_context.query, sanitized_query, nullptr, nullptr)) {
+        throw std::invalid_argument("RAG query blocked by prompt policy");
+    }
+    oss << "Question: " << sanitized_query << "\n\n";
     oss << "Answer based on the context provided above:";
     
     return oss.str();

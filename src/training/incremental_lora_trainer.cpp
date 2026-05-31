@@ -10,6 +10,7 @@
 #include "training/incremental_lora_trainer.h"
 #include "training/adapter_serving.h"
 #include "training/lora_checkpoint_manager.h"
+#include "llm/prompt_safety_utils.h"
 #include <nlohmann/json.hpp>
 #include <algorithm>
 #include <unordered_set>
@@ -46,6 +47,23 @@ namespace spdlog {
 
 namespace themis {
 namespace training {
+
+namespace {
+
+bool sanitizeTrainingPromptLikeText(
+    const std::string& input,
+    std::string& sanitized,
+    std::string* blocked_rule,
+    std::string* blocked_reason)
+{
+    return llm::prompt_safety::sanitizePromptWithSharedPolicy(
+        input,
+        sanitized,
+        blocked_rule,
+        blocked_reason);
+}
+
+} // namespace
 
 // ============================================================================
 // Checkpoint format & serialization helpers (Phase 5)
@@ -126,6 +144,19 @@ public:
     TrainingResult train(TrainingMode mode, TrainingCallback callback) {
         TrainingResult result;
         auto start_time = std::chrono::steady_clock::now();
+
+        std::string sanitized_collection_name;
+        std::string blocked_rule;
+        std::string blocked_reason;
+        if (!sanitizeTrainingPromptLikeText(config_.training_data_collection,
+                                            sanitized_collection_name,
+                                            &blocked_rule,
+                                            &blocked_reason)) {
+            result.success = false;
+            result.error_message =
+                "Training input blocked by prompt policy rule '" + blocked_rule + "': " + blocked_reason;
+            return result;
+        }
 
         // Reset metrics for this run
         metrics_.reset();
@@ -882,9 +913,18 @@ public:
     std::vector<float> encodeSample(const std::string& text, size_t feature_dim) const {
         std::vector<float> vec(feature_dim, 0.0f);
         if (text.empty()) return vec;
+
+        std::string safe_text;
+        if (!sanitizeTrainingPromptLikeText(text, safe_text, nullptr, nullptr)) {
+            safe_text = "[BLOCKED_PROMPT]";
+        }
+        if (safe_text.empty()) {
+            return vec;
+        }
+
         // XOR-fold 64-bit hash into 32-bit seed to preserve entropy
         std::hash<std::string> hasher;
-        size_t h64 = hasher(text);
+        size_t h64 = hasher(safe_text);
         uint32_t seed = static_cast<uint32_t>(h64 ^ (h64 >> 32));
         std::mt19937 gen(seed);
         std::normal_distribution<float> dist(0.0f, 0.1f);

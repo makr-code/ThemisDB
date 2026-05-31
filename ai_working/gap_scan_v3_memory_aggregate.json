@@ -7692,7 +7692,7 @@
       "src\\llm\\llama_wrapper.cpp": [
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 505,
+          "line": 519,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto metadata_opt = storage->loadModel(model_id);",
@@ -7701,7 +7701,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 524,
+          "line": 538,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto blob_data_opt = storage->loadModelBlob(model_id);",
@@ -7710,7 +7710,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1145,
+          "line": 1194,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "llama_grammar* grammar_handle = grammar ? grammar->getHandle() : nullptr;",
@@ -7719,7 +7719,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1247,
+          "line": 1296,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response.metadata[\"validation_errors\"] = validation.errors;",
@@ -7728,7 +7728,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1248,
+          "line": 1297,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response.metadata[\"validation_valid\"] = false;",
@@ -7737,7 +7737,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1257,
+          "line": 1306,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response.metadata[\"validation_metrics\"] = {",
@@ -7746,7 +7746,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1409,
+          "line": 1458,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "logit_row[j] = logits_ptr[j];",
@@ -7755,7 +7755,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 1449,
+          "line": 1498,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response.metadata[\"rag_enabled\"] = true;",
@@ -7764,7 +7764,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2011,
+          "line": 2072,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "float max_logit = candidates_p.data[0].logit;",
@@ -7773,7 +7773,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2014,
+          "line": 2075,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "candidates_p.data[i].p = std::exp(candidates_p.data[i].logit - max_logit);",
@@ -7782,7 +7782,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2015,
+          "line": 2076,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "sum_exp += candidates_p.data[i].p;",
@@ -7791,7 +7791,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2021,
+          "line": 2082,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "candidates_p.data[i].p /= sum_exp;",
@@ -7800,7 +7800,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2022,
+          "line": 2083,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "cum_prob += candidates_p.data[i].p;",
@@ -7809,7 +7809,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2040,
+          "line": 2101,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "llama_token sampled_token = candidates_p.data[0].id;",
@@ -7818,7 +7818,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2113,
+          "line": 2174,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result[\"metadata\"][\"format_hints\"] = {",
@@ -7827,7 +7827,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2581,
+          "line": 2642,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response.metadata[\"speculative_decoding\"] = true;",
@@ -7836,7 +7836,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2582,
+          "line": 2643,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response.metadata[\"acceptance_rate\"] = (total_speculations > 0)",
@@ -7845,7 +7845,7 @@
         },
         {
           "file": "src\\llm\\llama_wrapper.cpp",
-          "line": 2584,
+          "line": 2645,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response.metadata[\"draft_model\"] = draft_model_id_;",
@@ -8823,7 +8823,7 @@
       "src\\llm\\lora_framework\\gpu_lora_layers.cpp": [
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 136,
+          "line": 148,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "const float* A_ptr = reinterpret_cast<const float*>(A_->data());",
@@ -8832,7 +8832,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 174,
+          "line": 186,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "const float* A_ptr = reinterpret_cast<const float*>(A_->data());",
@@ -8841,7 +8841,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 355,
+          "line": 376,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "const float* A_ptr = reinterpret_cast<const float*>(A_->data());",
@@ -8850,7 +8850,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 357,
+          "line": 378,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "float* grad_A_ptr = reinterpret_cast<float*>(A_->grad->data());",
@@ -8859,7 +8859,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 358,
+          "line": 379,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "float* grad_B_ptr = reinterpret_cast<float*>(B_->grad->data());",
@@ -8868,7 +8868,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 403,
+          "line": 424,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "const float* A_ptr = reinterpret_cast<const float*>(A_->data());",
@@ -8877,7 +8877,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 405,
+          "line": 426,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "float* grad_A_ptr = reinterpret_cast<float*>(A_->grad->data());",
@@ -8886,7 +8886,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-          "line": 406,
+          "line": 427,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "float* grad_B_ptr = reinterpret_cast<float*>(B_->grad->data());",
@@ -13097,7 +13097,7 @@
       "src\\replication\\conflict_resolution.cpp": [
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 277,
+          "line": 280,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "conflicting_writes[right_idx].data);",
@@ -13328,7 +13328,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3680,
+          "line": 3697,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result.data          = best->data;",
@@ -13337,7 +13337,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4264,
+          "line": 4281,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "ins.metadata[\"replica_id\"] = replica_id;",
@@ -13346,7 +13346,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4265,
+          "line": 4282,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "ins.metadata[\"lag_ms\"]     = std::to_string(last_lag);",
@@ -13355,7 +13355,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4283,
+          "line": 4300,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "ins.metadata[\"replica_id\"] = replica_id;",
@@ -13364,7 +13364,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4284,
+          "line": 4301,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "ins.metadata[\"avg_lag_ms\"] = std::to_string(avg);",
@@ -13373,7 +13373,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5369,
+          "line": 5386,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "[[maybe_unused]] const std::string& data,",
@@ -20536,7 +20536,7 @@
       "src\\training\\incremental_lora_trainer.cpp": [
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 538,
+          "line": 569,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "data_map[layer] = sum / static_cast<double>(gradient_update_count_);",
@@ -20545,7 +20545,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1013,
+          "line": 1053,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "input_data [b * feature_dim + fd] = input_vec[fd];",
@@ -20554,7 +20554,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1014,
+          "line": 1054,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "target_data[b * feature_dim + fd] = target_vec[fd];",
@@ -21496,7 +21496,7 @@
       "src\\voice\\voice_assistant.cpp": [
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 159,
+          "line": 162,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto transcription = stt_processor_->transcribe(audio_data);",
@@ -21505,7 +21505,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 294,
+          "line": 298,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "bool ok = stt_processor_->streamTranscribe(audio_data, on_segment);",
@@ -21514,7 +21514,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 311,
+          "line": 315,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto transcription = stt_processor_->transcribe(audio_data);",
@@ -21523,7 +21523,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 371,
+          "line": 375,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto transcription = stt_processor_->transcribe(audio_data, transcription_options);",
@@ -21532,7 +21532,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 383,
+          "line": 387,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result[\"call_id\"] = metadata.call_id;",
@@ -21541,7 +21541,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 391,
+          "line": 395,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "call_metadata[\"caller\"] = metadata.caller_number;",
@@ -21550,7 +21550,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 392,
+          "line": 396,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "call_metadata[\"callee\"] = metadata.callee_number;",
@@ -21559,7 +21559,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 393,
+          "line": 397,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "call_metadata[\"start_time\"] = metadata.start_time;",
@@ -21568,7 +21568,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 394,
+          "line": 398,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "call_metadata[\"end_time\"] = metadata.end_time;",
@@ -21577,7 +21577,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 395,
+          "line": 399,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "call_metadata[\"call_type\"] = metadata.call_type;",
@@ -21586,7 +21586,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 396,
+          "line": 400,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "call_metadata[\"custom_fields\"] = metadata.custom_fields;",
@@ -21595,7 +21595,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 397,
+          "line": 401,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result[\"metadata\"] = call_metadata;",
@@ -21604,7 +21604,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 450,
+          "line": 454,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto protocol = stt_processor_->generateMeetingProtocol(audio_data, protocol_options);",
@@ -21613,7 +21613,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 453,
+          "line": 457,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "protocol[\"meeting_id\"] = metadata.meeting_id;",
@@ -21622,7 +21622,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 454,
+          "line": 458,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "protocol[\"title\"] = metadata.title;",
@@ -21631,7 +21631,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 455,
+          "line": 459,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "protocol[\"start_time\"] = metadata.start_time;",
@@ -21640,7 +21640,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 456,
+          "line": 460,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "protocol[\"end_time\"] = metadata.end_time;",
@@ -21649,7 +21649,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 457,
+          "line": 461,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "protocol[\"duration_ms\"] = metadata.end_time - metadata.start_time;",
@@ -21658,7 +21658,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 458,
+          "line": 462,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "protocol[\"organizer\"] = metadata.organizer;",
@@ -21667,7 +21667,7 @@
         },
         {
           "file": "src\\voice\\voice_assistant.cpp",
-          "line": 465,
+          "line": 469,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "protocol[\"custom_fields\"] = metadata.custom_fields;",

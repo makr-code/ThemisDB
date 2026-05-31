@@ -18,6 +18,7 @@
 
 #include "rag/batch_evaluator.h"
 #include "rag/prompt_injection_detector.h"
+#include "llm/prompt_safety_utils.h"
 #include "utils/logger.h"
 
 #include <algorithm>
@@ -257,6 +258,24 @@ EvaluationResult BatchEvaluator::processEvaluation(const EvaluationInput& input)
     static thread_local security::PromptInjectionSanitizer sanitizer{};
     safe_input.query = sanitizer.sanitize(input.query);
     safe_input.generated_answer = sanitizer.sanitize(input.generated_answer);
+
+    // Shared LLM safety policy to keep rag/llm/training prompt sanitization aligned.
+    std::string sanitized_query;
+    if (themis::llm::prompt_safety::sanitizePromptWithSharedPolicy(
+            safe_input.query, sanitized_query, nullptr, nullptr)) {
+        safe_input.query = std::move(sanitized_query);
+    } else {
+        safe_input.query = "[BLOCKED_PROMPT]";
+    }
+
+    std::string sanitized_answer;
+    if (themis::llm::prompt_safety::sanitizePromptWithSharedPolicy(
+            safe_input.generated_answer, sanitized_answer, nullptr, nullptr)) {
+        safe_input.generated_answer = std::move(sanitized_answer);
+    } else {
+        safe_input.generated_answer = "[BLOCKED_PROMPT]";
+    }
+
     return judge_->evaluate(safe_input);
 }
 

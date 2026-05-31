@@ -17,6 +17,7 @@
 #include "sharding/consistent_hash.h"
 #include <memory>
 #include <stdexcept>
+#include <thread>
 
 using namespace themis::sharding;
 
@@ -516,4 +517,56 @@ TEST_F(AdaptiveShardRouterTest, ASR_DOM_04_UnknownShardOrDomainReturnsZero) {
         router->getAdapterAccuracyDelta("shard_law", AdapterDomainType::SECURITY_MONITOR),
         0.0)
         << "Known shard but unknown domain must return 0.0";
+}
+
+// ASR-DOM-05: Deterministic replay safeguard for tie scenarios.
+// With equal accuracy deltas and missing load snapshots, routing must remain
+// stable across repeated calls by falling back to lexical shard-id order.
+TEST_F(AdaptiveShardRouterTest, ASR_DOM_05_DeterministicTieBreakWithMissingLoadSnapshots) {
+    router->updateAdapterCapability(
+        "shard_hamburg",
+        makeAnnouncement("shard_hamburg", AdapterDomainType::SECURITY_MONITOR, 0.10));
+    router->updateAdapterCapability(
+        "shard_bremen",
+        makeAnnouncement("shard_bremen", AdapterDomainType::SECURITY_MONITOR, 0.10));
+
+    std::vector<std::string> picks;
+    picks.reserve(16);
+    for (int i = 0; i < 16; ++i) {
+        picks.push_back(router->routeByDomain(AdapterDomainType::SECURITY_MONITOR));
+    }
+
+    ASSERT_FALSE(picks.empty());
+    for (const auto& picked : picks) {
+        EXPECT_EQ(picked, picks.front());
+    }
+    EXPECT_EQ(picks.front(), "shard_bremen")
+        << "Equal-score/equal-load ties must resolve deterministically by lexical shard_id";
+}
+
+// ASR-DOM-06: Fresh load snapshots must outrank stale snapshots for equal score.
+// This guards stale-state routing regressions where an old metric snapshot could
+// incorrectly dominate newer shard load evidence.
+TEST_F(AdaptiveShardRouterTest, ASR_DOM_06_FreshSnapshotPreferredOverStaleSnapshot) {
+    auto cfg = router->getAdaptiveConfig();
+    cfg.llm_load_freshness_ms = 5;
+    router->updateAdaptiveConfig(cfg);
+
+    router->updateAdapterCapability(
+        "shard_bremen",
+        makeAnnouncement("shard_bremen", AdapterDomainType::SECURITY_MONITOR, 0.20));
+    router->updateAdapterCapability(
+        "shard_law",
+        makeAnnouncement("shard_law", AdapterDomainType::SECURITY_MONITOR, 0.20));
+
+    // Make bremen stale.
+    router->updateShardLLMLoad("shard_bremen", /*pending_requests=*/0, /*avg_queue_ms=*/1.0);
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
+    // Keep law fresh (even with a worse queue depth) to verify freshness priority.
+    router->updateShardLLMLoad("shard_law", /*pending_requests=*/999, /*avg_queue_ms=*/50.0);
+
+    const std::string picked = router->routeByDomain(AdapterDomainType::SECURITY_MONITOR);
+    EXPECT_EQ(picked, "shard_law")
+        << "Fresh snapshot must outrank stale snapshot when scores are equal";
 }
