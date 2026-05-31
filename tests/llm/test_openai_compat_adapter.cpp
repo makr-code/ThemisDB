@@ -25,10 +25,14 @@
  */
 
 #include <gtest/gtest.h>
+#include <memory>
+#include <sstream>
 #include <string>
 #include <variant>
 
 #include <nlohmann/json.hpp>
+#include <spdlog/sinks/ostream_sink.h>
+#include <spdlog/spdlog.h>
 
 #include "llm/openai_compat_adapter.h"
 #include "llm/llm_plugin_interface.h"
@@ -517,6 +521,44 @@ TEST_F(InferencePermissionTest, DenialReasonIsHumanReadable) {
 
 namespace {
 
+class ScopedDefaultLogCapture final {
+public:
+    ScopedDefaultLogCapture()
+        : previous_logger_(spdlog::default_logger()),
+          previous_level_(spdlog::get_level()) {
+        sink_ = std::make_shared<spdlog::sinks::ostream_sink_mt>(stream_);
+        logger_ = std::make_shared<spdlog::logger>("openai_compat_capture", sink_);
+        logger_->set_level(spdlog::level::info);
+        logger_->flush_on(spdlog::level::info);
+        logger_->set_pattern("%v");
+
+        spdlog::set_default_logger(logger_);
+        spdlog::set_level(spdlog::level::info);
+    }
+
+    ~ScopedDefaultLogCapture() {
+        if (logger_) {
+            logger_->flush();
+        }
+        spdlog::set_default_logger(previous_logger_);
+        spdlog::set_level(previous_level_);
+    }
+
+    ScopedDefaultLogCapture(const ScopedDefaultLogCapture&) = delete;
+    ScopedDefaultLogCapture& operator=(const ScopedDefaultLogCapture&) = delete;
+
+    [[nodiscard]] std::string captured() const {
+        return stream_.str();
+    }
+
+private:
+    std::ostringstream stream_;
+    std::shared_ptr<spdlog::sinks::ostream_sink_mt> sink_;
+    std::shared_ptr<spdlog::logger> logger_;
+    std::shared_ptr<spdlog::logger> previous_logger_;
+    spdlog::level::level_enum previous_level_;
+};
+
 /// Helper: build a minimal Boost.Beast HTTP POST request for /v1/chat/completions.
 static http::request<http::string_body> makeChatRequest(
     const std::string& auth_header = "",
@@ -661,4 +703,64 @@ TEST_F(LLMApiHandlerPolicyTest, OpenAIModelsEndpoint_DoesNotRequirePolicyAuthHea
 
     EXPECT_NE(res.result_int(), 401);
     EXPECT_NE(res.result_int(), 403);
+}
+
+TEST_F(LLMApiHandlerPolicyTest, OpenAIChatNonStreaming_EmitsLifecycleLogs) {
+    handler_->setPolicyEngine(&policy_engine_);
+
+    ScopedDefaultLogCapture capture;
+    auto req = makeChatRequest(
+        "Bearer sk-test-api-key-12345",
+        R"({"model":"test","stream":false,"messages":[{"role":"user","content":"hi"}]})");
+
+    auto res = handler_->handleRequest(req);
+    const std::string logs = capture.captured();
+
+    EXPECT_NE(logs.find("LLMApiHandler::handleOpenAIChatCompletions non-stream start"), std::string::npos)
+        << "Non-stream request should emit a start lifecycle log";
+
+    const bool has_complete =
+        logs.find("LLMApiHandler::handleOpenAIChatCompletions non-stream complete") != std::string::npos;
+    const bool has_failed =
+        logs.find("LLMApiHandler::handleOpenAIChatCompletions non-stream failed") != std::string::npos;
+    const bool has_failed_unknown =
+        logs.find("LLMApiHandler::handleOpenAIChatCompletions non-stream failed with unknown error") != std::string::npos;
+
+    EXPECT_TRUE(has_complete || has_failed || has_failed_unknown)
+        << "Non-stream request should emit a terminal lifecycle log (complete or failed)";
+
+    if (res.result_int() >= 500) {
+        EXPECT_TRUE(has_failed || has_failed_unknown)
+            << "Server-error path should include a non-stream failure lifecycle log";
+    }
+}
+
+TEST_F(LLMApiHandlerPolicyTest, OpenAIChatStreaming_EmitsLifecycleLogs) {
+    handler_->setPolicyEngine(&policy_engine_);
+
+    ScopedDefaultLogCapture capture;
+    auto req = makeChatRequest(
+        "Bearer sk-test-api-key-12345",
+        R"({"model":"test","stream":true,"messages":[{"role":"user","content":"hi"}]})");
+
+    auto res = handler_->handleRequest(req);
+    const std::string logs = capture.captured();
+
+    EXPECT_NE(logs.find("LLMApiHandler::handleOpenAIChatCompletions stream start"), std::string::npos)
+        << "Streaming request should emit a start lifecycle log";
+
+    const bool has_complete =
+        logs.find("LLMApiHandler::handleOpenAIChatCompletions stream complete") != std::string::npos;
+    const bool has_failed =
+        logs.find("LLMApiHandler::handleOpenAIChatCompletions stream failed") != std::string::npos;
+    const bool has_failed_unknown =
+        logs.find("LLMApiHandler::handleOpenAIChatCompletions stream failed with unknown error") != std::string::npos;
+
+    EXPECT_TRUE(has_complete || has_failed || has_failed_unknown)
+        << "Streaming request should emit a terminal lifecycle log (complete or failed)";
+
+    if (res.result_int() >= 500) {
+        EXPECT_TRUE(has_failed || has_failed_unknown)
+            << "Server-error path should include a streaming failure lifecycle log";
+    }
 }

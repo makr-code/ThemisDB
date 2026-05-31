@@ -736,6 +736,12 @@ http::response<http::string_body> LLMApiHandler::handleStreamInference(
             "Missing 'prompt' query parameter");
     }
 
+    spdlog::info(
+        "LLMApiHandler::handleStreamInference start: request_id='{}' prompt_len={} max_tokens={}",
+        request_id,
+        prompt.size(),
+        max_tokens);
+
     // Collect SSE events from LLM streaming
     std::string sse_body;
     sse_body += "retry: 3000\n\n";
@@ -752,10 +758,21 @@ http::response<http::string_body> LLMApiHandler::handleStreamInference(
         );
         // Emit terminal done event
         sse_body += "event: done\ndata: {\"done\":true}\n\n";
+        spdlog::info(
+            "LLMApiHandler::handleStreamInference complete: request_id='{}' sse_bytes={}",
+            request_id,
+            sse_body.size());
     } catch (const std::exception& e) {
+        spdlog::warn(
+            "LLMApiHandler::handleStreamInference failed: request_id='{}' error='{}'",
+            request_id,
+            e.what());
         json err_event = {{"error", true}, {"message", std::string(e.what())}};
         sse_body += "event: error\ndata: " + err_event.dump() + "\n\n";
     } catch (...) {
+        spdlog::warn(
+            "LLMApiHandler::handleStreamInference failed with unknown error: request_id='{}'",
+            request_id);
         logCurrentException("LLMApiHandler::handleStreamInference");
         sse_body += "event: error\ndata: {\"error\":true,\"message\":\"Internal error\"}\n\n";
     }
@@ -807,6 +824,12 @@ http::response<http::string_body> LLMApiHandler::handleStreamExplainAql(
     std::string sse_body;
     sse_body += "retry: 3000\n\n";
 
+    spdlog::info(
+        "LLMApiHandler::handleStreamExplainAql start: request_id='{}' query_len={} schema_ctx_len={}",
+        request_id,
+        aql_query.size(),
+        schema_context.size());
+
     try {
         aql::LLMAQLHandler aql_handler;
         aql_handler.streamExplainAQLAsSSE(
@@ -819,14 +842,30 @@ http::response<http::string_body> LLMApiHandler::handleStreamExplainAql(
         );
         // Emit terminal done event
         sse_body += "event: done\ndata: {\"done\":true}\n\n";
+        spdlog::info(
+            "LLMApiHandler::handleStreamExplainAql complete: request_id='{}' sse_bytes={}",
+            request_id,
+            sse_body.size());
     } catch (const aql::LLMException& e) {
+        spdlog::warn(
+            "LLMApiHandler::handleStreamExplainAql LLMException: request_id='{}' code={} error='{}'",
+            request_id,
+            static_cast<int>(e.getErrorCode()),
+            e.what());
         json err_event = {{"error", true}, {"message", std::string(e.what())},
                           {"code", static_cast<int>(e.getErrorCode())}};
         sse_body += "event: error\ndata: " + err_event.dump() + "\n\n";
     } catch (const std::exception& e) {
+        spdlog::warn(
+            "LLMApiHandler::handleStreamExplainAql failed: request_id='{}' error='{}'",
+            request_id,
+            e.what());
         json err_event = {{"error", true}, {"message", std::string(e.what())}};
         sse_body += "event: error\ndata: " + err_event.dump() + "\n\n";
     } catch (...) {
+        spdlog::warn(
+            "LLMApiHandler::handleStreamExplainAql failed with unknown error: request_id='{}'",
+            request_id);
         logCurrentException("LLMApiHandler::handleStreamExplainAql");
         sse_body += "event: error\ndata: {\"error\":true,\"message\":\"Internal error\"}\n\n";
     }
@@ -2007,6 +2046,12 @@ http::response<http::string_body> LLMApiHandler::handleOpenAIChatCompletions(
                 std::chrono::duration_cast<std::chrono::seconds>(
                     std::chrono::system_clock::now().time_since_epoch()).count());
 
+            spdlog::info(
+                "LLMApiHandler::handleOpenAIChatCompletions stream start: model='{}' prompt_len={} request_max_tokens={}",
+                model_id.empty() ? std::string{"default"} : model_id,
+                llm_request.prompt.size(),
+                llm_request.max_tokens);
+
             llm_request.stream_callback = [&](const std::string& token) {
                 sse_body += llm::OpenAICompatAdapter::buildStreamChunk(
                     token, completion_id, model_id, created);
@@ -2016,11 +2061,18 @@ http::response<http::string_body> LLMApiHandler::handleOpenAIChatCompletions(
                 auto& plugin_mgr = llm::LLMPluginManager::instance();
                 plugin_mgr.generate(llm_request);
             } catch (const std::exception& e) {
+                spdlog::warn(
+                    "LLMApiHandler::handleOpenAIChatCompletions stream failed: model='{}' error='{}'",
+                    model_id.empty() ? std::string{"default"} : model_id,
+                    e.what());
                 auto err = llm::OpenAICompatAdapter::buildError(
                     std::string{"Inference failed: "} + e.what(),
                     "server_error");
                 return createJsonResponse(err, http::status::internal_server_error);
             } catch (...) {
+                spdlog::warn(
+                    "LLMApiHandler::handleOpenAIChatCompletions stream failed with unknown error: model='{}'",
+                    model_id.empty() ? std::string{"default"} : model_id);
                 logCurrentException("LLMApiHandler::handleOpenAIChatCompletions streaming");
                 auto err = llm::OpenAICompatAdapter::buildError("Inference failed", "server_error");
                 return createJsonResponse(err, http::status::internal_server_error);
@@ -2029,6 +2081,11 @@ http::response<http::string_body> LLMApiHandler::handleOpenAIChatCompletions(
             sse_body += llm::OpenAICompatAdapter::buildStreamFinalChunk(
                 completion_id, model_id, created);
             sse_body += llm::OpenAICompatAdapter::buildStreamDone();
+
+            spdlog::info(
+                "LLMApiHandler::handleOpenAIChatCompletions stream complete: model='{}' sse_bytes={}",
+                model_id.empty() ? std::string{"default"} : model_id,
+                sse_body.size());
 
             http::response<http::string_body> res{http::status::ok, req.version()};
             res.set(http::field::content_type, "text/event-stream");
@@ -2041,16 +2098,29 @@ http::response<http::string_body> LLMApiHandler::handleOpenAIChatCompletions(
 
         } else {
             // ── Non-streaming path ────────────────────────────────────────
+            spdlog::info(
+                "LLMApiHandler::handleOpenAIChatCompletions non-stream start: model='{}' prompt_len={} request_max_tokens={}",
+                model_id.empty() ? std::string{"default"} : model_id,
+                llm_request.prompt.size(),
+                llm_request.max_tokens);
+
             llm::InferenceResponse llm_response;
             try {
                 auto& plugin_mgr = llm::LLMPluginManager::instance();
                 llm_response = plugin_mgr.generate(llm_request);
             } catch (const std::exception& e) {
+                spdlog::warn(
+                    "LLMApiHandler::handleOpenAIChatCompletions non-stream failed: model='{}' error='{}'",
+                    model_id.empty() ? std::string{"default"} : model_id,
+                    e.what());
                 auto err = llm::OpenAICompatAdapter::buildError(
                     std::string{"Inference failed: "} + e.what(),
                     "server_error");
                 return createJsonResponse(err, http::status::internal_server_error);
             } catch (...) {
+                spdlog::warn(
+                    "LLMApiHandler::handleOpenAIChatCompletions non-stream failed with unknown error: model='{}'",
+                    model_id.empty() ? std::string{"default"} : model_id);
                 logCurrentException("LLMApiHandler::handleOpenAIChatCompletions non-streaming");
                 auto err = llm::OpenAICompatAdapter::buildError("Inference failed", "server_error");
                 return createJsonResponse(err, http::status::internal_server_error);
@@ -2058,6 +2128,12 @@ http::response<http::string_body> LLMApiHandler::handleOpenAIChatCompletions(
 
             json response_json = llm::OpenAICompatAdapter::buildResponse(
                 llm_response, model_id, completion_id);
+
+            spdlog::info(
+                "LLMApiHandler::handleOpenAIChatCompletions non-stream complete: model='{}' tokens_generated={} inference_time_ms={:.2f}",
+                model_id.empty() ? std::string{"default"} : model_id,
+                llm_response.tokens_generated,
+                llm_response.inference_time_ms);
 
             http::response<http::string_body> res{http::status::ok, req.version()};
             res.set(http::field::content_type, "application/json");

@@ -154,6 +154,14 @@ InferenceHandle AsyncInferenceEngine::submit(
 ) {
     auto submit_time = std::chrono::steady_clock::now();
 
+    spdlog::info(
+        "AsyncInferenceEngine::submit start: model='{}' prompt_len={} priority={} timeout_ms={} via_pool={}",
+        request.model_id.empty() ? std::string{"default"} : request.model_id,
+        request.prompt.size(),
+        priority,
+        timeout.count(),
+        (shared_pool_ != nullptr));
+
     // Create async request
     auto async_req = std::make_shared<AsyncInferenceRequest>();
     async_req->request    = request;
@@ -244,6 +252,12 @@ InferenceHandle AsyncInferenceEngine::submit(
     spdlog::debug("Submitted inference request {} (priority={}, via_pool={})",
                   async_req->request_id, priority, (shared_pool_ != nullptr));
 
+    spdlog::info(
+        "AsyncInferenceEngine::submit queued: request_id={} priority={} via_pool={}",
+        async_req->request_id,
+        priority,
+        (shared_pool_ != nullptr));
+
     return InferenceHandle(async_req->request_id, future, async_req->cancel_token);
 }
 
@@ -254,6 +268,14 @@ std::string AsyncInferenceEngine::submitAsync(
     std::chrono::milliseconds timeout
 ) {
     auto submit_time = std::chrono::steady_clock::now();
+
+    spdlog::info(
+        "AsyncInferenceEngine::submitAsync start: model='{}' prompt_len={} priority={} timeout_ms={} via_pool={}",
+        request.model_id.empty() ? std::string{"default"} : request.model_id,
+        request.prompt.size(),
+        priority,
+        timeout.count(),
+        (shared_pool_ != nullptr));
 
     // Create async request with callback
     auto async_req = std::make_shared<AsyncInferenceRequest>();
@@ -333,6 +355,12 @@ std::string AsyncInferenceEngine::submitAsync(
     spdlog::debug("Submitted async inference request {} (callback mode, via_pool={})",
                   async_req->request_id, (shared_pool_ != nullptr));
 
+    spdlog::info(
+        "AsyncInferenceEngine::submitAsync queued: request_id={} priority={} via_pool={}",
+        async_req->request_id,
+        priority,
+        (shared_pool_ != nullptr));
+
     return async_req->request_id;
 }
 
@@ -343,6 +371,14 @@ InferenceHandle AsyncInferenceEngine::submitStreaming(
     std::chrono::milliseconds timeout
 ) {
     auto submit_time = std::chrono::steady_clock::now();
+
+    spdlog::info(
+        "AsyncInferenceEngine::submitStreaming start: model='{}' prompt_len={} priority={} timeout_ms={} via_pool={}",
+        request.model_id.empty() ? std::string{"default"} : request.model_id,
+        request.prompt.size(),
+        priority,
+        timeout.count(),
+        (shared_pool_ != nullptr));
 
     auto async_req          = std::make_shared<AsyncInferenceRequest>();
     async_req->request      = request;
@@ -461,6 +497,12 @@ InferenceHandle AsyncInferenceEngine::submitStreaming(
     spdlog::debug("Submitted streaming inference request {} (priority={}, via_pool={})",
                   async_req->request_id, priority, (shared_pool_ != nullptr));
 
+    spdlog::info(
+        "AsyncInferenceEngine::submitStreaming queued: request_id={} priority={} via_pool={}",
+        async_req->request_id,
+        priority,
+        (shared_pool_ != nullptr));
+
     return InferenceHandle(async_req->request_id, future, async_req->cancel_token);
 }
 
@@ -475,8 +517,15 @@ InferenceHandle AsyncInferenceEngine::submitRAG(
     // RAG gets higher priority (usually more important)
     int rag_priority = priority + 10;
     
-    spdlog::debug("Submitting RAG request with {} documents",
-                  rag_context.documents.size());
+    spdlog::info(
+        "AsyncInferenceEngine::submitRAG start: docs={} top_k={} max_context_tokens={} response_budget_tokens={} request_max_tokens={} priority={} rag_priority={}",
+        rag_context.documents.size(),
+        rag_context.top_k,
+        rag_context.max_context_tokens,
+        rag_context.response_budget_tokens,
+        request.max_tokens,
+        priority,
+        rag_priority);
     
     // Store RAG context in metadata for worker to use
     rag_request.metadata["rag_enabled"] = true;
@@ -536,7 +585,11 @@ InferenceHandle AsyncInferenceEngine::submitRAG(
 
     rag_request.prompt = oss.str();
     
-    return submit(rag_request, rag_priority);
+    auto handle = submit(rag_request, rag_priority);
+    spdlog::info(
+        "AsyncInferenceEngine::submitRAG queued: request_id={}",
+        handle.requestId());
+    return handle;
 }
 
 bool AsyncInferenceEngine::cancel(const std::string& request_id) {
@@ -779,6 +832,15 @@ InferenceResponse AsyncInferenceEngine::processRequest(
     InferenceRequest effective_request = request.request;
     auto cancel_token = request.cancel_token;  // capture shared ownership
     auto deadline = request.deadline;
+    const bool streaming_mode = static_cast<bool>(effective_request.stream_callback);
+
+    if (streaming_mode) {
+        spdlog::info(
+            "AsyncInferenceEngine::processRequest streaming start: request_id={} prompt_len={} priority={}",
+            request.request_id,
+            effective_request.prompt.size(),
+            request.priority);
+    }
 
     if (effective_request.stream_callback) {
         // Wrap the original callback: stop streaming when cancelled/timed-out.
@@ -851,6 +913,14 @@ InferenceResponse AsyncInferenceEngine::processRequest(
 
     // Call plugin (blocking inference)
     InferenceResponse response = plugin_snapshot->generate(effective_request);
+
+    if (streaming_mode) {
+        spdlog::info(
+            "AsyncInferenceEngine::processRequest streaming complete: request_id={} tokens_generated={} inference_time_ms={:.2f}",
+            request.request_id,
+            response.tokens_generated,
+            response.inference_time_ms);
+    }
     
     // Store in deduplication cache (skip for streaming requests)
     if (dedup_cache_ && !effective_request.stream_callback) {
