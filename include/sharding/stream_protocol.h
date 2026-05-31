@@ -510,7 +510,12 @@ public:
     bool start();
     
     /**
-     * Process received chunk
+     * Process a received chunk.
+     *
+     * Fail-closed behavior:
+     * - Rejects stale/duplicate/out-of-range chunk indices.
+     * - Rejects inconsistent metadata (offset/size mismatch).
+     * - Returns false on integrity or write failures instead of applying partial state.
      */
     bool onChunkReceived(const StreamChunk& chunk);
     

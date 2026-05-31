@@ -1,14 +1,14 @@
 {
   "transaction": {
-    "total": 555,
+    "total": 554,
     "severity_critical": 51,
     "severity_high": 248,
-    "severity_medium": 256,
+    "severity_medium": 255,
     "by_category": {
       "security": 6,
       "memory": 9,
       "reliability": 33,
-      "concurrency": 21,
+      "concurrency": 20,
       "raii": 40,
       "container": 179,
       "platform": 1,
@@ -16,8 +16,8 @@
       "exception_safety": 30,
       "uninitialized": 2,
       "audit_logging": 5,
-      "performance_patterns": 148,
-      "distributed_consistency": 18,
+      "performance_patterns": 147,
+      "distributed_consistency": 19,
       "observability": 7,
       "determinism": 29,
       "legacy_duplication": 7
@@ -26,7 +26,7 @@
       "src\\transaction\\distributed_saga.cpp": [
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 900,
+          "line": 974,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -38,7 +38,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 889,
+          "line": 963,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -50,7 +50,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 758,
+          "line": 832,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -62,7 +62,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 608,
+          "line": 682,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -74,7 +74,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 605,
+          "line": 679,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -86,7 +86,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 311,
+          "line": 333,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -98,7 +98,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 257,
+          "line": 279,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -110,7 +110,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 246,
+          "line": 268,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -122,7 +122,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 226,
+          "line": 248,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -134,12 +134,24 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 220,
+          "line": 242,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
           "description": "Write without consensus/replication acknowledgment",
           "context": "listed.insert(rec.name);",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 125,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_consensus",
+          "description": "Write without consensus/replication acknowledgment",
+          "context": "journalWrite(saga.saga_id, \"REJECTED_DUPLICATE\", report.failure_reason);",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
@@ -158,7 +170,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 865,
+          "line": 939,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -170,7 +182,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 748,
+          "line": 822,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -182,7 +194,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 559,
+          "line": 633,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -194,7 +206,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 547,
+          "line": 621,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -206,7 +218,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 542,
+          "line": 616,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -218,7 +230,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 539,
+          "line": 613,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -230,7 +242,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 435,
+          "line": 509,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -242,19 +254,19 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 419,
+          "line": 493,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
           "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "auto wait_result = fut.wait_for(timeout);",
+          "context": "auto wait_result = fut.wait_for(effective_timeout);",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 412,
+          "line": 470,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -266,7 +278,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 409,
+          "line": 467,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -278,7 +290,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 367,
+          "line": 424,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -290,7 +302,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 235,
+          "line": 257,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -314,7 +326,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 764,
+          "line": 838,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -326,7 +338,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 700,
+          "line": 774,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -338,7 +350,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 630,
+          "line": 704,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -350,7 +362,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 478,
+          "line": 552,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -362,7 +374,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 367,
+          "line": 424,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "unnecessary_copy",
@@ -374,7 +386,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 349,
+          "line": 397,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -386,19 +398,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 349,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "wave_records.push_back(rec);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 324,
+          "line": 346,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -410,7 +410,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 307,
+          "line": 329,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -422,7 +422,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 290,
+          "line": 312,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -434,7 +434,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 290,
+          "line": 312,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -446,7 +446,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 218,
+          "line": 240,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -458,7 +458,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 202,
+          "line": 224,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -470,7 +470,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 202,
+          "line": 224,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -482,7 +482,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 202,
+          "line": 224,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -494,7 +494,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 184,
+          "line": 206,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -506,7 +506,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 184,
+          "line": 206,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -518,7 +518,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 184,
+          "line": 206,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -530,7 +530,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 151,
+          "line": 173,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -542,7 +542,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 144,
+          "line": 166,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -602,7 +602,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 783,
+          "line": 857,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -614,7 +614,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 286,
+          "line": 308,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -626,7 +626,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 285,
+          "line": 307,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -638,7 +638,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 212,
+          "line": 234,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -650,7 +650,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 172,
+          "line": 194,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -662,7 +662,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 146,
+          "line": 168,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "unordered_container_iter",
@@ -710,7 +710,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 765,
+          "line": 839,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "recovered.push_back(sid);",
@@ -719,7 +719,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 701,
+          "line": 775,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "local_def.steps.push_back(remoteStepToLocal(remote_step));",
@@ -728,7 +728,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 632,
+          "line": 706,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "else if (c == '\\\\') escaped += \"\\\\\\\\\";",
@@ -737,7 +737,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 631,
+          "line": 705,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (c == '\"')  escaped += \"\\\\\\\"\";",
@@ -746,7 +746,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 576,
+          "line": 650,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "step.name, attempt + 1, last_status.message);",
@@ -755,34 +755,34 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 569,
+          "line": 643,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 611,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "DistributedSagaStatus last_status;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
           "line": 537,
           "type": "no_health_check",
           "severity": "MEDIUM",
-          "snippet": "DistributedSagaStatus last_status;",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 463,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
           "snippet": "step.name, attempt + 1, last_status.message);",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 445,
+          "line": 519,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -791,7 +791,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 407,
+          "line": 465,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "DistributedSagaStatus last_status;",
@@ -800,7 +800,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 377,
+          "line": 434,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -809,7 +809,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 364,
+          "line": 421,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "DistributedSagaStatus wave_status;",
@@ -818,7 +818,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 353,
+          "line": 410,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "futures.push_back(",
@@ -827,7 +827,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 350,
+          "line": 398,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "wave_records.push_back(rec);",
@@ -836,7 +836,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 344,
+          "line": 392,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::vector<std::future<DistributedSagaStatus>> futures;",
@@ -845,7 +845,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 308,
+          "line": 330,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(node);",
@@ -854,7 +854,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 291,
+          "line": 313,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "successors[dep].push_back(step.name);",
@@ -863,7 +863,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 219,
+          "line": 241,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "to_compensate.push_back(rec.name);",
@@ -872,7 +872,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 203,
+          "line": 225,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "executed_order.push_back(name);",
@@ -881,7 +881,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 185,
+          "line": 207,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& [name, lvl] : level) waves[lvl].push_back(name);",
@@ -890,7 +890,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 152,
+          "line": 174,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "report.step_records.push_back(rec);",
@@ -908,7 +908,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 704,
+          "line": 778,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "return execute(local_def);",
@@ -917,7 +917,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 485,
+          "line": 559,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto rit = index.find(name);",
@@ -926,7 +926,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 349,
+          "line": 397,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "StepRecord* rec = (it != index.end()) ? it->second : nullptr;",
@@ -935,7 +935,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 349,
+          "line": 397,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "StepRecord* rec = (it != index.end()) ? it->second : nullptr;",
@@ -944,7 +944,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 347,
+          "line": 395,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = index.find(name);",
@@ -953,7 +953,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 217,
+          "line": 239,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "listed.find(rec.name) == listed.end()) {",
@@ -962,7 +962,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 163,
+          "line": 185,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::logic_error(\"Internal error: step record not found: \" + name);",
@@ -980,7 +980,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 896,
+          "line": 970,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = reports_.find(saga_id);",
@@ -989,7 +989,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 348,
+          "line": 396,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = index.find(name);",
@@ -998,16 +998,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 334,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "auto st = executeStep(step_map.at(name), *it->second);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 305,
+          "line": 327,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it   = ready.begin();",

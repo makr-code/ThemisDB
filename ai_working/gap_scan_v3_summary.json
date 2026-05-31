@@ -1,22 +1,22 @@
 {
-  "scan_date": "2026-05-31T20:07:38.653360",
+  "scan_date": "2026-05-31T21:19:28.359819",
   "phase": "Phase 1-11 Extended (28 scanners: 8 Phase 1-4 + 5 Phase 5 + 2 Phase 7 + 2 Phase 8 + 3 Phase 9 + 2 Phase 10 + 1 Phase 11)",
-  "total_gaps": 38257,
+  "total_gaps": 38273,
   "by_severity": {
-    "critical": 4870,
-    "high": 16058,
-    "medium": 17329,
-    "actionable": 20928
+    "critical": 4864,
+    "high": 16079,
+    "medium": 17330,
+    "actionable": 20943
   },
   "by_category": {
     "security": 1479,
     "memory": 2237,
-    "reliability": 4731,
-    "concurrency": 1874,
+    "reliability": 4738,
+    "concurrency": 1873,
     "raii": 1902,
     "container": 7909,
     "platform": 1152,
-    "performance": 1013,
+    "performance": 1011,
     "type_conversion": 120,
     "input_validation": 100,
     "exception_safety": 1483,
@@ -24,20 +24,20 @@
     "oop_design": 19,
     "audit_logging": 760,
     "deprecated_apis": 4,
-    "performance_patterns": 6868,
+    "performance_patterns": 6867,
     "gpu_memory_safety": 229,
     "query_correctness": 0,
-    "distributed_consistency": 1203,
-    "llm_ai_safety": 3520,
+    "distributed_consistency": 1214,
+    "llm_ai_safety": 3521,
     "observability": 491,
-    "determinism": 727,
+    "determinism": 728,
     "legacy_duplication": 323
   },
   "modules_scanned": 64,
   "top_modules": [
     {
       "module": "llm",
-      "gaps": 5702
+      "gaps": 5709
     },
     {
       "module": "server",
@@ -77,28 +77,28 @@
     }
   ],
   "confidence_overview": {
-    "very_high": 7011,
-    "high": 7986,
-    "medium": 23260,
+    "very_high": 7022,
+    "high": 7987,
+    "medium": 23264,
     "low": 0
   },
   "confidence_by_category": {
     "unknown": {
-      "total": 24132,
+      "total": 24136,
       "high_confidence": 1658,
       "very_high_confidence": 101,
       "avg_confidence": 0.056
     },
     "performance": {
-      "total": 6868,
-      "high_confidence": 6868,
+      "total": 6867,
+      "high_confidence": 6867,
       "very_high_confidence": 1295,
       "avg_confidence": 0.77
     },
     "llm_ai_safety": {
-      "total": 3520,
-      "high_confidence": 3520,
-      "very_high_confidence": 3391,
+      "total": 3521,
+      "high_confidence": 3521,
+      "very_high_confidence": 3392,
       "avg_confidence": 0.927
     },
     "legacy_duplication": {
@@ -108,9 +108,9 @@
       "avg_confidence": 0.736
     },
     "determinism": {
-      "total": 727,
-      "high_confidence": 157,
-      "very_high_confidence": 117,
+      "total": 728,
+      "high_confidence": 158,
+      "very_high_confidence": 118,
       "avg_confidence": 0.703
     },
     "audit_logging": {
@@ -132,10 +132,10 @@
       "avg_confidence": 0.742
     },
     "distributed_consistency": {
-      "total": 1203,
-      "high_confidence": 1203,
-      "very_high_confidence": 1009,
-      "avg_confidence": 0.907
+      "total": 1214,
+      "high_confidence": 1214,
+      "very_high_confidence": 1018,
+      "avg_confidence": 0.906
     },
     "deprecated_apis": {
       "total": 4,
@@ -144,5 +144,5 @@
       "avg_confidence": 0.802
     }
   },
-  "implementation_effort": "645.0 weeks (3224 days)"
+  "implementation_effort": "645.2 weeks (3225 days)"
 }

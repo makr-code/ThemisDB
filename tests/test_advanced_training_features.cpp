@@ -29,6 +29,8 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
+#include <filesystem>
 #include <string>
 #include <vector>
 
@@ -413,6 +415,29 @@ TEST(IncrementalLoRATrainerCheckpoint, ResumeFromNonexistentPathSucceeds) {
     IncrementalLoRATrainer trainer(cfg, "");
     auto result = trainer.resumeFromCheckpoint("/nonexistent/path/checkpoint");
     EXPECT_TRUE(result.success);
+}
+
+TEST(IncrementalLoRATrainerCheckpoint, ResumeWithManagedCheckpointDirRequiresManifestIntegrity) {
+    const std::string ckpt_dir = "/tmp/themis_trainer_integrity_guard";
+    std::error_code ec;
+    std::filesystem::create_directories(ckpt_dir, ec);
+
+    IncrementalTrainingConfig cfg;
+    cfg.num_epochs      = 1;
+    cfg.batch_size      = 1;
+    cfg.learning_rate   = 0.001f;
+    cfg.rank            = 4;
+    cfg.alpha           = 8.0f;
+    cfg.device          = "cpu";
+    cfg.checkpoint_dir  = ckpt_dir;
+
+    IncrementalLoRATrainer trainer(cfg, "");
+    auto result = trainer.resumeFromCheckpoint(ckpt_dir + "/unmanaged_checkpoint");
+
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.error_message.find("integrity"), std::string::npos);
+
+    std::filesystem::remove_all(ckpt_dir, ec);
 }
 
 // ============================================================================

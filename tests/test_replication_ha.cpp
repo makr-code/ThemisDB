@@ -1513,6 +1513,30 @@ TEST(MMReplicationManagerTest, TriggerSyncDoesNotCrash) {
     mgr.stop();
 }
 
+TEST(MMReplicationManagerTest, WriteSyncFailsClosedWhenQuorumZeroWithActivePeer) {
+    auto cfg = makeMMConfig();
+    cfg.write_quorum = 0;
+
+    MultiMasterReplicationManager mgr(cfg);
+    mgr.start();
+
+    MMPeerInfo peer;
+    peer.node_id = "mm-node-peer";
+    peer.endpoint = "127.0.0.1:9101";
+    peer.state = MMNodeState::ACTIVE;
+    peer.datacenter = "dc1";
+    peer.region = "eu-west";
+    peer.is_local_datacenter = true;
+    peer.priority = 10;
+    mgr.addPeer(peer);
+
+    const bool ok = mgr.writeSync("orders", "order-q0", "INSERT", "{}",
+                                  std::chrono::milliseconds(400));
+    EXPECT_FALSE(ok);
+
+    mgr.stop();
+}
+
 TEST(MMReplicationManagerTest, WriteCallbackInvokedAfterReplication) {
     MultiMasterReplicationManager mgr(makeMMConfig());
     mgr.start();
@@ -5032,6 +5056,38 @@ TEST(BidirectionalReplicationTest, OriginTrackingAcceptsPeerChanges) {
 
     EXPECT_TRUE(mgr.applyRemoteWrite(entry));
     EXPECT_EQ(mgr.getSyncStatus().remote_sequence, 5u);
+
+    mgr.stop();
+}
+
+TEST(BidirectionalReplicationTest, OriginTrackingRejectsStaleOrDuplicateRemoteSequence) {
+    auto cfg = makeBidiConfig();
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    BidirectionalReplicationManager::BidiWriteEntry first;
+    first.document_id  = "doc-stale";
+    first.collection   = "orders";
+    first.operation    = "UPDATE";
+    first.data         = R"({"v":1})";
+    first.origin_node  = "node-east";
+    first.origin_seq   = 5;
+    first.timestamp_ms = 2000;
+    ASSERT_TRUE(mgr.applyRemoteWrite(first));
+
+    auto stale = first;
+    stale.origin_seq = 4;
+    stale.data = R"({"v":0})";
+    EXPECT_FALSE(mgr.applyRemoteWrite(stale));
+
+    auto duplicate = first;
+    duplicate.data = R"({"v":1})";
+    EXPECT_FALSE(mgr.applyRemoteWrite(duplicate));
+
+    auto newer = first;
+    newer.origin_seq = 6;
+    newer.data = R"({"v":2})";
+    EXPECT_TRUE(mgr.applyRemoteWrite(newer));
 
     mgr.stop();
 }

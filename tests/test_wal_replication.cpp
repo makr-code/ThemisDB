@@ -52,8 +52,13 @@ protected:
     }
     
     void TearDown() override {
-        std::filesystem::remove_all(primary_dir_);
-        std::filesystem::remove_all(replica_dir_);
+        primary_wal_.reset();
+        replica_wal_.reset();
+
+        std::error_code ec;
+        std::filesystem::remove_all(primary_dir_, ec);
+        ec.clear();
+        std::filesystem::remove_all(replica_dir_, ec);
     }
     
     std::string primary_dir_;
@@ -152,6 +157,30 @@ TEST_F(WALReplicationTest, ApplierStrictMode) {
     auto result2 = applier.applyBatch({wrong_entry});
     EXPECT_FALSE(result2.success);
     EXPECT_GT(result2.errors.size(), 0);
+}
+
+TEST_F(WALReplicationTest, ApplierStrictModeRejectsDuplicateLSNFailClosed) {
+    WALApplierConfig config;
+    config.replica_id = "replica_1";
+    config.strict_mode = true;
+
+    WALApplier applier(config);
+    applier.setApplyHandler([](const WALEntry&) { return true; });
+    applier.setCurrentLSN(LSN(0, 10));
+
+    WALEntry next_entry;
+    next_entry.lsn = LSN(0, 11);
+    next_entry.type = WALEntryType::INSERT;
+    ASSERT_TRUE(applier.applyBatch({next_entry}).success);
+
+    WALEntry duplicate_entry;
+    duplicate_entry.lsn = LSN(0, 11);
+    duplicate_entry.type = WALEntryType::INSERT;
+
+    const auto duplicate_result = applier.applyBatch({duplicate_entry});
+    EXPECT_FALSE(duplicate_result.success);
+    ASSERT_FALSE(duplicate_result.errors.empty());
+    EXPECT_NE(duplicate_result.errors.front().find("stale or duplicate"), std::string::npos);
 }
 
 TEST_F(WALReplicationTest, ApplierStatistics) {

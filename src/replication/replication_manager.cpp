@@ -3239,6 +3239,27 @@ bool MultiMasterReplicationManager::replicateWrite(const MMWriteEntry& entry) {
     }
 
     uint32_t quorum  = config_.write_quorum;
+    if (quorum == 0) {
+        THEMIS_ERROR("MM replication rejected write_id={} because write_quorum=0 with peers configured",
+                     entry.write_id);
+        return false;
+    }
+
+    uint32_t eligible = 0;
+    for (const auto& [node_id, peer] : peers_) {
+        (void)node_id;
+        if (peer.state != MMNodeState::OFFLINE &&
+            peer.state != MMNodeState::PARTITIONED) {
+            ++eligible;
+        }
+    }
+
+    if (eligible < quorum) {
+        THEMIS_WARN("MM replication rejected write_id={} because eligible_peers={} < write_quorum={}",
+                    entry.write_id, eligible, quorum);
+        return false;
+    }
+
     uint32_t acked   = 0;
 
     for (const auto& [node_id, peer] : peers_) {
@@ -5770,6 +5791,10 @@ bool BidirectionalReplicationManager::applyRemoteWrite(const BidiWriteEntry& ent
         return false;
     }
 
+    if (config_.track_origin && (entry.origin_node.empty() || entry.origin_seq == 0)) {
+        return false;
+    }
+
     // Respect the bidirectional_sync flag: if disabled, reject all inbound writes.
     if (!config_.bidirectional_sync) {
         return false;
@@ -5785,6 +5810,16 @@ bool BidirectionalReplicationManager::applyRemoteWrite(const BidiWriteEntry& ent
     }
 
     const std::string key = makeDocKey(entry.collection, entry.document_id);
+
+    if (config_.track_origin) {
+        std::lock_guard<std::mutex> lk(origin_mutex_);
+        const auto it = origin_map_.find(key);
+        if (it != origin_map_.end() &&
+            it->second.origin_node == entry.origin_node &&
+            entry.origin_seq <= it->second.origin_sequence) {
+            return false;
+        }
+    }
 
     // Conflict detection: check whether we have a pending local write for the
     // same document.

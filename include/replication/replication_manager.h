@@ -1977,6 +1977,12 @@ public:
      *
      * Conflict detection: if a pending local write targets the same
      * (collection, document_id), handleConflict() is called to resolve it.
+    *
+    * Fail-closed invariants:
+    * - When origin tracking is enabled, incoming writes must carry
+    *   non-empty origin_node and origin_seq > 0.
+    * - Stale/duplicate writes from the same origin (origin_seq <= last seen
+    *   sequence for the same document) are rejected.
      *
      * Returns true when the entry was accepted and applied.
      */

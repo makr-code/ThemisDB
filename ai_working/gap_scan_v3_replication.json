@@ -1,8 +1,8 @@
 {
   "replication": {
-    "total": 849,
-    "severity_critical": 208,
-    "severity_high": 302,
+    "total": 857,
+    "severity_critical": 201,
+    "severity_high": 317,
     "severity_medium": 339,
     "by_category": {
       "security": 5,
@@ -18,7 +18,7 @@
       "exception_safety": 42,
       "audit_logging": 1,
       "performance_patterns": 113,
-      "distributed_consistency": 433,
+      "distributed_consistency": 441,
       "observability": 5,
       "legacy_duplication": 9
     },
@@ -771,7 +771,7 @@
       "src\\replication\\replication_manager.cpp": [
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6192,
+          "line": 6274,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -783,7 +783,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6028,
+          "line": 6110,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -795,7 +795,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6027,
+          "line": 6109,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -807,7 +807,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6022,
+          "line": 6104,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -819,7 +819,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5990,
+          "line": 6072,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -831,7 +831,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5982,
+          "line": 6064,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -843,7 +843,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5977,
+          "line": 6059,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -855,7 +855,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5915,
+          "line": 5997,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -867,7 +867,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5871,
+          "line": 5953,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -879,7 +879,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5866,
+          "line": 5948,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -891,7 +891,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5855,
+          "line": 5937,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -903,7 +903,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5850,
+          "line": 5932,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -915,7 +915,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5849,
+          "line": 5931,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -927,7 +927,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5848,
+          "line": 5930,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -939,7 +939,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5839,
+          "line": 5921,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -951,7 +951,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5837,
+          "line": 5919,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -963,7 +963,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5829,
+          "line": 5911,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -975,7 +975,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5828,
+          "line": 5910,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -987,7 +987,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5827,
+          "line": 5909,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -999,7 +999,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5802,
+          "line": 5884,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1011,7 +1011,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5751,
+          "line": 5833,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1023,7 +1023,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5749,
+          "line": 5831,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1035,7 +1035,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5748,
+          "line": 5830,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1047,7 +1047,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5742,
+          "line": 5824,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1059,7 +1059,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5676,
+          "line": 5744,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -1071,7 +1071,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5382,
+          "line": 5450,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -1083,7 +1083,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4933,
+          "line": 5001,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -1095,7 +1095,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4909,
+          "line": 4977,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -1107,7 +1107,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4908,
+          "line": 4976,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -1119,7 +1119,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4907,
+          "line": 4975,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -1131,7 +1131,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4896,
+          "line": 4964,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -1143,7 +1143,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4059,
+          "line": 4127,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -1155,7 +1155,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3994,
+          "line": 4062,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -1167,7 +1167,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3517,
+          "line": 3585,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1179,7 +1179,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3321,
+          "line": 3389,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1191,7 +1191,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3320,
+          "line": 3388,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1203,7 +1203,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3298,
+          "line": 3366,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1215,7 +1215,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3295,
+          "line": 3363,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1227,7 +1227,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3293,
+          "line": 3361,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1239,7 +1239,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3291,
+          "line": 3359,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1251,7 +1251,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3268,
+          "line": 3336,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1263,7 +1263,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3264,
+          "line": 3332,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1275,7 +1275,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3263,
+          "line": 3331,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1287,7 +1287,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3262,
+          "line": 3330,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1299,7 +1299,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3260,
+          "line": 3328,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1311,7 +1311,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3259,
+          "line": 3327,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1323,7 +1323,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3253,
+          "line": 3321,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1335,7 +1335,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3249,
+          "line": 3317,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1347,7 +1347,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3248,
+          "line": 3316,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1359,7 +1359,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3246,
+          "line": 3314,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1371,7 +1371,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3244,
+          "line": 3312,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1383,7 +1383,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3237,
+          "line": 3305,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1395,7 +1395,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3079,
+          "line": 3126,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1407,7 +1407,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3078,
+          "line": 3125,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1419,7 +1419,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3077,
+          "line": 3124,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1431,7 +1431,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3076,
+          "line": 3123,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1443,7 +1443,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3075,
+          "line": 3122,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1455,7 +1455,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3074,
+          "line": 3121,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1467,7 +1467,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2986,
+          "line": 3033,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1479,7 +1479,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2985,
+          "line": 3032,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1491,7 +1491,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2952,
+          "line": 2999,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1503,7 +1503,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2949,
+          "line": 2996,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1515,7 +1515,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2948,
+          "line": 2995,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1527,7 +1527,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2947,
+          "line": 2994,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1539,7 +1539,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2944,
+          "line": 2991,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1551,7 +1551,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2943,
+          "line": 2990,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1563,7 +1563,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2935,
+          "line": 2982,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1575,7 +1575,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2934,
+          "line": 2981,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1587,7 +1587,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2916,
+          "line": 2963,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1599,7 +1599,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2648,
+          "line": 2695,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1611,7 +1611,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2645,
+          "line": 2692,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1623,7 +1623,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2576,
+          "line": 2623,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -1635,7 +1635,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2539,
+          "line": 2586,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1647,7 +1647,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2534,
+          "line": 2581,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1659,7 +1659,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2533,
+          "line": 2580,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1671,7 +1671,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2522,
+          "line": 2569,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -1683,7 +1683,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2519,
+          "line": 2566,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -1695,7 +1695,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2512,
+          "line": 2559,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1707,7 +1707,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2506,
+          "line": 2553,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1719,7 +1719,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2505,
+          "line": 2552,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1731,7 +1731,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2484,
+          "line": 2531,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -1743,7 +1743,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2478,
+          "line": 2525,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1755,7 +1755,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2380,
+          "line": 2427,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1767,7 +1767,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2379,
+          "line": 2426,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1779,7 +1779,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2374,
+          "line": 2421,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1791,7 +1791,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2335,
+          "line": 2382,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -1803,7 +1803,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2270,
+          "line": 2317,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -1815,7 +1815,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2260,
+          "line": 2307,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1827,7 +1827,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2239,
+          "line": 2286,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1839,7 +1839,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2234,
+          "line": 2281,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1851,7 +1851,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2229,
+          "line": 2276,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1863,7 +1863,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2228,
+          "line": 2275,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1875,7 +1875,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2225,
+          "line": 2272,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1887,7 +1887,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2206,
+          "line": 2253,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1899,7 +1899,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2204,
+          "line": 2251,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1911,7 +1911,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2181,
+          "line": 2228,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -1923,7 +1923,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2114,
+          "line": 2161,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1935,7 +1935,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2113,
+          "line": 2160,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1947,7 +1947,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2087,
+          "line": 2134,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1959,7 +1959,19 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2083,
+          "line": 2122,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "// Keep checksum aligned with merged payload and metadata-carrying fields.",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2120,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1971,7 +1983,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2082,
+          "line": 2119,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1983,7 +1995,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2080,
+          "line": 2117,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -1995,7 +2007,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2077,
+          "line": 2114,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -2007,7 +2019,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2076,
+          "line": 2113,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -2019,7 +2031,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2075,
+          "line": 2112,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -2031,7 +2043,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2074,
+          "line": 2111,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -2043,7 +2055,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2073,
+          "line": 2110,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -2055,7 +2067,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2072,
+          "line": 2109,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -2067,7 +2079,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2071,
+          "line": 2108,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -2079,7 +2091,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2070,
+          "line": 2107,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -2091,7 +2103,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2069,
+          "line": 2106,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -2103,7 +2115,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2068,
+          "line": 2105,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -2115,7 +2127,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2067,
+          "line": 2104,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -2127,7 +2139,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2065,
+          "line": 2102,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -2139,7 +2151,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2063,
+          "line": 2100,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -2151,12 +2163,36 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2061,
+          "line": 2098,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
           "description": "Concurrent update without version vector or causal ordering",
           "context": "const std::vector<MMWriteEntry>& conflicting_writes)",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2068,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_consensus",
+          "description": "Write without consensus/replication acknowledgment",
+          "context": "merged_dependencies.insert(write.write_id);",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2066,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_consensus",
+          "description": "Write without consensus/replication acknowledgment",
+          "context": "merged_dependencies.insert(write.dependencies.begin(), write.dependencies.end());",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
@@ -2355,7 +2391,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6230,
+          "line": 6312,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -2367,7 +2403,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5969,
+          "line": 6051,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2379,7 +2415,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5839,
+          "line": 5921,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2391,7 +2427,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5828,
+          "line": 5910,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2403,7 +2439,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5793,
+          "line": 5875,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2415,7 +2451,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5548,
+          "line": 5616,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2427,7 +2463,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5417,
+          "line": 5485,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -2439,7 +2475,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4664,
+          "line": 4732,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2451,7 +2487,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4345,
+          "line": 4413,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -2463,7 +2499,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4330,
+          "line": 4398,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -2475,7 +2511,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4193,
+          "line": 4261,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2487,7 +2523,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4124,
+          "line": 4192,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -2499,7 +2535,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4020,
+          "line": 4088,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -2511,7 +2547,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3700,
+          "line": 3768,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2523,7 +2559,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3685,
+          "line": 3753,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2535,7 +2571,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3677,
+          "line": 3745,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2547,7 +2583,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3675,
+          "line": 3743,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2559,7 +2595,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3674,
+          "line": 3742,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2571,7 +2607,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3671,
+          "line": 3739,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2583,7 +2619,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3670,
+          "line": 3738,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2595,7 +2631,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3668,
+          "line": 3736,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2607,7 +2643,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3666,
+          "line": 3734,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2619,7 +2655,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3631,
+          "line": 3699,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -2631,7 +2667,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3541,
+          "line": 3609,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -2643,7 +2679,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3405,
+          "line": 3473,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2655,7 +2691,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3353,
+          "line": 3421,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2667,7 +2703,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3305,
+          "line": 3373,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2679,7 +2715,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3262,
+          "line": 3330,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2691,7 +2727,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3249,
+          "line": 3317,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2703,7 +2739,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3237,
+          "line": 3305,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2715,7 +2751,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3145,
+          "line": 3192,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2727,7 +2763,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3119,
+          "line": 3166,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2739,7 +2775,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3079,
+          "line": 3126,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2751,7 +2787,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3077,
+          "line": 3124,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2763,7 +2799,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2986,
+          "line": 3033,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2775,7 +2811,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2943,
+          "line": 2990,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2787,7 +2823,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2935,
+          "line": 2982,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2799,7 +2835,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2932,
+          "line": 2979,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2811,7 +2847,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2804,
+          "line": 2851,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -2823,7 +2859,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2797,
+          "line": 2844,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -2835,7 +2871,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2760,
+          "line": 2807,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -2847,7 +2883,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2699,
+          "line": 2746,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -2859,7 +2895,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2698,
+          "line": 2745,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -2871,7 +2907,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2697,
+          "line": 2744,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "unspecified_consistency",
@@ -2883,7 +2919,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2652,
+          "line": 2699,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2895,7 +2931,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2539,
+          "line": 2586,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2907,7 +2943,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2533,
+          "line": 2580,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2919,7 +2955,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2526,
+          "line": 2573,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -2931,7 +2967,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2512,
+          "line": 2559,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2943,7 +2979,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2505,
+          "line": 2552,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2955,7 +2991,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2478,
+          "line": 2525,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2967,7 +3003,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2429,
+          "line": 2476,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -2979,7 +3015,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2410,
+          "line": 2457,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -2991,7 +3027,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2402,
+          "line": 2449,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3003,7 +3039,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2380,
+          "line": 2427,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3015,7 +3051,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2379,
+          "line": 2426,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3027,7 +3063,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2374,
+          "line": 2421,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3039,7 +3075,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2356,
+          "line": 2403,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -3051,7 +3087,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2335,
+          "line": 2382,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -3063,7 +3099,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2313,
+          "line": 2360,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -3075,7 +3111,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2311,
+          "line": 2358,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -3087,7 +3123,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2294,
+          "line": 2341,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3099,7 +3135,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2286,
+          "line": 2333,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3111,7 +3147,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2260,
+          "line": 2307,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3123,7 +3159,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2256,
+          "line": 2303,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3135,7 +3171,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2239,
+          "line": 2286,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3147,7 +3183,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2234,
+          "line": 2281,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3159,7 +3195,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2229,
+          "line": 2276,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3171,7 +3207,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2228,
+          "line": 2275,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3183,7 +3219,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2225,
+          "line": 2272,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3195,7 +3231,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2216,
+          "line": 2263,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3207,7 +3243,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2210,
+          "line": 2257,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3219,7 +3255,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2206,
+          "line": 2253,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3231,7 +3267,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2204,
+          "line": 2251,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3243,7 +3279,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2113,
+          "line": 2160,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3255,7 +3291,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2104,
+          "line": 2151,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3267,7 +3303,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2087,
+          "line": 2134,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3279,7 +3315,19 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2083,
+          "line": 2122,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "// Keep checksum aligned with merged payload and metadata-carrying fields.",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2120,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3291,7 +3339,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2082,
+          "line": 2119,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3303,7 +3351,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2070,
+          "line": 2107,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3315,7 +3363,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2069,
+          "line": 2106,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3327,7 +3375,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2068,
+          "line": 2105,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3339,7 +3387,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2067,
+          "line": 2104,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3351,7 +3399,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2065,
+          "line": 2102,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3363,7 +3411,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2059,
+          "line": 2096,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -3375,12 +3423,96 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2055,
+          "line": 2092,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
           "description": "Merge without explicit conflict resolution strategy",
           "context": "CRDTMergeResolver::CRDTMergeResolver(CRDTType type)",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2076,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "enriched.dependencies.assign(merged_dependencies.begin(), merged_dependencies.end());",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2075,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "enriched.vector_clock = std::move(merged_clock);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2068,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "merged_dependencies.insert(write.write_id);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2066,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "merged_dependencies.insert(write.dependencies.begin(), write.dependencies.end());",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2065,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "merged_clock.merge(write.vector_clock);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2060,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "std::set<std::string> merged_dependencies(",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\replication\\replication_manager.cpp",
+          "line": 2059,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "VectorClock merged_clock = winner.vector_clock;",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -3768,7 +3900,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6319,
+          "line": 6401,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -3780,7 +3912,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6318,
+          "line": 6400,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -3792,7 +3924,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6317,
+          "line": 6399,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -3804,7 +3936,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6316,
+          "line": 6398,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -3816,7 +3948,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6315,
+          "line": 6397,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -3828,7 +3960,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6313,
+          "line": 6395,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -3840,7 +3972,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6312,
+          "line": 6394,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -3852,7 +3984,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6311,
+          "line": 6393,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -3864,7 +3996,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6299,
+          "line": 6381,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -3876,7 +4008,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6298,
+          "line": 6380,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -3888,7 +4020,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6297,
+          "line": 6379,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -3900,7 +4032,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6296,
+          "line": 6378,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -3912,7 +4044,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6249,
+          "line": 6331,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -3924,7 +4056,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6248,
+          "line": 6330,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -3936,7 +4068,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6243,
+          "line": 6325,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -3948,7 +4080,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6242,
+          "line": 6324,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -3960,7 +4092,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6216,
+          "line": 6298,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -3972,7 +4104,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6215,
+          "line": 6297,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -3984,7 +4116,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6214,
+          "line": 6296,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -3996,7 +4128,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6201,
+          "line": 6283,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4008,7 +4140,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6184,
+          "line": 6266,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4020,7 +4152,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6177,
+          "line": 6259,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4032,7 +4164,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6176,
+          "line": 6258,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4044,7 +4176,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6174,
+          "line": 6256,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4056,7 +4188,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6162,
+          "line": 6244,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4068,7 +4200,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6161,
+          "line": 6243,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4080,7 +4212,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6158,
+          "line": 6240,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4092,7 +4224,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6145,
+          "line": 6227,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4104,7 +4236,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6144,
+          "line": 6226,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4116,7 +4248,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6140,
+          "line": 6222,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4128,7 +4260,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6139,
+          "line": 6221,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4140,7 +4272,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6134,
+          "line": 6216,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4152,7 +4284,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6125,
+          "line": 6207,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4164,7 +4296,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6122,
+          "line": 6204,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4176,7 +4308,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6121,
+          "line": 6203,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4188,7 +4320,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6120,
+          "line": 6202,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4200,7 +4332,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6117,
+          "line": 6199,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4212,7 +4344,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6114,
+          "line": 6196,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4224,7 +4356,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6111,
+          "line": 6193,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4236,7 +4368,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6109,
+          "line": 6191,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4248,7 +4380,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6108,
+          "line": 6190,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4260,7 +4392,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6105,
+          "line": 6187,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4272,7 +4404,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6104,
+          "line": 6186,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4284,7 +4416,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6102,
+          "line": 6184,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4296,7 +4428,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6057,
+          "line": 6139,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4308,7 +4440,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6053,
+          "line": 6135,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4320,7 +4452,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6051,
+          "line": 6133,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4332,7 +4464,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6046,
+          "line": 6128,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4344,7 +4476,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6042,
+          "line": 6124,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4356,7 +4488,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6040,
+          "line": 6122,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4368,7 +4500,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5887,
+          "line": 5969,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4380,7 +4512,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5830,
+          "line": 5912,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4392,7 +4524,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5765,
+          "line": 5847,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4404,7 +4536,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5615,
+          "line": 5683,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4416,7 +4548,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5614,
+          "line": 5682,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4428,7 +4560,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5613,
+          "line": 5681,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4440,7 +4572,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5612,
+          "line": 5680,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4452,7 +4584,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5611,
+          "line": 5679,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4464,7 +4596,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5610,
+          "line": 5678,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4476,7 +4608,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5608,
+          "line": 5676,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4488,7 +4620,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5596,
+          "line": 5664,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4500,7 +4632,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5595,
+          "line": 5663,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4512,7 +4644,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5594,
+          "line": 5662,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4524,7 +4656,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5593,
+          "line": 5661,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4536,7 +4668,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5586,
+          "line": 5654,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4548,7 +4680,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5585,
+          "line": 5653,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4560,7 +4692,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5584,
+          "line": 5652,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4572,7 +4704,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5583,
+          "line": 5651,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4584,7 +4716,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5566,
+          "line": 5634,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4596,7 +4728,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5565,
+          "line": 5633,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4608,7 +4740,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5562,
+          "line": 5630,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4620,7 +4752,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5560,
+          "line": 5628,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4632,7 +4764,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5559,
+          "line": 5627,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4644,7 +4776,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5556,
+          "line": 5624,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4656,7 +4788,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5554,
+          "line": 5622,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4668,7 +4800,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5548,
+          "line": 5616,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -4680,7 +4812,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5548,
+          "line": 5616,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4692,7 +4824,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5547,
+          "line": 5615,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4704,7 +4836,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5546,
+          "line": 5614,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4716,7 +4848,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5545,
+          "line": 5613,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4728,7 +4860,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5543,
+          "line": 5611,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4740,7 +4872,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5542,
+          "line": 5610,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4752,7 +4884,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5539,
+          "line": 5607,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4764,7 +4896,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5538,
+          "line": 5606,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4776,7 +4908,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5535,
+          "line": 5603,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4788,7 +4920,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5532,
+          "line": 5600,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4800,7 +4932,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5529,
+          "line": 5597,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4812,7 +4944,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5528,
+          "line": 5596,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4824,7 +4956,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5527,
+          "line": 5595,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4836,7 +4968,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5524,
+          "line": 5592,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4848,7 +4980,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5490,
+          "line": 5558,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4860,7 +4992,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5489,
+          "line": 5557,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4872,7 +5004,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5484,
+          "line": 5552,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4884,7 +5016,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5461,
+          "line": 5529,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4896,7 +5028,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5460,
+          "line": 5528,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4908,7 +5040,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5459,
+          "line": 5527,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4920,7 +5052,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5458,
+          "line": 5526,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4932,7 +5064,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5457,
+          "line": 5525,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4944,7 +5076,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5456,
+          "line": 5524,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4956,7 +5088,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5455,
+          "line": 5523,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4968,7 +5100,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5449,
+          "line": 5517,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4980,7 +5112,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5448,
+          "line": 5516,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -4992,7 +5124,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5446,
+          "line": 5514,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -5004,7 +5136,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5439,
+          "line": 5507,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -5016,7 +5148,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5432,
+          "line": 5500,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -5028,7 +5160,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5431,
+          "line": 5499,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -5040,7 +5172,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5430,
+          "line": 5498,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -5052,7 +5184,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5429,
+          "line": 5497,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -5064,7 +5196,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5426,
+          "line": 5494,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -5076,7 +5208,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5398,
+          "line": 5466,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -5088,7 +5220,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5397,
+          "line": 5465,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -5100,7 +5232,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5396,
+          "line": 5464,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -5112,7 +5244,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5394,
+          "line": 5462,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -5124,7 +5256,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5337,
+          "line": 5405,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -5136,7 +5268,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5333,
+          "line": 5401,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -5148,7 +5280,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5331,
+          "line": 5399,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -5160,7 +5292,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5329,
+          "line": 5397,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -5172,7 +5304,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5298,
+          "line": 5366,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5184,7 +5316,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4867,
+          "line": 4935,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5196,7 +5328,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4779,
+          "line": 4847,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -5208,7 +5340,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4743,
+          "line": 4811,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -5220,7 +5352,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4559,
+          "line": 4627,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5232,7 +5364,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4301,
+          "line": 4369,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5244,7 +5376,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4246,
+          "line": 4314,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5256,7 +5388,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3940,
+          "line": 4008,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -5268,7 +5400,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3700,
+          "line": 3768,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5280,7 +5412,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3700,
+          "line": 3768,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5292,7 +5424,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3683,
+          "line": 3751,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -5304,7 +5436,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3665,
+          "line": 3733,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -5316,7 +5448,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3631,
+          "line": 3699,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5328,7 +5460,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3621,
+          "line": 3689,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -5340,7 +5472,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3611,
+          "line": 3679,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5352,7 +5484,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3485,
+          "line": 3553,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5364,7 +5496,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3424,
+          "line": 3492,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5376,7 +5508,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3397,
+          "line": 3465,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5388,7 +5520,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3267,
+          "line": 3335,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5400,7 +5532,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3267,
+          "line": 3335,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5412,7 +5544,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3167,
+          "line": 3214,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5424,7 +5556,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3167,
+          "line": 3214,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5436,7 +5568,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3167,
+          "line": 3214,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5448,7 +5580,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3127,
+          "line": 3174,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5460,7 +5592,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3113,
+          "line": 3160,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5472,7 +5604,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3040,
+          "line": 3087,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5484,7 +5616,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2936,
+          "line": 2983,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5496,7 +5628,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2897,
+          "line": 2944,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5508,7 +5640,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2869,
+          "line": 2916,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -5520,7 +5652,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2868,
+          "line": 2915,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -5532,7 +5664,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2858,
+          "line": 2905,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -5544,7 +5676,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2838,
+          "line": 2885,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -5556,7 +5688,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2836,
+          "line": 2883,
           "category": "distributed_consistency",
           "severity": "MEDIUM",
           "pattern": "stale_read_undocumented",
@@ -5568,7 +5700,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2828,
+          "line": 2875,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5580,7 +5712,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2574,
+          "line": 2621,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5592,7 +5724,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2569,
+          "line": 2616,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5604,7 +5736,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2565,
+          "line": 2612,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5616,7 +5748,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2565,
+          "line": 2612,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5628,7 +5760,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2420,
+          "line": 2467,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -5640,7 +5772,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2352,
+          "line": 2399,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -5652,7 +5784,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2329,
+          "line": 2376,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5664,7 +5796,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2328,
+          "line": 2375,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -5676,7 +5808,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2320,
+          "line": 2367,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -5688,7 +5820,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2243,
+          "line": 2290,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -5700,7 +5832,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2229,
+          "line": 2276,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -5712,7 +5844,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2129,
+          "line": 2176,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -5724,7 +5856,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2128,
+          "line": 2175,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -5906,7 +6038,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\replication\\replication_manager.cpp",
-          "line_number": 5275,
+          "line_number": 5343,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -5918,7 +6050,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\replication\\replication_manager.cpp",
-          "line_number": 4927,
+          "line_number": 4995,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -5930,7 +6062,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\replication\\replication_manager.cpp",
-          "line_number": 4889,
+          "line_number": 4957,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak",
@@ -6213,7 +6345,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6092,
+          "line": 6174,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -6222,7 +6354,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6084,
+          "line": 6166,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -6231,7 +6363,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6017,
+          "line": 6099,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "conflict_timestamps_.push_back(std::chrono::system_clock::now());",
@@ -6240,7 +6372,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5831,
+          "line": 5913,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(rec);",
@@ -6249,7 +6381,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5788,
+          "line": 5870,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "SyncStatus s;",
@@ -6258,7 +6390,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5549,
+          "line": 5617,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(kv.second);",
@@ -6267,7 +6399,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5515,
+          "line": 5583,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -6276,7 +6408,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5376,
+          "line": 5444,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -6285,7 +6417,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5299,
+          "line": 5367,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "candidates.push_back(entry.path().filename().string());",
@@ -6294,7 +6426,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5119,
+          "line": 5187,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "index_.push_back(meta);",
@@ -6303,7 +6435,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5106,
+          "line": 5174,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "dst.close();",
@@ -6312,7 +6444,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5050,
+          "line": 5118,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "catch (...) { segment_id = 0; }",
@@ -6321,7 +6453,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5011,
+          "line": 5079,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "index_.push_back(seg);",
@@ -6330,7 +6462,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4938,
+          "line": 5006,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_CIPHER_CTX_free(ctx);",
@@ -6339,7 +6471,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4902,
+          "line": 4970,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_CIPHER_CTX_free(ctx);",
@@ -6348,7 +6480,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4868,
+          "line": 4936,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "bytes.push_back(static_cast<uint8_t>(val));",
@@ -6357,7 +6489,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4782,
+          "line": 4850,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -6366,7 +6498,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4730,
+          "line": 4798,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -6375,7 +6507,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4639,
+          "line": 4707,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -6384,7 +6516,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4595,
+          "line": 4663,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "<< \"Throughput:    \" << static_cast<uint64_t>(r.writes_per_second) << \" writes/sec\\n\"",
@@ -6393,7 +6525,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4560,
+          "line": 4628,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "latencies_us.push_back(",
@@ -6402,7 +6534,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4321,
+          "line": 4389,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& dp : history) values.push_back(dp.lag_ms);",
@@ -6411,7 +6543,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4302,
+          "line": 4370,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "insights.push_back(std::move(ins));",
@@ -6420,7 +6552,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4289,
+          "line": 4357,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& dp : history) values.push_back(dp.lag_ms);",
@@ -6429,7 +6561,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4283,
+          "line": 4351,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "insights.push_back(std::move(ins));",
@@ -6438,7 +6570,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4248,
+          "line": 4316,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "values.push_back(dp.lag_ms);",
@@ -6447,7 +6579,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4247,
+          "line": 4315,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.data_points.push_back(dp);",
@@ -6456,7 +6588,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3875,
+          "line": 3943,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -6465,7 +6597,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3755,
+          "line": 3823,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -6474,7 +6606,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3741,
+          "line": 3809,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -6483,7 +6615,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3701,
+          "line": 3769,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.sources.push_back(r.endpoint);",
@@ -6492,7 +6624,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3671,
+          "line": 3739,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto* p : qualifying) reconcile_set.push_back(*p);",
@@ -6501,7 +6633,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3652,
+          "line": 3720,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "qualifying.push_back(&r);",
@@ -6510,7 +6642,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3632,
+          "line": 3700,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (resp.ok) responses.push_back(std::move(resp));",
@@ -6519,7 +6651,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3612,
+          "line": 3680,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "futures.push_back(std::async(std::launch::async,",
@@ -6528,7 +6660,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3490,
+          "line": 3558,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "batch.push_back(std::move(work_queue_.front()));",
@@ -6537,7 +6669,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3486,
+          "line": 3554,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "batch.push_back(std::move(work_queue_.front()));",
@@ -6546,7 +6678,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3425,
+          "line": 3493,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "item.deps.push_back(it->second);",
@@ -6555,7 +6687,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3381,
+          "line": 3449,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "missing.push_back(entry);",
@@ -6564,7 +6696,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3268,
+          "line": 3336,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "rec.conflicting_writes.push_back(incoming);",
@@ -6573,7 +6705,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3168,
+          "line": 3215,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "peer_ids.push_back(id);",
@@ -6582,7 +6714,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3128,
+          "line": 3175,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "committed_writes_log_.push_back(entry);",
@@ -6591,7 +6723,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3054,
+          "line": 3101,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "snapshot.edges.push_back(std::move(reverse_edge));",
@@ -6600,7 +6732,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3047,
+          "line": 3094,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "snapshot.edges.push_back(std::move(edge));",
@@ -6609,7 +6741,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3041,
+          "line": 3088,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "snapshot.nodes.push_back(std::move(node));",
@@ -6618,7 +6750,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2937,
+          "line": 2984,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(rec);",
@@ -6627,7 +6759,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2898,
+          "line": 2945,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(info);",
@@ -6636,7 +6768,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2829,
+          "line": 2876,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "peers_snapshot.push_back(info);",
@@ -6645,7 +6777,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2575,
+          "line": 2622,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(static_cast<uint8_t>((len >> (i * 8)) & 0xFF));",
@@ -6654,7 +6786,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2570,
+          "line": 2617,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(static_cast<uint8_t>((val >> (i * 8)) & 0xFF));",
@@ -6663,7 +6795,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2566,
+          "line": 2613,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(static_cast<uint8_t>((val >> (i * 8)) & 0xFF));",
@@ -6672,7 +6804,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2330,
+          "line": 2377,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "elemTags[elem].push_back(tag);",
@@ -6681,7 +6813,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2147,
+          "line": 2194,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -6897,7 +7029,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5749,
+          "line": 5831,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "handleConflict(it->second, entry, entry.is_ddl);",
@@ -6906,7 +7038,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5386,
+          "line": 5454,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "[[maybe_unused]] const std::string& data,",
@@ -6915,7 +7047,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4301,
+          "line": 4369,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "ins.metadata[\"avg_lag_ms\"] = std::to_string(avg);",
@@ -6924,7 +7056,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4300,
+          "line": 4368,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "ins.metadata[\"replica_id\"] = replica_id;",
@@ -6933,7 +7065,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4282,
+          "line": 4350,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "ins.metadata[\"lag_ms\"]     = std::to_string(last_lag);",
@@ -6942,7 +7074,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4281,
+          "line": 4349,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "ins.metadata[\"replica_id\"] = replica_id;",
@@ -6951,7 +7083,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4192,
+          "line": 4260,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::mutex> lock(pending_mutex_);",
@@ -6960,7 +7092,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3761,
+          "line": 3829,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::shared_mutex> lock(replicas_mutex_);",
@@ -6969,7 +7101,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3697,
+          "line": 3765,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result.data          = best->data;",
@@ -6978,7 +7110,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3479,
+          "line": 3547,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "queue_cv_.wait_for(lock, std::chrono::milliseconds(5),",
@@ -6987,7 +7119,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3478,
+          "line": 3546,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::mutex> lock(queue_mutex_);",
@@ -6996,7 +7128,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3451,
+          "line": 3519,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(1));",
@@ -7005,7 +7137,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3448,
+          "line": 3516,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(queue_mutex_);",
@@ -7014,7 +7146,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3161,
+          "line": 3208,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(config_.sync_interval_ms));",
@@ -7023,7 +7155,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3145,
+          "line": 3192,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(config_.heartbeat_interval_ms));",
@@ -7032,7 +7164,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3108,
+          "line": 3155,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = write_callbacks_.find(entry.write_id);",
@@ -7041,7 +7173,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3099,
+          "line": 3146,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::mutex> lock(writes_mutex_);",
@@ -7050,7 +7182,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2548,
+          "line": 2595,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& t : extractJsonArrayStrings(dArr))",
@@ -7059,7 +7191,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2545,
+          "line": 2592,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& t : extractJsonArrayStrings(eArr))",
@@ -7068,7 +7200,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2521,
+          "line": 2568,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& t : extractJsonArrayStrings(dArr))",
@@ -7077,7 +7209,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2518,
+          "line": 2565,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& t : extractJsonArrayStrings(eArr))",
@@ -7086,7 +7218,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2386,
+          "line": 2433,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& e : extractJsonArrayStrings(removeArr)) removeSet.insert(e);",
@@ -7095,7 +7227,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2385,
+          "line": 2432,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& e : extractJsonArrayStrings(addArr))    addSet.insert(e);",
@@ -7104,7 +7236,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2355,
+          "line": 2402,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = best.find(k);",
@@ -7113,7 +7245,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2355,
+          "line": 2402,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto it = best.find(k);",
@@ -7122,7 +7254,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2334,
+          "line": 2381,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "if (tombstones.find(t) == tombstones.end()) { liveElements.insert(elem); break; }",
@@ -7131,7 +7263,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2312,
+          "line": 2359,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto rb = addArr.find(']', lb + 1);",
@@ -7140,7 +7272,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2310,
+          "line": 2357,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto lb = addArr.find('[', p);",
@@ -7149,7 +7281,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2303,
+          "line": 2350,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& t : extractJsonArrayStrings(tsArr))",
@@ -7158,7 +7290,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2267,
+          "line": 2314,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto qe = w.data.find('\"', qs + 1);",
@@ -7167,7 +7299,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2265,
+          "line": 2312,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto qs = w.data.find('\"', p);",
@@ -7176,7 +7308,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2265,
+          "line": 2312,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "auto qs = w.data.find('\"', p);",
@@ -7185,7 +7317,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2238,
+          "line": 2285,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& [k, v] : extractJsonInts(nSub))",
@@ -7194,7 +7326,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2233,
+          "line": 2280,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& [k, v] : extractJsonInts(pSub))",
@@ -7302,7 +7434,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6230,
+          "line": 6312,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::optional<std::string> GeoReplicationManager::read(",
@@ -7311,7 +7443,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6192,
+          "line": 6274,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "bool GeoReplicationManager::write(",
@@ -7320,7 +7452,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5852,
+          "line": 5934,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "it->resolved_write = (winner_node == config_.local_node_id)",
@@ -7329,7 +7461,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5746,
+          "line": 5828,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = pending_writes_.find(key);",
@@ -7338,7 +7470,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5417,
+          "line": 5485,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "MultiRegionActiveActiveManager::read(",
@@ -7347,7 +7479,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5382,
+          "line": 5450,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "MultiRegionActiveActiveManager::write(",
@@ -7356,7 +7488,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4240,
+          "line": 4308,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = lag_history_.find(replica_id);",
@@ -7365,7 +7497,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3541,
+          "line": 3609,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "QuorumReadManager::QuorumReadResult QuorumReadManager::read(",
@@ -7374,7 +7506,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3423,
+          "line": 3491,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = last_done_per_doc_.find(entry.document_id);",
@@ -7383,7 +7515,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3305,
+          "line": 3373,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "MMWriteEntry winner = resolver->resolve(document_id, conflicting_writes);",
@@ -7392,7 +7524,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3109,
+          "line": 3156,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = write_callbacks_.find(entry.write_id);",
@@ -7401,7 +7533,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2804,
+          "line": 2851,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "MultiMasterReplicationManager::ReadResult MultiMasterReplicationManager::read(",
@@ -7410,7 +7542,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2727,
+          "line": 2774,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::string MultiMasterReplicationManager::write(",
@@ -7419,7 +7551,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2179,
+          "line": 2226,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto qe = arr.find('\"', qs + 1);",
@@ -7428,7 +7560,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2177,
+          "line": 2224,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto qs = arr.find('\"', p);",
@@ -7579,79 +7711,19 @@
       "src\\replication\\conflict_resolution.cpp": [
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 374,
+          "line": 419,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
           "description": "Concurrent update without version vector or causal ordering",
-          "context": "winner.data = mergeFields(conflicting_writes);",
+          "context": "return enrichWinnerWithCausality(winner, conflicting_writes);",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 373,
-          "category": "distributed_consistency",
-          "severity": "CRITICAL",
-          "pattern": "missing_version_tracking",
-          "description": "Concurrent update without version vector or causal ordering",
-          "context": "MMWriteEntry winner = pickLatestHlc(conflicting_writes);",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 371,
-          "category": "distributed_consistency",
-          "severity": "CRITICAL",
-          "pattern": "missing_version_tracking",
-          "description": "Concurrent update without version vector or causal ordering",
-          "context": "if (conflicting_writes.size() == 1) return conflicting_writes[0];",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 369,
-          "category": "distributed_consistency",
-          "severity": "CRITICAL",
-          "pattern": "missing_version_tracking",
-          "description": "Concurrent update without version vector or causal ordering",
-          "context": "throw std::invalid_argument(\"FieldLevelMergeResolver::resolve requires at least one conflicting write\");",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 368,
-          "category": "distributed_consistency",
-          "severity": "CRITICAL",
-          "pattern": "missing_version_tracking",
-          "description": "Concurrent update without version vector or causal ordering",
-          "context": "if (conflicting_writes.empty()) {",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 365,
-          "category": "distributed_consistency",
-          "severity": "CRITICAL",
-          "pattern": "missing_version_tracking",
-          "description": "Concurrent update without version vector or causal ordering",
-          "context": "const std::vector<MMWriteEntry>&  conflicting_writes,",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 349,
+          "line": 393,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -7663,7 +7735,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 347,
+          "line": 391,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -7675,7 +7747,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 346,
+          "line": 390,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -7687,7 +7759,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 344,
+          "line": 388,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -7699,7 +7771,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 343,
+          "line": 387,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -7711,7 +7783,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 341,
+          "line": 385,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -7723,7 +7795,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 340,
+          "line": 384,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -7735,7 +7807,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 332,
+          "line": 376,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -7747,7 +7819,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 288,
+          "line": 332,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -7759,7 +7831,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 285,
+          "line": 329,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -7771,103 +7843,19 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 280,
+          "line": 325,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
           "description": "Concurrent update without version vector or causal ordering",
-          "context": "conflicting_writes[right_idx].data);",
+          "context": "return enrichWinnerWithCausality(winner, conflicting_writes);",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 279,
-          "category": "distributed_consistency",
-          "severity": "CRITICAL",
-          "pattern": "missing_version_tracking",
-          "description": "Concurrent update without version vector or causal ordering",
-          "context": "conflicting_writes[left_idx].data,",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 278,
-          "category": "distributed_consistency",
-          "severity": "CRITICAL",
-          "pattern": "missing_version_tracking",
-          "description": "Concurrent update without version vector or causal ordering",
-          "context": "winner.data = mergeJson(base.data,",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 277,
-          "category": "distributed_consistency",
-          "severity": "CRITICAL",
-          "pattern": "missing_version_tracking",
-          "description": "Concurrent update without version vector or causal ordering",
-          "context": "MMWriteEntry winner = conflicting_writes[right_idx];",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 275,
-          "category": "distributed_consistency",
-          "severity": "CRITICAL",
-          "pattern": "missing_version_tracking",
-          "description": "Concurrent update without version vector or causal ordering",
-          "context": "if (first) return conflicting_writes[base_idx]; // no non-base entries",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 272,
-          "category": "distributed_consistency",
-          "severity": "CRITICAL",
-          "pattern": "missing_version_tracking",
-          "description": "Concurrent update without version vector or causal ordering",
-          "context": "if (conflicting_writes[right_idx].hlc < conflicting_writes[i].hlc) right_idx = i;",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 271,
-          "category": "distributed_consistency",
-          "severity": "CRITICAL",
-          "pattern": "missing_version_tracking",
-          "description": "Concurrent update without version vector or causal ordering",
-          "context": "if (conflicting_writes[i].hlc < conflicting_writes[left_idx].hlc)  left_idx  = i;",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 268,
-          "category": "distributed_consistency",
-          "severity": "CRITICAL",
-          "pattern": "missing_version_tracking",
-          "description": "Concurrent update without version vector or causal ordering",
-          "context": "for (size_t i = 0; i < conflicting_writes.size(); ++i) {",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 257,
+          "line": 301,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -7879,7 +7867,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 238,
+          "line": 282,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -7891,7 +7879,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 209,
+          "line": 253,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -7903,7 +7891,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 207,
+          "line": 251,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -7915,7 +7903,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 206,
+          "line": 250,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -7927,7 +7915,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 205,
+          "line": 249,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -7939,7 +7927,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 202,
+          "line": 246,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -7951,12 +7939,36 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 193,
+          "line": 237,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
           "description": "Concurrent update without version vector or causal ordering",
           "context": "std::string ThreeWayMergeResolver::mergeJson(",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\replication\\conflict_resolution.cpp",
+          "line": 189,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_consensus",
+          "description": "Write without consensus/replication acknowledgment",
+          "context": "merged_dependencies.insert(write.write_id);",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\replication\\conflict_resolution.cpp",
+          "line": 187,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_consensus",
+          "description": "Write without consensus/replication acknowledgment",
+          "context": "merged_dependencies.insert(write.dependencies.begin(), write.dependencies.end());",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
@@ -7999,7 +8011,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 374,
+          "line": 418,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8011,7 +8023,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 369,
+          "line": 413,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8023,7 +8035,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 363,
+          "line": 407,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8035,7 +8047,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 360,
+          "line": 404,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8047,7 +8059,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 354,
+          "line": 398,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8059,7 +8071,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 347,
+          "line": 391,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8071,7 +8083,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 346,
+          "line": 390,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8083,7 +8095,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 344,
+          "line": 388,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8095,7 +8107,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 343,
+          "line": 387,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8107,7 +8119,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 341,
+          "line": 385,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8119,7 +8131,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 340,
+          "line": 384,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8131,7 +8143,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 332,
+          "line": 376,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8143,7 +8155,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 321,
+          "line": 365,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8155,7 +8167,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 303,
+          "line": 347,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8167,7 +8179,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 300,
+          "line": 344,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8179,7 +8191,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 298,
+          "line": 342,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8191,7 +8203,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 297,
+          "line": 341,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8203,7 +8215,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 296,
+          "line": 340,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8215,7 +8227,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 295,
+          "line": 339,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8227,7 +8239,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 292,
+          "line": 336,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8239,7 +8251,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 288,
+          "line": 332,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8251,7 +8263,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 285,
+          "line": 329,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8263,7 +8275,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 278,
+          "line": 322,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8275,7 +8287,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 242,
+          "line": 286,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8287,7 +8299,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 236,
+          "line": 280,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8299,7 +8311,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 233,
+          "line": 277,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8311,7 +8323,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 230,
+          "line": 274,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8323,7 +8335,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 213,
+          "line": 257,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -8335,7 +8347,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 212,
+          "line": 256,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -8347,7 +8359,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 211,
+          "line": 255,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
@@ -8359,7 +8371,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 209,
+          "line": 253,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8371,7 +8383,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 207,
+          "line": 251,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8383,7 +8395,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 206,
+          "line": 250,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8395,7 +8407,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 205,
+          "line": 249,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8407,7 +8419,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 202,
+          "line": 246,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8419,7 +8431,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 193,
+          "line": 237,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8431,7 +8443,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 165,
+          "line": 209,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8443,7 +8455,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 162,
+          "line": 206,
           "category": "distributed_consistency",
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
@@ -8454,10 +8466,94 @@
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
+          "file": "src\\replication\\conflict_resolution.cpp",
+          "line": 197,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "enriched.dependencies.assign(merged_dependencies.begin(), merged_dependencies.end());",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\replication\\conflict_resolution.cpp",
+          "line": 196,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "enriched.vector_clock = std::move(merged_clock);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\replication\\conflict_resolution.cpp",
+          "line": 189,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "merged_dependencies.insert(write.write_id);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\replication\\conflict_resolution.cpp",
+          "line": 187,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "merged_dependencies.insert(write.dependencies.begin(), write.dependencies.end());",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\replication\\conflict_resolution.cpp",
+          "line": 186,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "merged_clock.merge(write.vector_clock);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\replication\\conflict_resolution.cpp",
+          "line": 181,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "std::set<std::string> merged_dependencies(",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\replication\\conflict_resolution.cpp",
+          "line": 180,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "VectorClock merged_clock = winner.vector_clock;",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\replication\\conflict_resolution.cpp",
-          "line_number": 275,
+          "line_number": 319,
           "line_content": "if (first) return conflicting_writes[base_idx]; // no non-base entries",
           "context": [
             "    }",
@@ -8476,7 +8572,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 328,
+          "line": 372,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -8488,7 +8584,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 328,
+          "line": 372,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -8500,7 +8596,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 328,
+          "line": 372,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -8512,7 +8608,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 328,
+          "line": 372,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -8524,7 +8620,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 311,
+          "line": 355,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -8536,7 +8632,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 202,
+          "line": 246,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "map_vs_unordered_map",
@@ -8548,7 +8644,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 329,
+          "line": 373,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (field_maps[i].count(key)) present_indices.push_back(i);",
@@ -8557,7 +8653,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 312,
+          "line": 356,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "field_maps.push_back(parseTopLevelFields(w.data));",
@@ -8566,7 +8662,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 211,
+          "line": 255,
           "type": "repeated_lookup",
           "severity": "MEDIUM",
           "snippet": "const auto base_it  = base_f.find(key);",
@@ -8575,7 +8671,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 127,
+          "line": 130,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "value += '\"';",
@@ -8584,7 +8680,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 88,
+          "line": 91,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "if (*p == '\\\\' && (p + 1) < end) { ++p; } // skip escape",
@@ -8593,7 +8689,7 @@
         },
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 280,
+          "line": 324,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "conflicting_writes[right_idx].data);",

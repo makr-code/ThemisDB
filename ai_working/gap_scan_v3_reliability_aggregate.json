@@ -14039,12 +14039,12 @@
     }
   },
   "llm": {
-    "total": 681,
+    "total": 688,
     "severity_critical": 25,
-    "severity_high": 547,
+    "severity_high": 554,
     "severity_medium": 109,
     "by_type": {
-      "uncaught_exception": 546,
+      "uncaught_exception": 553,
       "no_health_check": 35,
       "no_retry_logic": 75,
       "no_timeout": 25
@@ -19710,7 +19710,7 @@
       "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp": [
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 72,
+          "line": 73,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to load shader: \" + shader_name + \" from \" + shader_path);",
@@ -19719,7 +19719,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 110,
+          "line": 111,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to create pipeline: \" + pipeline_name);",
@@ -19728,7 +19728,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 165,
+          "line": 166,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::overflow_error(std::string(context) + \": value exceeds uint32 range\");",
@@ -19737,7 +19737,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 241,
+          "line": 242,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "catch (...) {",
@@ -19746,7 +19746,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 258,
+          "line": 259,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_matmul_shader received invalid dimensions\");",
@@ -19755,7 +19755,16 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 286,
+          "line": 262,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_matmul_shader received non-finite alpha\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 290,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (!g_directx_state.descriptors) { throw std::runtime_error(\"DirectX: descriptor heap not initializ",
@@ -19764,7 +19773,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 332,
+          "line": 336,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"launch_matmul_shader failed: \") + e.what());",
@@ -19773,7 +19782,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 340,
+          "line": 344,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_add_shader received null pointer\");",
@@ -19782,7 +19791,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 343,
+          "line": 347,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_add_shader received invalid size\");",
@@ -19791,7 +19800,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 369,
+          "line": 373,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (!g_directx_state.descriptors) { throw std::runtime_error(\"DirectX: descriptor heap not initializ",
@@ -19800,7 +19809,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 413,
+          "line": 417,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"launch_add_shader failed: \") + e.what());",
@@ -19809,7 +19818,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 421,
+          "line": 425,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_multiply_shader received null pointer\");",
@@ -19818,7 +19827,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 424,
+          "line": 428,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_multiply_shader received invalid size\");",
@@ -19827,7 +19836,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 480,
+          "line": 484,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"launch_multiply_shader failed: \") + e.what());",
@@ -19836,7 +19845,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 488,
+          "line": 492,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_scalar_multiply_shader received null pointer\");",
@@ -19845,7 +19854,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 491,
+          "line": 495,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_scalar_multiply_shader received invalid size\");",
@@ -19854,7 +19863,16 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 547,
+          "line": 498,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_scalar_multiply_shader received non-finite scalar\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 554,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"launch_scalar_multiply_shader failed: \") + e.what());",
@@ -19863,7 +19881,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 555,
+          "line": 562,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_transpose_shader received null pointer\");",
@@ -19872,7 +19890,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 558,
+          "line": 565,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_transpose_shader received invalid dimensions\");",
@@ -19881,7 +19899,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 615,
+          "line": 622,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"launch_transpose_shader failed: \") + e.what());",
@@ -19890,7 +19908,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 625,
+          "line": 632,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_lora_grad_A_shader received null pointer\");",
@@ -19899,7 +19917,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 628,
+          "line": 635,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_lora_grad_A_shader received invalid dimensions\");",
@@ -19908,19 +19926,19 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 662,
+          "line": 638,
           "type": "uncaught_exception",
           "severity": "HIGH",
-          "snippet": "if (!g_directx_state.descriptors) { throw std::runtime_error(\"DirectX: descriptor heap not initializ",
+          "snippet": "throw std::invalid_argument(\"launch_lora_grad_A_shader received non-finite scaling\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 721,
+          "line": 672,
           "type": "uncaught_exception",
           "severity": "HIGH",
-          "snippet": "throw std::runtime_error(std::string(\"launch_lora_grad_A_shader failed: \") + e.what());",
+          "snippet": "if (!g_directx_state.descriptors) { throw std::runtime_error(\"DirectX: descriptor heap not initializ",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
@@ -19929,13 +19947,22 @@
           "line": 731,
           "type": "uncaught_exception",
           "severity": "HIGH",
+          "snippet": "throw std::runtime_error(std::string(\"launch_lora_grad_A_shader failed: \") + e.what());",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 741,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_lora_grad_B_shader received null pointer\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 734,
+          "line": 744,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_lora_grad_B_shader received invalid dimensions\");",
@@ -19944,7 +19971,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 766,
+          "line": 776,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (!g_directx_state.descriptors) { throw std::runtime_error(\"DirectX: descriptor heap not initializ",
@@ -19953,7 +19980,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 825,
+          "line": 835,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"launch_lora_grad_B_shader failed: \") + e.what());",
@@ -19962,7 +19989,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 840,
+          "line": 850,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_embedding_lookup_shader received null pointer\");",
@@ -19971,7 +19998,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 843,
+          "line": 853,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_embedding_lookup_shader received invalid dimensions\");",
@@ -19980,7 +20007,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 906,
+          "line": 916,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"launch_embedding_lookup_shader failed: \") + e.what());",
@@ -19989,7 +20016,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 919,
+          "line": 929,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_sequence_mean_shader received null pointer\");",
@@ -19998,7 +20025,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 922,
+          "line": 932,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_sequence_mean_shader received invalid dimensions\");",
@@ -20007,7 +20034,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 983,
+          "line": 993,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"launch_sequence_mean_shader failed: \") + e.what());",
@@ -20016,7 +20043,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 1012,
+          "line": 1022,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
@@ -20025,7 +20052,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 1016,
+          "line": 1026,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
@@ -20034,25 +20061,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 1020,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 1024,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 1028,
+          "line": 1030,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
@@ -20070,7 +20079,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 1040,
+          "line": 1038,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
@@ -20079,7 +20088,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 1051,
+          "line": 1044,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
@@ -20088,7 +20097,25 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 1060,
+          "line": 1050,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 1061,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 1070,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
@@ -20099,7 +20126,7 @@
       "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp": [
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 78,
+          "line": 79,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::overflow_error(std::string(context) + \": value exceeds uint32 range\");",
@@ -20108,7 +20135,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 85,
+          "line": 86,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(std::string(context) + \": pipeline is null\");",
@@ -20117,7 +20144,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 87,
+          "line": 88,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "if (!pipeline->wait(kVulkanKernelWaitTimeoutNs)) {",
@@ -20126,7 +20153,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 88,
+          "line": 89,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(context) + \": timed out waiting for Vulkan kernel execution\");",
@@ -20135,7 +20162,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 396,
+          "line": 397,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Vulkan not initialized. Call initialize_vulkan_lora() first.\");",
@@ -20144,7 +20171,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 481,
+          "line": 482,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_matmul_shader received null pointer\");",
@@ -20153,7 +20180,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 484,
+          "line": 485,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_matmul_shader received invalid dimensions\");",
@@ -20162,7 +20189,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 524,
+          "line": 525,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_add_shader received null pointer\");",
@@ -20171,7 +20198,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 527,
+          "line": 528,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_add_shader received invalid size\");",
@@ -20180,7 +20207,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 574,
+          "line": 575,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_multiply_shader received null pointer\");",
@@ -20189,7 +20216,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 577,
+          "line": 578,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_multiply_shader received invalid size\");",
@@ -20198,7 +20225,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 622,
+          "line": 623,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_scalar_multiply_shader received null pointer\");",
@@ -20207,7 +20234,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 625,
+          "line": 626,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_scalar_multiply_shader received invalid size\");",
@@ -20216,7 +20243,16 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 669,
+          "line": 629,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_scalar_multiply_shader received non-finite scalar\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
+          "line": 673,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_transpose_shader received null pointer\");",
@@ -20225,7 +20261,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 672,
+          "line": 676,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_transpose_shader received invalid dimensions\");",
@@ -20234,7 +20270,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 719,
+          "line": 723,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_lora_grad_A_shader received null pointer\");",
@@ -20243,7 +20279,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 722,
+          "line": 726,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_lora_grad_A_shader received invalid dimensions\");",
@@ -20252,7 +20288,16 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 782,
+          "line": 729,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_lora_grad_A_shader received non-finite scaling\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
+          "line": 789,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_lora_grad_B_shader received null pointer\");",
@@ -20261,7 +20306,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 785,
+          "line": 792,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_lora_grad_B_shader received invalid dimensions\");",
@@ -20270,7 +20315,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 849,
+          "line": 856,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_embedding_lookup_shader received null pointer\");",
@@ -20279,7 +20324,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 852,
+          "line": 859,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_embedding_lookup_shader received invalid dimensions\");",
@@ -20288,7 +20333,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 902,
+          "line": 909,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_sequence_mean_shader received null pointer\");",
@@ -20297,7 +20342,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 905,
+          "line": 912,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_sequence_mean_shader received invalid dimensions\");",
@@ -20306,7 +20351,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 957,
+          "line": 964,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_fused_lora_forward received null pointer\");",
@@ -20315,7 +20360,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 960,
+          "line": 967,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_fused_lora_forward received invalid dimensions\");",
@@ -20324,7 +20369,16 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 966,
+          "line": 970,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_fused_lora_forward received non-finite scaling\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
+          "line": 976,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::overflow_error(\"launch_fused_lora_forward dimensions exceed int range\");",
@@ -20333,7 +20387,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1019,
+          "line": 1029,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_fused_lora_backward received null pointer\");",
@@ -20342,7 +20396,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1022,
+          "line": 1032,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_fused_lora_backward received invalid dimensions\");",
@@ -20351,7 +20405,16 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1028,
+          "line": 1035,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_fused_lora_backward received non-finite scaling\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
+          "line": 1041,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::overflow_error(\"launch_fused_lora_backward dimensions exceed int range\");",
@@ -27923,7 +27986,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2147,
+          "line": 2194,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -27932,7 +27995,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2727,
+          "line": 2774,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::string MultiMasterReplicationManager::write(",
@@ -27941,7 +28004,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 2804,
+          "line": 2851,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "MultiMasterReplicationManager::ReadResult MultiMasterReplicationManager::read(",
@@ -27950,7 +28013,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3541,
+          "line": 3609,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "QuorumReadManager::QuorumReadResult QuorumReadManager::read(",
@@ -27959,7 +28022,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3741,
+          "line": 3809,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -27968,7 +28031,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3755,
+          "line": 3823,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -27977,7 +28040,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3875,
+          "line": 3943,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -27986,7 +28049,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4639,
+          "line": 4707,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -27995,7 +28058,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4730,
+          "line": 4798,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -28004,7 +28067,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4782,
+          "line": 4850,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -28013,7 +28076,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5050,
+          "line": 5118,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "catch (...) { segment_id = 0; }",
@@ -28022,7 +28085,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5376,
+          "line": 5444,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -28031,7 +28094,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5382,
+          "line": 5450,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "MultiRegionActiveActiveManager::write(",
@@ -28040,7 +28103,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5417,
+          "line": 5485,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "MultiRegionActiveActiveManager::read(",
@@ -28049,7 +28112,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5515,
+          "line": 5583,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -28058,7 +28121,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5788,
+          "line": 5870,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "SyncStatus s;",
@@ -28067,7 +28130,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6084,
+          "line": 6166,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -28076,7 +28139,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6092,
+          "line": 6174,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -28085,7 +28148,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6192,
+          "line": 6274,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "bool GeoReplicationManager::write(",
@@ -28094,7 +28157,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 6230,
+          "line": 6312,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::optional<std::string> GeoReplicationManager::read(",
@@ -38396,7 +38459,7 @@
       "src\\sharding\\wal_applier.cpp": [
         {
           "file": "src\\sharding\\wal_applier.cpp",
-          "line": 133,
+          "line": 151,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "backoff.wait();",
@@ -42375,7 +42438,7 @@
       "src\\training\\incremental_lora_trainer.cpp": [
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 499,
+          "line": 512,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (rank <= 0) throw std::invalid_argument(\"LoRA rank must be positive\");",
@@ -42384,7 +42447,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 500,
+          "line": 513,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (alpha <= 0.0f) throw std::invalid_argument(\"LoRA alpha must be positive\");",
@@ -42393,7 +42456,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 501,
+          "line": 514,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (learning_rate <= 0.0f) throw std::invalid_argument(\"Learning rate must be positive\");",
@@ -42402,7 +42465,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 551,
+          "line": 564,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Federated learning rate must be positive\");",
@@ -42411,7 +42474,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 558,
+          "line": 571,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"no training since last export\");",
@@ -42420,7 +42483,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 822,
+          "line": 894,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -42429,7 +42492,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 840,
+          "line": 912,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -42438,7 +42501,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1177,
+          "line": 1249,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::overflow_error(",
@@ -42447,7 +42510,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1235,
+          "line": 1307,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -42456,7 +42519,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1251,
+          "line": 1323,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LoRA rank must be positive\");",
@@ -42465,7 +42528,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1253,
+          "line": 1325,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"LoRA alpha must be positive\");",
@@ -42474,7 +42537,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1255,
+          "line": 1327,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Learning rate must be positive\");",
@@ -42483,7 +42546,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1257,
+          "line": 1329,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Batch size must be positive\");",
@@ -42492,7 +42555,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1259,
+          "line": 1331,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"num_gpus must be at least 1\");",
@@ -42501,7 +42564,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1261,
+          "line": 1333,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"sync_steps must be at least 1\");",
@@ -42510,7 +42573,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1263,
+          "line": 1335,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Quantization block_size must be positive\");",
@@ -42519,7 +42582,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1431,
+          "line": 1503,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -42844,7 +42907,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 163,
+          "line": 185,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::logic_error(\"Internal error: step record not found: \" + name);",
@@ -42853,7 +42916,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 344,
+          "line": 392,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::vector<std::future<DistributedSagaStatus>> futures;",
@@ -42862,7 +42925,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 364,
+          "line": 421,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "DistributedSagaStatus wave_status;",
@@ -42871,7 +42934,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 377,
+          "line": 434,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -42880,7 +42943,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 407,
+          "line": 465,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "DistributedSagaStatus last_status;",
@@ -42889,34 +42952,34 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 445,
+          "line": 519,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 463,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "step.name, attempt + 1, last_status.message);",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
           "line": 537,
           "type": "no_health_check",
           "severity": "MEDIUM",
+          "snippet": "step.name, attempt + 1, last_status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 611,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
           "snippet": "DistributedSagaStatus last_status;",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 569,
+          "line": 643,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -42925,7 +42988,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 576,
+          "line": 650,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "step.name, attempt + 1, last_status.message);",
@@ -42934,7 +42997,7 @@
         },
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 704,
+          "line": 778,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "return execute(local_def);",

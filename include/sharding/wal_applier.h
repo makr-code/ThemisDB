@@ -44,7 +44,16 @@ using ApplyHandler = std::function<bool(const WALEntry&)>;
  */
 struct WALApplierConfig {
     std::string replica_id;
-    bool strict_mode = true;  // Fail on LSN mismatch
+    /**
+     * @brief Enforce fail-closed LSN ordering.
+     *
+     * When enabled, each applied entry must be either:
+     * - the immediate successor of the current replica LSN, or
+     * - a bootstrap replay of `0/0` when the replica is still at its initial position.
+     *
+     * Duplicate, stale, and out-of-order entries are rejected.
+     */
+    bool strict_mode = true;
     bool enable_conflict_detection = true;
     /// Maximum number of times `applyEntry()` attempts the apply handler.
     size_t max_apply_retries = 3;
@@ -92,9 +101,10 @@ public:
     void setApplyHandler(ApplyHandler handler);
     
     /**
-     * Apply batch of entries from primary
-     * @param entries Entries to apply
-     * @return Apply result
+        * @brief Apply a batch of entries from a primary shard.
+        * @param entries Entries to apply.
+        * @return Apply result including failure diagnostics.
+        * @note In strict mode, the method fails closed on stale/duplicate/out-of-order LSNs.
      */
     ApplyResult applyBatch(const std::vector<WALEntry>& entries);
     

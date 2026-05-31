@@ -151,6 +151,10 @@ public:
      * @param text        Raw document text.
      * @param document_id Identifier propagated to sample.source_id.
      * @return Vector of TEXT_CLAUSE-typed TrainingSample records.
+     *
+     * Applies shared prompt-safety policy per extracted clause. Clauses matching
+     * blocked prompt-injection patterns are dropped (fail-closed). Allowed clauses
+     * are emitted with control-token redaction applied.
      */
     std::vector<TrainingSample> extract(const std::string& text,
                                         const std::string& document_id) const;
@@ -178,6 +182,10 @@ public:
      * @param text        Raw document text.
      * @param document_id Identifier propagated to sample.source_id.
      * @return Vector of TABLE-typed TrainingSample records.
+     *
+     * Applies shared prompt-safety policy per extracted table block. Blocks that
+     * trigger a prompt-injection block rule are dropped; allowed blocks are emitted
+     * with control-token redaction applied.
      */
     std::vector<TrainingSample> extract(const std::string& text,
                                         const std::string& document_id) const;
@@ -210,6 +218,10 @@ public:
      * @param text        Raw document text.
      * @param document_id Identifier propagated to sample.source_id.
      * @return Vector of CITATION-typed TrainingSample records.
+     *
+     * Applies shared prompt-safety policy per citation text. Blocked payloads are
+     * rejected (fail-closed); allowed payloads are emitted with control-token
+     * redaction applied.
      */
     std::vector<TrainingSample> extract(const std::string& text,
                                         const std::string& document_id) const;

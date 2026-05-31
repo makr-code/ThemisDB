@@ -33,6 +33,21 @@ using namespace themisdb::streaming;
  */
 class StreamProtocolExtendedTest : public ::testing::Test {
 protected:
+    static uint32_t computeChunkChecksum(const std::vector<uint8_t>& data) {
+        uint32_t crc = 0xFFFFFFFFu;
+        for (const auto byte : data) {
+            crc ^= byte;
+            for (int bit = 0; bit < 8; ++bit) {
+                const bool lsb = (crc & 1u) != 0;
+                crc >>= 1;
+                if (lsb) {
+                    crc ^= 0xEDB88320u;
+                }
+            }
+        }
+        return crc ^ 0xFFFFFFFFu;
+    }
+
     std::string test_dir = "/tmp/stream_protocol_test";
     
     void SetUp() override {
@@ -389,6 +404,7 @@ TEST_F(StreamProtocolExtendedTest, ChunkReceptionAndWriting) {
     chunk1.uncompressed_size = 50;
     chunk1.compressed_size = 50;
     chunk1.data.resize(50, 0xAA);
+    chunk1.checksum = computeChunkChecksum(chunk1.data);
     
     bool received = receive_task.onChunkReceived(chunk1);
     EXPECT_TRUE(received);
@@ -410,24 +426,95 @@ TEST_F(StreamProtocolExtendedTest, OutOfOrderChunkHandling) {
     
     // Send chunk 1 before chunk 0
     StreamChunk chunk1;
+    chunk1.file_offset = 50;
     chunk1.chunk_index = 1;
     chunk1.uncompressed_size = 50;
     chunk1.compressed_size = 50;
     chunk1.data.resize(50, 0xBB);
+    chunk1.checksum = computeChunkChecksum(chunk1.data);
     
     receive_task.onChunkReceived(chunk1);
     EXPECT_FALSE(receive_task.isComplete());
     
     // Now send chunk 0
     StreamChunk chunk0;
+    chunk0.file_offset = 0;
     chunk0.chunk_index = 0;
     chunk0.uncompressed_size = 50;
     chunk0.compressed_size = 50;
     chunk0.data.resize(50, 0xAA);
+    chunk0.checksum = computeChunkChecksum(chunk0.data);
     
     receive_task.onChunkReceived(chunk0);
     
     // Both chunks should be processed
+}
+
+TEST_F(StreamProtocolExtendedTest, RejectsOutOfRangeChunkIndexFailClosed) {
+    auto file_info = makeFileInfo("test_bad_index.dat", 100);
+
+    std::string output_path = test_dir + "/test_bad_index.dat";
+
+    StreamSessionConfig config;
+    config.chunk_size = 50;
+
+    StreamReceiveTask receive_task(file_info, output_path, config);
+    ASSERT_TRUE(receive_task.start());
+
+    StreamChunk bad_chunk;
+    bad_chunk.file_offset = 100;
+    bad_chunk.chunk_index = 2;
+    bad_chunk.uncompressed_size = 50;
+    bad_chunk.compressed_size = 50;
+    bad_chunk.data.assign(50, 0xAB);
+    bad_chunk.checksum = computeChunkChecksum(bad_chunk.data);
+
+    EXPECT_FALSE(receive_task.onChunkReceived(bad_chunk));
+}
+
+TEST_F(StreamProtocolExtendedTest, RejectsDuplicateChunkFailClosed) {
+    auto file_info = makeFileInfo("test_duplicate.dat", 100);
+
+    std::string output_path = test_dir + "/test_duplicate.dat";
+
+    StreamSessionConfig config;
+    config.chunk_size = 50;
+
+    StreamReceiveTask receive_task(file_info, output_path, config);
+    ASSERT_TRUE(receive_task.start());
+
+    StreamChunk chunk0;
+    chunk0.file_offset = 0;
+    chunk0.chunk_index = 0;
+    chunk0.uncompressed_size = 50;
+    chunk0.compressed_size = 50;
+    chunk0.data.assign(50, 0xCD);
+    chunk0.checksum = computeChunkChecksum(chunk0.data);
+
+    EXPECT_TRUE(receive_task.onChunkReceived(chunk0));
+    EXPECT_FALSE(receive_task.onChunkReceived(chunk0));
+}
+
+TEST_F(StreamProtocolExtendedTest, RejectsChunkWithMismatchedOffsetFailClosed) {
+    auto file_info = makeFileInfo("test_bad_offset.dat", 100);
+
+    std::string output_path = test_dir + "/test_bad_offset.dat";
+
+    StreamSessionConfig config;
+    config.chunk_size = 50;
+
+    StreamReceiveTask receive_task(file_info, output_path, config);
+    ASSERT_TRUE(receive_task.start());
+
+    StreamChunk bad_chunk;
+    bad_chunk.file_offset = 25;
+    bad_chunk.chunk_index = 0;
+    bad_chunk.uncompressed_size = 50;
+    bad_chunk.compressed_size = 50;
+    bad_chunk.data.assign(50, 0xEF);
+    bad_chunk.checksum = computeChunkChecksum(bad_chunk.data);
+
+    EXPECT_FALSE(receive_task.onChunkReceived(bad_chunk));
 }
 
 /**

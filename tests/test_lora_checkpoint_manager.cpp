@@ -253,6 +253,29 @@ TEST_F(LoRACheckpointManagerTest, Resume_CorruptLatest_AutoRollback) {
     EXPECT_EQ(resumed->sha256, e1.sha256);
 }
 
+TEST_F(LoRACheckpointManagerTest, Resume_MissingChecksumInManifest_FailsClosed) {
+    // Create a manifest with an entry that has an empty sha256 field.
+    const std::string manifest_path = dir_ + "/" + cfg_.manifest_filename;
+    {
+        std::ofstream mf(manifest_path, std::ios::trunc);
+        ASSERT_TRUE(mf.is_open());
+        mf << "checkpoint_path=" << dir_ << "/orphan.ckpt\n";
+        mf << "sha256=\n";
+        mf << "base_model_hash=\n";
+        mf << "adapter_version=v_missing_sha\n";
+        mf << "epoch=1\n";
+        mf << "step=10\n";
+        mf << "loss=0.5\n";
+        mf << "accuracy=0.8\n";
+        mf << "saved_at=1700000000\n";
+        mf << "---\n";
+    }
+
+    LoRACheckpointManager mgr(cfg_);
+    auto resumed = mgr.resume();
+    EXPECT_FALSE(resumed.has_value());
+}
+
 // ============================================================================
 // Validate tests
 // ============================================================================

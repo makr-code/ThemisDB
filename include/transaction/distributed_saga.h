@@ -325,7 +325,13 @@ public:
      * @brief Validate and execute a distributed SAGA.
      *
      * Blocks until the SAGA either completes successfully or finishes
-     * compensating after a failure.  Returns a detailed execution report.
+        * compensating after a failure.  Returns a detailed execution report.
+        *
+        * Fail-closed invariants:
+        *  - Duplicate saga_id executions are rejected.
+        *  - Per-step execution is bounded by step timeout and optional global
+        *    saga_timeout budget.
+        *  - A step is rejected when any declared dependency is not in DONE phase.
      *
      * @param saga  SAGA definition to execute.
      * @return      Execution report with final state and per-step records.
@@ -472,13 +478,15 @@ private:
         const std::vector<std::string>&                    wave,
         const std::map<std::string, DistributedSagaStep>&  step_map,
         RecordIndex&                                       index,
-        std::string&                                       failure_reason
+        std::string&                                       failure_reason,
+        std::optional<std::chrono::steady_clock::time_point> deadline
     );
 
     /// Execute a single step with retry and timeout.
     DistributedSagaStatus executeStep(
         const DistributedSagaStep& step,
-        StepRecord&                record
+        StepRecord&                record,
+        std::optional<std::chrono::steady_clock::time_point> deadline
     );
 
     /// Compensate all completed steps in reverse execution order.

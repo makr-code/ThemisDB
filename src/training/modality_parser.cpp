@@ -26,6 +26,7 @@
  */
 
 #include "training/modality_parser.h"
+#include "llm/prompt_safety_utils.h"
 #include "utils/string_utils.h"
 
 #include <algorithm>
@@ -47,6 +48,19 @@ namespace training {
 // Internal helpers
 // ============================================================================
 namespace detail {
+
+static bool sanitizeTrainingPromptSurface(
+    const std::string& input,
+    std::string& sanitized,
+    std::string* blocked_rule,
+    std::string* blocked_reason)
+{
+    return llm::prompt_safety::sanitizePromptWithSharedPolicy(
+        input,
+        sanitized,
+        blocked_rule,
+        blocked_reason);
+}
 
 // Count occurrences of a character in a string view window
 static size_t countChar(const std::string& s, char c) noexcept {
@@ -268,8 +282,18 @@ TextClauseExtractor::extract(const std::string& text,
     for (const auto& sentence : sentences) {
         if (sentence.size() < config_.text_clause_min_length) continue;
 
+        std::string sanitized_input;
+        std::string blocked_rule;
+        std::string blocked_reason;
+        if (!detail::sanitizeTrainingPromptSurface(sentence,
+                                                   sanitized_input,
+                                                   &blocked_rule,
+                                                   &blocked_reason)) {
+            continue;
+        }
+
         TrainingSample s;
-        s.input      = sentence;
+        s.input      = std::move(sanitized_input);
         s.output     = "text_clause";
         s.category   = "legal_clause";
         s.confidence = config_.text_clause_base_confidence;
@@ -303,6 +327,16 @@ TableExtractor::extract(const std::string& text,
     for (const auto& blk : table_blocks) {
         if (count >= config_.max_table_rows) break;
 
+        std::string sanitized_input;
+        std::string blocked_rule;
+        std::string blocked_reason;
+        if (!detail::sanitizeTrainingPromptSurface(blk.content,
+                                                   sanitized_input,
+                                                   &blocked_rule,
+                                                   &blocked_reason)) {
+            continue;
+        }
+
         // Build a column-count summary from the first row
         std::string first_row = themis::utils::trim(lines[blk.first_line]);
         size_t col_count = detail::countChar(first_row, '|');
@@ -313,7 +347,7 @@ TableExtractor::extract(const std::string& text,
                                  + "]";
 
         TrainingSample s;
-        s.input      = blk.content;
+        s.input      = std::move(sanitized_input);
         s.output     = output_label;
         s.category   = "table";
         s.confidence = config_.table_base_confidence;
@@ -346,8 +380,18 @@ CitationExtractor::extract(const std::string& text,
         std::string m = themis::utils::trim(matched);
         if (m.empty()) return;
 
+        std::string sanitized_input;
+        std::string blocked_rule;
+        std::string blocked_reason;
+        if (!detail::sanitizeTrainingPromptSurface(m,
+                                                   sanitized_input,
+                                                   &blocked_rule,
+                                                   &blocked_reason)) {
+            return;
+        }
+
         TrainingSample s;
-        s.input      = m;
+        s.input      = std::move(sanitized_input);
         s.output     = type;
         s.category   = "citation";
         s.confidence = config_.citation_base_confidence;
@@ -431,8 +475,18 @@ OCRExtractor::extract([[maybe_unused]] const std::string& image_path,
     //
     // For now emit one placeholder sample so the pipeline can account for
     // OCR-sourced samples in provenance records.
+    std::string sanitized_input;
+    std::string blocked_rule;
+    std::string blocked_reason;
+    if (!detail::sanitizeTrainingPromptSurface(image_path,
+                                               sanitized_input,
+                                               &blocked_rule,
+                                               &blocked_reason)) {
+        return samples;
+    }
+
     TrainingSample s;
-    s.input      = image_path; // real: replaced by OCR text
+    s.input      = std::move(sanitized_input); // real: replaced by OCR text
     s.output     = "ocr_image";
     s.category   = "ocr";
     s.confidence = config_.ocr_base_confidence;

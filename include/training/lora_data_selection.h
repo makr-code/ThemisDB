@@ -297,6 +297,11 @@ public:
 
     /**
      * @brief Run only Stage 1: quality filtering.
+     *
+     * Applies the shared prompt-safety policy before token/language/toxicity
+     * checks. Samples matching blocked prompt-injection patterns are rejected
+     * (fail-closed). Allowed samples continue with sanitized control-token
+     * redaction applied to their text.
      * @return Samples that pass all quality filters.
      */
     std::vector<DataSample> filterByQuality(

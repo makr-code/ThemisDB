@@ -2,8 +2,8 @@
   "sharding": {
     "total": 2281,
     "severity_critical": 324,
-    "severity_high": 1045,
-    "severity_medium": 912,
+    "severity_high": 1043,
+    "severity_medium": 914,
     "by_category": {
       "security": 18,
       "memory": 168,
@@ -12,7 +12,7 @@
       "raii": 110,
       "container": 465,
       "platform": 10,
-      "performance": 63,
+      "performance": 61,
       "type_conversion": 13,
       "input_validation": 17,
       "exception_safety": 85,
@@ -20,7 +20,7 @@
       "oop_design": 6,
       "audit_logging": 12,
       "performance_patterns": 458,
-      "distributed_consistency": 468,
+      "distributed_consistency": 470,
       "llm_ai_safety": 3,
       "observability": 46,
       "determinism": 22,
@@ -11910,7 +11910,7 @@
       "src\\sharding\\stream_protocol.cpp": [
         {
           "file": "src\\sharding\\stream_protocol.cpp",
-          "line": 1331,
+          "line": 1402,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_consensus",
@@ -12030,7 +12030,7 @@
         },
         {
           "file": "src\\sharding\\stream_protocol.cpp",
-          "line": 1265,
+          "line": 1316,
           "category": "observability",
           "severity": "HIGH",
           "pattern": "missing_trace_point",
@@ -12042,7 +12042,7 @@
         },
         {
           "file": "src\\sharding\\stream_protocol.cpp",
-          "line": 1251,
+          "line": 1302,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -12231,6 +12231,18 @@
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\sharding\\stream_protocol.cpp",
+          "line": 1258,
+          "category": "distributed_consistency",
+          "severity": "MEDIUM",
+          "pattern": "stale_read_undocumented",
+          "description": "Eventual/stale read without documentation of correctness",
+          "context": "std::cerr << \"Rejecting stale or duplicate chunk \" << chunk.chunk_index",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\sharding\\stream_protocol.cpp",
@@ -20514,7 +20526,7 @@
       "src\\sharding\\wal_applier.cpp": [
         {
           "file": "src\\sharding\\wal_applier.cpp",
-          "line": 168,
+          "line": 184,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -20526,7 +20538,7 @@
         },
         {
           "file": "src\\sharding\\wal_applier.cpp",
-          "line": 166,
+          "line": 182,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -20538,7 +20550,7 @@
         },
         {
           "file": "src\\sharding\\wal_applier.cpp",
-          "line": 163,
+          "line": 179,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -20550,7 +20562,7 @@
         },
         {
           "file": "src\\sharding\\wal_applier.cpp",
-          "line": 158,
+          "line": 174,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -20562,7 +20574,7 @@
         },
         {
           "file": "src\\sharding\\wal_applier.cpp",
-          "line": 157,
+          "line": 173,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -20574,7 +20586,7 @@
         },
         {
           "file": "src\\sharding\\wal_applier.cpp",
-          "line": 156,
+          "line": 172,
           "category": "distributed_consistency",
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
@@ -20598,7 +20610,7 @@
         },
         {
           "file": "src\\sharding\\wal_applier.cpp",
-          "line": 46,
+          "line": 48,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -20610,7 +20622,19 @@
         },
         {
           "file": "src\\sharding\\wal_applier.cpp",
-          "line": 127,
+          "line": 47,
+          "category": "distributed_consistency",
+          "severity": "MEDIUM",
+          "pattern": "stale_read_undocumented",
+          "description": "Eventual/stale read without documentation of correctness",
+          "context": "std::string error = \"LSN stale or duplicate: current \" + current_lsn_.toString() +",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\sharding\\wal_applier.cpp",
+          "line": 145,
           "type": "expensive_inner_op",
           "severity": "MEDIUM",
           "snippet": "std::cerr << \"WALApplier: Exception applying entry at LSN \"",
@@ -20619,7 +20643,7 @@
         },
         {
           "file": "src\\sharding\\wal_applier.cpp",
-          "line": 47,
+          "line": 49,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.errors.push_back(error);",
@@ -20628,7 +20652,7 @@
         },
         {
           "file": "src\\sharding\\wal_applier.cpp",
-          "line": 95,
+          "line": 113,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -20637,7 +20661,7 @@
         },
         {
           "file": "src\\sharding\\wal_applier.cpp",
-          "line": 90,
+          "line": 108,
           "type": "deadlock_risk",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -20646,25 +20670,7 @@
         },
         {
           "file": "src\\sharding\\wal_applier.cpp",
-          "line": 66,
-          "type": "lock_contention",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> stats_lock(stats_mutex_);",
-          "description": "Mutex lock in loop \u2014 high contention",
-          "remediation": "Acquire lock before loop or redesign to minimize lock time"
-        },
-        {
-          "file": "src\\sharding\\wal_applier.cpp",
-          "line": 50,
-          "type": "lock_contention",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> stats_lock(stats_mutex_);",
-          "description": "Mutex lock in loop \u2014 high contention",
-          "remediation": "Acquire lock before loop or redesign to minimize lock time"
-        },
-        {
-          "file": "src\\sharding\\wal_applier.cpp",
-          "line": 133,
+          "line": 151,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "backoff.wait();",

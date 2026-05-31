@@ -11,6 +11,7 @@
 // Copyright (c) 2026 ThemisDB Contributors
 
 #include "training/lora_data_selection.h"
+#include "llm/prompt_safety_utils.h"
 
 #include <algorithm>
 #include <cctype>
@@ -33,6 +34,19 @@ namespace training {
 // Helpers
 // ============================================================================
 namespace detail {
+
+static bool sanitizeTrainingText(
+    const std::string& input,
+    std::string& sanitized,
+    std::string* blocked_rule,
+    std::string* blocked_reason)
+{
+    return llm::prompt_safety::sanitizePromptWithSharedPolicy(
+        input,
+        sanitized,
+        blocked_rule,
+        blocked_reason);
+}
 
 // Approximate token count: split on whitespace
 static size_t approximateTokenCount(const std::string& text) {
@@ -300,6 +314,17 @@ public:
         out.reserve(samples.size());
 
         for (auto s : samples) {
+            std::string sanitized_text;
+            std::string blocked_rule;
+            std::string blocked_reason;
+            if (!detail::sanitizeTrainingText(s.text,
+                                              sanitized_text,
+                                              &blocked_rule,
+                                              &blocked_reason)) {
+                continue;
+            }
+            s.text = std::move(sanitized_text);
+
             size_t tok_count = detail::approximateTokenCount(s.text);
             if (tok_count < config_.min_length_tokens) continue;
             if (tok_count > config_.max_length_tokens)  continue;

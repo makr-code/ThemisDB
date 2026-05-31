@@ -198,9 +198,11 @@ TEST_F(WALReplicationIntegrationTest, IdempotentApplyByLSN) {
  * - Out-of-order should be rejected or buffered
  */
 TEST_F(WALReplicationIntegrationTest, LSNOrderingValidation) {
+    replica1_applier_->setCurrentLSN(LSN(0, 0));
+
     std::vector<WALEntry> entries;
     
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 1; i <= 3; ++i) {
         WALEntry e;
         e.lsn = LSN(0, i);
         e.type = WALEntryType::INSERT;
@@ -217,7 +219,7 @@ TEST_F(WALReplicationIntegrationTest, LSNOrderingValidation) {
     EXPECT_EQ(result.entries_applied, 3);
     
     // Verify LSN progression
-    EXPECT_EQ(result.last_applied_lsn.offset, 2);
+    EXPECT_EQ(result.last_applied_lsn.offset, 3);
 }
 
 /**

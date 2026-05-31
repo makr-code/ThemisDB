@@ -11,6 +11,7 @@
 #include "training/adapter_serving.h"
 #include "training/lora_checkpoint_manager.h"
 #include "llm/prompt_safety_utils.h"
+#include "utils/checksum_utils.h"
 #include <nlohmann/json.hpp>
 #include <algorithm>
 #include <unordered_set>
@@ -310,6 +311,18 @@ public:
             if (!loaded) {
                 result.success       = false;
                 result.error_message = "Failed to load checkpoint: " + checkpoint_path;
+                return result;
+            }
+
+            std::string integrity_error;
+            if (!verifyCheckpointPayloadIntegrity(checkpoint_path,
+                                                  version,
+                                                  resumed_epoch,
+                                                  resumed_step,
+                                                  &integrity_error)) {
+                result.success = false;
+                result.error_message = "Checkpoint integrity verification failed: " +
+                                       integrity_error;
                 return result;
             }
 
@@ -621,6 +634,65 @@ public:
             }
         }
         // No manifest entry for this version: assume externally-verified adapter.
+        return true;
+    }
+
+    bool verifyCheckpointPayloadIntegrity(const std::string& checkpoint_prefix,
+                                          const std::string& adapter_version,
+                                          size_t epoch,
+                                          size_t step,
+                                          std::string* error_reason) const {
+        if (config_.checkpoint_dir.empty()) {
+            return true; // Unmanaged checkpoints bypass strict integrity checks.
+        }
+
+        if (!checkpoint_manager_) {
+            CheckpointManagerConfig mgr_cfg;
+            mgr_cfg.checkpoint_dir = config_.checkpoint_dir;
+            checkpoint_manager_ = std::make_unique<LoRACheckpointManager>(mgr_cfg);
+        }
+
+        const auto entries = checkpoint_manager_->listCheckpoints();
+        const CheckpointManifestEntry* matched = nullptr;
+        for (const auto& entry : entries) {
+            if (entry.adapter_version == adapter_version &&
+                entry.epoch == epoch &&
+                entry.step == step) {
+                matched = &entry;
+                break;
+            }
+        }
+
+        if (!matched) {
+            if (error_reason) {
+                *error_reason = "no matching manifest entry for version/epoch/step";
+            }
+            return false;
+        }
+
+        if (matched->sha256.empty()) {
+            if (error_reason) {
+                *error_reason = "matching manifest entry has empty SHA-256";
+            }
+            return false;
+        }
+
+        const std::string weights_path = checkpoint_prefix + "_weights.bin";
+        const std::string computed_sha = utils::calculateSHA256(weights_path);
+        if (computed_sha.empty()) {
+            if (error_reason) {
+                *error_reason = "unable to hash checkpoint payload: " + weights_path;
+            }
+            return false;
+        }
+
+        if (computed_sha != matched->sha256) {
+            if (error_reason) {
+                *error_reason = "SHA-256 mismatch for checkpoint payload";
+            }
+            return false;
+        }
+
         return true;
     }
 

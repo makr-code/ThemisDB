@@ -1217,32 +1217,83 @@ bool StreamReceiveTask::start() {
 }
 
 bool StreamReceiveTask::onChunkReceived(const StreamChunk& chunk) {
+    if (!running_ || failed_ || complete_) {
+        return false;
+    }
+
+    if (chunk.chunk_index >= chunks_received_.size()) {
+        std::cerr << "Rejecting chunk with out-of-range index " << chunk.chunk_index
+                  << " for file " << file_.file_id << std::endl;
+        failed_ = true;
+        return false;
+    }
+
+    if (chunk.compressed_size != chunk.data.size() || chunk.uncompressed_size == 0 ||
+        chunk.compressed_size > chunk.uncompressed_size) {
+        std::cerr << "Rejecting chunk " << chunk.chunk_index
+                  << " due to inconsistent size metadata" << std::endl;
+        failed_ = true;
+        return false;
+    }
+
+    const uint64_t expected_offset = static_cast<uint64_t>(chunk.chunk_index) * config_.chunk_size;
+    const uint64_t remaining = file_.file_size > expected_offset
+        ? file_.file_size - expected_offset
+        : 0;
+    const uint32_t expected_uncompressed = static_cast<uint32_t>(
+        std::min<uint64_t>(config_.chunk_size, remaining));
+
+    if (chunk.file_offset != expected_offset || expected_uncompressed == 0 ||
+        chunk.uncompressed_size != expected_uncompressed) {
+        std::cerr << "Rejecting chunk " << chunk.chunk_index
+                  << " due to unexpected offset/size metadata" << std::endl;
+        failed_ = true;
+        return false;
+    }
+
     {
         std::lock_guard<std::mutex> lock(write_mutex_);
-        
-        if (chunk.chunk_index < chunks_received_.size()) {
-            chunks_received_[chunk.chunk_index] = true;
+
+        if (chunk.chunk_index < next_expected_chunk_ || chunks_received_[chunk.chunk_index]) {
+            std::cerr << "Rejecting stale or duplicate chunk " << chunk.chunk_index
+                      << " for file " << file_.file_id << std::endl;
+            failed_ = true;
+            return false;
         }
-        
+
+        if (chunk.chunk_index > next_expected_chunk_ &&
+            out_of_order_chunks_.count(chunk.chunk_index) > 0) {
+            std::cerr << "Rejecting duplicate buffered chunk " << chunk.chunk_index
+                      << " for file " << file_.file_id << std::endl;
+            failed_ = true;
+            return false;
+        }
+
         // Check if this is the next expected chunk
         if (chunk.chunk_index == next_expected_chunk_) {
             if (!writeChunk(chunk)) {
+                requestRetry(chunk.chunk_index);
+                failed_ = true;
                 return false;
             }
+            chunks_received_[chunk.chunk_index] = true;
+            next_expected_chunk_++;
             
             // Write any buffered out-of-order chunks
             while (out_of_order_chunks_.count(next_expected_chunk_)) {
                 if (!writeChunk(out_of_order_chunks_[next_expected_chunk_])) {
+                    requestRetry(next_expected_chunk_);
+                    failed_ = true;
                     return false;
                 }
+                chunks_received_[next_expected_chunk_] = true;
                 out_of_order_chunks_.erase(next_expected_chunk_);
                 next_expected_chunk_++;
             }
-            
-            next_expected_chunk_++;
         } else {
             // Buffer out-of-order chunk
             out_of_order_chunks_[chunk.chunk_index] = chunk;
+            chunks_received_[chunk.chunk_index] = true;
         }
     }
     
@@ -1293,13 +1344,27 @@ bool StreamReceiveTask::verifyIntegrity() const {
 }
 
 bool StreamReceiveTask::writeChunk(const StreamChunk& chunk) {
+    if (chunk.compressed_size != chunk.data.size() || chunk.uncompressed_size == 0 ||
+        chunk.compressed_size > chunk.uncompressed_size) {
+        std::cerr << "Rejecting chunk " << chunk.chunk_index
+                  << " due to invalid payload metadata" << std::endl;
+        return false;
+    }
+
+    if (chunk.file_offset > file_.file_size ||
+        file_.file_size - chunk.file_offset < chunk.uncompressed_size) {
+        std::cerr << "Rejecting chunk " << chunk.chunk_index
+                  << " due to out-of-bounds file range" << std::endl;
+        return false;
+    }
+
     // Decompress if needed
     std::vector<uint8_t> write_data;
     if (chunk.compressed_size < chunk.uncompressed_size) {
         // Data is compressed, decompress it
         write_data = StreamCompressor::decompress(
             chunk.data, config_.compression, chunk.uncompressed_size);
-        if (write_data.empty() && chunk.uncompressed_size > 0) {
+        if (write_data.size() != chunk.uncompressed_size) {
             std::cerr << "Failed to decompress chunk " << chunk.chunk_index << std::endl;
             return false;
         }
@@ -1317,12 +1382,18 @@ bool StreamReceiveTask::writeChunk(const StreamChunk& chunk) {
     }
 
     // Write to target file
-    std::ofstream file(file_.target_path, std::ios::binary | std::ios::in | std::ios::out);
+    const std::string& target_path = output_path_.empty() ? file_.target_path : output_path_;
+    if (target_path.empty()) {
+        std::cerr << "No target path configured for chunk " << chunk.chunk_index << std::endl;
+        return false;
+    }
+
+    std::ofstream file(target_path, std::ios::binary | std::ios::in | std::ios::out);
     if (!file) {
         // File doesn't exist, create it
-        file.open(file_.target_path, std::ios::binary | std::ios::out);
+        file.open(target_path, std::ios::binary | std::ios::out);
         if (!file) {
-            std::cerr << "Failed to open target file: " << file_.target_path << std::endl;
+            std::cerr << "Failed to open target file: " << target_path << std::endl;
             return false;
         }
     }

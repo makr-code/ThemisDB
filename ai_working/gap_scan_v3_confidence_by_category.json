@@ -1,21 +1,21 @@
 {
   "categories": {
     "unknown": {
-      "total": 24132,
+      "total": 24136,
       "high_confidence": 1658,
       "very_high_confidence": 101,
       "avg_confidence": 0.056
     },
     "performance": {
-      "total": 6868,
-      "high_confidence": 6868,
+      "total": 6867,
+      "high_confidence": 6867,
       "very_high_confidence": 1295,
       "avg_confidence": 0.77
     },
     "llm_ai_safety": {
-      "total": 3520,
-      "high_confidence": 3520,
-      "very_high_confidence": 3391,
+      "total": 3521,
+      "high_confidence": 3521,
+      "very_high_confidence": 3392,
       "avg_confidence": 0.927
     },
     "legacy_duplication": {
@@ -25,9 +25,9 @@
       "avg_confidence": 0.736
     },
     "determinism": {
-      "total": 727,
-      "high_confidence": 157,
-      "very_high_confidence": 117,
+      "total": 728,
+      "high_confidence": 158,
+      "very_high_confidence": 118,
       "avg_confidence": 0.703
     },
     "audit_logging": {
@@ -49,10 +49,10 @@
       "avg_confidence": 0.742
     },
     "distributed_consistency": {
-      "total": 1203,
-      "high_confidence": 1203,
-      "very_high_confidence": 1009,
-      "avg_confidence": 0.907
+      "total": 1214,
+      "high_confidence": 1214,
+      "very_high_confidence": 1018,
+      "avg_confidence": 0.906
     },
     "deprecated_apis": {
       "total": 4,
@@ -71,9 +71,9 @@
     },
     {
       "category": "llm_ai_safety",
-      "total": 3520,
-      "high_confidence": 3520,
-      "very_high_confidence": 3391,
+      "total": 3521,
+      "high_confidence": 3521,
+      "very_high_confidence": 3392,
       "avg_confidence": 0.927
     },
     {
@@ -85,10 +85,10 @@
     },
     {
       "category": "distributed_consistency",
-      "total": 1203,
-      "high_confidence": 1203,
-      "very_high_confidence": 1009,
-      "avg_confidence": 0.907
+      "total": 1214,
+      "high_confidence": 1214,
+      "very_high_confidence": 1018,
+      "avg_confidence": 0.906
     },
     {
       "category": "deprecated_apis",
@@ -99,8 +99,8 @@
     },
     {
       "category": "performance",
-      "total": 6868,
-      "high_confidence": 6868,
+      "total": 6867,
+      "high_confidence": 6867,
       "very_high_confidence": 1295,
       "avg_confidence": 0.77
     },
@@ -120,14 +120,14 @@
     },
     {
       "category": "determinism",
-      "total": 727,
-      "high_confidence": 157,
-      "very_high_confidence": 117,
+      "total": 728,
+      "high_confidence": 158,
+      "very_high_confidence": 118,
       "avg_confidence": 0.703
     },
     {
       "category": "unknown",
-      "total": 24132,
+      "total": 24136,
       "high_confidence": 1658,
       "very_high_confidence": 101,
       "avg_confidence": 0.056

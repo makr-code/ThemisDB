@@ -9799,7 +9799,7 @@
       "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp": [
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 891,
+          "line": 901,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_uav(0, buffer_output);  // Output",
@@ -9808,7 +9808,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 892,
+          "line": 902,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv(0, buffer_token_ids);  // Token IDs",
@@ -9817,7 +9817,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 893,
+          "line": 903,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv(1, buffer_embedding_weights);  // Embedding weights",
@@ -9826,7 +9826,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 969,
+          "line": 979,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_uav(0, buffer_output);  // Output",
@@ -9835,7 +9835,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 970,
+          "line": 980,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv(0, buffer_input);  // Input",
@@ -9846,19 +9846,10 @@
       "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp": [
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 441,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "pipeline->bind_buffer(0, buf_A);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
           "line": 442,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
-          "snippet": "pipeline->bind_buffer(1, buf_B);",
+          "snippet": "pipeline->bind_buffer(0, buf_A);",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
         },
@@ -9867,25 +9858,25 @@
           "line": 443,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
+          "snippet": "pipeline->bind_buffer(1, buf_B);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
+          "line": 444,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(2, buf_C);",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 465,
+          "line": 466,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_input);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 467,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "pipeline->bind_buffer(1, buf_input);",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
         },
@@ -9894,16 +9885,16 @@
           "line": 468,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
-          "snippet": "pipeline->bind_buffer(2, buf_output);",
+          "snippet": "pipeline->bind_buffer(1, buf_input);",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 556,
+          "line": 469,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
-          "snippet": "pipeline->bind_buffer(0, buf_A);",
+          "snippet": "pipeline->bind_buffer(2, buf_output);",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
         },
@@ -9912,7 +9903,7 @@
           "line": 557,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
-          "snippet": "pipeline->bind_buffer(1, buf_B);",
+          "snippet": "pipeline->bind_buffer(0, buf_A);",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
         },
@@ -9921,16 +9912,16 @@
           "line": 558,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
-          "snippet": "pipeline->bind_buffer(2, buf_C);",
+          "snippet": "pipeline->bind_buffer(1, buf_B);",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 605,
+          "line": 559,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
-          "snippet": "pipeline->bind_buffer(0, buf_A);",
+          "snippet": "pipeline->bind_buffer(2, buf_C);",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
         },
@@ -9939,7 +9930,7 @@
           "line": 606,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
-          "snippet": "pipeline->bind_buffer(1, buf_B);",
+          "snippet": "pipeline->bind_buffer(0, buf_A);",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
         },
@@ -9948,13 +9939,22 @@
           "line": 607,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
+          "snippet": "pipeline->bind_buffer(1, buf_B);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
+          "line": 608,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(2, buf_C);",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 651,
+          "line": 655,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_A);",
@@ -9963,7 +9963,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 653,
+          "line": 657,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(1, buf_A);",
@@ -9972,7 +9972,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 654,
+          "line": 658,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(2, buf_B);",
@@ -9981,7 +9981,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 699,
+          "line": 703,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_input);",
@@ -9990,7 +9990,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 701,
+          "line": 705,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(1, buf_input);",
@@ -9999,7 +9999,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 702,
+          "line": 706,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(2, buf_output);",
@@ -10008,7 +10008,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 757,
+          "line": 764,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_h); // h serves as input",
@@ -10017,7 +10017,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 758,
+          "line": 765,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(1, buf_h); // dummy B",
@@ -10026,7 +10026,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 759,
+          "line": 766,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(2, buf_h); // dummy A",
@@ -10035,7 +10035,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 760,
+          "line": 767,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(3, buf_grad_output);",
@@ -10044,7 +10044,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 761,
+          "line": 768,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(4, buf_grad_A);",
@@ -10053,7 +10053,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 762,
+          "line": 769,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(5, buf_grad_A); // dummy grad_B",
@@ -10062,7 +10062,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 763,
+          "line": 770,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(6, buf_grad_A); // dummy grad_input",
@@ -10071,7 +10071,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 819,
+          "line": 826,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_input);",
@@ -10080,7 +10080,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 820,
+          "line": 827,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(1, buf_grad_B); // dummy B",
@@ -10089,7 +10089,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 821,
+          "line": 828,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(2, buf_grad_B); // dummy A",
@@ -10098,7 +10098,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 822,
+          "line": 829,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(3, buf_grad_h); // grad_h as grad_output",
@@ -10107,7 +10107,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 823,
+          "line": 830,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(4, buf_grad_B); // dummy grad_A",
@@ -10116,7 +10116,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 824,
+          "line": 831,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(5, buf_grad_B); // grad_B output",
@@ -10125,7 +10125,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 825,
+          "line": 832,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(6, buf_grad_B); // dummy grad_input",
@@ -10134,7 +10134,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 881,
+          "line": 888,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_token_ids);",
@@ -10143,7 +10143,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 882,
+          "line": 889,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(1, buf_embedding_weights);",
@@ -10152,7 +10152,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 883,
+          "line": 890,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(2, buf_output);",
@@ -10161,7 +10161,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 933,
+          "line": 940,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_input);",
@@ -10170,7 +10170,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 934,
+          "line": 941,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(1, buf_output);",
@@ -13097,7 +13097,7 @@
       "src\\replication\\conflict_resolution.cpp": [
         {
           "file": "src\\replication\\conflict_resolution.cpp",
-          "line": 280,
+          "line": 324,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "conflicting_writes[right_idx].data);",
@@ -13328,7 +13328,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 3697,
+          "line": 3765,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result.data          = best->data;",
@@ -13337,7 +13337,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4281,
+          "line": 4349,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "ins.metadata[\"replica_id\"] = replica_id;",
@@ -13346,7 +13346,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4282,
+          "line": 4350,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "ins.metadata[\"lag_ms\"]     = std::to_string(last_lag);",
@@ -13355,7 +13355,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4300,
+          "line": 4368,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "ins.metadata[\"replica_id\"] = replica_id;",
@@ -13364,7 +13364,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 4301,
+          "line": 4369,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "ins.metadata[\"avg_lag_ms\"] = std::to_string(avg);",
@@ -13373,7 +13373,7 @@
         },
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5386,
+          "line": 5454,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "[[maybe_unused]] const std::string& data,",
@@ -20536,7 +20536,7 @@
       "src\\training\\incremental_lora_trainer.cpp": [
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 569,
+          "line": 582,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "data_map[layer] = sum / static_cast<double>(gradient_update_count_);",
@@ -20545,7 +20545,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1053,
+          "line": 1125,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "input_data [b * feature_dim + fd] = input_vec[fd];",
@@ -20554,7 +20554,7 @@
         },
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1054,
+          "line": 1126,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "target_data[b * feature_dim + fd] = target_vec[fd];",
@@ -20597,7 +20597,7 @@
       "src\\transaction\\distributed_saga.cpp": [
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 349,
+          "line": 397,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "StepRecord* rec = (it != index.end()) ? it->second : nullptr;",

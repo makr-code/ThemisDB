@@ -6104,7 +6104,7 @@
       "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp": [
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 313,
+          "line": 317,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));",
@@ -6113,7 +6113,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 314,
+          "line": 318,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));",
@@ -6122,7 +6122,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 395,
+          "line": 399,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));",
@@ -6131,7 +6131,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 396,
+          "line": 400,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));",
@@ -6140,7 +6140,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 467,
+          "line": 471,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));",
@@ -6149,7 +6149,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 468,
+          "line": 472,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));",
@@ -6158,7 +6158,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 534,
+          "line": 541,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));",
@@ -6167,7 +6167,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 535,
+          "line": 542,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));",
@@ -6176,7 +6176,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 602,
+          "line": 609,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));",
@@ -6185,7 +6185,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 603,
+          "line": 610,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));",
@@ -6194,7 +6194,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 702,
+          "line": 712,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_grad_A));",
@@ -6203,7 +6203,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 703,
+          "line": 713,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_input));",
@@ -6212,7 +6212,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 806,
+          "line": 816,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_grad_A));",
@@ -6221,7 +6221,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 807,
+          "line": 817,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_input));",
@@ -8156,7 +8156,7 @@
       "src\\replication\\replication_manager.cpp": [
         {
           "file": "src\\replication\\replication_manager.cpp",
-          "line": 5749,
+          "line": 5831,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "handleConflict(it->second, entry, entry.is_ddl);",
@@ -13916,7 +13916,7 @@
       "src\\training\\incremental_lora_trainer.cpp": [
         {
           "file": "src\\training\\incremental_lora_trainer.cpp",
-          "line": 1353,
+          "line": 1425,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "checkpoint_manager_->save(prefix + \"_weights.bin\", meta);",
@@ -13989,7 +13989,7 @@
       "src\\transaction\\distributed_saga.cpp": [
         {
           "file": "src\\transaction\\distributed_saga.cpp",
-          "line": 349,
+          "line": 397,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "StepRecord* rec = (it != index.end()) ? it->second : nullptr;",

@@ -38,10 +38,28 @@ ApplyResult WALApplier::applyBatch(const std::vector<WALEntry>& entries) {
     for (const auto& entry : entries) {
         // Validate LSN sequence if strict mode
         if (config_.strict_mode) {
+            const bool bootstrap_replay =
+                (current_lsn_.segment == 0 && current_lsn_.offset == 0 &&
+                 entry.lsn.segment == 0 && entry.lsn.offset == 0 &&
+                 result.entries_applied == 0);
+
+            if (!bootstrap_replay && entry.lsn <= current_lsn_) {
+                std::string error = "LSN stale or duplicate: current " + current_lsn_.toString() +
+                                  " but got " + entry.lsn.toString();
+                result.errors.push_back(error);
+
+                {
+                    std::lock_guard<std::mutex> stats_lock(stats_mutex_);
+                    stats_.lsn_mismatches++;
+                }
+
+                return result;
+            }
+
             LSN expected_lsn = current_lsn_;
             expected_lsn.offset++;  // Next expected
-            
-            if (!validateLSN(expected_lsn, entry.lsn)) {
+
+            if (!bootstrap_replay && !validateLSN(expected_lsn, entry.lsn)) {
                 std::string error = "LSN mismatch: expected " + expected_lsn.toString() +
                                   " but got " + entry.lsn.toString();
                 result.errors.push_back(error);
@@ -138,11 +156,9 @@ bool WALApplier::applyEntry(const WALEntry& entry) {
 }
 
 bool WALApplier::validateLSN(const LSN& expected, const LSN& actual) {
-    // Allow same segment with consecutive offset
+    // Same segment: must be exact successor offset.
     if (expected.segment == actual.segment) {
-        // Consecutive offsets are OK
-        // Also allow same offset (idempotent replay)
-        return actual.offset >= expected.offset - 1 && actual.offset <= expected.offset;
+        return actual.offset == expected.offset;
     }
     
     // Allow next segment if offset is 0

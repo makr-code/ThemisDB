@@ -1,13 +1,13 @@
 {
   "llm": {
-    "total": 5702,
+    "total": 5709,
     "severity_critical": 1230,
-    "severity_high": 3130,
+    "severity_high": 3137,
     "severity_medium": 1342,
     "by_category": {
       "security": 265,
       "memory": 344,
-      "reliability": 681,
+      "reliability": 688,
       "concurrency": 435,
       "raii": 209,
       "container": 696,
@@ -29376,7 +29376,7 @@
       "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp": [
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 1056,
+          "line": 1066,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29388,7 +29388,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 1038,
+          "line": 1048,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29400,7 +29400,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 1027,
+          "line": 1037,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29412,7 +29412,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 970,
+          "line": 980,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29424,7 +29424,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 950,
+          "line": 960,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29436,7 +29436,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 942,
+          "line": 952,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29448,7 +29448,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 938,
+          "line": 948,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29460,7 +29460,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 934,
+          "line": 944,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29472,7 +29472,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 927,
+          "line": 937,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29484,7 +29484,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 918,
+          "line": 928,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29496,7 +29496,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 912,
+          "line": 922,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29508,7 +29508,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 864,
+          "line": 874,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -29520,7 +29520,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 807,
+          "line": 817,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29532,7 +29532,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 780,
+          "line": 790,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29544,7 +29544,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 779,
+          "line": 789,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29556,7 +29556,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 776,
+          "line": 786,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29568,7 +29568,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 772,
+          "line": 782,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29580,7 +29580,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 761,
+          "line": 771,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29592,7 +29592,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 760,
+          "line": 770,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29604,7 +29604,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 751,
+          "line": 761,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29616,7 +29616,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 747,
+          "line": 757,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29628,7 +29628,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 746,
+          "line": 756,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29640,7 +29640,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 730,
+          "line": 740,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29652,7 +29652,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 726,
+          "line": 736,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29664,7 +29664,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 703,
+          "line": 713,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29676,7 +29676,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 675,
+          "line": 685,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29688,7 +29688,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 672,
+          "line": 682,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29700,7 +29700,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 656,
+          "line": 666,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29712,7 +29712,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 638,
+          "line": 648,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29724,7 +29724,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 637,
+          "line": 647,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29736,7 +29736,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 586,
+          "line": 593,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29748,7 +29748,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 576,
+          "line": 583,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29760,7 +29760,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 572,
+          "line": 579,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29772,7 +29772,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 554,
+          "line": 561,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29784,7 +29784,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 551,
+          "line": 558,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29796,7 +29796,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 363,
+          "line": 367,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29808,7 +29808,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 353,
+          "line": 357,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29820,7 +29820,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 280,
+          "line": 284,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29832,7 +29832,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 268,
+          "line": 272,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -29844,7 +29844,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 1056,
+          "line": 1066,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -29856,7 +29856,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 1038,
+          "line": 1048,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -29868,7 +29868,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 1027,
+          "line": 1037,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -29880,7 +29880,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 970,
+          "line": 980,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -29892,7 +29892,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 950,
+          "line": 960,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -29904,7 +29904,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 942,
+          "line": 952,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -29916,7 +29916,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 938,
+          "line": 948,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -29928,7 +29928,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 934,
+          "line": 944,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -29940,7 +29940,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 927,
+          "line": 937,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -29952,7 +29952,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 918,
+          "line": 928,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -29964,7 +29964,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 912,
+          "line": 922,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -29976,7 +29976,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 807,
+          "line": 817,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -29988,7 +29988,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 780,
+          "line": 790,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -30000,7 +30000,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 779,
+          "line": 789,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -30012,7 +30012,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 776,
+          "line": 786,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -30024,7 +30024,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 772,
+          "line": 782,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -30036,7 +30036,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 761,
+          "line": 771,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -30048,7 +30048,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 760,
+          "line": 770,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -30060,7 +30060,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 755,
+          "line": 765,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -30072,7 +30072,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 751,
+          "line": 761,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -30084,7 +30084,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 747,
+          "line": 757,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -30096,7 +30096,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 746,
+          "line": 756,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -30108,7 +30108,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 730,
+          "line": 740,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -30120,7 +30120,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 726,
+          "line": 736,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -30132,7 +30132,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 703,
+          "line": 713,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -30144,7 +30144,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 675,
+          "line": 685,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -30156,7 +30156,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 672,
+          "line": 682,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -30168,7 +30168,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 656,
+          "line": 666,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -30180,7 +30180,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 651,
+          "line": 661,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -30192,7 +30192,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 638,
+          "line": 648,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -30204,7 +30204,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 637,
+          "line": 647,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -30216,7 +30216,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 586,
+          "line": 593,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -30228,7 +30228,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 576,
+          "line": 583,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -30240,7 +30240,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 572,
+          "line": 579,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -30252,7 +30252,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 554,
+          "line": 561,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -30264,7 +30264,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 551,
+          "line": 558,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -30276,7 +30276,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 363,
+          "line": 367,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -30288,7 +30288,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 353,
+          "line": 357,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -30300,7 +30300,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 353,
+          "line": 357,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -30312,7 +30312,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 280,
+          "line": 284,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -30324,7 +30324,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 268,
+          "line": 272,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -30336,7 +30336,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 268,
+          "line": 272,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -30348,7 +30348,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 231,
+          "line": 232,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -30360,7 +30360,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 200,
+          "line": 201,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -30372,7 +30372,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 199,
+          "line": 200,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -30384,7 +30384,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 241,
+          "line": 242,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "catch (...) {",
@@ -30393,7 +30393,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 1060,
+          "line": 1070,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
@@ -30402,7 +30402,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 1051,
+          "line": 1061,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
@@ -30411,7 +30411,25 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 1040,
+          "line": 1050,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 1044,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 1038,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
@@ -30429,7 +30447,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 1028,
+          "line": 1030,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
@@ -30438,7 +30456,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 1024,
+          "line": 1026,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
@@ -30447,7 +30465,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 1020,
+          "line": 1022,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
@@ -30456,25 +30474,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 1016,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 1012,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"DirectX is only available on Windows\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 983,
+          "line": 993,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"launch_sequence_mean_shader failed: \") + e.what());",
@@ -30483,7 +30483,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 970,
+          "line": 980,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv(0, buffer_input);  // Input",
@@ -30492,7 +30492,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 969,
+          "line": 979,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_uav(0, buffer_output);  // Output",
@@ -30501,7 +30501,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 922,
+          "line": 932,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_sequence_mean_shader received invalid dimensions\");",
@@ -30510,7 +30510,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 919,
+          "line": 929,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_sequence_mean_shader received null pointer\");",
@@ -30519,7 +30519,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 906,
+          "line": 916,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"launch_embedding_lookup_shader failed: \") + e.what());",
@@ -30528,7 +30528,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 893,
+          "line": 903,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv(1, buffer_embedding_weights);  // Embedding weights",
@@ -30537,7 +30537,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 892,
+          "line": 902,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv(0, buffer_token_ids);  // Token IDs",
@@ -30546,7 +30546,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 891,
+          "line": 901,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_uav(0, buffer_output);  // Output",
@@ -30555,7 +30555,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 843,
+          "line": 853,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_embedding_lookup_shader received invalid dimensions\");",
@@ -30564,7 +30564,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 840,
+          "line": 850,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_embedding_lookup_shader received null pointer\");",
@@ -30573,7 +30573,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 825,
+          "line": 835,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"launch_lora_grad_B_shader failed: \") + e.what());",
@@ -30582,7 +30582,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 807,
+          "line": 817,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_input));",
@@ -30591,7 +30591,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 806,
+          "line": 816,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_grad_A));",
@@ -30600,7 +30600,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 766,
+          "line": 776,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (!g_directx_state.descriptors) { throw std::runtime_error(\"DirectX: descriptor heap not initializ",
@@ -30609,7 +30609,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 734,
+          "line": 744,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_lora_grad_B_shader received invalid dimensions\");",
@@ -30618,7 +30618,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 731,
+          "line": 741,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_lora_grad_B_shader received null pointer\");",
@@ -30627,7 +30627,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 721,
+          "line": 731,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"launch_lora_grad_A_shader failed: \") + e.what());",
@@ -30636,7 +30636,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 703,
+          "line": 713,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_input));",
@@ -30645,7 +30645,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 702,
+          "line": 712,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_grad_A));",
@@ -30654,7 +30654,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 662,
+          "line": 672,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (!g_directx_state.descriptors) { throw std::runtime_error(\"DirectX: descriptor heap not initializ",
@@ -30663,7 +30663,16 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 628,
+          "line": 638,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_lora_grad_A_shader received non-finite scaling\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 635,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_lora_grad_A_shader received invalid dimensions\");",
@@ -30672,7 +30681,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 625,
+          "line": 632,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_lora_grad_A_shader received null pointer\");",
@@ -30681,7 +30690,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 615,
+          "line": 622,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"launch_transpose_shader failed: \") + e.what());",
@@ -30690,7 +30699,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 603,
+          "line": 610,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));",
@@ -30699,7 +30708,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 602,
+          "line": 609,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));",
@@ -30708,7 +30717,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 558,
+          "line": 565,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_transpose_shader received invalid dimensions\");",
@@ -30717,7 +30726,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 555,
+          "line": 562,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_transpose_shader received null pointer\");",
@@ -30726,7 +30735,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 547,
+          "line": 554,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"launch_scalar_multiply_shader failed: \") + e.what());",
@@ -30735,7 +30744,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 535,
+          "line": 542,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));",
@@ -30744,7 +30753,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 534,
+          "line": 541,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));",
@@ -30753,7 +30762,16 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 491,
+          "line": 498,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_scalar_multiply_shader received non-finite scalar\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 495,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_scalar_multiply_shader received invalid size\");",
@@ -30762,7 +30780,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 488,
+          "line": 492,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_scalar_multiply_shader received null pointer\");",
@@ -30771,7 +30789,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 480,
+          "line": 484,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"launch_multiply_shader failed: \") + e.what());",
@@ -30780,7 +30798,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 468,
+          "line": 472,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));",
@@ -30789,7 +30807,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 467,
+          "line": 471,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));",
@@ -30798,7 +30816,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 424,
+          "line": 428,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_multiply_shader received invalid size\");",
@@ -30807,7 +30825,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 421,
+          "line": 425,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_multiply_shader received null pointer\");",
@@ -30816,7 +30834,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 413,
+          "line": 417,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"launch_add_shader failed: \") + e.what());",
@@ -30825,7 +30843,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 396,
+          "line": 400,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));",
@@ -30834,7 +30852,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 395,
+          "line": 399,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));",
@@ -30843,7 +30861,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 369,
+          "line": 373,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (!g_directx_state.descriptors) { throw std::runtime_error(\"DirectX: descriptor heap not initializ",
@@ -30852,7 +30870,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 343,
+          "line": 347,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_add_shader received invalid size\");",
@@ -30861,7 +30879,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 340,
+          "line": 344,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_add_shader received null pointer\");",
@@ -30870,7 +30888,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 332,
+          "line": 336,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(\"launch_matmul_shader failed: \") + e.what());",
@@ -30879,7 +30897,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 314,
+          "line": 318,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));",
@@ -30888,7 +30906,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 313,
+          "line": 317,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));",
@@ -30897,7 +30915,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 286,
+          "line": 290,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (!g_directx_state.descriptors) { throw std::runtime_error(\"DirectX: descriptor heap not initializ",
@@ -30906,7 +30924,16 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 258,
+          "line": 262,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_matmul_shader received non-finite alpha\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 259,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_matmul_shader received invalid dimensions\");",
@@ -30915,7 +30942,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 165,
+          "line": 166,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::overflow_error(std::string(context) + \": value exceeds uint32 range\");",
@@ -30924,7 +30951,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 110,
+          "line": 111,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to create pipeline: \" + pipeline_name);",
@@ -30933,7 +30960,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 72,
+          "line": 73,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Failed to load shader: \" + shader_name + \" from \" + shader_path);",
@@ -30951,7 +30978,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 810,
+          "line": 820,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ID3D12DescriptorHeap* heaps[] = {g_directx_state.descriptors->heap()};",
@@ -30960,7 +30987,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 785,
+          "line": 795,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "uint32_t srv_grad_output = g_directx_state.descriptors->create_srv(",
@@ -30969,7 +30996,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 783,
+          "line": 793,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "uint32_t srv_A = g_directx_state.descriptors->create_srv(",
@@ -30978,10 +31005,37 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 781,
+          "line": 791,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "uint32_t srv_B = g_directx_state.descriptors->create_srv(",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 789,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "uint32_t srv_input = g_directx_state.descriptors->create_srv(",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 786,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "uint32_t uav_grad_input = g_directx_state.descriptors->create_uav(",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 784,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "uint32_t uav_grad_B = g_directx_state.descriptors->create_uav(",
           "description": "Shared data access without lock protection",
           "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
@@ -30990,40 +31044,13 @@
           "line": 779,
           "type": "data_race",
           "severity": "CRITICAL",
-          "snippet": "uint32_t srv_input = g_directx_state.descriptors->create_srv(",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 776,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "uint32_t uav_grad_input = g_directx_state.descriptors->create_uav(",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 774,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "uint32_t uav_grad_B = g_directx_state.descriptors->create_uav(",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 769,
-          "type": "data_race",
-          "severity": "CRITICAL",
           "snippet": "uint32_t uav_grad_A = g_directx_state.descriptors->create_uav(",
           "description": "Shared data access without lock protection",
           "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 706,
+          "line": 716,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ID3D12DescriptorHeap* heaps[] = {g_directx_state.descriptors->heap()};",
@@ -31032,7 +31059,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 681,
+          "line": 691,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "uint32_t srv_grad_output = g_directx_state.descriptors->create_srv(",
@@ -31041,7 +31068,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 679,
+          "line": 689,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "uint32_t srv_A = g_directx_state.descriptors->create_srv(",
@@ -31050,7 +31077,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 677,
+          "line": 687,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "uint32_t srv_B = g_directx_state.descriptors->create_srv(",
@@ -31059,7 +31086,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 675,
+          "line": 685,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "uint32_t srv_input = g_directx_state.descriptors->create_srv(",
@@ -31068,7 +31095,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 672,
+          "line": 682,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "uint32_t uav_grad_input = g_directx_state.descriptors->create_uav(",
@@ -31077,7 +31104,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 670,
+          "line": 680,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "uint32_t uav_grad_B = g_directx_state.descriptors->create_uav(",
@@ -31086,7 +31113,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 668,
+          "line": 678,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "uint32_t uav_grad_A = g_directx_state.descriptors->create_uav(",
@@ -31095,7 +31122,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 605,
+          "line": 612,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ID3D12DescriptorHeap* heaps[] = {g_directx_state.descriptors->heap()};",
@@ -31104,7 +31131,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 587,
+          "line": 594,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "uint32_t srv_B = g_directx_state.descriptors->create_srv(",
@@ -31113,7 +31140,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 585,
+          "line": 592,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "uint32_t srv_A = g_directx_state.descriptors->create_srv(",
@@ -31122,7 +31149,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 583,
+          "line": 590,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "uint32_t uav_C = g_directx_state.descriptors->create_uav(",
@@ -31131,7 +31158,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 537,
+          "line": 544,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ID3D12DescriptorHeap* heaps[] = {g_directx_state.descriptors->heap()};",
@@ -31140,7 +31167,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 520,
+          "line": 527,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "uint32_t srv_B = g_directx_state.descriptors->create_srv(",
@@ -31149,7 +31176,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 518,
+          "line": 525,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "uint32_t srv_A = g_directx_state.descriptors->create_srv(",
@@ -31158,7 +31185,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 516,
+          "line": 523,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "uint32_t uav_C = g_directx_state.descriptors->create_uav(",
@@ -31167,10 +31194,28 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 470,
+          "line": 474,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ID3D12DescriptorHeap* heaps[] = {g_directx_state.descriptors->heap()};",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 457,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "uint32_t srv_B = g_directx_state.descriptors->create_srv(",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 455,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "uint32_t srv_A = g_directx_state.descriptors->create_srv(",
           "description": "Shared data access without lock protection",
           "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
@@ -31179,34 +31224,34 @@
           "line": 453,
           "type": "data_race",
           "severity": "CRITICAL",
-          "snippet": "uint32_t srv_B = g_directx_state.descriptors->create_srv(",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 451,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "uint32_t srv_A = g_directx_state.descriptors->create_srv(",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 449,
-          "type": "data_race",
-          "severity": "CRITICAL",
           "snippet": "uint32_t uav_C = g_directx_state.descriptors->create_uav(",
           "description": "Shared data access without lock protection",
           "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 399,
+          "line": 403,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ID3D12DescriptorHeap* heaps[] = {g_directx_state.descriptors->heap()};",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 381,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "uint32_t srv_B = g_directx_state.descriptors->create_srv(",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
+          "line": 379,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "uint32_t srv_A = g_directx_state.descriptors->create_srv(",
           "description": "Shared data access without lock protection",
           "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
@@ -31215,31 +31260,13 @@
           "line": 377,
           "type": "data_race",
           "severity": "CRITICAL",
-          "snippet": "uint32_t srv_B = g_directx_state.descriptors->create_srv(",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 375,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "uint32_t srv_A = g_directx_state.descriptors->create_srv(",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 373,
-          "type": "data_race",
-          "severity": "CRITICAL",
           "snippet": "uint32_t uav_C = g_directx_state.descriptors->create_uav(",
           "description": "Shared data access without lock protection",
           "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 317,
+          "line": 321,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "ID3D12DescriptorHeap* heaps[] = {g_directx_state.descriptors->heap()};",
@@ -31248,7 +31275,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 297,
+          "line": 301,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "uint32_t srv_B = g_directx_state.descriptors->create_srv(",
@@ -31257,7 +31284,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 295,
+          "line": 299,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "uint32_t srv_A = g_directx_state.descriptors->create_srv(",
@@ -31266,7 +31293,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\directx_kernels.cpp",
-          "line": 293,
+          "line": 297,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "uint32_t uav_C = g_directx_state.descriptors->create_uav(",
@@ -42642,7 +42669,7 @@
       "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp": [
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1100,
+          "line": 1113,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42654,7 +42681,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1095,
+          "line": 1108,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42666,7 +42693,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1094,
+          "line": 1107,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42678,7 +42705,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1093,
+          "line": 1106,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42690,7 +42717,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1092,
+          "line": 1105,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42702,7 +42729,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1084,
+          "line": 1097,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42714,7 +42741,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1083,
+          "line": 1096,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42726,7 +42753,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1077,
+          "line": 1090,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42738,7 +42765,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1076,
+          "line": 1089,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42750,7 +42777,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1071,
+          "line": 1084,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42762,7 +42789,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1068,
+          "line": 1081,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42774,7 +42801,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1064,
+          "line": 1077,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42786,7 +42813,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1056,
+          "line": 1069,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42798,7 +42825,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1048,
+          "line": 1061,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42810,7 +42837,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1044,
+          "line": 1057,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42822,7 +42849,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1036,
+          "line": 1049,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42834,7 +42861,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1018,
+          "line": 1028,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42846,7 +42873,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1010,
+          "line": 1020,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42858,7 +42885,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1004,
+          "line": 1014,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42870,7 +42897,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 996,
+          "line": 1006,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42882,7 +42909,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 992,
+          "line": 1002,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42894,7 +42921,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 985,
+          "line": 995,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42906,7 +42933,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 974,
+          "line": 984,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42918,7 +42945,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 956,
+          "line": 963,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42930,7 +42957,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 945,
+          "line": 952,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42942,7 +42969,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 933,
+          "line": 940,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42954,7 +42981,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 932,
+          "line": 939,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42966,7 +42993,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 929,
+          "line": 936,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42978,7 +43005,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 920,
+          "line": 927,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -42990,7 +43017,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 901,
+          "line": 908,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43002,7 +43029,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 895,
+          "line": 902,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43014,7 +43041,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 879,
+          "line": 886,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
@@ -43026,7 +43053,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 825,
+          "line": 832,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43038,7 +43065,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 819,
+          "line": 826,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43050,7 +43077,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 818,
+          "line": 825,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43062,7 +43089,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 815,
+          "line": 822,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43074,7 +43101,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 811,
+          "line": 818,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43086,7 +43113,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 807,
+          "line": 814,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43098,7 +43125,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 781,
+          "line": 788,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43110,7 +43137,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 777,
+          "line": 784,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43122,7 +43149,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 763,
+          "line": 770,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43134,7 +43161,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 757,
+          "line": 764,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43146,7 +43173,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 756,
+          "line": 763,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43158,7 +43185,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 755,
+          "line": 762,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43170,7 +43197,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 701,
+          "line": 705,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43182,7 +43209,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 699,
+          "line": 703,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43194,7 +43221,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 697,
+          "line": 701,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43206,7 +43233,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 694,
+          "line": 698,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43218,7 +43245,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 668,
+          "line": 672,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43230,7 +43257,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 665,
+          "line": 669,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43242,7 +43269,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 467,
+          "line": 468,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43254,7 +43281,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 466,
+          "line": 467,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43266,7 +43293,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 465,
+          "line": 466,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43278,7 +43305,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 453,
+          "line": 454,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43290,7 +43317,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 238,
+          "line": 239,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43302,7 +43329,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 234,
+          "line": 235,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43314,7 +43341,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 226,
+          "line": 227,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43326,7 +43353,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 224,
+          "line": 225,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43338,7 +43365,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 220,
+          "line": 221,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43350,7 +43377,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 212,
+          "line": 213,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43362,7 +43389,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 207,
+          "line": 208,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43374,7 +43401,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 206,
+          "line": 207,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43386,7 +43413,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 205,
+          "line": 206,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43398,7 +43425,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 202,
+          "line": 203,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43410,7 +43437,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 198,
+          "line": 199,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43422,7 +43449,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 190,
+          "line": 191,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43434,7 +43461,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 186,
+          "line": 187,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43446,7 +43473,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 182,
+          "line": 183,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43458,7 +43485,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 174,
+          "line": 175,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43470,7 +43497,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 170,
+          "line": 171,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43482,7 +43509,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 166,
+          "line": 167,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43494,7 +43521,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 158,
+          "line": 159,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43506,7 +43533,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 156,
+          "line": 157,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43518,7 +43545,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 152,
+          "line": 153,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43530,7 +43557,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 144,
+          "line": 145,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43542,7 +43569,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 133,
+          "line": 134,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43554,7 +43581,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 127,
+          "line": 128,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43566,7 +43593,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 122,
+          "line": 123,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43578,7 +43605,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 116,
+          "line": 117,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43590,7 +43617,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 108,
+          "line": 109,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43602,7 +43629,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 100,
+          "line": 101,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43614,7 +43641,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 94,
+          "line": 95,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "prompt_injection",
@@ -43626,7 +43653,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1100,
+          "line": 1113,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43638,7 +43665,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1095,
+          "line": 1108,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43650,7 +43677,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1094,
+          "line": 1107,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43662,7 +43689,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1093,
+          "line": 1106,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43674,7 +43701,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1092,
+          "line": 1105,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43686,7 +43713,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1084,
+          "line": 1097,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43698,7 +43725,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1083,
+          "line": 1096,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43710,7 +43737,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1077,
+          "line": 1090,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43722,7 +43749,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1076,
+          "line": 1089,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43734,7 +43761,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1071,
+          "line": 1084,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43746,7 +43773,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1068,
+          "line": 1081,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43758,7 +43785,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1064,
+          "line": 1077,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43770,7 +43797,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1056,
+          "line": 1069,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43782,7 +43809,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1048,
+          "line": 1061,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43794,7 +43821,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1044,
+          "line": 1057,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43806,7 +43833,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1036,
+          "line": 1049,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43818,7 +43845,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1018,
+          "line": 1028,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43830,7 +43857,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1010,
+          "line": 1020,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43842,7 +43869,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1004,
+          "line": 1014,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43854,7 +43881,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 996,
+          "line": 1006,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43866,7 +43893,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 992,
+          "line": 1002,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43878,7 +43905,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 985,
+          "line": 995,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43890,7 +43917,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 974,
+          "line": 984,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43902,7 +43929,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 956,
+          "line": 963,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43914,7 +43941,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 945,
+          "line": 952,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43926,7 +43953,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 933,
+          "line": 940,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43938,7 +43965,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 932,
+          "line": 939,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43950,7 +43977,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 929,
+          "line": 936,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43962,7 +43989,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 920,
+          "line": 927,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43974,7 +44001,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 901,
+          "line": 908,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43986,7 +44013,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 895,
+          "line": 902,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -43998,7 +44025,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 825,
+          "line": 832,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44010,7 +44037,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 819,
+          "line": 826,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44022,7 +44049,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 818,
+          "line": 825,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44034,7 +44061,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 815,
+          "line": 822,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44046,7 +44073,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 811,
+          "line": 818,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44058,7 +44085,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 807,
+          "line": 814,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44070,7 +44097,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 781,
+          "line": 788,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44082,7 +44109,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 777,
+          "line": 784,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44094,7 +44121,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 763,
+          "line": 770,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44106,7 +44133,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 757,
+          "line": 764,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44118,7 +44145,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 756,
+          "line": 763,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44130,7 +44157,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 755,
+          "line": 762,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44142,7 +44169,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 701,
+          "line": 705,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44154,7 +44181,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 699,
+          "line": 703,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44166,7 +44193,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 697,
+          "line": 701,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44178,7 +44205,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 694,
+          "line": 698,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44190,7 +44217,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 668,
+          "line": 672,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44202,7 +44229,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 665,
+          "line": 669,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44214,7 +44241,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 467,
+          "line": 468,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44226,7 +44253,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 466,
+          "line": 467,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44238,7 +44265,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 465,
+          "line": 466,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44250,7 +44277,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 453,
+          "line": 454,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44262,7 +44289,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 353,
+          "line": 354,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -44274,7 +44301,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 352,
+          "line": 353,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -44286,7 +44313,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 310,
+          "line": 311,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -44298,7 +44325,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 300,
+          "line": 301,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -44310,7 +44337,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 238,
+          "line": 239,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44322,7 +44349,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 234,
+          "line": 235,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44334,7 +44361,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 226,
+          "line": 227,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44346,7 +44373,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 224,
+          "line": 225,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44358,7 +44385,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 220,
+          "line": 221,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44370,7 +44397,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 212,
+          "line": 213,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44382,7 +44409,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 207,
+          "line": 208,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44394,7 +44421,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 206,
+          "line": 207,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44406,7 +44433,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 205,
+          "line": 206,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44418,7 +44445,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 202,
+          "line": 203,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44430,7 +44457,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 198,
+          "line": 199,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44442,7 +44469,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 190,
+          "line": 191,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44454,7 +44481,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 186,
+          "line": 187,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44466,7 +44493,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 182,
+          "line": 183,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44478,7 +44505,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 174,
+          "line": 175,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44490,7 +44517,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 170,
+          "line": 171,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44502,7 +44529,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 166,
+          "line": 167,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44514,7 +44541,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 158,
+          "line": 159,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44526,7 +44553,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 156,
+          "line": 157,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44538,7 +44565,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 152,
+          "line": 153,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44550,7 +44577,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 144,
+          "line": 145,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44562,7 +44589,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 133,
+          "line": 134,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44574,7 +44601,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 127,
+          "line": 128,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44586,7 +44613,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 122,
+          "line": 123,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44598,7 +44625,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 116,
+          "line": 117,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44610,7 +44637,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 108,
+          "line": 109,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44622,7 +44649,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 100,
+          "line": 101,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44634,7 +44661,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 94,
+          "line": 95,
           "category": "llm_ai_safety",
           "severity": "HIGH",
           "pattern": "unsanitized_llm_input",
@@ -44646,7 +44673,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 321,
+          "line": 322,
           "type": "expensive_inner_op",
           "severity": "MEDIUM",
           "snippet": "std::cerr << \"  \" << path << shader_name << \".comp.spv\" << std::endl;",
@@ -44655,7 +44682,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 310,
+          "line": 311,
           "type": "expensive_inner_op",
           "severity": "MEDIUM",
           "snippet": "std::cout << \"Found shader: \" << full_path << std::endl;",
@@ -44664,7 +44691,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 300,
+          "line": 301,
           "type": "expensive_inner_op",
           "severity": "MEDIUM",
           "snippet": "std::cout << \"Found shader: \" << full_path << std::endl;",
@@ -44673,7 +44700,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 279,
+          "line": 280,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "search_paths.push_back(\"build/windows-release/shaders/lora/\");",
@@ -44682,7 +44709,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 278,
+          "line": 279,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "search_paths.push_back(\"build/windows-bench-release/shaders/lora/\");",
@@ -44691,7 +44718,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 276,
+          "line": 277,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "search_paths.push_back(\"shaders/lora/\"); // Relative to binary root",
@@ -44700,7 +44727,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 275,
+          "line": 276,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "search_paths.push_back(\"../../shaders/lora/\"); // Grandparent directory",
@@ -44709,7 +44736,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 274,
+          "line": 275,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "search_paths.push_back(\"../shaders/lora/\"); // Parent directory",
@@ -44718,7 +44745,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 273,
+          "line": 274,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "search_paths.push_back(\"./shaders/lora/\");  // Current directory",
@@ -44727,7 +44754,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1028,
+          "line": 1041,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::overflow_error(\"launch_fused_lora_backward dimensions exceed int range\");",
@@ -44736,7 +44763,16 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1022,
+          "line": 1035,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_fused_lora_backward received non-finite scaling\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
+          "line": 1032,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_fused_lora_backward received invalid dimensions\");",
@@ -44745,7 +44781,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 1019,
+          "line": 1029,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_fused_lora_backward received null pointer\");",
@@ -44754,7 +44790,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 966,
+          "line": 976,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::overflow_error(\"launch_fused_lora_forward dimensions exceed int range\");",
@@ -44763,7 +44799,16 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 960,
+          "line": 970,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_fused_lora_forward received non-finite scaling\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
+          "line": 967,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_fused_lora_forward received invalid dimensions\");",
@@ -44772,7 +44817,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 957,
+          "line": 964,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_fused_lora_forward received null pointer\");",
@@ -44781,7 +44826,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 934,
+          "line": 941,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(1, buf_output);",
@@ -44790,7 +44835,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 933,
+          "line": 940,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_input);",
@@ -44799,7 +44844,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 905,
+          "line": 912,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_sequence_mean_shader received invalid dimensions\");",
@@ -44808,7 +44853,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 902,
+          "line": 909,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_sequence_mean_shader received null pointer\");",
@@ -44817,7 +44862,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 883,
+          "line": 890,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(2, buf_output);",
@@ -44826,7 +44871,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 882,
+          "line": 889,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(1, buf_embedding_weights);",
@@ -44835,7 +44880,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 881,
+          "line": 888,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_token_ids);",
@@ -44844,7 +44889,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 852,
+          "line": 859,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_embedding_lookup_shader received invalid dimensions\");",
@@ -44853,7 +44898,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 849,
+          "line": 856,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_embedding_lookup_shader received null pointer\");",
@@ -44862,7 +44907,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 825,
+          "line": 832,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(6, buf_grad_B); // dummy grad_input",
@@ -44871,7 +44916,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 824,
+          "line": 831,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(5, buf_grad_B); // grad_B output",
@@ -44880,7 +44925,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 823,
+          "line": 830,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(4, buf_grad_B); // dummy grad_A",
@@ -44889,7 +44934,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 822,
+          "line": 829,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(3, buf_grad_h); // grad_h as grad_output",
@@ -44898,7 +44943,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 821,
+          "line": 828,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(2, buf_grad_B); // dummy A",
@@ -44907,7 +44952,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 820,
+          "line": 827,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(1, buf_grad_B); // dummy B",
@@ -44916,7 +44961,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 819,
+          "line": 826,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_input);",
@@ -44925,7 +44970,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 785,
+          "line": 792,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_lora_grad_B_shader received invalid dimensions\");",
@@ -44934,7 +44979,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 782,
+          "line": 789,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_lora_grad_B_shader received null pointer\");",
@@ -44943,7 +44988,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 763,
+          "line": 770,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(6, buf_grad_A); // dummy grad_input",
@@ -44952,7 +44997,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 762,
+          "line": 769,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(5, buf_grad_A); // dummy grad_B",
@@ -44961,7 +45006,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 761,
+          "line": 768,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(4, buf_grad_A);",
@@ -44970,7 +45015,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 760,
+          "line": 767,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(3, buf_grad_output);",
@@ -44979,7 +45024,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 759,
+          "line": 766,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(2, buf_h); // dummy A",
@@ -44988,7 +45033,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 758,
+          "line": 765,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(1, buf_h); // dummy B",
@@ -44997,7 +45042,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 757,
+          "line": 764,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_h); // h serves as input",
@@ -45006,7 +45051,16 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 722,
+          "line": 729,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_lora_grad_A_shader received non-finite scaling\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
+          "line": 726,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_lora_grad_A_shader received invalid dimensions\");",
@@ -45015,7 +45069,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 719,
+          "line": 723,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_lora_grad_A_shader received null pointer\");",
@@ -45024,7 +45078,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 702,
+          "line": 706,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(2, buf_output);",
@@ -45033,7 +45087,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 701,
+          "line": 705,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(1, buf_input);",
@@ -45042,7 +45096,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 699,
+          "line": 703,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_input);",
@@ -45051,7 +45105,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 672,
+          "line": 676,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_transpose_shader received invalid dimensions\");",
@@ -45060,7 +45114,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 669,
+          "line": 673,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_transpose_shader received null pointer\");",
@@ -45069,7 +45123,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 654,
+          "line": 658,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(2, buf_B);",
@@ -45078,7 +45132,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 653,
+          "line": 657,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(1, buf_A);",
@@ -45087,7 +45141,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 651,
+          "line": 655,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_A);",
@@ -45096,7 +45150,16 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 625,
+          "line": 629,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"launch_scalar_multiply_shader received non-finite scalar\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
+          "line": 626,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_scalar_multiply_shader received invalid size\");",
@@ -45105,7 +45168,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 622,
+          "line": 623,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_scalar_multiply_shader received null pointer\");",
@@ -45114,10 +45177,19 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 607,
+          "line": 608,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(2, buf_C);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
+          "line": 607,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "pipeline->bind_buffer(1, buf_B);",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
         },
@@ -45126,22 +45198,13 @@
           "line": 606,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
-          "snippet": "pipeline->bind_buffer(1, buf_B);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 605,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_A);",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 577,
+          "line": 578,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_multiply_shader received invalid size\");",
@@ -45150,7 +45213,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 574,
+          "line": 575,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_multiply_shader received null pointer\");",
@@ -45159,10 +45222,19 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 558,
+          "line": 559,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(2, buf_C);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
+          "line": 558,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "pipeline->bind_buffer(1, buf_B);",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
         },
@@ -45171,22 +45243,13 @@
           "line": 557,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
-          "snippet": "pipeline->bind_buffer(1, buf_B);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 556,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_A);",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 527,
+          "line": 528,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_add_shader received invalid size\");",
@@ -45195,7 +45258,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 524,
+          "line": 525,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_add_shader received null pointer\");",
@@ -45204,7 +45267,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 484,
+          "line": 485,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_matmul_shader received invalid dimensions\");",
@@ -45213,7 +45276,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 481,
+          "line": 482,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"launch_matmul_shader received null pointer\");",
@@ -45222,7 +45285,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 468,
+          "line": 469,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(2, buf_output);",
@@ -45231,7 +45294,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 467,
+          "line": 468,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(1, buf_input);",
@@ -45240,7 +45303,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 465,
+          "line": 466,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_input);",
@@ -45249,7 +45312,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 443,
+          "line": 444,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(2, buf_C);",
@@ -45258,7 +45321,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 442,
+          "line": 443,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(1, buf_B);",
@@ -45267,7 +45330,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 441,
+          "line": 442,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "pipeline->bind_buffer(0, buf_A);",
@@ -45276,7 +45339,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 396,
+          "line": 397,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Vulkan not initialized. Call initialize_vulkan_lora() first.\");",
@@ -45285,7 +45348,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 88,
+          "line": 89,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(std::string(context) + \": timed out waiting for Vulkan kernel execution\");",
@@ -45294,7 +45357,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 85,
+          "line": 86,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(std::string(context) + \": pipeline is null\");",
@@ -45303,7 +45366,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 78,
+          "line": 79,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::overflow_error(std::string(context) + \": value exceeds uint32 range\");",
@@ -45321,7 +45384,7 @@
         },
         {
           "file": "src\\llm\\lora_framework\\kernels\\vulkan_kernels.cpp",
-          "line": 87,
+          "line": 88,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "if (!pipeline->wait(kVulkanKernelWaitTimeoutNs)) {",

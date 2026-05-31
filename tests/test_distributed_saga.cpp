@@ -456,6 +456,40 @@ TEST_F(DistributedSagaTest, StepTimeoutLeadsToFailure) {
     EXPECT_GE(m.total_timeout_aborts, 1u);
 }
 
+TEST(DistributedSagaTimeoutTest, GlobalSagaTimeoutBudgetFailsClosed) {
+    DistributedSagaCoordinator::Config cfg;
+    cfg.enable_parallel = false;
+    cfg.saga_timeout = 40ms;
+    cfg.default_forward_timeout = 500ms;
+    DistributedSagaCoordinator c(cfg);
+
+    std::atomic<int> compensations{0};
+
+    DistributedSagaDefinition def;
+    def.saga_id = "global-timeout-budget";
+    def.steps.push_back(makeStep(
+        "slow-step",
+        []() -> DistributedSagaStatus {
+            std::this_thread::sleep_for(120ms);
+            return DistributedSagaStatus::OK();
+        },
+        [&compensations]() -> DistributedSagaStatus {
+            ++compensations;
+            return DistributedSagaStatus::OK();
+        }
+    ));
+
+    auto report = c.execute(def);
+
+    EXPECT_FALSE(report.succeeded());
+    EXPECT_EQ(report.state, SagaExecutionState::COMPENSATED);
+    EXPECT_NE(report.failure_reason.find("timeout"), std::string::npos);
+    EXPECT_EQ(compensations.load(), 0);
+
+    auto m = c.getMetrics();
+    EXPECT_GE(m.total_timeout_aborts, 1u);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Compensation failure → FAILED state
 // ─────────────────────────────────────────────────────────────────────────────
@@ -503,6 +537,27 @@ TEST_F(DistributedSagaTest, GetReportAfterExecutionReturnsReport) {
     auto r = coord.getReport("storable");
     ASSERT_TRUE(r.has_value());
     EXPECT_EQ(r->state, SagaExecutionState::COMPLETED);
+}
+
+TEST_F(DistributedSagaTest, DuplicateSagaIdExecutionRejectedFailClosed) {
+    std::atomic<int> executed{0};
+
+    DistributedSagaDefinition def;
+    def.saga_id = "duplicate-id";
+    def.steps.push_back(makeStep("s", [&executed]() -> DistributedSagaStatus {
+        ++executed;
+        return DistributedSagaStatus::OK();
+    }));
+
+    auto first = coord.execute(def);
+    EXPECT_TRUE(first.succeeded());
+    EXPECT_EQ(executed.load(), 1);
+
+    auto second = coord.execute(def);
+    EXPECT_FALSE(second.succeeded());
+    EXPECT_EQ(second.state, SagaExecutionState::FAILED);
+    EXPECT_NE(second.failure_reason.find("Duplicate saga_id"), std::string::npos);
+    EXPECT_EQ(executed.load(), 1);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
