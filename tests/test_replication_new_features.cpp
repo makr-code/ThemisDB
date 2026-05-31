@@ -249,6 +249,45 @@ TEST_F(ThreeWayMergeTest, EmptyConflictSetFailsClosed) {
         std::invalid_argument);
 }
 
+TEST_F(ThreeWayMergeTest, WinnerCarriesMergedCausalMetadata) {
+    ThreeWayMergeResolver resolver;
+    AdvancedConflictResolver::ResolutionContext ctx;
+    ctx.collection = "col";
+    ctx.document_id = "doc_meta";
+
+    VectorClock vc_base;
+    vc_base.increment("n1");
+    VectorClock vc_left = vc_base;
+    vc_left.increment("n2");
+    VectorClock vc_right = vc_base;
+    vc_right.increment("n3");
+
+    auto base = makeMMEntry("doc_meta", R"({"a":"1"})", 100);
+    base.vector_clock = vc_base;
+    base.dependencies = {"dep_base"};
+
+    auto left = makeMMEntry("doc_meta", R"({"a":"1","b":"2"})", 200);
+    left.vector_clock = vc_left;
+    left.dependencies = {"dep_left"};
+
+    auto right = makeMMEntry("doc_meta", R"({"a":"1","c":"3"})", 300);
+    right.vector_clock = vc_right;
+    right.dependencies = {"dep_right"};
+
+    auto result = resolver.resolve("doc_meta", {base, left, right}, ctx);
+
+    EXPECT_EQ(result.hlc.physical, 300u);
+    EXPECT_GE(result.vector_clock.get("n1"), 1u);
+    EXPECT_GE(result.vector_clock.get("n2"), 1u);
+    EXPECT_GE(result.vector_clock.get("n3"), 1u);
+    EXPECT_NE(std::find(result.dependencies.begin(), result.dependencies.end(), "dep_base"), result.dependencies.end());
+    EXPECT_NE(std::find(result.dependencies.begin(), result.dependencies.end(), "dep_left"), result.dependencies.end());
+    EXPECT_NE(std::find(result.dependencies.begin(), result.dependencies.end(), "dep_right"), result.dependencies.end());
+    EXPECT_NE(std::find(result.dependencies.begin(), result.dependencies.end(), left.write_id), result.dependencies.end());
+    EXPECT_EQ(std::find(result.dependencies.begin(), result.dependencies.end(), result.write_id), result.dependencies.end());
+    EXPECT_FALSE(result.checksum.empty());
+}
+
 // ============================================================================
 // 3. FieldLevelMergeResolver
 // ============================================================================
@@ -329,6 +368,35 @@ TEST_F(FieldLevelMergeTest, EmptyConflictSetFailsClosed) {
     EXPECT_THROW(
         resolver.resolve("doc_empty", {}, ctx),
         std::invalid_argument);
+}
+
+TEST_F(FieldLevelMergeTest, WinnerCarriesMergedCausalMetadata) {
+    FieldLevelMergeResolver resolver(FieldLevelMergeResolver::MergeStrategy::UNION);
+    AdvancedConflictResolver::ResolutionContext ctx;
+    ctx.document_id = "doc_meta_field";
+
+    VectorClock vc_a;
+    vc_a.increment("na");
+    VectorClock vc_b = vc_a;
+    vc_b.increment("nb");
+
+    auto a = makeMMEntry("doc_meta_field", R"({"k1":"v1"})", 100);
+    a.vector_clock = vc_a;
+    a.dependencies = {"dep_a"};
+
+    auto b = makeMMEntry("doc_meta_field", R"({"k2":"v2"})", 250);
+    b.vector_clock = vc_b;
+    b.dependencies = {"dep_b"};
+
+    auto result = resolver.resolve("doc_meta_field", {a, b}, ctx);
+
+    EXPECT_EQ(result.hlc.physical, 250u);
+    EXPECT_GE(result.vector_clock.get("na"), 1u);
+    EXPECT_GE(result.vector_clock.get("nb"), 1u);
+    EXPECT_NE(std::find(result.dependencies.begin(), result.dependencies.end(), "dep_a"), result.dependencies.end());
+    EXPECT_NE(std::find(result.dependencies.begin(), result.dependencies.end(), "dep_b"), result.dependencies.end());
+    EXPECT_NE(std::find(result.dependencies.begin(), result.dependencies.end(), a.write_id), result.dependencies.end());
+    EXPECT_FALSE(result.checksum.empty());
 }
 
 // ============================================================================

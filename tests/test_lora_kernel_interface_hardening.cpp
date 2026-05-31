@@ -69,6 +69,12 @@ TEST(LoRAKernelInterfaceHardeningTest, VulkanInitializedInvalidDimensionsFailClo
         /*batch_size=*/0, /*in_dim=*/2, /*rank=*/2, /*out_dim=*/2, /*scaling=*/1.0f),
         std::invalid_argument);
 
+    EXPECT_THROW(vulkan::launch_fused_lora_forward(
+        a.data(), b.data(), b.data(), c.data(),
+        /*batch_size=*/1, /*in_dim=*/2, /*rank=*/2, /*out_dim=*/2,
+        /*scaling=*/std::numeric_limits<float>::infinity()),
+        std::invalid_argument);
+
     vulkan::cleanup_vulkan_lora();
 }
 
