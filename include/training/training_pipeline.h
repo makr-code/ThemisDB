@@ -314,6 +314,20 @@ struct PipelineConfig {
 class TrainingPipeline {
 public:
     /**
+     * @brief Sanitize a pipeline callback/progress message with the shared
+     *        prompt-safety policy.
+     *
+     * The returned string is safe to emit through telemetry, logs, or external
+     * callback sinks:
+     * - blocked prompt-injection patterns are fail-closed to a constant marker
+     * - allowed payloads are returned with control-token redaction applied
+     *
+     * @param message Raw callback/progress message.
+     * @return Sanitized callback message suitable for downstream emission.
+     */
+    static std::string sanitizeCallbackMessage(const std::string& message);
+
+    /**
      * @brief Construct pipeline
      * @param config    Pipeline configuration
      * @param db_connection  Database connection string
@@ -336,11 +350,17 @@ public:
 
     /**
      * @brief Run only the auto-labeling stage
+        *
+        * Callback messages are sanitized via the shared prompt-safety policy
+        * before emission.
      */
     LabelingStats runLabeling(LabelingCallback callback = nullptr);
 
     /**
      * @brief Run only the enrichment stage
+        *
+        * Callback messages are sanitized via the shared prompt-safety policy
+        * before emission.
      */
     EnrichmentStats runEnrichment(EnrichmentCallback callback = nullptr);
 
@@ -352,6 +372,8 @@ public:
      * collection and returns the selection result with audit entry.
      *
      * @param callback Optional per-stage progress callback.
+     *                 Emitted messages are sanitized via the shared
+     *                 prompt-safety policy before callback invocation.
      * @return Selection result including selected samples and provenance.
      */
     DataSelectionResult runDataSelection(
@@ -359,6 +381,9 @@ public:
 
     /**
      * @brief Run only the training stage
+        *
+        * Callback messages are sanitized via the shared prompt-safety policy
+        * before emission.
      */
     TrainingResult runTraining(TrainingCallback callback = nullptr);
 

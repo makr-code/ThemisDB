@@ -410,8 +410,72 @@ Source: [ai_working/gap_scan_v3_preflight_actionable_queue.json](ai_working/gap_
         - `WALReplicationTest.ApplierStrictModeRejectsDuplicateLSNFailClosed`
         - `WALReplicationIntegrationTest.LSNOrderingValidation`
 
+  - [x] QW-14: Sanitize training-pipeline progress/callback messages with shared policy (Target: Next Sprint)
+    - Scope: [src/training/training_pipeline.cpp](src/training/training_pipeline.cpp), [include/training/training_pipeline.h](include/training/training_pipeline.h), [tests/test_training_convergence.cpp](tests/test_training_convergence.cpp)
+    - Why now: Top actionable queue still reports CRITICAL `prompt_injection` hits in `training_pipeline.cpp` callback/progress paths (lines 152/199/202/275/305 in preflight queue snapshot).
+    - Acceptance:
+      - All callback/progress messages emitted by `TrainingPipeline::run(...)` pass through shared prompt-safety sanitization.
+      - Blocked injection patterns are fail-closed to a constant safe message.
+      - Allowed payloads preserve content with control-token redaction.
+      - Focused tests verify both blocked and redacted behavior.
+    - Execution update (2026-05-31):
+      - Added shared-policy callback sanitizer in [src/training/training_pipeline.cpp](src/training/training_pipeline.cpp):
+        - centralized helper `sanitizeTrainingPipelineMessage(...)`
+        - fail-closed replacement marker: `"message blocked by prompt policy"`
+        - all stage callback emissions in `TrainingPipeline::Impl::run(...)` now route through this sanitizer.
+      - Added explicit public API for deterministic validation and downstream reuse:
+        - `TrainingPipeline::sanitizeCallbackMessage(...)` in [include/training/training_pipeline.h](include/training/training_pipeline.h) and [src/training/training_pipeline.cpp](src/training/training_pipeline.cpp).
+      - Added focused regression tests in [tests/test_training_convergence.cpp](tests/test_training_convergence.cpp):
+        - `TrainingPipelineCallbackSanitizer.BlocksInjectionPatternFailClosed`
+        - `TrainingPipelineCallbackSanitizer.RedactsControlTokensButAllowsMessage`
+      - Validation in this environment:
+        - `themis_tests` target built successfully.
+        - focused suite passed (2/2): `TrainingPipelineCallbackSanitizer.*`.
+
+  - [x] QW-15: Sanitize stage-specific training callbacks via shared policy (Target: Next Sprint)
+    - Scope: [src/training/training_pipeline.cpp](src/training/training_pipeline.cpp), [include/training/training_pipeline.h](include/training/training_pipeline.h)
+    - Why now: Scanner preflight still reported CRITICAL `prompt_injection` callback surfaces in stage-entry methods (`runLabeling`, `runEnrichment`, `runTraining`, `runDataSelection`) that bypassed the already-sanitized aggregate `run(...)` path.
+    - Acceptance:
+      - All stage-specific callback emissions pass through the same shared prompt-safety policy as `run(...)`.
+      - Blocked patterns fail closed to a fixed safe message.
+      - Allowed messages are emitted with control-token redaction.
+      - Public API documentation reflects sanitized callback contract.
+    - Execution update (2026-05-31):
+      - Added callback wrappers in [src/training/training_pipeline.cpp](src/training/training_pipeline.cpp):
+        - `TrainingPipeline::Impl::runLabeling(...)`
+        - `TrainingPipeline::Impl::runEnrichment(...)`
+        - `TrainingPipeline::Impl::runTraining(...)`
+        - `TrainingPipeline::Impl::runDataSelection(...)`
+      - Each wrapper now routes callback message payloads through `sanitizeTrainingPipelineMessage(...)` before forwarding.
+      - Updated public API docs in [include/training/training_pipeline.h](include/training/training_pipeline.h) for the four stage-specific methods to state sanitized-callback behavior.
+      - Validation in this environment:
+        - `themis_tests` target built successfully.
+        - focused suite passed (2/2): `TrainingPipelineCallbackSanitizer.*`.
+
+  - [x] QW-16: Migrate voice assistant LLM prompt sanitization to shared policy (Target: Next Sprint)
+    - Scope: [src/voice/voice_assistant_llm.cpp](src/voice/voice_assistant_llm.cpp), [include/voice/voice_assistant.h](include/voice/voice_assistant.h), [tests/test_voice_assistant.cpp](tests/test_voice_assistant.cpp)
+    - Why now: Preflight actionable queue still lists CRITICAL `prompt_injection` findings for [src/voice/voice_assistant_llm.cpp](src/voice/voice_assistant_llm.cpp) (top queue line 44) and voice remains a top-risk module.
+    - Acceptance:
+      - Voice LLM prompt surfaces use the repository-wide shared prompt-safety policy.
+      - Blocked prompt patterns fail closed to a fixed safe marker.
+      - Allowed prompts preserve payload with control-token redaction.
+      - Focused tests validate blocked and redacted behavior deterministically.
+    - Execution update (2026-05-31):
+      - Replaced local `PromptInjectionSanitizer` usage in [src/voice/voice_assistant_llm.cpp](src/voice/voice_assistant_llm.cpp) with shared helper `sanitizePromptWithSharedPolicy(...)` from [include/llm/prompt_safety_utils.h](include/llm/prompt_safety_utils.h).
+      - Added fail-closed handling for blocked user input in `VoiceAssistant::generateLLMResponse(...)` with fixed marker `"message blocked by prompt policy"` and security audit event.
+      - Added public deterministic sanitizer API in [include/voice/voice_assistant.h](include/voice/voice_assistant.h): `VoiceAssistant::sanitizeLLMPromptText(...)`.
+      - Added focused regressions in [tests/test_voice_assistant.cpp](tests/test_voice_assistant.cpp):
+        - `VoiceAssistantPromptSafety.BlocksInjectionPatternFailClosed`
+        - `VoiceAssistantPromptSafety.RedactsControlTokensButKeepsPrompt`
+      - Validation in this environment:
+        - `themis_tests` target built successfully.
+        - focused suite passed (2/2): `VoiceAssistantPromptSafety.*`.
+
 ## Suggested Execution Order (Next Block)
-1. QW-11 distributed saga consistency
-2. QW-10 model integrity verification
-3. QW-12 replication conflict-resolution residual sweep
-4. QW-13 stream protocol fail-closed guards
+  1. QW-10 model integrity verification
+  2. QW-11 distributed saga consistency
+  3. QW-12 replication conflict-resolution residual sweep
+  4. QW-13 stream protocol fail-closed guards
+  5. QW-14 training pipeline callback sanitization
+  6. QW-15 stage-specific callback sanitization
+  7. QW-16 voice shared prompt-policy migration

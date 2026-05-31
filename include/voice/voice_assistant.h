@@ -191,6 +191,19 @@ public:
     );
 
     /**
+     * @brief Sanitize voice-related LLM prompt text with shared prompt policy.
+     *
+     * Applies the repository-wide shared prompt-safety policy used across
+     * LLM/RAG/training paths. Blocked prompt patterns fail closed to a fixed
+     * safe marker string. Allowed prompt text is returned with control-token
+     * redaction where configured.
+     *
+     * @param input Raw prompt fragment.
+     * @return Sanitized prompt text, or a fixed safe marker when blocked.
+     */
+    static std::string sanitizeLLMPromptText(const std::string& input);
+
+    /**
      * @brief Process voice command with real-time streaming STT
      *
      * Transcribes audio in incremental windows and invokes @p segment_callback
