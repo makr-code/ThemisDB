@@ -16,6 +16,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include <cmath>
 #include <limits>
 #include <vector>
 #include <memory>
@@ -624,6 +625,9 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
     if (size == 0) {
         throw std::invalid_argument("launch_scalar_multiply_shader received invalid size");
     }
+    if (!std::isfinite(scalar)) {
+        throw std::invalid_argument("launch_scalar_multiply_shader received non-finite scalar");
+    }
     
     struct PushConstants {
         uint32_t size;
@@ -720,6 +724,9 @@ void launch_lora_grad_A_shader(
     }
     if (M <= 0 || K <= 0 || N <= 0) {
         throw std::invalid_argument("launch_lora_grad_A_shader received invalid dimensions");
+    }
+    if (!std::isfinite(scaling)) {
+        throw std::invalid_argument("launch_lora_grad_A_shader received non-finite scaling");
     }
     
     // Push constants for gradient computation
@@ -959,6 +966,9 @@ void launch_fused_lora_forward(
     if (batch_size == 0 || in_dim == 0 || rank == 0 || out_dim == 0) {
         throw std::invalid_argument("launch_fused_lora_forward received invalid dimensions");
     }
+    if (!std::isfinite(scaling)) {
+        throw std::invalid_argument("launch_fused_lora_forward received non-finite scaling");
+    }
     if (batch_size > static_cast<size_t>(std::numeric_limits<int>::max()) ||
         in_dim > static_cast<size_t>(std::numeric_limits<int>::max()) ||
         rank > static_cast<size_t>(std::numeric_limits<int>::max()) ||
@@ -1020,6 +1030,9 @@ void launch_fused_lora_backward(
     }
     if (batch_size == 0 || in_dim == 0 || rank == 0 || out_dim == 0) {
         throw std::invalid_argument("launch_fused_lora_backward received invalid dimensions");
+    }
+    if (!std::isfinite(scaling)) {
+        throw std::invalid_argument("launch_fused_lora_backward received non-finite scaling");
     }
     if (batch_size > static_cast<size_t>(std::numeric_limits<int>::max()) ||
         in_dim > static_cast<size_t>(std::numeric_limits<int>::max()) ||

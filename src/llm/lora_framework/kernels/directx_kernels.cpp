@@ -24,6 +24,7 @@
 #include <unordered_map>
 #include <filesystem>
 #include <cstring>
+#include <cmath>
 #include <mutex>
 #include <chrono>
 #include <limits>
@@ -256,6 +257,9 @@ void launch_matmul_shader(
     }
     if (M <= 0 || N <= 0 || K <= 0) {
         throw std::invalid_argument("launch_matmul_shader received invalid dimensions");
+    }
+    if (!std::isfinite(alpha)) {
+        throw std::invalid_argument("launch_matmul_shader received non-finite alpha");
     }
     
     try {
@@ -490,6 +494,9 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
     if (size == 0) {
         throw std::invalid_argument("launch_scalar_multiply_shader received invalid size");
     }
+    if (!std::isfinite(scalar)) {
+        throw std::invalid_argument("launch_scalar_multiply_shader received non-finite scalar");
+    }
     
     try {
         // Use elementwise pipeline with op=4 for scalar multiply
@@ -626,6 +633,9 @@ void launch_lora_grad_A_shader(
     }
     if (M <= 0 || K <= 0 || N <= 0) {
         throw std::invalid_argument("launch_lora_grad_A_shader received invalid dimensions");
+    }
+    if (!std::isfinite(scaling)) {
+        throw std::invalid_argument("launch_lora_grad_A_shader received non-finite scaling");
     }
     
     try {

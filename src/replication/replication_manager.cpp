@@ -2042,6 +2042,43 @@ MMWriteEntry LastWriteWinsResolver::resolve(
 {
     if (conflicting_writes.empty()) return MMWriteEntry{};
 
+    auto compute_mm_checksum = [](const MMWriteEntry& entry) {
+        std::string content = entry.operation + entry.collection + entry.document_id + entry.data;
+        unsigned char hash[SHA256_DIGEST_LENGTH];
+        SHA256(reinterpret_cast<const unsigned char*>(content.c_str()), content.size(), hash);
+        std::ostringstream oss;
+        for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
+            oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
+        }
+        return oss.str();
+    };
+
+    auto enrich_winner_with_causality = [&](const MMWriteEntry& winner) {
+        MMWriteEntry enriched = winner;
+
+        VectorClock merged_clock = winner.vector_clock;
+        std::set<std::string> merged_dependencies(
+            enriched.dependencies.begin(), enriched.dependencies.end());
+
+        HybridLogicalClock::Timestamp latest_hlc = winner.hlc;
+        for (const auto& write : conflicting_writes) {
+            merged_clock.merge(write.vector_clock);
+            merged_dependencies.insert(write.dependencies.begin(), write.dependencies.end());
+            if (!write.write_id.empty() && write.write_id != enriched.write_id) {
+                merged_dependencies.insert(write.write_id);
+            }
+            if (latest_hlc < write.hlc) {
+                latest_hlc = write.hlc;
+            }
+        }
+
+        enriched.vector_clock = std::move(merged_clock);
+        enriched.dependencies.assign(merged_dependencies.begin(), merged_dependencies.end());
+        enriched.hlc = latest_hlc;
+        enriched.checksum = compute_mm_checksum(enriched);
+        return enriched;
+    };
+
     // Select the entry with the latest HLC timestamp; ties resolved by node_id
     const MMWriteEntry* winner = &conflicting_writes[0];
     for (const auto& entry : conflicting_writes) {
@@ -2049,7 +2086,7 @@ MMWriteEntry LastWriteWinsResolver::resolve(
             winner = &entry;
         }
     }
-    return *winner;
+    return enrich_winner_with_causality(*winner);
 }
 
 CRDTMergeResolver::CRDTMergeResolver(CRDTType type)
@@ -2081,6 +2118,16 @@ MMWriteEntry CRDTMergeResolver::resolve(
     LastWriteWinsResolver lwr;
     MMWriteEntry result = lwr.resolve(document_id, conflicting_writes);
     result.data = merged_data;
+
+    // Keep checksum aligned with merged payload and metadata-carrying fields.
+    std::string content = result.operation + result.collection + result.document_id + result.data;
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+    SHA256(reinterpret_cast<const unsigned char*>(content.c_str()), content.size(), hash);
+    std::ostringstream oss;
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
+        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
+    }
+    result.checksum = oss.str();
     return result;
 }
 
