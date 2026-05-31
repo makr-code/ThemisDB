@@ -1,27 +1,22 @@
 [docs](../../index.md) > [en](../index.md) > [index](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-04-17  
-**Status:** draft  
-**Primary Source:**
-- `include/index/ARCHITECTURE.md`
-- `include/index/AUDIT.md`
-- `include/index/CHANGELOG.md`
-- `include/index/FUTURE_ENHANCEMENTS.md`
-- `include/index/README.md`
-- `include/index/ROADMAP.md`
-- `include/index/SECURITY.md`
-- `src/index/ARCHITECTURE.md`
-- `src/index/AUDIT.md`
-- `src/index/CHANGELOG.md`
-- `src/index/FUTURE_ENHANCEMENTS.md`
+**Date:** 2026-05-31
+**Status:** current
+**Primary Source (source of truth):**
 - `src/index/README.md`
+- `src/index/ARCHITECTURE.md`
 - `src/index/ROADMAP.md`
+- `src/index/FUTURE_ENHANCEMENTS.md`
+- `src/index/MODULE_GAPS.md`
 - `src/index/SECURITY.md`
+- `src/index/AUDIT.md`
+- `src/index/PERFORMANCE_EXPECTATIONS.md`
+- `src/index/CHANGELOG.md`
 - `src/index/VECTOR_ADVANCED_FEATURES_README.md`
 
 **Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Context: Auto-generated index of all primary Markdown files for module `index`
-
+- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Policy: newer planning docs are prioritized over older historical docs.
 ---
 
 # Primary Sources — `index`

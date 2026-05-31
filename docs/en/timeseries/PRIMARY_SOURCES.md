@@ -1,26 +1,21 @@
 [docs](../../index.md) > [en](../index.md) > [timeseries](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-04-17  
-**Status:** draft  
-**Primary Source:**
-- `include/timeseries/ARCHITECTURE.md`
-- `include/timeseries/AUDIT.md`
-- `include/timeseries/CHANGELOG.md`
-- `include/timeseries/FUTURE_ENHANCEMENTS.md`
-- `include/timeseries/README.md`
-- `include/timeseries/ROADMAP.md`
-- `include/timeseries/SECURITY.md`
-- `src/timeseries/ARCHITECTURE.md`
-- `src/timeseries/AUDIT.md`
-- `src/timeseries/CHANGELOG.md`
-- `src/timeseries/FUTURE_ENHANCEMENTS.md`
+**Date:** 2026-05-31
+**Status:** current
+**Primary Source (source of truth):**
 - `src/timeseries/README.md`
+- `src/timeseries/ARCHITECTURE.md`
 - `src/timeseries/ROADMAP.md`
+- `src/timeseries/FUTURE_ENHANCEMENTS.md`
+- `src/timeseries/MODULE_GAPS.md`
 - `src/timeseries/SECURITY.md`
+- `src/timeseries/AUDIT.md`
+- `src/timeseries/PERFORMANCE_EXPECTATIONS.md`
+- `src/timeseries/CHANGELOG.md`
 
 **Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Context: Auto-generated index of all primary Markdown files for module `timeseries`
-
+- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Policy: newer planning docs are prioritized over older historical docs.
 ---
 
 # Primary Sources — `timeseries`

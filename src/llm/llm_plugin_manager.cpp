@@ -236,12 +236,31 @@ InferenceResponse LLMPluginManager::generateRAG(
     const RAGContext& rag_context,
     const InferenceRequest& request
 ) {
+    spdlog::info(
+        "LLMPluginManager::generateRAG start: model='{}' docs={} top_k={} max_context_tokens={} response_budget_tokens={} request_max_tokens={}",
+        request.model_id.empty() ? std::string{"default"} : request.model_id,
+        rag_context.documents.size(),
+        rag_context.top_k,
+        rag_context.max_context_tokens,
+        rag_context.response_budget_tokens,
+        request.max_tokens);
+
     auto* plugin = getDefaultPlugin();
     if (!plugin) {
+        spdlog::warn("LLMPluginManager::generateRAG failed: no default plugin available");
         throw std::runtime_error("No default LLM plugin available");
     }
-    
-    return plugin->generateRAG(rag_context, request);
+
+    auto response = plugin->generateRAG(rag_context, request);
+    spdlog::info(
+        "LLMPluginManager::generateRAG complete: success={} tokens_generated={} inference_time_ms={:.2f} cache_hit={} error_len={}",
+        response.success,
+        response.tokens_generated,
+        response.inference_time_ms,
+        response.cache_hit,
+        response.error_message.size());
+
+    return response;
 }
 
 std::vector<float> LLMPluginManager::embed(const std::string& text) {

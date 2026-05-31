@@ -1,20 +1,22 @@
 # Primary Sources — `metadata`
-<!-- status: current | validated: 2026-05-13 | commit: HEAD -->
-**Datum:** 2026-05-13
+<!-- status: current | validated: 2026-05-31 | commit: HEAD -->
+**Datum:** 2026-05-31
 **Status:** current
 **Primary (Quelle der Wahrheit):**
-- `include/metadata/README.md`
-- `src/metadata/ARCHITECTURE.md`
-- `src/metadata/AUDIT.md`
-- `src/metadata/CHANGELOG.md`
-- `src/metadata/FUTURE_ENHANCEMENTS.md`
 - `src/metadata/README.md`
+- `src/metadata/ARCHITECTURE.md`
 - `src/metadata/ROADMAP.md`
+- `src/metadata/FUTURE_ENHANCEMENTS.md`
+- `src/metadata/MODULE_GAPS.md`
 - `src/metadata/SECURITY.md`
+- `src/metadata/AUDIT.md`
+- `src/metadata/PERFORMANCE_EXPECTATIONS.md`
+- `src/metadata/CHANGELOG.md`
 
 **Bezug / Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `metadata`
+- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Regel: neuere Planungsdokumente sind fuehrend gegenueber aelteren historischen Dokumenten.
 
 ---
 
@@ -44,4 +46,4 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`metadata`*
 
 ---
 
-*Aktualisiert: 2026-05-13*
+*Aktualisiert: 2026-05-31*

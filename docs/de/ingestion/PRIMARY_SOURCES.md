@@ -1,26 +1,21 @@
 [docs](../../index.md) > [de](../index.md) > [ingestion](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-17  
-**Status:** draft  
+**Datum:** 2026-05-31
+**Status:** current
 **Primary (Quelle der Wahrheit):**
-- `include/ingestion/ARCHITECTURE.md`
-- `include/ingestion/AUDIT.md`
-- `include/ingestion/CHANGELOG.md`
-- `include/ingestion/FUTURE_ENHANCEMENTS.md`
-- `include/ingestion/README.md`
-- `include/ingestion/ROADMAP.md`
-- `include/ingestion/SECURITY.md`
-- `src/ingestion/ARCHITECTURE.md`
-- `src/ingestion/AUDIT.md`
-- `src/ingestion/CHANGELOG.md`
-- `src/ingestion/FUTURE_ENHANCEMENTS.md`
 - `src/ingestion/README.md`
+- `src/ingestion/ARCHITECTURE.md`
 - `src/ingestion/ROADMAP.md`
+- `src/ingestion/FUTURE_ENHANCEMENTS.md`
+- `src/ingestion/MODULE_GAPS.md`
 - `src/ingestion/SECURITY.md`
+- `src/ingestion/AUDIT.md`
+- `src/ingestion/PERFORMANCE_EXPECTATIONS.md`
+- `src/ingestion/CHANGELOG.md`
 
 **Bezug / Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `ingestion`
-
+- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Regel: neuere Planungsdokumente sind fuehrend gegenueber aelteren historischen Dokumenten.
 ---
 
 # Primary Sources — `ingestion`

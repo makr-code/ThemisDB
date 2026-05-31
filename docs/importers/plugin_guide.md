@@ -1,5 +1,12 @@
 # ThemisDB Importer Plugin Guide
 
+> Alignment note (2026-05-31): This plugin guide is a secondary interface document.
+> Authoritative current workload and target behavior are defined in:
+> - `src/importers/FUTURE_ENHANCEMENTS.md`
+> - `src/importers/MODULE_GAPS.md`
+> - `src/importers/ROADMAP.md`
+> If this guide conflicts with newer planning docs, planning docs take precedence.
+
 This guide explains how to write a third-party importer plugin for ThemisDB using the
 Plugin API defined in `include/importers/importer_plugin_api.h` and the stable C ABI
 in `include/importers/importer_plugin.h`.

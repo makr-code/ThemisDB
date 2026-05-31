@@ -1,5 +1,12 @@
 # High Availability Replication - Implementation Guide
 
+> Alignment note (2026-05-31): This guide is a secondary operational document.
+> Authoritative current workload and target behavior are defined in:
+> - `src/replication/FUTURE_ENHANCEMENTS.md`
+> - `src/replication/MODULE_GAPS.md`
+> - `src/replication/ROADMAP.md`
+> If this guide conflicts with newer planning docs, the planning docs take precedence.
+
 ## Overview
 
 ThemisDB's High Availability (HA) Replication provides enterprise-grade reliability with automatic failure detection, failover, and recovery mechanisms. This ensures continuous database availability even in the face of node failures, network partitions, or datacenter outages.
@@ -887,7 +894,7 @@ See [API.md](./API.md) for complete API documentation.
 ## See Also
 
 ### Replication Documentation
-- **[REPLICATION_IMPLEMENTATION_STATUS.md](reports/REPLICATION_IMPLEMENTATION_STATUS.md)** - Detailed implementation status (~85% complete) with component breakdown
+- **[REPLICATION_IMPLEMENTATION_STATUS.md](reports/REPLICATION_IMPLEMENTATION_STATUS.md)** - Historical implementation snapshot with component breakdown
 - **[replication_raid_plan.md](./replication_raid_plan.md)** - RAID 1/10 readiness plan and implementation roadmap
 - **[docs/replication/](./replication/)** - Additional replication documentation and examples
 

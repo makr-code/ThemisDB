@@ -1,28 +1,21 @@
 [docs](../../index.md) > [de](../index.md) > [themis](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-17  
-**Status:** draft  
+**Datum:** 2026-05-31
+**Status:** current
 **Primary (Quelle der Wahrheit):**
-- `include/themis/ARCHITECTURE.md`
-- `include/themis/AUDIT.md`
-- `include/themis/CHANGELOG.md`
-- `include/themis/FUTURE_ENHANCEMENTS.md`
-- `include/themis/README.md`
-- `include/themis/ROADMAP.md`
-- `include/themis/SECURITY.md`
-- `include/themis/base/README.md`
-- `include/themis/gpu/README.md`
-- `src/themis/ARCHITECTURE.md`
-- `src/themis/AUDIT.md`
-- `src/themis/CHANGELOG.md`
-- `src/themis/FUTURE_ENHANCEMENTS.md`
 - `src/themis/README.md`
+- `src/themis/ARCHITECTURE.md`
 - `src/themis/ROADMAP.md`
+- `src/themis/FUTURE_ENHANCEMENTS.md`
+- `src/themis/MODULE_GAPS.md`
 - `src/themis/SECURITY.md`
+- `src/themis/AUDIT.md`
+- `src/themis/PERFORMANCE_EXPECTATIONS.md`
+- `src/themis/CHANGELOG.md`
 
 **Bezug / Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `themis`
-
+- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Regel: neuere Planungsdokumente sind fuehrend gegenueber aelteren historischen Dokumenten.
 ---
 
 # Primary Sources — `themis`

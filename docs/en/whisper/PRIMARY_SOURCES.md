@@ -1,26 +1,21 @@
 [docs](../../index.md) > [en](../index.md) > [whisper](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-04-17  
-**Status:** draft  
-**Primary Source:**
-- `include/whisper/ARCHITECTURE.md`
-- `include/whisper/AUDIT.md`
-- `include/whisper/CHANGELOG.md`
-- `include/whisper/FUTURE_ENHANCEMENTS.md`
-- `include/whisper/README.md`
-- `include/whisper/ROADMAP.md`
-- `include/whisper/SECURITY.md`
-- `src/whisper/ARCHITECTURE.md`
-- `src/whisper/AUDIT.md`
-- `src/whisper/CHANGELOG.md`
-- `src/whisper/FUTURE_ENHANCEMENTS.md`
+**Date:** 2026-05-31
+**Status:** current
+**Primary Source (source of truth):**
 - `src/whisper/README.md`
+- `src/whisper/ARCHITECTURE.md`
 - `src/whisper/ROADMAP.md`
+- `src/whisper/FUTURE_ENHANCEMENTS.md`
+- `src/whisper/MODULE_GAPS.md`
 - `src/whisper/SECURITY.md`
+- `src/whisper/AUDIT.md`
+- `src/whisper/PERFORMANCE_EXPECTATIONS.md`
+- `src/whisper/CHANGELOG.md`
 
 **Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Context: Auto-generated index of all primary Markdown files for module `whisper`
-
+- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Policy: newer planning docs are prioritized over older historical docs.
 ---
 
 # Primary Sources — `whisper`

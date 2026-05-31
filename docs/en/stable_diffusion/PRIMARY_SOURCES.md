@@ -1,26 +1,21 @@
 [docs](../../index.md) > [en](../index.md) > [stable_diffusion](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-04-17  
-**Status:** draft  
-**Primary Source:**
-- `include/stable_diffusion/ARCHITECTURE.md`
-- `include/stable_diffusion/AUDIT.md`
-- `include/stable_diffusion/CHANGELOG.md`
-- `include/stable_diffusion/FUTURE_ENHANCEMENTS.md`
-- `include/stable_diffusion/README.md`
-- `include/stable_diffusion/ROADMAP.md`
-- `include/stable_diffusion/SECURITY.md`
-- `src/stable_diffusion/ARCHITECTURE.md`
-- `src/stable_diffusion/AUDIT.md`
-- `src/stable_diffusion/CHANGELOG.md`
-- `src/stable_diffusion/FUTURE_ENHANCEMENTS.md`
+**Date:** 2026-05-31
+**Status:** current
+**Primary Source (source of truth):**
 - `src/stable_diffusion/README.md`
+- `src/stable_diffusion/ARCHITECTURE.md`
 - `src/stable_diffusion/ROADMAP.md`
+- `src/stable_diffusion/FUTURE_ENHANCEMENTS.md`
+- `src/stable_diffusion/MODULE_GAPS.md`
 - `src/stable_diffusion/SECURITY.md`
+- `src/stable_diffusion/AUDIT.md`
+- `src/stable_diffusion/PERFORMANCE_EXPECTATIONS.md`
+- `src/stable_diffusion/CHANGELOG.md`
 
 **Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Context: Auto-generated index of all primary Markdown files for module `stable_diffusion`
-
+- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Policy: newer planning docs are prioritized over older historical docs.
 ---
 
 # Primary Sources — `stable_diffusion`

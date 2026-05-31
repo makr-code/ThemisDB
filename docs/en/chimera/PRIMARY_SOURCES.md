@@ -1,18 +1,21 @@
 [docs](../../README.md) > [en](../README.md) > [chimera](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
-**Date:** 2026-04-17
-**Status:** draft
-**Primary Source:**
-- `include/chimera/README.md`
-- `src/chimera/ARCHITECTURE.md`
-- `src/chimera/CHANGELOG.md`
-- `src/chimera/FUTURE_ENHANCEMENTS.md`
+**Date:** 2026-05-31
+**Status:** current
+**Primary Source (source of truth):**
 - `src/chimera/README.md`
+- `src/chimera/ARCHITECTURE.md`
 - `src/chimera/ROADMAP.md`
+- `src/chimera/FUTURE_ENHANCEMENTS.md`
+- `src/chimera/MODULE_GAPS.md`
+- `src/chimera/SECURITY.md`
+- `src/chimera/AUDIT.md`
+- `src/chimera/PERFORMANCE_EXPECTATIONS.md`
+- `src/chimera/CHANGELOG.md`
 
 **Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Context: Auto-generated index of all primary Markdown files for module `chimera`
-
+- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Policy: newer planning docs are prioritized over older historical docs.
 ---
 
 # Primary Sources — `chimera`

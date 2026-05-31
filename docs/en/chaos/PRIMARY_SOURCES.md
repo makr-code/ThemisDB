@@ -1,20 +1,21 @@
 [docs](../../README.md) > [en](../README.md) > [chaos](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
-**Date:** 2026-04-17
-**Status:** draft
-**Primary Source:**
-- `include/chaos/README.md`
-- `src/chaos/ARCHITECTURE.md`
-- `src/chaos/AUDIT.md`
-- `src/chaos/CHANGELOG.md`
-- `src/chaos/FUTURE_ENHANCEMENTS.md`
+**Date:** 2026-05-31
+**Status:** current
+**Primary Source (source of truth):**
 - `src/chaos/README.md`
+- `src/chaos/ARCHITECTURE.md`
 - `src/chaos/ROADMAP.md`
+- `src/chaos/FUTURE_ENHANCEMENTS.md`
+- `src/chaos/MODULE_GAPS.md`
 - `src/chaos/SECURITY.md`
+- `src/chaos/AUDIT.md`
+- `src/chaos/PERFORMANCE_EXPECTATIONS.md`
+- `src/chaos/CHANGELOG.md`
 
 **Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Context: Auto-generated index of all primary Markdown files for module `chaos`
-
+- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Policy: newer planning docs are prioritized over older historical docs.
 ---
 
 # Primary Sources — `chaos`

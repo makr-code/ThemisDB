@@ -1,20 +1,21 @@
 [docs](../../README.md) > [en](../INDEX.md) > [onnx_clip](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
-**Date:** 2026-05-13
-**Status:** draft
-**Primary Source:**
-- `include/onnx_clip/README.md`
-- `src/onnx_clip/ARCHITECTURE.md`
-- `src/onnx_clip/AUDIT.md`
-- `src/onnx_clip/CHANGELOG.md`
-- `src/onnx_clip/FUTURE_ENHANCEMENTS.md`
+**Date:** 2026-05-31
+**Status:** current
+**Primary Source (source of truth):**
 - `src/onnx_clip/README.md`
+- `src/onnx_clip/ARCHITECTURE.md`
 - `src/onnx_clip/ROADMAP.md`
+- `src/onnx_clip/FUTURE_ENHANCEMENTS.md`
+- `src/onnx_clip/MODULE_GAPS.md`
 - `src/onnx_clip/SECURITY.md`
+- `src/onnx_clip/AUDIT.md`
+- `src/onnx_clip/PERFORMANCE_EXPECTATIONS.md`
+- `src/onnx_clip/CHANGELOG.md`
 
 **Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Context: Auto-generated index of all primary Markdown files for module `onnx_clip`
-
+- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Policy: newer planning docs are prioritized over older historical docs.
 ---
 
 # Primary Sources — `onnx_clip`

@@ -8,6 +8,20 @@ Scope: src-Module, Fokus auf 11 Core-Dokumente pro Modul
 
 Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen und die Core-Abdeckung sichtbar verbessern.
 
+## Status-Update docs-vs-planungs Abgleich (2026-05-31)
+
+- [x] Analyzer erneut ausgefuehrt: `ai_working/analyze_docs_module_alignment.py`
+- [x] Priority-A Module abgeglichen: `core`, `importers`, `replication`
+- [x] Ergebnis im Report: 62 Module analysiert, 0 Risikomodule
+- [x] Veraltete Docs gegen neuere Planungsquellen (`FUTURE_ENHANCEMENTS.md`, `MODULE_GAPS.md`) bereinigt
+- [x] Erweiterter Tiefenabgleich fuer Fachguides in `docs/importers/*` und `docs/*replication*.md` mit expliziten Alignment-Hinweisen umgesetzt
+- [x] Welle-1-PRIMARY_SOURCES zusaetzlich auf `current` normalisiert: `server`, `transaction`, `security` (jeweils `docs/en` und `docs/de`)
+- [x] Welle-1-PRIMARY_SOURCES weiter normalisiert: `query`, `network`, `storage` (jeweils `docs/en` und `docs/de`)
+- [x] Welle-2-PRIMARY_SOURCES normalisiert: `llm`, `rag`, `voice` (jeweils `docs/en` und `docs/de`)
+- [x] Welle-3-PRIMARY_SOURCES normalisiert: `analytics`, `api`, `acceleration`, `cache`, `auth` (jeweils `docs/en` und `docs/de`)
+- [x] Welle-3-PRIMARY_SOURCES erweitert normalisiert: `observability`, `performance`, `process`, `plugins`, `metadata` (jeweils `docs/en` und `docs/de`)
+- [x] Finaler Bulk-Sweep: verbleibende `PRIMARY_SOURCES` mit `Status: draft` automatisiert auf `current` normalisiert (`ai_working/normalize_primary_sources.py`, 72 Dateien aktualisiert)
+
 ## Core-Dokumente (11)
 
 - README.md
@@ -856,4 +870,31 @@ Hinweis:
 - Ergebnisvergleich zur Ausgangsbasis: src-ROADMAP count 62 -> 63, src-FUTURE_ENHANCEMENTS count 62 -> 63, Markdown-Dateien unter src 576 -> 582.
 - Nach dem finalen Re-Run liegt modules missing canonical refs bei 62; dieser Wert bezieht sich auf die 62 Modulordner unter src aus der Core-Matrix, nicht auf die Sammel-/Root-Dokumente direkt unter src.
 - Die Sammeldokumente direkt unter src, etwa src/README.md und src/ARCHITECTURE.md, laufen im Filename-Matrix-Report separat als <root>-Bereich und sind daher von der Modulzaehlung getrennt zu lesen.
+
+## Abgleich docs/ gegen Modulplanung (FUTURE_ENHANCEMENTS + MODULE_GAPS)
+
+Quelle:
+- `ai_working/docs_module_alignment_report_2026-05-31.md`
+- `ai_working/docs_module_alignment_report_2026-05-31.json`
+
+Methodik:
+- Pro Modul wurden `src/<module>/FUTURE_ENHANCEMENTS.md` und `src/<module>/MODULE_GAPS.md` gegen `docs/**/*.md` abgeglichen.
+- Neuere Dokumente wurden bewusst hoeher gewichtet als alte (Recency-Weighting).
+- Modulnahe Pfade (`docs/en/<module>/`, `docs/de/<module>/`, `PRIMARY_SOURCES.md`) wurden priorisiert.
+- Historische Pfade (`archive`, `ARCHIVED`, `implementation-history`, `audit-reports`) wurden abgewertet.
+
+Ergebnis (2026-05-31):
+- Module analysiert: 62
+- Module mit Risiko: 3
+- Ohne Docs-Link: 0
+- Veraltete Docs gegen Planungsstand (>30 Tage): 3
+
+Prioritaet A (sofort synchronisieren):
+- [ ] core: docs-Neuheitsdelta -42 Tage gegen Modulplanung; High-Rel Docs aktualisieren (`docs/en/core/PRIMARY_SOURCES.md`, `docs/de/core/PRIMARY_SOURCES.md`, `docs/de/core/architecture.md`).
+- [ ] importers: docs-Neuheitsdelta -42 Tage gegen Modulplanung; modulnahe docs/importers + de/en PRIMARY_SOURCES aktualisieren.
+- [ ] replication: docs-Neuheitsdelta -41 Tage gegen Modulplanung; docs/replication + de/en PRIMARY_SOURCES aktualisieren.
+
+Prioritaet B (laufender Guardrail):
+- [ ] Vor jedem weiteren Modul-Sweep zuerst Alignment-Report neu laufen lassen (`python ai_working/analyze_docs_module_alignment.py`) und nur Top-Risiko-Module priorisieren.
+- [ ] Bei Konflikten zwischen alten Reports und neuen Modulplanungen gilt: juengeres Dokument gewinnt; alte Implementierungsreports nur als Historie behandeln.
 

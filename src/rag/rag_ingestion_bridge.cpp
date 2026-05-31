@@ -12,6 +12,8 @@
 #include "ingestion/workflow_engine.h"
 #include "ingestion/extraction_context.h"
 
+#include <spdlog/spdlog.h>
+
 #include <sstream>
 #include <iomanip>
 #include <stdexcept>
@@ -53,7 +55,15 @@ IndexResult RAGIngestionBridge::indexDocument(
     const std::string& mime,
     const std::string& filename)
 {
+    spdlog::info(
+        "RAGIngestionBridge::indexDocument start: collection='{}' mime='{}' filename='{}' text_chars={}",
+        collection,
+        mime,
+        filename,
+        text.size());
+
     if (text.empty()) {
+        spdlog::warn("RAGIngestionBridge::indexDocument rejected: empty input");
         return IndexResult{
             .ok    = false,
             .error = "empty input"
@@ -78,6 +88,11 @@ IndexResult RAGIngestionBridge::indexDocument(
         auto result = engine->execute(ctx);
         if (result) {
             entity_set = result.value();
+            spdlog::debug(
+                "RAGIngestionBridge::indexDocument workflow result: nodes={} edges={} chunks={}",
+                entity_set.nodes.size(),
+                entity_set.edges.size(),
+                entity_set.chunks.size());
         } else {
             // Keep indexing available even when workflow execution is unavailable
             // by creating a minimal but fully hydrated retrieval payload.
@@ -88,6 +103,9 @@ IndexResult RAGIngestionBridge::indexDocument(
     }
 
     if (used_workflow_fallback) {
+        spdlog::info(
+            "RAGIngestionBridge::indexDocument using fallback workflow path for collection='{}'",
+            collection);
         entity_set.source_file_id = doc_id;
         entity_set.quality_score = 0.0;
 
@@ -125,6 +143,13 @@ IndexResult RAGIngestionBridge::indexDocument(
         auto write_result = vector_writer_->writeVectors(stamped_chunks);
         if (write_result) {
             vector_count = stamped_chunks.size();
+            spdlog::debug(
+                "RAGIngestionBridge::indexDocument vector write ok: chunk_count={}",
+                vector_count);
+        } else {
+            spdlog::warn(
+                "RAGIngestionBridge::indexDocument vector write failed for collection='{}'",
+                collection);
         }
         // Write failure is non-fatal: we still return a partial result
     }
@@ -139,6 +164,13 @@ IndexResult RAGIngestionBridge::indexDocument(
         }
     }
 
+    spdlog::info(
+        "RAGIngestionBridge::indexDocument complete: doc_id='{}' entities={} vectors={} fallback={}",
+        doc_id,
+        entity_count,
+        vector_count,
+        used_workflow_fallback);
+
     return IndexResult{
         .ok           = true,
         .doc_id       = doc_id,
@@ -151,6 +183,10 @@ IndexResult RAGIngestionBridge::indexDocument(
 std::size_t RAGIngestionBridge::enrichRetrievedDocuments(
     std::vector<judge::RetrievedDocument>& docs)
 {
+    spdlog::info(
+        "RAGIngestionBridge::enrichRetrievedDocuments start: docs={}",
+        docs.size());
+
     std::size_t enriched = 0;
     for (auto& doc : docs) {
         if (doc.content.empty() || doc.id.empty()) {
@@ -172,6 +208,12 @@ std::size_t RAGIngestionBridge::enrichRetrievedDocuments(
             ++enriched;
         }
     }
+
+    spdlog::info(
+        "RAGIngestionBridge::enrichRetrievedDocuments complete: docs={} enriched={}",
+        docs.size(),
+        enriched);
+
     return enriched;
 }
 

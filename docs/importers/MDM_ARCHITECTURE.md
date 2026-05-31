@@ -1,5 +1,12 @@
 # MDM Architecture & Design
 
+> Alignment note (2026-05-31): This document is a secondary architecture explainer.
+> Authoritative current workload and target behavior are defined in:
+> - `src/importers/FUTURE_ENHANCEMENTS.md`
+> - `src/importers/MODULE_GAPS.md`
+> - `src/importers/ROADMAP.md`
+> If this document conflicts with newer planning docs, planning docs take precedence.
+
 ## Components
 
 ```

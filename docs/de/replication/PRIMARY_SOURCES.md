@@ -1,58 +1,51 @@
-[docs](../../index.md) > [de](../index.md) > [replication](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-17  
-**Status:** draft  
+[docs](../../index.md) > [de](../index.md) > [replication](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
+**Datum:** 2026-05-31
+**Status:** current
 **Primary (Quelle der Wahrheit):**
-- `include/replication/ARCHITECTURE.md`
-- `include/replication/AUDIT.md`
-- `include/replication/CHANGELOG.md`
-- `include/replication/FUTURE_ENHANCEMENTS.md`
-- `include/replication/README.md`
-- `include/replication/ROADMAP.md`
-- `include/replication/SECURITY.md`
-- `src/replication/ARCHITECTURE.md`
-- `src/replication/AUDIT.md`
-- `src/replication/CHANGELOG.md`
-- `src/replication/FUTURE_ENHANCEMENTS.md`
 - `src/replication/README.md`
+- `src/replication/ARCHITECTURE.md`
 - `src/replication/ROADMAP.md`
+- `src/replication/FUTURE_ENHANCEMENTS.md`
+- `src/replication/MODULE_GAPS.md`
 - `src/replication/SECURITY.md`
+- `src/replication/AUDIT.md`
+- `src/replication/PERFORMANCE_EXPECTATIONS.md`
+- `src/replication/CHANGELOG.md`
 
 **Bezug / Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `replication`
+- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
 
 ---
 
-# Primary Sources — `replication`
+# Primary Sources - replication
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`replication`** aus den erkannten Quellverzeichnissen des Moduls.
+Diese Seite definiert die fuehrenden Replikationsdokumente fuer Workload- und Verhaltensabgleich.
 
-## Primäre Markdown-Dateien
+## Abgleichsregeln
 
-### `include/replication/`
+- Neuere Planungsdokumente sind relevanter als aeltere Reports.
+- `FUTURE_ENHANCEMENTS.md` und `MODULE_GAPS.md` sind die primaeren Workload-Quellen.
+- Historische Implementierungsstatusberichte sind sekundaerer Kontext.
 
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`include/replication/ARCHITECTURE.md`](../../../include/replication/ARCHITECTURE.md) |
-| `AUDIT.md` | [`include/replication/AUDIT.md`](../../../include/replication/AUDIT.md) |
-| `CHANGELOG.md` | [`include/replication/CHANGELOG.md`](../../../include/replication/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`include/replication/FUTURE_ENHANCEMENTS.md`](../../../include/replication/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`include/replication/README.md`](../../../include/replication/README.md) |
-| `ROADMAP.md` | [`include/replication/ROADMAP.md`](../../../include/replication/ROADMAP.md) |
-| `SECURITY.md` | [`include/replication/SECURITY.md`](../../../include/replication/SECURITY.md) |
+## Fuehrende Planungsquellen
 
-### `src/replication/`
+| Datei | Rolle |
+|---|---|
+| `src/replication/FUTURE_ENHANCEMENTS.md` | Zielverhalten und Hardening-Plan |
+| `src/replication/MODULE_GAPS.md` | aktive Restarbeiten und Severity-Last |
+| `src/replication/ROADMAP.md` | Meilensteine und Umsetzungsphasen |
 
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/replication/ARCHITECTURE.md`](../../../src/replication/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/replication/AUDIT.md`](../../../src/replication/AUDIT.md) |
-| `CHANGELOG.md` | [`src/replication/CHANGELOG.md`](../../../src/replication/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/replication/FUTURE_ENHANCEMENTS.md`](../../../src/replication/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/replication/README.md`](../../../src/replication/README.md) |
-| `ROADMAP.md` | [`src/replication/ROADMAP.md`](../../../src/replication/ROADMAP.md) |
-| `SECURITY.md` | [`src/replication/SECURITY.md`](../../../src/replication/SECURITY.md) |
+## Fuehrende Runtime- und Governance-Quellen
+
+| Datei | Rolle |
+|---|---|
+| `src/replication/ARCHITECTURE.md` | Laufzeitdesign der Replikationspfade |
+| `src/replication/SECURITY.md` | Security- und Trust-Restriktionen |
+| `src/replication/AUDIT.md` | Verifikations-Evidenz |
+| `src/replication/PERFORMANCE_EXPECTATIONS.md` | Benchmark- und Latenz-Vertraege |
+| `src/replication/CHANGELOG.md` | Aenderungs-Traceability |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*
+*Aktualisiert im docs-vs-planungs Alignment-Sweep am 2026-05-31.*

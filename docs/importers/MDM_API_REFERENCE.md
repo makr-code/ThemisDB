@@ -1,5 +1,12 @@
 # MDM API Reference
 
+> Alignment note (2026-05-31): This API reference is a secondary convenience document.
+> Authoritative current workload and target behavior are defined in:
+> - `src/importers/FUTURE_ENHANCEMENTS.md`
+> - `src/importers/MODULE_GAPS.md`
+> - `src/importers/ROADMAP.md`
+> If this reference conflicts with newer planning docs, planning docs take precedence.
+
 ## Namespaces
 
 All MDM types live in `themis::importers`.

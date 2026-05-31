@@ -1,26 +1,21 @@
 [docs](../../index.md) > [de](../index.md) > [user_storage_encrypted](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-17  
-**Status:** draft  
+**Datum:** 2026-05-31
+**Status:** current
 **Primary (Quelle der Wahrheit):**
-- `include/user_storage_encrypted/ARCHITECTURE.md`
-- `include/user_storage_encrypted/AUDIT.md`
-- `include/user_storage_encrypted/CHANGELOG.md`
-- `include/user_storage_encrypted/FUTURE_ENHANCEMENTS.md`
-- `include/user_storage_encrypted/README.md`
-- `include/user_storage_encrypted/ROADMAP.md`
-- `include/user_storage_encrypted/SECURITY.md`
-- `src/user_storage_encrypted/ARCHITECTURE.md`
-- `src/user_storage_encrypted/AUDIT.md`
-- `src/user_storage_encrypted/CHANGELOG.md`
-- `src/user_storage_encrypted/FUTURE_ENHANCEMENTS.md`
 - `src/user_storage_encrypted/README.md`
+- `src/user_storage_encrypted/ARCHITECTURE.md`
 - `src/user_storage_encrypted/ROADMAP.md`
+- `src/user_storage_encrypted/FUTURE_ENHANCEMENTS.md`
+- `src/user_storage_encrypted/MODULE_GAPS.md`
 - `src/user_storage_encrypted/SECURITY.md`
+- `src/user_storage_encrypted/AUDIT.md`
+- `src/user_storage_encrypted/PERFORMANCE_EXPECTATIONS.md`
+- `src/user_storage_encrypted/CHANGELOG.md`
 
 **Bezug / Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `user_storage_encrypted`
-
+- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Regel: neuere Planungsdokumente sind fuehrend gegenueber aelteren historischen Dokumenten.
 ---
 
 # Primary Sources — `user_storage_encrypted`

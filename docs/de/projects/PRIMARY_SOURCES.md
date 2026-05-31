@@ -1,20 +1,21 @@
 [docs](../../index.md) > [de](../index.md) > [projects](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-17  
-**Status:** draft  
+**Datum:** 2026-05-31
+**Status:** current
 **Primary (Quelle der Wahrheit):**
-- `include/projects/ARCHITECTURE.md`
-- `include/projects/AUDIT.md`
-- `include/projects/CHANGELOG.md`
-- `include/projects/DocumentManager/README.md`
-- `include/projects/FUTURE_ENHANCEMENTS.md`
-- `include/projects/README.md`
-- `include/projects/ROADMAP.md`
-- `include/projects/SECURITY.md`
+- `src/projects/README.md`
+- `src/projects/ARCHITECTURE.md`
+- `src/projects/ROADMAP.md`
+- `src/projects/FUTURE_ENHANCEMENTS.md`
+- `src/projects/MODULE_GAPS.md`
+- `src/projects/SECURITY.md`
+- `src/projects/AUDIT.md`
+- `src/projects/PERFORMANCE_EXPECTATIONS.md`
+- `src/projects/CHANGELOG.md`
 
 **Bezug / Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `projects`
-
+- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Regel: neuere Planungsdokumente sind fuehrend gegenueber aelteren historischen Dokumenten.
 ---
 
 # Primary Sources — `projects`

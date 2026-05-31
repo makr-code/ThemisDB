@@ -15,6 +15,7 @@
 #include "llm/docs_assistant.h"
 #include "llm/embedded_llm.h"
 #include "llm/llm_plugin_manager.h"
+#include <spdlog/spdlog.h>
 #include <fstream>
 #include <algorithm>
 #include <array>
@@ -454,6 +455,12 @@ std::vector<DocumentEntry> DocsAssistant::searchDocs(const std::string& query, i
 
 std::string DocsAssistant::generateAnswer(const std::string& query, 
                                          const std::vector<DocumentEntry>& context_docs) {
+    spdlog::info(
+        "DocsAssistant::generateAnswer start: query_chars={} context_docs={} model='{}'",
+        query.size(),
+        context_docs.size(),
+        impl_->config.llm_model_id.empty() ? std::string{"default"} : impl_->config.llm_model_id);
+
     // Build a conservative fallback prompt used only when plugin RAG is unavailable.
     std::stringstream fallback_context;
     fallback_context << "# ThemisDB Documentation Context\n\n";
@@ -514,12 +521,31 @@ std::string DocsAssistant::generateAnswer(const std::string& query,
             rag_request.metadata["rag_tensor_slot_chars"] =
                 std::clamp(impl_->config.context_preview_length / 4, 120, 480);
 
+            spdlog::info(
+                "DocsAssistant::generateAnswer plugin-rag dispatch: docs={} rag_mode='{}' tensor_slots={} tensor_slot_chars={} max_context_tokens={} response_budget_tokens={}",
+                rag_context.documents.size(),
+                rag_request.metadata.value("rag_mode", std::string{"text"}),
+                rag_request.metadata.value("rag_tensor_slots", 0),
+                rag_request.metadata.value("rag_tensor_slot_chars", 0),
+                rag_context.max_context_tokens,
+                rag_context.response_budget_tokens);
+
             auto rag_response = LLMPluginManager::instance().generateRAG(rag_context, rag_request);
             if (!rag_response.text.empty()) {
+                spdlog::info(
+                    "DocsAssistant::generateAnswer plugin-rag complete: success=1 answer_chars={} tokens_generated={} inference_time_ms={:.2f}",
+                    rag_response.text.size(),
+                    rag_response.tokens_generated,
+                    rag_response.inference_time_ms);
                 return rag_response.text;
             }
             if (!rag_response.error_message.empty()) {
                 THEMIS_WARN("DocsAssistant plugin RAG failed: {}", rag_response.error_message);
+                spdlog::warn(
+                    "DocsAssistant::generateAnswer plugin-rag failed: error_len={} tokens_generated={} inference_time_ms={:.2f}",
+                    rag_response.error_message.size(),
+                    rag_response.tokens_generated,
+                    rag_response.inference_time_ms);
             }
         }
 
@@ -528,6 +554,9 @@ std::string DocsAssistant::generateAnswer(const std::string& query,
             if (safe_prompt.size() > 6000) {
                 safe_prompt.resize(6000);
             }
+            spdlog::info(
+                "DocsAssistant::generateAnswer fallback: using EmbeddedLLM with prompt_chars={}",
+                safe_prompt.size());
             return THEMIS_LLM_GENERATE(safe_prompt);
         }
 

@@ -1,26 +1,21 @@
 [docs](../../index.md) > [de](../index.md) > [aql](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-17  
-**Status:** draft  
+**Datum:** 2026-05-31
+**Status:** current
 **Primary (Quelle der Wahrheit):**
-- `include/aql/ARCHITECTURE.md`
-- `include/aql/AUDIT.md`
-- `include/aql/CHANGELOG.md`
-- `include/aql/FUTURE_ENHANCEMENTS.md`
-- `include/aql/README.md`
-- `include/aql/ROADMAP.md`
-- `include/aql/SECURITY.md`
-- `src/aql/ARCHITECTURE.md`
-- `src/aql/AUDIT.md`
-- `src/aql/CHANGELOG.md`
-- `src/aql/FUTURE_ENHANCEMENTS.md`
 - `src/aql/README.md`
+- `src/aql/ARCHITECTURE.md`
 - `src/aql/ROADMAP.md`
+- `src/aql/FUTURE_ENHANCEMENTS.md`
+- `src/aql/MODULE_GAPS.md`
 - `src/aql/SECURITY.md`
+- `src/aql/AUDIT.md`
+- `src/aql/PERFORMANCE_EXPECTATIONS.md`
+- `src/aql/CHANGELOG.md`
 
 **Bezug / Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `aql`
-
+- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Regel: neuere Planungsdokumente sind fuehrend gegenueber aelteren historischen Dokumenten.
 ---
 
 # Primary Sources — `aql`

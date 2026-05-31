@@ -1,19 +1,21 @@
 [docs](../../index.md) > [en](../index.md) > [gpu](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-04-17  
-**Status:** draft  
-**Primary Source:**
-- `src/gpu/ARCHITECTURE.md`
-- `src/gpu/AUDIT.md`
-- `src/gpu/CHANGELOG.md`
-- `src/gpu/FUTURE_ENHANCEMENTS.md`
+**Date:** 2026-05-31
+**Status:** current
+**Primary Source (source of truth):**
 - `src/gpu/README.md`
+- `src/gpu/ARCHITECTURE.md`
 - `src/gpu/ROADMAP.md`
+- `src/gpu/FUTURE_ENHANCEMENTS.md`
+- `src/gpu/MODULE_GAPS.md`
 - `src/gpu/SECURITY.md`
+- `src/gpu/AUDIT.md`
+- `src/gpu/PERFORMANCE_EXPECTATIONS.md`
+- `src/gpu/CHANGELOG.md`
 
 **Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Context: Auto-generated index of all primary Markdown files for module `gpu`
-
+- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Policy: newer planning docs are prioritized over older historical docs.
 ---
 
 # Primary Sources — `gpu`

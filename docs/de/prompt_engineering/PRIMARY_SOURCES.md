@@ -1,26 +1,21 @@
 [docs](../../index.md) > [de](../index.md) > [prompt_engineering](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-17  
-**Status:** draft  
+**Datum:** 2026-05-31
+**Status:** current
 **Primary (Quelle der Wahrheit):**
-- `include/prompt_engineering/ARCHITECTURE.md`
-- `include/prompt_engineering/AUDIT.md`
-- `include/prompt_engineering/CHANGELOG.md`
-- `include/prompt_engineering/FUTURE_ENHANCEMENTS.md`
-- `include/prompt_engineering/README.md`
-- `include/prompt_engineering/ROADMAP.md`
-- `include/prompt_engineering/SECURITY.md`
-- `src/prompt_engineering/ARCHITECTURE.md`
-- `src/prompt_engineering/AUDIT.md`
-- `src/prompt_engineering/CHANGELOG.md`
-- `src/prompt_engineering/FUTURE_ENHANCEMENTS.md`
 - `src/prompt_engineering/README.md`
+- `src/prompt_engineering/ARCHITECTURE.md`
 - `src/prompt_engineering/ROADMAP.md`
+- `src/prompt_engineering/FUTURE_ENHANCEMENTS.md`
+- `src/prompt_engineering/MODULE_GAPS.md`
 - `src/prompt_engineering/SECURITY.md`
+- `src/prompt_engineering/AUDIT.md`
+- `src/prompt_engineering/PERFORMANCE_EXPECTATIONS.md`
+- `src/prompt_engineering/CHANGELOG.md`
 
 **Bezug / Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `prompt_engineering`
-
+- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Regel: neuere Planungsdokumente sind fuehrend gegenueber aelteren historischen Dokumenten.
 ---
 
 # Primary Sources — `prompt_engineering`

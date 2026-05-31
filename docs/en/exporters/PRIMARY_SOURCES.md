@@ -1,26 +1,21 @@
 [docs](../../index.md) > [en](../index.md) > [exporters](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-04-17  
-**Status:** draft  
-**Primary Source:**
-- `include/exporters/ARCHITECTURE.md`
-- `include/exporters/AUDIT.md`
-- `include/exporters/CHANGELOG.md`
-- `include/exporters/FUTURE_ENHANCEMENTS.md`
-- `include/exporters/README.md`
-- `include/exporters/ROADMAP.md`
-- `include/exporters/SECURITY.md`
-- `src/exporters/ARCHITECTURE.md`
-- `src/exporters/AUDIT.md`
-- `src/exporters/CHANGELOG.md`
-- `src/exporters/FUTURE_ENHANCEMENTS.md`
+**Date:** 2026-05-31
+**Status:** current
+**Primary Source (source of truth):**
 - `src/exporters/README.md`
+- `src/exporters/ARCHITECTURE.md`
 - `src/exporters/ROADMAP.md`
+- `src/exporters/FUTURE_ENHANCEMENTS.md`
+- `src/exporters/MODULE_GAPS.md`
 - `src/exporters/SECURITY.md`
+- `src/exporters/AUDIT.md`
+- `src/exporters/PERFORMANCE_EXPECTATIONS.md`
+- `src/exporters/CHANGELOG.md`
 
 **Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Context: Auto-generated index of all primary Markdown files for module `exporters`
-
+- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Policy: newer planning docs are prioritized over older historical docs.
 ---
 
 # Primary Sources — `exporters`

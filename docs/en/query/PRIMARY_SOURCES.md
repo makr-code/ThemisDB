@@ -1,25 +1,21 @@
-[docs](../../index.md) > [en](../index.md) > [query](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-04-17  
-**Status:** draft  
-**Primary Source:**
-- `include/query/ARCHITECTURE.md`
-- `include/query/AUDIT.md`
-- `include/query/CHANGELOG.md`
-- `include/query/FUTURE_ENHANCEMENTS.md`
-- `include/query/README.md`
-- `include/query/ROADMAP.md`
-- `include/query/SECURITY.md`
-- `src/query/ARCHITECTURE.md`
-- `src/query/AUDIT.md`
-- `src/query/CHANGELOG.md`
-- `src/query/FUTURE_ENHANCEMENTS.md`
+[docs](../../index.md) > [en](../index.md) > [query](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
+**Date:** 2026-05-31
+**Status:** current
+**Primary Source (source of truth):**
 - `src/query/README.md`
+- `src/query/ARCHITECTURE.md`
 - `src/query/ROADMAP.md`
+- `src/query/FUTURE_ENHANCEMENTS.md`
+- `src/query/MODULE_GAPS.md`
 - `src/query/SECURITY.md`
+- `src/query/AUDIT.md`
+- `src/query/PERFORMANCE_EXPECTATIONS.md`
+- `src/query/CHANGELOG.md`
 
 **Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Context: Auto-generated index of all primary Markdown files for module `query`
+- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Policy: newer planning docs are prioritized over older historical docs.
 
 ---
 

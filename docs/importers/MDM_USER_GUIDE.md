@@ -1,5 +1,12 @@
 # Master Data Management (MDM) User Guide
 
+> Alignment note (2026-05-31): This document is a secondary user/operations guide.
+> Authoritative current workload and target behavior are defined in:
+> - `src/importers/FUTURE_ENHANCEMENTS.md`
+> - `src/importers/MODULE_GAPS.md`
+> - `src/importers/ROADMAP.md`
+> If this guide conflicts with newer planning docs, planning docs take precedence.
+
 ## Overview
 
 ThemisDB's MDM subsystem automatically deduplicates and links imported data with

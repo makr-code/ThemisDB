@@ -1,27 +1,22 @@
-[docs](../../index.md) > [de](../index.md) > [rag](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-17  
-**Status:** draft  
+[docs](../../index.md) > [de](../index.md) > [rag](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
+**Datum:** 2026-05-31
+**Status:** current
 **Primary (Quelle der Wahrheit):**
-- `include/rag/ARCHITECTURE.md`
-- `include/rag/AUDIT.md`
-- `include/rag/CHANGELOG.md`
-- `include/rag/FUTURE_ENHANCEMENTS.md`
-- `include/rag/README.md`
-- `include/rag/ROADMAP.md`
-- `include/rag/SECURITY.md`
-- `src/rag/ARCHITECTURE.md`
-- `src/rag/AUDIT.md`
-- `src/rag/CHANGELOG.md`
-- `src/rag/FUTURE_ENHANCEMENTS.md`
-- `src/rag/QUALITY_CONTROL_README.md`
 - `src/rag/README.md`
+- `src/rag/ARCHITECTURE.md`
 - `src/rag/ROADMAP.md`
+- `src/rag/FUTURE_ENHANCEMENTS.md`
+- `src/rag/MODULE_GAPS.md`
 - `src/rag/SECURITY.md`
-- `src/rag/examples/README.md`
+- `src/rag/AUDIT.md`
+- `src/rag/PERFORMANCE_EXPECTATIONS.md`
+- `src/rag/CHANGELOG.md`
+- `src/rag/QUALITY_CONTROL_README.md`
 
 **Bezug / Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `rag`
+- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Regel: neuere Planungsdokumente sind fuehrend gegenueber aelteren historischen Dokumenten.
 
 ---
 

@@ -1,26 +1,22 @@
 [docs](../../index.md) > [en](../index.md) > [governance](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-04-17  
-**Status:** draft  
-**Primary Source:**
-- `include/governance/ARCHITECTURE.md`
-- `include/governance/AUDIT.md`
-- `include/governance/CHANGELOG.md`
-- `include/governance/FUTURE_ENHANCEMENTS.md`
-- `include/governance/README.md`
-- `include/governance/ROADMAP.md`
-- `include/governance/SECURITY.md`
-- `src/governance/ARCHITECTURE.md`
-- `src/governance/AUDIT.md`
-- `src/governance/CHANGELOG.md`
-- `src/governance/FUTURE_ENHANCEMENTS.md`
+**Date:** 2026-05-31
+**Status:** current
+**Primary Source (source of truth):**
 - `src/governance/README.md`
+- `src/governance/ARCHITECTURE.md`
 - `src/governance/ROADMAP.md`
+- `src/governance/FUTURE_ENHANCEMENTS.md`
+- `src/governance/MODULE_GAPS.md`
 - `src/governance/SECURITY.md`
+- `src/governance/AUDIT.md`
+- `src/governance/PERFORMANCE_EXPECTATIONS.md`
+- `src/governance/CHANGELOG.md`
+- `src/governance/AI_ML_IMPACT_ASSESSMENT.md`
 
 **Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Context: Auto-generated index of all primary Markdown files for module `governance`
-
+- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Policy: newer planning docs are prioritized over older historical docs.
 ---
 
 # Primary Sources — `governance`

@@ -1,69 +1,61 @@
-[docs](../../index.md) > [de](../index.md) > [core](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-17  
-**Status:** draft  
+[docs](../../index.md) > [de](../index.md) > [core](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
+**Datum:** 2026-05-31
+**Status:** current
 **Primary (Quelle der Wahrheit):**
-- `include/core/ARCHITECTURE.md`
-- `include/core/AUDIT.md`
-- `include/core/CHANGELOG.md`
-- `include/core/FUTURE_ENHANCEMENTS.md`
-- `include/core/README.md`
-- `include/core/ROADMAP.md`
-- `include/core/SECURITY.md`
-- `include/core/concerns/CACHE_STRATEGIES_README.md`
-- `include/core/concerns/README.md`
-- `src/core/ARCHITECTURE.md`
-- `src/core/AUDIT.md`
-- `src/core/CHANGELOG.md`
-- `src/core/FUTURE_ENHANCEMENTS.md`
-- `src/core/PRODUCTION_REQUIREMENTS.md`
 - `src/core/README.md`
+- `src/core/ARCHITECTURE.md`
 - `src/core/ROADMAP.md`
+- `src/core/FUTURE_ENHANCEMENTS.md`
+- `src/core/MODULE_GAPS.md`
 - `src/core/SECURITY.md`
+- `src/core/AUDIT.md`
+- `src/core/PERFORMANCE_EXPECTATIONS.md`
+- `src/core/PRODUCTION_REQUIREMENTS.md`
+- `src/core/CHANGELOG.md`
 
 **Bezug / Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `core`
+- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Kontext: Modulabgleich docs gegen Planung, wobei neuere Planungsdokumente hoeher gewichtet werden als alte Reports.
 
 ---
 
-# Primary Sources — `core`
+# Primary Sources - core
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`core`** aus den erkannten Quellverzeichnissen des Moduls.
+Diese Seite definiert, welche `src/core/`-Dokumente fuer Planung und Verhaltensabgleich massgeblich sind.
 
-## Primäre Markdown-Dateien
+## Abgleichsregeln
 
-### `include/core/`
+- Neuere Dokumente sind relevanter als aeltere Dokumente.
+- `FUTURE_ENHANCEMENTS.md` und `MODULE_GAPS.md` bilden den primaeren Workload-Input.
+- Historische Implementierungsreports in `docs/` sind sekundaer, sofern sie nicht juenger und source-verifiziert sind.
 
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`include/core/ARCHITECTURE.md`](../../../include/core/ARCHITECTURE.md) |
-| `AUDIT.md` | [`include/core/AUDIT.md`](../../../include/core/AUDIT.md) |
-| `CHANGELOG.md` | [`include/core/CHANGELOG.md`](../../../include/core/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`include/core/FUTURE_ENHANCEMENTS.md`](../../../include/core/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`include/core/README.md`](../../../include/core/README.md) |
-| `ROADMAP.md` | [`include/core/ROADMAP.md`](../../../include/core/ROADMAP.md) |
-| `SECURITY.md` | [`include/core/SECURITY.md`](../../../include/core/SECURITY.md) |
+## Massgebliche Planungsquellen
 
-### `include/core/concerns/`
+| Datei | Rolle |
+|---|---|
+| `src/core/FUTURE_ENHANCEMENTS.md` | Zielverhalten, Constraints und geplante Schnittstellen |
+| `src/core/MODULE_GAPS.md` | aktueller Gap-Workload und Severity-Snapshot |
+| `src/core/ROADMAP.md` | phasenbezogene Umsetzung und Milestone-Status |
 
-| Datei | Pfad |
-|-------|------|
-| `CACHE_STRATEGIES_README.md` | [`include/core/concerns/CACHE_STRATEGIES_README.md`](../../../include/core/concerns/CACHE_STRATEGIES_README.md) |
-| `README.md` | [`include/core/concerns/README.md`](../../../include/core/concerns/README.md) |
+## Massgebliche Runtime- und Governance-Quellen
 
-### `src/core/`
+| Datei | Rolle |
+|---|---|
+| `src/core/ARCHITECTURE.md` | Laufzeitarchitektur und Abhaengigkeitsgrenzen |
+| `src/core/SECURITY.md` | Security-Kontrollen und Restriktionen |
+| `src/core/AUDIT.md` | Verifikations- und Evidenzstatus |
+| `src/core/PERFORMANCE_EXPECTATIONS.md` | Benchmark-Vertraege und Performance-Gates |
+| `src/core/PRODUCTION_REQUIREMENTS.md` | Produktionsreife-Anforderungen |
+| `src/core/CHANGELOG.md` | Aenderungs-Traceability |
 
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/core/ARCHITECTURE.md`](../../../src/core/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/core/AUDIT.md`](../../../src/core/AUDIT.md) |
-| `CHANGELOG.md` | [`src/core/CHANGELOG.md`](../../../src/core/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/core/FUTURE_ENHANCEMENTS.md`](../../../src/core/FUTURE_ENHANCEMENTS.md) |
-| `PRODUCTION_REQUIREMENTS.md` | [`src/core/PRODUCTION_REQUIREMENTS.md`](../../../src/core/PRODUCTION_REQUIREMENTS.md) |
-| `README.md` | [`src/core/README.md`](../../../src/core/README.md) |
-| `ROADMAP.md` | [`src/core/ROADMAP.md`](../../../src/core/ROADMAP.md) |
-| `SECURITY.md` | [`src/core/SECURITY.md`](../../../src/core/SECURITY.md) |
+## Sekundaere Referenzen (nicht fuehrend)
+
+- `include/core/*`-Markdown-Dateien
+- historische Dokumente unter `docs/` (z. B. archivierte Reports)
+
+Diese Quellen sind Kontext, aber nicht die Fuehrungsquelle fuer den aktuellen Workload-Status.
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*
+*Aktualisiert im docs-vs-planungs Alignment-Sweep am 2026-05-31.*

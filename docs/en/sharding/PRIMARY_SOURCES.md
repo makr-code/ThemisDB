@@ -1,26 +1,21 @@
 [docs](../../index.md) > [en](../index.md) > [sharding](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-04-17  
-**Status:** draft  
-**Primary Source:**
-- `include/sharding/ARCHITECTURE.md`
-- `include/sharding/AUDIT.md`
-- `include/sharding/CHANGELOG.md`
-- `include/sharding/FUTURE_ENHANCEMENTS.md`
-- `include/sharding/README.md`
-- `include/sharding/ROADMAP.md`
-- `include/sharding/SECURITY.md`
-- `src/sharding/ARCHITECTURE.md`
-- `src/sharding/AUDIT.md`
-- `src/sharding/CHANGELOG.md`
-- `src/sharding/FUTURE_ENHANCEMENTS.md`
+**Date:** 2026-05-31
+**Status:** current
+**Primary Source (source of truth):**
 - `src/sharding/README.md`
+- `src/sharding/ARCHITECTURE.md`
 - `src/sharding/ROADMAP.md`
+- `src/sharding/FUTURE_ENHANCEMENTS.md`
+- `src/sharding/MODULE_GAPS.md`
 - `src/sharding/SECURITY.md`
+- `src/sharding/AUDIT.md`
+- `src/sharding/PERFORMANCE_EXPECTATIONS.md`
+- `src/sharding/CHANGELOG.md`
 
 **Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Context: Auto-generated index of all primary Markdown files for module `sharding`
-
+- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Policy: newer planning docs are prioritized over older historical docs.
 ---
 
 # Primary Sources — `sharding`

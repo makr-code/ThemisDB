@@ -1,8 +1,15 @@
 # Replication Readiness Plan (RAID 1/10)
 
+> Alignment note (2026-05-31): This plan is a secondary implementation guide.
+> Authoritative current workload and target behavior are defined in:
+> - `src/replication/FUTURE_ENHANCEMENTS.md`
+> - `src/replication/MODULE_GAPS.md`
+> - `src/replication/ROADMAP.md`
+> Newer planning docs take precedence over historical status summaries.
+
 > **Related Documentation:**
 > - **[replication-ha-guide.md](./replication-ha-guide.md)** - Complete HA/replication guide with deployment topologies
-> - **[REPLICATION_IMPLEMENTATION_STATUS.md](../../reports/REPLICATION_IMPLEMENTATION_STATUS.md)** - Detailed component status (~85% complete)
+> - **[REPLICATION_IMPLEMENTATION_STATUS.md](../../reports/REPLICATION_IMPLEMENTATION_STATUS.md)** - Historical component status snapshot
 
 ## Module Organization
 

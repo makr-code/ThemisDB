@@ -1,22 +1,24 @@
-docs > en > cache > PRIMARY_SOURCES  
-**Date:** 2026-04-17  
-**Status:** draft  
-**Primary Source:**
-- `include/cache/README.md`
-- `src/cache/ARCHITECTURE.md`
-- `src/cache/AUDIT.md`
-- `src/cache/CHANGELOG.md`
-- `src/cache/FUTURE_ENHANCEMENTS.md`
+[docs](../../index.md) > [en](../index.md) > [cache](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
+**Date:** 2026-05-31
+**Status:** current
+**Primary Source (source of truth):**
 - `src/cache/README.md`
+- `src/cache/ARCHITECTURE.md`
 - `src/cache/ROADMAP.md`
+- `src/cache/FUTURE_ENHANCEMENTS.md`
+- `src/cache/MODULE_GAPS.md`
 - `src/cache/SECURITY.md`
-
-> Note: `include/cache/` currently ships only `README.md` as module-level Markdown.
-> Architecture/security/roadmap/audit/changelog docs are maintained in `src/cache/`.
+- `src/cache/AUDIT.md`
+- `src/cache/PERFORMANCE_EXPECTATIONS.md`
+- `src/cache/CHANGELOG.md`
 
 **Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Context: Auto-generated index of all primary Markdown files for module `cache`
+- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Policy: newer planning docs are prioritized over older historical docs.
+
+> Note: `include/cache/` currently ships only `README.md` as module-level Markdown.
+> Authoritative planning and runtime documentation is maintained in `src/cache/`.
 
 ---
 

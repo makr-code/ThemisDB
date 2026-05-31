@@ -1,25 +1,21 @@
-[docs](../../index.md) > [de](../index.md) > [analytics](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-17  
-**Status:** draft  
+[docs](../../index.md) > [de](../index.md) > [analytics](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
+**Datum:** 2026-05-31
+**Status:** current
 **Primary (Quelle der Wahrheit):**
-- `include/analytics/ARCHITECTURE.md`
-- `include/analytics/AUDIT.md`
-- `include/analytics/CHANGELOG.md`
-- `include/analytics/FUTURE_ENHANCEMENTS.md`
-- `include/analytics/README.md`
-- `include/analytics/ROADMAP.md`
-- `include/analytics/SECURITY.md`
-- `src/analytics/ARCHITECTURE.md`
-- `src/analytics/AUDIT.md`
-- `src/analytics/CHANGELOG.md`
-- `src/analytics/FUTURE_ENHANCEMENTS.md`
 - `src/analytics/README.md`
+- `src/analytics/ARCHITECTURE.md`
 - `src/analytics/ROADMAP.md`
+- `src/analytics/FUTURE_ENHANCEMENTS.md`
+- `src/analytics/MODULE_GAPS.md`
 - `src/analytics/SECURITY.md`
+- `src/analytics/AUDIT.md`
+- `src/analytics/PERFORMANCE_EXPECTATIONS.md`
+- `src/analytics/CHANGELOG.md`
 
 **Bezug / Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `analytics`
+- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Regel: neuere Planungsdokumente sind fuehrend gegenueber aelteren historischen Dokumenten.
 
 ---
 
