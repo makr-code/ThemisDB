@@ -49,7 +49,6 @@ Close the next small, production-relevant RAG blocks without reopening broad arc
 - Remaining gaps are now primarily:
   - Package G deeper normalization follow-ups across downstream consumers.
   - Package H cross-component budget consistency hardening.
-  - Package J rollout from the current RAG/llama.cpp slice to remaining LLM-adjacent runtime modules.
   - Live connector regression execution in environments where `127.0.0.1:8765` is reachable.
 
 ## In Progress / Planned Features
@@ -74,7 +73,7 @@ Close the next small, production-relevant RAG blocks without reopening broad arc
 
 - [~] Package J: Console observability and debug traceability for live LLM/RAG execution.
   - [x] Add nachvollziehbare console logs for request ingress, budget normalization, retrieval preparation, context assembly, and final llama.cpp dispatch in the main RAG runtime path.
-  - [~] Extend the same structured console logging style to remaining LLM-adjacent runtime modules so execution state is consistently visible across modules (step 2 complete for plugin manager/docs assistant/ingestion bridge; step 3 complete for streaming handler + async streaming lifecycle, plus non-stream OpenAI and async submit lifecycle).
+  - [x] Extend the same structured console logging style to remaining LLM-adjacent runtime modules so execution state is consistently visible across modules (step 2 complete for plugin manager/docs assistant/ingestion bridge; step 3 complete for streaming handler + async streaming lifecycle, plus non-stream OpenAI and async submit lifecycle; compact assertion closeout run green).
   - [x] Add/refresh focused assertions for non-functional logging expectations only where stable and low-noise; keep functional assertions as the primary guard.
   - Primary files: `src/server/http_server.cpp`, `src/server/llm_api_handler.cpp`, `src/rag/rag_context_assembler.cpp`, `src/rag/adaptive_retrieval.cpp`, `src/rag/multi_step_rag.cpp`, `src/llama_cpp/llama_cpp_plugin.cpp`, `src/llm/llm_plugin_manager.cpp`, `src/llm/docs_assistant.cpp`, `src/rag/rag_ingestion_bridge.cpp`, `src/llm/async_inference_engine.cpp`.
 
