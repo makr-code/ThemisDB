@@ -1,9 +1,27 @@
 /*
- * ThemisDB | File: concerns_context.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=13; TODO=1, Stub=11, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=121, M=2, L=0
+ * ThemisDB | File: concerns_context.cpp | Version: 0.0.1 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 470
+ * Gap Summary: total=10; TODO=0, Stub=10, Unimpl=0, Mock=0, Sim=0, Debt=0, C=0, H=20, M=0, L=0
+ * PR History (last 5): #5118 docs(core): rebaseline PROD... (2026-05-13) | #4379 [WIP] Update module documen... (2026-03-22) | #3039 feat(core): Jaeger/Zipkin t... (2026-03-12) | #2844 feat(core): add Prometheus ... (2026-03-12) | #2843 feat(core): implement OpenT... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+/**
+ * @file concerns_context.cpp
+ * @brief Builds the core concerns context used by logging, tracing, metrics,
+ *        caching, secrets, and adapter wiring.
+ *
+ * This file acts as the central composition root for core concern providers.
+ * It validates the runtime configuration, selects production or fallback
+ * adapters, and assembles the shared context object used throughout the core
+ * runtime layer.
+ *
+ * Failure behavior:
+ * - Invalid configuration raises std::runtime_error with validation details.
+ * - Missing or unsupported adapter settings fail closed during context build.
+ * - The file intentionally keeps the composition logic centralized so module
+ *   gaps can be audited against a single entry point.
  */
 
 #include "core/concerns/concerns_context.h"

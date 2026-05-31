@@ -122,6 +122,52 @@ std::string formatTimePoint(std::chrono::system_clock::time_point tp) {
     oss << std::put_time(&tm_buf, "%Y-%m-%dT%H:%M:%SZ");
     return oss.str();
 }
+
+template <typename Fn>
+bool deliverPhase2WithRetry(
+    Fn&&               deliver_fn,
+    const char*        bridge_name,
+    const std::string& node_id,
+    const std::string& txn_id,
+    const std::string& coordinator_id,
+    bool               do_commit)
+{
+    constexpr size_t kMaxDeliveryAttempts = 2;
+
+    for (size_t attempt = 1; attempt <= kMaxDeliveryAttempts; ++attempt) {
+        try {
+            if (deliver_fn()) {
+                return true;
+            }
+
+            if (attempt < kMaxDeliveryAttempts) {
+                THEMIS_WARN("2PC {} {} returned failure for node={} txn={} coordinator={} on "
+                            "attempt {}/{} — retrying",
+                            bridge_name, do_commit ? "COMMIT" : "ABORT", node_id, txn_id,
+                            coordinator_id, attempt, kMaxDeliveryAttempts);
+            } else {
+                THEMIS_ERROR("2PC {} {} returned failure for node={} txn={} coordinator={} on "
+                             "final attempt {}/{}",
+                             bridge_name, do_commit ? "COMMIT" : "ABORT", node_id, txn_id,
+                             coordinator_id, attempt, kMaxDeliveryAttempts);
+            }
+        } catch (const std::exception& ex) {
+            if (attempt < kMaxDeliveryAttempts) {
+                THEMIS_WARN("2PC {} {} threw for node={} txn={} coordinator={} on attempt {}/{}: "
+                            "{} — retrying",
+                            bridge_name, do_commit ? "COMMIT" : "ABORT", node_id, txn_id,
+                            coordinator_id, attempt, kMaxDeliveryAttempts, ex.what());
+            } else {
+                THEMIS_ERROR("2PC {} {} threw for node={} txn={} coordinator={} on final attempt "
+                             "{}/{}: {}",
+                             bridge_name, do_commit ? "COMMIT" : "ABORT", node_id, txn_id,
+                             coordinator_id, attempt, kMaxDeliveryAttempts, ex.what());
+            }
+        }
+    }
+
+    return false;
+}
 } // anonymous namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -852,6 +898,16 @@ bool DistributedTransactionManager::runPhase1Unlocked(const TransactionId& txn_i
                 continue;
             }
 
+            if (!isParticipantAlive(nid)) {
+                THEMIS_WARN("DistributedTransactionManager [{}] txn={} participant {} failed "
+                            "liveness check before Phase-1 PREPARE; voting ABORT",
+                            coordinator_id_, txn_id, nid);
+                futures.push_back(submitTask([nid]() -> VoteResult {
+                    return {nid, true, /*can_commit=*/false};
+                }));
+                continue;
+            }
+
             // Phase-1 RPC bridge — three layers of injection mirroring Phase-2.
             // Preference order: phase1_rpc_fn > remote_phase1_dispatch > static RpcPhase1Fn.
             if (config_.phase1_rpc_fn) {
@@ -1053,14 +1109,12 @@ bool DistributedTransactionManager::runPhase2Unlocked(
             if (config_.phase2_rpc_fn) {
                 auto rpc_fn = *config_.phase2_rpc_fn;
                 futures.push_back(submitTask([rpc_fn, ep, nid, tid, cid, dc]() {
-                    try {
-                        rpc_fn(ep, tid, dc);
-                        return true;
-                    } catch (const std::exception& ex) {
-                        THEMIS_ERROR("2PC Phase-2 RPC {} threw for node={} txn={} coordinator={}: {}",
-                                     dc ? "COMMIT" : "ABORT", nid, tid, cid, ex.what());
-                        return false;
-                    }
+                    return deliverPhase2WithRetry(
+                        [&]() {
+                            rpc_fn(ep, tid, dc);
+                            return true;
+                        },
+                        "Phase-2 RPC", nid, tid, cid, dc);
                 }));
                 continue;
             }
@@ -1068,32 +1122,23 @@ bool DistributedTransactionManager::runPhase2Unlocked(
             if (config_.remote_phase2_dispatch) {
                 auto remote_dispatch = config_.remote_phase2_dispatch;
                 futures.push_back(submitTask([remote_dispatch, ep, nid, tid, cid, dc]() {
-                    try {
-                        const bool delivered = remote_dispatch(tid, nid, ep, dc);
-                        if (!delivered) {
-                            THEMIS_ERROR("2PC remote_phase2_dispatch {} returned false for node={} txn={} coordinator={}",
-                                         dc ? "COMMIT" : "ABORT", nid, tid, cid);
-                        }
-                        return delivered;
-                    } catch (const std::exception& ex) {
-                        THEMIS_ERROR("2PC remote_phase2_dispatch {} threw for node={} txn={} coordinator={}: {}",
-                                     dc ? "COMMIT" : "ABORT", nid, tid, cid, ex.what());
-                        return false;
-                    }
+                    return deliverPhase2WithRetry(
+                        [&]() {
+                            return remote_dispatch(tid, nid, ep, dc);
+                        },
+                        "remote_phase2_dispatch", nid, tid, cid, dc);
                 }));
                 continue;
             }
 
             if (auto legacy_rpc_fn = getRpcPhase2Fn()) {
                 futures.push_back(submitTask([legacy_rpc_fn, ep, nid, tid, cid, dc]() {
-                    try {
-                        legacy_rpc_fn(ep, tid, dc);
-                        return true;
-                    } catch (const std::exception& ex) {
-                        THEMIS_ERROR("2PC legacy Phase-2 RPC {} threw for node={} txn={} coordinator={}: {}",
-                                     dc ? "COMMIT" : "ABORT", nid, tid, cid, ex.what());
-                        return false;
-                    }
+                    return deliverPhase2WithRetry(
+                        [&]() {
+                            legacy_rpc_fn(ep, tid, dc);
+                            return true;
+                        },
+                        "legacy Phase-2 RPC", nid, tid, cid, dc);
                 }));
                 continue;
             }

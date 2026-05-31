@@ -1,4 +1,4 @@
-> **Status:** 2026-05-13 – mit aktuellem Core-Code (`production_mode.h`, `security_initialization.cpp`, `concerns_context.cpp`) abgeglichen.
+> **Status:** 2026-05-31 – mit aktuellem Core-Code (`production_mode.h`, `security_initialization.cpp`, `concerns_context.cpp`) abgeglichen.
 
 # ThemisDB Core Module - Production Requirements
 
@@ -35,6 +35,8 @@ Bei aktivem Produktionsmodus gilt:
 Zusätzliche Betriebsbedingung:
 
 - **HSM:** nur erlaubt, wenn `THEMIS_HSM_ENABLED=1` gesetzt ist
+- **HSM:** `library_path` muss auf eine existierende reguläre Datei zeigen
+- **HSM:** `slot_id` muss numerisch parsebar und im `uint32_t`-Bereich sein
 
 ### 2) ConcernsContext
 
@@ -63,12 +65,7 @@ Bei aktivem Produktionsmodus gilt:
 
 ## Review / Sourcecode-Audit-Nachweis
 
-**Review- und Audit-Status (Issue: „[Docs][Module] core - PRODUCTION_REQUIREMENTS.md aktualisieren")**
-
-- [x] Fachreview durchgeführt (Dokumentabgleich gegen aktuelle Modulquellen)
-- [x] Sourcecode-/Dokumentationsaudit durchgeführt
-- [x] Ergebnis verlinkt
-- [x] Betroffene Dateien im Review festgehalten
+Die folgenden Nachweise dokumentieren den durchgefuehrten Fachreview und Sourcecode-Abgleich fuer dieses Dokument.
 
 ### Review-/Audit-Ergebnis (verlinkte Nachweise)
 

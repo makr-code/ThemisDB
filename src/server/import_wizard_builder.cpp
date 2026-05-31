@@ -25,7 +25,9 @@ std::string buildImportWizardHtml() {
     // No external CDN dependencies – all assets are embedded here so the
     // wizard works in air-gapped environments.
     std::string html;
-    html.reserve(24 * 1024);
+        // Large single-pass builder with many concatenations: reserve generously
+        // to reduce repeated reallocations/copies during assembly.
+        html.reserve(96 * 1024);
 
     // ---- <head> ----
     html += "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n";

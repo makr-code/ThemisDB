@@ -1,137 +1,233 @@
-# whisper Module — Implementation Gap Analysis
+# whisper Module - Developer Gap Note
 
-**Status:** ✅ Remediated (2026-05-19)  
-**Last Updated:** 2026-05-19  
-**Scan Reference:** `ai_working/gap_scan_whisper.json` + `ai_working/gap_scan_v3_whisper.json`
+> Auto-generated from ai_working/gap_scan_v3_aggregate.json.
+> This file is overwritten on each regeneration.
 
----
+## Scan Snapshot
 
-## 📊 Gap Summary
+- Module: whisper
+- Generated: 2026-05-31 08:50:11
+- Status: Critical Findings Present
+- Total Findings: 40
+- Actionable Findings (Critical + High): 28
+- Affected Files: 5
 
-| Severity | Count | Status |
-|----------|-------|--------|
-| 🔴 CRITICAL | 1 | ✅ Fixed |
-| 🟠 HIGH | 3 | ✅ Fixed |
-| 🟡 MEDIUM | 2 | ✅ Fixed |
-| **TOTAL** | **6** | ✅ All remediated |
+## Severity Summary
 
----
+| Severity | Count |
+|---|---:|
+| Critical | 2 |
+| High | 26 |
+| Medium | 12 |
+| Low | 0 |
 
-## ✅ Remediated Gaps
+## Category Summary
 
-### CRITICAL — Data Race on `vad_` / `vad_cfg_` (whisper_plugin.cpp)
+| Category | Count |
+|---|---:|
+| reliability | 16 |
+| raii | 8 |
+| performance_patterns | 7 |
+| container | 3 |
+| memory | 3 |
+| concurrency | 1 |
+| exception_safety | 1 |
+| performance | 1 |
 
-**Root cause:** `setVoiceActivityDetector()` and `applyVad()` accessed `vad_` and `vad_cfg_`
-from multiple threads without synchronization, leading to a data race.
+## File Overview
 
-**Fix:** Added `vad_mutex_` (declared `mutable std::mutex` in `whisper_plugin.h`) and
-locked it in both `setVoiceActivityDetector()` and `applyVad()`. The external `vad_`
-null-check in `transcribeStream()` was moved inside `applyVad()` to keep the entire
-read/use sequence atomic.
+| File | Findings | Critical | High | Medium | Low |
+|---|---:|---:|---:|---:|---:|
+| src/whisper/audio_chunk_reader.cpp | 24 | 0 | 17 | 7 | 0 |
+| src/whisper/whisper_plugin.cpp | 10 | 2 | 7 | 1 | 0 |
+| src/whisper/tests/test_whisper_plugin.cpp | 4 | 0 | 1 | 3 | 0 |
+| src/whisper/whisper_plugin_registrar.cpp | 1 | 0 | 1 | 0 | 0 |
+| src/whisper/whisper_transcriber.cpp | 1 | 0 | 0 | 1 | 0 |
 
-**Files changed:**
-- `include/whisper/whisper_plugin.h` — added `vad_mutex_`
-- `src/whisper/whisper_plugin.cpp` — locked `vad_mutex_` in `setVoiceActivityDetector()` and `applyVad()`
+## Full Scanner Findings
 
----
+### src/whisper/audio_chunk_reader.cpp
+Total findings: 24
 
-### HIGH — Division-by-Zero when `num_channels == 0` in `parseWav()` (audio_chunk_reader.cpp)
+- Line 66: severity=HIGH; category=uncaught_exception
+  Description: Exception thrown without try/catch context
+  Remediation: Wrap throwing code in try/catch or add proper error handling
+  Context: throw std::runtime_error("WavAudioChunkReader: cannot open '" + path + "'");
+- Line 70: severity=HIGH; category=uncaught_exception
+  Description: Exception thrown without try/catch context
+  Remediation: Wrap throwing code in try/catch or add proper error handling
+  Context: throw std::runtime_error("WavAudioChunkReader: file too small to be a WAV: '" + path + "'");
+- Line 88: severity=HIGH; category=uncaught_exception
+  Description: Exception thrown without try/catch context
+  Remediation: Wrap throwing code in try/catch or add proper error handling
+  Context: throw std::runtime_error("WavAudioChunkReader: not a valid RIFF/WAV file");
+- Line 110: severity=HIGH; category=uncaught_exception
+  Description: Exception thrown without try/catch context
+  Remediation: Wrap throwing code in try/catch or add proper error handling
+  Context: if (!found_fmt) throw std::runtime_error("WavAudioChunkReader: 'data' chunk before 'fmt '");
+- Line 115: severity=HIGH; category=uncaught_exception
+  Description: Exception thrown without try/catch context
+  Remediation: Wrap throwing code in try/catch or add proper error handling
+  Context: throw std::runtime_error("WavAudioChunkReader: invalid WAV — num_channels is 0");
+- Line 119: severity=HIGH; category=uncaught_exception
+  Description: Exception thrown without try/catch context
+  Remediation: Wrap throwing code in try/catch or add proper error handling
+  Context: throw std::runtime_error(
+- Line 140: severity=HIGH; category=pointer_arithmetic
+  Description: Pointer/array access without bounds validation
+  Remediation: Add bounds check before dereferencing
+  Context: std::memcpy(&s, &data[data_start + (i * num_channels + ch) * 4], 4);
+- Line 155: severity=HIGH; category=pointer_arithmetic
+  Description: Pointer/array access without bounds validation
+  Remediation: Add bounds check before dereferencing
+  Context: std::memcpy(&sample, &data[data_start + (i * num_channels + ch) * 2], 2);
+- Line 162: severity=HIGH; category=uncaught_exception
+  Description: Exception thrown without try/catch context
+  Remediation: Wrap throwing code in try/catch or add proper error handling
+  Context: throw std::runtime_error(
+- Line 172: severity=HIGH; category=uncaught_exception
+  Description: Exception thrown without try/catch context
+  Remediation: Wrap throwing code in try/catch or add proper error handling
+  Context: throw std::runtime_error("WavAudioChunkReader: 'data' chunk not found");
+- Line 195: severity=HIGH; category=uncaught_exception
+  Description: Exception thrown without try/catch context
+  Remediation: Wrap throwing code in try/catch or add proper error handling
+  Context: throw std::runtime_error("FfmpegAudioChunkReader: path contains NUL byte");
+- Line 221: severity=HIGH; category=uncaught_exception
+  Description: Exception thrown without try/catch context
+  Remediation: Wrap throwing code in try/catch or add proper error handling
+  Context: throw std::runtime_error("FfmpegAudioChunkReader: ffmpeg not available");
+- Line 228: severity=HIGH; category=uncaught_exception
+  Description: Exception thrown without try/catch context
+  Remediation: Wrap throwing code in try/catch or add proper error handling
+  Context: throw std::runtime_error("FfmpegAudioChunkReader: ffmpeg not available");
+- Line 240: severity=HIGH; category=uncaught_exception
+  Description: Exception thrown without try/catch context
+  Remediation: Wrap throwing code in try/catch or add proper error handling
+  Context: throw std::runtime_error(
+- Line 253: severity=HIGH; category=uncaught_exception
+  Description: Exception thrown without try/catch context
+  Remediation: Wrap throwing code in try/catch or add proper error handling
+  Context: throw std::runtime_error(
+- Line 265: severity=HIGH; category=uncaught_exception
+  Description: Exception thrown without try/catch context
+  Remediation: Wrap throwing code in try/catch or add proper error handling
+  Context: throw std::runtime_error(
+- Line 294: severity=HIGH; category=uncaught_exception
+  Description: Exception thrown without try/catch context
+  Remediation: Wrap throwing code in try/catch or add proper error handling
+  Context: throw std::runtime_error(
+- Line 143: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: out.push_back(sum / static_cast<float>(num_channels));
+- Line 157: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+  Description: vector::push_back in loop without prior reserve()
+  Context: out.push_back(sum / static_cast<float>(num_channels));
+  Confidence: band=high; score=0.74
+- Line 157: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+  Description: vector::push_back in loop without prior reserve()
+  Context: out.push_back(sum / static_cast<float>(num_channels));
+  Confidence: band=high; score=0.74
+- Line 158: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: out.push_back(sum / static_cast<float>(num_channels));
+- Line 200: severity=MEDIUM; category=performance; pattern=string_concat_loop
+  Description: String concatenation in loop (use std::stringstream)
+  Context: result += '\'';
+  Confidence: band=high; score=0.74
+- Line 203: severity=MEDIUM; category=performance; pattern=string_concat_loop
+  Description: String concatenation in loop (use std::stringstream)
+  Context: result += "'\\''";
+  Confidence: band=high; score=0.74
+- Line 204: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
+  Context: result += "'\\''";
 
-**Root cause:** `parseWav()` used `num_channels` as a divisor and loop bound immediately
-after reading it from the fmt chunk without checking it was non-zero.
+### src/whisper/whisper_plugin.cpp
+Total findings: 10
 
-**Fix:** Added explicit `num_channels == 0` check that throws `std::runtime_error` before
-the data chunk processing begins. Also added an upper-bound guard (`num_channels > 64`)
-to reject unreasonably large values that could cause runaway memory allocation.
+- Line 232: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Protect shared data with std::lock_guard or std::unique_lock
+  Context: const auto segments = vad_->detect(pcm, sample_rate, vad_cfg_);
+- Line 275: severity=CRITICAL; category=smart_ptr_misuse
+  Description: Raw new without immediate wrapping in smart pointer
+  Remediation: Use auto ptr = std::make_unique<T>(...);
+  Context: return new themis::whisper::WhisperPlugin();
+- Line 27: severity=HIGH; category=no_retry_logic
+  Description: grpc_call without retry logic — transient failures will propagate
+  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
+  Context: s_stub_transcriber_factory_fn = std::move(fn);
+- Line 92: severity=HIGH; category=db_connection_leak
+  Description: Resource acquired but not released — potential leak
+  Remediation: Ensure all acquire() calls are matched with release() in all code paths
+  Context: if (!initialized_.load(std::memory_order_acquire)) {
+- Line 131: severity=HIGH; category=db_connection_leak
+  Description: Resource acquired but not released — potential leak
+  Remediation: Ensure all acquire() calls are matched with release() in all code paths
+  Context: if (!initialized_.load(std::memory_order_acquire)) {
+- Line 159: severity=HIGH; category=db_connection_leak
+  Description: Resource acquired but not released — potential leak
+  Remediation: Ensure all acquire() calls are matched with release() in all code paths
+  Context: if (!initialized_.load(std::memory_order_acquire)) return {};
+- Line 179: severity=HIGH; category=db_connection_leak
+  Description: Resource acquired but not released — potential leak
+  Remediation: Ensure all acquire() calls are matched with release() in all code paths
+  Context: if (!initialized_.load(std::memory_order_acquire)) {
+- Line 261: severity=HIGH; category=db_connection_leak
+  Description: Resource acquired but not released — potential leak
+  Remediation: Ensure all acquire() calls are matched with release() in all code paths
+  Context: {"initialized",        initialized_.load(std::memory_order_acquire)},
+- Line 280: severity=HIGH; category=delete_no_nullptr
+  Description: Delete without nullifying pointer — use-after-free risk
+  Remediation: After delete: p = nullptr;
+  Context: delete p;  // delete nullptr is well-defined; ownership transferred to this function
+- Line 280: severity=MEDIUM; category=manual_cleanup
+  Description: Manual cleanup outside exception handler — not exception-safe
+  Remediation: Use RAII or smart pointers for automatic cleanup in all exception paths
+  Context: delete p;  // delete nullptr is well-defined; ownership transferred to this function
 
-**Files changed:**
-- `src/whisper/audio_chunk_reader.cpp` — bounds guard before the decode loops
+### src/whisper/tests/test_whisper_plugin.cpp
+Total findings: 4
 
----
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 440: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+  Description: vector::push_back in loop without prior reserve()
+  Context: threads.emplace_back([&p]() {
+  Confidence: band=high; score=0.74
+- Line 464: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+  Description: vector::push_back in loop without prior reserve()
+  Context: threads.emplace_back([&p]() {
+  Confidence: band=high; score=0.74
+- Line 488: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+  Description: vector::push_back in loop without prior reserve()
+  Context: threads.emplace_back([&p]() {
+  Confidence: band=high; score=0.74
 
-### HIGH — Pointer Arithmetic Without Validated Bounds in `parseWav()` (audio_chunk_reader.cpp)
+### src/whisper/whisper_plugin_registrar.cpp
+Total findings: 1
 
-**Root cause:** The `memcpy` expressions `data[data_start + (i * num_channels + ch) * N]`
-could access beyond the buffer if `num_channels` was 0 or excessively large.
+- Line 92: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Use .at() for bounds checking or initialize element first
+  Context: return [](WhisperPlugin& plugin, const json& config) -> bool {
 
-**Fix:** Covered by the `num_channels` range guard above.
+### src/whisper/whisper_transcriber.cpp
+Total findings: 1
 
-**Files changed:**
-- `src/whisper/audio_chunk_reader.cpp` (same fix as above)
+- Line 32: severity=MEDIUM; category=manual_cleanup
+  Description: Manual cleanup outside exception handler — not exception-safe
+  Remediation: Use RAII or smart pointers for automatic cleanup in all exception paths
+  Context: whisper_free(static_cast<whisper_context*>(ctx_));
 
----
+## Update Workflow
 
-### HIGH — Raw `delete` Without Null-Safety Note in C-API Destroy Function (whisper_plugin.cpp)
+- Refresh scan artifacts with: python tools/gap_scanner_v3.py
+- Regenerate all module notes with: python tools/module_doc_generator.py . ai_working ai_working/module_gaps
+- The generator mirrors each archive document directly into src/<module>/MODULE_GAPS.md.
 
-**Root cause:** The C ABI `themis_audio_destroy()` called `delete p` without any
-indication that null-safety was considered.
-
-**Fix:** Added a clarifying comment documenting that `delete nullptr` is well-defined in
-C++ and that ownership is transferred to this function.
-
-**Files changed:**
-- `src/whisper/whisper_plugin.cpp` — added ownership-transfer comment
-
----
-
-### MEDIUM — Explicit `f.close()` RAII Violation in `WavAudioChunkReader::readFile()` (audio_chunk_reader.cpp)
-
-**Root cause:** `std::ifstream::close()` was called manually, which is redundant and
-potentially inconsistent (the destructor already closes the file, so the explicit call
-only matters if exception safety was intended but not achieved).
-
-**Fix:** Removed the explicit `f.close()` call. The stream now closes automatically when
-it goes out of scope, which is the correct RAII pattern.
-
-**Files changed:**
-- `src/whisper/audio_chunk_reader.cpp`
-
----
-
-### MEDIUM — O(n²) String Concatenation in `shellEscape()` (audio_chunk_reader.cpp)
-
-**Root cause:** `shellEscape()` built the escaped string with `operator+=` in a loop
-starting from a string-literal `"'"`, triggering reallocation on every append when many
-single-quote characters were present.
-
-**Fix:** Pre-computed the worst-case capacity and called `reserve()` before the loop,
-bounding the memory cost to O(n) instead of O(n²).
-
-**Files changed:**
-- `src/whisper/audio_chunk_reader.cpp`
-
----
-
-## 🧪 Regression Tests Added
-
-Test groups added to `src/whisper/tests/test_whisper_plugin.cpp`:
-
-| Group | Tests | Coverage |
-|-------|-------|----------|
-| R | R1, R2 | VAD thread-safety: concurrent set+transcribe, post-transcribe set |
-| S | S1, S2, S3 | WAV parser: zero channels throws, excessive channels throws, 64-channel boundary accepted |
-
----
-
-## 📚 Files Changed
-
-| File | Change |
-|------|--------|
-| `include/whisper/whisper_plugin.h` | Added `vad_mutex_` |
-| `src/whisper/whisper_plugin.cpp` | VAD locking, RAII-aware VAD call, destroy comment |
-| `src/whisper/audio_chunk_reader.cpp` | Channel guard, RAII f.close removal, reserve() |
-| `src/whisper/tests/test_whisper_plugin.cpp` | Groups R (2 tests) and S (3 tests) |
-
----
-
-## 🔄 How to Re-scan
-
-```bash
-python tools/gap_audit_pipeline_v2.py
-python tools/auto_gap_categorizer.py ai_working/gap_scan_v3_aggregate.json --module whisper
-```
-
----
-
-**Format:** THEMIS_MODULE_GAPS_v1  
-**Last Remediation:** 2026-05-19 by copilot/gap-remediation-whisper
+Format: THEMIS_MODULE_GAPS_V3

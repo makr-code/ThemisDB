@@ -342,4 +342,13 @@ TEST(QUICClientTest, VerifyTlsDisabledLogsVerifyNoneFallback) {
     spdlog::set_level(previous_level);
 }
 
+TEST(QUICClientTest, InvalidCongestionControlRejectedBeforeConnect) {
+    QUICClient::Config cfg;
+    cfg.congestion_control = "reno";
+
+    QUICClient client("quic://127.0.0.1:8769", cfg);
+    EXPECT_THROW(client.connect(), std::runtime_error);
+    EXPECT_FALSE(client.isConnected());
+}
+
 #endif  // THEMIS_ENABLE_HTTP3

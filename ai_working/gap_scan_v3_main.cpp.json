@@ -1,689 +1,27 @@
 {
   "main.cpp": {
-    "total": 74,
+    "total": 12,
     "severity_critical": 3,
-    "severity_high": 65,
-    "severity_medium": 6,
+    "severity_high": 5,
+    "severity_medium": 4,
     "by_category": {
-      "uninitialized": 9,
-      "oop_design": 50,
       "audit_logging": 5,
       "performance_patterns": 4,
-      "llm_ai_safety": 3,
-      "observability": 3
+      "llm_ai_safety": 3
     },
     "by_file": {
       "src\\main.cpp": [
         {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 88,
-          "var_name": "cfg",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 90,
-          "var_name": "cfg",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 96,
-          "var_name": "cfg",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 129,
-          "var_name": "entity",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 155,
-          "var_name": "entity",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 255,
-          "var_name": "vec",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 256,
-          "var_name": "vec",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 316,
-          "var_name": "i",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 395,
-          "var_name": "user_456",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 52,
-          "class_name": "Unknown",
-          "function_name": "for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 59,
-          "class_name": "Unknown",
-          "function_name": "for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 64,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 71,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 85,
-          "class_name": "Unknown",
-          "function_name": "print_usage",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 95,
-          "class_name": "Unknown",
-          "function_name": "init",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 142,
-          "class_name": "Unknown",
-          "function_name": "THEMIS_INFO",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 143,
-          "class_name": "Unknown",
-          "function_name": "THEMIS_INFO",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 145,
-          "class_name": "Unknown",
-          "function_name": "THEMIS_INFO",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 149,
-          "class_name": "Unknown",
-          "function_name": "string",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 151,
-          "class_name": "Unknown",
-          "function_name": "string",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 163,
-          "class_name": "Unknown",
-          "function_name": "THEMIS_INFO",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 179,
-          "class_name": "Unknown",
-          "function_name": "THEMIS_INFO",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 180,
-          "class_name": "Unknown",
-          "function_name": "THEMIS_INFO",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 181,
-          "class_name": "Unknown",
-          "function_name": "THEMIS_INFO",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 182,
-          "class_name": "Unknown",
-          "function_name": "THEMIS_INFO",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 184,
-          "class_name": "Unknown",
-          "function_name": "THEMIS_INFO",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 185,
-          "class_name": "Unknown",
-          "function_name": "THEMIS_INFO",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 197,
-          "class_name": "Unknown",
-          "function_name": "THEMIS_INFO",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 198,
-          "class_name": "Unknown",
-          "function_name": "put",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 199,
-          "class_name": "Unknown",
-          "function_name": "edge",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 200,
-          "class_name": "Unknown",
-          "function_name": "edge",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 203,
-          "class_name": "Unknown",
-          "function_name": "THEMIS_INFO",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 234,
-          "class_name": "Unknown",
-          "function_name": "THEMIS_INFO",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 235,
-          "class_name": "Unknown",
-          "function_name": "THEMIS_INFO",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 236,
-          "class_name": "Unknown",
-          "function_name": "THEMIS_INFO",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 243,
-          "class_name": "Unknown",
-          "function_name": "string",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 244,
-          "class_name": "Unknown",
-          "function_name": "string",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 252,
-          "class_name": "Unknown",
-          "function_name": "fromFields",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 262,
-          "class_name": "Unknown",
-          "function_name": "deserialize",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 263,
-          "class_name": "Unknown",
-          "function_name": "extractVector",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 264,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 268,
-          "class_name": "Unknown",
-          "function_name": "string",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 269,
-          "class_name": "Unknown",
-          "function_name": "string",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 285,
-          "class_name": "Unknown",
-          "function_name": "THEMIS_INFO",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 286,
-          "class_name": "Unknown",
-          "function_name": "idxm",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 288,
-          "class_name": "Unknown",
-          "function_name": "createIndex",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 290,
-          "class_name": "Unknown",
-          "function_name": "createIndex",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 368,
-          "class_name": "Unknown",
-          "function_name": "Index",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 370,
-          "class_name": "Unknown",
-          "function_name": "THEMIS_INFO",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 397,
-          "class_name": "Unknown",
-          "function_name": "THEMIS_INFO",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 398,
-          "class_name": "Unknown",
-          "function_name": "THEMIS_INFO",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 400,
-          "class_name": "Unknown",
-          "function_name": "gidx",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 401,
-          "class_name": "Unknown",
-          "function_name": "vidx",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 407,
-          "class_name": "Unknown",
-          "function_name": "string",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 408,
-          "class_name": "Unknown",
-          "function_name": "string",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 409,
-          "class_name": "Unknown",
-          "function_name": "int64_t",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 410,
-          "class_name": "Unknown",
-          "function_name": "string",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 411,
-          "class_name": "Unknown",
-          "function_name": "fromFields",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\main.cpp",
-          "line_number": 437,
-          "class_name": "Unknown",
-          "function_name": "THEMIS_INFO",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
           "file": "src\\main.cpp",
-          "line": 37,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "std::cout << \"Usage: \" << prog << \" [options]\\n\""
-        },
-        {
-          "file": "src\\main.cpp",
-          "line": 54,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "std::cout << THEMIS_VERSION_STRING << std::endl;"
-        },
-        {
-          "file": "src\\main.cpp",
-          "line": 56,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "std::cout << \"unknown\" << std::endl;"
-        },
-        {
-          "file": "src\\main.cpp",
-          "line": 439,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "std::cout << \"\\n=== Demo completed successfully! ===\" << std::endl;"
-        },
-        {
-          "file": "src\\main.cpp",
-          "line": 440,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "std::cout << \"Check vccdb.log for detailed logs\" << std::endl;"
-        },
-        {
-          "file": "src\\main.cpp",
-          "line": 315,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "string_concat_loop",
-          "description": "String concatenation in loop (use std::stringstream)",
-          "context": "if (i) path += \" -> \";"
-        },
-        {
-          "file": "src\\main.cpp",
-          "line": 315,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "string_concat_loop",
-          "description": "String concatenation in loop (use std::stringstream)",
-          "context": "if (i) path += \" -> \";"
-        },
-        {
-          "file": "src\\main.cpp",
-          "line": 342,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "string_concat_loop",
-          "description": "String concatenation in loop (use std::stringstream)",
-          "context": "if (i) orderStr += \", \";"
-        },
-        {
-          "file": "src\\main.cpp",
-          "line": 342,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "string_concat_loop",
-          "description": "String concatenation in loop (use std::stringstream)",
-          "context": "if (i) orderStr += \", \";"
-        },
-        {
-          "file": "src\\main.cpp",
-          "line": 163,
+          "line": 370,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
           "description": "Model loading without integrity verification (poisoning risk)",
-          "context": "BaseEntity retrieved = BaseEntity::deserialize(\"user_123\", *result);"
+          "context": "BaseEntity e = BaseEntity::deserialize(\"doc_1\", *blob);",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\main.cpp",
@@ -692,43 +30,130 @@
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
           "description": "Model loading without integrity verification (poisoning risk)",
-          "context": "BaseEntity retrieved = BaseEntity::deserialize(\"doc_1\", *result);"
+          "context": "BaseEntity retrieved = BaseEntity::deserialize(\"doc_1\", *result);",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\main.cpp",
-          "line": 370,
+          "line": 163,
           "category": "llm_ai_safety",
           "severity": "CRITICAL",
           "pattern": "model_integrity_gap",
           "description": "Model loading without integrity verification (poisoning risk)",
-          "context": "BaseEntity e = BaseEntity::deserialize(\"doc_1\", *blob);"
+          "context": "BaseEntity retrieved = BaseEntity::deserialize(\"user_123\", *result);",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\main.cpp",
-          "line": 340,
-          "category": "observability",
-          "severity": "MEDIUM",
-          "pattern": "missing_latency_metric",
-          "description": "No latency measurement for operation",
-          "context": "auto plan = opt.chooseOrderForAndQuery(q, 1000);"
-        },
-        {
-          "file": "src\\main.cpp",
-          "line": 415,
-          "category": "observability",
+          "line": 440,
+          "category": "audit_logging",
           "severity": "HIGH",
-          "pattern": "missing_trace_point",
-          "description": "Critical function commit without trace point",
-          "context": "auto stc = tx.commit();"
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"Check vccdb.log for detailed logs\" << std::endl;",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\main.cpp",
-          "line": 123,
-          "category": "observability",
+          "line": 439,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\\n=== Demo completed successfully! ===\" << std::endl;",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\main.cpp",
+          "line": 56,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"unknown\" << std::endl;",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\main.cpp",
+          "line": 54,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << THEMIS_VERSION_STRING << std::endl;",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\main.cpp",
+          "line": 37,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"Usage: \" << prog << \" [options]\\n\"",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\main.cpp",
+          "line": 342,
+          "category": "performance",
           "severity": "MEDIUM",
-          "pattern": "missing_health_check",
-          "description": "Service without health check endpoint",
-          "context": "config.enable_blobdb = false; // Start simple"
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i) orderStr += \", \";",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\main.cpp",
+          "line": 342,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i) orderStr += \", \";",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\main.cpp",
+          "line": 315,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i) path += \" -> \";",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\main.cpp",
+          "line": 315,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i) path += \" -> \";",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         }
       ]
     }

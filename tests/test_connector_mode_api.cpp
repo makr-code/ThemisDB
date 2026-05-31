@@ -608,7 +608,24 @@ TEST_F(ConnectorApiLiveTest, IngestWorkspaceDocsAndRunRag) {
     json rag_body;
     ASSERT_NO_THROW(rag_body = json::parse(rag_res->body));
     EXPECT_TRUE(rag_body.contains("text"));
+    EXPECT_TRUE(rag_body.contains("model"));
+    EXPECT_TRUE(rag_body.contains("rag_mode_effective"));
     EXPECT_TRUE(rag_body.contains("documents_retrieved"));
+    EXPECT_TRUE(rag_body.contains("top_k_effective"));
+    EXPECT_TRUE(rag_body.contains("max_context_tokens_effective"));
+    EXPECT_TRUE(rag_body.contains("response_budget_tokens_effective"));
+    if (rag_body.contains("rag_mode_effective")) {
+        EXPECT_EQ(rag_body.value("rag_mode_effective", std::string{}), "text");
+    }
+    if (rag_body.contains("top_k_effective")) {
+        EXPECT_EQ(rag_body.value("top_k_effective", 0), 3);
+    }
+    if (rag_body.contains("max_context_tokens_effective")) {
+        EXPECT_GE(rag_body.value("max_context_tokens_effective", -1), 0);
+    }
+    if (rag_body.contains("response_budget_tokens_effective")) {
+        EXPECT_GT(rag_body.value("response_budget_tokens_effective", 0), 0);
+    }
 }
 
 TEST_F(ConnectorApiLiveTest, LoadModelAndRunInferenceWhenConfigured) {
@@ -843,8 +860,35 @@ TEST_F(ConnectorApiLiveTest, LlmReadyAfterDownloadAndRagSummarizesDocuments) {
 
             EXPECT_TRUE(rag_body.contains("text"))
                 << "RAG response missing 'text' field (query: " << query << ")";
+            EXPECT_TRUE(rag_body.contains("model"))
+                << "RAG response missing 'model'";
+            EXPECT_TRUE(rag_body.contains("rag_mode_effective"))
+                << "RAG response missing 'rag_mode_effective'";
             EXPECT_TRUE(rag_body.contains("documents_retrieved"))
                 << "RAG response missing 'documents_retrieved'";
+            EXPECT_TRUE(rag_body.contains("top_k_effective"))
+                << "RAG response missing 'top_k_effective'";
+            EXPECT_TRUE(rag_body.contains("max_context_tokens_effective"))
+                << "RAG response missing 'max_context_tokens_effective'";
+            EXPECT_TRUE(rag_body.contains("response_budget_tokens_effective"))
+                << "RAG response missing 'response_budget_tokens_effective'";
+
+            if (rag_body.contains("top_k_effective")) {
+                EXPECT_EQ(rag_body.value("top_k_effective", 0), 3)
+                    << "Unexpected top_k_effective value";
+            }
+            if (rag_body.contains("rag_mode_effective")) {
+                EXPECT_EQ(rag_body.value("rag_mode_effective", std::string{}), "text")
+                    << "Unexpected rag_mode_effective value";
+            }
+            if (rag_body.contains("max_context_tokens_effective")) {
+                EXPECT_GE(rag_body.value("max_context_tokens_effective", -1), 0)
+                    << "max_context_tokens_effective must be non-negative";
+            }
+            if (rag_body.contains("response_budget_tokens_effective")) {
+                EXPECT_GT(rag_body.value("response_budget_tokens_effective", 0), 0)
+                    << "response_budget_tokens_effective must be positive";
+            }
 
             got_non_empty_text = !rag_body.value("text", std::string{}).empty();
             got_documents = rag_body.value("documents_retrieved", 0) > 0;

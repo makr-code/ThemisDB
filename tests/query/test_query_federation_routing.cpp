@@ -446,6 +446,44 @@ TEST(QueryFederationAnalysisTest, AnalyzeQuerySupportsLowercaseKeywords) {
     EXPECT_EQ(std::count(meta.predicates.begin(), meta.predicates.end(), "filter_present"), 1);
 }
 
+TEST(QueryFederationAnalysisTest, AnalyzeQueryExtractsSqlPointLookupKey) {
+    auto router = std::make_shared<MockShardRouter>();
+    QueryFederation fed(router);
+
+    const auto meta = fed.analyzeQuery(
+        R"(SELECT * FROM orders WHERE id = "ord-42" LIMIT 1)");
+
+    ASSERT_FALSE(meta.tables.empty());
+    EXPECT_EQ(meta.tables.front(), "orders");
+    ASSERT_TRUE(meta.point_lookup_key.has_value());
+    EXPECT_EQ(*meta.point_lookup_key, "ord-42");
+    ASSERT_TRUE(meta.shard_key_predicate.has_value());
+    EXPECT_EQ(meta.shard_key_predicate->kind,
+              QueryFederation::QueryMetadata::ShardKeyPredicate::Kind::POINT);
+    EXPECT_EQ(meta.shard_key_predicate->collection, "orders");
+    EXPECT_EQ(meta.shard_key_predicate->key_value, "ord-42");
+}
+
+TEST(QueryFederationAnalysisTest, AnalyzeQueryExtractsSqlRangeKey) {
+    auto router = std::make_shared<MockShardRouter>();
+    QueryFederation fed(router);
+
+    const auto meta = fed.analyzeQuery(
+        R"(SELECT * FROM orders WHERE id >= "a" AND id <= "m")");
+
+    ASSERT_FALSE(meta.tables.empty());
+    EXPECT_EQ(meta.tables.front(), "orders");
+    ASSERT_TRUE(meta.key_range.has_value());
+    EXPECT_EQ(meta.key_range->first, "a");
+    EXPECT_EQ(meta.key_range->second, "m");
+    ASSERT_TRUE(meta.shard_key_predicate.has_value());
+    EXPECT_EQ(meta.shard_key_predicate->kind,
+              QueryFederation::QueryMetadata::ShardKeyPredicate::Kind::RANGE);
+    EXPECT_EQ(meta.shard_key_predicate->collection, "orders");
+    EXPECT_EQ(meta.shard_key_predicate->key_min, "a");
+    EXPECT_EQ(meta.shard_key_predicate->key_max, "m");
+}
+
 TEST(QueryFederationAnalysisTest, ApplyGlobalOperationsClampsHugeLimitWithoutOverflow) {
     auto router = std::make_shared<MockShardRouter>();
     QueryFederation fed(router);

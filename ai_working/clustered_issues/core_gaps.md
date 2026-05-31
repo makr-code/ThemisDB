@@ -24,17 +24,29 @@
 
 ## Top Files by Gap Density
 
+- `src\core\concerns\redis_cache.cpp` — largest mixed hotspot; prioritize performance, retry behavior, and platform safety.
+- `src\core\security_initialization.cpp` — fail-closed initialization and exception-safety follow-up.
+- `src\core\concerns\concerns_context.cpp` — resource lifetime and exception-safety cleanup.
 
+## Priority Order
+
+1. `src\core\concerns\redis_cache.cpp`
+2. `src\core\security_initialization.cpp`
+3. `src\core\concerns\concerns_context.cpp`
 
 ## Implementation Guide
 
 ### Phase 1: Critical Fixes
 Focus on CRITICAL severity gaps (data safety, security):
 
+- Resolve the high-confidence core security and lifetime paths first.
+- Separate intentional exception throws from true uncaught-exception defects.
 
 ### Phase 2: High Priority Fixes
 Address HIGH severity gaps (performance, reliability):
 
+- Reduce lock-in-loop and retry-path issues in `redis_cache.cpp`.
+- Triage the remaining performance and platform findings before broad refactors.
 
 ## Related Documentation
 
@@ -59,6 +71,8 @@ Address HIGH severity gaps (performance, reliability):
 - [ ] Documentation updated (ARCHITECTURE.md, ROADMAP.md)
 - [ ] Tests added for gap fixes
 - [ ] Code review completed
+- [ ] Core hotspot files have owners and issue links
+- [ ] `redis_cache.cpp` and `security_initialization.cpp` have initial fix plans
 
 ---
 *Generated: 2026-05-19T06:53:38.578829*  

@@ -31,6 +31,7 @@ class DeterminismScan:
     
     def scan_files(self, file_list: List[Path]) -> List[Dict]:
         """Scan files for determinism issues"""
+        self.gaps = []
         
         for file_path in file_list:
             if not file_path.suffix in ['.cpp', '.cc', '.h', '.hpp']:
@@ -51,6 +52,38 @@ class DeterminismScan:
             self._check_timestamp_sorting(file_path, lines)
         
         return self.gaps
+
+    @staticmethod
+    def _is_comment_or_preprocessor(line: str) -> bool:
+        stripped = line.strip()
+        return (
+            not stripped or
+            stripped.startswith('//') or
+            stripped.startswith('/*') or
+            stripped.startswith('*') or
+            stripped.startswith('#')
+        )
+
+    @staticmethod
+    def _has_float_hint(text: str) -> bool:
+        return bool(re.search(
+            r'(\bfloat\b|\bdouble\b|\bfp(16|32|64)\b|\bepsilon\b|\btolerance\b|'
+            r'\d+\.\d+|\d+[eE][+-]?\d+|\b\d+\.f\b|\b\d+f\b)',
+            text,
+            re.IGNORECASE,
+        ))
+
+    @staticmethod
+    def _collect_float_identifiers(lines: List[str]) -> set:
+        ids = set()
+        decl_re = re.compile(r'\b(?:float|double)\b\s*[\*&\s]*([A-Za-z_]\w*)')
+        for line in lines:
+            if DeterminismScan._is_comment_or_preprocessor(line):
+                continue
+            code_only = line.split('//', 1)[0]
+            for m in decl_re.finditer(code_only):
+                ids.add(m.group(1))
+        return ids
     
     def _check_unordered_containers(self, file_path: Path, lines: List[str]):
         """Find unordered container iteration without care"""
@@ -75,43 +108,116 @@ class DeterminismScan:
     
     def _check_random_seeding(self, file_path: Path, lines: List[str]):
         """Find random number generation without proper seeding"""
-        
+        rand_call_re = re.compile(r'\brand\s*\(')
+        engine_decl_re = re.compile(
+            r'\bstd::(mt19937(?:_64)?|default_random_engine|minstd_rand0?|minstd_rand)\b\s+'
+            r'([A-Za-z_]\w*)\s*(?P<init>\([^;]*\)|\{[^;]*\}|=[^;]*)?\s*;'
+        )
+
         for idx, line in enumerate(lines, 1):
-            # Look for RNG creation
-            if re.search(r'(mt19937|random_device|rand|uniform_)', line):
-                # Check if seeded
-                prev_lines = '\n'.join(lines[max(0, idx-10):idx])
-                
-                if not re.search(r'(seed|srand|seed_seq)', prev_lines):
+            if self._is_comment_or_preprocessor(line):
+                continue
+            code_line = line.split('//', 1)[0]
+
+            # Legacy C RNG API usage without nearby srand.
+            if rand_call_re.search(code_line):
+                local_ctx = '\n'.join(lines[max(0, idx - 20):min(len(lines), idx + 5)])
+                if not re.search(r'\bsrand\s*\(', local_ctx):
                     self.gaps.append({
                         'file': str(file_path.relative_to(self.repo_root)),
                         'line': idx,
                         'category': 'determinism',
                         'severity': 'MEDIUM',
                         'pattern': 'random_unseeded',
-                        'description': 'RNG without explicit seeding (non-deterministic)',
+                        'description': 'rand() without nearby explicit srand() seeding',
                         'context': line.strip()
                     })
+                continue
+
+            # C++ engine declaration: only flag default/unseeded construction.
+            m = engine_decl_re.search(code_line)
+            if not m:
+                continue
+
+            var_name = m.group(2)
+            init = (m.group('init') or '').strip()
+            if init:
+                # If initialized and random_device/seed literal/seed_seq used, treat as seeded.
+                if re.search(r'(random_device|seed_seq|seed\s*\(|\d)', init):
+                    continue
+                # Explicit constructor args are typically intentional seeds.
+                if '(' in init and ')' in init and init not in ['()', '( )']:
+                    continue
+
+            local_ctx = '\n'.join(lines[max(0, idx - 5):min(len(lines), idx + 30)])
+            if re.search(rf'\b{re.escape(var_name)}\s*\.\s*seed\s*\(', local_ctx):
+                continue
+
+            self.gaps.append({
+                'file': str(file_path.relative_to(self.repo_root)),
+                'line': idx,
+                'category': 'determinism',
+                'severity': 'MEDIUM',
+                'pattern': 'random_unseeded',
+                'description': 'RNG engine appears default-constructed without explicit seeding',
+                'context': line.strip()
+            })
     
     def _check_fp_comparisons(self, file_path: Path, lines: List[str]):
         """Find floating-point comparisons without tolerance"""
-        
+        op_re = re.compile(r'(==|!=)')
+        simple_cmp_re = re.compile(
+            r'(?P<lhs>[A-Za-z_]\w*|\d+\.\d+|\d+[eE][+-]?\d+|\d+f)\s*'
+            r'(?P<op>==|!=)\s*'
+            r'(?P<rhs>[A-Za-z_]\w*|\d+\.\d+|\d+[eE][+-]?\d+|\d+f)'
+        )
+        obvious_non_fp_re = re.compile(
+            r'(nullptr|std::string::npos|\.end\s*\(|\.begin\s*\(|\btrue\b|\bfalse\b)',
+            re.IGNORECASE,
+        )
+        float_ids = self._collect_float_identifiers(lines)
+
         for idx, line in enumerate(lines, 1):
-            # Look for == or != with floating point
-            if re.search(r'(\w+.*float|double.*\w+).*==|!=', line):
-                # Check for tolerance/epsilon
-                context = '\n'.join(lines[max(0, idx-5):min(idx+5, len(lines))])
-                
-                if not re.search(r'(epsilon|tolerance|abs.*<|delta)', context):
-                    self.gaps.append({
-                        'file': str(file_path.relative_to(self.repo_root)),
-                        'line': idx,
-                        'category': 'determinism',
-                        'severity': 'HIGH',
-                        'pattern': 'fp_exact_comparison',
-                        'description': 'Floating-point exact comparison (use tolerance/epsilon)',
-                        'context': line.strip()
-                    })
+            if self._is_comment_or_preprocessor(line):
+                continue
+            code_line = line.split('//', 1)[0]
+            if not op_re.search(code_line):
+                continue
+            if obvious_non_fp_re.search(code_line):
+                continue
+
+            matches = list(simple_cmp_re.finditer(code_line))
+            if not matches:
+                continue
+
+            context = '\n'.join(lines[max(0, idx - 4):min(idx + 4, len(lines))])
+            if re.search(r'(epsilon|tolerance|abs\s*\(|fabs\s*\(|std::abs\s*\(|delta)', context, re.IGNORECASE):
+                continue
+
+            should_flag = False
+            for m in matches:
+                lhs = m.group('lhs')
+                rhs = m.group('rhs')
+                operands = [lhs, rhs]
+                if any(self._has_float_hint(op) for op in operands):
+                    should_flag = True
+                    break
+                if any(op in float_ids for op in operands):
+                    should_flag = True
+                    break
+
+            if not should_flag:
+                continue
+
+            self.gaps.append({
+                'file': str(file_path.relative_to(self.repo_root)),
+                'line': idx,
+                'category': 'determinism',
+                'severity': 'HIGH',
+                'pattern': 'fp_exact_comparison',
+                'description': 'Floating-point exact comparison (use tolerance/epsilon)',
+                'context': line.strip()
+            })
     
     def _check_hash_iteration(self, file_path: Path, lines: List[str]):
         """Find hash-based container iteration assuming order"""

@@ -28,6 +28,9 @@ namespace {
 /// Normalise a vector so its elements sum to 1.0.
 /// If all elements are zero, returns a uniform distribution.
 void l1Normalise(std::vector<double>& v) {
+    if (v.empty()) {
+        return;
+    }
     const double sum = std::accumulate(v.begin(), v.end(), 0.0);
     if (sum < 1e-9) {
         const double uniform = 1.0 / static_cast<double>(v.size());
@@ -156,14 +159,9 @@ double WorkloadFingerprintEngine::similarityTo(
         return 0.0;
     }
 
-    double dot  = 0.0;
-    double normA = 0.0;
-    double normB = 0.0;
-    for (std::size_t i = 0; i < a.vector.size(); ++i) {
-        dot   += a.vector[i] * b.vector[i];
-        normA += a.vector[i] * a.vector[i];
-        normB += b.vector[i] * b.vector[i];
-    }
+    const auto dot = std::inner_product(a.vector.begin(), a.vector.end(), b.vector.begin(), 0.0);
+    const auto normA = std::inner_product(a.vector.begin(), a.vector.end(), a.vector.begin(), 0.0);
+    const auto normB = std::inner_product(b.vector.begin(), b.vector.end(), b.vector.begin(), 0.0);
     const double denom = std::sqrt(normA) * std::sqrt(normB);
     if (denom < 1e-12) return 0.0;
     return std::clamp(dot / denom, 0.0, 1.0);

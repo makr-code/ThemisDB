@@ -1,0 +1,79 @@
+{
+  "scan_date": "2026-05-31T06:36:55.873576",
+  "phase": "Phase 1-10 Extended (27 scanners: 8 Phase 1-4 + 5 Phase 5 + 2 Phase 7 + 2 Phase 8 + 3 Phase 9 + 2 Phase 10)",
+  "total_gaps": 186176,
+  "by_severity": {
+    "critical": 5981,
+    "high": 144307,
+    "medium": 35888,
+    "actionable": 150288
+  },
+  "by_category": {
+    "security": 1478,
+    "memory": 2230,
+    "reliability": 4702,
+    "concurrency": 1873,
+    "raii": 1905,
+    "container": 7692,
+    "platform": 1152,
+    "performance": 1013,
+    "type_conversion": 15857,
+    "input_validation": 8340,
+    "exception_safety": 1482,
+    "uninitialized": 40306,
+    "oop_design": 59334,
+    "audit_logging": 759,
+    "deprecated_apis": 4,
+    "performance_patterns": 6859,
+    "gpu_memory_safety": 229,
+    "query_correctness": 11610,
+    "distributed_consistency": 1196,
+    "llm_ai_safety": 3442,
+    "observability": 6008,
+    "determinism": 8705
+  },
+  "modules_scanned": 65,
+  "top_modules": [
+    {
+      "module": "llm",
+      "gaps": 24184
+    },
+    {
+      "module": "server",
+      "gaps": 17662
+    },
+    {
+      "module": "query",
+      "gaps": 15593
+    },
+    {
+      "module": "sharding",
+      "gaps": 10163
+    },
+    {
+      "module": "index",
+      "gaps": 8349
+    },
+    {
+      "module": "storage",
+      "gaps": 7135
+    },
+    {
+      "module": "analytics",
+      "gaps": 6854
+    },
+    {
+      "module": "rag",
+      "gaps": 6590
+    },
+    {
+      "module": "security",
+      "gaps": 4796
+    },
+    {
+      "module": "content",
+      "gaps": 4445
+    }
+  ],
+  "implementation_effort": "3906.7 weeks (19533 days)"
+}

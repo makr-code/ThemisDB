@@ -29,6 +29,11 @@ class QueryCorrectnessScan:
     def __init__(self, repo_root: str = '.'):
         self.repo_root = Path(repo_root)
         self.gaps = []
+        self._sql_kw_re = re.compile(
+            r'\b(SELECT|FROM|WHERE|JOIN|GROUP\s+BY|HAVING|FILTER|FOR\s+\w+\s+IN)\b',
+            re.IGNORECASE,
+        )
+        self._named_placeholder_re = re.compile(r'["\'][^"\']*:[A-Za-z_]\w*[^"\']*["\']')
     
     def scan_files(self, file_list: List[Path]) -> List[Dict]:
         """Scan files for query correctness issues"""
@@ -61,30 +66,71 @@ class QueryCorrectnessScan:
         """Check if file is query-related"""
         keywords = ['query', 'plan', 'parser', 'executor', 'optimizer', 'compile']
         return any(kw in file_path.lower() for kw in keywords)
+
+    def _is_likely_query_literal(self, line: str) -> bool:
+        """Heuristic: only scan lines that likely embed SQL/AQL text literals."""
+        stripped = line.strip()
+        if stripped.startswith('//') or stripped.startswith('/*') or stripped.startswith('*'):
+            return False
+
+        if '"' not in line and "'" not in line:
+            return False
+
+        literals = re.findall(r'["\']([^"\']+)["\']', line)
+        if not literals:
+            return False
+
+        text = ' '.join(literals)
+        if not self._sql_kw_re.search(text):
+            return False
+
+        upper = text.upper()
+        keyword_hits = sum(
+            kw in upper for kw in ['SELECT', 'FROM', 'WHERE', 'FILTER', 'JOIN', 'GROUP BY', 'HAVING']
+        )
+        if keyword_hits >= 2:
+            return True
+
+        # AQL common shape: FOR <var> IN <collection>
+        return 'FOR ' in upper and ' IN ' in upper
+
+    def _contains_named_placeholder(self, line: str) -> bool:
+        """Detect named placeholders like ':name' only inside quoted query literals."""
+        return bool(self._named_placeholder_re.search(line))
     
     def _check_query_string_concat(self, file_path: Path, lines: List[str]):
         """Find query string concatenation (injection risk)"""
         
         for idx, line in enumerate(lines, 1):
-            # Look for string + or append in query context
-            if 'query' in line.lower():
-                if re.search(r'(\+=|append|concat|operator\+).*["\'].*["\']', line):
-                    self.gaps.append({
-                        'file': str(file_path.relative_to(self.repo_root)),
-                        'line': idx,
-                        'category': 'query_correctness',
-                        'severity': 'CRITICAL',
-                        'pattern': 'query_string_concat',
-                        'description': 'Query string concatenation (SQL injection risk)',
-                        'context': line.strip()
-                    })
+            # Look for string + or append in SQL/AQL query-literal context.
+            if not self._is_likely_query_literal(line):
+                continue
+            if re.search(r'(\+=|append|concat|operator\+).*["\'].*["\']', line):
+                self.gaps.append({
+                    'file': str(file_path.relative_to(self.repo_root)),
+                    'line': idx,
+                    'category': 'query_correctness',
+                    'severity': 'CRITICAL',
+                    'pattern': 'query_string_concat',
+                    'description': 'Query string concatenation (SQL injection risk)',
+                    'context': line.strip()
+                })
     
     def _check_parameter_validation(self, file_path: Path, lines: List[str]):
         """Find missing query parameter validation"""
         
         for idx, line in enumerate(lines, 1):
             # Look for parameter binding
-            if re.search(r'bind\s*\(|bind_param|:\w+', line):
+            has_bind_call = bool(re.search(r'bind\s*\(|bind_param', line))
+            has_named_placeholder = self._contains_named_placeholder(line)
+
+            if not has_bind_call and not has_named_placeholder:
+                continue
+
+            # Placeholder-only matches are noisy in C++; require SQL/AQL literal context.
+            if has_named_placeholder and not has_bind_call and not self._is_likely_query_literal(line):
+                continue
+
                 # Check if value is validated
                 prev_lines = '\n'.join(lines[max(0, idx-10):idx])
                 
@@ -103,6 +149,8 @@ class QueryCorrectnessScan:
         """Find type mismatches in WHERE clauses"""
         
         for idx, line in enumerate(lines, 1):
+            if not self._is_likely_query_literal(line):
+                continue
             # Look for WHERE clause comparisons
             if 'WHERE' in line.upper() or 'where' in line.lower():
                 # Check for string/int comparisons
@@ -121,8 +169,22 @@ class QueryCorrectnessScan:
         """Find join semantics issues"""
         
         for idx, line in enumerate(lines, 1):
+            if not self._is_likely_query_literal(line):
+                continue
+            literal_text = ' '.join(re.findall(r'["\']([^"\']+)["\']', line))
+            if not literal_text:
+                continue
+            has_query_structure = bool(
+                re.search(r'\bSELECT\b.+\bFROM\b', literal_text, re.IGNORECASE)
+                or re.search(r'\bFOR\s+\w+\s+IN\s+[A-Za-z_]\w*(?!-)\b', literal_text, re.IGNORECASE)
+                or re.search(r'\bFILTER\b', literal_text, re.IGNORECASE)
+            )
+            if not has_query_structure:
+                continue
+            has_join_token = bool(re.search(r'\bJOIN\b', literal_text, re.IGNORECASE))
+            has_on_token = bool(re.search(r'\bON\b', literal_text, re.IGNORECASE))
             # Look for JOIN without ON condition
-            if 'JOIN' in line.upper() and not re.search(r'ON\s+', line, re.IGNORECASE):
+            if has_join_token and not has_on_token:
                 self.gaps.append({
                     'file': str(file_path.relative_to(self.repo_root)),
                     'line': idx,
@@ -152,6 +214,8 @@ class QueryCorrectnessScan:
         """Find aggregation correctness issues"""
         
         for idx, line in enumerate(lines, 1):
+            if not self._is_likely_query_literal(line):
+                continue
             # HAVING without GROUP BY
             if 'HAVING' in line.upper() and 'GROUP BY' not in '\n'.join(lines[max(0, idx-10):idx]):
                 self.gaps.append({

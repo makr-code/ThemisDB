@@ -109,3 +109,13 @@ ENABLE_PDF_EXPORT=1 python3 -m mkdocs build --clean
 - `docs/_generated/README.md`
 - `docs/_Sidebar.md`
 - `docs/_Footer.md`
+
+## 7) AI-Leitfaden fuer Entwicklerdokumentation
+
+Fuer AI-gestuetzte Pflege von Entwicklerdokumentation ist verbindlich:
+- `docs/_standards/AI_DEVELOPER_DOCUMENTATION_GUIDE.md`
+
+Der Leitfaden regelt insbesondere:
+- Datei-Zustaendigkeiten (`ROADMAP.md` vs `FUTURE_ENHANCEMENTS.md` vs `CHANGELOG.md`)
+- Pflege-Workflow inkl. Sourcecode-/Issue-Validierung
+- Trennung zwischen Zukunftsplanung und erledigten Aenderungen

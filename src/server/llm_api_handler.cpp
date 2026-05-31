@@ -73,6 +73,19 @@ namespace {
             THEMIS_ERROR("{}: non-standard exception", context);
         }
     }
+
+    std::string extractRagDocumentContent(const nlohmann::json& entity) {
+        if (entity.contains("content") && entity["content"].is_string()) {
+            return entity["content"].get<std::string>();
+        }
+        if (entity.contains("text") && entity["text"].is_string()) {
+            return entity["text"].get<std::string>();
+        }
+        if (entity.contains("body") && entity["body"].is_string()) {
+            return entity["body"].get<std::string>();
+        }
+        return entity.dump();
+    }
 }
 
 LLMApiHandler::LLMApiHandler(
@@ -101,7 +114,7 @@ void LLMApiHandler::setPolicyEngine(governance::PolicyEngine* policy_engine) {
     policy_engine_ = policy_engine;
 }
 
-void LLMApiHandler::setQueryEngine(std::shared_ptr<query::QueryEngine> query_engine) {
+void LLMApiHandler::setQueryEngine(std::shared_ptr<QueryEngine> query_engine) {
     query_engine_ = std::move(query_engine);
 }
 
@@ -323,6 +336,11 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
     int top_k = 5;
     std::string rag_mode = "text";
     std::string lora_id;
+    int max_context_tokens = 0;
+    int response_budget_tokens = 512;
+    int max_tokens = 512;
+    double temperature = 0.7;
+    std::string model_id;
     
     try {
         if (body->contains("query")) {
@@ -339,6 +357,26 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
             top_k = json_value_to<int>(body->at("top_k"));
         }
 
+        if (body->contains("max_context_tokens")) {
+            max_context_tokens = json_value_to<int>(body->at("max_context_tokens"));
+        }
+
+        if (body->contains("response_budget_tokens")) {
+            response_budget_tokens = json_value_to<int>(body->at("response_budget_tokens"));
+        }
+
+        if (body->contains("max_tokens")) {
+            max_tokens = json_value_to<int>(body->at("max_tokens"));
+        }
+
+        if (body->contains("temperature")) {
+            temperature = json_value_to<double>(body->at("temperature"));
+        }
+
+        if (body->contains("model")) {
+            model_id = json_value_to<std::string>(body->at("model"));
+        }
+
         if (body->contains("rag_mode")) {
             rag_mode = json_value_to<std::string>(body->at("rag_mode"));
         }
@@ -349,6 +387,26 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
     } catch (const std::exception& e) {
         return createErrorResponse(http::status::bad_request, "Invalid RAG parameters", e.what());
     }
+
+    if (query.empty()) {
+        return createErrorResponse(http::status::bad_request, "Missing 'query' field");
+    }
+
+    if (top_k <= 0) {
+        return createErrorResponse(http::status::bad_request, "top_k must be greater than 0");
+    }
+
+    if (max_context_tokens < 0) {
+        return createErrorResponse(http::status::bad_request, "max_context_tokens must be >= 0");
+    }
+
+    if (response_budget_tokens <= 0) {
+        return createErrorResponse(http::status::bad_request, "response_budget_tokens must be greater than 0");
+    }
+
+    if (max_tokens <= 0) {
+        return createErrorResponse(http::status::bad_request, "max_tokens must be greater than 0");
+    }
     
     // Implement RAG workflow
     try {
@@ -357,32 +415,76 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
         rag_context.query = query;
         rag_context.collection_name = collection;
         rag_context.top_k = top_k;
+        rag_context.max_context_tokens = max_context_tokens;
+        rag_context.response_budget_tokens = response_budget_tokens;
 
         auto& plugin_mgr = llm::LLMPluginManager::instance();
 
-        // Perform vector retrieval when a QueryEngine has been wired.
-        // NOTE: QueryEngine vector-search API is currently in migration.
-        // Keep RAG operational with empty retrieval context until the
-        // executeFilteredVectorSearch wiring is aligned again.
-        if (query_engine_ && !collection.empty() && top_k > 0) {
+        if (!query_engine_) {
+            return createErrorResponse(
+                http::status::service_unavailable,
+                "RAG retrieval engine not configured",
+                "Call setQueryEngine() before using /api/v1/llm/rag"
+            );
+        }
+
+        if (!collection.empty() && top_k > 0) {
             try {
                 const std::vector<float> query_vec = plugin_mgr.embed(query);
                 if (query_vec.empty()) {
-                    THEMIS_WARN("LLMApiHandler::handleRAG: embedding returned empty vector for query");
+                    return createErrorResponse(
+                        http::status::service_unavailable,
+                        "RAG query embedding unavailable",
+                        "The default LLM plugin returned an empty embedding for the query"
+                    );
+                }
+
+                VectorGeoQuery vector_query;
+                vector_query.table = collection;
+                vector_query.vector_field = body->value("vector_field", std::string{"embedding"});
+                vector_query.query_vector = query_vec;
+                vector_query.k = static_cast<size_t>(top_k);
+
+                auto retrieval_result = query_engine_->executeVectorGeoQuery(vector_query);
+                if (!retrieval_result) {
+                    return createErrorResponse(
+                        http::status::service_unavailable,
+                        "RAG retrieval failed",
+                        retrieval_result.error().context()
+                    );
+                }
+
+                rag_context.documents.reserve(retrieval_result->size());
+                for (const auto& result : *retrieval_result) {
+                    llm::RAGContext::Document document;
+                    document.source = result.pk;
+                    document.relevance_score = 1.0f - result.vector_distance;
+                    document.metadata = result.entity;
+                    document.content = extractRagDocumentContent(result.entity);
+                    rag_context.documents.push_back(std::move(document));
                 }
             } catch (const std::exception& ve) {
-                THEMIS_WARN("LLMApiHandler::handleRAG: vector retrieval skipped ({}); "
-                            "proceeding with empty document context", ve.what());
+                return createErrorResponse(
+                    http::status::service_unavailable,
+                    "RAG retrieval failed",
+                    ve.what()
+                );
             } catch (...) {
-                logCurrentException("LLMApiHandler::handleRAG embed");
-                THEMIS_WARN("LLMApiHandler::handleRAG: vector retrieval skipped (non-standard exception); "
-                            "proceeding with empty document context");
+                logCurrentException("LLMApiHandler::handleRAG retrieval");
+                return createErrorResponse(
+                    http::status::service_unavailable,
+                    "RAG retrieval failed",
+                    "Non-standard exception during retrieval"
+                );
             }
         }
         
         // Prepare inference request
         llm::InferenceRequest llm_request;
         llm_request.prompt = query;
+        llm_request.model_id = model_id.empty() ? std::string("default") : model_id;
+        llm_request.max_tokens = max_tokens;
+        llm_request.temperature = static_cast<float>(temperature);
         llm_request.lora_adapter_id = lora_id;
         llm_request.metadata["rag_mode"] = rag_mode;
         if (body->contains("rag_tensor_slots")) {
@@ -397,9 +499,13 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
 
         json response_data = {
             {"text", llm_response.text},
+            {"model", llm_response.model_id.empty() ? llm_request.model_id : llm_response.model_id},
             {"query", query},
             {"rag_mode_effective", rag_mode},
             {"documents_retrieved", static_cast<int>(rag_context.documents.size())},
+            {"top_k_effective", rag_context.top_k},
+            {"max_context_tokens_effective", rag_context.max_context_tokens},
+            {"response_budget_tokens_effective", rag_context.response_budget_tokens},
             {"tokens_generated", llm_response.tokens_generated},
             {"inference_time_ms", llm_response.inference_time_ms},
             {"cache_hit", llm_response.cache_hit}

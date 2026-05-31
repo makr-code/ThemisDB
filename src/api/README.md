@@ -8,6 +8,13 @@ The API module exposes ThemisDB's functionality over multiple transport protocol
 
 > **Note:** The HTTP/REST server implementation lives in `src/server/http_server.cpp` (11,000+ lines). The legacy `src/api/http_server.cpp` placeholder has been removed; all REST routing and HTTP lifecycle management is handled by the `server` module.
 
+## Related Documentation
+
+- [API Module Gaps](./MODULE_GAPS.md)
+- [API Roadmap](./ROADMAP.md)
+- [API Future Enhancements](./FUTURE_ENHANCEMENTS.md)
+- [API Architecture](./ARCHITECTURE.md)
+
 ## Relevant Interfaces
 
 | File | Role |

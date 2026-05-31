@@ -18,6 +18,7 @@
 #include <spdlog/spdlog.h>
 #include <chrono>
 #include <ctime>
+#include <limits>
 #include <optional>
 #include <sstream>
 #include "utils/tracing.h"
@@ -50,6 +51,19 @@ std::optional<std::string> validateTaskIdentifier(
         return field_name + " contains invalid characters";
     }
     return std::nullopt;
+}
+
+int64_t checkedSecondsToMilliseconds(int64_t seconds, const char* field_name) {
+    if (seconds <= 0) {
+        throw std::invalid_argument(std::string(field_name) + " must be a positive integer");
+    }
+
+    constexpr int64_t kMillisPerSecond = 1000;
+    if (seconds > (std::numeric_limits<int64_t>::max() / kMillisPerSecond)) {
+        throw std::invalid_argument(std::string(field_name) + " is too large");
+    }
+
+    return seconds * kMillisPerSecond;
 }
 
 /// Convert a system_clock time_point to an ISO-8601 string (UTC).
@@ -853,10 +867,7 @@ ScheduledTask TaskSchedulerApiHandler::parseTaskFromJson(const json& j) {
         task.interval = std::chrono::milliseconds(ms);
     } else if (j.contains("interval_seconds")) {
         auto secs = j["interval_seconds"].get<int64_t>();
-        if (secs <= 0) {
-            throw std::invalid_argument("interval_seconds must be a positive integer");
-        }
-        task.interval = std::chrono::milliseconds(secs * 1000);
+        task.interval = std::chrono::milliseconds(checkedSecondsToMilliseconds(secs, "interval_seconds"));
     }
 
     // Timeout
@@ -868,10 +879,7 @@ ScheduledTask TaskSchedulerApiHandler::parseTaskFromJson(const json& j) {
         task.timeout = std::chrono::milliseconds(ms);
     } else if (j.contains("timeout_seconds")) {
         auto secs = j["timeout_seconds"].get<int64_t>();
-        if (secs <= 0) {
-            throw std::invalid_argument("timeout_seconds must be a positive integer");
-        }
-        task.timeout = std::chrono::milliseconds(secs * 1000);
+        task.timeout = std::chrono::milliseconds(checkedSecondsToMilliseconds(secs, "timeout_seconds"));
     }
 
     // ID (optional override)
@@ -971,6 +979,7 @@ scheduler::KubernetesCronJobConfig k8sConfigFromJson(const json& req) {
     if (req.contains("failed_jobs_history_limit"))
         cfg.failed_jobs_history_limit = req["failed_jobs_history_limit"].get<int32_t>();
     if (req.contains("extra_labels") && req["extra_labels"].is_object()) {
+        cfg.extra_labels.reserve(req["extra_labels"].size());
         for (auto it = req["extra_labels"].begin(); it != req["extra_labels"].end(); ++it) {
             cfg.extra_labels.emplace_back(it.key(), it.value().get<std::string>());
         }
@@ -998,6 +1007,7 @@ scheduler::AirflowDagConfig airflowConfigFromJson(const json& req) {
     if (req.contains("description"))
         cfg.description = req["description"].get<std::string>();
     if (req.contains("tags") && req["tags"].is_array()) {
+        cfg.tags.reserve(req["tags"].size());
         for (const auto& tag : req["tags"]) {
             cfg.tags.push_back(tag.get<std::string>());
         }
@@ -1064,6 +1074,7 @@ json TaskSchedulerApiHandler::exportToAirflowDag(const json& request) {
                         {"error", "Request must contain a 'task_ids' array"}};
         }
         std::vector<ScheduledTask> tasks;
+        tasks.reserve(request["task_ids"].size());
         for (const auto& id_json : request["task_ids"]) {
             const std::string id = id_json.get<std::string>();
             auto task_ptr = scheduler.getTask(id);

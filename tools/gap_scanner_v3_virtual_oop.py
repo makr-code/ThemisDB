@@ -65,6 +65,10 @@ class OOPGapScanner:
         self.gaps: List[OOPGap] = []
         self.gap_types = {}
         self.classes = {}  # Track class definitions and their methods
+        self._cpp_method_re = re.compile(
+            r'^\s*(?:[\w:<>,~*&\s]+?)\b([A-Za-z_]\w*)::(~?[A-Za-z_]\w*)\s*\([^;]*\)\s*(?:const)?\s*\{?'
+        )
+        self._member_call_re = re.compile(r'\bthis\s*->\s*([A-Za-z_]\w*)\s*\(')
 
     def scan_file(self, file_path: str) -> List[OOPGap]:
         """Scan a single C++ file for OOP design gaps."""
@@ -75,7 +79,6 @@ class OOPGapScanner:
             return []
 
         file_gaps = []
-        in_ctor_dtor = False
         current_class = None
 
         for i, line in enumerate(lines, 1):
@@ -85,41 +88,32 @@ class OOPGapScanner:
                 current_class = class_match.group(1)
                 self.classes[current_class] = {'has_virtual_dtor': False, 'has_virtual_methods': False}
 
-            # Pattern 2: Virtual function called in constructor
-            if re.search(r'(\w+)\s*::\s*(\w+)\s*\(', line):  # Constructor
-                in_ctor_dtor = True
-                context = self._get_context(lines, i - 1, 20)
-                if re.search(r'\bthis\s*->\s*\w+\s*\(', context) or re.search(r'\b\w+\s*\(', context):
-                    # Could be virtual call
-                    virtual_calls = re.findall(r'\b(\w+)\s*\(', context)
-                    if virtual_calls:
+            # Pattern 2/3: Virtual function call candidate in ctor/dtor.
+            # Reduce false positives by only considering explicit member calls (this->foo())
+            # inside real C++ ctor/dtor definitions (Class::Class / Class::~Class).
+            method_match = self._cpp_method_re.search(line)
+            if method_match:
+                owner = method_match.group(1)
+                method = method_match.group(2)
+                is_ctor = method == owner
+                is_dtor = method == f'~{owner}'
+                if is_ctor or is_dtor:
+                    body = self._get_function_body(lines, i - 1, max_lines=120)
+                    member_calls = self._member_call_re.findall(body)
+                    for call_name in member_calls:
+                        if call_name in {owner, f'~{owner}'}:
+                            continue
                         gap = OOPGap(
                             gap_type=OOPGapType.VIRTUAL_IN_CTOR_DTOR,
                             severity='HIGH',
                             file_path=file_path,
                             line_number=i,
-                            class_name=current_class or 'Unknown',
-                            function_name=virtual_calls[0],
-                            issue='Virtual function called in constructor',
-                            reason='Undefined behavior: vptr not yet fully initialized'
+                            class_name=owner,
+                            function_name=call_name,
+                            issue='Potential virtual member call in constructor/destructor',
+                            reason='If this member function is virtual, dispatch in ctor/dtor can be unsafe'
                         )
                         file_gaps.append(gap)
-
-            # Pattern 3: Virtual function called in destructor
-            if re.search(r'~\s*(\w+)\s*\(', line):
-                in_ctor_dtor = True
-                context = self._get_context(lines, i - 1, 20)
-                if re.search(r'\bthis\s*->\s*\w+\s*\(', context):
-                    gap = OOPGap(
-                        gap_type=OOPGapType.VIRTUAL_IN_CTOR_DTOR,
-                        severity='HIGH',
-                        file_path=file_path,
-                        line_number=i,
-                        class_name=current_class or 'Unknown',
-                        issue='Virtual function called in destructor',
-                        reason='Undefined behavior: vptr may be partially destroyed'
-                    )
-                    file_gaps.append(gap)
 
             # Pattern 4: Missing virtual destructor
             if re.search(r'class\s+(\w+)\s*:', line):
@@ -216,6 +210,27 @@ class OOPGapScanner:
         start = max(0, start_line - context_size // 2)
         end = min(len(lines), start_line + context_size // 2)
         return ''.join(lines[start:end])
+
+    def _get_function_body(self, lines: List[str], start_line: int, max_lines: int = 120) -> str:
+        """Extract a best-effort function body region starting at start_line."""
+        end_limit = min(len(lines), start_line + max_lines)
+        body_lines: List[str] = []
+        brace_depth = 0
+        seen_open = False
+
+        for idx in range(start_line, end_limit):
+            line = lines[idx]
+            body_lines.append(line)
+            opens = line.count('{')
+            closes = line.count('}')
+            if opens > 0:
+                seen_open = True
+            brace_depth += opens
+            brace_depth -= closes
+            if seen_open and brace_depth <= 0:
+                break
+
+        return ''.join(body_lines)
 
     def scan_module(self, module_path: str) -> Dict[str, Any]:
         """Scan all C++ files in a module."""

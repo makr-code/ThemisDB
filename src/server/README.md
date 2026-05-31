@@ -1417,6 +1417,7 @@ option(THEMIS_ENABLE_POSTGRES_PROTOCOL "Enable PostgreSQL wire protocol" ON)
 ## Related Documentation
 
 - [Server Architektur](./ARCHITECTURE.md)
+- [Server Module Gaps](./MODULE_GAPS.md)
 - [Server Roadmap](./ROADMAP.md)
 - [Server Future Enhancements](./FUTURE_ENHANCEMENTS.md)
 - [Server Modulübersicht (de)](../../docs/de/server/README.md)
@@ -1446,6 +1447,7 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 
 ## See Also
 
+- [MODULE_GAPS.md](MODULE_GAPS.md) - Source-backed gap tracker for the server module
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned server improvements
 - [Core Module](../core/README.md) - Dependency injection and concerns
 - [Storage Module](../storage/README.md) - Data persistence layer

@@ -1,10 +1,7 @@
 /*
- * ThemisDB | File: query_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 4587
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=2795 | delta=2792 | status=divergent
- * External Severity (v3): C=92, H=2284, M=419
- * PR: #4507 feat(query): v2.0.0 â€“ edge-type filtering, rewrite pipeline, prof... (2026-04-11T12:06:28Z)
+ * ThemisDB | File: query_engine.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
+ * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=31, H=78, M=152, L=0
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
@@ -160,6 +157,16 @@ static bool stableJsonLess(const nlohmann::json& a, const nlohmann::json& b) {
 
 static bool stableJsonPtrLess(const nlohmann::json* a, const nlohmann::json* b) {
 	return stableJsonLess(*a, *b);
+}
+
+static void logSortedDeserializeFailures(std::vector<std::string>& failed_pks, const char* context) {
+	if (failed_pks.empty()) {
+		return;
+	}
+	std::sort(failed_pks.begin(), failed_pks.end());
+	for (const auto& pk : failed_pks) {
+		THEMIS_WARN("{}: Deserialisierung fehlgeschlagen für PK={}", context, pk);
+	}
 }
 
 /// Parse `expression` as an AQL expression and evaluate it against `ctx`.
@@ -595,6 +602,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 	tg.wait();
 
 	if (!errors.empty()) {
+		std::sort(errors.begin(), errors.end());
 		return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, "executeAndKeys: " + errors.front());
 	}
 
@@ -788,10 +796,13 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 	} else {
 		// Parallel für große Mengen: Batch-Processing mit TBB
 		std::vector<std::vector<BaseEntity>> batches((keys.size() + BATCH_SIZE - 1) / BATCH_SIZE);
+		std::vector<std::string> failed_deserialize_pks;
+		failed_deserialize_pks.reserve(keys.size() / 10 + 1);
+		std::mutex failed_deserialize_mutex;
 		tbb::task_group tg;
 
 		for (size_t batch_idx = 0; batch_idx < batches.size(); ++batch_idx) {
-			tg.run([this, &q, &keys, &batches, batch_idx, BATCH_SIZE]() {
+			tg.run([this, &q, &keys, &batches, batch_idx, BATCH_SIZE, &failed_deserialize_pks, &failed_deserialize_mutex]() {
 				size_t start = batch_idx * BATCH_SIZE;
 				size_t end = std::min(start + BATCH_SIZE, keys.size());
 				std::vector<BaseEntity> local_entities;
@@ -802,13 +813,18 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 					auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
 					if (!blob) continue;
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
-					catch (...) { THEMIS_WARN("executeAndEntities: Deserialisierung fehlgeschlagen für PK={}", pk); }
+					catch (...) {
+						std::lock_guard<std::mutex> lk(failed_deserialize_mutex);
+						failed_deserialize_pks.push_back(pk);
+					}
 				}
 
 				batches[batch_idx] = std::move(local_entities);
 			});
 		}
 		tg.wait();
+
+		logSortedDeserializeFailures(failed_deserialize_pks, "executeAndEntities");
 
 		// Merge batches
 		for (auto& batch : batches) {
@@ -919,6 +935,7 @@ QueryEngine::executeOrKeys(const DisjunctiveQuery& q) const {
 	tg.wait();
 
 	if (!errors.empty()) {
+		std::sort(errors.begin(), errors.end());
 		return Err<std::vector<std::string>>(
 			ErrorCode::ERR_QUERY_EXECUTION_FAILED,
 			"executeOrKeys: " + errors.front()
@@ -952,20 +969,20 @@ QueryEngine::executeOrKeysWithFallback(const DisjunctiveQuery& q, bool optimize)
 	}
 
 	std::vector<std::vector<std::string>> all_lists(q.disjuncts.size());
-	std::atomic<bool> had_error{false};
-	std::string first_error;
+	std::vector<std::string> errors;
+	errors.reserve(q.disjuncts.size());
 	std::mutex error_mutex;
 	tbb::task_group tg;
 	for (size_t i = 0; i < q.disjuncts.size(); ++i) {
 		const auto& disjunct = q.disjuncts[i];
-		tg.run([this, &disjunct, &all_lists, i, optimize, &had_error, &first_error, &error_mutex]() {
+		tg.run([this, &disjunct, &all_lists, i, optimize, &errors, &error_mutex]() {
 			auto child = Tracer::startSpan("or.disjunct.execute_fallback");
 			child.setAttribute("disjunct.eq_count", static_cast<int64_t>(disjunct.predicates.size()));
 			child.setAttribute("disjunct.range_count", static_cast<int64_t>(disjunct.rangePredicates.size()));
 			auto result = executeAndKeysWithFallback(disjunct, optimize);
 			if (!result) {
 				std::lock_guard<std::mutex> eg(error_mutex);
-				if (!had_error.exchange(true)) { first_error = result.error().message(); }
+				errors.push_back(result.error().message());
 				THEMIS_ERROR("Parallel OR (fallback) disjunct error: {}", result.error().message());
 				child.setStatus(false, result.error().message());
 				return;
@@ -979,9 +996,10 @@ QueryEngine::executeOrKeysWithFallback(const DisjunctiveQuery& q, bool optimize)
 	}
 	tg.wait();
 
-	if (had_error) {
+	if (!errors.empty()) {
+		std::sort(errors.begin(), errors.end());
 		return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-			"executeOrKeysWithFallback: one or more disjuncts failed: " + first_error);
+			"executeOrKeysWithFallback: one or more disjuncts failed: " + errors.front());
 	}
 
 	auto keys = unionSortedLists_(std::move(all_lists));
@@ -1022,9 +1040,12 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 		}
 	} else {
 		std::vector<std::vector<BaseEntity>> batches((keys.size() + BATCH_SIZE - 1) / BATCH_SIZE);
+		std::vector<std::string> failed_deserialize_pks;
+		failed_deserialize_pks.reserve(keys.size() / 10 + 1);
+		std::mutex failed_deserialize_mutex;
 		tbb::task_group tg;
 		for (size_t batch_idx = 0; batch_idx < batches.size(); ++batch_idx) {
-			tg.run([this, &q, &keys, &batches, batch_idx, BATCH_SIZE]() {
+			tg.run([this, &q, &keys, &batches, batch_idx, BATCH_SIZE, &failed_deserialize_pks, &failed_deserialize_mutex]() {
 				size_t start = batch_idx * BATCH_SIZE;
 				size_t end = std::min(start + BATCH_SIZE, keys.size());
 				std::vector<BaseEntity> local_entities;
@@ -1034,12 +1055,16 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 					auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
 					if (!blob) continue;
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
-					catch (...) { THEMIS_WARN("executeOrEntitiesWithFallback: Deserialisierung fehlgeschlagen für PK={}", pk); }
+					catch (...) {
+						std::lock_guard<std::mutex> lk(failed_deserialize_mutex);
+						failed_deserialize_pks.push_back(pk);
+					}
 				}
 				batches[batch_idx] = std::move(local_entities);
 			});
 		}
 		tg.wait();
+		logSortedDeserializeFailures(failed_deserialize_pks, "executeOrEntitiesWithFallback");
 		for (auto& batch : batches) {
 			out.insert(out.end(), std::make_move_iterator(batch.begin()), std::make_move_iterator(batch.end()));
 		}
@@ -1076,10 +1101,13 @@ QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 		}
 	} else {
 		std::vector<std::vector<BaseEntity>> batches((keys.size() + BATCH_SIZE - 1) / BATCH_SIZE);
+		std::vector<std::string> failed_deserialize_pks;
+		failed_deserialize_pks.reserve(keys.size() / 10 + 1);
+		std::mutex failed_deserialize_mutex;
 		tbb::task_group tg;
 
 		for (size_t batch_idx = 0; batch_idx < batches.size(); ++batch_idx) {
-			tg.run([this, &q, &keys, &batches, batch_idx, BATCH_SIZE]() {
+			tg.run([this, &q, &keys, &batches, batch_idx, BATCH_SIZE, &failed_deserialize_pks, &failed_deserialize_mutex]() {
 				size_t start = batch_idx * BATCH_SIZE;
 				size_t end = std::min(start + BATCH_SIZE, keys.size());
 				std::vector<BaseEntity> local_entities;
@@ -1090,13 +1118,18 @@ QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 					auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
 					if (!blob) continue;
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
-					catch (...) { THEMIS_WARN("executeOrEntities: Deserialisierung fehlgeschlagen für PK={}", pk); }
+					catch (...) {
+						std::lock_guard<std::mutex> lk(failed_deserialize_mutex);
+						failed_deserialize_pks.push_back(pk);
+					}
 				}
 
 				batches[batch_idx] = std::move(local_entities);
 			});
 		}
 		tg.wait();
+
+		logSortedDeserializeFailures(failed_deserialize_pks, "executeOrEntities");
 
 		for (auto& batch : batches) {
 			out.insert(out.end(), std::make_move_iterator(batch.begin()), std::make_move_iterator(batch.end()));
@@ -1205,10 +1238,13 @@ QueryEngine::executeAndEntitiesSequential(const std::string& table,
 	} else {
 		// Parallel für große Mengen
 		std::vector<std::vector<BaseEntity>> batches((keys.size() + BATCH_SIZE - 1) / BATCH_SIZE);
+		std::vector<std::string> failed_deserialize_pks;
+		failed_deserialize_pks.reserve(keys.size() / 10 + 1);
+		std::mutex failed_deserialize_mutex;
 		tbb::task_group tg;
 
 		for (size_t batch_idx = 0; batch_idx < batches.size(); ++batch_idx) {
-			tg.run([this, &table, &keys, &batches, batch_idx, BATCH_SIZE]() {
+			tg.run([this, &table, &keys, &batches, batch_idx, BATCH_SIZE, &failed_deserialize_pks, &failed_deserialize_mutex]() {
 				size_t start = batch_idx * BATCH_SIZE;
 				size_t end = std::min(start + BATCH_SIZE, keys.size());
 				std::vector<BaseEntity> local_entities;
@@ -1219,13 +1255,18 @@ QueryEngine::executeAndEntitiesSequential(const std::string& table,
 					auto blob = db_->get(KeySchema::makeRelationalKey(table, pk));
 					if (!blob) continue;
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
-					catch (...) { /* Silent failure in parallel context */ }
+					catch (...) {
+						std::lock_guard<std::mutex> lk(failed_deserialize_mutex);
+						failed_deserialize_pks.push_back(pk);
+					}
 				}
 
 				batches[batch_idx] = std::move(local_entities);
 			});
 		}
 		tg.wait();
+
+		logSortedDeserializeFailures(failed_deserialize_pks, "executeAndEntitiesSequential");
 
 		// Merge batches
 		for (auto& batch : batches) {
@@ -2130,7 +2171,7 @@ static Result<nlohmann::json> qe_evalExpr(const std::shared_ptr<themis::query::E
 			for (const auto& [k, e] : obj->fields) {
 				sorted_fields.emplace_back(k, e);
 			}
-			std::sort(sorted_fields.begin(), sorted_fields.end(),
+			std::stable_sort(sorted_fields.begin(), sorted_fields.end(),
 				[](const auto& lhs, const auto& rhs) { return lhs.first < rhs.first; });
 
 			for (const auto& [k, e] : sorted_fields) {
@@ -4123,9 +4164,21 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 				THEMIS_WARN("VectorGeoQuery: composite prefilter failed, skipping");
 			}
 		}
-		// Wende Range-Prädikate an (intersect)
-		for (auto &kv : rangeMap) {
-			auto [st, keys] = secIdx_->scanKeysRange(q.table, kv.first, kv.second.lower, kv.second.upper, kv.second.includeLower, kv.second.includeUpper, 100000, false);
+		// Wende Range-Prädikate an (intersect) in stabiler Reihenfolge an,
+		// damit Tracing/Debugging nicht von unordered_map-Iteration abhängt.
+		std::vector<std::string> sortedRangeColumns;
+		sortedRangeColumns.reserve(rangeMap.size());
+		for (const auto& kv : rangeMap) {
+			sortedRangeColumns.push_back(kv.first);
+		}
+		std::sort(sortedRangeColumns.begin(), sortedRangeColumns.end());
+		for (const auto& column : sortedRangeColumns) {
+			const auto itRange = rangeMap.find(column);
+			if (itRange == rangeMap.end()) {
+				continue;
+			}
+			const auto& range = itRange->second;
+			auto [st, keys] = secIdx_->scanKeysRange(q.table, column, range.lower, range.upper, range.includeLower, range.includeUpper, 100000, false);
 			if (!st.ok) continue;
 			tbb::parallel_sort(keys.begin(), keys.end());
 			if (first) { current = std::move(keys); first=false; }

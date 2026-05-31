@@ -1,60 +1,42 @@
-# document Module — Implementation Gap Analysis
+# document Module - Developer Gap Note
 
-**Status:** Documentation Pending  
-**Last Updated:** Unknown  
+> Auto-generated from ai_working/gap_scan_v3_aggregate.json.
+> This file is overwritten on each regeneration.
 
----
+## Scan Snapshot
 
-## 📊 Gap Summary
+- Module: document
+- Generated: 2026-05-31 08:50:11
+- Status: No Findings
+- Total Findings: 0
+- Actionable Findings (Critical + High): 0
+- Affected Files: 0
 
-This module's gap analysis is pending. Run the gap audit to populate this document:
+## Severity Summary
 
-```bash
-python tools/gap_audit_pipeline_v2.py
-```
+| Severity | Count |
+|---|---:|
+| Critical | 0 |
+| High | 0 |
+| Medium | 0 |
+| Low | 0 |
 
----
+## Category Summary
 
-## 🚀 How to Use This Documentation
+No category findings recorded.
 
-Once generated, this file will contain:
+## File Overview
 
-- **Gap Statistics:** Count of unimplemented paths, TODOs, STUBs, etc.
-- **Critical Issues:** What needs to be fixed first
-- **Implementation Roadmap:** Phases and priorities
-- **Affected Files:** Which source files have gaps
-- **GitHub Issues:** Links to related GitHub issues
-- **Next Steps:** Action items for developers
+No file-level findings recorded.
 
----
+## Full Scanner Findings
 
-## 📍 Location
+No findings recorded for this module.
 
-This documentation is in the module directory for easy access:
-```
-src/document/MODULE_GAPS.md  ← You are here
-```
+## Update Workflow
 
-Developers working on this module can reference this file directly.
+- Refresh scan artifacts with: python tools/gap_scanner_v3.py
+- Regenerate all module notes with: python tools/module_doc_generator.py . ai_working ai_working/module_gaps
+- The generator mirrors each archive document directly into src/<module>/MODULE_GAPS.md.
 
----
-
-## 🔄 How It's Updated
-
-The documentation is automatically generated and updated by the gap audit pipeline:
-
-```bash
-# Full pipeline (scan + update headers + generate docs)
-python tools/gap_audit_pipeline_v2.py
-
-# Just generate module docs
-python tools/module_doc_generator.py . ai_working ai_working/module_gaps
-```
-
-After each run, this file is updated with fresh analysis.
-
----
-
-**Format:** THEMIS_MODULE_GAPS_v1  
-**Generator:** ThemisDB Gap Audit Pipeline v2  
-**Auto-Generated:** Yes
+Format: THEMIS_MODULE_GAPS_V3

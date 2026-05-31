@@ -1,225 +1,118 @@
 {
   "onnx_clip": {
-    "total": 163,
+    "total": 34,
     "severity_critical": 15,
-    "severity_high": 128,
-    "severity_medium": 20,
+    "severity_high": 7,
+    "severity_medium": 12,
     "by_category": {
       "security": 2,
       "memory": 3,
       "concurrency": 16,
       "raii": 4,
       "container": 4,
-      "type_conversion": 10,
-      "input_validation": 5,
-      "uninitialized": 79,
-      "oop_design": 30,
-      "performance_patterns": 5,
-      "determinism": 5
+      "performance_patterns": 5
     },
     "by_file": {
       "src\\onnx_clip\\onnx_clip_plugin.cpp": [
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 438,
-          "type": "null_dereference",
+          "line": 447,
+          "category": "performance",
           "severity": "HIGH",
-          "snippet": "results.push_back(impl_->computeEmbedding(images[i], nullptr,",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& r : results) {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 532,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "EmbeddingResult r = impl_->computeEmbedding(dummy, nullptr,",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 131,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "seed ^= static_cast<uint64_t>(metadata->bits_per_channel + 13);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 395,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "EmbeddingResult result = impl_->computeEmbedding(image_data, metadata,",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 532,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "EmbeddingResult r = impl_->computeEmbedding(dummy, nullptr,",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 129,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "seed ^= static_cast<uint64_t>(metadata->width + 31 * metadata->height + 17 * metadata->channels);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 131,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "seed ^= static_cast<uint64_t>(metadata->bits_per_channel + 13);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 302,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "impl_->embedding_dim = config.get<int>(\"model.embedding_dim\", 512);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 303,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "if (impl_->embedding_dim <= 0) {",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 304,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "impl_->embedding_dim = 512;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 317,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "impl_->max_batch_size = std::max(1, cfg_max);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 367,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 405,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "impl_->total_latency_ms += static_cast<double>(dt_ms);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 429,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "impl_->total_errors += static_cast<uint64_t>(images.size());",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 434,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "const size_t batch_limit = static_cast<size_t>(impl_->max_batch_size);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 455,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "impl_->total_images += static_cast<uint64_t>(images.size());",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 456,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "impl_->total_inferences += static_cast<uint64_t>(images.size());",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 457,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "impl_->total_latency_ms += static_cast<double>(dt_ms);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 458,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "impl_->clip_batch_embeddings_total += static_cast<uint64_t>(images.size());",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 490,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "impl_->total_latency_ms += static_cast<double>(dt_ms);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 502,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "const double avg_latency = impl_->total_inferences > 0",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 75,
-          "type": "manual_cleanup",
+          "line": 437,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "EVP_MD_CTX_free(ctx);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(impl_->computeEmbedding(images[i], nullptr,",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 82,
+          "line": 437,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(impl_->computeEmbedding(images[i], nullptr,",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line": 426,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(std::move(result));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line": 152,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "tokens.push_back(token);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line": 438,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(impl_->computeEmbedding(images[i], nullptr,",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line": 427,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "results.push_back(std::move(result));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line": 161,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(token);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line": 153,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "tokens.push_back(token);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line": 93,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(ctx);",
@@ -237,7 +130,7 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 93,
+          "line": 82,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "EVP_MD_CTX_free(ctx);",
@@ -246,1412 +139,201 @@
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 153,
-          "type": "copy_overhead",
+          "line": 75,
+          "type": "manual_cleanup",
           "severity": "MEDIUM",
-          "snippet": "tokens.push_back(token);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "snippet": "EVP_MD_CTX_free(ctx);",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 161,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "tokens.push_back(token);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "line": 532,
+          "type": "null_dereference",
+          "severity": "HIGH",
+          "snippet": "EmbeddingResult r = impl_->computeEmbedding(dummy, nullptr,",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 427,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "results.push_back(std::move(result));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "line": 532,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "EmbeddingResult r = impl_->computeEmbedding(dummy, nullptr,",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
           "line": 438,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
+          "type": "null_dereference",
+          "severity": "HIGH",
           "snippet": "results.push_back(impl_->computeEmbedding(images[i], nullptr,",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 97,
-          "line_content": "hex << std::hex;",
-          "context": [
-            "    // Encode as lowercase hex string",
-            "    std::ostringstream hex;",
-            "    hex << std::hex;",
-            "    for (unsigned int i = 0; i < digest_len; ++i) {",
-            "        hex.width(2);"
-          ],
-          "pattern_matched": "hex << std::hex;",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 101,
-          "line_content": "hex << static_cast<unsigned int>(digest[i]);",
-          "context": [
-            "        hex.width(2);",
-            "        hex.fill('0');",
-            "        hex << static_cast<unsigned int>(digest[i]);",
-            "    }",
-            "    return hex.str();"
-          ],
-          "pattern_matched": "hex << static_cast<unsigned int>(digest[i]);",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 137,
-          "line_content": "state ^= state >> 12;",
-          "context": [
-            "static float nextFloat01(uint64_t& state) {",
-            "    // xorshift64*",
-            "    state ^= state >> 12;",
-            "    state ^= state << 25;",
-            "    state ^= state >> 27;"
-          ],
-          "pattern_matched": "state ^= state >> 12;",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 138,
-          "line_content": "state ^= state << 25;",
-          "context": [
-            "    // xorshift64*",
-            "    state ^= state >> 12;",
-            "    state ^= state << 25;",
-            "    state ^= state >> 27;",
-            "    state *= 2685821657736338717ull;"
-          ],
-          "pattern_matched": "state ^= state << 25;",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 139,
-          "line_content": "state ^= state >> 27;",
-          "context": [
-            "    state ^= state >> 12;",
-            "    state ^= state << 25;",
-            "    state ^= state >> 27;",
-            "    state *= 2685821657736338717ull;",
-            "    const uint32_t mantissa = static_cast<uint32_t>((state >> 40) & 0x00FFFFFFu);"
-          ],
-          "pattern_matched": "state ^= state >> 27;",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 141,
-          "line_content": "const uint32_t mantissa = static_cast<uint32_t>((state >> 40) & 0x00FFFFFFu);",
-          "context": [
-            "    state ^= state >> 27;",
-            "    state *= 2685821657736338717ull;",
-            "    const uint32_t mantissa = static_cast<uint32_t>((state >> 40) & 0x00FFFFFFu);",
-            "    return static_cast<float>(mantissa) / 16777215.0f;",
-            "}"
-          ],
-          "pattern_matched": "const uint32_t mantissa = static_cast<uint32_t>((state >> 40) & 0x00FFFFFFu);",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "ARITHMETIC_OVERFLOW",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 208,
-          "line_content": "const float v = (nextFloat01(state) * 2.0f) - 1.0f;",
-          "context": [
-            "        double l2 = 0.0;",
-            "        for (int i = 0; i < dim; ++i) {",
-            "            const float v = (nextFloat01(state) * 2.0f) - 1.0f;",
-            "            result.embedding[static_cast<size_t>(i)] = v;",
-            "            l2 += static_cast<double>(v) * static_cast<double>(v);"
-          ],
-          "pattern_matched": "const float v = (nextFloat01(state) * 2.0f) - 1.0f;",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Arithmetic operation result assigned to variable (potential overflow)"
-        },
-        {
-          "gap_type": "ARITHMETIC_OVERFLOW",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 249,
-          "line_content": "const float v = (nextFloat01(seed) * 2.0f) - 1.0f;",
-          "context": [
-            "        double l2 = 0.0;",
-            "        for (int i = 0; i < dim; ++i) {",
-            "            const float v = (nextFloat01(seed) * 2.0f) - 1.0f;",
-            "            result.embedding[static_cast<size_t>(i)] = v;",
-            "            l2 += static_cast<double>(v) * static_cast<double>(v);"
-          ],
-          "pattern_matched": "const float v = (nextFloat01(seed) * 2.0f) - 1.0f;",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Arithmetic operation result assigned to variable (potential overflow)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 415,
-          "line_content": "const std::vector<std::vector<uint8_t>>& images) {",
-          "context": [
-            "",
-            "std::vector<EmbeddingResult> ONNXClipPlugin::generateEmbeddingBatch(",
-            "    const std::vector<std::vector<uint8_t>>& images) {",
-            "    auto t0 = std::chrono::steady_clock::now();",
-            ""
-          ],
-          "pattern_matched": "const std::vector<std::vector<uint8_t>>& images) {",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 79,
-          "line_content": "char buf[65536];",
-          "context": [
-            "    }",
-            "",
-            "    char buf[65536];",
-            "    while (file.read(buf, sizeof(buf)) || file.gcount() > 0) {",
-            "        if (EVP_DigestUpdate(ctx, buf, static_cast<size_t>(file.gcount())) != 1) {"
-          ],
-          "pattern_matched": "char buf[65536];",
-          "operation": "Array access: buf[65536]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 87,
-          "line_content": "unsigned char digest[EVP_MAX_MD_SIZE];",
-          "context": [
-            "    }",
-            "",
-            "    unsigned char digest[EVP_MAX_MD_SIZE];",
-            "    unsigned int digest_len = 0;",
-            "    if (EVP_DigestFinal_ex(ctx, digest, &digest_len) != 1) {"
-          ],
-          "pattern_matched": "unsigned char digest[EVP_MAX_MD_SIZE];",
-          "operation": "Array access: digest[EVP_MAX_MD_SIZE]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 101,
-          "line_content": "hex << static_cast<unsigned int>(digest[i]);",
-          "context": [
-            "        hex.width(2);",
-            "        hex.fill('0');",
-            "        hex << static_cast<unsigned int>(digest[i]);",
-            "    }",
-            "    return hex.str();"
-          ],
-          "pattern_matched": "hex << static_cast<unsigned int>(digest[i]);",
-          "operation": "Array access: digest[i]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 438,
-          "line_content": "results.push_back(impl_->computeEmbedding(images[i], nullptr,",
-          "context": [
-            "        const size_t end = std::min(start + batch_limit, images.size());",
-            "        for (size_t i = start; i < end; ++i) {",
-            "            results.push_back(impl_->computeEmbedding(images[i], nullptr,",
-            "                                                      impl_->model_name,",
-            "                                                      impl_->embedding_dim));"
-          ],
-          "pattern_matched": "results.push_back(impl_->computeEmbedding(images[i], nullptr,",
-          "operation": "Array access: images[i]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 81,
-          "var_name": "digest_len",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 89,
-          "var_name": "digest_len",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 129,
-          "var_name": "metadata",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 131,
-          "var_name": "metadata",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 228,
-          "var_name": "dim",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 254,
-          "var_name": "l2",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 299,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 301,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 302,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 304,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 309,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 311,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 315,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 317,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 348,
-          "var_name": "actual",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 350,
-          "var_name": "actual",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 362,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 367,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 368,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 372,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 373,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 377,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 378,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 386,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 391,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 395,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 396,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 397,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 403,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 404,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 405,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 406,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 408,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 418,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 429,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 434,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 438,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 439,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 440,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 450,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 454,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 455,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 456,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 457,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 458,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 464,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 465,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 471,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 476,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 480,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 481,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 482,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 488,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 489,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 490,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 491,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 493,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 500,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 502,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 503,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 507,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 508,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 509,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 510,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 511,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 512,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 513,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 514,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 515,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 516,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 518,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 519,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 520,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 525,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 526,
-          "var_name": "r",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 532,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 533,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 534,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 536,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 38,
-          "class_name": "Unknown",
-          "function_name": "bridge",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 40,
-          "class_name": "Unknown",
-          "function_name": "bridge",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 150,
-          "class_name": "Unknown",
-          "function_name": "tokenize",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 151,
-          "class_name": "Unknown",
-          "function_name": "tokenize",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 157,
-          "class_name": "Unknown",
-          "function_name": "for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 199,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 214,
-          "class_name": "Unknown",
-          "function_name": "mixMetadata",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 234,
-          "class_name": "Unknown",
-          "function_name": "computeTextEmbedding",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 255,
-          "class_name": "Unknown",
-          "function_name": "for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 266,
-          "class_name": "Unknown",
-          "function_name": "for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 272,
-          "class_name": "Unknown",
-          "function_name": "ONNXClipPlugin",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 298,
-          "class_name": "Unknown",
-          "function_name": "initialize",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 317,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 366,
-          "class_name": "Unknown",
-          "function_name": "check",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 371,
-          "class_name": "Unknown",
-          "function_name": "shutdown",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 376,
-          "class_name": "Unknown",
-          "function_name": "shutdown",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 381,
-          "class_name": "Unknown",
-          "function_name": "isReady",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 384,
-          "class_name": "Unknown",
-          "function_name": "getBackend",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 399,
-          "class_name": "Unknown",
-          "function_name": "computeEmbedding",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 414,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 416,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 427,
-          "class_name": "Unknown",
-          "function_name": "lock",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 436,
-          "class_name": "Unknown",
-          "function_name": "push_back",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 444,
-          "class_name": "Unknown",
-          "function_name": "for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 463,
-          "class_name": "Unknown",
-          "function_name": "size",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 468,
-          "class_name": "Unknown",
-          "function_name": "size",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 469,
-          "class_name": "Unknown",
-          "function_name": "healthCheck",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 484,
-          "class_name": "Unknown",
-          "function_name": "computeTextEmbedding",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 499,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line_number": 524,
-          "class_name": "Unknown",
-          "function_name": "warmup",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 152,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "tokens.push_back(token);"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 426,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "results.push_back(std::move(result));"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 437,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "results.push_back(impl_->computeEmbedding(images[i], nullptr,"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 437,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "results.push_back(impl_->computeEmbedding(images[i], nullptr,"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 447,
-          "category": "performance",
+          "line": 395,
+          "type": "pointer_arithmetic",
           "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto& r : results) {"
+          "snippet": "EmbeddingResult result = impl_->computeEmbedding(image_data, metadata,",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 74,
-          "category": "determinism",
+          "line": 367,
+          "type": "deadlock_risk",
           "severity": "HIGH",
-          "pattern": "fp_exact_comparison",
-          "description": "Floating-point exact comparison (use tolerance/epsilon)",
-          "context": "if (EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr) != 1) {"
+          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 81,
-          "category": "determinism",
+          "line": 131,
+          "type": "pointer_arithmetic",
           "severity": "HIGH",
-          "pattern": "fp_exact_comparison",
-          "description": "Floating-point exact comparison (use tolerance/epsilon)",
-          "context": "if (EVP_DigestUpdate(ctx, buf, static_cast<size_t>(file.gcount())) != 1) {"
+          "snippet": "seed ^= static_cast<uint64_t>(metadata->bits_per_channel + 13);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 89,
-          "category": "determinism",
-          "severity": "HIGH",
-          "pattern": "fp_exact_comparison",
-          "description": "Floating-point exact comparison (use tolerance/epsilon)",
-          "context": "if (EVP_DigestFinal_ex(ctx, digest, &digest_len) != 1) {"
+          "line": 502,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const double avg_latency = impl_->total_inferences > 0",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 330,
-          "category": "determinism",
-          "severity": "HIGH",
-          "pattern": "fp_exact_comparison",
-          "description": "Floating-point exact comparison (use tolerance/epsilon)",
-          "context": "if (actual_sha256 != expected_sha256) {"
+          "line": 490,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->total_latency_ms += static_cast<double>(dt_ms);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 353,
-          "category": "determinism",
-          "severity": "HIGH",
-          "pattern": "fp_exact_comparison",
-          "description": "Floating-point exact comparison (use tolerance/epsilon)",
-          "context": "if (actual != expected_sha256) {"
-        }
-      ],
-      "src\\onnx_clip\\onnx_clip_plugin.h": [
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.h",
-          "line_number": 69,
-          "line_content": "const std::vector<std::vector<uint8_t>>& images",
-          "context": [
-            "",
-            "    std::vector<EmbeddingResult> generateEmbeddingBatch(",
-            "        const std::vector<std::vector<uint8_t>>& images",
-            "    ) override;",
-            ""
-          ],
-          "pattern_matched": "const std::vector<std::vector<uint8_t>>& images",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
+          "line": 458,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->clip_batch_embeddings_total += static_cast<uint64_t>(images.size());",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
         {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\onnx_clip\\onnx_clip_plugin.h",
-          "line_number": 3,
-          "line_content": "* Author: copilot-swe-agent[bot] | Maturity: \ud83d\udfe2 PRODUCTION-READY | Score: 94/100 | Lines: 105",
-          "context": [
-            "/*",
-            " * ThemisDB | File: onnx_clip_plugin.h | Version: 0.0.13 | Last Modified: 2026-05-07 17:36:16",
-            " * Author: copilot-swe-agent[bot] | Maturity: \ud83d\udfe2 PRODUCTION-READY | Score: 94/100 | Lines: 105",
-            " * Open Issues: TODOs=1, Stubs=2, Gaps=4, Unimpl=0, Mock=1, Sim=0, Debt=0",
-            " * Gap Correlation: internal=4 | external_v3=1 | delta=3 | status=divergent"
-          ],
-          "pattern_matched": "* Author: copilot-swe-agent[bot] | Maturity: \ud83d\udfe2 PRODUCTION-READY | Score: 94/100 | Lines: 105",
-          "operation": "Array access: agent[bot]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
+          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line": 457,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->total_latency_ms += static_cast<double>(dt_ms);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line": 456,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->total_inferences += static_cast<uint64_t>(images.size());",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line": 455,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->total_images += static_cast<uint64_t>(images.size());",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line": 434,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const size_t batch_limit = static_cast<size_t>(impl_->max_batch_size);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line": 429,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->total_errors += static_cast<uint64_t>(images.size());",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line": 405,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->total_latency_ms += static_cast<double>(dt_ms);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line": 317,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->max_batch_size = std::max(1, cfg_max);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line": 304,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->embedding_dim = 512;",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line": 303,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (impl_->embedding_dim <= 0) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line": 302,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "impl_->embedding_dim = config.get<int>(\"model.embedding_dim\", 512);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line": 131,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "seed ^= static_cast<uint64_t>(metadata->bits_per_channel + 13);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+        },
+        {
+          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line": 129,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "seed ^= static_cast<uint64_t>(metadata->width + 31 * metadata->height + 17 * metadata->channels);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         }
       ]
     }

@@ -179,7 +179,7 @@ class CodeMaturityUpdater:
  * ThemisDB | File: {file} | Version: {version} | Last Modified: {last_modified}
  * Author: {author} | Maturity: {level} | Score: {score}/100 | Lines: {total_lines}
  * Gap Summary: total={gaps}; TODO={todo}, Stub={stub}, Unimpl={unimpl}, Mock={mock}, Sim={sim}, Debt={debt}, C={ext_critical}, H={ext_high}, M={ext_medium}, L={ext_low}
- * PR: {pr_info}
+ * PR History (last 5): {pr_info}
  * Status: {status}
  * (Automatisch generiert, Änderungen werden überschrieben)
  */"""
@@ -380,7 +380,7 @@ class CodeMaturityUpdater:
                 'gh', 'pr', 'list',
                 '--state', 'all',
                 '--search', f'{rel} in:files',
-                '--limit', '1',
+                '--limit', '25',
                 '--json', 'number,title,updatedAt',
             ],
             cwd=repo_root,
@@ -392,13 +392,21 @@ class CodeMaturityUpdater:
             data = json.loads(out)
             if not data:
                 return 'none'
-            pr = data[0]
-            number = pr.get('number', '?')
-            title = (pr.get('title') or '').strip()
-            updated = (pr.get('updatedAt') or '').strip()
-            if len(title) > 70:
-                title = title[:67] + '...'
-            return f'#{number} {title} ({updated})'
+            prs = [pr for pr in data if isinstance(pr, dict)]
+            prs.sort(key=lambda pr: (pr.get('updatedAt') or ''), reverse=True)
+            top = prs[:5]
+            formatted: List[str] = []
+            for pr in top:
+                number = pr.get('number', '?')
+                title = (pr.get('title') or '').strip()
+                if len(title) > 30:
+                    title = title[:27] + '...'
+                updated = (pr.get('updatedAt') or '')[:10]
+                if updated:
+                    formatted.append(f'#{number} {title} ({updated})')
+                else:
+                    formatted.append(f'#{number} {title}')
+            return ' | '.join(formatted) if formatted else 'none'
         except Exception:
             return 'none'
 
@@ -517,7 +525,8 @@ def main():
     scanner = CodeMaturityScanner()
     dispatcher = CodeMaturityDispatcher(scanner, min_score=args.min_score)
     updater = CodeMaturityUpdater(dispatcher, header_mode=args.header_mode)
-    return updater.update(args.root)
+    updater.update(args.root)
+    return 0
 
 
 if __name__ == '__main__':

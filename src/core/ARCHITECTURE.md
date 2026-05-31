@@ -2,8 +2,8 @@
 
 # Core Module — Architecture Guide
 
-**Version:** 1.0
-**Last Updated:** 2026-04-06
+**Version:** 1.1
+**Last Updated:** 2026-05-31
 **Module Path:** `src/core/`
 
 ---
@@ -16,7 +16,7 @@ tracing, metrics collection, and caching, and supplies production-ready adapters
 OpenTelemetry) as well as no-op implementations for testing.
 
 Every other module that needs to log, trace, or record metrics calls through the
-`ConcernsContext` singleton rather than depending directly on spdlog or OpenTelemetry.
+`ConcernsContext` service container rather than depending directly on spdlog or OpenTelemetry.
 This allows test code to inject silent/mock adapters without touching production code.
 
 ---
@@ -25,10 +25,10 @@ This allows test code to inject silent/mock adapters without touching production
 
 - **Interface → Adapter Pattern** – each concern (`ILogger`, `ITracer`, `IMetrics`,
   `ICache`) has a pure-virtual interface and one or more concrete adapters.
-- **No-Op Defaults** – uninitialized context components fall back to no-op implementations,
-  preventing null-pointer crashes in early startup or tests.
-- **Immutable After Creation** – `ConcernsContext` is thread-safe after `create()`; no
-  locking is needed on the read path.
+- **No-Op Defaults (non-production)** – no-op adapters are valid in test/dev mode;
+  production mode rejects `createNoOp()` and no-op tracing/metrics.
+- **Thread-Safe Runtime Replacement** – `ConcernsContext` supports runtime replacement
+  for logger/tracer/metrics/cache/secrets/feature flags/audit sink with guarded swap semantics.
 - **Environment Detection** – factory methods inspect environment variables to choose
   production vs. test adapters automatically.
 - **Single Source of Truth** – all cross-cutting concern access flows through
@@ -42,8 +42,8 @@ This allows test code to inject silent/mock adapters without touching production
 
 | File | Role |
 |---|---|
-| `concerns/concerns_context.cpp` | Central DI hub: holds logger, tracer, metrics, cache references |
-| `concerns/i_logger.cpp` | ILogger interface + SpdlogLoggerAdapter + NoopLogger |
+| `concerns/concerns_context.cpp` | Central DI hub: holds logger, tracer, metrics, cache, secrets, feature flags, and audit references |
+| `concerns/spdlog_logger_adapter.h` | Production logger adapter |
 | `concerns/context_propagation.cpp` | Distributed trace context propagation (W3C TraceContext) |
 | `security_initialization.cpp` | OpenSSL and security library initialization at startup |
 
@@ -59,16 +59,20 @@ This allows test code to inject silent/mock adapters without touching production
 └──────────────────────────┬──────────────────────────────────────┘
                            │
 ┌──────────────────────────▼──────────────────────────────────────┐
-│                    ConcernsContext (singleton)                   │
+│                    ConcernsContext (service container)            │
 │                                                                  │
 │  logger()  → ILogger*  → SpdlogLoggerAdapter | NoopLogger       │
 │  tracer()  → ITracer*  → OtelTracerAdapter   | NoopTracer       │
 │  metrics() → IMetrics* → PrometheusAdapter   | NoopMetrics      │
 │  cache()   → ICache*   → RedisAdapter        | LocalCacheAdapter│
+│  secrets() → ISecrets* → InMemory/Env/NoOp                      │
+│  featureFlags() → IFeatureFlags* → InMemory/NoOp                │
+│  auditLog() → IAuditLog* → NoOp/adapter                         │
 │                                                                  │
 │  create(config)  : factory for production                        │
-│  createForTest() : factory with all Noop adapters               │
+│  createNoOp()    : factory with all Noop adapters               │
 │  createCustom(logger, tracer, ...) : full custom injection      │
+│  replace*()      : runtime adapter replacement                   │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
@@ -156,11 +160,12 @@ All logger/tracer calls on this thread include the trace ID automatically
 
 ## 8. Security Considerations
 
-- `security_initialization.cpp` initializes OpenSSL with FIPS-compliant settings when
-  `THEMIS_FIPS_MODE=1` is set.
-- TLS private keys are locked to memory (mlock) to prevent swapping to disk.
-- The `ILogger` interface sanitizes format strings to prevent format-string injection
-  in spdlog calls.
+- `security_initialization.cpp` enforces fail-closed bootstrap behavior in production mode
+  (invalid provider/JWT configuration raises `std::runtime_error`).
+- `ConcernsContext::create(config)` rejects invalid adapter/config combinations and
+  enforces production constraints for tracing/metrics (no noop adapters in production).
+- Runtime adapter replacement APIs reject `nullptr` and fail fast via
+  `std::invalid_argument`.
 
 ---
 
@@ -173,7 +178,6 @@ All logger/tracer calls on this thread include the trace ID automatically
 | `core.tracing.exporter` | "otlp" | OTel exporter (otlp/jaeger/zipkin) |
 | `core.tracing.endpoint` | "" | OTel collector endpoint |
 | `core.metrics.enabled` | true | Enable Prometheus metrics |
-| `core.fips_mode` | false | Enable FIPS-compliant crypto |
 
 ---
 
@@ -181,9 +185,9 @@ All logger/tracer calls on this thread include the trace ID automatically
 
 | Error Type | Strategy |
 |---|---|
-| Adapter initialization failure | Fall back to Noop adapter; log warning |
-| OTel exporter unreachable | Buffer spans locally; retry with backoff; drop on overflow |
-| Logger write failure | Silently drop (logging must not throw) |
+| Invalid runtime configuration | Fail closed during `create(config)` with `std::runtime_error` |
+| Production policy violation (noop tracing/metrics) | Fail closed with `std::runtime_error` |
+| Runtime `replace*` with null adapter | Reject immediately with `std::invalid_argument` |
 
 ---
 

@@ -386,3 +386,47 @@ TEST_F(HSMProviderTest, AllowsHSMWhenEnabled) {
         EXPECT_EQ(msg.find("not enabled"), std::string::npos);
     }
 }
+
+TEST(HSMProviderStandaloneTest, RejectsMissingHSMLibraryPathBeforeInitialization) {
+    EnvGuard guard("THEMIS_HSM_ENABLED", "1");
+
+    nlohmann::json hsm_config = {
+        {"library_path", "Z:/themis/nonexistent/pkcs11-provider.dll"},
+        {"slot_id", "0"},
+        {"pin", "1234"}
+    };
+
+    auto builder = SecurityLayerBuilder();
+    builder.withKeyProvider(SecurityLayerBuilder::KeyProviderType::HSM, hsm_config.dump());
+
+    try {
+        auto layer = builder.build();
+        (void)layer;
+        FAIL() << "Expected missing HSM library_path to fail before initialization";
+    } catch (const std::runtime_error& e) {
+        const std::string msg = e.what();
+        EXPECT_NE(msg.find("library_path does not point to an existing file"), std::string::npos);
+    }
+}
+
+TEST(HSMProviderStandaloneTest, RejectsInvalidHSMSlotIdBeforeInitialization) {
+    EnvGuard guard("THEMIS_HSM_ENABLED", "1");
+
+    nlohmann::json hsm_config = {
+        {"library_path", __FILE__},
+        {"slot_id", "slot-zero"},
+        {"pin", "1234"}
+    };
+
+    auto builder = SecurityLayerBuilder();
+    builder.withKeyProvider(SecurityLayerBuilder::KeyProviderType::HSM, hsm_config.dump());
+
+    try {
+        auto layer = builder.build();
+        (void)layer;
+        FAIL() << "Expected invalid HSM slot_id to fail before initialization";
+    } catch (const std::runtime_error& e) {
+        const std::string msg = e.what();
+        EXPECT_NE(msg.find("slot_id must be an unsigned integer"), std::string::npos);
+    }
+}

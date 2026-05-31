@@ -1,9 +1,28 @@
 /*
- * ThemisDB | File: security_initialization.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=5, Sim=0, Debt=0, C=1, H=59, M=2, L=0
+ * ThemisDB | File: security_initialization.cpp | Version: 0.0.1 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 338
+ * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=5, Sim=0, Debt=0, C=0, H=14, M=0, L=0
+ * PR History (last 5): #5118 docs(core): rebaseline PROD... (2026-05-13) | #3899 feat(auth): Mandatory JWT I... (2026-03-12) | #1253 Implement production-harden... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+/**
+ * @file security_initialization.cpp
+ * @brief Builds and validates the core security layer bootstrap for ThemisDB.
+ *
+ * This translation unit wires security providers, encryption settings, JWT
+ * configuration, and the fail-closed initialization path for the security
+ * module. Configuration parsing is intentionally strict: malformed provider
+ * JSON, invalid Vault configuration, or unsupported provider combinations are
+ * rejected before a security layer is constructed.
+ *
+ * Failure behavior:
+ * - Parse/validation errors raise std::runtime_error with a descriptive reason.
+ * - Missing or invalid security configuration fails closed instead of falling
+ *   back to a permissive runtime state.
+ * - Provider setup logic is kept centralized here so the module remains easy to
+ *   audit alongside src/core/MODULE_GAPS.md.
  */
 
 #include "core/security_initialization.h"
@@ -13,7 +32,11 @@
 #include "security/vault_key_provider.h"
 #include "security/hsm_provider.h"
 #include "security/hsm_key_provider_adapter.h"
+#include <algorithm>
+#include <cctype>
+#include <filesystem>
 #include <fstream>
+#include <limits>
 #include <sstream>
 #include <stdexcept>
 #include <nlohmann/json.hpp>
@@ -267,12 +290,32 @@ IKeyProviderPtr SecurityLayerBuilder::createKeyProvider(
             if (library_path.empty()) {
                 throw std::runtime_error("HSM key provider requires library_path in config");
             }
+
+            std::error_code library_ec;
+            const std::filesystem::path library_fs_path(library_path);
+            if (!std::filesystem::exists(library_fs_path, library_ec) ||
+                !std::filesystem::is_regular_file(library_fs_path, library_ec)) {
+                throw std::runtime_error("HSM key provider library_path does not point to an existing file: " +
+                                         library_path);
+            }
             
             try {
                 security::HSMConfig hsm_config;
                 hsm_config.library_path = library_path;
                 if (!slot_id.empty()) {
-                    hsm_config.slot_id = static_cast<uint32_t>(std::stoul(slot_id));
+                    const bool valid_slot_id = std::all_of(
+                        slot_id.begin(), slot_id.end(),
+                        [](unsigned char ch) { return std::isdigit(ch) != 0; });
+                    if (!valid_slot_id) {
+                        throw std::runtime_error("HSM key provider slot_id must be an unsigned integer");
+                    }
+
+                    const unsigned long long parsed_slot_id = std::stoull(slot_id);
+                    if (parsed_slot_id > std::numeric_limits<uint32_t>::max()) {
+                        throw std::runtime_error("HSM key provider slot_id exceeds uint32 range");
+                    }
+
+                    hsm_config.slot_id = static_cast<uint32_t>(parsed_slot_id);
                 }
                 hsm_config.pin = pin;
 

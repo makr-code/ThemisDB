@@ -1,6 +1,6 @@
 > **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
 
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Core Module - Future Enhancements
@@ -43,10 +43,9 @@
 
 ### Dynamic Adapter Reconfiguration
 **Priority:** High
-**Target Version:** v1.6.0
-**Status:** ✅ Implemented
+**Target Version:** v1.9.0
 
-Enable runtime switching of adapters without restarting the database.
+Harden runtime adapter switching for high-throughput production workloads.
 
 ```cpp
 // Runtime adapter swap — no restart required
@@ -54,18 +53,10 @@ context->replaceLogger(std::make_unique<SpdlogLoggerAdapter>(...));
 context->replaceMetrics(std::make_unique<PrometheusMetricsAdapter>(...));
 ```
 
-**What was implemented:**
-- `replaceLogger()`, `replaceTracer()`, `replaceMetrics()`, `replaceCache()`,
-  `replaceSecrets()`, `replaceFeatureFlags()`, `replaceAuditLog()` methods added
-  to `ConcernsContext` in `include/core/concerns/concerns_context.h` /
-  `src/core/concerns/concerns_context.cpp`.
-- Thread-safe swap via `mutable std::mutex adapters_mutex_`; the pointer swap
-  is performed under the lock, then the old adapter is flushed and shut down
-  outside the lock so in-flight calls can complete safely.
-- Passing `nullptr` throws `std::invalid_argument` (fail-closed).
-- 6 focused unit tests (DAR-01..DAR-06) in `tests/test_concerns_context.cpp`:
-  logger swap, tracer swap, metrics swap, cache swap, null-reject, and
-  concurrent-safe swap under 4 logging threads.
+**Planned hardening work:**
+- Add swap-drain telemetry (duration, in-flight handles, error counts) per adapter type.
+- Add rollback guardrails for failed replacement attempts under load.
+- Add stress profile for repeated replace-cycles under mixed read/write traffic.
 
 **Benefits:**
 - Zero-downtime logging level changes
@@ -76,10 +67,9 @@ context->replaceMetrics(std::make_unique<PrometheusMetricsAdapter>(...));
 
 ### Distributed Cache Integration
 **Priority:** High
-**Target Version:** v1.6.0
-**Status:** ✅ Implemented
+**Target Version:** v1.9.0
 
-Full Redis/Memcached adapter for distributed caching across cluster nodes.
+Expand distributed caching toward multi-region and failure-domain-aware operation.
 
 **Features:**
 - Cluster-wide cache invalidation (via Redis pub/sub PUBLISH on DEL/clear)
@@ -88,11 +78,10 @@ Full Redis/Memcached adapter for distributed caching across cluster nodes.
 - Pub/sub for cache invalidation messages (background subscriber thread)
 - Graceful degradation when Redis is unavailable (no exceptions, returns nullopt/false)
 
-**Implementation:**
-`include/core/concerns/redis_cache.h` and `src/core/concerns/redis_cache.cpp`.
-`RedisCache` implements `ICache` and is injectable via `ConcernsContext::createCustom()`.
-Selectable via `Config::cacheAdapter = "redis"` + `Config::cacheRedisUrl`.
-Tests: `tests/test_distributed_cache_integration.cpp` → `DistributedCacheIntegrationFocusedTests`.
+**Planned expansion:**
+- Add multi-region keyspace strategy and region-local invalidation buffering.
+- Add partition tolerance mode with deterministic stale-read policies.
+- Add operator-facing cache health SLOs and alert thresholds.
 
 **API:**
 ```cpp
@@ -180,53 +169,31 @@ context->registerConcern<ICustomConcern>(my_custom_concern);
 
 ---
 
-## Performance Optimizations
+## Performance Optimizations (Future)
 
 ### Zero-Copy Logging
 **Priority:** High
-**Target Version:** v1.6.0
-**Status:** ✅ Implemented
+**Target Version:** v1.9.0
 
-Reduce memory allocations in logging hot paths.
+Further reduce logging overhead for high-cardinality workloads.
 
-**Current:** String formatting and copying for every log call
-**Target:** Pre-allocated buffers and string_view usage
+**Current:** string_view hot path with thread-local format buffer
+**Target:** bounded queue backpressure and adaptive flush policy by latency target
 
 **Expected Improvement:** 30-50% reduction in logging overhead
-
-**Implementation:**
-- `ZeroCopyLogger` in `include/core/concerns/zero_copy_logger.h` and
-  `src/core/concerns/zero_copy_logger.cpp`
-- `string_view` hot-path API: `logSV`, `traceSV`, `debugSV`, `infoSV`,
-  `warnSV`, `errorSV`, `criticalSV`, `logStructuredSV`
-- Pre-allocated `thread_local std::string` format buffer — reserved once per
-  thread, `clear()`-ed on each call so no heap allocation on the hot path
-- Early level-check (`shouldLog`) to skip all formatting work for filtered
-  levels
-- Full `ILogger` compatibility: `const std::string&` overrides delegate to
-  `string_view` hot path (no additional copy)
-- `json_mode_` is `std::atomic<bool>` — safe concurrent `setJsonMode()` while logging
-- PII redaction on field values (allocation-free key scan)
-
-See `tests/test_zero_copy_logging.cpp` for 41 focused unit tests.
 
 ---
 
 ### Lock-Free Metrics
 **Priority:** High
-**Target Version:** v1.6.0
-**Status:** ✅ Implemented
+**Target Version:** v1.9.0
 
-Replace mutex-based counters with atomic operations.
+Extend lock-free metrics pipeline for predictable p99 under burst load.
 
-**Implementation:**
-- `std::atomic<int64_t>` for counters – lock-free `fetch_add` on hot path
-- `std::atomic<double>` for gauges – lock-free `store`/`fetch_add`/`fetch_sub`
-- Lock-free SPSC ring buffer per thread for histogram observations
-- Background flush thread drains thread-local ring buffers every 100 ms
-
-See `include/core/concerns/lockfree_metrics.h` and
-`src/core/concerns/lockfree_metrics.cpp`.
+**Planned work:**
+- Add bounded-memory histogram compaction mode.
+- Add low-contention exporter fan-out for multi-sink metric backends.
+- Add saturation metrics and adaptive flush interval.
 
 **Expected Improvement:** 80% reduction in metric update latency
 
@@ -315,10 +282,10 @@ Reduce boilerplate in context creation.
 ```cpp
 // Current
 auto context = ConcernsContext::createCustom(
-    std::make_shared<SpdlogLogger>(),
-    std::make_shared<OtelTracer>(),
-    std::make_shared<PrometheusMetrics>(),
-    std::make_shared<InMemoryCache>()
+  std::make_unique<SpdlogLoggerAdapter>(),
+  std::make_unique<OpenTelemetryTracerAdapter>(),
+  std::make_unique<PrometheusMetricsAdapter>(),
+  std::make_unique<InMemoryCacheImpl>()
 );
 
 // Proposed
@@ -343,57 +310,57 @@ Use `Expected<T, Error>` consistently across all concern interfaces.
 
 ---
 
-## Known Issues
+## Risk Backlog
 
 ### Issue #1: Cache Stampede
 **Severity:** Medium
-**Reported:** v1.5.0
+**Signal:** Duplicate compute after concurrent cache misses under burst traffic
 
 Multiple threads simultaneously query cache miss, causing duplicate work.
 
 **Workaround:** Use lock-based cache warming
 **Fix:** Implement request coalescing in cache layer
 
-**Planned Fix:** v1.6.0
+**Planned Fix:** backlog (pending scheduling)
 
 ---
 
 ### Issue #2: Tracer Memory Leak (Edge Case)
 **Severity:** Low
-**Reported:** v1.5.1
+**Signal:** Long-running spans can accumulate if `end()` is not called
 
 Long-running spans can accumulate if `end()` is not called.
 
 **Workaround:** Use RAII span guards
 **Fix:** Add automatic span timeout and cleanup
 
-**Planned Fix:** v1.6.1
+**Planned Fix:** backlog (pending scheduling)
 
 ---
 
 ### Issue #3: Metrics Label Cardinality Explosion
 **Severity:** High
-**Reported:** v1.5.0
+**Signal:** High-cardinality labels (e.g., user IDs) can cause unbounded memory growth
 
 High-cardinality labels (e.g., user IDs) cause unbounded memory growth.
 
 **Workaround:** Limit label values via configuration
 **Fix:** Add automatic label cardinality limiting and warnings
 
-**Planned Fix:** v1.6.0
+**Planned Fix:** backlog (pending scheduling)
 
 ---
 
 ### Issue #4: Production Mode Detection False Positives
 **Severity:** Low
-**Reported:** v1.5.2
+**Signal:** Environment variable combinations can incorrectly trigger production mode
 
 Environment variable detection can incorrectly trigger production mode.
 
 **Workaround:** Explicitly set `THEMIS_PRODUCTION_MODE=0`
 **Fix:** More robust production detection logic
 
-**Planned Fix:** v1.6.0
+**Planned Fix:** backlog (pending scheduling)
 
 ---
 
@@ -463,26 +430,26 @@ Enable tracing from:
 
 ---
 
-## Migration Paths
+## Adoption Scenarios
 
-### v1.5.x → v1.6.x: Dynamic Adapter API
-**Breaking Changes:** None (additive)
+### Scenario A: Runtime Adapter Hardening Rollout
+**Breaking Changes:** None expected (additive)
 
 **New APIs:**
 ```cpp
 context->replaceLogger(new_logger);
-context->reloadConfig(new_config);
+context->replaceMetrics(new_metrics);
 ```
 
-**Migration Steps:**
-1. Update to v1.6.0
-2. Test existing code (no changes needed)
-3. Optionally adopt new dynamic APIs
+**Adoption Steps:**
+1. Enable replacement telemetry in non-production environment.
+2. Run swap stress profile with representative production traffic.
+3. Promote with rollback guardrails enabled.
 
 ---
 
-### v1.6.x → v1.7.x: Metrics API Refactor
-**Breaking Changes:** Metrics signature changes
+### Scenario B: Metrics API Refactor Preparation
+**Breaking Changes:** anticipated API shape changes
 
 **Old API:**
 ```cpp
@@ -496,17 +463,15 @@ metrics->counter("counter_name").increment();
 metrics->histogram("histogram_name").record(value);
 ```
 
-**Migration Steps:**
-1. Update all `metrics->` calls to new builder-style API
-2. Run provided migration script: `scripts/migrate_metrics_v17.sh`
-3. Rebuild and test
-
-**Timeline:** 6 months deprecation period
+**Adoption Steps:**
+1. Inventory all callsites using legacy metric methods.
+2. Prepare codemod/lint rule for builder-style calls.
+3. Roll out per module behind compatibility switch.
 
 ---
 
-### v1.7.x → v1.8.x: Modular Concerns Libraries
-**Breaking Changes:** Link flags changes
+### Scenario C: Modular Concerns Library Split
+**Breaking Changes:** link configuration changes expected
 
 **Old CMake:**
 ```cmake
@@ -523,12 +488,10 @@ target_link_libraries(my_app
 )
 ```
 
-**Migration Steps:**
-1. Update CMakeLists.txt with granular libraries
-2. Remove unnecessary dependencies for smaller binary size
-3. Rebuild
-
-**Timeline:** 12 months deprecation period (v1.7.x still provides monolithic library)
+**Adoption Steps:**
+1. Introduce module-level target mapping for granular concerns libraries.
+2. Validate binary size and startup deltas per build profile.
+3. Deprecate monolithic link target after migration window.
 
 ---
 
@@ -543,8 +506,6 @@ We welcome contributions in the following areas:
 - [ ] Documentation improvements and examples
 
 ### Medium Complexity
-- [x] Redis cache adapter implementation ✅ Implemented (v1.6.0)
-- [x] In-memory and environment-variable secrets providers ✅ Implemented (v1.8.0)
 - [ ] Contextual logging framework
 - [ ] Span pool for tracer optimization
 - [ ] Configuration hot-reload
@@ -569,9 +530,8 @@ Have ideas for core module improvements? Open an issue or discussion:
 
 ---
 
-*Last Updated: April 2026*
-*Module Version: v1.5.x*
-*Next Review: v1.6.0 Release*
+*Last Updated: 2026-05-31*
+*Review Cadence: monthly backlog review*
 
 ---
 

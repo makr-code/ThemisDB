@@ -606,6 +606,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/statistical_aggregator.cpp
     ../src/query/semantic_cache.cpp
     ../src/query/functions/function_registry.cpp
+    $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
     ../src/query/functions/ethics_functions.cpp
     ../src/query/functions/fulltext_functions.cpp
     ../src/query/functions/lora_functions.cpp
@@ -1659,7 +1660,6 @@ set(THEMIS_NETWORK_SOURCES
     ../src/server/review_scheduling_api_handler.cpp
     
     # GraphQL API (conditional)
-    $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/server/graphql_api_handler.cpp>
 
     # WebSocket change-stream handler (conditional)
@@ -2364,6 +2364,9 @@ function(themis_build_modular)
             if(THEMIS_MODULE_LLM_SPLIT)
                 list(APPEND _themis_content_deps themis_llm_ext)
             endif()
+        endif()
+        if(TARGET themis_query)
+            list(APPEND _themis_content_deps themis_query)
         endif()
         if(TARGET libzip::zip)
             list(APPEND _themis_content_deps libzip::zip)

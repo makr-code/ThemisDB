@@ -705,6 +705,10 @@ void QUICClient::connect() {
     if (host_.empty() || port_ == 0) {
         throw std::runtime_error("[QUICClient] invalid URL: " + url_);
     }
+    if (!QUICServer::isValidCongestionControl(config_.congestion_control)) {
+        throw std::runtime_error(
+            "[QUICClient] invalid congestion control: " + config_.congestion_control);
+    }
 
     using SslCtxPtr = std::unique_ptr<SSL_CTX, decltype(&SSL_CTX_free)>;
     using SslPtr    = std::unique_ptr<SSL, decltype(&SSL_free)>;

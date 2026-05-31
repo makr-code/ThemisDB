@@ -9,6 +9,8 @@
 
 ## Inhalte
 - `DOC_TEMPLATE.md` – redaktionelle Vorlage für neue Dokumente
+- `PUBLIC_DOCUMENTATION_7PHASE_TEMPLATE.md` – 7-Phasen-Vorlage für user/admin/operational docs in `docs/`
+- `AI_DEVELOPER_DOCUMENTATION_GUIDE.md` – verbindlicher Leitfaden fuer AI-gestuetzte Entwicklerdokumentation (Ablage, Pflege, Source-of-Truth)
 - `doc_header.schema.yml` – Schema für Dokument-Metadaten
 
 ## Abgrenzung: Generiert vs. manuell

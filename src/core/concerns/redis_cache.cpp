@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: redis_cache.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=10, H=196, M=22, L=0
+ * ThemisDB | File: redis_cache.cpp | Version: 0.0.13 | Last Modified: 2026-05-29 22:38:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1016
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=31, M=11, L=0
+ * PR History (last 5): #4172 feat(core): Distributed Cac... (2026-03-13)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
@@ -896,6 +897,7 @@ bool RedisCache::readPubSubMessage(SocketFd fd, std::string &channel_out, std::s
     }
 
     std::vector<std::string> parts;
+    parts.reserve(static_cast<size_t>(count));
     for (int i = 0; i < count; ++i) {
         std::string elem;
         if (!readReply(fd, elem)) {
@@ -953,8 +955,8 @@ uint64_t RedisCache::missCount() const {
 double RedisCache::hitRate() const {
     uint64_t h     = hits_.load();
     uint64_t m     = misses_.load();
-    uint64_t total = h + m;
-    return (total == 0) ? 0.0 : static_cast<double>(h) / static_cast<double>(total);
+    const long double total = static_cast<long double>(h) + static_cast<long double>(m);
+    return (total == 0.0L) ? 0.0 : static_cast<double>(static_cast<long double>(h) / total);
 }
 
 // ---------------------------------------------------------------------------

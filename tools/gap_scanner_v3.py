@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """
-ThemisDB Gap Scanner v3 — Unified Orchestrator (Phase 1-10)
+ThemisDB Gap Scanner v3 — Unified Orchestrator (Phase 1-11)
 
-Runs all Phase 1-10 scanners:
+Runs all Phase 1-11 scanners:
 - Phase 1-4: Security, Memory, Reliability, Concurrency, RAII, Container, Platform, Performance
 - Phase 5: Type Conversion, Input Validation, Exception Safety, Uninitialized, OOP Design
 - Phase 7: Audit Trail & Logging, Deprecated APIs
 - Phase 8: Performance Patterns, GPU Memory Safety
 - Phase 9: Query Correctness, Distributed Consistency, LLM/AI Safety
 - Phase 10: Observability, Determinism
+- Phase 11: Legacy paths, duplicate implementations
 
 Produces:
 - Aggregate report (gap_scan_v3_aggregate.json)
@@ -55,6 +56,7 @@ from gap_scanner_v3_phase9_llm_ai_safety import LLMAISafetyScan
 # Import Phase 10 scanners
 from gap_scanner_v3_phase10_observability import ObservabilityScan
 from gap_scanner_v3_phase10_determinism import DeterminismScan
+from gap_scanner_v3_phase11_legacy_duplication import LegacyDuplicationScan
 
 
 class UnifiedGapScannerV3:
@@ -66,10 +68,10 @@ class UnifiedGapScannerV3:
         self.output_dir.mkdir(parents=True, exist_ok=True)
     
     def run_complete_scan(self) -> Dict[str, Any]:
-        """Execute Phase 1-10 security + memory + reliability + concurrency + RAII + container + platform + performance + type_conversion + input_validation + audit + deprecated + perf_patterns + gpu_memory + query + distributed + llm + observability + determinism scan"""
+        """Execute Phase 1-11 security + memory + reliability + concurrency + RAII + container + platform + performance + type_conversion + input_validation + audit + deprecated + perf_patterns + gpu_memory + query + distributed + llm + observability + determinism + legacy_duplication scan"""
         
         print("\n" + "=" * 80)
-        print("ThemisDB Gap Scanner v3 — Phase 1-10 Complete Suite (27 Scanners)")
+        print("ThemisDB Gap Scanner v3 — Phase 1-11 Complete Suite (28 Scanners)")
         print("=" * 80)
         
         results = {}
@@ -171,7 +173,7 @@ class UnifiedGapScannerV3:
         results['oop_design'] = oop_results
         
         # Phase 7 Scanners
-        print("\n[14/27] Audit Trail & Logging Consistency Gap Scanner (Phase 7)")
+        print("\n[14/28] Audit Trail & Logging Consistency Gap Scanner (Phase 7)")
         print("-" * 80)
         audit_scanner = AuditLoggingScan(str(self.repo_root))
         src_files = list(src_path.rglob('*.cpp')) + list(src_path.rglob('*.h'))
@@ -179,7 +181,7 @@ class UnifiedGapScannerV3:
         audit_results = self._convert_phase7_gaps_to_module_format(audit_gaps)
         results['audit_logging'] = audit_results
         
-        print("\n[15/27] Deprecated API Usage Gap Scanner (Phase 7)")
+        print("\n[15/28] Deprecated API Usage Gap Scanner (Phase 7)")
         print("-" * 80)
         deprecated_scanner = DeprecatedAPIsScan(str(self.repo_root))
         deprecated_gaps = deprecated_scanner.scan_files(src_files)
@@ -187,14 +189,14 @@ class UnifiedGapScannerV3:
         results['deprecated_apis'] = deprecated_results
         
         # Phase 8 Scanners
-        print("\n[16/27] Performance Patterns Gap Scanner (Phase 8)")
+        print("\n[16/28] Performance Patterns Gap Scanner (Phase 8)")
         print("-" * 80)
         perf_patterns_scanner = PerformanceAntiPatternsScan(str(self.repo_root))
         perf_patterns_gaps = perf_patterns_scanner.scan_files(src_files)
         perf_patterns_results = self._convert_phase7_gaps_to_module_format(perf_patterns_gaps)
         results['performance_patterns'] = perf_patterns_results
         
-        print("\n[17/27] GPU Memory Safety Gap Scanner (Phase 8)")
+        print("\n[17/28] GPU Memory Safety Gap Scanner (Phase 8)")
         print("-" * 80)
         gpu_mem_scanner = GPUMemorySafetyScan(str(self.repo_root))
         gpu_mem_gaps = gpu_mem_scanner.scan_files(src_files)
@@ -202,21 +204,21 @@ class UnifiedGapScannerV3:
         results['gpu_memory_safety'] = gpu_mem_results
         
         # Phase 9 Scanners
-        print("\n[18/27] Query Correctness & Semantic Validation Gap Scanner (Phase 9)")
+        print("\n[18/28] Query Correctness & Semantic Validation Gap Scanner (Phase 9)")
         print("-" * 80)
         query_scanner = QueryCorrectnessScan(str(self.repo_root))
         query_gaps = query_scanner.scan_files(src_files)
         query_results = self._convert_phase7_gaps_to_module_format(query_gaps)
         results['query_correctness'] = query_results
         
-        print("\n[19/27] Distributed Consistency & Consensus Gap Scanner (Phase 9)")
+        print("\n[19/28] Distributed Consistency & Consensus Gap Scanner (Phase 9)")
         print("-" * 80)
         dist_scanner = DistributedConsistencyScan(str(self.repo_root))
         dist_gaps = dist_scanner.scan_files(src_files)
         dist_results = self._convert_phase7_gaps_to_module_format(dist_gaps)
         results['distributed_consistency'] = dist_results
         
-        print("\n[20/27] LLM/AI Safety & Model Integrity Gap Scanner (Phase 9)")
+        print("\n[20/28] LLM/AI Safety & Model Integrity Gap Scanner (Phase 9)")
         print("-" * 80)
         llm_scanner = LLMAISafetyScan(str(self.repo_root))
         llm_gaps = llm_scanner.scan_files(src_files)
@@ -224,19 +226,26 @@ class UnifiedGapScannerV3:
         results['llm_ai_safety'] = llm_results
         
         # Phase 10 Scanners
-        print("\n[21/27] Observability & Instrumentation Gap Scanner (Phase 10)")
+        print("\n[21/28] Observability & Instrumentation Gap Scanner (Phase 10)")
         print("-" * 80)
         obs_scanner = ObservabilityScan(str(self.repo_root))
         obs_gaps = obs_scanner.scan_files(src_files)
         obs_results = self._convert_phase7_gaps_to_module_format(obs_gaps)
         results['observability'] = obs_results
         
-        print("\n[22/27] Determinism & Reproducibility Gap Scanner (Phase 10)")
+        print("\n[22/28] Determinism & Reproducibility Gap Scanner (Phase 10)")
         print("-" * 80)
         det_scanner = DeterminismScan(str(self.repo_root))
         det_gaps = det_scanner.scan_files(src_files)
         det_results = self._convert_phase7_gaps_to_module_format(det_gaps)
         results['determinism'] = det_results
+
+        print("\n[23/28] Legacy Paths & Duplicate Implementation Scanner (Phase 11)")
+        print("-" * 80)
+        legacy_scanner = LegacyDuplicationScan(str(self.repo_root))
+        legacy_gaps = legacy_scanner.scan_files(src_files)
+        legacy_results = self._convert_phase7_gaps_to_module_format(legacy_gaps)
+        results['legacy_duplication'] = legacy_results
         
         # Aggregate results
         print("\n[...] Aggregating results...")
@@ -247,7 +256,7 @@ class UnifiedGapScannerV3:
         self._save_module_reports(aggregate)
         self._save_summary(aggregate)
         
-        print("\n[OK] Phase 1-10 scan complete!")
+        print("\n[OK] Phase 1-11 scan complete!")
         print(f"\n[INFO] Results saved to: {self.output_dir}/")
         
         return aggregate
@@ -298,10 +307,78 @@ class UnifiedGapScannerV3:
     def _save_module_reports(self, aggregate: Dict[str, Any]):
         """Save per-module reports"""
         for module, data in aggregate.items():
+            sorted_data = self._sort_report_data_by_confidence(data)
             output_file = self.output_dir / f'gap_scan_v3_{module}.json'
             with open(output_file, 'w') as f:
-                json.dump({module: data}, f, indent=2)
+                json.dump({module: sorted_data}, f, indent=2)
         print(f"[OK] Saved: {len(aggregate)} module reports")
+
+    def _sort_report_data_by_confidence(self, module_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Sort gap entries inside a module by confidence score descending."""
+        sorted_data = dict(module_data)
+        by_file = {}
+
+        for file_path, gaps in module_data.get('by_file', {}).items():
+            by_file[file_path] = sorted(
+                gaps,
+                key=lambda gap: (
+                    float(gap.get('confidence_score', 0.0)),
+                    str(gap.get('severity', '')),
+                    int(gap.get('line_number', 0) or gap.get('line', 0) or 0),
+                ),
+                reverse=True,
+            )
+
+        sorted_data['by_file'] = by_file
+        return sorted_data
+
+    def _save_confidence_review(self, aggregate: Dict[str, Any]):
+        """Write a high-confidence review queue across all modules."""
+        review_items = []
+        threshold = 0.85
+        max_items = 2000
+
+        for module_name, module_data in aggregate.items():
+            for file_path, gaps in module_data.get('by_file', {}).items():
+                for gap in gaps:
+                    confidence = float(gap.get('confidence_score', 0.0) or 0.0)
+                    if confidence < threshold:
+                        continue
+                    review_items.append({
+                        'module': module_name,
+                        'file': file_path,
+                        'line': gap.get('line_number') or gap.get('line'),
+                        'severity': gap.get('severity'),
+                        'category': gap.get('category') or module_name,
+                        'pattern': gap.get('gap_type') or gap.get('pattern'),
+                        'confidence_score': round(confidence, 3),
+                        'confidence_band': gap.get('confidence_band'),
+                        'confidence_rationale': gap.get('confidence_rationale'),
+                        'summary': gap.get('issue') or gap.get('description') or gap.get('reason'),
+                    })
+
+        review_items.sort(
+            key=lambda item: (
+                float(item.get('confidence_score', 0.0)),
+                str(item.get('severity', '')),
+                str(item.get('module', '')),
+                str(item.get('file', '')),
+                int(item.get('line') or 0),
+            ),
+            reverse=True,
+        )
+        review_items = review_items[:max_items]
+
+        output_file = self.output_dir / 'gap_scan_v3_confidence_review.json'
+        with open(output_file, 'w') as f:
+            json.dump({
+                'threshold': threshold,
+                'max_items': max_items,
+                'count': len(review_items),
+                'items': review_items,
+            }, f, indent=2)
+
+        print(f"[OK] Saved: {output_file.name} ({len(review_items)} items >= {threshold})")
     
     def _save_summary(self, aggregate: Dict[str, Any]):
         """Generate and save summary statistics"""
@@ -334,7 +411,8 @@ class UnifiedGapScannerV3:
             'distributed_consistency': 0,
             'llm_ai_safety': 0,
             'observability': 0,
-            'determinism': 0
+            'determinism': 0,
+            'legacy_duplication': 0
         }
         for module_data in aggregate.values():
             for cat, count in module_data.get('by_category', {}).items():
@@ -350,7 +428,7 @@ class UnifiedGapScannerV3:
         
         summary = {
             'scan_date': datetime.now().isoformat(),
-            'phase': 'Phase 1-10 Extended (27 scanners: 8 Phase 1-4 + 5 Phase 5 + 2 Phase 7 + 2 Phase 8 + 3 Phase 9 + 2 Phase 10)',
+            'phase': 'Phase 1-11 Extended (28 scanners: 8 Phase 1-4 + 5 Phase 5 + 2 Phase 7 + 2 Phase 8 + 3 Phase 9 + 2 Phase 10 + 1 Phase 11)',
             'total_gaps': total_gaps,
             'by_severity': {
                 'critical': critical,
@@ -364,6 +442,8 @@ class UnifiedGapScannerV3:
                 {'module': m, 'gaps': c}
                 for m, c in module_ranking[:10]
             ],
+            'confidence_overview': self._build_confidence_overview(aggregate),
+            'confidence_by_category': self._build_confidence_by_category(aggregate),
             'implementation_effort': self._estimate_effort(critical, high)
         }
         
@@ -372,7 +452,7 @@ class UnifiedGapScannerV3:
             json.dump(summary, f, indent=2)
         
         # Print to console
-        print(f"\n[SUMMARY] Phase 1-10 Complete Gap Analysis (27 Scanners)")
+        print(f"\n[SUMMARY] Phase 1-11 Complete Gap Analysis (28 Scanners)")
         print("=" * 80)
         print(f"  Total Gaps Found:        {total_gaps}")
         print(f"  CRITICAL Severity:       {critical}")
@@ -407,8 +487,20 @@ class UnifiedGapScannerV3:
         print(f"    LLM/AI Safety:           {category_totals.get('llm_ai_safety', 0)}")
         print(f"    Observability:           {category_totals.get('observability', 0)}")
         print(f"    Determinism:             {category_totals.get('determinism', 0)}")
+        print(f"    Legacy/Duplication:      {category_totals.get('legacy_duplication', 0)}")
         print()
         print(f"  Modules Scanned:         {len(aggregate)}")
+        print()
+        print("  Confidence Overview:")
+        conf = summary['confidence_overview']
+        print(f"    High confidence (>=0.85): {conf['very_high']}")
+        print(f"    High confidence (>=0.70): {conf['high']}")
+        print(f"    Medium confidence:        {conf['medium']}")
+        print(f"    Low confidence:           {conf['low']}")
+        print()
+        print("  Confidence by Category:")
+        for category, stats in sorted(summary['confidence_by_category'].items(), key=lambda item: item[1]['avg_confidence'], reverse=True):
+            print(f"    {category:24} avg={stats['avg_confidence']:.3f} high={stats['high_confidence']} total={stats['total']}")
         print()
         print(f"  Top 5 Modules by Gap Count:")
         for i, (m, c) in enumerate(module_ranking[:5], 1):
@@ -417,6 +509,78 @@ class UnifiedGapScannerV3:
         print(f"  Estimated Effort:        {summary['implementation_effort']}")
         print("=" * 80)
         
+        print(f"[OK] Saved: {output_file.name}")
+        self._save_confidence_review(aggregate)
+        self._save_confidence_by_category(summary['confidence_by_category'])
+
+    def _build_confidence_overview(self, aggregate: Dict[str, Any]) -> Dict[str, int]:
+        """Count gaps by confidence band across the full aggregate."""
+        overview = {
+            'very_high': 0,
+            'high': 0,
+            'medium': 0,
+            'low': 0,
+        }
+
+        for module_data in aggregate.values():
+            for gaps in module_data.get('by_file', {}).values():
+                for gap in gaps:
+                    band = str(gap.get('confidence_band', 'medium')).lower()
+                    if band in overview:
+                        overview[band] += 1
+                    else:
+                        overview['medium'] += 1
+
+        return overview
+
+    def _build_confidence_by_category(self, aggregate: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
+        """Compute confidence statistics per category across the full aggregate."""
+        stats: Dict[str, Dict[str, Any]] = {}
+
+        for module_data in aggregate.values():
+            for gaps in module_data.get('by_file', {}).values():
+                for gap in gaps:
+                    category = str(gap.get('category') or 'unknown')
+                    confidence = float(gap.get('confidence_score', 0.0) or 0.0)
+                    entry = stats.setdefault(category, {
+                        'total': 0,
+                        'high_confidence': 0,
+                        'very_high_confidence': 0,
+                        'confidence_sum': 0.0,
+                        'avg_confidence': 0.0,
+                    })
+                    entry['total'] += 1
+                    entry['confidence_sum'] += confidence
+                    if confidence >= 0.70:
+                        entry['high_confidence'] += 1
+                    if confidence >= 0.85:
+                        entry['very_high_confidence'] += 1
+
+        for entry in stats.values():
+            if entry['total']:
+                entry['avg_confidence'] = round(entry['confidence_sum'] / entry['total'], 3)
+            else:
+                entry['avg_confidence'] = 0.0
+            del entry['confidence_sum']
+
+        return stats
+
+    def _save_confidence_by_category(self, stats: Dict[str, Dict[str, Any]]):
+        """Persist per-category confidence statistics for triage and tuning."""
+        output_file = self.output_dir / 'gap_scan_v3_confidence_by_category.json'
+        with open(output_file, 'w') as f:
+            json.dump({
+                'categories': stats,
+                'sorted_by_avg_confidence': sorted(
+                    [
+                        {'category': category, **values}
+                        for category, values in stats.items()
+                    ],
+                    key=lambda item: item['avg_confidence'],
+                    reverse=True,
+                ),
+            }, f, indent=2)
+
         print(f"[OK] Saved: {output_file.name}")
     
     def _estimate_effort(self, critical: int, high: int) -> str:
@@ -435,6 +599,73 @@ class UnifiedGapScannerV3:
         else:
             weeks = days / 5
             return f"{weeks:.1f} weeks ({int(days)} days)"
+
+    def _compute_gap_confidence(self, gap: Dict[str, Any]) -> Dict[str, Any]:
+        """Compute a heuristic confidence score for a single gap entry."""
+        severity = str(gap.get('severity', 'MEDIUM')).upper()
+        pattern = str(gap.get('pattern', '') or '')
+        description = str(gap.get('description', '') or '')
+        context = str(gap.get('context', '') or '')
+        line = gap.get('line')
+
+        severity_base = {
+            'CRITICAL': 0.90,
+            'HIGH': 0.78,
+            'MEDIUM': 0.62,
+            'LOW': 0.48,
+        }
+        score = severity_base.get(severity, 0.55)
+        rationale = [f'severity={severity}']
+
+        if pattern:
+            score += 0.06
+            rationale.append('pattern_present')
+
+        if isinstance(line, int) and line > 0:
+            score += 0.03
+            rationale.append('line_present')
+
+        ctx_len = len(context.strip())
+        if 8 <= ctx_len <= 220:
+            score += 0.03
+            rationale.append('context_specific')
+        elif ctx_len == 0:
+            score -= 0.05
+            rationale.append('context_missing')
+
+        if any(term in description.lower() for term in ['potential', 'possible', 'might', 'review']):
+            score -= 0.10
+            rationale.append('hedged_description')
+
+        # Known noisier classes get a small confidence haircut.
+        noisy_patterns = {
+            'missing_health_check',
+            'unordered_container_iter',
+            'duplicate_qualified_signature',
+        }
+        if pattern in noisy_patterns:
+            score -= 0.08
+            rationale.append('historically_noisy_pattern')
+
+        if score < 0.05:
+            score = 0.05
+        if score > 0.99:
+            score = 0.99
+
+        if score >= 0.85:
+            band = 'very_high'
+        elif score >= 0.70:
+            band = 'high'
+        elif score >= 0.50:
+            band = 'medium'
+        else:
+            band = 'low'
+
+        enriched = dict(gap)
+        enriched['confidence_score'] = round(score, 3)
+        enriched['confidence_band'] = band
+        enriched['confidence_rationale'] = ','.join(rationale)
+        return enriched
     
     def _convert_gaps_to_module_format(self, gaps: list) -> Dict[str, Dict]:
         """Convert TypeConversionGap list to module-based aggregation format"""
@@ -466,7 +697,9 @@ class UnifiedGapScannerV3:
             # Store gap by file
             if gap.file_path not in modules[module_name]['gaps_by_file']:
                 modules[module_name]['gaps_by_file'][gap.file_path] = []
-            modules[module_name]['gaps_by_file'][gap.file_path].append(gap.to_dict())
+            modules[module_name]['gaps_by_file'][gap.file_path].append(
+                self._compute_gap_confidence(gap.to_dict())
+            )
         
         return modules
     
@@ -501,7 +734,9 @@ class UnifiedGapScannerV3:
             # Store gap by file
             if gap['file'] not in modules[module_name]['gaps_by_file']:
                 modules[module_name]['gaps_by_file'][gap['file']] = []
-            modules[module_name]['gaps_by_file'][gap['file']].append(gap)
+            modules[module_name]['gaps_by_file'][gap['file']].append(
+                self._compute_gap_confidence(gap)
+            )
         
         return modules
 

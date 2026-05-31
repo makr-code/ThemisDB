@@ -70,6 +70,8 @@ constexpr std::size_t kMaxBpmnPayloadBytes = 1'048'576;
 constexpr std::size_t kMaxBpmnVariablesFields = 256;
 constexpr std::size_t kDefaultBpmnHistoryEvents = 1000;
 constexpr std::size_t kMaxBpmnHistoryEvents = 10000;
+constexpr uint32_t kMaxWireFrameSizeMb =
+    static_cast<uint32_t>(std::numeric_limits<uint32_t>::max() / (1024u * 1024u));
 
 bool hasControlCharacters(std::string_view value) {
     return std::any_of(value.begin(), value.end(), [](unsigned char ch) {
@@ -262,8 +264,145 @@ void WireProtocolServer::start() {
             std::cerr)) {
         return;
     }
-    
-    running_.store(true, std::memory_order_release);
+
+    if (config_.num_io_threads == 0) {
+        std::cerr << "[WireProtocol] Invalid configuration: num_io_threads must be greater than 0. "
+                     "Server will not start." << std::endl;
+        return;
+    }
+
+    if (config_.num_worker_threads == 0) {
+        std::cerr << "[WireProtocol] Invalid configuration: num_worker_threads must be greater than 0. "
+                     "Server will not start." << std::endl;
+        return;
+    }
+
+    if (config_.max_connections_per_ip == 0) {
+        std::cerr << "[WireProtocol] Invalid configuration: max_connections_per_ip must be greater than 0. "
+                     "Server will not start." << std::endl;
+        return;
+    }
+
+    if (config_.max_connections > 0 && config_.max_connections_per_ip > config_.max_connections) {
+        std::cerr << "[WireProtocol] Invalid configuration: max_connections_per_ip must be <= "
+                     "max_connections when a global connection limit is enabled. "
+                     "Server will not start." << std::endl;
+        return;
+    }
+
+    if (config_.max_frame_size_mb == 0) {
+        std::cerr << "[WireProtocol] Invalid configuration: max_frame_size_mb must be greater than 0. "
+                     "Server will not start." << std::endl;
+        return;
+    }
+
+    if (config_.max_frame_size_mb > kMaxWireFrameSizeMb) {
+        std::cerr << "[WireProtocol] Invalid configuration: max_frame_size_mb exceeds protocol "
+                     "payload-size limit (max "
+                  << kMaxWireFrameSizeMb
+                  << " MB). Server will not start." << std::endl;
+        return;
+    }
+
+    if (config_.request_timeout_sec == 0) {
+        std::cerr << "[WireProtocol] Invalid configuration: request_timeout_sec must be greater than 0. "
+                     "Server will not start." << std::endl;
+        return;
+    }
+
+    if (config_.require_auth &&
+        (config_.auth_mechanism.empty() || isBlankString(config_.auth_mechanism))) {
+        std::cerr << "[WireProtocol] Invalid configuration: auth_mechanism must be a non-empty "
+                     "value when require_auth is enabled. Server will not start." << std::endl;
+        return;
+    }
+
+    if (config_.require_auth && config_.auth_mechanism != "SCRAM-SHA-256") {
+        std::cerr << "[WireProtocol] Invalid configuration: unsupported auth_mechanism '"
+                  << config_.auth_mechanism
+                  << "'. Supported value: SCRAM-SHA-256. Server will not start." << std::endl;
+        return;
+    }
+
+    if (config_.require_auth && config_.auth_token.empty()) {
+        std::cerr << "[WireProtocol] Invalid configuration: require_auth is enabled but "
+                     "auth_token is empty. Server will not start." << std::endl;
+        return;
+    }
+
+    if (config_.require_auth && isBlankString(config_.auth_token)) {
+        std::cerr << "[WireProtocol] Invalid configuration: require_auth is enabled but "
+                     "auth_token is whitespace-only. Server will not start." << std::endl;
+        return;
+    }
+
+    if (config_.require_auth && hasControlCharacters(config_.auth_token)) {
+        std::cerr << "[WireProtocol] Invalid configuration: require_auth is enabled but "
+                     "auth_token contains control characters. Server will not start." << std::endl;
+        return;
+    }
+
+    if (config_.require_auth &&
+        json{{"token", config_.auth_token}}.dump().size() > kMaxAuthPayloadBytes) {
+        std::cerr << "[WireProtocol] Invalid configuration: auth_token length exceeds AUTH "
+                     "payload limit after JSON serialization. Server will not start." << std::endl;
+        return;
+    }
+
+    if (config_.max_requests_per_second == 0) {
+        std::cerr << "[WireProtocol] Invalid configuration: max_requests_per_second must be greater than 0. "
+                     "Server will not start." << std::endl;
+        return;
+    }
+
+    if (config_.max_requests_per_minute == 0) {
+        std::cerr << "[WireProtocol] Invalid configuration: max_requests_per_minute must be greater than 0. "
+                     "Server will not start." << std::endl;
+        return;
+    }
+
+    if (config_.max_requests_per_minute < config_.max_requests_per_second) {
+        std::cerr << "[WireProtocol] Invalid configuration: max_requests_per_minute must be "
+                     ">= max_requests_per_second. Server will not start." << std::endl;
+        return;
+    }
+
+    if (config_.port == 0) {
+        std::cerr << "[WireProtocol] Invalid configuration: port must be greater than 0. "
+                     "Server will not start." << std::endl;
+        return;
+    }
+
+    if (config_.tcp_backlog <= 0) {
+        std::cerr << "[WireProtocol] Invalid configuration: tcp_backlog must be greater than 0. "
+                     "Server will not start." << std::endl;
+        return;
+    }
+
+    if (!io_context_ || !acceptor_) {
+        std::cerr << "[WireProtocol] Startup failed: internal networking runtime is not initialized. "
+                     "Server will not start." << std::endl;
+        return;
+    }
+
+    if (!config_.host.empty() && isBlankString(config_.host)) {
+        std::cerr << "[WireProtocol] Invalid configuration: host must not be whitespace-only. "
+                     "Server will not start." << std::endl;
+        return;
+    }
+
+    if (hasControlCharacters(config_.host)) {
+        std::cerr << "[WireProtocol] Invalid configuration: host contains control characters. "
+                     "Server will not start." << std::endl;
+        return;
+    }
+
+    if (!config_.host.empty() && std::any_of(config_.host.begin(), config_.host.end(),
+            [](unsigned char ch) { return std::isspace(ch) != 0; })) {
+        std::cerr << "[WireProtocol] Invalid configuration: host must not contain whitespace. "
+                     "Server will not start." << std::endl;
+        return;
+    }
 
     // Resolve bind address from config_.host.
     // * An explicit IPv4 address (e.g. "127.0.0.1") or IPv6 address
@@ -304,6 +443,8 @@ void WireProtocolServer::start() {
 
     acceptor_->bind(endpoint);
     acceptor_->listen(config_.tcp_backlog);
+
+    running_.store(true, std::memory_order_release);
 
     // Start I/O threads
     for (size_t i = 0; i < config_.num_io_threads; ++i) {

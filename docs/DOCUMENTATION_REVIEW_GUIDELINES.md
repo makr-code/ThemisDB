@@ -136,15 +136,21 @@ Each review should assess:
    - Update code examples
    - Verify cross-references
 
-3. **Fill Documentation Checklist**
+3. **Mandatory Sourcecode Verification (per module)**
+   - Verify documented symbols/behavior against real source files
+   - Verify feature/build guards against CMake or header definitions
+   - Record evidence per module (file paths + symbols/behavior)
+
+4. **Fill Documentation Checklist**
    - Complete the PR documentation checklist (see template)
    - Link to updated documentation
    - Note any follow-up documentation tasks
 
-4. **Review Documentation Changes**
+5. **Review Documentation Changes**
    - Documentation changes reviewed alongside code
    - At least one reviewer verifies documentation
    - Documentation must be approved before merge
+   - Reviews fail if per-module sourcecode evidence is missing
 
 ### 2. Scheduled Reviews
 

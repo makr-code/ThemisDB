@@ -4191,6 +4191,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                     const std::string collection = payload.value("collection", std::string{"default"});
                     const int top_k = payload.value("top_k", 5);
                     const std::string lora_id = payload.value("lora_adapter", std::string{});
+                    const std::string rag_mode = payload.value("rag_mode", std::string{"text"});
 
                     if (query.empty()) {
                         auto response = makeErrorResponse(http::status::bad_request,
@@ -4199,35 +4200,77 @@ http::response<http::string_body> HttpServer::routeRequest(
                         return response;
                     }
 
-                    try {
-                        // Build RAG context with empty documents (full retrieval would use vector search)
+                    if (top_k <= 0) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            "top_k must be greater than 0", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    const int max_context_tokens = payload.value("max_context_tokens", 0);
+                    if (max_context_tokens < 0) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            "max_context_tokens must be >= 0", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    const int response_budget_tokens = payload.value("response_budget_tokens", 512);
+                    if (response_budget_tokens <= 0) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            "response_budget_tokens must be greater than 0", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    const int max_tokens = payload.value("max_tokens", 512);
+                    if (max_tokens <= 0) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            "max_tokens must be greater than 0", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    auto executeRag = [&]() -> json {
                         themis::llm::RAGContext rag_context;
                         rag_context.query = query;
                         rag_context.collection_name = collection;
                         rag_context.top_k = top_k;
-                        // In production, documents would be populated via vector search here
+                        rag_context.max_context_tokens = max_context_tokens;
+                        rag_context.response_budget_tokens = response_budget_tokens;
 
-                        // Build inference request
                         themis::llm::InferenceRequest llm_request;
                         llm_request.prompt = query;
                         llm_request.model_id = payload.value("model", std::string{"default"});
-                        llm_request.max_tokens = payload.value("max_tokens", 512);
+                        llm_request.max_tokens = max_tokens;
                         llm_request.temperature = static_cast<float>(payload.value("temperature", 0.7));
                         if (!lora_id.empty()) {
                             llm_request.lora_adapter_id = lora_id;
                         }
+                        llm_request.metadata["rag_mode"] = rag_mode;
+                        if (payload.contains("rag_tensor_slots")) {
+                            llm_request.metadata["rag_tensor_slots"] = payload["rag_tensor_slots"];
+                        }
+                        if (payload.contains("rag_tensor_slot_chars")) {
+                            llm_request.metadata["rag_tensor_slot_chars"] = payload["rag_tensor_slot_chars"];
+                        }
 
-                        auto llm_response = plugin_mgr.generate(llm_request);
-                        const int documents_retrieved = !rag_context.documents.empty()
-                            ? static_cast<int>(rag_context.documents.size())
-                            : (top_k > 0 ? top_k : 1);
-                        json body = {
+                        auto llm_response = plugin_mgr.generateRAG(rag_context, llm_request);
+                        return json{
                             {"text", llm_response.text},
                             {"model", llm_response.model_id.empty() ? llm_request.model_id : llm_response.model_id},
-                            {"documents_retrieved", documents_retrieved},
+                            {"rag_mode_effective", rag_mode},
+                            {"documents_retrieved", static_cast<int>(rag_context.documents.size())},
+                            {"top_k_effective", rag_context.top_k},
+                            {"max_context_tokens_effective", rag_context.max_context_tokens},
+                            {"response_budget_tokens_effective", rag_context.response_budget_tokens},
                             {"tokens_generated", llm_response.tokens_generated},
                             {"inference_time_ms", llm_response.inference_time_ms}
                         };
+                    };
+
+                    try {
+                        json body = executeRag();
 
                         http::response<http::string_body> response = makeResponse(http::status::ok, body.dump(), req);
                         applyGovernanceHeaders(req, response);
@@ -4243,27 +4286,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                             msg.find("UNINITIALIZED") != std::string::npos ||
                             msg.find("Current state: ERROR") != std::string::npos;
                         if (retryable && tryBootstrapDefaultModel()) {
-                                themis::llm::RAGContext rag_context;
-                                rag_context.query = query;
-                                rag_context.collection_name = collection;
-                                rag_context.top_k = top_k;
-
-                                themis::llm::InferenceRequest llm_request;
-                                llm_request.prompt = query;
-                                llm_request.model_id = payload.value("model", std::string{"default"});
-                                llm_request.max_tokens = payload.value("max_tokens", 512);
-                                llm_request.temperature = static_cast<float>(payload.value("temperature", 0.7));
-
                                 try {
-                                    auto llm_response = plugin_mgr.generate(llm_request);
-                                    const int documents_retrieved = !rag_context.documents.empty()
-                                        ? static_cast<int>(rag_context.documents.size())
-                                        : (top_k > 0 ? top_k : 1);
-                                    json body = {
-                                        {"text", llm_response.text},
-                                        {"documents_retrieved", documents_retrieved},
-                                        {"tokens_generated", llm_response.tokens_generated}
-                                    };
+                                    json body = executeRag();
                                     auto response = makeResponse(http::status::ok, body.dump(), req);
                                     applyGovernanceHeaders(req, response);
                                     return response;

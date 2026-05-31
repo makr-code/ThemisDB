@@ -1,11 +1,11 @@
 > ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
 
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Core Module
 
-**Last Audit:** 2026-03-22  
+**Last Audit:** 2026-05-31  
 **Auditor:** Copilot  
 **Status:** ✅ Pass
 
@@ -16,7 +16,7 @@
 | Build System Registration | ✅ Verified |
 | Source Files | 2 direct + 8 in subdirectories (`src/core/`, `core/adapters/`, `core/concerns/`) |
 | Test Coverage | ✅ Production — core interfaces covered; secrets providers (InMemorySecrets, EnvSecretsProvider) covered |
-| Open TODOs | 1 file contains TODO (plugin adapter loading, Issue #1706) |
+| Open TODOs | 1 documented TODO (plugin adapter loading, Issue #1706) |
 | Open Stubs | 0 |
 | Security Issues | None |
 
@@ -55,6 +55,32 @@
 - Secrets providers: InMemorySecrets (map-backed) and EnvSecretsProvider (env-var-backed)
 - ZeroCopyLogger: `string_view` hot-path, PII redaction, concurrent `json_mode_` switching (41 tests in `tests/test_zero_copy_logging.cpp`)
 - RedisCache: consistent hashing, TTL, pub/sub invalidation, deadlock-free `invalidatePattern`
+
+## Sourcecode Verification (Module: core)
+
+- Scope-Dateien:
+  - `src/core/README.md`
+  - `src/core/ARCHITECTURE.md`
+  - `src/core/ROADMAP.md`
+  - `src/core/FUTURE_ENHANCEMENTS.md`
+  - `src/core/CHANGELOG.md`
+  - `src/core/SECURITY.md`
+  - `src/core/AUDIT.md`
+  - `src/core/PRODUCTION_REQUIREMENTS.md`
+  - `src/core/PERFORMANCE_EXPECTATIONS.md`
+- Gepruefte Symbole/Verhalten:
+  - `ConcernsContext::create(const Config&)`, Adapter-Selektion und Produktions-Checks -> `src/core/concerns/concerns_context.cpp`
+  - Runtime-Replacement (`replaceLogger`, `replaceTracer`, `replaceMetrics`, `replaceCache`) inkl. Null-Guard -> `src/core/concerns/concerns_context.cpp`
+  - Produktionsmodus-Erkennung (`ProductionMode::isEnabled`) -> `include/core/production_mode.h`
+  - TraceContext-Extraktion/-Injection (`W3CTraceContextPropagator::extract`/`inject`) -> `include/core/concerns/w3c_trace_context_propagator.h`
+  - Konfigurationsvalidierung (`validateLogConfig`, `validateTracingConfig`, `validateAdapterConfig`, `validateCacheConfig`) -> `include/core/config_validator.h`
+- Gepruefte Feature-/Laufzeit-Gates:
+  - Tracer-/Metrics-Adapterwahl (`otel`/`jaeger`/`zipkin`/`noop`, `prometheus`/`noop`) und Fail-Closed in Production -> `src/core/concerns/concerns_context.cpp`
+  - Security fail-closed bei ungueltiger Provider-/JWT-Konfiguration -> `src/core/security_initialization.cpp`
+- Ergebnis:
+  - Alle dokumentierten Kern-Aussagen in den Core-Moduldokumenten sind gegen Sourcecode abgeglichen.
+  - Offene Zukunftspunkte sind in `ROADMAP.md`/`FUTURE_ENHANCEMENTS.md` gehalten, Historie in `CHANGELOG.md`.
+  - Unbelegte oder zu starke Aussagen wurden in der aktuellen Review-Runde entfernt/abgeschaerft.
 
 ## Findings
 

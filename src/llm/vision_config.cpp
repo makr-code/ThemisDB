@@ -1,10 +1,7 @@
 /*
- * ThemisDB | File: vision_config.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 689
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=459 | delta=456 | status=divergent
- * External Severity (v3): C=89, H=318, M=52
- * PR: #1223 Reorganize config architecture into hierarchical structure with bac... (2026-03-11T17:48:01Z)
+ * ThemisDB | File: vision_config.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=89, H=17, M=40, L=0
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
