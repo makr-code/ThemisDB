@@ -30,6 +30,9 @@ IndexMaintenanceManager::IndexMaintenanceManager(
     
     if (!db_wrapper_) {
         THEMIS_ERROR("IndexMaintenanceManager: db_wrapper is null");
+        // uncaught_exception scanner alert: this constructor validates a public
+        // dependency precondition and intentionally signals invalid_argument to
+        // the caller — false positive.
         throw std::invalid_argument("db_wrapper cannot be null");
     }
     
@@ -343,6 +346,9 @@ Result<MaintenanceJobStatus> IndexMaintenanceManager::getJobStatus(const std::st
 }
 
 std::vector<MaintenanceJobStatus> IndexMaintenanceManager::listActiveJobs() const {
+    // lock_in_loop scanner alert: mutex_ is acquired once before iterating over
+    // active_jobs_, so this loop does not lock on each iteration — false
+    // positive.
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<MaintenanceJobStatus> jobs;
@@ -418,6 +424,10 @@ void IndexMaintenanceManager::maintenanceThreadFunc() {
     while (running_) {
         try {
             // Wait for interval or notification
+            // lock_contention / range_temporary scanner alerts are false
+            // positives: condition_variable::wait_for requires holding this mutex,
+            // and the std::chrono::milliseconds temporary is passed by value with a
+            // well-defined lifetime for the full call.
             std::unique_lock<std::mutex> lock(mutex_);
             cv_.wait_for(lock, std::chrono::milliseconds(policy_.time_based_interval_ms),
                         [this]() { return !running_; });
@@ -577,6 +587,9 @@ Result<void> IndexMaintenanceManager::performRebuild(
         
         status.progress_percentage = 10.0;
         
+        // null_dereference / pointer_arithmetic scanner alerts are false
+        // positives: db is checked for null immediately above, and CompactRange is
+        // a validated member call rather than raw pointer arithmetic.
         auto s = db->CompactRange(options, nullptr, nullptr);
         
         status.progress_percentage = 90.0;
@@ -626,6 +639,9 @@ Result<void> IndexMaintenanceManager::performReorganize(
         
         status.progress_percentage = 10.0;
         
+        // null_dereference / pointer_arithmetic scanner alerts are false
+        // positives: db was null-checked just above, so this reorganization
+        // compaction call is on a valid RocksDB handle.
         auto s = db->CompactRange(options, nullptr, nullptr);
         
         status.progress_percentage = 90.0;
@@ -668,6 +684,9 @@ Result<void> IndexMaintenanceManager::performStatisticsUpdate(
         status.progress_percentage = 50.0;
         
         // Simulate statistics update
+        // range_temporary scanner alert: std::chrono::milliseconds(100) is a
+        // value temporary consumed directly by sleep_for(), so no dangling-range
+        // lifetime issue exists — false positive.
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         
         status.progress_percentage = 100.0;
@@ -701,6 +720,9 @@ Result<void> IndexMaintenanceManager::performOrphanCleanup(
         rocksdb::CompactRangeOptions options;
         options.bottommost_level_compaction = rocksdb::BottommostLevelCompaction::kForce;
         
+        // null_dereference / pointer_arithmetic scanner alerts are false
+        // positives: the early-return guard above guarantees db is non-null, and
+        // CompactRange is a normal member call on that validated pointer.
         auto s = db->CompactRange(options, nullptr, nullptr);
         
         status.progress_percentage = 90.0;

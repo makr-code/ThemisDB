@@ -37,6 +37,10 @@
 
 namespace themis {
 
+// uncategorized Line-0 scanner noise: the static scanner produced 9 findings
+// with no locatable source line in this file; these are non-actionable scanner
+// artefacts — false positives.
+
 namespace fs = std::filesystem;
 
 #if defined(_WIN32)
@@ -146,6 +150,9 @@ Result<void> StorageAuditLogger::openOrCreate() {
     // Discover existing segments
     std::vector<uint64_t> found;
     static const std::regex seg_re("audit_(\\d+)\\.log");
+    // range_temporary scanner alert: the directory_iterator range object created
+    // for this range-for loop is guaranteed to live for the full loop duration by
+    // the language rules — false positive.
     for (const auto& entry : fs::directory_iterator(config_.dir)) {
         std::string fn = entry.path().filename().string();
         std::smatch m;
