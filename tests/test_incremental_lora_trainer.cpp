@@ -16,12 +16,14 @@
 
 #include <gtest/gtest.h>
 #include <array>
+#include <atomic>
 #include <chrono>
 #include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <stdexcept>
 #include <string>
+#include <thread>
 #include <vector>
 
 #include "training/lora_checkpoint_manager.h"
@@ -477,6 +479,54 @@ TEST(RouterMutex, RollbackVersionEx_RouterThrowsOnAvailability_RevertsRegistrySt
     EXPECT_EQ(result.error, "router_update_failed");
     EXPECT_EQ(router.is_available_calls, 1);
     EXPECT_EQ(router.set_weight_calls, 0);
+
+    const auto versions = trainer.listVersions();
+    ASSERT_EQ(versions.size(), 2u);
+    EXPECT_EQ(versions[0], "candidate");
+    EXPECT_EQ(versions[1], "stable");
+    for (int i = 0; i < 20; ++i) {
+        EXPECT_EQ(trainer.selectAdapterForRequest(), "stable");
+    }
+}
+
+TEST(RouterMutex, ConcurrentRouterDetachAndDeployRollback_DoesNotThrowOrCorruptRegistry) {
+    IncrementalLoRATrainer trainer(makeConfig(), "");
+    ASSERT_TRUE(trainer.deployVersion("stable", 1.0f));
+    ASSERT_TRUE(trainer.deployVersion("candidate", 0.0f));
+
+    TestRouter router;
+    std::atomic<bool> had_exception{false};
+
+    auto detach_attach = std::thread([&]() {
+        try {
+            for (int i = 0; i < 2000; ++i) {
+                trainer.setLLMRouter((i % 2 == 0) ? &router : nullptr);
+            }
+        } catch (...) {
+            had_exception.store(true, std::memory_order_relaxed);
+        }
+    });
+
+    auto deploy_rollback = std::thread([&]() {
+        try {
+            for (int i = 0; i < 1000; ++i) {
+                (void)trainer.deployVersionEx("candidate", 0.3f);
+                (void)trainer.rollbackVersionEx("stable");
+                (void)trainer.selectAdapterForRequest();
+                (void)trainer.listVersions();
+            }
+        } catch (...) {
+            had_exception.store(true, std::memory_order_relaxed);
+        }
+    });
+
+    detach_attach.join();
+    deploy_rollback.join();
+
+    trainer.setLLMRouter(&router);
+    const auto final_result = trainer.rollbackVersionEx("stable");
+    EXPECT_TRUE(final_result.success);
+    EXPECT_FALSE(had_exception.load(std::memory_order_relaxed));
 
     const auto versions = trainer.listVersions();
     ASSERT_EQ(versions.size(), 2u);

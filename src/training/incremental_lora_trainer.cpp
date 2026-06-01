@@ -486,6 +486,7 @@ public:
     bool deployVersion(const std::string& adapter_version, float traffic_split) {
         if (adapter_version.empty()) return false;
         if (traffic_split < 0.0f || traffic_split > 1.0f) return false;
+        std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
 
         // Phase 4: Traffic-split deployment
         // Verify version is registered (or allow deploying without prior training for flexibility)
@@ -526,6 +527,7 @@ public:
 
     bool rollbackVersion(const std::string& target_version) {
         if (target_version.empty()) return false;
+        std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
 
         // Phase 4: Rollback – set target to 100% traffic
         auto it = version_registry_.find(target_version);
@@ -555,6 +557,7 @@ public:
 
     std::vector<std::string> listVersions() const {
         std::vector<std::string> versions;
+        std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
         versions.reserve(version_registry_.size());
         for (const auto& [ver, rec] : version_registry_) {
             versions.push_back(ver);
@@ -569,10 +572,13 @@ public:
         // Collect active versions and their cumulative weights.
         std::vector<std::pair<std::string, float>> active; // (version, weight)
         float total = 0.0f;
-        for (const auto& [ver, rec] : version_registry_) {
-            if (rec.is_active && rec.traffic_split > 0.0f) {
-                active.emplace_back(ver, rec.traffic_split);
-                total += rec.traffic_split;
+        {
+            std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
+            for (const auto& [ver, rec] : version_registry_) {
+                if (rec.is_active && rec.traffic_split > 0.0f) {
+                    active.emplace_back(ver, rec.traffic_split);
+                    total += rec.traffic_split;
+                }
             }
         }
         if (active.empty() || total <= 0.0f) return "";
@@ -632,6 +638,7 @@ public:
     }
 
     void setLLMRouter(ILLMRouter* router) {
+        std::lock_guard<std::mutex> lk(router_mutex_);
         llm_router_ = router;
     }
 
@@ -792,29 +799,40 @@ public:
         if (!verifyAdapterIntegrity(adapter_version)) {
             return DeployResult::fail("integrity_failure");
         }
-        const auto previous_registry = version_registry_;
+        std::map<std::string, VersionRecord> previous_registry;
+        {
+            std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
+            previous_registry = version_registry_;
+        }
         // Update local version registry (same logic as deployVersion)
         bool ok = deployVersion(adapter_version, traffic_split);
         if (!ok) {
             return DeployResult::fail("version_not_found");
         }
         // Propagate to LLM router when available
-        if (llm_router_) {
+        {
             try {
                 std::lock_guard<std::mutex> lk(router_mutex_);
-                if (!llm_router_->isAvailable()) {
-                    version_registry_ = previous_registry;
-                    return DeployResult::fail("router_unavailable");
-                }
-                const bool weight_set = llm_router_->setAdapterWeight(adapter_version, traffic_split);
-                if (!weight_set) {
-                    version_registry_ = previous_registry;
-                    return DeployResult::fail("router_update_failed");
+                if (llm_router_) {
+                    if (!llm_router_->isAvailable()) {
+                        std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
+                        version_registry_ = previous_registry;
+                        return DeployResult::fail("router_unavailable");
+                    }
+                    const bool weight_set =
+                        llm_router_->setAdapterWeight(adapter_version, traffic_split);
+                    if (!weight_set) {
+                        std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
+                        version_registry_ = previous_registry;
+                        return DeployResult::fail("router_update_failed");
+                    }
                 }
             } catch (const std::exception&) {
+                std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
                 version_registry_ = previous_registry;
                 return DeployResult::fail("router_update_failed");
             } catch (...) {
+                std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
                 version_registry_ = previous_registry;
                 return DeployResult::fail("router_update_failed");
             }
@@ -829,27 +847,37 @@ public:
         if (!verifyAdapterIntegrity(target_version)) {
             return DeployResult::fail("integrity_failure");
         }
-        const auto previous_registry = version_registry_;
+        std::map<std::string, VersionRecord> previous_registry;
+        {
+            std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
+            previous_registry = version_registry_;
+        }
         bool ok = rollbackVersion(target_version);
         if (!ok) {
             return DeployResult::fail("version_not_found");
         }
-        if (llm_router_) {
+        {
             try {
                 std::lock_guard<std::mutex> lk(router_mutex_);
-                if (!llm_router_->isAvailable()) {
-                    version_registry_ = previous_registry;
-                    return DeployResult::fail("router_unavailable");
-                }
-                const bool weight_set = llm_router_->setAdapterWeight(target_version, 1.0f);
-                if (!weight_set) {
-                    version_registry_ = previous_registry;
-                    return DeployResult::fail("router_update_failed");
+                if (llm_router_) {
+                    if (!llm_router_->isAvailable()) {
+                        std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
+                        version_registry_ = previous_registry;
+                        return DeployResult::fail("router_unavailable");
+                    }
+                    const bool weight_set = llm_router_->setAdapterWeight(target_version, 1.0f);
+                    if (!weight_set) {
+                        std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
+                        version_registry_ = previous_registry;
+                        return DeployResult::fail("router_update_failed");
+                    }
                 }
             } catch (const std::exception&) {
+                std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
                 version_registry_ = previous_registry;
                 return DeployResult::fail("router_update_failed");
             } catch (...) {
+                std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
                 version_registry_ = previous_registry;
                 return DeployResult::fail("router_update_failed");
             }
@@ -862,6 +890,7 @@ public:
     bool checkpointing_enabled_;
     size_t checkpoint_steps_;
     std::map<std::string, VersionRecord> version_registry_;
+    mutable std::mutex version_registry_mutex_; ///< Protects version_registry_ reads/writes
 
     // LLM inference router for adapter serving integration (non-owning, may be null)
     ILLMRouter* llm_router_ = nullptr;

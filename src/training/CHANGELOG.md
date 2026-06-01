@@ -22,6 +22,10 @@ The format is based on Keep a Changelog.
   `deployVersionEx`/`rollbackVersionEx` now catch router exceptions, roll back
   local version-registry state, and return `router_update_failed` instead of
   propagating exceptions across the module boundary.
+- **concurrency hardening** (incremental_lora_trainer, issue #5414 batch 12):
+  adapter registry reads/writes are now mutex-protected across deploy/rollback/
+  list/select flows, and router attach/detach (`setLLMRouter`) is synchronized
+  with deploy/rollback router propagation to avoid unsynchronised pointer access.
 - **checkpoint integrity semantics** (incremental_lora_trainer): `resumeFromCheckpoint`
   now fails when the requested checkpoint metadata files are missing instead of
   silently resuming from synthesized default metadata.
@@ -90,6 +94,9 @@ The format is based on Keep a Changelog.
   #5414 batch 11): added resume coverage for missing manifest entry,
   matching-manifest empty SHA-256, and missing payload-file hash failures so
   all strict integrity error branches return explicit diagnostics.
+- **router attach/detach race regression** (`test_incremental_lora_trainer.cpp`,
+  #5414 batch 12): added concurrent `setLLMRouter` + deploy/rollback/select/list
+  stress coverage to assert no exceptions and stable registry invariants.
 
 ### Documented (#5414 batch 6 — false-positive triage)
 All remaining Critical/High scanner findings triaged and confirmed as false positives;
