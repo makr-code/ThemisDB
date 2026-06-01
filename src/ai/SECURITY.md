@@ -22,12 +22,14 @@ Report vulnerabilities via project-level SECURITY.md.
 - HTTP status codes are validated.
 - JSON parsing is wrapped with exception-to-error conversion.
 - Generated output is only accepted when required implementation content exists.
+- Wave C C1/C2 reference implementations are covered by dedicated tests (`tests/test_cai_safety_module.cpp`, `tests/test_federated_privacy_training.cpp`), including benchmark-style acceptance checks.
 
 ## Security Gaps and Follow-ups
 
 - Additional validation for `required_capabilities` and `dependencies` remains a hardening task.
 - Endpoint allow-listing and response-size hard limits should be enforced in a subsequent hardening iteration.
 - Sandbox and static-analysis pipeline for generated artifacts is not yet part of this module path.
+- Wave C C1/C2 components are currently validated as reference implementations via test coverage and are not integrated into the production `AIPluginGenerator` runtime path yet.
 
 ## Planning Traceability
 

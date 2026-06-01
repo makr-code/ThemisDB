@@ -34,6 +34,7 @@
 
 - Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
 - Proxy mapping remains temporary until a dedicated ai benchmark target is added.
+- Wave C benchmark-style acceptance checks (`CAI-BENCH-01`, `FEDERATED-BENCH-01`) are tracked in test coverage for issue scope, but they are not currently part of the production benchmark gate manifest.
 
 ## Planning Traceability
 

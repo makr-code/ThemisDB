@@ -11,6 +11,7 @@
 | Primary implementation file | src/ai/ai_plugin_generator.cpp |
 | Public API header | include/ai/ai_plugin_generator.h |
 | Focused tests | available |
+| Wave C C1/C2 reference coverage | pass (CAI-01..12, FEDERATED-01..10, CAI-BENCH-01, FEDERATED-BENCH-01) |
 | Open hardening findings | yes |
 | Critical blockers | none identified |
 
@@ -43,6 +44,7 @@
 - Validation-before-I/O behavior is implemented and source-verified.
 - Non-2xx and parse errors are handled via structured fail-closed returns.
 - Mandatory implementation payload check is enforced before success return.
+- Wave C C1/C2 acceptance coverage is present in dedicated tests and benchmark-style checks (`tests/test_cai_safety_module.cpp`, `tests/test_federated_privacy_training.cpp`).
 
 ## Planning Traceability
 
