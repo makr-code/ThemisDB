@@ -34,9 +34,9 @@ using namespace themis::graph;
 
 static KnowledgeGraph makeGraph() {
     KnowledgeGraph g;
-    g.addNode({"alice", "alice", {}, EntityType::PERSON});
-    g.addNode({"bob",   "bob",   {}, EntityType::PERSON});
-    g.addEdge({"alice", "bob", RelationType::RELATED_TO, 0.9});
+    (void)g.addNode({"alice", "alice", {}, EntityType::PERSON});
+    (void)g.addNode({"bob",   "bob",   {}, EntityType::PERSON});
+    (void)g.addEdge({"alice", "bob", RelationType::RELATED_TO, 0.9});
     return g;
 }
 

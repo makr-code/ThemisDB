@@ -439,7 +439,7 @@ TEST_F(DocumentSchemaEvolutionTest, SealedRegistryRejectsNewVersion) {
 // DSE-04
 TEST_F(DocumentSchemaEvolutionTest, IsSealedTransition) {
     EXPECT_FALSE(evo_.isSealed());
-    evo_.seal();
+    (void)evo_.seal();
     EXPECT_TRUE(evo_.isSealed());
 }
 
@@ -500,7 +500,7 @@ protected:
     const CollectionId       kCol{"diff-col"};
 
     void put(const std::string& id, const nlohmann::json& body) {
-        store_.put({id, kCol, body});
+        (void)store_.put({id, kCol, body});
     }
 };
 

@@ -189,6 +189,27 @@ std::string buildDocsNdjsonFromDirectory(const std::filesystem::path& docs_dir,
 
 class ConnectorApiLiveTest : public ::testing::Test {
 protected:
+    static bool isConnectorReachableCached() {
+        static const bool reachable = []() {
+            httplib::Client probe(config().host, config().port);
+            probe.set_connection_timeout(std::chrono::milliseconds(config().timeout_ms));
+            probe.set_read_timeout(std::chrono::milliseconds(config().timeout_ms));
+            probe.set_write_timeout(std::chrono::milliseconds(config().timeout_ms));
+            probe.set_follow_location(true);
+
+            const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(20);
+            while (std::chrono::steady_clock::now() < deadline) {
+                if (auto res = probe.Get("/health"); res) {
+                    return true;
+                }
+                std::this_thread::sleep_for(std::chrono::milliseconds(250));
+            }
+            return false;
+        }();
+
+        return reachable;
+    }
+
     void SetUp() override {
         if (config().use_https) {
 #ifdef CPPHTTPLIB_OPENSSL_SUPPORT
@@ -203,19 +224,7 @@ protected:
             configureClient(*client_);
         }
 
-        bool reachable = false;
-        const auto deadline =
-            std::chrono::steady_clock::now() + std::chrono::seconds(20);
-        while (std::chrono::steady_clock::now() < deadline) {
-            auto res = get("/health");
-            if (res) {
-                reachable = true;
-                break;
-            }
-            std::this_thread::sleep_for(std::chrono::milliseconds(250));
-        }
-
-        if (!reachable) {
+        if (!isConnectorReachableCached()) {
             GTEST_SKIP() << "ThemisDB connector endpoint is not reachable at "
                          << config().host << ":" << config().port;
         }

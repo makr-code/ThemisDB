@@ -272,16 +272,16 @@ TEST(ArrowFlightClientTest, CloseDisconnects) {
     server->start();
     auto client = ArrowFlightClient::connect(makeClientOpts(18842));
     EXPECT_TRUE(client->isConnected());
-    client->close();
+    (void)client->close();
     EXPECT_FALSE(client->isConnected());
-    server->stop();
+    (void)server->stop();
 }
 
 TEST(ArrowFlightClientTest, OperationsAfterCloseThrow) {
     auto server = ArrowFlightServer::create(makeServerOpts(18843));
     server->start();
     auto client = ArrowFlightClient::connect(makeClientOpts(18843));
-    client->close();
+    (void)client->close();
 
     EXPECT_THROW({
         auto flights = client->listFlights();
@@ -300,7 +300,7 @@ TEST(ArrowFlightClientTest, OperationsAfterCloseThrow) {
             static_cast<void>(put_result);
         },
         std::runtime_error);
-    server->stop();
+    (void)server->stop();
 }
 
 // ===========================================================================
@@ -360,8 +360,8 @@ TEST(ArrowFlightClientTest, DoGetUnknownPathThrows) {
             static_cast<void>(batch);
         },
         std::runtime_error);
-    client->close();
-    server->stop();
+    (void)client->close();
+    (void)server->stop();
 }
 
 TEST(ArrowFlightClientTest, DoGetEmptyBatch) {
@@ -571,8 +571,8 @@ TEST(ArrowFlightServerTest, CrossServerClientIsolation) {
         },
         std::runtime_error);
 
-    c1->close();
-    s1->stop();
+    (void)c1->close();
+    (void)s1->stop();
     s2->stop();
 }
 

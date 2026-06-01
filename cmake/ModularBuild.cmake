@@ -2079,7 +2079,6 @@ function(themis_build_modular)
             ${CMAKE_SOURCE_DIR}/src/process/cmmn_serializer.cpp
             ${CMAKE_SOURCE_DIR}/src/process/fim_importer.cpp
             ${CMAKE_SOURCE_DIR}/src/cache/distributed_cache_coordinator.cpp
-            ${CMAKE_SOURCE_DIR}/src/cache/redis_cache_coordinator.cpp
             PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
         )
     endif()

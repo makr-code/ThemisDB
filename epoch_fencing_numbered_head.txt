@@ -1,0 +1,470 @@
+    1: /*
+    2: ╔═════════════════════════════════════════════════════════════════════╗
+    3: ║ ThemisDB - Hybrid Database System                                   ║
+    4: ╠═════════════════════════════════════════════════════════════════════╣
+    5:   File:            test_epoch_fencing.cpp                             ║
+    6:   Version:         0.0.12                                             ║
+    7:   Last Modified:   2026-04-15 18:53:45                                ║
+    8:   Author:          unknown                                            ║
+    9: ╠═════════════════════════════════════════════════════════════════════╣
+   10:   Quality Metrics:                                                    ║
+   11:     • Maturity Level:  🟢 PRODUCTION-READY                             ║
+   12:     • Quality Score:   100.0/100                                      ║
+   13:     • Total Lines:     510                                            ║
+   14:     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+   15: ╠═════════════════════════════════════════════════════════════════════╣
+   16:   Revision History:                                                   ║
+   17:     • acc4f424c5  2026-03-24  feat(sharding): Phase 4.1 epoch-based fencing + lease man... ║
+   18: ╠═════════════════════════════════════════════════════════════════════╣
+   19:   Status: ✅ Production Ready                                          ║
+   20: ╚═════════════════════════════════════════════════════════════════════╝
+   21:  */
+   22: 
+   23: // Copyright 2025 ThemisDB
+   24: // Licensed under MIT License
+   25: 
+   26: /**
+   27:  * @file test_epoch_fencing.cpp
+   28:  * @brief Unit tests for EpochFencingManager and LeaseManager.
+   29:  *
+   30:  * Coverage:
+   31:  *  - EpochToken validity
+   32:  *  - Epoch bump and fencing check (ALLOWED / STALE_EPOCH)
+   33:  *  - Auto-STONITH on stale epoch
+   34:  *  - INVALID_TOKEN handling
+   35:  *  - Metrics counters
+   36:  *  - LeaseManager: acquire / renew / release / expiry
+   37:  *  - LeaseManager: re-acquire after expiry
+   38:  *  - LeaseManager: idempotent re-acquire by same holder
+   39:  *  - LeaseManager: STONITH on acquire timeout
+   40:  *  - LeaseManager: concurrent acquire serialisation
+   41:  *  - WAL round-trip persistence
+   42:  *  - Config validation
+   43:  */
+   44: 
+   45: #include "sharding/epoch_fencing.h"
+   46: 
+   47: #include <gtest/gtest.h>
+   48: 
+   49: #include <atomic>
+   50: #include <chrono>
+   51: #include <filesystem>
+   52: #include <thread>
+   53: 
+   54: using namespace std::chrono_literals;
+   55: using namespace themis::sharding;
+   56: 
+   57: // ─────────────────────────────────────────────────────────────────────────────
+   58: // Helpers
+   59: // ─────────────────────────────────────────────────────────────────────────────
+   60: 
+   61: static EpochFencingConfig makeConfig(const std::string& shard = "s1",
+   62:                                      const std::string& node  = "n1",
+   63:                                      bool auto_stonith         = true) {
+   64:     EpochFencingConfig cfg;
+   65:     cfg.shard_id     = shard;
+   66:     cfg.node_id      = node;
+   67:     cfg.auto_stonith = auto_stonith;
+   68:     cfg.stonith_timeout_ms = 500ms;
+   69:     return cfg;
+   70: }
+   71: 
+   72: static LeaseConfig makeLeaseConfig(std::chrono::milliseconds ttl     = 200ms,
+   73:                                    std::chrono::milliseconds renew   = 50ms,
+   74:                                    std::chrono::milliseconds wait    = 500ms) {
+   75:     LeaseConfig cfg;
+   76:     cfg.ttl_ms          = ttl;
+   77:     cfg.renew_before_ms = renew;
+   78:     cfg.acquire_wait_ms = wait;
+   79:     return cfg;
+   80: }
+   81: 
+   82: // ─────────────────────────────────────────────────────────────────────────────
+   83: // EpochFencingConfig — validation
+   84: // ─────────────────────────────────────────────────────────────────────────────
+   85: 
+   86: TEST(EpochFencingConfigTest, ValidConfigPasses) {
+   87:     EXPECT_TRUE(makeConfig().validate());
+   88: }
+   89: 
+   90: TEST(EpochFencingConfigTest, EmptyShardIdFails) {
+   91:     auto cfg = makeConfig();
+   92:     cfg.shard_id = "";
+   93:     EXPECT_FALSE(cfg.validate());
+   94: }
+   95: 
+   96: TEST(EpochFencingConfigTest, EmptyNodeIdFails) {
+   97:     auto cfg = makeConfig();
+   98:     cfg.node_id = "";
+   99:     EXPECT_FALSE(cfg.validate());
+  100: }
+  101: 
+  102: TEST(EpochFencingConfigTest, ZeroTimeoutFails) {
+  103:     auto cfg = makeConfig();
+  104:     cfg.stonith_timeout_ms = 0ms;
+  105:     EXPECT_FALSE(cfg.validate());
+  106: }
+  107: 
+  108: // ─────────────────────────────────────────────────────────────────────────────
+  109: // EpochToken — validity
+  110: // ─────────────────────────────────────────────────────────────────────────────
+  111: 
+  112: TEST(EpochTokenTest, ValidTokenAccepted) {
+  113:     EpochToken tok;
+  114:     tok.epoch = 5;
+  115:     EXPECT_TRUE(tok.isValid(5));
+  116: }
+  117: 
+  118: TEST(EpochTokenTest, FutureEpochAccepted) {
+  119:     EpochToken tok;
+  120:     tok.epoch = 10;
+  121:     EXPECT_TRUE(tok.isValid(5));
+  122: }
+  123: 
+  124: TEST(EpochTokenTest, StaleEpochRejected) {
+  125:     EpochToken tok;
+  126:     tok.epoch = 3;
+  127:     EXPECT_FALSE(tok.isValid(5));
+  128: }
+  129: 
+  130: TEST(EpochTokenTest, ZeroEpochAlwaysInvalid) {
+  131:     EpochToken tok;
+  132:     tok.epoch = 0;
+  133:     EXPECT_FALSE(tok.isValid(0));
+  134:     EXPECT_FALSE(tok.isValid(1));
+  135: }
+  136: 
+  137: // ─────────────────────────────────────────────────────────────────────────────
+  138: // EpochFencingManager — basic operations
+  139: // ─────────────────────────────────────────────────────────────────────────────
+  140: 
+  141: TEST(EpochFencingManagerTest, InitialEpochIsOne) {
+  142:     EpochFencingManager mgr(makeConfig());
+  143:     EXPECT_EQ(mgr.currentEpoch(), 1u);
+  144: }
+  145: 
+  146: TEST(EpochFencingManagerTest, BumpEpochIncrementsCounter) {
+  147:     EpochFencingManager mgr(makeConfig());
+  148:     auto tok = mgr.bumpEpoch("test");
+  149:     EXPECT_EQ(tok.epoch, 2u);
+  150:     EXPECT_EQ(mgr.currentEpoch(), 2u);
+  151: }
+  152: 
+  153: TEST(EpochFencingManagerTest, MultipleBumpsAreMonotonic) {
+  154:     EpochFencingManager mgr(makeConfig());
+  155:     for (uint64_t i = 2; i <= 10; ++i) {
+  156:         auto tok = mgr.bumpEpoch("bump");
+  157:         EXPECT_EQ(tok.epoch, i);
+  158:     }
+  159: }
+  160: 
+  161: TEST(EpochFencingManagerTest, MakeTokenReturnsCurrentEpoch) {
+  162:     EpochFencingManager mgr(makeConfig());
+  163:     mgr.bumpEpoch("up");
+  164:     auto tok = mgr.makeToken();
+  165:     EXPECT_EQ(tok.epoch, mgr.currentEpoch());
+  166:     EXPECT_EQ(tok.issuer, "n1");
+  167:     EXPECT_EQ(tok.shard_id, "s1");
+  168: }
+  169: 
+  170: // ─────────────────────────────────────────────────────────────────────────────
+  171: // EpochFencingManager — fencing check
+  172: // ─────────────────────────────────────────────────────────────────────────────
+  173: 
+  174: TEST(EpochFencingManagerTest, CurrentTokenAllowed) {
+  175:     EpochFencingManager mgr(makeConfig("s1", "n1", false));
+  176:     auto tok = mgr.makeToken();
+  177:     EXPECT_EQ(mgr.checkToken(tok, "n2"), FencingResult::ALLOWED);
+  178: }
+  179: 
+  180: TEST(EpochFencingManagerTest, StaleTokenRejectedWithoutStonith) {
+  181:     EpochFencingManager mgr(makeConfig("s1", "n1", false));
+  182:     auto old_tok = mgr.makeToken();   // epoch==1
+  183:     mgr.bumpEpoch("bump");            // now epoch==2
+  184:     EXPECT_EQ(mgr.checkToken(old_tok, "n2"), FencingResult::STALE_EPOCH);
+  185: }
+  186: 
+  187: TEST(EpochFencingManagerTest, InvalidTokenRejected) {
+  188:     EpochFencingManager mgr(makeConfig("s1", "n1", false));
+  189:     EpochToken bad;
+  190:     bad.epoch = 0;
+  191:     EXPECT_EQ(mgr.checkToken(bad, "n2"), FencingResult::INVALID_TOKEN);
+  192: }
+  193: 
+  194: TEST(EpochFencingManagerTest, StaleTokenTriggersStonith) {
+  195:     auto stonith = std::make_shared<NullStonithProvider>();
+  196:     EpochFencingManager mgr(makeConfig("s1", "n1", true), stonith);
+  197:     auto old_tok = mgr.makeToken();
+  198:     mgr.bumpEpoch("bump");
+  199:     auto result = mgr.checkToken(old_tok, "stale-node");
+  200:     EXPECT_EQ(result, FencingResult::STONITH_ISSUED);
+  201:     EXPECT_TRUE(stonith->isFenced("stale-node"));
+  202: }
+  203: 
+  204: TEST(EpochFencingManagerTest, FutureEpochTokenAllowed) {
+  205:     EpochFencingManager mgr(makeConfig("s1", "n1", false));
+  206:     EpochToken future_tok;
+  207:     future_tok.epoch    = 999;
+  208:     future_tok.issuer   = "n1";
+  209:     future_tok.shard_id = "s1";
+  210:     // Epoch 999 > current (1): should be ALLOWED
+  211:     EXPECT_EQ(mgr.checkToken(future_tok, "n1"), FencingResult::ALLOWED);
+  212: }
+  213: 
+  214: // ─────────────────────────────────────────────────────────────────────────────
+  215: // EpochFencingManager — metrics
+  216: // ─────────────────────────────────────────────────────────────────────────────
+  217: 
+  218: TEST(EpochFencingManagerTest, MetricsAccumulateCorrectly) {
+  219:     auto stonith = std::make_shared<NullStonithProvider>();
+  220:     EpochFencingManager mgr(makeConfig("s1", "n1", true), stonith);
+  221: 
+  222:     // 2 bumps
+  223:     mgr.bumpEpoch("a");
+  224:     mgr.bumpEpoch("b");
+  225: 
+  226:     // 3 allowed writes
+  227:     auto cur = mgr.makeToken();
+  228:     for (int i = 0; i < 3; ++i) {
+  229:         mgr.checkToken(cur, "writer");
+  230:     }
+  231: 
+  232:     // 1 stale → STONITH
+  233:     EpochToken stale;
+  234:     stale.epoch = 1;
+  235:     mgr.checkToken(stale, "old-writer");
+  236: 
+  237:     auto m = mgr.metrics();
+  238:     EXPECT_EQ(m.epoch_bumps,      2u);
+  239:     EXPECT_EQ(m.allowed_writes,   3u);
+  240:     EXPECT_EQ(m.stale_rejections, 1u);
+  241:     EXPECT_EQ(m.stonith_issued,   1u);
+  242:     EXPECT_EQ(m.stonith_failed,   0u);
+  243: }
+  244: 
+  245: // ─────────────────────────────────────────────────────────────────────────────
+  246: // NullStonithProvider
+  247: // ─────────────────────────────────────────────────────────────────────────────
+  248: 
+  249: TEST(NullStonithProviderTest, FenceRecordsNode) {
+  250:     NullStonithProvider prov;
+  251:     auto dl = std::chrono::steady_clock::now() + 1s;
+  252:     EXPECT_TRUE(prov.fence("n1", "test", dl));
+  253:     EXPECT_TRUE(prov.isFenced("n1"));
+  254:     EXPECT_FALSE(prov.isFenced("n2"));
+  255: }
+  256: 
+  257: TEST(NullStonithProviderTest, ResetClearsFencedSet) {
+  258:     NullStonithProvider prov;
+  259:     auto dl = std::chrono::steady_clock::now() + 1s;
+  260:     prov.fence("n1", "r", dl);
+  261:     prov.reset();
+  262:     EXPECT_FALSE(prov.isFenced("n1"));
+  263:     EXPECT_TRUE(prov.fencedNodes().empty());
+  264: }
+  265: 
+  266: TEST(NullStonithProviderTest, ProviderName) {
+  267:     NullStonithProvider prov;
+  268:     EXPECT_EQ(prov.providerName(), "NullStonithProvider");
+  269: }
+  270: 
+  271: // ─────────────────────────────────────────────────────────────────────────────
+  272: // LeaseConfig — validation
+  273: // ─────────────────────────────────────────────────────────────────────────────
+  274: 
+  275: TEST(LeaseConfigTest, ValidConfigPasses) {
+  276:     EXPECT_TRUE(makeLeaseConfig().validate());
+  277: }
+  278: 
+  279: TEST(LeaseConfigTest, ZeroTtlFails) {
+  280:     auto cfg = makeLeaseConfig();
+  281:     cfg.ttl_ms = 0ms;
+  282:     EXPECT_FALSE(cfg.validate());
+  283: }
+  284: 
+  285: TEST(LeaseConfigTest, RenewBeforeGeTtlFails) {
+  286:     auto cfg = makeLeaseConfig(200ms, 200ms);  // renew == ttl
+  287:     EXPECT_FALSE(cfg.validate());
+  288: }
+  289: 
+  290: TEST(LeaseConfigTest, ZeroAcquireWaitFails) {
+  291:     auto cfg = makeLeaseConfig();
+  292:     cfg.acquire_wait_ms = 0ms;
+  293:     EXPECT_FALSE(cfg.validate());
+  294: }
+  295: 
+  296: // ─────────────────────────────────────────────────────────────────────────────
+  297: // LeaseManager — basic acquire / release / query
+  298: // ─────────────────────────────────────────────────────────────────────────────
+  299: 
+  300: static std::shared_ptr<EpochFencingManager> makeFencing(bool auto_s = false) {
+  301:     return std::make_shared<EpochFencingManager>(makeConfig("s1", "n1", auto_s));
+  302: }
+  303: 
+  304: TEST(LeaseManagerTest, AcquireSucceeds) {
+  305:     LeaseManager lm(makeLeaseConfig(), makeFencing());
+  306:     auto res = lm.acquire("leader", "node-1");
+  307:     EXPECT_TRUE(res.success);
+  308:     EXPECT_EQ(res.record.holder, "node-1");
+  309:     EXPECT_EQ(res.record.state, LeaseState::HELD);
+  310: }
+  311: 
+  312: TEST(LeaseManagerTest, IsHolderReturnsTrueForHolder) {
+  313:     LeaseManager lm(makeLeaseConfig(), makeFencing());
+  314:     lm.acquire("leader", "node-1");
+  315:     EXPECT_TRUE(lm.isHolder("leader", "node-1"));
+  316:     EXPECT_FALSE(lm.isHolder("leader", "node-2"));
+  317: }
+  318: 
+  319: TEST(LeaseManagerTest, ReleaseAllowsReacquire) {
+  320:     LeaseManager lm(makeLeaseConfig(), makeFencing());
+  321:     lm.acquire("leader", "node-1");
+  322:     lm.release("leader", "node-1");
+  323: 
+  324:     auto res = lm.acquire("leader", "node-2");
+  325:     EXPECT_TRUE(res.success);
+  326:     EXPECT_EQ(res.record.holder, "node-2");
+  327: }
+  328: 
+  329: TEST(LeaseManagerTest, ReleaseByNonHolderNoOp) {
+  330:     LeaseManager lm(makeLeaseConfig(), makeFencing());
+  331:     lm.acquire("leader", "node-1");
+  332:     EXPECT_FALSE(lm.release("leader", "node-2"));
+  333:     EXPECT_TRUE(lm.isHolder("leader", "node-1"));
+  334: }
+  335: 
+  336: TEST(LeaseManagerTest, RenewExtendsTtl) {
+  337:     LeaseManager lm(makeLeaseConfig(500ms, 100ms), makeFencing());
+  338:     lm.acquire("leader", "node-1");
+  339:     std::this_thread::sleep_for(50ms);
+  340:     auto renewed = lm.renew("leader", "node-1");
+  341:     ASSERT_TRUE(renewed.has_value());
+  342:     EXPECT_GT(renewed->remainingTtl().count(), 400);
+  343: }
+  344: 
+  345: TEST(LeaseManagerTest, RenewByNonHolderFails) {
+  346:     LeaseManager lm(makeLeaseConfig(), makeFencing());
+  347:     lm.acquire("leader", "node-1");
+  348:     EXPECT_FALSE(lm.renew("leader", "node-2").has_value());
+  349: }
+  350: 
+  351: TEST(LeaseManagerTest, GetReturnsLeaseRecord) {
+  352:     LeaseManager lm(makeLeaseConfig(), makeFencing());
+  353:     lm.acquire("leader", "node-1");
+  354:     auto rec = lm.get("leader");
+  355:     ASSERT_TRUE(rec.has_value());
+  356:     EXPECT_EQ(rec->holder, "node-1");
+  357: }
+  358: 
+  359: TEST(LeaseManagerTest, GetUnknownKeyReturnsNullopt) {
+  360:     LeaseManager lm(makeLeaseConfig(), makeFencing());
+  361:     EXPECT_FALSE(lm.get("nonexistent").has_value());
+  362: }
+  363: 
+  364: TEST(LeaseManagerTest, ListLeasesIncludesAcquiredKey) {
+  365:     LeaseManager lm(makeLeaseConfig(), makeFencing());
+  366:     lm.acquire("key-a", "n1");
+  367:     lm.acquire("key-b", "n2");
+  368:     auto keys = lm.listLeases();
+  369:     EXPECT_EQ(keys.size(), 2u);
+  370: }
+  371: 
+  372: // ─────────────────────────────────────────────────────────────────────────────
+  373: // LeaseManager — expiry
+  374: // ─────────────────────────────────────────────────────────────────────────────
+  375: 
+  376: TEST(LeaseManagerTest, ExpiredLeaseIsReacquirable) {
+  377:     LeaseManager lm(makeLeaseConfig(100ms, 20ms, 500ms), makeFencing());
+  378:     lm.acquire("leader", "node-1");
+  379:     std::this_thread::sleep_for(150ms);  // let it expire
+  380:     auto res = lm.acquire("leader", "node-2");
+  381:     EXPECT_TRUE(res.success);
+  382:     EXPECT_EQ(res.record.holder, "node-2");
+  383: }
+  384: 
+  385: TEST(LeaseManagerTest, IdempotentReacquireBySameHolder) {
+  386:     LeaseManager lm(makeLeaseConfig(500ms, 100ms), makeFencing());
+  387:     auto r1 = lm.acquire("leader", "node-1");
+  388:     auto r2 = lm.acquire("leader", "node-1");
+  389:     EXPECT_TRUE(r1.success);
+  390:     EXPECT_TRUE(r2.success);
+  391:     // generation should not have changed
+  392:     EXPECT_EQ(r1.record.generation, r2.record.generation);
+  393: }
+  394: 
+  395: // ─────────────────────────────────────────────────────────────────────────────
+  396: // LeaseManager — metrics
+  397: // ─────────────────────────────────────────────────────────────────────────────
+  398: 
+  399: TEST(LeaseManagerTest, MetricsCountAcquireAndRelease) {
+  400:     LeaseManager lm(makeLeaseConfig(), makeFencing());
+  401:     lm.acquire("k", "n1");
+  402:     lm.renew("k", "n1");
+  403:     lm.release("k", "n1");
+  404: 
+  405:     auto m = lm.metrics();
+  406:     EXPECT_GE(m.acquires,  1u);
+  407:     EXPECT_EQ(m.renewals,  1u);
+  408:     EXPECT_EQ(m.releases,  1u);
+  409: }
+  410: 
+  411: // ─────────────────────────────────────────────────────────────────────────────
+  412: // LeaseManager — WAL round-trip
+  413: // ─────────────────────────────────────────────────────────────────────────────
+  414: 
+  415: TEST(LeaseManagerTest, WalPersistsAndRestores) {
+  416:     const std::string wal = "/tmp/test_epoch_fencing_wal.txt";
+  417:     std::filesystem::remove(wal);
+  418: 
+  419:     {
+  420:         auto lcfg       = makeLeaseConfig(500ms, 50ms);
+  421:         lcfg.wal_path   = wal;
+  422:         LeaseManager lm(lcfg, makeFencing());
+  423:         lm.acquire("shard-0-leader", "node-A");
+  424:     }
+  425: 
+  426:     // Re-open from WAL
+  427:     auto lcfg2    = makeLeaseConfig(500ms, 50ms);
+  428:     lcfg2.wal_path = wal;
+  429:     LeaseManager lm2(lcfg2, makeFencing());
+  430: 
+  431:     auto rec = lm2.get("shard-0-leader");
+  432:     ASSERT_TRUE(rec.has_value());
+  433:     EXPECT_EQ(rec->holder, "node-A");
+  434: 
+  435:     std::filesystem::remove(wal);
+  436: }
+  437: 
+  438: TEST(LeaseManagerTest, WalDiscardsExpiredRecords) {
+  439:     const std::string wal = "/tmp/test_epoch_fencing_wal_exp.txt";
+  440:     std::filesystem::remove(wal);
+  441: 
+  442:     {
+  443:         auto lcfg       = makeLeaseConfig(100ms, 20ms);
+  444:         lcfg.wal_path   = wal;
+  445:         LeaseManager lm(lcfg, makeFencing());
+  446:         lm.acquire("shard-0-leader", "node-A");
+  447:     }
+  448: 
+  449:     std::this_thread::sleep_for(150ms);  // let it expire
+  450: 
+  451:     auto lcfg2    = makeLeaseConfig(100ms, 20ms);
+  452:     lcfg2.wal_path = wal;
+  453:     LeaseManager lm2(lcfg2, makeFencing());
+  454: 
+  455:     auto rec = lm2.get("shard-0-leader");
+  456:     // Record exists but state should be EXPIRED
+  457:     if (rec.has_value()) {
+  458:         EXPECT_NE(rec->state, LeaseState::HELD);
+  459:     }
+  460: 
+  461:     std::filesystem::remove(wal);
+  462: }
+  463: 
+  464: // ─────────────────────────────────────────────────────────────────────────────
+  465: // Thread-safety smoke test
+  466: // ─────────────────────────────────────────────────────────────────────────────
+  467: 
+  468: TEST(EpochFencingManagerTest, ConcurrentBumpsAreThreadSafe) {
+  469:     EpochFencingManager mgr(makeConfig());
+  470:     constexpr int N = 50;

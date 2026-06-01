@@ -1652,6 +1652,7 @@ void InferenceEngineEnhanced::recordCacheMiss() {
 
 void InferenceEngineEnhanced::recordBatchCompletion(size_t batch_size) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
+    const double batch_size_d = static_cast<double>(batch_size);
     
     stats_.total_batches++;
     
