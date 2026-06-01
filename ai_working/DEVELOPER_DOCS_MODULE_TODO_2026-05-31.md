@@ -31,11 +31,11 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [x] Template-lastige Root-Dokumente in `benchmarks/` (`ARCHITECTURE.md`) auf source-verifizierbaren Ist-Zustand umgestellt
 - [x] Veraltete Preset-Referenzen in `include/README.md`, `tests/README.md`, `benchmarks/README.md` auf existierende Presets normalisiert
 
-### Nächste gestaffelte Rollout-Welle
+### Gestaffelte Rollout-Welle (abgeschlossen 2026-06-01)
 
-- [ ] `tests/config/` und `tests/data/` mit Root-gleichwertigen Developer-Einstiegsdokumenten ergänzen
-- [ ] `benchmarks/*` Bereichsdokumente (ann, ldbc, mmdb, ycsb, tpc) mit Layer-Mapping (ANN/Tensor/Graph/LLM) angleichen
-- [ ] `include/` modulweise Priorisierung nach API-Risiko/Nutzungsgrad mit Akzeptanzkriterien erfassen
+- [x] `tests/config/` und `tests/data/` mit Root-gleichwertigen Developer-Einstiegsdokumenten ergänzt
+- [x] `benchmarks/*` Bereichsdokumente (ann, ldbc, mmdb, ycsb, tpc) mit Layer-Mapping (ANN/Tensor/Graph/LLM) angeglichen
+- [x] `include/` modulweise Priorisierung nach API-Risiko/Nutzungsgrad mit Akzeptanzkriterien erfasst
 
 ## Core-Dokumente (11)
 

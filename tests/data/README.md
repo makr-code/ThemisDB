@@ -1,17 +1,25 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-# data
+# Test Data (`tests/data/`)
 
-Pfad: `tests/data`
+Entwickler-Einstieg für statische Testdaten und Zertifikatsartefakte.
 
-## Zweck
-Dieser Ordner enthält 1 Unterordner und 0 Dateien und bildet einen abgegrenzten Teil der Repository-Struktur.
+## Struktur
 
-## Unterordner
-- `certificates/`
+- `certificates/`: Zertifikate, Schlüssel und Hilfsskripte für Security-/TLS-nahe Tests
 
-## Hinweise
-- Änderungen in diesem Ordner sollten mit den übergeordneten Architektur- und Sicherheitsrichtlinien des Projekts abgestimmt werden.
-- Für tieferliegende Teilbereiche existieren ggf. zusätzliche README- und Moduldokumente.
+## Installation
 
-_Automatisch erzeugt/aktualisiert am 2026-04-17._
+Keine separate Installation nötig; Testdaten werden direkt aus dem Repository verwendet.
+
+## Usage
+
+- Testdaten nur erweitern, wenn betroffene Tests reproduzierbar aktualisiert sind
+- Zertifikatsmaterial aus `certificates/` nur im Testkontext verwenden
+
+## Bezug
+
+- Architekturkontext: [`ARCHITECTURE.md`](ARCHITECTURE.md)
+- Rolloutplanung: [`ROADMAP.md`](ROADMAP.md)
+- Erweiterungen: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)
+- Test-Root: [`../README.md`](../README.md)

@@ -1,17 +1,25 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-# config
+# Test Configuration (`tests/config/`)
 
-Pfad: `tests/config`
+Entwickler-Einstieg für testbezogene Konfigurationen und Policy-Profile.
 
-## Zweck
-Dieser Ordner enthält 0 Unterordner und 1 Dateien und bildet einen abgegrenzten Teil der Repository-Struktur.
+## Struktur
 
-## Dateien nach Kategorien
-- **Konfiguration**: `policies.test.yaml`
+- `policies.test.yaml`: zentrale Test-Policy (z. B. Schwellwerte/Regelwerk für Tests)
 
-## Hinweise
-- Änderungen in diesem Ordner sollten mit den übergeordneten Architektur- und Sicherheitsrichtlinien des Projekts abgestimmt werden.
-- Für tieferliegende Teilbereiche existieren ggf. zusätzliche README- und Moduldokumente.
+## Installation
 
-_Automatisch erzeugt/aktualisiert am 2026-04-17._
+Es ist keine separate Installation notwendig; die Dateien werden direkt aus dem Repository von Tests geladen.
+
+## Usage
+
+- Konfigurationsänderungen zusammen mit den betroffenen Test-Suites validieren
+- Schema-/Policy-Änderungen gegen bestehende `test_*.cpp`-Erwartungen prüfen
+
+## Bezug
+
+- Architekturkontext: [`ARCHITECTURE.md`](ARCHITECTURE.md)
+- Rolloutplanung: [`ROADMAP.md`](ROADMAP.md)
+- Erweiterungen: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)
+- Test-Root: [`../README.md`](../README.md)

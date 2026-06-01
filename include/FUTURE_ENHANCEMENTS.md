@@ -21,9 +21,17 @@
 - Architekturkontext über `include/ARCHITECTURE.md`
 - priorisierte Rollout-Schritte über `include/ROADMAP.md`
 
+## Priorisierung und Akzeptanz
+
+- Prioritätsblöcke A-D sind in `include/ROADMAP.md` mit API-Risiko/Nutzungsgrad dokumentiert
+- Akzeptanz pro priorisiertem Modul mindestens:
+  - source-verifizierte Kerndokumente (`README/ARCHITECTURE/ROADMAP/FUTURE_ENHANCEMENTS`)
+  - benannte öffentliche Entry-Header
+  - dokumentierte Breaking-/Deprecation-Hinweise oder expliziter Gap-Vermerk
+
 ## Implementation Notes
 
-- zunächst Root-Ebene konsolidieren, danach modulweise nach Risiko/Nutzungsgrad vertiefen
+- zunächst Root-Ebene konsolidieren, danach modulweise gemäß Prioritätsblöcken vertiefen
 - bei strategischen Layer-Bezügen (ANN/Tensor/Graph/LLM) explizit als Plan/Gap markieren, wenn noch keine vollständige Umsetzung vorliegt
 - Link-Konsistenz zu `src/`-Dokumenten als harte Mindestanforderung behandeln
 
