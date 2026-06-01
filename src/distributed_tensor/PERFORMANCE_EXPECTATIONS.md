@@ -5,8 +5,9 @@
 
 ## Current Baseline
 
-Distributed tensor module behavior is scaffolded. Contracts and skeleton translation units
-exist, while production distributed runtime behavior and benchmark evidence are pending.
+Distributed tensor module behavior is at documentation scaffold stage. Module structure
+and planning docs exist; contract headers (`*.h`), skeleton translation units (`*.cc`),
+production distributed runtime behavior, and benchmark evidence are deferred to the implementation PR.
 
 ## Phase-Gated Performance Expectations
 

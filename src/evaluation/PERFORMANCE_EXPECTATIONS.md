@@ -5,8 +5,9 @@
 
 ## Current Baseline
 
-Evaluation module behavior is scaffolded. Contracts and skeleton translation units exist,
-but production planner/metrics execution and benchmark evidence are not yet delivered.
+Evaluation module behavior is at documentation scaffold stage. Module structure and
+planning docs exist; contract headers (`*.h`), skeleton translation units (`*.cc`),
+production planner/metrics execution, and benchmark evidence are deferred to the implementation PR.
 
 ## Phase-Gated Performance Expectations
 

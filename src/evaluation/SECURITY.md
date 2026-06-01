@@ -10,7 +10,8 @@ definition and skeleton ownership; runtime enforcement logic is phase-tracked fo
 
 ## Security Posture (Current)
 
-- interface and skeleton files are source-verifiable under `include/` and `src/`
+- module documentation files are present and reviewed
+- interface headers (`*.h`) and skeleton files (`*.cc`) are planned but deferred to the implementation PR
 - no unsupported claims are made about completed runtime policy enforcement
 - production enablement is deferred behind test and benchmark gates
 

@@ -11,7 +11,8 @@ tracked in later delivery phases.
 
 ## Security Posture (Current)
 
-- contract files are present and source-verifiable under `include/` and `src/`
+- module documentation files are present and reviewed
+- contract headers (`*.h`) and implementation files (`*.cc`) are planned but deferred to the implementation PR
 - no claims are made about completed production-hardening behavior
 - phase-gated rollout requires explicit tests before production enablement
 

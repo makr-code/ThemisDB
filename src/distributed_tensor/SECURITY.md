@@ -11,7 +11,8 @@ tracked in later phases.
 
 ## Security Posture (Current)
 
-- interface and scaffold files are source-verifiable under `include/` and `src/`
+- module documentation files are present and reviewed
+- interface headers (`*.h`) and scaffold files (`*.cc`) are planned but deferred to the implementation PR
 - no production security guarantees are claimed before runtime implementation exists
 - phase-gated progression requires explicit tests before integration enablement
 

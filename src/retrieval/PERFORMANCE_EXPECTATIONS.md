@@ -5,8 +5,9 @@
 
 ## Current Baseline
 
-The retrieval module is currently scaffolded: interfaces and skeleton translation units
-exist, while production retrieval behavior and benchmark execution are deferred.
+The retrieval module is currently at documentation scaffold stage: module structure and
+planning docs exist, while contract headers (`*.h`), skeleton translation units (`*.cc`),
+and production retrieval behavior are deferred to the implementation PR.
 
 ## Phase-Gated Performance Expectations
 

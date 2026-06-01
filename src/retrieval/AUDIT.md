@@ -8,17 +8,20 @@
 | Metric | Result |
 |---|---|
 | Build registration | pass (`src/retrieval/CMakeLists.txt` present) |
-| Source set size | 7 implementation files in `src/retrieval/src` |
-| Contract set size | 7 public headers in `src/retrieval/include` |
+| Source set size | 0 — deferred to implementation PR |
+| Contract set size | 0 — deferred to implementation PR |
 | Core docs synchronized | pass |
 | Critical blockers | none identified |
 
 ## Verified Files
 
 - `src/retrieval/README.md`
-- `src/retrieval/include/*.h` (7 contract headers)
-- `src/retrieval/src/*.cc` (7 scaffold translation units)
+- `src/retrieval/include/README.md`
+- `src/retrieval/src/README.md`
 - `src/retrieval/CMakeLists.txt`
+
+> `include/*.h` and `src/*.cc` are planned but out of scope for this PR.
+> They will be added in the dedicated implementation PR (see `docs/IMPLEMENTATION_ROADMAP.md`).
 
 ## Findings
 

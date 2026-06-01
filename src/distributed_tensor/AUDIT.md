@@ -8,17 +8,20 @@
 | Metric | Result |
 |---|---|
 | Build registration | pass (`src/distributed_tensor/CMakeLists.txt` present) |
-| Source set size | 7 implementation files in `src/distributed_tensor/src` |
-| Contract set size | 7 public headers in `src/distributed_tensor/include` |
+| Source set size | 0 — deferred to implementation PR |
+| Contract set size | 0 — deferred to implementation PR |
 | Core docs synchronized | pass |
 | Critical blockers | none identified |
 
 ## Verified Files
 
 - `src/distributed_tensor/README.md`
-- `src/distributed_tensor/include/*.h` (7 contract headers)
-- `src/distributed_tensor/src/*.cc` (7 scaffold translation units)
+- `src/distributed_tensor/include/README.md`
+- `src/distributed_tensor/src/README.md`
 - `src/distributed_tensor/CMakeLists.txt`
+
+> `include/*.h` and `src/*.cc` are planned but out of scope for this PR.
+> They will be added in the dedicated implementation PR (see `docs/IMPLEMENTATION_ROADMAP.md`).
 
 ## Findings
 

@@ -8,17 +8,20 @@
 | Metric | Result |
 |---|---|
 | Build registration | pass (`src/evaluation/CMakeLists.txt` present) |
-| Source set size | 7 implementation files in `src/evaluation/src` |
-| Contract set size | 7 public headers in `src/evaluation/include` |
+| Source set size | 0 — deferred to implementation PR |
+| Contract set size | 0 — deferred to implementation PR |
 | Core docs synchronized | pass |
 | Critical blockers | none identified |
 
 ## Verified Files
 
 - `src/evaluation/README.md`
-- `src/evaluation/include/*.h` (7 contract headers)
-- `src/evaluation/src/*.cc` (7 scaffold translation units)
+- `src/evaluation/include/README.md`
+- `src/evaluation/src/README.md`
 - `src/evaluation/CMakeLists.txt`
+
+> `include/*.h` and `src/*.cc` are planned but out of scope for this PR.
+> They will be added in the dedicated implementation PR (see `docs/IMPLEMENTATION_ROADMAP.md`).
 
 ## Findings
 
