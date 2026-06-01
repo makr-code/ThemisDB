@@ -1,6 +1,7 @@
 #include "llm/safety/classifier.h"
 
 #include <algorithm>
+#include <cctype>
 #include <future>
 #include <regex>
 #include <thread>
@@ -103,23 +104,29 @@ SafetyClassification SafetyClassifier::fallbackClassify(std::string_view text) c
     const std::string lowered = toLower(text);
 
     if (containsAny(lowered, block_signals)) {
-        return {.label = SafetyLabel::BLOCK,
-                .confidence = 0.95,
-                .rationale = "Matched high-risk policy signal",
-                .source = "rule_based"};
+        SafetyClassification out;
+        out.label = SafetyLabel::BLOCK;
+        out.confidence = 0.95;
+        out.rationale = "Matched high-risk policy signal";
+        out.source = "rule_based";
+        return out;
     }
 
     if (containsAny(lowered, review_signals)) {
-        return {.label = SafetyLabel::REVIEW,
-                .confidence = 0.70,
-                .rationale = "Matched medium-risk policy signal",
-                .source = "rule_based"};
+        SafetyClassification out;
+        out.label = SafetyLabel::REVIEW;
+        out.confidence = 0.70;
+        out.rationale = "Matched medium-risk policy signal";
+        out.source = "rule_based";
+        return out;
     }
 
-    return {.label = SafetyLabel::SAFE,
-            .confidence = 0.90,
-            .rationale = "No risky signal detected",
-            .source = "rule_based"};
+    SafetyClassification out;
+    out.label = SafetyLabel::SAFE;
+    out.confidence = 0.90;
+    out.rationale = "No risky signal detected";
+    out.source = "rule_based";
+    return out;
 }
 
 } // namespace themis::llm::safety

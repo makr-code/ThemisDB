@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <array>
 #include <cctype>
+#include <string_view>
 #include <unordered_map>
 
 namespace themis::llm::safety {

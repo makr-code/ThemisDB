@@ -4,6 +4,7 @@
 #include <fstream>
 #include <mutex>
 #include <sstream>
+#include <utility>
 
 namespace themis::llm::safety {
 
@@ -103,11 +104,11 @@ void SafetyMonitoring::record(const SafetyEvent& event) {
 }
 
 SafetyCountersSnapshot SafetyMonitoring::snapshot() const {
-    return SafetyCountersSnapshot{
-        .allowed = allowed_.load(std::memory_order_relaxed),
-        .review = review_.load(std::memory_order_relaxed),
-        .blocked = blocked_.load(std::memory_order_relaxed),
-    };
+    SafetyCountersSnapshot out;
+    out.allowed = allowed_.load(std::memory_order_relaxed);
+    out.review = review_.load(std::memory_order_relaxed);
+    out.blocked = blocked_.load(std::memory_order_relaxed);
+    return out;
 }
 
 std::string SafetyMonitoring::toJsonLine(const SafetyEvent& event) {
