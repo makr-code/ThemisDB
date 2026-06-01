@@ -9202,11 +9202,11 @@ Total findings: 5
 ### src/sharding/replication_coordinator.cpp
 Total findings: 5
 
-- Line 118: severity=CRITICAL; category=data_race
+- Line 118: severity=CRITICAL; category=data_race; **status=FIXED** (batch3: PendingWrite::completed upgraded to std::atomic<bool>; all completed reads/writes now use atomic load/store under pending_mutex_ synchronization)
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: if (it != pending_writes_.end() && !it->second.completed) {
-- Line 169: severity=CRITICAL; category=iterator_invalidation
+- Line 169: severity=CRITICAL; category=iterator_invalidation; **status=FIXED** (batch3: cleanupPendingWrites now snapshots keys first and erases by key after iteration, avoiding iterator invalidation risk)
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = pending_writes_.begin();
