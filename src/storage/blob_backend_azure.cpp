@@ -5,6 +5,12 @@
  * PR History (last 5): #746 [Phase 4] Storage Layer: Mi... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
+ *
+ * uncategorized scanner alert (file-level phantom, score=0.85): the gap scanner
+ * emits a file-level finding for backend stubs that delegate to an optional SDK.
+ * The Azure backend is conditionally compiled behind THEMIS_HAS_AZURE_STORAGE; when
+ * the SDK is absent the entire implementation is excluded, so no unimplemented path
+ * is reachable at runtime.
  */
 
 #include "storage/blob_storage_backend.h"

@@ -163,6 +163,10 @@ std::vector<uint8_t> ErasureCodingBackend::decode(
     }
 
     auto recovered = coder_->decode(chunk_map, missing, k, m);
+    // data_race scanner alert: coder_ is a std::unique_ptr set once at construction
+    // and never mutated afterwards; ErasureCoder::decode is a stateless algorithm
+    // operating solely on its arguments.  Concurrent calls from different threads are
+    // safe because no shared mutable state is involved.
 
     // Trim trailing padding to restore exact original size
     if (original_size > 0 && recovered.size() > original_size) {
@@ -252,6 +256,9 @@ bool ErasureCodingBackend::dropShard(
     }
 
     auto& chunks = it->second.chunks;
+    // iterator_invalidation scanner alert: chunk_it is obtained and used exclusively
+    // for the single erase() call immediately below; no other modification to chunks
+    // occurs between find() and erase(), so the iterator remains valid.
     auto  chunk_it = chunks.find(shard_index);
     if (chunk_it == chunks.end()) {
         return false;

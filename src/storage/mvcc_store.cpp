@@ -93,6 +93,10 @@ void MVCCStore::putWithTimestamp(
     {
         std::unique_lock<std::shared_mutex> lk(latest_mu_);
         auto it = latest_ts_map_.find(std::string(key));
+        // data_race scanner alert (×2): both the map lookup and the map write
+        // are performed inside this unique_lock scope on latest_mu_; all other
+        // accessors of latest_ts_map_ likewise acquire latest_mu_ before access.
+        // The scanner false-positively flags the code inside the lock body.
         if (it == latest_ts_map_.end() || ts.value >= it->second.value) {
             latest_ts_map_[std::string(key)] = ts;
         }

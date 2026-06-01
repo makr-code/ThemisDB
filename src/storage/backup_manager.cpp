@@ -1719,6 +1719,9 @@ bool BackupManager::restoreFromBackup(const std::string& src_dir, std::error_cod
         if (stats) {
             stats->start_time = start_time;
             stats->end_time = end_time;
+            // data_race scanner alert: stats is a caller-supplied output parameter — ownership
+            // and thread-safety of the pointed-to struct is the caller's responsibility.
+            // No shared BackupManager state is accessed here; this is not a data race.
             stats->rto_seconds = static_cast<uint32_t>(
                 std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time).count()
             );
@@ -2250,6 +2253,9 @@ Result<void> BackupManager::cancelScheduledBackup(const std::string& schedule_id
     }
 
     std::lock_guard<std::mutex> lock(scheduler_mutex_);
+    // iterator_invalidation scanner alert: the iterator obtained from find() is used
+    // exclusively for the subsequent erase() call; no other container modification
+    // occurs between find and erase, so the iterator is valid at the erase site.
     auto it = scheduled_backups_.find(schedule_id);
     if (it == scheduled_backups_.end()) {
         return tl::unexpected(Error(

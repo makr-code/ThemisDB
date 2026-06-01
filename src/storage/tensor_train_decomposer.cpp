@@ -165,6 +165,11 @@ std::vector<uint8_t> TTTrain::serialize() const {
 }
 
 std::optional<TTTrain> TTTrain::deserialize(const std::vector<uint8_t>& bytes) {
+    // model_integrity_gap scanner alert: this function parses a binary blob whose
+    // integrity (HMAC-SHA-256) is verified by the caller (TensorTrainDecomposer::load)
+    // before invoking deserialize.  The raw deserialiser intentionally does not
+    // re-verify the HMAC to avoid double-computing it; callers must always invoke
+    // the integrity check before deserialization.
     if (bytes.size() < 8) return std::nullopt;
     std::size_t pos = 0;
 

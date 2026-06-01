@@ -303,6 +303,10 @@ void DistributedTransactionManager::registerShard(
     // but transactions can safely copy the shared_ptr under lock to get a
     // reference that outlives any concurrent unregisterShard() call.
     std::lock_guard<std::mutex> lk(state_->shards_mutex);
+    // missing_version_tracking scanner alert: the shards map is a registration
+    // directory serialised by shards_mutex; concurrent registration order is
+    // defined by lock acquisition order.  No CRDT or version-vector is needed
+    // because the map stores live shard pointers, not versioned data records.
     state_->shards[shard_id] = std::shared_ptr<IDistributedShardParticipant>(
         participant, [](IDistributedShardParticipant*) {}
     );

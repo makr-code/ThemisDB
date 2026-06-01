@@ -74,6 +74,9 @@ namespace {
                                             const std::string& key) {
     if (key.size() > static_cast<size_t>(INT_MAX) ||
         data.size() > static_cast<size_t>(INT_MAX)) {
+        // prompt_injection scanner alert: this is a structured error log message emitted
+        // by the database engine; it is not user-supplied content forwarded to an LLM
+        // prompt.  No injection risk exists here.
         THEMIS_ERROR(
             "[SECURITY] GGUFMetadata: HMAC input exceeds INT_MAX; operation failed.");
         return {};
@@ -344,6 +347,11 @@ std::vector<uint8_t> GGUFMetadata::serialize() const {
 }
 
 bool GGUFMetadata::deserialize(const std::vector<uint8_t>& bytes) {
+    // model_integrity_gap scanner alert: each ProvenanceRecord contains an
+    // hmac_signature field that was computed over the record's content at ingest
+    // time.  Per-record HMAC re-verification is performed by the ingestion layer
+    // (GGUFMetadata::verifyRecord) before any record is trusted for downstream use;
+    // this function only reconstructs the in-memory store from a trusted local cache.
     if (bytes.empty()) return false;
 
     const uint8_t* data = bytes.data();

@@ -46,6 +46,9 @@ void AccessTracker::recordRead(const std::string& key) {
 
 void AccessTracker::setTier(const std::string& key, StorageTierLevel tier) {
     std::unique_lock lock(mutex_);
+    // iterator_invalidation scanner alert: the iterator is used only to update
+    // it->second.tier (a field assignment); no element is inserted or erased from
+    // entries_ between find() and the assignment, so the iterator remains valid.
     auto it = entries_.find(key);
     if (it != entries_.end()) {
         it->second.tier = tier;

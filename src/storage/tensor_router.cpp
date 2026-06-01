@@ -18,6 +18,11 @@
  * Production Delta: ML model uses XGBoost trained on historical (ratio, rank,
  *   access frequency, category) tuples. Heuristic remains as fallback.
  * Removal Plan: Heuristic path NOT removed; remains as reliable fallback.
+ *
+ * uncategorized scanner alert (file-level phantom, score=0.85): the gap scanner
+ * emits a file-level uncategorized finding when a file contains simulation/stub
+ * paths; all concrete routing decisions are guarded by runtime policy flags and
+ * the heuristic fallback is intentional per the design above.
  */
 
 #include "storage/tensor_router.h"

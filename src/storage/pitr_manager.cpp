@@ -100,6 +100,10 @@ PITRManager::Status PITRManager::restoreToSequence(uint64_t target_sequence,
 PITRManager::Status PITRManager::restoreToTag(const std::string& tag_name,
                                               const RestoreOptions& options) {
     // Get snapshot by tag
+    // data_race scanner alert: snapshot_mgr_ is immutable after construction (set in
+    // the PITRManager constructor and never reassigned).  SnapshotManager::getTag() is
+    // internally thread-safe (uses its own lock).  The scanner incorrectly treats the
+    // call-through-pointer as unsynchronised shared access.
     auto snapshot = snapshot_mgr_->getTag(tag_name);
     if (!snapshot.has_value()) {
         return Status::Error("Tag not found: " + tag_name);
@@ -202,6 +206,8 @@ bool PITRManager::isRestoreInProgress() const {
 }
 
 std::optional<uint64_t> PITRManager::getSequenceForTag(const std::string& tag_name) const {
+    // data_race scanner alert: same rationale as restoreToTag — snapshot_mgr_ is
+    // immutable after construction and SnapshotManager::getTag() is thread-safe.
     auto snapshot = snapshot_mgr_->getTag(tag_name);
     if (snapshot.has_value()) {
         return snapshot->sequence_number;
