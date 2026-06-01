@@ -58,12 +58,12 @@ Long-term strategic AI/ML features for enhanced safety, privacy, and governance.
 
 ### C1: Constitutional AI (CAI) Safety Module
 
-- [ ] Design constitutional principles registry (20+ built-in rules)
-- [ ] Implement LLM-as-critic evaluation loop
-- [ ] Build revision prompt generation
-- [ ] Create critic-revision cycle (max 2 rounds)
-- [ ] Unit tests CAI-01..12
-- [ ] Integration with EthicsEvaluator
+- [x] Design constitutional principles registry (20+ built-in rules)
+- [x] Implement LLM-as-critic evaluation loop
+- [x] Build revision prompt generation
+- [x] Create critic-revision cycle (max 2 rounds)
+- [x] Unit tests CAI-01..12 (`tests/test_cai_safety_module.cpp`)
+- [x] Integration with EthicsEvaluator (`include/ai/cai_ethics_integration.h`)
 - [ ] Human safety benchmark (500 samples, 3 annotators)
 
 **Acceptance Criteria:**
@@ -75,13 +75,13 @@ Long-term strategic AI/ML features for enhanced safety, privacy, and governance.
 
 ### C2: Federated Learning for Privacy-Preserving Training
 
-- [ ] Design synchronized SGD gradient aggregation
-- [ ] Implement secure aggregation primitive (stub: optional homomorphic encryption)
-- [ ] Build Byzantine-robust averaging (median/trimmed mean)
-- [ ] Create federated training coordinator
-- [ ] Unit tests FEDERATED-01..10
+- [x] Design synchronized SGD gradient aggregation
+- [x] Implement secure aggregation primitive (stub: optional homomorphic encryption)
+- [x] Build Byzantine-robust averaging (median/trimmed mean)
+- [x] Create federated training coordinator
+- [x] Unit tests FEDERATED-01..10 (`tests/test_federated_privacy_training.cpp`)
 - [ ] Multi-node convergence benchmark (10 nodes, 10% data each)
-- [ ] Differential privacy tuning framework
+- [x] Differential privacy tuning framework
 
 **Acceptance Criteria:**
 - Training convergence ≥ 95% of centralized baseline

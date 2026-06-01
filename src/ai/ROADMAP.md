@@ -27,8 +27,8 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [ ] Expand observability counters for error classes and endpoint quality signals (Target: Q1 2027)
 
 ### Long-term (Q3 2027+)
-- [ ] Wave C C1: Constitutional AI (CAI) safety module with critic-revision loop, EthicsEvaluator integration, and CAI-01..12 coverage (Target: Q4 2027)
-- [ ] Wave C C2: Federated learning coordinator with secure aggregation, Byzantine-robust averaging, and FEDERATED-01..10 coverage (Target: Q4 2027)
+- [x] Wave C C1: Constitutional AI (CAI) safety module with critic-revision loop, EthicsEvaluator integration, and CAI-01..12 coverage — `include/ai/cai_ethics_integration.h`, `tests/test_cai_safety_module.cpp`
+- [x] Wave C C2: Federated learning coordinator with secure aggregation, Byzantine-robust averaging, DP tuning, and FEDERATED-01..10 coverage — `tests/test_federated_privacy_training.cpp`
 - [ ] Human safety benchmark program for C1 (500 samples, 3 annotators) and convergence benchmark for C2 (10-node setup) (Target: Q4 2027)
 
 ## Implementation Phases
