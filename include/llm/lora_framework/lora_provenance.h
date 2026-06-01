@@ -323,6 +323,8 @@ public:
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
+    void loadPersistentState();
+    void persistStateLocked() const;
 };
 
 } // namespace lora
