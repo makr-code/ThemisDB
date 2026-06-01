@@ -348,6 +348,33 @@ TEST(ColumnSegmentTest, SerializeDeserialize) {
     EXPECT_EQ(deserialized->metadata().row_count, segment->metadata().row_count);
 }
 
+TEST(ColumnSegmentTest, DeserializeRejectsInvalidColumnType) {
+    std::vector<uint8_t> serialized(2 + 4 * sizeof(uint64_t), 0);
+    serialized[0] = 0xFF; // Invalid ColumnType
+    serialized[1] = static_cast<uint8_t>(CompressionCodec::NONE);
+
+    auto result = ColumnSegment::deserialize(serialized);
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST(ColumnSegmentTest, DeserializeRejectsInvalidCompressionCodec) {
+    std::vector<uint8_t> serialized(2 + 4 * sizeof(uint64_t), 0);
+    serialized[0] = static_cast<uint8_t>(ColumnType::INT32);
+    serialized[1] = 0xFF; // Invalid CompressionCodec
+
+    auto result = ColumnSegment::deserialize(serialized);
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST(ColumnSegmentTest, DeserializeRejectsTruncatedMetadata) {
+    std::vector<uint8_t> serialized(2 + 3 * sizeof(uint64_t), 0);
+    serialized[0] = static_cast<uint8_t>(ColumnType::INT32);
+    serialized[1] = static_cast<uint8_t>(CompressionCodec::NONE);
+
+    auto result = ColumnSegment::deserialize(serialized);
+    EXPECT_FALSE(result.has_value());
+}
+
 // ============================================================================
 // ColumnarFormatManager Tests
 // ============================================================================

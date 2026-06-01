@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <cstring>
 #include <limits>
+#include <stdexcept>
 #include <unordered_set>
 #include <spdlog/spdlog.h>
 #include <lz4.h>
@@ -1266,23 +1267,50 @@ Result<ColumnSegment> ColumnSegment::deserialize(const std::vector<uint8_t>& dat
     ColumnSegment segment;
     size_t pos = 0;
 
-    segment.metadata_.type = static_cast<ColumnType>(data[pos++]);
-    segment.metadata_.codec = static_cast<CompressionCodec>(data[pos++]);
+    const auto raw_type = data[pos++];
+    const auto raw_codec = data[pos++];
+
+    if (raw_type > static_cast<uint8_t>(ColumnType::BOOL)) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
+            "Segment deserialize: invalid column type"
+        ));
+    }
+
+    if (raw_codec > static_cast<uint8_t>(CompressionCodec::SNAPPY)) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
+            "Segment deserialize: invalid compression codec"
+        ));
+    }
+
+    segment.metadata_.type = static_cast<ColumnType>(raw_type);
+    segment.metadata_.codec = static_cast<CompressionCodec>(raw_codec);
 
     auto read_uint64 = [&]() -> uint64_t {
+        if (pos + sizeof(uint64_t) > data.size()) {
+            throw std::out_of_range("Segment deserialize: truncated metadata");
+        }
         uint64_t val;
         std::memcpy(&val, &data[pos], sizeof(uint64_t));
         pos += sizeof(uint64_t);
         return val;
     };
 
-    segment.metadata_.uncompressed_size = read_uint64();
-    segment.metadata_.compressed_size = read_uint64();
-    segment.metadata_.row_count = read_uint64();
+    uint64_t encoded_size = 0;
+    try {
+        segment.metadata_.uncompressed_size = read_uint64();
+        segment.metadata_.compressed_size = read_uint64();
+        segment.metadata_.row_count = read_uint64();
+        encoded_size = read_uint64();
+    } catch (const std::out_of_range&) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
+            "Segment deserialize: truncated metadata"
+        ));
+    }
 
-    uint64_t encoded_size = read_uint64();
-
-    if (pos + encoded_size > data.size()) {
+    if (encoded_size > data.size() - pos) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
             "Segment deserialize: truncated data"
@@ -1435,4 +1463,3 @@ ColumnarFormatManager::getCompressionStats(const std::vector<ColumnSegment>& seg
 
 } // namespace storage
 } // namespace themis
-
