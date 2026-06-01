@@ -7,7 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-<<<<<<< HEAD
+### Added — Wave B ML Enhancements (issue #5039)
+
+- **B1 — Self-RAG** (`include/rag/self_rag.h`, `src/rag/self_rag.cpp`; `themis::rag`)
+  - `SelfRAGController` with injected retrieval + critic callbacks; `setRetrievalCallback()` / `setCriticCallback()` dependency injection hooks for `InferenceEngineEnhanced` wiring.
+  - `runRefinementLoop(query)` — iterative retrieval loop (configurable `max_rounds`), cross-round deduplication of passages, early-exit on sufficient Relevant grades.
+  - `SelfRAGDocument` with `score`, `id`, `text`; `SelfRAGResult` with `relevant_docs`, `rounds_used`, `retrieve_decided`.
+  - 12 unit tests: SELF_RAG-01..12 covering retrieval/no-retrieval decisions, critic grading, deduplication, multi-round convergence, precision and boundary cases.
+  - Stubs: SRG-S01 (threshold-heuristic retrieval controller, awaits trained binary classifier); SRG-S02 (score-proxy critic, awaits NLI model).
+
+- **B2 — RotatE Knowledge Graph Completion** (`include/graph/rotate_completion.h`, `src/graph/rotate_completion.cpp`; `themis::graph`)
+  - `RotatEModel` (pImpl, `shared_mutex`) implementing L1 complex-rotation scoring: `‖h ∘ r − t‖₁`.
+  - `train(triples, neg_samples, epochs)` — SGD loop with negative sampling; `score(h, r, t)` → distance.
+  - `LinkPredictionHead::predict(entity, relation, top_k)` → scored candidates ranked by RotatE distance.
+  - `KGCompletionEngine::setReasoner()` — injects predicted links into `KnowledgeGraphReasoner` via `addFact()`.
+  - 15 unit tests: KGC-01..15 covering model construction, scoring, training, link prediction, reasoner integration.
+  - Stubs: RTE-S01 (approximate SGD without full chain-rule gradients through complex rotation); RTE-S02 (CPU float32 only).
+
+- **B3 — Multi-Task LoRA Fine-Tuning** (`include/training/multi_task_lora.h`, `src/training/multi_task_lora.cpp`; `themis::training`)
+  - `MultiTaskLoRATrainer` (pImpl) with shared LoRA base + per-task projection heads and joint weighted loss.
+  - `addTask(MultiTaskLoRAConfig::TaskConfig)` — dynamic task registration with configurable weight, rank, and learning rate.
+  - `DomainGating` — prototype-based cosine-similarity routing to the correct task head at inference time.
+  - `exportSharedWeights()` / `exportTaskWeights(task_id)` — adapter export for deployment.
+  - 10 unit tests: MTL-01..10 covering task registration, gating, joint training, weight export, boundary cases.
+  - Stubs: MTL-S01 (cosine-heuristic gating, awaits trained domain classifier); MTL-S02 (gradient-averaging SGD, awaits task-gradient-weighted accumulation).
+
 ### Security / Reliability — Query module hardening (issue #5177)
 
 - **`src/query/cypher_parser.cpp`** — `stoll`/`stod` calls in `parseWith()` SKIP/LIMIT, `parseLiteralValue()`, and `parsePrimary()` wrapped in try-catch; malformed or out-of-range numeric literals rethrow as `CypherParseError` instead of propagating unhandled `std::out_of_range` / `std::invalid_argument` (REL-10..12).
@@ -32,9 +56,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`tests/test_llm_aql_handler.cpp`** — regression coverage extended for delimiter-escape rejection, access-denied behavior (`LLMErrorCode::ACCESS_DENIED`) across all translation paths, and with-examples schema-scope parity checks.
 
 ### Reliability — Exception hardening (catch-all removal, batch 4)
-=======
+
 ### Added
->>>>>>> origin/develop
 
 - **Cluster-wide deadlock detection via distributed Wait-For Graph (issue #5396)**
 

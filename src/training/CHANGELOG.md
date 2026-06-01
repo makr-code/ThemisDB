@@ -10,6 +10,15 @@ The format is based on Keep a Changelog.
 
 ## [Unreleased]
 
+### Added
+- **B3 — Multi-Task LoRA Fine-Tuning** (`include/training/multi_task_lora.h`, `src/training/multi_task_lora.cpp`; `themis::training`) — Wave B, issue #5039
+  - `MultiTaskLoRATrainer` (pImpl) with shared LoRA base + per-task projection heads and joint weighted loss.
+  - `addTask(TaskConfig)` — dynamic task registration with configurable weight, rank, and learning rate.
+  - `DomainGating` — prototype cosine-similarity routing to the correct task head at inference time.
+  - `exportSharedWeights()` / `exportTaskWeights(task_id)` — adapter export for deployment.
+  - 10 unit tests: MTL-01..10 (`tests/test_multi_task_lora.cpp`).
+  - Stubs: MTL-S01 (cosine-heuristic domain gating); MTL-S02 (gradient-averaging SGD).
+
 ### Changed
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
 - Performance expectations updated to explicit verified benchmark symbols from GPU training cycle and LoRA training benchmark suites.
