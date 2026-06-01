@@ -383,8 +383,6 @@ private:
     std::string makeAdapterKey(const std::string& adapter_id) const;
     std::string makeBaseModelIndexKey(const std::string& base_model) const;
     std::string makeDomainIndexKey(const std::string& domain) const;
-    void loadPersistentState();
-    void persistStateLocked() const;
 
     // Helper: Update indices when adapter is registered/updated/deleted
     void updateIndices(const AdapterMetadata& metadata, bool remove = false);

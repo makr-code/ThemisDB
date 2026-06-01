@@ -1,52 +1,40 @@
-> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+# ROADMAP (`tests/`)
 
-# ROADMAP
+<!-- Status: current | validated: 2026-06-01 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
-- [~] Modul `tests` dokumentiert; Backlog für weitere Härtung und Ausbau wird gepflegt.
+
+- [x] Root-Testdokumente auf konkrete `tests/`-Struktur und CMake-Realität ausgerichtet (Target: 2026-Q2)
+- [x] Veraltete Preset-Referenzen (`linux-ninja-release`) auf `linux-release` aktualisiert (Target: 2026-Q2)
 
 ## In Progress
-- [ ] Dokumentations- und Qualitätslücken schließen (Target: 2026-Q2)
+
+- [ ] Root-Dokumente für `tests/config/` und `tests/data/` ergänzen (Target: 2026-Q2)
+- [ ] Schichtbezogene Abdeckungszuordnung (ANN/Tensor/Graph/LLM) aus bestehenden Test-Suites konsolidieren (Target: 2026-Q3)
 
 ## Planned Features
-- [ ] Schnittstellen und Verantwortlichkeiten präzisieren (Target: 2026-Q3)
-- [ ] Testabdeckung für kritische Pfade erweitern (Target: 2026-Q3)
-- [ ] Betriebs- und Security-Härtung abschließen (Target: 2026-Q4)
+
+- [ ] Dokumentierte Matrix: Produktionsmodul `src/<module>` → verantwortliche Test-Suites (Target: 2026-Q3)
+- [ ] Fokus-Targets aus `tests/CMakeLists.txt` als kuratierte Regression-Sets dokumentieren (Target: 2026-Q3)
+- [ ] CI-fähige, reproduzierbare Test-Kommandos pro Prioritätsblock dokumentieren (Target: 2026-Q4)
 
 ## Implementation Phases
-### Phase 1: Design / API-Vertrag
-- [ ] Öffentliche und interne Interfaces des Moduls konsolidieren (Target: 2026-Q2)
-- [ ] Eingabe-/Ausgabeverträge und Fehlermodelle festlegen (Target: 2026-Q2)
 
-### Phase 2: Core-Implementierung
-- [ ] Kernlogik gemäß Schnittstellenvertrag vervollständigen (Target: 2026-Q3)
-- [ ] Integrationspunkte zu abhängigen Modulen stabilisieren (Target: 2026-Q3)
+### Phase 1: Dokumentationskonsolidierung
+- [x] Root-Dokumente (`README/ARCHITECTURE/ROADMAP/FUTURE_ENHANCEMENTS`) inhaltlich konkretisieren (Target: 2026-Q2)
+- [ ] Fehlende Unterbereichs-Readmes (`tests/config`, `tests/data`) ergänzen (Target: 2026-Q2)
 
-### Phase 3: Fehlerbehandlung & Edge Cases
-- [ ] Fehlerfälle systematisch abdecken (Target: 2026-Q3)
-- [ ] Edge-Case-Handling und Guardrails ergänzen (Target: 2026-Q3)
+### Phase 2: Abdeckungs-Transparenz
+- [ ] Modul-zu-Test-Mapping für kritische Runtime-Bereiche veröffentlichen (Target: 2026-Q3)
+- [ ] Fokus-Suites mit klaren Akzeptanzkriterien und Ziel-Cadence versehen (Target: 2026-Q3)
 
-### Phase 4: Tests
-- [ ] Unit-Tests für Kernpfade ausbauen (Target: 2026-Q3)
-- [ ] Integrations- und Regressionstests ergänzen (Target: 2026-Q3)
-
-### Phase 5: Performance/Hardening
-- [ ] Performance-Bottlenecks messen und reduzieren (Target: 2026-Q4)
-- [ ] Security- und Reliability-Hardening abschließen (Target: 2026-Q4)
-
-### Phase 6: Dokumentation & Abnahme
-- [ ] Betriebs- und Entwicklerdokumentation aktualisieren (Target: 2026-Q4)
-- [ ] Modulabnahme anhand Checklisten und Akzeptanzkriterien durchführen (Target: 2026-Q4)
+### Phase 3: Rollout-Härtung
+- [ ] Doku-Änderungen regelmäßig gegen CMake-Presets/Test-Presets verifizieren (Target: 2026-Q4)
 
 ## Production Readiness Checklist
-- [ ] Definierte Fehlersemantik und Recovery-Pfade
-- [ ] Ausreichende Testabdeckung inkl. Regression
-- [ ] Security-Review und Dependency-Checks abgeschlossen
-- [ ] Monitoring/Observability-Anforderungen erfüllt
-- [ ] Dokumentation für Betrieb und Entwicklung vollständig
 
-## Known Issues & Limitations
-- [!] Detailtiefe der Modul-spezifischen Akzeptanzkriterien variiert und wird sukzessive geschärft.
-
-## Breaking Changes
-- Keine bekannten Breaking Changes dokumentiert.
+- [x] Root-Dokumente sind source-verifizierbar und nicht nur Template-Platzhalter
+- [x] Test-Kommandos referenzieren vorhandene Presets
+- [ ] Kritische modulübergreifende Regression-Sets explizit dokumentiert
+- [ ] Schichtbezogene Abdeckungs-Gaps als priorisierter Backlog gepflegt

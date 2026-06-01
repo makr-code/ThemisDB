@@ -15,12 +15,16 @@
 #include "rag/continuous_learning_orchestrator.h"
 #include <stdexcept>
 #include "rag/bayesian_optimizer.h"
+#include "performance/phase3/bao.h"
+#include "performance/workload_adaptive_optimizer.h"
+#include "prompt_engineering/feedback_collector.h"
 #include "utils/logger.h"
 #include "distributed_knowledge/lora_federation_coordinator.h"
 #include "training/incremental_lora_trainer.h"
 
 #include <algorithm>
 #include <atomic>
+#include <cmath>
 #include <fstream>
 #include <iomanip>
 #include <locale>
@@ -97,7 +101,7 @@ struct ContinuousLearningOrchestrator::Impl {
     /// Latest LoopResult per phase (kept for context serialisation).
     std::unordered_map<int, LoopResult> last_loop_results;
 
-    // ---- Signal-source injection (stub #9) ----
+    // ---- Signal-source injection (resolved: wired in HttpServer bootstrap) ----
     /// Loop 1: BaoOptimizer::getMissRate() provider (0.0–1.0).
     std::function<double()> hnsw_miss_rate_provider;
     /// Loop 2: WorkloadAdaptiveOptimizer::getProfileDrift() provider (0.0–1.0).
@@ -802,49 +806,74 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
     // Each loop checks its primary signal source (injected via the set*Provider
     // APIs when real adapters are available) and evaluates the guardrail.
     //
-    // STUB/SIMULATION NOTE (residual):
-    // Purpose: When no signal provider is injected, synthetic fallback values
-    //          (current_accuracy proxy) are used so the optimizer/LR-scheduling
-    //          machinery can be tested end-to-end.
+    // SIGNAL PROVIDER NOTE:
+    // When no signal provider is injected, synthetic fallback values
+    // (current_accuracy proxy) are used so the optimizer/LR-scheduling
+    // machinery can be tested end-to-end.
     // Activation: Active per-loop only when the corresponding provider is null.
-    // Production Delta: Without a real provider, Loop 1/2/4 signal thresholds
-    //                   are proxied by current_accuracy; true signal values are
-    //                   absent.
-    // Removal Plan: Inject BaoOptimizer::getMissRate / WorkloadAdaptiveOptimizer::
-    //               getProfileDrift / FeedbackCollector::newEntryCount via the
-    //               set*Provider() APIs at server bootstrap.
-    // Roadmap ref: src/rag/ROADMAP.md §Phase 8; src/rag/FUTURE_ENHANCEMENTS.md
-    //              §LLMIntegration
+    // Production: BaoOptimizer::getMissRate / WorkloadAdaptiveOptimizer::
+    //             getProfileDrift / FeedbackCollector::newEntryCount are now
+    //             injected via wireLiveSignalProviders() in HttpServer bootstrap
+    //             (src/server/http_server.cpp).  Null providers fall back to
+    //             fallback_missing with a warning log; expired weak_ptr references
+    //             fall back to fallback_error.
 
-    // Snapshot signal providers under the lock
+    // Snapshot signal providers + loop baseline stats under the lock
     std::function<double()> miss_rate_fn;
     std::function<double()> drift_fn;
     std::function<size_t()> feedback_count_fn;
+    size_t next_adapter_revision = 1;
+    double current_accuracy      = 0.0;
+    double baseline_accuracy     = 0.0;
     {
         std::lock_guard<std::mutex> lock(impl_->mutex);
         miss_rate_fn      = impl_->hnsw_miss_rate_provider;
         drift_fn          = impl_->workload_drift_provider;
         feedback_count_fn = impl_->feedback_entry_count_provider;
+        next_adapter_revision = impl_->stats.lora_retraining_count + 1;
+        current_accuracy      = impl_->stats.current_accuracy;
+        baseline_accuracy     = impl_->stats.accuracy_7d_avg > 0.0
+            ? impl_->stats.accuracy_7d_avg
+            : current_accuracy;
     }
-
-    const auto next_adapter_revision = impl_->stats.lora_retraining_count + 1;
-    const auto baseline_accuracy = impl_->stats.accuracy_7d_avg > 0.0
-        ? impl_->stats.accuracy_7d_avg
-        : impl_->stats.current_accuracy;
 
     switch (phase) {
         case LoopPhase::LOOP_1_HNSW_QUERY: {
-            // Signal: BaoOptimizer::getMissRate() > 0.15 (real) or accuracy proxy (stub)
+            // Signal: BaoOptimizer::getMissRate() (live) or accuracy-proxy fallback when no provider is wired
             // Guardrail: ECE < 0.05 AND hot_coverage >= 0.85
-            const double miss_rate = miss_rate_fn ? miss_rate_fn() : (1.0 - impl_->stats.current_accuracy);
-            result.success          = true;
+            double miss_rate        = 1.0 - current_accuracy;
+            result.signal_source    = "fallback_missing";
+            if (miss_rate_fn) {
+                try {
+                    const double live_miss_rate = miss_rate_fn();
+                    if (std::isfinite(live_miss_rate)
+                        && live_miss_rate >= 0.0
+                        && live_miss_rate <= 1.0) {
+                        miss_rate           = live_miss_rate;
+                        result.signal_source = "live";
+                    } else {
+                        spdlog::warn("CLO Loop1: Bao miss-rate provider returned invalid value; using fallback");
+                        result.signal_source = "fallback_invalid";
+                    }
+                } catch (const std::exception& e) {
+                    spdlog::warn("CLO Loop1: Bao miss-rate provider failed ({}); using fallback", e.what());
+                    result.signal_source = "fallback_error";
+                } catch (...) {
+                    spdlog::warn("CLO Loop1: Bao miss-rate provider failed (unknown); using fallback");
+                    result.signal_source = "fallback_error";
+                }
+            } else {
+                spdlog::warn("CLO Loop1: Bao miss-rate provider not wired; using fallback");
+            }
+            result.signal_value     = miss_rate;
             // Guardrail: miss rate must be below the ECE threshold (0.05 proxy)
-            result.guardrail_passed = (miss_rate < 0.05) || (impl_->stats.current_accuracy >= 0.95);
+            result.guardrail_passed = (miss_rate < 0.05) || (current_accuracy >= 0.95);
+            result.success          = result.guardrail_passed;
             result.metric_delta     = result.guardrail_passed ? 0.02 : 0.0;
             result.adapter_version  = result.guardrail_passed
                                           ? "v" + std::to_string(next_adapter_revision)
                                           : "";
-            if (miss_rate_fn) {
+            if (result.signal_source == "live") {
                 spdlog::debug("CLO Loop1: hnsw_miss_rate={:.4f} guardrail_passed={}",
                               miss_rate, result.guardrail_passed);
             }
@@ -854,13 +883,37 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
         case LoopPhase::LOOP_2_WORKLOAD: {
             // Signal: WorkloadAdaptiveOptimizer::getProfileDrift() > 0.1 (real) or accuracy proxy
             // Guardrail: no regression in avg_speedup
-            const double drift = drift_fn ? drift_fn() : (1.0 - impl_->stats.current_accuracy);
-            result.success          = true;
+            double drift           = 1.0 - current_accuracy;
+            result.signal_source   = "fallback_missing";
+            if (drift_fn) {
+                try {
+                    const double live_drift = drift_fn();
+                    if (std::isfinite(live_drift)
+                        && live_drift >= 0.0
+                        && live_drift <= 1.0) {
+                        drift               = live_drift;
+                        result.signal_source = "live";
+                    } else {
+                        spdlog::warn("CLO Loop2: workload-drift provider returned invalid value; using fallback");
+                        result.signal_source = "fallback_invalid";
+                    }
+                } catch (const std::exception& e) {
+                    spdlog::warn("CLO Loop2: workload-drift provider failed ({}); using fallback", e.what());
+                    result.signal_source = "fallback_error";
+                } catch (...) {
+                    spdlog::warn("CLO Loop2: workload-drift provider failed (unknown); using fallback");
+                    result.signal_source = "fallback_error";
+                }
+            } else {
+                spdlog::warn("CLO Loop2: workload-drift provider not wired; using fallback");
+            }
+            result.signal_value     = drift;
             // Guardrail: drift must stay below 0.1 or current accuracy must not regress
-            result.guardrail_passed = (drift < 0.1) || (impl_->stats.current_accuracy >= baseline_accuracy);
+            result.guardrail_passed = (drift < 0.1) || (current_accuracy >= baseline_accuracy);
+            result.success          = result.guardrail_passed;
             result.metric_delta     = result.guardrail_passed ? 0.01 : 0.0;
             result.adapter_version  = "";
-            if (drift_fn) {
+            if (result.signal_source == "live") {
                 spdlog::debug("CLO Loop2: workload_drift={:.4f} guardrail_passed={}",
                               drift, result.guardrail_passed);
             }
@@ -869,6 +922,7 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
 
         case LoopPhase::LOOP_3_SCHEMA_INDEX:
             // Advisory-only: always succeeds, DBA review required before DDL
+            result.signal_source   = "advisory";
             result.success          = true;
             result.guardrail_passed = true;  // advisory: no adapter commit
             result.metric_delta     = 0.0;
@@ -878,19 +932,35 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
         case LoopPhase::LOOP_4_RLAIF: {
             // Signal: FeedbackCollector::newEntryCount() >= 100 (real) or accuracy proxy
             // Guardrail: DBA acceptance rate >= 0.75
-            const size_t entry_count = feedback_count_fn ? feedback_count_fn() : 0;
+            size_t entry_count      = 0;
+            result.signal_source    = "fallback_missing";
+            if (feedback_count_fn) {
+                try {
+                    entry_count         = feedback_count_fn();
+                    result.signal_source = "live";
+                } catch (const std::exception& e) {
+                    spdlog::warn("CLO Loop4: feedback-count provider failed ({}); using fallback", e.what());
+                    result.signal_source = "fallback_error";
+                } catch (...) {
+                    spdlog::warn("CLO Loop4: feedback-count provider failed (unknown); using fallback");
+                    result.signal_source = "fallback_error";
+                }
+            } else {
+                spdlog::warn("CLO Loop4: feedback-count provider not wired; using fallback");
+            }
+            result.signal_value     = static_cast<double>(entry_count);
             // When a real provider is wired, require at least 100 new entries before
             // committing a new adapter.  Without provider, fall back to accuracy proxy.
-            const bool enough_feedback = feedback_count_fn
+            const bool enough_feedback = (result.signal_source == "live")
                 ? (entry_count >= 100)
-                : (impl_->stats.current_accuracy >= 0.75);
-            result.success          = true;
+                : (current_accuracy >= 0.75);
             result.guardrail_passed = enough_feedback;
+            result.success          = result.guardrail_passed;
             result.metric_delta     = result.guardrail_passed ? 0.03 : 0.0;
             result.adapter_version  = result.guardrail_passed
                                           ? "rlaif_v" + std::to_string(next_adapter_revision)
                                           : "";
-            if (feedback_count_fn) {
+            if (result.signal_source == "live") {
                 spdlog::debug("CLO Loop4: feedback_entries={} guardrail_passed={}",
                               entry_count, result.guardrail_passed);
             }
@@ -907,7 +977,8 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
         ++impl_->stats.lora_retraining_count;
     }
 
-    // Invoke completion handler (if registered), outside the mutex
+    // Invoke completion handler (if registered), outside the mutex.
+    std::function<void(LoopPhase, const LoopResult&)> completion_handler;
     {
         std::lock_guard<std::mutex> lock(impl_->mutex);
         impl_->active_loop = LoopPhase::IDLE;
@@ -915,8 +986,11 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
         impl_->last_loop_results[static_cast<int>(phase)] = result;
         auto it = impl_->loop_handlers.find(static_cast<int>(phase));
         if (it != impl_->loop_handlers.end() && it->second) {
-            it->second(phase, result);
+            completion_handler = it->second;
         }
+    }
+    if (completion_handler) {
+        completion_handler(phase, result);
     }
 
     // IMPL-A3: Auto-trigger FEDERATED_ROUND_START after a successful Loop-4
@@ -1074,7 +1148,11 @@ std::string ContinuousLearningOrchestrator::serializeLoopContext() const {
              << "\"success\":"      << (res.success ? "true" : "false") << ","
              << "\"guardrail\":"    << (res.guardrail_passed ? "true" : "false") << ","
              << "\"metric_delta\":" << res.metric_delta                 << ","
-             << "\"adapter\":\"" << escape_json(res.adapter_version)    << "\"";
+             << "\"adapter\":\"" << escape_json(res.adapter_version)    << "\""
+             << ",\"signal_value\":" << res.signal_value;
+        if (!res.signal_source.empty()) {
+            json << ",\"signal_source\":\"" << escape_json(res.signal_source) << "\"";
+        }
         // Loop 1 extra fields
         if (key == static_cast<int>(LoopPhase::LOOP_1_HNSW_QUERY)
                 && !snap.loop1_outcome.query_id.empty()) {
@@ -1118,7 +1196,7 @@ void ContinuousLearningOrchestrator::setTrainerForFederation(
     impl_->trainer_for_federation_ = trainer;
 }
 
-// ── Signal-source injection APIs (stub #9) ──────────────────────────────────
+// ── Signal-source injection APIs (resolved: wired in HttpServer bootstrap) ───
 
 void ContinuousLearningOrchestrator::setHnswMissRateProvider(
     std::function<double()> provider) {
@@ -1136,6 +1214,55 @@ void ContinuousLearningOrchestrator::setFeedbackEntryCountProvider(
     std::function<size_t()> provider) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     impl_->feedback_entry_count_provider = std::move(provider);
+}
+
+void ContinuousLearningOrchestrator::wireLiveSignalProviders(
+    std::shared_ptr<themis::performance::phase3::BaoOptimizer> bao_optimizer,
+    std::shared_ptr<themis::performance::WorkloadAdaptiveOptimizer> workload_optimizer,
+    std::shared_ptr<themis::prompt_engineering::FeedbackCollector> feedback_collector) {
+    if (bao_optimizer) {
+        std::weak_ptr<themis::performance::phase3::BaoOptimizer> bao_weak = bao_optimizer;
+        setHnswMissRateProvider([bao_weak]() {
+            auto bao = bao_weak.lock();
+            if (!bao) {
+                throw std::runtime_error("BaoOptimizer unavailable");
+            }
+            return bao->getMissRate();
+        });
+    } else {
+        spdlog::warn("CLO wireLiveSignalProviders: BaoOptimizer is null; Loop1 stays on fallback");
+        setHnswMissRateProvider({});
+    }
+
+    if (workload_optimizer) {
+        std::weak_ptr<themis::performance::WorkloadAdaptiveOptimizer> workload_weak =
+            workload_optimizer;
+        setWorkloadDriftProvider([workload_weak]() {
+            auto workload = workload_weak.lock();
+            if (!workload) {
+                throw std::runtime_error("WorkloadAdaptiveOptimizer unavailable");
+            }
+            return workload->getProfileDrift();
+        });
+    } else {
+        spdlog::warn(
+            "CLO wireLiveSignalProviders: WorkloadAdaptiveOptimizer is null; Loop2 stays on fallback");
+        setWorkloadDriftProvider({});
+    }
+
+    if (feedback_collector) {
+        std::weak_ptr<themis::prompt_engineering::FeedbackCollector> feedback_weak = feedback_collector;
+        setFeedbackEntryCountProvider([feedback_weak]() {
+            auto feedback = feedback_weak.lock();
+            if (!feedback) {
+                throw std::runtime_error("FeedbackCollector unavailable");
+            }
+            return feedback->newEntryCount();
+        });
+    } else {
+        spdlog::warn("CLO wireLiveSignalProviders: FeedbackCollector is null; Loop4 stays on fallback");
+        setFeedbackEntryCountProvider({});
+    }
 }
 
 void ContinuousLearningOrchestrator::handleFederatedRoundStart() {
@@ -1166,4 +1293,3 @@ void ContinuousLearningOrchestrator::handleFederatedRoundStart() {
 }
 
 } // namespace themis::rag::learning
-

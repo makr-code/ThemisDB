@@ -30,6 +30,9 @@
 // Forward declarations for federation bridges (IMPL-A3)
 namespace themis::training { class IncrementalLoRATrainer; }
 namespace themis::distributed_knowledge { class ILoRAFederationCoordinator; }
+namespace themis::performance::phase3 { class BaoOptimizer; }
+namespace themis::performance { class WorkloadAdaptiveOptimizer; }
+namespace themis::prompt_engineering { class FeedbackCollector; }
 
 namespace themis::rag::learning {
 
@@ -265,6 +268,8 @@ class ContinuousLearningOrchestrator {
         bool        guardrail_passed = false; ///< False → adapter commit blocked.
         std::string adapter_version;          ///< Newly registered adapter version (if any).
         double      metric_delta     = 0.0;   ///< Δ(primary_metric) for this round.
+        double      signal_value     = 0.0;   ///< Last observed loop signal value.
+        std::string signal_source;            ///< live|fallback_missing|fallback_error|fallback_invalid.
     };
 
     /**
@@ -275,8 +280,8 @@ class ContinuousLearningOrchestrator {
     /**
      * @brief Explicitly trigger a named learning loop.
      *
-     * Runs the loop's data pipeline, optional IncrementalLoRATrainer step, and
-     * guardrail check.  The registered completion handler (if any) is invoked
+     * Runs the loop's phase-specific adaptation routine and guardrail check.
+     * The registered completion handler (if any) is invoked
      * synchronously before returning.
      *
      * @param phase  Loop to trigger.  Passing IDLE is a no-op.
@@ -315,7 +320,7 @@ class ContinuousLearningOrchestrator {
     LoopResult triggerLoop3IndexLifecycle();
 
     /**
-     * @brief Trigger Loop 4 — IncrementalLoRATrainer weekly improvement cycle.
+     * @brief Trigger Loop 4 — RLAIF preference-learning cycle.
      *
      * Delegates to `triggerLoop(LOOP_4_RLAIF)`.  On success + guardrail pass,
      * `FEDERATED_ROUND_START` is fired automatically.
@@ -405,7 +410,7 @@ class ContinuousLearningOrchestrator {
      */
     void setTrainerForFederation(themis::training::IncrementalLoRATrainer* trainer);
 
-    // ── Signal-source injection APIs (stub #9) ──────────────────────────────
+    // ── Signal-source injection APIs (production-wired) ─────────────────────
 
     /**
      * @brief Inject a BaoOptimizer miss-rate provider for Loop 1 guardrail checks.
@@ -440,6 +445,22 @@ class ContinuousLearningOrchestrator {
      * Roadmap ref: src/rag/ROADMAP.md §Phase 8 Loop 4
      */
     void setFeedbackEntryCountProvider(std::function<size_t()> provider);
+
+    /**
+     * @brief Wire production signal providers from live subsystem instances.
+     *
+     * This bootstrap helper binds Loop-1/2/4 signals to:
+     * - BaoOptimizer::getMissRate()
+     * - WorkloadAdaptiveOptimizer::getProfileDrift()
+     * - FeedbackCollector::newEntryCount()
+     *
+     * Internally weak references are used, so providers fail closed (with
+     * warning + fallback) if a dependency is released during runtime.
+     */
+    void wireLiveSignalProviders(
+        std::shared_ptr<themis::performance::phase3::BaoOptimizer> bao_optimizer,
+        std::shared_ptr<themis::performance::WorkloadAdaptiveOptimizer> workload_optimizer,
+        std::shared_ptr<themis::prompt_engineering::FeedbackCollector> feedback_collector);
 
     // Persistence
     void saveMetrics();

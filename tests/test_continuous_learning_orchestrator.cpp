@@ -12,11 +12,17 @@
  */
 
 #include <chrono>
+#include <atomic>
 #include <filesystem>
 #include <gtest/gtest.h>
+#include <limits>
+#include <stdexcept>
 #include <thread>
 
 #include "rag/continuous_learning_orchestrator.h"
+#include "performance/phase3/bao.h"
+#include "performance/workload_adaptive_optimizer.h"
+#include "prompt_engineering/feedback_collector.h"
 
 using namespace themis::rag::learning;
 
@@ -615,7 +621,7 @@ TEST(ImplA2, TriggerLoop1CompletesAndReturnsToIdle) {
         ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
     EXPECT_EQ(res.phase,
               ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
-    EXPECT_TRUE(res.success);
+    EXPECT_FALSE(res.success);
     // After completion the orchestrator must return to IDLE
     EXPECT_EQ(orch.currentLoop(),
               ContinuousLearningOrchestrator::LoopPhase::IDLE);
@@ -647,7 +653,7 @@ TEST(ImplA2, TriggerLoop4Returns) {
         ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF);
     EXPECT_EQ(res.phase,
               ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF);
-    EXPECT_TRUE(res.success);
+    EXPECT_FALSE(res.success);
 }
 
 // 7. Completion handler is invoked for the triggered loop
@@ -657,13 +663,17 @@ TEST(ImplA2, CompletionHandlerInvoked) {
     bool handler_called = false;
     ContinuousLearningOrchestrator::LoopPhase captured_phase =
         ContinuousLearningOrchestrator::LoopPhase::IDLE;
+    bool captured_success   = true;
+    bool captured_guardrail = true;
 
     orch.registerLoopCompletionHandler(
         ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY,
         [&](ContinuousLearningOrchestrator::LoopPhase ph,
-            const ContinuousLearningOrchestrator::LoopResult&) {
+            const ContinuousLearningOrchestrator::LoopResult& result) {
             handler_called  = true;
             captured_phase  = ph;
+            captured_success   = result.success;
+            captured_guardrail = result.guardrail_passed;
         });
 
     orch.triggerLoop(ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
@@ -671,6 +681,8 @@ TEST(ImplA2, CompletionHandlerInvoked) {
     EXPECT_TRUE(handler_called);
     EXPECT_EQ(captured_phase,
               ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
+    EXPECT_FALSE(captured_success);
+    EXPECT_FALSE(captured_guardrail);
 }
 
 // 8. Completion handler NOT invoked for a different loop phase
@@ -709,6 +721,32 @@ TEST(ImplA2, HandlerOverwrittenBySecondRegistration) {
 }
 
 // 10. LoopResult fields are populated — metric_delta >= 0 for successful loops
+TEST(ImplA2, CompletionHandlerCanReadCurrentLoopState) {
+    MAKE_ORCH();
+
+    std::atomic<bool> callback_ran{false};
+    std::atomic<int> observed_loop{
+        static_cast<int>(ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY)};
+
+    orch.registerLoopCompletionHandler(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY,
+        [&](auto, auto) {
+            callback_ran.store(true, std::memory_order_relaxed);
+            observed_loop.store(
+                static_cast<int>(orch.currentLoop()),
+                std::memory_order_relaxed);
+        });
+
+    auto res = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
+
+    EXPECT_FALSE(res.success);
+    EXPECT_TRUE(callback_ran.load(std::memory_order_relaxed));
+    EXPECT_EQ(observed_loop.load(std::memory_order_relaxed),
+              static_cast<int>(ContinuousLearningOrchestrator::LoopPhase::IDLE));
+}
+
+// 10. LoopResult fields are populated — metric_delta >= 0 for successful loops
 TEST(ImplA2, LoopResultMetricDeltaNonNegativeOnSuccess) {
     MAKE_ORCH();
     for (auto phase : {
@@ -718,9 +756,208 @@ TEST(ImplA2, LoopResultMetricDeltaNonNegativeOnSuccess) {
              ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF,
          }) {
         auto res = orch.triggerLoop(phase);
-        EXPECT_TRUE(res.success) << "phase=" << static_cast<int>(phase);
         EXPECT_GE(res.metric_delta, 0.0) << "phase=" << static_cast<int>(phase);
+        if (res.success) {
+            EXPECT_TRUE(res.guardrail_passed) << "phase=" << static_cast<int>(phase);
+        } else {
+            EXPECT_FALSE(res.guardrail_passed) << "phase=" << static_cast<int>(phase);
+            EXPECT_DOUBLE_EQ(res.metric_delta, 0.0) << "phase=" << static_cast<int>(phase);
+        }
     }
+}
+
+// 11. End-to-end telemetry providers (Bao/Workload/Feedback) drive loop signals
+TEST(ImplA2, LiveSignalProvidersDriveLoopTelemetry) {
+    ContinuousLearningConfig cfg;
+    ContinuousLearningOrchestrator orch(cfg);
+
+    auto bao      = std::make_shared<themis::performance::phase3::BaoOptimizer>();
+    auto workload = std::make_shared<themis::performance::WorkloadAdaptiveOptimizer>();
+    auto feedback = std::make_shared<themis::prompt_engineering::FeedbackCollector>();
+
+    // Bao miss rate: 1 miss over 1 optimized query -> miss_rate = 1.0
+    const auto plans = bao->generate_plans("SELECT * FROM orders");
+    const auto plan  = bao->select_plan("SELECT * FROM orders", plans);
+    themis::performance::phase3::QueryResult query_result{};
+    query_result.execution_time_ms = 900.0;
+    query_result.rows_returned     = 1;
+    query_result.success           = true;
+    bao->update_model(plan, query_result);
+
+    // Workload drift proxy: >=2 adaptations -> drift = 0.2 in current implementation.
+    const auto profile  = workload->classify_workload();
+    const auto strategy = workload->get_strategy(profile);
+    workload->apply_strategy(strategy);
+    workload->apply_strategy(strategy);
+
+    // Feedback count: >=100 entries should pass Loop-4 data guardrail.
+    for (size_t i = 0; i < 120; ++i) {
+        feedback->recordFeedback(
+            "prompt_live",
+            "query_" + std::to_string(i),
+            "response",
+            themis::prompt_engineering::FeedbackType::POSITIVE,
+            "",
+            0.7
+        );
+    }
+
+    orch.wireLiveSignalProviders(bao, workload, feedback);
+
+    const auto loop1 = orch.triggerLoop(ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
+    EXPECT_FALSE(loop1.success);
+    EXPECT_EQ(loop1.signal_source, "live");
+    EXPECT_NEAR(loop1.signal_value, bao->getMissRate(), 1e-9);
+    EXPECT_FALSE(loop1.guardrail_passed);
+
+    const auto loop2 = orch.triggerLoop(ContinuousLearningOrchestrator::LoopPhase::LOOP_2_WORKLOAD);
+    EXPECT_TRUE(loop2.success);
+    EXPECT_EQ(loop2.signal_source, "live");
+    EXPECT_NEAR(loop2.signal_value, workload->getProfileDrift(), 1e-9);
+
+    const auto loop4 = orch.triggerLoop(ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF);
+    EXPECT_TRUE(loop4.success);
+    EXPECT_EQ(loop4.signal_source, "live");
+    EXPECT_DOUBLE_EQ(loop4.signal_value, static_cast<double>(feedback->newEntryCount()));
+    EXPECT_TRUE(loop4.guardrail_passed);
+
+    const std::string ctx = orch.serializeLoopContext();
+    EXPECT_NE(ctx.find("\"signal_value\""), std::string::npos);
+    EXPECT_NE(ctx.find("\"signal_source\":\"live\""), std::string::npos);
+    EXPECT_NE(ctx.find("\"guardrail\":"), std::string::npos);
+}
+
+// 12. Null live-provider dependencies keep loops on fallback_missing signals.
+TEST(ImplA2, NullLiveSignalProvidersStayOnMissingFallback) {
+    ContinuousLearningConfig cfg;
+    ContinuousLearningOrchestrator orch(cfg);
+
+    std::shared_ptr<themis::performance::phase3::BaoOptimizer> bao;
+    std::shared_ptr<themis::performance::WorkloadAdaptiveOptimizer> workload;
+    std::shared_ptr<themis::prompt_engineering::FeedbackCollector> feedback;
+
+    orch.wireLiveSignalProviders(bao, workload, feedback);
+
+    const auto loop1 = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
+    EXPECT_FALSE(loop1.success);
+    EXPECT_EQ(loop1.signal_source, "fallback_missing");
+    EXPECT_DOUBLE_EQ(loop1.signal_value, 1.0);
+
+    const auto loop2 = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_2_WORKLOAD);
+    EXPECT_TRUE(loop2.success);
+    EXPECT_EQ(loop2.signal_source, "fallback_missing");
+    EXPECT_DOUBLE_EQ(loop2.signal_value, 1.0);
+
+    const auto loop4 = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF);
+    EXPECT_FALSE(loop4.success);
+    EXPECT_EQ(loop4.signal_source, "fallback_missing");
+    EXPECT_DOUBLE_EQ(loop4.signal_value, 0.0);
+}
+
+// 13. Loop 1 provider errors fall back to accuracy-proxy signal
+TEST(ImplA2, Loop1ProviderExceptionFallsBackToProxy) {
+    ContinuousLearningConfig cfg;
+    ContinuousLearningOrchestrator orch(cfg);
+
+    orch.setHnswMissRateProvider([]() -> double {
+        throw std::runtime_error("test provider failure");
+    });
+
+    const auto res = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
+
+    EXPECT_FALSE(res.success);
+    EXPECT_EQ(res.signal_source, "fallback_error");
+    EXPECT_DOUBLE_EQ(res.signal_value, 1.0); // fallback: 1.0 - current_accuracy (default 0.0)
+}
+
+// 14. Loop 1 invalid provider values fall back without throwing
+TEST(ImplA2, Loop1ProviderInvalidValueFallsBackToProxy) {
+    ContinuousLearningConfig cfg;
+    ContinuousLearningOrchestrator orch(cfg);
+
+    orch.setHnswMissRateProvider([]() -> double {
+        return std::numeric_limits<double>::quiet_NaN();
+    });
+
+    const auto res = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
+
+    EXPECT_FALSE(res.success);
+    EXPECT_EQ(res.signal_source, "fallback_invalid");
+    EXPECT_DOUBLE_EQ(res.signal_value, 1.0); // fallback: 1.0 - current_accuracy (default 0.0)
+}
+
+// 15. Loop 1 out-of-range provider values fall back without throwing
+TEST(ImplA2, Loop1ProviderOutOfRangeFallsBackToProxy) {
+    ContinuousLearningConfig cfg;
+    ContinuousLearningOrchestrator orch(cfg);
+
+    orch.setHnswMissRateProvider([]() -> double {
+        return -0.25;
+    });
+
+    const auto res = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
+
+    EXPECT_FALSE(res.success);
+    EXPECT_EQ(res.signal_source, "fallback_invalid");
+    EXPECT_DOUBLE_EQ(res.signal_value, 1.0); // fallback: 1.0 - current_accuracy (default 0.0)
+}
+
+// 16. Loop 2 provider errors fall back to accuracy-proxy signal
+TEST(ImplA2, Loop2ProviderExceptionFallsBackToProxy) {
+    ContinuousLearningConfig cfg;
+    ContinuousLearningOrchestrator orch(cfg);
+
+    orch.setWorkloadDriftProvider([]() -> double {
+        throw std::runtime_error("workload provider failure");
+    });
+
+    const auto res = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_2_WORKLOAD);
+
+    EXPECT_TRUE(res.success);
+    EXPECT_EQ(res.signal_source, "fallback_error");
+    EXPECT_DOUBLE_EQ(res.signal_value, 1.0); // fallback: 1.0 - current_accuracy (default 0.0)
+}
+
+// 17. Loop 2 invalid/out-of-range provider values fall back without throwing
+TEST(ImplA2, Loop2ProviderInvalidValueFallsBackToProxy) {
+    ContinuousLearningConfig cfg;
+    ContinuousLearningOrchestrator orch(cfg);
+
+    orch.setWorkloadDriftProvider([]() -> double {
+        return 1.25;
+    });
+
+    const auto res = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_2_WORKLOAD);
+
+    EXPECT_TRUE(res.success);
+    EXPECT_EQ(res.signal_source, "fallback_invalid");
+    EXPECT_DOUBLE_EQ(res.signal_value, 1.0); // fallback: 1.0 - current_accuracy (default 0.0)
+}
+
+// 18. Loop 4 provider errors fall back and keep guardrail conservative
+TEST(ImplA2, Loop4ProviderExceptionFallsBackAndFailsGuardrail) {
+    ContinuousLearningConfig cfg;
+    ContinuousLearningOrchestrator orch(cfg);
+
+    orch.setFeedbackEntryCountProvider([]() -> size_t {
+        throw std::runtime_error("feedback provider failure");
+    });
+
+    const auto res = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF);
+
+    EXPECT_FALSE(res.success);
+    EXPECT_EQ(res.signal_source, "fallback_error");
+    EXPECT_DOUBLE_EQ(res.signal_value, 0.0);
+    EXPECT_FALSE(res.guardrail_passed);
 }
 
 // ============================================================================
@@ -905,4 +1142,3 @@ TEST(ImplA3_Federation, FED03_NoFederationTriggerForOtherLoops) {
     EXPECT_EQ(mock_coord->submit_count, 0)
         << "submitGradient must NOT fire for loops other than LOOP_4_RLAIF";
 }
-

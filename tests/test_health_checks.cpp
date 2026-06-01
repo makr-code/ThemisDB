@@ -19,12 +19,18 @@
 #include <nlohmann/json.hpp>
 #include <atomic>
 #include <chrono>
+#include <filesystem>
 #include <memory>
 
+#include "performance/phase3/bao.h"
+#include "performance/workload_adaptive_optimizer.h"
+#include "prompt_engineering/feedback_collector.h"
+#include "rag/continuous_learning_orchestrator.h"
 #include "server/monitoring_api_handler.h"
 #include "core/concerns/concerns_context.h"
 #include "core/concerns/noop_implementations.h"
 #include "core/concerns/lifecycle.h"
+#include "storage/rocksdb_wrapper.h"
 
 namespace http = boost::beast::http;
 using json = nlohmann::json;
@@ -417,4 +423,145 @@ TEST_F(ConcernsReadinessTest, ReadinessWithoutContextHasNoConcernsSection) {
 
     auto body = json::parse(res.body());
     EXPECT_FALSE(body["checks"].contains("concerns"));
+}
+
+TEST(MonitoringStatsTest, IncludesContinuousLearningStatus) {
+    const auto temp_dir =
+        std::filesystem::temp_directory_path() / "themis_monitoring_cl_status_test";
+    std::filesystem::remove_all(temp_dir);
+    std::filesystem::create_directories(temp_dir);
+
+    themis::RocksDBWrapper::Config cfg;
+    cfg.db_path = temp_dir.string();
+    cfg.enable_blobdb = false;
+    auto storage = std::make_shared<themis::RocksDBWrapper>(cfg);
+    ASSERT_TRUE(storage->open());
+
+    std::atomic<uint64_t> req_count{0};
+    std::atomic<uint64_t> err_count{0};
+    const auto start = std::chrono::steady_clock::now();
+
+    {
+        themis::server::MonitoringApiHandler handler(
+            storage, nullptr, &req_count, &err_count, &start, nullptr, nullptr, nullptr);
+
+        auto bao = std::make_shared<themis::performance::phase3::BaoOptimizer>();
+        auto workload = std::make_shared<themis::performance::WorkloadAdaptiveOptimizer>();
+        auto feedback = std::make_shared<themis::prompt_engineering::FeedbackCollector>();
+        auto orchestrator = std::make_shared<themis::rag::learning::ContinuousLearningOrchestrator>(
+            themis::rag::learning::ContinuousLearningConfig{});
+        orchestrator->wireLiveSignalProviders(bao, workload, feedback);
+
+        const auto plans = bao->generate_plans("SELECT * FROM health_checks");
+        const auto plan = bao->select_plan("SELECT * FROM health_checks", plans);
+        bao->update_model(plan, themis::performance::phase3::QueryResult{900.0, 1, true});
+
+        const auto profile = workload->classify_workload();
+        const auto strategy = workload->get_strategy(profile);
+        workload->apply_strategy(strategy);
+        workload->apply_strategy(strategy);
+
+        feedback->recordFeedback(
+            "adapter-health",
+            "hello",
+            "world",
+            themis::prompt_engineering::FeedbackType::USER_POSITIVE,
+            "ok",
+            0.2);
+
+        orchestrator->triggerLoop1QueryExecution({"stats-test", 900.0, "{}", true});
+        orchestrator->triggerLoop2WorkloadAdaptation();
+        orchestrator->triggerLoop3IndexLifecycle();
+        orchestrator->triggerLoop4AdapterImprovement();
+        handler.setContinuousLearningOrchestrator(orchestrator);
+
+        const auto res = handler.handleStats(make_get("/stats"));
+        ASSERT_EQ(res.result(), http::status::ok);
+
+        const auto body = json::parse(res.body());
+        ASSERT_TRUE(body.contains("continuous_learning"));
+        ASSERT_TRUE(body["continuous_learning"].contains("loops"));
+        EXPECT_FALSE(body["continuous_learning"]["loops"].empty());
+        bool loop3_present = false;
+        for (const auto& loop : body["continuous_learning"]["loops"]) {
+            if (loop.value("phase", std::string{}) == "LOOP_3_SCHEMA_INDEX") {
+                loop3_present = true;
+                EXPECT_TRUE(loop.value("guardrail", false));
+                EXPECT_EQ(loop.value("signal_source", std::string{}), "advisory");
+                EXPECT_DOUBLE_EQ(loop.value("signal_value", -1.0), 0.0);
+                break;
+            }
+        }
+        EXPECT_TRUE(loop3_present);
+    }
+
+    storage.reset();
+    std::filesystem::remove_all(temp_dir);
+}
+
+TEST(MonitoringStatsTest, ExposesContinuousLearningLoopTelemetryInPrometheusMetrics) {
+    const auto temp_dir =
+        std::filesystem::temp_directory_path() / "themis_monitoring_cl_metrics_test";
+    std::filesystem::remove_all(temp_dir);
+    std::filesystem::create_directories(temp_dir);
+
+    themis::RocksDBWrapper::Config cfg;
+    cfg.db_path = temp_dir.string();
+    cfg.enable_blobdb = false;
+    auto storage = std::make_shared<themis::RocksDBWrapper>(cfg);
+    ASSERT_TRUE(storage->open());
+
+    std::atomic<uint64_t> req_count{0};
+    std::atomic<uint64_t> err_count{0};
+    const auto start = std::chrono::steady_clock::now();
+
+    {
+        themis::server::MonitoringApiHandler handler(
+            storage, nullptr, &req_count, &err_count, &start, nullptr, nullptr, nullptr);
+
+        auto bao = std::make_shared<themis::performance::phase3::BaoOptimizer>();
+        auto workload = std::make_shared<themis::performance::WorkloadAdaptiveOptimizer>();
+        auto feedback = std::make_shared<themis::prompt_engineering::FeedbackCollector>();
+        auto orchestrator = std::make_shared<themis::rag::learning::ContinuousLearningOrchestrator>(
+            themis::rag::learning::ContinuousLearningConfig{});
+        orchestrator->wireLiveSignalProviders(bao, workload, feedback);
+
+        const auto plans = bao->generate_plans("SELECT * FROM health_checks");
+        const auto plan = bao->select_plan("SELECT * FROM health_checks", plans);
+        bao->update_model(plan, themis::performance::phase3::QueryResult{900.0, 1, true});
+
+        const auto profile = workload->classify_workload();
+        const auto strategy = workload->get_strategy(profile);
+        workload->apply_strategy(strategy);
+        workload->apply_strategy(strategy);
+
+        feedback->recordFeedback(
+            "adapter-health",
+            "hello",
+            "world",
+            themis::prompt_engineering::FeedbackType::USER_POSITIVE,
+            "ok",
+            0.2);
+
+        orchestrator->triggerLoop1QueryExecution({"metrics-test", 900.0, "{}", true});
+        orchestrator->triggerLoop2WorkloadAdaptation();
+        orchestrator->triggerLoop3IndexLifecycle();
+        orchestrator->triggerLoop4AdapterImprovement();
+        handler.setContinuousLearningOrchestrator(orchestrator);
+
+        const auto res = handler.handleMetrics(make_get("/metrics"));
+        ASSERT_EQ(res.result(), http::status::ok);
+
+        const std::string body = res.body();
+        EXPECT_NE(body.find("themis_continuous_learning_loop_signal_value"), std::string::npos);
+        EXPECT_NE(body.find("themis_continuous_learning_loop_guardrail_passed"), std::string::npos);
+        EXPECT_NE(body.find("themis_continuous_learning_loop_live_signal"), std::string::npos);
+        EXPECT_NE(body.find("phase=\"LOOP_1_HNSW_QUERY\",source=\"live\""), std::string::npos);
+        EXPECT_NE(body.find("phase=\"LOOP_2_WORKLOAD\",source=\"live\""), std::string::npos);
+        EXPECT_NE(body.find("phase=\"LOOP_3_SCHEMA_INDEX\",source=\"advisory\""), std::string::npos);
+        EXPECT_NE(body.find("phase=\"LOOP_4_RLAIF\",source=\"live\""), std::string::npos);
+    }
+
+    storage.reset();
+    std::filesystem::remove_all(temp_dir);
 }

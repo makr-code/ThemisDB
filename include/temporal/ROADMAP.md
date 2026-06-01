@@ -1,9 +1,9 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 <!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ARCHITECTURE.md · ../../src/temporal/ROADMAP.md -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/temporal/ROADMAP.md -->
 
-# TEMPORAL Module — Public Header Roadmap
+# Temporal Module — Public Header Roadmap
 
 **Module Path:** `include/temporal/`
 **Canonical implementation roadmap:** [`../../src/temporal/ROADMAP.md`](../../src/temporal/ROADMAP.md)
@@ -12,7 +12,7 @@
 
 ## Overview
 
-This document tracks public API contract stability, planned header additions, and header-level breaking changes for `include/temporal/`. For feature roadmap items that affect both implementation and headers see the canonical roadmap:
+Tracks public temporal API contract stability, header coverage, and future public entry points. Runtime enforcement, CDC pipeline, and tiering work remain in:
 
 → [`../../src/temporal/ROADMAP.md`](../../src/temporal/ROADMAP.md)
 
@@ -20,65 +20,36 @@ This document tracks public API contract stability, planned header additions, an
 
 ## Current Status
 
-production temporal query engine with bitemporal tables, system-versioned tables, snapshot/retention, and interval indexing. All production-required public headers are present and `#pragma once` guarded.
-
-The header API surface is **stable** for all types introduced in v1.x.
+All 16 temporal headers are present. Public entry points exist for bi-temporal tables, bitemporal joins, interval-tree and persistent indexing, snapshots, retention, cold-store tiering, CDC, period-aware aggregation, compression, conflict resolution, migration, and temporal query.
 
 ---
 
 ## Completed ✅
 
-- [x] `temporal_query_engine.h` — query and version semantics contract
-- [x] `bi_temporal.h` — query and version semantics contract
-- [x] `bitemporal_join.h` — query and version semantics contract
-- [x] `system_versioned_table.h` — query and version semantics contract
-- [x] `temporal_types.h` — query and version semantics contract
-- [x] `snapshot_manager.h` — lifecycle and consistency contract
-- [x] `retention_manager.h` — lifecycle and consistency contract
-- [x] `temporal_conflict_resolver.h` — lifecycle and consistency contract
-- [x] `temporal_migrator.h` — lifecycle and consistency contract
-- [x] `temporal_tier_manager.h` — lifecycle and consistency contract
-- [x] `temporal_cold_store.h` — lifecycle and consistency contract
-- [x] `temporal_index.h` — indexing and throughput contract
-- [x] `interval_tree_index.h` — indexing and throughput contract
-- [x] `temporal_aggregator.h` — indexing and throughput contract
-- [x] `temporal_cdc.h` — indexing and throughput contract
-- [x] `temporal_compressor.h` — indexing and throughput contract
+- [x] `bi_temporal.h`, `system_versioned_table.h`, `temporal_types.h` — core bi-temporal and SQL:2011 table contract
+- [x] `bitemporal_join.h`, `interval_tree_index.h`, `temporal_index.h` — join and index surfaces
+- [x] `snapshot_manager.h`, `retention_manager.h`, `temporal_cold_store.h`, `temporal_tier_manager.h` — snapshot, retention, and tiering
+- [x] `temporal_cdc.h`, `temporal_aggregator.h` — CDC and period-aware aggregation
+- [x] `temporal_compressor.h`, `temporal_conflict_resolver.h`, `temporal_migrator.h` — compression, conflict, and migration
+- [x] `temporal_query_engine.h` — AS OF / period-range query surface
 
 ---
 
-## In Progress 🚧
+## In Progress
 
-- [I] Header-level unit test coverage for all public interfaces (tracked via module issue backlog)
-
----
-
-## Planned Features 📋
-
-### Short-term (Next 3–6 months)
-
-- [ ] Audit all headers for missing `[[nodiscard]]` on factory and error-returning methods (Target: Q3 2026)
-- [ ] Verify `#pragma once` guard consistency across all headers in a CI step (Target: Q3 2026)
-
-### Medium-term (6–12 months)
-
-- [ ] Align header-level type documentation with OpenAPI spec where applicable (Target: Q4 2026)
-- [ ] Consolidate deprecated symbol annotations with `[[deprecated("...")]]` where needed (Target: Q4 2026)
+- [ ] Document period-overlap conflict semantics and resolution precedence across `temporal_conflict_resolver.h` and `bi_temporal.h` (Target: 2026-Q3)
+- [ ] Clarify tier-transition triggers between hot/warm/cold in `temporal_tier_manager.h` docs (Target: 2026-Q3)
 
 ---
 
-## Production Readiness Checklist
+## Planned
 
-- [x] All headers have `#pragma once` guard
-- [x] All public factory methods marked `[[nodiscard]]`
-- [x] Build conditionals documented in `README.md` and `ARCHITECTURE.md`
-- [P] Header-level unit tests (tracked in module issue backlog)
+- [ ] `temporal_audit_log.h` — immutable audit trail for temporal row-version changes (Target: 2026-Q4)
+- [ ] Add ISO SQL:2011 conformance annotations to bi-temporal and system-versioned headers (Target: 2026-Q4)
+- [ ] Expose benchmark latency targets for point-in-time snapshot retrieval hot paths (Target: 2026-Q4)
 
 ---
 
-## References
+## Breaking Change History
 
-- Canonical implementation roadmap: [`../../src/temporal/ROADMAP.md`](../../src/temporal/ROADMAP.md)
-- Architecture: [`ARCHITECTURE.md`](ARCHITECTURE.md)
-- Future enhancements: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)
-- Module overview: [`README.md`](README.md)
+None in v1.x. Temporal headers maintain backward compatibility within the active major line; period-semantics changes require migration notes and changelog updates.

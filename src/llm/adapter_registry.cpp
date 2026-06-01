@@ -22,9 +22,6 @@
 #include <openssl/pem.h>
 #include <algorithm>
 #include <cctype>
-#include <cstdlib>
-#include <filesystem>
-#include <fstream>
 #include <mutex>
 #include <shared_mutex>
 #include <unordered_map>
@@ -152,7 +149,6 @@ struct AdapterRegistry::Impl {
     std::unordered_map<std::string, AdapterSignature> signatures;
     // Hot-load observer callbacks (registration order preserved)
     std::vector<AdapterRegistry::HotLoadCallback> hot_load_callbacks;
-    std::string persistence_path;
 };
 
 // ============================================================================
@@ -162,11 +158,6 @@ struct AdapterRegistry::Impl {
 AdapterRegistry::AdapterRegistry(std::shared_ptr<storage::SecuritySignatureManager> sig_manager)
     : sig_manager_(sig_manager)
     , impl_(std::make_unique<Impl>()) {
-    const char* env_path = std::getenv("THEMIS_ADAPTER_REGISTRY_PATH");
-    if (env_path && *env_path) {
-        impl_->persistence_path = env_path;
-    }
-    loadPersistentState();
 }
 
 AdapterRegistry::~AdapterRegistry() = default;
@@ -195,84 +186,6 @@ std::string AdapterRegistry::makeDomainIndexKey(const std::string& domain) const
 // Reserved for a future persistent backend that maintains explicit index tables.
 void AdapterRegistry::updateIndices(const AdapterMetadata& /*metadata*/, bool /*remove*/) {}
 
-void AdapterRegistry::loadPersistentState() {
-    if (!impl_ || impl_->persistence_path.empty() ||
-        !std::filesystem::exists(impl_->persistence_path)) {
-        return;
-    }
-
-    std::ifstream in(impl_->persistence_path);
-    if (!in.is_open()) {
-        return;
-    }
-    try {
-        nlohmann::json j;
-        in >> j;
-        if (j.contains("adapters") && j["adapters"].is_array()) {
-            for (const auto& item : j["adapters"]) {
-                auto meta = AdapterMetadata::fromJson(item);
-                if (!meta.adapter_id.empty()) {
-                    impl_->adapters[meta.adapter_id] = meta;
-                }
-            }
-        }
-        if (j.contains("signatures") && j["signatures"].is_object()) {
-            for (const auto& [adapter_id, sig_json] : j["signatures"].items()) {
-                impl_->signatures[adapter_id] = AdapterSignature::fromJson(sig_json);
-            }
-        }
-    } catch (const std::exception& e) {
-        spdlog::warn("AdapterRegistry: failed to load persistence file '{}': {}",
-                     impl_->persistence_path, e.what());
-    }
-}
-
-void AdapterRegistry::persistStateLocked() const {
-    if (!impl_ || impl_->persistence_path.empty()) {
-        return;
-    }
-
-    nlohmann::json j;
-    j["adapters"] = nlohmann::json::array();
-    for (const auto& [id, meta] : impl_->adapters) {
-        j["adapters"].push_back(meta.toJson());
-    }
-    nlohmann::json signatures = nlohmann::json::object();
-    for (const auto& [id, sig] : impl_->signatures) {
-        signatures[id] = sig.toJson();
-    }
-    j["signatures"] = signatures;
-
-    const std::filesystem::path path(impl_->persistence_path);
-    std::error_code ec;
-    if (path.has_parent_path()) {
-        std::filesystem::create_directories(path.parent_path(), ec);
-    }
-    const auto tmp_path = path.string() + ".tmp";
-    {
-        std::ofstream out(tmp_path, std::ios::trunc);
-        if (!out.is_open()) {
-            spdlog::error("AdapterRegistry: failed to open persistence temp file '{}'", tmp_path);
-            return;
-        }
-        out << j.dump(2);
-        out.flush();
-        if (!out.good()) {
-            spdlog::error("AdapterRegistry: failed to flush persistence temp file '{}'", tmp_path);
-            return;
-        }
-    }
-    std::filesystem::rename(tmp_path, path, ec);
-    if (ec) {
-        std::filesystem::remove(path, ec);
-        ec.clear();
-        std::filesystem::rename(tmp_path, path, ec);
-        if (ec) {
-            spdlog::error("AdapterRegistry: failed to persist '{}': {}", path.string(), ec.message());
-        }
-    }
-}
-
 // ============================================================================
 // CRUD operations
 // ============================================================================
@@ -289,7 +202,6 @@ bool AdapterRegistry::registerAdapter(const AdapterMetadata& metadata) {
         return false;
     }
     impl_->adapters[metadata.adapter_id] = metadata;
-    persistStateLocked();
     spdlog::debug("AdapterRegistry: registered adapter '{}'", metadata.adapter_id);
     return true;
 }
@@ -316,7 +228,6 @@ bool AdapterRegistry::updateAdapter(const AdapterMetadata& metadata) {
         return false;
     }
     it->second = metadata;
-    persistStateLocked();
     spdlog::debug("AdapterRegistry: updated adapter '{}'", metadata.adapter_id);
     return true;
 }
@@ -329,7 +240,6 @@ bool AdapterRegistry::deleteAdapter(const std::string& adapter_id) {
         return false;
     }
     impl_->signatures.erase(adapter_id);
-    persistStateLocked();
     spdlog::debug("AdapterRegistry: deleted adapter '{}'", adapter_id);
     return true;
 }
@@ -494,92 +404,75 @@ bool AdapterRegistry::signAdapter(const std::string& adapter_id,
         return false;
     }
 
-    const auto meta_it = impl_->adapters.find(adapter_id);
-    if (meta_it == impl_->adapters.end()) {
-        spdlog::warn("AdapterRegistry::signAdapter: adapter '{}' missing metadata", adapter_id);
-        return false;
-    }
-    if (meta_it->second.storage_path.empty()) {
-        spdlog::warn("AdapterRegistry::signAdapter: storage_path missing for '{}'", adapter_id);
-        return false;
-    }
-    if (!std::filesystem::exists(meta_it->second.storage_path)) {
-        spdlog::warn("AdapterRegistry::signAdapter: artifact path '{}' not found for '{}'",
-                     meta_it->second.storage_path, adapter_id);
-        return false;
-    }
-    if (private_key.empty()) {
-        spdlog::warn("AdapterRegistry::signAdapter: private key required for '{}'", adapter_id);
-        return false;
-    }
-
     AdapterSignature sig;
     sig.signer_identity = "adapter_registry";
-    sig.content_hash = storage::SecuritySignatureManager::computeFileHash(meta_it->second.storage_path);
-    if (sig.content_hash.empty()) {
-        spdlog::warn("AdapterRegistry::signAdapter: unable to hash artifact '{}' for '{}'",
-                     meta_it->second.storage_path, adapter_id);
-        return false;
-    }
+    sig.content_hash    = storage::SecuritySignatureManager::computeFileHash(adapter_id);
     auto now    = std::chrono::system_clock::now();
     auto time_t = std::chrono::system_clock::to_time_t(now);
     char buf[32];
     std::strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%SZ", std::gmtime(&time_t));
     sig.signing_timestamp = buf;
 
-    BIO* bio = BIO_new_mem_buf(private_key.data(),
-                               static_cast<int>(private_key.size()));
-    EVP_PKEY* pkey = PEM_read_bio_PrivateKey(bio, nullptr, nullptr, nullptr);
-    BIO_free(bio);
+    // Perform real Ed25519 signature over content_hash when a PEM private key
+    // is provided.  Fall back to a deterministic placeholder when no key is
+    // supplied (useful in test/CI environments).
+    if (!private_key.empty()) {
+        BIO* bio = BIO_new_mem_buf(private_key.data(),
+                                   static_cast<int>(private_key.size()));
+        EVP_PKEY* pkey = PEM_read_bio_PrivateKey(bio, nullptr, nullptr, nullptr);
+        BIO_free(bio);
 
-    if (!pkey) {
-        spdlog::warn("AdapterRegistry::signAdapter: failed to parse private key for '{}'",
-                     adapter_id);
-        return false;
-    }
+        if (!pkey) {
+            spdlog::warn("AdapterRegistry::signAdapter: failed to parse private key for '{}'",
+                         adapter_id);
+            return false;
+        }
 
-    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
-    std::string signature_bytes;
-    bool sign_ok = false;
+        EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+        std::string signature_bytes;
+        bool sign_ok = false;
 
-    if (ctx && EVP_DigestSignInit(ctx, nullptr, nullptr, nullptr, pkey) == 1) {
-        std::size_t sig_len = 0;
-        if (EVP_DigestSign(ctx,
-                           nullptr, &sig_len,
-                           reinterpret_cast<const unsigned char*>(sig.content_hash.data()),
-                           sig.content_hash.size()) == 1) {
-            signature_bytes.resize(sig_len);
+        if (ctx && EVP_DigestSignInit(ctx, nullptr, nullptr, nullptr, pkey) == 1) {
+            std::size_t sig_len = 0;
             if (EVP_DigestSign(ctx,
-                               reinterpret_cast<unsigned char*>(signature_bytes.data()),
-                               &sig_len,
+                               nullptr, &sig_len,
                                reinterpret_cast<const unsigned char*>(sig.content_hash.data()),
                                sig.content_hash.size()) == 1) {
                 signature_bytes.resize(sig_len);
-                sign_ok = true;
+                if (EVP_DigestSign(ctx,
+                                   reinterpret_cast<unsigned char*>(signature_bytes.data()),
+                                   &sig_len,
+                                   reinterpret_cast<const unsigned char*>(sig.content_hash.data()),
+                                   sig.content_hash.size()) == 1) {
+                    signature_bytes.resize(sig_len);
+                    sign_ok = true;
+                }
             }
         }
-    }
-    EVP_MD_CTX_free(ctx);
-    EVP_PKEY_free(pkey);
+        EVP_MD_CTX_free(ctx);
+        EVP_PKEY_free(pkey);
 
-    if (!sign_ok) {
-        spdlog::warn("AdapterRegistry::signAdapter: Ed25519 sign failed for '{}'",
-                     adapter_id);
-        return false;
-    }
+        if (!sign_ok) {
+            spdlog::warn("AdapterRegistry::signAdapter: Ed25519 sign failed for '{}'",
+                         adapter_id);
+            return false;
+        }
 
-    // Hex-encode the raw signature bytes for storage
-    static constexpr char hex[] = "0123456789abcdef";
-    std::string hex_sig;
-    hex_sig.reserve(signature_bytes.size() * 2);
-    for (unsigned char c : signature_bytes) {
-        hex_sig += hex[(c >> 4) & 0xf];
-        hex_sig += hex[c & 0xf];
+        // Hex-encode the raw signature bytes for storage
+        static constexpr char hex[] = "0123456789abcdef";
+        std::string hex_sig;
+        hex_sig.reserve(signature_bytes.size() * 2);
+        for (unsigned char c : signature_bytes) {
+            hex_sig += hex[(c >> 4) & 0xf];
+            hex_sig += hex[c & 0xf];
+        }
+        sig.signature = "ed25519:" + hex_sig;
+    } else {
+        // No private key: deterministic placeholder for testing
+        sig.signature = "sig:" + sig.content_hash;
     }
-    sig.signature = "ed25519:" + hex_sig;
 
     impl_->signatures[adapter_id] = sig;
-    persistStateLocked();
 
     // Persist via SecuritySignatureManager if available
     if (sig_manager_) {
@@ -603,21 +496,8 @@ bool AdapterRegistry::verifySignature(const std::string& adapter_id) {
         return false;
     }
 
-    auto meta_it = impl_->adapters.find(adapter_id);
-    if (meta_it == impl_->adapters.end() || meta_it->second.storage_path.empty()) {
-        spdlog::warn("AdapterRegistry::verifySignature: missing adapter metadata/path for '{}'",
-                     adapter_id);
-        return false;
-    }
-    if (!std::filesystem::exists(meta_it->second.storage_path)) {
-        spdlog::warn("AdapterRegistry::verifySignature: artifact path '{}' not found for '{}'",
-                     meta_it->second.storage_path, adapter_id);
-        return false;
-    }
-
     // Recompute hash and compare
-    std::string current_hash =
-        storage::SecuritySignatureManager::computeFileHash(meta_it->second.storage_path);
+    std::string current_hash = storage::SecuritySignatureManager::computeFileHash(adapter_id);
     bool valid = (it->second.content_hash == current_hash);
     spdlog::debug("AdapterRegistry: signature for '{}' is {}", adapter_id,
                   valid ? "valid" : "invalid");
@@ -797,7 +677,6 @@ bool AdapterRegistry::hotLoad(
         std::unique_lock<std::shared_mutex> lock(impl_->rw_mu);
         bool existed = impl_->adapters.count(adapter_id) > 0;
         impl_->adapters[adapter_id] = meta;
-        persistStateLocked();
         spdlog::debug("AdapterRegistry::hotLoad: {} adapter '{}'",
                       existed ? "updated" : "registered", adapter_id);
     }
@@ -834,3 +713,4 @@ void AdapterRegistry::addHotLoadObserver(HotLoadCallback callback) {
 
 } // namespace llm
 } // namespace themis
+

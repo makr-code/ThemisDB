@@ -12,8 +12,6 @@
 #include "governance/data_lineage.h"
 #include <string>
 #include <vector>
-#include <optional>
-#include <unordered_map>
 #include <unordered_set>
 #include <memory>
 #include <mutex>
@@ -38,37 +36,9 @@ struct ModelTrainingExportRequest {
     std::string adapter_id;                ///< LoRA adapter / model that will be trained
     std::string classification;            ///< Data classification level of the dataset
     std::string purpose{"MODEL_TRAINING"}; ///< Export purpose (must be "MODEL_TRAINING")
-    std::string dataset_query;             ///< Deterministic query/filter fingerprint input
-    std::string schema_hash;               ///< Optional precomputed schema hash
-    std::string content_hash;              ///< Optional precomputed content hash
-    uint64_t random_seed{42};              ///< Seed used for deterministic sampling/splits
-    std::string split{"train"};            ///< Dataset split identifier
-    std::string redaction_policy{"default"}; ///< Redaction policy version/name
-    std::string exporter_version;          ///< Exporter version used to generate data
 
     /// Serialize to JSON for audit trail
     nlohmann::json toJson() const;
-};
-
-/// Persisted deterministic training dataset snapshot metadata.
-struct DatasetSnapshot {
-    std::string snapshot_id;
-    std::string export_job_id;
-    std::string adapter_id;
-    std::vector<std::string> collection_ids;
-    std::vector<std::string> field_selectors;
-    std::string query_hash;
-    std::string schema_hash;
-    std::string content_hash;
-    uint64_t random_seed{42};
-    std::string split{"train"};
-    std::string redaction_policy{"default"};
-    std::string exporter_version;
-    std::string governance_decision_id;
-    int64_t created_at_ms{0};
-
-    nlohmann::json toJson() const;
-    static DatasetSnapshot fromJson(const nlohmann::json& j);
 };
 
 /// Decision returned by ModelGovernancePolicy::checkExportPermission().
@@ -76,7 +46,6 @@ struct ModelGovernanceDecision {
     bool is_permitted = false;             ///< Whether the export is allowed
     std::string denial_reason;             ///< Populated when is_permitted == false
     std::string lineage_event_id;          ///< ID of the recorded lineage event (if permitted)
-    std::string dataset_snapshot_id;       ///< ID of deterministic dataset snapshot (if permitted)
 
     /// Serialize to JSON
     nlohmann::json toJson() const;
@@ -142,22 +111,12 @@ public:
     ModelGovernanceDecision checkExportPermission(
         const ModelTrainingExportRequest& request);
 
-    /// Retrieve snapshot metadata by snapshot id.
-    std::optional<DatasetSnapshot> getDatasetSnapshot(
-        const std::string& snapshot_id) const;
-
-    /// List snapshots associated with one export job id.
-    std::vector<DatasetSnapshot> listDatasetSnapshots(
-        const std::string& export_job_id) const;
-
 private:
     mutable std::mutex mutex_;
 
     std::shared_ptr<themis::utils::AuditLogger> audit_logger_;
     std::shared_ptr<DataLineageTracker> lineage_tracker_;
     std::unordered_set<std::string> restricted_collections_;
-    std::unordered_map<std::string, DatasetSnapshot> dataset_snapshots_;
-    std::unordered_map<std::string, std::vector<std::string>> dataset_snapshots_by_export_job_;
 
     /// Write the decision to the audit trail (does not throw)
     void writeAuditEntry(

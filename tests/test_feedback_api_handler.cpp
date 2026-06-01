@@ -10,6 +10,7 @@
  * Focused validation tests for FeedbackAPIHandler input hardening.
  */
 
+#include <algorithm>
 #include <filesystem>
 #include <memory>
 #include <string>
@@ -19,6 +20,10 @@
 #include <nlohmann/json.hpp>
 
 #include "llm/lora_framework/lora_feedback_storage.h"
+#include "performance/phase3/bao.h"
+#include "performance/workload_adaptive_optimizer.h"
+#include "prompt_engineering/feedback_collector.h"
+#include "rag/continuous_learning_orchestrator.h"
 #include "server/feedback_api_handler.h"
 #include "storage/rocksdb_wrapper.h"
 
@@ -60,6 +65,15 @@ protected:
         storage_config.enable_graph_links = false;
         storage_ = std::make_shared<themis::llm::lora::FeedbackStorageService>(storage_config);
         handler_ = std::make_unique<FeedbackAPIHandler>(storage_);
+        live_feedback_collector_ = std::make_shared<themis::prompt_engineering::FeedbackCollector>();
+        orchestrator_ = std::make_shared<themis::rag::learning::ContinuousLearningOrchestrator>(
+            themis::rag::learning::ContinuousLearningConfig{});
+        orchestrator_->wireLiveSignalProviders(
+            std::make_shared<themis::performance::phase3::BaoOptimizer>(),
+            std::make_shared<themis::performance::WorkloadAdaptiveOptimizer>(),
+            live_feedback_collector_);
+        handler_->setLiveFeedbackCollector(live_feedback_collector_);
+        handler_->setLearningOrchestrator(orchestrator_);
     }
 
     void TearDown() override {
@@ -83,6 +97,8 @@ protected:
     std::filesystem::path temp_dir_;
     std::shared_ptr<themis::RocksDBWrapper> db_;
     std::shared_ptr<themis::llm::lora::FeedbackStorageService> storage_;
+    std::shared_ptr<themis::prompt_engineering::FeedbackCollector> live_feedback_collector_;
+    std::shared_ptr<themis::rag::learning::ContinuousLearningOrchestrator> orchestrator_;
     std::unique_ptr<FeedbackAPIHandler> handler_;
 };
 
@@ -131,6 +147,26 @@ TEST_F(FeedbackApiHandlerTest, StatisticsRejectInvalidAdapterId) {
         makeRequest(http::verb::get, "/api/feedback/stats?adapter_id=bad%0d%0aX-Test:1"));
 
     EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(FeedbackApiHandlerTest, CreateMirrorsIntoLiveCollectorAndTriggersLoop4) {
+    const auto res = handler_->handleCreateFeedback(
+        makeRequest(http::verb::post, "/api/feedback", makeValidFeedbackBody().dump()));
+
+    ASSERT_EQ(res.result(), http::status::created);
+    ASSERT_EQ(live_feedback_collector_->newEntryCount(), 1u);
+
+    const auto context = json::parse(orchestrator_->serializeLoopContext());
+    ASSERT_TRUE(context.contains("loops"));
+    ASSERT_FALSE(context["loops"].empty());
+    const auto loop4_it = std::find_if(
+        context["loops"].begin(),
+        context["loops"].end(),
+        [](const json& item) { return item.value("phase", "") == "LOOP_4_RLAIF"; });
+    ASSERT_NE(loop4_it, context["loops"].end());
+    const auto& loop4 = *loop4_it;
+    EXPECT_EQ(loop4.value("signal_source", ""), "live");
+    EXPECT_DOUBLE_EQ(loop4.value("signal_value", -1.0), 1.0);
 }
 
 } // namespace

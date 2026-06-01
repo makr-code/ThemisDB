@@ -8,8 +8,11 @@
  */
 
 #include "server/feedback_api_handler.h"
+#include "prompt_engineering/feedback_collector.h"
+#include "rag/continuous_learning_orchestrator.h"
 #include "utils/logger.h"
 #include "utils/input_validator.h"
+#include <algorithm>
 #include <spdlog/spdlog.h>
 #include "utils/tracing.h"
 
@@ -38,6 +41,32 @@ bool isValidFeedbackFilterValue(const std::string& value) {
     return validator.validateStringLength(value, kMaxFeedbackFilterValueLength) &&
            validator.validateHeaderValue(value) &&
            validator.validatePathSegment(value);
+}
+
+themis::prompt_engineering::FeedbackType toCollectorFeedbackType(
+    const llm::lora::Feedback& feedback) {
+    if (feedback.training_category == "negative" || feedback.rating <= 2) {
+        return themis::prompt_engineering::FeedbackType::USER_NEGATIVE;
+    }
+    return themis::prompt_engineering::FeedbackType::USER_POSITIVE;
+}
+
+double toCollectorSeverity(const llm::lora::Feedback& feedback) {
+    if (feedback.rating <= 0) {
+        return 0.5;
+    }
+    const double normalized = std::clamp(static_cast<double>(feedback.rating), 1.0, 5.0) / 5.0;
+    return 1.0 - normalized;
+}
+
+std::string toCollectorPromptId(const llm::lora::Feedback& feedback) {
+    if (!feedback.adapter_id.empty()) {
+        return feedback.adapter_id;
+    }
+    if (feedback.model_response_id.has_value() && !feedback.model_response_id->empty()) {
+        return *feedback.model_response_id;
+    }
+    return "llm-feedback";
 }
 
 } // namespace
@@ -98,7 +127,43 @@ http::response<http::string_body> FeedbackAPIHandler::handleCreateFeedback(
                 req
             );
         }
-        
+
+        if (feedback_collector_) {
+            try {
+                json metadata = {
+                    {"adapter_id", feedback.adapter_id},
+                    {"user_id", feedback.user_id},
+                    {"rating", feedback.rating},
+                    {"training_category", feedback.training_category},
+                    {"flagged_for_training", feedback.flagged_for_training},
+                    {"is_cached_response", feedback.is_cached_response},
+                    {"training_weight", feedback.training_weight}
+                };
+                if (feedback.model_response_id.has_value()) {
+                    metadata["model_response_id"] = *feedback.model_response_id;
+                }
+                if (feedback.cache_key.has_value()) {
+                    metadata["cache_key"] = *feedback.cache_key;
+                }
+
+                feedback_collector_->recordFeedback(
+                    toCollectorPromptId(feedback),
+                    feedback.prompt,
+                    feedback.response,
+                    toCollectorFeedbackType(feedback),
+                    feedback.feedback_text,
+                    toCollectorSeverity(feedback),
+                    metadata
+                );
+
+                if (learning_orchestrator_) {
+                    learning_orchestrator_->triggerLoop4AdapterImprovement();
+                }
+            } catch (const std::exception& e) {
+                spdlog::warn("Failed to mirror feedback into live learning collector: {}", e.what());
+            }
+        }
+         
         // Return created feedback
         return makeJsonResponse(
             http::status::created,

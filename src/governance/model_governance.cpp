@@ -11,9 +11,7 @@
 
 #include <algorithm>
 #include <chrono>
-#include <openssl/sha.h>
 #include <sstream>
-#include <iomanip>
 
 #include "observability/metrics_collector.h"
 #include "utils/audit_logger.h"
@@ -21,34 +19,6 @@
 
 namespace themis {
 namespace governance {
-
-namespace {
-
-std::string sha256Hex(const std::string& input) {
-    unsigned char digest[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char*>(input.data()), input.size(), digest);
-    std::ostringstream ss;
-    ss << std::hex << std::setfill('0');
-    for (unsigned char b : digest) {
-        ss << std::setw(2) << static_cast<int>(b);
-    }
-    return ss.str();
-}
-
-std::string joinStrings(const std::vector<std::string>& values) {
-    std::ostringstream ss;
-    bool first = true;
-    for (const auto& v : values) {
-        if (!first) {
-            ss << '\n';
-        }
-        first = false;
-        ss << v;
-    }
-    return ss.str();
-}
-
-} // namespace
 
 // ─── ModelTrainingExportRequest ──────────────────────────────────────────────
 
@@ -61,58 +31,7 @@ nlohmann::json ModelTrainingExportRequest::toJson() const {
     j["adapter_id"]      = adapter_id;
     j["classification"]  = classification;
     j["purpose"]         = purpose;
-    j["dataset_query"]   = dataset_query;
-    j["schema_hash"]     = schema_hash;
-    j["content_hash"]    = content_hash;
-    j["random_seed"]     = random_seed;
-    j["split"]           = split;
-    j["redaction_policy"] = redaction_policy;
-    j["exporter_version"] = exporter_version;
     return j;
-}
-
-// ─── DatasetSnapshot ──────────────────────────────────────────────────────────
-
-nlohmann::json DatasetSnapshot::toJson() const {
-    nlohmann::json j;
-    j["snapshot_id"] = snapshot_id;
-    j["export_job_id"] = export_job_id;
-    j["adapter_id"] = adapter_id;
-    j["collection_ids"] = collection_ids;
-    j["field_selectors"] = field_selectors;
-    j["query_hash"] = query_hash;
-    j["schema_hash"] = schema_hash;
-    j["content_hash"] = content_hash;
-    j["random_seed"] = random_seed;
-    j["split"] = split;
-    j["redaction_policy"] = redaction_policy;
-    j["exporter_version"] = exporter_version;
-    j["governance_decision_id"] = governance_decision_id;
-    j["created_at_ms"] = created_at_ms;
-    return j;
-}
-
-DatasetSnapshot DatasetSnapshot::fromJson(const nlohmann::json& j) {
-    DatasetSnapshot s;
-    s.snapshot_id = j.value("snapshot_id", "");
-    s.export_job_id = j.value("export_job_id", "");
-    s.adapter_id = j.value("adapter_id", "");
-    if (j.contains("collection_ids")) {
-        s.collection_ids = j["collection_ids"].get<std::vector<std::string>>();
-    }
-    if (j.contains("field_selectors")) {
-        s.field_selectors = j["field_selectors"].get<std::vector<std::string>>();
-    }
-    s.query_hash = j.value("query_hash", "");
-    s.schema_hash = j.value("schema_hash", "");
-    s.content_hash = j.value("content_hash", "");
-    s.random_seed = j.value("random_seed", static_cast<uint64_t>(42));
-    s.split = j.value("split", "train");
-    s.redaction_policy = j.value("redaction_policy", "default");
-    s.exporter_version = j.value("exporter_version", "");
-    s.governance_decision_id = j.value("governance_decision_id", "");
-    s.created_at_ms = j.value("created_at_ms", static_cast<int64_t>(0));
-    return s;
 }
 
 // ─── ModelGovernanceDecision ─────────────────────────────────────────────────
@@ -122,7 +41,6 @@ nlohmann::json ModelGovernanceDecision::toJson() const {
     j["is_permitted"]     = is_permitted;
     j["denial_reason"]    = denial_reason;
     j["lineage_event_id"] = lineage_event_id;
-    j["dataset_snapshot_id"] = dataset_snapshot_id;
     return j;
 }
 
@@ -217,12 +135,7 @@ ModelGovernanceDecision ModelGovernancePolicy::checkExportPermission(const Model
                            {"collection_ids", request.collection_ids},
                            {"field_selectors", request.field_selectors},
                            {"classification", request.classification},
-                           {"purpose", request.purpose},
-                           {"dataset_query", request.dataset_query},
-                           {"random_seed", request.random_seed},
-                           {"split", request.split},
-                           {"redaction_policy", request.redaction_policy},
-                           {"exporter_version", request.exporter_version}};
+                           {"purpose", request.purpose}};
         // event_id and timestamp are auto-assigned by DataLineageTracker
         lineage->recordEvent(ev);
 
@@ -231,42 +144,6 @@ ModelGovernanceDecision ModelGovernancePolicy::checkExportPermission(const Model
         if (!record.events.empty()) {
             decision.lineage_event_id = record.events.back().event_id;
         }
-    }
-
-    // Build deterministic snapshot metadata and persist in-policy state.
-    DatasetSnapshot snapshot;
-    snapshot.export_job_id = request.export_job_id;
-    snapshot.adapter_id = request.adapter_id;
-    snapshot.collection_ids = request.collection_ids;
-    snapshot.field_selectors = request.field_selectors;
-    snapshot.random_seed = request.random_seed;
-    snapshot.split = request.split.empty() ? "train" : request.split;
-    snapshot.redaction_policy = request.redaction_policy.empty() ? "default" : request.redaction_policy;
-    snapshot.exporter_version = request.exporter_version;
-    snapshot.governance_decision_id = decision.lineage_event_id;
-    snapshot.created_at_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-        std::chrono::system_clock::now().time_since_epoch()).count();
-
-    const std::string query_basis =
-        request.dataset_query.empty()
-            ? (joinStrings(request.collection_ids) + "\n" + joinStrings(request.field_selectors))
-            : request.dataset_query;
-    snapshot.query_hash = sha256Hex(query_basis);
-    snapshot.schema_hash = request.schema_hash.empty()
-                               ? sha256Hex(joinStrings(request.field_selectors))
-                               : request.schema_hash;
-    snapshot.content_hash = request.content_hash.empty()
-                                ? sha256Hex(query_basis + "\n" + std::to_string(request.random_seed) + "\n" +
-                                            snapshot.split + "\n" + snapshot.redaction_policy)
-                                : request.content_hash;
-    snapshot.snapshot_id = "dsnap_" + snapshot.content_hash.substr(0, 16) + "_" +
-                           snapshot.query_hash.substr(0, 8);
-    decision.dataset_snapshot_id = snapshot.snapshot_id;
-
-    {
-        std::lock_guard<std::mutex> lock(mutex_);
-        dataset_snapshots_[snapshot.snapshot_id] = snapshot;
-        dataset_snapshots_by_export_job_[snapshot.export_job_id].push_back(snapshot.snapshot_id);
     }
 
     observability::MetricsCollector::getInstance().addCounter("governance_model_export_total", 1,
@@ -301,34 +178,6 @@ void ModelGovernancePolicy::writeAuditEntry(const ModelTrainingExportRequest &re
             std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch())
                 .count()}};
     audit_log->logEvent(entry);
-}
-
-std::optional<DatasetSnapshot> ModelGovernancePolicy::getDatasetSnapshot(
-    const std::string& snapshot_id) const {
-    std::lock_guard<std::mutex> lock(mutex_);
-    auto it = dataset_snapshots_.find(snapshot_id);
-    if (it == dataset_snapshots_.end()) {
-        return std::nullopt;
-    }
-    return it->second;
-}
-
-std::vector<DatasetSnapshot> ModelGovernancePolicy::listDatasetSnapshots(
-    const std::string& export_job_id) const {
-    std::vector<DatasetSnapshot> result;
-    std::lock_guard<std::mutex> lock(mutex_);
-    auto it = dataset_snapshots_by_export_job_.find(export_job_id);
-    if (it == dataset_snapshots_by_export_job_.end()) {
-        return result;
-    }
-    result.reserve(it->second.size());
-    for (const auto& snapshot_id : it->second) {
-        auto s_it = dataset_snapshots_.find(snapshot_id);
-        if (s_it != dataset_snapshots_.end()) {
-            result.push_back(s_it->second);
-        }
-    }
-    return result;
 }
 
 } // namespace governance

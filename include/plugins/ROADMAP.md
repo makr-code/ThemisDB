@@ -1,9 +1,9 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 <!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ARCHITECTURE.md · ../../src/plugins/ROADMAP.md -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/plugins/ROADMAP.md -->
 
-# PLUGINS Module — Public Header Roadmap
+# Plugins Module — Public Header Roadmap
 
 **Module Path:** `include/plugins/`
 **Canonical implementation roadmap:** [`../../src/plugins/ROADMAP.md`](../../src/plugins/ROADMAP.md)
@@ -12,7 +12,7 @@
 
 ## Overview
 
-This document tracks public API contract stability, planned header additions, and header-level breaking changes for `include/plugins/`. For feature roadmap items that affect both implementation and headers see the canonical roadmap:
+Tracks public plugin API contract stability, header coverage, and future public entry points. Runtime plugin sandboxing, OCI mechanics, WASM instantiation, and self-healing loop work remain in:
 
 → [`../../src/plugins/ROADMAP.md`](../../src/plugins/ROADMAP.md)
 
@@ -20,69 +20,35 @@ This document tracks public API contract stability, planned header additions, an
 
 ## Current Status
 
-production plugin runtime with lifecycle management, manifest/signature validation, hot-plug monitoring, health metrics, and OCI/RPC/WASM integration. All production-required public headers are present and `#pragma once` guarded.
-
-The header API surface is **stable** for all types introduced in v1.x.
+All 20 plugin headers are present. Public entry points exist for the core plugin lifecycle contract, plugin manager and registry, dependency resolution, health monitoring, hot-plug, metrics, self-healing, OCI registry and manifest signing, signed plugin repository, RPC/image/audio/HuggingFace domain plugins, and WASM component model and host API.
 
 ---
 
 ## Completed ✅
 
-- [x] `plugin_api.h` — lifecycle and registry contract
-- [x] `plugin_interface.h` — lifecycle and registry contract
-- [x] `plugin_manager.h` — lifecycle and registry contract
-- [x] `plugin_registry.h` — lifecycle and registry contract
-- [x] `plugin_dependency_resolver.h` — lifecycle and registry contract
-- [x] `oci_manifest_signing.h` — security and validation contract
-- [x] `oci_registry_client.h` — security and validation contract
-- [x] `signed_plugin_repository.h` — security and validation contract
-- [x] `plugin_health_monitor.h` — monitoring and health contract
-- [x] `plugin_hot_plug_monitor.h` — monitoring and health contract
-- [x] `plugin_metrics.h` — monitoring and health contract
-- [x] `self_healing_plugin.h` — monitoring and health contract
-- [x] `audio_backend_interface.h` — extension interfaces contract
-- [x] `image_analysis_interface.h` — extension interfaces contract
-- [x] `image_analysis_manager.h` — extension interfaces contract
-- [x] `image_generation_interface.h` — extension interfaces contract
-- [x] `huggingface_ingestion_plugin.h` — extension interfaces contract
-- [x] `rpc_plugin_interface.h` — extension interfaces contract
-- [x] `wasm_component_model.h` — extension interfaces contract
-- [x] `wasm_host_api.h` — extension interfaces contract
+- [x] `plugin_interface.h`, `plugin_api.h`, `plugin_manager.h`, `plugin_registry.h`, `plugin_dependency_resolver.h` — core plugin lifecycle contract
+- [x] `plugin_health_monitor.h`, `plugin_hot_plug_monitor.h`, `plugin_metrics.h`, `self_healing_plugin.h` — health, monitoring, and self-healing
+- [x] `oci_registry_client.h`, `oci_manifest_signing.h`, `signed_plugin_repository.h` — OCI distribution and signing
+- [x] `rpc_plugin_interface.h`, `huggingface_ingestion_plugin.h`, `image_analysis_interface.h`, `image_analysis_manager.h`, `image_generation_interface.h`, `audio_backend_interface.h` — domain plugin interfaces
+- [x] `wasm_component_model.h`, `wasm_host_api.h` — WASM runtime contract
 
 ---
 
-## In Progress 🚧
+## In Progress
 
-- [I] Header-level unit test coverage for all public interfaces (tracked via module issue backlog)
-
----
-
-## Planned Features 📋
-
-### Short-term (Next 3–6 months)
-
-- [ ] Audit all headers for missing `[[nodiscard]]` on factory and error-returning methods (Target: Q3 2026)
-- [ ] Verify `#pragma once` guard consistency across all headers in a CI step (Target: Q3 2026)
-
-### Medium-term (6–12 months)
-
-- [ ] Align header-level type documentation with OpenAPI spec where applicable (Target: Q4 2026)
-- [ ] Consolidate deprecated symbol annotations with `[[deprecated("...")]]` where needed (Target: Q4 2026)
+- [ ] Document OCI manifest signing fail-closed semantics for unsigned artefacts in `oci_manifest_signing.h` (Target: 2026-Q3)
+- [ ] Clarify WASM memory isolation guarantees and host-function capability limits in `wasm_host_api.h` (Target: 2026-Q3)
 
 ---
 
-## Production Readiness Checklist
+## Planned
 
-- [x] All headers have `#pragma once` guard
-- [x] All public factory methods marked `[[nodiscard]]`
-- [x] Build conditionals documented in `README.md` and `ARCHITECTURE.md`
-- [P] Header-level unit tests (tracked in module issue backlog)
+- [ ] `plugin_policy.h` — per-plugin resource, capability, and security-policy contract (Target: 2026-Q4)
+- [ ] Add `IPlugin` version-negotiation protocol to support plugin API evolution (Target: 2026-Q4)
+- [ ] Expose benchmark load/unload latency targets for hot-plug and WASM instantiation hot paths (Target: 2026-Q4)
 
 ---
 
-## References
+## Breaking Change History
 
-- Canonical implementation roadmap: [`../../src/plugins/ROADMAP.md`](../../src/plugins/ROADMAP.md)
-- Architecture: [`ARCHITECTURE.md`](ARCHITECTURE.md)
-- Future enhancements: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)
-- Module overview: [`README.md`](README.md)
+None in v1.x. Plugin headers maintain backward compatibility within the active major line; `IPlugin` API and `PluginAPI` host-surface changes require major-version bumps, migration notes, and changelog updates.

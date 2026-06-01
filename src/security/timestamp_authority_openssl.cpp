@@ -109,19 +109,26 @@ static uint64_t asn1TimeToUnixMs(ASN1_GENERALIZEDTIME* gen) {
         time_t t = timegm(&tm_time);
     #else
         // Portable fallback: temporarily set TZ to UTC
-        const char* old_tz_raw = getenv("TZ");
-        const bool had_tz = (old_tz_raw != nullptr);
-        const std::string old_tz_str = had_tz ? old_tz_raw : "";
-
+        char* old_tz = getenv("TZ");
+        char* old_tz_copy = nullptr;
+        if (old_tz) {
+            old_tz_copy = strdup(old_tz);
+            if (!old_tz_copy) {
+                return 0;  // Memory allocation failed
+            }
+        }
+        
         if (setenv("TZ", "UTC", 1) != 0) {
+            free(old_tz_copy);
             return 0;  // setenv failed
         }
         tzset();
         time_t t = mktime(&tm_time);
-
+        
         // Restore original TZ (even if mktime failed)
-        if (had_tz) {
-            setenv("TZ", old_tz_str.c_str(), 1);
+        if (old_tz_copy) {
+            setenv("TZ", old_tz_copy, 1);
+            free(old_tz_copy);
         } else {
             unsetenv("TZ");
         }

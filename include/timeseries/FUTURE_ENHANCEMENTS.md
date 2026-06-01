@@ -3,7 +3,7 @@
 <!-- Status: current | validated: 2026-06-01 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/timeseries/FUTURE_ENHANCEMENTS.md -->
 
-# TIMESERIES Module — Public Header Future Enhancements
+# Timeseries Module — Public Header Future Enhancements
 
 **Module Path:** `include/timeseries/`
 **Canonical implementation enhancements:** [`../../src/timeseries/FUTURE_ENHANCEMENTS.md`](../../src/timeseries/FUTURE_ENHANCEMENTS.md)
@@ -12,7 +12,7 @@
 
 ## Scope
 
-This document covers planned enhancements to the **public header contract** in `include/timeseries/` — new types, interface additions, deprecation removals, and header-level API improvements. Enhancements that touch both headers and implementation are tracked primarily in the canonical source-level document:
+Planned enhancements to the **public header contract** in `include/timeseries/`. Runtime chunk lifecycle, compaction, WAL, and benchmark work remain tracked in:
 
 → [`../../src/timeseries/FUTURE_ENHANCEMENTS.md`](../../src/timeseries/FUTURE_ENHANCEMENTS.md)
 
@@ -20,74 +20,41 @@ This document covers planned enhancements to the **public header contract** in `
 
 ## Design Constraints
 
-- `[x]` Headers must remain backward-compatible within a major version; new capabilities are added via new methods or versioned types.
-- `[x]` `#pragma once` guard required on every header; no include-guard macros.
-- `[x]` No implementation code in headers (exception: `constexpr` helpers, template bodies, and header-only utilities explicitly documented as such).
-- `[x]` All factory functions and error-returning methods must be `[[nodiscard]]`.
-- `[x]` Build-conditional headers must not be included unconditionally by other headers.
+- `[x]` Hypertable and storage headers must not expose internal chunk layout to callers.
+- `[x]` Compression headers must keep codec internals opaque; selection logic is behind `CompressionSelector`.
+- `[x]` Encrypted-chunk headers must integrate key management with `include/security/` without leaking key material.
+- `[x]` Continuous-aggregate headers must define bounded refresh-lag and staleness contracts.
 
 ---
 
-## Execution Plane Surface
+## Required Interfaces (Header Contract)
 
-- **Ingest and storage plane:** `timeseries.h`, `tsstore.h`, `hypertable.h`, `ts_auto_buffer.h`, `ts_auto_buffer_adaptive.h`, `ts_stream_cursor.h`, `adaptive_flush_controller.h`
-- **Compression and query plane:** `gorilla.h`, `gorilla_simd.h`, `compression_selector.h`, `query_optimizer.h`, `downsampling.h`, `gap_fill.h`, `aggregates.h`
-- **Lifecycle and integration plane:** `continuous_agg.h`, `aggregate_scheduler.h`, `retention.h`, `encrypted_chunk_store.h`, `ts_encrypted_key_rotation.h`, `prometheus_remote_write.h`, `timeseries_metrics.h`, `anomaly_detection.h`
-
-For the authoritative interface inventory and stability classification see [`../../src/timeseries/FUTURE_ENHANCEMENTS.md`](../../src/timeseries/FUTURE_ENHANCEMENTS.md).
-
----
-
-## Planned Header Enhancements
-
-### 1. `[[nodiscard]]` Audit
-
-**Priority:** Medium
-**Target Version:** v2.1.0
-
-Audit all public headers for factory functions and error-returning methods that are missing `[[nodiscard]]`. Apply missing annotations and add a CI compile-time check to prevent regressions.
+| Interface | Declared In | Consumer | Status |
+|-----------|------------|----------|--------|
+| `Hypertable` ingestion / partition API | `hypertable.h` | Ingest pipelines, query layer | ✅ Stable |
+| `GorillaEncoder` / `GorillaDecoder` | `gorilla.h` | Chunk storage internals | ✅ Stable |
+| `ContinuousAggregate` refresh API | `continuous_agg.h` | Dashboard and monitoring consumers | ✅ Stable |
+| `PrometheusRemoteWrite` ingest API | `prometheus_remote_write.h` | Observability integrations | ✅ Stable |
+| `EncryptedChunkStore` read/write | `encrypted_chunk_store.h` | Compliance storage backends | ✅ Stable |
 
 ---
 
-### 2. Deprecated Symbol Cleanup
+## Planned Enhancements
 
-**Priority:** Low
-**Target Version:** v2.1.0
+### Short-Term (Q3 2026)
 
-Identify symbols that have been superseded in `v1.x` and annotate them with `[[deprecated("use X instead")]]`. Track removal in a subsequent major version.
+- Document continuous-aggregate refresh-lag bounds and staleness guarantees uniformly.
+- Clarify adaptive-flush back-pressure contract and overflow semantics for high-throughput ingest.
+- Add SIMD-feature availability guards and scalar fallback notes to `gorilla_simd.h`.
 
----
+### Medium-Term (Q4 2026)
 
-### 3. Header Isolation Verification
+- Introduce `timeseries_policy.h` combining retention, downsampling, and compression into a single declarative policy contract.
+- Expose benchmark-reference throughput targets for Prometheus remote-write and Gorilla encoding hot paths.
+- Add deprecation annotations for any legacy chunk-storage APIs replaced by encrypted-chunk backends.
 
-**Priority:** Low
-**Target Version:** v2.1.0
+### Long-Term
 
-Verify that every header in `include/timeseries/` compiles in isolation (without implicit transitive includes). Add a CMake `check_headers` target for automated CI enforcement.
-
----
-
-## Test Strategy
-
-| Test Type | Target | Notes |
-|---|---|---|
-| Compile-time | All headers compile in isolation | CMake `check_headers` target (planned) |
-| Unit | Key interface implementations | Tracked in module test suite |
-| ABI | No unexpected virtual table changes between patch releases | ABI checker in CI |
-
----
-
-## Security / Reliability
-
-- `[x]` `[[nodiscard]]` applied to factory and error-returning methods.
-- `[x]` No implementation code in public headers.
-- `[x]` Build-conditional guards documented in `ARCHITECTURE.md`.
-
----
-
-## References
-
-- Canonical implementation enhancements: [`../../src/timeseries/FUTURE_ENHANCEMENTS.md`](../../src/timeseries/FUTURE_ENHANCEMENTS.md)
-- Architecture: [`ARCHITECTURE.md`](ARCHITECTURE.md)
-- Roadmap: [`ROADMAP.md`](ROADMAP.md)
-- Module overview: [`README.md`](README.md)
+- Unify streaming-cursor and continuous-aggregate consumption behind a shared time-series event-stream contract.
+- Provide extension hooks for embedders to inject custom compression codecs alongside the built-in Gorilla/SIMD pipeline.
+- Add temporal-aware query-explain output via `query_optimizer.h` to surface chunk pruning decisions to consumers.

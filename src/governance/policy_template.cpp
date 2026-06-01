@@ -466,14 +466,12 @@ PolicyTemplateManager::PolicyTemplateManager() {
 }
 
 void PolicyTemplateManager::registerTemplate(std::shared_ptr<PolicyTemplate> tmpl) {
-    std::lock_guard<std::mutex> lk(templates_mutex_);
     templates_[tmpl->id] = tmpl;
     THEMIS_INFO("Registered policy template: {}", tmpl->id);
 }
 
 std::optional<std::shared_ptr<PolicyTemplate>>
 PolicyTemplateManager::getTemplate(const std::string &template_id) const {
-    std::lock_guard<std::mutex> lk(templates_mutex_);
     auto it = templates_.find(template_id);
     if (it != templates_.end()) {
         return it->second;
@@ -482,7 +480,6 @@ PolicyTemplateManager::getTemplate(const std::string &template_id) const {
 }
 
 std::vector<std::shared_ptr<PolicyTemplate>> PolicyTemplateManager::listTemplates() const {
-    std::lock_guard<std::mutex> lk(templates_mutex_);
     std::vector<std::shared_ptr<PolicyTemplate>> result;
     for (const auto &[id, tmpl] : templates_) {
         result.push_back(tmpl);
@@ -492,7 +489,6 @@ std::vector<std::shared_ptr<PolicyTemplate>> PolicyTemplateManager::listTemplate
 
 std::vector<std::shared_ptr<PolicyTemplate>>
 PolicyTemplateManager::listTemplatesByCategory(const std::string &category) const {
-    std::lock_guard<std::mutex> lk(templates_mutex_);
     std::vector<std::shared_ptr<PolicyTemplate>> result;
     for (const auto &[id, tmpl] : templates_) {
         if (tmpl->category == category) {
@@ -504,34 +500,25 @@ PolicyTemplateManager::listTemplatesByCategory(const std::string &category) cons
 
 PolicyRule PolicyTemplateManager::instantiateTemplate(const std::string &template_id, const nlohmann::json &params,
                                                       const std::string &rule_id) const {
-    std::shared_ptr<PolicyTemplate> tmpl;
-    {
-        std::lock_guard<std::mutex> lk(templates_mutex_);
-        auto it = templates_.find(template_id);
-        if (it == templates_.end()) {
-            throw std::invalid_argument("Template not found: " + template_id);
-        }
-        tmpl = it->second;
+    auto tmpl = getTemplate(template_id);
+    if (!tmpl.has_value()) {
+        throw std::invalid_argument("Template not found: " + template_id);
     }
-    return tmpl->instantiate(params, rule_id);
+
+    return (*tmpl)->instantiate(params, rule_id);
 }
 
 PolicyRule PolicyTemplateManager::previewTemplate(const std::string &template_id, const nlohmann::json &params,
                                                   const std::string &rule_id) const {
-    std::shared_ptr<PolicyTemplate> tmpl;
-    {
-        std::lock_guard<std::mutex> lk(templates_mutex_);
-        auto it = templates_.find(template_id);
-        if (it == templates_.end()) {
-            throw std::invalid_argument("Template not found: " + template_id);
-        }
-        tmpl = it->second;
+    auto tmpl = getTemplate(template_id);
+    if (!tmpl.has_value()) {
+        throw std::invalid_argument("Template not found: " + template_id);
     }
-    return tmpl->preview(params, rule_id);
+
+    return (*tmpl)->preview(params, rule_id);
 }
 
 nlohmann::json PolicyTemplateManager::exportTemplates() const {
-    std::lock_guard<std::mutex> lk(templates_mutex_);
     nlohmann::json j = nlohmann::json::array();
     for (const auto &[id, tmpl] : templates_) {
         j.push_back(tmpl->toJson());
@@ -547,7 +534,6 @@ void PolicyTemplateManager::registerBuiltInTemplates() {
     registerTemplate(std::make_shared<TimeBasedAccessTemplate>());
     registerTemplate(std::make_shared<Soc2ComplianceTemplate>());
 
-    std::lock_guard<std::mutex> lk(templates_mutex_);
     THEMIS_INFO("Registered {} built-in policy templates", templates_.size());
 }
 

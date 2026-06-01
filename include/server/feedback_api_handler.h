@@ -15,6 +15,12 @@
 #include "llm/lora_framework/lora_feedback_storage.h"
 
 namespace themis {
+namespace prompt_engineering {
+class FeedbackCollector;
+}
+namespace rag::learning {
+class ContinuousLearningOrchestrator;
+}
 namespace server {
 
 namespace beast = boost::beast;
@@ -116,8 +122,20 @@ public:
         const http::request<http::string_body>& req
     );
 
+    void setLiveFeedbackCollector(
+        std::shared_ptr<themis::prompt_engineering::FeedbackCollector> feedback_collector) {
+        feedback_collector_ = std::move(feedback_collector);
+    }
+
+    void setLearningOrchestrator(
+        std::shared_ptr<themis::rag::learning::ContinuousLearningOrchestrator> orchestrator) {
+        learning_orchestrator_ = std::move(orchestrator);
+    }
+
 private:
     std::shared_ptr<llm::lora::FeedbackStorageService> storage_service_;
+    std::shared_ptr<themis::prompt_engineering::FeedbackCollector> feedback_collector_;
+    std::shared_ptr<themis::rag::learning::ContinuousLearningOrchestrator> learning_orchestrator_;
     
     // Helper methods
     http::response<http::string_body> makeResponse(

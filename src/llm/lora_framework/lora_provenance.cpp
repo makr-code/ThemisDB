@@ -12,10 +12,8 @@
 #include <openssl/sha.h>
 #include <algorithm>
 #include <chrono>
-#include <cstdlib>
 #include <cstring>
 #include <ctime>
-#include <filesystem>
 #include <fstream>
 #include <iomanip>
 #include <mutex>
@@ -264,7 +262,6 @@ struct LoRAProvenanceManager::Impl {
 
     // adapter_id → ordered audit log entries (Merkle chain)
     std::unordered_map<std::string, std::vector<InferenceAuditEntry>> audit_logs;
-    std::string persistence_path;
 };
 
 // ============================================================================
@@ -272,139 +269,9 @@ struct LoRAProvenanceManager::Impl {
 // ============================================================================
 
 LoRAProvenanceManager::LoRAProvenanceManager()
-    : impl_(std::make_unique<Impl>()) {
-    const char* env_path = std::getenv("THEMIS_LORA_PROVENANCE_PATH");
-    if (env_path && *env_path) {
-        impl_->persistence_path = env_path;
-    }
-    loadPersistentState();
-}
+    : impl_(std::make_unique<Impl>()) {}
 
 LoRAProvenanceManager::~LoRAProvenanceManager() = default;
-
-void LoRAProvenanceManager::loadPersistentState() {
-    std::lock_guard<std::mutex> lock(impl_->mu);
-    if (impl_->persistence_path.empty() ||
-        !std::filesystem::exists(impl_->persistence_path)) {
-        return;
-    }
-    std::ifstream in(impl_->persistence_path);
-    if (!in.is_open()) {
-        return;
-    }
-    try {
-        json j;
-        in >> j;
-
-        if (j.contains("local_provenance") && j["local_provenance"].is_object()) {
-            for (const auto& [adapter_id, record] : j["local_provenance"].items()) {
-                impl_->local_provenance[adapter_id] = LoRAProvenanceRecord::fromJSON(record);
-            }
-        }
-        if (j.contains("external_provenance") && j["external_provenance"].is_object()) {
-            for (const auto& [adapter_id, record] : j["external_provenance"].items()) {
-                impl_->external_provenance[adapter_id] = ExternalAdapterProvenance::fromJSON(record);
-            }
-        }
-        if (j.contains("snapshots") && j["snapshots"].is_object()) {
-            for (const auto& [adapter_id, arr] : j["snapshots"].items()) {
-                if (!arr.is_array()) {
-                    continue;
-                }
-                auto& chain = impl_->snapshots[adapter_id];
-                for (const auto& item : arr) {
-                    auto snap = AdapterSnapshot::fromJSON(item);
-                    chain.push_back(snap);
-                    if (!snap.snapshot_id.empty()) {
-                        impl_->snapshot_by_id[snap.snapshot_id] = snap;
-                    }
-                }
-            }
-        }
-        if (j.contains("audit_logs") && j["audit_logs"].is_object()) {
-            for (const auto& [adapter_id, arr] : j["audit_logs"].items()) {
-                if (!arr.is_array()) {
-                    continue;
-                }
-                auto& log = impl_->audit_logs[adapter_id];
-                for (const auto& item : arr) {
-                    log.push_back(InferenceAuditEntry::fromJSON(item));
-                }
-            }
-        }
-    } catch (const std::exception& e) {
-        spdlog::warn("LoRAProvenanceManager: failed to load persistence file '{}': {}",
-                     impl_->persistence_path, e.what());
-    }
-}
-
-void LoRAProvenanceManager::persistStateLocked() const {
-    if (impl_->persistence_path.empty()) {
-        return;
-    }
-    json j = json::object();
-    json local = json::object();
-    for (const auto& [adapter_id, record] : impl_->local_provenance) {
-        local[adapter_id] = record.toJSON();
-    }
-    j["local_provenance"] = local;
-
-    json external = json::object();
-    for (const auto& [adapter_id, record] : impl_->external_provenance) {
-        external[adapter_id] = record.toJSON();
-    }
-    j["external_provenance"] = external;
-
-    json snapshots = json::object();
-    for (const auto& [adapter_id, chain] : impl_->snapshots) {
-        snapshots[adapter_id] = json::array();
-        for (const auto& snap : chain) {
-            snapshots[adapter_id].push_back(snap.toJSON());
-        }
-    }
-    j["snapshots"] = snapshots;
-
-    json audit = json::object();
-    for (const auto& [adapter_id, entries] : impl_->audit_logs) {
-        audit[adapter_id] = json::array();
-        for (const auto& entry : entries) {
-            audit[adapter_id].push_back(entry.toJSON());
-        }
-    }
-    j["audit_logs"] = audit;
-
-    const std::filesystem::path path(impl_->persistence_path);
-    std::error_code ec;
-    if (path.has_parent_path()) {
-        std::filesystem::create_directories(path.parent_path(), ec);
-    }
-    const auto tmp_path = path.string() + ".tmp";
-
-    {
-        std::ofstream out(tmp_path, std::ios::trunc);
-        if (!out.is_open()) {
-            spdlog::error("LoRAProvenanceManager: failed to open temp file '{}'", tmp_path);
-            return;
-        }
-        out << j.dump(2);
-        out.flush();
-        if (!out.good()) {
-            spdlog::error("LoRAProvenanceManager: failed to flush temp file '{}'", tmp_path);
-            return;
-        }
-    }
-
-    std::filesystem::rename(tmp_path, path, ec);
-    if (ec) {
-        std::filesystem::remove(path, ec);
-        ec.clear();
-        std::filesystem::rename(tmp_path, path, ec);
-        if (ec) {
-            spdlog::error("LoRAProvenanceManager: failed to persist '{}': {}",
-                          path.string(), ec.message());
-        }
-    }
-}
 
 // ---------------------------------------------------------------------------
 // Local provenance
@@ -418,7 +285,6 @@ bool LoRAProvenanceManager::storeProvenance(const std::string& adapter_id,
     }
     std::lock_guard<std::mutex> lock(impl_->mu);
     impl_->local_provenance[adapter_id] = record;
-    persistStateLocked();
     spdlog::debug("LoRAProvenanceManager: stored provenance for '{}'", adapter_id);
     return true;
 }
@@ -506,7 +372,6 @@ ExternalAdapterProvenance LoRAProvenanceManager::importExternalAdapter(
     if (all_valid || allow_unsigned) {
         std::lock_guard<std::mutex> lock(impl_->mu);
         impl_->external_provenance[adapter_id] = provenance;
-        persistStateLocked();
         spdlog::debug("LoRAProvenanceManager: stored external provenance for '{}'",
                       adapter_id);
     }
@@ -548,7 +413,6 @@ AdapterSnapshot LoRAProvenanceManager::createSnapshot(
         }
         chain.push_back(snap);
         impl_->snapshot_by_id[snap.snapshot_id] = snap;
-        persistStateLocked();
     }
 
     spdlog::debug("LoRAProvenanceManager: created snapshot '{}' for '{}'",
@@ -599,7 +463,6 @@ InferenceAuditEntry LoRAProvenanceManager::appendAuditEntry(
         entry.entry_hash = entry.computeContentHash();
 
         log.push_back(entry);
-        persistStateLocked();
     }
 
     spdlog::debug("LoRAProvenanceManager: appended audit entry '{}' for '{}'",
@@ -683,3 +546,4 @@ std::string LoRAProvenanceManager::sha256File(const std::string& path) {
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

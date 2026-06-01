@@ -53,6 +53,10 @@
 #include "utils/cursor.h"
 #include "utils/pii_detector.h"
 #include "observability/alertmanager.h"
+#include "performance/phase3/bao.h"
+#include "performance/workload_adaptive_optimizer.h"
+#include "prompt_engineering/feedback_collector.h"
+#include "rag/continuous_learning_orchestrator.h"
 #include "security/key_provider.h"
 #include "security/mock_key_provider.h"
 #include "security/pki_key_provider.h"
@@ -77,6 +81,7 @@
 #include "transaction/merge_engine.h"
 #include "analytics/diff_engine.h"
 #include <algorithm>
+#include <cctype>
 
 // Sprint B features
 #include "timeseries/timeseries.h"
@@ -864,6 +869,23 @@ HttpServer::HttpServer(
         &running_, &active_requests_, &active_connections_,
         concerns_   // may be nullptr - MonitoringApiHandler tolerates that
     );
+    bao_optimizer_ = std::make_shared<themis::performance::phase3::BaoOptimizer>();
+    workload_optimizer_ = std::make_shared<themis::performance::WorkloadAdaptiveOptimizer>();
+    live_feedback_collector_ =
+        std::make_shared<themis::prompt_engineering::FeedbackCollector>(storage_.get());
+    themis::rag::learning::ContinuousLearningConfig learning_config;
+    continuous_learning_orchestrator_ =
+        std::make_shared<themis::rag::learning::ContinuousLearningOrchestrator>(learning_config);
+    continuous_learning_orchestrator_->wireLiveSignalProviders(
+        bao_optimizer_, workload_optimizer_, live_feedback_collector_);
+    continuous_learning_orchestrator_->triggerLoop1QueryExecution({
+        "server-bootstrap", 0.0, "{}", true
+    });
+    continuous_learning_orchestrator_->triggerLoop2WorkloadAdaptation();
+    continuous_learning_orchestrator_->triggerLoop3IndexLifecycle();
+    continuous_learning_orchestrator_->triggerLoop4AdapterImprovement();
+    workload_optimizer_->enable_auto_adapt(std::chrono::seconds(60));
+    monitoring_api_->setContinuousLearningOrchestrator(continuous_learning_orchestrator_);
     // Wire a disabled-by-default Alertmanager so the Operator API is always available.
     // Operators can enable it via the THEMIS_ALERTMANAGER_URL environment variable.
     {
@@ -1193,6 +1215,8 @@ HttpServer::HttpServer(
         }
         
         feedback_api_handler_ = std::make_unique<server::FeedbackAPIHandler>(feedback_storage);
+        feedback_api_handler_->setLiveFeedbackCollector(live_feedback_collector_);
+        feedback_api_handler_->setLearningOrchestrator(continuous_learning_orchestrator_);
         THEMIS_INFO("Feedback API Handler initialized");
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to initialize Feedback API Handler: {}", e.what());
@@ -2047,6 +2071,10 @@ void HttpServer::stop() {
     THEMIS_INFO("Stopping HTTP Server...");
     THEMIS_INFO("Initiating graceful shutdown...");
     running_ = false;
+
+    if (workload_optimizer_ && workload_optimizer_->is_auto_adapt_enabled()) {
+        workload_optimizer_->disable_auto_adapt();
+    }
     
     // Stop Health/Error Service first (independent service)
     if (health_error_service_) {
@@ -2252,6 +2280,115 @@ bool HttpServer::reloadTls() {
         THEMIS_ERROR("TLS hot-reload failed: {}", e.what());
         return false;
     }
+}
+
+void HttpServer::recordContinuousLearningQueryTelemetry(
+    const http::request<http::string_body>& req,
+    const http::response<http::string_body>& res,
+    std::chrono::steady_clock::time_point request_start,
+    bool is_aql) {
+    if (!bao_optimizer_ || !workload_optimizer_ || !continuous_learning_orchestrator_) {
+        return;
+    }
+    if (res.result_int() < 200 || res.result_int() >= 300 || req.body().empty()) {
+        return;
+    }
+
+    json request_json = json::parse(req.body(), nullptr, false);
+    if (request_json.is_discarded()) {
+        return;
+    }
+
+    json response_json = json::parse(res.body(), nullptr, false);
+    if (response_json.is_discarded()) {
+        response_json = json::object();
+    }
+
+    size_t result_rows = 0;
+    if (response_json.contains("count") && response_json["count"].is_number_unsigned()) {
+        result_rows = response_json["count"].get<size_t>();
+    } else {
+        for (const char* key : {"entities", "keys", "results", "rows"}) {
+            if (response_json.contains(key) && response_json[key].is_array()) {
+                result_rows = response_json[key].size();
+                break;
+            }
+        }
+    }
+
+    const auto elapsed = std::chrono::steady_clock::now() - request_start;
+    const double latency_ms =
+        std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(elapsed).count();
+    const uint64_t latency_us = static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count());
+
+    std::string query_text;
+    std::string table_name;
+    bool used_index = true;
+    double complexity = 1.0;
+
+    if (is_aql) {
+        query_text = request_json.value("query", std::string{});
+        table_name = "aql";
+        used_index = !request_json.value("allow_full_scan", false);
+        std::string uppercase = query_text;
+        std::transform(uppercase.begin(), uppercase.end(), uppercase.begin(), [](unsigned char ch) {
+            return static_cast<char>(std::toupper(ch));
+        });
+        for (const char* keyword : {" FOR ", " FILTER ", " SORT ", " COLLECT ", " LIMIT ",
+                                    " LET ", " RETURN ", " JOIN ", " GRAPH "}) {
+            const std::string token{keyword};
+            size_t offset = 0;
+            while ((offset = uppercase.find(token, offset)) != std::string::npos) {
+                complexity += 1.0;
+                offset += token.size();
+            }
+        }
+    } else {
+        table_name = request_json.value("table", std::string{});
+        query_text = req.body();
+        used_index = !request_json.value("allow_full_scan", false);
+        complexity += static_cast<double>(
+            request_json.value("predicates", json::array()).size()
+            + request_json.value("range", json::array()).size());
+        if (request_json.contains("order_by")) {
+            complexity += 1.0;
+        }
+        if (request_json.value("stream", false)) {
+            complexity += 0.5;
+        }
+    }
+
+    workload_optimizer_->set_concurrent_queries(active_requests_.load(std::memory_order_relaxed));
+    workload_optimizer_->record_query(
+        false,
+        complexity,
+        result_rows,
+        table_name.empty() ? std::string("query") : table_name,
+        latency_us);
+
+    const std::string query_fingerprint =
+        query_text.empty() ? (table_name.empty() ? std::string(req.target()) : table_name) : query_text;
+    const auto plans = bao_optimizer_->generate_plans(query_fingerprint);
+    const auto plan = bao_optimizer_->select_plan(query_fingerprint, plans);
+    bao_optimizer_->update_model(plan, themis::performance::phase3::QueryResult{
+        latency_ms, result_rows, true
+    });
+
+    themis::rag::learning::ContinuousLearningOrchestrator::QueryExecutionOutcome outcome;
+    outcome.query_id = table_name.empty() ? (is_aql ? "aql-query" : std::string(req.target())) : table_name;
+    outcome.latency_ms = latency_ms;
+    outcome.used_index = used_index;
+    if (response_json.contains("plan")) {
+        outcome.explain_plan_json = response_json["plan"].dump();
+    } else if (is_aql && request_json.contains("query")) {
+        outcome.explain_plan_json = request_json["query"].get<std::string>();
+    } else {
+        outcome.explain_plan_json = "{}";
+    }
+
+    continuous_learning_orchestrator_->triggerLoop1QueryExecution(outcome);
+    continuous_learning_orchestrator_->triggerLoop2WorkloadAdaptation();
 }
 
 
@@ -4750,6 +4887,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::QueryPost:
             response = query_api_->handleQuery(req);
+            recordContinuousLearningQueryTelemetry(req, response, start, false);
             break;
         case Route::QueryAqlPost: {
             // AQL payload validation before handling
@@ -4767,6 +4905,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 }
             }
             response = query_api_->handleQueryAql(req);
+            recordContinuousLearningQueryTelemetry(req, response, start, true);
             break;
         }
         case Route::QueryStreamSseGet:
@@ -13214,7 +13353,13 @@ http::response<http::string_body> HttpServer::handleSchemaPut(
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handlePutSchema(req);
+    auto response = schema_api_handler.handlePutSchema(req);
+    if (continuous_learning_orchestrator_
+        && response.result_int() >= 200
+        && response.result_int() < 300) {
+        continuous_learning_orchestrator_->triggerLoop3IndexLifecycle();
+    }
+    return response;
 }
 
 http::response<http::string_body> HttpServer::handleSchemaPatch(
@@ -13225,7 +13370,13 @@ http::response<http::string_body> HttpServer::handleSchemaPatch(
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handlePatchSchema(req);
+    auto response = schema_api_handler.handlePatchSchema(req);
+    if (continuous_learning_orchestrator_
+        && response.result_int() >= 200
+        && response.result_int() < 300) {
+        continuous_learning_orchestrator_->triggerLoop3IndexLifecycle();
+    }
+    return response;
 }
 
 // ============================================================================
@@ -13306,7 +13457,13 @@ http::response<http::string_body> HttpServer::handleSchemaCreateVersion(
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleCreateVersion(req);
+    auto response = schema_api_handler.handleCreateVersion(req);
+    if (continuous_learning_orchestrator_
+        && response.result_int() >= 200
+        && response.result_int() < 300) {
+        continuous_learning_orchestrator_->triggerLoop3IndexLifecycle();
+    }
+    return response;
 }
 
 http::response<http::string_body> HttpServer::handleSchemaDiff(
@@ -13339,7 +13496,13 @@ http::response<http::string_body> HttpServer::handleMetadataSchemaImport(
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleSchemaImport(req);
+    auto response = schema_api_handler.handleSchemaImport(req);
+    if (continuous_learning_orchestrator_
+        && response.result_int() >= 200
+        && response.result_int() < 300) {
+        continuous_learning_orchestrator_->triggerLoop3IndexLifecycle();
+    }
+    return response;
 }
 
 http::response<http::string_body> HttpServer::handleMetadataBatchValidate(

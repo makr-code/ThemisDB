@@ -6,10 +6,12 @@
 
 ## In Progress
 - [~] CI-Job-Anbindung des Framework-CLI als verpflichtender Gate-Job (Target: 2026-Q2)
+- [~] Root-Benchmark-Dokumentation auf aktuelle Presets und CMake-Gating normalisiert (Target: 2026-Q2)
 
 ## Planned Features
 - [ ] Persistente Historisierung von Eval-Reports für Trendanalysen über Releases hinweg (Target: 2026-Q3)
 - [ ] Erweiterte Kostenmodelle (Cloud-Instance-Typen, Energie/KWh) in Gate-Entscheidungen integrieren (Target: 2026-Q3)
+- [ ] Schichtbezogene Benchmark-Matrix (ANN/Tensor/Graph/LLM) mit evidenzbasierten Referenzsuites dokumentieren (Target: 2026-Q3)
 
 ## Implementation Phases
 ### Phase 1: Design / API-Vertrag

@@ -3,7 +3,7 @@
 <!-- Status: current | validated: 2026-06-01 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/analytics/FUTURE_ENHANCEMENTS.md -->
 
-# ANALYTICS Module — Public Header Future Enhancements
+# Analytics Module — Public Header Future Enhancements
 
 **Module Path:** `include/analytics/`
 **Canonical implementation enhancements:** [`../../src/analytics/FUTURE_ENHANCEMENTS.md`](../../src/analytics/FUTURE_ENHANCEMENTS.md)
@@ -12,7 +12,7 @@
 
 ## Scope
 
-This document covers planned enhancements to the **public header contract** in `include/analytics/` — new types, interface additions, deprecation removals, and header-level API improvements. Enhancements that touch both headers and implementation are tracked primarily in the canonical source-level document:
+Planned enhancements to the **public header contract** in `include/analytics/`. Runtime pipeline, ML-model lifecycle, and benchmark work remain tracked in:
 
 → [`../../src/analytics/FUTURE_ENHANCEMENTS.md`](../../src/analytics/FUTURE_ENHANCEMENTS.md)
 
@@ -20,75 +20,41 @@ This document covers planned enhancements to the **public header contract** in `
 
 ## Design Constraints
 
-- `[x]` Headers must remain backward-compatible within a major version; new capabilities are added via new methods or versioned types.
-- `[x]` `#pragma once` guard required on every header; no include-guard macros.
-- `[x]` No implementation code in headers (exception: `constexpr` helpers, template bodies, and header-only utilities explicitly documented as such).
-- `[x]` All factory functions and error-returning methods must be `[[nodiscard]]`.
-- `[x]` Build-conditional headers must not be included unconditionally by other headers.
+- `[x]` Columnar/JIT execution APIs must not expose arena layout or SIMD specifics to callers.
+- `[x]` Streaming headers must maintain bounded-latency semantics; state management stays internal.
+- `[x]` ML-serving headers must keep model-binary lifecycle behind the `ModelServingManager` interface.
+- `[x]` Arrow export headers must preserve zero-copy transfer contracts for downstream consumers.
 
 ---
 
-## Execution Plane Surface
+## Required Interfaces (Header Contract)
 
-- **OLAP and aggregation plane:** `olap.h`, `columnar_execution.h`, `jit_aggregation.h`, `incremental_view.h`, `diff_engine.h`, `arrow_export.h`
-- **Streaming and CEP plane:** `streaming_window.h`, `streaming_join.h`, `cep_engine.h`
-- **Predictive and ML integration plane:** `forecasting.h`, `anomaly_detection.h`, `automl.h`, `ml_serving.h`, `model_serving.h`, `lora_pattern_classifier.h`, `llm_process_analyzer.h`, `nlp_text_analyzer.h`
-- **Distributed and knowledge plane:** `distributed_analytics.h`, `expert_system_engine.h`, `knowledge_base.h`, `process_mining.h`, `process_pattern_matcher.h`, `arrow_flight.h`
-
-For the authoritative interface inventory and stability classification see [`../../src/analytics/FUTURE_ENHANCEMENTS.md`](../../src/analytics/FUTURE_ENHANCEMENTS.md).
-
----
-
-## Planned Header Enhancements
-
-### 1. `[[nodiscard]]` Audit
-
-**Priority:** Medium
-**Target Version:** v2.1.0
-
-Audit all public headers for factory functions and error-returning methods that are missing `[[nodiscard]]`. Apply missing annotations and add a CI compile-time check to prevent regressions.
+| Interface | Declared In | Consumer | Status |
+|-----------|------------|----------|--------|
+| `OLAPEngine::execute()` | `olap.h` | Query layer, API handlers | ✅ Stable |
+| `CEPEngine` event-pattern API | `cep_engine.h` | Streaming event processors | ✅ Stable |
+| `ForecastingEngine::predict()` | `forecasting.h` | Monitoring and alerting services | ✅ Stable |
+| `ModelServingManager` lifecycle | `model_serving.h` | ML inference middleware | ✅ Stable |
+| `ArrowFlightServer` serve/bind | `arrow_flight.h` | Bulk analytics consumers | ✅ Stable |
 
 ---
 
-### 2. Deprecated Symbol Cleanup
+## Planned Enhancements
 
-**Priority:** Low
-**Target Version:** v2.1.0
+### Short-Term (Q3 2026)
 
-Identify symbols that have been superseded in `v1.x` and annotate them with `[[deprecated("use X instead")]]`. Track removal in a subsequent major version.
+- Align streaming-window and CEP header docs around a shared event-schema and schema-evolution contract.
+- Document Arrow Flight batch-vs-streaming capability matrix for external analytics consumers.
+- Add explicit stability annotations to experimental `automl.h` and `jit_aggregation.h` APIs.
 
----
+### Medium-Term (Q4 2026)
 
-### 3. Header Isolation Verification
+- Introduce `analytics_policy.h` to provide per-query resource quotas and access-policy contract.
+- Expose benchmark-reference latency and throughput notes alongside columnar and streaming hot paths.
+- Deprecate any legacy row-oriented APIs superseded by columnar execution and annotate migration paths.
 
-**Priority:** Low
-**Target Version:** v2.1.0
+### Long-Term
 
-Verify that every header in `include/analytics/` compiles in isolation (without implicit transitive includes). Add a CMake `check_headers` target for automated CI enforcement.
-
----
-
-## Test Strategy
-
-| Test Type | Target | Notes |
-|---|---|---|
-| Compile-time | All headers compile in isolation | CMake `check_headers` target (planned) |
-| Unit | Key interface implementations | Tracked in module test suite |
-| ABI | No unexpected virtual table changes between patch releases | ABI checker in CI |
-
----
-
-## Security / Reliability
-
-- `[x]` `[[nodiscard]]` applied to factory and error-returning methods.
-- `[x]` No implementation code in public headers.
-- `[x]` Build-conditional guards documented in `ARCHITECTURE.md`.
-
----
-
-## References
-
-- Canonical implementation enhancements: [`../../src/analytics/FUTURE_ENHANCEMENTS.md`](../../src/analytics/FUTURE_ENHANCEMENTS.md)
-- Architecture: [`ARCHITECTURE.md`](ARCHITECTURE.md)
-- Roadmap: [`ROADMAP.md`](ROADMAP.md)
-- Module overview: [`README.md`](README.md)
+- Unify ML-serving and AutoML result types behind a shared prediction-context envelope.
+- Add extension hooks for embedders to inject custom forecasting backends and anomaly-detection algorithms.
+- Provide a stable federated-analytics contract integrating `distributed_analytics.h` with cross-shard query planning.
