@@ -471,6 +471,7 @@ TEST(MonitoringStatsTest, IncludesContinuousLearningStatus) {
 
         orchestrator->triggerLoop1QueryExecution({"stats-test", 900.0, "{}", true});
         orchestrator->triggerLoop2WorkloadAdaptation();
+        orchestrator->triggerLoop3IndexLifecycle();
         orchestrator->triggerLoop4AdapterImprovement();
         handler.setContinuousLearningOrchestrator(orchestrator);
 
@@ -481,6 +482,14 @@ TEST(MonitoringStatsTest, IncludesContinuousLearningStatus) {
         ASSERT_TRUE(body.contains("continuous_learning"));
         ASSERT_TRUE(body["continuous_learning"].contains("loops"));
         EXPECT_FALSE(body["continuous_learning"]["loops"].empty());
+        bool loop3_present = false;
+        for (const auto& loop : body["continuous_learning"]["loops"]) {
+            if (loop.value("phase", std::string{}) == "LOOP_3_SCHEMA_INDEX") {
+                loop3_present = true;
+                break;
+            }
+        }
+        EXPECT_TRUE(loop3_present);
     }
 
     storage.reset();

@@ -882,6 +882,7 @@ HttpServer::HttpServer(
         "server-bootstrap", 0.0, "{}", true
     });
     continuous_learning_orchestrator_->triggerLoop2WorkloadAdaptation();
+    continuous_learning_orchestrator_->triggerLoop3IndexLifecycle();
     continuous_learning_orchestrator_->triggerLoop4AdapterImprovement();
     workload_optimizer_->enable_auto_adapt(std::chrono::seconds(60));
     monitoring_api_->setContinuousLearningOrchestrator(continuous_learning_orchestrator_);
@@ -13352,7 +13353,13 @@ http::response<http::string_body> HttpServer::handleSchemaPut(
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handlePutSchema(req);
+    auto response = schema_api_handler.handlePutSchema(req);
+    if (continuous_learning_orchestrator_
+        && response.result_int() >= 200
+        && response.result_int() < 300) {
+        continuous_learning_orchestrator_->triggerLoop3IndexLifecycle();
+    }
+    return response;
 }
 
 http::response<http::string_body> HttpServer::handleSchemaPatch(
@@ -13363,7 +13370,13 @@ http::response<http::string_body> HttpServer::handleSchemaPatch(
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handlePatchSchema(req);
+    auto response = schema_api_handler.handlePatchSchema(req);
+    if (continuous_learning_orchestrator_
+        && response.result_int() >= 200
+        && response.result_int() < 300) {
+        continuous_learning_orchestrator_->triggerLoop3IndexLifecycle();
+    }
+    return response;
 }
 
 // ============================================================================
@@ -13444,7 +13457,13 @@ http::response<http::string_body> HttpServer::handleSchemaCreateVersion(
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleCreateVersion(req);
+    auto response = schema_api_handler.handleCreateVersion(req);
+    if (continuous_learning_orchestrator_
+        && response.result_int() >= 200
+        && response.result_int() < 300) {
+        continuous_learning_orchestrator_->triggerLoop3IndexLifecycle();
+    }
+    return response;
 }
 
 http::response<http::string_body> HttpServer::handleSchemaDiff(
@@ -13477,7 +13496,13 @@ http::response<http::string_body> HttpServer::handleMetadataSchemaImport(
             "Schema API not available", req);
     }
     auto& schema_api_handler = *schema_api_handler_;
-    return schema_api_handler.handleSchemaImport(req);
+    auto response = schema_api_handler.handleSchemaImport(req);
+    if (continuous_learning_orchestrator_
+        && response.result_int() >= 200
+        && response.result_int() < 300) {
+        continuous_learning_orchestrator_->triggerLoop3IndexLifecycle();
+    }
+    return response;
 }
 
 http::response<http::string_body> HttpServer::handleMetadataBatchValidate(
