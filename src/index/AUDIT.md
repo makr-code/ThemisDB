@@ -86,6 +86,8 @@
 - [INDEX-AUD-DTOR-01] StackEntry missing destructor in process_graph.cpp: added ~StackEntry() = default.
 - [INDEX-AUD-RACE-02] vector_index mutable cache/ID/HNSW state now uses a shared recursive state mutex in mutating/query/statistics paths, preventing unsynchronized concurrent access.
 - [INDEX-AUD-PERF-03] secondary_index BM25 candidate intersection now processes smallest token sets first with empty-intersection early-exit to reduce high-volume container scan overhead.
+- [INDEX-CUDA-GPU-LEAK-01] cuda_hnsw_graph_traversal.cpp multi-pass batchSearch: `d_pass_ids` is freed (and nulled) before the guarded `if (e1 && e2)` block when `d_pass_scores` cudaMalloc fails, eliminating the GPU memory leak on partial allocation.
+- [INDEX-SPATIAL-RACE-01] spatial_index.cpp: `mutable std::shared_mutex rtree_mutex_` added to SpatialIndexManager. All accesses to `rtrees_`, `mbr_cache_`, and `rtree_built_` are now protected — read paths (ensureRTree fast path, searchIntersects, searchContains) use `std::shared_lock`; write paths (ensureRTree slow path, createSpatialIndex, dropSpatialIndex, bulkLoad init/swap, insert, insertBatch, remove, removeBatch) use `std::unique_lock`. searchIntersects and searchContains snapshot candidate keys + MBRs under shared_lock before releasing for I/O to avoid lock inversion.
 
 ## Compliance Snapshot
 

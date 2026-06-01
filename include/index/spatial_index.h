@@ -20,6 +20,8 @@
 #include <optional>
 #include <cfloat>
 #include <atomic>
+#include <mutex>
+#include <shared_mutex>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -283,6 +285,10 @@ private:
                                std::unordered_map<std::string, geo::MBR>> mbr_cache_;
     // Set of tables whose R-tree has been built (lazily or from writes).
     mutable std::unordered_set<std::string> rtree_built_;
+
+    // Mutex protecting rtrees_, mbr_cache_, and rtree_built_ for thread-safe
+    // concurrent read (shared) and exclusive write (unique) access.
+    mutable std::shared_mutex rtree_mutex_;
 
     // Lazily build the R-tree for `table` by scanning per-PK RocksDB keys.
     // No-op if already built.  Called automatically inside searchIntersects.

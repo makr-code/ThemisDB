@@ -19,6 +19,8 @@
 | memory/smart_ptr_misuse (HIGH) | vector_index.cpp | HNSW space allocation switched to RAII (`std::unique_ptr`) for init/load error paths to prevent leaks on constructor failures |
 | concurrency (CRITICAL) | vector_index.cpp | Shared mutable state access is serialized via `index_state_mutex_` in cache/HNSW mutation and query paths |
 | performance_patterns (HIGH) | secondary_index.cpp | BM25 token-result intersection now sorts candidate sets by size and exits early on empty intersection to reduce container scan cost |
+| memory/gpu_leak (CRITICAL) | cuda_hnsw_graph_traversal.cpp | `d_pass_ids` freed before multi-pass block when `d_pass_scores` alloc fails — prevents GPU memory leak on partial allocation |
+| concurrency (CRITICAL) | spatial_index.cpp | `mutable std::shared_mutex rtree_mutex_` added; all `rtrees_`, `mbr_cache_`, and `rtree_built_` accesses wrapped with shared_lock (reads) or unique_lock (writes) across ensureRTree, createSpatialIndex, dropSpatialIndex, bulkLoad, insert, insertBatch, remove, removeBatch, searchIntersects, searchContains |
 
 Remaining top-priority open findings: see tracking items below for unresolved scanner findings outside this remediation batch.
 

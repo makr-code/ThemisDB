@@ -259,9 +259,19 @@ geo::GeometryInfo SpatialIndexManager::mbrToGeometryInfo(const geo::MBR& mbr) {
 /// the Morton code scan instead.
 void SpatialIndexManager::ensureRTree(std::string_view table) const {
     std::string table_str(table);
+
+    // Fast path: already built — check with a shared (read) lock.
+    {
+        std::shared_lock<std::shared_mutex> rlock(rtree_mutex_);
+        if (rtree_built_.count(table_str)) return;
+    }
+
+    // Slow path: acquire exclusive write lock and build.
+    std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
+    // Double-check after acquiring write lock to avoid redundant work.
     if (rtree_built_.count(table_str)) return;
 
-    // Mark as built immediately to avoid re-entry in recursive / concurrent paths.
+    // Mark as built before populating to block concurrent callers.
     rtree_built_.insert(table_str);
 
     // Scan all per-PK spatial keys for this table.
@@ -380,9 +390,12 @@ SpatialIndexManager::Status SpatialIndexManager::createSpatialIndex(
     // Invalidate any stale in-memory R-tree state for this table so that a
     // subsequent ensureRTree() rebuilds cleanly from the new (empty) index.
     std::string table_str(table);
-    rtrees_.erase(table_str);
-    mbr_cache_.erase(table_str);
-    rtree_built_.erase(table_str);
+    {
+        std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
+        rtrees_.erase(table_str);
+        mbr_cache_.erase(table_str);
+        rtree_built_.erase(table_str);
+    }
 
     return saveConfig(table, cfg);
 }
@@ -402,9 +415,12 @@ SpatialIndexManager::Status SpatialIndexManager::dropSpatialIndex(std::string_vi
     // Clear in-memory R-tree state so stale entries are not returned if the
     // index is recreated later.
     std::string table_str(table);
-    rtrees_.erase(table_str);
-    mbr_cache_.erase(table_str);
-    rtree_built_.erase(table_str);
+    {
+        std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
+        rtrees_.erase(table_str);
+        mbr_cache_.erase(table_str);
+        rtree_built_.erase(table_str);
+    }
 
     return Status::OK();
 }
@@ -485,15 +501,15 @@ SpatialIndexManager::Status SpatialIndexManager::bulkLoad(
 
     std::string table_str(table);
 
-    // Invalidate any existing in-memory state; we will rebuild entirely from
-    // the supplied entries so stale R-tree nodes don't leak.
-    rtrees_[table_str].clear();
-    mbr_cache_[table_str].clear();
-    rtree_built_.erase(table_str);
-
     // Purge all spatial keys (legacy Morton buckets + per-PK keys) so that
     // empty bulk-load fully clears query-visible state and restart rebuilds
     // cannot resurrect stale entries.
+    {
+        std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
+        rtrees_[table_str].clear();
+        mbr_cache_[table_str].clear();
+        rtree_built_.erase(table_str);
+    }
     const std::string spatial_prefix = getSpatialKeyPrefix(table);
     db_.scanRange(spatial_prefix, spatial_prefix + "~",
         [this](std::string_view key, std::string_view /*value*/) {
@@ -501,9 +517,11 @@ SpatialIndexManager::Status SpatialIndexManager::bulkLoad(
             return true;
         });
 
-    auto& cache = mbr_cache_[table_str];
-
-    // Prepare per-PK RocksDB writes and R-tree bulk entries simultaneously.
+    // Build per-PK RocksDB entries and collect in-memory data.
+    // RocksDB writes and local cache/rtree construction happen outside the
+    // mutex to avoid holding the write lock during I/O.
+    std::unordered_map<std::string, geo::MBR> local_cache;
+    local_cache.reserve(entries.size());
     std::vector<std::pair<std::string, geo::GeometryInfo>> rtree_entries;
     rtree_entries.reserve(entries.size());
 
@@ -529,20 +547,31 @@ SpatialIndexManager::Status SpatialIndexManager::bulkLoad(
         const std::vector<uint8_t> bytes(dump.begin(), dump.end());
         db_.put(pk_key, bytes);  // Best effort; query path rebuilds from per-PK scan
 
-        cache[pk] = sidecar.mbr;
+        local_cache[pk] = sidecar.mbr;
         rtree_entries.emplace_back(pk, mbrToGeometryInfo(sidecar.mbr));
 
         metrics_.insert_count++;
     }
 
-    // STR bulk-load the R-tree (3–5× faster than incremental insert).
-    rtrees_[table_str].bulkLoad(rtree_entries);
-    rtree_built_.insert(table_str);
+    // Atomically swap in the new in-memory state under the write lock.
+    {
+        std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
+        mbr_cache_[table_str] = std::move(local_cache);
+        rtrees_[table_str].clear();
+        if (!rtree_entries.empty()) {
+            // STR bulk-load the R-tree (3–5× faster than incremental insert).
+            rtrees_[table_str].bulkLoad(rtree_entries);
+        }
+        rtree_built_.insert(table_str);
+    }
 
-    THEMIS_INFO("SpatialIndexManager::bulkLoad: table='{}', entries={}, "
-                "geo_index_bytes_allocated={}",
-                table_str, entries.size(),
-                rtrees_[table_str].memoryBytes());
+    {
+        std::shared_lock<std::shared_mutex> rlock(rtree_mutex_);
+        THEMIS_INFO("SpatialIndexManager::bulkLoad: table='{}', entries={}, "
+                    "geo_index_bytes_allocated={}",
+                    table_str, entries.size(),
+                    rtrees_[table_str].memoryBytes());
+    }
 
     return Status::OK();
 }
@@ -614,11 +643,14 @@ SpatialIndexManager::Status SpatialIndexManager::insert(
     // Update in-memory R-tree and MBR cache.
     std::string table_str(table);
     std::string pk_str(primary_key);
-    mbr_cache_[table_str][pk_str] = sidecar.mbr;
-    rtrees_[table_str].insert(pk_str, mbrToGeometryInfo(sidecar.mbr));
-    // Mark the table's R-tree as built so ensureRTree won't overwrite our
-    // incrementally maintained index on the first query.
-    rtree_built_.insert(table_str);
+    {
+        std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
+        mbr_cache_[table_str][pk_str] = sidecar.mbr;
+        rtrees_[table_str].insert(pk_str, mbrToGeometryInfo(sidecar.mbr));
+        // Mark the table's R-tree as built so ensureRTree won't overwrite our
+        // incrementally maintained index on the first query.
+        rtree_built_.insert(table_str);
+    }
 
     return Status::OK();
 }
@@ -673,9 +705,12 @@ SpatialIndexManager::Status SpatialIndexManager::insertBatch(
     // updating it here keeps it consistent with the pending batch write).
     std::string table_str(table);
     std::string pk_str(primary_key);
-    mbr_cache_[table_str][pk_str] = sidecar.mbr;
-    rtrees_[table_str].insert(pk_str, mbrToGeometryInfo(sidecar.mbr));
-    rtree_built_.insert(table_str);
+    {
+        std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
+        mbr_cache_[table_str][pk_str] = sidecar.mbr;
+        rtrees_[table_str].insert(pk_str, mbrToGeometryInfo(sidecar.mbr));
+        rtree_built_.insert(table_str);
+    }
 
     return Status::OK();
 }
@@ -726,24 +761,27 @@ SpatialIndexManager::Status SpatialIndexManager::removeBatch(
     // Update in-memory R-tree and MBR cache.
     std::string table_str(table);
     std::string pk_str(primary_key);
-    auto& cache = mbr_cache_[table_str];
-    auto it = cache.find(pk_str);
-    const geo::MBR mbr_to_remove = (it != cache.end()) ? it->second : sidecar.mbr;
-    const bool removed = rtrees_[table_str].remove(pk_str, mbrToGeometryInfo(mbr_to_remove));
-    if (it != cache.end()) {
-        cache.erase(it);
-    }
-    if (!removed) {
-        // Keep in-memory R-tree consistent even when direct remove misses
-        // (e.g. geometry representation mismatch). Rebuild from cache.
-        std::vector<std::pair<std::string, geo::GeometryInfo>> bulk_entries;
-        bulk_entries.reserve(cache.size());
-        for (const auto& [cached_pk, cached_mbr] : cache) {
-            bulk_entries.emplace_back(cached_pk, mbrToGeometryInfo(cached_mbr));
+    {
+        std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
+        auto& cache = mbr_cache_[table_str];
+        auto it = cache.find(pk_str);
+        const geo::MBR mbr_to_remove = (it != cache.end()) ? it->second : sidecar.mbr;
+        const bool removed = rtrees_[table_str].remove(pk_str, mbrToGeometryInfo(mbr_to_remove));
+        if (it != cache.end()) {
+            cache.erase(it);
         }
-        rtrees_[table_str].clear();
-        if (!bulk_entries.empty()) {
-            rtrees_[table_str].bulkLoad(bulk_entries);
+        if (!removed) {
+            // Keep in-memory R-tree consistent even when direct remove misses
+            // (e.g. geometry representation mismatch). Rebuild from cache.
+            std::vector<std::pair<std::string, geo::GeometryInfo>> bulk_entries;
+            bulk_entries.reserve(cache.size());
+            for (const auto& [cached_pk, cached_mbr] : cache) {
+                bulk_entries.emplace_back(cached_pk, mbrToGeometryInfo(cached_mbr));
+            }
+            rtrees_[table_str].clear();
+            if (!bulk_entries.empty()) {
+                rtrees_[table_str].bulkLoad(bulk_entries);
+            }
         }
     }
 
@@ -793,24 +831,27 @@ SpatialIndexManager::Status SpatialIndexManager::remove(
     // Update in-memory R-tree and MBR cache.
     std::string table_str(table);
     std::string pk_str(primary_key);
-    auto& cache = mbr_cache_[table_str];
-    auto it = cache.find(pk_str);
-    const geo::MBR mbr_to_remove = (it != cache.end()) ? it->second : sidecar.mbr;
-    const bool removed = rtrees_[table_str].remove(pk_str, mbrToGeometryInfo(mbr_to_remove));
-    if (it != cache.end()) {
-        cache.erase(it);
-    }
-    if (!removed) {
-        // Keep in-memory R-tree consistent even when direct remove misses
-        // (e.g. geometry representation mismatch). Rebuild from cache.
-        std::vector<std::pair<std::string, geo::GeometryInfo>> bulk_entries;
-        bulk_entries.reserve(cache.size());
-        for (const auto& [cached_pk, cached_mbr] : cache) {
-            bulk_entries.emplace_back(cached_pk, mbrToGeometryInfo(cached_mbr));
+    {
+        std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
+        auto& cache = mbr_cache_[table_str];
+        auto it = cache.find(pk_str);
+        const geo::MBR mbr_to_remove = (it != cache.end()) ? it->second : sidecar.mbr;
+        const bool removed = rtrees_[table_str].remove(pk_str, mbrToGeometryInfo(mbr_to_remove));
+        if (it != cache.end()) {
+            cache.erase(it);
         }
-        rtrees_[table_str].clear();
-        if (!bulk_entries.empty()) {
-            rtrees_[table_str].bulkLoad(bulk_entries);
+        if (!removed) {
+            // Keep in-memory R-tree consistent even when direct remove misses
+            // (e.g. geometry representation mismatch). Rebuild from cache.
+            std::vector<std::pair<std::string, geo::GeometryInfo>> bulk_entries;
+            bulk_entries.reserve(cache.size());
+            for (const auto& [cached_pk, cached_mbr] : cache) {
+                bulk_entries.emplace_back(cached_pk, mbrToGeometryInfo(cached_mbr));
+            }
+            rtrees_[table_str].clear();
+            if (!bulk_entries.empty()) {
+                rtrees_[table_str].bulkLoad(bulk_entries);
+            }
         }
     }
 
@@ -876,25 +917,42 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
     ensureRTree(table);
 
     std::string table_str(table);
-    const auto& rtree = rtrees_[table_str];
 
-    if (rtree.size() > 0) {
+    // Snapshot candidate keys and their MBRs under a shared lock, then
+    // release before any I/O (db_ / exact_backend_) to avoid lock inversion.
+    std::vector<std::string> candidate_keys;
+    std::unordered_map<std::string, geo::MBR> candidate_mbrs;
+    bool rtree_populated = false;
+    {
+        std::shared_lock<std::shared_mutex> slock(rtree_mutex_);
+        const auto& rtree = rtrees_[table_str];
+        if (rtree.size() > 0) {
+            rtree_populated = true;
+            candidate_keys = rtree.intersects(query_bbox);
+            const auto& cache = mbr_cache_[table_str];
+            for (const auto& pk : candidate_keys) {
+                auto it = cache.find(pk);
+                if (it != cache.end()) {
+                    candidate_mbrs[pk] = it->second;
+                }
+            }
+        }
+    }
+
+    if (rtree_populated) {
         // R-tree path: O(log n + k) MBR pre-filter, where k = number of hits.
-        auto candidate_keys = rtree.intersects(query_bbox);
-
         std::vector<SpatialResult> results;
-        const auto& cache = mbr_cache_[table_str];
 
         size_t mbr_candidates_this_query = static_cast<size_t>(candidate_keys.size());
         size_t exact_checks_this_query = 0;
         size_t exact_passed_this_query = 0;
 
         for (const auto& pk : candidate_keys) {
-            // Look up the stored MBR from the in-memory cache.
-            auto cache_it = cache.find(pk);
+            // Look up the stored MBR from the snapshot.
             geo::MBR entry_mbr;
-            if (cache_it != cache.end()) {
-                entry_mbr = cache_it->second;
+            auto mbr_it = candidate_mbrs.find(pk);
+            if (mbr_it != candidate_mbrs.end()) {
+                entry_mbr = mbr_it->second;
             }
 
             // Phase 2: Exact geometry check (if backend available).
@@ -1075,20 +1133,35 @@ std::vector<SpatialResult> SpatialIndexManager::searchContains(
     ensureRTree(table);
 
     std::string table_str(table);
-    const auto& rtree = rtrees_[table_str];
 
-    if (rtree.size() > 0) {
-        auto candidate_keys = rtree.contains(x, y);
+    // Snapshot candidate keys and their MBRs under a shared lock.
+    std::vector<std::string> candidate_keys;
+    std::unordered_map<std::string, geo::MBR> candidate_mbrs;
+    bool rtree_populated = false;
+    {
+        std::shared_lock<std::shared_mutex> slock(rtree_mutex_);
+        const auto& rtree = rtrees_[table_str];
+        if (rtree.size() > 0) {
+            rtree_populated = true;
+            candidate_keys = rtree.contains(x, y);
+            const auto& cache = mbr_cache_[table_str];
+            for (const auto& pk : candidate_keys) {
+                auto it = cache.find(pk);
+                if (it != cache.end()) {
+                    candidate_mbrs[pk] = it->second;
+                }
+            }
+        }
+    }
 
+    if (rtree_populated) {
         std::vector<SpatialResult> results;
-        const auto& cache = mbr_cache_[table_str];
-
         results.reserve(candidate_keys.size());
         for (const auto& pk : candidate_keys) {
             SpatialResult result;
             result.primary_key = pk;
-            auto it = cache.find(pk);
-            if (it != cache.end()) result.mbr = it->second;
+            auto it = candidate_mbrs.find(pk);
+            if (it != candidate_mbrs.end()) result.mbr = it->second;
             results.push_back(std::move(result));
         }
         return results;

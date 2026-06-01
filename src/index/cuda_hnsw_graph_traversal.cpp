@@ -565,6 +565,12 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
                                                 mp_chunk * pass_k * sizeof(float))
                                    : cudaErrorMemoryAllocation;
 
+            if (e1 == cudaSuccess && e2 != cudaSuccess) {
+                // d_pass_ids was allocated but d_pass_scores failed — free to avoid leak
+                cudaFree(d_pass_ids);
+                d_pass_ids = nullptr;
+            }
+
             if (e1 == cudaSuccess && e2 == cudaSuccess) {
                 float* d_queries_all = nullptr;
                 bool queries_ok = (cudaMalloc(&d_queries_all,
