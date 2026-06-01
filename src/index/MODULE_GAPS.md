@@ -30,6 +30,7 @@
 | concurrency/no_timeout (CRITICAL×3) | vector_auto_buffer.h/.cpp | Same `std::timed_mutex` + `try_lock_for(30s)` pattern for addBatch overflow path and `flushInternal` — INDEX-VAB-TIMEOUT-01 closed |
 | memory/missing_dtor (CRITICAL) | advanced_vector_index.cpp | FAISS stub `faiss::Index` base class now has `virtual ~Index() = default;`; quantizer raw `new` replaced with `std::make_unique` + `.release()` after `own_fields=true` for IVF_PQ and IVF_FLAT — INDEX-AVI-DTOR-01 closed |
 | concurrency/iterator_invalidation (CRITICAL) | edge_types.h/.cpp | `mutable std::shared_mutex registry_mutex_` added; all read methods use `shared_lock`, `registerType` (both overloads) use `unique_lock`; `validateEdge`/`getCategoryForType`/`getInverseType`/`listAllTypes` locked directly without calling other public methods — INDEX-ET-REGISTRY-RACE-01 closed |
+| concurrency/data_race (CRITICAL) | adaptive_index.cpp | Added `IndexSuggestionEngine::analyzerMutex_` and wrapped `analyzer_->analyze`, `analyzeCacheAware`, and `calculateIndexBenefit` access with `std::lock_guard` in both suggestion-generation flows to serialize shared analyzer access — INDEX-AI-ANALYZER-RACE-01 closed |
 
 Remaining top-priority open findings: see tracking items below for unresolved scanner findings outside this remediation batch.
 

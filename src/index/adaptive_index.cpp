@@ -359,7 +359,11 @@ IndexSuggestionEngine::generateSuggestions(const std::string& collection,
         }
         
         // Analyze selectivity
-        auto stats = analyzer_->analyze(pattern.collection, pattern.field, 1000);
+        SelectivityAnalyzer::SelectivityStats stats;
+        {
+            std::lock_guard<std::mutex> analyzerLock(analyzerMutex_);
+            stats = analyzer_->analyze(pattern.collection, pattern.field, 1000);
+        }
         
         // Calculate score
         double score = calculateScore(pattern, stats);
@@ -435,7 +439,11 @@ double IndexSuggestionEngine::calculateScore(
     double time_score = std::min(avg_time / 100.0, 1.0);
     
     // Selectivity benefit
-    double selectivity_score = analyzer_->calculateIndexBenefit(stats);
+    double selectivity_score = 0.0;
+    {
+        std::lock_guard<std::mutex> analyzerLock(analyzerMutex_);
+        selectivity_score = analyzer_->calculateIndexBenefit(stats);
+    }
     
     // Weighted average
     double score = (freq_score * 0.4) + 
@@ -531,10 +539,14 @@ IndexSuggestionEngine::generateCacheAwareIndexes(
         }
         
         // Analyze selectivity
-        auto stats = analyzer_->analyze(pattern.collection, pattern.field, 1000);
-        
-        // Phase 2: Apply cache-aware analysis
-        auto cache_aware_stats = analyzer_->analyzeCacheAware(stats);
+        SelectivityAnalyzer::SelectivityStats stats;
+        SelectivityAnalyzer::SelectivityStats cache_aware_stats;
+        {
+            std::lock_guard<std::mutex> analyzerLock(analyzerMutex_);
+            stats = analyzer_->analyze(pattern.collection, pattern.field, 1000);
+            // Phase 2: Apply cache-aware analysis
+            cache_aware_stats = analyzer_->analyzeCacheAware(stats);
+        }
         
         // Calculate cache-aware score
         double base_score = calculateScore(pattern, cache_aware_stats);
@@ -634,4 +646,3 @@ AdaptiveIndexManager::getPatterns(const std::string& collection) {
 }
 
 } // namespace themis
-
