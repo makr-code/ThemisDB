@@ -51,3 +51,56 @@
 - Enforce maximum request and response size limits.
 - Keep fail-closed behavior for malformed/untrusted responses.
 - Ensure logs remain redacted and bounded for sensitive fields.
+
+## Wave C — Strategic ML Enhancements (Q3 2027+)
+
+Long-term strategic AI/ML features for enhanced safety, privacy, and governance. Lower urgency but high strategic value.
+
+### C1: Constitutional AI (CAI) Safety Module
+
+- [ ] Design constitutional principles registry (20+ built-in rules)
+- [ ] Implement LLM-as-critic evaluation loop
+- [ ] Build revision prompt generation
+- [ ] Create critic-revision cycle (max 2 rounds)
+- [ ] Unit tests CAI-01..12
+- [ ] Integration with EthicsEvaluator
+- [ ] Human safety benchmark (500 samples, 3 annotators)
+
+**Acceptance Criteria:**
+- Safety score alignment ≥ 0.80 with human annotators
+- Latency overhead ≤ 2.0 s per response
+- False-positive rate ≤ 10% (benign content flagged as unsafe)
+
+### C2: Federated Learning for Privacy-Preserving Training
+
+- [ ] Design synchronized SGD gradient aggregation
+- [ ] Implement secure aggregation primitive (stub: optional homomorphic encryption)
+- [ ] Build Byzantine-robust averaging (median/trimmed mean)
+- [ ] Create federated training coordinator
+- [ ] Unit tests FEDERATED-01..10
+- [ ] Multi-node convergence benchmark (10 nodes, 10% data each)
+- [ ] Differential privacy tuning framework
+
+**Acceptance Criteria:**
+- Training convergence ≥ 95% of centralized baseline
+- Gradient communication overhead ≤ 2.0 s per round
+- Configurable epsilon-differential privacy budget
+
+## Wave C Dependencies and Risk Mitigation
+
+### Blockers / Dependencies
+
+- [ ] Wave A + Wave B features stable and production-verified
+- [ ] Constitutional AI principles formalized in ethics framework
+- [ ] Multi-node infrastructure available for federated benchmarks
+- [ ] Security review completed (especially for C2 aggregate)
+
+### Risk Mitigation
+
+- C1 (CAI): Start with simple rule-based critic; LLM-based only after v0.1
+- C2 (Federated): Deploy in staging first; Byzantine-robustness is nice-to-have, not critical for v1.0
+
+### Related Documents
+
+- Research Bibliography: `docs/research/ml_enhancements_bibliography.md`
+- Roadmap: `src/ai/ROADMAP.md`

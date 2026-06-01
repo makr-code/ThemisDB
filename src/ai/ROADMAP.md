@@ -26,6 +26,11 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [ ] Add dedicated benchmark target for AI plugin generation path (Target: Q1 2027)
 - [ ] Expand observability counters for error classes and endpoint quality signals (Target: Q1 2027)
 
+### Long-term (Q3 2027+)
+- [ ] Wave C C1: Constitutional AI (CAI) safety module with critic-revision loop, EthicsEvaluator integration, and CAI-01..12 coverage (Target: Q4 2027)
+- [ ] Wave C C2: Federated learning coordinator with secure aggregation, Byzantine-robust averaging, and FEDERATED-01..10 coverage (Target: Q4 2027)
+- [ ] Human safety benchmark program for C1 (500 samples, 3 annotators) and convergence benchmark for C2 (10-node setup) (Target: Q4 2027)
+
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
@@ -65,6 +70,23 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - No dedicated benchmark executable exists for this module path yet.
 - Advanced field-level prompt validation remains incomplete.
 - Sandbox verification for generated artifacts is not enforced in the current runtime path.
+- Wave C strategic ML enhancements are planned only; no production implementation exists yet.
+
+## Wave C Timeline and Dependencies
+
+- Start: Q3 2027 (early July)
+- Target: End Q4 2027 (mid-December)
+- Estimated Effort: 16–24 weeks total (depending on federated security requirements)
+
+### Dependencies
+- [ ] Wave A + Wave B features stable and production-verified
+- [ ] Constitutional AI principles formalized in ethics framework
+- [ ] Multi-node infrastructure available for federated benchmarks
+- [ ] Security review completed for federated aggregation
+
+### References
+- `src/ai/FUTURE_ENHANCEMENTS.md#wave-c--strategic-ml-enhancements-q3-2027`
+- `docs/research/ml_enhancements_bibliography.md`
 
 ## Breaking Changes
 
