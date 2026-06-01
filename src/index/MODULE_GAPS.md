@@ -15,8 +15,10 @@
 | performance_patterns (MEDIUM) | process_graph.cpp | reserve() added in validateProcess, deserializeVisitedNodes, evaluateGateway_ |
 | reliability/raii (MEDIUM) | process_graph.cpp | StackEntry missing destructor fixed |
 | legacy_duplication (MEDIUM) | graph_index.cpp | LEGACY_COMPAT annotations added to _sensitive fallback and pre-v2.0 key format paths |
+| concurrency (CRITICAL) | secondary_index.cpp | Cached metadata is snapshotted into local copies in write/delete paths to avoid repeated shared-structure dereferences |
+| memory/smart_ptr_misuse (HIGH) | vector_index.cpp | HNSW space allocation switched to RAII (`std::unique_ptr`) for init/load error paths to prevent leaks on constructor failures |
 
-Remaining top-priority open findings: data_race in vector_index.cpp (mutable members), O(n²) patterns in secondary_index.cpp (container scan), hnswlib raw new (smart_ptr_misuse) — see tracking items below.
+Remaining top-priority open findings: data_race in vector_index.cpp (mutable members), O(n²) patterns in secondary_index.cpp (container scan) — see tracking items below.
 
 ## Scan Snapshot
 

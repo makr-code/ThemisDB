@@ -79,6 +79,8 @@
 - changelog/roadmap role separation is aligned to module governance pattern.
 - [INDEX-AUD-LOG-01] hardcoded std::cout/std::cerr in gpu_vector_index.cpp replaced with THEMIS structured logging macros (THEMIS_INFO/WARN/ERROR). All 22 instances fixed; `#include <iostream>` removed.
 - [INDEX-AUD-MEM-01] hnswlib index memory leak in VectorIndexManager: hnswIndex_ is now freed in shutdown() and in loadIndex() before replacing existing index pointer.
+- [INDEX-AUD-RACE-01] secondary_index write/delete paths now snapshot cached metadata to local containers before processing, removing repeated shared-structure dereferences in hot loops.
+- [INDEX-AUD-MEM-02] vector_index HNSW space allocation is RAII-managed via `std::unique_ptr` in init/load paths, preventing leaks when HNSW constructors throw.
 - [INDEX-AUD-PERF-01] O(n²) phrase normalization in secondary_index.cpp::computeBM25Scores_ eliminated: normalized phrases are now precomputed once before the outer loop.
 - [INDEX-AUD-PERF-02] Multiple missing reserve() calls fixed: tokenResults, values (composite scan), validateProcess errors/warnings, evaluateGateway_ targets, deserializeVisitedNodes nodes.
 - [INDEX-AUD-DTOR-01] StackEntry missing destructor in process_graph.cpp: added ~StackEntry() = default.

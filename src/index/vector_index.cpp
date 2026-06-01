@@ -52,6 +52,7 @@
 #include <cmath>
 #include <filesystem>
 #include <fstream>
+#include <memory>
 #include <unordered_set>
 #include <chrono>
 #include <nlohmann/json.hpp>
@@ -651,16 +652,17 @@ VectorIndexManager::Status VectorIndexManager::init(std::string_view objectName,
 
 #ifdef THEMIS_HNSW_ENABLED
 	try {
-		hnswlib::SpaceInterface<float>* space = nullptr;
+		std::unique_ptr<hnswlib::SpaceInterface<float>> space;
 		if (metric == Metric::L2) {
-			space = new hnswlib::L2Space(dim);
+			space = std::make_unique<hnswlib::L2Space>(dim);
 		} else if (metric == Metric::DOT) {
 			// DOT uses InnerProductSpace (same as COSINE, but without normalization)
-			space = new hnswlib::InnerProductSpace(dim);
+			space = std::make_unique<hnswlib::InnerProductSpace>(dim);
 		} else { // COSINE
-			space = new hnswlib::InnerProductSpace(dim);
+			space = std::make_unique<hnswlib::InnerProductSpace>(dim);
 		}
-		auto* appr = new hnswlib::HierarchicalNSW<float>(space, 1000 /*initial*/, M, efConstruction);
+		auto* appr = new hnswlib::HierarchicalNSW<float>(space.get(), 1000 /*initial*/, M, efConstruction);
+		space.release();
 		appr->ef_ = efSearch;
 		hnswIndex_ = static_cast<void*>(appr);
 		useHnsw_ = true;
@@ -2246,9 +2248,9 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 			}
 
 			// Initialisiere Space
-			hnswlib::SpaceInterface<float>* space = nullptr;
-			if (metric_ == Metric::L2) space = new hnswlib::L2Space(dim_);
-			else space = new hnswlib::InnerProductSpace(dim_);
+			std::unique_ptr<hnswlib::SpaceInterface<float>> space;
+			if (metric_ == Metric::L2) space = std::make_unique<hnswlib::L2Space>(dim_);
+			else space = std::make_unique<hnswlib::InnerProductSpace>(dim_);
 
 			std::string indexPath;
 			
@@ -2256,14 +2258,12 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 				// Phase 2: Load encrypted HNSW index
 				std::string encPath = (fs::path(directory) / "index.bin.encrypted").string();
 				if (!fs::exists(encPath)) {
-					delete space;
 					return Status::Error("loadIndex: index.bin.encrypted nicht gefunden");
 				}
 				
 				// 1. Read encrypted file
 				std::ifstream encFile(encPath, std::ios::binary);
 				if (!encFile) {
-					delete space;
 					return Status::Error("loadIndex: index.bin.encrypted nicht lesbar");
 				}
 				
@@ -2285,7 +2285,6 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 					std::string tempPath = (fs::path(directory) / "index.bin.tmp").string();
 					std::ofstream tempFile(tempPath, std::ios::binary | std::ios::trunc);
 					if (!tempFile) {
-						delete space;
 						return Status::Error("loadIndex: Failed to write temporary index file");
 					}
 					
@@ -2293,7 +2292,8 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 					tempFile.close();
 					
 					// 4. Load from temporary file
-					auto* appr = new hnswlib::HierarchicalNSW<float>(space, tempPath, false);
+					auto* appr = new hnswlib::HierarchicalNSW<float>(space.get(), tempPath, false);
+					space.release();
 					appr->ef_ = efSearch_;
 					hnswIndex_ = static_cast<void*>(appr);
 					useHnsw_ = true;
@@ -2303,18 +2303,17 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 					
 					THEMIS_INFO("VectorIndexManager: HNSW index decrypted and loaded from {}", directory);
 				} catch (const std::exception& ex) {
-					delete space;
 					return Status::Error(std::string("loadIndex: Decryption failed: ") + ex.what());
 				}
 			} else {
 				// Original plaintext load (backward compatibility)
 				indexPath = (fs::path(directory) / "index.bin").string();
 				if (!fs::exists(indexPath)) {
-					delete space;
 					return Status::Error("loadIndex: index.bin nicht gefunden");
 				}
 				
-				auto* appr = new hnswlib::HierarchicalNSW<float>(space, indexPath, false);
+				auto* appr = new hnswlib::HierarchicalNSW<float>(space.get(), indexPath, false);
+				space.release();
 				appr->ef_ = efSearch_;
 				hnswIndex_ = static_cast<void*>(appr);
 				useHnsw_ = true;
@@ -3075,4 +3074,3 @@ std::optional<std::vector<float>> VectorIndexManager::getVectorByPk(std::string_
 }
 
 } // namespace themis
-
