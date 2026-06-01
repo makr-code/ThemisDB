@@ -261,6 +261,32 @@ TEST_F(AutoLabelerDbFetchTest, LabelQuery_WithEngine_FilteredAql_ProcessesSubset
         << "labelQuery() should process only documents matching the filter";
 }
 
+TEST_F(AutoLabelerDbFetchTest, LabelQuery_WithEngine_MutatingAql_IsRejected) {
+    auto cfg = makeConfig("legal_documents");
+    LegalAutoLabeler labeler(cfg, "", engine_.get());
+
+    const std::string aql =
+        "FOR doc IN legal_documents REMOVE doc IN legal_documents RETURN OLD._key";
+    auto stats = labeler.labelQuery(aql);
+
+    EXPECT_EQ(stats.documents_processed, 0u)
+        << "Mutating AQL must be rejected by safety guard";
+    EXPECT_EQ(stats.samples_created, 0u);
+}
+
+TEST_F(AutoLabelerDbFetchTest, LabelQuery_WithEngine_MixedCaseMutatingAql_IsRejected) {
+    auto cfg = makeConfig("legal_documents");
+    LegalAutoLabeler labeler(cfg, "", engine_.get());
+
+    const std::string aql =
+        "FoR doc IN legal_documents UpDaTe doc WITH {tag:'x'} IN legal_documents RETURN NEW._key";
+    auto stats = labeler.labelQuery(aql);
+
+    EXPECT_EQ(stats.documents_processed, 0u)
+        << "Mutating AQL guard must be case-insensitive";
+    EXPECT_EQ(stats.samples_created, 0u);
+}
+
 TEST_F(AutoLabelerDbFetchTest, LabelQuery_WithEngine_EmptyQuery_ReturnsZero) {
     auto cfg    = makeConfig("legal_documents");
     LegalAutoLabeler labeler(cfg, "", engine_.get());

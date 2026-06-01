@@ -18746,6 +18746,50 @@ else()
     message(STATUS "AdvancedTrainingFeatures focused tests not found")
 endif()
 
+# Training diagnostics-consistency focused tests (issue #5414 batch 5 / TRN-AUD-02)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_training_diagnostics_consistency.cpp")
+    message(STATUS "Adding TrainingDiagnosticsConsistency focused tests (TDC-01..TDC-10)")
+
+    add_executable(test_training_diagnostics_consistency
+        test_training_diagnostics_consistency.cpp
+        ${THEMIS_ROOT_DIR}/src/training/provenance_tracker.cpp
+        ${THEMIS_ROOT_DIR}/src/training/adapter_serving.cpp
+        ${THEMIS_ROOT_DIR}/src/training/lora_checkpoint_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/checksum_utils.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+
+    target_include_directories(test_training_diagnostics_consistency PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_training_diagnostics_consistency PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_training_diagnostics_consistency PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TrainingDiagnosticsConsistencyTests
+             COMMAND test_training_diagnostics_consistency)
+
+    set_tests_properties(TrainingDiagnosticsConsistencyTests PROPERTIES
+        LABELS "training;diagnostics;adapter-serving;checkpoint;provenance;consistency;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  TrainingDiagnosticsConsistency: LabelingStats, DeployResult, ProvenanceWriteStats, CheckpointManifestEntry baseline assertions")
+else()
+    message(STATUS "TrainingDiagnosticsConsistency focused tests not found")
+endif()
+
 # AdaLoRA focused tests - importance-based rank pruning (Phase: AdaLoRA)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ada_lora_adapter.cpp")
     message(STATUS "Adding AdaLoRA focused tests")

@@ -15,13 +15,17 @@
 #include <nlohmann/json.hpp>
 #include <algorithm>
 #include <unordered_set>
+#include <cerrno>
 #include <chrono>
 #include <cmath>
 #include <cstdint>
+#include <cstdlib>
 #include <fstream>
 #include <map>
+#include <limits>
 #include <numeric>
 #include <random>
+#include <mutex>
 #include <sstream>
 #include <stdexcept>
 
@@ -64,6 +68,17 @@ bool sanitizeTrainingPromptLikeText(
         blocked_reason);
 }
 
+uint64_t stableFNV1a64(const std::string& input) {
+    constexpr uint64_t kOffset = 1469598103934665603ull;
+    constexpr uint64_t kPrime = 1099511628211ull;
+    uint64_t hash = kOffset;
+    for (unsigned char c : input) {
+        hash ^= static_cast<uint64_t>(c);
+        hash *= kPrime;
+    }
+    return hash;
+}
+
 } // namespace
 
 // ============================================================================
@@ -72,6 +87,42 @@ bool sanitizeTrainingPromptLikeText(
 namespace checkpoint {
     // Checkpoint file format version
     constexpr int FORMAT_VERSION = 1;
+
+    bool parseSizeTStrict(const std::string& value, size_t& out) {
+        if (value.empty()) {
+            return false;
+        }
+        if (value.front() == '-') {
+            return false;
+        }
+
+        errno = 0;
+        char* end = nullptr;
+        const auto parsed = std::strtoull(value.c_str(), &end, 10);
+        if (errno != 0 || end == nullptr || *end != '\0') {
+            return false;
+        }
+        if (parsed > static_cast<unsigned long long>(std::numeric_limits<size_t>::max())) {
+            return false;
+        }
+        out = static_cast<size_t>(parsed);
+        return true;
+    }
+
+    bool parseDoubleStrict(const std::string& value, double& out) {
+        if (value.empty()) {
+            return false;
+        }
+
+        errno = 0;
+        char* end = nullptr;
+        const double parsed = std::strtod(value.c_str(), &end);
+        if (errno != 0 || end == nullptr || *end != '\0' || !std::isfinite(parsed)) {
+            return false;
+        }
+        out = parsed;
+        return true;
+    }
 
     // Serialize checkpoint metadata to a simple key=value string
     std::string serializeMetadata(const std::string& version,
@@ -95,7 +146,8 @@ namespace checkpoint {
                        size_t& epoch,
                        size_t& step,
                        double& loss,
-                       double& accuracy) {
+                       double& accuracy,
+                       std::string* error_reason = nullptr) {
         std::istringstream iss(data);
         std::string line;
         while (std::getline(iss, line)) {
@@ -104,12 +156,33 @@ namespace checkpoint {
             std::string key = line.substr(0, eq);
             std::string val = line.substr(eq + 1);
             if (key == "version") version = val;
-            else if (key == "epoch") epoch = static_cast<size_t>(std::stoull(val));
-            else if (key == "step") step = static_cast<size_t>(std::stoull(val));
-            else if (key == "loss") loss = std::stod(val);
-            else if (key == "accuracy") accuracy = std::stod(val);
+            else if (key == "epoch") {
+                if (!parseSizeTStrict(val, epoch)) {
+                    if (error_reason) *error_reason = "invalid epoch";
+                    return false;
+                }
+            } else if (key == "step") {
+                if (!parseSizeTStrict(val, step)) {
+                    if (error_reason) *error_reason = "invalid step";
+                    return false;
+                }
+            } else if (key == "loss") {
+                if (!parseDoubleStrict(val, loss)) {
+                    if (error_reason) *error_reason = "invalid loss";
+                    return false;
+                }
+            } else if (key == "accuracy") {
+                if (!parseDoubleStrict(val, accuracy)) {
+                    if (error_reason) *error_reason = "invalid accuracy";
+                    return false;
+                }
+            }
         }
-        return !version.empty();
+        if (version.empty()) {
+            if (error_reason) *error_reason = "missing version";
+            return false;
+        }
+        return true;
     }
 } // namespace checkpoint
 
@@ -291,58 +364,65 @@ public:
         TrainingResult result;
         auto start_time = std::chrono::steady_clock::now();
 
-        try {
-            if (checkpoint_path.empty()) {
-                result.success       = false;
-                result.error_message = "No checkpoint path specified";
-                return result;
-            }
-
-            // Phase 5: Load checkpoint metadata
-            std::string version;
-            size_t resumed_epoch = 0;
-            size_t resumed_step  = 0;
-            double saved_loss    = 0.0;
-            double saved_acc     = 0.0;
-
-            bool loaded = loadCheckpoint(checkpoint_path, version,
-                                         resumed_epoch, resumed_step,
-                                         saved_loss, saved_acc);
-            if (!loaded) {
-                result.success       = false;
-                result.error_message = "Failed to load checkpoint: " + checkpoint_path;
-                return result;
-            }
-
-            std::string integrity_error;
-            if (!verifyCheckpointPayloadIntegrity(checkpoint_path,
-                                                  version,
-                                                  resumed_epoch,
-                                                  resumed_step,
-                                                  &integrity_error)) {
-                result.success = false;
-                result.error_message = "Checkpoint integrity verification failed: " +
-                                       integrity_error;
-                return result;
-            }
-
-            // Phase 5: Resume training (incremental from checkpoint state)
-#ifdef THEMIS_ENABLE_LLM
-            // Restore LoRA weights from saved checkpoint if available
-            initLoRAComponents();
-            loadCheckpointWeights(checkpoint_path);
-#endif
-            result = train(TrainingMode::INCREMENTAL, callback);
-
-            if (result.success) {
-                result.error_message = "Resumed from checkpoint (epoch=" +
-                                       std::to_string(resumed_epoch) +
-                                       ", step=" + std::to_string(resumed_step) + ")";
-            }
-
-        } catch (const std::exception& e) {
+        if (checkpoint_path.empty()) {
             result.success       = false;
-            result.error_message = "Resume failed: " + std::string(e.what());
+            result.error_message = "No checkpoint path specified";
+        } else {
+            try {
+                // Phase 5: Load checkpoint metadata
+                std::string version;
+                size_t resumed_epoch = 0;
+                size_t resumed_step  = 0;
+                double saved_loss    = 0.0;
+                double saved_acc     = 0.0;
+                std::string load_error;
+
+                bool loaded = loadCheckpoint(checkpoint_path, version,
+                                             resumed_epoch, resumed_step,
+                                             saved_loss, saved_acc,
+                                             &load_error);
+                if (!loaded) {
+                    result.success       = false;
+                    result.error_message = "Failed to load checkpoint: " + checkpoint_path;
+                    if (!load_error.empty()) {
+                        result.error_message += " (" + load_error + ")";
+                    }
+                } else {
+                    std::string integrity_error;
+                    if (!verifyCheckpointPayloadIntegrity(checkpoint_path,
+                                                          version,
+                                                          resumed_epoch,
+                                                          resumed_step,
+                                                          &integrity_error)) {
+                        result.success = false;
+                        result.error_message = "Checkpoint integrity verification failed: " +
+                                               integrity_error;
+                    } else {
+                        // Phase 5: Resume training (incremental from checkpoint state)
+#ifdef THEMIS_ENABLE_LLM
+                        // Restore LoRA weights from saved checkpoint if available
+                        initLoRAComponents();
+                        std::string load_error;
+                        if (!loadCheckpointWeights(checkpoint_path, &load_error)) {
+                            result.success = false;
+                            result.error_message =
+                                "Checkpoint weight restore failed: " + load_error;
+                        } else {
+#endif
+                            result = train(TrainingMode::INCREMENTAL, callback);
+
+                            if (result.success) {
+                                result.error_message = "Resumed from checkpoint (epoch=" +
+                                                       std::to_string(resumed_epoch) +
+                                                       ", step=" + std::to_string(resumed_step) + ")";
+                            }
+                        }
+                    }
+                }
+            } catch (const std::exception& e) {
+                result.success       = false;
+                result.error_message = "Resume failed: " + std::string(e.what());
+            }
         }
 
         auto end_time = std::chrono::steady_clock::now();
@@ -406,6 +486,7 @@ public:
     bool deployVersion(const std::string& adapter_version, float traffic_split) {
         if (adapter_version.empty()) return false;
         if (traffic_split < 0.0f || traffic_split > 1.0f) return false;
+        std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
 
         // Phase 4: Traffic-split deployment
         // Verify version is registered (or allow deploying without prior training for flexibility)
@@ -425,7 +506,13 @@ public:
         }
 
         // Phase 4: Rebalance traffic splits so total == 1.0
-        if (traffic_split == 1.0f) {
+        constexpr float kFullDeployEpsilon = 1e-6f;
+        if (traffic_split >= (1.0f - kFullDeployEpsilon)) {
+            auto target = version_registry_.find(adapter_version);
+            if (target != version_registry_.end()) {
+                target->second.traffic_split = 1.0f;
+                target->second.is_active = true;
+            }
             // Full deployment – deactivate all other versions
             for (auto& [ver, rec] : version_registry_) {
                 if (ver != adapter_version) {
@@ -440,6 +527,7 @@ public:
 
     bool rollbackVersion(const std::string& target_version) {
         if (target_version.empty()) return false;
+        std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
 
         // Phase 4: Rollback – set target to 100% traffic
         auto it = version_registry_.find(target_version);
@@ -469,6 +557,7 @@ public:
 
     std::vector<std::string> listVersions() const {
         std::vector<std::string> versions;
+        std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
         versions.reserve(version_registry_.size());
         for (const auto& [ver, rec] : version_registry_) {
             versions.push_back(ver);
@@ -483,10 +572,13 @@ public:
         // Collect active versions and their cumulative weights.
         std::vector<std::pair<std::string, float>> active; // (version, weight)
         float total = 0.0f;
-        for (const auto& [ver, rec] : version_registry_) {
-            if (rec.is_active && rec.traffic_split > 0.0f) {
-                active.emplace_back(ver, rec.traffic_split);
-                total += rec.traffic_split;
+        {
+            std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
+            for (const auto& [ver, rec] : version_registry_) {
+                if (rec.is_active && rec.traffic_split > 0.0f) {
+                    active.emplace_back(ver, rec.traffic_split);
+                    total += rec.traffic_split;
+                }
             }
         }
         if (active.empty() || total <= 0.0f) return "";
@@ -546,6 +638,7 @@ public:
     }
 
     void setLLMRouter(ILLMRouter* router) {
+        std::lock_guard<std::mutex> lk(router_mutex_);
         llm_router_ = router;
     }
 
@@ -621,6 +714,7 @@ public:
         if (config_.checkpoint_dir.empty()) {
             return true; // Unmanaged adapters bypass integrity check
         }
+        std::lock_guard<std::mutex> checkpoint_lock(checkpoint_manager_mutex_);
         // Lazily initialise checkpoint_manager_ for the configured directory.
         if (!checkpoint_manager_) {
             CheckpointManagerConfig mgr_cfg;
@@ -646,6 +740,7 @@ public:
             return true; // Unmanaged checkpoints bypass strict integrity checks.
         }
 
+        std::lock_guard<std::mutex> checkpoint_lock(checkpoint_manager_mutex_);
         if (!checkpoint_manager_) {
             CheckpointManagerConfig mgr_cfg;
             mgr_cfg.checkpoint_dir = config_.checkpoint_dir;
@@ -706,18 +801,43 @@ public:
         if (!verifyAdapterIntegrity(adapter_version)) {
             return DeployResult::fail("integrity_failure");
         }
+        std::map<std::string, VersionRecord> previous_registry;
+        {
+            std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
+            previous_registry = version_registry_;
+        }
         // Update local version registry (same logic as deployVersion)
         bool ok = deployVersion(adapter_version, traffic_split);
         if (!ok) {
             return DeployResult::fail("version_not_found");
         }
         // Propagate to LLM router when available
-        if (llm_router_) {
-            if (!llm_router_->isAvailable()) {
-                return DeployResult::fail("router_unavailable");
+        {
+            try {
+                std::lock_guard<std::mutex> lk(router_mutex_);
+                if (llm_router_) {
+                    if (!llm_router_->isAvailable()) {
+                        std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
+                        version_registry_ = previous_registry;
+                        return DeployResult::fail("router_unavailable");
+                    }
+                    const bool weight_set =
+                        llm_router_->setAdapterWeight(adapter_version, traffic_split);
+                    if (!weight_set) {
+                        std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
+                        version_registry_ = previous_registry;
+                        return DeployResult::fail("router_update_failed");
+                    }
+                }
+            } catch (const std::exception&) {
+                std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
+                version_registry_ = previous_registry;
+                return DeployResult::fail("router_update_failed");
+            } catch (...) {
+                std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
+                version_registry_ = previous_registry;
+                return DeployResult::fail("router_update_failed");
             }
-            const bool weight_set = llm_router_->setAdapterWeight(adapter_version, traffic_split);
-            static_cast<void>(weight_set);
         }
         return DeployResult::ok(adapter_version, traffic_split);
     }
@@ -729,16 +849,40 @@ public:
         if (!verifyAdapterIntegrity(target_version)) {
             return DeployResult::fail("integrity_failure");
         }
+        std::map<std::string, VersionRecord> previous_registry;
+        {
+            std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
+            previous_registry = version_registry_;
+        }
         bool ok = rollbackVersion(target_version);
         if (!ok) {
             return DeployResult::fail("version_not_found");
         }
-        if (llm_router_) {
-            if (!llm_router_->isAvailable()) {
-                return DeployResult::fail("router_unavailable");
+        {
+            try {
+                std::lock_guard<std::mutex> lk(router_mutex_);
+                if (llm_router_) {
+                    if (!llm_router_->isAvailable()) {
+                        std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
+                        version_registry_ = previous_registry;
+                        return DeployResult::fail("router_unavailable");
+                    }
+                    const bool weight_set = llm_router_->setAdapterWeight(target_version, 1.0f);
+                    if (!weight_set) {
+                        std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
+                        version_registry_ = previous_registry;
+                        return DeployResult::fail("router_update_failed");
+                    }
+                }
+            } catch (const std::exception&) {
+                std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
+                version_registry_ = previous_registry;
+                return DeployResult::fail("router_update_failed");
+            } catch (...) {
+                std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
+                version_registry_ = previous_registry;
+                return DeployResult::fail("router_update_failed");
             }
-            const bool weight_set = llm_router_->setAdapterWeight(target_version, 1.0f);
-            static_cast<void>(weight_set);
         }
         return DeployResult::ok(target_version, 1.0f);
     }
@@ -748,9 +892,11 @@ public:
     bool checkpointing_enabled_;
     size_t checkpoint_steps_;
     std::map<std::string, VersionRecord> version_registry_;
+    mutable std::mutex version_registry_mutex_; ///< Protects version_registry_ reads/writes
 
     // LLM inference router for adapter serving integration (non-owning, may be null)
     ILLMRouter* llm_router_ = nullptr;
+    mutable std::mutex router_mutex_; ///< Protects llm_router_ access across threads
 
     // Accumulated training metrics (reset at the start of each train() call)
     TrainingMetrics metrics_;
@@ -758,6 +904,7 @@ public:
     // Lazily-initialized LoRACheckpointManager (shared across all saveCheckpoint()
     // calls to avoid redundant directory-scanning and manifest-loading per step).
     mutable std::unique_ptr<LoRACheckpointManager> checkpoint_manager_;
+    mutable std::mutex checkpoint_manager_mutex_; ///< Protects checkpoint_manager_ access
 
     // ── IMPL-A3: Federation gradient accumulator ─────────────────────────────
     /// Cluster-unique shard identifier embedded in every exported gradient.
@@ -977,11 +1124,7 @@ public:
     static constexpr uint32_t kSyntheticSeedBase      = 31337u; ///< Per-step entropy factor
     static constexpr uint32_t kSyntheticBatchMultiplier =  997u; ///< Per-batch-element offset
 
-    // Encode a text sample as a float feature vector via character hashing.
-    // NOTE: std::hash<std::string> is implementation-defined; encoding may differ
-    //       across platforms/compilers. This is acceptable since the encoded vector
-    //       is used as a training approximation when real tokenization is unavailable,
-    //       and reproducibility across platforms is not required for correctness.
+    // Encode a text sample as a float feature vector via stable character hashing.
     std::vector<float> encodeSample(const std::string& text, size_t feature_dim) const {
         std::vector<float> vec(feature_dim, 0.0f);
         if (text.empty()) return vec;
@@ -994,9 +1137,8 @@ public:
             return vec;
         }
 
-        // XOR-fold 64-bit hash into 32-bit seed to preserve entropy
-        std::hash<std::string> hasher;
-        size_t h64 = hasher(safe_text);
+        // XOR-fold stable 64-bit hash into 32-bit seed to preserve entropy.
+        const uint64_t h64 = stableFNV1a64(safe_text);
         uint32_t seed = static_cast<uint32_t>(h64 ^ (h64 >> 32));
         std::mt19937 gen(seed);
         std::normal_distribution<float> dist(0.0f, 0.1f);
@@ -1273,37 +1415,76 @@ public:
 
     // Read B and A matrices from a binary file and apply to the active LoRA layer.
     // Handles both LoRALayer (full-precision) and QLoRALayer (quantized) paths.
-    void loadCheckpointWeights(const std::string& checkpoint_prefix) {
-        if (!lora_initialized_) return;
+    bool loadCheckpointWeights(const std::string& checkpoint_prefix,
+                               std::string* error_reason = nullptr) {
+        if (!lora_initialized_) {
+            if (error_reason) {
+                *error_reason = "LoRA components are not initialized";
+            }
+            return false;
+        }
         // At least one of the two layer types must be valid
-        if (!lora_layer_ && !q_lora_layer_) return;
+        if (!lora_layer_ && !q_lora_layer_) {
+            if (error_reason) {
+                *error_reason = "no active LoRA layer available";
+            }
+            return false;
+        }
 
         std::string weights_path = checkpoint_prefix + "_weights.bin";
         std::ifstream f(weights_path, std::ios::binary);
-        if (!f.is_open()) return;  // No weights file; start with fresh initialization
+        if (!f.is_open()) {
+            if (error_reason) {
+                *error_reason = "weights file not found: " + weights_path;
+            }
+            return false;
+        }
 
         try {
+            constexpr size_t kMaxMatrixElements = 64u * 1024u * 1024u;
             auto readMatrix = [&]() -> llm::lora::Tensor {
+                auto readExact = [&](char* out, std::streamsize bytes, const std::string& field) {
+                    f.read(out, bytes);
+                    if (f.gcount() != bytes) {
+                        throw std::runtime_error("truncated checkpoint payload while reading " + field);
+                    }
+                };
+
                 uint32_t rows = 0, cols = 0;
-                f.read(reinterpret_cast<char*>(&rows), sizeof(uint32_t));
-                f.read(reinterpret_cast<char*>(&cols), sizeof(uint32_t));
+                readExact(reinterpret_cast<char*>(&rows), sizeof(uint32_t), "matrix rows");
+                readExact(reinterpret_cast<char*>(&cols), sizeof(uint32_t), "matrix cols");
+                if (rows == 0 || cols == 0) {
+                    throw std::runtime_error("invalid matrix shape in checkpoint payload");
+                }
+                if (rows > (std::numeric_limits<size_t>::max() / cols)) {
+                    throw std::runtime_error("matrix shape overflow in checkpoint payload");
+                }
+                const size_t elements = static_cast<size_t>(rows) * static_cast<size_t>(cols);
+                if (elements > kMaxMatrixElements) {
+                    throw std::runtime_error("matrix too large in checkpoint payload");
+                }
                 llm::lora::Tensor t({static_cast<size_t>(rows),
                                      static_cast<size_t>(cols)});
-                f.read(reinterpret_cast<char*>(t.data().data()),
-                       static_cast<std::streamsize>(t.data().size() * sizeof(float)));
+                readExact(reinterpret_cast<char*>(t.data().data()),
+                          static_cast<std::streamsize>(elements * sizeof(float)),
+                          "matrix data");
                 return t;
             };
 
             llm::lora::Tensor B = readMatrix();
             llm::lora::Tensor A = readMatrix();
 
-            if (f.good()) {
-                if (using_qlora_ && q_lora_layer_) {
-                    q_lora_layer_->set_lora_weights(B, A);
-                } else if (lora_layer_) {
-                    lora_layer_->set_weights(B, A);
-                }
+            char trailing = '\0';
+            if (f.read(&trailing, 1)) {
+                throw std::runtime_error("unexpected trailing bytes in checkpoint payload");
             }
+
+            if (using_qlora_ && q_lora_layer_) {
+                q_lora_layer_->set_lora_weights(B, A);
+            } else if (lora_layer_) {
+                lora_layer_->set_weights(B, A);
+            }
+            return true;
         } catch (...) {
             // Weight file exists but is corrupt or wrong format;
             // start with fresh Kaiming/zero initialization.
@@ -1311,7 +1492,18 @@ public:
             spdlog::warn("LoRA checkpoint: failed to restore weights from {}; "
                          "starting with fresh initialization", weights_path);
 #endif
+            if (error_reason) {
+                try {
+                    throw;
+                } catch (const std::exception& ex) {
+                    *error_reason = ex.what();
+                } catch (...) {
+                    *error_reason = "unknown checkpoint payload parsing error";
+                }
+            }
+            return false;
         }
+        return false;
     }
 #endif  // THEMIS_ENABLE_LLM
 
@@ -1412,6 +1604,7 @@ public:
             // The manager is lazily created on first use and reused to avoid
             // redundant directory-scanning and manifest-loading per step.
             if (!config_.checkpoint_dir.empty()) {
+                std::lock_guard<std::mutex> checkpoint_lock(checkpoint_manager_mutex_);
                 if (!checkpoint_manager_) {
                     CheckpointManagerConfig mgr_cfg;
                     mgr_cfg.checkpoint_dir = config_.checkpoint_dir;
@@ -1431,7 +1624,8 @@ public:
     bool loadCheckpoint(const std::string& path,
                          std::string& version,
                          size_t& epoch, size_t& step,
-                         double& loss, double& accuracy) const {
+                         double& loss, double& accuracy,
+                         std::string* error_reason = nullptr) const {
         // Try to load checkpoint metadata from disk
         std::string metadata_path = path + "_metadata.txt";
         {
@@ -1439,7 +1633,7 @@ public:
             if (f.is_open()) {
                 std::string data((std::istreambuf_iterator<char>(f)),
                                   std::istreambuf_iterator<char>());
-                return checkpoint::parseMetadata(data, version, epoch, step, loss, accuracy);
+                return checkpoint::parseMetadata(data, version, epoch, step, loss, accuracy, error_reason);
             }
         }
 
@@ -1449,16 +1643,17 @@ public:
             if (f.is_open()) {
                 std::string data((std::istreambuf_iterator<char>(f)),
                                   std::istreambuf_iterator<char>());
-                if (checkpoint::parseMetadata(data, version, epoch, step, loss, accuracy)) {
+                if (checkpoint::parseMetadata(data, version, epoch, step, loss, accuracy, error_reason)) {
                     return true;
                 }
             }
         }
 
-        // No checkpoint file found: use default values for test/demo compatibility
-        std::string default_metadata =
-            "version=legal_v1.0\nformat_version=1\nepoch=2\nstep=500\nloss=0.42\naccuracy=0.87\n";
-        return checkpoint::parseMetadata(default_metadata, version, epoch, step, loss, accuracy);
+        if (error_reason && error_reason->empty()) {
+            *error_reason = "metadata not found";
+        }
+
+        return false;
     }
 
     // -------------------------------------------------------------------------

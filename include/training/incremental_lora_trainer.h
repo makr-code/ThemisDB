@@ -282,6 +282,7 @@ public:
      *  - "version_not_found"  – version is unknown and not in checkpoint dir
      *  - "integrity_failure"  – checkpoint checksum validation failed
      *  - "router_unavailable" – router is not reachable
+     *  - "router_update_failed" – router rejected the weight update and local state was reverted
      *  - "invalid_split"      – traffic_split outside [0, 1]
      *
      * @param adapter_version Version identifier to deploy.
@@ -434,4 +435,3 @@ private:
 
 } // namespace training
 } // namespace themis
-
