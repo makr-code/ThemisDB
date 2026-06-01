@@ -486,6 +486,9 @@ TEST(MonitoringStatsTest, IncludesContinuousLearningStatus) {
         for (const auto& loop : body["continuous_learning"]["loops"]) {
             if (loop.value("phase", std::string{}) == "LOOP_3_SCHEMA_INDEX") {
                 loop3_present = true;
+                EXPECT_TRUE(loop.value("guardrail", false));
+                EXPECT_EQ(loop.value("signal_source", std::string{}), "advisory");
+                EXPECT_DOUBLE_EQ(loop.value("signal_value", -1.0), 0.0);
                 break;
             }
         }
